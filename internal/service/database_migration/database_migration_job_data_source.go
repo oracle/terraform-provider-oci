@@ -66,6 +66,12 @@ func (s *DatabaseMigrationJobDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.CollectTracesData != nil {
+		s.D.Set("collect_traces_data", []interface{}{CollectTracesDataToMap(s.Res.CollectTracesData)})
+	} else {
+		s.D.Set("collect_traces_data", nil)
+	}
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}

@@ -50,6 +50,10 @@ type KeyStore struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// System tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m KeyStore) String() string {
@@ -79,6 +83,7 @@ func (m *KeyStore) UnmarshalJSON(data []byte) (e error) {
 		AssociatedDatabases []KeyStoreAssociatedDatabaseDetails `json:"associatedDatabases"`
 		FreeformTags        map[string]string                   `json:"freeformTags"`
 		DefinedTags         map[string]map[string]interface{}   `json:"definedTags"`
+		SystemTags          map[string]map[string]interface{}   `json:"systemTags"`
 		Id                  *string                             `json:"id"`
 		CompartmentId       *string                             `json:"compartmentId"`
 		DisplayName         *string                             `json:"displayName"`
@@ -100,6 +105,8 @@ func (m *KeyStore) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
+
+	m.SystemTags = model.SystemTags
 
 	m.Id = model.Id
 

@@ -192,6 +192,10 @@ func (s *DatabaseDatabaseSoftwareImagesDataSourceCrud) SetData() error {
 
 		databaseSoftwareImage["state"] = r.LifecycleState
 
+		if r.SystemTags != nil {
+			databaseSoftwareImage["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
+
 		if r.TimeCreated != nil {
 			databaseSoftwareImage["time_created"] = r.TimeCreated.String()
 		}

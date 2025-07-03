@@ -160,6 +160,11 @@ func DatabaseDbServersDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"system_tags": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
 						"time_created": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -316,6 +321,10 @@ func (s *DatabaseDbServersDataSourceCrud) SetData() error {
 		}
 
 		dbServer["state"] = r.LifecycleState
+
+		if r.SystemTags != nil {
+			dbServer["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
 
 		if r.TimeCreated != nil {
 			dbServer["time_created"] = r.TimeCreated.String()

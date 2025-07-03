@@ -63,6 +63,7 @@ The following attributes are exported:
 * `sha256sum` - SHA-256 checksum of the one-off patch.
 * `size_in_kbs` - The size of one-off patch in kilobytes.
 * `state` - The current state of the one-off patch.
+* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `time_created` - The date and time one-off patch was created.
 * `time_of_expiration` - The date and time until which the one-off patch will be available for download.
 * `time_updated` - The date and time one-off patch was updated.

@@ -169,6 +169,11 @@ func DatabaseExternalDatabaseConnectorResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"time_connection_status_last_updated": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -406,6 +411,8 @@ func (s *DatabaseExternalDatabaseConnectorResourceCrud) SetData() error {
 		}
 
 		s.D.Set("state", v.LifecycleState)
+
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
 
 		if v.TimeConnectionStatusLastUpdated != nil {
 			s.D.Set("time_connection_status_last_updated", v.TimeConnectionStatusLastUpdated.String())

@@ -529,7 +529,7 @@ func DbVersionDiffSuppress(key string, old string, new string, d *schema.Resourc
 	if old == "" || new == "" {
 		return false
 	}
-	if new == "18.0.0.0" || new == "19.0.0.0" || new == "23.0.0.0" {
+	if new == "18.0.0.0" || new == "19.0.0.0" || new == "23.0.0.0" || new == "23.0.0" || new == "23.0.0.0.0" {
 		oldVersion := strings.Split(old, ".")
 		newVersion := strings.Split(new, ".")
 		oldVersionNumber, err := strconv.Atoi(oldVersion[0])

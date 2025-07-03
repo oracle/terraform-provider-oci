@@ -19,6 +19,9 @@ resource "oci_database_external_database_connector" "test_external_container_dat
     connection_credentials {
         credential_type = var.credential_type
         credential_name = var.credential_name
+        password = var.password
+        role = var.role
+        username = var.username
     }
     connection_string {
         hostname = var.hostname
@@ -32,10 +35,19 @@ resource "oci_database_external_database_connector" "test_external_container_dat
     connector_type = var.connector_type
     #To use defined_tags, set the values below to an existing tag namespace, refer to the identity example on how to create tag namespaces
     #defined_tags  = {"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"}
+#
+#    freeform_tags = {
+#      "Department" = "Finance"
+#    }
+}
 
-    freeform_tags = {
-      "Department" = "Finance"
-    }
+data "oci_database_external_database_connector" "test_database_external_database_connector" {
+    external_database_connector_id = oci_database_external_database_connector.test_external_container_database_connector.id
+}
+
+data "oci_database_external_database_connectors" "test_database_external_database_connectors" {
+    external_database_id = oci_database_external_container_database.test_external_container_database.id
+    compartment_id = var.compartment_ocid
 }
 
 // Enable Database Management

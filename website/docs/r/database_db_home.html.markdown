@@ -59,8 +59,11 @@ resource "oci_database_db_home" "test_db_home" {
 		defined_tags = var.db_home_database_defined_tags
 		encryption_key_location_details {
 			#Required
-			hsm_password = var.db_home_database_encryption_key_location_details_hsm_password
 			provider_type = var.db_home_database_encryption_key_location_details_provider_type
+
+			#Optional
+			azure_encryption_key_id = oci_kms_key.test_key.id
+			hsm_password = var.db_home_database_encryption_key_location_details_hsm_password
 		}
 		freeform_tags = var.db_home_database_freeform_tags
 		key_store_id = oci_database_key_store.test_key_store.id
@@ -72,8 +75,11 @@ resource "oci_database_db_home" "test_db_home" {
 		sid_prefix = var.db_home_database_sid_prefix
 		source_encryption_key_location_details {
 			#Required
-			hsm_password = var.db_home_database_source_encryption_key_location_details_hsm_password
 			provider_type = var.db_home_database_source_encryption_key_location_details_provider_type
+
+			#Optional
+			azure_encryption_key_id = oci_kms_key.test_key.id
+			hsm_password = var.db_home_database_source_encryption_key_location_details_hsm_password
 		}
 		tde_wallet_password = var.db_home_database_tde_wallet_password
 		time_stamp_for_point_in_time_recovery = var.db_home_database_time_stamp_for_point_in_time_recovery
@@ -133,8 +139,9 @@ The following arguments are supported:
 		The database workload type. 
 	* `defined_tags` - (Applicable when source=NONE | VM_CLUSTER_NEW) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 	* `encryption_key_location_details` - (Applicable when source=NONE | VM_CLUSTER_NEW) Types of providers supported for managing database encryption keys
-		* `hsm_password` - (Required) Provide the HSM password as you would in RDBMS for External HSM.
-		* `provider_type` - (Required) Use 'EXTERNAL' for creating a new database or migrate database key with External HSM.
+		* `azure_encryption_key_id` - (Required when provider_type=AZURE) Provide the key OCID of a registered Azure key.
+		* `hsm_password` - (Required when provider_type=EXTERNAL) Provide the HSM password as you would in RDBMS for External HSM.
+		* `provider_type` - (Required) Use 'EXTERNAL' for creating a new database or migrating a database key to an External HSM. Use 'AZURE' for creating a new database or migrating a database key to Azure. 
 	* `enable_database_delete` - (Optional) Defaults to false. If omitted or set to false the provider will not delete databases removed from the Db Home configuration. 
 	* `freeform_tags` - (Applicable when source=NONE | VM_CLUSTER_NEW) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 	* `key_store_id` - (Applicable when source=NONE | VM_CLUSTER_NEW) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
@@ -145,8 +152,9 @@ The following arguments are supported:
 	* `pluggable_databases` - (Applicable when source=DATABASE | DB_BACKUP | VM_CLUSTER_BACKUP) The list of pluggable databases that needs to be restored into new database.
 	* `sid_prefix` - (Applicable when source=DB_BACKUP | NONE | VM_CLUSTER_BACKUP | VM_CLUSTER_NEW) Specifies a prefix for the `Oracle SID` of the database to be created. 
 	* `source_encryption_key_location_details` - (Applicable when source=DB_BACKUP | VM_CLUSTER_BACKUP) Types of providers supported for managing database encryption keys
-		* `hsm_password` - (Required) Provide the HSM password as you would in RDBMS for External HSM.
-		* `provider_type` - (Required) Use 'EXTERNAL' for creating a new database or migrate database key with External HSM.
+		* `azure_encryption_key_id` - (Required when provider_type=AZURE) Provide the key OCID of a registered Azure key.
+		* `hsm_password` - (Required when provider_type=EXTERNAL) Provide the HSM password as you would in RDBMS for External HSM.
+		* `provider_type` - (Required) Use 'EXTERNAL' for creating a new database or migrating a database key to an External HSM. Use 'AZURE' for creating a new database or migrating a database key to Azure. 
 	* `tde_wallet_password` - (Applicable when source=NONE | VM_CLUSTER_NEW) The optional password to open the TDE wallet. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numeric, and two special characters. The special characters must be _, \#, or -.
 	* `time_stamp_for_point_in_time_recovery` - (Applicable when source=DATABASE) The point in time of the original database from which the new database is created. If not specifed, the latest backup is used to create the database.
 	* `vault_id` - (Applicable when source=NONE | VM_CLUSTER_NEW) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
@@ -188,6 +196,7 @@ The following attributes are exported:
 * `lifecycle_details` - Additional information about the current lifecycle state.
 * `one_off_patches` - List of one-off patches for Database Homes.
 * `state` - The current state of the Database Home.
+* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `time_created` - The date and time the Database Home was created.
 * `vm_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster.
 

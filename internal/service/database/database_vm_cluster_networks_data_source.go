@@ -156,6 +156,10 @@ func (s *DatabaseVmClusterNetworksDataSourceCrud) SetData() error {
 
 		vmClusterNetwork["state"] = r.LifecycleState
 
+		if r.SystemTags != nil {
+			vmClusterNetwork["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
+
 		if r.TimeCreated != nil {
 			vmClusterNetwork["time_created"] = r.TimeCreated.String()
 		}
