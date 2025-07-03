@@ -19,7 +19,7 @@ import (
 type AutoActivateStatus struct {
 
 	// State of autoactivation in this APM Domain.  If "ON" auto-activate is set to true, if "OFF" auto-activate is set to false.
-	State *string `mandatory:"true" json:"state"`
+	State AutoActivateStatusStateEnum `mandatory:"true" json:"state"`
 
 	// Data key type for which auto-activate needs needs to be turned on or off.
 	DataKey AutoActivateStatusDataKeyEnum `mandatory:"true" json:"dataKey"`
@@ -34,6 +34,9 @@ func (m AutoActivateStatus) String() string {
 // Not recommended for calling this function directly
 func (m AutoActivateStatus) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingAutoActivateStatusStateEnum(string(m.State)); !ok && m.State != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for State: %s. Supported values are: %s.", m.State, strings.Join(GetAutoActivateStatusStateEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingAutoActivateStatusDataKeyEnum(string(m.DataKey)); !ok && m.DataKey != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataKey: %s. Supported values are: %s.", m.DataKey, strings.Join(GetAutoActivateStatusDataKeyEnumStringValues(), ",")))
 	}
@@ -42,6 +45,48 @@ func (m AutoActivateStatus) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// AutoActivateStatusStateEnum Enum with underlying type: string
+type AutoActivateStatusStateEnum string
+
+// Set of constants representing the allowable values for AutoActivateStatusStateEnum
+const (
+	AutoActivateStatusStateOn  AutoActivateStatusStateEnum = "ON"
+	AutoActivateStatusStateOff AutoActivateStatusStateEnum = "OFF"
+)
+
+var mappingAutoActivateStatusStateEnum = map[string]AutoActivateStatusStateEnum{
+	"ON":  AutoActivateStatusStateOn,
+	"OFF": AutoActivateStatusStateOff,
+}
+
+var mappingAutoActivateStatusStateEnumLowerCase = map[string]AutoActivateStatusStateEnum{
+	"on":  AutoActivateStatusStateOn,
+	"off": AutoActivateStatusStateOff,
+}
+
+// GetAutoActivateStatusStateEnumValues Enumerates the set of values for AutoActivateStatusStateEnum
+func GetAutoActivateStatusStateEnumValues() []AutoActivateStatusStateEnum {
+	values := make([]AutoActivateStatusStateEnum, 0)
+	for _, v := range mappingAutoActivateStatusStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetAutoActivateStatusStateEnumStringValues Enumerates the set of values in String for AutoActivateStatusStateEnum
+func GetAutoActivateStatusStateEnumStringValues() []string {
+	return []string{
+		"ON",
+		"OFF",
+	}
+}
+
+// GetMappingAutoActivateStatusStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingAutoActivateStatusStateEnum(val string) (AutoActivateStatusStateEnum, bool) {
+	enum, ok := mappingAutoActivateStatusStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // AutoActivateStatusDataKeyEnum Enum with underlying type: string

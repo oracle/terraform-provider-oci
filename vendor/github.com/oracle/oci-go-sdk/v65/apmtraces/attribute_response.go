@@ -56,7 +56,7 @@ type AttributeResponse struct {
 	// Time when the attribute was activated or deactivated.  Note that ingest might not have picked up the changes even if this time has elapsed.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
-	// Unit of the attribute.
+	// Unit of the attribute.   If unit is not specified, it defaults to NONE.
 	Unit AttributeResponseUnitEnum `mandatory:"false" json:"unit,omitempty"`
 
 	// Notes for the activated attribute.

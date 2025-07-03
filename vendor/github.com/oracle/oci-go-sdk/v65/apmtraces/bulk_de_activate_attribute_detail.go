@@ -52,16 +52,19 @@ type BulkDeActivateAttributeDetailAttributeNameSpaceEnum string
 const (
 	BulkDeActivateAttributeDetailAttributeNameSpaceTraces    BulkDeActivateAttributeDetailAttributeNameSpaceEnum = "TRACES"
 	BulkDeActivateAttributeDetailAttributeNameSpaceSynthetic BulkDeActivateAttributeDetailAttributeNameSpaceEnum = "SYNTHETIC"
+	BulkDeActivateAttributeDetailAttributeNameSpaceLogs      BulkDeActivateAttributeDetailAttributeNameSpaceEnum = "LOGS"
 )
 
 var mappingBulkDeActivateAttributeDetailAttributeNameSpaceEnum = map[string]BulkDeActivateAttributeDetailAttributeNameSpaceEnum{
 	"TRACES":    BulkDeActivateAttributeDetailAttributeNameSpaceTraces,
 	"SYNTHETIC": BulkDeActivateAttributeDetailAttributeNameSpaceSynthetic,
+	"LOGS":      BulkDeActivateAttributeDetailAttributeNameSpaceLogs,
 }
 
 var mappingBulkDeActivateAttributeDetailAttributeNameSpaceEnumLowerCase = map[string]BulkDeActivateAttributeDetailAttributeNameSpaceEnum{
 	"traces":    BulkDeActivateAttributeDetailAttributeNameSpaceTraces,
 	"synthetic": BulkDeActivateAttributeDetailAttributeNameSpaceSynthetic,
+	"logs":      BulkDeActivateAttributeDetailAttributeNameSpaceLogs,
 }
 
 // GetBulkDeActivateAttributeDetailAttributeNameSpaceEnumValues Enumerates the set of values for BulkDeActivateAttributeDetailAttributeNameSpaceEnum
@@ -78,6 +81,7 @@ func GetBulkDeActivateAttributeDetailAttributeNameSpaceEnumStringValues() []stri
 	return []string{
 		"TRACES",
 		"SYNTHETIC",
+		"LOGS",
 	}
 }
 

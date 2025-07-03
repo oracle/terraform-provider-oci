@@ -223,21 +223,27 @@ func DatabaseDbHomeResource() *schema.Resource {
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
-									"hsm_password": {
-										Type:      schema.TypeString,
-										Required:  true,
-										Sensitive: true,
-									},
 									"provider_type": {
 										Type:             schema.TypeString,
 										Required:         true,
 										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 										ValidateFunc: validation.StringInSlice([]string{
+											"AZURE",
 											"EXTERNAL",
 										}, true),
 									},
 
 									// Optional
+									"azure_encryption_key_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"hsm_password": {
+										Type:      schema.TypeString,
+										Optional:  true,
+										Sensitive: true,
+									},
 
 									// Computed
 								},
@@ -473,6 +479,11 @@ func DatabaseDbHomeResource() *schema.Resource {
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -991,6 +1002,8 @@ func (s *DatabaseDbHomeResourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
+	s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
@@ -1409,6 +1422,13 @@ func (s *DatabaseDbHomeResourceCrud) mapToEncryptionKeyLocationDetails(fieldKeyF
 		providerType = "" // default value
 	}
 	switch strings.ToLower(providerType) {
+	case strings.ToLower("AZURE"):
+		details := oci_database.AzureEncryptionKeyDetails{}
+		if azureEncryptionKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "azure_encryption_key_id")); ok {
+			tmp := azureEncryptionKeyId.(string)
+			details.AzureEncryptionKeyId = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("EXTERNAL"):
 		details := oci_database.ExternalHsmEncryptionDetails{}
 		if hsmPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hsm_password")); ok {
@@ -1894,9 +1914,11 @@ func (s *DatabaseDbHomeResourceCrud) DatabaseToMap(obj *oci_database.Database) m
 		result["time_stamp_for_point_in_time_recovery"] = timeStampForPointInTimeRecovery
 	}
 
-	if hsmPassword, ok := s.D.GetOkExists("database.0.encryption_key_location_details.0.hsm_password"); ok && hsmPassword != nil {
-		if obj.EncryptionKeyLocationDetails != nil {
+	if obj.EncryptionKeyLocationDetails != nil {
+		if hsmPassword, ok := s.D.GetOkExists("database.0.encryption_key_location_details.0.hsm_password"); ok && hsmPassword != nil {
 			result["encryption_key_location_details"] = []interface{}{EncryptionKeyLocationDetailsToMap(&obj.EncryptionKeyLocationDetails, hsmPassword.(string))}
+		} else {
+			result["encryption_key_location_details"] = []interface{}{EncryptionKeyLocationDetailsToMap(&obj.EncryptionKeyLocationDetails, "")}
 		}
 	}
 

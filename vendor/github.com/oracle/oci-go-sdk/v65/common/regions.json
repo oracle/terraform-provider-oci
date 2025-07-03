@@ -436,5 +436,11 @@
         "realmKey": "oc26",
         "regionIdentifier": "me-alain-1",
         "realmDomainComponent": "oraclecloud26.com"
+    },
+    {
+        "regionKey": "yxj",
+        "realmKey": "oc42",
+        "regionIdentifier": "us-ashburn-2",
+        "realmDomainComponent": "oraclecloud42.com"
     }
 ]

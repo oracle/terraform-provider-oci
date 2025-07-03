@@ -353,6 +353,10 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 
 		autonomousContainerDatabase["state"] = r.LifecycleState
 
+		if r.SystemTags != nil {
+			autonomousContainerDatabase["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
+
 		if r.TimeCreated != nil {
 			autonomousContainerDatabase["time_created"] = r.TimeCreated.String()
 		}

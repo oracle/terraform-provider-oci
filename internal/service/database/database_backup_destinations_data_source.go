@@ -144,6 +144,10 @@ func (s *DatabaseBackupDestinationsDataSourceCrud) SetData() error {
 
 		backupDestination["state"] = r.LifecycleState
 
+		if r.SystemTags != nil {
+			backupDestination["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
+
 		if r.TimeAtWhichStorageDetailsAreUpdated != nil {
 			backupDestination["time_at_which_storage_details_are_updated"] = r.TimeAtWhichStorageDetailsAreUpdated.String()
 		}

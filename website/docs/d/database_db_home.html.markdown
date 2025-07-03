@@ -47,6 +47,7 @@ The following attributes are exported:
 * `lifecycle_details` - Additional information about the current lifecycle state.
 * `one_off_patches` - List of one-off patches for Database Homes.
 * `state` - The current state of the Database Home.
+* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `time_created` - The date and time the Database Home was created.
 * `vm_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster.
 

@@ -232,6 +232,11 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"opc_dry_run": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"scan_listener_port_non_tls": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -249,6 +254,12 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"subscription_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"total_container_databases": {
 				Type:     schema.TypeInt,
@@ -468,6 +479,11 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -719,6 +735,11 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Create() error {
 		}
 	}
 
+	if opcDryRun, ok := s.D.GetOkExists("opc_dry_run"); ok {
+		tmp := opcDryRun.(bool)
+		request.OpcDryRun = &tmp
+	}
+
 	if scanListenerPortNonTls, ok := s.D.GetOkExists("scan_listener_port_non_tls"); ok {
 		tmp := scanListenerPortNonTls.(int)
 		request.ScanListenerPortNonTls = &tmp
@@ -736,6 +757,11 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Create() error {
 	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 		tmp := subnetId.(string)
 		request.SubnetId = &tmp
+	}
+
+	if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+		tmp := subscriptionId.(string)
+		request.SubscriptionId = &tmp
 	}
 
 	if totalContainerDatabases, ok := s.D.GetOkExists("total_container_databases"); ok {
@@ -863,6 +889,11 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Update() error {
 		if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 			request.NsgIds = tmp
 		}
+	}
+
+	if opcDryRun, ok := s.D.GetOkExists("opc_dry_run"); ok {
+		tmp := opcDryRun.(bool)
+		request.OpcDryRun = &tmp
 	}
 
 	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
@@ -1110,6 +1141,14 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) SetData() error {
 
 	if s.Res.SubnetId != nil {
 		s.D.Set("subnet_id", *s.Res.SubnetId)
+	}
+
+	if s.Res.SubscriptionId != nil {
+		s.D.Set("subscription_id", *s.Res.SubscriptionId)
+	}
+
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}
 
 	if s.Res.TimeCreated != nil {

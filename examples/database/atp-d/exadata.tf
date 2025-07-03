@@ -167,3 +167,7 @@ resource "oci_core_network_security_group" "test_network_security_group" {
 data "oci_database_cloud_autonomous_vm_cluster" "test_cloud_autonomous_vm_cluster" {
   cloud_autonomous_vm_cluster_id = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id
 }
+
+data "oci_database_cloud_autonomous_vm_clusters" "test_cloud_autonomous_vm_clusters" {
+    compartment_id = var.compartment_ocid
+}

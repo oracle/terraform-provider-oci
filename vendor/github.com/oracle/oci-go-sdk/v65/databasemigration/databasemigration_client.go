@@ -401,6 +401,64 @@ func (client DatabaseMigrationClient) cloneMigration(ctx context.Context, reques
 	return response, err
 }
 
+// CollectTraces Collects the DB trace and alert logs.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/CollectTraces.go.html to see an example of how to use CollectTraces API.
+// A default retry strategy applies to this operation CollectTraces()
+func (client DatabaseMigrationClient) CollectTraces(ctx context.Context, request CollectTracesRequest) (response CollectTracesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.collectTraces, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CollectTracesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CollectTracesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CollectTracesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CollectTracesResponse")
+	}
+	return
+}
+
+// collectTraces implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseMigrationClient) collectTraces(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/jobs/{jobId}/actions/collectTraces", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CollectTracesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Job/CollectTraces"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "CollectTraces", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ConnectionDiagnostics Perform connection test for a database connection.
 //
 // # See also

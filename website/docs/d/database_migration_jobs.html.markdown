@@ -47,6 +47,11 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `collect_traces_data` - Information regarding the DB trace and alert log collection
+	* `bucket` - Name of the bucket containing the file. 
+	* `collect_traces_state` - Status of trace collection process. 
+	* `namespace` - Object Storage namespace. 
+	* `object` - Object name. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `display_name` - Name of the job. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.  For more information, see Resource Tags. Example: {"Department": "Finance"} 

@@ -57,4 +57,15 @@ resource "oci_mysql_mysql_backup" "test_mysql_backup_cross_region_backup_copy" {
   display_name = "CrossRegionBackupCopy"
   description = "test backup copy created by terraform"
   retention_in_days = "5"
+  encrypt_data {
+    key_generation_type = "SYSTEM"
+  }
+}
+
+data "oci_mysql_mysql_backups" "test_mysql_backups" {
+  #Required
+  compartment_id = var.compartment_ocid
+
+  #Optional
+  backup_id = oci_mysql_mysql_backup.test_mysql_backup_cross_region_backup_copy.id
 }

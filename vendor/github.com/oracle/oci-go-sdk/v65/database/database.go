@@ -83,6 +83,10 @@ type Database struct {
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// System tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// The Connection strings used to connect to the Oracle Database.
 	ConnectionStrings *DatabaseConnectionStrings `mandatory:"false" json:"connectionStrings"`
 
@@ -157,6 +161,7 @@ func (m *Database) UnmarshalJSON(data []byte) (e error) {
 		DbBackupConfig                             *DbBackupConfig                   `json:"dbBackupConfig"`
 		FreeformTags                               map[string]string                 `json:"freeformTags"`
 		DefinedTags                                map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags                                 map[string]map[string]interface{} `json:"systemTags"`
 		ConnectionStrings                          *DatabaseConnectionStrings        `json:"connectionStrings"`
 		KmsKeyId                                   *string                           `json:"kmsKeyId"`
 		KmsKeyVersionId                            *string                           `json:"kmsKeyVersionId"`
@@ -211,6 +216,8 @@ func (m *Database) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
+
+	m.SystemTags = model.SystemTags
 
 	m.ConnectionStrings = model.ConnectionStrings
 

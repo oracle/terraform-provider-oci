@@ -1,3 +1,16 @@
+## 7.8.0 (July 03, 2025)
+
+### Added
+- Support for [Elastic Pool Support for Child Tenancies] Terraform Support in Prod Region ADB-S: Elastic Pool Support for Child Tenancies
+- Support for PKCS11 Library Integration for Azure key store | ExaDB-D
+- Support for Support for customer-initiated collection of diagnostic information
+- Support for AWS for ADBD
+- Support for HeatWave Service: Bring Your Own Key (BYOK)
+- Support for all DBaaS Verticals to onboard to System Tags| DBAAS Platform
+- Support for MultiCloud Data Plane Integration for Database services dbmulticloud changes
+### Bug Fix
+- Corrected Cloud Database Management Integration Test and added Example Test
+
 ## 7.7.0 (June 25, 2025)
 
 ### Added
