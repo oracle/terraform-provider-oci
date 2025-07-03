@@ -1,4 +1,4 @@
-## 7.8.0 (Unreleased)
+## 7.8.0 (July 03, 2025)
 
 ### Added
 - Support for [Elastic Pool Support for Child Tenancies] Terraform Support in Prod Region ADB-S: Elastic Pool Support for Child Tenancies
