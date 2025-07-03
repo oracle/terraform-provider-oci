@@ -52,3 +52,17 @@ variable "cloud_exadata_infrastructure_compute_count" {
 variable "cloud_exadata_infrastructure_storage_count" {
   default = "3"
 }
+
+variable "cloud_exadata_infrastructure_un_allocated_resource_db_servers" {
+  default = []
+}
+
+variable "acd_db_version" {
+  default = "19.26.0.1.0"
+}
+
+variable "tenant_subscription_id" {
+  default = null
+variable "cloud_exadata_infrastructure_un_allocated_resource_db_servers" {
+  default = []
+}

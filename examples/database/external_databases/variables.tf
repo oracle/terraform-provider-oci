@@ -37,7 +37,7 @@ variable "external_pluggable_database_display_name" {
 }
 
 variable "credential_type" {
-    default = "NAME_REFERENCE"
+    default = "DETAILS"
 }
 
 variable "credential_name" {
@@ -49,7 +49,7 @@ variable "username" {
 }
 
 variable "password" {
-    default = "password"
+    default = "BEstrO0ng_#11"
 }
 
 variable "role" {
@@ -61,7 +61,7 @@ variable "hostname" {
 }
 
 variable "port" {
-    default = 10
+    default = 1024
 }
 
 variable "protocol" {
@@ -73,7 +73,7 @@ variable "service" {
 }
 
 variable "connector_agent_id" {
-
+    default = ""
 }
 
 variable "external_database_connector_display_name" {

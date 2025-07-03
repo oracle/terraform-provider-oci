@@ -31,7 +31,7 @@ type AttributeUpdateResponse struct {
 	// Type of the attribute.
 	AttributeType AttributeUpdateResponseAttributeTypeEnum `mandatory:"false" json:"attributeType,omitempty"`
 
-	// Unit updated for this attribute.
+	// Unit updated for this attribute.  If unit is not specified, it defaults to NONE.
 	Unit AttributeUpdateResponseUnitEnum `mandatory:"false" json:"unit,omitempty"`
 
 	// Notes for the attribute.

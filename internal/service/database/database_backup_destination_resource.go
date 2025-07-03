@@ -177,6 +177,11 @@ func DatabaseBackupDestinationResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -421,6 +426,10 @@ func (s *DatabaseBackupDestinationResourceCrud) SetData() error {
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
 
 	if s.Res.TimeAtWhichStorageDetailsAreUpdated != nil {
 		s.D.Set("time_at_which_storage_details_are_updated", s.Res.TimeAtWhichStorageDetailsAreUpdated.String())

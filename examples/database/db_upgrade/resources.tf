@@ -56,7 +56,7 @@ resource "oci_database_database_upgrade" "test_upgrade" {
   action      = "UPGRADE"
   database_id = data.oci_database_databases.databases.databases.0.id
   database_upgrade_source_details {
-    db_version = "19.26.0.0"
+    db_version = "19.27.0.0"
     source     = "DB_VERSION"
     options    = "-upgradeTimezone false -keepEvents"
   }

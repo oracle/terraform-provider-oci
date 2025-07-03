@@ -109,6 +109,10 @@ type MaintenanceRunSummary struct {
 	// The estimated start time of the next infrastruture component patching operation.
 	EstimatedComponentPatchingStartTime *common.SDKTime `mandatory:"false" json:"estimatedComponentPatchingStartTime"`
 
+	// System tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// If `FALSE`, the maintenance run doesn't support granular maintenance.
 	IsMaintenanceRunGranular *bool `mandatory:"false" json:"isMaintenanceRunGranular"`
 

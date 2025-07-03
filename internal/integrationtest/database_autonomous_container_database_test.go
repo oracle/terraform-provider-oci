@@ -603,6 +603,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "version_preference", "LATEST_RELEASE_UPDATE"),
 				resource.TestCheckResourceAttr(resourceName, "vm_failover_reservation", "25"),
 				resource.TestCheckResourceAttr(resourceName, "db_name", "DBNAME"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -1017,6 +1018,127 @@ func testAccCheckDatabaseAutonomousContainerDatabaseDestroy(s *terraform.State) 
 	}
 
 	return nil
+}
+
+func TestDatabaseAutonomousContainerDatabaseResource_rotateKey(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseAutonomousContainerDatabaseResource_rotateKey")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_database_autonomous_container_database.test_autonomous_container_database"
+
+	AutonomousContainerDatabaseDedicatedMaintenanceWindowDetailsRepresentation := acctest.RepresentationCopyWithRemovedProperties(
+		acctest.GetUpdatedRepresentationCopy("months",
+			[]acctest.RepresentationGroup{{RepType: acctest.Optional, Group: DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation}, {RepType: acctest.Optional, Group: DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation2}, {RepType: acctest.Optional, Group: DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation3}, {RepType: acctest.Optional, Group: DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation4}},
+			DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsRepresentation), []string{"lead_time_in_weeks"})
+
+	AutonomousContainerDatabaseDedicatedRepresentation := acctest.GetUpdatedRepresentationCopy("maintenance_window_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: AutonomousContainerDatabaseDedicatedMaintenanceWindowDetailsRepresentation}, DatabaseAutonomousContainerDatabaseRepresentation)
+
+	var resId, resId2 string
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+ATPDAutonomousContainerDatabaseResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Create, DatabaseAutonomousContainerDatabaseRepresentation), "database", "autonomousContainerDatabase", t)
+
+	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousContainerDatabaseDestroy, []resource.TestStep{
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + ATPDAutonomousContainerDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Create,
+					acctest.GetUpdatedRepresentationCopy("maintenance_window_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsNoPreferenceRepresentation}, DatabaseAutonomousContainerDatabaseRepresentation)),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+		//verify rotate key with key_version_id
+		{
+			Config: config + compartmentIdVariableStr + ATPDAutonomousContainerDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithNewProperties(AutonomousContainerDatabaseDedicatedRepresentation, map[string]interface{}{
+						"rotate_key_trigger": acctest.Representation{RepType: acctest.Optional, Create: `true`},
+						"key_version_id":     acctest.Representation{RepType: acctest.Optional, Create: utils.GetEnvSettingWithBlankDefault("acd_key_version_id")},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "kms_key_version_id", utils.GetEnvSettingWithBlankDefault("acd_key_version_id")),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		//verify rotate key with key_version_id
+		{
+			Config: config + compartmentIdVariableStr + ATPDAutonomousContainerDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithNewProperties(AutonomousContainerDatabaseDedicatedRepresentation, map[string]interface{}{
+						"rotate_key_trigger": acctest.Representation{RepType: acctest.Optional, Create: `true`},
+						"key_version_id":     acctest.Representation{RepType: acctest.Optional, Create: utils.GetEnvSettingWithBlankDefault("acd_key_version_id_2")},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "kms_key_version_id", utils.GetEnvSettingWithBlankDefault("acd_key_version_id")),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// unset rotate_key_trigger
+		{
+			Config: config + compartmentIdVariableStr + ATPDAutonomousContainerDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithNewProperties(AutonomousContainerDatabaseDedicatedRepresentation, map[string]interface{}{
+						"rotate_key_trigger": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		//verify rotate key without key_version_id
+		{
+			Config: config + compartmentIdVariableStr + ATPDAutonomousContainerDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithNewProperties(AutonomousContainerDatabaseDedicatedRepresentation, map[string]interface{}{
+						"rotate_key_trigger": acctest.Representation{RepType: acctest.Optional, Create: `true`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "kms_key_version_id", utils.GetEnvSettingWithBlankDefault("acd_key_version_id_2")),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+	})
 }
 
 func init() {

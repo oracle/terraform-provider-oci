@@ -60,6 +60,10 @@ type ExternalMacsConnectorSummary struct {
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// System tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// Additional information about the current lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
@@ -80,6 +84,11 @@ func (m ExternalMacsConnectorSummary) GetFreeformTags() map[string]string {
 // GetDefinedTags returns DefinedTags
 func (m ExternalMacsConnectorSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetSystemTags returns SystemTags
+func (m ExternalMacsConnectorSummary) GetSystemTags() map[string]map[string]interface{} {
+	return m.SystemTags
 }
 
 // GetDisplayName returns DisplayName
@@ -160,6 +169,7 @@ func (m *ExternalMacsConnectorSummary) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		FreeformTags                    map[string]string                           `json:"freeformTags"`
 		DefinedTags                     map[string]map[string]interface{}           `json:"definedTags"`
+		SystemTags                      map[string]map[string]interface{}           `json:"systemTags"`
 		LifecycleDetails                *string                                     `json:"lifecycleDetails"`
 		CompartmentId                   *string                                     `json:"compartmentId"`
 		DisplayName                     *string                                     `json:"displayName"`
@@ -182,6 +192,8 @@ func (m *ExternalMacsConnectorSummary) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
+
+	m.SystemTags = model.SystemTags
 
 	m.LifecycleDetails = model.LifecycleDetails
 

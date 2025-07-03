@@ -322,6 +322,7 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "dns.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
 				resource.TestCheckResourceAttr(resourceName, "ntp.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "scans.#", "1"),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "scans", map[string]string{
@@ -365,6 +366,7 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "dns.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
 				resource.TestCheckResourceAttr(resourceName, "ntp.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "scans.#", "1"),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "scans", map[string]string{
@@ -411,6 +413,7 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.dns.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_cluster_networks.0.exadata_infrastructure_id"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.system_tags.%", "0"),
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_cluster_networks.0.id"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.ntp.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.scans.#", "1"),
@@ -447,6 +450,7 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "testVmClusterNw"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "dns.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "system_tags.%", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "ntp.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "scans.#", "1"),

@@ -209,6 +209,12 @@ type CloudVmClusterSummary struct {
 
 	// The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. ECPU compute model is the recommended model and OCPU compute model is legacy.
 	ComputeModel CloudVmClusterSummaryComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
+
+	// Details of the multi cloud identity connectors of the VM cluster.
+	MultiCloudIdentityConnectorConfigs []IdentityConnectorDetails `mandatory:"false" json:"multiCloudIdentityConnectorConfigs"`
+
+	// TDE keystore type
+	TdeKeyStoreType CloudVmClusterSummaryTdeKeyStoreTypeEnum `mandatory:"false" json:"tdeKeyStoreType,omitempty"`
 }
 
 func (m CloudVmClusterSummary) String() string {
@@ -235,6 +241,9 @@ func (m CloudVmClusterSummary) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingCloudVmClusterSummaryComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetCloudVmClusterSummaryComputeModelEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingCloudVmClusterSummaryTdeKeyStoreTypeEnum(string(m.TdeKeyStoreType)); !ok && m.TdeKeyStoreType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TdeKeyStoreType: %s. Supported values are: %s.", m.TdeKeyStoreType, strings.Join(GetCloudVmClusterSummaryTdeKeyStoreTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -469,5 +478,47 @@ func GetCloudVmClusterSummaryComputeModelEnumStringValues() []string {
 // GetMappingCloudVmClusterSummaryComputeModelEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingCloudVmClusterSummaryComputeModelEnum(val string) (CloudVmClusterSummaryComputeModelEnum, bool) {
 	enum, ok := mappingCloudVmClusterSummaryComputeModelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// CloudVmClusterSummaryTdeKeyStoreTypeEnum Enum with underlying type: string
+type CloudVmClusterSummaryTdeKeyStoreTypeEnum string
+
+// Set of constants representing the allowable values for CloudVmClusterSummaryTdeKeyStoreTypeEnum
+const (
+	CloudVmClusterSummaryTdeKeyStoreTypeAzure CloudVmClusterSummaryTdeKeyStoreTypeEnum = "AZURE"
+	CloudVmClusterSummaryTdeKeyStoreTypeOci   CloudVmClusterSummaryTdeKeyStoreTypeEnum = "OCI"
+)
+
+var mappingCloudVmClusterSummaryTdeKeyStoreTypeEnum = map[string]CloudVmClusterSummaryTdeKeyStoreTypeEnum{
+	"AZURE": CloudVmClusterSummaryTdeKeyStoreTypeAzure,
+	"OCI":   CloudVmClusterSummaryTdeKeyStoreTypeOci,
+}
+
+var mappingCloudVmClusterSummaryTdeKeyStoreTypeEnumLowerCase = map[string]CloudVmClusterSummaryTdeKeyStoreTypeEnum{
+	"azure": CloudVmClusterSummaryTdeKeyStoreTypeAzure,
+	"oci":   CloudVmClusterSummaryTdeKeyStoreTypeOci,
+}
+
+// GetCloudVmClusterSummaryTdeKeyStoreTypeEnumValues Enumerates the set of values for CloudVmClusterSummaryTdeKeyStoreTypeEnum
+func GetCloudVmClusterSummaryTdeKeyStoreTypeEnumValues() []CloudVmClusterSummaryTdeKeyStoreTypeEnum {
+	values := make([]CloudVmClusterSummaryTdeKeyStoreTypeEnum, 0)
+	for _, v := range mappingCloudVmClusterSummaryTdeKeyStoreTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCloudVmClusterSummaryTdeKeyStoreTypeEnumStringValues Enumerates the set of values in String for CloudVmClusterSummaryTdeKeyStoreTypeEnum
+func GetCloudVmClusterSummaryTdeKeyStoreTypeEnumStringValues() []string {
+	return []string{
+		"AZURE",
+		"OCI",
+	}
+}
+
+// GetMappingCloudVmClusterSummaryTdeKeyStoreTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCloudVmClusterSummaryTdeKeyStoreTypeEnum(val string) (CloudVmClusterSummaryTdeKeyStoreTypeEnum, bool) {
+	enum, ok := mappingCloudVmClusterSummaryTdeKeyStoreTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

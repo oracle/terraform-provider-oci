@@ -145,7 +145,7 @@ func (client ApiMetadataClient) getApiMetadata(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/oracle-api-access-control/20241130/ApiMetadata/GetApiMetadata"
 		err = common.PostProcessServiceError(err, "ApiMetadata", "GetApiMetadata", apiReferenceLink)
 		return response, err
 	}
@@ -203,7 +203,7 @@ func (client ApiMetadataClient) listApiMetadata(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/oracle-api-access-control/20241130/ApiMetadata/ListApiMetadata"
 		err = common.PostProcessServiceError(err, "ApiMetadata", "ListApiMetadata", apiReferenceLink)
 		return response, err
 	}
@@ -261,7 +261,7 @@ func (client ApiMetadataClient) listApiMetadataByEntityTypes(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/oracle-api-access-control/20241130/ApiMetadata/ListApiMetadataByEntityTypes"
 		err = common.PostProcessServiceError(err, "ApiMetadata", "ListApiMetadataByEntityTypes", apiReferenceLink)
 		return response, err
 	}

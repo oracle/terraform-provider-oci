@@ -74,6 +74,7 @@ The following attributes are exported:
 * `ls_inventory` - The output from the OPatch lsInventory command, which is passed as a string.
 * `patch_set` - The PSU or PBP or Release Updates. To get a list of supported versions, use the [ListDbVersions](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/DbVersionSummary/ListDbVersions) operation.
 * `state` - The current state of the database software image.
+* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `time_created` - The date and time the database software image was created.
 
 ## Timeouts

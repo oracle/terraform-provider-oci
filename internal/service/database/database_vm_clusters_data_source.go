@@ -232,6 +232,10 @@ func (s *DatabaseVmClustersDataSourceCrud) SetData() error {
 
 		vmCluster["storage_management_type"] = r.StorageManagementType
 
+		if r.SystemTags != nil {
+			vmCluster["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
+
 		if r.SystemVersion != nil {
 			vmCluster["system_version"] = *r.SystemVersion
 		}

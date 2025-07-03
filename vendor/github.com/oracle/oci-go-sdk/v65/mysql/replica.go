@@ -91,6 +91,8 @@ type Replica struct {
 	ReplicaOverrides *ReplicaOverrides `mandatory:"false" json:"replicaOverrides"`
 
 	SecureConnections *SecureConnectionDetails `mandatory:"false" json:"secureConnections"`
+
+	EncryptData *EncryptDataDetails `mandatory:"false" json:"encryptData"`
 }
 
 func (m Replica) String() string {

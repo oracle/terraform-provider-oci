@@ -21,7 +21,7 @@ variable defined_tag_namespace_name {
   default = ""
 }
 
-resource "oci_identity_tag_namespace" "tag-namespace1" {
+resource "oci_identity_tag_namespace" "tag-namespace" {
   #Required
   compartment_id = "${var.tenancy_ocid}"
   description    = "example tag namespace"
@@ -30,20 +30,20 @@ resource "oci_identity_tag_namespace" "tag-namespace1" {
   is_retired = false
 }
 
-resource "oci_identity_tag" "tag1" {
+resource "oci_identity_tag" "tag" {
   #Required
   description      = "example tag"
   name             = "example-tag"
-  tag_namespace_id = "${oci_identity_tag_namespace.tag-namespace1.id}"
+  tag_namespace_id = "${oci_identity_tag_namespace.tag-namespace.id}"
 
   is_retired = false
 }
 
 resource "oci_database_database_software_image" "test_database_software_image" {
-  compartment_id                          = "${var.compartment_id}"
-  database_software_image_one_off_patches = ["31113249", "27929509"]
+  compartment_id                          = var.compartment_id
+  database_software_image_one_off_patches = ["31113249", "34672698", "34697081", "37102264", "37213431", "37260974", "37497089"]
   database_version                        = "19.0.0.0"
-  defined_tags                            = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}"
+  defined_tags                            = "${map("${oci_identity_tag_namespace.tag-namespace.name}.${oci_identity_tag.tag.name}", "value")}"
   display_name                            = "image1"
 
   freeform_tags = {
@@ -378,5 +378,13 @@ Patch description:  "OCW RELEASE UPDATE 19.6.0.0.0 (30489227)"
 
 EOF
 
-  patch_set = "19.6.0.0"
+  patch_set = "19.26.0.0"
+}
+
+data "oci_database_database_software_image" "test_database_software_image" {
+    database_software_image_id = oci_database_database_software_image.test_database_software_image.id
+}
+
+data "oci_database_database_software_images" "test_database_software_images" {
+    compartment_id = var.compartment_id
 }

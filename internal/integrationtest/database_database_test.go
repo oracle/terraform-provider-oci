@@ -681,6 +681,7 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_name", "myTestDb"),
 				resource.TestCheckResourceAttrSet(resourceName, "db_home_id"),
 				resource.TestCheckResourceAttr(resourceName, "source", "NONE"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.#", "0"),
 			),
 		},
 
@@ -719,6 +720,7 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_name", "myTestDb"),
 				resource.TestCheckResourceAttrSet(resourceName, "database.0.db_unique_name"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.system_tags.%", "0"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.ncharacter_set", "AL16UTF16"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.pdb_name", "pdbName"),
 				resource.TestCheckResourceAttrSet(resourceName, "db_home_id"),
@@ -762,6 +764,7 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "db_name", "myTestDb"),
 				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
 				//resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
 				resource.TestCheckResourceAttr(resourceName, "ncharacter_set", "AL16UTF16"),
 				resource.TestCheckResourceAttr(resourceName, "pdb_name", "pdbName"),
 				resource.TestCheckResourceAttrSet(resourceName, "db_home_id"),
@@ -807,6 +810,7 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 				//resource.TestCheckResourceAttrSet(datasourceName, "databases.0.source_database_point_in_time_recovery_timestamp"),
 				resource.TestCheckResourceAttrSet(datasourceName, "databases.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "databases.0.time_created"),
+				resource.TestCheckResourceAttr(datasourceName, "databases.0.system_tags.#", "0"),
 			),
 		},
 		// verify singular datasource
@@ -834,6 +838,7 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 				//resource.TestCheckResourceAttrSet(singularDatasourceName, "source_database_point_in_time_recovery_timestamp"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "system_tags.#", "0"),
 			),
 		},
 		// verify resource import
