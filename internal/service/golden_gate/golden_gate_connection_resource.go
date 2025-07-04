@@ -1793,9 +1793,9 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("ssl_client_keystoredb_secret_id", *v.SslClientKeystoredbSecretId)
 		}
 
-		if v.SslServerCertificate != nil {
-			s.D.Set("ssl_server_certificate", *v.SslServerCertificate)
-		}
+		//if v.SslServerCertificate != nil {
+		//	s.D.Set("ssl_server_certificate", *v.SslServerCertificate)
+		//}
 
 		s.D.Set("technology_type", v.TechnologyType)
 
@@ -2421,9 +2421,9 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 	case oci_golden_gate.HdfsConnection:
 		s.D.Set("connection_type", "HDFS")
 
-		if v.CoreSiteXml != nil {
-			s.D.Set("core_site_xml", *v.CoreSiteXml)
-		}
+		//if v.CoreSiteXml != nil {
+		//	s.D.Set("core_site_xml", *v.CoreSiteXml)
+		//}
 
 		s.D.Set("technology_type", v.TechnologyType)
 
@@ -3231,9 +3231,9 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		s.D.Set("technology_type", v.TechnologyType)
 
-		if v.TlsCaFile != nil {
-			s.D.Set("tls_ca_file", *v.TlsCaFile)
-		}
+		//if v.TlsCaFile != nil {
+		//	s.D.Set("tls_ca_file", *v.TlsCaFile)
+		//}
 
 		if v.TlsCertificateKeyFilePasswordSecretId != nil {
 			s.D.Set("tls_certificate_key_file_password_secret_id", *v.TlsCertificateKeyFilePasswordSecretId)
@@ -3357,17 +3357,17 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		s.D.Set("security_protocol", v.SecurityProtocol)
 
-		if v.SslCa != nil {
-			s.D.Set("ssl_ca", *v.SslCa)
-		}
-
-		if v.SslCert != nil {
-			s.D.Set("ssl_cert", *v.SslCert)
-		}
-
-		if v.SslCrl != nil {
-			s.D.Set("ssl_crl", *v.SslCrl)
-		}
+		//if v.SslCa != nil {
+		//	s.D.Set("ssl_ca", *v.SslCa)
+		//}
+		//
+		//if v.SslCert != nil {
+		//	s.D.Set("ssl_cert", *v.SslCert)
+		//}
+		//
+		//if v.SslCrl != nil {
+		//	s.D.Set("ssl_crl", *v.SslCrl)
+		//}
 
 		if v.SslKeySecretId != nil {
 			s.D.Set("ssl_key_secret_id", *v.SslKeySecretId)
@@ -3811,17 +3811,17 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		s.D.Set("security_protocol", v.SecurityProtocol)
 
-		if v.SslCa != nil {
-			s.D.Set("ssl_ca", *v.SslCa)
-		}
-
-		if v.SslCert != nil {
-			s.D.Set("ssl_cert", *v.SslCert)
-		}
-
-		if v.SslCrl != nil {
-			s.D.Set("ssl_crl", *v.SslCrl)
-		}
+		//if v.SslCa != nil {
+		//	s.D.Set("ssl_ca", *v.SslCa)
+		//}
+		//
+		//if v.SslCert != nil {
+		//	s.D.Set("ssl_cert", *v.SslCert)
+		//}
+		//
+		//if v.SslCrl != nil {
+		//	s.D.Set("ssl_crl", *v.SslCrl)
+		//}
 
 		if v.SslKeySecretId != nil {
 			s.D.Set("ssl_key_secret_id", *v.SslKeySecretId)
