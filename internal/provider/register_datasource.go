@@ -6,7 +6,6 @@ package provider
 import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	tf_adm "github.com/oracle/terraform-provider-oci/internal/service/adm"
-	tf_ai_anomaly_detection "github.com/oracle/terraform-provider-oci/internal/service/ai_anomaly_detection"
 	tf_ai_document "github.com/oracle/terraform-provider-oci/internal/service/ai_document"
 	tf_ai_language "github.com/oracle/terraform-provider-oci/internal/service/ai_language"
 	tf_ai_vision "github.com/oracle/terraform-provider-oci/internal/service/ai_vision"
@@ -138,9 +137,6 @@ import (
 func init() {
 	if common.CheckForEnabledServices("adm") {
 		tf_adm.RegisterDatasource()
-	}
-	if common.CheckForEnabledServices("aianomalydetection") {
-		tf_ai_anomaly_detection.RegisterDatasource()
 	}
 	if common.CheckForEnabledServices("aidocument") {
 		tf_ai_document.RegisterDatasource()
