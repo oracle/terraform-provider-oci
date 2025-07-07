@@ -19,14 +19,17 @@ type ProcessorTypeEnum string
 // Set of constants representing the allowable values for ProcessorTypeEnum
 const (
 	ProcessorTypeGeneral ProcessorTypeEnum = "GENERAL"
+	ProcessorTypeInvoice ProcessorTypeEnum = "INVOICE"
 )
 
 var mappingProcessorTypeEnum = map[string]ProcessorTypeEnum{
 	"GENERAL": ProcessorTypeGeneral,
+	"INVOICE": ProcessorTypeInvoice,
 }
 
 var mappingProcessorTypeEnumLowerCase = map[string]ProcessorTypeEnum{
 	"general": ProcessorTypeGeneral,
+	"invoice": ProcessorTypeInvoice,
 }
 
 // GetProcessorTypeEnumValues Enumerates the set of values for ProcessorTypeEnum
@@ -42,6 +45,7 @@ func GetProcessorTypeEnumValues() []ProcessorTypeEnum {
 func GetProcessorTypeEnumStringValues() []string {
 	return []string{
 		"GENERAL",
+		"INVOICE",
 	}
 }
 

@@ -2,12 +2,12 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// OpenSearch Service API
+// Document Understanding API
 //
-// The OpenSearch service API provides access to OCI Search Service with OpenSearch.
+// Document AI helps customers perform various analysis on their documents. If a customer has lots of documents, they can process them in batch using asynchronous API endpoints.
 //
 
-package opensearch
+package aidocument
 
 import (
 	"fmt"
@@ -15,24 +15,21 @@ import (
 	"strings"
 )
 
-// OpensearchPipelineValidationResponse Details for validation of customer input pipeline configuration.
-type OpensearchPipelineValidationResponse struct {
+// NormalizationFieldsMapValue Object for the value in the NormalizationFields map
+type NormalizationFieldsMapValue struct {
 
-	// An array of errors in the pipeline configuration which is given for validation.
-	Errors []PipelineValidationErrorDetails `mandatory:"true" json:"errors"`
-
-	// Boolean value which tells us if the pipeline configuration given by user is valid or not.
-	IsValid *bool `mandatory:"true" json:"isValid"`
+	// A string mapping to the normalization type.
+	NormalizationType *string `mandatory:"false" json:"normalizationType"`
 }
 
-func (m OpensearchPipelineValidationResponse) String() string {
+func (m NormalizationFieldsMapValue) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m OpensearchPipelineValidationResponse) ValidateEnumValue() (bool, error) {
+func (m NormalizationFieldsMapValue) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
