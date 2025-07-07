@@ -40,6 +40,24 @@ func ManagementDashboardManagementDashboardsImportResource() *schema.Resource {
 				ForceNew:      true,
 				ConflictsWith: []string{"import_details_file"},
 			},
+			"override_dashboard_compartment_ocid": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"override_same_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"override_saved_search_compartment_ocid": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 		},
 	}
 }
@@ -84,6 +102,23 @@ func (s *ManagementDashboardManagementDashboardsImportResourceCrud) Create() err
 		request.ManagementDashboardImportDetails = importDetailsObj
 	}
 
+	if overrideDashboardCompartmentOcid, ok := s.D.GetOkExists("override_dashboard_compartment_ocid"); ok {
+		tmp := overrideDashboardCompartmentOcid.(string)
+		request.OverrideDashboardCompartmentOcid = &tmp
+	}
+
+	if overrideSameName, ok := s.D.GetOkExists("override_same_name"); ok {
+		tmp := overrideSameName.(string)
+		request.OverrideSameName = &tmp
+	}
+
+	if overrideSavedSearchCompartmentOcid, ok := s.D.GetOkExists("override_saved_search_compartment_ocid"); ok {
+		tmp := overrideSavedSearchCompartmentOcid.(string)
+		request.OverrideSavedSearchCompartmentOcid = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "management_dashboard")
+
 	if importDetailsFilePath, ok := s.D.GetOkExists("import_details_file"); ok {
 		flag = true
 		importDetailsFileData, err := ioutil.ReadFile(importDetailsFilePath.(string))
@@ -105,9 +140,10 @@ func (s *ManagementDashboardManagementDashboardsImportResourceCrud) Create() err
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "management_dashboard")
 
-	_, err := s.Client.ImportDashboard(context.Background(), request)
+	response, err := s.Client.ImportDashboard(context.Background(), request)
 	if err != nil {
-		return err
+		return fmt.Errorf("response: %s \n error: %s", response, err)
+
 	}
 
 	return nil

@@ -23,8 +23,9 @@ Here's an example of how you can use CLI to import:
 ```hcl
 resource "oci_management_dashboard_management_dashboards_import" "test_management_dashboards_import" {
 	#Optional
-	import_details = var.sample_import_details
-	import_details_file = var.sample_import_details_file_path
+	override_dashboard_compartment_ocid = var.management_dashboards_import_override_dashboard_compartment_ocid
+	override_same_name = var.management_dashboards_import_override_same_name
+	override_saved_search_compartment_ocid = var.management_dashboards_import_override_saved_search_compartment_ocid
 }
 ```
 
@@ -32,8 +33,11 @@ resource "oci_management_dashboard_management_dashboards_import" "test_managemen
 
 The following arguments are supported:
 
-* `import_details` - (Optional) Array of Dashboards to import. The `import_details` is mandatory if `import_details_path` is not passed. Value should be stringified JSON of [ManagementDashboardImportDetails](https://docs.cloud.oracle.com/en-us/iaas/api/#/en/managementdashboard/20200901/ManagementDashboardImportDetails/)
-* `import_details_path` - (Optional) Array of Dashboards to import. The `import_details_path` is mandatory if `import_details` is not passed. Value should be the path to the JSON file containing [ManagementDashboardImportDetails](https://docs.cloud.oracle.com/en-us/iaas/api/#/en/managementdashboard/20200901/ManagementDashboardImportDetails/)
+
+* `override_dashboard_compartment_ocid` - (Optional) If this attribute is set, the dashboard resources are created or updated in the compartment specified by OCID. If this attribute is not set, the compartment specified in the JSON metadata is used. 
+* `override_same_name` - (Optional) By default, if a resource with the same OCID exists in the target compartment, it is updated during the import process, otherwise, a new resource is created. However, if this attribute is set to true, then during the import process if a resource with the same displayName exists in the compartment, then it is updated even if the OCIDs are different. This is useful when importing the same resource multiple times. If the compartment and displayName remain the same, the resource is only updated and multiple copies of a resource are not created. 
+* `override_saved_search_compartment_ocid` - (Optional) If this attribute is set, the saved search resources are created or updated in the compartment specified by OCID. If this attribute is not set, the compartment specified in the JSON metadata is used. 
+
 
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
