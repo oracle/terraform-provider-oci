@@ -1,4 +1,14 @@
-## 7.8.0 (Unreleased)
+## 7.9.0 (Unreleased)
+
+### Added
+Added - Support for OSP OCI integration service: Fraud changes
+Support for GenAI Agents Tools API
+Support for BDS - Automatic Replacement of failed Master (MN0/MN1) and Utility nodes (UN0/UN1)
+### Bug Fix
+OS Management Hub: unregister managed instance on resource deletion
+To support TF import of KMS vault replica.
+
+## 7.8.0 (July 5, 2025)
 
 ### Added
 - Support for [Elastic Pool Support for Child Tenancies] Terraform Support in Prod Region ADB-S: Elastic Pool Support for Child Tenancies
@@ -10,7 +20,7 @@
 - Support for MultiCloud Data Plane Integration for Database services dbmulticloud changes
 ### Bug Fix
 - Corrected Cloud Database Management Integration Test and added Example Test
-## 7.7.0 (Unreleased)
+## 7.7.0 (June 24, 2025)
 
 ### Added
 - Support for BYoIPv6 support on LBaaS (API ONLY Release)
