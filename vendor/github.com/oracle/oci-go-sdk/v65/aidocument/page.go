@@ -40,6 +40,15 @@ type Page struct {
 
 	// The form fields detected on the page.
 	DocumentFields []DocumentField `mandatory:"false" json:"documentFields"`
+
+	// The signatures detected on the page.
+	Signatures []Signature `mandatory:"false" json:"signatures"`
+
+	// The bar codes detected on the page.
+	BarCodes []BarCode `mandatory:"false" json:"barCodes"`
+
+	// The checkboxes and selection marks detected on the page.
+	SelectionMarks []SelectionMark `mandatory:"false" json:"selectionMarks"`
 }
 
 func (m Page) String() string {

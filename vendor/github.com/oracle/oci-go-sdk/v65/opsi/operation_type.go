@@ -84,6 +84,9 @@ const (
 	OperationTypeChangeMacsManagedCloudDatabaseInsightConnectionDetails OperationTypeEnum = "CHANGE_MACS_MANAGED_CLOUD_DATABASE_INSIGHT_CONNECTION_DETAILS"
 	OperationTypeTestMacsManagedCloudDatabaseInsightConnectionDetails   OperationTypeEnum = "TEST_MACS_MANAGED_CLOUD_DATABASE_INSIGHT_CONNECTION_DETAILS"
 	OperationTypeChangeExternalMysqlDatabaseInsightConnectionDetails    OperationTypeEnum = "CHANGE_EXTERNAL_MYSQL_DATABASE_INSIGHT_CONNECTION_DETAILS"
+	OperationTypeChangeMacsManagedAdbConnectionDetails                  OperationTypeEnum = "CHANGE_MACS_MANAGED_ADB_CONNECTION_DETAILS"
+	OperationTypeTestMacsManagedAdbConnectionDetails                    OperationTypeEnum = "TEST_MACS_MANAGED_ADB_CONNECTION_DETAILS"
+	OperationTypeSynchronizeAutonomousDatabaseToExadata                 OperationTypeEnum = "SYNCHRONIZE_AUTONOMOUS_DATABASE_TO_EXADATA"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -151,6 +154,9 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"CHANGE_MACS_MANAGED_CLOUD_DATABASE_INSIGHT_CONNECTION_DETAILS": OperationTypeChangeMacsManagedCloudDatabaseInsightConnectionDetails,
 	"TEST_MACS_MANAGED_CLOUD_DATABASE_INSIGHT_CONNECTION_DETAILS":   OperationTypeTestMacsManagedCloudDatabaseInsightConnectionDetails,
 	"CHANGE_EXTERNAL_MYSQL_DATABASE_INSIGHT_CONNECTION_DETAILS":     OperationTypeChangeExternalMysqlDatabaseInsightConnectionDetails,
+	"CHANGE_MACS_MANAGED_ADB_CONNECTION_DETAILS":                    OperationTypeChangeMacsManagedAdbConnectionDetails,
+	"TEST_MACS_MANAGED_ADB_CONNECTION_DETAILS":                      OperationTypeTestMacsManagedAdbConnectionDetails,
+	"SYNCHRONIZE_AUTONOMOUS_DATABASE_TO_EXADATA":                    OperationTypeSynchronizeAutonomousDatabaseToExadata,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -218,6 +224,9 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"change_macs_managed_cloud_database_insight_connection_details": OperationTypeChangeMacsManagedCloudDatabaseInsightConnectionDetails,
 	"test_macs_managed_cloud_database_insight_connection_details":   OperationTypeTestMacsManagedCloudDatabaseInsightConnectionDetails,
 	"change_external_mysql_database_insight_connection_details":     OperationTypeChangeExternalMysqlDatabaseInsightConnectionDetails,
+	"change_macs_managed_adb_connection_details":                    OperationTypeChangeMacsManagedAdbConnectionDetails,
+	"test_macs_managed_adb_connection_details":                      OperationTypeTestMacsManagedAdbConnectionDetails,
+	"synchronize_autonomous_database_to_exadata":                    OperationTypeSynchronizeAutonomousDatabaseToExadata,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -296,6 +305,9 @@ func GetOperationTypeEnumStringValues() []string {
 		"CHANGE_MACS_MANAGED_CLOUD_DATABASE_INSIGHT_CONNECTION_DETAILS",
 		"TEST_MACS_MANAGED_CLOUD_DATABASE_INSIGHT_CONNECTION_DETAILS",
 		"CHANGE_EXTERNAL_MYSQL_DATABASE_INSIGHT_CONNECTION_DETAILS",
+		"CHANGE_MACS_MANAGED_ADB_CONNECTION_DETAILS",
+		"TEST_MACS_MANAGED_ADB_CONNECTION_DETAILS",
+		"SYNCHRONIZE_AUTONOMOUS_DATABASE_TO_EXADATA",
 	}
 }
 

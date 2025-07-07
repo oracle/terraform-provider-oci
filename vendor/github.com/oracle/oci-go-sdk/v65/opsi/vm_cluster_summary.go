@@ -31,6 +31,12 @@ type VmClusterSummary struct {
 
 	// The number of DB nodes on a VM Cluster.
 	DbNodesCount *int `mandatory:"false" json:"dbNodesCount"`
+
+	// The storage allocated on a VM Cluster.
+	StorageAllocatedInGBs *int `mandatory:"false" json:"storageAllocatedInGBs"`
+
+	// The OCID of the VM Cluster.
+	VmClusterId *string `mandatory:"false" json:"vmClusterId"`
 }
 
 func (m VmClusterSummary) String() string {
