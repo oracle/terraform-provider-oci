@@ -203,6 +203,10 @@ const (
 	SummarizeSqlInsightsDatabaseTypeComanagedExaccNoncdb SummarizeSqlInsightsDatabaseTypeEnum = "COMANAGED-EXACC-NONCDB"
 	SummarizeSqlInsightsDatabaseTypeMdsMysql             SummarizeSqlInsightsDatabaseTypeEnum = "MDS-MYSQL"
 	SummarizeSqlInsightsDatabaseTypeExternalMysql        SummarizeSqlInsightsDatabaseTypeEnum = "EXTERNAL-MYSQL"
+	SummarizeSqlInsightsDatabaseTypeAtpExacc             SummarizeSqlInsightsDatabaseTypeEnum = "ATP-EXACC"
+	SummarizeSqlInsightsDatabaseTypeAdwExacc             SummarizeSqlInsightsDatabaseTypeEnum = "ADW-EXACC"
+	SummarizeSqlInsightsDatabaseTypeExternalAdw          SummarizeSqlInsightsDatabaseTypeEnum = "EXTERNAL-ADW"
+	SummarizeSqlInsightsDatabaseTypeExternalAtp          SummarizeSqlInsightsDatabaseTypeEnum = "EXTERNAL-ATP"
 )
 
 var mappingSummarizeSqlInsightsDatabaseTypeEnum = map[string]SummarizeSqlInsightsDatabaseTypeEnum{
@@ -226,6 +230,10 @@ var mappingSummarizeSqlInsightsDatabaseTypeEnum = map[string]SummarizeSqlInsight
 	"COMANAGED-EXACC-NONCDB": SummarizeSqlInsightsDatabaseTypeComanagedExaccNoncdb,
 	"MDS-MYSQL":              SummarizeSqlInsightsDatabaseTypeMdsMysql,
 	"EXTERNAL-MYSQL":         SummarizeSqlInsightsDatabaseTypeExternalMysql,
+	"ATP-EXACC":              SummarizeSqlInsightsDatabaseTypeAtpExacc,
+	"ADW-EXACC":              SummarizeSqlInsightsDatabaseTypeAdwExacc,
+	"EXTERNAL-ADW":           SummarizeSqlInsightsDatabaseTypeExternalAdw,
+	"EXTERNAL-ATP":           SummarizeSqlInsightsDatabaseTypeExternalAtp,
 }
 
 var mappingSummarizeSqlInsightsDatabaseTypeEnumLowerCase = map[string]SummarizeSqlInsightsDatabaseTypeEnum{
@@ -249,6 +257,10 @@ var mappingSummarizeSqlInsightsDatabaseTypeEnumLowerCase = map[string]SummarizeS
 	"comanaged-exacc-noncdb": SummarizeSqlInsightsDatabaseTypeComanagedExaccNoncdb,
 	"mds-mysql":              SummarizeSqlInsightsDatabaseTypeMdsMysql,
 	"external-mysql":         SummarizeSqlInsightsDatabaseTypeExternalMysql,
+	"atp-exacc":              SummarizeSqlInsightsDatabaseTypeAtpExacc,
+	"adw-exacc":              SummarizeSqlInsightsDatabaseTypeAdwExacc,
+	"external-adw":           SummarizeSqlInsightsDatabaseTypeExternalAdw,
+	"external-atp":           SummarizeSqlInsightsDatabaseTypeExternalAtp,
 }
 
 // GetSummarizeSqlInsightsDatabaseTypeEnumValues Enumerates the set of values for SummarizeSqlInsightsDatabaseTypeEnum
@@ -283,6 +295,10 @@ func GetSummarizeSqlInsightsDatabaseTypeEnumStringValues() []string {
 		"COMANAGED-EXACC-NONCDB",
 		"MDS-MYSQL",
 		"EXTERNAL-MYSQL",
+		"ATP-EXACC",
+		"ADW-EXACC",
+		"EXTERNAL-ADW",
+		"EXTERNAL-ATP",
 	}
 }
 
