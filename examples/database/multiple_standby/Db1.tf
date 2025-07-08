@@ -8,7 +8,7 @@ variable "ssh_public_key" {
 }
 
 provider "oci" {
-    version          = "0.0.0"
+#     version          = "0.0.0"
 }
 
 data "oci_identity_availability_domains" "ADs" {
@@ -176,6 +176,8 @@ resource "oci_database_database" "primary_database" {
     character_set  = "AL32UTF8"
     ncharacter_set = "AL16UTF16"
     db_workload    = "OLTP"
+    defined_tags     = map("example-tag-namespace-all.example-tag", "databaseDefinedTags1")
+    freeform_tags    = {"databaseFreeformTagsK" = "databaseFreeformTagsV"}
   }
 
   db_home_id = oci_database_db_home.test_db_home.id

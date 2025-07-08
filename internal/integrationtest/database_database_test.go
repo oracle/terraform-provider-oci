@@ -403,6 +403,8 @@ var (
 		"db_unique_name": acctest.Representation{RepType: acctest.Optional, Create: `iDbTest_77`},
 		"ncharacter_set": acctest.Representation{RepType: acctest.Optional, Create: `AL16UTF16`},
 		"sid_prefix":     acctest.Representation{RepType: acctest.Optional, Create: `myTestDb`},
+		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: map[string]map[string]string{"Oracle-Tags": {"CreatedBy": "definedTags"}}},
+		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}},
 	}
 
 	databaseMultipleStandbyDb2Representation = map[string]interface{}{
@@ -414,6 +416,8 @@ var (
 		"source_tde_wallet_password": acctest.Representation{RepType: acctest.Optional, Create: `BEstrO0ng_#11`},
 		"protection_mode":            acctest.Representation{RepType: acctest.Optional, Create: `MAXIMUM_PERFORMANCE`},
 		"transport_type":             acctest.Representation{RepType: acctest.Optional, Create: `ASYNC`},
+		"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]map[string]string{"Oracle-Tags": {"CreatedBy": "definedTags"}}},
+		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}},
 	}
 
 	dbHomeHsmRepresentation = map[string]interface{}{
@@ -1074,9 +1078,13 @@ func TestDatabaseDatabaseResource_multipleStandby(t *testing.T) {
 				resource.TestCheckResourceAttr(primaryDatabase, "database.0.db_name", "myTestDb"),
 				resource.TestCheckResourceAttrSet(primaryDatabase, "db_home_id"),
 				resource.TestCheckResourceAttr(primaryDatabase, "source", "NONE"),
+				resource.TestCheckResourceAttrSet(primaryDatabase, "defined_tags"),
+				resource.TestCheckResourceAttrSet(primaryDatabase, "freeform_tags"),
 				resource.TestCheckResourceAttr(standbyDatabase, "database.#", "1"),
 				resource.TestCheckResourceAttr(standbyDatabase, "database.0.db_name", "myTestDb"),
 				resource.TestCheckResourceAttrSet(standbyDatabase, "db_home_id"),
+				resource.TestCheckResourceAttrSet(standbyDatabase, "defined_tags"),
+				resource.TestCheckResourceAttrSet(standbyDatabase, "freeform_tags"),
 				resource.TestCheckResourceAttr(standbyDatabase, "source", "DATAGUARD"),
 				resource.TestCheckResourceAttrSet(standbyDatabase, "data_guard_group.#"),
 				resource.TestCheckResourceAttr(standbyDatabase, "data_guard_group.0.protection_mode", "MAXIMUM_PERFORMANCE"),
