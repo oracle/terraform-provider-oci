@@ -37,11 +37,20 @@ type CreateModelDetails struct {
 	// The model version
 	ModelVersion *string `mandatory:"false" json:"modelVersion"`
 
+	// Applicable to only PRE_TRAINED_KEY_VALUE_EXTRACTION, PRE_TRAINED_DOCUMENT_ELEMENTS_EXTRACTION.
+	ModelSubType ModelSubType `mandatory:"false" json:"modelSubType"`
+
+	// Number of replicas required for this model.
+	InferenceUnits *int `mandatory:"false" json:"inferenceUnits"`
+
 	// Set to true when experimenting with a new model type or dataset, so the model training is quick, with a predefined low number of passes through the training data.
 	IsQuickMode *bool `mandatory:"false" json:"isQuickMode"`
 
 	// The maximum model training time in hours, expressed as a decimal fraction.
 	MaxTrainingTimeInHours *float64 `mandatory:"false" json:"maxTrainingTimeInHours"`
+
+	// The document language for model training, abbreviated according to the BCP 47 syntax.
+	Language *string `mandatory:"false" json:"language"`
 
 	TrainingDataset Dataset `mandatory:"false" json:"trainingDataset"`
 
@@ -89,8 +98,11 @@ func (m *CreateModelDetails) UnmarshalJSON(data []byte) (e error) {
 		DisplayName            *string                           `json:"displayName"`
 		Description            *string                           `json:"description"`
 		ModelVersion           *string                           `json:"modelVersion"`
+		ModelSubType           modelsubtype                      `json:"modelSubType"`
+		InferenceUnits         *int                              `json:"inferenceUnits"`
 		IsQuickMode            *bool                             `json:"isQuickMode"`
 		MaxTrainingTimeInHours *float64                          `json:"maxTrainingTimeInHours"`
+		Language               *string                           `json:"language"`
 		TrainingDataset        dataset                           `json:"trainingDataset"`
 		TestingDataset         dataset                           `json:"testingDataset"`
 		ValidationDataset      dataset                           `json:"validationDataset"`
@@ -114,9 +126,23 @@ func (m *CreateModelDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.ModelVersion = model.ModelVersion
 
+	nn, e = model.ModelSubType.UnmarshalPolymorphicJSON(model.ModelSubType.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ModelSubType = nn.(ModelSubType)
+	} else {
+		m.ModelSubType = nil
+	}
+
+	m.InferenceUnits = model.InferenceUnits
+
 	m.IsQuickMode = model.IsQuickMode
 
 	m.MaxTrainingTimeInHours = model.MaxTrainingTimeInHours
+
+	m.Language = model.Language
 
 	nn, e = model.TrainingDataset.UnmarshalPolymorphicJSON(model.TrainingDataset.JsonData)
 	if e != nil {

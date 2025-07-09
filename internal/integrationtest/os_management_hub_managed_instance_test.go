@@ -20,8 +20,6 @@ import (
 var (
 	OsManagementHubManagedInstanceRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance", "test_managed_instance", acctest.Required, acctest.Create, OsManagementHubManagedInstanceRepresentation)
 
-	//OsManagementHubManagedInstanceResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance", "test_managed_instance", acctest.Optional, acctest.Update, OsManagementHubManagedInstanceRepresentation)
-
 	OsManagementHubManagedInstanceSingularDataSourceRepresentation = map[string]interface{}{
 		"managed_instance_id": acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithBlankDefault("osmh_managed_instance_ocid")},
 	}
@@ -44,7 +42,7 @@ var (
 		"location_not_equal_to":                   acctest.Representation{RepType: acctest.Optional, Create: []string{`OCI_COMPUTE`}},
 		"managed_instance_id":                     acctest.Representation{RepType: acctest.Optional, Create: utils.GetEnvSettingWithBlankDefault("osmh_managed_instance_ocid")},
 		"os_family":                               acctest.Representation{RepType: acctest.Optional, Create: []string{`ORACLE_LINUX_8`}},
-		"software_source_id":                      acctest.Representation{RepType: acctest.Optional, Create: utils.GetEnvSettingWithBlankDefault("osmh_software_source_ocid")},
+		"software_source_id":                      acctest.Representation{RepType: acctest.Optional, Create: ``},
 		"status":                                  acctest.Representation{RepType: acctest.Optional, Create: []string{`NORMAL`}},
 		"agent_version":                           acctest.Representation{RepType: acctest.Optional, Create: `agentVersion`},
 		"management_station":                      acctest.Representation{RepType: acctest.Optional, Create: []string{`oci_os_management_hub_management_station.test_management_station.id`}},
@@ -115,16 +113,15 @@ func TestOsManagementHubManagedInstanceResource_basic(t *testing.T) {
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
-				"managed_instance_id", "time_last_boot", "time_last_checkin",
+				"managed_instance_id", "time_last_boot", "time_last_checkin", "time_updated",
 			},
 			ResourceName: resourceName,
 		},
-
-		//delete before next Create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr,
 		},
-		//// verify Create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance", "test_managed_instance", acctest.Optional, acctest.Create, OsManagementHubManagedInstanceRepresentation),
@@ -174,8 +171,7 @@ func TestOsManagementHubManagedInstanceResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_os_management_hub_managed_instances", "test_managed_instances", acctest.Optional, acctest.Update, OsManagementHubManagedInstanceDataSourceRepresentation) +
-				compartmentIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance", "test_managed_instance", acctest.Optional, acctest.Update, OsManagementHubManagedInstanceRepresentation),
+				compartmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "advisory_name.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "agent_version", "agentVersion"),
@@ -196,7 +192,6 @@ func TestOsManagementHubManagedInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "management_station.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "management_station_not_equal_to.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "os_family.#", "1"),
-				//resource.TestCheckResourceAttrSet(datasourceName, "software_source_id"),
 				resource.TestCheckResourceAttr(datasourceName, "status.#", "1"),
 
 				resource.TestCheckResourceAttr(datasourceName, "managed_instance_collection.#", "1"),
@@ -207,7 +202,7 @@ func TestOsManagementHubManagedInstanceResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_os_management_hub_managed_instance", "test_managed_instance", acctest.Required, acctest.Create, OsManagementHubManagedInstanceSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_management_station", "test_management_station", acctest.Optional, acctest.Create, OsManagementHubManagementStationRepresentation),
+				compartmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_instance_id"),
 

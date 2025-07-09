@@ -60,6 +60,7 @@ resource "oci_osp_gateway_subscription" "test_subscription" {
 		currency_code = var.subscription_subscription_currency_code
 		gsi_org_code = var.subscription_subscription_gsi_org_code
 		id = var.subscription_subscription_id
+		is_corporate_conversion_allowed = var.subscription_subscription_is_corporate_conversion_allowed
 		is_intent_to_pay = var.subscription_subscription_is_intent_to_pay
 		language_code = var.subscription_subscription_language_code
 		organization_id = oci_osp_gateway_organization.test_organization.id
@@ -151,6 +152,7 @@ The following arguments are supported:
 	* `currency_code` - (Optional) (Updatable) Currency code
 	* `gsi_org_code` - (Optional) (Updatable) GSI Subscription external code.
 	* `id` - (Optional) (Updatable) Subscription id identifier (OCID).
+	* `is_corporate_conversion_allowed` - (Optional) (Updatable) Corporate conversion allowed status
 	* `is_intent_to_pay` - (Optional) (Updatable) Payment intension.
 	* `language_code` - (Optional) (Updatable) Language short code (en, de, hu, etc)
 	* `organization_id` - (Optional) (Updatable) GSI organization external identifier.
@@ -227,6 +229,7 @@ The following attributes are exported:
 * `currency_code` - Currency code
 * `gsi_org_code` - GSI Subscription external code.
 * `id` - Subscription id identifier (OCID).
+* `is_corporate_conversion_allowed` - Corporate conversion allowed status
 * `is_intent_to_pay` - Payment intension.
 * `language_code` - Language short code (en, de, hu, etc)
 * `organization_id` - GSI organization external identifier.

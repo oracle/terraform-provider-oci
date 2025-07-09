@@ -104,6 +104,10 @@ func (s *OspGatewaySubscriptionDataSourceCrud) SetData() error {
 		s.D.Set("gsi_org_code", *s.Res.GsiOrgCode)
 	}
 
+	if s.Res.IsCorporateConversionAllowed != nil {
+		s.D.Set("is_corporate_conversion_allowed", *s.Res.IsCorporateConversionAllowed)
+	}
+
 	if s.Res.IsIntentToPay != nil {
 		s.D.Set("is_intent_to_pay", *s.Res.IsIntentToPay)
 	}

@@ -21,6 +21,12 @@ type DocumentTextExtractionFeature struct {
 
 	// Whether or not to generate a searchable PDF file.
 	GenerateSearchablePdf *bool `mandatory:"false" json:"generateSearchablePdf"`
+
+	// Unique identifier custom model OCID that should be used for inference.
+	ModelId *string `mandatory:"false" json:"modelId"`
+
+	// Whether checkbox detection feature is enabled or disabled.
+	SelectionMarkDetection *bool `mandatory:"false" json:"selectionMarkDetection"`
 }
 
 func (m DocumentTextExtractionFeature) String() string {
