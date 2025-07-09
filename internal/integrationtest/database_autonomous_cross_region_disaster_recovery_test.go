@@ -146,7 +146,6 @@ func TestDatabaseCrossRegionDisasterRecovery_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "remote_disaster_recovery_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "remote_disaster_recovery_configuration.0.disaster_recovery_type", drTypeADG),
 					resource.TestCheckResourceAttr(resourceName, "source_id", primaryId),
-					resource.TestCheckResourceAttr(resourceName, "dataguard_region_type", "REMOTE_STANDBY_DG_REGION"),
 					resource.TestCheckResourceAttr(resourceName, "role", "STANDBY"),
 					resource.TestCheckResourceAttr(resourceName, "peer_db_ids.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "peer_db_ids.0", primaryId),
@@ -192,7 +191,6 @@ func TestDatabaseCrossRegionDisasterRecovery_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "remote_disaster_recovery_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "remote_disaster_recovery_configuration.0.disaster_recovery_type", drTypeADG),
 					resource.TestCheckResourceAttr(resourceName, "source_id", primaryId),
-					resource.TestCheckResourceAttr(resourceName, "dataguard_region_type", "REMOTE_STANDBY_DG_REGION"),
 					resource.TestCheckResourceAttr(resourceName, "role", "STANDBY"),
 					resource.TestCheckResourceAttr(resourceName, "peer_db_ids.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "peer_db_ids.0", primaryId),
@@ -242,7 +240,6 @@ func TestDatabaseCrossRegionDisasterRecovery_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "remote_disaster_recovery_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "remote_disaster_recovery_configuration.0.disaster_recovery_type", drTypeBackupBased),
 					resource.TestCheckResourceAttr(resourceName, "source_id", primaryId),
-					resource.TestCheckResourceAttr(resourceName, "dataguard_region_type", "REMOTE_STANDBY_DG_REGION"),
 					resource.TestCheckResourceAttr(resourceName, "role", "BACKUP_COPY"),
 					resource.TestCheckResourceAttr(resourceName, "peer_db_ids.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "peer_db_ids.0", primaryId),
@@ -292,7 +289,6 @@ func TestDatabaseCrossRegionDisasterRecovery_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "remote_disaster_recovery_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "remote_disaster_recovery_configuration.0.disaster_recovery_type", drTypeADG),
 					resource.TestCheckResourceAttr(resourceName, "source_id", primaryId),
-					resource.TestCheckResourceAttr(resourceName, "dataguard_region_type", "REMOTE_STANDBY_DG_REGION"),
 					resource.TestCheckResourceAttr(resourceName, "role", "STANDBY"),
 					resource.TestCheckResourceAttr(resourceName, "peer_db_ids.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "peer_db_ids.0", primaryId),
@@ -338,7 +334,6 @@ func TestDatabaseCrossRegionDisasterRecovery_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
 					resource.TestCheckResourceAttr(resourceName, "source", "CROSS_REGION_DISASTER_RECOVERY"),
 					resource.TestCheckResourceAttr(resourceName, "source_id", primaryId),
-					resource.TestCheckResourceAttr(resourceName, "dataguard_region_type", "REMOTE_STANDBY_DG_REGION"),
 					resource.TestCheckResourceAttr(resourceName, "role", "SNAPSHOT_STANDBY"),
 					resource.TestCheckResourceAttr(resourceName, "peer_db_ids.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "peer_db_ids.0", primaryId),
@@ -384,7 +379,6 @@ func TestDatabaseCrossRegionDisasterRecovery_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
 					resource.TestCheckResourceAttr(resourceName, "source", "CROSS_REGION_DISASTER_RECOVERY"),
 					resource.TestCheckResourceAttr(resourceName, "source_id", primaryId),
-					resource.TestCheckResourceAttr(resourceName, "dataguard_region_type", "REMOTE_STANDBY_DG_REGION"),
 					resource.TestCheckResourceAttr(resourceName, "role", "STANDBY"),
 					resource.TestCheckResourceAttr(resourceName, "peer_db_ids.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "peer_db_ids.0", primaryId),
@@ -432,7 +426,6 @@ func TestDatabaseCrossRegionDisasterRecovery_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "remote_disaster_recovery_configuration.0.disaster_recovery_type", drTypeADG),
 					resource.TestCheckResourceAttr(resourceName, "remote_disaster_recovery_configuration.0.is_replicate_automatic_backups", "true"),
 					resource.TestCheckResourceAttr(resourceName, "source_id", primaryId),
-					resource.TestCheckResourceAttr(resourceName, "dataguard_region_type", "REMOTE_STANDBY_DG_REGION"),
 					resource.TestCheckResourceAttr(resourceName, "role", "STANDBY"),
 					resource.TestCheckResourceAttr(resourceName, "peer_db_ids.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "peer_db_ids.0", primaryId),
@@ -476,7 +469,6 @@ func TestDatabaseCrossRegionDisasterRecovery_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "remote_disaster_recovery_configuration.0.is_replicate_automatic_backups", "false"),
 					resource.TestCheckResourceAttr(resourceName, "source", "CROSS_REGION_DISASTER_RECOVERY"),
 					resource.TestCheckResourceAttr(resourceName, "source_id", primaryId),
-					resource.TestCheckResourceAttr(resourceName, "dataguard_region_type", "REMOTE_STANDBY_DG_REGION"),
 					resource.TestCheckResourceAttr(resourceName, "role", "STANDBY"),
 					resource.TestCheckResourceAttr(resourceName, "peer_db_ids.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "peer_db_ids.0", primaryId),
@@ -502,6 +494,182 @@ func TestDatabaseCrossRegionDisasterRecovery_basic(t *testing.T) {
 	//Resetting region and source_region after test
 	os.Setenv("TF_VAR_region", initialRegion)
 	os.Setenv("TF_VAR_source_region", initialSourceRegion)
+}
+
+// issue-routing-tag: database/dbaas-adb
+func TestDatabaseCrossRegionDisasterRecovery_updateOpsi(t *testing.T) {
+	//Storing region and source_region for reset after test completes
+	initialRegion := "us-ashburn-1"
+	initialSourceRegion := "us-phoenix-1"
+
+	//Hard coding the region as fake CrossRegion standbys can only be created in ashburn, make them to env variable if in future other regions are also supported
+	os.Setenv("TF_VAR_region", "us-ashburn-1")
+	os.Setenv("TF_VAR_source_region", "us-phoenix-1")
+
+	currentRegion := os.Getenv("TF_VAR_region")
+	sourceRegion := os.Getenv("TF_VAR_source_region")
+
+	if currentRegion != "us-ashburn-1" || sourceRegion == "" {
+		t.Skip("Skipping TestDatabaseCrossRegionDisasterRecovery_basic test.\n" +
+			"Current TF_VAR_region=" + currentRegion + ", expected us-ashburn-1.\n" +
+			"Current TF_VAR_source_region=" + sourceRegion + ", expected not to be empty.")
+	}
+
+	httpreplay.SetScenario("TestDatabaseCrossRegionDisasterRecovery_basic1")
+	defer httpreplay.SaveScenario()
+
+	provider := acctest.TestAccProvider
+	config := acctest.ProviderTestConfig()
+	isSnapshotStandbyT := new(bool)
+	isSnapshotStandbyF := new(bool)
+	*isSnapshotStandbyT = true
+	*isSnapshotStandbyF = false
+	isReplicateBackupsEnabledT := new(bool)
+	isReplicateBackupsEnabledF := new(bool)
+	*isReplicateBackupsEnabledT = true
+	*isReplicateBackupsEnabledF = false
+
+	err := createPrimaryAdbInProvidedRegion(sourceRegion)
+	if err != nil {
+		t.Fatalf("Unable to create cross region primary ADB. Error: %v", err)
+	}
+
+	drStandbyAutonomousDatabaseRepresentation = acctest.RepresentationCopyWithNewProperties(
+		drPrimaryAutonomousDatabaseRepresentation,
+		map[string]interface{}{
+			"source_id":                     acctest.Representation{RepType: acctest.Optional, Create: primaryId},
+			"db_name":                       acctest.Representation{RepType: acctest.Optional, Create: primaryDbName},
+			"remote_disaster_recovery_type": acctest.Representation{RepType: acctest.Optional, Create: `ADG`},
+		})
+
+	standbyAutonomousDatabaseConfig := acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create, drStandbyAutonomousDatabaseRepresentation)
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_database_autonomous_database.test_autonomous_database"
+
+	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+StandbyDrAutonomousDatabaseResourceDependencies+standbyAutonomousDatabaseConfig, "database", "autonomousDatabase", t)
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { acctest.TestAccPreCheck(t) },
+		Providers: map[string]*schema.Provider{
+			"oci": provider,
+		},
+		Steps: []resource.TestStep{
+			//0. create dependencies
+			{
+				Config: config + compartmentIdVariableStr + StandbyDrAutonomousDatabaseResourceDependencies,
+			},
+			//1. create standby adb ADG
+			{
+				Config: config + compartmentIdVariableStr + StandbyDrAutonomousDatabaseResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
+						acctest.RepresentationCopyWithNewProperties(drStandbyAutonomousDatabaseRepresentation, map[string]interface{}{
+							"remote_disaster_recovery_configuration": acctest.Representation{RepType: acctest.Optional, Create: remoteDisasterRecoveryConfigurationRepresentationADG},
+						})),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "state", "STANDBY"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+					resource.TestCheckResourceAttr(resourceName, "db_name", primaryDbName),
+					resource.TestCheckResourceAttr(resourceName, "db_version", "19c"),
+					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
+					resource.TestCheckResourceAttr(resourceName, "license_model", "BRING_YOUR_OWN_LICENSE"),
+					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+					resource.TestCheckResourceAttr(resourceName, "source", "CROSS_REGION_DISASTER_RECOVERY"),
+					resource.TestCheckResourceAttr(resourceName, "remote_disaster_recovery_configuration.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "remote_disaster_recovery_configuration.0.disaster_recovery_type", drTypeADG),
+					resource.TestCheckResourceAttr(resourceName, "source_id", primaryId),
+					resource.TestCheckResourceAttr(resourceName, "role", "STANDBY"),
+					resource.TestCheckResourceAttr(resourceName, "peer_db_ids.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "peer_db_ids.0", primaryId),
+
+					func(s *terraform.State) (err error) {
+						resId, err = acctest.FromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+			//2. Updating Standby to new value
+			{
+				PreConfig: func() {
+					acctest.WaitTillCondition(acctest.TestAccProvider, &primaryId, adbWaitTillLifecycleStateAvailableCondition, 10*time.Minute,
+						getAdbFromSourceRegion, "database", true)()
+					acctest.WaitTillCondition(acctest.TestAccProvider, &resId2, adbWaitTillLifecycleStateStandbyCondition, 10*time.Minute,
+						getAdbFromCurrentRegion, "database", true)()
+				},
+				Config: config + compartmentIdVariableStr + StandbyDrAutonomousDatabaseResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
+						acctest.RepresentationCopyWithNewProperties(drStandbyAutonomousDatabaseRepresentation, map[string]interface{}{
+							"operations_insights_status": acctest.Representation{RepType: acctest.Required, Create: `ENABLED`, Update: `ENABLED`},
+						})),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "state", "STANDBY"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+					resource.TestCheckResourceAttr(resourceName, "db_name", primaryDbName),
+					resource.TestCheckResourceAttr(resourceName, "db_version", "19c"),
+					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
+					resource.TestCheckResourceAttr(resourceName, "license_model", "BRING_YOUR_OWN_LICENSE"),
+					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+					resource.TestCheckResourceAttr(resourceName, "source", "CROSS_REGION_DISASTER_RECOVERY"),
+					resource.TestCheckResourceAttr(resourceName, "remote_disaster_recovery_configuration.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "source_id", primaryId),
+					resource.TestCheckResourceAttr(resourceName, "role", "STANDBY"),
+					resource.TestCheckResourceAttr(resourceName, "peer_db_ids.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "peer_db_ids.0", primaryId),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+			//3. Delete this standby
+			{
+				Config: config + compartmentIdVariableStr + StandbyDrAutonomousDatabaseResourceDependencies,
+			},
+
+			{
+				PreConfig: func() {
+					acctest.WaitTillCondition(acctest.TestAccProvider, &primaryId, adbWaitTillLifecycleStateAvailableCondition, 10*time.Minute,
+						getAdbFromSourceRegion, "database", true)()
+					err := deletePrimaryAdbPrimaryAdbInProvidedRegion(sourceRegion)
+					if err != nil {
+						t.Fatalf("Unable to update cross region primary ADB. Error: %v", err)
+					}
+				},
+				Config: config + compartmentIdVariableStr + StandbyDrAutonomousDatabaseResourceDependencies,
+			},
+		},
+	})
+
+	//Resetting region and source_region after test
+	os.Setenv("TF_VAR_region", initialRegion)
+	os.Setenv("TF_VAR_source_region", initialSourceRegion)
+}
+
+func deletePrimaryAdbPrimaryAdbInProvidedRegion(region string) error {
+	acctest.WaitTillCondition(acctest.TestAccProvider, &primaryId, adbWaitTillLifecycleStateAvailableCondition, 10*time.Minute,
+		getAdbFromSourceRegion, "database", true)()
+	err := deleteAdbInRegion(acctest.GetTestClients(&schema.ResourceData{}), region, primaryId)
+	if err != nil {
+		log.Printf("[WARN] failed to update cross region primary ADB with the error %v", err)
+		return err
+	}
+	return nil
 }
 
 func createPrimaryAdbInProvidedRegion(region string) error {

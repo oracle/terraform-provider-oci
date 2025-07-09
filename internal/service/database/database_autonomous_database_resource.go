@@ -1806,6 +1806,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) UpdatedPending() []string {
 func (s *DatabaseAutonomousDatabaseResourceCrud) UpdatedTarget() []string {
 	return []string{
 		string(oci_database.AutonomousDatabaseLifecycleStateAvailable),
+		string(oci_database.AutonomousDatabaseLifecycleStateStandby),
 	}
 }
 
@@ -2334,7 +2335,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		}
 	}
 
-	if secretId, ok := s.D.GetOkExists("secret_id"); ok && s.D.HasChange("secret_id") {
+	if secretId, ok := s.D.GetOkExists("secret_id"); ok && s.D.HasChange("secret_id") || s.D.HasChange("secret_version_number") {
 		tmp := secretId.(string)
 		request.SecretId = &tmp
 		if _, ok := s.D.GetOkExists("freeform_tags"); ok && !s.D.HasChange("freeform_tags") {
