@@ -102,6 +102,8 @@ func (s *GenerativeAiAgentDataSourceDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	s.D.Set("metadata", s.Res.Metadata)
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SystemTags != nil {

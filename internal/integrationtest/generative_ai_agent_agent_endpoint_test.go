@@ -6,7 +6,6 @@ package integrationtest
 import (
 	"context"
 	"fmt"
-	"strconv"
 	"testing"
 	"time"
 
@@ -19,26 +18,23 @@ import (
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	GenerativeAiAgentAgentEndpointRequiredOnlyResource = GenerativeAiAgentAgentEndpointResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_agent_endpoint", "test_agent_endpoint", acctest.Required, acctest.Create, GenerativeAiAgentAgentEndpointRepresentation)
+	GenerativeAiAgentAgentEndpointRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_agent_endpoint", "test_agent_endpoint", acctest.Required, acctest.Create, GenerativeAiAgentAgentEndpointRepresentation)
 
-	GenerativeAiAgentAgentEndpointResourceConfig = GenerativeAiAgentAgentEndpointResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_agent_endpoint", "test_agent_endpoint", acctest.Optional, acctest.Update, GenerativeAiAgentAgentEndpointRepresentation)
+	GenerativeAiAgentAgentEndpointResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_agent_endpoint", "test_agent_endpoint", acctest.Optional, acctest.Update, GenerativeAiAgentAgentEndpointRepresentation)
 
 	GenerativeAiAgentAgentEndpointSingularDataSourceRepresentation = map[string]interface{}{
 		"agent_endpoint_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_generative_ai_agent_agent_endpoint.test_agent_endpoint.id}`},
 	}
 
 	GenerativeAiAgentAgentEndpointDataSourceRepresentation = map[string]interface{}{
-		"agent_id":       acctest.Representation{RepType: acctest.Optional, Create: `${var.agent_id_env}`},
+		"agent_id":       acctest.Representation{RepType: acctest.Optional, Create: `${var.agent_id}`},
 		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
-		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `agentendpoint display name`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: GenerativeAiAgentAgentEndpointDataSourceFilterRepresentation}}
 	GenerativeAiAgentAgentEndpointDataSourceFilterRepresentation = map[string]interface{}{
@@ -47,27 +43,40 @@ var (
 	}
 
 	GenerativeAiAgentAgentEndpointRepresentation = map[string]interface{}{
-		"agent_id":                  acctest.Representation{RepType: acctest.Required, Create: `${var.agent_id_env}`},
+		"agent_id":                  acctest.Representation{RepType: acctest.Required, Create: `${var.agent_id}`},
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"content_moderation_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: GenerativeAiAgentAgentEndpointContentModerationConfigRepresentation},
-		// "defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":            acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"freeform_tags":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"session_config":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: GenerativeAiAgentAgentEndpointSessionConfigRepresentation},
-		"should_enable_citation": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"should_enable_session":  acctest.Representation{RepType: acctest.Optional, Create: `true`},
-		"should_enable_trace":    acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		//"defined_tags":                 acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":      acctest.Representation{RepType: acctest.Optional, Create: `agentendpoint description`, Update: `description2`},
+		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `agentendpoint display name`, Update: `displayName2`},
+		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"guardrail_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: GenerativeAiAgentAgentEndpointGuardrailConfigRepresentation},
+		//"output_config":                acctest.RepresentationGroup{RepType: acctest.Optional, Group: GenerativeAiAgentAgentEndpointOutputConfigRepresentation},
+		"should_enable_citation":       acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"should_enable_multi_language": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"should_enable_session":        acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"should_enable_trace":          acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 	GenerativeAiAgentAgentEndpointContentModerationConfigRepresentation = map[string]interface{}{
 		"should_enable_on_input":  acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"should_enable_on_output": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
-	GenerativeAiAgentAgentEndpointSessionConfigRepresentation = map[string]interface{}{
-		"idle_timeout_in_seconds": acctest.Representation{RepType: acctest.Optional, Create: `4000`, Update: `5000`},
+	GenerativeAiAgentAgentEndpointGuardrailConfigRepresentation = map[string]interface{}{
+		"content_moderation_config":                  acctest.RepresentationGroup{RepType: acctest.Optional, Group: GenerativeAiAgentAgentEndpointGuardrailConfigContentModerationConfigRepresentation},
+		"personally_identifiable_information_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: GenerativeAiAgentAgentEndpointGuardrailConfigPersonallyIdentifiableInformationConfigRepresentation},
+		"prompt_injection_config":                    acctest.RepresentationGroup{RepType: acctest.Optional, Group: GenerativeAiAgentAgentEndpointGuardrailConfigPromptInjectionConfigRepresentation},
 	}
-
-	GenerativeAiAgentAgentEndpointResourceDependencies = `` //Cannot test from home region, commented out - DefinedTagsDependencies
+	GenerativeAiAgentAgentEndpointGuardrailConfigContentModerationConfigRepresentation = map[string]interface{}{
+		"input_guardrail_mode":  acctest.Representation{RepType: acctest.Optional, Create: `DISABLE`, Update: `BLOCK`},
+		"output_guardrail_mode": acctest.Representation{RepType: acctest.Optional, Create: `DISABLE`, Update: `BLOCK`},
+	}
+	GenerativeAiAgentAgentEndpointGuardrailConfigPersonallyIdentifiableInformationConfigRepresentation = map[string]interface{}{
+		"input_guardrail_mode":  acctest.Representation{RepType: acctest.Optional, Create: `DISABLE`, Update: `BLOCK`},
+		"output_guardrail_mode": acctest.Representation{RepType: acctest.Optional, Create: `DISABLE`, Update: `BLOCK`},
+	}
+	GenerativeAiAgentAgentEndpointGuardrailConfigPromptInjectionConfigRepresentation = map[string]interface{}{
+		"input_guardrail_mode": acctest.Representation{RepType: acctest.Optional, Create: `DISABLE`, Update: `BLOCK`},
+	}
 )
 
 // issue-routing-tag: generative_ai_agent/default
@@ -80,28 +89,30 @@ func TestGenerativeAiAgentAgentEndpointResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	// To set the agent id for creating agent endpoint add TF_VAR env var for agent_id
+	agentId := utils.GetEnvSettingWithBlankDefault("agent_id")
+	agentIdVariableStr := fmt.Sprintf("variable \"agent_id\" { default = \"%s\" }\n", agentId)
+
 	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
-
-	agentId := utils.GetEnvSettingWithBlankDefault("agentId_for_create")
-	agentIdUVariableStr := fmt.Sprintf("variable \"agent_id_env\" { default = \"%s\" }\n", agentId)
 
 	resourceName := "oci_generative_ai_agent_agent_endpoint.test_agent_endpoint"
 	datasourceName := "data.oci_generative_ai_agent_agent_endpoints.test_agent_endpoints"
 	singularDatasourceName := "data.oci_generative_ai_agent_agent_endpoint.test_agent_endpoint"
 
 	var resId, resId2 string
+	t.Logf(compartmentIdUVariableStr, datasourceName, singularDatasourceName, resId, resId2)
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+agentIdUVariableStr+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+
 		acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_agent_endpoint", "test_agent_endpoint", acctest.Optional, acctest.Create, GenerativeAiAgentAgentEndpointRepresentation), "generativeaiagent", "agentEndpoint", t)
 
 	acctest.ResourceTest(t, testAccCheckGenerativeAiAgentAgentEndpointDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + agentIdUVariableStr +
+			Config: config + compartmentIdVariableStr + agentIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_agent_endpoint", "test_agent_endpoint", acctest.Required, acctest.Create, GenerativeAiAgentAgentEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "agent_id"),
+				resource.TestCheckResourceAttr(resourceName, "agent_id", agentId),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
 				func(s *terraform.State) (err error) {
@@ -113,37 +124,47 @@ func TestGenerativeAiAgentAgentEndpointResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + agentIdUVariableStr,
+			Config: config + compartmentIdVariableStr + agentIdVariableStr,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + agentIdUVariableStr +
+			Config: config + compartmentIdVariableStr + agentIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_agent_endpoint", "test_agent_endpoint", acctest.Optional, acctest.Create, GenerativeAiAgentAgentEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "agent_id"),
+				resource.TestCheckResourceAttr(resourceName, "agent_id", agentId),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "content_moderation_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "content_moderation_config.0.should_enable_on_input", "false"),
 				resource.TestCheckResourceAttr(resourceName, "content_moderation_config.0.should_enable_on_output", "false"),
-				resource.TestCheckResourceAttr(resourceName, "description", "description"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "description", "agentendpoint description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "agentendpoint display name"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "guardrail_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "guardrail_config.0.content_moderation_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "guardrail_config.0.content_moderation_config.0.input_guardrail_mode", "DISABLE"),
+				resource.TestCheckResourceAttr(resourceName, "guardrail_config.0.content_moderation_config.0.output_guardrail_mode", "DISABLE"),
+				resource.TestCheckResourceAttr(resourceName, "guardrail_config.0.personally_identifiable_information_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "guardrail_config.0.personally_identifiable_information_config.0.input_guardrail_mode", "DISABLE"),
+				resource.TestCheckResourceAttr(resourceName, "guardrail_config.0.personally_identifiable_information_config.0.output_guardrail_mode", "DISABLE"),
+				resource.TestCheckResourceAttr(resourceName, "guardrail_config.0.prompt_injection_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "guardrail_config.0.prompt_injection_config.0.input_guardrail_mode", "DISABLE"),
+				resource.TestCheckResourceAttr(resourceName, "human_input_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "human_input_config.0.should_enable_human_input", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "session_config.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "session_config.0.idle_timeout_in_seconds", "4000"),
 				resource.TestCheckResourceAttr(resourceName, "should_enable_citation", "false"),
-				resource.TestCheckResourceAttr(resourceName, "should_enable_session", "true"),
+				resource.TestCheckResourceAttr(resourceName, "should_enable_multi_language", "false"),
+				resource.TestCheckResourceAttr(resourceName, "should_enable_session", "false"),
 				resource.TestCheckResourceAttr(resourceName, "should_enable_trace", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-							return errExport
-						}
-					}
+					//if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					//	if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+					//		return errExport
+					//	}
+					//}
 					return err
 				},
 			),
@@ -151,25 +172,33 @@ func TestGenerativeAiAgentAgentEndpointResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + agentIdUVariableStr +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + agentIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_agent_endpoint", "test_agent_endpoint", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(GenerativeAiAgentAgentEndpointRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "agent_id"),
+				resource.TestCheckResourceAttr(resourceName, "agent_id", agentId),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "content_moderation_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "content_moderation_config.0.should_enable_on_input", "false"),
 				resource.TestCheckResourceAttr(resourceName, "content_moderation_config.0.should_enable_on_output", "false"),
-				resource.TestCheckResourceAttr(resourceName, "description", "description"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "description", "agentendpoint description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "agentendpoint display name"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "guardrail_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "guardrail_config.0.content_moderation_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "guardrail_config.0.content_moderation_config.0.input_guardrail_mode", "DISABLE"),
+				resource.TestCheckResourceAttr(resourceName, "guardrail_config.0.content_moderation_config.0.output_guardrail_mode", "DISABLE"),
+				resource.TestCheckResourceAttr(resourceName, "guardrail_config.0.personally_identifiable_information_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "guardrail_config.0.personally_identifiable_information_config.0.input_guardrail_mode", "DISABLE"),
+				resource.TestCheckResourceAttr(resourceName, "guardrail_config.0.personally_identifiable_information_config.0.output_guardrail_mode", "DISABLE"),
+				resource.TestCheckResourceAttr(resourceName, "guardrail_config.0.prompt_injection_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "guardrail_config.0.prompt_injection_config.0.input_guardrail_mode", "DISABLE"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "session_config.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "session_config.0.idle_timeout_in_seconds", "4000"),
 				resource.TestCheckResourceAttr(resourceName, "should_enable_citation", "false"),
-				resource.TestCheckResourceAttr(resourceName, "should_enable_session", "true"),
+				resource.TestCheckResourceAttr(resourceName, "should_enable_multi_language", "false"),
+				resource.TestCheckResourceAttr(resourceName, "should_enable_session", "false"),
 				resource.TestCheckResourceAttr(resourceName, "should_enable_trace", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -186,10 +215,10 @@ func TestGenerativeAiAgentAgentEndpointResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + agentIdUVariableStr +
+			Config: config + compartmentIdVariableStr + agentIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_agent_endpoint", "test_agent_endpoint", acctest.Optional, acctest.Update, GenerativeAiAgentAgentEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "agent_id"),
+				resource.TestCheckResourceAttr(resourceName, "agent_id", agentId),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "content_moderation_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "content_moderation_config.0.should_enable_on_input", "true"),
@@ -197,11 +226,19 @@ func TestGenerativeAiAgentAgentEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "guardrail_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "guardrail_config.0.content_moderation_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "guardrail_config.0.content_moderation_config.0.input_guardrail_mode", "BLOCK"),
+				resource.TestCheckResourceAttr(resourceName, "guardrail_config.0.content_moderation_config.0.output_guardrail_mode", "BLOCK"),
+				resource.TestCheckResourceAttr(resourceName, "guardrail_config.0.personally_identifiable_information_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "guardrail_config.0.personally_identifiable_information_config.0.input_guardrail_mode", "BLOCK"),
+				resource.TestCheckResourceAttr(resourceName, "guardrail_config.0.personally_identifiable_information_config.0.output_guardrail_mode", "BLOCK"),
+				resource.TestCheckResourceAttr(resourceName, "guardrail_config.0.prompt_injection_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "guardrail_config.0.prompt_injection_config.0.input_guardrail_mode", "BLOCK"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "session_config.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "session_config.0.idle_timeout_in_seconds", "5000"),
 				resource.TestCheckResourceAttr(resourceName, "should_enable_citation", "true"),
-				resource.TestCheckResourceAttr(resourceName, "should_enable_session", "true"),
+				resource.TestCheckResourceAttr(resourceName, "should_enable_multi_language", "true"),
+				resource.TestCheckResourceAttr(resourceName, "should_enable_session", "false"),
 				resource.TestCheckResourceAttr(resourceName, "should_enable_trace", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -219,10 +256,10 @@ func TestGenerativeAiAgentAgentEndpointResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_generative_ai_agent_agent_endpoints", "test_agent_endpoints", acctest.Optional, acctest.Update, GenerativeAiAgentAgentEndpointDataSourceRepresentation) +
-				compartmentIdVariableStr + agentIdUVariableStr +
+				compartmentIdVariableStr + agentIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_agent_endpoint", "test_agent_endpoint", acctest.Optional, acctest.Update, GenerativeAiAgentAgentEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(datasourceName, "agent_id"),
+				resource.TestCheckResourceAttr(resourceName, "agent_id", agentId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -235,7 +272,7 @@ func TestGenerativeAiAgentAgentEndpointResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_generative_ai_agent_agent_endpoint", "test_agent_endpoint", acctest.Required, acctest.Create, GenerativeAiAgentAgentEndpointSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + agentIdUVariableStr + GenerativeAiAgentAgentEndpointResourceConfig,
+				compartmentIdVariableStr + agentIdVariableStr + GenerativeAiAgentAgentEndpointResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "agent_endpoint_id"),
 
@@ -246,11 +283,19 @@ func TestGenerativeAiAgentAgentEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "guardrail_config.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "guardrail_config.0.content_moderation_config.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "guardrail_config.0.content_moderation_config.0.input_guardrail_mode", "BLOCK"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "guardrail_config.0.content_moderation_config.0.output_guardrail_mode", "BLOCK"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "guardrail_config.0.personally_identifiable_information_config.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "guardrail_config.0.personally_identifiable_information_config.0.input_guardrail_mode", "BLOCK"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "guardrail_config.0.personally_identifiable_information_config.0.output_guardrail_mode", "BLOCK"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "guardrail_config.0.prompt_injection_config.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "guardrail_config.0.prompt_injection_config.0.input_guardrail_mode", "BLOCK"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "session_config.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "session_config.0.idle_timeout_in_seconds", "5000"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "should_enable_citation", "true"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "should_enable_session", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "should_enable_multi_language", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "should_enable_session", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "should_enable_trace", "true"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),

@@ -68,6 +68,7 @@ The following attributes are exported:
 * `currency_code` - Currency code
 * `gsi_org_code` - GSI Subscription external code.
 * `id` - Subscription id identifier (OCID).
+* `is_corporate_conversion_allowed` - Corporate conversion allowed status
 * `is_intent_to_pay` - Payment intension.
 * `language_code` - Language short code (en, de, hu, etc)
 * `organization_id` - GSI organization external identifier.
