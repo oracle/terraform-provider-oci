@@ -1,4 +1,4 @@
-## 7.9.0 (Unreleased)
+## 7.9.0 (July 09, 2025)
 
 ### Added
 Added - Support for OSP OCI integration service: Fraud changes
