@@ -152,6 +152,14 @@ func (s *DatabaseDbSystemsDataSourceCrud) SetData() error {
 			dbSystem["cpu_core_count"] = *r.CpuCoreCount
 		}
 
+		if r.ClusterPlacementGroupId != nil {
+			dbSystem["cluster_placement_group_id"] = *r.ClusterPlacementGroupId
+		}
+
+		if r.SubscriptionId != nil {
+			dbSystem["subscription_id"] = *r.SubscriptionId
+		}
+
 		if r.DataCollectionOptions != nil {
 			dbSystem["data_collection_options"] = []interface{}{DataCollectionOptionsToMap(r.DataCollectionOptions)}
 		} else {
