@@ -42,18 +42,71 @@ func ApmConfigConfigResource() *schema.Resource {
 				Required:         true,
 				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 				ValidateFunc: validation.StringInSlice([]string{
+					"AGENT",
 					"APDEX",
+					"MACS_APM_EXTENSION",
 					"METRIC_GROUP",
 					"OPTIONS",
 					"SPAN_FILTER",
 				}, true),
 			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
 
 			// Optional
+			"agent_version": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"attach_install_dir": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"config_map": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"file_name": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Optional
+									"body": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"content_type": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+
+						// Computed
+					},
+				},
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -90,6 +143,11 @@ func ApmConfigConfigResource() *schema.Resource {
 					},
 				},
 			},
+			"display_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"filter_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -110,6 +168,18 @@ func ApmConfigConfigResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"management_agent_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"match_agents_with_attribute_value": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"metrics": {
 				Type:     schema.TypeList,
@@ -161,6 +231,55 @@ func ApmConfigConfigResource() *schema.Resource {
 				Computed:         true,
 				DiffSuppressFunc: tfresource.JsonStringDiffSuppressFunction,
 			},
+			"overrides": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"override_list": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"agent_filter": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"override_map": {
+										Type:     schema.TypeMap,
+										Optional: true,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
+
+									// Computed
+								},
+							},
+						},
+
+						// Computed
+					},
+				},
+			},
+			"process_filter": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"rules": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -210,6 +329,16 @@ func ApmConfigConfigResource() *schema.Resource {
 					},
 				},
 			},
+			"run_as_user": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"service_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"created_by": {
@@ -248,6 +377,13 @@ func ApmConfigConfigResource() *schema.Resource {
 							Computed: true,
 						},
 					},
+				},
+			},
+			"match_agents_with_attribute_key": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
 				},
 			},
 			"time_created": {
@@ -390,7 +526,56 @@ func (s *ApmConfigConfigResourceCrud) Delete() error {
 
 func (s *ApmConfigConfigResourceCrud) SetData() error {
 
+	s.D.Set("process_filter", nil)
+	s.D.Set("match_agents_with_attribute_key", nil)
+
 	switch v := (*s.Res).(type) {
+	case oci_apm_config.AgentConfig:
+		s.D.Set("config_type", "AGENT")
+
+		if v.Config != nil {
+			s.D.Set("config", []interface{}{AgentConfigMapToMap(v.Config)})
+		} else {
+			s.D.Set("config", nil)
+		}
+
+		s.D.Set("match_agents_with_attribute_key", v.MatchAgentsWithAttributeKey)
+
+		if v.MatchAgentsWithAttributeValue != nil {
+			s.D.Set("match_agents_with_attribute_value", *v.MatchAgentsWithAttributeValue)
+		}
+
+		if v.Overrides != nil {
+			s.D.Set("overrides", []interface{}{AgentConfigOverridesToMap(v.Overrides)})
+		} else {
+			s.D.Set("overrides", nil)
+		}
+
+		if v.CreatedBy != nil {
+			s.D.Set("created_by", *v.CreatedBy)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Etag != nil {
+			s.D.Set("etag", *v.Etag)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.UpdatedBy != nil {
+			s.D.Set("updated_by", *v.UpdatedBy)
+		}
 	case oci_apm_config.ApdexRules:
 		s.D.Set("config_type", "APDEX")
 
@@ -414,6 +599,60 @@ func (s *ApmConfigConfigResourceCrud) SetData() error {
 
 		if v.DisplayName != nil {
 			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.Etag != nil {
+			s.D.Set("etag", *v.Etag)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.UpdatedBy != nil {
+			s.D.Set("updated_by", *v.UpdatedBy)
+		}
+	case oci_apm_config.MacsApmExtension:
+		s.D.Set("config_type", "MACS_APM_EXTENSION")
+
+		if v.AgentVersion != nil {
+			s.D.Set("agent_version", *v.AgentVersion)
+		}
+
+		if v.AttachInstallDir != nil {
+			s.D.Set("attach_install_dir", *v.AttachInstallDir)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.ManagementAgentId != nil {
+			s.D.Set("management_agent_id", *v.ManagementAgentId)
+		}
+
+		s.D.Set("process_filter", v.ProcessFilter)
+
+		if v.RunAsUser != nil {
+			s.D.Set("run_as_user", *v.RunAsUser)
+		}
+
+		if v.ServiceName != nil {
+			s.D.Set("service_name", *v.ServiceName)
+		}
+
+		if v.CreatedBy != nil {
+			s.D.Set("created_by", *v.CreatedBy)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
 		}
 
 		if v.Etag != nil {
@@ -617,6 +856,107 @@ func parseConfigCompositeId(compositeId string) (configId string, apmDomainId st
 	return
 }
 
+func (s *ApmConfigConfigResourceCrud) mapToAgentConfigMap(fieldKeyFormat string) (oci_apm_config.AgentConfigMap, error) {
+	result := oci_apm_config.AgentConfigMap{}
+	result.ConfigMap = make(map[string]oci_apm_config.AgentConfigFile)
+
+	if configMap, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "config_map")); ok {
+		for _, row := range configMap.([]interface{}) {
+			rowMap := tfresource.ObjectMapToStringMap(row.(map[string]interface{}))
+			rowFileName := rowMap["file_name"]
+			rowContentType := rowMap["content_type"]
+			rowBody := rowMap["body"]
+			result.ConfigMap[rowFileName] = oci_apm_config.AgentConfigFile{ContentType: &rowContentType, Body: &rowBody}
+		}
+	}
+
+	return result, nil
+}
+
+func AgentConfigMapToMap(obj *oci_apm_config.AgentConfigMap) map[string]interface{} {
+	result := map[string]interface{}{}
+	var resultConfigMap []interface{}
+
+	configMap := obj.ConfigMap
+
+	for fileName := range configMap {
+		body := configMap[fileName].Body
+		contentType := configMap[fileName].ContentType
+		temp := map[string]string{
+			"file_name":    fileName,
+			"body":         *body,
+			"content_type": *contentType,
+		}
+
+		resultConfigMap = append(resultConfigMap, temp)
+	}
+
+	result["config_map"] = resultConfigMap
+	return result
+}
+
+func (s *ApmConfigConfigResourceCrud) mapToAgentConfigOverride(fieldKeyFormat string) (oci_apm_config.AgentConfigOverride, error) {
+	result := oci_apm_config.AgentConfigOverride{}
+
+	if agentFilter, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "agent_filter")); ok {
+		tmp := agentFilter.(string)
+		result.AgentFilter = &tmp
+	}
+
+	if overrideMap, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "override_map")); ok {
+		result.OverrideMap = tfresource.ObjectMapToStringMap(overrideMap.(map[string]interface{}))
+	}
+
+	return result, nil
+}
+
+func AgentConfigOverrideToMap(obj oci_apm_config.AgentConfigOverride) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AgentFilter != nil {
+		result["agent_filter"] = string(*obj.AgentFilter)
+	}
+
+	result["override_map"] = obj.OverrideMap
+
+	return result
+}
+
+func (s *ApmConfigConfigResourceCrud) mapToAgentConfigOverrides(fieldKeyFormat string) (oci_apm_config.AgentConfigOverrides, error) {
+	result := oci_apm_config.AgentConfigOverrides{}
+
+	if overrideList, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "override_list")); ok {
+		interfaces := overrideList.([]interface{})
+		tmp := make([]oci_apm_config.AgentConfigOverride, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "override_list"), stateDataIndex)
+			converted, err := s.mapToAgentConfigOverride(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "override_list")) {
+			result.OverrideList = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func AgentConfigOverridesToMap(obj *oci_apm_config.AgentConfigOverrides) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	overrideList := []interface{}{}
+	for _, item := range obj.OverrideList {
+		overrideList = append(overrideList, AgentConfigOverrideToMap(item))
+	}
+	result["override_list"] = overrideList
+
+	return result
+}
+
 func (s *ApmConfigConfigResourceCrud) mapToApdex(fieldKeyFormat string) (oci_apm_config.Apdex, error) {
 	result := oci_apm_config.Apdex{}
 
@@ -714,6 +1054,22 @@ func ConfigSummaryToMap(obj oci_apm_config.ConfigSummary) map[string]interface{}
 	}
 
 	switch v := (obj).(type) {
+	case oci_apm_config.AgentConfigSummary:
+		result["config_type"] = "AGENT"
+
+		if v.Config != nil {
+			result["config"] = []interface{}{AgentConfigMapToMap(v.Config)}
+		}
+
+		result["match_agents_with_attribute_key"] = v.MatchAgentsWithAttributeKey
+
+		if v.MatchAgentsWithAttributeValue != nil {
+			result["match_agents_with_attribute_value"] = string(*v.MatchAgentsWithAttributeValue)
+		}
+
+		if v.Overrides != nil {
+			result["overrides"] = []interface{}{AgentConfigOverridesToMap(v.Overrides)}
+		}
 	case oci_apm_config.ApdexRulesSummary:
 		result["config_type"] = "APDEX"
 
@@ -726,6 +1082,34 @@ func ConfigSummaryToMap(obj oci_apm_config.ConfigSummary) map[string]interface{}
 			rules = append(rules, ApdexToMap(item))
 		}
 		result["rules"] = rules
+	case oci_apm_config.MacsApmExtensionSummary:
+		result["config_type"] = "MACS_APM_EXTENSION"
+
+		if v.AgentVersion != nil {
+			result["agent_version"] = string(*v.AgentVersion)
+		}
+
+		if v.AttachInstallDir != nil {
+			result["attach_install_dir"] = string(*v.AttachInstallDir)
+		}
+
+		if v.DisplayName != nil {
+			result["display_name"] = string(*v.DisplayName)
+		}
+
+		if v.ManagementAgentId != nil {
+			result["management_agent_id"] = string(*v.ManagementAgentId)
+		}
+
+		result["process_filter"] = v.ProcessFilter
+
+		if v.RunAsUser != nil {
+			result["run_as_user"] = string(*v.RunAsUser)
+		}
+
+		if v.ServiceName != nil {
+			result["service_name"] = string(*v.ServiceName)
+		}
 	case oci_apm_config.MetricGroupSummary:
 		result["config_type"] = "METRIC_GROUP"
 
@@ -928,6 +1312,51 @@ func (s *ApmConfigConfigResourceCrud) populateTopLevelPolymorphicCreateConfigReq
 		configType = "" // default value
 	}
 	switch strings.ToLower(configType) {
+	case strings.ToLower("AGENT"):
+		details := oci_apm_config.CreateAgentConfigDetails{}
+		if config, ok := s.D.GetOkExists("config"); ok {
+			if tmpList := config.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "config", 0)
+				tmp, err := s.mapToAgentConfigMap(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.Config = &tmp
+			}
+		}
+		if matchAgentsWithAttributeValue, ok := s.D.GetOkExists("match_agents_with_attribute_value"); ok {
+			tmp := matchAgentsWithAttributeValue.(string)
+			details.MatchAgentsWithAttributeValue = &tmp
+		}
+		if overrides, ok := s.D.GetOkExists("overrides"); ok {
+			if tmpList := overrides.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "overrides", 0)
+				tmp, err := s.mapToAgentConfigOverrides(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.Overrides = &tmp
+			}
+		}
+		if apmDomainId, ok := s.D.GetOkExists("apm_domain_id"); ok {
+			tmp := apmDomainId.(string)
+			request.ApmDomainId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if opcDryRun, ok := s.D.GetOkExists("opc_dry_run"); ok {
+			tmp := opcDryRun.(string)
+			request.OpcDryRun = &tmp
+		}
+		request.CreateConfigDetails = details
 	case strings.ToLower("APDEX"):
 		details := oci_apm_config.CreateApdexRulesDetails{}
 		if displayName, ok := s.D.GetOkExists("display_name"); ok {
@@ -949,6 +1378,67 @@ func (s *ApmConfigConfigResourceCrud) populateTopLevelPolymorphicCreateConfigReq
 			if len(tmp) != 0 || s.D.HasChange("rules") {
 				details.Rules = tmp
 			}
+		}
+		if apmDomainId, ok := s.D.GetOkExists("apm_domain_id"); ok {
+			tmp := apmDomainId.(string)
+			request.ApmDomainId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if opcDryRun, ok := s.D.GetOkExists("opc_dry_run"); ok {
+			tmp := opcDryRun.(string)
+			request.OpcDryRun = &tmp
+		}
+		request.CreateConfigDetails = details
+	case strings.ToLower("MACS_APM_EXTENSION"):
+		details := oci_apm_config.CreateMacsApmExtensionDetails{}
+		if agentVersion, ok := s.D.GetOkExists("agent_version"); ok {
+			tmp := agentVersion.(string)
+			details.AgentVersion = &tmp
+		}
+		if attachInstallDir, ok := s.D.GetOkExists("attach_install_dir"); ok {
+			tmp := attachInstallDir.(string)
+			details.AttachInstallDir = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if managementAgentId, ok := s.D.GetOkExists("management_agent_id"); ok {
+			tmp := managementAgentId.(string)
+			details.ManagementAgentId = &tmp
+		}
+		if processFilter, ok := s.D.GetOkExists("process_filter"); ok {
+			interfaces := processFilter.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("process_filter") {
+				details.ProcessFilter = tmp
+			}
+		}
+		if runAsUser, ok := s.D.GetOkExists("run_as_user"); ok {
+			tmp := runAsUser.(string)
+			details.RunAsUser = &tmp
+		}
+		if serviceName, ok := s.D.GetOkExists("service_name"); ok {
+			tmp := serviceName.(string)
+			details.ServiceName = &tmp
 		}
 		if apmDomainId, ok := s.D.GetOkExists("apm_domain_id"); ok {
 			tmp := apmDomainId.(string)
@@ -1156,6 +1646,47 @@ func (s *ApmConfigConfigResourceCrud) populateTopLevelPolymorphicUpdateConfigReq
 		log.Printf("[WARN] populateTopLevelPolymorphicUpdateConfigRequest() unable to parse current ID: %s", s.D.Id())
 	}
 	switch strings.ToLower(configType) {
+	case strings.ToLower("AGENT"):
+		details := oci_apm_config.UpdateAgentConfigDetails{}
+		if config, ok := s.D.GetOkExists("config"); ok {
+			if tmpList := config.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "config", 0)
+				tmp, err := s.mapToAgentConfigMap(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.Config = &tmp
+			}
+		}
+		if overrides, ok := s.D.GetOkExists("overrides"); ok {
+			if tmpList := overrides.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "overrides", 0)
+				tmp, err := s.mapToAgentConfigOverrides(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.Overrides = &tmp
+			}
+		}
+		if apmDomainId, ok := s.D.GetOkExists("apm_domain_id"); ok {
+			tmp := apmDomainId.(string)
+			request.ApmDomainId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if opcDryRun, ok := s.D.GetOkExists("opc_dry_run"); ok {
+			tmp := opcDryRun.(string)
+			request.OpcDryRun = &tmp
+		}
+		request.UpdateConfigDetails = details
 	case strings.ToLower("APDEX"):
 		details := oci_apm_config.UpdateApdexRulesDetails{}
 		if displayName, ok := s.D.GetOkExists("display_name"); ok {
@@ -1177,6 +1708,63 @@ func (s *ApmConfigConfigResourceCrud) populateTopLevelPolymorphicUpdateConfigReq
 			if len(tmp) != 0 || s.D.HasChange("rules") {
 				details.Rules = tmp
 			}
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if opcDryRun, ok := s.D.GetOkExists("opc_dry_run"); ok {
+			tmp := opcDryRun.(string)
+			request.OpcDryRun = &tmp
+		}
+		request.UpdateConfigDetails = details
+	case strings.ToLower("MACS_APM_EXTENSION"):
+		details := oci_apm_config.UpdateMacsApmExtensionDetails{}
+		if agentVersion, ok := s.D.GetOkExists("agent_version"); ok {
+			tmp := agentVersion.(string)
+			details.AgentVersion = &tmp
+		}
+		if attachInstallDir, ok := s.D.GetOkExists("attach_install_dir"); ok {
+			tmp := attachInstallDir.(string)
+			details.AttachInstallDir = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if processFilter, ok := s.D.GetOkExists("process_filter"); ok {
+			interfaces := processFilter.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("process_filter") {
+				details.ProcessFilter = tmp
+			}
+		}
+		if runAsUser, ok := s.D.GetOkExists("run_as_user"); ok {
+			tmp := runAsUser.(string)
+			details.RunAsUser = &tmp
+		}
+		if serviceName, ok := s.D.GetOkExists("service_name"); ok {
+			tmp := serviceName.(string)
+			details.ServiceName = &tmp
+		}
+		if apmDomainId, ok := s.D.GetOkExists("apm_domain_id"); ok {
+			tmp := apmDomainId.(string)
+			request.ApmDomainId = &tmp
 		}
 		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
