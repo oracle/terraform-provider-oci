@@ -468,6 +468,12 @@ func DatabaseDbSystemResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"cluster_placement_group_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"data_collection_options": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -765,6 +771,12 @@ func DatabaseDbSystemResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"storage_volume_performance_mode": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"subscription_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -1390,6 +1402,10 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 		s.D.Set("cluster_name", *s.Res.ClusterName)
 	}
 
+	if s.Res.ClusterPlacementGroupId != nil {
+		s.D.Set("cluster_placement_group_id", *s.Res.ClusterPlacementGroupId)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -1558,6 +1574,10 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.SubscriptionId != nil {
+		s.D.Set("subscription_id", *s.Res.SubscriptionId)
 	}
 
 	if s.Res.TimeZone != nil {
@@ -3180,6 +3200,10 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 			tmp := clusterName.(string)
 			details.ClusterName = &tmp
 		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -3333,6 +3357,10 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
 		}
 		if timeZone, ok := s.D.GetOkExists("time_zone"); ok {
 			tmp := timeZone.(string)

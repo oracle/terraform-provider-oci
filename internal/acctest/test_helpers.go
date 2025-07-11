@@ -768,6 +768,34 @@ default = "%s"
 
 variable "tag_namespace_name" {
 default = "%s"
+}
+
+variable "multicloud_tenancy_id" {
+default = "%s"
+}
+
+variable "multicloud_compartment_id" {
+default = "%s"
+}
+
+variable "multicloud_domain" {
+default = "%s"
+}
+
+variable "multicloud_nsg_id" {
+default = "%s"
+}
+
+variable "multicloud_subnet_id" {
+default = "%s"
+}
+
+variable "multicloud_subscription_id" {
+default = "%s"
+}
+
+variable "multicloud_cluster_placement_group_id" {
+default = "%s"
 }`,
 		getEnvSettingWithBlankDefaultVar("tenancy_ocid"),
 		getEnvSettingWithBlankDefaultVar("compartment_ocid"),
@@ -780,6 +808,13 @@ default = "%s"
 		getEnvSettingWithDefaultVar("ssl_secret_id", "test_secret_id"),
 		getEnvSettingWithBlankDefaultVar("admin_password"),
 		getEnvSettingWithDefaultVar("tag_namespace_name", "tfTagNamespace"),
+		getEnvSettingWithBlankDefaultVar("multicloud_tenancy_id"),
+		getEnvSettingWithBlankDefaultVar("multicloud_compartment_id"),
+		getEnvSettingWithBlankDefaultVar("multicloud_domain"),
+		getEnvSettingWithBlankDefaultVar("multicloud_nsg_id"),
+		getEnvSettingWithBlankDefaultVar("multicloud_subnet_id"),
+		getEnvSettingWithBlankDefaultVar("multicloud_subscription_id"),
+		getEnvSettingWithBlankDefaultVar("multicloud_cluster_placement_group_id"),
 	)
 }
 

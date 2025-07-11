@@ -637,6 +637,8 @@ func BuildConfigureClientFn(configProvider oci_common.ConfigurationProvider, htt
 
 	simulateDbForDbSystemUpgrade, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("simulate_db_db_system_upgrade", "false"))
 
+	OpcDryRun, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("opc_dry_run", "false"))
+
 	requestSigner := oci_common.DefaultRequestSigner(configProvider)
 	var oboTokenProvider OboTokenProvider
 	oboTokenProvider = emptyOboTokenProvider{}
@@ -675,6 +677,12 @@ func BuildConfigureClientFn(configProvider oci_common.ConfigurationProvider, htt
 					strings.Contains(r.URL.Path, "/externalpluggabledatabases") ||
 					strings.Contains(r.URL.Path, "/externaldatabaseconnectors")) {
 					r.Header.Set(globalvar.RequestHeaderOpcHostSerial, "FAKEHOSTSERIAL")
+				}
+			}
+
+			if OpcDryRun {
+				if r.Method == http.MethodPost || r.Method == http.MethodPut && (strings.Contains(r.URL.Path, "/dbSystems")) {
+					r.Header.Set(globalvar.RequestHeaderOpcDryRun, "true")
 				}
 			}
 
