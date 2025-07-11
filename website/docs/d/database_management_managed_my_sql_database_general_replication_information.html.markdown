@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_management_managed_my_sql_database_general_replication_information
 This data source provides details about a specific Managed My Sql Database General Replication Information resource in Oracle Cloud Infrastructure Database Management service.
 
-Retrieves general information regarding replication of a specific MySQL server.
+Retrieves general information regarding the replication of a specific MySQL server.
 
 
 ## Example Usage
@@ -35,14 +35,14 @@ The following attributes are exported:
 
 * `apply_status_summary` - A summary of the current status of apply operations.
 * `binary_log_format` - The binary logging format used by this server.
-* `binary_logging` - Status of binary logging on this server.
+* `binary_logging` - The status of binary logging on this server.
 * `executed_gtid_set` - The set of global transaction identifiers for transactions that have been executed on this source server.
 * `fetch_status_summary` - A summary of the current status of fetch operations.
-* `gtid_mode` - Global Transaction Identifier (GTID) mode of this server.
+* `gtid_mode` - The Global Transaction Identifier (GTID) mode of this server.
 * `high_availability_member_state` - The state of this server as a group replication member.
 * `host_name` - This server's host name.
 * `inbound_replications_count` - The number of sources this server is replicating from.
-* `instance_type` - The type of the instance. Source, Replica, Primary Group Member, Secondary Group Member, and so on. If the instance is replicating from one or more sources and has one or more replicas, i.e., it belongs to a replication chain, the instance type can be Replica/Source.
+* `instance_type` - The type of the instance for example, Source, Replica, Primary Group Member, and Secondary Group Member. If the instance is replicating from one or more sources and has one or more replicas, which means, it belongs to a replication chain, the instance type can be Replica/Source.
 * `is_high_availability_enabled` - Specifies if high availability is enabled on this server.
 * `outbound_replications_count` - The number of replicas replicating from this server.
 * `port` - The number of the port on which the server listens for TCP/IP connections.

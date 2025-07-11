@@ -127,6 +127,12 @@ The following attributes are exported:
 	* `crs_base_directory` - The Oracle base location of Cluster Ready Services (CRS).
 	* `db_edition` - The Oracle Database edition.
 	* `db_id` - The Oracle Database ID.
+	* `db_instances` - The list of database instances.
+		* `adr_home_directory` - The Automatic Diagnostic Repository (ADR) home directory for the DB instance.
+		* `host_name` - The name of the host on which the DB instance is running.
+		* `instance_name` - The name of the DB instance.
+		* `node_name` - The name of the DB instance node.
+		* `oracle_home` - The Oracle home location of the DB instance.
 	* `db_node_name` - The name of the DB node.
 	* `db_packs` - The database packs licensed for the external Oracle Database.
 	* `db_role` - The role of the Oracle Database in Oracle Data Guard configuration.
@@ -158,9 +164,10 @@ The following attributes are exported:
 		* `network_number` - The network number.
 		* `network_type` - The network type.
 		* `subnet` - The subnet for the network.
+	* `node_name` - The name of the DB instance node.
 	* `node_role` - The role of the cluster node.
 	* `ocr_file_location` - The location of the Oracle Cluster Registry (OCR) file.
-	* `oracle_home` - The Oracle home location of the listener.
+	* `oracle_home` - The Oracle home location of the DB instance.
 	* `pluggable_databases` - The list of Pluggable Databases.
 		* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 		* `connector` - The connector details used to connect to the external DB system component.

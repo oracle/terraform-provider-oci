@@ -689,6 +689,14 @@ func (s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManageme
 		baseObject = details
 	case strings.ToLower("SQLWATCH"):
 		details := oci_database_management.DatabaseSqlWatchFeatureDetails{}
+		if canEnableAllCurrentPdbs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "can_enable_all_current_pdbs")); ok {
+			tmp := canEnableAllCurrentPdbs.(bool)
+			details.CanEnableAllCurrentPdbs = &tmp
+		}
+		if isAutoEnablePluggableDatabase, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_auto_enable_pluggable_database")); ok {
+			tmp := isAutoEnablePluggableDatabase.(bool)
+			details.IsAutoEnablePluggableDatabase = &tmp
+		}
 		if connectorDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connector_details")); ok {
 			if tmpList := connectorDetails.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "connector_details"), 0)
