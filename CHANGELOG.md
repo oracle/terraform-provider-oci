@@ -1,21 +1,25 @@
 ## 7.9.0 (Unreleased)
 
 ### Added
-Support for BDS - Automatic Replacement of failed Master (MN0/MN1) and Utility nodes (UN0/UN1)
-Support for GenAI Agents Tools API
-Support for OSP OCI integration service: Fraud changes
-Support for PKCS11 Library Integration for Azure key store | ExaDB-D
-Support for HeatWave Service: Bring Your Own Key (BYOK)
-Support for all DBaaS Verticals to onboard to System Tags| DBAAS Platform
-Support for MultiCloud Data Plane Integration for Database services dbmulticloud changes
-Support for Support for customer-initiated collection of diagnostic information
-Support for AWS for ADBD
-Support for [Elastic Pool Support for Child Tenancies] Terraform Support in Prod Region ADB-S: Elastic Pool Support for Child Tenancies
+- Added - Support for OSP OCI integration service: Fraud changes
+- Support for GenAI Agents Tools API
+- Support for BDS - Automatic Replacement of failed Master (MN0/MN1) and Utility nodes (UN0/UN1)
 ### Bug Fix
-OS Management Hub: unregister managed instance on resource deletion
-ed - To support TF import of KMS vault replica.
-Corrected Cloud Database Management Integration Test and added Example Test
+- OS Management Hub: unregister managed instance on resource deletion
+- To support TF import of KMS vault replica.
 
+## 7.8.0 (Unreleased)
+
+### Added
+- Support for [Elastic Pool Support for Child Tenancies] Terraform Support in Prod Region ADB-S: Elastic Pool Support for Child Tenancies
+- Support for PKCS11 Library Integration for Azure key store | ExaDB-D
+- Support for Support for customer-initiated collection of diagnostic information
+- Support for AWS for ADBD
+- Support for HeatWave Service: Bring Your Own Key (BYOK)
+- Support for all DBaaS Verticals to onboard to System Tags| DBAAS Platform
+- Support for MultiCloud Data Plane Integration for Database services dbmulticloud changes
+### Bug Fix
+- Corrected Cloud Database Management Integration Test and added Example Test
 ## 7.7.0 (Unreleased)
 
 ### Added
