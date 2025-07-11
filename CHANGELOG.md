@@ -1,12 +1,12 @@
-## 7.9.0 (Unreleased)
+## 7.9.0 (July 9, 2025)
 
 ### Added
-Added - Support for OSP OCI integration service: Fraud changes
-Support for GenAI Agents Tools API
-Support for BDS - Automatic Replacement of failed Master (MN0/MN1) and Utility nodes (UN0/UN1)
+- Added - Support for OSP OCI integration service: Fraud changes
+- Support for GenAI Agents Tools API
+- Support for BDS - Automatic Replacement of failed Master (MN0/MN1) and Utility nodes (UN0/UN1)
 ### Bug Fix
-OS Management Hub: unregister managed instance on resource deletion
-To support TF import of KMS vault replica.
+- OS Management Hub: unregister managed instance on resource deletion
+- To support TF import of KMS vault replica.
 
 ## 7.8.0 (July 5, 2025)
 
