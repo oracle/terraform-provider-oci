@@ -705,6 +705,9 @@ datascience
 * oci\_datascience\_ml\_application\_implementation
 * oci\_datascience\_ml\_application\_instance
 * oci\_datascience\_ml\_application
+* oci\_datascience\_model\_group\_version\_history
+* oci\_datascience\_model\_group\_artifact
+* oci\_datascience\_model\_group
 
 dblm
 
