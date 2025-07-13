@@ -199,6 +199,33 @@ var exportDatascienceMlApplicationHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportDatascienceModelGroupVersionHistoryHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_datascience_model_group_version_history",
+	DatasourceClass:        "oci_datascience_model_group_version_histories",
+	DatasourceItemsAttr:    "model_group_version_histories",
+	ResourceAbbreviation:   "model_group_version_history",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_datascience.ModelGroupVersionHistoryLifecycleStateActive),
+	},
+}
+
+var exportDatascienceModelGroupArtifactHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_datascience_model_group_artifact",
+	ResourceAbbreviation: "model_group_artifact",
+}
+
+var exportDatascienceModelGroupHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_datascience_model_group",
+	DatasourceClass:        "oci_datascience_model_groups",
+	DatasourceItemsAttr:    "model_groups",
+	ResourceAbbreviation:   "model_group",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_datascience.ModelGroupLifecycleStateActive),
+	},
+}
+
 var datascienceResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDatascienceProjectHints},
@@ -216,6 +243,8 @@ var datascienceResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportDatascienceMlApplicationImplementationHints},
 		{TerraformResourceHints: exportDatascienceMlApplicationInstanceHints},
 		{TerraformResourceHints: exportDatascienceMlApplicationHints},
+		{TerraformResourceHints: exportDatascienceModelGroupVersionHistoryHints},
+		{TerraformResourceHints: exportDatascienceModelGroupHints},
 	},
 	"oci_datascience_model": {
 		{
