@@ -54,17 +54,96 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 							Required:         true,
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
+								"MODEL_GROUP",
 								"SINGLE_MODEL",
 							}, true),
 						},
-						"model_configuration_details": {
+
+						// Optional
+						"environment_configuration_details": {
 							Type:     schema.TypeList,
-							Required: true,
+							Optional: true,
+							Computed: true,
 							MaxItems: 1,
 							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
+									"environment_configuration_type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"DEFAULT",
+											"OCIR_CONTAINER",
+										}, true),
+									},
+
+									// Optional
+									"cmd": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"entrypoint": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"environment_variables": {
+										Type:     schema.TypeMap,
+										Optional: true,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
+									"health_check_port": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"image": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"image_digest": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"server_port": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"infrastructure_configuration_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"infrastructure_type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"INSTANCE_POOL",
+										}, true),
+									},
 									"instance_configuration": {
 										Type:     schema.TypeList,
 										Required: true,
@@ -124,10 +203,6 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 												// Computed
 											},
 										},
-									},
-									"model_id": {
-										Type:     schema.TypeString,
-										Required: true,
 									},
 
 									// Optional
@@ -327,9 +402,7 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 								},
 							},
 						},
-
-						// Optional
-						"environment_configuration_details": {
+						"model_configuration_details": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Computed: true,
@@ -338,56 +411,284 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
-									"environment_configuration_type": {
-										Type:             schema.TypeString,
-										Required:         true,
-										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
-										ValidateFunc: validation.StringInSlice([]string{
-											"DEFAULT",
-											"OCIR_CONTAINER",
-										}, true),
-									},
 
 									// Optional
-									"cmd": {
-										Type:     schema.TypeList,
-										Optional: true,
-										Computed: true,
-										Elem: &schema.Schema{
-											Type: schema.TypeString,
-										},
-									},
-									"entrypoint": {
-										Type:     schema.TypeList,
-										Optional: true,
-										Computed: true,
-										Elem: &schema.Schema{
-											Type: schema.TypeString,
-										},
-									},
-									"environment_variables": {
-										Type:     schema.TypeMap,
-										Optional: true,
-										Computed: true,
-										Elem:     schema.TypeString,
-									},
-									"health_check_port": {
+									"bandwidth_mbps": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"image": {
-										Type:     schema.TypeString,
+									"instance_configuration": {
+										Type:     schema.TypeList,
 										Optional: true,
 										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"instance_shape_name": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"model_deployment_instance_shape_config_details": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"cpu_baseline": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+															},
+															"memory_in_gbs": {
+																Type:     schema.TypeFloat,
+																Optional: true,
+																Computed: true,
+															},
+															"ocpus": {
+																Type:     schema.TypeFloat,
+																Optional: true,
+																Computed: true,
+															},
+
+															// Computed
+														},
+													},
+												},
+												"private_endpoint_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"subnet_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
 									},
-									"image_digest": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-									},
-									"server_port": {
+									"maximum_bandwidth_mbps": {
 										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"model_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"scaling_policy": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"policy_type": {
+													Type:             schema.TypeString,
+													Required:         true,
+													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+													ValidateFunc: validation.StringInSlice([]string{
+														"AUTOSCALING",
+														"FIXED_SIZE",
+													}, true),
+												},
+
+												// Optional
+												"auto_scaling_policies": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+															"auto_scaling_policy_type": {
+																Type:             schema.TypeString,
+																Required:         true,
+																DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																ValidateFunc: validation.StringInSlice([]string{
+																	"THRESHOLD",
+																}, true),
+															},
+															"initial_instance_count": {
+																Type:     schema.TypeInt,
+																Required: true,
+															},
+															"maximum_instance_count": {
+																Type:     schema.TypeInt,
+																Required: true,
+															},
+															"minimum_instance_count": {
+																Type:     schema.TypeInt,
+																Required: true,
+															},
+															"rules": {
+																Type:     schema.TypeList,
+																Required: true,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+																		"metric_expression_rule_type": {
+																			Type:             schema.TypeString,
+																			Required:         true,
+																			DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																			ValidateFunc: validation.StringInSlice([]string{
+																				"CUSTOM_EXPRESSION",
+																				"PREDEFINED_EXPRESSION",
+																			}, true),
+																		},
+																		"scale_in_configuration": {
+																			Type:     schema.TypeList,
+																			Required: true,
+																			MaxItems: 1,
+																			MinItems: 1,
+																			Elem: &schema.Resource{
+																				Schema: map[string]*schema.Schema{
+																					// Required
+
+																					// Optional
+																					"instance_count_adjustment": {
+																						Type:     schema.TypeInt,
+																						Optional: true,
+																						Computed: true,
+																					},
+																					"pending_duration": {
+																						Type:     schema.TypeString,
+																						Optional: true,
+																						Computed: true,
+																					},
+																					"query": {
+																						Type:     schema.TypeString,
+																						Optional: true,
+																						Computed: true,
+																					},
+																					"scaling_configuration_type": {
+																						Type:     schema.TypeString,
+																						Optional: true,
+																						Computed: true,
+																					},
+																					"threshold": {
+																						Type:     schema.TypeInt,
+																						Optional: true,
+																						Computed: true,
+																					},
+
+																					// Computed
+																				},
+																			},
+																		},
+																		"scale_out_configuration": {
+																			Type:     schema.TypeList,
+																			Required: true,
+																			MaxItems: 1,
+																			MinItems: 1,
+																			Elem: &schema.Resource{
+																				Schema: map[string]*schema.Schema{
+																					// Required
+
+																					// Optional
+																					"instance_count_adjustment": {
+																						Type:     schema.TypeInt,
+																						Optional: true,
+																						Computed: true,
+																					},
+																					"pending_duration": {
+																						Type:     schema.TypeString,
+																						Optional: true,
+																						Computed: true,
+																					},
+																					"query": {
+																						Type:     schema.TypeString,
+																						Optional: true,
+																						Computed: true,
+																					},
+																					"scaling_configuration_type": {
+																						Type:     schema.TypeString,
+																						Optional: true,
+																						Computed: true,
+																					},
+																					"threshold": {
+																						Type:     schema.TypeInt,
+																						Optional: true,
+																						Computed: true,
+																					},
+
+																					// Computed
+																				},
+																			},
+																		},
+
+																		// Optional
+																		"metric_type": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																		},
+
+																		// Computed
+																	},
+																},
+															},
+
+															// Optional
+
+															// Computed
+														},
+													},
+												},
+												"cool_down_in_seconds": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+												},
+												"instance_count": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+												},
+												"is_enabled": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+
+									// Computed
+								},
+							},
+						},
+						"model_group_configuration_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"model_group_id": {
+										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
@@ -1289,6 +1590,135 @@ func CustomExpressionQueryScalingConfigurationToMap(obj *oci_datascience.CustomE
 	return result
 }
 
+func (s *DatascienceModelDeploymentResourceCrud) mapToInfrastructureConfigurationDetails(fieldKeyFormat string) (oci_datascience.InfrastructureConfigurationDetails, error) {
+	var baseObject oci_datascience.InfrastructureConfigurationDetails
+	//discriminator
+	infrastructureTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "infrastructure_type"))
+	var infrastructureType string
+	if ok {
+		infrastructureType = infrastructureTypeRaw.(string)
+	} else {
+		infrastructureType = "" // default value
+	}
+	switch strings.ToLower(infrastructureType) {
+	case strings.ToLower("INSTANCE_POOL"):
+		details := oci_datascience.UpdateInstancePoolInfrastructureConfigurationDetails{}
+		if bandwidthMbps, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bandwidth_mbps")); ok {
+			tmp := bandwidthMbps.(int)
+			details.BandwidthMbps = &tmp
+		}
+		if instanceConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "instance_configuration")); ok {
+			if tmpList := instanceConfiguration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "instance_configuration"), 0)
+				tmp, err := s.mapToInstanceConfiguration(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert instance_configuration, encountered error: %v", err)
+				}
+				details.InstanceConfiguration = &tmp
+			}
+		}
+		if maximumBandwidthMbps, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "maximum_bandwidth_mbps")); ok {
+			tmp := maximumBandwidthMbps.(int)
+			details.MaximumBandwidthMbps = &tmp
+		}
+		if scalingPolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scaling_policy")); ok {
+			if tmpList := scalingPolicy.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "scaling_policy"), 0)
+				tmp, err := s.mapToScalingPolicy(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert scaling_policy, encountered error: %v", err)
+				}
+				details.ScalingPolicy = tmp
+			}
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown infrastructure_type '%v' was specified", infrastructureType)
+	}
+	return baseObject, nil
+}
+
+func (s *DatascienceModelDeploymentResourceCrud) mapToUpdateInfrastructureConfigurationDetails(fieldKeyFormat string) (oci_datascience.UpdateInfrastructureConfigurationDetails, error) {
+	var baseObject oci_datascience.UpdateInfrastructureConfigurationDetails
+	//discriminator
+	infrastructureTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "infrastructure_type"))
+	var infrastructureType string
+	if ok {
+		infrastructureType = infrastructureTypeRaw.(string)
+	} else {
+		infrastructureType = "" // default value
+	}
+	switch strings.ToLower(infrastructureType) {
+	case strings.ToLower("INSTANCE_POOL"):
+		details := oci_datascience.UpdateInstancePoolInfrastructureConfigurationDetails{}
+		if bandwidthMbps, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bandwidth_mbps")); ok {
+			tmp := bandwidthMbps.(int)
+			details.BandwidthMbps = &tmp
+		}
+		if instanceConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "instance_configuration")); ok {
+			if tmpList := instanceConfiguration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "instance_configuration"), 0)
+				tmp, err := s.mapToInstanceConfiguration(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert instance_configuration, encountered error: %v", err)
+				}
+				details.InstanceConfiguration = &tmp
+			}
+		}
+		if maximumBandwidthMbps, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "maximum_bandwidth_mbps")); ok {
+			tmp := maximumBandwidthMbps.(int)
+			details.MaximumBandwidthMbps = &tmp
+		}
+		if scalingPolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scaling_policy")); ok {
+			if tmpList := scalingPolicy.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "scaling_policy"), 0)
+				tmp, err := s.mapToScalingPolicy(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert scaling_policy, encountered error: %v", err)
+				}
+				details.ScalingPolicy = tmp
+			}
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown infrastructure_type '%v' was specified", infrastructureType)
+	}
+	return baseObject, nil
+}
+
+func InfrastructureConfigurationDetailsToMap(obj *oci_datascience.InfrastructureConfigurationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_datascience.UpdateInstancePoolInfrastructureConfigurationDetails:
+		result["infrastructure_type"] = "INSTANCE_POOL"
+
+		if v.BandwidthMbps != nil {
+			result["bandwidth_mbps"] = int(*v.BandwidthMbps)
+		}
+
+		if v.InstanceConfiguration != nil {
+			result["instance_configuration"] = []interface{}{InstanceConfigurationToMap(v.InstanceConfiguration)}
+		}
+
+		if v.MaximumBandwidthMbps != nil {
+			result["maximum_bandwidth_mbps"] = int(*v.MaximumBandwidthMbps)
+		}
+
+		if v.ScalingPolicy != nil {
+			scalingPolicyArray := []interface{}{}
+			if scalingPolicyMap := ScalingPolicyToMap(&v.ScalingPolicy); scalingPolicyMap != nil {
+				scalingPolicyArray = append(scalingPolicyArray, scalingPolicyMap)
+			}
+			result["scaling_policy"] = scalingPolicyArray
+		}
+	default:
+		log.Printf("[WARN] Received 'infrastructure_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
 func (s *DatascienceModelDeploymentResourceCrud) mapToInstanceConfiguration(fieldKeyFormat string) (oci_datascience.InstanceConfiguration, error) {
 	result := oci_datascience.InstanceConfiguration{}
 
@@ -1621,6 +2051,42 @@ func (s *DatascienceModelDeploymentResourceCrud) mapToModelDeploymentConfigurati
 		deploymentType = "" // default value
 	}
 	switch strings.ToLower(deploymentType) {
+	case strings.ToLower("MODEL_GROUP"):
+		details := oci_datascience.UpdateModelGroupDeploymentConfigurationDetails{}
+		if environmentConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "environment_configuration_details")); ok {
+			if tmpList := environmentConfigurationDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "environment_configuration_details"), 0)
+				tmp, err := s.mapToUpdateModelDeploymentEnvironmentConfigurationDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert environment_configuration_details, encountered error: %v", err)
+				}
+				details.EnvironmentConfigurationDetails = tmp
+			}
+		}
+		if infrastructureConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "infrastructure_configuration_details")); ok {
+			if tmpList := infrastructureConfigurationDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "infrastructure_configuration_details"), 0)
+				tmp, err := s.mapToUpdateInfrastructureConfigurationDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert infrastructure_configuration_details, encountered error: %v", err)
+				}
+				details.InfrastructureConfigurationDetails = tmp
+			}
+		}
+		if modelGroupConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "model_group_configuration_details")); ok {
+			if tmpList := modelGroupConfigurationDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "model_group_configuration_details"), 0)
+				tmp, err := s.mapToUpdateModelGroupConfigurationDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert model_group_configuration_details, encountered error: %v", err)
+				}
+				details.ModelGroupConfigurationDetails = &tmp
+			}
+		}
+		if updateType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "update_type")); ok {
+			details.UpdateType = oci_datascience.UpdateModelGroupDeploymentConfigurationDetailsUpdateTypeEnum(updateType.(string))
+		}
+		baseObject = details
 	case strings.ToLower("SINGLE_MODEL"):
 		details := oci_datascience.UpdateSingleModelDeploymentConfigurationDetails{}
 		if environmentConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "environment_configuration_details")); ok {
@@ -1661,6 +2127,42 @@ func (s *DatascienceModelDeploymentResourceCrud) mapToUpdateModelDeploymentConfi
 		deploymentType = "" // default value
 	}
 	switch strings.ToLower(deploymentType) {
+	case strings.ToLower("MODEL_GROUP"):
+		details := oci_datascience.UpdateModelGroupDeploymentConfigurationDetails{}
+		if environmentConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "environment_configuration_details")); ok {
+			if tmpList := environmentConfigurationDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "environment_configuration_details"), 0)
+				tmp, err := s.mapToUpdateModelDeploymentEnvironmentConfigurationDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert environment_configuration_details, encountered error: %v", err)
+				}
+				details.EnvironmentConfigurationDetails = tmp
+			}
+		}
+		if infrastructureConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "infrastructure_configuration_details")); ok {
+			if tmpList := infrastructureConfigurationDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "infrastructure_configuration_details"), 0)
+				tmp, err := s.mapToUpdateInfrastructureConfigurationDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert infrastructure_configuration_details, encountered error: %v", err)
+				}
+				details.InfrastructureConfigurationDetails = tmp
+			}
+		}
+		if modelGroupConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "model_group_configuration_details")); ok {
+			if tmpList := modelGroupConfigurationDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "model_group_configuration_details"), 0)
+				tmp, err := s.mapToUpdateModelGroupConfigurationDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert model_group_configuration_details, encountered error: %v", err)
+				}
+				details.ModelGroupConfigurationDetails = &tmp
+			}
+		}
+		if updateType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "update_type")); ok {
+			details.UpdateType = oci_datascience.UpdateModelGroupDeploymentConfigurationDetailsUpdateTypeEnum(updateType.(string))
+		}
+		baseObject = details
 	case strings.ToLower("SINGLE_MODEL"):
 		details := oci_datascience.UpdateSingleModelDeploymentConfigurationDetails{}
 		if environmentConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "environment_configuration_details")); ok {
@@ -1693,6 +2195,31 @@ func (s *DatascienceModelDeploymentResourceCrud) mapToUpdateModelDeploymentConfi
 func ModelDeploymentConfigurationDetailsToMap(obj *oci_datascience.ModelDeploymentConfigurationDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
+	case oci_datascience.UpdateModelGroupDeploymentConfigurationDetails:
+		result["deployment_type"] = "MODEL_GROUP"
+
+		if v.EnvironmentConfigurationDetails != nil {
+			environmentConfigurationDetailsArray := []interface{}{}
+			if environmentConfigurationDetailsMap := UpdateModelDeploymentEnvironmentConfigurationDetailsToMap(&v.EnvironmentConfigurationDetails); environmentConfigurationDetailsMap != nil {
+				environmentConfigurationDetailsArray = append(environmentConfigurationDetailsArray, environmentConfigurationDetailsMap)
+			}
+			result["environment_configuration_details"] = environmentConfigurationDetailsArray
+		}
+
+		if v.InfrastructureConfigurationDetails != nil {
+			infrastructureConfigurationDetailsArray := []interface{}{}
+			if infrastructureConfigurationDetailsMap := UpdateInfrastructureConfigurationDetailsToMap(&v.InfrastructureConfigurationDetails); infrastructureConfigurationDetailsMap != nil {
+				infrastructureConfigurationDetailsArray = append(infrastructureConfigurationDetailsArray, infrastructureConfigurationDetailsMap)
+			}
+			result["infrastructure_configuration_details"] = infrastructureConfigurationDetailsArray
+		}
+
+		if v.ModelGroupConfigurationDetails != nil {
+			result["model_group_configuration_details"] = []interface{}{UpdateModelGroupConfigurationDetailsToMap(v.ModelGroupConfigurationDetails)}
+		}
+
+		result["update_type"] = string(v.UpdateType)
+	case oci_datascience.UpdateSingleModelDeploymentConfigurationDetails:
 	case oci_datascience.SingleModelDeploymentConfigurationDetails:
 		result["deployment_type"] = "SINGLE_MODEL"
 
@@ -1955,6 +2482,38 @@ func ModelDeploymentSystemDataToMap(obj *oci_datascience.ModelDeploymentSystemDa
 	return result
 }
 
+func (s *DatascienceModelDeploymentResourceCrud) mapToModelGroupConfigurationDetails(fieldKeyFormat string) (oci_datascience.ModelGroupConfigurationDetails, error) {
+	result := oci_datascience.ModelGroupConfigurationDetails{}
+
+	if modelGroupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "model_group_id")); ok {
+		tmp := modelGroupId.(string)
+		result.ModelGroupId = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *DatascienceModelDeploymentResourceCrud) mapToUpdateModelGroupConfigurationDetails(fieldKeyFormat string) (oci_datascience.UpdateModelGroupConfigurationDetails, error) {
+	result := oci_datascience.UpdateModelGroupConfigurationDetails{}
+
+	if modelGroupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "model_group_id")); ok {
+		tmp := modelGroupId.(string)
+		result.ModelGroupId = &tmp
+	}
+
+	return result, nil
+}
+
+func ModelGroupConfigurationDetailsToMap(obj *oci_datascience.ModelGroupConfigurationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ModelGroupId != nil {
+		result["model_group_id"] = string(*obj.ModelGroupId)
+	}
+
+	return result
+}
+
 func (s *DatascienceModelDeploymentResourceCrud) mapToPredefinedExpressionThresholdScalingConfiguration(fieldKeyFormat string) (oci_datascience.PredefinedExpressionThresholdScalingConfiguration, error) {
 	result := oci_datascience.PredefinedExpressionThresholdScalingConfiguration{}
 
@@ -2080,7 +2639,41 @@ func ScalingPolicyToMap(obj *oci_datascience.ScalingPolicy) map[string]interface
 	return result
 }
 
+func UpdateInfrastructureConfigurationDetailsToMap(obj *oci_datascience.UpdateInfrastructureConfigurationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_datascience.UpdateInstancePoolInfrastructureConfigurationDetails:
+		result["infrastructure_type"] = "INSTANCE_POOL"
+
+		if v.BandwidthMbps != nil {
+			result["bandwidth_mbps"] = int(*v.BandwidthMbps)
+		}
+
+		if v.InstanceConfiguration != nil {
+			result["instance_configuration"] = []interface{}{InstanceConfigurationToMap(v.InstanceConfiguration)}
+		}
+
+		if v.MaximumBandwidthMbps != nil {
+			result["maximum_bandwidth_mbps"] = int(*v.MaximumBandwidthMbps)
+		}
+
+		if v.ScalingPolicy != nil {
+			scalingPolicyArray := []interface{}{}
+			if scalingPolicyMap := ScalingPolicyToMap(&v.ScalingPolicy); scalingPolicyMap != nil {
+				scalingPolicyArray = append(scalingPolicyArray, scalingPolicyMap)
+			}
+			result["scaling_policy"] = scalingPolicyArray
+		}
+	default:
+		log.Printf("[WARN] Received 'infrastructure_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
 func UpdateModelConfigurationDetailsToMap(obj *oci_datascience.ModelConfigurationDetails) map[string]interface{} {
+
 	result := map[string]interface{}{}
 
 	if obj.BandwidthMbps != nil {
@@ -2152,6 +2745,16 @@ func UpdateModelDeploymentEnvironmentConfigurationDetailsToMap(obj *oci_datascie
 	default:
 		log.Printf("[WARN] Received 'environment_configuration_type' of unknown type %v", *obj)
 		return nil
+	}
+
+	return result
+}
+
+func UpdateModelGroupConfigurationDetailsToMap(obj *oci_datascience.UpdateModelGroupConfigurationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ModelGroupId != nil {
+		result["model_group_id"] = string(*obj.ModelGroupId)
 	}
 
 	return result
