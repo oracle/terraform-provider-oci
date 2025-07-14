@@ -62,7 +62,7 @@ var (
 		"is_cloud_sql_configured": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		//"cloud_sql_details":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: BdsbdsInstanceNodesCloudSqlRepresentation}, // capacity issue
 
-		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"network_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: BdsbdsInstanceNetworkConfigRepresentation},
 	}

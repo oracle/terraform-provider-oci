@@ -8,7 +8,7 @@ variable "compartment_id_for_update" { default = "ocid1.compartment.oc1.." }
 
 resource "oci_fleet_apps_management_property" "test_property" {
   compartment_id = "${var.compartment_id_for_update}"
-  defined_tags   = "${map("Oracle-Tags.CreatedBy", "value")}"
+  defined_tags   = "${tomap({"Oracle-Tags.CreatedBy" = "value"})}"
   display_name   = "displayName"
   selection      = "SINGLE_CHOICE"
   value_type     = "STRING"

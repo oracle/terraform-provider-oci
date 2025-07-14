@@ -81,7 +81,7 @@ resource "oci_announcements_service_announcement_subscription" "test_announcemen
   ons_topic_id   = oci_ons_notification_topic.test_notification_topic.id
 
   #Optional
-  #defined_tags = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.announcement_subscription_defined_tags_value)
+  #defined_tags = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.announcement_subscription_defined_tags_value})
   defined_tags = {"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.announcement_subscription_defined_tags_value}"}
   description  = var.announcement_subscription_description
   filter_groups {

@@ -99,7 +99,7 @@ var (
 					nsg_ids = ["${oci_core_network_security_group.test_network_security_group.id}"]
 					db_home {
 						db_version = "12.1.0.2"
-						defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}"
+						defined_tags = "${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}"
 						freeform_tags = {
 							"Department" = "Finance"
 						}

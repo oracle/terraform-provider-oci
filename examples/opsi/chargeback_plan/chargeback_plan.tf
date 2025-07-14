@@ -64,7 +64,7 @@ resource "oci_opsi_chargeback_plan" "test_chargeback_plan" {
   plan_name      = var.chargeback_plan_name
   plan_type      = "WEIGHTED_ALLOCATION"
   plan_description = var.chargeback_plan_description
-  defined_tags     = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.defined_tag_value}")}"
+  defined_tags     = "${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.defined_tag_value}"})}"
   freeform_tags    = var.freeform_tags
 
   plan_custom_items {
@@ -86,7 +86,7 @@ resource "oci_opsi_chargeback_plan" "test_chargeback_plan_updated" {
   plan_name        = var.chargeback_plan_name_updated
   plan_type        = "WEIGHTED_ALLOCATION"
   plan_description = var.chargeback_plan_description_updated
-  defined_tags     = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.defined_tag_value}")}"
+  defined_tags     = "${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.defined_tag_value}"})}"
   freeform_tags    = var.freeform_tags
 
   plan_custom_items {

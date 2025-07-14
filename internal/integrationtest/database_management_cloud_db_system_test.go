@@ -69,7 +69,7 @@ var (
 		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.disc_compartment_id}`},
 		"db_system_discovery_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_database_management_cloud_db_system_discovery.test_cloud_db_system_discovery.id}`},
 		"database_management_config": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseManagementCloudDbSystemDatabaseManagementConfigRepresentation},
-		"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"display_name":               acctest.Representation{RepType: acctest.Required, Create: `${var.disc_dbaas_dbsystem_name}`, Update: `displayName2`},
 		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		// Stack Monitoring for cloud db system is not yet available.

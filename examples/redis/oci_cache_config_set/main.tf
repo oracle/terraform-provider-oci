@@ -147,7 +147,7 @@ resource "oci_redis_oci_cache_config_set" "test_oci_cache_config_set_redis" {
   software_version = var.oci_cache_config_set_software_version
 
   #Optional
-  // TODO defined_tags  = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.oci_cache_config_set_defined_tags_value)
+  // TODO defined_tags  = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.oci_cache_config_set_defined_tags_value})
   description   = var.oci_cache_config_set_description
   freeform_tags = var.oci_cache_config_set_freeform_tags
 }

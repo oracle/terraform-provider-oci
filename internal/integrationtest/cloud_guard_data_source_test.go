@@ -77,7 +77,7 @@ var (
 		"data_source_feed_provider": acctest.Representation{RepType: acctest.Required, Create: `LOGGINGQUERY`},
 		"display_name":              acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"data_source_details":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: CloudGuardDataSourceDataSourceDetailsRepresentation},
-		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"status":                    acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
 	}
@@ -87,7 +87,7 @@ var (
 		"data_source_feed_provider": acctest.Representation{RepType: acctest.Required, Create: `SCHEDULEDQUERY`},
 		"display_name":              acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"data_source_details":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: CloudGuardDataSourceDataSourceDetailsScheduledQueryRepresentation},
-		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"status":                    acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
 	}

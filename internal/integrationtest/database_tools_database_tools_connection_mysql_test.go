@@ -44,7 +44,7 @@ var (
 		"type":                acctest.Representation{RepType: acctest.Required, Create: `MYSQL`},
 		"advanced_properties": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"sslMode": "REQUIRED"}, Update: map[string]string{"sslMode": "VERIFY_CA"}},
 		"connection_string":   acctest.Representation{RepType: acctest.Required, Create: `mysql://example.com:3306`, Update: `mysql://example2.com:3306`},
-		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"key_stores":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: databaseToolsConnectionMySqlKeyStoresRepresentation},
 		"related_resource":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: databaseToolsConnectionMySqlRelatedResourceRepresentation},

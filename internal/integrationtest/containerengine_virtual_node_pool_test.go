@@ -65,7 +65,7 @@ var (
 		"display_name":             acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"placement_configurations": acctest.RepresentationGroup{RepType: acctest.Required, Group: ContainerengineVirtualNodePoolPlacementConfigurationsRepresentation},
 		//  We have determined that these arguments do not successfully update in Integ, this is on the server side, so we will create a bug and resolve separately
-		//	"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		//	"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		//	"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		//	"nsg_ids":                     acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
 		"initial_virtual_node_labels": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineVirtualNodePoolInitialVirtualNodeLabelsRepresentation},
@@ -94,7 +94,7 @@ var (
 		"value":  acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
 	}
 	ContainerengineVirtualNodePoolVirtualNodeTagsRepresentation = map[string]interface{}{
-		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag2.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag2.name}", "updatedValue")}`},
+		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 	// Cluster
@@ -104,7 +104,7 @@ var (
 		"name":                        acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"vcn_id":                      acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
 		"cluster_pod_network_options": acctest.RepresentationGroup{RepType: acctest.Required, Group: ContainerengineVirtualNodePoolClusterPodNetworkOptionsRepresentation},
-		"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"endpoint_config":             acctest.RepresentationGroup{RepType: acctest.Required, Group: ContainerengineVirtualNodePoolClusterEndpointConfigRepresentation},
 		"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"image_policy_config":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineVirtualNodePoolClusterImagePolicyConfigRepresentation},

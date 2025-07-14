@@ -39,9 +39,7 @@ func (s *DatasourcePrivateIPTestSuite) SetupTest() {
 	resource "oci_core_private_ip" "t" {
 		vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}"
 		ip_address = "10.0.1.23"
-		defined_tags = "${map(
-			"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value"
-			)}"
+		defined_tags = "${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}"
 		freeform_tags = { "Department" = "Finance"}
 	}`
 

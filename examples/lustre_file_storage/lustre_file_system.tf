@@ -20,7 +20,7 @@ resource "oci_lustre_file_storage_lustre_file_system" "test_lustre_file_system" 
 
   #Optional
   cluster_placement_group_id = oci_cluster_placement_groups_cluster_placement_group.test_cpg.id
-#   defined_tags               = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.lustre_file_system_defined_tags_value)
+#   defined_tags               = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.lustre_file_system_defined_tags_value})
   display_name               = var.lustre_file_system_display_name
   file_system_description    = var.lustre_file_system_file_system_description
 

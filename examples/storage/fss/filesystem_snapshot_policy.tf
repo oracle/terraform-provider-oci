@@ -6,7 +6,7 @@ resource "oci_file_storage_filesystem_snapshot_policy" "my_filesystem_snapshot_p
   compartment_id      = var.compartment_ocid
 
   #Optional
-  # defined_tags  = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.filesystem_snapshot_policy_defined_tags_value)
+  # defined_tags  = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.filesystem_snapshot_policy_defined_tags_value})
   display_name  = var.filesystem_snapshot_policy_display_name
   freeform_tags = var.filesystem_snapshot_policy_freeform_tags
   policy_prefix = var.filesystem_snapshot_policy_policy_prefix

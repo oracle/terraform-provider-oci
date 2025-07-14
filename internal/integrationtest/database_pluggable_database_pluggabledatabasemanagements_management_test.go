@@ -60,7 +60,7 @@ var (
 		"pdb_admin_password":                 acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
 		"pdb_name":                           acctest.Representation{RepType: acctest.Required, Create: `SalesPdb`},
 		"tde_wallet_password":                acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
-		"defined_tags":                       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":                       acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags":                      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"should_pdb_admin_account_be_locked": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"lifecycle":                          acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabasePluggableIgnoreChangesLBRepresentation},
@@ -131,7 +131,7 @@ var (
 					admin_password = "FIpassword12##"
 					db_name = "aTFdb"
 					character_set = "AL32UTF8"
-					defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}"
+					defined_tags = "${tomap({"example-tag-namespace-all.example-tag" = "originalValue"})}"
 					freeform_tags = {"Department" = "Finance"}
 					ncharacter_set = "AL16UTF16"
 					db_workload = "OLTP"
@@ -141,7 +141,7 @@ var (
 			db_system_options {
 				storage_management = "LVM"
 			}
-			defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}"
+			defined_tags = "${tomap({"example-tag-namespace-all.example-tag" = "originalValue"})}"
 			freeform_tags = {"Department" = "Finance"}
 			lifecycle {
 				ignore_changes = [

@@ -53,7 +53,7 @@ var (
 		// permissions (Identity Tag Namespace/Tag management) and can cause test failures with
 		// 404 NotAuthorizedOrNotFound in restricted test tenancies, even when the service resource
 		// under test (e.g., Distributed DB Private Endpoint) works correctly.
-		//"defined_tags":                     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		//"defined_tags":                     acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"description": acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		// NOTE: We intentionally do not include DefinedTagsDependencies or any defined_tags/freeform_tags
 		// assertions in these integration tests. Tag namespace/tag resources require extra IAM
@@ -77,12 +77,12 @@ var (
 	//acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
 	//acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation)*/
 	// NOTE: We intentionally do not include DefinedTagsDependencies or any defined_tags/freeform_tags
-// assertions in these integration tests. Tag namespace/tag resources require extra IAM
-// permissions (Identity Tag Namespace/Tag management) and can cause test failures with
-// 404 NotAuthorizedOrNotFound in restricted test tenancies, even when the service resource
-// under test (e.g., Distributed DB Private Endpoint) works correctly.
-/*+
-DefinedTagsDependencies*/
+	// assertions in these integration tests. Tag namespace/tag resources require extra IAM
+	// permissions (Identity Tag Namespace/Tag management) and can cause test failures with
+	// 404 NotAuthorizedOrNotFound in restricted test tenancies, even when the service resource
+	// under test (e.g., Distributed DB Private Endpoint) works correctly.
+	/*+
+	  DefinedTagsDependencies*/
 )
 
 // issue-routing-tag: distributed_database/default

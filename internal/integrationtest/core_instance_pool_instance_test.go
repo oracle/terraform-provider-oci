@@ -41,7 +41,7 @@ var (
 		"availability_config":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceAvailabilityConfigRepresentation},
 		"create_vnic_details":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceCreateVnicDetailsRepresentation},
 		"dedicated_vm_host_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_dedicated_vm_host.test_dedicated_vm_host.id}`},
-		"defined_tags":         acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
+		"defined_tags":         acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`},
 		"display_name":         acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
 		"extended_metadata": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{
 			"some_string":   "stringA",
@@ -73,7 +73,7 @@ var (
 		"placement_configurations":  acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstancePoolInstancePoolPlacementConfigurationsForAttachInstanceRepresentation},
 		"size":                      acctest.Representation{RepType: acctest.Required, Create: `0`},
 		"state":                     acctest.Representation{RepType: acctest.Required, Create: `Running`},
-		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
+		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`},
 		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `backend-servers-pool`},
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}},
 		"load_balancers":            acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstancePoolLoadBalancersRepresentation},
@@ -93,7 +93,7 @@ var (
 
 	CoreInstancePoolInstanceConfigurationFromInstanceForAttachInstanceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`, Update: `displayName2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"instance_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance.test_instance.id}`},

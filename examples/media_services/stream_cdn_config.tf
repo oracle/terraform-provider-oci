@@ -77,7 +77,7 @@ resource "oci_media_services_stream_cdn_config" "test_stream_cdn_config" {
   distribution_channel_id = oci_media_services_stream_distribution_channel.test_stream_distribution_channel.id
 
   #Optional
-  defined_tags  = map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.defined_tags_value}")
+  defined_tags  = tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.defined_tags_value}"})
   freeform_tags = var.freeform_tags
   is_enabled    = var.stream_cdn_config_is_enabled
   locks {

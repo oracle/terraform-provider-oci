@@ -52,7 +52,7 @@ var (
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"selection":      acctest.Representation{RepType: acctest.Required, Create: `SINGLE_CHOICE`, Update: `MULTI_CHOICE`},
 		"value_type":     acctest.Representation{RepType: acctest.Required, Create: `STRING`, Update: `NUMERIC`},
-		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("Oracle-Tags.CreatedBy", "value")}`, Update: `${map("Oracle-Tags.CreatedBy", "updatedValue")}`},
+		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"Oracle-Tags.CreatedBy" = "value"})}`, Update: `${tomap({"Oracle-Tags.CreatedBy" = "updatedValue"})}`},
 		// "freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}},
 		"values": acctest.Representation{RepType: acctest.Optional, Create: []string{`values`}, Update: []string{`values2`}},
 	}

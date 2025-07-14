@@ -51,7 +51,7 @@ resource "oci_core_cross_connect_group" "test_cross_connect_group" {
     compartment_id = var.compartment_ocid
     #Optional
     customer_reference_name = "customerReferenceName"
-    defined_tags = map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")
+    defined_tags = tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})
     display_name = "displayName"
     freeform_tags = {
         "Department" = "Finance"
@@ -79,7 +79,7 @@ resource "oci_core_cross_connect_group" "test_cross_connect_group_2" {
   compartment_id = var.compartment_ocid
   #Optional
   customer_reference_name = "customerReferenceName"
-  defined_tags = map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")
+  defined_tags = tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})
   display_name = "displayName"
   freeform_tags = {
     "Department" = "Finance"

@@ -58,7 +58,7 @@ var (
 		"config_item_field":               acctest.Representation{RepType: acctest.Optional, Create: []string{`metadata`, `name`, `value`}},
 		"config_items":                    []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: OpsiOpsiConfigurationConfigItemsRepresentation1}, {RepType: acctest.Optional, Group: OpsiOpsiConfigurationConfigItemsRepresentation2}},
 		"config_items_applicable_context": acctest.Representation{RepType: acctest.Optional, Create: []string{`DB_CAPACITY_PLANNING`}},
-		"defined_tags":                    acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":                    acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"description":                     acctest.Representation{RepType: acctest.Required, Create: `description`, Update: `description2`},
 		"display_name":                    acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":                   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},

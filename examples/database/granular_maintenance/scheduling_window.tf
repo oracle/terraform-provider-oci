@@ -89,7 +89,7 @@ resource "oci_database_scheduling_policy_scheduling_window" "test_scheduling_pol
 
   #Optional
   compartment_id = var.compartment_id
-  defined_tags   = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.scheduling_policy_scheduling_window_defined_tags_value)
+  defined_tags   = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.scheduling_policy_scheduling_window_defined_tags_value})
   freeform_tags  = var.scheduling_policy_scheduling_window_freeform_tags
 }
 

@@ -302,9 +302,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					hostname_label = "hostname1"
 					image = "${var.InstanceImageOCID[var.region]}"
 					shape = "VM.Standard2.1"
-					defined_tags = "${map(
-									"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value"
-									)}"
+					defined_tags = "${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}"
 					freeform_tags = { "Department" = "Accounting"}
 					metadata = {
 						ssh_authorized_keys = "${var.ssh_public_key}"
@@ -436,9 +434,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					image = "${var.InstanceImageOCID[var.region]}"
 					shape = "VM.Standard2.1"
 					display_name = "-tf-instance"
-					defined_tags = "${map(
-									"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value2"
-									)}"
+					defined_tags = "${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value2"})}"
 					freeform_tags = { "CostCenter" = "42"}
 					metadata = {
 						ssh_authorized_keys = "${var.ssh_public_key}"
@@ -618,9 +614,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 						assign_public_ip = false
 						private_ip = "10.0.1.20"
 						skip_source_dest_check = true
-						defined_tags = "${map(
-							"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value"
-							)}"
+						defined_tags = "${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}"
 						freeform_tags = { "Department" = "Accounting" }
 					}
 				}
@@ -672,9 +666,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 						assign_public_ip = false
 						private_ip = "10.0.1.20"
 						skip_source_dest_check = true
-						defined_tags = "${map(
-							"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue"
-							)}"
+						defined_tags = "${tomap("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}"
 						freeform_tags = { "Department" = "Finance" }
 					}
 				}
@@ -721,9 +713,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 						assign_public_ip = false
 						private_ip = "10.0.1.20"
 						skip_source_dest_check = true
-						defined_tags = "${map(
-							"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue"
-							)}"
+						defined_tags = "${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}"
 						freeform_tags = { "Department" = "Finance" }
 					}
 				}
@@ -779,9 +769,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_customdiff()
 						assign_public_ip = false
 						private_ip = "10.0.1.20"
 						skip_source_dest_check = true
-						defined_tags = "${map(
-							"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue"
-							)}"
+						defined_tags = "${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}"
 						freeform_tags = { "Department" = "Finance" }
 					}
 				}
@@ -836,9 +824,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_customdiff()
 						assign_public_ip = false
 						private_ip = "10.0.1.20"
 						skip_source_dest_check = true
-						defined_tags = "${map(
-							"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue"
-							)}"
+						defined_tags = "${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}"
 						freeform_tags = { "Department" = "Finance" }
 					}
 				}
@@ -1254,9 +1240,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_fetchVnicWhe
 					hostname_label = "hostname1"
 					image = "${var.InstanceImageOCID[var.region]}"
 					shape = "VM.Standard2.1"
-					defined_tags = "${map(
-									"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value"
-									)}"
+					defined_tags = "${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}"
 					freeform_tags = { "Department" = "Accounting"}
 					metadata = {
 						ssh_authorized_keys = "${var.ssh_public_key}"

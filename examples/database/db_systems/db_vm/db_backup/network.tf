@@ -37,7 +37,7 @@ resource "oci_core_route_table" "test_route_table" {
 resource "oci_core_internet_gateway" "test_internet_gateway" {
   display_name = "tfInternetGateway"
   compartment_id = var.compartment_id
-  defined_tags = map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")
+  defined_tags = tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})
   enabled = "true"
   freeform_tags = {
     "Department" = "Finance"

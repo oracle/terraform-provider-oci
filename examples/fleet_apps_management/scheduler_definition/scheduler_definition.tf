@@ -9,12 +9,12 @@ variable "region" {}
 variable "compartment_id" {}
 
 variable "test_active_fleet" {
-  type = "string"
+  type = string
   description = "This should be the OCID of a Fleet with resources, in the ACTIVE state."
 }
 
 variable "test_runbook_ocid" {
-  type = "string"
+  type = string
   description = "OCID of an active Runbook. The Oracle managed Runbooks are created for you when you onboard your tenancy."
 }
 

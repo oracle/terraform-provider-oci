@@ -56,7 +56,7 @@ var (
 		"hostname":       acctest.Representation{RepType: acctest.Required, Create: `hostname`, Update: `hostname2`},
 		"mirror":         acctest.RepresentationGroup{RepType: acctest.Required, Group: OsManagementHubManagementStationMirrorRepresentation},
 		"proxy":          acctest.RepresentationGroup{RepType: acctest.Required, Group: OsManagementHubManagementStationProxyRepresentation},
-		//"defined_tags":    acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		//"defined_tags":    acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"description":   acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		// "refresh_trigger": acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `1`},

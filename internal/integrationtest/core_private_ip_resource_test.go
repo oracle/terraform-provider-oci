@@ -57,9 +57,7 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIP_basic() {
 				resource "oci_core_private_ip" "t" {
 					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}"
 					display_name = "-private-ip"
-					defined_tags = "${map(
-									"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value"
-									)}"
+					defined_tags = "${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}"
                     freeform_tags = { "Department" = "Finance"}
 				}`,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -87,9 +85,7 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIP_basic() {
 				resource "oci_core_private_ip" "t" {
 					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}"
 					display_name = "-private-ip2"
-					defined_tags = "${map(
-									"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue"
-									)}"
+					defined_tags = "${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}"
                     freeform_tags = { "Department" = "Accounting"}
 				}`,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -170,9 +166,7 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIPVlan_basic() {
 					vlan_id		 = "${oci_core_vlan.test_vlan.id}"
 					ip_address	 = "10.0.0.5"
 					display_name = "-private-ip"
-					defined_tags = "${map(
-									"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value"
-									)}"
+					defined_tags = "${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}"
                     freeform_tags = { "Department" = "Finance"}
 				}`,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -193,9 +187,7 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIPVlan_basic() {
 					vlan_id		 = "${oci_core_vlan.test_vlan.id}"
 					ip_address	 = "10.0.0.10"
 					display_name = "-private-ip2"
-					defined_tags = "${map(
-									"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue"
-									)}"
+					defined_tags = "${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}"
                     freeform_tags = { "Department" = "Accounting"}
 				}`,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(

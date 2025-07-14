@@ -98,7 +98,7 @@ resource "oci_apm_config_config" "test_apdex" {
   display_name  = var.config_display_name
 
   #Optional
-  #defined_tags = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.config_defined_tags_value)
+  #defined_tags = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.config_defined_tags_value})
   freeform_tags = var.config_freeform_tags
 
   rules {

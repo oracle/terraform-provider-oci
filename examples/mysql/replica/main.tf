@@ -106,7 +106,7 @@ resource "oci_mysql_replica" "test_replica" {
   db_system_id = oci_mysql_mysql_db_system.test_mysql_db_system.id
 
   #Optional
-  #defined_tags        = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, "value")
+  #defined_tags        = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = "value"})
   description          = "description"
   display_name         = "displayName"
   #freeform_tags       = { "bar-key" = "value" }

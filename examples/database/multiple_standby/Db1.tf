@@ -176,7 +176,7 @@ resource "oci_database_database" "primary_database" {
     character_set  = "AL32UTF8"
     ncharacter_set = "AL16UTF16"
     db_workload    = "OLTP"
-    defined_tags     = map("example-tag-namespace-all.example-tag", "databaseDefinedTags1")
+    defined_tags     = tomap({"example-tag-namespace-all.example-tag" = "databaseDefinedTags1"})
     freeform_tags    = {"databaseFreeformTagsK" = "databaseFreeformTagsV"}
   }
 

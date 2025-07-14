@@ -21,7 +21,7 @@ var (
 		"display_name":        acctest.Representation{RepType: acctest.Required, Create: `Key C`, Update: `displayName2`},
 		"key_shape":           acctest.RepresentationGroup{RepType: acctest.Required, Group: keyRestoreKeyShapeRepresentation},
 		"management_endpoint": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_kms_vault.test_vault.management_endpoint}`},
-		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value-updated")}`},
+		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value-updated"})}`},
 	}
 	keyRestorekeyRepresentationUpdate2 = map[string]interface{}{
 		"restore_trigger":     acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `1`},
@@ -29,7 +29,7 @@ var (
 		"display_name":        acctest.Representation{RepType: acctest.Required, Create: `Key C`, Update: `displayName2`},
 		"key_shape":           acctest.RepresentationGroup{RepType: acctest.Required, Group: keyRestoreKeyShapeRepresentation},
 		"management_endpoint": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_kms_vault.test_vault.management_endpoint}`},
-		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value-updated")}`},
+		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value-updated"})}`},
 	}
 	keyRestoreKeyShapeRepresentation = map[string]interface{}{
 		"algorithm": acctest.Representation{RepType: acctest.Required, Create: `AES`},

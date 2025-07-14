@@ -20,7 +20,7 @@ resource "oci_media_services_media_workflow_job" "test_media_workflow_job" {
   workflow_identifier_type = var.media_workflow_job_workflow_identifier_type
 
   #Optional
-  defined_tags                     = map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.defined_tags_value}")
+  defined_tags                     = tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.defined_tags_value}"})
   display_name                     = var.display_name
   freeform_tags                    = var.freeform_tags
   media_workflow_configuration_ids = [oci_media_services_media_workflow_configuration.test_media_workflow_configuration.id]

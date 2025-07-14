@@ -50,7 +50,7 @@ resource "oci_network_firewall_network_firewall_policy" "test_network_firewall_p
   #Optional
   description = "Description to this policy"
 
-  #defined_tags  = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.network_firewall_policy_defined_tags_value)
+  #defined_tags  = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.network_firewall_policy_defined_tags_value})
   display_name  = var.network_firewall_policy_display_name
   freeform_tags = var.network_firewall_policy_freeform_tags
 }

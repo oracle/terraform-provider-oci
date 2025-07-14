@@ -36,7 +36,7 @@ resource "oci_media_services_media_workflow" "test_media_workflow" {
   display_name   = var.display_name
 
   #Optional
-  defined_tags                     = map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.defined_tags_value}")
+  defined_tags                     = tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.defined_tags_value}"})
   freeform_tags                    = var.freeform_tags
   media_workflow_configuration_ids = var.media_workflow_media_workflow_configuration_ids
   parameters                       = var.media_workflow_parameters

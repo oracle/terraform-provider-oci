@@ -111,7 +111,7 @@ resource "oci_opsi_exadata_insight" "test_exadata_insight" {
           }
       }
   }
-  defined_tags                         = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.exadata_insight_defined_tags_value}")}"
+  defined_tags                         = "${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.exadata_insight_defined_tags_value}"})}"
   freeform_tags                        = var.freeform_tags
 }
 

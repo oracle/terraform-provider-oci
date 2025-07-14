@@ -56,7 +56,7 @@ var (
 		"scheduling_window_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_scheduling_policy_scheduling_window.test_scheduling_policy_scheduling_window.id}`},
 		//"action_members":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseScheduledActionActionMembersRepresentation},
 		//"action_params":        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"count": "0"}},
-		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 	//DatabaseScheduledActionActionMembersRepresentation = map[string]interface{}{

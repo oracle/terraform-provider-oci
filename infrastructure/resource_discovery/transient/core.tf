@@ -147,7 +147,7 @@ resource "oci_core_volume_backup_policy" "volume_backup_policy_rd" {
   compartment_id = "${var.compartment_ocid}"
 
   #Optional
-  defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}"
+  defined_tags = "${tomap({"example-tag-namespace-all.example-tag" = "originalValue"})}"
   display_name = "BackupPolicy1"
 
   freeform_tags = {
@@ -481,7 +481,7 @@ resource "oci_core_ipsec" "ip_sec_connection_rd" {
   #Optional
   cpe_local_identifier      = "189.44.2.135"
   cpe_local_identifier_type = "IP_ADDRESS"
-  defined_tags              = "${map("${oci_identity_tag_namespace.tag_namespace1.name}.${oci_identity_tag.tag1.name}", "value")}"
+  defined_tags              = "${tomap({"${oci_identity_tag_namespace.tag_namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}"
   display_name              = "iPSecConnectionRD"
 
   freeform_tags = {

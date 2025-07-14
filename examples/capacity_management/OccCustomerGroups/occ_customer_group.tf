@@ -77,7 +77,7 @@ resource "oci_capacity_management_occ_customer_group" "test_occ_customer_group" 
     description = var.occ_customer_group_customers_list_description
     status      = var.occ_customer_group_customers_list_status
   }
-  defined_tags      = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.occ_customer_group_defined_tags_value)
+  defined_tags      = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.occ_customer_group_defined_tags_value})
   description       = var.occ_customer_group_description
   freeform_tags     = var.occ_customer_group_freeform_tags
   lifecycle_details = var.occ_customer_group_lifecycle_details

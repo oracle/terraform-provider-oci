@@ -126,7 +126,7 @@ resource "oci_redis_redis_cluster" "test_redis_cluster" {
   subnet_id          = oci_core_subnet.test_subnet.id
 
   #Optional
-  //  defined_tags  = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.redis_cluster_defined_tags_value)
+  //  defined_tags  = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.redis_cluster_defined_tags_value})
   freeform_tags = var.redis_cluster_freeform_tags
 }
 

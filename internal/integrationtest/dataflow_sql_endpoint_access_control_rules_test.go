@@ -50,7 +50,7 @@ var (
 		"network_configuration":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DataflowSqlEndpointNetworkConfigurationRepresentationWithSecureAccess},
 		"sql_endpoint_version":          acctest.Representation{RepType: acctest.Required, Create: `3.2.1`},
 		"warehouse_bucket_uri":          acctest.Representation{RepType: acctest.Required, Create: `${var.dataflow_warehouse_bucket_uri}`},
-		"defined_tags":                  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":                  acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"description":                   acctest.Representation{RepType: acctest.Optional, Create: `description`},
 		"driver_shape_config":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: DataflowSqlEndpointDriverShapeConfigRepresentation},
 		"executor_shape_config":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: DataflowSqlEndpointExecutorShapeConfigRepresentation},

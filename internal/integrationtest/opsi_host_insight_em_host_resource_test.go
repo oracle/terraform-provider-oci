@@ -25,7 +25,7 @@ var (
 		"enterprise_manager_identifier":        acctest.Representation{RepType: acctest.Required, Create: `${var.em_host_enterprise_manager_id}`},
 		"entity_source":                        acctest.Representation{RepType: acctest.Required, Create: `EM_MANAGED_EXTERNAL_HOST`, Update: `EM_MANAGED_EXTERNAL_HOST`},
 		"status":                               acctest.Representation{RepType: acctest.Required, Create: `DISABLED`},
-		"defined_tags":                         acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":                         acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags":                        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}},
 		"lifecycle":                            acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesEmHIRepresentation},
 	}

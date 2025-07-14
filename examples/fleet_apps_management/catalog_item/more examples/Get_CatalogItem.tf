@@ -21,7 +21,7 @@ resource "oci_fleet_apps_management_catalog_item" "test_catalog_item" {
   }
   compartment_id     = "${var.compartment_id}"
   config_source_type = "PAR_CATALOG_SOURCE"
-  defined_tags       = "${map("Oracle-Tags.CreatedBy", "updatedValue")}"
+  defined_tags       = "${tomap({"Oracle-Tags.CreatedBy" = "updatedValue"})}"
   description        = "description2"
   display_name       = "displayName2"
   freeform_tags = {

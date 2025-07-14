@@ -79,7 +79,7 @@ resource "oci_network_firewall_network_firewall" "test_network_firewall" {
     must_enable_private_nat  = false
   }
   shape = "REGULAR"
-  #defined_tags               = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.network_firewall_defined_tags_value)
+  #defined_tags               = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.network_firewall_defined_tags_value})
   display_name               = var.network_firewall_display_name
   freeform_tags              = var.network_firewall_freeform_tags
   ipv4address                = var.network_firewall_ipv4address

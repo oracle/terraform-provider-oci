@@ -84,7 +84,7 @@ resource "oci_iot_digital_twin_model" "test_digital_twin_model" {
   spec          = jsonencode(var.digital_twin_model_spec)
 
   #Optional
-  #defined_tags  = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.digital_twin_model_defined_tags_value)
+  #defined_tags  = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.digital_twin_model_defined_tags_value})
   description   = var.digital_twin_model_description
   display_name  = var.digital_twin_model_display_name
   freeform_tags = var.digital_twin_model_freeform_tags

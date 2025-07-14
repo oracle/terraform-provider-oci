@@ -49,7 +49,7 @@ resource "oci_certificates_management_ca_bundle" "test_ca_bundle" {
   name           = var.ca_bundle_name
 
   #Optional
-  defined_tags  = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.ca_bundle_defined_tags_value)
+  defined_tags  = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.ca_bundle_defined_tags_value})
   description   = var.ca_bundle_description
   freeform_tags = var.ca_bundle_freeform_tags
 }

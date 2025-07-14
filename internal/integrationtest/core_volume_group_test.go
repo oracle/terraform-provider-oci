@@ -52,7 +52,7 @@ var (
 		"source_details":             acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreVolumeGroupSourceDetailsRepresentation},
 		"backup_policy_id":           acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_core_volume_backup_policies.test_volume_user_defined_backup_policies.volume_backup_policies.0.id}`},
 		"cluster_placement_group_id": acctest.Representation{RepType: acctest.Optional, Create: ``},
-		"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"volume_ids":                 acctest.Representation{RepType: acctest.Optional, Create: nil, Update: []string{`${oci_core_volume.source_volume_list.*.id[0]}`}},
 		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},

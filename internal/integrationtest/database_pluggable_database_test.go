@@ -50,7 +50,7 @@ var (
 	DatabasePdbRepresentationBase = map[string]interface{}{
 		"pdb_admin_password":                 acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
 		"pdb_name":                           acctest.Representation{RepType: acctest.Required, Create: `SalesPdb`},
-		"defined_tags":                       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":                       acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags":                      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"should_pdb_admin_account_be_locked": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
@@ -72,7 +72,7 @@ var (
 		"pdb_admin_password":    acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
 		"pdb_name":              acctest.Representation{RepType: acctest.Required, Create: `LocalClonePdb`},
 		//"tde_wallet_password":                acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
-		"defined_tags":                       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":                       acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags":                      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"should_pdb_admin_account_be_locked": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		//"container_database_admin_password":  acctest.Representation{RepType: acctest.Optional, Create: `containerDatabaseAdminPassword`},
@@ -93,7 +93,7 @@ var (
 		"pdb_admin_password":    acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
 		"pdb_name":              acctest.Representation{RepType: acctest.Required, Create: `RemoteClonePdb`},
 		//"tde_wallet_password":                acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
-		"defined_tags":                       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":                       acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags":                      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"should_pdb_admin_account_be_locked": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		//"container_database_admin_password":  acctest.Representation{RepType: acctest.Optional, Create: `containerDatabaseAdminPassword`},
@@ -114,7 +114,7 @@ var (
 		"pdb_admin_password":    acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
 		"pdb_name":              acctest.Representation{RepType: acctest.Required, Create: `RelocatePdb`},
 		//"tde_wallet_password":                acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
-		"defined_tags":                       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":                       acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags":                      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"should_pdb_admin_account_be_locked": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		//"container_database_admin_password":  acctest.Representation{RepType: acctest.Optional, Create: `containerDatabaseAdminPassword`},
@@ -135,7 +135,7 @@ var (
 		//"pdb_admin_password":    acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
 		"pdb_name": acctest.Representation{RepType: acctest.Required, Create: `RefreshablePdb`},
 		//"tde_wallet_password":                acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
-		"defined_tags":                       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":                       acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags":                      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"should_pdb_admin_account_be_locked": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		//"container_database_admin_password":  acctest.Representation{RepType: acctest.Optional, Create: `containerDatabaseAdminPassword`},
@@ -242,7 +242,7 @@ var (
 					admin_password = "BEstrO0ng_#11"
 					db_name = "aTFdb"
 					character_set = "AL32UTF8"
-					defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}"
+					defined_tags = "${tomap({"example-tag-namespace-all.example-tag" = "originalValue"})}"
 					freeform_tags = {"Department" = "Finance"}
 					ncharacter_set = "AL16UTF16"
 					db_workload = "OLTP"
@@ -259,7 +259,7 @@ var (
 			db_system_options {
 				storage_management = "LVM"
 			}
-			defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}"
+			defined_tags = "${tomap({"example-tag-namespace-all.example-tag" = "originalValue"})}"
 			freeform_tags = {"Department" = "Finance"}
 			nsg_ids = ["${oci_core_network_security_group.test_network_security_group.id}"]
 			lifecycle {

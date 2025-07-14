@@ -57,7 +57,7 @@ var (
 		"channel_consumption_limit":        acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"custom_encryption_key_id":         acctest.Representation{RepType: acctest.Optional, Create: `${var.custom_encryption_key_id}`},
 		"dead_letter_queue_delivery_count": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
-		"defined_tags":                     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":                     acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags":                    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"retention_in_seconds":             acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"timeout_in_seconds":               acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},

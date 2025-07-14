@@ -57,7 +57,7 @@ var (
 		"shape_config":                         acctest.RepresentationGroup{RepType: acctest.Required, Group: ContainerInstancesContainerInstanceShapeConfigRepresentation},
 		"vnics":                                acctest.RepresentationGroup{RepType: acctest.Required, Group: ContainerInstancesContainerInstanceVnicsRepresentation},
 		"container_restart_policy":             acctest.Representation{RepType: acctest.Optional, Create: `ALWAYS`},
-		"defined_tags":                         acctest.Representation{RepType: acctest.Optional, Create: `${map("tf_test_namespace.test_tag", "value")}`, Update: `${map("tf_test_namespace.test_tag", "updatedValue")}`},
+		"defined_tags":                         acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"display_name":                         acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"dns_config":                           acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerInstancesContainerInstanceDnsConfigRepresentation},
 		"freeform_tags":                        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
@@ -109,7 +109,7 @@ var (
 	}
 	ContainerInstancesContainerInstanceVnicsRepresentation = map[string]interface{}{
 		"subnet_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
-		"defined_tags":           acctest.Representation{RepType: acctest.Optional, Create: `${map("tf_test_namespace.test_tag", "value")}`, Update: `${map("tf_test_namespace.test_tag", "updatedValue")}`},
+		"defined_tags":           acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
 		"hostname_label":         acctest.Representation{RepType: acctest.Optional, Create: `hostnamelabel`, Update: `hostnamelabel2`},

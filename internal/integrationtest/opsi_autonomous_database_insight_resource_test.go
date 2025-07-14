@@ -26,7 +26,7 @@ var (
 		"connection_details":           acctest.RepresentationGroup{RepType: acctest.Required, Group: autonomousDatabaseInsightConnectionDetailsRepresentation},
 		"status":                       acctest.Representation{RepType: acctest.Required, Create: `DISABLED`},
 		"entity_source":                acctest.Representation{RepType: acctest.Required, Create: `AUTONOMOUS_DATABASE`, Update: `AUTONOMOUS_DATABASE`},
-		//"defined_tags":                 acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
+		//"defined_tags":                 acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`},
 		//"freeform_tags":                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}},
 		"lifecycle": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ignoreChangesADIRepresentation},
 	}

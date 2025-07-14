@@ -27,12 +27,12 @@ import (
 var (
 	// If you want tests to create tags, uncomment below and comment other defined tag variables
 	// If tags are created already, comment below and uncomment other variables
-	//ocvpDefinedTag             = `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`
-	//ocvpDefinedTagUpdate       = `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`
+	//ocvpDefinedTag             = `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`
+	//ocvpDefinedTagUpdate       = `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`
 	//ocvpDefinedTagsDependencies = DefinedTagsDifDependencies
 
-	ocvpDefinedTag              = `${map("example-tag-namespace-all.example-tag", "value")}`
-	ocvpDefinedTagUpdate        = `${map("example-tag-namespace-all.example-tag", "updatedValue")}`
+	ocvpDefinedTag              = `${tomap({"example-tag-namespace-all.example-tag" = "value"})}`
+	ocvpDefinedTagUpdate        = `${tomap({"example-tag-namespace-all.example-tag" = "updatedValue"})}`
 	ocvpDefinedTagsDependencies = ``
 
 	OcvpByolRequiredOnlyResource = OcvpByolResourceDependencies +

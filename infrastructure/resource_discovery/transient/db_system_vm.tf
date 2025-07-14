@@ -50,7 +50,7 @@ resource "oci_database_db_system" "test_db_system" {
   nsg_ids                 = ["${oci_core_network_security_group.network_security_group_backup_rd.id}", "${oci_core_network_security_group.network_security_group_rd.id}"]
 
   #To use defined_tags, set the values below to an existing tag namespace, refer to the identity example on how to create tag namespaces
-  #defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}"
+  #defined_tags = "${tomap({"example-tag-namespace-all.example-tag" = "originalValue"})}"
 
   freeform_tags = {
     "Department" = "Finance"

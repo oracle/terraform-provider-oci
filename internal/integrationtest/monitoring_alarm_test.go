@@ -58,7 +58,7 @@ var (
 		"severity":                  acctest.Representation{RepType: acctest.Required, Create: `WARNING`, Update: `INFO`},
 		"alarm_summary":             acctest.Representation{RepType: acctest.Optional, Create: `test summary with severity = {{severity}} and query = {{{query}}}`, Update: `alarmSummary2`},
 		"body":                      acctest.Representation{RepType: acctest.Optional, Create: `CPU utilization has reached high values.`, Update: `body2`},
-		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"evaluation_slack_duration": acctest.Representation{RepType: acctest.Optional, Create: `PT5M`, Update: `PT10M`},
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_notifications_per_metric_dimension_enabled": acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},

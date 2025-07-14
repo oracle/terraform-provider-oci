@@ -51,7 +51,7 @@ var (
 		"entity_source":     acctest.Representation{RepType: acctest.Required, Create: `CHARGEBACK_EXADATA`},
 		"plan_name":         acctest.Representation{RepType: acctest.Required, Create: `planNameTF1`, Update: `planNameTF1u`},
 		"plan_type":         acctest.Representation{RepType: acctest.Required, Create: `WEIGHTED_ALLOCATION`},
-		"defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
+		"defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`},
 		"freeform_tags":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}},
 		"plan_custom_items": OpsiChargebackPlanPlanCustomItemsRepresentation,
 		"plan_description":  acctest.Representation{RepType: acctest.Required, Create: `planDescription`, Update: `planDescription2`},

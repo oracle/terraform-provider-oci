@@ -27,7 +27,7 @@ var (
 		"management_agent_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.management_agent_id}`},
 		"status":                        acctest.Representation{RepType: acctest.Required, Create: `DISABLED`},
 		"entity_source":                 acctest.Representation{RepType: acctest.Required, Create: `MACS_MANAGED_CLOUD_DATABASE`, Update: `MACS_MANAGED_CLOUD_DATABASE`},
-		"defined_tags":                  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
+		"defined_tags":                  acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`},
 		"freeform_tags":                 acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}},
 		"lifecycle":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesOpsiMacsCloudDatabaseInsightRepresentation},
 	}

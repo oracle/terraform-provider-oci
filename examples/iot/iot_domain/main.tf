@@ -49,7 +49,7 @@ resource "oci_iot_iot_domain" "test_iot_domain" {
   iot_domain_group_id = var.iot_domain_group_ocid
 
   #Optional
-  #defined_tags  = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.iot_domain_defined_tags_value)
+  #defined_tags  = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.iot_domain_defined_tags_value})
   description   = var.iot_domain_description
   display_name  = var.iot_domain_display_name
   freeform_tags = var.iot_domain_freeform_tags

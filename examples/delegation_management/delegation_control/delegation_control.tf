@@ -78,7 +78,7 @@ resource "oci_delegation_management_delegation_control" "test_delegation_control
   resource_type               = var.delegation_control_resource_type
 
   #Optional
-  #defined_tags                               = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.delegation_control_defined_tags_value)
+  #defined_tags                               = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.delegation_control_defined_tags_value})
   description                                = var.delegation_control_description
   freeform_tags                              = var.delegation_control_freeform_tags
   is_auto_approve_during_maintenance         = var.delegation_control_is_auto_approve_during_maintenance

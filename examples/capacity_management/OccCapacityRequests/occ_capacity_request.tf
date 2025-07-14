@@ -147,7 +147,7 @@ resource "oci_capacity_management_occ_capacity_request" "test_occ_capacity_reque
 
   #Optional
   availability_domain         = var.occ_capacity_request_availability_domain
-  defined_tags                = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.occ_capacity_request_defined_tags_value)
+  defined_tags                = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.occ_capacity_request_defined_tags_value})
   description                 = var.occ_capacity_request_description
   freeform_tags               = var.occ_capacity_request_freeform_tags
   lifecycle_details           = var.occ_capacity_request_lifecycle_details

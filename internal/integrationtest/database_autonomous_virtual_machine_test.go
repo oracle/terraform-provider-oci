@@ -42,7 +42,7 @@ var (
 		"cpu_core_count":              acctest.Representation{RepType: acctest.Required, Create: `4`, Update: `6`},
 		"db_node_storage_size_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `120`, Update: `160`},
 		"db_server_id":                acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_database_db_servers.test_db_servers.db_servers.0.id}`},
-		"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}}, "id": acctest.Representation{RepType: acctest.Optional, Create: `LICENSE_INCLUDED`},
 		"memory_size_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `60`, Update: `90`},
 		"state":              acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},

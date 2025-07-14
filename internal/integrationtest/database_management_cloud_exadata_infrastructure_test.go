@@ -52,7 +52,7 @@ var (
 	DatabaseManagementCloudExadataInfrastructureRepresentation = map[string]interface{}{
 		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"vm_cluster_ids":       acctest.Representation{RepType: acctest.Required, Create: []string{`${var.vm_cluster_id}`}},
-		"defined_tags":         acctest.Representation{RepType: acctest.Optional, Create: `${map("Oracle-Tags.CreatedBy", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":         acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"Oracle-Tags.CreatedBy" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"discovery_key":        acctest.Representation{RepType: acctest.Optional, Create: `${var.discovery_key}`},
 		"display_name":         acctest.Representation{RepType: acctest.Required, Create: `${var.display_name}`, Update: `${var.display_name}`},
 		"freeform_tags":        acctest.Representation{RepType: acctest.Required, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},

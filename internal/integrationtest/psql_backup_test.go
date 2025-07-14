@@ -61,7 +61,7 @@ var (
 		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"db_system_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.db_ocid}`},
 		"display_name":     acctest.Representation{RepType: acctest.Required, Create: `terrafrom-backup-test`, Update: `terrafrom-backup-test-2`},
-		"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"description":      acctest.Representation{RepType: acctest.Optional, Create: `description1`, Update: `description2`},
 		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"retention_period": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},

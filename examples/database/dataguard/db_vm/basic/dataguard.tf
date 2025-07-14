@@ -180,9 +180,9 @@ resource "oci_database_data_guard_association" "test_data_guard_association" {
   availability_domain       = data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name
   nsg_ids                   = [oci_core_network_security_group.test_network_security_group.id]
   hostname                  = "ocidb"
-  db_system_defined_tags    = map("example-tag-namespace-all.example-tag", "dbSystemDefinedTags1")
+  db_system_defined_tags    = tomap({"example-tag-namespace-all.example-tag" = "dbSystemDefinedTags1"})
   db_system_freeform_tags   = {"dbSystemFreeformTagsK" = "dbSystemFreeformTagsV"}
-  database_defined_tags     = map("example-tag-namespace-all.example-tag", "databaseDefinedTags1")
+  database_defined_tags     = tomap({"example-tag-namespace-all.example-tag" = "databaseDefinedTags1"})
   database_freeform_tags    = {"databaseFreeformTagsK" = "databaseFreeformTagsV"}
   fault_domains             = ["FAULT-DOMAIN-3"]
   license_model             = "LICENSE_INCLUDED"

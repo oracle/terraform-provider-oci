@@ -22,7 +22,7 @@ resource "oci_media_services_stream_packaging_config" "test_stream_packaging_con
   stream_packaging_format = var.stream_packaging_config_stream_packaging_format
 
   #Optional
-  defined_tags = map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.defined_tags_value}")
+  defined_tags = tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.defined_tags_value}"})
   freeform_tags = var.freeform_tags
   locks {
     #Required

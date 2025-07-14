@@ -92,7 +92,7 @@ resource "oci_dataintegration_workspace_application" "test_workspace_application
   workspace_id = oci_dataintegration_workspace.test_workspace.id
 
   #Optional
-  defined_tags  = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.workspace_application_defined_tags_value)
+  defined_tags  = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.workspace_application_defined_tags_value})
   description   = var.workspace_application_description
   display_name  = var.workspace_application_display_name
   freeform_tags = var.workspace_application_freeform_tags

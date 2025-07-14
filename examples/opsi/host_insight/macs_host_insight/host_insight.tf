@@ -54,7 +54,7 @@ resource "oci_opsi_host_insight" "test_host_insight" {
   compartment_id      = var.compartment_ocid
   entity_source       = var.host_insight_entity_source
   management_agent_id = var.managed_agent_id
-  defined_tags        = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.host_insight_defined_tags_value}")}"
+  defined_tags        = "${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.host_insight_defined_tags_value}"})}"
   freeform_tags = var.host_insight_freeform_tags
   status = var.resource_status
 }

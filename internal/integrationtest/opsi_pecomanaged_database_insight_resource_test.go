@@ -27,7 +27,7 @@ var (
 		"service_name":             acctest.Representation{RepType: acctest.Required, Create: `${var.service_name}`},
 		"status":                   acctest.Representation{RepType: acctest.Required, Create: `DISABLED`},
 		"entity_source":            acctest.Representation{RepType: acctest.Required, Create: `PE_COMANAGED_DATABASE`, Update: `PE_COMANAGED_DATABASE`},
-		"defined_tags":             acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
+		"defined_tags":             acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`},
 		"freeform_tags":            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}},
 		"lifecycle":                acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesPDIRepresentation},
 	}

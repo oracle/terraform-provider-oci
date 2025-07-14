@@ -57,12 +57,12 @@ resource "oci_database_data_guard_association" "test_data_guard_association" {
     is_incident_logs_enabled = "false"
   }
   database_admin_password = "BEstrO0ng_#11"
-  database_defined_tags = map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "databaseDefinedTags1")
+  database_defined_tags = tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "databaseDefinedTags1"})
   database_freeform_tags = {
     "databaseFreeformTagsK" = "databaseFreeformTagsV"
   }
   database_id = data.oci_database_databases.db.databases.0.id
-  db_system_defined_tags = map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "dbSystemDefinedTags1")
+  db_system_defined_tags = tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "dbSystemDefinedTags1"})
   db_system_freeform_tags = {
     "dbSystemFreeformTagsK" = "dbSystemFreeformTagsV"
   }

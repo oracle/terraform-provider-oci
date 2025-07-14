@@ -160,7 +160,7 @@ const (
 				2. If GET request requires more attributes than the OCID of a resource. If the resource supports composite id, make sure correct composite Id is getting set in resource data using getIdFn resource hint.
 				3. If resource is dependent on another resource(parent), the field for the parent resource should be a required field in API.
 				4. If a resource is tenancy specific i.e. it can only be created in the tenancy then the resource should be present under tenancyResourcesGraphs.`
-	WriteTmpStateErrorSuggestion = "Unsupported Terraform version! Please install supported terraform v.0.12 - https://releases.hashicorp.com/terraform/0.12.31/"
+	WriteTmpStateErrorSuggestion = "Unsupported Terraform version! Please install supported terraform v.1.5 - https://releases.hashicorp.com/terraform/1.5.7/"
 	IdsNotFoundSuggestion        = "SetData() method should not contains parameters are not supported by schema\""
 )
 

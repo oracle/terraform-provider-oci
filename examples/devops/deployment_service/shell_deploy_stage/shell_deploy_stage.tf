@@ -81,7 +81,7 @@ resource "oci_core_subnet" "test_subnet" {
   availability_domain = lower(data.oci_identity_availability_domain.devops_ad.name)
   cidr_block = "10.0.0.0/24"
   compartment_id = var.compartment_ocid
-  //defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}"
+  //defined_tags = "${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}"
   dhcp_options_id = oci_core_vcn.test_vcn.default_dhcp_options_id
   display_name = "MySubnet"
   dns_label = "dnslabel"
@@ -103,7 +103,7 @@ resource "oci_core_subnet" "test_subnet" {
 resource "oci_core_vcn" "test_vcn" {
   cidr_block = "10.0.0.0/16"
   compartment_id = var.compartment_ocid
-  //defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}"
+  //defined_tags = "${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}"
   display_name = "displayName"
   dns_label = "dnslabel"
   freeform_tags = {

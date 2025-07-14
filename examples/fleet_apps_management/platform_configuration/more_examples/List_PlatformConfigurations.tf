@@ -40,7 +40,7 @@ resource "oci_fleet_apps_management_platform_configuration" "test_platform_confi
     }
     versions = ["2"]
   }
-  defined_tags = "${map("Oracle-Tags.CreatedBy", "updatedValue")}"
+  defined_tags = "${tomap({"Oracle-Tags.CreatedBy" = "updatedValue"})}"
   description  = "description2"
   display_name = "displayName2"
   freeform_tags = {

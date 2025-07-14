@@ -49,7 +49,7 @@ var (
 		"clients":          acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewaySubscriberClientsRepresentation},
 		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"usage_plans":      acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_apigateway_usage_plan.test_usage_plan.id}`}, Update: []string{`${oci_apigateway_usage_plan.test_usage_plan2.id}`}},
-		"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"locks":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewaySubscriberLocksRepresentation},

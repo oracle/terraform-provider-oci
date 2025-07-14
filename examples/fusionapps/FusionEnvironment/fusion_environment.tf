@@ -124,7 +124,7 @@ resource "oci_fusion_apps_fusion_environment" "test_fusion_environment" {
 
   #Optional
   additional_language_packs = var.fusion_environment_additional_language_packs
-  defined_tags              = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.fusion_environment_defined_tags_value)
+  defined_tags              = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.fusion_environment_defined_tags_value})
   dns_prefix                = var.fusion_environment_dns_prefix
   freeform_tags             = var.fusion_environment_freeform_tags
   is_ipv6dual_stack_enabled    = var.fusion_environment_is_ipv6dual_stack_enabled

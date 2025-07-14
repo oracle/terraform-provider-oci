@@ -70,7 +70,7 @@ resource "oci_core_instance" "t" {
         subnet_id = "${oci_core_subnet.t.id}"
         hostname_label = "testinstance"
         display_name = "-tf-instance-vnic"
-		defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}"
+		defined_tags = "${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}"
 		freeform_tags = { "Department" = "Accounting" }
   	}
 	metadata = {
@@ -96,7 +96,7 @@ var subnetRegionalRepresentation = map[string]interface{}{
 	"cidr_block":                 acctest.Representation{RepType: acctest.Required, Create: `10.0.0.0/16`},
 	"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	"vcn_id":                     acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
-	"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+	"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 	"dhcp_options_id":            acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vcn.test_vcn.default_dhcp_options_id}`, Update: `${oci_core_dhcp_options.test_dhcp_options.id}`},
 	"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `MySubnet`, Update: `displayName2`},
 	"dns_label":                  acctest.Representation{RepType: acctest.Optional, Create: `dnslabel`},

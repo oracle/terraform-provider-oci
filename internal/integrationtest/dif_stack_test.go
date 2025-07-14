@@ -116,7 +116,7 @@ var (
 		"adb":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: DifStackAdbRepresentation},
 		"aidataplatform":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: DifStackAidataplatformRepresentation},
 		"dataflow":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: DifStackDataflowRepresentation},
-		"defined_tags":    acctest.Representation{RepType: acctest.Optional, Create: `${map("example-tag-namespace-all.example-tag", "value")}`, Update: `${map("example-tag-namespace-all.example-tag", "updatedValue")}`},
+		"defined_tags":    acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"example-tag-namespace-all.example-tag" = "value"})}`, Update: `${tomap({"example-tag-namespace-all.example-tag" = "updatedValue"})}`},
 		"freeform_tags":   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		//"genai":                    acctest.RepresentationGroup{RepType: acctest.Optional, Group: DifStackGenaiRepresentation},
 		"ggcs":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: DifStackGgcsRepresentation},

@@ -68,7 +68,7 @@ var (
 		"config_id":                   acctest.Representation{RepType: acctest.Optional, Create: `${var.config_id}`, Update: `${var.update_config_id}`},
 		"apply_config":                acctest.Representation{RepType: acctest.Optional, Update: `RESTART`},
 		"credentials":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: PsqlDbSystemCredentialsRepresentation},
-		"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"description":                 acctest.Representation{RepType: acctest.Optional, Create: `terrafrom test dbSystem`},
 		"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key-2": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"instance_count":              acctest.Representation{RepType: acctest.Required, Create: `1`},

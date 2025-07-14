@@ -19,7 +19,7 @@ resource "oci_database_exadata_infrastructure" "exadata_infrastructure_rd" {
 
   #Optional
   corporate_proxy = "http://192.168.19.1:80"
-  defined_tags    = "${map("${oci_identity_tag_namespace.tag_namespace_rd.name}.${oci_identity_tag.tag_rd.name}", "value1")}"
+  defined_tags    = "${tomap({"${oci_identity_tag_namespace.tag_namespace_rd.name}.${oci_identity_tag.tag_rd.name}" = "value1"})}"
 
   freeform_tags = {
     "Department" = "Accounting"
@@ -94,7 +94,7 @@ resource "oci_database_vm_cluster_network" "vm_cluster_network_rd" {
   }
 
   #Optional
-  defined_tags = "${map("${oci_identity_tag_namespace.tag_namespace_rd.name}.${oci_identity_tag.tag_rd.name}", "value1")}"
+  defined_tags = "${tomap({"${oci_identity_tag_namespace.tag_namespace_rd.name}.${oci_identity_tag.tag_rd.name}" = "value1"})}"
 
   freeform_tags = {
     "Department" = "Accounting"
@@ -114,7 +114,7 @@ resource "oci_database_vm_cluster" "test_vm_cluster" {
   vm_cluster_network_id     = "${oci_database_vm_cluster_network.vm_cluster_network_rd.id}"
 
   #Optional
-  defined_tags = "${map("${oci_identity_tag_namespace.tag_namespace_rd.name}.${oci_identity_tag.tag_rd.name}", "value1")}"
+  defined_tags = "${tomap({"${oci_identity_tag_namespace.tag_namespace_rd.name}.${oci_identity_tag.tag_rd.name}" = "value1"})}"
 
   freeform_tags = {
     "Department" = "Accounting"
@@ -205,7 +205,7 @@ resource "oci_database_autonomous_vm_cluster" "test_autonomous_vm_cluster" {
   is_local_backup_enabled = "false"
   license_model           = "LICENSE_INCLUDED"
   time_zone               = "US/Pacific"
-  defined_tags            = "${map("${oci_identity_tag_namespace.tag_namespace_rd.name}.${oci_identity_tag.tag_rd.name}", "value1")}"
+  defined_tags            = "${tomap({"${oci_identity_tag_namespace.tag_namespace_rd.name}.${oci_identity_tag.tag_rd.name}" = "value1"})}"
 
   freeform_tags = {
     "Department" = "Finance"

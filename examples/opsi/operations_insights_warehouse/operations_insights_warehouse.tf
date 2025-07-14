@@ -79,7 +79,7 @@ resource "oci_opsi_operations_insights_warehouse" "test_operations_insights_ware
   display_name               = var.warehouse_display_name
 
   #Optional
-  defined_tags               = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.warehouse_defined_tags_value}")}"
+  defined_tags               = "${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.warehouse_defined_tags_value}"})}"
   freeform_tags              = var.warehouse_freeform_tags
   storage_allocated_in_gbs 	 = var.storage_allocated_in_gbs
 }

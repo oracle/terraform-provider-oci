@@ -102,7 +102,7 @@ resource "oci_disaster_recovery_dr_protection_group" "test_dr_protection_group" 
   #Optional
   disassociate_trigger = var.disassociate_trigger
 
-  defined_tags = map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.dr_protection_group_defined_tags_value}")
+  defined_tags = tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.dr_protection_group_defined_tags_value}"})
   freeform_tags = var.dr_protection_group_freeform_tags
 }
 

@@ -50,7 +50,7 @@ var (
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":              acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"subscription_ids":          acctest.Representation{RepType: acctest.Required, Create: []string{`ocid1.subscription.region1..BGBG0000m255pmogxppvxocajwtnscil7o36ohz3ep6flaut37dp22dxdpnq`}, Update: []string{`ocid1.subscription.region1..BGBG0000m255pmogxppvxocajwtnscil7o36ohz3ep6flaut37dp22dxdpnq`}},
-		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace-terraform.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace-terraform.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace-terraform.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace-terraform.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"family_maintenance_policy": acctest.RepresentationGroup{RepType: acctest.Optional, Group: FusionAppsFusionEnvironmentFamilyFamilyMaintenancePolicyRepresentation},
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"lifecycle":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: definedTagsIgnoreRepresentation_fusionapps},

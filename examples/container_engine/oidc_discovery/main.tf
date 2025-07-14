@@ -187,7 +187,7 @@ resource "oci_containerengine_cluster" "test_cluster" {
   type               = var.cluster_type
 
   #Optional
-  #   defined_tags = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.cluster_defined_tags_value)
+  #   defined_tags = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.cluster_defined_tags_value})
 
   freeform_tags = var.cluster_freeform_tags
 

@@ -51,7 +51,7 @@ var (
 		"compartment_id":                 acctest.Representation{RepType: acctest.Required, Create: `${var.disc_compartment_id}`},
 		"dbaas_parent_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: `${var.disc_dbaas_dbsystem_id}`},
 		"deployment_type":                acctest.Representation{RepType: acctest.Required, Create: `VM`},
-		"defined_tags":                   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":                   acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"display_name":                   acctest.Representation{RepType: acctest.Required, Create: `${var.disc_dbaas_dbsystem_name}`, Update: `displayName2`},
 		"freeform_tags":                  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"lifecycle":                      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDbManagementCloudDbSystemDiscoveryDefinedTagsChangesRepresentation},

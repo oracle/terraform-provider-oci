@@ -80,7 +80,7 @@ resource "oci_opsi_enterprise_manager_bridge" "test_enterprise_manager_bridge" {
   object_storage_bucket_name = oci_objectstorage_bucket.test_bucket.name
 
   #Optional
-  defined_tags               = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.enterprise_manager_bridge_defined_tags_value}")}"
+  defined_tags               = "${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.enterprise_manager_bridge_defined_tags_value}"})}"
   freeform_tags              = var.enterprise_manager_bridge_freeform_tags
   description 		     = var.enterprise_manager_bridge_description
 }

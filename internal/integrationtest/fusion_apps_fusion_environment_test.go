@@ -95,7 +95,7 @@ var (
 		"fusion_environment_type":      acctest.Representation{RepType: acctest.Required, Create: `TEST`},
 		"additional_egress_rules":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: FusionAppsFusionEnvironmentAdditionalEgressRulesRepresentation},
 		"additional_language_packs":    acctest.Representation{RepType: acctest.Optional, Create: []string{`en`}, Update: []string{`ar`}},
-		"defined_tags":                 acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace-terraform.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace-terraform.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":                 acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace-terraform.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace-terraform.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"dns_prefix":                   acctest.Representation{RepType: acctest.Optional, Create: `dnsprefix`},
 		"freeform_tags":                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"kms_key_id":                   acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency_fusionapps.keys[0], "id")}`},

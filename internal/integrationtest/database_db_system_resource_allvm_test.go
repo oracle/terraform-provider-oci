@@ -73,7 +73,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 							admin_password = "BEstrO0ng_#11"
 							db_name = "aTFdb"
 							character_set = "AL32UTF8"
-							defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}"
+							defined_tags = "${tomap({"example-tag-namespace-all.example-tag" = "originalValue"})}"
 							freeform_tags = {"Department" = "Finance"}
 							ncharacter_set = "AL16UTF16"
 							db_workload = "OLTP"
@@ -96,7 +96,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 					db_system_options {
 						storage_management = "LVM"
 					}
-					defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}"
+					defined_tags = "${tomap({"example-tag-namespace-all.example-tag" = "originalValue"})}"
 					freeform_tags = {"Department" = "Finance"}
 					nsg_ids = ["${oci_core_network_security_group.test_network_security_group.id}"]
 				}
@@ -360,7 +360,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 							admin_password = "BEstrO0ng_#11"
 							db_name = "aTFdb"
 							character_set = "AL32UTF8"
-							defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}"
+							defined_tags = "${tomap({"example-tag-namespace-all.example-tag" = "originalValue"})}"
 							freeform_tags = {"Department" = "Finance"}
 							ncharacter_set = "AL16UTF16"
 							db_workload = "OLTP"
@@ -375,7 +375,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 					db_system_options {
 						storage_management = "LVM"
 					}
-					defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}"
+					defined_tags = "${tomap("example-tag-namespace-all.example-tag" = "originalValue"})}"
 					freeform_tags = {"Department" = "Finance"}
 					nsg_ids = ["${oci_core_network_security_group.test_network_security_group.id}"]
 				}`, nil),
@@ -419,7 +419,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 							admin_password = "BEstrO0ng_#11"
 							db_name = "aTFdb"
 							character_set = "AL32UTF8"
-							defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}"
+							defined_tags = "${tomap({"example-tag-namespace-all.example-tag" = "originalValue"})}"
 							freeform_tags = {"Department" = "Finance"}
 							ncharacter_set = "AL16UTF16"
 							db_workload = "OLTP"
@@ -434,7 +434,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 					db_system_options {
 						storage_management = "LVM"
 					}
-					defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}"
+					defined_tags = "${tomap({"example-tag-namespace-all.example-tag" = "originalValue"})}"
 					freeform_tags = {"Department" = "Finance"}
 					nsg_ids = ["${oci_core_network_security_group.test_network_security_group.id}"]
 				}`, nil),
@@ -478,7 +478,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 							admin_password = "BEstrO0ng_#11"
 							db_name = "aTFdb"
 							character_set = "AL32UTF8"
-							defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}"
+							defined_tags = "${tomap({"example-tag-namespace-all.example-tag" = "originalValue"})}"
 							freeform_tags = {"Department" = "Finance"}
 							ncharacter_set = "AL16UTF16"
 							db_workload = "OLTP"
@@ -493,7 +493,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 					db_system_options {
 						storage_management = "LVM"
 					}
-					defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}"
+					defined_tags = "${tomap("example-tag-namespace-all.example-tag" = "originalValue"})}"
 					freeform_tags = {"Department" = "Finance"}
 					nsg_ids = ["${oci_core_network_security_group.test_network_security_group.id}"]
 				}`, nil),
@@ -539,7 +539,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 							admin_password = "BEstrO0ng_#11"
 							db_name = "aTFdb"
 							character_set = "AL32UTF8"
-							defined_tags = "${map("example-tag-namespace-all.example-tag", "updateValue")}"
+							defined_tags = "${tomap({"example-tag-namespace-all.example-tag" = "updateValue"})}"
 							freeform_tags = {"Department" = "Admin"}
 							ncharacter_set = "AL16UTF16"
 							db_workload = "OLTP"
@@ -559,7 +559,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 					db_system_options {
 						storage_management = "LVM"
 					}
-					defined_tags = "${map("example-tag-namespace-all.example-tag", "updateValue")}"
+					defined_tags = "${tomap({"example-tag-namespace-all.example-tag" = "updateValue"})}"
 					freeform_tags = {"Department" = "Admin"}
 					nsg_ids = ["${oci_core_network_security_group.test_network_security_group.id}", "${oci_core_network_security_group.test_network_security_group2.id}"]
 				}

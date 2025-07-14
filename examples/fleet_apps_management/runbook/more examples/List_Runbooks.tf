@@ -20,7 +20,7 @@ variable "compartment_id" { default = "ocid1.compartment.oc1.." }
 
 resource "oci_fleet_apps_management_runbook" "test_runbook" {
   compartment_id = "${var.compartment_id}"
-  defined_tags   = "${map("Oracle-Tags.CreatedBy", "updatedValue")}"
+  defined_tags   = "${tomap({"Oracle-Tags.CreatedBy" = "updatedValue"})}"
   description    = "description2"
   display_name   = "displayName2"
   estimated_time = "PT30M"

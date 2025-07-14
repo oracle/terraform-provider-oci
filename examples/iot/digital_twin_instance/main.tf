@@ -68,7 +68,7 @@ resource "oci_iot_digital_twin_instance" "test_digital_twin_instance" {
   iot_domain_id = var.iot_domain_ocid
 
   #Optional
-  #defined_tags            = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.digital_twin_instance_defined_tags_value)
+  #defined_tags            = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.digital_twin_instance_defined_tags_value})
   description             = var.digital_twin_instance_description
   digital_twin_adapter_id = var.digital_twin_adapter_ocid
   display_name            = var.digital_twin_instance_display_name

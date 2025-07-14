@@ -55,7 +55,7 @@ resource "oci_delegation_management_delegation_subscription" "test_delegation_su
   subscribed_service_type = var.delegation_subscription_subscribed_service_type
 
   #Optional
-  #defined_tags  = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.delegation_subscription_defined_tags_value)
+  #defined_tags  = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.delegation_subscription_defined_tags_value})
   description   = var.delegation_subscription_description
   #freeform_tags = var.delegation_subscription_freeform_tags
 }

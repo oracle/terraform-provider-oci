@@ -57,7 +57,7 @@ resource "oci_vbs_inst_vbs_instance" "test_vbs_instance" {
   name           = var.vbs_instance_name
 
   #Optional
-  #defined_tags                        = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.vbs_instance_defined_tags_value)
+  #defined_tags                        = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.vbs_instance_defined_tags_value})
   freeform_tags                       = var.vbs_instance_freeform_tags
   #idcs_access_token                   = var.vbs_instance_idcs_access_token
   is_resource_usage_agreement_granted = var.vbs_instance_is_resource_usage_agreement_granted

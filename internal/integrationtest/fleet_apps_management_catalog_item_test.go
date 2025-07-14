@@ -65,7 +65,7 @@ var (
 		"catalog_source_payload": acctest.RepresentationGroup{RepType: acctest.Required, Group: FleetAppsManagementCatalogItemCatalogSourcePayloadRepresentation},
 		// "listing_version":        acctest.Representation{RepType: acctest.Required, Create: `1.0.0`},
 
-		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("Oracle-Tags.CreatedBy", "value")}`, Update: `${map("Oracle-Tags.CreatedBy", "updatedValue")}`},
+		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"Oracle-Tags.CreatedBy" = "value"})}`, Update: `${tomap({"Oracle-Tags.CreatedBy" = "updatedValue"})}`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		// "is_item_locked": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		// "listing_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_marketplace_listing.test_listing.id}`},

@@ -55,7 +55,7 @@ resource "oci_fusion_apps_fusion_environment_family" "test_fusion_environment_fa
   subscription_ids = var.fusion_environment_family_subscription_ids
 
   #Optional
-  defined_tags = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.fusion_environment_family_defined_tags_value)
+  defined_tags = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.fusion_environment_family_defined_tags_value})
   family_maintenance_policy {
 
     #Optional

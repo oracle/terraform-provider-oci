@@ -302,7 +302,7 @@ resource "oci_opensearch_opensearch_cluster" "test_opensearch_cluster" {
   }
   data_node_host_bare_metal_shape = var.opensearch_cluster_data_node_host_bare_metal_shape
   data_node_host_shape            = var.opensearch_cluster_data_node_host_shape
-  defined_tags                    = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.opensearch_cluster_defined_tags_value)
+  defined_tags                    = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.opensearch_cluster_defined_tags_value})
   freeform_tags                   = var.opensearch_cluster_freeform_tags
   inbound_cluster_ids             = var.opensearch_cluster_inbound_cluster_ids
   load_balancer_config {

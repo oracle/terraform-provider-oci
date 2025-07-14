@@ -57,7 +57,7 @@ var (
 		"tenancy_id":               acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_tenancy.test_tenancy.id}`},
 		"tenancy_name":             acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_tenancy.test_tenancy.name}`},
 		"add_on_features":          acctest.Representation{RepType: acctest.Optional, Create: []string{`ENABLE_ADVANCED_HOSTING`, `CROSS_REGION_DR`}, Update: []string{`ENABLE_ADVANCED_HOSTING`, `CROSS_REGION_DR`}},
-		"defined_tags":             acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":             acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"description":              acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"dr_region":                acctest.Representation{RepType: acctest.Optional, Create: `us-phoenix-1`, Update: `us-phoenix-1`},
 		"freeform_tags":            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},

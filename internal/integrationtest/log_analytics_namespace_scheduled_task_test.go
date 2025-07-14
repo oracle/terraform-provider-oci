@@ -112,7 +112,7 @@ var (
 		"task_type":       acctest.Representation{RepType: acctest.Required, Create: `SAVED_SEARCH`},
 		"action":          acctest.RepresentationGroup{RepType: acctest.Required, Group: LogAnalyticsNamespaceScheduledTaskActionMetricExtractionRepresentation},
 		"schedules":       acctest.RepresentationGroup{RepType: acctest.Required, Group: LogAnalyticsSchedulesRepresentation},
-		"defined_tags":    acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":    acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"display_name":    acctest.Representation{RepType: acctest.Required, Create: `tfMetricsExtractionTask`, Update: `tfMetricsExtractionTask2`},
 		"description":     acctest.Representation{RepType: acctest.Required, Create: `A metric extraction task`},
 		"saved_search_id": acctest.Representation{RepType: acctest.Required, Create: `${var.saved_search_id}`},
@@ -138,7 +138,7 @@ var (
 		"task_type":      acctest.Representation{RepType: acctest.Required, Create: `SAVED_SEARCH`},
 		"action":         acctest.RepresentationGroup{RepType: acctest.Required, Group: LogAnalyticsNamespaceScheduledTaskActionMetricExtractionFromTemplateRepresentation},
 		"schedules":      acctest.RepresentationGroup{RepType: acctest.Required, Group: LogAnalyticsPurgeSchedulesRepresentation},
-		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `tfMetricsExtractionTemplateTask`, Update: `tfMetricsExtractionTemplateTask2`},
 	}
 
@@ -170,7 +170,7 @@ var (
 		"task_type":       acctest.Representation{RepType: acctest.Required, Create: `SAVED_SEARCH`},
 		"action":          acctest.RepresentationGroup{RepType: acctest.Required, Group: LogAnalyticsNamespaceScheduledTaskActionMetricExtractionWithCollectionRepresentation},
 		"schedules":       acctest.RepresentationGroup{RepType: acctest.Required, Group: LogAnalyticsSchedulesRepresentation},
-		"defined_tags":    acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":    acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"display_name":    acctest.Representation{RepType: acctest.Required, Create: `tfMetricsExtractionCollectionTask`, Update: `tfMetricsExtractionCollectionTask2`},
 		"saved_search_id": acctest.Representation{RepType: acctest.Required, Create: `${var.saved_search_id}`},
 	}

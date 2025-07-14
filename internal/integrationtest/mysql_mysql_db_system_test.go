@@ -65,7 +65,7 @@ var (
 		"database_console":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlMysqlDbSystemDatabaseConsoleRepresentation},
 		"database_management":     acctest.Representation{RepType: acctest.Optional, Create: `DISABLED`},
 		"database_mode":           acctest.Representation{RepType: acctest.Optional, Create: `READ_WRITE`},
-		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"deletion_policy":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: mysqlDbSystemDeletionPolicyRepresentation},
 		"description":             acctest.Representation{RepType: acctest.Optional, Create: `MySQL Database Service`, Update: `description2`},
 		"display_name":            acctest.Representation{RepType: acctest.Optional, Create: `DBSystem001`, Update: `displayName2`},
@@ -93,7 +93,7 @@ var (
 	}
 
 	MysqlMysqlDbSystemBackupPolicyRepresentation = map[string]interface{}{
-		"defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_enabled":        acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"pitr_policy":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: mysqlDbSystemBackupPolicyPitrPolicyRepresentation},
@@ -107,7 +107,7 @@ var (
 	}
 
 	MysqlDbSystemBackupPolicyNotUpdateableRepresentation = map[string]interface{}{
-		"defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
+		"defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`},
 		"freeform_tags":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}},
 		"is_enabled":        acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"pitr_policy":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: mysqlDbSystemBackupPolicyPitrPolicyNotUpdateableRepresentation},

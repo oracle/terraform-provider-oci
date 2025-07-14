@@ -93,7 +93,7 @@ resource "oci_operator_access_control_operator_control" "test_operator_control" 
   #Optional
   approver_groups_list        = [data.oci_identity_groups.get_admin_approver_group.groups[0].id]
   approvers_list              = var.operator_control_approvers_list
-  #defined_tags                = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.operator_control_defined_tags_value)
+  #defined_tags                = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.operator_control_defined_tags_value})
   description                 = var.operator_control_description
   email_id_list               = var.operator_control_email_id_list
   #freeform_tags               = var.operator_control_freeform_tags

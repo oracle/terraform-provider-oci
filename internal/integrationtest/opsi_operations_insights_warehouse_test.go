@@ -48,7 +48,7 @@ var (
 		"cpu_allocated":            acctest.Representation{RepType: acctest.Required, Create: `2.0`, Update: `3.0`},
 		"display_name":             acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"compute_model":            acctest.Representation{RepType: acctest.Required, Create: `ECPU`, Update: `ECPU`},
-		"defined_tags":             acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":             acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags":            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"storage_allocated_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `1.0`, Update: `1.0`},
 		"lifecycle":                acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesOperationsInsightsWarehouseRepresentation},

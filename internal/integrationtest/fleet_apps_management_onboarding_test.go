@@ -31,7 +31,7 @@ var (
 
 	FleetAppsManagementOnboardingRepresentation = map[string]interface{}{
 		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"defined_tags":                 acctest.Representation{RepType: acctest.Optional, Create: `${map("Oracle-Tags.CreatedBy", "value")}`, Update: `${map("Oracle-Tags.CreatedBy", "updatedValue")}`},
+		"defined_tags":                 acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"Oracle-Tags.CreatedBy" = "value"})}`, Update: `${tomap({"Oracle-Tags.CreatedBy" = "updatedValue"})}`},
 		"freeform_tags":                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_cost_tracking_tag_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"is_fams_tag_enabled":          acctest.Representation{RepType: acctest.Optional, Create: `false`},

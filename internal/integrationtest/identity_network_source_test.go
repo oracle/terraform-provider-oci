@@ -51,7 +51,7 @@ var (
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"description":         acctest.Representation{RepType: acctest.Required, Create: `corporate ip ranges to be used for ip based authorization`, Update: `description2`},
 		"name":                acctest.Representation{RepType: acctest.Required, Create: `corpnet`},
-		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"public_source_list":  acctest.Representation{RepType: acctest.Optional, Create: []string{`128.2.13.5`}, Update: []string{`128.2.13.5`, `128.2.13.6`}},
 		"services":            acctest.Representation{RepType: acctest.Optional, Create: []string{`none`}, Update: []string{`all`}},

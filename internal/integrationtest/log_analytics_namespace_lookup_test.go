@@ -54,7 +54,7 @@ var (
 		"char_encoding":        acctest.Representation{RepType: acctest.Optional, Create: `UTF-8`},
 		"categories":           []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: LogAnalyticsNamespaceLookupCategoriesRepresentation1}, {RepType: acctest.Optional, Group: LogAnalyticsNamespaceLookupCategoriesRepresentation2}},
 		"default_match_value":  acctest.Representation{RepType: acctest.Optional, Create: `WILDCARD`, Update: `EXACT`},
-		"defined_tags":         acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":         acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"description":          acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"fields":               []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: LogAnalyticsNamespaceLookupFieldsRepresentation1}, {RepType: acctest.Optional, Group: LogAnalyticsNamespaceLookupFieldsRepresentation2}},
 		"freeform_tags":        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},

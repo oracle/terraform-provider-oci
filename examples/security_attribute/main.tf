@@ -67,7 +67,7 @@ resource "oci_security_attribute_security_attribute_namespace" "test_security_at
   name           = var.security_attribute_namespace_name
 
   #Optional
-  #defined_tags  = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.security_attribute_namespace_defined_tags_value)
+  #defined_tags  = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.security_attribute_namespace_defined_tags_value})
   freeform_tags = var.security_attribute_namespace_freeform_tags
 }
 

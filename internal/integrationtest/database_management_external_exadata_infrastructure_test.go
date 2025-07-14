@@ -49,7 +49,7 @@ var (
 		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"db_system_ids":        acctest.Representation{RepType: acctest.Required, Create: []string{`${var.db_system_id}`}},
 		"display_name":         acctest.Representation{RepType: acctest.Required, Create: `exadataInfra_Terraform_testing`, Update: `exadataInfra_Terraform_testingUpdate`},
-		"defined_tags":         acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":         acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"discovery_key":        acctest.Representation{RepType: acctest.Optional, Create: `${var.discovery_key}`},
 		"freeform_tags":        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"license_model":        acctest.Representation{RepType: acctest.Optional, Create: `LICENSE_INCLUDED`},

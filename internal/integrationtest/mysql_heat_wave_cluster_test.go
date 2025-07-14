@@ -45,7 +45,7 @@ var (
 		"subnet_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"backup_policy":           acctest.RepresentationGroup{RepType: acctest.Required, Group: MysqlDbSystemHeatWaveBackupPolicyRepresentation},
 		"data_storage_size_in_gb": acctest.Representation{RepType: acctest.Required, Create: `50`},
-		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
+		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`},
 		"description":             acctest.Representation{RepType: acctest.Optional, Create: `MySQL Database Service`},
 		"display_name":            acctest.Representation{RepType: acctest.Optional, Create: `HeatWave-DbSystem`},
 		"fault_domain":            acctest.Representation{RepType: acctest.Optional, Create: `FAULT-DOMAIN-1`},
@@ -58,7 +58,7 @@ var (
 	}
 
 	MysqlDbSystemHeatWaveBackupPolicyRepresentation = map[string]interface{}{
-		"defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
+		"defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`},
 		"freeform_tags":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}},
 		"is_enabled":        acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"pitr_policy":       acctest.RepresentationGroup{RepType: acctest.Required, Group: MysqlDbSystemHeatWavePitrPolicyRepresentation},

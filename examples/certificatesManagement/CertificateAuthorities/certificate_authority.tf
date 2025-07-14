@@ -202,7 +202,7 @@ resource "oci_certificates_management_certificate_authority" "test_certificate_a
     #Optional
     custom_formatted_urls = var.certificate_authority_certificate_revocation_list_details_custom_formatted_urls
   }
-  defined_tags  = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.certificate_authority_defined_tags_value)
+  defined_tags  = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.certificate_authority_defined_tags_value})
   description   = var.certificate_authority_description
   freeform_tags = var.certificate_authority_freeform_tags
 }

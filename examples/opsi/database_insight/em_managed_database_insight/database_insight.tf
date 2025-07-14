@@ -69,7 +69,7 @@ resource "oci_opsi_database_insight" "test_database_insight" {
   enterprise_manager_bridge_id         = var.enterprise_manager_bridge_ocid
   enterprise_manager_entity_identifier = var.enterprise_manager_entity_id
   enterprise_manager_identifier        = var.enterprise_manager_id
-  defined_tags                         = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.database_insight_defined_tags_value}")}"
+  defined_tags                         = "${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.database_insight_defined_tags_value}"})}"
   freeform_tags                        = var.database_insight_freeform_tags
   status                               = var.resource_status
 }

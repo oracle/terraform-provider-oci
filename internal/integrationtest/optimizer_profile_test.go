@@ -48,7 +48,7 @@ var (
 		"levels_configuration":         acctest.RepresentationGroup{RepType: acctest.Required, Group: OptimizerProfileLevelsConfigurationRepresentation},
 		"name":                         acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"aggregation_interval_in_days": acctest.Representation{RepType: acctest.Optional, Create: `1`, Update: `7`},
-		"defined_tags":                 acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":                 acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags":                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"target_compartments":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: OptimizerProfileTargetCompartmentsRepresentation},
 		"target_tags":                  acctest.RepresentationGroup{RepType: acctest.Optional, Group: OptimizerProfileTargetTagsRepresentation},

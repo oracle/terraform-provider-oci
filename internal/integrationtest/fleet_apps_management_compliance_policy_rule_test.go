@@ -58,7 +58,7 @@ var (
 		"patch_selection":      acctest.RepresentationGroup{RepType: acctest.Required, Group: FleetAppsManagementCompliancePolicyRulePatchSelectionRepresentation},
 		"patch_type_id":        acctest.Representation{RepType: acctest.Required, Create: []string{testPatchType}},
 		"product_version":      acctest.RepresentationGroup{RepType: acctest.Required, Group: FleetAppsManagementCompliancePolicyRuleProductVersionRepresentation},
-		//TODO temp removed: "defined_tags":         acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		//TODO temp removed: "defined_tags":         acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}},
 		//"patch_type":           acctest.Representation{RepType: acctest.Required, Create: []string{`BUG`}, Update: []string{`Security`}},
 		//"compliance_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compliance_policy_id}`},

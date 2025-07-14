@@ -157,7 +157,7 @@ resource "oci_opensearch_opensearch_cluster" "test_opensearch_cluster" {
 
   #Optional
   data_node_host_bare_metal_shape   = var.opensearch_cluster_data_node_host_bare_metal_shape
-  #  defined_tags                      = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.opensearch_cluster_defined_tags_value)
+  #  defined_tags                      = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.opensearch_cluster_defined_tags_value})
   freeform_tags                     = var.opensearch_cluster_freeform_tags
   master_node_host_bare_metal_shape = var.opensearch_cluster_master_node_host_bare_metal_shape
   #  system_tags                       = var.opensearch_cluster_system_tags

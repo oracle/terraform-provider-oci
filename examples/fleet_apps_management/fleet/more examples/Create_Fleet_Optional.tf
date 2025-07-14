@@ -47,7 +47,7 @@ resource "oci_fleet_apps_management_fleet" "test_fleet" {
       vault_id        = "${var.vault_id}"
     }
   }
-  defined_tags = "${map("Oracle-Tags.CreatedBy", "value")}"
+  defined_tags = "${tomap({"Oracle-Tags.CreatedBy" = "value"})}"
   description  = "description"
   details {
     fleet_type = "GENERIC"

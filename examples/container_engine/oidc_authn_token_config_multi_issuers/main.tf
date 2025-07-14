@@ -187,7 +187,7 @@ resource "oci_containerengine_cluster" "test_cluster_multi_issuer" {
   vcn_id             = oci_core_vcn.test_vcn.id
 
   #Optional
-  #   defined_tags = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.cluster_defined_tags_value)
+  #   defined_tags = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.cluster_defined_tags_value})
 
   freeform_tags = var.cluster_freeform_tags
   options {

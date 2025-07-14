@@ -11,7 +11,7 @@ variable "credential_name" { default = "test-credential" }
 
 resource "oci_fleet_apps_management_task_record" "test_task_record" {
   compartment_id = "${var.compartment_id}"
-  defined_tags   = "${map("Oracle-Tags.CreatedBy", "value")}"
+  defined_tags   = "${tomap({"Oracle-Tags.CreatedBy" = "value"})}"
   description    = "description"
   details {
     execution_details {

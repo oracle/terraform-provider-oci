@@ -52,7 +52,7 @@ var (
 		"demand_signal_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.demandsignal_id}`},
 		"demand_signal_item_id": acctest.Representation{RepType: acctest.Required, Create: `${var.demandsignalitem_id}`},
 		"occ_customer_group_id": acctest.Representation{RepType: acctest.Required, Create: `${var.customergroup_id}`},
-		//"defined_tags":          acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		//"defined_tags":          acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		//"freeform_tags":         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"justification": acctest.Representation{RepType: acctest.Optional, Create: `justification`, Update: `justification2`},
 		"notes":         acctest.Representation{RepType: acctest.Optional, Create: `notes`, Update: `notes2`},

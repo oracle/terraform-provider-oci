@@ -65,7 +65,7 @@ resource "oci_desktops_desktop_pool" "test_desktop_pool" {
   maximum_size = var.desktop_pool_maximum_size
 
   #Optional
-  #  defined_tags         = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.desktop_pool_defined_tags_value)
+  #  defined_tags         = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.desktop_pool_defined_tags_value})
   #  description          = var.desktop_pool_description
   #  freeform_tags        = var.desktop_pool_freeform_tags
   #  nsg_ids              = var.desktop_pool_nsg_ids

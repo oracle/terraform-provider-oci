@@ -104,7 +104,7 @@ var (
 		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"db_system_discovery_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_database_management_external_db_system_discovery.test_external_db_system_discovery.id}`},
 		"database_management_config": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseManagementExternalDbSystemDatabaseManagementConfigRepresentation},
-		"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		// the SM service's preprod env is pointing to prod DBM env causing failures.
 		// Commenting out the stack monitoring related testing pending env availability.
 		//"stack_monitoring_config":    acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseManagementExternalDbSystemStackMonitoringConfigRepresentation},

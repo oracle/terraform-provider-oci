@@ -73,7 +73,7 @@ resource "oci_opsi_operations_insights_private_endpoint" "test_operations_insigh
   is_used_for_rac_dbs = var.operations_insights_private_endpoint_is_used_for_rac_dbs
   subnet_id           = var.subnet_id
   vcn_id              = var.vcn_id
-  defined_tags        = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.operations_insights_private_endpoint_defined_tags_value}")}"
+  defined_tags        = "${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.operations_insights_private_endpoint_defined_tags_value}"})}"
   freeform_tags       = var.operations_insights_private_endpoint_freeform_tags
   nsg_ids             = var.operations_insights_private_endpoint_nsg_ids
 }

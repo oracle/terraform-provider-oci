@@ -63,7 +63,7 @@ var (
 		"pipeline_type":                           acctest.Representation{RepType: acctest.Required, Create: `SENDER`},
 		"approval_key_vault_id":                   acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_kms_vault.test_vault.id}`},
 		"authorization_details":                   acctest.Representation{RepType: acctest.Optional, Create: `authorizationDetails`, Update: `authorizationDetails2`},
-		"defined_tags":                            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":                            acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"description":                             acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"file_types":                              acctest.Representation{RepType: acctest.Optional, Create: []string{`fileTypes`}, Update: []string{`fileTypes2`}},
 		"freeform_tags":                           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},

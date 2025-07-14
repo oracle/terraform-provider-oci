@@ -211,7 +211,7 @@ resource "oci_certificates_management_certificate" "test_certificate" {
     renewal_interval       = var.certificate_certificate_rules_renewal_interval
     rule_type              = var.certificate_certificate_rules_rule_type
   }
-  defined_tags  = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.certificate_defined_tags_value)
+  defined_tags  = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.certificate_defined_tags_value})
   description   = var.certificate_description
   freeform_tags = var.certificate_freeform_tags
 }

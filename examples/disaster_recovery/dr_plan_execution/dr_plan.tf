@@ -36,7 +36,7 @@ resource "oci_disaster_recovery_dr_plan" "test_dr_plan" {
   }
 
   #Optional
-  defined_tags = map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.dr_plan_defined_tags_value}")
+  defined_tags = tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.dr_plan_defined_tags_value}"})
   freeform_tags = var.dr_plan_freeform_tags
 }
 

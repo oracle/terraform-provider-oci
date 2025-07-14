@@ -55,7 +55,7 @@ var (
 		"backup_retention_period_in_days": acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 		"compartment_id":                  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":                    acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
-		"defined_tags":                    acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":                    acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags":                   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"must_enforce_cloud_locality":     acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"policy_locked_date_time":         acctest.Representation{RepType: acctest.Optional, Create: recoveryProtectionPolicyRepresentationPolicyLockedDateTimeCreate, Update: recoveryProtectionPolicyRepresentationPolicyLockedDateTimeUpdate},

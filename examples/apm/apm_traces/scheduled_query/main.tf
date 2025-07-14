@@ -118,7 +118,7 @@ resource "oci_apm_traces_scheduled_query" "test_scheduled_query" {
   apm_domain_id = var.apm_domain_id
 
   #Optional
-  #defined_tags                               = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.scheduled_query_defined_tags_value)
+  #defined_tags                               = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.scheduled_query_defined_tags_value})
   freeform_tags                              = var.scheduled_query_freeform_tags
   opc_dry_run                                = var.scheduled_query_opc_dry_run
   scheduled_query_description                = var.scheduled_query_scheduled_query_description

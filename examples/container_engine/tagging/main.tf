@@ -202,7 +202,7 @@ resource "oci_containerengine_cluster" "test_cluster" {
   vcn_id             = oci_core_vcn.test_vcn.id
 
   #Optional
-  #defined_tags = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.cluster_defined_tags_value)
+  #defined_tags = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.cluster_defined_tags_value})
   defined_tags = {"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.cluster_defined_tags_value}"}
   freeform_tags = var.cluster_freeform_tags
   options {
@@ -229,14 +229,14 @@ resource "oci_containerengine_cluster" "test_cluster" {
     persistent_volume_config {
 
       #Optional
-      #defined_tags  = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.cluster_options_persistent_volume_config_defined_tags_value)
+      #defined_tags  = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.cluster_options_persistent_volume_config_defined_tags_value})
       defined_tags  = {"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.cluster_defined_tags_value}"}
       freeform_tags = var.cluster_options_persistent_volume_config_freeform_tags
     }
     service_lb_config {
 
       #Optional
-      #defined_tags  = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.cluster_options_service_lb_config_defined_tags_value)
+      #defined_tags  = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.cluster_options_service_lb_config_defined_tags_value})
       defined_tags  = {"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.cluster_defined_tags_value}"}
       freeform_tags = var.cluster_options_service_lb_config_freeform_tags
     }

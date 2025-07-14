@@ -56,7 +56,7 @@ var (
 		"ccc_upgrade_schedule_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_compute_cloud_at_customer_ccc_upgrade_schedule.test_ccc_upgrade_schedule.id}`},
 		"connection_details":      acctest.Representation{RepType: acctest.Optional, Create: `connectionDetails`, Update: `connectionDetails2`},
 		"connection_state":        acctest.Representation{RepType: acctest.Optional, Create: `REJECT`, Update: `REJECT`},
-		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"description":             acctest.Representation{RepType: acctest.Optional, Create: `Datacenter 231`, Update: `description2`},
 		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 	}

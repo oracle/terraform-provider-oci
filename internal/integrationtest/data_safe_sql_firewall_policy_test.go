@@ -49,7 +49,7 @@ var (
 		"allowed_client_ips":          acctest.Representation{RepType: acctest.Optional, Create: []string{`10.239.175.91`}, Update: []string{`10.239.175.92`}},
 		"allowed_client_os_usernames": acctest.Representation{RepType: acctest.Optional, Create: []string{`allowedClientOsUsernames`}, Update: []string{`allowedClientOsUsernames2`}},
 		"allowed_client_programs":     acctest.Representation{RepType: acctest.Optional, Create: []string{`allowedClientPrograms`}, Update: []string{`allowedClientPrograms2`}},
-		"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"description":                 acctest.Representation{RepType: acctest.Optional, Create: `sample SQL Firewall policy`, Update: `description2`},
 		"display_name":                acctest.Representation{RepType: acctest.Optional, Create: `samplePolicy`, Update: `displayName2`},
 		"enforcement_scope":           acctest.Representation{RepType: acctest.Optional, Create: `ENFORCE_CONTEXT`, Update: `ENFORCE_SQL`},
@@ -67,7 +67,7 @@ var (
 	DataSafeSqlFirewallPolicyListRepresentation = map[string]interface{}{
 		"sql_firewall_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${var.sql_firewall_policy_id}`},
 		"status":                 acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
-		"defined_tags":           acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`}, "description": acctest.Representation{RepType: acctest.Optional, Create: `updated-description`, Update: `description2`},
+		"defined_tags":           acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`}, "description": acctest.Representation{RepType: acctest.Optional, Create: `updated-description`, Update: `description2`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"lifecycle":     acctest.RepresentationGroup{RepType: acctest.Required, Group: IgnoreSqlFirewallPolicySystemTagsChangesRep},
 	}

@@ -42,7 +42,7 @@ variable "creds_display_name" { default = "test-credential" }
 variable "creds_ocid" { default = "ocid1.famsplatformconfiguration.oc1." }
 
 resource "oci_fleet_apps_management_runbook_version" "test_runbook_version" {
-  defined_tags = "${map("Oracle-Tags.CreatedBy", "updatedValue")}"
+  defined_tags = "${tomap({"Oracle-Tags.CreatedBy" = "updatedValue"})}"
   execution_workflow_details {
     workflow {
       group_name = "Parallel_resource_group"

@@ -44,7 +44,7 @@ var (
 		//"occ_demand_signals": acctest.RepresentationGroup{RepType: acctest.Required, Group: DemandSignalOccDemandSignalOccDemandSignalsRepresentationRepresentation},
 		"occ_demand_signals": acctest.RepresentationGroup{RepType: acctest.Required, Group: map[string]interface{}{}},
 
-		//"defined_tags":       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		//"defined_tags":       acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		//"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `string`, Update: `displayName2`},
 		//"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		//"patch_operations": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DemandSignalOccDemandSignalPatchOperationsRepresentation},
@@ -55,7 +55,7 @@ var (
 		"occ_demand_signal_id": acctest.Representation{RepType: acctest.Required, Update: `${var.occ_demand_signal_id}`},
 		"occ_demand_signals":   acctest.RepresentationGroup{RepType: acctest.Required, Group: DemandSignalOccDemandSignalOccDemandSignalsRepresentationRepresentation},
 
-		//"defined_tags":       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		//"defined_tags":       acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `testDemandSignal`, Update: `displayName2`},
 		//"patch_operations": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DemandSignalOccDemandSignalPatchOperationsRepresentation},
 	}

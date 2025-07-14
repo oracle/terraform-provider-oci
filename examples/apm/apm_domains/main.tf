@@ -50,7 +50,7 @@ resource "oci_apm_apm_domain" "test_apm_domain" {
   display_name   = var.apm_domain_display_name
 
   #Optional
-  #defined_tags  = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.apm_domain_defined_tags_value)
+  #defined_tags  = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.apm_domain_defined_tags_value})
   description   = var.apm_domain_description
   freeform_tags = var.apm_domain_freeform_tags
   is_free_tier  = var.apm_domain_is_free_tier

@@ -64,7 +64,7 @@ var (
 		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":     acctest.Representation{RepType: acctest.Required, Create: `Vault 1`, Update: `displayName2`},
 		"vault_type":       acctest.Representation{RepType: acctest.Required, Create: `DEFAULT`},
-		"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"time_of_deletion": acctest.Representation{RepType: acctest.Optional, Create: deletionTime.Format(time.RFC3339Nano)},
 	}
@@ -73,7 +73,7 @@ var (
 		"compartment_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":                  acctest.Representation{RepType: acctest.Required, Create: `External Vault 1`, Update: `displayName2`},
 		"vault_type":                    acctest.Representation{RepType: acctest.Required, Create: `EXTERNAL`},
-		"defined_tags":                  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":                  acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags":                 acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"time_of_deletion":              acctest.Representation{RepType: acctest.Optional, Create: deletionTime.Format(time.RFC3339Nano)},
 		"external_key_manager_metadata": acctest.RepresentationGroup{RepType: acctest.Required, Group: KmsVaultExternalKeyManagerMetadataRepresentation},

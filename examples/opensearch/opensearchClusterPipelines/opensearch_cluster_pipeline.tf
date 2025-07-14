@@ -85,7 +85,7 @@ resource "oci_opensearch_opensearch_cluster_pipeline" "test_opensearch_cluster_p
   pipeline_configuration_body     = var.opensearch_cluster_pipeline_pipeline_configuration_body
 
   #Optional
-  defined_tags  = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.opensearch_cluster_pipeline_defined_tags_value)
+  defined_tags  = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.opensearch_cluster_pipeline_defined_tags_value})
   freeform_tags = var.opensearch_cluster_pipeline_freeform_tags
   node_shape    = var.opensearch_cluster_pipeline_node_shape
   nsg_id        = oci_opensearch_nsg.test_nsg.id

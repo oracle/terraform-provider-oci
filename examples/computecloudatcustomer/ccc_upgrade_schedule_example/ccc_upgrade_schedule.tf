@@ -100,7 +100,7 @@ resource "oci_compute_cloud_at_customer_ccc_upgrade_schedule" "test_ccc_upgrade_
   }
 
   #Optional
-  defined_tags  = map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", var.ccc_upgrade_schedule_defined_tags_value)
+  defined_tags  = tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = var.ccc_upgrade_schedule_defined_tags_value})
   description   = var.ccc_upgrade_schedule_description
   freeform_tags = var.ccc_upgrade_schedule_freeform_tags
 }

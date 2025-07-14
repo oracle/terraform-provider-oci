@@ -8,7 +8,7 @@ resource "oci_file_storage_file_system" "file_storage_file_system_rd" {
 
   #Optional
   display_name = "fileStorageFileSystemRD"
-  defined_tags = "${map("example-tag-namespace-all.example-tag", "value")}"
+  defined_tags = "${tomap({"example-tag-namespace-all.example-tag" = "value"})}"
 
   freeform_tags = {
     "Department" = "Finance"
@@ -23,7 +23,7 @@ resource "oci_file_storage_mount_target" "file_storage_mount_target_rd" {
 
   #Optional
   display_name = "fileStorageMountTargetRD"
-  defined_tags = "${map("example-tag-namespace-all.example-tag", "value")}"
+  defined_tags = "${tomap({"example-tag-namespace-all.example-tag" = "value"})}"
 
   freeform_tags = {
     "Department" = "Finance"
@@ -171,7 +171,7 @@ resource "oci_file_storage_snapshot" "file_storage_snapshot_rd" {
   #Required
   file_system_id = "${oci_file_storage_file_system.file_storage_file_system_rd.id}"
   name           = "fileStorageSnapshotNameRD}"
-  defined_tags   = "${map("example-tag-namespace-all.example-tag", "value")}"
+  defined_tags   = "${tomap({"example-tag-namespace-all.example-tag" = "value"})}"
 
   freeform_tags = {
     "Department" = "Finance"

@@ -34,7 +34,7 @@ data "oci_database_vm_cluster_recommended_network" "test_vm_cluster_recommended_
 
 	#Optional
 	db_servers = var.vm_cluster_recommended_network_db_servers
-	defined_tags = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.vm_cluster_recommended_network_defined_tags_value)
+	defined_tags = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.vm_cluster_recommended_network_defined_tags_value})
 	dns = var.vm_cluster_recommended_network_dns
 	dr_scan_listener_port_tcp = var.vm_cluster_recommended_network_dr_scan_listener_port_tcp
 	dr_scan_listener_port_tcp_ssl = var.vm_cluster_recommended_network_dr_scan_listener_port_tcp_ssl

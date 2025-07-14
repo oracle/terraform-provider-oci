@@ -59,7 +59,7 @@ var (
 		"compartment_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"entity_source":         acctest.Representation{RepType: acctest.Required, Create: `EXTERNAL_MYSQL_DATABASE_SYSTEM`, Update: `EXTERNAL_MYSQL_DATABASE_SYSTEM`},
 		"status":                acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
-		"defined_tags":          acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":          acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"lifecycle":             acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesExternalMySqlDatabaseInsightRepresentation},
 	}
 

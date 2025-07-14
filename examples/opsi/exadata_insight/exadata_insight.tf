@@ -62,7 +62,7 @@ resource "oci_opsi_exadata_insight" "test_exadata_insight" {
   enterprise_manager_entity_identifier = var.em_exadata_enterprise_manager_entity_id
   enterprise_manager_identifier        = var.em_exadata_enterprise_manager_id
   entity_source                        = var.exadata_insight_entity_source
-  defined_tags                         = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.exadata_insight_defined_tags_value}")}"
+  defined_tags                         = "${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.exadata_insight_defined_tags_value}"})}"
   freeform_tags                        = var.exadata_insight_freeform_tags
   status                               = var.resource_status
 }

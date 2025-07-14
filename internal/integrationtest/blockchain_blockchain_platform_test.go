@@ -55,7 +55,7 @@ var (
 		"display_name":        acctest.Representation{RepType: acctest.Required, Create: blockchainPlatformDisplayName},
 		"idcs_access_token":   acctest.Representation{RepType: acctest.Required, Create: `${var.idcs_access_token}`},
 		"platform_role":       acctest.Representation{RepType: acctest.Required, Create: `FOUNDER`},
-		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"description":         acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"federated_user_id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_identity_user.test_user.id}`},
 		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},

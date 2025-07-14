@@ -70,7 +70,7 @@ var (
 		"character_set":  acctest.Representation{RepType: acctest.Required, Create: `AL32UTF8`},
 		"db_unique_name": acctest.Representation{RepType: acctest.Optional, Create: aDBName1},
 		"db_workload":    acctest.Representation{RepType: acctest.Optional, Create: `OLTP`},
-		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
 		"ncharacter_set": acctest.Representation{RepType: acctest.Optional, Create: `AL16UTF16`},
 		"sid_prefix":     acctest.Representation{RepType: acctest.Optional, Create: `myTestDb71`},

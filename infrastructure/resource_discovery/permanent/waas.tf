@@ -19,7 +19,7 @@ resource "oci_waas_custom_protection_rule" "custom_protection_rule_rd" {
 
   #Optional
   #To use defined_tags, set the values below to an existing tag namespace, refer to the identity example on how to create tag namespaces
-  #defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}"
+  #defined_tags = "${tomap({"example-tag-namespace-all.example-tag" = "originalValue"})}"
   description = "Tf example custom protection rule"
 
   freeform_tags = {

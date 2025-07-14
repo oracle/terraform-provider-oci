@@ -396,7 +396,7 @@ resource "oci_datascience_pipeline" "test_pipeline" {
     environment_variables      = var.pipeline_configuration_details_environment_variables
     maximum_runtime_in_minutes = var.pipeline_configuration_details_maximum_runtime_in_minutes
   }
-#   defined_tags  = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.pipeline_defined_tags_value)
+#   defined_tags  = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.pipeline_defined_tags_value})
   description   = var.pipeline_description
   display_name  = var.pipeline_display_name
 #   freeform_tags = var.pipeline_freeform_tags

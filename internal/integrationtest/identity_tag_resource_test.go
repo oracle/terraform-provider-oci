@@ -151,7 +151,7 @@ func TestResourceIdentityDefaultTag_required(t *testing.T) {
   						description = "test namespace 1"
   						name = "example-test-delete-default-namespace-1"
 
-						defined_tags   = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${oci_identity_tag_default.test_tag_default.value}")}"
+						defined_tags   = "${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${oci_identity_tag_default.test_tag_default.value}"})}"
 						is_retired = false
 					}`,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(

@@ -51,7 +51,7 @@ var (
 		"db_version":      acctest.Representation{RepType: acctest.Required, Create: `19.0.0.0`},
 		"display_name":    acctest.Representation{RepType: acctest.Required, Create: `19.18_RU`},
 		"release_update":  acctest.Representation{RepType: acctest.Required, Create: `19.18.0.0`},
-		"defined_tags":    acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":    acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags":   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"one_off_patches": acctest.Representation{RepType: acctest.Optional, Create: []string{`31908573`}},
 		//"download_oneoff_patch_trigger": acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `1`},

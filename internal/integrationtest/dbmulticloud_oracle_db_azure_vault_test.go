@@ -54,7 +54,7 @@ var (
 		"display_name":           acctest.Representation{RepType: acctest.Required, Create: `Tersi_ReplicationTest`},
 		"oracle_db_connector_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_dbmulticloud_oracle_db_azure_connector.test_oracle_db_azure_connector.id}`},
 		"azure_vault_id":         acctest.Representation{RepType: acctest.Required, Create: `PrasannaHSM2`},
-		// "defined_tags":                   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		// "defined_tags":                   acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		// "freeform_tags":                  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"location":                       acctest.Representation{RepType: acctest.Required, Create: `eastus2`},
 		"oracle_db_azure_resource_group": acctest.Representation{RepType: acctest.Required, Create: `Prasanna.RG`},

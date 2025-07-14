@@ -79,7 +79,7 @@ resource "oci_identity_tag" "tag1" {
 
 resource "oci_managed_kafka_kafka_cluster_config" "test_kafka_cluster_config_2" {
       compartment_id = var.compartment_ocid
-      defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}"
+      defined_tags = "${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}"
       display_name = "displayName2"
       
       freeform_tags = {

@@ -53,7 +53,7 @@ var (
 		"identifier":        acctest.Representation{RepType: acctest.Required, Create: `APPLICATION_TF_TEST_1`, Update: `APPLICATION_TF_TEST_2`},
 		"name":              acctest.Representation{RepType: acctest.Required, Create: `application_tf_test_1`, Update: `application_tf_test_2`},
 		"workspace_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_dataintegration_workspace.test_workspace.id}`},
-		"defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"description":       acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"freeform_tags":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"model_type":        acctest.Representation{RepType: acctest.Required, Create: `INTEGRATION_APPLICATION`},

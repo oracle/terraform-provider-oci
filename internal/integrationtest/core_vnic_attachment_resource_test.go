@@ -28,7 +28,7 @@ var (
 
 	vnicAttachmentCreateVnicDetailsVlanRepresentation = map[string]interface{}{
 		"assign_public_ip": acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
 		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Accounting"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
 		"vlan_id":          acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_vlan.id}`},
@@ -78,7 +78,7 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 						create_vnic_details {
 							subnet_id = "${oci_core_subnet.t.id}"
 							assign_public_ip = false
-							defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}"
+							defined_tags = "${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}"
 							freeform_tags = { "Department" = "Accounting" }
 							nsg_ids = ["${oci_core_network_security_group.test_network_security_group1.id}"]
 						}
@@ -128,7 +128,7 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 							assign_public_ip = false
 							hostname_label = "myvnichostname"
 							skip_source_dest_check = true
-							defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}"
+							defined_tags = "${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}"
 							freeform_tags = { "Department" = "Finance" }
 							nsg_ids = ["${oci_core_network_security_group.test_network_security_group1.id}", "${oci_core_network_security_group.test_network_security_group2.id}"]
 							security_attributes = {"security-attribute-test-1.security-attribute.value" = "somevalue", "security-attribute-test-1.security-attribute.mode" = "enforce"}

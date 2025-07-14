@@ -49,7 +49,7 @@ resource "oci_media_services_media_asset" "test_media_asset" {
 
   #Optional
   bucket                = var.media_asset_bucket
-  defined_tags          = map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.defined_tags_value}")
+  defined_tags          = tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.defined_tags_value}"})
   display_name          = var.display_name
   freeform_tags         = var.freeform_tags
   media_asset_tags {

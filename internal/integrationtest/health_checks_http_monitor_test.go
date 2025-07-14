@@ -50,7 +50,7 @@ var (
 		"interval_in_seconds": acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `30`},
 		"protocol":            acctest.Representation{RepType: acctest.Required, Create: `HTTP`, Update: `HTTPS`},
 		"targets":             acctest.Representation{RepType: acctest.Required, Create: []string{`www.oracle.com`}, Update: []string{`www.google.com`}},
-		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"headers":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"headers": "headers"}, Update: map[string]string{"headers2": "headers2"}},
 		"is_enabled":          acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},

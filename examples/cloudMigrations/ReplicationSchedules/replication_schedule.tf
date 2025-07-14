@@ -45,7 +45,7 @@ resource "oci_cloud_migrations_replication_schedule" "test_replication_schedule"
   execution_recurrences = var.replication_schedule_execution_recurrences
 
   #Optional
-  defined_tags  = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.replication_schedule_defined_tags_value)
+  defined_tags  = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.replication_schedule_defined_tags_value})
   freeform_tags = var.replication_schedule_freeform_tags
 }
 

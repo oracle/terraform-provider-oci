@@ -24,7 +24,7 @@ var (
 		"public_key":       acctest.Representation{RepType: acctest.Required, Create: `LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQklqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FROEFNSUlCQ2dLQ0FRRUFycHJDUWl5RVpwWFlaY044c0RGSAp4QVlYZ0hXRFd1NTF2ejBFWDg5dzMzaDgwNllQbUVBcFFjYzRETjJFbGNvcWJ0K1djb3lZWGdMemVmWGswcnVICjI1TDR4alZPQXJWQ2FwbVRubXBUVFY4RW9zYVorUjdBbmFkZC9LYjVHa21NV2ZZbmwvT05hT3RPQ1ZBMVZzOWsKTXZoZTFJZEJZNWM2bTlHYWxEanlaL2hOamlONVZyRkh1K0puajhodzNOSk9XSEtMNW9JT3NIU3A4MFozWmZHRApvUDFHREs3SVpXNUJ5bEhXSzhPU1pzYjJ6cDQ5d3JGVjZEWVJlR1F1RHFPbzhpR0lXUzJFQk9MU2xvMk9OU3RJCktySUJ3eTN5aElXK2hPVXVheWorRnc5OEpmdjVhYnpNK2hPa3BXUktqeWhsUGY0b05FK2J2bm9xT1NFdTIwUnoKR1FJREFRQUIKLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg`},
 		"redis_cluster_id": acctest.Representation{RepType: acctest.Required, Create: `rediscluster.luiw7q`},
 		"redis_user":       acctest.Representation{RepType: acctest.Required, Create: `OCI_REDIS_OWNER`},
-		"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
 	}
 

@@ -52,7 +52,7 @@ var (
 		"advanced_properties": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"sslMode": "REQUIRED"}, Update: map[string]string{"sslMode": "VERIFY_CA"}},
 		"connection_string":   acctest.Representation{RepType: acctest.Required, Create: `postgresql://example.com:3306`, Update: `postgresql://example2.com:3306`},
 		"runtime_support":     acctest.Representation{RepType: acctest.Required, Create: `UNSUPPORTED`},
-		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"foo": "value"}},
 		"key_stores":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: databaseToolsConnectionPostgresqlKeyStoresRepresentation},
 		"user_name":           acctest.Representation{RepType: acctest.Required, Create: `user@example.com`, Update: `user2@example2.com`},

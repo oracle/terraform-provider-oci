@@ -59,7 +59,7 @@ var (
 		"resource_name":                      acctest.Representation{RepType: acctest.Required, Create: `resourceName`},
 		"resource_type":                      acctest.Representation{RepType: acctest.Required, Create: `EXADATAINFRASTRUCTURE`},
 		"comment":                            acctest.Representation{RepType: acctest.Optional, Create: `comment`, Update: `comment2`},
-		"defined_tags":                       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":                       acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags":                      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
 		"is_auto_approve_during_maintenance": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 

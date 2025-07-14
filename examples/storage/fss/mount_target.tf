@@ -74,7 +74,7 @@ resource "oci_file_storage_mount_target" "my_krb_mount_target" {
   subnet_id           = oci_core_subnet.my_subnet.id
 
   #Optional
-  # defined_tags   = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.mount_target_defined_tags_value)
+  # defined_tags   = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.mount_target_defined_tags_value})
   display_name   = var.krb_mount_target_display_name
   # freeform_tags  = {
   #  "Department" = "Accounting"
@@ -113,7 +113,7 @@ resource "oci_file_storage_mount_target" "my_ldap_mount_target" {
   compartment_id      = var.compartment_ocid
   subnet_id           = oci_core_subnet.my_subnet.id
   #Optional
-  # defined_tags   = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.mount_target_defined_tags_value)
+  # defined_tags   = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.mount_target_defined_tags_value})
   display_name   = var.ldap_mount_target_display_name
   # freeform_tags  = {
   #  "Department" = "Accounting"
@@ -150,7 +150,7 @@ resource "oci_file_storage_mount_target" "my_secret_attributes_mount_target" {
   compartment_id      = var.compartment_ocid
   subnet_id           = oci_core_subnet.my_subnet.id
   #Optional
-  # defined_tags   = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.mount_target_defined_tags_value)
+  # defined_tags   = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.mount_target_defined_tags_value})
   display_name   = var.mount_target_secret_attributes_display_name
   # freeform_tags  = {
   #  "Department" = "Accounting"

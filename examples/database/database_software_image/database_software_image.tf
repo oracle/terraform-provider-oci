@@ -43,7 +43,7 @@ resource "oci_database_database_software_image" "test_database_software_image" {
   compartment_id                          = var.compartment_id
   database_software_image_one_off_patches = ["31113249", "34672698", "34697081", "37102264", "37213431", "37260974", "37497089"]
   database_version                        = "19.0.0.0"
-  defined_tags                            = "${map("${oci_identity_tag_namespace.tag-namespace.name}.${oci_identity_tag.tag.name}", "value")}"
+  defined_tags                            = "${tomap({"${oci_identity_tag_namespace.tag-namespace.name}.${oci_identity_tag.tag.name}" = "value"})}"
   display_name                            = "image1"
 
   freeform_tags = {

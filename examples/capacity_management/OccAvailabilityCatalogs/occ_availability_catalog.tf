@@ -63,7 +63,7 @@ resource "oci_capacity_management_occ_availability_catalog" "test_occ_availabili
   occ_customer_group_id         = oci_capacity_management_occ_customer_group.test_occ_customer_group.id
 
   #Optional
-  defined_tags  = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.occ_availability_catalog_defined_tags_value)
+  defined_tags  = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.occ_availability_catalog_defined_tags_value})
   description   = var.occ_availability_catalog_description
   freeform_tags = var.occ_availability_catalog_freeform_tags
   metadata_details {

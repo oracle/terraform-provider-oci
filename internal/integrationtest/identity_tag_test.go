@@ -51,7 +51,7 @@ var (
 		"description":      acctest.Representation{RepType: acctest.Required, Create: `This tag will show the cost center that will be used for billing of associated resources.`, Update: `description2`},
 		"name":             acctest.Representation{RepType: acctest.Required, Create: `TFTestTag`},
 		"tag_namespace_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_tag_namespace.tag-namespace1.id}`},
-		"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_cost_tracking": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"validator":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: IdentityTagValidatorRepresentation},

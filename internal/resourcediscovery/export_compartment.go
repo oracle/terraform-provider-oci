@@ -472,6 +472,10 @@ func runExportCommand(ctx *tf_export.ResourceDiscoveryContext) error {
 	ctx.TimeTakenToDiscover = totalDiscoveryTime
 	utils.Debug("[DEBUG] ~~~~~~ discover steps completed ~~~~~~")
 
+	if err := generateProviderFile(ctx.OutputDir, true); err != nil {
+		return err
+	}
+
 	if ctx.GenerateState {
 		stateStart := time.Now()
 		// Run import commands
@@ -565,7 +569,7 @@ func runExportCommand(ctx *tf_export.ResourceDiscoveryContext) error {
 	}
 	tf_export.Vars["region"] = fmt.Sprintf("\"%s\"", region)
 
-	if err := generateProviderFile(ctx.OutputDir); err != nil {
+	if err := generateProviderFile(ctx.OutputDir, false); err != nil {
 		return err
 	}
 
@@ -1103,7 +1107,7 @@ func generateVarsFile(vars map[string]string, outputDir *string) error {
 	return nil
 }
 
-func generateProviderFile(outputDir *string) error {
+func generateProviderFile(outputDir *string, isTerraformBlockOnly bool) error {
 	providerTmpFile := fmt.Sprintf("%s%s%s.tmp", *outputDir, string(os.PathSeparator), globalvar.ProviderFile)
 	providerOutputFile := fmt.Sprintf("%s%s%s", *outputDir, string(os.PathSeparator), globalvar.ProviderFile)
 	file, err := os.OpenFile(providerTmpFile, os.O_CREATE|os.O_RDWR, 0666)
@@ -1111,7 +1115,14 @@ func generateProviderFile(outputDir *string) error {
 		return err
 	}
 
-	_, err = file.WriteString(fmt.Sprintf("provider oci {\n\tregion = %s\n}\n", tf_export.TfHclVersionvar.GetVarHclString("region")))
+	if isTerraformBlockOnly {
+		_, err = file.WriteString(fmt.Sprintf("terraform {\n\trequired_providers {\n\t\toci = {\n\t\t\tsource = \"oracle/oci\"" +
+			"\n\t\t}\n\t}\n}\n\n"))
+	} else {
+		_, err = file.WriteString(fmt.Sprintf("terraform {\n\trequired_providers {\n\t\toci = {\n\t\t\tsource = \"oracle/oci\""+
+			"\n\t\t}\n\t}\n}\n\n"+
+			"provider oci {\n\tregion = %s\n}\n", tf_export.TfHclVersionvar.GetVarHclString("region")))
+	}
 	if err != nil {
 		_ = file.Close()
 		return err

@@ -55,7 +55,7 @@ var (
 	IotDigitalTwinInstanceRepresentation = map[string]interface{}{
 		"auth_id":                 acctest.Representation{RepType: acctest.Required, Create: `${var.auth_id}`},
 		"iot_domain_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.iot_domain_id}`},
-		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"description":             acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"digital_twin_adapter_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_iot_digital_twin_adapter.test_digital_twin_adapter.id}`},
 		"display_name":            acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},

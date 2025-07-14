@@ -583,6 +583,12 @@ resource "oci_cloud_bridge_asset" "test_asset" {
     storage_provisioned_in_mbs = var.asset_compute_storage_provisioned_in_mbs
     threads_per_core_count     = var.asset_compute_threads_per_core_count
   }
+<<<<<<< HEAD
+=======
+  defined_tags  = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.asset_defined_tags_value})
+  display_name  = var.asset_display_name
+  freeform_tags = var.asset_freeform_tags
+>>>>>>> 1f72de24553 (Added - Examples changes for Terraform Upgrade to 1.5)
   vm {
 
     #Optional

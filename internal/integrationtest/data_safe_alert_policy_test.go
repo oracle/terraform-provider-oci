@@ -51,7 +51,7 @@ var (
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"severity":                  acctest.Representation{RepType: acctest.Required, Create: `CRITICAL`, Update: `HIGH`},
 		"alert_policy_rule_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DataSafeAlertPolicyAlertPolicyRuleDetailsRepresentation},
-		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"description":               acctest.Representation{RepType: acctest.Optional, Create: `Check if remote login password file is exclusive and remote login is enabled `, Update: `description2`},
 		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `Check remote login`, Update: `displayName2`},
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},

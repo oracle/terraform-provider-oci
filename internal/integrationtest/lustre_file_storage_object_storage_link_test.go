@@ -55,7 +55,7 @@ var (
 		"lustre_file_system_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_lustre_file_storage_lustre_file_system.test_lustre_file_system.id}`},
 		"object_storage_prefix": acctest.Representation{RepType: acctest.Required, Create: `aaa:/aaa/b`},
 		"is_overwrite":          acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
-		"defined_tags":          acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":          acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"display_name":          acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		// "start_export_to_object_trigger":   acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `1`},

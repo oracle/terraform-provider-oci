@@ -84,7 +84,7 @@ resource "oci_apm_config_config" "test_config" {
   display_name  = var.config_display_name
 
   #Optional
-  #defined_tags = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.config_defined_tags_value)
+  #defined_tags = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.config_defined_tags_value})
   description  = var.config_description
   filter_text   = var.config_filter_text
   freeform_tags = var.config_freeform_tags

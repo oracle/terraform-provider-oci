@@ -210,7 +210,7 @@ resource "oci_container_instances_container_instance" "test_container_instance" 
     subnet_id = oci_core_subnet.test_subnet.id
 
     #Optional
-    defined_tags = map("tf_test_namespace.test_tag", "value")
+    defined_tags = tomap({"tf_test_namespace.test_tag" = "value"})
     display_name = "displayName"
     freeform_tags = {
       "freeformTag" = "freeformTags"
@@ -224,7 +224,7 @@ resource "oci_container_instances_container_instance" "test_container_instance" 
 
   #Optional
   container_restart_policy = "ALWAYS"
-  defined_tags             = map("tf_test_namespace.test_tag", "value")
+  defined_tags             = tomap({"tf_test_namespace.test_tag" = "value"})
   display_name             = "displayName"
   dns_config {
 

@@ -58,7 +58,7 @@ var (
 		"recovery_service_subnets": acctest.RepresentationGroup{RepType: acctest.Required, Group: RecoveryProtectedDatabaseRecoveryServiceSubnetsRepresentation},
 		"database_id":              acctest.Representation{RepType: acctest.Optional, Create: `DummyDatabaseID_` + utils.RandomString(10, utils.Charset)},
 		"database_size":            acctest.Representation{RepType: acctest.Optional, Create: `XS`, Update: `S`},
-		"defined_tags":             acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":             acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"deletion_schedule":        acctest.Representation{RepType: acctest.Optional, Create: `DELETE_AFTER_72_HOURS`},
 		"freeform_tags":            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_redo_logs_shipped":     acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},

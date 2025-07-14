@@ -12,7 +12,7 @@ variable "compartment_id" { default = "ocid1.compartment.oc1.." }
 
 resource "oci_fleet_apps_management_task_record" "test_task_record" {
   compartment_id = "${var.compartment_id}"
-  defined_tags   = "${map("Oracle-Tags.CreatedBy", "updatedValue")}"
+  defined_tags   = "${tomap({"Oracle-Tags.CreatedBy" = "updatedValue"})}"
   description    = "description2"
   details {
     execution_details {

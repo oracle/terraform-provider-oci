@@ -118,7 +118,7 @@ resource "oci_compute_cloud_at_customer_ccc_infrastructure" "test_ccc_infrastruc
   ccc_upgrade_schedule_id = oci_compute_cloud_at_customer_ccc_upgrade_schedule.test_ccc_upgrade_schedule.id
   connection_details      = var.ccc_infrastructure_connection_details
   connection_state        = var.ccc_infrastructure_connection_state
-  defined_tags            = map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", var.ccc_infrastructure_defined_tags_value)
+  defined_tags            = tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = var.ccc_infrastructure_defined_tags_value})
   description             = var.ccc_infrastructure_description
   freeform_tags           = var.ccc_infrastructure_freeform_tags
 }

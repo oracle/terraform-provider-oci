@@ -52,7 +52,7 @@ var (
 		"execution_resource_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_database_maintenance_run.test_maintenance_run.id}`},
 		"time_scheduled":          acctest.Representation{RepType: acctest.Required, Create: `2018-12-23T01:59:07.030Z`, Update: `timeScheduled2`},
 		"window_duration_in_mins": acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
-		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_enforced_duration":    acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}

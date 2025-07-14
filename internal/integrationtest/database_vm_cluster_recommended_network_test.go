@@ -21,7 +21,7 @@ var (
 		"exadata_infrastructure_id":  acctest.Representation{RepType: acctest.Required, Create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`},
 		"networks":                   []acctest.RepresentationGroup{{RepType: acctest.Required, Group: DatabaseVmClusterRecommendedNetworkNetworksSingularDataSourceRepresentation}, {RepType: acctest.Required, Group: DatabaseVmClusterRecommendedNetworkbackupNetworksRepresentation}},
 		"db_servers":                 acctest.Representation{RepType: acctest.Optional, Create: []string{`${data.oci_database_db_servers.test_db_servers.db_servers.0.id}`, `${data.oci_database_db_servers.test_db_servers.db_servers.1.id}`}},
-		"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"dns":                        acctest.Representation{RepType: acctest.Optional, Create: []string{`192.168.10.10`}},
 		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"ntp":                        acctest.Representation{RepType: acctest.Optional, Create: []string{`192.168.10.20`}},

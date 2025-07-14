@@ -57,7 +57,7 @@ var (
 		"time_suppress_from":  acctest.Representation{RepType: acctest.Required, Create: `2025-03-04T05:00:00Z`},
 		"time_suppress_until": acctest.Representation{RepType: acctest.Required, Create: `2025-03-31T17:00:00Z`},
 
-		"defined_tags":           acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":           acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"description":            acctest.Representation{RepType: acctest.Optional, Create: `Suppression for monthly downtime of resource ABC, for support ticket IT-ABC`},
 		"dimensions":             acctest.Representation{RepType: acctest.Required, Create: map[string]string{"resourceId": "instance.instanceId.region1.phx.exampleuniqueID"}},
 		"freeform_tags":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},

@@ -139,7 +139,7 @@ resource "oci_operator_access_control_operator_control" "test_operator_control" 
   #approver_groups_list        = [data.oci_identity_groups.get_admin_approver_group.groups[0].id]
   approver_groups_list        = ["use_iam_policy"]
   approvers_list              = var.operator_control_approvers_list
-  #defined_tags                = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.operator_control_defined_tags_value)
+  #defined_tags                = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.operator_control_defined_tags_value})
   description                 = var.operator_control_description
   email_id_list               = var.operator_control_email_id_list
   #freeform_tags               = var.operator_control_freeform_tags
@@ -161,7 +161,7 @@ resource "oci_operator_access_control_operator_control_assignment" "test_operato
 
   #Optional
   comment                            = var.operator_control_assignment_comment
-  #defined_tags                       = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.operator_control_assignment_defined_tags_value)
+  #defined_tags                       = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.operator_control_assignment_defined_tags_value})
   #freeform_tags                      = var.operator_control_assignment_freeform_tags
   is_auto_approve_during_maintenance = var.operator_control_assignment_is_auto_approve_during_maintenance
   is_log_forwarded                   = var.operator_control_assignment_is_log_forwarded

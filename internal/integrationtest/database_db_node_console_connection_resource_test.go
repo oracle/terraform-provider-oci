@@ -45,7 +45,7 @@ var (
 	DatabaseDbNodeConsoleConnectionRepresentationExaCC = map[string]interface{}{
 		"db_node_id":    acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_db_node.test_db_node.id}`},
 		"public_key":    acctest.Representation{RepType: acctest.Required, Create: `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCldnh+UpWXKNlkRTamqCnmihMMLZ5UofvO5Thxr+dpp427HcRiZaJnrnpbrh+T5c+I+bTE9JQh4Ydsk9hEg1LWXIqCYPTDifaWneJ6o+xpbjW8benndWDR6y3XJ2yLdXOJ9S8HWMXQLkAGBEkxsqNAtdlt2U3RjRbO+4g+PdNBLycZ8vXwaD+GOxq08GtxQTQuzQMWUjt56TVH7OG6v/1nEHTQ5meYHtTP4cx1YqqOQBWyZG4Ikq9Ej8YegmP3Tbf9SRRcrXG0qASNIevofGsmhvhvgXhNtENJpEvf10aJyXmRDUAfUwGSFCKyHVEiCX9MzPLzUlvSbw2Ls1NVkZ3v mytest.vpn.oracle.com`},
-		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 

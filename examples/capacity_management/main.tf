@@ -159,7 +159,7 @@ resource "oci_capacity_management_occ_availability_catalog" "test_occ_availabili
   occ_customer_group_id         = lookup(data.oci_capacity_management_occ_customer_groups.test_occ_customer_groups.occ_customer_group_collection.0.items[0], "id")
 
   #Optional
-  #  defined_tags  = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.occ_availability_catalog_defined_tags_value)
+  #  defined_tags  = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.occ_availability_catalog_defined_tags_value})
   description   = var.occ_availability_catalog_description
   freeform_tags = var.occ_availability_catalog_freeform_tags
   metadata_details {
@@ -212,7 +212,7 @@ resource "oci_capacity_management_occ_capacity_request" "test_occ_capacity_reque
   region                      = var.occ_capacity_request_region
 
   #Optional
-#  defined_tags      = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.occ_capacity_request_defined_tags_value)
+#  defined_tags      = tomap({oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.occ_capacity_request_defined_tags_value})
   description       = var.occ_capacity_request_description
   freeform_tags     = var.occ_capacity_request_freeform_tags
   lifecycle_details = var.occ_capacity_request_lifecycle_details

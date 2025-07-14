@@ -51,7 +51,7 @@ var (
 		"display_name":                  acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"namespace":                     acctest.Representation{RepType: acctest.Required, Create: `COMPUTE`},
 		"occ_customer_group_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_capacity_management_occ_customer_group.test_occ_customer_group.id}`},
-		//"defined_tags":                  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
+		//"defined_tags":                  acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"description":      acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"metadata_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CapacityManagementOccAvailabilityCatalogMetadataDetailsRepresentation},

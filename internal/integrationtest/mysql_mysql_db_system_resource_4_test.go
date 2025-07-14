@@ -29,7 +29,7 @@ var (
 
 	mysqlMysqlDbSystemBackupPolicyRepresentation = map[string]interface{}{
 		"copy_policies":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: mysqlMysqlDbSystemBackupPolicyCopyPoliciesRepresentation},
-		"defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
+		"defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`},
 		"freeform_tags":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}},
 		"is_enabled":        acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"pitr_policy":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: mysqlDbSystemBackupPolicyPitrPolicyNotUpdateableRepresentation},

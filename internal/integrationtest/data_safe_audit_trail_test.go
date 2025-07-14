@@ -67,7 +67,7 @@ var (
 	}
 	auditTrailUpdateRepresentation = map[string]interface{}{
 		"audit_trail_id":                         acctest.Representation{RepType: acctest.Required, Create: `${var.trail_id}`},
-		"defined_tags":                           acctest.Representation{RepType: acctest.Optional, Create: `${map("key", "value")}`, Update: `${map("updatedKey", "updatedValue")}`},
+		"defined_tags":                           acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"key" = "value"})}`, Update: `${tomap({"updatedKey" = "updatedValue"})}`},
 		"description":                            acctest.Representation{RepType: acctest.Optional, Create: `updated-description`, Update: `description2`},
 		"display_name":                           acctest.Representation{RepType: acctest.Optional, Create: `updated-name`, Update: `displayName2`},
 		"freeform_tags":                          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
@@ -85,7 +85,7 @@ var (
 	DataSafeAuditTrailRepresentation = map[string]interface{}{
 		"audit_trail_id":                         acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_audit_trail.test_audit_trail.id}`},
 		"can_update_last_archive_time_on_target": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"defined_tags":                           acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":                           acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"description":                            acctest.Representation{RepType: acctest.Optional, Create: `updated-description`, Update: `description2`},
 		"display_name":                           acctest.Representation{RepType: acctest.Optional, Create: `updated-name`, Update: `displayName2`},
 		"freeform_tags":                          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
