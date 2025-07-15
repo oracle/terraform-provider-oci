@@ -46,9 +46,6 @@ type ModelSummary struct {
 	// An optional description of the model.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Number of replicas required for this model.
-	InferenceUnits *int `mandatory:"false" json:"inferenceUnits"`
-
 	// When the model was modified, as an RFC3339 datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
@@ -119,7 +116,6 @@ func (m *ModelSummary) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		DisplayName       *string                           `json:"displayName"`
 		Description       *string                           `json:"description"`
-		InferenceUnits    *int                              `json:"inferenceUnits"`
 		TimeUpdated       *common.SDKTime                   `json:"timeUpdated"`
 		LifecycleDetails  *string                           `json:"lifecycleDetails"`
 		Precision         *float32                          `json:"precision"`
@@ -151,8 +147,6 @@ func (m *ModelSummary) UnmarshalJSON(data []byte) (e error) {
 	m.DisplayName = model.DisplayName
 
 	m.Description = model.Description
-
-	m.InferenceUnits = model.InferenceUnits
 
 	m.TimeUpdated = model.TimeUpdated
 

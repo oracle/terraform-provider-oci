@@ -50,10 +50,6 @@ func (m *processorconfig) UnmarshalPolymorphicJSON(data []byte) (interface{}, er
 
 	var err error
 	switch m.ProcessorType {
-	case "INVOICE":
-		mm := InvoiceProcessorConfig{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "GENERAL":
 		mm := GeneralProcessorConfig{}
 		err = json.Unmarshal(data, &mm)

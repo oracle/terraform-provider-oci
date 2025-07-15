@@ -5,7 +5,7 @@ package auth
 
 import (
 	"bytes"
-	"crypto/sha256"
+	"crypto/sha1"
 	"crypto/x509"
 	"fmt"
 	"net/http"
@@ -61,11 +61,11 @@ func extractTenancyIDFromCertificate(cert *x509.Certificate) string {
 }
 
 func fingerprint(certificate *x509.Certificate) string {
-	fingerprint := sha256.Sum256(certificate.Raw)
+	fingerprint := sha1.Sum(certificate.Raw)
 	return colonSeparatedString(fingerprint)
 }
 
-func colonSeparatedString(fingerprint [sha256.Size]byte) string {
+func colonSeparatedString(fingerprint [sha1.Size]byte) string {
 	spaceSeparated := fmt.Sprintf("% x", fingerprint)
 	return strings.Replace(spaceSeparated, " ", ":", -1)
 }

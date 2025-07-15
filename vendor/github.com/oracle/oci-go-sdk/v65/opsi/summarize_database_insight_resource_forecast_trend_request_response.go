@@ -254,10 +254,6 @@ const (
 	SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeComanagedExaccNoncdb SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum = "COMANAGED-EXACC-NONCDB"
 	SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeMdsMysql             SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum = "MDS-MYSQL"
 	SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeExternalMysql        SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum = "EXTERNAL-MYSQL"
-	SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeAtpExacc             SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum = "ATP-EXACC"
-	SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeAdwExacc             SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum = "ADW-EXACC"
-	SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeExternalAdw          SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum = "EXTERNAL-ADW"
-	SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeExternalAtp          SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum = "EXTERNAL-ATP"
 )
 
 var mappingSummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum = map[string]SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum{
@@ -281,10 +277,6 @@ var mappingSummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum = map[s
 	"COMANAGED-EXACC-NONCDB": SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeComanagedExaccNoncdb,
 	"MDS-MYSQL":              SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeMdsMysql,
 	"EXTERNAL-MYSQL":         SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeExternalMysql,
-	"ATP-EXACC":              SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeAtpExacc,
-	"ADW-EXACC":              SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeAdwExacc,
-	"EXTERNAL-ADW":           SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeExternalAdw,
-	"EXTERNAL-ATP":           SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeExternalAtp,
 }
 
 var mappingSummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnumLowerCase = map[string]SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum{
@@ -308,10 +300,6 @@ var mappingSummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnumLowerCas
 	"comanaged-exacc-noncdb": SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeComanagedExaccNoncdb,
 	"mds-mysql":              SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeMdsMysql,
 	"external-mysql":         SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeExternalMysql,
-	"atp-exacc":              SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeAtpExacc,
-	"adw-exacc":              SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeAdwExacc,
-	"external-adw":           SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeExternalAdw,
-	"external-atp":           SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeExternalAtp,
 }
 
 // GetSummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnumValues Enumerates the set of values for SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum
@@ -346,10 +334,6 @@ func GetSummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnumStringValue
 		"COMANAGED-EXACC-NONCDB",
 		"MDS-MYSQL",
 		"EXTERNAL-MYSQL",
-		"ATP-EXACC",
-		"ADW-EXACC",
-		"EXTERNAL-ADW",
-		"EXTERNAL-ATP",
 	}
 }
 

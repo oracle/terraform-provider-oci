@@ -19,11 +19,8 @@ import (
 // DocumentKeyValueExtractionFeature Extracting form fields.
 type DocumentKeyValueExtractionFeature struct {
 
-	// Unique identifier custom model OCID that should be used for inference.
+	// The custom model ID.
 	ModelId *string `mandatory:"false" json:"modelId"`
-
-	// The custom model tenancy ID when modelId represents aliasName.
-	TenancyId *string `mandatory:"false" json:"tenancyId"`
 }
 
 func (m DocumentKeyValueExtractionFeature) String() string {
