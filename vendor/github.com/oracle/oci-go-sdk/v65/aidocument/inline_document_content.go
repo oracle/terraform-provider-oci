@@ -21,9 +21,6 @@ type InlineDocumentContent struct {
 
 	// Raw document data with Base64 encoding.
 	Data []byte `mandatory:"true" json:"data"`
-
-	// The page ranges to be analysed.
-	PageRange []string `mandatory:"false" json:"pageRange"`
 }
 
 func (m InlineDocumentContent) String() string {

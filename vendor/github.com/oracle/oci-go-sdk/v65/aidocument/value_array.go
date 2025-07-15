@@ -32,12 +32,6 @@ type ValueArray struct {
 
 	// The detected text of a field.
 	Text *string `mandatory:"false" json:"text"`
-
-	// The normalized value.
-	NormalizedValue *string `mandatory:"false" json:"normalizedValue"`
-
-	// The normalized value confidence score between 0 and 1.
-	NormalizedConfidence *float32 `mandatory:"false" json:"normalizedConfidence"`
 }
 
 // GetText returns Text
@@ -58,16 +52,6 @@ func (m ValueArray) GetBoundingPolygon() *BoundingPolygon {
 // GetWordIndexes returns WordIndexes
 func (m ValueArray) GetWordIndexes() []int {
 	return m.WordIndexes
-}
-
-// GetNormalizedValue returns NormalizedValue
-func (m ValueArray) GetNormalizedValue() *string {
-	return m.NormalizedValue
-}
-
-// GetNormalizedConfidence returns NormalizedConfidence
-func (m ValueArray) GetNormalizedConfidence() *float32 {
-	return m.NormalizedConfidence
 }
 
 func (m ValueArray) String() string {

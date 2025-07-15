@@ -20,18 +20,15 @@ type ExadataVmClusterTypeEnum string
 
 // Set of constants representing the allowable values for ExadataVmClusterTypeEnum
 const (
-	ExadataVmClusterTypeVmCluster           ExadataVmClusterTypeEnum = "vmCluster"
-	ExadataVmClusterTypeAutonomousVmCluster ExadataVmClusterTypeEnum = "autonomousVmCluster"
+	ExadataVmClusterTypeVmCluster ExadataVmClusterTypeEnum = "vmCluster"
 )
 
 var mappingExadataVmClusterTypeEnum = map[string]ExadataVmClusterTypeEnum{
-	"vmCluster":           ExadataVmClusterTypeVmCluster,
-	"autonomousVmCluster": ExadataVmClusterTypeAutonomousVmCluster,
+	"vmCluster": ExadataVmClusterTypeVmCluster,
 }
 
 var mappingExadataVmClusterTypeEnumLowerCase = map[string]ExadataVmClusterTypeEnum{
-	"vmcluster":           ExadataVmClusterTypeVmCluster,
-	"autonomousvmcluster": ExadataVmClusterTypeAutonomousVmCluster,
+	"vmcluster": ExadataVmClusterTypeVmCluster,
 }
 
 // GetExadataVmClusterTypeEnumValues Enumerates the set of values for ExadataVmClusterTypeEnum
@@ -47,7 +44,6 @@ func GetExadataVmClusterTypeEnumValues() []ExadataVmClusterTypeEnum {
 func GetExadataVmClusterTypeEnumStringValues() []string {
 	return []string{
 		"vmCluster",
-		"autonomousVmCluster",
 	}
 }
 

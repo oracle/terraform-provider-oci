@@ -43,12 +43,6 @@ type AnalyzeDocumentResult struct {
 	// The document table extraction model version.
 	TableExtractionModelVersion *string `mandatory:"false" json:"tableExtractionModelVersion"`
 
-	// The document signature extraction model version.
-	SignatureExtractionModelVersion *string `mandatory:"false" json:"signatureExtractionModelVersion"`
-
-	// The document bar code extraction model version.
-	BarCodeExtractionModelVersion *string `mandatory:"false" json:"barCodeExtractionModelVersion"`
-
 	// The errors encountered during document analysis.
 	Errors []ProcessingError `mandatory:"false" json:"errors"`
 
