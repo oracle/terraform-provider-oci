@@ -16,48 +16,12 @@ import (
 
 var (
 	// before running tests, ensure to set up environment variables used below
-	JmsAgentInstallerCompartmentId  = utils.GetEnvSettingWithBlankDefault("compartment_ocid")
-	JmsAgentInstallerLogGroupId     = utils.GetEnvSettingWithBlankDefault("fleet_log_group_ocid")
-	JmsAgentInstallerInventoryLogId = utils.GetEnvSettingWithBlankDefault("fleet_inventory_log_ocid")
-	JmsAgentInstallerOperationLogId = utils.GetEnvSettingWithBlankDefault("fleet_operation_log_ocid")
-
-	JmsAgentInstallerFleetResourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: JmsAgentInstallerCompartmentId},
-		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `Created Fleet for Agent Installer`},
-		"description":    acctest.Representation{RepType: acctest.Optional, Create: `Created Fleet for Agent Installer`},
-		"inventory_log": acctest.RepresentationGroup{
-			RepType: acctest.Required,
-			Group: map[string]interface{}{
-				"log_group_id": acctest.Representation{
-					RepType: acctest.Required,
-					Create:  JmsAgentInstallerLogGroupId,
-					Update:  JmsAgentInstallerLogGroupId,
-				},
-				"log_id": acctest.Representation{
-					RepType: acctest.Required,
-					Create:  JmsAgentInstallerInventoryLogId,
-					Update:  JmsAgentInstallerInventoryLogId,
-				},
-			}},
-		"operation_log": acctest.RepresentationGroup{
-			RepType: acctest.Optional,
-			Group: map[string]interface{}{
-				"log_group_id": acctest.Representation{
-					RepType: acctest.Required,
-					Create:  JmsAgentInstallerLogGroupId,
-					Update:  JmsAgentInstallerLogGroupId,
-				},
-				"log_id": acctest.Representation{
-					RepType: acctest.Required,
-					Create:  JmsAgentInstallerOperationLogId,
-					Update:  JmsAgentInstallerOperationLogId,
-				},
-			}},
-	}
+	JmsAgentInstallerFleetId       = utils.GetEnvSettingWithBlankDefault("fleet_ocid")
+	JmsAgentInstallerCompartmentId = utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 
 	JmsAgentInstallerDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":        acctest.Representation{RepType: acctest.Optional, Create: JmsAgentInstallerCompartmentId},
-		"fleet_id":              acctest.Representation{RepType: acctest.Optional, Create: `${oci_jms_fleet.test_fleet.id}`},
+		"fleet_id":              acctest.Representation{RepType: acctest.Optional, Create: JmsAgentInstallerFleetId},
 		"os_family":             acctest.Representation{RepType: acctest.Optional, Create: `LINUX`},
 		"platform_architecture": acctest.Representation{RepType: acctest.Optional, Create: `X86_64`},
 	}
@@ -76,13 +40,6 @@ func TestJmsAgentInstallerResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateResourceFromRepresentationMap(
-					"oci_jms_fleet",
-					"test_fleet",
-					acctest.Optional,
-					acctest.Create,
-					JmsAgentInstallerFleetResourceRepresentation,
-				) +
 				acctest.GenerateDataSourceFromRepresentationMap(
 					"oci_jms_agent_installers",
 					"test_agent_installers",
