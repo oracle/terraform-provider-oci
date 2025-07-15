@@ -1,3 +1,16 @@
+## 7.10.0 (Unreleased)
+
+### Added
+- Support for GenAI Agents Tools API
+- Support for BDS - Automatic Replacement of failed Master (MN0/MN1) and Utility nodes (UN0/UN1)
+- Support for OSP OCI integration service: Fraud changes
+### Bug Fix
+Fix unpinning of addon version
+- Check OIDC is enabled in state to prevent drift
+- fixed backup type issue
+- OS Management Hub: unregister managed instance on resource deletion
+ed - To support TF import of KMS vault replica.
+
 ## 7.9.0 (July 09, 2025)
 
 ### Added
