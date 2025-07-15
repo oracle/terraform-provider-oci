@@ -442,5 +442,11 @@
         "realmKey": "oc42",
         "regionIdentifier": "us-ashburn-2",
         "realmDomainComponent": "oraclecloud42.com"
+    },
+    {
+        "regionKey": "onm",
+        "realmKey": "oc1",
+        "regionIdentifier": "ap-delhi-1",
+        "realmDomainComponent": "oraclecloud.com"
     }
 ]

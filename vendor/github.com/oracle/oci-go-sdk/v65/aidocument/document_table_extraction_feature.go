@@ -18,6 +18,9 @@ import (
 
 // DocumentTableExtractionFeature Detecting and extracting data in tables.
 type DocumentTableExtractionFeature struct {
+
+	// Unique identifier custom model OCID that should be used for inference.
+	ModelId *string `mandatory:"false" json:"modelId"`
 }
 
 func (m DocumentTableExtractionFeature) String() string {

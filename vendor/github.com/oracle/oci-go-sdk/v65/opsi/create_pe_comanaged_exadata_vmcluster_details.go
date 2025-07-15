@@ -34,6 +34,12 @@ type CreatePeComanagedExadataVmclusterDetails struct {
 
 	// The databases that belong to the VM Cluster
 	MemberDatabaseDetails []CreatePeComanagedDatabaseInsightDetails `mandatory:"false" json:"memberDatabaseDetails"`
+
+	// Exadata VMCluster type
+	VmClusterType ExadataVmClusterTypeEnum `mandatory:"false" json:"vmClusterType,omitempty"`
+
+	// The autonomous databases that belong to the Autonomous VM Cluster
+	MemberAutonomousDetails []CreateAutonomousDatabaseInsightDetails `mandatory:"false" json:"memberAutonomousDetails"`
 }
 
 func (m CreatePeComanagedExadataVmclusterDetails) String() string {
@@ -46,6 +52,9 @@ func (m CreatePeComanagedExadataVmclusterDetails) String() string {
 func (m CreatePeComanagedExadataVmclusterDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingExadataVmClusterTypeEnum(string(m.VmClusterType)); !ok && m.VmClusterType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VmClusterType: %s. Supported values are: %s.", m.VmClusterType, strings.Join(GetExadataVmClusterTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

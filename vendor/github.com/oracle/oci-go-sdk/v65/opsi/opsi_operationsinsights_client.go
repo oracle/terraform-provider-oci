@@ -592,6 +592,69 @@ func (client OperationsInsightsClient) changeHostInsightCompartment(ctx context.
 	return response, err
 }
 
+// ChangeMacsManagedAutonomousDatabaseInsightConnection Change the connection details of a MACS-managed autonomous database insight. When provided, If-Match is checked against ETag values of the resource.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ChangeMacsManagedAutonomousDatabaseInsightConnection.go.html to see an example of how to use ChangeMacsManagedAutonomousDatabaseInsightConnection API.
+// A default retry strategy applies to this operation ChangeMacsManagedAutonomousDatabaseInsightConnection()
+func (client OperationsInsightsClient) ChangeMacsManagedAutonomousDatabaseInsightConnection(ctx context.Context, request ChangeMacsManagedAutonomousDatabaseInsightConnectionRequest) (response ChangeMacsManagedAutonomousDatabaseInsightConnectionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeMacsManagedAutonomousDatabaseInsightConnection, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeMacsManagedAutonomousDatabaseInsightConnectionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeMacsManagedAutonomousDatabaseInsightConnectionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeMacsManagedAutonomousDatabaseInsightConnectionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeMacsManagedAutonomousDatabaseInsightConnectionResponse")
+	}
+	return
+}
+
+// changeMacsManagedAutonomousDatabaseInsightConnection implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) changeMacsManagedAutonomousDatabaseInsightConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseInsights/{databaseInsightId}/actions/changeMacsManagedAutonomousDatabaseInsightConnectionDetails", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeMacsManagedAutonomousDatabaseInsightConnectionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/ChangeMacsManagedAutonomousDatabaseInsightConnection"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ChangeMacsManagedAutonomousDatabaseInsightConnection", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeMacsManagedCloudDatabaseInsightConnection Change the connection details of a Cloud MACS-managed database insight. When provided, If-Match is checked against ETag values of the resource.
 //
 // # See also
@@ -6145,7 +6208,7 @@ func (client OperationsInsightsClient) listNewsReports(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/NewsReport/ListNewsReports"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/NewsReports/ListNewsReports"
 		err = common.PostProcessServiceError(err, "OperationsInsights", "ListNewsReports", apiReferenceLink)
 		return response, err
 	}
@@ -10254,6 +10317,134 @@ func (client OperationsInsightsClient) summarizeSqlStatisticsTimeSeriesByPlan(ct
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/SummarizeSqlStatisticsTimeSeriesByPlan"
 		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeSqlStatisticsTimeSeriesByPlan", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SynchronizeAutonomousDatabaseToExadata Synchronize infrastructure details that has been missing when autonomous database onboarded in Operations Insights.
+// Onboarded Opsi ExadataInsight resource need to be provided with compartmentId for searching infrastruture details.
+// The query parameters, DatabaseId and DatabaseInsightId, are mutually exclusive and provided for searching Opsi resources that have been onboarded.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SynchronizeAutonomousDatabaseToExadata.go.html to see an example of how to use SynchronizeAutonomousDatabaseToExadata API.
+// A default retry strategy applies to this operation SynchronizeAutonomousDatabaseToExadata()
+func (client OperationsInsightsClient) SynchronizeAutonomousDatabaseToExadata(ctx context.Context, request SynchronizeAutonomousDatabaseToExadataRequest) (response SynchronizeAutonomousDatabaseToExadataResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.synchronizeAutonomousDatabaseToExadata, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SynchronizeAutonomousDatabaseToExadataResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SynchronizeAutonomousDatabaseToExadataResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SynchronizeAutonomousDatabaseToExadataResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SynchronizeAutonomousDatabaseToExadataResponse")
+	}
+	return
+}
+
+// synchronizeAutonomousDatabaseToExadata implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) synchronizeAutonomousDatabaseToExadata(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseInsights/actions/synchronizeAutonomousDatabaseToExadata", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SynchronizeAutonomousDatabaseToExadataResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/SynchronizeAutonomousDatabaseToExadata"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SynchronizeAutonomousDatabaseToExadata", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// TestMacsManagedAutonomousDatabaseInsightConnection Test the connection details of a MACS-managed autonomous database.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/TestMacsManagedAutonomousDatabaseInsightConnection.go.html to see an example of how to use TestMacsManagedAutonomousDatabaseInsightConnection API.
+// A default retry strategy applies to this operation TestMacsManagedAutonomousDatabaseInsightConnection()
+func (client OperationsInsightsClient) TestMacsManagedAutonomousDatabaseInsightConnection(ctx context.Context, request TestMacsManagedAutonomousDatabaseInsightConnectionRequest) (response TestMacsManagedAutonomousDatabaseInsightConnectionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.testMacsManagedAutonomousDatabaseInsightConnection, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = TestMacsManagedAutonomousDatabaseInsightConnectionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = TestMacsManagedAutonomousDatabaseInsightConnectionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(TestMacsManagedAutonomousDatabaseInsightConnectionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into TestMacsManagedAutonomousDatabaseInsightConnectionResponse")
+	}
+	return
+}
+
+// testMacsManagedAutonomousDatabaseInsightConnection implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) testMacsManagedAutonomousDatabaseInsightConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseInsights/actions/testMacsManagedAutonomousDatabaseInsightConnectionDetails", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response TestMacsManagedAutonomousDatabaseInsightConnectionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/TestMacsManagedAutonomousDatabaseInsightConnection"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "TestMacsManagedAutonomousDatabaseInsightConnection", apiReferenceLink)
 		return response, err
 	}
 
