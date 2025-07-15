@@ -37,6 +37,7 @@ var (
 		"defined_tags":       acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"mount_type_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: backupDestinationADBCCMountTypeDetailsRepresentation},
+		"lifecycle":          acctest.RepresentationGroup{RepType: acctest.Required, Group: DbaasIgnoreDefinedTagsRepresentation},
 	}
 
 	backupDestinationADBCCNFSRepresentation = map[string]interface{}{
