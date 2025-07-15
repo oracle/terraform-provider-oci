@@ -43,8 +43,22 @@ type ComputeTarget struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate the compute target with.
 	ProjectId *string `mandatory:"false" json:"projectId"`
 
+	// Metadata for the compute target.
+	// The size of metadata must be less than 2048 bytes.
+	// Key should be under 32 characters.
+	// Key should contain only letters, digits and underscore (_)
+	// Key should start with a letter.
+	// Key should have at least 2 characters.
+	// Key should not end with underscore eg. `TEST_`
+	// Key if added cannot be empty. Value can be empty.
+	// No specific size limits on individual Values. But overall metadata is limited to 2048 bytes.
+	// Key can't be system reserved keys, system reserved keys starts with ODSC_.
+	Metadata map[string]string `mandatory:"false" json:"metadata"`
+
 	// A short description of the compute target.
 	Description *string `mandatory:"false" json:"description"`
+
+	ComputeTargetSystemData ComputeTargetSystemData `mandatory:"false" json:"computeTargetSystemData"`
 
 	// Details about the state of the compute target.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
@@ -81,7 +95,9 @@ func (m ComputeTarget) ValidateEnumValue() (bool, error) {
 func (m *ComputeTarget) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		ProjectId                   *string                           `json:"projectId"`
+		Metadata                    map[string]string                 `json:"metadata"`
 		Description                 *string                           `json:"description"`
+		ComputeTargetSystemData     computetargetsystemdata           `json:"computeTargetSystemData"`
 		LifecycleDetails            *string                           `json:"lifecycleDetails"`
 		FreeformTags                map[string]string                 `json:"freeformTags"`
 		DefinedTags                 map[string]map[string]interface{} `json:"definedTags"`
@@ -101,7 +117,19 @@ func (m *ComputeTarget) UnmarshalJSON(data []byte) (e error) {
 	var nn interface{}
 	m.ProjectId = model.ProjectId
 
+	m.Metadata = model.Metadata
+
 	m.Description = model.Description
+
+	nn, e = model.ComputeTargetSystemData.UnmarshalPolymorphicJSON(model.ComputeTargetSystemData.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ComputeTargetSystemData = nn.(ComputeTargetSystemData)
+	} else {
+		m.ComputeTargetSystemData = nil
+	}
 
 	m.LifecycleDetails = model.LifecycleDetails
 

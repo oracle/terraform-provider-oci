@@ -252,6 +252,7 @@ type AutonomousDwDatabase struct {
 	// - DW - indicates an Autonomous Data Warehouse database
 	// - AJD - indicates an Autonomous JSON Database
 	// - APEX - indicates an Autonomous Database with the Oracle APEX Application Development workload type.
+	// - VEC - indicates an Autonomous Vector Database
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	DbWorkload AutonomousDwDatabaseDbWorkloadEnum `mandatory:"false" json:"dbWorkload,omitempty"`
 
@@ -1281,6 +1282,7 @@ const (
 	AutonomousDwDatabaseDbWorkloadDw   AutonomousDwDatabaseDbWorkloadEnum = "DW"
 	AutonomousDwDatabaseDbWorkloadAjd  AutonomousDwDatabaseDbWorkloadEnum = "AJD"
 	AutonomousDwDatabaseDbWorkloadApex AutonomousDwDatabaseDbWorkloadEnum = "APEX"
+	AutonomousDwDatabaseDbWorkloadVec  AutonomousDwDatabaseDbWorkloadEnum = "VEC"
 )
 
 var mappingAutonomousDwDatabaseDbWorkloadEnum = map[string]AutonomousDwDatabaseDbWorkloadEnum{
@@ -1288,6 +1290,7 @@ var mappingAutonomousDwDatabaseDbWorkloadEnum = map[string]AutonomousDwDatabaseD
 	"DW":   AutonomousDwDatabaseDbWorkloadDw,
 	"AJD":  AutonomousDwDatabaseDbWorkloadAjd,
 	"APEX": AutonomousDwDatabaseDbWorkloadApex,
+	"VEC":  AutonomousDwDatabaseDbWorkloadVec,
 }
 
 var mappingAutonomousDwDatabaseDbWorkloadEnumLowerCase = map[string]AutonomousDwDatabaseDbWorkloadEnum{
@@ -1295,6 +1298,7 @@ var mappingAutonomousDwDatabaseDbWorkloadEnumLowerCase = map[string]AutonomousDw
 	"dw":   AutonomousDwDatabaseDbWorkloadDw,
 	"ajd":  AutonomousDwDatabaseDbWorkloadAjd,
 	"apex": AutonomousDwDatabaseDbWorkloadApex,
+	"vec":  AutonomousDwDatabaseDbWorkloadVec,
 }
 
 // GetAutonomousDwDatabaseDbWorkloadEnumValues Enumerates the set of values for AutonomousDwDatabaseDbWorkloadEnum
@@ -1313,6 +1317,7 @@ func GetAutonomousDwDatabaseDbWorkloadEnumStringValues() []string {
 		"DW",
 		"AJD",
 		"APEX",
+		"VEC",
 	}
 }
 

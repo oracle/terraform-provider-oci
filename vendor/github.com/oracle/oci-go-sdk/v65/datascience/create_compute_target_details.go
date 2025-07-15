@@ -33,6 +33,18 @@ type CreateComputeTargetDetails struct {
 	// A short description of the compute target.
 	Description *string `mandatory:"false" json:"description"`
 
+	// Metadata for the compute target.
+	// The size of metadata must be less than 2048 bytes.
+	// Key should be under 32 characters.
+	// Key should contain only letters, digits and underscore (_)
+	// Key should start with a letter.
+	// Key should have at least 2 characters.
+	// Key should not end with underscore eg. `TEST_`
+	// Key if added cannot be empty. Value can be empty.
+	// No specific size limits on individual Values. But overall metadata is limited to 2048 bytes.
+	// Key can't be system reserved keys, system reserved keys starts with ODSC_.
+	Metadata map[string]string `mandatory:"false" json:"metadata"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -64,6 +76,7 @@ func (m *CreateComputeTargetDetails) UnmarshalJSON(data []byte) (e error) {
 		ProjectId                   *string                           `json:"projectId"`
 		DisplayName                 *string                           `json:"displayName"`
 		Description                 *string                           `json:"description"`
+		Metadata                    map[string]string                 `json:"metadata"`
 		FreeformTags                map[string]string                 `json:"freeformTags"`
 		DefinedTags                 map[string]map[string]interface{} `json:"definedTags"`
 		CompartmentId               *string                           `json:"compartmentId"`
@@ -80,6 +93,8 @@ func (m *CreateComputeTargetDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DisplayName = model.DisplayName
 
 	m.Description = model.Description
+
+	m.Metadata = model.Metadata
 
 	m.FreeformTags = model.FreeformTags
 

@@ -50,6 +50,10 @@ func (m *computeconfigurationdetails) UnmarshalPolymorphicJSON(data []byte) (int
 
 	var err error
 	switch m.ComputeType {
+	case "MANAGED_COMPUTE_CLUSTER":
+		mm := ManagedComputeClusterComputeConfigurationDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "CUSTOMER_OKE":
 		mm := CustomerOkeComputeConfigurationDetails{}
 		err = json.Unmarshal(data, &mm)

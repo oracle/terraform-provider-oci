@@ -26,6 +26,7 @@ type CreateHdfsConnectionDetails struct {
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The base64 encoded content of the Hadoop Distributed File System configuration file (core-site.xml).
+	// It is not included in GET responses if the `view=COMPACT` query parameter is specified.
 	CoreSiteXml *string `mandatory:"true" json:"coreSiteXml"`
 
 	// Metadata about this specific object.

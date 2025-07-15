@@ -44,6 +44,7 @@ type SourceDatabaseDetails struct {
 	// - DW - indicates an Autonomous Data Warehouse database
 	// - AJD - indicates an Autonomous JSON Database
 	// - APEX - indicates an Autonomous Database with the Oracle APEX Application Development workload type.
+	// - VEC - indicates an Autonomous Vector Database
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	DbWorkload SourceDatabaseDetailsDbWorkloadEnum `mandatory:"false" json:"dbWorkload,omitempty"`
 }
@@ -76,6 +77,7 @@ const (
 	SourceDatabaseDetailsDbWorkloadDw   SourceDatabaseDetailsDbWorkloadEnum = "DW"
 	SourceDatabaseDetailsDbWorkloadAjd  SourceDatabaseDetailsDbWorkloadEnum = "AJD"
 	SourceDatabaseDetailsDbWorkloadApex SourceDatabaseDetailsDbWorkloadEnum = "APEX"
+	SourceDatabaseDetailsDbWorkloadVec  SourceDatabaseDetailsDbWorkloadEnum = "VEC"
 )
 
 var mappingSourceDatabaseDetailsDbWorkloadEnum = map[string]SourceDatabaseDetailsDbWorkloadEnum{
@@ -83,6 +85,7 @@ var mappingSourceDatabaseDetailsDbWorkloadEnum = map[string]SourceDatabaseDetail
 	"DW":   SourceDatabaseDetailsDbWorkloadDw,
 	"AJD":  SourceDatabaseDetailsDbWorkloadAjd,
 	"APEX": SourceDatabaseDetailsDbWorkloadApex,
+	"VEC":  SourceDatabaseDetailsDbWorkloadVec,
 }
 
 var mappingSourceDatabaseDetailsDbWorkloadEnumLowerCase = map[string]SourceDatabaseDetailsDbWorkloadEnum{
@@ -90,6 +93,7 @@ var mappingSourceDatabaseDetailsDbWorkloadEnumLowerCase = map[string]SourceDatab
 	"dw":   SourceDatabaseDetailsDbWorkloadDw,
 	"ajd":  SourceDatabaseDetailsDbWorkloadAjd,
 	"apex": SourceDatabaseDetailsDbWorkloadApex,
+	"vec":  SourceDatabaseDetailsDbWorkloadVec,
 }
 
 // GetSourceDatabaseDetailsDbWorkloadEnumValues Enumerates the set of values for SourceDatabaseDetailsDbWorkloadEnum
@@ -108,6 +112,7 @@ func GetSourceDatabaseDetailsDbWorkloadEnumStringValues() []string {
 		"DW",
 		"AJD",
 		"APEX",
+		"VEC",
 	}
 }
 

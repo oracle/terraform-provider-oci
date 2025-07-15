@@ -252,6 +252,7 @@ type AutonomousDatabase struct {
 	// - DW - indicates an Autonomous Data Warehouse database
 	// - AJD - indicates an Autonomous JSON Database
 	// - APEX - indicates an Autonomous Database with the Oracle APEX Application Development workload type.
+	// - VEC - indicates an Autonomous Vector Database
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	DbWorkload AutonomousDatabaseDbWorkloadEnum `mandatory:"false" json:"dbWorkload,omitempty"`
 
@@ -1281,6 +1282,7 @@ const (
 	AutonomousDatabaseDbWorkloadDw   AutonomousDatabaseDbWorkloadEnum = "DW"
 	AutonomousDatabaseDbWorkloadAjd  AutonomousDatabaseDbWorkloadEnum = "AJD"
 	AutonomousDatabaseDbWorkloadApex AutonomousDatabaseDbWorkloadEnum = "APEX"
+	AutonomousDatabaseDbWorkloadVec  AutonomousDatabaseDbWorkloadEnum = "VEC"
 )
 
 var mappingAutonomousDatabaseDbWorkloadEnum = map[string]AutonomousDatabaseDbWorkloadEnum{
@@ -1288,6 +1290,7 @@ var mappingAutonomousDatabaseDbWorkloadEnum = map[string]AutonomousDatabaseDbWor
 	"DW":   AutonomousDatabaseDbWorkloadDw,
 	"AJD":  AutonomousDatabaseDbWorkloadAjd,
 	"APEX": AutonomousDatabaseDbWorkloadApex,
+	"VEC":  AutonomousDatabaseDbWorkloadVec,
 }
 
 var mappingAutonomousDatabaseDbWorkloadEnumLowerCase = map[string]AutonomousDatabaseDbWorkloadEnum{
@@ -1295,6 +1298,7 @@ var mappingAutonomousDatabaseDbWorkloadEnumLowerCase = map[string]AutonomousData
 	"dw":   AutonomousDatabaseDbWorkloadDw,
 	"ajd":  AutonomousDatabaseDbWorkloadAjd,
 	"apex": AutonomousDatabaseDbWorkloadApex,
+	"vec":  AutonomousDatabaseDbWorkloadVec,
 }
 
 // GetAutonomousDatabaseDbWorkloadEnumValues Enumerates the set of values for AutonomousDatabaseDbWorkloadEnum
@@ -1313,6 +1317,7 @@ func GetAutonomousDatabaseDbWorkloadEnumStringValues() []string {
 		"DW",
 		"AJD",
 		"APEX",
+		"VEC",
 	}
 }
 

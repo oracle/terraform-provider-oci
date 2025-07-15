@@ -32,6 +32,19 @@ type CreateAutonomousDatabaseBase interface {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
 	GetSubscriptionId() *string
 
+	// Required when using the Autonomous Vector Database workload type. For all other workload types, it is an error to provide this field.
+	GetVectorUsername() *string
+
+	// The password must be between 12 and 30 characters long, and must contain at least 1 uppercase, 1 lowercase, and 1 numeric character. It cannot contain the double quote symbol (") or the username "admin", regardless of casing. It must be different from the last four passwords and it must not be a password used within the last 24 hours.
+	// This cannot be used in conjunction with with OCI vault secrets (vectorSecretId).  When using the Autonomous Vector Database workload type, it is required to provide either this field or vectorSecretId. For all other workload types, it is an error to provide this field.
+	GetVectorPassword() *string
+
+	// The OCI vault secret [/Content/General/Concepts/identifiers.htm]OCID. This cannot be used in conjunction with vectorPassword. When using the Autonomous Vector Database workload type, it is required to provide either this field or vectorPassword. For all other workload types, it is an error to provide this field.
+	GetVectorSecretId() *string
+
+	// The version of the vault secret. If no version is specified, the latest version will be used. Used in conjunction with vectorSecretId
+	GetVectorSecretVersionNumber() *int
+
 	// The character set for the autonomous database. The default is AL32UTF8. Allowed values for an Autonomous Database Serverless instance as as returned by List Autonomous Database Character Sets (https://docs.oracle.com/iaas/autonomous-database-serverless/doc/autonomous-character-set-selection.html)
 	// For an Autonomous Database on dedicated infrastructure, the allowed values are:
 	// AL32UTF8, AR8ADOS710, AR8ADOS720, AR8APTEC715, AR8ARABICMACS, AR8ASMO8X, AR8ISO8859P6, AR8MSWIN1256, AR8MUSSAD768, AR8NAFITHA711, AR8NAFITHA721, AR8SAKHR706, AR8SAKHR707, AZ8ISO8859P9E, BG8MSWIN, BG8PC437S, BLT8CP921, BLT8ISO8859P13, BLT8MSWIN1257, BLT8PC775, BN8BSCII, CDN8PC863, CEL8ISO8859P14, CL8ISO8859P5, CL8ISOIR111, CL8KOI8R, CL8KOI8U, CL8MACCYRILLICS, CL8MSWIN1251, EE8ISO8859P2, EE8MACCES, EE8MACCROATIANS, EE8MSWIN1250, EE8PC852, EL8DEC, EL8ISO8859P7, EL8MACGREEKS, EL8MSWIN1253, EL8PC437S, EL8PC851, EL8PC869, ET8MSWIN923, HU8ABMOD, HU8CWI2, IN8ISCII, IS8PC861, IW8ISO8859P8, IW8MACHEBREWS, IW8MSWIN1255, IW8PC1507, JA16EUC, JA16EUCTILDE, JA16SJIS, JA16SJISTILDE, JA16VMS, KO16KSC5601, KO16KSCCS, KO16MSWIN949, LA8ISO6937, LA8PASSPORT, LT8MSWIN921, LT8PC772, LT8PC774, LV8PC1117, LV8PC8LR, LV8RST104090, N8PC865, NE8ISO8859P10, NEE8ISO8859P4, RU8BESTA, RU8PC855, RU8PC866, SE8ISO8859P3, TH8MACTHAIS, TH8TISASCII, TR8DEC, TR8MACTURKISHS, TR8MSWIN1254, TR8PC857, US7ASCII, US8PC437, UTF8, VN8MSWIN1258, VN8VN3, WE8DEC, WE8DG, WE8ISO8859P1, WE8ISO8859P15, WE8ISO8859P9, WE8MACROMAN8S, WE8MSWIN1252, WE8NCR4970, WE8NEXTSTEP, WE8PC850, WE8PC858, WE8PC860, WE8ROMAN8, ZHS16CGB231280, ZHS16GBK, ZHT16BIG5, ZHT16CCDC, ZHT16DBT, ZHT16HKSCS, ZHT16MSWIN950, ZHT32EUC, ZHT32SOPS, ZHT32TRIS
@@ -73,6 +86,7 @@ type CreateAutonomousDatabaseBase interface {
 	// - DW - indicates an Autonomous Data Warehouse database
 	// - AJD - indicates an Autonomous JSON Database
 	// - APEX - indicates an Autonomous Database with the Oracle APEX Application Development workload type.
+	// - VEC - indicates an Autonomous Vector Database
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	GetDbWorkload() CreateAutonomousDatabaseBaseDbWorkloadEnum
 
@@ -272,6 +286,10 @@ type CreateAutonomousDatabaseBase interface {
 type createautonomousdatabasebase struct {
 	JsonData                                 []byte
 	SubscriptionId                           *string                                                           `mandatory:"false" json:"subscriptionId"`
+	VectorUsername                           *string                                                           `mandatory:"false" json:"vectorUsername"`
+	VectorPassword                           *string                                                           `mandatory:"false" json:"vectorPassword"`
+	VectorSecretId                           *string                                                           `mandatory:"false" json:"vectorSecretId"`
+	VectorSecretVersionNumber                *int                                                              `mandatory:"false" json:"vectorSecretVersionNumber"`
 	CharacterSet                             *string                                                           `mandatory:"false" json:"characterSet"`
 	NcharacterSet                            *string                                                           `mandatory:"false" json:"ncharacterSet"`
 	DbName                                   *string                                                           `mandatory:"false" json:"dbName"`
@@ -341,6 +359,10 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	}
 	m.CompartmentId = s.Model.CompartmentId
 	m.SubscriptionId = s.Model.SubscriptionId
+	m.VectorUsername = s.Model.VectorUsername
+	m.VectorPassword = s.Model.VectorPassword
+	m.VectorSecretId = s.Model.VectorSecretId
+	m.VectorSecretVersionNumber = s.Model.VectorSecretVersionNumber
 	m.CharacterSet = s.Model.CharacterSet
 	m.NcharacterSet = s.Model.NcharacterSet
 	m.DbName = s.Model.DbName
@@ -456,6 +478,26 @@ func (m *createautonomousdatabasebase) UnmarshalPolymorphicJSON(data []byte) (in
 // GetSubscriptionId returns SubscriptionId
 func (m createautonomousdatabasebase) GetSubscriptionId() *string {
 	return m.SubscriptionId
+}
+
+// GetVectorUsername returns VectorUsername
+func (m createautonomousdatabasebase) GetVectorUsername() *string {
+	return m.VectorUsername
+}
+
+// GetVectorPassword returns VectorPassword
+func (m createautonomousdatabasebase) GetVectorPassword() *string {
+	return m.VectorPassword
+}
+
+// GetVectorSecretId returns VectorSecretId
+func (m createautonomousdatabasebase) GetVectorSecretId() *string {
+	return m.VectorSecretId
+}
+
+// GetVectorSecretVersionNumber returns VectorSecretVersionNumber
+func (m createautonomousdatabasebase) GetVectorSecretVersionNumber() *int {
+	return m.VectorSecretVersionNumber
 }
 
 // GetCharacterSet returns CharacterSet
@@ -805,6 +847,7 @@ const (
 	CreateAutonomousDatabaseBaseDbWorkloadDw   CreateAutonomousDatabaseBaseDbWorkloadEnum = "DW"
 	CreateAutonomousDatabaseBaseDbWorkloadAjd  CreateAutonomousDatabaseBaseDbWorkloadEnum = "AJD"
 	CreateAutonomousDatabaseBaseDbWorkloadApex CreateAutonomousDatabaseBaseDbWorkloadEnum = "APEX"
+	CreateAutonomousDatabaseBaseDbWorkloadVec  CreateAutonomousDatabaseBaseDbWorkloadEnum = "VEC"
 )
 
 var mappingCreateAutonomousDatabaseBaseDbWorkloadEnum = map[string]CreateAutonomousDatabaseBaseDbWorkloadEnum{
@@ -812,6 +855,7 @@ var mappingCreateAutonomousDatabaseBaseDbWorkloadEnum = map[string]CreateAutonom
 	"DW":   CreateAutonomousDatabaseBaseDbWorkloadDw,
 	"AJD":  CreateAutonomousDatabaseBaseDbWorkloadAjd,
 	"APEX": CreateAutonomousDatabaseBaseDbWorkloadApex,
+	"VEC":  CreateAutonomousDatabaseBaseDbWorkloadVec,
 }
 
 var mappingCreateAutonomousDatabaseBaseDbWorkloadEnumLowerCase = map[string]CreateAutonomousDatabaseBaseDbWorkloadEnum{
@@ -819,6 +863,7 @@ var mappingCreateAutonomousDatabaseBaseDbWorkloadEnumLowerCase = map[string]Crea
 	"dw":   CreateAutonomousDatabaseBaseDbWorkloadDw,
 	"ajd":  CreateAutonomousDatabaseBaseDbWorkloadAjd,
 	"apex": CreateAutonomousDatabaseBaseDbWorkloadApex,
+	"vec":  CreateAutonomousDatabaseBaseDbWorkloadVec,
 }
 
 // GetCreateAutonomousDatabaseBaseDbWorkloadEnumValues Enumerates the set of values for CreateAutonomousDatabaseBaseDbWorkloadEnum
@@ -837,6 +882,7 @@ func GetCreateAutonomousDatabaseBaseDbWorkloadEnumStringValues() []string {
 		"DW",
 		"AJD",
 		"APEX",
+		"VEC",
 	}
 }
 

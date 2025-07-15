@@ -6440,6 +6440,60 @@ func (client DataScienceClient) importModelArtifact(ctx context.Context, request
 	return response, err
 }
 
+// ListComputeTargetShapes Lists the valid compute target shapes.
+// A default retry strategy applies to this operation ListComputeTargetShapes()
+func (client DataScienceClient) ListComputeTargetShapes(ctx context.Context, request ListComputeTargetShapesRequest) (response ListComputeTargetShapesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listComputeTargetShapes, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListComputeTargetShapesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListComputeTargetShapesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListComputeTargetShapesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListComputeTargetShapesResponse")
+	}
+	return
+}
+
+// listComputeTargetShapes implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) listComputeTargetShapes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeTargetShapes", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListComputeTargetShapesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ComputeTargetShapeSummary/ListComputeTargetShapes"
+		err = common.PostProcessServiceError(err, "DataScience", "ListComputeTargetShapes", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListComputeTargets List all compute targets in the specified compartment. Supports queries on various other parameters in the query alongside compartmentId (must be included).
 // A default retry strategy applies to this operation ListComputeTargets()
 func (client DataScienceClient) ListComputeTargets(ctx context.Context, request ListComputeTargetsRequest) (response ListComputeTargetsResponse, err error) {

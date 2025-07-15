@@ -26,6 +26,7 @@ type AutonomousDbVersionSummary struct {
 	// - DW - indicates an Autonomous Data Warehouse database
 	// - AJD - indicates an Autonomous JSON Database
 	// - APEX - indicates an Autonomous Database with the Oracle APEX Application Development workload type.
+	// - VEC - indicates an Autonomous Vector Database
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	DbWorkload AutonomousDbVersionSummaryDbWorkloadEnum `mandatory:"false" json:"dbWorkload,omitempty"`
 
@@ -79,6 +80,7 @@ const (
 	AutonomousDbVersionSummaryDbWorkloadDw   AutonomousDbVersionSummaryDbWorkloadEnum = "DW"
 	AutonomousDbVersionSummaryDbWorkloadAjd  AutonomousDbVersionSummaryDbWorkloadEnum = "AJD"
 	AutonomousDbVersionSummaryDbWorkloadApex AutonomousDbVersionSummaryDbWorkloadEnum = "APEX"
+	AutonomousDbVersionSummaryDbWorkloadVec  AutonomousDbVersionSummaryDbWorkloadEnum = "VEC"
 )
 
 var mappingAutonomousDbVersionSummaryDbWorkloadEnum = map[string]AutonomousDbVersionSummaryDbWorkloadEnum{
@@ -86,6 +88,7 @@ var mappingAutonomousDbVersionSummaryDbWorkloadEnum = map[string]AutonomousDbVer
 	"DW":   AutonomousDbVersionSummaryDbWorkloadDw,
 	"AJD":  AutonomousDbVersionSummaryDbWorkloadAjd,
 	"APEX": AutonomousDbVersionSummaryDbWorkloadApex,
+	"VEC":  AutonomousDbVersionSummaryDbWorkloadVec,
 }
 
 var mappingAutonomousDbVersionSummaryDbWorkloadEnumLowerCase = map[string]AutonomousDbVersionSummaryDbWorkloadEnum{
@@ -93,6 +96,7 @@ var mappingAutonomousDbVersionSummaryDbWorkloadEnumLowerCase = map[string]Autono
 	"dw":   AutonomousDbVersionSummaryDbWorkloadDw,
 	"ajd":  AutonomousDbVersionSummaryDbWorkloadAjd,
 	"apex": AutonomousDbVersionSummaryDbWorkloadApex,
+	"vec":  AutonomousDbVersionSummaryDbWorkloadVec,
 }
 
 // GetAutonomousDbVersionSummaryDbWorkloadEnumValues Enumerates the set of values for AutonomousDbVersionSummaryDbWorkloadEnum
@@ -111,6 +115,7 @@ func GetAutonomousDbVersionSummaryDbWorkloadEnumStringValues() []string {
 		"DW",
 		"AJD",
 		"APEX",
+		"VEC",
 	}
 }
 

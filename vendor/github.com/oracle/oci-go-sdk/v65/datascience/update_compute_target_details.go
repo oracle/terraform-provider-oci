@@ -10,6 +10,7 @@
 package datascience
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -23,6 +24,20 @@ type UpdateComputeTargetDetails struct {
 
 	// A short description of the compute target.
 	Description *string `mandatory:"false" json:"description"`
+
+	// Metadata for the compute target.
+	// The size of metadata must be less than 2048 bytes.
+	// Key should be under 32 characters.
+	// Key should contain only letters, digits and underscore (_)
+	// Key should start with a letter.
+	// Key should have at least 2 characters.
+	// Key should not end with underscore eg. `TEST_`
+	// Key if added cannot be empty. Value can be empty.
+	// No specific size limits on individual Values. But overall metadata is limited to 2048 bytes.
+	// Key can't be system reserved keys, system reserved keys starts with ODSC_.
+	Metadata map[string]string `mandatory:"false" json:"metadata"`
+
+	ComputeConfigurationDetails UpdateComputeConfigurationDetails `mandatory:"false" json:"computeConfigurationDetails"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -47,4 +62,43 @@ func (m UpdateComputeTargetDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *UpdateComputeTargetDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DisplayName                 *string                           `json:"displayName"`
+		Description                 *string                           `json:"description"`
+		Metadata                    map[string]string                 `json:"metadata"`
+		ComputeConfigurationDetails updatecomputeconfigurationdetails `json:"computeConfigurationDetails"`
+		FreeformTags                map[string]string                 `json:"freeformTags"`
+		DefinedTags                 map[string]map[string]interface{} `json:"definedTags"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DisplayName = model.DisplayName
+
+	m.Description = model.Description
+
+	m.Metadata = model.Metadata
+
+	nn, e = model.ComputeConfigurationDetails.UnmarshalPolymorphicJSON(model.ComputeConfigurationDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ComputeConfigurationDetails = nn.(UpdateComputeConfigurationDetails)
+	} else {
+		m.ComputeConfigurationDetails = nil
+	}
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	return
 }

@@ -18,15 +18,18 @@ type ComputeTypeEnum string
 
 // Set of constants representing the allowable values for ComputeTypeEnum
 const (
-	ComputeTypeCustomerOke ComputeTypeEnum = "CUSTOMER_OKE"
+	ComputeTypeCustomerOke           ComputeTypeEnum = "CUSTOMER_OKE"
+	ComputeTypeManagedComputeCluster ComputeTypeEnum = "MANAGED_COMPUTE_CLUSTER"
 )
 
 var mappingComputeTypeEnum = map[string]ComputeTypeEnum{
-	"CUSTOMER_OKE": ComputeTypeCustomerOke,
+	"CUSTOMER_OKE":            ComputeTypeCustomerOke,
+	"MANAGED_COMPUTE_CLUSTER": ComputeTypeManagedComputeCluster,
 }
 
 var mappingComputeTypeEnumLowerCase = map[string]ComputeTypeEnum{
-	"customer_oke": ComputeTypeCustomerOke,
+	"customer_oke":            ComputeTypeCustomerOke,
+	"managed_compute_cluster": ComputeTypeManagedComputeCluster,
 }
 
 // GetComputeTypeEnumValues Enumerates the set of values for ComputeTypeEnum
@@ -42,6 +45,7 @@ func GetComputeTypeEnumValues() []ComputeTypeEnum {
 func GetComputeTypeEnumStringValues() []string {
 	return []string{
 		"CUSTOMER_OKE",
+		"MANAGED_COMPUTE_CLUSTER",
 	}
 }
 

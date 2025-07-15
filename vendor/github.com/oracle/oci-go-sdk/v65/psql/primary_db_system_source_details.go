@@ -17,21 +17,21 @@ import (
 	"strings"
 )
 
-// DbSystemSourceDetails Details of the primary database system.
-type DbSystemSourceDetails struct {
+// PrimaryDbSystemSourceDetails Details of the primary database system.
+type PrimaryDbSystemSourceDetails struct {
 
 	// The [OCID] of the primary database system.
 	PrimaryDbSystemId *string `mandatory:"true" json:"primaryDbSystemId"`
 }
 
-func (m DbSystemSourceDetails) String() string {
+func (m PrimaryDbSystemSourceDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m DbSystemSourceDetails) ValidateEnumValue() (bool, error) {
+func (m PrimaryDbSystemSourceDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -41,14 +41,14 @@ func (m DbSystemSourceDetails) ValidateEnumValue() (bool, error) {
 }
 
 // MarshalJSON marshals to json representation
-func (m DbSystemSourceDetails) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeDbSystemSourceDetails DbSystemSourceDetails
+func (m PrimaryDbSystemSourceDetails) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypePrimaryDbSystemSourceDetails PrimaryDbSystemSourceDetails
 	s := struct {
 		DiscriminatorParam string `json:"sourceType"`
-		MarshalTypeDbSystemSourceDetails
+		MarshalTypePrimaryDbSystemSourceDetails
 	}{
 		"DB_SYSTEM",
-		(MarshalTypeDbSystemSourceDetails)(m),
+		(MarshalTypePrimaryDbSystemSourceDetails)(m),
 	}
 
 	return json.Marshal(&s)

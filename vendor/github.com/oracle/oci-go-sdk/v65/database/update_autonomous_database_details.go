@@ -109,6 +109,7 @@ type UpdateAutonomousDatabaseDetails struct {
 	// - DW - indicates an Autonomous Data Warehouse database
 	// - AJD - indicates an Autonomous JSON Database
 	// - APEX - indicates an Autonomous Database with the Oracle APEX Application Development workload type.
+	// - VEC - indicates an Autonomous Vector Database
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	DbWorkload UpdateAutonomousDatabaseDetailsDbWorkloadEnum `mandatory:"false" json:"dbWorkload,omitempty"`
 
@@ -616,6 +617,7 @@ const (
 	UpdateAutonomousDatabaseDetailsDbWorkloadDw   UpdateAutonomousDatabaseDetailsDbWorkloadEnum = "DW"
 	UpdateAutonomousDatabaseDetailsDbWorkloadAjd  UpdateAutonomousDatabaseDetailsDbWorkloadEnum = "AJD"
 	UpdateAutonomousDatabaseDetailsDbWorkloadApex UpdateAutonomousDatabaseDetailsDbWorkloadEnum = "APEX"
+	UpdateAutonomousDatabaseDetailsDbWorkloadVec  UpdateAutonomousDatabaseDetailsDbWorkloadEnum = "VEC"
 )
 
 var mappingUpdateAutonomousDatabaseDetailsDbWorkloadEnum = map[string]UpdateAutonomousDatabaseDetailsDbWorkloadEnum{
@@ -623,6 +625,7 @@ var mappingUpdateAutonomousDatabaseDetailsDbWorkloadEnum = map[string]UpdateAuto
 	"DW":   UpdateAutonomousDatabaseDetailsDbWorkloadDw,
 	"AJD":  UpdateAutonomousDatabaseDetailsDbWorkloadAjd,
 	"APEX": UpdateAutonomousDatabaseDetailsDbWorkloadApex,
+	"VEC":  UpdateAutonomousDatabaseDetailsDbWorkloadVec,
 }
 
 var mappingUpdateAutonomousDatabaseDetailsDbWorkloadEnumLowerCase = map[string]UpdateAutonomousDatabaseDetailsDbWorkloadEnum{
@@ -630,6 +633,7 @@ var mappingUpdateAutonomousDatabaseDetailsDbWorkloadEnumLowerCase = map[string]U
 	"dw":   UpdateAutonomousDatabaseDetailsDbWorkloadDw,
 	"ajd":  UpdateAutonomousDatabaseDetailsDbWorkloadAjd,
 	"apex": UpdateAutonomousDatabaseDetailsDbWorkloadApex,
+	"vec":  UpdateAutonomousDatabaseDetailsDbWorkloadVec,
 }
 
 // GetUpdateAutonomousDatabaseDetailsDbWorkloadEnumValues Enumerates the set of values for UpdateAutonomousDatabaseDetailsDbWorkloadEnum
@@ -648,6 +652,7 @@ func GetUpdateAutonomousDatabaseDetailsDbWorkloadEnumStringValues() []string {
 		"DW",
 		"AJD",
 		"APEX",
+		"VEC",
 	}
 }
 

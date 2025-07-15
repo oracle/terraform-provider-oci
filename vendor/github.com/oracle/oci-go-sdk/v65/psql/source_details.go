@@ -51,12 +51,12 @@ func (m *sourcedetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 
 	var err error
 	switch m.SourceType {
-	case "DB_SYSTEM":
-		mm := DbSystemSourceDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "BACKUP":
 		mm := BackupSourceDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "DB_SYSTEM":
+		mm := PrimaryDbSystemSourceDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "NONE":

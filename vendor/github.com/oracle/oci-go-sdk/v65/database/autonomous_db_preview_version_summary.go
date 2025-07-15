@@ -32,6 +32,7 @@ type AutonomousDbPreviewVersionSummary struct {
 	// - DW - indicates an Autonomous Data Warehouse database
 	// - AJD - indicates an Autonomous JSON Database
 	// - APEX - indicates an Autonomous Database with the Oracle APEX Application Development workload type.
+	// - VEC - indicates an Autonomous Vector Database
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	DbWorkload AutonomousDbPreviewVersionSummaryDbWorkloadEnum `mandatory:"false" json:"dbWorkload,omitempty"`
 
@@ -67,6 +68,7 @@ const (
 	AutonomousDbPreviewVersionSummaryDbWorkloadDw   AutonomousDbPreviewVersionSummaryDbWorkloadEnum = "DW"
 	AutonomousDbPreviewVersionSummaryDbWorkloadAjd  AutonomousDbPreviewVersionSummaryDbWorkloadEnum = "AJD"
 	AutonomousDbPreviewVersionSummaryDbWorkloadApex AutonomousDbPreviewVersionSummaryDbWorkloadEnum = "APEX"
+	AutonomousDbPreviewVersionSummaryDbWorkloadVec  AutonomousDbPreviewVersionSummaryDbWorkloadEnum = "VEC"
 )
 
 var mappingAutonomousDbPreviewVersionSummaryDbWorkloadEnum = map[string]AutonomousDbPreviewVersionSummaryDbWorkloadEnum{
@@ -74,6 +76,7 @@ var mappingAutonomousDbPreviewVersionSummaryDbWorkloadEnum = map[string]Autonomo
 	"DW":   AutonomousDbPreviewVersionSummaryDbWorkloadDw,
 	"AJD":  AutonomousDbPreviewVersionSummaryDbWorkloadAjd,
 	"APEX": AutonomousDbPreviewVersionSummaryDbWorkloadApex,
+	"VEC":  AutonomousDbPreviewVersionSummaryDbWorkloadVec,
 }
 
 var mappingAutonomousDbPreviewVersionSummaryDbWorkloadEnumLowerCase = map[string]AutonomousDbPreviewVersionSummaryDbWorkloadEnum{
@@ -81,6 +84,7 @@ var mappingAutonomousDbPreviewVersionSummaryDbWorkloadEnumLowerCase = map[string
 	"dw":   AutonomousDbPreviewVersionSummaryDbWorkloadDw,
 	"ajd":  AutonomousDbPreviewVersionSummaryDbWorkloadAjd,
 	"apex": AutonomousDbPreviewVersionSummaryDbWorkloadApex,
+	"vec":  AutonomousDbPreviewVersionSummaryDbWorkloadVec,
 }
 
 // GetAutonomousDbPreviewVersionSummaryDbWorkloadEnumValues Enumerates the set of values for AutonomousDbPreviewVersionSummaryDbWorkloadEnum
@@ -99,6 +103,7 @@ func GetAutonomousDbPreviewVersionSummaryDbWorkloadEnumStringValues() []string {
 		"DW",
 		"AJD",
 		"APEX",
+		"VEC",
 	}
 }
 
