@@ -1,3 +1,10 @@
+## 7.10.0 (Unreleased)
+
+### Bug Fix
+Fix unpinning of addon version
+- Check OIDC is enabled in state to prevent drift
+- fixed backup type issue
+
 ## 7.9.0 (Unreleased)
 
 ### Added
