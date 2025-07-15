@@ -29,6 +29,9 @@ type CreateMacsManagedCloudExadataVmclusterDetails struct {
 
 	// The databases that belong to the VM Cluster
 	MemberDatabaseDetails []CreateMacsManagedCloudDatabaseInsightDetails `mandatory:"false" json:"memberDatabaseDetails"`
+
+	// The autonomous databases that belong to the Autonmous VM Cluster
+	MemberAutonomousDetails []CreateMacsManagedAutonomousDatabaseInsightDetails `mandatory:"false" json:"memberAutonomousDetails"`
 }
 
 // GetVmclusterId returns VmclusterId

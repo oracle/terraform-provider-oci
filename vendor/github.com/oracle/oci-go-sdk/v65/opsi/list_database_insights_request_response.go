@@ -202,6 +202,10 @@ const (
 	ListDatabaseInsightsDatabaseTypeComanagedExaccNoncdb ListDatabaseInsightsDatabaseTypeEnum = "COMANAGED-EXACC-NONCDB"
 	ListDatabaseInsightsDatabaseTypeMdsMysql             ListDatabaseInsightsDatabaseTypeEnum = "MDS-MYSQL"
 	ListDatabaseInsightsDatabaseTypeExternalMysql        ListDatabaseInsightsDatabaseTypeEnum = "EXTERNAL-MYSQL"
+	ListDatabaseInsightsDatabaseTypeAtpExacc             ListDatabaseInsightsDatabaseTypeEnum = "ATP-EXACC"
+	ListDatabaseInsightsDatabaseTypeAdwExacc             ListDatabaseInsightsDatabaseTypeEnum = "ADW-EXACC"
+	ListDatabaseInsightsDatabaseTypeExternalAdw          ListDatabaseInsightsDatabaseTypeEnum = "EXTERNAL-ADW"
+	ListDatabaseInsightsDatabaseTypeExternalAtp          ListDatabaseInsightsDatabaseTypeEnum = "EXTERNAL-ATP"
 )
 
 var mappingListDatabaseInsightsDatabaseTypeEnum = map[string]ListDatabaseInsightsDatabaseTypeEnum{
@@ -225,6 +229,10 @@ var mappingListDatabaseInsightsDatabaseTypeEnum = map[string]ListDatabaseInsight
 	"COMANAGED-EXACC-NONCDB": ListDatabaseInsightsDatabaseTypeComanagedExaccNoncdb,
 	"MDS-MYSQL":              ListDatabaseInsightsDatabaseTypeMdsMysql,
 	"EXTERNAL-MYSQL":         ListDatabaseInsightsDatabaseTypeExternalMysql,
+	"ATP-EXACC":              ListDatabaseInsightsDatabaseTypeAtpExacc,
+	"ADW-EXACC":              ListDatabaseInsightsDatabaseTypeAdwExacc,
+	"EXTERNAL-ADW":           ListDatabaseInsightsDatabaseTypeExternalAdw,
+	"EXTERNAL-ATP":           ListDatabaseInsightsDatabaseTypeExternalAtp,
 }
 
 var mappingListDatabaseInsightsDatabaseTypeEnumLowerCase = map[string]ListDatabaseInsightsDatabaseTypeEnum{
@@ -248,6 +256,10 @@ var mappingListDatabaseInsightsDatabaseTypeEnumLowerCase = map[string]ListDataba
 	"comanaged-exacc-noncdb": ListDatabaseInsightsDatabaseTypeComanagedExaccNoncdb,
 	"mds-mysql":              ListDatabaseInsightsDatabaseTypeMdsMysql,
 	"external-mysql":         ListDatabaseInsightsDatabaseTypeExternalMysql,
+	"atp-exacc":              ListDatabaseInsightsDatabaseTypeAtpExacc,
+	"adw-exacc":              ListDatabaseInsightsDatabaseTypeAdwExacc,
+	"external-adw":           ListDatabaseInsightsDatabaseTypeExternalAdw,
+	"external-atp":           ListDatabaseInsightsDatabaseTypeExternalAtp,
 }
 
 // GetListDatabaseInsightsDatabaseTypeEnumValues Enumerates the set of values for ListDatabaseInsightsDatabaseTypeEnum
@@ -282,6 +294,10 @@ func GetListDatabaseInsightsDatabaseTypeEnumStringValues() []string {
 		"COMANAGED-EXACC-NONCDB",
 		"MDS-MYSQL",
 		"EXTERNAL-MYSQL",
+		"ATP-EXACC",
+		"ADW-EXACC",
+		"EXTERNAL-ADW",
+		"EXTERNAL-ATP",
 	}
 }
 

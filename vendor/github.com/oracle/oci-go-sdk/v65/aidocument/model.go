@@ -46,6 +46,12 @@ type Model struct {
 	// An optional description of the model.
 	Description *string `mandatory:"false" json:"description"`
 
+	// Applicable to only PRE_TRAINED_KEY_VALUE_EXTRACTION, PRE_TRAINED_DOCUMENT_ELEMENTS_EXTRACTION.
+	ModelSubType ModelSubType `mandatory:"false" json:"modelSubType"`
+
+	// Number of replicas required for this model.
+	InferenceUnits *int `mandatory:"false" json:"inferenceUnits"`
+
 	// The tenancy id of the model.
 	TenancyId *string `mandatory:"false" json:"tenancyId"`
 
@@ -60,6 +66,9 @@ type Model struct {
 
 	// The maximum model training time in hours, expressed as a decimal fraction.
 	MaxTrainingTimeInHours *float64 `mandatory:"false" json:"maxTrainingTimeInHours"`
+
+	// The document language for model training, abbreviated according to the BCP 47 syntax.
+	Language *string `mandatory:"false" json:"language"`
 
 	// The total hours actually used for model training.
 	TrainedTimeInHours *float64 `mandatory:"false" json:"trainedTimeInHours"`
@@ -127,11 +136,14 @@ func (m *Model) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		DisplayName            *string                           `json:"displayName"`
 		Description            *string                           `json:"description"`
+		ModelSubType           modelsubtype                      `json:"modelSubType"`
+		InferenceUnits         *int                              `json:"inferenceUnits"`
 		TenancyId              *string                           `json:"tenancyId"`
 		AliasName              *string                           `json:"aliasName"`
 		Labels                 []string                          `json:"labels"`
 		IsQuickMode            *bool                             `json:"isQuickMode"`
 		MaxTrainingTimeInHours *float64                          `json:"maxTrainingTimeInHours"`
+		Language               *string                           `json:"language"`
 		TrainedTimeInHours     *float64                          `json:"trainedTimeInHours"`
 		TrainingDataset        dataset                           `json:"trainingDataset"`
 		TestingDataset         dataset                           `json:"testingDataset"`
@@ -163,6 +175,18 @@ func (m *Model) UnmarshalJSON(data []byte) (e error) {
 
 	m.Description = model.Description
 
+	nn, e = model.ModelSubType.UnmarshalPolymorphicJSON(model.ModelSubType.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ModelSubType = nn.(ModelSubType)
+	} else {
+		m.ModelSubType = nil
+	}
+
+	m.InferenceUnits = model.InferenceUnits
+
 	m.TenancyId = model.TenancyId
 
 	m.AliasName = model.AliasName
@@ -172,6 +196,8 @@ func (m *Model) UnmarshalJSON(data []byte) (e error) {
 	m.IsQuickMode = model.IsQuickMode
 
 	m.MaxTrainingTimeInHours = model.MaxTrainingTimeInHours
+
+	m.Language = model.Language
 
 	m.TrainedTimeInHours = model.TrainedTimeInHours
 
@@ -253,18 +279,33 @@ type ModelModelTypeEnum string
 
 // Set of constants representing the allowable values for ModelModelTypeEnum
 const (
-	ModelModelTypeKeyValueExtraction     ModelModelTypeEnum = "KEY_VALUE_EXTRACTION"
-	ModelModelTypeDocumentClassification ModelModelTypeEnum = "DOCUMENT_CLASSIFICATION"
+	ModelModelTypeKeyValueExtraction                   ModelModelTypeEnum = "KEY_VALUE_EXTRACTION"
+	ModelModelTypeDocumentClassification               ModelModelTypeEnum = "DOCUMENT_CLASSIFICATION"
+	ModelModelTypePreTrainedTextExtraction             ModelModelTypeEnum = "PRE_TRAINED_TEXT_EXTRACTION"
+	ModelModelTypePreTrainedTableExtraction            ModelModelTypeEnum = "PRE_TRAINED_TABLE_EXTRACTION"
+	ModelModelTypePreTrainedKeyValueExtraction         ModelModelTypeEnum = "PRE_TRAINED_KEY_VALUE_EXTRACTION"
+	ModelModelTypePreTrainedDocumentClassification     ModelModelTypeEnum = "PRE_TRAINED_DOCUMENT_CLASSIFICATION"
+	ModelModelTypePreTrainedDocumentElementsExtraction ModelModelTypeEnum = "PRE_TRAINED_DOCUMENT_ELEMENTS_EXTRACTION"
 )
 
 var mappingModelModelTypeEnum = map[string]ModelModelTypeEnum{
-	"KEY_VALUE_EXTRACTION":    ModelModelTypeKeyValueExtraction,
-	"DOCUMENT_CLASSIFICATION": ModelModelTypeDocumentClassification,
+	"KEY_VALUE_EXTRACTION":                     ModelModelTypeKeyValueExtraction,
+	"DOCUMENT_CLASSIFICATION":                  ModelModelTypeDocumentClassification,
+	"PRE_TRAINED_TEXT_EXTRACTION":              ModelModelTypePreTrainedTextExtraction,
+	"PRE_TRAINED_TABLE_EXTRACTION":             ModelModelTypePreTrainedTableExtraction,
+	"PRE_TRAINED_KEY_VALUE_EXTRACTION":         ModelModelTypePreTrainedKeyValueExtraction,
+	"PRE_TRAINED_DOCUMENT_CLASSIFICATION":      ModelModelTypePreTrainedDocumentClassification,
+	"PRE_TRAINED_DOCUMENT_ELEMENTS_EXTRACTION": ModelModelTypePreTrainedDocumentElementsExtraction,
 }
 
 var mappingModelModelTypeEnumLowerCase = map[string]ModelModelTypeEnum{
-	"key_value_extraction":    ModelModelTypeKeyValueExtraction,
-	"document_classification": ModelModelTypeDocumentClassification,
+	"key_value_extraction":                     ModelModelTypeKeyValueExtraction,
+	"document_classification":                  ModelModelTypeDocumentClassification,
+	"pre_trained_text_extraction":              ModelModelTypePreTrainedTextExtraction,
+	"pre_trained_table_extraction":             ModelModelTypePreTrainedTableExtraction,
+	"pre_trained_key_value_extraction":         ModelModelTypePreTrainedKeyValueExtraction,
+	"pre_trained_document_classification":      ModelModelTypePreTrainedDocumentClassification,
+	"pre_trained_document_elements_extraction": ModelModelTypePreTrainedDocumentElementsExtraction,
 }
 
 // GetModelModelTypeEnumValues Enumerates the set of values for ModelModelTypeEnum
@@ -281,6 +322,11 @@ func GetModelModelTypeEnumStringValues() []string {
 	return []string{
 		"KEY_VALUE_EXTRACTION",
 		"DOCUMENT_CLASSIFICATION",
+		"PRE_TRAINED_TEXT_EXTRACTION",
+		"PRE_TRAINED_TABLE_EXTRACTION",
+		"PRE_TRAINED_KEY_VALUE_EXTRACTION",
+		"PRE_TRAINED_DOCUMENT_CLASSIFICATION",
+		"PRE_TRAINED_DOCUMENT_ELEMENTS_EXTRACTION",
 	}
 }
 
