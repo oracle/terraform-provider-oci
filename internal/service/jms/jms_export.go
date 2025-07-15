@@ -52,10 +52,23 @@ var exportJmsJmsPluginHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportJmsTaskScheduleHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_jms_task_schedule",
+	DatasourceClass:        "oci_jms_task_schedules",
+	DatasourceItemsAttr:    "task_schedule_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "task_schedule",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_jms.TaskScheduleLifecycleStateActive),
+	},
+}
+
 var jmsResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportJmsFleetHints},
 		{TerraformResourceHints: exportJmsJmsPluginHints},
+		{TerraformResourceHints: exportJmsTaskScheduleHints},
 	},
 	"oci_jms_fleet": {
 		{

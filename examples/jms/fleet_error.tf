@@ -17,7 +17,7 @@ variable "fleet_error_time_last_seen_less_than_or_equal_to" {}
 data "oci_jms_fleet_errors" "test_fleet_errors" {
 
 	#Optional
-	compartment_id = var.compartment_id
+	compartment_id = var.compartment_ocid
 	compartment_id_in_subtree = var.fleet_error_compartment_id_in_subtree
 	fleet_id = var.fleet_ocid
 	time_first_seen_greater_than_or_equal_to = var.fleet_error_time_first_seen_greater_than_or_equal_to

@@ -130,6 +130,14 @@ func JmsFleetResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+			"approximate_library_count": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"approximate_library_vulnerability_count": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 			"approximate_managed_instance_count": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -532,6 +540,14 @@ func (s *JmsFleetResourceCrud) SetData() error {
 		s.D.Set("approximate_jre_count", *s.Res.ApproximateJreCount)
 	}
 
+	if s.Res.ApproximateLibraryCount != nil {
+		s.D.Set("approximate_library_count", *s.Res.ApproximateLibraryCount)
+	}
+
+	if s.Res.ApproximateLibraryVulnerabilityCount != nil {
+		s.D.Set("approximate_library_vulnerability_count", *s.Res.ApproximateLibraryVulnerabilityCount)
+	}
+
 	if s.Res.ApproximateManagedInstanceCount != nil {
 		s.D.Set("approximate_managed_instance_count", *s.Res.ApproximateManagedInstanceCount)
 	}
@@ -634,6 +650,14 @@ func FleetSummaryToMap(obj oci_jms.FleetSummary) map[string]interface{} {
 
 	if obj.ApproximateJreCount != nil {
 		result["approximate_jre_count"] = int(*obj.ApproximateJreCount)
+	}
+
+	if obj.ApproximateLibraryCount != nil {
+		result["approximate_library_count"] = int(*obj.ApproximateLibraryCount)
+	}
+
+	if obj.ApproximateLibraryVulnerabilityCount != nil {
+		result["approximate_library_vulnerability_count"] = int(*obj.ApproximateLibraryVulnerabilityCount)
 	}
 
 	if obj.ApproximateManagedInstanceCount != nil {

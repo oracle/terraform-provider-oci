@@ -16,49 +16,13 @@ import (
 
 var (
 	// before running tests, ensure to set up environment variables used below
-	JmsFleetPerformanceTuningAnalysisResultCompartmentId  = utils.GetEnvSettingWithBlankDefault("compartment_ocid")
-	JmsFleetPerformanceTuningAnalysisResultLogGroupId     = utils.GetEnvSettingWithBlankDefault("fleet_log_group_ocid")
-	JmsFleetPerformanceTuningAnalysisResultInventoryLogId = utils.GetEnvSettingWithBlankDefault("fleet_inventory_log_ocid")
-	JmsFleetPerformanceTuningAnalysisResultOperationLogId = utils.GetEnvSettingWithBlankDefault("fleet_operation_log_ocid")
+	JmsFleetPerformanceTuningAnalysisResultFleetId       = utils.GetEnvSettingWithBlankDefault("fleet_ocid")
+	JmsFleetPerformanceTuningAnalysisResultCompartmentId = utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 
 	JmsFleetPerformanceTuningAnalysisResultDummyManagedInstanceId = utils.GetEnvSettingWithBlankDefault("managed_instance_ocid")
 
-	JmsFleetPerformanceTuningAnalysisResultResourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: JmsFleetPerformanceTuningAnalysisResultCompartmentId},
-		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `Created Fleet for Crypto Analysis Result`},
-		"description":    acctest.Representation{RepType: acctest.Optional, Create: `Created Fleet for Crypto Analysis Result`},
-		"inventory_log": acctest.RepresentationGroup{
-			RepType: acctest.Required,
-			Group: map[string]interface{}{
-				"log_group_id": acctest.Representation{
-					RepType: acctest.Required,
-					Create:  JmsFleetPerformanceTuningAnalysisResultLogGroupId,
-					Update:  JmsFleetPerformanceTuningAnalysisResultLogGroupId,
-				},
-				"log_id": acctest.Representation{
-					RepType: acctest.Required,
-					Create:  JmsFleetPerformanceTuningAnalysisResultInventoryLogId,
-					Update:  JmsFleetPerformanceTuningAnalysisResultInventoryLogId,
-				},
-			}},
-		"operation_log": acctest.RepresentationGroup{
-			RepType: acctest.Optional,
-			Group: map[string]interface{}{
-				"log_group_id": acctest.Representation{
-					RepType: acctest.Required,
-					Create:  JmsFleetPerformanceTuningAnalysisResultLogGroupId,
-					Update:  JmsFleetPerformanceTuningAnalysisResultLogGroupId,
-				},
-				"log_id": acctest.Representation{
-					RepType: acctest.Required,
-					Create:  JmsFleetPerformanceTuningAnalysisResultOperationLogId,
-					Update:  JmsFleetPerformanceTuningAnalysisResultOperationLogId,
-				},
-			}},
-	}
-
 	JmsFleetPerformanceTuningAnalysisResultDataSourceRepresentation = map[string]interface{}{
-		"fleet_id":            acctest.Representation{RepType: acctest.Required, Create: `${oci_jms_fleet.test_fleet.id}`},
+		"fleet_id":            acctest.Representation{RepType: acctest.Required, Create: JmsFleetPerformanceTuningAnalysisResultFleetId},
 		"application_id":      acctest.Representation{RepType: acctest.Optional, Create: `dummy-application-id`},
 		"application_name":    acctest.Representation{RepType: acctest.Optional, Create: `dummy-application-name`},
 		"host_name":           acctest.Representation{RepType: acctest.Optional, Create: `dummy-host-name`},
@@ -81,13 +45,6 @@ func TestJmsFleetPerformanceTuningAnalysisResultResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateResourceFromRepresentationMap(
-					"oci_jms_fleet",
-					"test_fleet",
-					acctest.Optional,
-					acctest.Create,
-					JmsFleetPerformanceTuningAnalysisResultResourceRepresentation,
-				) +
 				acctest.GenerateDataSourceFromRepresentationMap(
 					"oci_jms_fleet_performance_tuning_analysis_results",
 					"test_fleet_performance_tuning_analysis_results",

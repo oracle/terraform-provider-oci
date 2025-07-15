@@ -5,6 +5,7 @@ package jms
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_jms "github.com/oracle/oci-go-sdk/v65/jms"
@@ -22,6 +23,61 @@ func JmsFleetExportSettingDataSource() *schema.Resource {
 				Required: true,
 			},
 			// Computed
+			"export_data_filters": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"application_name_contains": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"application_name_equal_to": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"java_major_versions": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"java_vendors": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"java_versions": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"security_statuses": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+					},
+				},
+			},
 			"export_duration": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -114,6 +170,12 @@ func (s *JmsFleetExportSettingDataSourceCrud) SetData() error {
 
 	s.D.SetId(tfresource.GenerateDataSourceHashID("JmsFleetExportSettingDataSource-", JmsFleetExportSettingDataSource(), s.D))
 
+	if s.Res.ExportDataFilters != nil {
+		s.D.Set("export_data_filters", []interface{}{ExportDataFiltersToMap(s.Res.ExportDataFilters)})
+	} else {
+		s.D.Set("export_data_filters", nil)
+	}
+
 	s.D.Set("export_duration", s.Res.ExportDuration)
 
 	s.D.Set("export_frequency", s.Res.ExportFrequency)
@@ -153,4 +215,106 @@ func (s *JmsFleetExportSettingDataSourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *JmsFleetExportSettingDataSourceCrud) mapToExportDataFilters(fieldKeyFormat string) (oci_jms.ExportDataFilters, error) {
+	result := oci_jms.ExportDataFilters{}
+
+	if applicationNameContains, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "application_name_contains")); ok {
+		interfaces := applicationNameContains.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "application_name_contains")) {
+			result.ApplicationNameContains = tmp
+		}
+	}
+
+	if applicationNameEqualTo, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "application_name_equal_to")); ok {
+		interfaces := applicationNameEqualTo.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "application_name_equal_to")) {
+			result.ApplicationNameEqualTo = tmp
+		}
+	}
+
+	if javaMajorVersions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "java_major_versions")); ok {
+		interfaces := javaMajorVersions.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "java_major_versions")) {
+			result.JavaMajorVersions = tmp
+		}
+	}
+
+	if javaVendors, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "java_vendors")); ok {
+		interfaces := javaVendors.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "java_vendors")) {
+			result.JavaVendors = tmp
+		}
+	}
+
+	if javaVersions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "java_versions")); ok {
+		interfaces := javaVersions.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "java_versions")) {
+			result.JavaVersions = tmp
+		}
+	}
+
+	if securityStatuses, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "security_statuses")); ok {
+		interfaces := securityStatuses.([]interface{})
+		tmp := make([]oci_jms.JreSecurityStatusEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_jms.JreSecurityStatusEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "security_statuses")) {
+			result.SecurityStatuses = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func ExportDataFiltersToMap(obj *oci_jms.ExportDataFilters) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["application_name_contains"] = obj.ApplicationNameContains
+
+	result["application_name_equal_to"] = obj.ApplicationNameEqualTo
+
+	result["java_major_versions"] = obj.JavaMajorVersions
+
+	result["java_vendors"] = obj.JavaVendors
+
+	result["java_versions"] = obj.JavaVersions
+
+	result["security_statuses"] = obj.SecurityStatuses
+
+	return result
 }

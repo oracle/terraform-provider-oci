@@ -86,7 +86,15 @@ func JmsFleetInstallationSitesDataSource() *schema.Resource {
 									// Optional
 
 									// Computed
-									"items": {
+									"installation_key": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"managed_instance_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"jre": {
 										Type:     schema.TypeList,
 										Computed: true,
 										Elem: &schema.Resource{
@@ -96,123 +104,102 @@ func JmsFleetInstallationSitesDataSource() *schema.Resource {
 												// Optional
 
 												// Computed
-												"approximate_application_count": {
-													Type:     schema.TypeInt,
-													Computed: true,
-												},
-												"blocklist": {
-													Type:     schema.TypeList,
-													Computed: true,
-													Elem: &schema.Resource{
-														Schema: map[string]*schema.Schema{
-															// Required
-
-															// Optional
-
-															// Computed
-															"operation": {
-																Type:     schema.TypeString,
-																Computed: true,
-															},
-															"reason": {
-																Type:     schema.TypeString,
-																Computed: true,
-															},
-														},
-													},
-												},
-												"installation_key": {
+												"version": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
-												"jre": {
-													Type:     schema.TypeList,
-													Computed: true,
-													Elem: &schema.Resource{
-														Schema: map[string]*schema.Schema{
-															// Required
-
-															// Optional
-
-															// Computed
-															"distribution": {
-																Type:     schema.TypeString,
-																Computed: true,
-															},
-															"jre_key": {
-																Type:     schema.TypeString,
-																Computed: true,
-															},
-															"vendor": {
-																Type:     schema.TypeString,
-																Computed: true,
-															},
-															"version": {
-																Type:     schema.TypeString,
-																Computed: true,
-															},
-														},
-													},
-												},
-												"managed_instance_id": {
+												"vendor": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
-												"operating_system": {
-													Type:     schema.TypeList,
-													Computed: true,
-													Elem: &schema.Resource{
-														Schema: map[string]*schema.Schema{
-															// Required
-
-															// Optional
-
-															// Computed
-															"architecture": {
-																Type:     schema.TypeString,
-																Computed: true,
-															},
-															"family": {
-																Type:     schema.TypeString,
-																Computed: true,
-															},
-															"managed_instance_count": {
-																Type:     schema.TypeInt,
-																Computed: true,
-															},
-															"name": {
-																Type:     schema.TypeString,
-																Computed: true,
-															},
-															"distribution": {
-																Type:     schema.TypeString,
-																Computed: true,
-															},
-															"version": {
-																Type:     schema.TypeString,
-																Computed: true,
-															},
-														},
-													},
-												},
-												"path": {
+												"distribution": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
-												"security_status": {
-													Type:     schema.TypeString,
-													Computed: true,
-												},
-												"state": {
-													Type:     schema.TypeString,
-													Computed: true,
-												},
-												"time_last_seen": {
+												"jre_key": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
 											},
 										},
+									},
+									"path": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"operating_system": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"architecture": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"family": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"managed_instance_count": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
+												"name": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"distribution": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"version": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
+									"approximate_application_count": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"time_last_seen": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"blocklist": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"operation": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"reason": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
+									"state": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"security_status": {
+										Type:     schema.TypeString,
+										Computed: true,
 									},
 								},
 							},
@@ -452,6 +439,10 @@ func OperatingSystemToMap(obj *oci_jms.OperatingSystem) map[string]interface{} {
 
 	if obj.Architecture != nil {
 		result["architecture"] = string(*obj.Architecture)
+	}
+
+	if obj.ContainerCount != nil {
+		result["container_count"] = int(*obj.ContainerCount)
 	}
 
 	if obj.Distribution != nil {

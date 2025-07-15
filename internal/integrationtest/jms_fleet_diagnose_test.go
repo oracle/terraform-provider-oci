@@ -16,43 +16,11 @@ import (
 
 var (
 	// before running tests, ensure to set up environment variables used below
-	JmsFleetDiagnosesCompartmentId  = utils.GetEnvSettingWithBlankDefault("compartment_ocid")
-	JmsFleetDiagnosesLogGroupId     = utils.GetEnvSettingWithBlankDefault("fleet_log_group_ocid")
-	JmsFleetDiagnosesInventoryLogId = utils.GetEnvSettingWithBlankDefault("fleet_inventory_log_ocid")
-	JmsFleetDiagnosesOperationLogId = utils.GetEnvSettingWithBlankDefault("fleet_operation_log_ocid")
-
-	JmsFleetDiagnosesResourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: JmsFleetDiagnosesCompartmentId},
-		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `Created Fleet for Diagnoses`},
-		"description":    acctest.Representation{RepType: acctest.Optional, Create: `Created Fleet for Diagnoses`},
-		"inventory_log": acctest.RepresentationGroup{RepType: acctest.Required, Group: map[string]interface{}{
-			"log_group_id": acctest.Representation{
-				RepType: acctest.Required,
-				Create:  JmsFleetDiagnosesLogGroupId,
-				Update:  JmsFleetDiagnosesLogGroupId,
-			},
-			"log_id": acctest.Representation{
-				RepType: acctest.Required,
-				Create:  JmsFleetDiagnosesInventoryLogId,
-				Update:  JmsFleetDiagnosesInventoryLogId,
-			},
-		}},
-		"operation_log": acctest.RepresentationGroup{RepType: acctest.Optional, Group: map[string]interface{}{
-			"log_group_id": acctest.Representation{
-				RepType: acctest.Required,
-				Create:  JmsFleetDiagnosesLogGroupId,
-				Update:  JmsFleetDiagnosesLogGroupId,
-			},
-			"log_id": acctest.Representation{
-				RepType: acctest.Required,
-				Create:  JmsFleetDiagnosesOperationLogId,
-				Update:  JmsFleetDiagnosesOperationLogId,
-			},
-		}},
-	}
+	JmsFleetDiagnosesFleetId       = utils.GetEnvSettingWithBlankDefault("fleet_ocid")
+	JmsFleetDiagnosesCompartmentId = utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 
 	JmsFleetDiagnosesDataSourceRepresentation = map[string]interface{}{
-		"fleet_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_jms_fleet.test_fleet.id}`},
+		"fleet_id": acctest.Representation{RepType: acctest.Required, Create: JmsFleetDiagnosesFleetId},
 	}
 )
 
@@ -70,13 +38,6 @@ func TestJmsFleetDiagnosesResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateResourceFromRepresentationMap(
-					"oci_jms_fleet",
-					"test_fleet",
-					acctest.Optional,
-					acctest.Create,
-					JmsFleetDiagnosesResourceRepresentation,
-				) +
 				acctest.GenerateDataSourceFromRepresentationMap(
 					"oci_jms_fleet_diagnoses",
 					"test_fleet_diagnoses",

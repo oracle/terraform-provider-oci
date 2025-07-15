@@ -17,7 +17,7 @@ variable "plugin_error_time_last_seen_less_than_or_equal_to" {}
 data "oci_jms_plugin_errors" "test_plugin_errors" {
 
 	#Optional
-	compartment_id = var.compartment_id
+	compartment_id = var.compartment_ocid
 	compartment_id_in_subtree = var.plugin_error_compartment_id_in_subtree
 	managed_instance_id = var.managed_instance_ocid
 	time_first_seen_greater_than_or_equal_to = var.plugin_error_time_first_seen_greater_than_or_equal_to
