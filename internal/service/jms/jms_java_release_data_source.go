@@ -197,6 +197,13 @@ func JmsJavaReleaseDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"license_types": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 						"release_date": {
 							Type:     schema.TypeString,
 							Computed: true,
