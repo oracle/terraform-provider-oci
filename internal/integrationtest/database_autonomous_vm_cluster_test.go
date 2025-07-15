@@ -63,9 +63,10 @@ var (
 		"scan_listener_port_non_tls":            acctest.Representation{RepType: acctest.Optional, Create: `1600`},
 		"scan_listener_port_tls":                acctest.Representation{RepType: acctest.Optional, Create: `3600`},
 		"maintenance_window_details":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousVmClusterMaintenanceWindowDetailsRepresentation},
-		"memory_per_oracle_compute_unit_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `6`},
+		"memory_per_oracle_compute_unit_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `5`},
 		"time_zone":                             acctest.Representation{RepType: acctest.Optional, Create: `US/Pacific`},
 		"total_container_databases":             acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `2`},
+		"lifecycle":                             acctest.RepresentationGroup{RepType: acctest.Required, Group: DbaasIgnoreDefinedTagsRepresentation},
 	}
 
 	DatabaseDevAutonomousVmClusterRepresentation = map[string]interface{}{
@@ -93,7 +94,7 @@ var (
 	DatabaseECPUAutonomousVmClusterRepresentation = acctest.RepresentationCopyWithNewProperties(DatabaseDevAutonomousVmClusterRepresentation, map[string]interface{}{
 		"compute_model":                         acctest.Representation{RepType: acctest.Required, Create: `ECPU`},
 		"display_name":                          acctest.Representation{RepType: acctest.Required, Create: `ecpuAutonomousVmCluster`},
-		"memory_per_oracle_compute_unit_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `6`},
+		"memory_per_oracle_compute_unit_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `5`},
 	})
 
 	DatabaseOCPUAutonomousVmClusterRepresentation = acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousVmClusterRepresentation, map[string]interface{}{
@@ -242,7 +243,7 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.months.0.name", "JANUARY"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.preference", "CUSTOM_PREFERENCE"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.weeks_of_month.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "memory_per_oracle_compute_unit_in_gbs", "6"),
+				resource.TestCheckResourceAttr(resourceName, "memory_per_oracle_compute_unit_in_gbs", "5"),
 				resource.TestCheckResourceAttr(resourceName, "scan_listener_port_non_tls", "1600"),
 				resource.TestCheckResourceAttr(resourceName, "scan_listener_port_tls", "3600"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -292,7 +293,7 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.months.0.name", "JANUARY"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.preference", "CUSTOM_PREFERENCE"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.weeks_of_month.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "memory_per_oracle_compute_unit_in_gbs", "6"),
+				resource.TestCheckResourceAttr(resourceName, "memory_per_oracle_compute_unit_in_gbs", "5"),
 				resource.TestCheckResourceAttr(resourceName, "scan_listener_port_non_tls", "1600"),
 				resource.TestCheckResourceAttr(resourceName, "scan_listener_port_tls", "3600"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -339,7 +340,7 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.weeks_of_month.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "scan_listener_port_non_tls", "1600"),
 				resource.TestCheckResourceAttr(resourceName, "scan_listener_port_tls", "3600"),
-				resource.TestCheckResourceAttr(resourceName, "memory_per_oracle_compute_unit_in_gbs", "6"),
+				resource.TestCheckResourceAttr(resourceName, "memory_per_oracle_compute_unit_in_gbs", "5"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
 				resource.TestCheckResourceAttr(resourceName, "total_container_databases", "2"),
@@ -393,7 +394,7 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_vm_clusters.0.license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_vm_clusters.0.maintenance_window.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_vm_clusters.0.max_acds_lowest_scaled_value"),
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_vm_clusters.0.memory_per_oracle_compute_unit_in_gbs", "6"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_vm_clusters.0.memory_per_oracle_compute_unit_in_gbs", "5"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_vm_clusters.0.memory_size_in_gbs"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_vm_clusters.0.reclaimable_cpus"),
 				//resource.TestCheckResourceAttr(datasourceName, "autonomous_vm_clusters.0.scan_listener_port_non_tls", "1600"),
@@ -444,7 +445,7 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "max_acds_lowest_scaled_value"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "memory_per_oracle_compute_unit_in_gbs", "6"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "memory_per_oracle_compute_unit_in_gbs", "5"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "memory_size_in_gbs"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "reclaimable_cpus"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "scan_listener_port_non_tls", "1600"),
