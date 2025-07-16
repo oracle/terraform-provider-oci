@@ -1,24 +1,19 @@
 // Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-variable "tenancy_ocid" {
-}
+variable "tenancy_ocid" {}
 
-variable "user_ocid" {
-}
+variable "user_ocid" {}
 
-variable "compartment_ocid" {
-}
+variable "compartment_ocid" {}
 
 variable "region" {
   default = "us-ashburn-1"
 }
 
-variable "kms_vault_id" {
-}
+variable "kms_vault_id" {}
 
-variable "compartment_id" {
-}
+variable "compartment_id" {}
 
 variable "cluster_cluster_pod_network_options_cni_type" {
   default = "OCI_VCN_IP_NATIVE"
@@ -229,6 +224,13 @@ resource "oci_containerengine_cluster" "test_cluster_multi_issuer" {
 data "oci_containerengine_cluster" "test_cluster_multi_issuer" {
   cluster_id = oci_containerengine_cluster.test_cluster_multi_issuer.id
   should_include_oidc_config_file = var.cluster_should_include_oidc_config_file
+}
+
+output "cluster_id" {
+  value = data.oci_containerengine_cluster.test_cluster_multi_issuer.cluster_id
+}
+output "configFile" {
+  value = data.oci_containerengine_cluster.test_cluster_multi_issuer.should_include_oidc_config_file
 }
 
 data "oci_containerengine_clusters" "test_clusters" {
