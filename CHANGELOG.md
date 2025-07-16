@@ -1,4 +1,4 @@
-## 7.10.0 (Unreleased)
+## 7.10.0 (July 16, 2025)
 
 ### Added
 - Support for GenAI Agents Tools API
