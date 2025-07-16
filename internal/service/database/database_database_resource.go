@@ -170,6 +170,9 @@ func DatabaseDatabaseResource() *schema.Resource {
 														string(oci_database.BackupBackupDestinationTypeAwsS3),
 														string(oci_database.BackupBackupDestinationTypeDbrs),
 														string(oci_database.BackupBackupDestinationTypeObjectStore),
+														string(oci_database.BackupDestinationDetailsTypeNfs),
+														string(oci_database.BackupDestinationDetailsTypeRecoveryAppliance),
+														string(oci_database.BackupDestinationDetailsTypeLocal),
 													}, true),
 												},
 												"vpc_user": {
@@ -1135,8 +1138,17 @@ func (s *DatabaseDatabaseResourceCrud) mapToUpdateBackupDestinationDetails(field
 		result.Id = &tmp
 	}
 
-	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "type")) {
-		result.Type = oci_database.BackupDestinationDetailsTypeEnum(type_.(string))
+	typeKey := fmt.Sprintf(fieldKeyFormat, "type")
+
+	if type_, ok := s.D.GetOkExists(typeKey); ok {
+		if s.D.HasChange(typeKey) {
+			// Field changed, use the new value
+			result.Type = oci_database.BackupDestinationDetailsTypeEnum(type_.(string))
+		} else {
+			// Field not changed, get old value to preserve it
+			_, oldVal := s.D.GetChange(typeKey)
+			result.Type = oci_database.BackupDestinationDetailsTypeEnum(oldVal.(string))
+		}
 	}
 
 	if vpcPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vpc_password")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "vpc_password")) {

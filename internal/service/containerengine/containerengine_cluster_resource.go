@@ -962,9 +962,10 @@ func (s *ContainerengineClusterResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ClusterId = &tmp
 
-	if shouldIncludeOidcConfigFile, ok := s.D.GetOkExists("should_include_oidc_config_file"); ok {
-		tmp := shouldIncludeOidcConfigFile.(bool)
-		request.ShouldIncludeOidcConfigFile = &tmp
+	if getOIDCEnabledFromState(s.D) {
+		shouldInclude := true
+		request.ShouldIncludeOidcConfigFile = &shouldInclude
+		log.Printf("[DEBUG] Setting ShouldIncludeOidcConfigFile to true based on state.")
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
@@ -2058,4 +2059,32 @@ func ServiceLbConfigDetailsToMap(obj *oci_containerengine.ServiceLbConfigDetails
 	result["freeform_tags"] = obj.FreeformTags
 
 	return result
+}
+
+func getOIDCEnabledFromState(d *schema.ResourceData) bool {
+	isEnabled := false
+
+	// Check if OIDC is enabled in state
+	// location "options.0.open_id_connect_token_authentication_config.0.is_open_id_connect_auth_enabled"
+	if options, ok := d.GetOkExists("options"); ok {
+		if optionsList := options.([]interface{}); len(optionsList) > 0 {
+			// Safe to use [0] since MaxItems: 1, but let's be explicit
+			optionsMap := optionsList[0].(map[string]interface{})
+
+			if oidcConfig, exists := optionsMap["open_id_connect_token_authentication_config"]; exists {
+				if oidcList := oidcConfig.([]interface{}); len(oidcList) > 0 {
+					// Again, safe to use [0] since MaxItems: 1
+					oidcMap := oidcList[0].(map[string]interface{})
+
+					if enabled, exists := oidcMap["is_open_id_connect_auth_enabled"]; exists {
+						if enabledBool, ok := enabled.(bool); ok && enabledBool {
+							isEnabled = true
+						}
+					}
+				}
+			}
+		}
+	}
+
+	return isEnabled
 }
