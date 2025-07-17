@@ -362,6 +362,10 @@ ai_vision
 
 * oci\_ai\_vision\_project
 * oci\_ai\_vision\_model
+* oci\_ai\_vision\_vision\_private\_endpoint
+* oci\_ai\_vision\_stream\_source
+* oci\_ai\_vision\_stream\_group
+* oci\_ai\_vision\_stream\_job
 
 analytics
 
@@ -396,7 +400,7 @@ apm
 * oci\_apm\_apm\_domain
 
 apm_config
-    
+
 * oci\_apm\_config\_config
 
 apm_synthetics

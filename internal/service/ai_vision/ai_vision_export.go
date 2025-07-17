@@ -37,6 +37,55 @@ var exportAiVisionModelHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportAiVisionVisionPrivateEndpointHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_ai_vision_vision_private_endpoint",
+	DatasourceClass:        "oci_ai_vision_vision_private_endpoints",
+	DatasourceItemsAttr:    "vision_private_endpoint_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "vision_private_endpoint",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_ai_vision.VisionPrivateEndpointLifecycleStateActive),
+	},
+}
+
+var exportAiVisionStreamSourceHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_ai_vision_stream_source",
+	DatasourceClass:        "oci_ai_vision_stream_sources",
+	DatasourceItemsAttr:    "stream_source_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "stream_source",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_ai_vision.StreamSourceLifecycleStateActive),
+	},
+}
+
+var exportAiVisionStreamGroupHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_ai_vision_stream_group",
+	DatasourceClass:        "oci_ai_vision_stream_groups",
+	DatasourceItemsAttr:    "stream_group_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "stream_group",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_ai_vision.StreamGroupLifecycleStateActive),
+	},
+}
+
+var exportAiVisionStreamJobHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_ai_vision_stream_job",
+	DatasourceClass:        "oci_ai_vision_stream_jobs",
+	DatasourceItemsAttr:    "stream_job_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "stream_job",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_ai_vision.StreamJobLifecycleStateActive),
+		string(oci_ai_vision.StreamJobLifecycleStateNeedsAttention),
+	},
+}
+
 var exportAiVisionDocumentJobHints = &tf_export.TerraformResourceHints{
 	ResourceClass:        "oci_ai_vision_document_job",
 	DatasourceClass:      "oci_ai_vision_document_job",
@@ -59,6 +108,10 @@ var aiVisionResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportAiVisionProjectHints},
 		{TerraformResourceHints: exportAiVisionModelHints},
+		{TerraformResourceHints: exportAiVisionVisionPrivateEndpointHints},
+		{TerraformResourceHints: exportAiVisionStreamSourceHints},
+		{TerraformResourceHints: exportAiVisionStreamGroupHints},
+		{TerraformResourceHints: exportAiVisionStreamJobHints},
 	},
 	"oci_ai_vision_document_job": {
 		{
