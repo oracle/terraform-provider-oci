@@ -55,16 +55,16 @@ var (
 		"training_dataset":               acctest.RepresentationGroup{RepType: acctest.Required, Group: visionModelTrainingDatasetRepresentation},
 		"description":                    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":                   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"freeform_tags":                  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"freeform_tags":                  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
 		"is_quick_mode":                  acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"max_training_duration_in_hours": acctest.Representation{RepType: acctest.Required, Create: `0.01`},
+		"max_training_duration_in_hours": acctest.Representation{RepType: acctest.Required, Create: `0.6`},
 		"model_version":                  acctest.Representation{RepType: acctest.Optional, Create: `modelVersion`},
 	}
 	visionModelTrainingDatasetRepresentation = map[string]interface{}{
 		"dataset_type":   acctest.Representation{RepType: acctest.Required, Create: `OBJECT_STORAGE`},
-		"bucket":         acctest.Representation{RepType: acctest.Required, Create: `golden_dataset`},
-		"namespace_name": acctest.Representation{RepType: acctest.Required, Create: `axhheqi2ofpb`},
-		"object":         acctest.Representation{RepType: acctest.Required, Create: `a_hymenoptera_v3.json`},
+		"bucket":         acctest.Representation{RepType: acctest.Required, Create: `Test`},
+		"namespace_name": acctest.Representation{RepType: acctest.Required, Create: `axfelw9p2fyr`},
+		"object":         acctest.Representation{RepType: acctest.Required, Create: `0_ic_multi-2labels_combined.jsonl`},
 	}
 
 	AiVisionModelResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_ai_vision_project", "test_project", acctest.Required, acctest.Create, visionvisionProjectRepresentation)
@@ -102,6 +102,9 @@ func TestAiVisionModelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "model_type", "IMAGE_CLASSIFICATION"),
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 				resource.TestCheckResourceAttr(resourceName, "training_dataset.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "training_dataset.0.bucket", "Test"),
+				resource.TestCheckResourceAttr(resourceName, "training_dataset.0.namespace_name", "axfelw9p2fyr"),
+				resource.TestCheckResourceAttr(resourceName, "training_dataset.0.object", "0_ic_multi-2labels_combined.jsonl"),
 				resource.TestCheckResourceAttr(resourceName, "training_dataset.0.dataset_type", "OBJECT_STORAGE"),
 
 				func(s *terraform.State) (err error) {
@@ -126,17 +129,17 @@ func TestAiVisionModelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_quick_mode", "false"),
-				resource.TestCheckResourceAttr(resourceName, "max_training_duration_in_hours", "0.01"),
+				resource.TestCheckResourceAttr(resourceName, "max_training_duration_in_hours", "0.6"),
 				resource.TestCheckResourceAttr(resourceName, "model_type", "IMAGE_CLASSIFICATION"),
 				resource.TestCheckResourceAttr(resourceName, "model_version", "modelVersion"),
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttr(resourceName, "training_dataset.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "training_dataset.0.bucket", "golden_dataset"),
+				resource.TestCheckResourceAttr(resourceName, "training_dataset.0.bucket", "Test"),
 				resource.TestCheckResourceAttr(resourceName, "training_dataset.0.dataset_type", "OBJECT_STORAGE"),
-				resource.TestCheckResourceAttr(resourceName, "training_dataset.0.namespace_name", "axhheqi2ofpb"),
-				resource.TestCheckResourceAttr(resourceName, "training_dataset.0.object", "a_hymenoptera_v3.json"),
+				resource.TestCheckResourceAttr(resourceName, "training_dataset.0.namespace_name", "axfelw9p2fyr"),
+				resource.TestCheckResourceAttr(resourceName, "training_dataset.0.object", "0_ic_multi-2labels_combined.jsonl"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -164,17 +167,17 @@ func TestAiVisionModelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_quick_mode", "false"),
-				resource.TestCheckResourceAttr(resourceName, "max_training_duration_in_hours", "0.01"),
+				resource.TestCheckResourceAttr(resourceName, "max_training_duration_in_hours", "0.6"),
 				resource.TestCheckResourceAttr(resourceName, "model_type", "IMAGE_CLASSIFICATION"),
 				resource.TestCheckResourceAttr(resourceName, "model_version", "modelVersion"),
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttr(resourceName, "training_dataset.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "training_dataset.0.bucket", "golden_dataset"),
+				resource.TestCheckResourceAttr(resourceName, "training_dataset.0.bucket", "Test"),
 				resource.TestCheckResourceAttr(resourceName, "training_dataset.0.dataset_type", "OBJECT_STORAGE"),
-				resource.TestCheckResourceAttr(resourceName, "training_dataset.0.namespace_name", "axhheqi2ofpb"),
-				resource.TestCheckResourceAttr(resourceName, "training_dataset.0.object", "a_hymenoptera_v3.json"),
+				resource.TestCheckResourceAttr(resourceName, "training_dataset.0.namespace_name", "axfelw9p2fyr"),
+				resource.TestCheckResourceAttr(resourceName, "training_dataset.0.object", "0_ic_multi-2labels_combined.jsonl"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -197,17 +200,17 @@ func TestAiVisionModelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_quick_mode", "false"),
-				resource.TestCheckResourceAttr(resourceName, "max_training_duration_in_hours", "0.01"),
+				resource.TestCheckResourceAttr(resourceName, "max_training_duration_in_hours", "0.6"),
 				resource.TestCheckResourceAttr(resourceName, "model_type", "IMAGE_CLASSIFICATION"),
 				resource.TestCheckResourceAttr(resourceName, "model_version", "modelVersion"),
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttr(resourceName, "training_dataset.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "training_dataset.0.bucket", "golden_dataset"),
+				resource.TestCheckResourceAttr(resourceName, "training_dataset.0.bucket", "Test"),
 				resource.TestCheckResourceAttr(resourceName, "training_dataset.0.dataset_type", "OBJECT_STORAGE"),
-				resource.TestCheckResourceAttr(resourceName, "training_dataset.0.namespace_name", "axhheqi2ofpb"),
-				resource.TestCheckResourceAttr(resourceName, "training_dataset.0.object", "a_hymenoptera_v3.json"),
+				resource.TestCheckResourceAttr(resourceName, "training_dataset.0.namespace_name", "axfelw9p2fyr"),
+				resource.TestCheckResourceAttr(resourceName, "training_dataset.0.object", "0_ic_multi-2labels_combined.jsonl"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -251,7 +254,7 @@ func TestAiVisionModelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_quick_mode", "false"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "max_training_duration_in_hours", "0.01"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "max_training_duration_in_hours", "0.6"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "metrics"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "model_type", "IMAGE_CLASSIFICATION"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "model_version", "modelVersion"),
@@ -264,10 +267,10 @@ func TestAiVisionModelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "total_image_count"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "trained_duration_in_hours"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "training_dataset.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "training_dataset.0.bucket", "golden_dataset"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "training_dataset.0.bucket", "Test"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "training_dataset.0.dataset_type", "OBJECT_STORAGE"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "training_dataset.0.namespace_name", "axhheqi2ofpb"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "training_dataset.0.object", "a_hymenoptera_v3.json"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "training_dataset.0.namespace_name", "axfelw9p2fyr"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "training_dataset.0.object", "0_ic_multi-2labels_combined.jsonl"),
 			),
 		},
 		// verify resource import
