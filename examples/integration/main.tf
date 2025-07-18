@@ -183,6 +183,7 @@ resource "oci_integration_private_endpoint_outbound_connection" "integration_pri
   depends_on = [
     oci_integration_oracle_managed_custom_endpoint.integretion_custom_endpoint
   ]
+}
 # resource "oci_integration_integration_instance" "test_integration_instance_idcs" {
 #   #Required
 #   compartment_id            = var.compartment_id
