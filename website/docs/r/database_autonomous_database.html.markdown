@@ -263,8 +263,10 @@ The following arguments are supported:
 * `remote_disaster_recovery_type` - (Required when source=CROSS_REGION_DISASTER_RECOVERY) Indicates the cross-region disaster recovery (DR) type of the standby Autonomous Database Serverless instance. Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover. Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover. 
 * `resource_pool_leader_id` - (Optional) (Updatable) The unique identifier for leader autonomous database OCID [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `resource_pool_summary` - (Optional) (Updatable) The configuration details for resource pool
+	* `available_compute_capacity` - (Optional) Available capacity left for new elastic pool members provision
 	* `is_disabled` - (Optional) (Updatable) Indicates if the resource pool should be deleted for the Autonomous Database.  
 	* `pool_size` - (Optional) (Updatable) Resource pool size.
+	* `total_compute_capacity` - (Optional) Resource Pool total capacity, it's currently 4x of pool size
 * `scheduled_operations` - (Optional) (Updatable) The list of scheduled operations. Consists of values such as dayOfWeek, scheduledStartTime, scheduledStopTime.
 
 	This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier. 
@@ -549,8 +551,10 @@ The following attributes are exported:
 	* `time_snapshot_standby_enabled_till` - Time and date stored as an RFC 3339 formatted timestamp string. For example, 2022-01-01T12:00:00.000Z would set a limit for the snapshot standby to be converted back to a cross-region standby database.
 * `resource_pool_leader_id` - The unique identifier for leader autonomous database OCID [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `resource_pool_summary` - The configuration details for resource pool
+	* `available_compute_capacity` - Available capacity left for new elastic pool members provision
 	* `is_disabled` - Indicates if the resource pool should be deleted for the Autonomous Database.  
 	* `pool_size` - Resource pool size.
+	* `total_compute_capacity` - Resource Pool total capacity, it's currently 4x of pool size
 * `role` - The Data Guard role of the Autonomous Container Database or Autonomous Database, if Autonomous Data Guard is enabled. 
 * `scheduled_operations` - The list of scheduled operations. Consists of values such as dayOfWeek, scheduledStartTime, scheduledStopTime.
 

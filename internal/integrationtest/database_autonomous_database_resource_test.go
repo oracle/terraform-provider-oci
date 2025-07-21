@@ -410,7 +410,7 @@ var (
 		"compute_model": acctest.Representation{RepType: acctest.Required, Create: `ECPU`},
 	})
 
-	autonomousDatabaseRepresentationRP = acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseAutonomousDatabaseRepresentation, []string{"cpu_core_count"}), map[string]interface{}{
+	autonomousDatabaseRepresentationRP = acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseAutonomousDatabaseRepresentation, []string{"cpu_core_count", "db_tools_details"}), map[string]interface{}{
 		"compute_count":         acctest.Representation{RepType: acctest.Required, Create: `4.0`, Update: `6.0`},
 		"compute_model":         acctest.Representation{RepType: acctest.Required, Create: `ECPU`},
 		"resource_pool_summary": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseAutonomousDatabaseRPSummaryRepresentation},
@@ -426,7 +426,7 @@ var (
 		"pool_size":   acctest.Representation{RepType: acctest.Required, Create: `512`, Update: `1024`},
 	}
 
-	autonomousDatabaseRepresentationRPUpdate = acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseAutonomousDatabaseRepresentation, []string{"cpu_core_count"}), map[string]interface{}{
+	autonomousDatabaseRepresentationRPUpdate = acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseAutonomousDatabaseRepresentation, []string{"cpu_core_count", "db_tools_details"}), map[string]interface{}{
 		"compute_count":         acctest.Representation{RepType: acctest.Required, Create: `4.0`, Update: `6.0`},
 		"compute_model":         acctest.Representation{RepType: acctest.Required, Create: `ECPU`},
 		"resource_pool_summary": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseAutonomousDatabaseRPSummaryRepresentation},
@@ -435,13 +435,13 @@ var (
 	DatabaseAutonomousDatabaseRPDisableSummaryRepresentation = map[string]interface{}{
 		"is_disabled": acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
 	}
-	DatabaseAutonomousDatabaseResourcePoolLeaderIdRepresentation = acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseAutonomousDatabaseRepresentation, []string{"cpu_core_count"}), map[string]interface{}{
+	DatabaseAutonomousDatabaseResourcePoolLeaderIdRepresentation = acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseAutonomousDatabaseRepresentation, []string{"cpu_core_count", "db_tools_details"}), map[string]interface{}{
 		"compute_count":           acctest.Representation{RepType: acctest.Required, Create: `10.0`, Update: `10.0`},
 		"compute_model":           acctest.Representation{RepType: acctest.Required, Create: `ECPU`},
 		"resource_pool_leader_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_database.test_autonomous_database_leader.id}`, Update: ` `},
 		"db_name":                 acctest.Representation{RepType: acctest.Required, Create: adbMemberName},
 	})
-	DatabaseAutonomousDatabaseResourcePoolLeaderIdUpdateRepresentation = acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseAutonomousDatabaseRepresentation, []string{"cpu_core_count", "admin_password"}), map[string]interface{}{
+	DatabaseAutonomousDatabaseResourcePoolLeaderIdUpdateRepresentation = acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseAutonomousDatabaseRepresentation, []string{"cpu_core_count", "admin_password", "db_tools_details"}), map[string]interface{}{
 		"compute_count":           acctest.Representation{RepType: acctest.Required, Create: `10.0`, Update: `12.0`},
 		"resource_pool_leader_id": acctest.Representation{RepType: acctest.Required, Update: ` `},
 		"db_name":                 acctest.Representation{RepType: acctest.Required, Create: adbMemberName},
@@ -4532,6 +4532,8 @@ func TestDatabaseAutonomousDatabaseResource_ElasticResourcePool(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "resource_pool_summary.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "resource_pool_summary.0.is_disabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "resource_pool_summary.0.pool_size", "128"),
+				resource.TestCheckResourceAttr(resourceName, "resource_pool_summary.0.available_compute_capacity", "508"),
+				resource.TestCheckResourceAttr(resourceName, "resource_pool_summary.0.total_compute_capacity", "512"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -4559,6 +4561,8 @@ func TestDatabaseAutonomousDatabaseResource_ElasticResourcePool(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "resource_pool_summary.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "resource_pool_summary.0.is_disabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "resource_pool_summary.0.pool_size", "512"),
+				resource.TestCheckResourceAttr(resourceName, "resource_pool_summary.0.available_compute_capacity", "2044"),
+				resource.TestCheckResourceAttr(resourceName, "resource_pool_summary.0.total_compute_capacity", "2048"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -4649,6 +4653,8 @@ func TestDatabaseAutonomousDatabaseResource_ElasticResourcePool(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "resource_pool_summary.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "resource_pool_summary.0.is_disabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "resource_pool_summary.0.pool_size", "512"),
+				resource.TestCheckResourceAttr(resourceName, "resource_pool_summary.0.available_compute_capacity", "508"),
+				resource.TestCheckResourceAttr(resourceName, "resource_pool_summary.0.total_compute_capacity", "512"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
