@@ -28,6 +28,9 @@ type CreateAutonomousContainerDatabaseBase interface {
 	// Customer Contacts. Setting this to an empty list removes all customer contacts.
 	GetCustomerContacts() []CustomerContact
 
+	// The OKV End Point Group name for the Autonomous Container Database.
+	GetOkvEndPointGroupName() *string
+
 	// **Deprecated.** The `DB_UNIQUE_NAME` value is set by Oracle Cloud Infrastructure.  Do not specify a value for this parameter. Specifying a value for this field will cause Terraform operations to fail.
 	GetDbUniqueName() *string
 
@@ -138,6 +141,7 @@ type CreateAutonomousContainerDatabaseBase interface {
 type createautonomouscontainerdatabasebase struct {
 	JsonData                                     []byte
 	CustomerContacts                             []CustomerContact                                                  `mandatory:"false" json:"customerContacts"`
+	OkvEndPointGroupName                         *string                                                            `mandatory:"false" json:"okvEndPointGroupName"`
 	DbUniqueName                                 *string                                                            `mandatory:"false" json:"dbUniqueName"`
 	DbName                                       *string                                                            `mandatory:"false" json:"dbName"`
 	ServiceLevelAgreementType                    CreateAutonomousContainerDatabaseBaseServiceLevelAgreementTypeEnum `mandatory:"false" json:"serviceLevelAgreementType,omitempty"`
@@ -191,6 +195,7 @@ func (m *createautonomouscontainerdatabasebase) UnmarshalJSON(data []byte) error
 	m.DisplayName = s.Model.DisplayName
 	m.PatchModel = s.Model.PatchModel
 	m.CustomerContacts = s.Model.CustomerContacts
+	m.OkvEndPointGroupName = s.Model.OkvEndPointGroupName
 	m.DbUniqueName = s.Model.DbUniqueName
 	m.DbName = s.Model.DbName
 	m.ServiceLevelAgreementType = s.Model.ServiceLevelAgreementType
@@ -256,6 +261,11 @@ func (m *createautonomouscontainerdatabasebase) UnmarshalPolymorphicJSON(data []
 // GetCustomerContacts returns CustomerContacts
 func (m createautonomouscontainerdatabasebase) GetCustomerContacts() []CustomerContact {
 	return m.CustomerContacts
+}
+
+// GetOkvEndPointGroupName returns OkvEndPointGroupName
+func (m createautonomouscontainerdatabasebase) GetOkvEndPointGroupName() *string {
+	return m.OkvEndPointGroupName
 }
 
 // GetDbUniqueName returns DbUniqueName

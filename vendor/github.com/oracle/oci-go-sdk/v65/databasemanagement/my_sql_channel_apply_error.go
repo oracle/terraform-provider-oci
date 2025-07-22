@@ -17,11 +17,11 @@ import (
 	"strings"
 )
 
-// MySqlChannelApplyError MySQL server replication Channel name and error from its apply operation.
+// MySqlChannelApplyError MySQL server replication channel name and error from its apply operation.
 type MySqlChannelApplyError struct {
 	ApplyError *MySqlApplyError `mandatory:"true" json:"applyError"`
 
-	// The name of the replication channel
+	// The name of the replication channel.
 	ChannelName *string `mandatory:"false" json:"channelName"`
 }
 

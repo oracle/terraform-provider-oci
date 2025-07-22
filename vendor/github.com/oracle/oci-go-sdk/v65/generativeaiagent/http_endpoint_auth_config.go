@@ -14,130 +14,32 @@
 package generativeaiagent
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// HttpEndpointAuthConfig Auth related information to be used when invoking external endpoint
-type HttpEndpointAuthConfig interface {
+// HttpEndpointAuthConfig Authentication configuration used for HTTP Endpoint tools. Defines the type of authentication
+// and the source of credentials.
+type HttpEndpointAuthConfig struct {
+
+	// A list of credential sources from which authentication credentials can be resolved.
+	// Only AGENT is supported for HTTP Endpoint Tool.
+	HttpEndpointAuthSources []HttpEndpointAuthSource `mandatory:"true" json:"httpEndpointAuthSources"`
 }
 
-type httpendpointauthconfig struct {
-	JsonData                   []byte
-	HttpEndpointAuthConfigType string `json:"httpEndpointAuthConfigType"`
-}
-
-// UnmarshalJSON unmarshals json
-func (m *httpendpointauthconfig) UnmarshalJSON(data []byte) error {
-	m.JsonData = data
-	type Unmarshalerhttpendpointauthconfig httpendpointauthconfig
-	s := struct {
-		Model Unmarshalerhttpendpointauthconfig
-	}{}
-	err := json.Unmarshal(data, &s.Model)
-	if err != nil {
-		return err
-	}
-	m.HttpEndpointAuthConfigType = s.Model.HttpEndpointAuthConfigType
-
-	return err
-}
-
-// UnmarshalPolymorphicJSON unmarshals polymorphic json
-func (m *httpendpointauthconfig) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
-
-	if data == nil || string(data) == "null" {
-		return nil, nil
-	}
-
-	var err error
-	switch m.HttpEndpointAuthConfigType {
-	case "HTTP_ENDPOINT_IDCS_AUTH_CONFIG":
-		mm := HttpEndpointIdcsAuthConfig{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "HTTP_ENDPOINT_DELEGATED_BEARER_AUTH_CONFIG":
-		mm := HttpEndpointDelegatedBearerAuthConfig{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "HTTP_ENDPOINT_NO_AUTH_CONFIG":
-		mm := HttpEndpointNoAuthConfig{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "HTTP_ENDPOINT_OCI_RESOURCE_PRINCIPAL_AUTH_CONFIG":
-		mm := HttpEndpointOciResourcePrincipalAuthConfig{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	default:
-		common.Logf("Received unsupported enum value for HttpEndpointAuthConfig: %s.", m.HttpEndpointAuthConfigType)
-		return *m, nil
-	}
-}
-
-func (m httpendpointauthconfig) String() string {
+func (m HttpEndpointAuthConfig) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m httpendpointauthconfig) ValidateEnumValue() (bool, error) {
+func (m HttpEndpointAuthConfig) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// HttpEndpointAuthConfigHttpEndpointAuthConfigTypeEnum Enum with underlying type: string
-type HttpEndpointAuthConfigHttpEndpointAuthConfigTypeEnum string
-
-// Set of constants representing the allowable values for HttpEndpointAuthConfigHttpEndpointAuthConfigTypeEnum
-const (
-	HttpEndpointAuthConfigHttpEndpointAuthConfigTypeNoAuthConfig                   HttpEndpointAuthConfigHttpEndpointAuthConfigTypeEnum = "HTTP_ENDPOINT_NO_AUTH_CONFIG"
-	HttpEndpointAuthConfigHttpEndpointAuthConfigTypeDelegatedBearerAuthConfig      HttpEndpointAuthConfigHttpEndpointAuthConfigTypeEnum = "HTTP_ENDPOINT_DELEGATED_BEARER_AUTH_CONFIG"
-	HttpEndpointAuthConfigHttpEndpointAuthConfigTypeOciResourcePrincipalAuthConfig HttpEndpointAuthConfigHttpEndpointAuthConfigTypeEnum = "HTTP_ENDPOINT_OCI_RESOURCE_PRINCIPAL_AUTH_CONFIG"
-	HttpEndpointAuthConfigHttpEndpointAuthConfigTypeIdcsAuthConfig                 HttpEndpointAuthConfigHttpEndpointAuthConfigTypeEnum = "HTTP_ENDPOINT_IDCS_AUTH_CONFIG"
-)
-
-var mappingHttpEndpointAuthConfigHttpEndpointAuthConfigTypeEnum = map[string]HttpEndpointAuthConfigHttpEndpointAuthConfigTypeEnum{
-	"HTTP_ENDPOINT_NO_AUTH_CONFIG":                     HttpEndpointAuthConfigHttpEndpointAuthConfigTypeNoAuthConfig,
-	"HTTP_ENDPOINT_DELEGATED_BEARER_AUTH_CONFIG":       HttpEndpointAuthConfigHttpEndpointAuthConfigTypeDelegatedBearerAuthConfig,
-	"HTTP_ENDPOINT_OCI_RESOURCE_PRINCIPAL_AUTH_CONFIG": HttpEndpointAuthConfigHttpEndpointAuthConfigTypeOciResourcePrincipalAuthConfig,
-	"HTTP_ENDPOINT_IDCS_AUTH_CONFIG":                   HttpEndpointAuthConfigHttpEndpointAuthConfigTypeIdcsAuthConfig,
-}
-
-var mappingHttpEndpointAuthConfigHttpEndpointAuthConfigTypeEnumLowerCase = map[string]HttpEndpointAuthConfigHttpEndpointAuthConfigTypeEnum{
-	"http_endpoint_no_auth_config":                     HttpEndpointAuthConfigHttpEndpointAuthConfigTypeNoAuthConfig,
-	"http_endpoint_delegated_bearer_auth_config":       HttpEndpointAuthConfigHttpEndpointAuthConfigTypeDelegatedBearerAuthConfig,
-	"http_endpoint_oci_resource_principal_auth_config": HttpEndpointAuthConfigHttpEndpointAuthConfigTypeOciResourcePrincipalAuthConfig,
-	"http_endpoint_idcs_auth_config":                   HttpEndpointAuthConfigHttpEndpointAuthConfigTypeIdcsAuthConfig,
-}
-
-// GetHttpEndpointAuthConfigHttpEndpointAuthConfigTypeEnumValues Enumerates the set of values for HttpEndpointAuthConfigHttpEndpointAuthConfigTypeEnum
-func GetHttpEndpointAuthConfigHttpEndpointAuthConfigTypeEnumValues() []HttpEndpointAuthConfigHttpEndpointAuthConfigTypeEnum {
-	values := make([]HttpEndpointAuthConfigHttpEndpointAuthConfigTypeEnum, 0)
-	for _, v := range mappingHttpEndpointAuthConfigHttpEndpointAuthConfigTypeEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetHttpEndpointAuthConfigHttpEndpointAuthConfigTypeEnumStringValues Enumerates the set of values in String for HttpEndpointAuthConfigHttpEndpointAuthConfigTypeEnum
-func GetHttpEndpointAuthConfigHttpEndpointAuthConfigTypeEnumStringValues() []string {
-	return []string{
-		"HTTP_ENDPOINT_NO_AUTH_CONFIG",
-		"HTTP_ENDPOINT_DELEGATED_BEARER_AUTH_CONFIG",
-		"HTTP_ENDPOINT_OCI_RESOURCE_PRINCIPAL_AUTH_CONFIG",
-		"HTTP_ENDPOINT_IDCS_AUTH_CONFIG",
-	}
-}
-
-// GetMappingHttpEndpointAuthConfigHttpEndpointAuthConfigTypeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingHttpEndpointAuthConfigHttpEndpointAuthConfigTypeEnum(val string) (HttpEndpointAuthConfigHttpEndpointAuthConfigTypeEnum, bool) {
-	enum, ok := mappingHttpEndpointAuthConfigHttpEndpointAuthConfigTypeEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }

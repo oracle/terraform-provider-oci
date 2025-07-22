@@ -44,7 +44,7 @@ type ManagedMySqlDatabaseHighAvailabilityMemberCollection struct {
 	// The current view identifier for this group.
 	ViewId *string `mandatory:"false" json:"viewId"`
 
-	// Number of transactions that were replicated within the cluster.
+	// The number of transactions that were replicated within the cluster.
 	TransactionsInGtidExecuted *int64 `mandatory:"false" json:"transactionsInGtidExecuted"`
 
 	StatusSummary *MySqlHighAvailabilityStatusSummary `mandatory:"false" json:"statusSummary"`

@@ -147,7 +147,7 @@ func (client WorkRequestClient) cancelWorkRequest(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/WorkRequest/CancelWorkRequest"
 		err = common.PostProcessServiceError(err, "WorkRequest", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -205,7 +205,7 @@ func (client WorkRequestClient) getWorkRequest(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "WorkRequest", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -263,7 +263,7 @@ func (client WorkRequestClient) listWorkRequestErrors(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/WorkRequestError/ListWorkRequestErrors"
 		err = common.PostProcessServiceError(err, "WorkRequest", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -321,7 +321,7 @@ func (client WorkRequestClient) listWorkRequestLogs(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/WorkRequestLogEntry/ListWorkRequestLogs"
 		err = common.PostProcessServiceError(err, "WorkRequest", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -379,7 +379,7 @@ func (client WorkRequestClient) listWorkRequests(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "WorkRequest", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}

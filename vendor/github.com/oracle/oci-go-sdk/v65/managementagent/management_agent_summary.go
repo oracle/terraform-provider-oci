@@ -87,6 +87,9 @@ type ManagementAgentSummary struct {
 	// The install type, either AGENT or GATEWAY
 	InstallType InstallTypesEnum `mandatory:"false" json:"installType,omitempty"`
 
+	// The latest supported management agent version
+	LatestSupportedVersion *string `mandatory:"false" json:"latestSupportedVersion"`
+
 	// list of dataSources summaries associated with the agent
 	DataSourceSummaryList []DataSourceSummaryItem `mandatory:"false" json:"dataSourceSummaryList"`
 
@@ -97,6 +100,10 @@ type ManagementAgentSummary struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{ "orcl-cloud": { "free-tier-retained": "true" } }`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m ManagementAgentSummary) String() string {
@@ -148,9 +155,11 @@ func (m *ManagementAgentSummary) UnmarshalJSON(data []byte) (e error) {
 		LifecycleDetails        *string                           `json:"lifecycleDetails"`
 		IsCustomerDeployed      *bool                             `json:"isCustomerDeployed"`
 		InstallType             InstallTypesEnum                  `json:"installType"`
+		LatestSupportedVersion  *string                           `json:"latestSupportedVersion"`
 		DataSourceSummaryList   []datasourcesummaryitem           `json:"dataSourceSummaryList"`
 		FreeformTags            map[string]string                 `json:"freeformTags"`
 		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags              map[string]map[string]interface{} `json:"systemTags"`
 		Id                      *string                           `json:"id"`
 		Version                 *string                           `json:"version"`
 		CompartmentId           *string                           `json:"compartmentId"`
@@ -197,6 +206,8 @@ func (m *ManagementAgentSummary) UnmarshalJSON(data []byte) (e error) {
 
 	m.InstallType = model.InstallType
 
+	m.LatestSupportedVersion = model.LatestSupportedVersion
+
 	m.DataSourceSummaryList = make([]DataSourceSummaryItem, len(model.DataSourceSummaryList))
 	for i, n := range model.DataSourceSummaryList {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
@@ -212,6 +223,8 @@ func (m *ManagementAgentSummary) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
+
+	m.SystemTags = model.SystemTags
 
 	m.Id = model.Id
 

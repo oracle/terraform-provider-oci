@@ -20,30 +20,33 @@ type DatabaseTypeEnum string
 
 // Set of constants representing the allowable values for DatabaseTypeEnum
 const (
-	DatabaseTypeExternalSidb DatabaseTypeEnum = "EXTERNAL_SIDB"
-	DatabaseTypeExternalRac  DatabaseTypeEnum = "EXTERNAL_RAC"
-	DatabaseTypeCloudSidb    DatabaseTypeEnum = "CLOUD_SIDB"
-	DatabaseTypeCloudRac     DatabaseTypeEnum = "CLOUD_RAC"
-	DatabaseTypeShared       DatabaseTypeEnum = "SHARED"
-	DatabaseTypeDedicated    DatabaseTypeEnum = "DEDICATED"
+	DatabaseTypeExternalSidb    DatabaseTypeEnum = "EXTERNAL_SIDB"
+	DatabaseTypeExternalRac     DatabaseTypeEnum = "EXTERNAL_RAC"
+	DatabaseTypeCloudSidb       DatabaseTypeEnum = "CLOUD_SIDB"
+	DatabaseTypeCloudRac        DatabaseTypeEnum = "CLOUD_RAC"
+	DatabaseTypeShared          DatabaseTypeEnum = "SHARED"
+	DatabaseTypeDedicated       DatabaseTypeEnum = "DEDICATED"
+	DatabaseTypeCloudAtCustomer DatabaseTypeEnum = "CLOUD_AT_CUSTOMER"
 )
 
 var mappingDatabaseTypeEnum = map[string]DatabaseTypeEnum{
-	"EXTERNAL_SIDB": DatabaseTypeExternalSidb,
-	"EXTERNAL_RAC":  DatabaseTypeExternalRac,
-	"CLOUD_SIDB":    DatabaseTypeCloudSidb,
-	"CLOUD_RAC":     DatabaseTypeCloudRac,
-	"SHARED":        DatabaseTypeShared,
-	"DEDICATED":     DatabaseTypeDedicated,
+	"EXTERNAL_SIDB":     DatabaseTypeExternalSidb,
+	"EXTERNAL_RAC":      DatabaseTypeExternalRac,
+	"CLOUD_SIDB":        DatabaseTypeCloudSidb,
+	"CLOUD_RAC":         DatabaseTypeCloudRac,
+	"SHARED":            DatabaseTypeShared,
+	"DEDICATED":         DatabaseTypeDedicated,
+	"CLOUD_AT_CUSTOMER": DatabaseTypeCloudAtCustomer,
 }
 
 var mappingDatabaseTypeEnumLowerCase = map[string]DatabaseTypeEnum{
-	"external_sidb": DatabaseTypeExternalSidb,
-	"external_rac":  DatabaseTypeExternalRac,
-	"cloud_sidb":    DatabaseTypeCloudSidb,
-	"cloud_rac":     DatabaseTypeCloudRac,
-	"shared":        DatabaseTypeShared,
-	"dedicated":     DatabaseTypeDedicated,
+	"external_sidb":     DatabaseTypeExternalSidb,
+	"external_rac":      DatabaseTypeExternalRac,
+	"cloud_sidb":        DatabaseTypeCloudSidb,
+	"cloud_rac":         DatabaseTypeCloudRac,
+	"shared":            DatabaseTypeShared,
+	"dedicated":         DatabaseTypeDedicated,
+	"cloud_at_customer": DatabaseTypeCloudAtCustomer,
 }
 
 // GetDatabaseTypeEnumValues Enumerates the set of values for DatabaseTypeEnum
@@ -64,6 +67,7 @@ func GetDatabaseTypeEnumStringValues() []string {
 		"CLOUD_RAC",
 		"SHARED",
 		"DEDICATED",
+		"CLOUD_AT_CUSTOMER",
 	}
 }
 

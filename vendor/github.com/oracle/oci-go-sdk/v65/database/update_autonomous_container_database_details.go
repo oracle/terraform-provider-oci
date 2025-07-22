@@ -24,6 +24,9 @@ type UpdateAutonomousContainerDatabaseDetails struct {
 	// Customer Contacts. Setting this to an empty list removes all customer contacts.
 	CustomerContacts []CustomerContact `mandatory:"false" json:"customerContacts"`
 
+	// The OKV End Point Group name for the Autonomous Container Database.
+	OkvEndPointGroupName *string `mandatory:"false" json:"okvEndPointGroupName"`
+
 	// Database Patch model preference.
 	PatchModel UpdateAutonomousContainerDatabaseDetailsPatchModelEnum `mandatory:"false" json:"patchModel,omitempty"`
 
