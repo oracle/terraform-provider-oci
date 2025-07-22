@@ -70,6 +70,8 @@ func (s *DatabaseExascaleDbStorageVaultDataSourceCrud) SetData() error {
 		s.D.Set("additional_flash_cache_in_percent", *s.Res.AdditionalFlashCacheInPercent)
 	}
 
+	s.D.Set("attached_shape_attributes", s.Res.AttachedShapeAttributes)
+
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}

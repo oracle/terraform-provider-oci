@@ -125,6 +125,7 @@ var (
 		"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
+
 	dbHomeDatabaseRepresentationSourceVmClusterNew = map[string]interface{}{
 		"admin_password":   acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
 		"character_set":    acctest.Representation{RepType: acctest.Optional, Create: `AL32UTF8`},
@@ -221,6 +222,52 @@ var (
 
 	createManualDbBackup = acctest.GenerateResourceFromRepresentationMap("oci_database_backup", "test_backup_for_db", acctest.Required, acctest.Create,
 		acctest.RepresentationCopyWithNewProperties(backupDatabaseRepresentation, map[string]interface{}{"display_name": acctest.Representation{RepType: acctest.Required, Create: `MonthlyBackup2`}}))
+
+	ExaDbXs19cDbHomeRepresentation = map[string]interface{}{
+		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `DbHome19c`},
+		"db_version":    acctest.Representation{RepType: acctest.Required, Create: `19.0.0.0`},
+		"db_system_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.exadb_vm_cluster_id}`},
+		"database":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ExaDbXs19cDbHomeDatabaseRepresentation},
+		"source":        acctest.Representation{RepType: acctest.Required, Create: `NONE`},
+		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"example-tag-namespace-all.example-tag": "value"}, Update: map[string]string{"example-tag-namespace-all.example-tag": "updatedValue"}},
+		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+	}
+
+	ExaDbXs19cDbHomeDatabaseRepresentation = map[string]interface{}{
+		"character_set":        acctest.Representation{RepType: acctest.Optional, Create: `AL32UTF8`},
+		"db_backup_config":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: DbHomeDisableAutoBackupRepresentation},
+		"admin_password":       acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
+		"db_name":              acctest.Representation{RepType: acctest.Required, Create: `XS19C`},
+		"ncharacter_set":       acctest.Representation{RepType: acctest.Optional, Create: `AL16UTF16`},
+		"storage_size_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseDbHomeDatabaseStorageSizeDetailsRepresentation},
+	}
+
+	DbHomeDisableAutoBackupRepresentation = map[string]interface{}{
+		"auto_backup_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+	}
+
+	DatabaseDbHomeDatabaseStorageSizeDetailsRepresentation = map[string]interface{}{
+		"data_storage_size_in_gb":  acctest.Representation{RepType: acctest.Required, Create: `60`},
+		"reco_storage_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `40`},
+	}
+
+	ExaDbXs19cDbHomeRepresentationDependencies = `
+        variable exadb_vm_cluster_id {}
+
+        data "oci_database_exadb_vm_cluster" "test_exadb_vm_cluster" {
+            exadb_vm_cluster_id = var.exadb_vm_cluster_id
+        }
+    `
+
+	ExaDbXsDbHomeDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"vm_cluster_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.exadb_vm_cluster_id}`},
+		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `DbHome19c`},
+		"state":          acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`}}
+
+	ExaDbXsDbHomeSingularDataSourceRepresentation = map[string]interface{}{
+		"db_home_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_db_home.test_db_home.id}`},
+	}
 
 	DatabaseDbHomeResourceDependencies = DatabaseBackupResourceDbHomeDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Optional, acctest.Create, backupDestinationNFSRepresentation) +
@@ -672,6 +719,99 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 				"db_system_id",
 			},
 			ResourceName: resourceName + "_source_none",
+		},
+	})
+}
+
+// Pre-requisite to run the TestDatabaseDbHomeResource_exadbxs_block_storage_basic:
+//
+//	set env variable TF_VAR_exadb_vm_cluster_id to the ocid of a ExaDB-XS VM Cluster with BLOCK_STORAGE shapeAttribute
+//
+// issue-routing-tag: database/default
+func TestDatabaseDbHomeResource_exadbxs_block_storage_basic(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseDbHomeResource_exadbxs_block_storage_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_database_db_home.test_db_home"
+	datasourceName := "data.oci_database_db_homes.test_db_homes"
+	singularDatasourceName := "data.oci_database_db_home.test_db_home"
+
+	//var resId string
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+ExaDbXs19cDbHomeRepresentationDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", acctest.Optional, acctest.Create, ExaDbXs19cDbHomeRepresentation), "database", "dbHome", t)
+
+	acctest.ResourceTest(t, testAccCheckDatabaseDbHomeDestroy, []resource.TestStep{
+		// verify Create
+		{
+			Config: config + compartmentIdVariableStr + ExaDbXs19cDbHomeRepresentationDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", acctest.Optional, acctest.Create, ExaDbXs19cDbHomeRepresentation),
+
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.character_set", "AL32UTF8"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.auto_backup_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_name", "XS19C"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.ncharacter_set", "AL16UTF16"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.storage_size_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.storage_size_details.0.data_storage_size_in_gb", "60"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.storage_size_details.0.reco_storage_size_in_gbs", "40"),
+				resource.TestCheckResourceAttrSet(resourceName, "vm_cluster_id"),
+				// resource.TestCheckResourceAttr(resourceName, "db_version", "19.0.0.0"), // minor version could be different from the input
+				resource.TestCheckResourceAttr(resourceName, "display_name", "DbHome19c"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "source", "NONE"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+			),
+		},
+		// verify datasource
+		{
+			Config: config + compartmentIdVariableStr + ExaDbXs19cDbHomeRepresentationDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", acctest.Optional, acctest.Create, ExaDbXs19cDbHomeRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_homes", "test_db_homes", acctest.Optional, acctest.Create, ExaDbXsDbHomeDataSourceRepresentation),
+
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "vm_cluster_id"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "DbHome19c"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+
+				resource.TestCheckResourceAttr(datasourceName, "db_homes.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_homes.0.compartment_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_homes.0.vm_cluster_id"),
+				// resource.TestCheckResourceAttr(datasourceName, "db_homes.0.db_version", "19.0.0.0"), // minor version could be different from the input
+				resource.TestCheckResourceAttr(datasourceName, "db_homes.0.display_name", "DbHome19c"),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_homes.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_homes.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_homes.0.time_created"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config + compartmentIdVariableStr + ExaDbXs19cDbHomeRepresentationDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", acctest.Optional, acctest.Create, ExaDbXs19cDbHomeRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_home", "test_db_home", acctest.Required, acctest.Create, ExaDbXsDbHomeSingularDataSourceRepresentation),
+
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_home_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "vm_cluster_id"),
+				// resource.TestCheckResourceAttr(singularDatasourceName, "db_version", "19.0.0.0"), // minor version could be different from the input
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "DbHome19c"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
 		},
 	})
 }

@@ -34,6 +34,10 @@ func DatabaseGiVersionsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"shape_attribute": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"gi_versions": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -94,6 +98,11 @@ func (s *DatabaseGiVersionsDataSourceCrud) Get() error {
 	if shape, ok := s.D.GetOkExists("shape"); ok {
 		tmp := shape.(string)
 		request.Shape = &tmp
+	}
+
+	if shapeAttribute, ok := s.D.GetOkExists("shape_attribute"); ok {
+		tmp := shapeAttribute.(string)
+		request.ShapeAttribute = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
