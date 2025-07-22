@@ -24,6 +24,9 @@ type KnowledgeBaseStatistics struct {
 
 	// Knowledge Base size in bytes.
 	SizeInBytes *int64 `mandatory:"false" json:"sizeInBytes"`
+
+	// Total number of ingested files in Knowledge Base.
+	TotalIngestedFiles *int64 `mandatory:"false" json:"totalIngestedFiles"`
 }
 
 func (m KnowledgeBaseStatistics) String() string {

@@ -23,6 +23,9 @@ type KeyStoreAssociatedDatabaseDetails struct {
 
 	// The name of the database that is associated with the key store.
 	DbName *string `mandatory:"false" json:"dbName"`
+
+	// The unique name of the database that is associated with the key store.
+	DbUniqueName *string `mandatory:"false" json:"dbUniqueName"`
 }
 
 func (m KeyStoreAssociatedDatabaseDetails) String() string {

@@ -39,6 +39,9 @@ type AutonomousContainerDatabase struct {
 	// Customer Contacts. Setting this to an empty list removes all customer contacts.
 	CustomerContacts []CustomerContact `mandatory:"false" json:"customerContacts"`
 
+	// The OKV End Point Group name for the Autonomous Container Database.
+	OkvEndPointGroupName *string `mandatory:"false" json:"okvEndPointGroupName"`
+
 	// **Deprecated.** The `DB_UNIQUE_NAME` value is set by Oracle Cloud Infrastructure.  Do not specify a value for this parameter. Specifying a value for this field will cause Terraform operations to fail.
 	DbUniqueName *string `mandatory:"false" json:"dbUniqueName"`
 

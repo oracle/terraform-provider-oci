@@ -157,6 +157,15 @@ type AutonomousDatabaseSummary struct {
 	// The date and time the Autonomous Database was most recently undeleted.
 	TimeUndeleted *common.SDKTime `mandatory:"false" json:"timeUndeleted"`
 
+	// The earliest(min) date and time the Autonomous Database can be scheduled to upgrade to 23ai.
+	TimeEarliestAvailableDbVersionUpgrade *common.SDKTime `mandatory:"false" json:"timeEarliestAvailableDbVersionUpgrade"`
+
+	// The max date and time the Autonomous Database can be scheduled to upgrade to 23ai.
+	TimeLatestAvailableDbVersionUpgrade *common.SDKTime `mandatory:"false" json:"timeLatestAvailableDbVersionUpgrade"`
+
+	// The date and time the Autonomous Database scheduled to upgrade to 23ai.
+	TimeScheduledDbVersionUpgrade *common.SDKTime `mandatory:"false" json:"timeScheduledDbVersionUpgrade"`
+
 	// The date and time the Autonomous Database was created.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
@@ -590,6 +599,9 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 		AutonomousContainerDatabaseId           *string                                                        `json:"autonomousContainerDatabaseId"`
 		IsBackupRetentionLocked                 *bool                                                          `json:"isBackupRetentionLocked"`
 		TimeUndeleted                           *common.SDKTime                                                `json:"timeUndeleted"`
+		TimeEarliestAvailableDbVersionUpgrade   *common.SDKTime                                                `json:"timeEarliestAvailableDbVersionUpgrade"`
+		TimeLatestAvailableDbVersionUpgrade     *common.SDKTime                                                `json:"timeLatestAvailableDbVersionUpgrade"`
+		TimeScheduledDbVersionUpgrade           *common.SDKTime                                                `json:"timeScheduledDbVersionUpgrade"`
 		TimeCreated                             *common.SDKTime                                                `json:"timeCreated"`
 		DisplayName                             *string                                                        `json:"displayName"`
 		ServiceConsoleUrl                       *string                                                        `json:"serviceConsoleUrl"`
@@ -766,6 +778,12 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 	m.IsBackupRetentionLocked = model.IsBackupRetentionLocked
 
 	m.TimeUndeleted = model.TimeUndeleted
+
+	m.TimeEarliestAvailableDbVersionUpgrade = model.TimeEarliestAvailableDbVersionUpgrade
+
+	m.TimeLatestAvailableDbVersionUpgrade = model.TimeLatestAvailableDbVersionUpgrade
+
+	m.TimeScheduledDbVersionUpgrade = model.TimeScheduledDbVersionUpgrade
 
 	m.TimeCreated = model.TimeCreated
 

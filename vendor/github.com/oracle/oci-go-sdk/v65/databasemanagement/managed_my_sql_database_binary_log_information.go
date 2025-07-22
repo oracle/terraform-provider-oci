@@ -17,19 +17,19 @@ import (
 	"strings"
 )
 
-// ManagedMySqlDatabaseBinaryLogInformation Information pertaining to binary logs of a MySQL server.
+// ManagedMySqlDatabaseBinaryLogInformation Information pertaining to the binary logs of a MySQL server.
 type ManagedMySqlDatabaseBinaryLogInformation struct {
 
-	// Status of binary logging on this server.
+	// The status of binary logging on the MySQL server.
 	BinaryLogging *string `mandatory:"true" json:"binaryLogging"`
 
-	// The binary logging format used by this server.
+	// The binary logging format used by the MySQL server.
 	BinaryLogFormat *string `mandatory:"false" json:"binaryLogFormat"`
 
-	// Indicates whether compression is enabled for transactions written to binary log files on this server.
+	// Indicates whether compression is enabled for transactions written to binary log files on the MySQL server.
 	BinaryLogCompression *string `mandatory:"false" json:"binaryLogCompression"`
 
-	// The compression ratio for binary log expressed as a percentage.
+	// The compression ratio for the binary log, expressed as a percentage.
 	BinaryLogCompressionPercent *int `mandatory:"false" json:"binaryLogCompressionPercent"`
 
 	// The name of the binary log file.

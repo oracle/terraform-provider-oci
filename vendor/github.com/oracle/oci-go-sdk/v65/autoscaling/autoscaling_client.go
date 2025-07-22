@@ -4,11 +4,9 @@
 
 // Autoscaling API
 //
-// APIs for dynamically scaling Compute resources to meet application requirements. For more information about
+// Use the Autoscaling API to dynamically scale compute resources to meet application requirements. For more information about
 // autoscaling, see Autoscaling (https://docs.oracle.com/iaas/Content/Compute/Tasks/autoscalinginstancepools.htm). For information about the
-// Compute service, see Overview of the Compute Service (https://docs.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm).
-// **Note:** Autoscaling is not available in US Government Cloud tenancies. For more information, see
-// Oracle Cloud Infrastructure US Government Cloud (https://docs.oracle.com/iaas/Content/General/Concepts/govoverview.htm).
+// Compute service, see Compute (https://docs.oracle.com/iaas/Content/Compute/home.htm).
 //
 
 package autoscaling
@@ -104,9 +102,10 @@ func (client *AutoScalingClient) ConfigurationProvider() *common.ConfigurationPr
 // # See also
 //
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/autoscaling/ChangeAutoScalingConfigurationCompartment.go.html to see an example of how to use ChangeAutoScalingConfigurationCompartment API.
+// A default retry strategy applies to this operation ChangeAutoScalingConfigurationCompartment()
 func (client AutoScalingClient) ChangeAutoScalingConfigurationCompartment(ctx context.Context, request ChangeAutoScalingConfigurationCompartmentRequest) (response ChangeAutoScalingConfigurationCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -166,9 +165,10 @@ func (client AutoScalingClient) changeAutoScalingConfigurationCompartment(ctx co
 // # See also
 //
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/autoscaling/CreateAutoScalingConfiguration.go.html to see an example of how to use CreateAutoScalingConfiguration API.
+// A default retry strategy applies to this operation CreateAutoScalingConfiguration()
 func (client AutoScalingClient) CreateAutoScalingConfiguration(ctx context.Context, request CreateAutoScalingConfigurationRequest) (response CreateAutoScalingConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -233,9 +233,10 @@ func (client AutoScalingClient) createAutoScalingConfiguration(ctx context.Conte
 // # See also
 //
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/autoscaling/CreateAutoScalingPolicy.go.html to see an example of how to use CreateAutoScalingPolicy API.
+// A default retry strategy applies to this operation CreateAutoScalingPolicy()
 func (client AutoScalingClient) CreateAutoScalingPolicy(ctx context.Context, request CreateAutoScalingPolicyRequest) (response CreateAutoScalingPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -295,9 +296,10 @@ func (client AutoScalingClient) createAutoScalingPolicy(ctx context.Context, req
 // # See also
 //
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/autoscaling/DeleteAutoScalingConfiguration.go.html to see an example of how to use DeleteAutoScalingConfiguration API.
+// A default retry strategy applies to this operation DeleteAutoScalingConfiguration()
 func (client AutoScalingClient) DeleteAutoScalingConfiguration(ctx context.Context, request DeleteAutoScalingConfigurationRequest) (response DeleteAutoScalingConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -352,9 +354,10 @@ func (client AutoScalingClient) deleteAutoScalingConfiguration(ctx context.Conte
 // # See also
 //
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/autoscaling/DeleteAutoScalingPolicy.go.html to see an example of how to use DeleteAutoScalingPolicy API.
+// A default retry strategy applies to this operation DeleteAutoScalingPolicy()
 func (client AutoScalingClient) DeleteAutoScalingPolicy(ctx context.Context, request DeleteAutoScalingPolicyRequest) (response DeleteAutoScalingPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -409,9 +412,10 @@ func (client AutoScalingClient) deleteAutoScalingPolicy(ctx context.Context, req
 // # See also
 //
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/autoscaling/GetAutoScalingConfiguration.go.html to see an example of how to use GetAutoScalingConfiguration API.
+// A default retry strategy applies to this operation GetAutoScalingConfiguration()
 func (client AutoScalingClient) GetAutoScalingConfiguration(ctx context.Context, request GetAutoScalingConfigurationRequest) (response GetAutoScalingConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -466,9 +470,10 @@ func (client AutoScalingClient) getAutoScalingConfiguration(ctx context.Context,
 // # See also
 //
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/autoscaling/GetAutoScalingPolicy.go.html to see an example of how to use GetAutoScalingPolicy API.
+// A default retry strategy applies to this operation GetAutoScalingPolicy()
 func (client AutoScalingClient) GetAutoScalingPolicy(ctx context.Context, request GetAutoScalingPolicyRequest) (response GetAutoScalingPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -523,9 +528,10 @@ func (client AutoScalingClient) getAutoScalingPolicy(ctx context.Context, reques
 // # See also
 //
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/autoscaling/ListAutoScalingConfigurations.go.html to see an example of how to use ListAutoScalingConfigurations API.
+// A default retry strategy applies to this operation ListAutoScalingConfigurations()
 func (client AutoScalingClient) ListAutoScalingConfigurations(ctx context.Context, request ListAutoScalingConfigurationsRequest) (response ListAutoScalingConfigurationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -580,9 +586,10 @@ func (client AutoScalingClient) listAutoScalingConfigurations(ctx context.Contex
 // # See also
 //
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/autoscaling/ListAutoScalingPolicies.go.html to see an example of how to use ListAutoScalingPolicies API.
+// A default retry strategy applies to this operation ListAutoScalingPolicies()
 func (client AutoScalingClient) ListAutoScalingPolicies(ctx context.Context, request ListAutoScalingPoliciesRequest) (response ListAutoScalingPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -638,9 +645,10 @@ func (client AutoScalingClient) listAutoScalingPolicies(ctx context.Context, req
 // # See also
 //
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/autoscaling/UpdateAutoScalingConfiguration.go.html to see an example of how to use UpdateAutoScalingConfiguration API.
+// A default retry strategy applies to this operation UpdateAutoScalingConfiguration()
 func (client AutoScalingClient) UpdateAutoScalingConfiguration(ctx context.Context, request UpdateAutoScalingConfigurationRequest) (response UpdateAutoScalingConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -700,9 +708,10 @@ func (client AutoScalingClient) updateAutoScalingConfiguration(ctx context.Conte
 // # See also
 //
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/autoscaling/UpdateAutoScalingPolicy.go.html to see an example of how to use UpdateAutoScalingPolicy API.
+// A default retry strategy applies to this operation UpdateAutoScalingPolicy()
 func (client AutoScalingClient) UpdateAutoScalingPolicy(ctx context.Context, request UpdateAutoScalingPolicyRequest) (response UpdateAutoScalingPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

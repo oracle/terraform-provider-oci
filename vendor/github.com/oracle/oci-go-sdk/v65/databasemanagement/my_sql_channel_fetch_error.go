@@ -17,11 +17,11 @@ import (
 	"strings"
 )
 
-// MySqlChannelFetchError MySQL server replication Channel name and error from its fetch operation.
+// MySqlChannelFetchError MySQL server replication channel name and error from its fetch operation.
 type MySqlChannelFetchError struct {
 	FetchError *MySqlFetchError `mandatory:"true" json:"fetchError"`
 
-	// The name of the replication channel
+	// The name of the replication channel.
 	ChannelName *string `mandatory:"false" json:"channelName"`
 }
 

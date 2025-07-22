@@ -28,6 +28,9 @@ type CreateAutonomousContainerDatabaseFromBackupDetails struct {
 	// Customer Contacts. Setting this to an empty list removes all customer contacts.
 	CustomerContacts []CustomerContact `mandatory:"false" json:"customerContacts"`
 
+	// The OKV End Point Group name for the Autonomous Container Database.
+	OkvEndPointGroupName *string `mandatory:"false" json:"okvEndPointGroupName"`
+
 	// **Deprecated.** The `DB_UNIQUE_NAME` value is set by Oracle Cloud Infrastructure.  Do not specify a value for this parameter. Specifying a value for this field will cause Terraform operations to fail.
 	DbUniqueName *string `mandatory:"false" json:"dbUniqueName"`
 
@@ -141,6 +144,11 @@ type CreateAutonomousContainerDatabaseFromBackupDetails struct {
 // GetCustomerContacts returns CustomerContacts
 func (m CreateAutonomousContainerDatabaseFromBackupDetails) GetCustomerContacts() []CustomerContact {
 	return m.CustomerContacts
+}
+
+// GetOkvEndPointGroupName returns OkvEndPointGroupName
+func (m CreateAutonomousContainerDatabaseFromBackupDetails) GetOkvEndPointGroupName() *string {
+	return m.OkvEndPointGroupName
 }
 
 // GetDisplayName returns DisplayName

@@ -157,7 +157,7 @@ func (client ManagedMySqlDatabasesClient) changeMysqlDatabaseManagementType(ctx 
 	return response, err
 }
 
-// GetBinaryLogInformation Retrieves information pertaining to binary log of a specific MySQL server.
+// GetBinaryLogInformation Retrieves information pertaining to the binary log of a specific MySQL server.
 //
 // # See also
 //
@@ -215,7 +215,7 @@ func (client ManagedMySqlDatabasesClient) getBinaryLogInformation(ctx context.Co
 	return response, err
 }
 
-// GetGeneralReplicationInformation Retrieves general information regarding replication of a specific MySQL server.
+// GetGeneralReplicationInformation Retrieves general information regarding the replication of a specific MySQL server.
 //
 // # See also
 //
@@ -502,7 +502,7 @@ func (client ManagedMySqlDatabasesClient) getMySqlQueryDetails(ctx context.Conte
 	return response, err
 }
 
-// ListHighAvailabilityMembers Information about high availability members of a specific MySQL server's replication group.
+// ListHighAvailabilityMembers Retrieves information about the high availability members of a specific MySQL server's replication group.
 //
 // # See also
 //
@@ -849,7 +849,7 @@ func (client ManagedMySqlDatabasesClient) listMySqlDigestErrors(ctx context.Cont
 	return response, err
 }
 
-// ListOutboundReplications Retrieves information pertaining to outbound replications of a specific MySQL server.
+// ListOutboundReplications Retrieves information pertaining to the outbound replications of a specific MySQL server.
 //
 // # See also
 //

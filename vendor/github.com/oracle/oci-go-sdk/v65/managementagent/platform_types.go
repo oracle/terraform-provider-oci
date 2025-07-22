@@ -23,6 +23,7 @@ const (
 	PlatformTypesWindows PlatformTypesEnum = "WINDOWS"
 	PlatformTypesSolaris PlatformTypesEnum = "SOLARIS"
 	PlatformTypesMacosx  PlatformTypesEnum = "MACOSX"
+	PlatformTypesAix     PlatformTypesEnum = "AIX"
 )
 
 var mappingPlatformTypesEnum = map[string]PlatformTypesEnum{
@@ -30,6 +31,7 @@ var mappingPlatformTypesEnum = map[string]PlatformTypesEnum{
 	"WINDOWS": PlatformTypesWindows,
 	"SOLARIS": PlatformTypesSolaris,
 	"MACOSX":  PlatformTypesMacosx,
+	"AIX":     PlatformTypesAix,
 }
 
 var mappingPlatformTypesEnumLowerCase = map[string]PlatformTypesEnum{
@@ -37,6 +39,7 @@ var mappingPlatformTypesEnumLowerCase = map[string]PlatformTypesEnum{
 	"windows": PlatformTypesWindows,
 	"solaris": PlatformTypesSolaris,
 	"macosx":  PlatformTypesMacosx,
+	"aix":     PlatformTypesAix,
 }
 
 // GetPlatformTypesEnumValues Enumerates the set of values for PlatformTypesEnum
@@ -55,6 +58,7 @@ func GetPlatformTypesEnumStringValues() []string {
 		"WINDOWS",
 		"SOLARIS",
 		"MACOSX",
+		"AIX",
 	}
 }
 
