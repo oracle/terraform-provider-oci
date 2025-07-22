@@ -237,6 +237,8 @@ func (s *DatabaseExadbVmClustersDataSourceCrud) SetData() error {
 			exadbVmCluster["shape"] = *r.Shape
 		}
 
+		exadbVmCluster["shape_attribute"] = r.ShapeAttribute
+
 		exadbVmCluster["ssh_public_keys"] = r.SshPublicKeys
 
 		exadbVmCluster["state"] = r.LifecycleState
