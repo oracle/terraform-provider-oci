@@ -205,7 +205,7 @@ func (s *DnsZonesDataSourceCrud) Get() error {
 		}
 
 		s.Res.Items = append(s.Res.Items, listResponse.Items...)
-		request.Page = s.Res.OpcNextPage
+		request.Page = listResponse.OpcNextPage
 
 		for request.Page != nil {
 			listResponse, err = s.Client.ListZones(context.Background(), request)
