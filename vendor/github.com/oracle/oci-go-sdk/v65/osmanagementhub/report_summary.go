@@ -53,27 +53,30 @@ type ReportSummary interface {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	GetDefinedTags() map[string]map[string]interface{}
 
+	// System tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	GetSystemTags() map[string]map[string]interface{}
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the tenancy that the managed instance resides in.
 	GetTenancyId() *string
 
 	// User-specified description for the Osmh Report.
 	GetDescription() *string
 
+	// List of operating system types.
+	GetOsFamilies() []OsFamilyEnum
+
 	// A message that describes the current state of the Osmh Report in more detail. For example,
 	// can be used to provide actionable information for a resource in the Failed state.
 	GetLifecycleDetails() *string
-
-	// System tags for this resource. Each key is predefined and scoped to a namespace.
-	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
-	GetSystemTags() map[string]map[string]interface{}
 }
 
 type reportsummary struct {
 	JsonData         []byte
 	TenancyId        *string                           `mandatory:"false" json:"tenancyId"`
 	Description      *string                           `mandatory:"false" json:"description"`
+	OsFamilies       []OsFamilyEnum                    `mandatory:"false" json:"osFamilies,omitempty"`
 	LifecycleDetails *string                           `mandatory:"false" json:"lifecycleDetails"`
-	SystemTags       map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 	Id               *string                           `mandatory:"true" json:"id"`
 	DisplayName      *string                           `mandatory:"true" json:"displayName"`
 	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
@@ -83,6 +86,7 @@ type reportsummary struct {
 	LifecycleState   ReportLifecycleStateEnum          `mandatory:"true" json:"lifecycleState"`
 	FreeformTags     map[string]string                 `mandatory:"true" json:"freeformTags"`
 	DefinedTags      map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
+	SystemTags       map[string]map[string]interface{} `mandatory:"true" json:"systemTags"`
 	ReportType       string                            `json:"reportType"`
 }
 
@@ -106,10 +110,11 @@ func (m *reportsummary) UnmarshalJSON(data []byte) error {
 	m.LifecycleState = s.Model.LifecycleState
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
+	m.SystemTags = s.Model.SystemTags
 	m.TenancyId = s.Model.TenancyId
 	m.Description = s.Model.Description
+	m.OsFamilies = s.Model.OsFamilies
 	m.LifecycleDetails = s.Model.LifecycleDetails
-	m.SystemTags = s.Model.SystemTags
 	m.ReportType = s.Model.ReportType
 
 	return err
@@ -148,14 +153,14 @@ func (m reportsummary) GetDescription() *string {
 	return m.Description
 }
 
+// GetOsFamilies returns OsFamilies
+func (m reportsummary) GetOsFamilies() []OsFamilyEnum {
+	return m.OsFamilies
+}
+
 // GetLifecycleDetails returns LifecycleDetails
 func (m reportsummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
-}
-
-// GetSystemTags returns SystemTags
-func (m reportsummary) GetSystemTags() map[string]map[string]interface{} {
-	return m.SystemTags
 }
 
 // GetId returns Id
@@ -203,6 +208,11 @@ func (m reportsummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
+// GetSystemTags returns SystemTags
+func (m reportsummary) GetSystemTags() map[string]map[string]interface{} {
+	return m.SystemTags
+}
+
 func (m reportsummary) String() string {
 	return common.PointerString(m)
 }
@@ -214,6 +224,12 @@ func (m reportsummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingReportLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetReportLifecycleStateEnumStringValues(), ",")))
+	}
+
+	for _, val := range m.OsFamilies {
+		if _, ok := GetMappingOsFamilyEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsFamilies: %s. Supported values are: %s.", val, strings.Join(GetOsFamilyEnumStringValues(), ",")))
+		}
 	}
 
 	if len(errMessage) > 0 {

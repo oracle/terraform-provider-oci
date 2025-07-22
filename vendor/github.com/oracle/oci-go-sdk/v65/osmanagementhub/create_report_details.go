@@ -20,14 +20,20 @@ import (
 // CreateReportDetails The data to create a Osmh Report.
 type CreateReportDetails interface {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to create the OsmhReporting in.
-	GetCompartmentId() *string
-
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	GetDisplayName() *string
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to create the OsmhReporting in.
+	GetCompartmentId() *string
+
 	// User-specified description for the Osmh Report.
 	GetDescription() *string
+
+	// List of operating system types.
+	GetOsFamilies() []OsFamilyEnum
+
+	// The compartment ids.
+	GetCompartmentIds() []string
 
 	// Indicates if sub-compartments are included in the report.
 	GetIsSubCompartmentIncluded() *bool
@@ -45,11 +51,13 @@ type CreateReportDetails interface {
 
 type createreportdetails struct {
 	JsonData                 []byte
-	DisplayName              *string                           `mandatory:"false" json:"displayName"`
 	Description              *string                           `mandatory:"false" json:"description"`
+	OsFamilies               []OsFamilyEnum                    `mandatory:"false" json:"osFamilies,omitempty"`
+	CompartmentIds           []string                          `mandatory:"false" json:"compartmentIds"`
 	IsSubCompartmentIncluded *bool                             `mandatory:"false" json:"isSubCompartmentIncluded"`
 	FreeformTags             map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags              map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	DisplayName              *string                           `mandatory:"true" json:"displayName"`
 	CompartmentId            *string                           `mandatory:"true" json:"compartmentId"`
 	ReportType               string                            `json:"reportType"`
 }
@@ -65,9 +73,11 @@ func (m *createreportdetails) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
-	m.CompartmentId = s.Model.CompartmentId
 	m.DisplayName = s.Model.DisplayName
+	m.CompartmentId = s.Model.CompartmentId
 	m.Description = s.Model.Description
+	m.OsFamilies = s.Model.OsFamilies
+	m.CompartmentIds = s.Model.CompartmentIds
 	m.IsSubCompartmentIncluded = s.Model.IsSubCompartmentIncluded
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
@@ -99,14 +109,19 @@ func (m *createreportdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}
 	}
 }
 
-// GetDisplayName returns DisplayName
-func (m createreportdetails) GetDisplayName() *string {
-	return m.DisplayName
-}
-
 // GetDescription returns Description
 func (m createreportdetails) GetDescription() *string {
 	return m.Description
+}
+
+// GetOsFamilies returns OsFamilies
+func (m createreportdetails) GetOsFamilies() []OsFamilyEnum {
+	return m.OsFamilies
+}
+
+// GetCompartmentIds returns CompartmentIds
+func (m createreportdetails) GetCompartmentIds() []string {
+	return m.CompartmentIds
 }
 
 // GetIsSubCompartmentIncluded returns IsSubCompartmentIncluded
@@ -124,6 +139,11 @@ func (m createreportdetails) GetDefinedTags() map[string]map[string]interface{} 
 	return m.DefinedTags
 }
 
+// GetDisplayName returns DisplayName
+func (m createreportdetails) GetDisplayName() *string {
+	return m.DisplayName
+}
+
 // GetCompartmentId returns CompartmentId
 func (m createreportdetails) GetCompartmentId() *string {
 	return m.CompartmentId
@@ -138,6 +158,12 @@ func (m createreportdetails) String() string {
 // Not recommended for calling this function directly
 func (m createreportdetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+
+	for _, val := range m.OsFamilies {
+		if _, ok := GetMappingOsFamilyEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsFamilies: %s. Supported values are: %s.", val, strings.Join(GetOsFamilyEnumStringValues(), ",")))
+		}
+	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

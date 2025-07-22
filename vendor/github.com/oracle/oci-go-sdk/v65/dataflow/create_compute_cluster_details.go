@@ -119,6 +119,12 @@ type CreateComputeClusterDetails struct {
 	// Tag slug from user tenancy passed from Datalake as Base64.getEncoder().encodeToString(data)
 	UserTenancyTagSlug *string `mandatory:"false" json:"userTenancyTagSlug"`
 
+	// The delegation token type.
+	DelegationTokenType DelegationTokenTypeEnum `mandatory:"false" json:"delegationTokenType,omitempty"`
+
+	// The tenant ID of owner service principal.
+	OwnerServicePrincipalTenantId *string `mandatory:"false" json:"ownerServicePrincipalTenantId"`
+
 	Subscription []SubscriptionDetails `mandatory:"false" json:"subscription"`
 }
 
@@ -132,6 +138,9 @@ func (m CreateComputeClusterDetails) String() string {
 func (m CreateComputeClusterDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingDelegationTokenTypeEnum(string(m.DelegationTokenType)); !ok && m.DelegationTokenType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DelegationTokenType: %s. Supported values are: %s.", m.DelegationTokenType, strings.Join(GetDelegationTokenTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

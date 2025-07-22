@@ -20,17 +20,20 @@ import (
 // CreateCveReportDetails An object that provides data to create a CVE report.
 type CreateCveReportDetails struct {
 
+	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	DisplayName *string `mandatory:"true" json:"displayName"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to create the OsmhReporting in.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The list of cve names.
 	Cves []string `mandatory:"true" json:"cves"`
 
-	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
-	DisplayName *string `mandatory:"false" json:"displayName"`
-
 	// User-specified description for the Osmh Report.
 	Description *string `mandatory:"false" json:"description"`
+
+	// The compartment ids.
+	CompartmentIds []string `mandatory:"false" json:"compartmentIds"`
 
 	// Indicates if sub-compartments are included in the report.
 	IsSubCompartmentIncluded *bool `mandatory:"false" json:"isSubCompartmentIncluded"`
@@ -44,6 +47,9 @@ type CreateCveReportDetails struct {
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// List of operating system types.
+	OsFamilies []OsFamilyEnum `mandatory:"false" json:"osFamilies,omitempty"`
 }
 
 // GetDisplayName returns DisplayName
@@ -59,6 +65,16 @@ func (m CreateCveReportDetails) GetDescription() *string {
 // GetCompartmentId returns CompartmentId
 func (m CreateCveReportDetails) GetCompartmentId() *string {
 	return m.CompartmentId
+}
+
+// GetOsFamilies returns OsFamilies
+func (m CreateCveReportDetails) GetOsFamilies() []OsFamilyEnum {
+	return m.OsFamilies
+}
+
+// GetCompartmentIds returns CompartmentIds
+func (m CreateCveReportDetails) GetCompartmentIds() []string {
+	return m.CompartmentIds
 }
 
 // GetIsSubCompartmentIncluded returns IsSubCompartmentIncluded
@@ -85,6 +101,12 @@ func (m CreateCveReportDetails) String() string {
 // Not recommended for calling this function directly
 func (m CreateCveReportDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+
+	for _, val := range m.OsFamilies {
+		if _, ok := GetMappingOsFamilyEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsFamilies: %s. Supported values are: %s.", val, strings.Join(GetOsFamilyEnumStringValues(), ",")))
+		}
+	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

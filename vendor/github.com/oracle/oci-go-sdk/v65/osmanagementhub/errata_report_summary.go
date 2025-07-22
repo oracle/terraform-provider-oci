@@ -50,6 +50,10 @@ type ErrataReportSummary struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
 
+	// System tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"true" json:"systemTags"`
+
 	// The start issue date to filter by
 	TimeStartIssueDate *common.SDKTime `mandatory:"true" json:"timeStartIssueDate"`
 
@@ -66,12 +70,11 @@ type ErrataReportSummary struct {
 	// can be used to provide actionable information for a resource in the Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// System tags for this resource. Each key is predefined and scoped to a namespace.
-	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
-	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
-
 	// The current state of the Osmh Report.
 	LifecycleState ReportLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+
+	// List of operating system types.
+	OsFamilies []OsFamilyEnum `mandatory:"false" json:"osFamilies,omitempty"`
 
 	// List of operating system vendors.
 	Vendors []VendorNameEnum `mandatory:"false" json:"vendors,omitempty"`
@@ -123,6 +126,11 @@ func (m ErrataReportSummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
+// GetOsFamilies returns OsFamilies
+func (m ErrataReportSummary) GetOsFamilies() []OsFamilyEnum {
+	return m.OsFamilies
+}
+
 // GetLifecycleState returns LifecycleState
 func (m ErrataReportSummary) GetLifecycleState() ReportLifecycleStateEnum {
 	return m.LifecycleState
@@ -161,6 +169,12 @@ func (m ErrataReportSummary) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingReportLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetReportLifecycleStateEnumStringValues(), ",")))
 	}
+	for _, val := range m.OsFamilies {
+		if _, ok := GetMappingOsFamilyEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsFamilies: %s. Supported values are: %s.", val, strings.Join(GetOsFamilyEnumStringValues(), ",")))
+		}
+	}
+
 	for _, val := range m.Vendors {
 		if _, ok := GetMappingVendorNameEnum(string(val)); !ok && val != "" {
 			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Vendors: %s. Supported values are: %s.", val, strings.Join(GetVendorNameEnumStringValues(), ",")))

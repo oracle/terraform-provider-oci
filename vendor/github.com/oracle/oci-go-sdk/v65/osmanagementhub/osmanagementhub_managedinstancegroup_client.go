@@ -790,65 +790,6 @@ func (client ManagedInstanceGroupClient) installPackagesOnManagedInstanceGroup(c
 	return response, err
 }
 
-// InstallSnapsOnManagedInstanceGroup Installs Snaps on each managed instance in the managed instance group.
-// A default retry strategy applies to this operation InstallSnapsOnManagedInstanceGroup()
-func (client ManagedInstanceGroupClient) InstallSnapsOnManagedInstanceGroup(ctx context.Context, request InstallSnapsOnManagedInstanceGroupRequest) (response InstallSnapsOnManagedInstanceGroupResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.installSnapsOnManagedInstanceGroup, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = InstallSnapsOnManagedInstanceGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = InstallSnapsOnManagedInstanceGroupResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(InstallSnapsOnManagedInstanceGroupResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into InstallSnapsOnManagedInstanceGroupResponse")
-	}
-	return
-}
-
-// installSnapsOnManagedInstanceGroup implements the OCIOperation interface (enables retrying operations)
-func (client ManagedInstanceGroupClient) installSnapsOnManagedInstanceGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstanceGroups/{managedInstanceGroupId}/actions/installSnaps", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response InstallSnapsOnManagedInstanceGroupResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/InstallSnapsOnManagedInstanceGroup"
-		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "InstallSnapsOnManagedInstanceGroup", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // InstallWindowsUpdatesOnManagedInstanceGroup Installs Windows updates on each managed instance in the managed instance group.
 // A default retry strategy applies to this operation InstallWindowsUpdatesOnManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) InstallWindowsUpdatesOnManagedInstanceGroup(ctx context.Context, request InstallWindowsUpdatesOnManagedInstanceGroupRequest) (response InstallWindowsUpdatesOnManagedInstanceGroupResponse, err error) {
@@ -1601,9 +1542,9 @@ func (client ManagedInstanceGroupClient) removePackagesFromManagedInstanceGroup(
 	return response, err
 }
 
-// RemoveSnapsFromManagedInstanceGroup Removes Snaps on each managed instance in the managed instance group.
-// A default retry strategy applies to this operation RemoveSnapsFromManagedInstanceGroup()
-func (client ManagedInstanceGroupClient) RemoveSnapsFromManagedInstanceGroup(ctx context.Context, request RemoveSnapsFromManagedInstanceGroupRequest) (response RemoveSnapsFromManagedInstanceGroupResponse, err error) {
+// StageUpdateOnManagedInstanceGroup Download updates on each managed instance of a managed instance group.
+// A default retry strategy applies to this operation StageUpdateOnManagedInstanceGroup()
+func (client ManagedInstanceGroupClient) StageUpdateOnManagedInstanceGroup(ctx context.Context, request StageUpdateOnManagedInstanceGroupRequest) (response StageUpdateOnManagedInstanceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
@@ -1617,42 +1558,101 @@ func (client ManagedInstanceGroupClient) RemoveSnapsFromManagedInstanceGroup(ctx
 		request.OpcRetryToken = common.String(common.RetryToken())
 	}
 
-	ociResponse, err = common.Retry(ctx, request, client.removeSnapsFromManagedInstanceGroup, policy)
+	ociResponse, err = common.Retry(ctx, request, client.stageUpdateOnManagedInstanceGroup, policy)
 	if err != nil {
 		if ociResponse != nil {
 			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
 				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = RemoveSnapsFromManagedInstanceGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+				response = StageUpdateOnManagedInstanceGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
 			} else {
-				response = RemoveSnapsFromManagedInstanceGroupResponse{}
+				response = StageUpdateOnManagedInstanceGroupResponse{}
 			}
 		}
 		return
 	}
-	if convertedResponse, ok := ociResponse.(RemoveSnapsFromManagedInstanceGroupResponse); ok {
+	if convertedResponse, ok := ociResponse.(StageUpdateOnManagedInstanceGroupResponse); ok {
 		response = convertedResponse
 	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into RemoveSnapsFromManagedInstanceGroupResponse")
+		err = fmt.Errorf("failed to convert OCIResponse into StageUpdateOnManagedInstanceGroupResponse")
 	}
 	return
 }
 
-// removeSnapsFromManagedInstanceGroup implements the OCIOperation interface (enables retrying operations)
-func (client ManagedInstanceGroupClient) removeSnapsFromManagedInstanceGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+// stageUpdateOnManagedInstanceGroup implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceGroupClient) stageUpdateOnManagedInstanceGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstanceGroups/{managedInstanceGroupId}/actions/removeSnaps", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstanceGroups/{managedInstanceGroupId}/actions/stageUpdate", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
 
-	var response RemoveSnapsFromManagedInstanceGroupResponse
+	var response StageUpdateOnManagedInstanceGroupResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/RemoveSnapsFromManagedInstanceGroup"
-		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "RemoveSnapsFromManagedInstanceGroup", apiReferenceLink)
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/StageUpdateOnManagedInstanceGroup"
+		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "StageUpdateOnManagedInstanceGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// StageWindowsUpdatesOnManagedInstanceGroup Downloads Windows updates on each managed instance of a managed instance group.
+// A default retry strategy applies to this operation StageWindowsUpdatesOnManagedInstanceGroup()
+func (client ManagedInstanceGroupClient) StageWindowsUpdatesOnManagedInstanceGroup(ctx context.Context, request StageWindowsUpdatesOnManagedInstanceGroupRequest) (response StageWindowsUpdatesOnManagedInstanceGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.stageWindowsUpdatesOnManagedInstanceGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = StageWindowsUpdatesOnManagedInstanceGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = StageWindowsUpdatesOnManagedInstanceGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(StageWindowsUpdatesOnManagedInstanceGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into StageWindowsUpdatesOnManagedInstanceGroupResponse")
+	}
+	return
+}
+
+// stageWindowsUpdatesOnManagedInstanceGroup implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceGroupClient) stageWindowsUpdatesOnManagedInstanceGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstanceGroups/{managedInstanceGroupId}/actions/stageWindowsUpdates", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response StageWindowsUpdatesOnManagedInstanceGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/StageWindowsUpdatesOnManagedInstanceGroup"
+		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "StageWindowsUpdatesOnManagedInstanceGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -1715,65 +1715,6 @@ func (client ManagedInstanceGroupClient) switchModuleStreamOnManagedInstanceGrou
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/SwitchModuleStreamOnManagedInstanceGroup"
 		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "SwitchModuleStreamOnManagedInstanceGroup", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// SwitchSnapChannelOnManagedInstanceGroup Switches a Snap channel on each managed instance in the managed instance group.
-// A default retry strategy applies to this operation SwitchSnapChannelOnManagedInstanceGroup()
-func (client ManagedInstanceGroupClient) SwitchSnapChannelOnManagedInstanceGroup(ctx context.Context, request SwitchSnapChannelOnManagedInstanceGroupRequest) (response SwitchSnapChannelOnManagedInstanceGroupResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.switchSnapChannelOnManagedInstanceGroup, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = SwitchSnapChannelOnManagedInstanceGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = SwitchSnapChannelOnManagedInstanceGroupResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(SwitchSnapChannelOnManagedInstanceGroupResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into SwitchSnapChannelOnManagedInstanceGroupResponse")
-	}
-	return
-}
-
-// switchSnapChannelOnManagedInstanceGroup implements the OCIOperation interface (enables retrying operations)
-func (client ManagedInstanceGroupClient) switchSnapChannelOnManagedInstanceGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstanceGroups/{managedInstanceGroupId}/actions/switchSnapChannel", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response SwitchSnapChannelOnManagedInstanceGroupResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/SwitchSnapChannelOnManagedInstanceGroup"
-		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "SwitchSnapChannelOnManagedInstanceGroup", apiReferenceLink)
 		return response, err
 	}
 

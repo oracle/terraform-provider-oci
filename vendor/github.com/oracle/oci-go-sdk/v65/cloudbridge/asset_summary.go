@@ -71,6 +71,9 @@ type AssetSummary struct {
 
 	// The version of the asset class.
 	AssetClassVersion *string `mandatory:"false" json:"assetClassVersion"`
+
+	// Specifies if this is the Source or Destination point for migration - different assets may be discovered depending on setting.
+	EnvironmentType EnvironmentTypeEnum `mandatory:"false" json:"environmentType,omitempty"`
 }
 
 func (m AssetSummary) String() string {
@@ -89,6 +92,9 @@ func (m AssetSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAssetLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingEnvironmentTypeEnum(string(m.EnvironmentType)); !ok && m.EnvironmentType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EnvironmentType: %s. Supported values are: %s.", m.EnvironmentType, strings.Join(GetEnvironmentTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

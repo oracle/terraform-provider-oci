@@ -20,14 +20,11 @@ import (
 type LiveKitWebrtcSourceDetails struct {
 	StreamNetworkAccessDetails StreamNetworkAccessDetails `mandatory:"true" json:"streamNetworkAccessDetails"`
 
-	// peer id of device
-	PeerId *string `mandatory:"true" json:"peerId"`
+	// peer name of device
+	PeerName *string `mandatory:"true" json:"peerName"`
 
 	// Url for room
 	RoomUrl *string `mandatory:"true" json:"roomUrl"`
-
-	// name of the room
-	RoomName *string `mandatory:"true" json:"roomName"`
 
 	// User generated auth token to access the stream
 	Token *string `mandatory:"false" json:"token"`
@@ -73,9 +70,8 @@ func (m *LiveKitWebrtcSourceDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		Token                      *string                    `json:"token"`
 		StreamNetworkAccessDetails streamnetworkaccessdetails `json:"streamNetworkAccessDetails"`
-		PeerId                     *string                    `json:"peerId"`
+		PeerName                   *string                    `json:"peerName"`
 		RoomUrl                    *string                    `json:"roomUrl"`
-		RoomName                   *string                    `json:"roomName"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -95,11 +91,9 @@ func (m *LiveKitWebrtcSourceDetails) UnmarshalJSON(data []byte) (e error) {
 		m.StreamNetworkAccessDetails = nil
 	}
 
-	m.PeerId = model.PeerId
+	m.PeerName = model.PeerName
 
 	m.RoomUrl = model.RoomUrl
-
-	m.RoomName = model.RoomName
 
 	return
 }

@@ -53,11 +53,18 @@ type ReportVersion interface {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	GetDefinedTags() map[string]map[string]interface{}
 
+	// System tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	GetSystemTags() map[string]map[string]interface{}
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the tenancy that the managed instance resides in.
 	GetTenancyId() *string
 
 	// User-specified description for the Osmh Report.
 	GetDescription() *string
+
+	// The compartment ids.
+	GetCompartmentIds() []string
 
 	// Indicates if sub-compartments are included in the report.
 	GetIsSubCompartmentIncluded() *bool
@@ -71,21 +78,17 @@ type ReportVersion interface {
 	// A message that describes the current state of the OsmhReporting in more detail. For example,
 	// can be used to provide actionable information for a resource in the Failed state.
 	GetLifecycleDetails() *string
-
-	// System tags for this resource. Each key is predefined and scoped to a namespace.
-	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
-	GetSystemTags() map[string]map[string]interface{}
 }
 
 type reportversion struct {
 	JsonData                 []byte
 	TenancyId                *string                           `mandatory:"false" json:"tenancyId"`
 	Description              *string                           `mandatory:"false" json:"description"`
+	CompartmentIds           []string                          `mandatory:"false" json:"compartmentIds"`
 	IsSubCompartmentIncluded *bool                             `mandatory:"false" json:"isSubCompartmentIncluded"`
 	OsFamilies               []OsFamilyEnum                    `mandatory:"false" json:"osFamilies,omitempty"`
 	ReportContent            *string                           `mandatory:"false" json:"reportContent"`
 	LifecycleDetails         *string                           `mandatory:"false" json:"lifecycleDetails"`
-	SystemTags               map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 	Id                       *string                           `mandatory:"true" json:"id"`
 	DisplayName              *string                           `mandatory:"true" json:"displayName"`
 	CompartmentId            *string                           `mandatory:"true" json:"compartmentId"`
@@ -95,6 +98,7 @@ type reportversion struct {
 	LifecycleState           ReportVersionLifecycleStateEnum   `mandatory:"true" json:"lifecycleState"`
 	FreeformTags             map[string]string                 `mandatory:"true" json:"freeformTags"`
 	DefinedTags              map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
+	SystemTags               map[string]map[string]interface{} `mandatory:"true" json:"systemTags"`
 	ReportType               string                            `json:"reportType"`
 }
 
@@ -118,13 +122,14 @@ func (m *reportversion) UnmarshalJSON(data []byte) error {
 	m.LifecycleState = s.Model.LifecycleState
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
+	m.SystemTags = s.Model.SystemTags
 	m.TenancyId = s.Model.TenancyId
 	m.Description = s.Model.Description
+	m.CompartmentIds = s.Model.CompartmentIds
 	m.IsSubCompartmentIncluded = s.Model.IsSubCompartmentIncluded
 	m.OsFamilies = s.Model.OsFamilies
 	m.ReportContent = s.Model.ReportContent
 	m.LifecycleDetails = s.Model.LifecycleDetails
-	m.SystemTags = s.Model.SystemTags
 	m.ReportType = s.Model.ReportType
 
 	return err
@@ -163,6 +168,11 @@ func (m reportversion) GetDescription() *string {
 	return m.Description
 }
 
+// GetCompartmentIds returns CompartmentIds
+func (m reportversion) GetCompartmentIds() []string {
+	return m.CompartmentIds
+}
+
 // GetIsSubCompartmentIncluded returns IsSubCompartmentIncluded
 func (m reportversion) GetIsSubCompartmentIncluded() *bool {
 	return m.IsSubCompartmentIncluded
@@ -181,11 +191,6 @@ func (m reportversion) GetReportContent() *string {
 // GetLifecycleDetails returns LifecycleDetails
 func (m reportversion) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
-}
-
-// GetSystemTags returns SystemTags
-func (m reportversion) GetSystemTags() map[string]map[string]interface{} {
-	return m.SystemTags
 }
 
 // GetId returns Id
@@ -231,6 +236,11 @@ func (m reportversion) GetFreeformTags() map[string]string {
 // GetDefinedTags returns DefinedTags
 func (m reportversion) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetSystemTags returns SystemTags
+func (m reportversion) GetSystemTags() map[string]map[string]interface{} {
+	return m.SystemTags
 }
 
 func (m reportversion) String() string {

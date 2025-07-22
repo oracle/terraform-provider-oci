@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// RegistrationEvent Information about the sysadmin event.
+// RegistrationEvent Information about the registration event.
 type RegistrationEvent struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the event.

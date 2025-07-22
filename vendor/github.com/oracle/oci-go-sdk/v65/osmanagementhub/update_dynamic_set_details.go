@@ -25,7 +25,23 @@ type UpdateDynamicSetDetails struct {
 	// User-specified description of the dynamic set. Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
-	MatchingRules *MatchingRules `mandatory:"false" json:"matchingRules"`
+	// The list of compartment details.
+	TargetCompartments []TargetCompartmentDetails `mandatory:"false" json:"targetCompartments"`
+
+	// Include either any or all attributes.
+	MatchType MatchTypeEnum `mandatory:"false" json:"matchType,omitempty"`
+
+	MatchingRule *MatchingRule `mandatory:"false" json:"matchingRule"`
+
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
 func (m UpdateDynamicSetDetails) String() string {
@@ -38,6 +54,9 @@ func (m UpdateDynamicSetDetails) String() string {
 func (m UpdateDynamicSetDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingMatchTypeEnum(string(m.MatchType)); !ok && m.MatchType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MatchType: %s. Supported values are: %s.", m.MatchType, strings.Join(GetMatchTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

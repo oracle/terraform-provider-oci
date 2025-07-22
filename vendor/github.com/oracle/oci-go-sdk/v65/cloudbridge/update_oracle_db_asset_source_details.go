@@ -61,6 +61,9 @@ type UpdateOracleDbAssetSourceDetails struct {
 	// a trusted certificate authority.
 	WalletId *string `mandatory:"false" json:"walletId"`
 
+	// Specifies if this is the Source or Destination point for migration - different assets may be discovered depending on setting.
+	EnvironmentType EnvironmentTypeEnum `mandatory:"false" json:"environmentType,omitempty"`
+
 	// Database server connection protocol.
 	Protocol DatabaseNetworkProtocolEnum `mandatory:"false" json:"protocol,omitempty"`
 }
@@ -95,6 +98,11 @@ func (m UpdateOracleDbAssetSourceDetails) GetSystemTags() map[string]map[string]
 	return m.SystemTags
 }
 
+// GetEnvironmentType returns EnvironmentType
+func (m UpdateOracleDbAssetSourceDetails) GetEnvironmentType() EnvironmentTypeEnum {
+	return m.EnvironmentType
+}
+
 func (m UpdateOracleDbAssetSourceDetails) String() string {
 	return common.PointerString(m)
 }
@@ -105,6 +113,9 @@ func (m UpdateOracleDbAssetSourceDetails) String() string {
 func (m UpdateOracleDbAssetSourceDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingEnvironmentTypeEnum(string(m.EnvironmentType)); !ok && m.EnvironmentType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EnvironmentType: %s. Supported values are: %s.", m.EnvironmentType, strings.Join(GetEnvironmentTypeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingDatabaseNetworkProtocolEnum(string(m.Protocol)); !ok && m.Protocol != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Protocol: %s. Supported values are: %s.", m.Protocol, strings.Join(GetDatabaseNetworkProtocolEnumStringValues(), ",")))
 	}

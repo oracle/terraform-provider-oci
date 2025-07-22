@@ -1930,6 +1930,242 @@ func (client ManagedInstanceClient) removeSnapsFromManagedInstance(ctx context.C
 	return response, err
 }
 
+// StageUpdateOnAllManagedInstancesInCompartment Stage the requested update types on all the managed instances in a compartment. This applies only to standalone Linux instances. This will not update instances that belong to a group.
+// A default retry strategy applies to this operation StageUpdateOnAllManagedInstancesInCompartment()
+func (client ManagedInstanceClient) StageUpdateOnAllManagedInstancesInCompartment(ctx context.Context, request StageUpdateOnAllManagedInstancesInCompartmentRequest) (response StageUpdateOnAllManagedInstancesInCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.stageUpdateOnAllManagedInstancesInCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = StageUpdateOnAllManagedInstancesInCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = StageUpdateOnAllManagedInstancesInCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(StageUpdateOnAllManagedInstancesInCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into StageUpdateOnAllManagedInstancesInCompartmentResponse")
+	}
+	return
+}
+
+// stageUpdateOnAllManagedInstancesInCompartment implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceClient) stageUpdateOnAllManagedInstancesInCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/actions/stageUpdate", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response StageUpdateOnAllManagedInstancesInCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/StageUpdateOnAllManagedInstancesInCompartment"
+		err = common.PostProcessServiceError(err, "ManagedInstance", "StageUpdateOnAllManagedInstancesInCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// StageUpdateOnManagedInstance Stage updates on a managed instance.
+// A default retry strategy applies to this operation StageUpdateOnManagedInstance()
+func (client ManagedInstanceClient) StageUpdateOnManagedInstance(ctx context.Context, request StageUpdateOnManagedInstanceRequest) (response StageUpdateOnManagedInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.stageUpdateOnManagedInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = StageUpdateOnManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = StageUpdateOnManagedInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(StageUpdateOnManagedInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into StageUpdateOnManagedInstanceResponse")
+	}
+	return
+}
+
+// stageUpdateOnManagedInstance implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceClient) stageUpdateOnManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/stageUpdate", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response StageUpdateOnManagedInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/StageUpdateOnManagedInstance"
+		err = common.PostProcessServiceError(err, "ManagedInstance", "StageUpdateOnManagedInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// StageWindowsUpdatesOnManagedInstance Downloads Windows updates on the specified managed instance.
+// A default retry strategy applies to this operation StageWindowsUpdatesOnManagedInstance()
+func (client ManagedInstanceClient) StageWindowsUpdatesOnManagedInstance(ctx context.Context, request StageWindowsUpdatesOnManagedInstanceRequest) (response StageWindowsUpdatesOnManagedInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.stageWindowsUpdatesOnManagedInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = StageWindowsUpdatesOnManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = StageWindowsUpdatesOnManagedInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(StageWindowsUpdatesOnManagedInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into StageWindowsUpdatesOnManagedInstanceResponse")
+	}
+	return
+}
+
+// stageWindowsUpdatesOnManagedInstance implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceClient) stageWindowsUpdatesOnManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/stageWindowsUpdates", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response StageWindowsUpdatesOnManagedInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/StageWindowsUpdatesOnManagedInstance"
+		err = common.PostProcessServiceError(err, "ManagedInstance", "StageWindowsUpdatesOnManagedInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// StageWindowsUpdatesOnManagedInstancesInCompartment Downloads all of the available Windows updates for managed instances in a compartment. This applies only to standalone Windows instances. This will not update instances that belong to a group.
+// A default retry strategy applies to this operation StageWindowsUpdatesOnManagedInstancesInCompartment()
+func (client ManagedInstanceClient) StageWindowsUpdatesOnManagedInstancesInCompartment(ctx context.Context, request StageWindowsUpdatesOnManagedInstancesInCompartmentRequest) (response StageWindowsUpdatesOnManagedInstancesInCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.stageWindowsUpdatesOnManagedInstancesInCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = StageWindowsUpdatesOnManagedInstancesInCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = StageWindowsUpdatesOnManagedInstancesInCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(StageWindowsUpdatesOnManagedInstancesInCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into StageWindowsUpdatesOnManagedInstancesInCompartmentResponse")
+	}
+	return
+}
+
+// stageWindowsUpdatesOnManagedInstancesInCompartment implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceClient) stageWindowsUpdatesOnManagedInstancesInCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/actions/stageWindowsUpdates", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response StageWindowsUpdatesOnManagedInstancesInCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/StageWindowsUpdatesOnManagedInstancesInCompartment"
+		err = common.PostProcessServiceError(err, "ManagedInstance", "StageWindowsUpdatesOnManagedInstancesInCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // SwitchModuleStreamOnManagedInstance Enables a new stream for a module that already has a stream enabled.
 // If any profiles or packages from the original module are installed,
 // switching to a new stream will remove the existing packages and

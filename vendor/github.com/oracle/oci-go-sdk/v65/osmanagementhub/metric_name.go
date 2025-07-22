@@ -27,12 +27,14 @@ const (
 	MetricNameWarningInstanceCount                      MetricNameEnum = "WARNING_INSTANCE_COUNT"
 	MetricNameUnreachableInstanceCount                  MetricNameEnum = "UNREACHABLE_INSTANCE_COUNT"
 	MetricNameRegistrationFailedInstanceCount           MetricNameEnum = "REGISTRATION_FAILED_INSTANCE_COUNT"
+	MetricNameInstanceWithAvailableOtherUpdatesCount    MetricNameEnum = "INSTANCE_WITH_AVAILABLE_OTHER_UPDATES_COUNT"
 	MetricNameDeletingInstanceCount                     MetricNameEnum = "DELETING_INSTANCE_COUNT"
 	MetricNameOnboardingInstanceCount                   MetricNameEnum = "ONBOARDING_INSTANCE_COUNT"
 	MetricNameInstanceSecurityUpdatesCount              MetricNameEnum = "INSTANCE_SECURITY_UPDATES_COUNT"
 	MetricNameInstanceBugfixUpdatesCount                MetricNameEnum = "INSTANCE_BUGFIX_UPDATES_COUNT"
 	MetricNameInstanceSecurityAdvisoryCount             MetricNameEnum = "INSTANCE_SECURITY_ADVISORY_COUNT"
 	MetricNameInstanceBugfixAdvisoryCount               MetricNameEnum = "INSTANCE_BUGFIX_ADVISORY_COUNT"
+	MetricNameInstanceOtherUpdatesCount                 MetricNameEnum = "INSTANCE_OTHER_UPDATES_COUNT"
 	MetricNameRebootingInstanceCount                    MetricNameEnum = "REBOOTING_INSTANCE_COUNT"
 	MetricNameNeedsRebootingInstanceCount               MetricNameEnum = "NEEDS_REBOOTING_INSTANCE_COUNT"
 )
@@ -46,12 +48,14 @@ var mappingMetricNameEnum = map[string]MetricNameEnum{
 	"WARNING_INSTANCE_COUNT":                         MetricNameWarningInstanceCount,
 	"UNREACHABLE_INSTANCE_COUNT":                     MetricNameUnreachableInstanceCount,
 	"REGISTRATION_FAILED_INSTANCE_COUNT":             MetricNameRegistrationFailedInstanceCount,
+	"INSTANCE_WITH_AVAILABLE_OTHER_UPDATES_COUNT":    MetricNameInstanceWithAvailableOtherUpdatesCount,
 	"DELETING_INSTANCE_COUNT":                        MetricNameDeletingInstanceCount,
 	"ONBOARDING_INSTANCE_COUNT":                      MetricNameOnboardingInstanceCount,
 	"INSTANCE_SECURITY_UPDATES_COUNT":                MetricNameInstanceSecurityUpdatesCount,
 	"INSTANCE_BUGFIX_UPDATES_COUNT":                  MetricNameInstanceBugfixUpdatesCount,
 	"INSTANCE_SECURITY_ADVISORY_COUNT":               MetricNameInstanceSecurityAdvisoryCount,
 	"INSTANCE_BUGFIX_ADVISORY_COUNT":                 MetricNameInstanceBugfixAdvisoryCount,
+	"INSTANCE_OTHER_UPDATES_COUNT":                   MetricNameInstanceOtherUpdatesCount,
 	"REBOOTING_INSTANCE_COUNT":                       MetricNameRebootingInstanceCount,
 	"NEEDS_REBOOTING_INSTANCE_COUNT":                 MetricNameNeedsRebootingInstanceCount,
 }
@@ -65,12 +69,14 @@ var mappingMetricNameEnumLowerCase = map[string]MetricNameEnum{
 	"warning_instance_count":                         MetricNameWarningInstanceCount,
 	"unreachable_instance_count":                     MetricNameUnreachableInstanceCount,
 	"registration_failed_instance_count":             MetricNameRegistrationFailedInstanceCount,
+	"instance_with_available_other_updates_count":    MetricNameInstanceWithAvailableOtherUpdatesCount,
 	"deleting_instance_count":                        MetricNameDeletingInstanceCount,
 	"onboarding_instance_count":                      MetricNameOnboardingInstanceCount,
 	"instance_security_updates_count":                MetricNameInstanceSecurityUpdatesCount,
 	"instance_bugfix_updates_count":                  MetricNameInstanceBugfixUpdatesCount,
 	"instance_security_advisory_count":               MetricNameInstanceSecurityAdvisoryCount,
 	"instance_bugfix_advisory_count":                 MetricNameInstanceBugfixAdvisoryCount,
+	"instance_other_updates_count":                   MetricNameInstanceOtherUpdatesCount,
 	"rebooting_instance_count":                       MetricNameRebootingInstanceCount,
 	"needs_rebooting_instance_count":                 MetricNameNeedsRebootingInstanceCount,
 }
@@ -95,12 +101,14 @@ func GetMetricNameEnumStringValues() []string {
 		"WARNING_INSTANCE_COUNT",
 		"UNREACHABLE_INSTANCE_COUNT",
 		"REGISTRATION_FAILED_INSTANCE_COUNT",
+		"INSTANCE_WITH_AVAILABLE_OTHER_UPDATES_COUNT",
 		"DELETING_INSTANCE_COUNT",
 		"ONBOARDING_INSTANCE_COUNT",
 		"INSTANCE_SECURITY_UPDATES_COUNT",
 		"INSTANCE_BUGFIX_UPDATES_COUNT",
 		"INSTANCE_SECURITY_ADVISORY_COUNT",
 		"INSTANCE_BUGFIX_ADVISORY_COUNT",
+		"INSTANCE_OTHER_UPDATES_COUNT",
 		"REBOOTING_INSTANCE_COUNT",
 		"NEEDS_REBOOTING_INSTANCE_COUNT",
 	}

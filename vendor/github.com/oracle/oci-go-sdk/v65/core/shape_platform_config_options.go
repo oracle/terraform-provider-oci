@@ -46,6 +46,8 @@ type ShapePlatformConfigOptions struct {
 	InputOutputMemoryManagementUnitOptions *ShapeInputOutputMemoryManagementUnitEnabledPlatformOptions `mandatory:"false" json:"inputOutputMemoryManagementUnitOptions"`
 
 	PercentageOfCoresEnabledOptions *PercentageOfCoresEnabledOptions `mandatory:"false" json:"percentageOfCoresEnabledOptions"`
+
+	HardwareTrustedPlatformModuleOptions *ShapeHardwareTrustedPlatformModuleOptions `mandatory:"false" json:"hardwareTrustedPlatformModuleOptions"`
 }
 
 func (m ShapePlatformConfigOptions) String() string {

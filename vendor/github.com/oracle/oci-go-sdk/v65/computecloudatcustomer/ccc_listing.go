@@ -103,8 +103,8 @@ type CccListing struct {
 	// limit their deployment to United States regions only.)
 	Regions []Region `mandatory:"false" json:"regions"`
 
-	// The default package version.
-	DefaultPackageVersion *string `mandatory:"false" json:"defaultPackageVersion"`
+	// The default package id.
+	DefaultPackageId *string `mandatory:"false" json:"defaultPackageId"`
 
 	// Links to reference material.
 	Links []Link `mandatory:"false" json:"links"`

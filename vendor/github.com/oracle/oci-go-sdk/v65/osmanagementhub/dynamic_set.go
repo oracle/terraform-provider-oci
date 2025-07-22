@@ -53,7 +53,13 @@ type DynamicSet struct {
 	// Number of scheduled jobs currently targeting this dynamic set.
 	ScheduledJobCount *string `mandatory:"false" json:"scheduledJobCount"`
 
-	MatchingRules *MatchingRules `mandatory:"false" json:"matchingRules"`
+	// The list of compartment details.
+	TargetCompartments []TargetCompartmentDetails `mandatory:"false" json:"targetCompartments"`
+
+	// Include either any or all attributes.
+	MatchType MatchTypeEnum `mandatory:"false" json:"matchType,omitempty"`
+
+	MatchingRule *MatchingRule `mandatory:"false" json:"matchingRule"`
 
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
@@ -73,6 +79,9 @@ func (m DynamicSet) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDynamicSetLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingMatchTypeEnum(string(m.MatchType)); !ok && m.MatchType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MatchType: %s. Supported values are: %s.", m.MatchType, strings.Join(GetMatchTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

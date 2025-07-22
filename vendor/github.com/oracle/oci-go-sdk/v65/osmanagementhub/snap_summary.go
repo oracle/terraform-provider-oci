@@ -31,25 +31,16 @@ type SnapSummary struct {
 	// The revision number of the snap channel.
 	Revision *string `mandatory:"true" json:"revision"`
 
-	// The tracking channel of the snap.
-	Tracking *string `mandatory:"true" json:"tracking"`
-
 	// The version of the snap.
 	Version *string `mandatory:"true" json:"version"`
 
 	// The description of of snap.
 	Description *string `mandatory:"false" json:"description"`
 
-	// If false, denotes the snap is not signed by the Snap Store.
-	IsDangerous *bool `mandatory:"false" json:"isDangerous"`
-
-	// The confinement mode for the snap.
-	Mode SnapModesEnum `mandatory:"false" json:"mode,omitempty"`
-
 	// The snap's store url.
 	StoreUrl *string `mandatory:"false" json:"storeUrl"`
 
-	// The date and time of the snap's last refresh.
+	// The date and time of the snap's last refresh in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format.
 	TimeRefresh *common.SDKTime `mandatory:"false" json:"timeRefresh"`
 }
 
@@ -63,9 +54,6 @@ func (m SnapSummary) String() string {
 func (m SnapSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := GetMappingSnapModesEnum(string(m.Mode)); !ok && m.Mode != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Mode: %s. Supported values are: %s.", m.Mode, strings.Join(GetSnapModesEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

@@ -85,6 +85,9 @@ type OracleDbAssetSource struct {
 	// The current state of the asset source.
 	LifecycleState AssetSourceLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
+	// Specifies if this is the Source or Destination point for migration - different assets may be discovered depending on setting.
+	EnvironmentType EnvironmentTypeEnum `mandatory:"false" json:"environmentType,omitempty"`
+
 	// Database server connection protocol.
 	Protocol DatabaseNetworkProtocolEnum `mandatory:"true" json:"protocol"`
 }
@@ -159,6 +162,11 @@ func (m OracleDbAssetSource) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
+// GetEnvironmentType returns EnvironmentType
+func (m OracleDbAssetSource) GetEnvironmentType() EnvironmentTypeEnum {
+	return m.EnvironmentType
+}
+
 func (m OracleDbAssetSource) String() string {
 	return common.PointerString(m)
 }
@@ -171,6 +179,9 @@ func (m OracleDbAssetSource) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingAssetSourceLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAssetSourceLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingEnvironmentTypeEnum(string(m.EnvironmentType)); !ok && m.EnvironmentType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EnvironmentType: %s. Supported values are: %s.", m.EnvironmentType, strings.Join(GetEnvironmentTypeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingDatabaseNetworkProtocolEnum(string(m.Protocol)); !ok && m.Protocol != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Protocol: %s. Supported values are: %s.", m.Protocol, strings.Join(GetDatabaseNetworkProtocolEnumStringValues(), ",")))

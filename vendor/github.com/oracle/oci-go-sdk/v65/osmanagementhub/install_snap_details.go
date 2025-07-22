@@ -26,7 +26,7 @@ type InstallSnapDetails struct {
 	Channel *string `mandatory:"false" json:"channel"`
 
 	// If true, allows installing snaps not signed by the Snap Store. E.g., snaps from local file. Use with caution.
-	IsDangerous *bool `mandatory:"false" json:"isDangerous"`
+	IsSigned *bool `mandatory:"false" json:"isSigned"`
 
 	// The confinement mode for the snap.
 	Mode SnapModesEnum `mandatory:"false" json:"mode,omitempty"`

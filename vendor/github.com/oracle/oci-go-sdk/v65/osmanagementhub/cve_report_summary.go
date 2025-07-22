@@ -50,6 +50,10 @@ type CveReportSummary struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
 
+	// System tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"true" json:"systemTags"`
+
 	// The list of cve names.
 	Cves []string `mandatory:"true" json:"cves"`
 
@@ -63,12 +67,11 @@ type CveReportSummary struct {
 	// can be used to provide actionable information for a resource in the Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// System tags for this resource. Each key is predefined and scoped to a namespace.
-	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
-	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
-
 	// The current state of the Osmh Report.
 	LifecycleState ReportLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+
+	// List of operating system types.
+	OsFamilies []OsFamilyEnum `mandatory:"false" json:"osFamilies,omitempty"`
 }
 
 // GetId returns Id
@@ -111,6 +114,11 @@ func (m CveReportSummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
+// GetOsFamilies returns OsFamilies
+func (m CveReportSummary) GetOsFamilies() []OsFamilyEnum {
+	return m.OsFamilies
+}
+
 // GetLifecycleState returns LifecycleState
 func (m CveReportSummary) GetLifecycleState() ReportLifecycleStateEnum {
 	return m.LifecycleState
@@ -149,6 +157,12 @@ func (m CveReportSummary) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingReportLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetReportLifecycleStateEnumStringValues(), ",")))
 	}
+	for _, val := range m.OsFamilies {
+		if _, ok := GetMappingOsFamilyEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsFamilies: %s. Supported values are: %s.", val, strings.Join(GetOsFamilyEnumStringValues(), ",")))
+		}
+	}
+
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

@@ -18,11 +18,11 @@ import (
 // CreateInventoryDetails Description for creating inventory details.
 type CreateInventoryDetails struct {
 
-	// Inventory displayName.
-	DisplayName *string `mandatory:"true" json:"displayName"`
-
 	// The OCID of the tenantId.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+
+	// Inventory displayName.
+	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// The freeform tags associated with this resource, if any. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace/scope. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).

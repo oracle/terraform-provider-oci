@@ -44,6 +44,9 @@ type InstanceConfigurationIntelVmLaunchInstancePlatformConfig struct {
 	// of the CPU. When multithreading is disabled, only one thread is permitted to run on each core, which
 	// can provide higher or more predictable performance for some workloads.
 	IsSymmetricMultiThreadingEnabled *bool `mandatory:"false" json:"isSymmetricMultiThreadingEnabled"`
+
+	// Whether the hardware Trusted Platform Module (TPM) is enabled on the instance.
+	IsHardwareTrustedPlatformModuleEnabled *bool `mandatory:"false" json:"isHardwareTrustedPlatformModuleEnabled"`
 }
 
 // GetIsSecureBootEnabled returns IsSecureBootEnabled

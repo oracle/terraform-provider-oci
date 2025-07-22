@@ -22,7 +22,7 @@ type GetReportVersionContentRequest struct {
 	ReportVersion *string `mandatory:"true" contributesTo:"path" name:"reportVersion"`
 
 	// The format of the report to download. Default is CSV.
-	ReportDownloadFormat GetReportVersionContentReportDownloadFormatEnum `mandatory:"false" contributesTo:"query" name:"reportDownloadFormat" omitEmpty:"true"`
+	ReportFormat GetReportVersionContentReportFormatEnum `mandatory:"false" contributesTo:"query" name:"reportFormat" omitEmpty:"true"`
 
 	// Whether to include detailed report content or not. Default is false.
 	ShouldIncludeDetails *bool `mandatory:"false" contributesTo:"query" name:"shouldIncludeDetails"`
@@ -66,8 +66,8 @@ func (request GetReportVersionContentRequest) RetryPolicy() *common.RetryPolicy 
 // Not recommended for calling this function directly
 func (request GetReportVersionContentRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingGetReportVersionContentReportDownloadFormatEnum(string(request.ReportDownloadFormat)); !ok && request.ReportDownloadFormat != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ReportDownloadFormat: %s. Supported values are: %s.", request.ReportDownloadFormat, strings.Join(GetGetReportVersionContentReportDownloadFormatEnumStringValues(), ",")))
+	if _, ok := GetMappingGetReportVersionContentReportFormatEnum(string(request.ReportFormat)); !ok && request.ReportFormat != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ReportFormat: %s. Supported values are: %s.", request.ReportFormat, strings.Join(GetGetReportVersionContentReportFormatEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -101,39 +101,39 @@ func (response GetReportVersionContentResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }
 
-// GetReportVersionContentReportDownloadFormatEnum Enum with underlying type: string
-type GetReportVersionContentReportDownloadFormatEnum string
+// GetReportVersionContentReportFormatEnum Enum with underlying type: string
+type GetReportVersionContentReportFormatEnum string
 
-// Set of constants representing the allowable values for GetReportVersionContentReportDownloadFormatEnum
+// Set of constants representing the allowable values for GetReportVersionContentReportFormatEnum
 const (
-	GetReportVersionContentReportDownloadFormatCsv  GetReportVersionContentReportDownloadFormatEnum = "csv"
-	GetReportVersionContentReportDownloadFormatJson GetReportVersionContentReportDownloadFormatEnum = "json"
-	GetReportVersionContentReportDownloadFormatXml  GetReportVersionContentReportDownloadFormatEnum = "xml"
+	GetReportVersionContentReportFormatCsv  GetReportVersionContentReportFormatEnum = "csv"
+	GetReportVersionContentReportFormatJson GetReportVersionContentReportFormatEnum = "json"
+	GetReportVersionContentReportFormatXml  GetReportVersionContentReportFormatEnum = "xml"
 )
 
-var mappingGetReportVersionContentReportDownloadFormatEnum = map[string]GetReportVersionContentReportDownloadFormatEnum{
-	"csv":  GetReportVersionContentReportDownloadFormatCsv,
-	"json": GetReportVersionContentReportDownloadFormatJson,
-	"xml":  GetReportVersionContentReportDownloadFormatXml,
+var mappingGetReportVersionContentReportFormatEnum = map[string]GetReportVersionContentReportFormatEnum{
+	"csv":  GetReportVersionContentReportFormatCsv,
+	"json": GetReportVersionContentReportFormatJson,
+	"xml":  GetReportVersionContentReportFormatXml,
 }
 
-var mappingGetReportVersionContentReportDownloadFormatEnumLowerCase = map[string]GetReportVersionContentReportDownloadFormatEnum{
-	"csv":  GetReportVersionContentReportDownloadFormatCsv,
-	"json": GetReportVersionContentReportDownloadFormatJson,
-	"xml":  GetReportVersionContentReportDownloadFormatXml,
+var mappingGetReportVersionContentReportFormatEnumLowerCase = map[string]GetReportVersionContentReportFormatEnum{
+	"csv":  GetReportVersionContentReportFormatCsv,
+	"json": GetReportVersionContentReportFormatJson,
+	"xml":  GetReportVersionContentReportFormatXml,
 }
 
-// GetGetReportVersionContentReportDownloadFormatEnumValues Enumerates the set of values for GetReportVersionContentReportDownloadFormatEnum
-func GetGetReportVersionContentReportDownloadFormatEnumValues() []GetReportVersionContentReportDownloadFormatEnum {
-	values := make([]GetReportVersionContentReportDownloadFormatEnum, 0)
-	for _, v := range mappingGetReportVersionContentReportDownloadFormatEnum {
+// GetGetReportVersionContentReportFormatEnumValues Enumerates the set of values for GetReportVersionContentReportFormatEnum
+func GetGetReportVersionContentReportFormatEnumValues() []GetReportVersionContentReportFormatEnum {
+	values := make([]GetReportVersionContentReportFormatEnum, 0)
+	for _, v := range mappingGetReportVersionContentReportFormatEnum {
 		values = append(values, v)
 	}
 	return values
 }
 
-// GetGetReportVersionContentReportDownloadFormatEnumStringValues Enumerates the set of values in String for GetReportVersionContentReportDownloadFormatEnum
-func GetGetReportVersionContentReportDownloadFormatEnumStringValues() []string {
+// GetGetReportVersionContentReportFormatEnumStringValues Enumerates the set of values in String for GetReportVersionContentReportFormatEnum
+func GetGetReportVersionContentReportFormatEnumStringValues() []string {
 	return []string{
 		"csv",
 		"json",
@@ -141,8 +141,8 @@ func GetGetReportVersionContentReportDownloadFormatEnumStringValues() []string {
 	}
 }
 
-// GetMappingGetReportVersionContentReportDownloadFormatEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingGetReportVersionContentReportDownloadFormatEnum(val string) (GetReportVersionContentReportDownloadFormatEnum, bool) {
-	enum, ok := mappingGetReportVersionContentReportDownloadFormatEnumLowerCase[strings.ToLower(val)]
+// GetMappingGetReportVersionContentReportFormatEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingGetReportVersionContentReportFormatEnum(val string) (GetReportVersionContentReportFormatEnum, bool) {
+	enum, ok := mappingGetReportVersionContentReportFormatEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

@@ -25,7 +25,13 @@ type CreateDynamicSetDetails struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the dynamic set.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	MatchingRules *MatchingRules `mandatory:"true" json:"matchingRules"`
+	// The list of compartment details.
+	TargetCompartments []TargetCompartmentDetails `mandatory:"true" json:"targetCompartments"`
+
+	// Include either any or all attributes.
+	MatchType MatchTypeEnum `mandatory:"true" json:"matchType"`
+
+	MatchingRule *MatchingRule `mandatory:"true" json:"matchingRule"`
 
 	// User-specified description for the dynamic set.
 	Description *string `mandatory:"false" json:"description"`
@@ -50,6 +56,9 @@ func (m CreateDynamicSetDetails) String() string {
 // Not recommended for calling this function directly
 func (m CreateDynamicSetDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingMatchTypeEnum(string(m.MatchType)); !ok && m.MatchType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MatchType: %s. Supported values are: %s.", m.MatchType, strings.Join(GetMatchTypeEnumStringValues(), ",")))
+	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

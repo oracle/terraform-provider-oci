@@ -185,6 +185,8 @@ type AutonomousDatabaseSummary struct {
 	// The Public URLs of Private Endpoint database for accessing Oracle Application Express (APEX) and SQL Developer Web with a browser from a Compute instance within your VCN or that has a direct connection to your VCN.
 	PublicConnectionUrls *AutonomousDatabaseConnectionUrls `mandatory:"false" json:"publicConnectionUrls"`
 
+	VanityConnectionUrls *AutonomousDatabaseConnectionUrls `mandatory:"false" json:"vanityConnectionUrls"`
+
 	// The Oracle license model that applies to the Oracle Autonomous Database. Bring your own license (BYOL) allows you to apply your current on-premises Oracle software licenses to equivalent, highly automated Oracle services in the cloud.
 	// License Included allows you to subscribe to new Oracle Database software licenses and the Oracle Database service.
 	// Note that when provisioning an Autonomous Database on dedicated Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html), this attribute must be null. It is already set at the
@@ -464,6 +466,8 @@ type AutonomousDatabaseSummary struct {
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, isLocalDataGuardEnabled, or isFreeTier.
 	DbToolsDetails []DatabaseTool `mandatory:"false" json:"dbToolsDetails"`
 
+	VanityUrlDetails *VanityUrlDetails `mandatory:"false" json:"vanityUrlDetails"`
+
 	// Indicates the local disaster recovery (DR) type of the Autonomous Database Serverless instance.
 	// Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover.
 	// Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover.
@@ -510,6 +514,10 @@ type AutonomousDatabaseSummary struct {
 
 	// The included storage value for a FAW provisioned database, in terabytes.
 	IncludedDataStorageInTBs *float64 `mandatory:"false" json:"includedDataStorageInTBs"`
+
+	// Additional attributes for this resource. Each attribute is a simple key-value pair with no predefined name, type, or namespace.
+	// Example: `{ "gcpAccountName": "gcpName" }`
+	AdditionalAttributes map[string]string `mandatory:"false" json:"additionalAttributes"`
 }
 
 func (m AutonomousDatabaseSummary) String() string {
@@ -637,6 +645,7 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 		ConnectionStrings                       *AutonomousDatabaseConnectionStrings                           `json:"connectionStrings"`
 		ConnectionUrls                          *AutonomousDatabaseConnectionUrls                              `json:"connectionUrls"`
 		PublicConnectionUrls                    *AutonomousDatabaseConnectionUrls                              `json:"publicConnectionUrls"`
+		VanityConnectionUrls                    *AutonomousDatabaseConnectionUrls                              `json:"vanityConnectionUrls"`
 		LicenseModel                            AutonomousDatabaseSummaryLicenseModelEnum                      `json:"licenseModel"`
 		ByolComputeCountLimit                   *float32                                                       `json:"byolComputeCountLimit"`
 		UsedDataStorageSizeInTBs                *int                                                           `json:"usedDataStorageSizeInTBs"`
@@ -708,6 +717,7 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 		ActualUsedDataStorageSizeInTBs          *float64                                                       `json:"actualUsedDataStorageSizeInTBs"`
 		DatabaseEdition                         AutonomousDatabaseSummaryDatabaseEditionEnum                   `json:"databaseEdition"`
 		DbToolsDetails                          []DatabaseTool                                                 `json:"dbToolsDetails"`
+		VanityUrlDetails                        *VanityUrlDetails                                              `json:"vanityUrlDetails"`
 		LocalDisasterRecoveryType               DisasterRecoveryConfigurationDisasterRecoveryTypeEnum          `json:"localDisasterRecoveryType"`
 		DisasterRecoveryRegionType              AutonomousDatabaseSummaryDisasterRecoveryRegionTypeEnum        `json:"disasterRecoveryRegionType"`
 		TimeDisasterRecoveryRoleChanged         *common.SDKTime                                                `json:"timeDisasterRecoveryRoleChanged"`
@@ -723,6 +733,7 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 		FawInstanceId                           *string                                                        `json:"fawInstanceId"`
 		IncludedCompute                         *float32                                                       `json:"includedCompute"`
 		IncludedDataStorageInTBs                *float64                                                       `json:"includedDataStorageInTBs"`
+		AdditionalAttributes                    map[string]string                                              `json:"additionalAttributes"`
 		Id                                      *string                                                        `json:"id"`
 		CompartmentId                           *string                                                        `json:"compartmentId"`
 		LifecycleState                          AutonomousDatabaseSummaryLifecycleStateEnum                    `json:"lifecycleState"`
@@ -833,6 +844,8 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 	m.ConnectionUrls = model.ConnectionUrls
 
 	m.PublicConnectionUrls = model.PublicConnectionUrls
+
+	m.VanityConnectionUrls = model.VanityConnectionUrls
 
 	m.LicenseModel = model.LicenseModel
 
@@ -976,6 +989,8 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 
 	m.DbToolsDetails = make([]DatabaseTool, len(model.DbToolsDetails))
 	copy(m.DbToolsDetails, model.DbToolsDetails)
+	m.VanityUrlDetails = model.VanityUrlDetails
+
 	m.LocalDisasterRecoveryType = model.LocalDisasterRecoveryType
 
 	m.DisasterRecoveryRegionType = model.DisasterRecoveryRegionType
@@ -1015,6 +1030,8 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 	m.IncludedCompute = model.IncludedCompute
 
 	m.IncludedDataStorageInTBs = model.IncludedDataStorageInTBs
+
+	m.AdditionalAttributes = model.AdditionalAttributes
 
 	m.Id = model.Id
 

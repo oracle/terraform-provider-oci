@@ -57,7 +57,7 @@ type VendorSoftwareSource struct {
 	Size *float64 `mandatory:"false" json:"size"`
 
 	// The size of the software source metadata in bytes (B).
-	MetadataSize *int64 `mandatory:"false" json:"metadataSize"`
+	MetadataSizeInBytes *int64 `mandatory:"false" json:"metadataSizeInBytes"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -191,9 +191,9 @@ func (m VendorSoftwareSource) GetSize() *float64 {
 	return m.Size
 }
 
-// GetMetadataSize returns MetadataSize
-func (m VendorSoftwareSource) GetMetadataSize() *int64 {
-	return m.MetadataSize
+// GetMetadataSizeInBytes returns MetadataSizeInBytes
+func (m VendorSoftwareSource) GetMetadataSizeInBytes() *int64 {
+	return m.MetadataSizeInBytes
 }
 
 // GetFreeformTags returns FreeformTags

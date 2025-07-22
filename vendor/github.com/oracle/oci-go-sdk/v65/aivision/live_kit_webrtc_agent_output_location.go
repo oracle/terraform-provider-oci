@@ -22,11 +22,8 @@ type LiveKitWebrtcAgentOutputLocation struct {
 	// Url for room
 	RoomUrl *string `mandatory:"true" json:"roomUrl"`
 
-	// name of the room
-	RoomName *string `mandatory:"true" json:"roomName"`
-
-	// participant id for the agent where results need to be sent back
-	AgentPeerId *string `mandatory:"true" json:"agentPeerId"`
+	// participant name for the agent where results need to be sent back
+	AgentPeerName *string `mandatory:"true" json:"agentPeerName"`
 
 	// User generated auth token to access the stream
 	Token *string `mandatory:"false" json:"token"`

@@ -17,11 +17,17 @@ type ListReportsRequest struct {
 	// The OCID of the compartment that contains the resources to list. This filter returns only resources contained within the specified compartment.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
+	// Indicates whether to include subcompartments in the returned results. Default is false.
+	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
+
 	// A filter to return only reports currently in the given state.
 	LifecycleState ReportLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// A filter to return resources that match the given user-friendly name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
+
+	// A filter to return resources that may partially match the given display name.
+	DisplayNameContains *string `mandatory:"false" contributesTo:"query" name:"displayNameContains"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the report. This resource returns resources associated with this report.
 	ReportId *string `mandatory:"false" contributesTo:"query" name:"reportId"`
@@ -41,8 +47,23 @@ type ListReportsRequest struct {
 	// The type of the Report.
 	ReportType []ReportTypeEnum `contributesTo:"query" name:"reportType" omitEmpty:"true" collectionFormat:"multi"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource. This filter returns resources associated with the specified resource.
-	ResourceId *string `mandatory:"false" contributesTo:"query" name:"resourceId"`
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance. This filter returns resources associated with this managed instance.
+	ManagedInstanceId *string `mandatory:"false" contributesTo:"query" name:"managedInstanceId"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group. This filter returns resources associated with this group.
+	ManagedInstanceGroupId *string `mandatory:"false" contributesTo:"query" name:"managedInstanceGroupId"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dynamic set. This filter returns resources associated with this dynamic set.
+	DynamicSetId *string `mandatory:"false" contributesTo:"query" name:"dynamicSetId"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source. This filter returns resources associated with this software source.
+	SoftwareSourceId *string `mandatory:"false" contributesTo:"query" name:"softwareSourceId"`
+
+	// The OCID of the compartment included in the report.
+	CompartmentIdInReport *string `mandatory:"false" contributesTo:"query" name:"compartmentIdInReport"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request.
+	WorkRequestId *string `mandatory:"false" contributesTo:"query" name:"workRequestId"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.
 	// For important details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).

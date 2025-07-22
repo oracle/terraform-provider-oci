@@ -24,9 +24,6 @@ type RemoveSnapDetails struct {
 
 	// The revision to remove. Note: This option cannot be used when removing multiple snaps.
 	Revision *string `mandatory:"false" json:"revision"`
-
-	// If true, also removes the snap's data.
-	IsPurge *bool `mandatory:"false" json:"isPurge"`
 }
 
 func (m RemoveSnapDetails) String() string {

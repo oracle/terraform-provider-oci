@@ -25,7 +25,7 @@ const (
 	TargetResourceEntityTypeLifecycleEnvironment TargetResourceEntityTypeEnum = "LIFECYCLE_ENVIRONMENT"
 	TargetResourceEntityTypeSoftwareSource       TargetResourceEntityTypeEnum = "SOFTWARE_SOURCE"
 	TargetResourceEntityTypeReport               TargetResourceEntityTypeEnum = "REPORT"
-	TargetResourceEntityTypeDynamicInstanceSet   TargetResourceEntityTypeEnum = "DYNAMIC_INSTANCE_SET"
+	TargetResourceEntityTypeDynamicSet           TargetResourceEntityTypeEnum = "DYNAMIC_SET"
 )
 
 var mappingTargetResourceEntityTypeEnum = map[string]TargetResourceEntityTypeEnum{
@@ -35,7 +35,7 @@ var mappingTargetResourceEntityTypeEnum = map[string]TargetResourceEntityTypeEnu
 	"LIFECYCLE_ENVIRONMENT": TargetResourceEntityTypeLifecycleEnvironment,
 	"SOFTWARE_SOURCE":       TargetResourceEntityTypeSoftwareSource,
 	"REPORT":                TargetResourceEntityTypeReport,
-	"DYNAMIC_INSTANCE_SET":  TargetResourceEntityTypeDynamicInstanceSet,
+	"DYNAMIC_SET":           TargetResourceEntityTypeDynamicSet,
 }
 
 var mappingTargetResourceEntityTypeEnumLowerCase = map[string]TargetResourceEntityTypeEnum{
@@ -45,7 +45,7 @@ var mappingTargetResourceEntityTypeEnumLowerCase = map[string]TargetResourceEnti
 	"lifecycle_environment": TargetResourceEntityTypeLifecycleEnvironment,
 	"software_source":       TargetResourceEntityTypeSoftwareSource,
 	"report":                TargetResourceEntityTypeReport,
-	"dynamic_instance_set":  TargetResourceEntityTypeDynamicInstanceSet,
+	"dynamic_set":           TargetResourceEntityTypeDynamicSet,
 }
 
 // GetTargetResourceEntityTypeEnumValues Enumerates the set of values for TargetResourceEntityTypeEnum
@@ -66,7 +66,7 @@ func GetTargetResourceEntityTypeEnumStringValues() []string {
 		"LIFECYCLE_ENVIRONMENT",
 		"SOFTWARE_SOURCE",
 		"REPORT",
-		"DYNAMIC_INSTANCE_SET",
+		"DYNAMIC_SET",
 	}
 }
 

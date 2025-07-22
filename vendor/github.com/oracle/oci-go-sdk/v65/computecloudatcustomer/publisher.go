@@ -19,9 +19,6 @@ import (
 // Publisher The model for a publisher.
 type Publisher struct {
 
-	// Unique identifier for the publisher.
-	Id *string `mandatory:"true" json:"id"`
-
 	// The name of the publisher.
 	Name *string `mandatory:"true" json:"name"`
 

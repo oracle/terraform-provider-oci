@@ -50,6 +50,10 @@ type ErrataReportVersion struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
 
+	// System tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"true" json:"systemTags"`
+
 	// The start issue date to filter by
 	TimeStartIssueDate *common.SDKTime `mandatory:"true" json:"timeStartIssueDate"`
 
@@ -62,6 +66,9 @@ type ErrataReportVersion struct {
 	// User-specified description for the Osmh Report.
 	Description *string `mandatory:"false" json:"description"`
 
+	// The compartment ids.
+	CompartmentIds []string `mandatory:"false" json:"compartmentIds"`
+
 	// Indicates if sub-compartments are included in the report.
 	IsSubCompartmentIncluded *bool `mandatory:"false" json:"isSubCompartmentIncluded"`
 
@@ -71,10 +78,6 @@ type ErrataReportVersion struct {
 	// A message that describes the current state of the OsmhReporting in more detail. For example,
 	// can be used to provide actionable information for a resource in the Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
-
-	// System tags for this resource. Each key is predefined and scoped to a namespace.
-	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
-	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
 	// The managed instance ids.
 	ManagedInstanceIds []string `mandatory:"false" json:"managedInstanceIds"`
@@ -87,9 +90,6 @@ type ErrataReportVersion struct {
 
 	// The dynamic set ids.
 	DynamicSetIds []string `mandatory:"false" json:"dynamicSetIds"`
-
-	// The compartment ids.
-	CompartmentIds []string `mandatory:"false" json:"compartmentIds"`
 
 	// List of operating system types.
 	OsFamilies []OsFamilyEnum `mandatory:"false" json:"osFamilies,omitempty"`
@@ -145,6 +145,11 @@ func (m ErrataReportVersion) GetTimeCreated() *common.SDKTime {
 // GetTimeUpdated returns TimeUpdated
 func (m ErrataReportVersion) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
+}
+
+// GetCompartmentIds returns CompartmentIds
+func (m ErrataReportVersion) GetCompartmentIds() []string {
+	return m.CompartmentIds
 }
 
 // GetIsSubCompartmentIncluded returns IsSubCompartmentIncluded

@@ -62,6 +62,7 @@ const (
 	WorkRequestOperationTypeValidateSoftwareSource           WorkRequestOperationTypeEnum = "VALIDATE_SOFTWARE_SOURCE"
 	WorkRequestOperationTypeCreateReportContent              WorkRequestOperationTypeEnum = "CREATE_REPORT_CONTENT"
 	WorkRequestOperationTypeUpdateReportContent              WorkRequestOperationTypeEnum = "UPDATE_REPORT_CONTENT"
+	WorkRequestOperationTypeDeleteReportContent              WorkRequestOperationTypeEnum = "DELETE_REPORT_CONTENT"
 	WorkRequestOperationTypeUpdateVulnerability              WorkRequestOperationTypeEnum = "UPDATE_VULNERABILITY"
 	WorkRequestOperationTypeRegisterManagedInstance          WorkRequestOperationTypeEnum = "REGISTER_MANAGED_INSTANCE"
 	WorkRequestOperationTypeSysadmin                         WorkRequestOperationTypeEnum = "SYSADMIN"
@@ -116,6 +117,7 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"VALIDATE_SOFTWARE_SOURCE":            WorkRequestOperationTypeValidateSoftwareSource,
 	"CREATE_REPORT_CONTENT":               WorkRequestOperationTypeCreateReportContent,
 	"UPDATE_REPORT_CONTENT":               WorkRequestOperationTypeUpdateReportContent,
+	"DELETE_REPORT_CONTENT":               WorkRequestOperationTypeDeleteReportContent,
 	"UPDATE_VULNERABILITY":                WorkRequestOperationTypeUpdateVulnerability,
 	"REGISTER_MANAGED_INSTANCE":           WorkRequestOperationTypeRegisterManagedInstance,
 	"SYSADMIN":                            WorkRequestOperationTypeSysadmin,
@@ -170,6 +172,7 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"validate_software_source":            WorkRequestOperationTypeValidateSoftwareSource,
 	"create_report_content":               WorkRequestOperationTypeCreateReportContent,
 	"update_report_content":               WorkRequestOperationTypeUpdateReportContent,
+	"delete_report_content":               WorkRequestOperationTypeDeleteReportContent,
 	"update_vulnerability":                WorkRequestOperationTypeUpdateVulnerability,
 	"register_managed_instance":           WorkRequestOperationTypeRegisterManagedInstance,
 	"sysadmin":                            WorkRequestOperationTypeSysadmin,
@@ -235,6 +238,7 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"VALIDATE_SOFTWARE_SOURCE",
 		"CREATE_REPORT_CONTENT",
 		"UPDATE_REPORT_CONTENT",
+		"DELETE_REPORT_CONTENT",
 		"UPDATE_VULNERABILITY",
 		"REGISTER_MANAGED_INSTANCE",
 		"SYSADMIN",

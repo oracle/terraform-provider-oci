@@ -18,7 +18,14 @@ import (
 
 // PreviewManagedInstancesDetails PreviewManagedInstancesDetails.
 type PreviewManagedInstancesDetails struct {
-	MatchingRules *MatchingRules `mandatory:"true" json:"matchingRules"`
+
+	// The list of compartment details.
+	TargetCompartments []TargetCompartmentDetails `mandatory:"true" json:"targetCompartments"`
+
+	// Include either any or all attributes.
+	MatchType MatchTypeEnum `mandatory:"true" json:"matchType"`
+
+	MatchingRule *MatchingRule `mandatory:"true" json:"matchingRule"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -40,6 +47,9 @@ func (m PreviewManagedInstancesDetails) String() string {
 // Not recommended for calling this function directly
 func (m PreviewManagedInstancesDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingMatchTypeEnum(string(m.MatchType)); !ok && m.MatchType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MatchType: %s. Supported values are: %s.", m.MatchType, strings.Join(GetMatchTypeEnumStringValues(), ",")))
+	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

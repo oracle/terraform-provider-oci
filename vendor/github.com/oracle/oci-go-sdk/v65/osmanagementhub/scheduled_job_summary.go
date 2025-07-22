@@ -73,37 +73,32 @@ type ScheduledJobSummary struct {
 
 	// The managed instance OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
 	// A scheduled job can only operate on one type of target, therefore this parameter is mutually exclusive with
-	// managedInstanceGroupIds, managedCompartmentIds, lifecycleStageIds, dynamicSetIds, and reportIds.
+	// managedInstanceGroupIds, managedCompartmentIds, lifecycleStageIds, and dynamicSetIds.
 	ManagedInstanceIds []string `mandatory:"false" json:"managedInstanceIds"`
 
 	// The managed instance group OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
 	// A scheduled job can only operate on one type of target, therefore this parameter is mutually exclusive with
-	// managedInstanceIds, managedCompartmentIds, lifecycleStageIds, dynamicSetIds, and reportIds.
+	// managedInstanceIds, managedCompartmentIds, lifecycleStageIds, and dynamicSetIds.
 	ManagedInstanceGroupIds []string `mandatory:"false" json:"managedInstanceGroupIds"`
 
 	// The compartment OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
 	// A scheduled job can only operate on one type of target, therefore this parameter is mutually exclusive with
-	// managedInstanceIds, managedInstanceGroupIds, lifecycleStageIds, and dynamicSetIds, and reportIds.
+	// managedInstanceIds, managedInstanceGroupIds, lifecycleStageIds, and dynamicSetIds.
 	ManagedCompartmentIds []string `mandatory:"false" json:"managedCompartmentIds"`
 
 	// The lifecycle stage OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
 	// A scheduled job can only operate on one type of target, therefore this parameter is mutually exclusive with
-	// managedInstanceIds, managedInstanceGroupIds, managedCompartmentIds, and dynamicSetIds, and reportIds.
+	// managedInstanceIds, managedInstanceGroupIds, managedCompartmentIds, and dynamicSetIds.
 	LifecycleStageIds []string `mandatory:"false" json:"lifecycleStageIds"`
 
 	// The dynamic set OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
 	// A scheduled job can only operate on one type of target. therefore this parameter is mutually exclusive with
-	// managedInstanceIds, managedInstanceGroupIds, managedCompartmentIds, and reportIds.
+	// managedInstanceIds, managedInstanceGroupIds, managedCompartmentIds.
 	DynamicSetIds []string `mandatory:"false" json:"dynamicSetIds"`
 
 	// The report OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
-	// A scheduled job can only operate on one type of target. therefore this parameter is mutually exclusive with
-	// managedInstanceIds, managedInstanceGroupIds, lifecycleStageIds, managedCompartmentIds, and dynamicSetIds.
+	// This resource can only be specified for the operation type: UPDATE_VULNERABILITY.
 	ReportIds []string `mandatory:"false" json:"reportIds"`
-
-	// Indicates whether the managed instances should use the required Software Source to execute the vulnerability
-	// update (even if it is not attached to it). This field is only available for the operation type: UPDATE_VULNERABILITY.
-	ShouldUseMissingSoftwareSources *bool `mandatory:"false" json:"shouldUseMissingSoftwareSources"`
 
 	// Indicates whether this scheduled job is managed by the Autonomous Linux service.
 	IsManagedByAutonomousLinux *bool `mandatory:"false" json:"isManagedByAutonomousLinux"`

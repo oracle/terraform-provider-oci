@@ -36,7 +36,7 @@ type MaskingPolicyHealthReportLogSummary struct {
 	// An enum type entry for each health check in the masking policy. Each enum describes a type of health check.
 	// INVALID_OBJECT_CHECK checks if there exist any invalid objects in the masking tables.
 	// PRIVILEGE_CHECK checks if the masking user has sufficient privilege to run masking.
-	// TABLESPACE_CHECK checks if the user has sufficient default and TEMP tablespace.
+	// TABLESPACE_CHECK checks if the user has sufficient default and TEMP tablespace. Also verifies that the specified tablespace by the user is valid, if user has provided one
 	// DATABASE_OR_SYSTEM_TRIGGERS_CHECK checks if there exist any database/system triggers available.
 	// UNDO_TABLESPACE_CHECK checks if the AUTOEXTEND feature is enabled for the undo tablespace. If it's not enabled, it further checks if the undo tablespace has any space remaining
 	// STATE_STATS_CHECK checks if all the statistics of the masking table is upto date or not.

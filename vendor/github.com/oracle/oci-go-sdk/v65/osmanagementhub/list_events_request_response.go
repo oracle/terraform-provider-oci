@@ -32,8 +32,11 @@ type ListEventsRequest struct {
 	// A filter to return only events that match the state provided. The state value is case-insensitive.
 	LifecycleState EventLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource. This filter returns resources associated with the specified resource.
+	ResourceId *string `mandatory:"false" contributesTo:"query" name:"resourceId"`
+
 	// A multi filter to return only events that match the given resource ids.
-	ResourceId []string `contributesTo:"query" name:"resourceId" collectionFormat:"multi"`
+	ResourceIds []string `contributesTo:"query" name:"resourceIds" collectionFormat:"multi"`
 
 	// A filter to return only resources whose type matches the given value.
 	Type []EventTypeEnum `contributesTo:"query" name:"type" omitEmpty:"true" collectionFormat:"multi"`

@@ -19,6 +19,9 @@ type GetManagedInstanceAnalyticContentRequest struct {
 	// This filter returns only resources contained within the specified compartment.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
+	// Indicates whether to include subcompartments in the returned results. Default is false.
+	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group. This filter returns resources associated with this group.
 	ManagedInstanceGroupId *string `mandatory:"false" contributesTo:"query" name:"managedInstanceGroupId"`
 
@@ -46,11 +49,17 @@ type GetManagedInstanceAnalyticContentRequest struct {
 	// A filter to return instances that have the specified number of available bug updates.
 	BugUpdatesAvailableEqualsTo *int `mandatory:"false" contributesTo:"query" name:"bugUpdatesAvailableEqualsTo"`
 
+	// A filter to return instances that have the specified number of available other updates.
+	OtherUpdatesAvailableEqualsTo *int `mandatory:"false" contributesTo:"query" name:"otherUpdatesAvailableEqualsTo"`
+
 	// A filter to return instances that have more available security updates than the number specified.
 	SecurityUpdatesAvailableGreaterThan *int `mandatory:"false" contributesTo:"query" name:"securityUpdatesAvailableGreaterThan"`
 
 	// A filter to return instances that have more available bug updates than the number specified.
 	BugUpdatesAvailableGreaterThan *int `mandatory:"false" contributesTo:"query" name:"bugUpdatesAvailableGreaterThan"`
+
+	// A filter to return instances that have more available other updates than the number specified.
+	OtherUpdatesAvailableGreaterThan *int `mandatory:"false" contributesTo:"query" name:"otherUpdatesAvailableGreaterThan"`
 
 	// A filter to return only resources whose location matches the given value.
 	Location []ManagedInstanceLocationEnum `contributesTo:"query" name:"location" omitEmpty:"true" collectionFormat:"multi"`
@@ -225,6 +234,7 @@ const (
 	GetManagedInstanceAnalyticContentReportTypeSecurity GetManagedInstanceAnalyticContentReportTypeEnum = "SECURITY"
 	GetManagedInstanceAnalyticContentReportTypeBugfix   GetManagedInstanceAnalyticContentReportTypeEnum = "BUGFIX"
 	GetManagedInstanceAnalyticContentReportTypeActivity GetManagedInstanceAnalyticContentReportTypeEnum = "ACTIVITY"
+	GetManagedInstanceAnalyticContentReportTypeOther    GetManagedInstanceAnalyticContentReportTypeEnum = "OTHER"
 	GetManagedInstanceAnalyticContentReportTypeAll      GetManagedInstanceAnalyticContentReportTypeEnum = "ALL"
 )
 
@@ -232,6 +242,7 @@ var mappingGetManagedInstanceAnalyticContentReportTypeEnum = map[string]GetManag
 	"SECURITY": GetManagedInstanceAnalyticContentReportTypeSecurity,
 	"BUGFIX":   GetManagedInstanceAnalyticContentReportTypeBugfix,
 	"ACTIVITY": GetManagedInstanceAnalyticContentReportTypeActivity,
+	"OTHER":    GetManagedInstanceAnalyticContentReportTypeOther,
 	"ALL":      GetManagedInstanceAnalyticContentReportTypeAll,
 }
 
@@ -239,6 +250,7 @@ var mappingGetManagedInstanceAnalyticContentReportTypeEnumLowerCase = map[string
 	"security": GetManagedInstanceAnalyticContentReportTypeSecurity,
 	"bugfix":   GetManagedInstanceAnalyticContentReportTypeBugfix,
 	"activity": GetManagedInstanceAnalyticContentReportTypeActivity,
+	"other":    GetManagedInstanceAnalyticContentReportTypeOther,
 	"all":      GetManagedInstanceAnalyticContentReportTypeAll,
 }
 
@@ -257,6 +269,7 @@ func GetGetManagedInstanceAnalyticContentReportTypeEnumStringValues() []string {
 		"SECURITY",
 		"BUGFIX",
 		"ACTIVITY",
+		"OTHER",
 		"ALL",
 	}
 }

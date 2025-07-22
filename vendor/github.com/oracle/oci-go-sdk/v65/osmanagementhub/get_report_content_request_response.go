@@ -19,7 +19,7 @@ type GetReportContentRequest struct {
 	ReportId *string `mandatory:"true" contributesTo:"path" name:"reportId"`
 
 	// The format of the report to download. Default is CSV.
-	ReportDownloadFormat GetReportContentReportDownloadFormatEnum `mandatory:"false" contributesTo:"query" name:"reportDownloadFormat" omitEmpty:"true"`
+	ReportFormat GetReportContentReportFormatEnum `mandatory:"false" contributesTo:"query" name:"reportFormat" omitEmpty:"true"`
 
 	// Whether to include detailed report content or not. Default is false.
 	ShouldIncludeDetails *bool `mandatory:"false" contributesTo:"query" name:"shouldIncludeDetails"`
@@ -63,8 +63,8 @@ func (request GetReportContentRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request GetReportContentRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingGetReportContentReportDownloadFormatEnum(string(request.ReportDownloadFormat)); !ok && request.ReportDownloadFormat != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ReportDownloadFormat: %s. Supported values are: %s.", request.ReportDownloadFormat, strings.Join(GetGetReportContentReportDownloadFormatEnumStringValues(), ",")))
+	if _, ok := GetMappingGetReportContentReportFormatEnum(string(request.ReportFormat)); !ok && request.ReportFormat != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ReportFormat: %s. Supported values are: %s.", request.ReportFormat, strings.Join(GetGetReportContentReportFormatEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -98,39 +98,39 @@ func (response GetReportContentResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }
 
-// GetReportContentReportDownloadFormatEnum Enum with underlying type: string
-type GetReportContentReportDownloadFormatEnum string
+// GetReportContentReportFormatEnum Enum with underlying type: string
+type GetReportContentReportFormatEnum string
 
-// Set of constants representing the allowable values for GetReportContentReportDownloadFormatEnum
+// Set of constants representing the allowable values for GetReportContentReportFormatEnum
 const (
-	GetReportContentReportDownloadFormatCsv  GetReportContentReportDownloadFormatEnum = "csv"
-	GetReportContentReportDownloadFormatJson GetReportContentReportDownloadFormatEnum = "json"
-	GetReportContentReportDownloadFormatXml  GetReportContentReportDownloadFormatEnum = "xml"
+	GetReportContentReportFormatCsv  GetReportContentReportFormatEnum = "csv"
+	GetReportContentReportFormatJson GetReportContentReportFormatEnum = "json"
+	GetReportContentReportFormatXml  GetReportContentReportFormatEnum = "xml"
 )
 
-var mappingGetReportContentReportDownloadFormatEnum = map[string]GetReportContentReportDownloadFormatEnum{
-	"csv":  GetReportContentReportDownloadFormatCsv,
-	"json": GetReportContentReportDownloadFormatJson,
-	"xml":  GetReportContentReportDownloadFormatXml,
+var mappingGetReportContentReportFormatEnum = map[string]GetReportContentReportFormatEnum{
+	"csv":  GetReportContentReportFormatCsv,
+	"json": GetReportContentReportFormatJson,
+	"xml":  GetReportContentReportFormatXml,
 }
 
-var mappingGetReportContentReportDownloadFormatEnumLowerCase = map[string]GetReportContentReportDownloadFormatEnum{
-	"csv":  GetReportContentReportDownloadFormatCsv,
-	"json": GetReportContentReportDownloadFormatJson,
-	"xml":  GetReportContentReportDownloadFormatXml,
+var mappingGetReportContentReportFormatEnumLowerCase = map[string]GetReportContentReportFormatEnum{
+	"csv":  GetReportContentReportFormatCsv,
+	"json": GetReportContentReportFormatJson,
+	"xml":  GetReportContentReportFormatXml,
 }
 
-// GetGetReportContentReportDownloadFormatEnumValues Enumerates the set of values for GetReportContentReportDownloadFormatEnum
-func GetGetReportContentReportDownloadFormatEnumValues() []GetReportContentReportDownloadFormatEnum {
-	values := make([]GetReportContentReportDownloadFormatEnum, 0)
-	for _, v := range mappingGetReportContentReportDownloadFormatEnum {
+// GetGetReportContentReportFormatEnumValues Enumerates the set of values for GetReportContentReportFormatEnum
+func GetGetReportContentReportFormatEnumValues() []GetReportContentReportFormatEnum {
+	values := make([]GetReportContentReportFormatEnum, 0)
+	for _, v := range mappingGetReportContentReportFormatEnum {
 		values = append(values, v)
 	}
 	return values
 }
 
-// GetGetReportContentReportDownloadFormatEnumStringValues Enumerates the set of values in String for GetReportContentReportDownloadFormatEnum
-func GetGetReportContentReportDownloadFormatEnumStringValues() []string {
+// GetGetReportContentReportFormatEnumStringValues Enumerates the set of values in String for GetReportContentReportFormatEnum
+func GetGetReportContentReportFormatEnumStringValues() []string {
 	return []string{
 		"csv",
 		"json",
@@ -138,8 +138,8 @@ func GetGetReportContentReportDownloadFormatEnumStringValues() []string {
 	}
 }
 
-// GetMappingGetReportContentReportDownloadFormatEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingGetReportContentReportDownloadFormatEnum(val string) (GetReportContentReportDownloadFormatEnum, bool) {
-	enum, ok := mappingGetReportContentReportDownloadFormatEnumLowerCase[strings.ToLower(val)]
+// GetMappingGetReportContentReportFormatEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingGetReportContentReportFormatEnum(val string) (GetReportContentReportFormatEnum, bool) {
+	enum, ok := mappingGetReportContentReportFormatEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

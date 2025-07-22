@@ -80,6 +80,9 @@ type ListWorkRequestsRequest struct {
 	// Example: `ELSA-2020-5804` or `CVE-2025-22868`
 	VulnerabilityIds []string `contributesTo:"query" name:"vulnerabilityIds" collectionFormat:"multi"`
 
+	// Indicates whether to include subcompartments in the returned results. Default is false.
+	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

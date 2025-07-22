@@ -126,6 +126,12 @@ type ComputeClusterSummary struct {
 	// The JDBC URL field. For example, jdbc:spark://{serviceFQDN}:443/default;SparkServerType=DFI
 	JdbcEndpointUrl *string `mandatory:"false" json:"jdbcEndpointUrl"`
 
+	// The delegation token type.
+	DelegationTokenType DelegationTokenTypeEnum `mandatory:"false" json:"delegationTokenType,omitempty"`
+
+	// The tenant ID of owner service principal.
+	OwnerServicePrincipalTenantId *string `mandatory:"false" json:"ownerServicePrincipalTenantId"`
+
 	Subscription []SubscriptionDetails `mandatory:"false" json:"subscription"`
 }
 
@@ -141,6 +147,9 @@ func (m ComputeClusterSummary) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingComputeClusterLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetComputeClusterLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDelegationTokenTypeEnum(string(m.DelegationTokenType)); !ok && m.DelegationTokenType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DelegationTokenType: %s. Supported values are: %s.", m.DelegationTokenType, strings.Join(GetDelegationTokenTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

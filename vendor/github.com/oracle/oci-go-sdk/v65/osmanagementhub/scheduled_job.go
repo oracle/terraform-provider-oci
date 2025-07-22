@@ -101,8 +101,7 @@ type ScheduledJob struct {
 	DynamicSetIds []string `mandatory:"false" json:"dynamicSetIds"`
 
 	// The report OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
-	// A scheduled job can only operate on one type of target. therefore this parameter is mutually exclusive with
-	// managedInstanceIds, managedInstanceGroupIds, and managedCompartmentIds.
+	// This resource can only be specified for the operation type: UPDATE_VULNERABILITY.
 	ReportIds []string `mandatory:"false" json:"reportIds"`
 
 	// Indicates whether the managed instances should use the required Software Source to execute the vulnerability

@@ -47,7 +47,7 @@ type CccListingSummary struct {
 	// Product categories that the listing belongs to.
 	Categories []string `mandatory:"false" json:"categories"`
 
-	PublisherSummary *PublisherSummary `mandatory:"false" json:"publisherSummary"`
+	Publisher *Publisher `mandatory:"false" json:"publisher"`
 
 	Icon *UploadData `mandatory:"false" json:"icon"`
 

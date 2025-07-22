@@ -19,11 +19,8 @@ import (
 // PrivateStreamNetworkAccessDetails Details of private endpoint to connect to stream
 type PrivateStreamNetworkAccessDetails struct {
 
-	// OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet where stream is hosted
-	SubnetId *string `mandatory:"true" json:"subnetId"`
-
-	// if the stream is hosted on private instance than ip of the instance.
-	StreamIp *string `mandatory:"false" json:"streamIp"`
+	// OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private Endpoint
+	PrivateEndpointId *string `mandatory:"true" json:"privateEndpointId"`
 }
 
 func (m PrivateStreamNetworkAccessDetails) String() string {

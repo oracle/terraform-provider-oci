@@ -66,6 +66,10 @@ func (m *autonomousdatabaseencryptionkeydetails) UnmarshalPolymorphicJSON(data [
 		mm := OciKeyDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "GCP":
+		mm := GcpKeyDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ORACLE_MANAGED":
 		mm := OracleManagedKeyDetails{}
 		err = json.Unmarshal(data, &mm)

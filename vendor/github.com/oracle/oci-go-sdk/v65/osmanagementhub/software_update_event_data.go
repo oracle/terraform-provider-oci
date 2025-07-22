@@ -63,6 +63,7 @@ const (
 	SoftwareUpdateEventDataOperationTypeUpdateBugfix      SoftwareUpdateEventDataOperationTypeEnum = "UPDATE_BUGFIX"
 	SoftwareUpdateEventDataOperationTypeUpdateEnhancement SoftwareUpdateEventDataOperationTypeEnum = "UPDATE_ENHANCEMENT"
 	SoftwareUpdateEventDataOperationTypeUpdateOther       SoftwareUpdateEventDataOperationTypeEnum = "UPDATE_OTHER"
+	SoftwareUpdateEventDataOperationTypeStageUpdate       SoftwareUpdateEventDataOperationTypeEnum = "STAGE_UPDATE"
 )
 
 var mappingSoftwareUpdateEventDataOperationTypeEnum = map[string]SoftwareUpdateEventDataOperationTypeEnum{
@@ -74,6 +75,7 @@ var mappingSoftwareUpdateEventDataOperationTypeEnum = map[string]SoftwareUpdateE
 	"UPDATE_BUGFIX":       SoftwareUpdateEventDataOperationTypeUpdateBugfix,
 	"UPDATE_ENHANCEMENT":  SoftwareUpdateEventDataOperationTypeUpdateEnhancement,
 	"UPDATE_OTHER":        SoftwareUpdateEventDataOperationTypeUpdateOther,
+	"STAGE_UPDATE":        SoftwareUpdateEventDataOperationTypeStageUpdate,
 }
 
 var mappingSoftwareUpdateEventDataOperationTypeEnumLowerCase = map[string]SoftwareUpdateEventDataOperationTypeEnum{
@@ -85,6 +87,7 @@ var mappingSoftwareUpdateEventDataOperationTypeEnumLowerCase = map[string]Softwa
 	"update_bugfix":       SoftwareUpdateEventDataOperationTypeUpdateBugfix,
 	"update_enhancement":  SoftwareUpdateEventDataOperationTypeUpdateEnhancement,
 	"update_other":        SoftwareUpdateEventDataOperationTypeUpdateOther,
+	"stage_update":        SoftwareUpdateEventDataOperationTypeStageUpdate,
 }
 
 // GetSoftwareUpdateEventDataOperationTypeEnumValues Enumerates the set of values for SoftwareUpdateEventDataOperationTypeEnum
@@ -107,6 +110,7 @@ func GetSoftwareUpdateEventDataOperationTypeEnumStringValues() []string {
 		"UPDATE_BUGFIX",
 		"UPDATE_ENHANCEMENT",
 		"UPDATE_OTHER",
+		"STAGE_UPDATE",
 	}
 }
 

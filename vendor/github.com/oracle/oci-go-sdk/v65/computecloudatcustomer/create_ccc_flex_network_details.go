@@ -52,11 +52,6 @@ type CreateCccFlexNetworkDetails struct {
 	// minimum number of entries is 1 while the maximum number of entries is 4.
 	Ports []string `mandatory:"true" json:"ports"`
 
-	// The Compute Cloud@Customer flexNetwork
-	// OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-	// This cannot be changed once created.
-	Id *string `mandatory:"false" json:"id"`
-
 	// A mutable client-meaningful text description of the Compute Cloud@Customer flexNetwork.
 	// Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`

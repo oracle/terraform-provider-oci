@@ -22,14 +22,12 @@ type SnapChannelSummary struct {
 	// The name of the snap channel.
 	Name *string `mandatory:"true" json:"name"`
 
-	// The status of the snap channel.
-	Status *string `mandatory:"true" json:"status"`
-
-	// The revision number of the snap channel.
-	Revision *string `mandatory:"false" json:"revision"`
+	// Indicates whether the snap is currently configured to automatically update from this channel.
+	// When true, the snap will receive updates from this channel. When false, the snap is not currently tracking this channel for updates.
+	IsTracked *bool `mandatory:"true" json:"isTracked"`
 
 	// The size of the snap channel (e.g., "129MB").
-	Size *string `mandatory:"false" json:"size"`
+	SizeInMBs *string `mandatory:"false" json:"sizeInMBs"`
 
 	// The version of the snap channel.
 	Version *string `mandatory:"false" json:"version"`

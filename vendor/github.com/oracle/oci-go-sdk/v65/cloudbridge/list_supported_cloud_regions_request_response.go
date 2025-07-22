@@ -121,18 +121,21 @@ type ListSupportedCloudRegionsAssetSourceTypeEnum string
 const (
 	ListSupportedCloudRegionsAssetSourceTypeVmware   ListSupportedCloudRegionsAssetSourceTypeEnum = "VMWARE"
 	ListSupportedCloudRegionsAssetSourceTypeAws      ListSupportedCloudRegionsAssetSourceTypeEnum = "AWS"
+	ListSupportedCloudRegionsAssetSourceTypeOlvm     ListSupportedCloudRegionsAssetSourceTypeEnum = "OLVM"
 	ListSupportedCloudRegionsAssetSourceTypeOracleDb ListSupportedCloudRegionsAssetSourceTypeEnum = "ORACLE_DB"
 )
 
 var mappingListSupportedCloudRegionsAssetSourceTypeEnum = map[string]ListSupportedCloudRegionsAssetSourceTypeEnum{
 	"VMWARE":    ListSupportedCloudRegionsAssetSourceTypeVmware,
 	"AWS":       ListSupportedCloudRegionsAssetSourceTypeAws,
+	"OLVM":      ListSupportedCloudRegionsAssetSourceTypeOlvm,
 	"ORACLE_DB": ListSupportedCloudRegionsAssetSourceTypeOracleDb,
 }
 
 var mappingListSupportedCloudRegionsAssetSourceTypeEnumLowerCase = map[string]ListSupportedCloudRegionsAssetSourceTypeEnum{
 	"vmware":    ListSupportedCloudRegionsAssetSourceTypeVmware,
 	"aws":       ListSupportedCloudRegionsAssetSourceTypeAws,
+	"olvm":      ListSupportedCloudRegionsAssetSourceTypeOlvm,
 	"oracle_db": ListSupportedCloudRegionsAssetSourceTypeOracleDb,
 }
 
@@ -150,6 +153,7 @@ func GetListSupportedCloudRegionsAssetSourceTypeEnumStringValues() []string {
 	return []string{
 		"VMWARE",
 		"AWS",
+		"OLVM",
 		"ORACLE_DB",
 	}
 }
