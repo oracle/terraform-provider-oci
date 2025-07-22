@@ -181,6 +181,8 @@ func (s *DatabaseExadbVmClusterDataSourceCrud) SetData() error {
 		s.D.Set("shape", *s.Res.Shape)
 	}
 
+	s.D.Set("shape_attribute", s.Res.ShapeAttribute)
+
 	s.D.Set("ssh_public_keys", s.Res.SshPublicKeys)
 
 	s.D.Set("state", s.Res.LifecycleState)

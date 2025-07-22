@@ -320,6 +320,40 @@ var (
 		"sid_prefix":       acctest.Representation{RepType: acctest.Optional, Create: `myTestDb`},
 	}
 
+	ExaDbXs19cDatabaseRepresentation = map[string]interface{}{
+		"database":   acctest.RepresentationGroup{RepType: acctest.Required, Group: ExaDbXs19cDatabaseDatabaseRepresentation},
+		"db_home_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_db_home.test_db_home.id}`},
+		"source":     acctest.Representation{RepType: acctest.Required, Create: `NONE`},
+		"lifecycle":  acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseIgnoreDefinedTagsRepresentation},
+	}
+
+	ExaDbXs19cDatabaseDatabaseRepresentation = map[string]interface{}{
+		"admin_password":       acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
+		"db_name":              acctest.Representation{RepType: acctest.Required, Create: `XS19C`},
+		"storage_size_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseDatabaseDatabaseStorageSizeDetailsRepresentation},
+	}
+
+	DatabaseDatabaseDatabaseStorageSizeDetailsRepresentation = map[string]interface{}{
+		"data_storage_size_in_gb":  acctest.Representation{RepType: acctest.Required, Create: `60`, Update: `100`},
+		"reco_storage_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `40`, Update: `50`},
+	}
+
+	ExaDbXs19cDbHomeRepresentationSourceNone = map[string]interface{}{
+		"db_system_id": acctest.Representation{RepType: acctest.Required, Create: `${var.exadb_vm_cluster_id}`},
+		"db_version":   acctest.Representation{RepType: acctest.Required, Create: `19.0.0.0`},
+		"source":       acctest.Representation{RepType: acctest.Optional, Create: `NONE`},
+		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `DbHome19c`},
+	}
+
+	ExaDbXs19cDatabaseRepresentationDependencies = acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", acctest.Optional, acctest.Create, ExaDbXs19cDbHomeRepresentationSourceNone) +
+		`
+      variable exadb_vm_cluster_id {}
+	
+      data "oci_database_exadb_vm_cluster" "test_exadb_vm_cluster" {
+          exadb_vm_cluster_id = var.exadb_vm_cluster_id
+      }
+    `
+
 	DatabaseExacsDatabaseRepresentation = map[string]interface{}{
 		"database":   acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseDatabaseRepresentation},
 		"db_home_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_db_home.test_db_home_vm_cluster_no_db.id}`},
@@ -898,6 +932,116 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 				"last_backup_timestamp",
 			},
 			ResourceName: resourceName,
+		},
+	})
+}
+
+// issue-routing-tag: database/default
+func TestDatabaseDatabaseResource_exadbxs_block_storage(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseDatabaseResource_exadbxs_block_storage")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_database_database.test_database"
+	datasourceName := "data.oci_database_databases.test_databases"
+	singularDatasourceName := "data.oci_database_database.test_database"
+
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+ExaDbXs19cDatabaseRepresentationDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Create, ExaDbXs19cDatabaseRepresentation), "database", "database", t)
+
+	acctest.ResourceTest(t, testAccCheckDatabaseDatabaseDestroy, []resource.TestStep{
+
+		// verify create a 19c DB
+		{
+			Config: config + compartmentIdVariableStr + ExaDbXs19cDatabaseRepresentationDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Create, ExaDbXs19cDatabaseRepresentation),
+
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_name", "XS19C"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.storage_size_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.storage_size_details.0.data_storage_size_in_gb", "60"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.storage_size_details.0.reco_storage_size_in_gbs", "40"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_home_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_name"),
+				// resource.TestCheckResourceAttr(resourceName, "db_version", "19.0.0.0"), // minor version could be different from the input
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "source", "NONE"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+			),
+		},
+
+		// verify updates storage details
+		{
+			Config: config + compartmentIdVariableStr + ExaDbXs19cDatabaseRepresentationDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Update, ExaDbXs19cDatabaseRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_name", "XS19C"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.storage_size_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.storage_size_details.0.data_storage_size_in_gb", "100"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.storage_size_details.0.reco_storage_size_in_gbs", "50"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_home_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "source", "NONE"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+			),
+		},
+		// verify datasource
+		{
+			Config: config + compartmentIdVariableStr + ExaDbXs19cDatabaseRepresentationDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Update, ExaDbXs19cDatabaseRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_databases", "test_databases", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithNewProperties(DatabaseDatabaseDatabaseDataSourceRepresentation, map[string]interface{}{
+						"db_name": acctest.Representation{RepType: acctest.Optional, Create: `XS19C`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_home_id"),
+				resource.TestCheckResourceAttr(datasourceName, "db_name", "XS19C"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+
+				resource.TestCheckResourceAttrSet(datasourceName, "databases.0.compartment_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "databases.0.db_home_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "databases.0.db_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "databases.0.vm_cluster_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "databases.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "databases.0.state"),
+				resource.TestCheckResourceAttr(datasourceName, "databases.0.storage_size_details.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "databases.0.storage_size_details.0.data_storage_size_in_gb", "100"),
+				resource.TestCheckResourceAttr(datasourceName, "databases.0.storage_size_details.0.reco_storage_size_in_gbs", "50"),
+				resource.TestCheckResourceAttrSet(datasourceName, "databases.0.time_created"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config + compartmentIdVariableStr + ExaDbXs19cDatabaseRepresentationDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Update, ExaDbXs19cDatabaseRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_database", "test_database", acctest.Required, acctest.Create, DatabaseDatabaseDatabaseSingularDataSourceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_id"),
+
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_home_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "db_name", "XS19C"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "vm_cluster_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "storage_size_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "storage_size_details.0.data_storage_size_in_gb", "100"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "storage_size_details.0.reco_storage_size_in_gbs", "50"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
 		},
 	})
 }

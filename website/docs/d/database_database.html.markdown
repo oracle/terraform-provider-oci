@@ -107,6 +107,10 @@ The following attributes are exported:
 * `sid_prefix` - Specifies a prefix for the `Oracle SID` of the database to be created. 
 * `source_database_point_in_time_recovery_timestamp` - Point in time recovery timeStamp of the source database at which cloned database system is cloned from the source database system, as described in [RFC 3339](https://tools.ietf.org/rfc/rfc3339)
 * `state` - The current state of the database.
+* `storage_size_details` - The database storage size details. This database option is supported for the Exadata VM cluster on Exascale Infrastructure. 
+	* `data_storage_size_in_gb` - The DATA storage size, in gigabytes, that is applicable for the database. 
+	* `reco_storage_size_in_gbs` - The RECO storage size, in gigabytes, that is applicable for the database. 
+	* `redo_log_storage_size_in_gbs` - The REDO Log storage size, in gigabytes, that is applicable for the database. 
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `time_created` - The date and time the database was created.
 * `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.

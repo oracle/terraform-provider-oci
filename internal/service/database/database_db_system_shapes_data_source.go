@@ -26,6 +26,10 @@ func DatabaseDbSystemShapesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"shape_attribute": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"db_system_shapes": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -129,6 +133,13 @@ func DatabaseDbSystemShapesDataSource() *schema.Resource {
 							Computed:   true,
 							Deprecated: tfresource.FieldDeprecatedForAnother("shape", "name"),
 						},
+						"shape_attributes": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 						"shape_family": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -173,6 +184,11 @@ func (s *DatabaseDbSystemShapesDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if shapeAttribute, ok := s.D.GetOkExists("shape_attribute"); ok {
+		tmp := shapeAttribute.(string)
+		request.ShapeAttribute = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
@@ -298,6 +314,8 @@ func (s *DatabaseDbSystemShapesDataSourceCrud) SetData() error {
 		if r.Shape != nil {
 			dbSystemShape["shape"] = *r.Shape
 		}
+
+		dbSystemShape["shape_attributes"] = r.ShapeAttributes
 
 		if r.ShapeFamily != nil {
 			dbSystemShape["shape_family"] = *r.ShapeFamily

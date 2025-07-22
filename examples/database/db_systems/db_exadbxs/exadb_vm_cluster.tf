@@ -16,6 +16,7 @@ resource "oci_database_exadb_vm_cluster" "test_exadb_vm_cluster" {
   subnet_id                    = oci_core_subnet.exadbxs_client_subnet.id
   subscription_id              = var.subscription_id
   backup_subnet_id             = oci_core_subnet.exadbxs_backup_subnet.id
+  shape_attribute              = local.shape_attribute
 
   node_config {
     enabled_ecpu_count_per_node              = "8"

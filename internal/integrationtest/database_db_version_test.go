@@ -36,6 +36,14 @@ var (
 	dbVersionDataSourceRepresentationWithDbSystemShapeOptional = acctest.RepresentationCopyWithNewProperties(dbVersionDataSourceRepresentationRequiredOnly, map[string]interface{}{
 		"db_system_shape": acctest.Representation{RepType: acctest.Optional, Create: `BM.DenseIO2.52`},
 	})
+	ExaDbXSSmartStorageDbVersionDataSourceRepresentation = acctest.RepresentationCopyWithNewProperties(dbVersionDataSourceRepresentationRequiredOnly, map[string]interface{}{
+		"db_system_shape": acctest.Representation{RepType: acctest.Optional, Create: `ExaDbXs`},
+		"shape_attribute": acctest.Representation{RepType: acctest.Optional, Create: `SMART_STORAGE`},
+	})
+	ExaDbXSBlockStorageDbVersionDataSourceRepresentation = acctest.RepresentationCopyWithNewProperties(dbVersionDataSourceRepresentationRequiredOnly, map[string]interface{}{
+		"db_system_shape": acctest.Representation{RepType: acctest.Optional, Create: `ExaDbXs`},
+		"shape_attribute": acctest.Representation{RepType: acctest.Optional, Create: `BLOCK_STORAGE`},
+	})
 	dbVersionDataSourceRepresentationWithStorageManagementOptional = acctest.RepresentationCopyWithNewProperties(dbVersionDataSourceRepresentationRequiredOnly, map[string]interface{}{
 		"storage_management": acctest.Representation{RepType: acctest.Optional, Create: `ASM`},
 	})
@@ -94,6 +102,47 @@ func TestDatabaseDbVersionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName+"_by_storage_management", "db_versions.0.version"),
 
 				resource.TestCheckResourceAttr(datasourceName+"_by_is_upgrade_supported", "db_versions.0.is_upgrade_supported", "false"),
+			),
+		},
+	})
+}
+
+// issue-routing-tag: database/default
+func TestDatabaseDbVersionResource_exadbxs(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseDbVersionResource_exadbxs")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	datasourceName := "data.oci_database_db_versions.test_db_versions"
+
+	acctest.SaveConfigContent("", "", "", t)
+
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: config + compartmentIdVariableStr +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_versions", "test_db_versions_xs_smart_storage", acctest.Optional, acctest.Create, ExaDbXSSmartStorageDbVersionDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_versions", "test_db_versions_xs_block_storage", acctest.Optional, acctest.Create, ExaDbXSBlockStorageDbVersionDataSourceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName+"_xs_smart_storage", "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName+"_xs_smart_storage", "db_system_shape", "ExaDbXs"),
+				resource.TestCheckResourceAttr(datasourceName+"_xs_smart_storage", "shape_attribute", "SMART_STORAGE"),
+				resource.TestCheckResourceAttrSet(datasourceName+"_xs_smart_storage", "db_versions.#"),
+				resource.TestCheckResourceAttrSet(datasourceName+"_xs_smart_storage", "db_versions.0.is_latest_for_major_version"),
+				resource.TestCheckResourceAttrSet(datasourceName+"_xs_smart_storage", "db_versions.0.supports_pdb"),
+				resource.TestCheckResourceAttrSet(datasourceName+"_xs_smart_storage", "db_versions.0.version"),
+
+				resource.TestCheckResourceAttr(datasourceName+"_xs_block_storage", "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName+"_xs_block_storage", "db_system_shape", "ExaDbXs"),
+				resource.TestCheckResourceAttr(datasourceName+"_xs_block_storage", "shape_attribute", "BLOCK_STORAGE"),
+				resource.TestCheckResourceAttrSet(datasourceName+"_xs_block_storage", "db_versions.#"),
+				resource.TestCheckResourceAttrSet(datasourceName+"_xs_block_storage", "db_versions.0.is_latest_for_major_version"),
+				resource.TestCheckResourceAttrSet(datasourceName+"_xs_block_storage", "db_versions.0.supports_pdb"),
+				resource.TestCheckResourceAttrSet(datasourceName+"_xs_block_storage", "db_versions.0.version"),
 			),
 		},
 	})

@@ -17,6 +17,8 @@ resource "oci_database_exascale_db_storage_vault" "test_exascale_db_storage_vaul
 data "oci_database_exascale_db_storage_vaults" "test_exascale_db_storage_vaults" {
   #Required
   compartment_id = var.compartment_ocid
+  #Optional
+  attached_shape_attributes = local.shape_attribute
 }
 
 data "oci_database_exascale_db_storage_vault" "test_exascale_db_storage_vault" {

@@ -23,6 +23,7 @@ data "oci_database_gi_versions" "test_gi_versions" {
 	availability_domain = var.gi_version_availability_domain
 	resource_id = oci_cloud_guard_resource.test_resource.id
 	shape = var.gi_version_shape
+	shape_attribute = var.gi_version_shape_attribute
 }
 ```
 
@@ -34,6 +35,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `resource_id` - (Optional) If provided, filters the results for the specified resource Id.
 * `shape` - (Optional) If provided, filters the results for the given shape.
+* `shape_attribute` - (Optional) If provided and applicable, return the results based on the shapeAttribute provided
 
 
 ## Attributes Reference

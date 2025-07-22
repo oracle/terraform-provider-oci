@@ -190,6 +190,12 @@ func (s *DatabaseDatabaseDataSourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
+	if s.Res.StorageSizeDetails != nil {
+		s.D.Set("storage_size_details", []interface{}{DatabaseStorageSizeResponseDetailsToMap(s.Res.StorageSizeDetails)})
+	} else {
+		s.D.Set("storage_size_details", nil)
+	}
+
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}

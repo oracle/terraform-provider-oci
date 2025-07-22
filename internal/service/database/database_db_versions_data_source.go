@@ -38,6 +38,10 @@ func DatabaseDbVersionsDataSource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 			},
+			"shape_attribute": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"storage_management": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -123,6 +127,11 @@ func (s *DatabaseDbVersionsDataSourceCrud) Get() error {
 	if isUpgradeSupported, ok := s.D.GetOkExists("is_upgrade_supported"); ok {
 		tmp := isUpgradeSupported.(bool)
 		request.IsUpgradeSupported = &tmp
+	}
+
+	if shapeAttribute, ok := s.D.GetOkExists("shape_attribute"); ok {
+		tmp := shapeAttribute.(string)
+		request.ShapeAttribute = &tmp
 	}
 
 	if storageManagement, ok := s.D.GetOkExists("storage_management"); ok {
