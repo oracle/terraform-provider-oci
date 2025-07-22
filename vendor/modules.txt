@@ -31,7 +31,7 @@ github.com/apparentlymart/go-textseg/textseg
 # github.com/apparentlymart/go-textseg/v15 v15.0.0
 ## explicit; go 1.16
 github.com/apparentlymart/go-textseg/v15/textseg
-# github.com/cloudflare/circl v1.6.0
+# github.com/cloudflare/circl v1.6.1
 ## explicit; go 1.22.0
 github.com/cloudflare/circl/dh/x25519
 github.com/cloudflare/circl/dh/x448
@@ -288,10 +288,9 @@ github.com/mitchellh/reflectwalk
 # github.com/oklog/run v1.1.0
 ## explicit; go 1.13
 github.com/oklog/run
-# github.com/oracle/oci-go-sdk/v65 v65.90.0 => ./vendor/github.com/oracle/oci-go-sdk
+# github.com/oracle/oci-go-sdk/v65 v65.90.0 => ../../oracle/oci-go-sdk
 ## explicit; go 1.13
 github.com/oracle/oci-go-sdk/v65/adm
-github.com/oracle/oci-go-sdk/v65/aianomalydetection
 github.com/oracle/oci-go-sdk/v65/aidocument
 github.com/oracle/oci-go-sdk/v65/ailanguage
 github.com/oracle/oci-go-sdk/v65/aivision
@@ -652,3 +651,4 @@ gopkg.in/yaml.v2
 # gopkg.in/yaml.v3 v3.0.1
 ## explicit
 gopkg.in/yaml.v3
+# github.com/oracle/oci-go-sdk/v65 => ../../oracle/oci-go-sdk
