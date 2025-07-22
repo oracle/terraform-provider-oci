@@ -81,6 +81,11 @@ resource "oci_database_db_home" "test_db_home" {
 			azure_encryption_key_id = oci_kms_key.test_key.id
 			hsm_password = var.db_home_database_source_encryption_key_location_details_hsm_password
 		}
+		storage_size_details {
+			#Required
+			data_storage_size_in_gb = var.db_home_database_storage_size_details_data_storage_size_in_gb
+			reco_storage_size_in_gbs = var.db_home_database_storage_size_details_reco_storage_size_in_gbs
+		}
 		tde_wallet_password = var.db_home_database_tde_wallet_password
 		time_stamp_for_point_in_time_recovery = var.db_home_database_time_stamp_for_point_in_time_recovery
 		vault_id = oci_kms_vault.test_vault.id
@@ -155,6 +160,9 @@ The following arguments are supported:
 		* `azure_encryption_key_id` - (Required when provider_type=AZURE) Provide the key OCID of a registered Azure key.
 		* `hsm_password` - (Required when provider_type=EXTERNAL) Provide the HSM password as you would in RDBMS for External HSM.
 		* `provider_type` - (Required) Use 'EXTERNAL' for creating a new database or migrating a database key to an External HSM. Use 'AZURE' for creating a new database or migrating a database key to Azure. 
+	* `storage_size_details` - (Applicable when source=DB_BACKUP | NONE | VM_CLUSTER_BACKUP | VM_CLUSTER_NEW) The database storage size details. This database option is supported for the Exadata VM cluster on Exascale Infrastructure. 
+		* `data_storage_size_in_gb` - (Required when source=DB_BACKUP | NONE | VM_CLUSTER_BACKUP | VM_CLUSTER_NEW) The DATA storage size, in gigabytes, that is applicable for the database. 
+		* `reco_storage_size_in_gbs` - (Required when source=DB_BACKUP | NONE | VM_CLUSTER_BACKUP | VM_CLUSTER_NEW) The RECO storage size, in gigabytes, that is applicable for the database. 
 	* `tde_wallet_password` - (Applicable when source=NONE | VM_CLUSTER_NEW) The optional password to open the TDE wallet. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numeric, and two special characters. The special characters must be _, \#, or -.
 	* `time_stamp_for_point_in_time_recovery` - (Applicable when source=DATABASE) The point in time of the original database from which the new database is created. If not specifed, the latest backup is used to create the database.
 	* `vault_id` - (Applicable when source=NONE | VM_CLUSTER_NEW) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
