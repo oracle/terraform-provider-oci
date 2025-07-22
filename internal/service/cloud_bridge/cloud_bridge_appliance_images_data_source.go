@@ -194,9 +194,9 @@ func ApplianceImageSummaryToMap(obj oci_cloud_bridge.ApplianceImageSummary) map[
 		result["checksum"] = string(*obj.Checksum)
 	}
 
-	if obj.DefinedTags != nil {
-		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
-	}
+	//if obj.DefinedTags != nil {
+	//	result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	//}
 
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
@@ -214,7 +214,7 @@ func ApplianceImageSummaryToMap(obj oci_cloud_bridge.ApplianceImageSummary) map[
 		result["format"] = string(*obj.Format)
 	}
 
-	result["freeform_tags"] = obj.FreeformTags
+	//result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
