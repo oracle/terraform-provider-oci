@@ -141,6 +141,8 @@ func (s *FunctionsApplicationsDataSourceCrud) SetData() error {
 			application["image_policy_config"] = nil
 		}
 
+		application["security_attributes"] = r.SecurityAttributes
+
 		application["shape"] = r.Shape
 
 		application["state"] = r.LifecycleState

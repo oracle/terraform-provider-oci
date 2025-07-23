@@ -116,6 +116,12 @@ func FunctionsApplicationResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"security_attributes": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"shape": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -293,6 +299,10 @@ func (s *FunctionsApplicationResourceCrud) Create() error {
 		}
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
 	if shape, ok := s.D.GetOkExists("shape"); ok {
 		request.Shape = oci_functions.CreateApplicationDetailsShapeEnum(shape.(string))
 	}
@@ -410,6 +420,10 @@ func (s *FunctionsApplicationResourceCrud) Update() error {
 		}
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
 	if syslogUrl, ok := s.D.GetOkExists("syslog_url"); ok {
 		tmp := syslogUrl.(string)
 		request.SyslogUrl = &tmp
@@ -477,6 +491,8 @@ func (s *FunctionsApplicationResourceCrud) SetData() error {
 		networkSecurityGroupIds = append(networkSecurityGroupIds, item)
 	}
 	s.D.Set("network_security_group_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, networkSecurityGroupIds))
+
+	s.D.Set("security_attributes", s.Res.SecurityAttributes)
 
 	s.D.Set("shape", s.Res.Shape)
 
