@@ -46,6 +46,9 @@ var (
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_functions_application.test_application.id}`}},
 	}
+	ignoreFunctionsApplicationDefinedTagsChangesRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+	}
 
 	applicationDisplayName = utils.RandomString(1, utils.CharsetWithoutDigits) + utils.RandomString(13, utils.Charset)
 
@@ -58,9 +61,11 @@ var (
 		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"image_policy_config":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: FunctionsApplicationImagePolicyConfigRepresentation},
 		"network_security_group_ids": acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group1.id}`}, Update: []string{`${oci_core_network_security_group.test_network_security_group2.id}`}},
+		"security_attributes":        acctest.Representation{RepType: acctest.Optional, Create: map[string]map[string]map[string]string{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}, Update: map[string]map[string]map[string]string{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}},
 		"shape":                      acctest.Representation{RepType: acctest.Optional, Create: `GENERIC_X86`},
 		"syslog_url":                 acctest.Representation{RepType: acctest.Optional, Create: `tcp://syslog.test:80`, Update: `tcp://syslog2.test:80`},
 		"trace_config":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: FunctionsApplicationTraceConfigRepresentation},
+		"lifecycle":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreFunctionsApplicationDefinedTagsChangesRepresentation},
 	}
 	FunctionsApplicationImagePolicyConfigRepresentation = map[string]interface{}{
 		"is_policy_enabled": acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
