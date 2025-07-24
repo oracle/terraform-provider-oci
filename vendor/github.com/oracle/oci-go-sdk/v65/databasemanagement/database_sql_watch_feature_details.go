@@ -23,6 +23,12 @@ type DatabaseSqlWatchFeatureDetails struct {
 	DatabaseConnectionDetails *DatabaseConnectionDetails `mandatory:"true" json:"databaseConnectionDetails"`
 
 	ConnectorDetails ConnectorDetails `mandatory:"true" json:"connectorDetails"`
+
+	// Indicates whether SQL Watch should be enabled for all the current pluggable databases in the container database.
+	CanEnableAllCurrentPdbs *bool `mandatory:"false" json:"canEnableAllCurrentPdbs"`
+
+	// Indicates whether SQL Watch should be enabled automatically for all the pluggable databases in the container database.
+	IsAutoEnablePluggableDatabase *bool `mandatory:"false" json:"isAutoEnablePluggableDatabase"`
 }
 
 // GetDatabaseConnectionDetails returns DatabaseConnectionDetails
@@ -68,8 +74,10 @@ func (m DatabaseSqlWatchFeatureDetails) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *DatabaseSqlWatchFeatureDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DatabaseConnectionDetails *DatabaseConnectionDetails `json:"databaseConnectionDetails"`
-		ConnectorDetails          connectordetails           `json:"connectorDetails"`
+		CanEnableAllCurrentPdbs       *bool                      `json:"canEnableAllCurrentPdbs"`
+		IsAutoEnablePluggableDatabase *bool                      `json:"isAutoEnablePluggableDatabase"`
+		DatabaseConnectionDetails     *DatabaseConnectionDetails `json:"databaseConnectionDetails"`
+		ConnectorDetails              connectordetails           `json:"connectorDetails"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -77,6 +85,10 @@ func (m *DatabaseSqlWatchFeatureDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.CanEnableAllCurrentPdbs = model.CanEnableAllCurrentPdbs
+
+	m.IsAutoEnablePluggableDatabase = model.IsAutoEnablePluggableDatabase
+
 	m.DatabaseConnectionDetails = model.DatabaseConnectionDetails
 
 	nn, e = model.ConnectorDetails.UnmarshalPolymorphicJSON(model.ConnectorDetails.JsonData)

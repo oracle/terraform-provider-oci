@@ -42,13 +42,13 @@ The following attributes are exported:
 * `inbound_replications_count` - The number of sources this server is replicating from.
 * `items` - A list of ManagedMySqlDatabaseInboundReplicationSummary records.
 	* `applier_filters` - A list of MySqlReplicationApplierFilter records.
-		* `filter_name` - Type of replication filter that has been configured for the replication channel.
+		* `filter_name` - The type of replication filter that has been configured for the replication channel.
 		* `filter_rule` - The rules configured for the replication filter type.
-	* `apply_delay` - Time in seconds it took for the transaction that is currently being applied between being committed on the source and applied on the replica.
-	* `apply_error` - Error from apply operation of a MySQL server replication channel.
-		* `last_error_message` - The error message of the most recent error that caused the SQL/coordinator thread to stop.
-		* `last_error_number` - The error number of the most recent error that caused the SQL/coordinator thread to stop.
-		* `time_last_error` - The timestamp when the most recent SQL/coordinator error occurred.
+	* `apply_delay` - The time in seconds that the current transaction took between being committed on the source and being applied on the replica.
+	* `apply_error` - Error from the apply operation of a MySQL server replication channel.
+		* `last_error_message` - The error message of the most recent error that caused the SQL or coordinator thread to stop.
+		* `last_error_number` - The error number of the most recent error that caused the SQL or coordinator thread to stop.
+		* `time_last_error` - The timestamp when the most recent SQL or coordinator error occurred.
 		* `worker_errors` - A list of MySqlApplyErrorWorker records.
 			* `last_error_message` - The error message of the most recent error that caused the worker thread to stop.
 			* `last_error_number` - The error number of the most recent error that caused the worker thread to stop.
@@ -57,12 +57,12 @@ The following attributes are exported:
 	* `busy_workers` - The number of workers currently busy applying transactions from the source server.
 	* `channel_name` - The name of the replication channel.
 	* `desired_delay_seconds` - The desired number of seconds that the replica must lag the source.
-	* `fetch_error` - Error from fetch operation of a MySQL server replication channel.
+	* `fetch_error` - Error from the fetch operation of a MySQL server replication channel.
 		* `last_error_message` - The error message of the most recent error that caused the I/O thread to stop.
 		* `last_error_number` - The error number of the most recent error that caused the I/O thread to stop.
 		* `time_last_error` - The timestamp when the most recent I/O error occurred.
 	* `fetch_status` - The current status of fetch operations.
-	* `gtid_assignment` - Whether the channel assigns global transaction identifiers (GTIDs) to anonymous replicated transactions. OFF means no GTIDs are assigned. LOCAL means a GTID is assigned that includes this replica's own universally unique identifier (UUID). A UUID as value indicates that a GTID is assigned which includes that manually set UUID value.
+	* `gtid_assignment` - Indicates whether the channel assigns global transaction identifiers (GTIDs) to anonymous replicated transactions. OFF means no GTIDs are assigned. LOCAL means a GTID is assigned that includes this replica's own universally unique identifier (UUID). A UUID as value indicates that a GTID is assigned, which includes that manually set UUID value.
 	* `relay_log_storage_space_used` - The total size in bytes of all the existing relay log files pertaining to this channel.
 	* `remaining_delay_seconds` - If the replica is waiting for the desired delay seconds to pass since the source applied an event, this field contains the number of delay seconds remaining.
 	* `retrieved_gtid_set` - The set of global transaction IDs corresponding to all transactions received by this replica from the source server. Empty if GTIDs are not in use.

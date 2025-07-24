@@ -38,7 +38,6 @@ data "oci_core_instance_pools" "TFInstancePoolDatasources" {
 data "oci_core_instance_pool_instances" "TFInstancePoolInstanceDatasources" {
   compartment_id   = var.compartment_ocid
   instance_pool_id = oci_core_instance_pool.TFInstancePool.id
-  display_name     = "TFInstancePool"
 }
 
 data "oci_autoscaling_auto_scaling_configuration" "TFAutoScalingConfigurationDatasource" {
@@ -53,6 +52,10 @@ data "oci_autoscaling_auto_scaling_configuration" "TFAutoScalingConfigurationSch
   auto_scaling_configuration_id = oci_autoscaling_auto_scaling_configuration.TFAutoScalingConfigurationScheduledPolicyResourceAction.id
 }
 
+data "oci_autoscaling_auto_scaling_configuration" "TFAutoScalingConfigurationCustomMetricsDatasource" {
+  auto_scaling_configuration_id = oci_autoscaling_auto_scaling_configuration.TFAutoScalingConfigurationCustomMetrics.id
+}
+
 data "oci_autoscaling_auto_scaling_configurations" "TFAutoScalingConfigurationDatasources" {
   compartment_id = var.compartment_ocid
   display_name   = "TFAutoScalingConfiguration"
@@ -65,7 +68,7 @@ data "oci_autoscaling_auto_scaling_configurations" "TFAutoScalingConfigurationDa
 
 // Usage of singular instance datasources to show the public_ips, private_ips, and hostname_labels for the instances in the pool
 data "oci_core_instance" "TFInstancePoolInstanceSingularDatasources" {
-  count       = 2
+  count       = 1
   instance_id = data.oci_core_instance_pool_instances.TFInstancePoolInstanceDatasources.instances[count.index]["id"]
 }
 

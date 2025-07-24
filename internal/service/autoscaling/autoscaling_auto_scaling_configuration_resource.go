@@ -253,16 +253,51 @@ func AutoScalingAutoScalingConfigurationResource() *schema.Resource {
 												// Required
 
 												// Optional
+												"metric_compartment_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													ForceNew: true,
+												},
+												"metric_source": {
+													Type:             schema.TypeString,
+													Optional:         true,
+													ForceNew:         true,
+													Default:          "COMPUTE_AGENT",
+													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+													ValidateFunc: validation.StringInSlice([]string{
+														"COMPUTE_AGENT",
+														"CUSTOM_QUERY",
+													}, true),
+												},
 												"metric_type": {
 													Type:     schema.TypeString,
 													Optional: true,
-													Computed: true,
+													ForceNew: true,
+												},
+												"namespace": {
+													Type:     schema.TypeString,
+													Optional: true,
+													ForceNew: true,
+												},
+												"pending_duration": {
+													Type:     schema.TypeString,
+													Optional: true,
+													ForceNew: true,
+													Default:  "PT3M",
+												},
+												"query": {
+													Type:     schema.TypeString,
+													Optional: true,
+													ForceNew: true,
+												},
+												"resource_group": {
+													Type:     schema.TypeString,
+													Optional: true,
 													ForceNew: true,
 												},
 												"threshold": {
 													Type:     schema.TypeList,
 													Optional: true,
-													Computed: true,
 													ForceNew: true,
 													MaxItems: 1,
 													MinItems: 1,
@@ -893,11 +928,11 @@ func (s *AutoScalingAutoScalingConfigurationResourceCrud) mapToCreateConditionDe
 	if metric, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "metric")); ok {
 		if tmpList := metric.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "metric"), 0)
-			tmp, err := s.mapToMetric(fieldKeyFormatNextLevel)
+			tmp, err := s.mapToMetricBase(fieldKeyFormatNextLevel)
 			if err != nil {
 				return result, fmt.Errorf("unable to convert metric, encountered error: %v", err)
 			}
-			result.Metric = &tmp
+			result.Metric = tmp
 		}
 	}
 
@@ -916,7 +951,7 @@ func CreateConditionDetailsToMap(obj oci_auto_scaling.Condition) map[string]inte
 	}
 
 	if obj.Metric != nil {
-		result["metric"] = []interface{}{MetricToMap(obj.Metric)}
+		result["metric"] = []interface{}{MetricBaseToMap(obj.Metric)}
 	}
 
 	if obj.Id != nil {
@@ -972,34 +1007,108 @@ func ExecutionScheduleToMap(obj *oci_auto_scaling.ExecutionSchedule) map[string]
 	return result
 }
 
-func (s *AutoScalingAutoScalingConfigurationResourceCrud) mapToMetric(fieldKeyFormat string) (oci_auto_scaling.Metric, error) {
-	result := oci_auto_scaling.Metric{}
-
-	if metricType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "metric_type")); ok {
-		result.MetricType = oci_auto_scaling.MetricMetricTypeEnum(metricType.(string))
-	}
-
-	if threshold, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "threshold")); ok {
-		if tmpList := threshold.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "threshold"), 0)
-			tmp, err := s.mapToThreshold(fieldKeyFormatNextLevel)
-			if err != nil {
-				return result, fmt.Errorf("unable to convert threshold, encountered error: %v", err)
-			}
-			result.Threshold = &tmp
+func (s *AutoScalingAutoScalingConfigurationResourceCrud) mapToMetricBase(fieldKeyFormat string) (oci_auto_scaling.MetricBase, error) {
+	var baseObject oci_auto_scaling.MetricBase
+	//discriminator
+	metricSourceRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "metric_source"))
+	var metricSource string
+	if metricSourceRaw == "" {
+		metricSource = "COMPUTE_AGENT"
+	} else {
+		if ok {
+			metricSource = metricSourceRaw.(string)
+		} else {
+			metricSource = ""
 		}
 	}
-
-	return result, nil
+	switch strings.ToLower(metricSource) {
+	case strings.ToLower("COMPUTE_AGENT"):
+		details := oci_auto_scaling.Metric{}
+		if metricType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "metric_type")); ok {
+			details.MetricType = oci_auto_scaling.MetricMetricTypeEnum(metricType.(string))
+		}
+		if threshold, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "threshold")); ok {
+			if tmpList := threshold.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "threshold"), 0)
+				tmp, err := s.mapToThreshold(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert threshold, encountered error: %v", err)
+				}
+				details.Threshold = &tmp
+			}
+		}
+		if pendingDuration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "pending_duration")); ok {
+			tmp := pendingDuration.(string)
+			details.PendingDuration = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("CUSTOM_QUERY"):
+		details := oci_auto_scaling.CustomMetric{}
+		if metricCompartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "metric_compartment_id")); ok {
+			tmp := metricCompartmentId.(string)
+			details.MetricCompartmentId = &tmp
+		}
+		if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := namespace.(string)
+			details.Namespace = &tmp
+		}
+		if query, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "query")); ok {
+			tmp := query.(string)
+			details.Query = &tmp
+		}
+		if resourceGroup, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "resource_group")); ok {
+			tmp := resourceGroup.(string)
+			details.ResourceGroup = &tmp
+		}
+		if pendingDuration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "pending_duration")); ok {
+			tmp := pendingDuration.(string)
+			details.PendingDuration = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown metric_source '%v' was specified", metricSource)
+	}
+	return baseObject, nil
 }
 
-func MetricToMap(obj *oci_auto_scaling.Metric) map[string]interface{} {
+func MetricBaseToMap(obj oci_auto_scaling.MetricBase) map[string]interface{} {
 	result := map[string]interface{}{}
+	switch v := (obj).(type) {
+	case oci_auto_scaling.Metric:
+		result["metric_source"] = "COMPUTE_AGENT"
 
-	result["metric_type"] = string(obj.MetricType)
+		result["metric_type"] = string(v.MetricType)
 
-	if obj.Threshold != nil {
-		result["threshold"] = []interface{}{ThresholdToMap(obj.Threshold)}
+		if v.Threshold != nil {
+			result["threshold"] = []interface{}{ThresholdToMap(v.Threshold)}
+		}
+		if v.PendingDuration != nil {
+			result["pending_duration"] = v.PendingDuration
+		}
+	case oci_auto_scaling.CustomMetric:
+		result["metric_source"] = "CUSTOM_QUERY"
+
+		if v.MetricCompartmentId != nil {
+			result["metric_compartment_id"] = v.MetricCompartmentId
+		}
+
+		if v.Namespace != nil {
+			result["namespace"] = v.Namespace
+		}
+
+		if v.Query != nil {
+			result["query"] = v.Query
+		}
+
+		if v.ResourceGroup != nil {
+			result["resource_group"] = v.ResourceGroup
+		}
+		if v.PendingDuration != nil {
+			result["pending_duration"] = v.PendingDuration
+		}
+	default:
+		log.Printf("[WARN] Received 'metric_source' of unknown type %v", obj)
+		return nil
 	}
 
 	return result
@@ -1131,8 +1240,26 @@ func autoScalingConfigurationPolicyRulesHashCodeForSets(v interface{}) int {
 		if tmpList := metric.([]interface{}); len(tmpList) > 0 {
 			buf.WriteString("metric-")
 			metricRaw := tmpList[0].(map[string]interface{})
+			if metricCompartmentId, ok := metricRaw["metric_compartment_id"]; ok && metricCompartmentId != "" {
+				buf.WriteString(fmt.Sprintf("%v-", metricCompartmentId))
+			}
+			if metricSource, ok := metricRaw["metric_source"]; ok && metricSource != "" {
+				buf.WriteString(fmt.Sprintf("%v-", metricSource))
+			}
 			if metricType, ok := metricRaw["metric_type"]; ok && metricType != "" {
 				buf.WriteString(fmt.Sprintf("%v-", metricType))
+			}
+			if namespace, ok := metricRaw["namespace"]; ok && namespace != "" {
+				buf.WriteString(fmt.Sprintf("%v-", namespace))
+			}
+			if pendingDuration, ok := metricRaw["pending_duration"]; ok && pendingDuration != "" {
+				buf.WriteString(fmt.Sprintf("%v-", pendingDuration))
+			}
+			if query, ok := metricRaw["query"]; ok && query != "" {
+				buf.WriteString(fmt.Sprintf("%v-", query))
+			}
+			if resourceGroup, ok := metricRaw["resource_group"]; ok && resourceGroup != "" {
+				buf.WriteString(fmt.Sprintf("%v-", resourceGroup))
 			}
 			if threshold, ok := metricRaw["threshold"]; ok {
 				if tmpList := threshold.([]interface{}); len(tmpList) > 0 {

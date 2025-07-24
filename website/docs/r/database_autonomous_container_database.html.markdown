@@ -44,6 +44,11 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
 		recovery_window_in_days = var.autonomous_container_database_backup_config_recovery_window_in_days
 	}
 	compartment_id = var.compartment_id
+	customer_contacts {
+
+		#Optional
+		email = var.autonomous_container_database_customer_contacts_email
+	}
 	database_software_image_id = oci_database_database_software_image.test_database_software_image.id
 	db_name = var.autonomous_container_database_db_name
 	db_split_threshold = var.autonomous_container_database_db_split_threshold
@@ -79,6 +84,7 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
 		weeks_of_month = var.autonomous_container_database_maintenance_window_details_weeks_of_month
 	}
 	net_services_architecture = var.autonomous_container_database_net_services_architecture
+	okv_end_point_group_name = var.autonomous_container_database_okv_end_point_group_name
 	peer_autonomous_container_database_display_name = var.autonomous_container_database_peer_autonomous_container_database_display_name
 	peer_cloud_autonomous_vm_cluster_id = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id
 	protection_mode = var.autonomous_container_database_protection_mode
@@ -136,6 +142,8 @@ The following arguments are supported:
 	* `recovery_window_in_days` - (Optional) (Updatable) Number of days between the current and the earliest point of recoverability covered by automatic backups. This value applies to automatic backups. After a new automatic backup has been created, Oracle removes old automatic backups that are created before the window. When the value is updated, it is applied to all existing automatic backups. If the number of specified days is 0 then there will be no backups. 
 * `cloud_autonomous_vm_cluster_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud Autonomous Exadata VM Cluster.
 * `compartment_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the Autonomous Container Database.
+* `customer_contacts` - (Optional) (Updatable) Customer Contacts. Setting this to an empty list removes all customer contacts. 
+	* `email` - (Optional) (Updatable) The email address used by Oracle to send notifications regarding databases and infrastructure.
 * `database_software_image_id` - (Optional) The Autonomous Database Software Image [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `db_name` - (Optional) The Database name for the Autonomous Container Database. The name must be unique within the Cloud Autonomous VM Cluster, starting with an alphabetic character, followed by 1 to 7 alphanumeric characters.
 * `db_split_threshold` - (Optional) The CPU value beyond which an Autonomous Database will be opened across multiple nodes. The default value of this attribute is 16 for OCPUs and 64 for ECPUs.
@@ -169,6 +177,7 @@ The following arguments are supported:
 	* `skip_ru` - (Optional) (Updatable) If true, skips the release update (RU) for the quarter. You cannot skip two consecutive quarters. An RU skip request will only be honoured if the current version of the Autonomous Container Database is supported for current quarter.
     * `weeks_of_month` - (Optional) (Updatable) Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed. 
 * `net_services_architecture` - (Optional) Enabling SHARED server architecture enables a database server to allow many client processes to share very few server processes, thereby increasing the number of supported users.
+* `okv_end_point_group_name` - (Optional) (Updatable) The OKV End Point Group name for the Autonomous Container Database. 
 * `patch_model` - (Required) (Updatable) Database Patch model preference.
 * `peer_autonomous_container_database_display_name` - (Optional) The display name for the peer Autonomous Container Database.
 * `peer_autonomous_exadata_infrastructure_id` - (End of Life) The OCID of the peer Autonomous Exadata Infrastructure for autonomous dataguard. Please use peer_cloud_autonomous_vm_cluster_id instead.
@@ -246,6 +255,8 @@ The following attributes are exported:
 	* `time_at_which_storage_details_are_updated` - The latest timestamp when the backup destination details, such as 'spaceUtilized,' are updated.
 * `cloud_autonomous_vm_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud Autonomous Exadata VM Cluster.
 * `compartment_id` - The OCID of the compartment.
+* `customer_contacts` - Customer Contacts. Setting this to an empty list removes all customer contacts.
+    * `email` - The email address used by Oracle to send notifications regarding databases and infrastructure.
 * `compute_model` - The compute model of the Autonomous Container Database. For Autonomous Database on Dedicated Exadata Infrastructure, the CPU type (ECPUs or OCPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model. ECPU compute model is the recommended model and OCPU compute model is legacy. See [Compute Models in Autonomous Database on Dedicated Exadata Infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details. 
 * `dataguard` - The properties that define Autonomous Container Databases Dataguard. 
 	* `apply_lag` - The lag time between updates to the primary Autonomous Container Database and application of the redo data on the standby Autonomous Container Database, as computed by the reporting database. Example: `9 seconds` 
@@ -329,6 +340,7 @@ The following attributes are exported:
 * `memory_per_oracle_compute_unit_in_gbs` - The amount of memory (in GBs) enabled per ECPU or OCPU in the Autonomous VM Cluster.
 * `net_services_architecture` - Enabling SHARED server architecture enables a database server to allow many client processes to share very few server processes, thereby increasing the number of supported users.
 * `next_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the next maintenance run.
+* `okv_end_point_group_name` - The OKV End Point Group name for the Autonomous Container Database. 
 * `patch_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last patch applied on the system.
 * `patch_model` - Database patch model preference.
 * `provisionable_cpus` - An array of CPU values that can be used to successfully provision a single Autonomous Database. 

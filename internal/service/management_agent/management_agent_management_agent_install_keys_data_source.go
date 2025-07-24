@@ -141,9 +141,15 @@ func (s *ManagementAgentManagementAgentInstallKeysDataSourceCrud) SetData() erro
 			managementAgentInstallKey["current_key_install_count"] = *r.CurrentKeyInstallCount
 		}
 
+		if r.DefinedTags != nil {
+			managementAgentInstallKey["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
+		}
+
 		if r.DisplayName != nil {
 			managementAgentInstallKey["display_name"] = *r.DisplayName
 		}
+
+		managementAgentInstallKey["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			managementAgentInstallKey["id"] = *r.Id
@@ -158,6 +164,10 @@ func (s *ManagementAgentManagementAgentInstallKeysDataSourceCrud) SetData() erro
 		}
 
 		managementAgentInstallKey["state"] = r.LifecycleState
+
+		if r.SystemTags != nil {
+			managementAgentInstallKey["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
 
 		if r.TimeCreated != nil {
 			managementAgentInstallKey["time_created"] = r.TimeCreated.String()

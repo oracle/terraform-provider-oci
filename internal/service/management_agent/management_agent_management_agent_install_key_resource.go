@@ -68,6 +68,16 @@ func ManagementAgentManagementAgentInstallKeyResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+			"defined_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"key": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -79,6 +89,11 @@ func ManagementAgentManagementAgentInstallKeyResource() *schema.Resource {
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -276,9 +291,15 @@ func (s *ManagementAgentManagementAgentInstallKeyResourceCrud) SetData() error {
 		s.D.Set("current_key_install_count", *s.Res.CurrentKeyInstallCount)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.IsUnlimited != nil {
 		s.D.Set("is_unlimited", *s.Res.IsUnlimited)
@@ -293,6 +314,10 @@ func (s *ManagementAgentManagementAgentInstallKeyResourceCrud) SetData() error {
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())

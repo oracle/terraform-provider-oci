@@ -20,10 +20,10 @@ import (
 // ManagedMySqlDatabaseHighAvailabilityMemberSummary Information about a member of a MySQL server group replication for high availability.
 type ManagedMySqlDatabaseHighAvailabilityMemberSummary struct {
 
-	// The host name of the group member which clients use to connect to it.
+	// The host name of the group member that clients use to connect to it.
 	MemberHost *string `mandatory:"true" json:"memberHost"`
 
-	// The port number of the group member which clients to connect to it.
+	// The port number of the group member that clients use to connect to it.
 	MemberPort *int `mandatory:"true" json:"memberPort"`
 
 	// The Universally Unique Identifier (UUID) of the member server.

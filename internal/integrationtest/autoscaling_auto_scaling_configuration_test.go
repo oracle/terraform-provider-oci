@@ -53,6 +53,17 @@ var (
 		"freeform_tags":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_enabled":             acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
+
+	AutoScalingAutoScalingConfigurationResourceDependenciesCustomQuery = map[string]interface{}{
+		"auto_scaling_resources": acctest.RepresentationGroup{RepType: acctest.Required, Group: AutoScalingautoScalingConfigurationAutoScalingResourcesRepresentation},
+		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"policies":               acctest.RepresentationGroup{RepType: acctest.Required, Group: AutoScalingautoScalingConfigurationPoliciesRepresentationCustomQuery},
+		"cool_down_in_seconds":   acctest.Representation{RepType: acctest.Optional, Create: `300`, Update: `400`},
+		"defined_tags":           acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `example_threshold_autoscaling_configuration`, Update: `displayName2`},
+		"freeform_tags":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_enabled":             acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+	}
 	AutoScalingautoScalingConfigurationAutoScalingResourcesRepresentation = map[string]interface{}{
 		"id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance_pool.test_instance_pool.id}`},
 		"type": acctest.Representation{RepType: acctest.Required, Create: `instancePool`},
@@ -61,6 +72,12 @@ var (
 		"capacity":     acctest.RepresentationGroup{RepType: acctest.Required, Group: AutoScalingautoScalingConfigurationPoliciesCapacityRepresentation},
 		"policy_type":  acctest.Representation{RepType: acctest.Required, Create: `threshold`, Update: `threshold`},
 		"rules":        []acctest.RepresentationGroup{{RepType: acctest.Required, Group: AutoScalingautoScalingConfigurationPoliciesScaleOutRuleRepresentation}, {RepType: acctest.Required, Group: AutoScalingautoScalingConfigurationPoliciesScaleInRuleRepresentation}},
+		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `example_autoscaling_configuration`, Update: `displayName2`},
+	}
+	AutoScalingautoScalingConfigurationPoliciesRepresentationCustomQuery = map[string]interface{}{
+		"capacity":     acctest.RepresentationGroup{RepType: acctest.Required, Group: AutoScalingautoScalingConfigurationPoliciesCapacityRepresentation},
+		"policy_type":  acctest.Representation{RepType: acctest.Required, Create: `threshold`, Update: `threshold`},
+		"rules":        []acctest.RepresentationGroup{{RepType: acctest.Required, Group: AutoScalingautoScalingConfigurationPoliciesScaleOutRuleRepresentationCustomQuery}, {RepType: acctest.Required, Group: AutoScalingautoScalingConfigurationPoliciesScaleInRuleRepresentationCustomQuery}},
 		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `example_autoscaling_configuration`, Update: `displayName2`},
 	}
 	AutoScalingautoScalingConfigurationPoliciesCapacityRepresentation = map[string]interface{}{
@@ -73,13 +90,25 @@ var (
 		"display_name": acctest.Representation{RepType: acctest.Required, Create: `scale out rule`, Update: `scale out rule - updated`},
 		"metric":       acctest.RepresentationGroup{RepType: acctest.Required, Group: AutoScalingautoScalingConfigurationPoliciesScaleOutRuleMetricRepresentation},
 	}
+	AutoScalingautoScalingConfigurationPoliciesScaleOutRuleRepresentationCustomQuery = map[string]interface{}{
+		"action":       acctest.RepresentationGroup{RepType: acctest.Required, Group: AutoScalingautoScalingConfigurationPoliciesScaleOutRuleActionRepresentation},
+		"display_name": acctest.Representation{RepType: acctest.Required, Create: `scale out rule`, Update: `scale out rule - updated`},
+		"metric":       acctest.RepresentationGroup{RepType: acctest.Required, Group: AutoScalingautoScalingConfigurationPoliciesRuleRepresentationCustomQuery},
+	}
+	AutoScalingautoScalingConfigurationPoliciesScaleInRuleRepresentationCustomQuery = map[string]interface{}{
+		"action":       acctest.RepresentationGroup{RepType: acctest.Required, Group: AutoScalingautoScalingConfigurationPoliciesScaleInRuleActionRepresentation},
+		"display_name": acctest.Representation{RepType: acctest.Required, Create: `scale in rule`, Update: `scale in rule - updated`},
+		"metric":       acctest.RepresentationGroup{RepType: acctest.Required, Group: AutoScalingautoScalingConfigurationPoliciesRuleRepresentationCustomQuery},
+	}
 	AutoScalingautoScalingConfigurationPoliciesScaleOutRuleActionRepresentation = map[string]interface{}{
 		"type":  acctest.Representation{RepType: acctest.Required, Create: `CHANGE_COUNT_BY`, Update: `CHANGE_COUNT_BY`},
 		"value": acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `2`},
 	}
 	AutoScalingautoScalingConfigurationPoliciesScaleOutRuleMetricRepresentation = map[string]interface{}{
-		"metric_type": acctest.Representation{RepType: acctest.Required, Create: `CPU_UTILIZATION`, Update: `CPU_UTILIZATION`},
-		"threshold":   acctest.RepresentationGroup{RepType: acctest.Required, Group: AutoScalingautoScalingConfigurationPoliciesScaleOutRuleMetricThresholdRepresentation},
+		"metric_source":    acctest.Representation{RepType: acctest.Required, Create: `COMPUTE_AGENT`},
+		"pending_duration": acctest.Representation{RepType: acctest.Required, Create: `PT3M`},
+		"metric_type":      acctest.Representation{RepType: acctest.Required, Create: `CPU_UTILIZATION`, Update: `CPU_UTILIZATION`},
+		"threshold":        acctest.RepresentationGroup{RepType: acctest.Required, Group: AutoScalingautoScalingConfigurationPoliciesScaleOutRuleMetricThresholdRepresentation},
 	}
 	AutoScalingautoScalingConfigurationPoliciesScaleOutRuleMetricThresholdRepresentation = map[string]interface{}{
 		"operator": acctest.Representation{RepType: acctest.Required, Create: `GT`, Update: `GT`},
@@ -90,13 +119,24 @@ var (
 		"metric":       acctest.RepresentationGroup{RepType: acctest.Required, Group: AutoScalingautoScalingConfigurationPoliciesScaleInRuleMetricRepresentation},
 		"display_name": acctest.Representation{RepType: acctest.Required, Create: `scale in rule`, Update: `scale in rule - updated`},
 	}
+	AutoScalingautoScalingConfigurationPoliciesRuleRepresentationCustomQuery = map[string]interface{}{
+		"metric_compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"metric_source":         acctest.Representation{RepType: acctest.Required, Create: `CUSTOM_QUERY`},
+		"namespace":             acctest.Representation{RepType: acctest.Required, Create: `oci_computeagent`},
+		"pending_duration":      acctest.Representation{RepType: acctest.Required, Create: `PT3M`},
+		"query":                 acctest.Representation{RepType: acctest.Required, Create: `CM-removeLbBackendsWf.detachInstancePoolInstanceWorkflow.removeLbBackendFailureCount[30m]{availabilityDomain=iad-ad-2}.groupBy(availabilityDomain).sum() > 0`},
+		"resource_group":        acctest.Representation{RepType: acctest.Required, Create: `resourceGroup`},
+	}
+
 	AutoScalingautoScalingConfigurationPoliciesScaleInRuleActionRepresentation = map[string]interface{}{
 		"type":  acctest.Representation{RepType: acctest.Required, Create: `CHANGE_COUNT_BY`, Update: `CHANGE_COUNT_BY`},
 		"value": acctest.Representation{RepType: acctest.Required, Create: `-1`, Update: `-3`},
 	}
 	AutoScalingautoScalingConfigurationPoliciesScaleInRuleMetricRepresentation = map[string]interface{}{
-		"metric_type": acctest.Representation{RepType: acctest.Required, Create: `CPU_UTILIZATION`, Update: `CPU_UTILIZATION`},
-		"threshold":   acctest.RepresentationGroup{RepType: acctest.Required, Group: AutoScalingautoScalingConfigurationPoliciesScaleInRuleMetricThresholdRepresentation},
+		"metric_source":    acctest.Representation{RepType: acctest.Required, Create: `COMPUTE_AGENT`},
+		"metric_type":      acctest.Representation{RepType: acctest.Required, Create: `CPU_UTILIZATION`, Update: `CPU_UTILIZATION`},
+		"threshold":        acctest.RepresentationGroup{RepType: acctest.Required, Group: AutoScalingautoScalingConfigurationPoliciesScaleInRuleMetricThresholdRepresentation},
+		"pending_duration": acctest.Representation{RepType: acctest.Required, Create: `PT3M`},
 	}
 	AutoScalingautoScalingConfigurationPoliciesScaleInRuleMetricThresholdRepresentation = map[string]interface{}{
 		"operator": acctest.Representation{RepType: acctest.Required, Create: `LT`, Update: `LT`},
@@ -166,6 +206,59 @@ func TestAutoScalingAutoScalingConfigurationResource_basic(t *testing.T) {
 					"metric.0.threshold.#":          "1",
 					"metric.0.threshold.0.operator": "LT",
 					"metric.0.threshold.0.value":    "1",
+				},
+					[]string{}),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + AutoScalingAutoScalingConfigurationResourceDependencies,
+		},
+		{
+			Config: config + compartmentIdVariableStr + AutoScalingAutoScalingConfigurationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Required, acctest.Create, AutoScalingAutoScalingConfigurationResourceDependenciesCustomQuery),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "auto_scaling_resources.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "auto_scaling_resources.0.id"),
+				resource.TestCheckResourceAttr(resourceName, "auto_scaling_resources.0.type", "instancePool"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "policies.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "policies.0.capacity.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "policies.0.capacity.0.initial", "2"),
+				resource.TestCheckResourceAttr(resourceName, "policies.0.capacity.0.max", "3"),
+				resource.TestCheckResourceAttr(resourceName, "policies.0.capacity.0.min", "2"),
+				resource.TestCheckResourceAttr(resourceName, "policies.0.policy_type", "threshold"),
+				resource.TestCheckResourceAttr(resourceName, "policies.0.rules.#", "2"),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "policies.0.rules", map[string]string{
+					"action.#":                       "1",
+					"action.0.type":                  "CHANGE_COUNT_BY",
+					"action.0.value":                 "1",
+					"metric.#":                       "1",
+					"metric.0.metric_compartment_id": compartmentId,
+					"metric.0.metric_source":         "CUSTOM_QUERY",
+					"metric.0.namespace":             "oci_computeagent",
+					"metric.0.pending_duration":      "PT3M",
+					"metric.0.query":                 "CM-removeLbBackendsWf.detachInstancePoolInstanceWorkflow.removeLbBackendFailureCount[30m]{availabilityDomain=iad-ad-2}.groupBy(availabilityDomain).sum() > 0",
+					"metric.0.resource_group":        "resourceGroup",
+				},
+					[]string{}),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "policies.0.rules", map[string]string{
+					"action.#":                       "1",
+					"action.0.type":                  "CHANGE_COUNT_BY",
+					"action.0.value":                 "1",
+					"metric.#":                       "1",
+					"metric.0.metric_compartment_id": compartmentId,
+					"metric.0.metric_source":         "CUSTOM_QUERY",
+					"metric.0.namespace":             "oci_computeagent",
+					"metric.0.pending_duration":      "PT3M",
+					"metric.0.query":                 "CM-removeLbBackendsWf.detachInstancePoolInstanceWorkflow.removeLbBackendFailureCount[30m]{availabilityDomain=iad-ad-2}.groupBy(availabilityDomain).sum() > 0",
+					"metric.0.resource_group":        "resourceGroup",
 				},
 					[]string{}),
 

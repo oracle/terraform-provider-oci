@@ -39,6 +39,12 @@ The following attributes are exported:
 * `freeform_tags` - A simple key-value pair that is applied without any predefined name, type, or scope. It exists for cross-compatibility only. For example: `{"bar-key": "value"}` 
 * `id` - A unique identifier that is immutable after creation.
 * `lifecycle_details` - A message describing the current state in more detail, that can provide actionable information if creation failed.
+* `locks` - Locks associated with this resource.
+	* `compartment_id` - The lock compartment ID.
+	* `message` - A message added by the lock creator. The message typically gives an indication of why the resource is locked. 
+	* `related_resource_id` - The resource ID that is locking this resource. Indicates that deleting this resource removes the lock. 
+	* `time_created` - Indicates when the lock was created, in the format defined by RFC 3339.
+	* `type` - Lock type.
 * `state` - The current state of the project.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. For example: `{"orcl-cloud": {"free-tier-retained": "true"}}` 
 * `time_created` - When the project was created, as an RFC3339 datetime string.

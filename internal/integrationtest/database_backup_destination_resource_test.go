@@ -34,7 +34,7 @@ var (
 		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":       acctest.Representation{RepType: acctest.Required, Create: `NFS1`},
 		"type":               acctest.Representation{RepType: acctest.Required, Create: `NFS`},
-		"defined_tags":       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":       acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"mount_type_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: backupDestinationADBCCMountTypeDetailsRepresentation},
 	}
@@ -43,7 +43,7 @@ var (
 		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":       acctest.Representation{RepType: acctest.Required, Create: `NFS1`},
 		"type":               acctest.Representation{RepType: acctest.Required, Create: `NFS`},
-		"defined_tags":       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":       acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"mount_type_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: backupDestinationADBCCMountTypeDetailsRepresentation},
 	}
@@ -85,9 +85,7 @@ func TestResourceDatabaseBackupDestination_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "NFS1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "local_mount_point_path", "localMountPointPath"),
-				resource.TestCheckResourceAttr(resourceName, "mount_type_details.0.local_mount_point_path", "localMountPointPath"),
-				resource.TestCheckResourceAttr(resourceName, "mount_type_details.0.mount_type", "SELF_MOUNT"),
+				resource.TestCheckResourceAttr(resourceName, "mount_type_details.0.mount_type", "AUTOMATED_MOUNT"),
 				resource.TestCheckResourceAttr(resourceName, "type", "NFS"),
 
 				func(s *terraform.State) (err error) {
@@ -106,9 +104,7 @@ func TestResourceDatabaseBackupDestination_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "NFS1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "type", "NFS"),
-				resource.TestCheckResourceAttr(resourceName, "local_mount_point_path", "localMountPointPath10"),
-				resource.TestCheckResourceAttr(resourceName, "mount_type_details.0.local_mount_point_path", "localMountPointPath10"),
-				resource.TestCheckResourceAttr(resourceName, "mount_type_details.0.mount_type", "SELF_MOUNT"),
+				resource.TestCheckResourceAttr(resourceName, "mount_type_details.0.mount_type", "AUTOMATED_MOUNT"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -135,8 +131,7 @@ func TestResourceDatabaseBackupDestination_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "backup_destinations.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "backup_destinations.0.id"),
 				resource.TestCheckResourceAttr(datasourceName, "backup_destinations.0.type", "NFS"),
-				resource.TestCheckResourceAttr(datasourceName, "backup_destinations.0.local_mount_point_path", "localMountPointPath10"),
-				resource.TestCheckResourceAttr(datasourceName, "backup_destinations.0.nfs_mount_type", "SELF_MOUNT"),
+				resource.TestCheckResourceAttr(datasourceName, "backup_destinations.0.nfs_mount_type", "AUTOMATED_MOUNT"),
 				resource.TestCheckResourceAttrSet(datasourceName, "backup_destinations.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "backup_destinations.0.time_created"),
 				resource.TestCheckResourceAttr(datasourceName, "backup_destinations.0.type", "NFS"),
@@ -156,8 +151,7 @@ func TestResourceDatabaseBackupDestination_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "type", "NFS"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "local_mount_point_path", "localMountPointPath10"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "nfs_mount_type", "SELF_MOUNT"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "nfs_mount_type", "AUTOMATED_MOUNT"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "type", "NFS"),
@@ -165,7 +159,7 @@ func TestResourceDatabaseBackupDestination_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + DatabaseBackupDestinationResourceRequiredOnlyResource,
+			Config:            config + compartmentIdVariableStr + DatabaseBackupDestinationResourceRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ResourceName:      resourceName,

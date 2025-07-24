@@ -41,6 +41,15 @@ type CreateDatabaseFromBackupDetails struct {
 
 	// The list of pluggable databases that needs to be restored into new database.
 	PluggableDatabases []string `mandatory:"false" json:"pluggableDatabases"`
+
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
 func (m CreateDatabaseFromBackupDetails) String() string {
@@ -62,14 +71,16 @@ func (m CreateDatabaseFromBackupDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateDatabaseFromBackupDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		BackupTDEPassword                  *string                      `json:"backupTDEPassword"`
-		SourceEncryptionKeyLocationDetails encryptionkeylocationdetails `json:"sourceEncryptionKeyLocationDetails"`
-		DbUniqueName                       *string                      `json:"dbUniqueName"`
-		DbName                             *string                      `json:"dbName"`
-		SidPrefix                          *string                      `json:"sidPrefix"`
-		PluggableDatabases                 []string                     `json:"pluggableDatabases"`
-		BackupId                           *string                      `json:"backupId"`
-		AdminPassword                      *string                      `json:"adminPassword"`
+		BackupTDEPassword                  *string                           `json:"backupTDEPassword"`
+		SourceEncryptionKeyLocationDetails encryptionkeylocationdetails      `json:"sourceEncryptionKeyLocationDetails"`
+		DbUniqueName                       *string                           `json:"dbUniqueName"`
+		DbName                             *string                           `json:"dbName"`
+		SidPrefix                          *string                           `json:"sidPrefix"`
+		PluggableDatabases                 []string                          `json:"pluggableDatabases"`
+		FreeformTags                       map[string]string                 `json:"freeformTags"`
+		DefinedTags                        map[string]map[string]interface{} `json:"definedTags"`
+		BackupId                           *string                           `json:"backupId"`
+		AdminPassword                      *string                           `json:"adminPassword"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -97,6 +108,10 @@ func (m *CreateDatabaseFromBackupDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.PluggableDatabases = make([]string, len(model.PluggableDatabases))
 	copy(m.PluggableDatabases, model.PluggableDatabases)
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
 	m.BackupId = model.BackupId
 
 	m.AdminPassword = model.AdminPassword

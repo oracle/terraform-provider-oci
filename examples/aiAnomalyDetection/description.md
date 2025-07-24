@@ -1,4 +1,4 @@
-# Overview
-This is a Terraform configuration that creates the AI Anomaly Detection service on Oracle Cloud Infrastructure.
+# Overview 
+This is a Terraform configuration that creates the `aiAnomalyDetection` service on Oracle Cloud Infrastructure. 
 
 The Terraform code is used to create a Resource Manager stack, that creates the required resources and configures the application on the created resources.

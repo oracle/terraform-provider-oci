@@ -694,25 +694,6 @@ func (s *DatabaseManagementExternalDbSystemConnectorResourceCrud) mapToAsmConnec
 	return result, nil
 }
 
-func AsmConnectionStringToMap(obj *oci_database_management.AsmConnectionString) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	result["hosts"] = obj.Hosts
-	result["hosts"] = obj.Hosts
-
-	if obj.Port != nil {
-		result["port"] = int(*obj.Port)
-	}
-
-	result["protocol"] = string(obj.Protocol)
-
-	if obj.Service != nil {
-		result["service"] = string(*obj.Service)
-	}
-
-	return result
-}
-
 func (s *DatabaseManagementExternalDbSystemConnectorResourceCrud) mapToDatabaseConnectionCredentials(fieldKeyFormat string) (oci_database_management.DatabaseConnectionCredentials, error) {
 	var baseObject oci_database_management.DatabaseConnectionCredentials
 	//discriminator

@@ -67,6 +67,47 @@ func AiDocumentProjectResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"locks": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"compartment_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+						"message": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"related_resource_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"time_created": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
+						},
+						"type": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+					},
+				},
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -144,6 +185,18 @@ func (s *AiDocumentProjectResourceCrud) CreatedTarget() []string {
 	}
 }
 
+func (s *AiDocumentProjectResourceCrud) UpdatedPending() []string {
+	return []string{
+		string(oci_ai_document.ProjectLifecycleStateUpdating),
+	}
+}
+
+func (s *AiDocumentProjectResourceCrud) UpdatedTarget() []string {
+	return []string{
+		string(oci_ai_document.ProjectLifecycleStateActive),
+	}
+}
+
 func (s *AiDocumentProjectResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_ai_document.ProjectLifecycleStateDeleting),
@@ -154,6 +207,20 @@ func (s *AiDocumentProjectResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_ai_document.ProjectLifecycleStateDeleted),
 	}
+}
+
+func (s *AiDocumentProjectResourceCrud) AddProjectLock() error {
+
+	log.Panicln("addProjectLock should be unreachable and handled by Splat")
+
+	return nil
+}
+
+func (s *AiDocumentProjectResourceCrud) RemoveProjectLock() error {
+
+	log.Panicln("removeProjectLock should be unreachable and handled by Splat")
+
+	return nil
 }
 
 func (s *AiDocumentProjectResourceCrud) Create() error {
@@ -342,6 +409,7 @@ func (s *AiDocumentProjectResourceCrud) Get() error {
 }
 
 func (s *AiDocumentProjectResourceCrud) Update() error {
+
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {

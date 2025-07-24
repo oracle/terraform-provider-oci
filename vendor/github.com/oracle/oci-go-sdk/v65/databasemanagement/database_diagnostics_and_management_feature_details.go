@@ -30,7 +30,7 @@ type DatabaseDiagnosticsAndManagementFeatureDetails struct {
 	// Indicates whether Diagnostics & Management should be enabled for all the current pluggable databases in the container database.
 	CanEnableAllCurrentPdbs *bool `mandatory:"false" json:"canEnableAllCurrentPdbs"`
 
-	// The management type for the database.
+	// The management type for the database. Use "BASIC" for basic management. Use "ADVANCED" for full management.
 	ManagementType DatabaseDiagnosticsAndManagementFeatureDetailsManagementTypeEnum `mandatory:"true" json:"managementType"`
 }
 

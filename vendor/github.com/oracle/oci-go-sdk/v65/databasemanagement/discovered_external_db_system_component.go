@@ -115,6 +115,10 @@ func (m *discoveredexternaldbsystemcomponent) UnmarshalPolymorphicJSON(data []by
 		mm := DiscoveredExternalDbNode{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "DATABASE_INSTANCE":
+		mm := DiscoveredExternalDbInstance{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ASM":
 		mm := DiscoveredExternalAsm{}
 		err = json.Unmarshal(data, &mm)
