@@ -1,3 +1,21 @@
+## 7.11.0 (July 23, 2025)
+
+### Added
+- Support for Customer Contact for Operational Notifications Phase 2 | ADB-D & ADB-C@C
+- Support for Rel 2.0 Enhancement: Oracle Cloud AI Services Document Understanding
+- Support for Ability to specify tags when adding a standby database or creating a database from backup | ExaDB-D, ExaDB-XS, ExaDB-CC
+- Support for Management Agent: Centralized management of Named Credentials from Management Agent Cloud Service
+- Support for ADB-S: Scheduled Upgrade to 23ai
+- Support for Autoscaling to support Custom Metrics feature
+- Support for ACD - OKV Endpoint group| ADB-D and ADB-C@C
+- Support monitoring of Cloud DB System for Database Management Service
+
+### Deprecation
+- Deprecated Anomaly Detection service
+
+### Bug Fix
+- upgradted go pkg cloudflare/circl@v1.6.0
+
 ## 7.10.0 (July 16, 2025)
 
 ### Added
