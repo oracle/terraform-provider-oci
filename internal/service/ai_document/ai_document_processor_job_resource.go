@@ -89,9 +89,27 @@ func AiDocumentProcessorJobResource() *schema.Resource {
 										Computed: true,
 										ForceNew: true,
 									},
+									"page_range": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
 
 									// Computed
 								},
+							},
+						},
+						"page_range": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
 							},
 						},
 
@@ -139,6 +157,24 @@ func AiDocumentProcessorJobResource() *schema.Resource {
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
+						"processor_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"GENERAL",
+								"INVOICE",
+							}, true),
+						},
+
+						// Optional
+						"document_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 						"features": {
 							Type:     schema.TypeList,
 							Required: true,
@@ -153,6 +189,7 @@ func AiDocumentProcessorJobResource() *schema.Resource {
 										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 										ValidateFunc: validation.StringInSlice([]string{
 											"DOCUMENT_CLASSIFICATION",
+											"DOCUMENT_ELEMENTS_EXTRACTION",
 											"KEY_VALUE_EXTRACTION",
 											"LANGUAGE_CLASSIFICATION",
 											"TABLE_EXTRACTION",
@@ -179,6 +216,12 @@ func AiDocumentProcessorJobResource() *schema.Resource {
 										Computed: true,
 										ForceNew: true,
 									},
+									"selection_mark_detection": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
 									"tenancy_id": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -189,23 +232,6 @@ func AiDocumentProcessorJobResource() *schema.Resource {
 									// Computed
 								},
 							},
-						},
-						"processor_type": {
-							Type:             schema.TypeString,
-							Required:         true,
-							ForceNew:         true,
-							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
-							ValidateFunc: validation.StringInSlice([]string{
-								"GENERAL",
-							}, true),
-						},
-
-						// Optional
-						"document_type": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-							ForceNew: true,
 						},
 						"is_zip_output_enabled": {
 							Type:     schema.TypeBool,
@@ -218,6 +244,44 @@ func AiDocumentProcessorJobResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 							ForceNew: true,
+						},
+						"model_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"normalization_fields": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"map": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"normalization_type": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+											},
+
+											// Computed
+										},
+									},
+								},
+							},
 						},
 
 						// Computed
@@ -301,6 +365,7 @@ func (s *AiDocumentProcessorJobResourceCrud) CreatedPending() []string {
 
 func (s *AiDocumentProcessorJobResourceCrud) CreatedTarget() []string {
 	return []string{
+		string(oci_ai_document.ProcessorJobLifecycleStateAccepted),
 		string(oci_ai_document.ProcessorJobLifecycleStateSucceeded),
 	}
 }
@@ -393,7 +458,7 @@ func (s *AiDocumentProcessorJobResourceCrud) SetData() error {
 	}
 
 	if s.Res.DisplayName != nil {
-		s.D.Set("display_name", *s.Res.DisplayName)
+		s.D.Set("display_name", s.Res.DisplayName)
 	}
 
 	if s.Res.InputLocation != nil {
@@ -466,10 +531,17 @@ func (s *AiDocumentProcessorJobResourceCrud) mapToDocumentFeature(fieldKeyFormat
 			tmp := modelId.(string)
 			details.ModelId = &tmp
 		}
-		//if tenancyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tenancy_id")); ok {
-		//	tmp := tenancyId.(string)
-		//	details.TenancyId = &tmp
-		//}
+		if tenancyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tenancy_id")); ok {
+			tmp := tenancyId.(string)
+			details.TenancyId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("DOCUMENT_ELEMENTS_EXTRACTION"):
+		details := oci_ai_document.DocumentElementsExtractionFeature{}
+		if modelId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "model_id")); ok {
+			tmp := modelId.(string)
+			details.ModelId = &tmp
+		}
 		baseObject = details
 	case strings.ToLower("KEY_VALUE_EXTRACTION"):
 		details := oci_ai_document.DocumentKeyValueExtractionFeature{}
@@ -477,10 +549,10 @@ func (s *AiDocumentProcessorJobResourceCrud) mapToDocumentFeature(fieldKeyFormat
 			tmp := modelId.(string)
 			details.ModelId = &tmp
 		}
-		//if tenancyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tenancy_id")); ok {
-		//	tmp := tenancyId.(string)
-		//	details.TenancyId = &tmp
-		//}
+		if tenancyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tenancy_id")); ok {
+			tmp := tenancyId.(string)
+			details.TenancyId = &tmp
+		}
 		baseObject = details
 	case strings.ToLower("LANGUAGE_CLASSIFICATION"):
 		details := oci_ai_document.DocumentLanguageClassificationFeature{}
@@ -491,12 +563,24 @@ func (s *AiDocumentProcessorJobResourceCrud) mapToDocumentFeature(fieldKeyFormat
 		baseObject = details
 	case strings.ToLower("TABLE_EXTRACTION"):
 		details := oci_ai_document.DocumentTableExtractionFeature{}
+		if modelId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "model_id")); ok {
+			tmp := modelId.(string)
+			details.ModelId = &tmp
+		}
 		baseObject = details
 	case strings.ToLower("TEXT_EXTRACTION"):
 		details := oci_ai_document.DocumentTextExtractionFeature{}
 		if generateSearchablePdf, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "generate_searchable_pdf")); ok {
 			tmp := generateSearchablePdf.(bool)
 			details.GenerateSearchablePdf = &tmp
+		}
+		if modelId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "model_id")); ok {
+			tmp := modelId.(string)
+			details.ModelId = &tmp
+		}
+		if selectionMarkDetection, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "selection_mark_detection")); ok {
+			tmp := selectionMarkDetection.(bool)
+			details.SelectionMarkDetection = &tmp
 		}
 		baseObject = details
 	default:
@@ -519,9 +603,15 @@ func DocumentFeatureToMap(obj oci_ai_document.DocumentFeature) map[string]interf
 			result["model_id"] = string(*v.ModelId)
 		}
 
-		//if v.TenancyId != nil {
-		//	result["tenancy_id"] = string(*v.TenancyId)
-		//}
+		if v.TenancyId != nil {
+			result["tenancy_id"] = string(*v.TenancyId)
+		}
+	case oci_ai_document.DocumentElementsExtractionFeature:
+		result["feature_type"] = "DOCUMENT_ELEMENTS_EXTRACTION"
+
+		if v.ModelId != nil {
+			result["model_id"] = string(*v.ModelId)
+		}
 	case oci_ai_document.DocumentKeyValueExtractionFeature:
 		result["feature_type"] = "KEY_VALUE_EXTRACTION"
 
@@ -529,9 +619,9 @@ func DocumentFeatureToMap(obj oci_ai_document.DocumentFeature) map[string]interf
 			result["model_id"] = string(*v.ModelId)
 		}
 
-		//if v.TenancyId != nil {
-		//	result["tenancy_id"] = string(*v.TenancyId)
-		//}
+		if v.TenancyId != nil {
+			result["tenancy_id"] = string(*v.TenancyId)
+		}
 	case oci_ai_document.DocumentLanguageClassificationFeature:
 		result["feature_type"] = "LANGUAGE_CLASSIFICATION"
 
@@ -540,11 +630,23 @@ func DocumentFeatureToMap(obj oci_ai_document.DocumentFeature) map[string]interf
 		}
 	case oci_ai_document.DocumentTableExtractionFeature:
 		result["feature_type"] = "TABLE_EXTRACTION"
+
+		if v.ModelId != nil {
+			result["model_id"] = string(*v.ModelId)
+		}
 	case oci_ai_document.DocumentTextExtractionFeature:
 		result["feature_type"] = "TEXT_EXTRACTION"
 
 		if v.GenerateSearchablePdf != nil {
 			result["generate_searchable_pdf"] = bool(*v.GenerateSearchablePdf)
+		}
+
+		if v.ModelId != nil {
+			result["model_id"] = string(*v.ModelId)
+		}
+
+		if v.SelectionMarkDetection != nil {
+			result["selection_mark_detection"] = bool(*v.SelectionMarkDetection)
 		}
 	default:
 		log.Printf("[WARN] Received 'feature_type' of unknown type %v", obj)
@@ -570,6 +672,18 @@ func (s *AiDocumentProcessorJobResourceCrud) mapToInputLocation(fieldKeyFormat s
 		if data, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "data")); ok {
 			tmp := data.(string)
 			details.Data = []byte(tmp)
+		}
+		if pageRange, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "page_range")); ok {
+			interfaces := pageRange.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "page_range")) {
+				details.PageRange = tmp
+			}
 		}
 		baseObject = details
 	case strings.ToLower("OBJECT_STORAGE_LOCATIONS"):
@@ -606,8 +720,13 @@ func InputLocationToMap(obj *oci_ai_document.InputLocation) map[string]interface
 		if v.Data != nil {
 			result["data"] = string(v.Data)
 		}
+
+		result["page_range"] = v.PageRange
 	case oci_ai_document.ObjectStorageLocations:
 		result["source_type"] = "OBJECT_STORAGE_LOCATIONS"
+
+		result["data"] = ""
+		result["page_range"] = []string{}
 
 		objectLocations := []interface{}{}
 		for _, item := range v.ObjectLocations {
@@ -617,6 +736,41 @@ func InputLocationToMap(obj *oci_ai_document.InputLocation) map[string]interface
 	default:
 		log.Printf("[WARN] Received 'source_type' of unknown type %v", *obj)
 		return nil
+	}
+
+	return result
+}
+
+func (s *AiDocumentProcessorJobResourceCrud) mapToNormalizationFields(fieldKeyFormat string) (oci_ai_document.NormalizationFields, error) {
+	result := oci_ai_document.NormalizationFields{}
+
+	//The expected pattern for NormalizationFields here is that there will be only 1 value against normalization_fields i.e. map,
+	//only 1 value against map i.e. normalization_type, and only 1 value against normalization_type i.e. some string value.
+	if map_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "map")); ok {
+		newMap := make(map[string]oci_ai_document.NormalizationFieldsMapValue)
+		for k, v := range map_.([]interface{}) {
+			fmt.Println("map key: ", k)
+			value := v.(map[string]interface{})
+			for k, v := range value {
+				fmt.Println("map key: ", k)
+				value := v.(interface{})
+				strVal := fmt.Sprint(value)
+				res := oci_ai_document.NormalizationFieldsMapValue{}
+				res.NormalizationType = &strVal
+				newMap[k] = res
+			}
+		}
+		result.PropertiesMap = newMap
+	}
+	return result, nil
+}
+
+func NormalizationFieldsToMap(obj *oci_ai_document.NormalizationFields) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj != nil {
+		list := []interface{}{}
+		result["map"] = append(list, obj.PropertiesMap)
 	}
 
 	return result
@@ -640,6 +794,19 @@ func (s *AiDocumentProcessorJobResourceCrud) mapToObjectLocation(fieldKeyFormat 
 		result.ObjectName = &tmp
 	}
 
+	if pageRange, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "page_range")); ok {
+		interfaces := pageRange.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "page_range")) {
+			result.PageRange = tmp
+		}
+	}
+
 	return result, nil
 }
 
@@ -647,16 +814,18 @@ func ObjectLocationToMap(obj oci_ai_document.ObjectLocation) map[string]interfac
 	result := map[string]interface{}{}
 
 	if obj.BucketName != nil {
-		result["bucket"] = string(*obj.BucketName)
+		result["bucket"] = obj.BucketName
 	}
 
 	if obj.NamespaceName != nil {
-		result["namespace"] = string(*obj.NamespaceName)
+		result["namespace"] = obj.NamespaceName
 	}
 
 	if obj.ObjectName != nil {
-		result["object"] = string(*obj.ObjectName)
+		result["object"] = obj.ObjectName
 	}
+
+	result["page_range"] = obj.PageRange
 
 	return result
 }
@@ -686,15 +855,15 @@ func OutputLocationToMap(obj *oci_ai_document.OutputLocation) map[string]interfa
 	result := map[string]interface{}{}
 
 	if obj.BucketName != nil {
-		result["bucket"] = string(*obj.BucketName)
+		result["bucket"] = obj.BucketName
 	}
 
 	if obj.NamespaceName != nil {
-		result["namespace"] = string(*obj.NamespaceName)
+		result["namespace"] = obj.NamespaceName
 	}
 
 	if obj.Prefix != nil {
-		result["prefix"] = string(*obj.Prefix)
+		result["prefix"] = obj.Prefix
 	}
 
 	return result
@@ -740,6 +909,38 @@ func (s *AiDocumentProcessorJobResourceCrud) mapToProcessorConfig(fieldKeyFormat
 			tmp := language.(string)
 			details.Language = &tmp
 		}
+
+		if normalizationFields, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "normalization_fields")); ok {
+			if tmpList := normalizationFields.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "normalization_fields"), 0)
+				tmp, err := s.mapToNormalizationFields(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert normalization_fields, encountered error: %v", err)
+				}
+				fmt.Println("tmp: ", tmp)
+				//For this type - GeneralProcessorConfig, there is no field of NormalizationFields in the configuration struct
+				//it is part of next switch case InvoiceProcessorConfig only. Hence this is commented out
+				//details.NormalizationFields = &tmp
+			}
+		}
+
+		baseObject = details
+	case strings.ToLower("INVOICE"):
+		details := oci_ai_document.InvoiceProcessorConfig{}
+		if modelId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "model_id")); ok {
+			tmp := modelId.(string)
+			details.ModelId = &tmp
+		}
+		if normalizationFields, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "normalization_fields")); ok {
+			if tmpList := normalizationFields.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "normalization_fields"), 0)
+				tmp, err := s.mapToNormalizationFields(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert normalization_fields, encountered error: %v", err)
+				}
+				details.NormalizationFields = &tmp
+			}
+		}
 		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown processor_type '%v' was specified", processorType)
@@ -758,6 +959,7 @@ func ProcessorConfigToMap(obj *oci_ai_document.ProcessorConfig) map[string]inter
 		features := []interface{}{}
 		for _, item := range v.Features {
 			features = append(features, DocumentFeatureToMap(item))
+			result["model_id"] = DocumentFeatureToMap(item)["model_id"] //Added model_id in response
 		}
 		result["features"] = features
 
@@ -767,6 +969,50 @@ func ProcessorConfigToMap(obj *oci_ai_document.ProcessorConfig) map[string]inter
 
 		if v.Language != nil {
 			result["language"] = string(*v.Language)
+		}
+
+		//normalization_fields computation
+		normTypeSampleValMap := make(map[string]string)
+		normTypeSampleValMap["normalization_type"] = "normalization_type_sample_val"
+
+		appendedVal := []interface{}{}
+		appendedVal = append(appendedVal, normTypeSampleValMap)
+
+		normValMap := make(map[string]interface{})
+		normValMap["map"] = appendedVal
+
+		normFields := []interface{}{}
+		normFields = append(normFields, normValMap)
+
+		result["normalization_fields"] = normFields
+
+	case oci_ai_document.InvoiceProcessorConfig:
+		result["processor_type"] = "INVOICE"
+
+		if v.ModelId != nil {
+			result["model_id"] = string(*v.ModelId)
+		}
+
+		if v.NormalizationFields != nil {
+
+			res := oci_ai_document.NormalizationFieldsMapValue{}
+			propMap := v.NormalizationFields.PropertiesMap
+			res = propMap["normalization_type"]
+
+			//normalization_fields computation
+			normTypeSampleValMap := make(map[string]string)
+			normTypeSampleValMap["normalization_type"] = fmt.Sprint(res.NormalizationType)
+
+			appendedVal := []interface{}{}
+			appendedVal = append(appendedVal, normTypeSampleValMap)
+
+			normValMap := make(map[string]interface{})
+			normValMap["map"] = appendedVal
+
+			normFields := []interface{}{}
+			normFields = append(normFields, normValMap)
+
+			result["normalization_fields"] = normFields
 		}
 	default:
 		log.Printf("[WARN] Received 'processor_type' of unknown type %v", *obj)

@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_management_managed_database_group
 This data source provides details about a specific Managed Database Group resource in Oracle Cloud Infrastructure Database Management service.
 
-Gets the details for the Managed Database Group specified by managedDatabaseGroupId.
+Gets the details of the Managed Database Group specified by managedDatabaseGroupId.
 
 
 ## Example Usage

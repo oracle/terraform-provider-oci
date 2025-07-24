@@ -902,6 +902,70 @@ func (client DbManagementClient) changeSqlPlanBaselinesAttributes(ctx context.Co
 	return response, err
 }
 
+// CheckCloudDbSystemConnectorConnectionStatus Checks the status of the cloud DB system component connection specified in this connector.
+// This operation will refresh the connectionStatus and timeConnectionStatusLastUpdated fields.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/CheckCloudDbSystemConnectorConnectionStatus.go.html to see an example of how to use CheckCloudDbSystemConnectorConnectionStatus API.
+// A default retry strategy applies to this operation CheckCloudDbSystemConnectorConnectionStatus()
+func (client DbManagementClient) CheckCloudDbSystemConnectorConnectionStatus(ctx context.Context, request CheckCloudDbSystemConnectorConnectionStatusRequest) (response CheckCloudDbSystemConnectorConnectionStatusResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.checkCloudDbSystemConnectorConnectionStatus, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CheckCloudDbSystemConnectorConnectionStatusResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CheckCloudDbSystemConnectorConnectionStatusResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CheckCloudDbSystemConnectorConnectionStatusResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CheckCloudDbSystemConnectorConnectionStatusResponse")
+	}
+	return
+}
+
+// checkCloudDbSystemConnectorConnectionStatus implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) checkCloudDbSystemConnectorConnectionStatus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cloudDbSystemConnectors/{cloudDbSystemConnectorId}/actions/checkConnectionStatus", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CheckCloudDbSystemConnectorConnectionStatusResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudDbSystemConnector/CheckCloudDbSystemConnectorConnectionStatus"
+		err = common.PostProcessServiceError(err, "DbManagement", "CheckCloudDbSystemConnectorConnectionStatus", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &clouddbsystemconnector{})
+	return response, err
+}
+
 // CheckExternalDbSystemConnectorConnectionStatus Checks the status of the external DB system component connection specified in this connector.
 // This operation will refresh the connectionStatus and timeConnectionStatusLastUpdated fields.
 //
@@ -1203,6 +1267,195 @@ func (client DbManagementClient) configureAutomaticSpmEvolveAdvisorTask(ctx cont
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ConfigureAutomaticSpmEvolveAdvisorTask"
 		err = common.PostProcessServiceError(err, "DbManagement", "ConfigureAutomaticSpmEvolveAdvisorTask", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateCloudDbSystem Creates a cloud DB system and its related resources.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/CreateCloudDbSystem.go.html to see an example of how to use CreateCloudDbSystem API.
+// A default retry strategy applies to this operation CreateCloudDbSystem()
+func (client DbManagementClient) CreateCloudDbSystem(ctx context.Context, request CreateCloudDbSystemRequest) (response CreateCloudDbSystemResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createCloudDbSystem, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateCloudDbSystemResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateCloudDbSystemResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateCloudDbSystemResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateCloudDbSystemResponse")
+	}
+	return
+}
+
+// createCloudDbSystem implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) createCloudDbSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cloudDbSystems", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateCloudDbSystemResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudDbSystem/CreateCloudDbSystem"
+		err = common.PostProcessServiceError(err, "DbManagement", "CreateCloudDbSystem", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateCloudDbSystemConnector Creates a new cloud connector.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/CreateCloudDbSystemConnector.go.html to see an example of how to use CreateCloudDbSystemConnector API.
+// A default retry strategy applies to this operation CreateCloudDbSystemConnector()
+func (client DbManagementClient) CreateCloudDbSystemConnector(ctx context.Context, request CreateCloudDbSystemConnectorRequest) (response CreateCloudDbSystemConnectorResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createCloudDbSystemConnector, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateCloudDbSystemConnectorResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateCloudDbSystemConnectorResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateCloudDbSystemConnectorResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateCloudDbSystemConnectorResponse")
+	}
+	return
+}
+
+// createCloudDbSystemConnector implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) createCloudDbSystemConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cloudDbSystemConnectors", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateCloudDbSystemConnectorResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudDbSystemConnector/CreateCloudDbSystemConnector"
+		err = common.PostProcessServiceError(err, "DbManagement", "CreateCloudDbSystemConnector", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &clouddbsystemconnector{})
+	return response, err
+}
+
+// CreateCloudDbSystemDiscovery Creates a cloud DB system discovery resource and initiates the discovery process.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/CreateCloudDbSystemDiscovery.go.html to see an example of how to use CreateCloudDbSystemDiscovery API.
+// A default retry strategy applies to this operation CreateCloudDbSystemDiscovery()
+func (client DbManagementClient) CreateCloudDbSystemDiscovery(ctx context.Context, request CreateCloudDbSystemDiscoveryRequest) (response CreateCloudDbSystemDiscoveryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createCloudDbSystemDiscovery, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateCloudDbSystemDiscoveryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateCloudDbSystemDiscoveryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateCloudDbSystemDiscoveryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateCloudDbSystemDiscoveryResponse")
+	}
+	return
+}
+
+// createCloudDbSystemDiscovery implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) createCloudDbSystemDiscovery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cloudDbSystemDiscoveries", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateCloudDbSystemDiscoveryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudDbSystemDiscovery/CreateCloudDbSystemDiscovery"
+		err = common.PostProcessServiceError(err, "DbManagement", "CreateCloudDbSystemDiscovery", apiReferenceLink)
 		return response, err
 	}
 
@@ -1963,6 +2216,177 @@ func (client DbManagementClient) createTablespace(ctx context.Context, request c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/Tablespace/CreateTablespace"
 		err = common.PostProcessServiceError(err, "DbManagement", "CreateTablespace", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteCloudDbSystem Deletes the cloud DB system specified by `cloudDbSystemId`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DeleteCloudDbSystem.go.html to see an example of how to use DeleteCloudDbSystem API.
+func (client DbManagementClient) DeleteCloudDbSystem(ctx context.Context, request DeleteCloudDbSystemRequest) (response DeleteCloudDbSystemResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteCloudDbSystem, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteCloudDbSystemResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteCloudDbSystemResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteCloudDbSystemResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteCloudDbSystemResponse")
+	}
+	return
+}
+
+// deleteCloudDbSystem implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) deleteCloudDbSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/cloudDbSystems/{cloudDbSystemId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteCloudDbSystemResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudDbSystem/DeleteCloudDbSystem"
+		err = common.PostProcessServiceError(err, "DbManagement", "DeleteCloudDbSystem", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteCloudDbSystemConnector Deletes the cloud connector specified by `cloudDbSystemConnectorId`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DeleteCloudDbSystemConnector.go.html to see an example of how to use DeleteCloudDbSystemConnector API.
+func (client DbManagementClient) DeleteCloudDbSystemConnector(ctx context.Context, request DeleteCloudDbSystemConnectorRequest) (response DeleteCloudDbSystemConnectorResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteCloudDbSystemConnector, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteCloudDbSystemConnectorResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteCloudDbSystemConnectorResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteCloudDbSystemConnectorResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteCloudDbSystemConnectorResponse")
+	}
+	return
+}
+
+// deleteCloudDbSystemConnector implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) deleteCloudDbSystemConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/cloudDbSystemConnectors/{cloudDbSystemConnectorId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteCloudDbSystemConnectorResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudDbSystemConnector/DeleteCloudDbSystemConnector"
+		err = common.PostProcessServiceError(err, "DbManagement", "DeleteCloudDbSystemConnector", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteCloudDbSystemDiscovery Deletes the cloud DB system discovery resource specified by `cloudDbSystemDiscoveryId`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DeleteCloudDbSystemDiscovery.go.html to see an example of how to use DeleteCloudDbSystemDiscovery API.
+func (client DbManagementClient) DeleteCloudDbSystemDiscovery(ctx context.Context, request DeleteCloudDbSystemDiscoveryRequest) (response DeleteCloudDbSystemDiscoveryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteCloudDbSystemDiscovery, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteCloudDbSystemDiscoveryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteCloudDbSystemDiscoveryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteCloudDbSystemDiscoveryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteCloudDbSystemDiscoveryResponse")
+	}
+	return
+}
+
+// deleteCloudDbSystemDiscovery implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) deleteCloudDbSystemDiscovery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/cloudDbSystemDiscoveries/{cloudDbSystemDiscoveryId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteCloudDbSystemDiscoveryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudDbSystemDiscovery/DeleteCloudDbSystemDiscovery"
+		err = common.PostProcessServiceError(err, "DbManagement", "DeleteCloudDbSystemDiscovery", apiReferenceLink)
 		return response, err
 	}
 
@@ -2827,6 +3251,134 @@ func (client DbManagementClient) disableAutonomousDatabaseManagementFeature(ctx 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/DisableAutonomousDatabaseManagementFeature"
 		err = common.PostProcessServiceError(err, "DbManagement", "DisableAutonomousDatabaseManagementFeature", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DisableCloudDbSystemDatabaseManagement Disables Database Management service for all the components of the specified
+// cloud DB system (except databases).
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DisableCloudDbSystemDatabaseManagement.go.html to see an example of how to use DisableCloudDbSystemDatabaseManagement API.
+// A default retry strategy applies to this operation DisableCloudDbSystemDatabaseManagement()
+func (client DbManagementClient) DisableCloudDbSystemDatabaseManagement(ctx context.Context, request DisableCloudDbSystemDatabaseManagementRequest) (response DisableCloudDbSystemDatabaseManagementResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.disableCloudDbSystemDatabaseManagement, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DisableCloudDbSystemDatabaseManagementResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DisableCloudDbSystemDatabaseManagementResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DisableCloudDbSystemDatabaseManagementResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DisableCloudDbSystemDatabaseManagementResponse")
+	}
+	return
+}
+
+// disableCloudDbSystemDatabaseManagement implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) disableCloudDbSystemDatabaseManagement(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cloudDbSystems/{cloudDbSystemId}/actions/disableDatabaseManagement", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DisableCloudDbSystemDatabaseManagementResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudDbSystem/DisableCloudDbSystemDatabaseManagement"
+		err = common.PostProcessServiceError(err, "DbManagement", "DisableCloudDbSystemDatabaseManagement", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DisableCloudDbSystemStackMonitoring Disables Stack Monitoring for all the components of the specified
+// cloud DB system (except databases).
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DisableCloudDbSystemStackMonitoring.go.html to see an example of how to use DisableCloudDbSystemStackMonitoring API.
+// A default retry strategy applies to this operation DisableCloudDbSystemStackMonitoring()
+func (client DbManagementClient) DisableCloudDbSystemStackMonitoring(ctx context.Context, request DisableCloudDbSystemStackMonitoringRequest) (response DisableCloudDbSystemStackMonitoringResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.disableCloudDbSystemStackMonitoring, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DisableCloudDbSystemStackMonitoringResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DisableCloudDbSystemStackMonitoringResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DisableCloudDbSystemStackMonitoringResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DisableCloudDbSystemStackMonitoringResponse")
+	}
+	return
+}
+
+// disableCloudDbSystemStackMonitoring implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) disableCloudDbSystemStackMonitoring(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cloudDbSystems/{cloudDbSystemId}/actions/disableStackMonitoring", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DisableCloudDbSystemStackMonitoringResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudDbSystem/DisableCloudDbSystemStackMonitoring"
+		err = common.PostProcessServiceError(err, "DbManagement", "DisableCloudDbSystemStackMonitoring", apiReferenceLink)
 		return response, err
 	}
 
@@ -3916,6 +4468,134 @@ func (client DbManagementClient) enableAutonomousDatabaseManagementFeature(ctx c
 	return response, err
 }
 
+// EnableCloudDbSystemDatabaseManagement Enables Database Management service for all the components of the specified
+// cloud DB system (except databases).
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/EnableCloudDbSystemDatabaseManagement.go.html to see an example of how to use EnableCloudDbSystemDatabaseManagement API.
+// A default retry strategy applies to this operation EnableCloudDbSystemDatabaseManagement()
+func (client DbManagementClient) EnableCloudDbSystemDatabaseManagement(ctx context.Context, request EnableCloudDbSystemDatabaseManagementRequest) (response EnableCloudDbSystemDatabaseManagementResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.enableCloudDbSystemDatabaseManagement, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnableCloudDbSystemDatabaseManagementResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnableCloudDbSystemDatabaseManagementResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnableCloudDbSystemDatabaseManagementResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnableCloudDbSystemDatabaseManagementResponse")
+	}
+	return
+}
+
+// enableCloudDbSystemDatabaseManagement implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) enableCloudDbSystemDatabaseManagement(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cloudDbSystems/{cloudDbSystemId}/actions/enableDatabaseManagement", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnableCloudDbSystemDatabaseManagementResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudDbSystem/EnableCloudDbSystemDatabaseManagement"
+		err = common.PostProcessServiceError(err, "DbManagement", "EnableCloudDbSystemDatabaseManagement", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// EnableCloudDbSystemStackMonitoring Enables Stack Monitoring for all the components of the specified
+// cloud DB system (except databases).
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/EnableCloudDbSystemStackMonitoring.go.html to see an example of how to use EnableCloudDbSystemStackMonitoring API.
+// A default retry strategy applies to this operation EnableCloudDbSystemStackMonitoring()
+func (client DbManagementClient) EnableCloudDbSystemStackMonitoring(ctx context.Context, request EnableCloudDbSystemStackMonitoringRequest) (response EnableCloudDbSystemStackMonitoringResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.enableCloudDbSystemStackMonitoring, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnableCloudDbSystemStackMonitoringResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnableCloudDbSystemStackMonitoringResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnableCloudDbSystemStackMonitoringResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnableCloudDbSystemStackMonitoringResponse")
+	}
+	return
+}
+
+// enableCloudDbSystemStackMonitoring implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) enableCloudDbSystemStackMonitoring(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cloudDbSystems/{cloudDbSystemId}/actions/enableStackMonitoring", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnableCloudDbSystemStackMonitoringResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudDbSystem/EnableCloudDbSystemStackMonitoring"
+		err = common.PostProcessServiceError(err, "DbManagement", "EnableCloudDbSystemStackMonitoring", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // EnableDatabaseManagementFeature Enables a Database Management feature for the specified cloud database.
 //
 // # See also
@@ -4673,7 +5353,7 @@ func (client DbManagementClient) generateAwrSnapshot(ctx context.Context, reques
 	return response, err
 }
 
-// GetAwrDbReport Gets the AWR report for the specific database.
+// GetAwrDbReport Gets the AWR report for the specified database.
 //
 // # See also
 //
@@ -4735,7 +5415,7 @@ func (client DbManagementClient) getAwrDbReport(ctx context.Context, request com
 	return response, err
 }
 
-// GetAwrDbSqlReport Gets the SQL health check report for one SQL of the specific database.
+// GetAwrDbSqlReport Gets the SQL health check report for one SQL of the specified database.
 //
 // # See also
 //
@@ -4790,6 +5470,644 @@ func (client DbManagementClient) getAwrDbSqlReport(ctx context.Context, request 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/GetAwrDbSqlReport"
 		err = common.PostProcessServiceError(err, "DbManagement", "GetAwrDbSqlReport", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetCloudAsm Gets the details for the cloud ASM specified by `cloudAsmId`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetCloudAsm.go.html to see an example of how to use GetCloudAsm API.
+// A default retry strategy applies to this operation GetCloudAsm()
+func (client DbManagementClient) GetCloudAsm(ctx context.Context, request GetCloudAsmRequest) (response GetCloudAsmResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getCloudAsm, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCloudAsmResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCloudAsmResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetCloudAsmResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetCloudAsmResponse")
+	}
+	return
+}
+
+// getCloudAsm implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) getCloudAsm(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudAsms/{cloudAsmId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetCloudAsmResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudAsm/GetCloudAsm"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetCloudAsm", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetCloudAsmConfiguration Gets configuration details including disk groups for the cloud ASM specified by `cloudAsmId`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetCloudAsmConfiguration.go.html to see an example of how to use GetCloudAsmConfiguration API.
+// A default retry strategy applies to this operation GetCloudAsmConfiguration()
+func (client DbManagementClient) GetCloudAsmConfiguration(ctx context.Context, request GetCloudAsmConfigurationRequest) (response GetCloudAsmConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getCloudAsmConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCloudAsmConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCloudAsmConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetCloudAsmConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetCloudAsmConfigurationResponse")
+	}
+	return
+}
+
+// getCloudAsmConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) getCloudAsmConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudAsms/{cloudAsmId}/configuration", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetCloudAsmConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudAsm/GetCloudAsmConfiguration"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetCloudAsmConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetCloudAsmInstance Gets the details for the cloud ASM instance specified by `cloudAsmInstanceId`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetCloudAsmInstance.go.html to see an example of how to use GetCloudAsmInstance API.
+// A default retry strategy applies to this operation GetCloudAsmInstance()
+func (client DbManagementClient) GetCloudAsmInstance(ctx context.Context, request GetCloudAsmInstanceRequest) (response GetCloudAsmInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getCloudAsmInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCloudAsmInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCloudAsmInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetCloudAsmInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetCloudAsmInstanceResponse")
+	}
+	return
+}
+
+// getCloudAsmInstance implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) getCloudAsmInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudAsmInstances/{cloudAsmInstanceId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetCloudAsmInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudAsmInstance/GetCloudAsmInstance"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetCloudAsmInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetCloudCluster Gets the details for the cloud cluster specified by `cloudClusterId`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetCloudCluster.go.html to see an example of how to use GetCloudCluster API.
+// A default retry strategy applies to this operation GetCloudCluster()
+func (client DbManagementClient) GetCloudCluster(ctx context.Context, request GetCloudClusterRequest) (response GetCloudClusterResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getCloudCluster, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCloudClusterResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCloudClusterResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetCloudClusterResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetCloudClusterResponse")
+	}
+	return
+}
+
+// getCloudCluster implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) getCloudCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudClusters/{cloudClusterId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetCloudClusterResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudCluster/GetCloudCluster"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetCloudCluster", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetCloudClusterInstance Gets the details for the cloud cluster instance specified by `cloudClusterInstanceId`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetCloudClusterInstance.go.html to see an example of how to use GetCloudClusterInstance API.
+// A default retry strategy applies to this operation GetCloudClusterInstance()
+func (client DbManagementClient) GetCloudClusterInstance(ctx context.Context, request GetCloudClusterInstanceRequest) (response GetCloudClusterInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getCloudClusterInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCloudClusterInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCloudClusterInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetCloudClusterInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetCloudClusterInstanceResponse")
+	}
+	return
+}
+
+// getCloudClusterInstance implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) getCloudClusterInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudClusterInstances/{cloudClusterInstanceId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetCloudClusterInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudClusterInstance/GetCloudClusterInstance"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetCloudClusterInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetCloudDbHome Gets the details for the cloud DB home specified by `cloudDbHomeId`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetCloudDbHome.go.html to see an example of how to use GetCloudDbHome API.
+// A default retry strategy applies to this operation GetCloudDbHome()
+func (client DbManagementClient) GetCloudDbHome(ctx context.Context, request GetCloudDbHomeRequest) (response GetCloudDbHomeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getCloudDbHome, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCloudDbHomeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCloudDbHomeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetCloudDbHomeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetCloudDbHomeResponse")
+	}
+	return
+}
+
+// getCloudDbHome implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) getCloudDbHome(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudDbHomes/{cloudDbHomeId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetCloudDbHomeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudDbHome/GetCloudDbHome"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetCloudDbHome", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetCloudDbNode Gets the details for the cloud DB node specified by `cloudDbNodeId`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetCloudDbNode.go.html to see an example of how to use GetCloudDbNode API.
+// A default retry strategy applies to this operation GetCloudDbNode()
+func (client DbManagementClient) GetCloudDbNode(ctx context.Context, request GetCloudDbNodeRequest) (response GetCloudDbNodeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getCloudDbNode, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCloudDbNodeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCloudDbNodeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetCloudDbNodeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetCloudDbNodeResponse")
+	}
+	return
+}
+
+// getCloudDbNode implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) getCloudDbNode(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudDbNodes/{cloudDbNodeId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetCloudDbNodeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudDbNode/GetCloudDbNode"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetCloudDbNode", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetCloudDbSystem Gets the details for the cloud DB system specified by `cloudDbSystemId`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetCloudDbSystem.go.html to see an example of how to use GetCloudDbSystem API.
+// A default retry strategy applies to this operation GetCloudDbSystem()
+func (client DbManagementClient) GetCloudDbSystem(ctx context.Context, request GetCloudDbSystemRequest) (response GetCloudDbSystemResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getCloudDbSystem, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCloudDbSystemResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCloudDbSystemResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetCloudDbSystemResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetCloudDbSystemResponse")
+	}
+	return
+}
+
+// getCloudDbSystem implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) getCloudDbSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudDbSystems/{cloudDbSystemId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetCloudDbSystemResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudDbSystem/GetCloudDbSystem"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetCloudDbSystem", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetCloudDbSystemConnector Gets the details for the cloud connector specified by `cloudDbSystemConnectorId`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetCloudDbSystemConnector.go.html to see an example of how to use GetCloudDbSystemConnector API.
+// A default retry strategy applies to this operation GetCloudDbSystemConnector()
+func (client DbManagementClient) GetCloudDbSystemConnector(ctx context.Context, request GetCloudDbSystemConnectorRequest) (response GetCloudDbSystemConnectorResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getCloudDbSystemConnector, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCloudDbSystemConnectorResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCloudDbSystemConnectorResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetCloudDbSystemConnectorResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetCloudDbSystemConnectorResponse")
+	}
+	return
+}
+
+// getCloudDbSystemConnector implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) getCloudDbSystemConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudDbSystemConnectors/{cloudDbSystemConnectorId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetCloudDbSystemConnectorResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudDbSystemConnector/GetCloudDbSystemConnector"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetCloudDbSystemConnector", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &clouddbsystemconnector{})
+	return response, err
+}
+
+// GetCloudDbSystemDiscovery Gets the details for the cloud DB system discovery resource specified by `cloudDbSystemDiscoveryId`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetCloudDbSystemDiscovery.go.html to see an example of how to use GetCloudDbSystemDiscovery API.
+// A default retry strategy applies to this operation GetCloudDbSystemDiscovery()
+func (client DbManagementClient) GetCloudDbSystemDiscovery(ctx context.Context, request GetCloudDbSystemDiscoveryRequest) (response GetCloudDbSystemDiscoveryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getCloudDbSystemDiscovery, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCloudDbSystemDiscoveryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCloudDbSystemDiscoveryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetCloudDbSystemDiscoveryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetCloudDbSystemDiscoveryResponse")
+	}
+	return
+}
+
+// getCloudDbSystemDiscovery implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) getCloudDbSystemDiscovery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudDbSystemDiscoveries/{cloudDbSystemDiscoveryId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetCloudDbSystemDiscoveryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudDbSystemDiscovery/GetCloudDbSystemDiscovery"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetCloudDbSystemDiscovery", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetCloudListener Gets the details for the cloud listener specified by `cloudListenerId`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetCloudListener.go.html to see an example of how to use GetCloudListener API.
+// A default retry strategy applies to this operation GetCloudListener()
+func (client DbManagementClient) GetCloudListener(ctx context.Context, request GetCloudListenerRequest) (response GetCloudListenerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getCloudListener, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCloudListenerResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCloudListenerResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetCloudListenerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetCloudListenerResponse")
+	}
+	return
+}
+
+// getCloudListener implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) getCloudListener(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudListeners/{cloudListenerId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetCloudListenerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudListener/GetCloudListener"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetCloudListener", apiReferenceLink)
 		return response, err
 	}
 
@@ -6368,7 +7686,7 @@ func (client DbManagementClient) getIormPlan(ctx context.Context, request common
 	return response, err
 }
 
-// GetJob Gets the details for the job specified by jobId.
+// GetJob Gets the details of the job specified by jobId.
 //
 // # See also
 //
@@ -6425,7 +7743,7 @@ func (client DbManagementClient) getJob(ctx context.Context, request common.OCIR
 	return response, err
 }
 
-// GetJobExecution Gets the details for the job execution specified by jobExecutionId.
+// GetJobExecution Gets the details of the job execution specified by jobExecutionId.
 //
 // # See also
 //
@@ -6482,7 +7800,7 @@ func (client DbManagementClient) getJobExecution(ctx context.Context, request co
 	return response, err
 }
 
-// GetJobRun Gets the details for the job run specified by jobRunId.
+// GetJobRun Gets the details of the job run specified by jobRunId.
 //
 // # See also
 //
@@ -6539,7 +7857,7 @@ func (client DbManagementClient) getJobRun(ctx context.Context, request common.O
 	return response, err
 }
 
-// GetManagedDatabase Gets the details for the Managed Database specified by managedDatabaseId.
+// GetManagedDatabase Gets the details of the Managed Database specified by managedDatabaseId.
 //
 // # See also
 //
@@ -6596,7 +7914,7 @@ func (client DbManagementClient) getManagedDatabase(ctx context.Context, request
 	return response, err
 }
 
-// GetManagedDatabaseGroup Gets the details for the Managed Database Group specified by managedDatabaseGroupId.
+// GetManagedDatabaseGroup Gets the details of the Managed Database Group specified by managedDatabaseGroupId.
 //
 // # See also
 //
@@ -7407,7 +8725,7 @@ func (client DbManagementClient) getUser(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// GetWorkRequest Gets the status of the work request with the given Work Request ID
+// GetWorkRequest Gets the status of the work request with the given Work Request ID.
 //
 // # See also
 //
@@ -7752,6 +9070,819 @@ func (client DbManagementClient) listAwrDbs(ctx context.Context, request common.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ListAwrDbs"
 		err = common.PostProcessServiceError(err, "DbManagement", "ListAwrDbs", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListCloudAsmDiskGroups Lists ASM disk groups for the cloud ASM specified by `cloudAsmId`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListCloudAsmDiskGroups.go.html to see an example of how to use ListCloudAsmDiskGroups API.
+// A default retry strategy applies to this operation ListCloudAsmDiskGroups()
+func (client DbManagementClient) ListCloudAsmDiskGroups(ctx context.Context, request ListCloudAsmDiskGroupsRequest) (response ListCloudAsmDiskGroupsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCloudAsmDiskGroups, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCloudAsmDiskGroupsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCloudAsmDiskGroupsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListCloudAsmDiskGroupsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCloudAsmDiskGroupsResponse")
+	}
+	return
+}
+
+// listCloudAsmDiskGroups implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) listCloudAsmDiskGroups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudAsms/{cloudAsmId}/diskGroups", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCloudAsmDiskGroupsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudAsm/ListCloudAsmDiskGroups"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListCloudAsmDiskGroups", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListCloudAsmInstances Lists the ASM instances in the specified cloud ASM.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListCloudAsmInstances.go.html to see an example of how to use ListCloudAsmInstances API.
+// A default retry strategy applies to this operation ListCloudAsmInstances()
+func (client DbManagementClient) ListCloudAsmInstances(ctx context.Context, request ListCloudAsmInstancesRequest) (response ListCloudAsmInstancesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCloudAsmInstances, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCloudAsmInstancesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCloudAsmInstancesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListCloudAsmInstancesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCloudAsmInstancesResponse")
+	}
+	return
+}
+
+// listCloudAsmInstances implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) listCloudAsmInstances(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudAsmInstances", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCloudAsmInstancesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudAsmInstance/ListCloudAsmInstances"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListCloudAsmInstances", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListCloudAsmUsers Lists ASM users for the cloud ASM specified by `cloudAsmId`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListCloudAsmUsers.go.html to see an example of how to use ListCloudAsmUsers API.
+// A default retry strategy applies to this operation ListCloudAsmUsers()
+func (client DbManagementClient) ListCloudAsmUsers(ctx context.Context, request ListCloudAsmUsersRequest) (response ListCloudAsmUsersResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCloudAsmUsers, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCloudAsmUsersResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCloudAsmUsersResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListCloudAsmUsersResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCloudAsmUsersResponse")
+	}
+	return
+}
+
+// listCloudAsmUsers implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) listCloudAsmUsers(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudAsms/{cloudAsmId}/users", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCloudAsmUsersResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudAsm/ListCloudAsmUsers"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListCloudAsmUsers", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListCloudAsms Lists the ASMs in the specified cloud DB system.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListCloudAsms.go.html to see an example of how to use ListCloudAsms API.
+// A default retry strategy applies to this operation ListCloudAsms()
+func (client DbManagementClient) ListCloudAsms(ctx context.Context, request ListCloudAsmsRequest) (response ListCloudAsmsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCloudAsms, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCloudAsmsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCloudAsmsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListCloudAsmsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCloudAsmsResponse")
+	}
+	return
+}
+
+// listCloudAsms implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) listCloudAsms(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudAsms", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCloudAsmsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudAsm/ListCloudAsms"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListCloudAsms", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListCloudClusterInstances Lists the cluster instances in the specified cloud cluster.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListCloudClusterInstances.go.html to see an example of how to use ListCloudClusterInstances API.
+// A default retry strategy applies to this operation ListCloudClusterInstances()
+func (client DbManagementClient) ListCloudClusterInstances(ctx context.Context, request ListCloudClusterInstancesRequest) (response ListCloudClusterInstancesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCloudClusterInstances, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCloudClusterInstancesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCloudClusterInstancesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListCloudClusterInstancesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCloudClusterInstancesResponse")
+	}
+	return
+}
+
+// listCloudClusterInstances implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) listCloudClusterInstances(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudClusterInstances", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCloudClusterInstancesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudClusterInstance/ListCloudClusterInstances"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListCloudClusterInstances", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListCloudClusters Lists the clusters in the specified cloud DB system.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListCloudClusters.go.html to see an example of how to use ListCloudClusters API.
+// A default retry strategy applies to this operation ListCloudClusters()
+func (client DbManagementClient) ListCloudClusters(ctx context.Context, request ListCloudClustersRequest) (response ListCloudClustersResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCloudClusters, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCloudClustersResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCloudClustersResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListCloudClustersResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCloudClustersResponse")
+	}
+	return
+}
+
+// listCloudClusters implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) listCloudClusters(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudClusters", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCloudClustersResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudCluster/ListCloudClusters"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListCloudClusters", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListCloudDatabases Lists the cloud databases in the specified compartment or in the specified DB system.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListCloudDatabases.go.html to see an example of how to use ListCloudDatabases API.
+// A default retry strategy applies to this operation ListCloudDatabases()
+func (client DbManagementClient) ListCloudDatabases(ctx context.Context, request ListCloudDatabasesRequest) (response ListCloudDatabasesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCloudDatabases, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCloudDatabasesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCloudDatabasesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListCloudDatabasesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCloudDatabasesResponse")
+	}
+	return
+}
+
+// listCloudDatabases implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) listCloudDatabases(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudDatabases", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCloudDatabasesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudDatabaseCollection/ListCloudDatabases"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListCloudDatabases", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListCloudDbHomes Lists the DB homes in the specified cloud DB system.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListCloudDbHomes.go.html to see an example of how to use ListCloudDbHomes API.
+// A default retry strategy applies to this operation ListCloudDbHomes()
+func (client DbManagementClient) ListCloudDbHomes(ctx context.Context, request ListCloudDbHomesRequest) (response ListCloudDbHomesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCloudDbHomes, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCloudDbHomesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCloudDbHomesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListCloudDbHomesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCloudDbHomesResponse")
+	}
+	return
+}
+
+// listCloudDbHomes implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) listCloudDbHomes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudDbHomes", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCloudDbHomesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudDbHome/ListCloudDbHomes"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListCloudDbHomes", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListCloudDbNodes Lists the cloud DB nodes in the specified cloud DB system.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListCloudDbNodes.go.html to see an example of how to use ListCloudDbNodes API.
+// A default retry strategy applies to this operation ListCloudDbNodes()
+func (client DbManagementClient) ListCloudDbNodes(ctx context.Context, request ListCloudDbNodesRequest) (response ListCloudDbNodesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCloudDbNodes, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCloudDbNodesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCloudDbNodesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListCloudDbNodesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCloudDbNodesResponse")
+	}
+	return
+}
+
+// listCloudDbNodes implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) listCloudDbNodes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudDbNodes", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCloudDbNodesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudDbNode/ListCloudDbNodes"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListCloudDbNodes", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListCloudDbSystemConnectors Lists the cloud connectors in the specified cloud DB system.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListCloudDbSystemConnectors.go.html to see an example of how to use ListCloudDbSystemConnectors API.
+// A default retry strategy applies to this operation ListCloudDbSystemConnectors()
+func (client DbManagementClient) ListCloudDbSystemConnectors(ctx context.Context, request ListCloudDbSystemConnectorsRequest) (response ListCloudDbSystemConnectorsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCloudDbSystemConnectors, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCloudDbSystemConnectorsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCloudDbSystemConnectorsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListCloudDbSystemConnectorsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCloudDbSystemConnectorsResponse")
+	}
+	return
+}
+
+// listCloudDbSystemConnectors implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) listCloudDbSystemConnectors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudDbSystemConnectors", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCloudDbSystemConnectorsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudDbSystemConnector/ListCloudDbSystemConnectors"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListCloudDbSystemConnectors", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListCloudDbSystemDiscoveries Lists the cloud DB system discovery resources in the specified compartment.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListCloudDbSystemDiscoveries.go.html to see an example of how to use ListCloudDbSystemDiscoveries API.
+// A default retry strategy applies to this operation ListCloudDbSystemDiscoveries()
+func (client DbManagementClient) ListCloudDbSystemDiscoveries(ctx context.Context, request ListCloudDbSystemDiscoveriesRequest) (response ListCloudDbSystemDiscoveriesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCloudDbSystemDiscoveries, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCloudDbSystemDiscoveriesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCloudDbSystemDiscoveriesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListCloudDbSystemDiscoveriesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCloudDbSystemDiscoveriesResponse")
+	}
+	return
+}
+
+// listCloudDbSystemDiscoveries implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) listCloudDbSystemDiscoveries(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudDbSystemDiscoveries", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCloudDbSystemDiscoveriesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudDbSystemDiscovery/ListCloudDbSystemDiscoveries"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListCloudDbSystemDiscoveries", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListCloudDbSystems Lists the cloud DB systems in the specified compartment.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListCloudDbSystems.go.html to see an example of how to use ListCloudDbSystems API.
+// A default retry strategy applies to this operation ListCloudDbSystems()
+func (client DbManagementClient) ListCloudDbSystems(ctx context.Context, request ListCloudDbSystemsRequest) (response ListCloudDbSystemsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCloudDbSystems, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCloudDbSystemsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCloudDbSystemsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListCloudDbSystemsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCloudDbSystemsResponse")
+	}
+	return
+}
+
+// listCloudDbSystems implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) listCloudDbSystems(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudDbSystems", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCloudDbSystemsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudDbSystem/ListCloudDbSystems"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListCloudDbSystems", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListCloudListenerServices Lists the database services registered with the specified cloud listener
+// for the specified Managed Database.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListCloudListenerServices.go.html to see an example of how to use ListCloudListenerServices API.
+// A default retry strategy applies to this operation ListCloudListenerServices()
+func (client DbManagementClient) ListCloudListenerServices(ctx context.Context, request ListCloudListenerServicesRequest) (response ListCloudListenerServicesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCloudListenerServices, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCloudListenerServicesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCloudListenerServicesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListCloudListenerServicesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCloudListenerServicesResponse")
+	}
+	return
+}
+
+// listCloudListenerServices implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) listCloudListenerServices(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudListeners/{cloudListenerId}/services", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCloudListenerServicesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudListener/ListCloudListenerServices"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListCloudListenerServices", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListCloudListeners Lists the listeners in the specified cloud DB system.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListCloudListeners.go.html to see an example of how to use ListCloudListeners API.
+// A default retry strategy applies to this operation ListCloudListeners()
+func (client DbManagementClient) ListCloudListeners(ctx context.Context, request ListCloudListenersRequest) (response ListCloudListenersResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCloudListeners, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCloudListenersResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCloudListenersResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListCloudListenersResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCloudListenersResponse")
+	}
+	return
+}
+
+// listCloudListeners implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) listCloudListeners(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudListeners", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCloudListenersResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudListener/ListCloudListeners"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListCloudListeners", apiReferenceLink)
 		return response, err
 	}
 
@@ -10434,7 +12565,7 @@ func (client DbManagementClient) listWorkRequestLogs(ctx context.Context, reques
 	return response, err
 }
 
-// ListWorkRequests The list of work requests in a specific compartment was retrieved successfully.
+// ListWorkRequests Lists the work requests in a specific compartment.
 //
 // # See also
 //
@@ -10856,6 +12987,63 @@ func (client DbManagementClient) modifyPluggableDatabaseManagementFeature(ctx co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ModifyPluggableDatabaseManagementFeature"
 		err = common.PostProcessServiceError(err, "DbManagement", "ModifyPluggableDatabaseManagementFeature", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// PatchCloudDbSystemDiscovery Patches the cloud DB system discovery specified by `cloudDbSystemDiscoveryId`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/PatchCloudDbSystemDiscovery.go.html to see an example of how to use PatchCloudDbSystemDiscovery API.
+func (client DbManagementClient) PatchCloudDbSystemDiscovery(ctx context.Context, request PatchCloudDbSystemDiscoveryRequest) (response PatchCloudDbSystemDiscoveryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.patchCloudDbSystemDiscovery, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PatchCloudDbSystemDiscoveryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PatchCloudDbSystemDiscoveryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PatchCloudDbSystemDiscoveryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PatchCloudDbSystemDiscoveryResponse")
+	}
+	return
+}
+
+// patchCloudDbSystemDiscovery implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) patchCloudDbSystemDiscovery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPatch, "/cloudDbSystemDiscoveries/{cloudDbSystemDiscoveryId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PatchCloudDbSystemDiscoveryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudDbSystemDiscovery/PatchCloudDbSystemDiscovery"
+		err = common.PostProcessServiceError(err, "DbManagement", "PatchCloudDbSystemDiscovery", apiReferenceLink)
 		return response, err
 	}
 
@@ -11804,6 +13992,296 @@ func (client DbManagementClient) summarizeAwrDbWaitEvents(ctx context.Context, r
 	return response, err
 }
 
+// SummarizeCloudAsmMetrics Gets metrics for the cloud ASM specified by `cloudAsmId`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeCloudAsmMetrics.go.html to see an example of how to use SummarizeCloudAsmMetrics API.
+// A default retry strategy applies to this operation SummarizeCloudAsmMetrics()
+func (client DbManagementClient) SummarizeCloudAsmMetrics(ctx context.Context, request SummarizeCloudAsmMetricsRequest) (response SummarizeCloudAsmMetricsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeCloudAsmMetrics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeCloudAsmMetricsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeCloudAsmMetricsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeCloudAsmMetricsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeCloudAsmMetricsResponse")
+	}
+	return
+}
+
+// summarizeCloudAsmMetrics implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) summarizeCloudAsmMetrics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudAsms/{cloudAsmId}/metrics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeCloudAsmMetricsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudAsm/SummarizeCloudAsmMetrics"
+		err = common.PostProcessServiceError(err, "DbManagement", "SummarizeCloudAsmMetrics", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SummarizeCloudClusterMetrics Gets metrics for the cloud cluster specified by `cloudClusterId`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeCloudClusterMetrics.go.html to see an example of how to use SummarizeCloudClusterMetrics API.
+// A default retry strategy applies to this operation SummarizeCloudClusterMetrics()
+func (client DbManagementClient) SummarizeCloudClusterMetrics(ctx context.Context, request SummarizeCloudClusterMetricsRequest) (response SummarizeCloudClusterMetricsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeCloudClusterMetrics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeCloudClusterMetricsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeCloudClusterMetricsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeCloudClusterMetricsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeCloudClusterMetricsResponse")
+	}
+	return
+}
+
+// summarizeCloudClusterMetrics implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) summarizeCloudClusterMetrics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudClusters/{cloudClusterId}/metrics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeCloudClusterMetricsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudCluster/SummarizeCloudClusterMetrics"
+		err = common.PostProcessServiceError(err, "DbManagement", "SummarizeCloudClusterMetrics", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SummarizeCloudDbNodeMetrics Gets metrics for the cloud DB node specified by `cloudDbNodeId`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeCloudDbNodeMetrics.go.html to see an example of how to use SummarizeCloudDbNodeMetrics API.
+// A default retry strategy applies to this operation SummarizeCloudDbNodeMetrics()
+func (client DbManagementClient) SummarizeCloudDbNodeMetrics(ctx context.Context, request SummarizeCloudDbNodeMetricsRequest) (response SummarizeCloudDbNodeMetricsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeCloudDbNodeMetrics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeCloudDbNodeMetricsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeCloudDbNodeMetricsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeCloudDbNodeMetricsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeCloudDbNodeMetricsResponse")
+	}
+	return
+}
+
+// summarizeCloudDbNodeMetrics implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) summarizeCloudDbNodeMetrics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudDbNodes/{cloudDbNodeId}/metrics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeCloudDbNodeMetricsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudDbNode/SummarizeCloudDbNodeMetrics"
+		err = common.PostProcessServiceError(err, "DbManagement", "SummarizeCloudDbNodeMetrics", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SummarizeCloudDbSystemAvailabilityMetrics Gets availability metrics for the components present in the cloud DB system specified by `cloudDbSystemId`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeCloudDbSystemAvailabilityMetrics.go.html to see an example of how to use SummarizeCloudDbSystemAvailabilityMetrics API.
+// A default retry strategy applies to this operation SummarizeCloudDbSystemAvailabilityMetrics()
+func (client DbManagementClient) SummarizeCloudDbSystemAvailabilityMetrics(ctx context.Context, request SummarizeCloudDbSystemAvailabilityMetricsRequest) (response SummarizeCloudDbSystemAvailabilityMetricsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeCloudDbSystemAvailabilityMetrics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeCloudDbSystemAvailabilityMetricsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeCloudDbSystemAvailabilityMetricsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeCloudDbSystemAvailabilityMetricsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeCloudDbSystemAvailabilityMetricsResponse")
+	}
+	return
+}
+
+// summarizeCloudDbSystemAvailabilityMetrics implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) summarizeCloudDbSystemAvailabilityMetrics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudDbSystems/{cloudDbSystemId}/availabilityMetrics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeCloudDbSystemAvailabilityMetricsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudDbSystem/SummarizeCloudDbSystemAvailabilityMetrics"
+		err = common.PostProcessServiceError(err, "DbManagement", "SummarizeCloudDbSystemAvailabilityMetrics", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SummarizeCloudListenerMetrics Gets metrics for the cloud listener specified by `cloudListenerId`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeCloudListenerMetrics.go.html to see an example of how to use SummarizeCloudListenerMetrics API.
+// A default retry strategy applies to this operation SummarizeCloudListenerMetrics()
+func (client DbManagementClient) SummarizeCloudListenerMetrics(ctx context.Context, request SummarizeCloudListenerMetricsRequest) (response SummarizeCloudListenerMetricsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeCloudListenerMetrics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeCloudListenerMetricsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeCloudListenerMetricsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeCloudListenerMetricsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeCloudListenerMetricsResponse")
+	}
+	return
+}
+
+// summarizeCloudListenerMetrics implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) summarizeCloudListenerMetrics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudListeners/{cloudListenerId}/metrics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeCloudListenerMetricsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudListener/SummarizeCloudListenerMetrics"
+		err = common.PostProcessServiceError(err, "DbManagement", "SummarizeCloudListenerMetrics", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // SummarizeExternalAsmMetrics Gets metrics for the external ASM specified by `externalAsmId`.
 //
 // # See also
@@ -12433,6 +14911,576 @@ func (client DbManagementClient) testPreferredCredential(ctx context.Context, re
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/PreferredCredential/TestPreferredCredential"
 		err = common.PostProcessServiceError(err, "DbManagement", "TestPreferredCredential", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateCloudAsm Updates the cloud ASM specified by `cloudAsmId`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateCloudAsm.go.html to see an example of how to use UpdateCloudAsm API.
+func (client DbManagementClient) UpdateCloudAsm(ctx context.Context, request UpdateCloudAsmRequest) (response UpdateCloudAsmResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateCloudAsm, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateCloudAsmResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateCloudAsmResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateCloudAsmResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateCloudAsmResponse")
+	}
+	return
+}
+
+// updateCloudAsm implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) updateCloudAsm(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/cloudAsms/{cloudAsmId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateCloudAsmResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudAsm/UpdateCloudAsm"
+		err = common.PostProcessServiceError(err, "DbManagement", "UpdateCloudAsm", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateCloudAsmInstance Updates the cloud ASM instance specified by `cloudAsmInstanceId`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateCloudAsmInstance.go.html to see an example of how to use UpdateCloudAsmInstance API.
+func (client DbManagementClient) UpdateCloudAsmInstance(ctx context.Context, request UpdateCloudAsmInstanceRequest) (response UpdateCloudAsmInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateCloudAsmInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateCloudAsmInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateCloudAsmInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateCloudAsmInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateCloudAsmInstanceResponse")
+	}
+	return
+}
+
+// updateCloudAsmInstance implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) updateCloudAsmInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/cloudAsmInstances/{cloudAsmInstanceId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateCloudAsmInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudAsmInstance/UpdateCloudAsmInstance"
+		err = common.PostProcessServiceError(err, "DbManagement", "UpdateCloudAsmInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateCloudCluster Updates the cloud cluster specified by `cloudClusterId`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateCloudCluster.go.html to see an example of how to use UpdateCloudCluster API.
+func (client DbManagementClient) UpdateCloudCluster(ctx context.Context, request UpdateCloudClusterRequest) (response UpdateCloudClusterResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateCloudCluster, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateCloudClusterResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateCloudClusterResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateCloudClusterResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateCloudClusterResponse")
+	}
+	return
+}
+
+// updateCloudCluster implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) updateCloudCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/cloudClusters/{cloudClusterId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateCloudClusterResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudCluster/UpdateCloudCluster"
+		err = common.PostProcessServiceError(err, "DbManagement", "UpdateCloudCluster", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateCloudClusterInstance Updates the cloud cluster instance specified by `cloudClusterInstanceId`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateCloudClusterInstance.go.html to see an example of how to use UpdateCloudClusterInstance API.
+func (client DbManagementClient) UpdateCloudClusterInstance(ctx context.Context, request UpdateCloudClusterInstanceRequest) (response UpdateCloudClusterInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateCloudClusterInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateCloudClusterInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateCloudClusterInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateCloudClusterInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateCloudClusterInstanceResponse")
+	}
+	return
+}
+
+// updateCloudClusterInstance implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) updateCloudClusterInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/cloudClusterInstances/{cloudClusterInstanceId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateCloudClusterInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudClusterInstance/UpdateCloudClusterInstance"
+		err = common.PostProcessServiceError(err, "DbManagement", "UpdateCloudClusterInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateCloudDbHome Updates the cloud DB home specified by `cloudDbHomeId`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateCloudDbHome.go.html to see an example of how to use UpdateCloudDbHome API.
+func (client DbManagementClient) UpdateCloudDbHome(ctx context.Context, request UpdateCloudDbHomeRequest) (response UpdateCloudDbHomeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateCloudDbHome, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateCloudDbHomeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateCloudDbHomeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateCloudDbHomeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateCloudDbHomeResponse")
+	}
+	return
+}
+
+// updateCloudDbHome implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) updateCloudDbHome(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/cloudDbHomes/{cloudDbHomeId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateCloudDbHomeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudDbHome/UpdateCloudDbHome"
+		err = common.PostProcessServiceError(err, "DbManagement", "UpdateCloudDbHome", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateCloudDbNode Updates the cloud DB node specified by `cloudDbNodeId`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateCloudDbNode.go.html to see an example of how to use UpdateCloudDbNode API.
+func (client DbManagementClient) UpdateCloudDbNode(ctx context.Context, request UpdateCloudDbNodeRequest) (response UpdateCloudDbNodeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateCloudDbNode, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateCloudDbNodeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateCloudDbNodeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateCloudDbNodeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateCloudDbNodeResponse")
+	}
+	return
+}
+
+// updateCloudDbNode implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) updateCloudDbNode(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/cloudDbNodes/{cloudDbNodeId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateCloudDbNodeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudDbNode/UpdateCloudDbNode"
+		err = common.PostProcessServiceError(err, "DbManagement", "UpdateCloudDbNode", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateCloudDbSystem Updates the cloud DB system specified by `cloudDbSystemId`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateCloudDbSystem.go.html to see an example of how to use UpdateCloudDbSystem API.
+func (client DbManagementClient) UpdateCloudDbSystem(ctx context.Context, request UpdateCloudDbSystemRequest) (response UpdateCloudDbSystemResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateCloudDbSystem, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateCloudDbSystemResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateCloudDbSystemResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateCloudDbSystemResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateCloudDbSystemResponse")
+	}
+	return
+}
+
+// updateCloudDbSystem implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) updateCloudDbSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/cloudDbSystems/{cloudDbSystemId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateCloudDbSystemResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudDbSystem/UpdateCloudDbSystem"
+		err = common.PostProcessServiceError(err, "DbManagement", "UpdateCloudDbSystem", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateCloudDbSystemConnector Updates the cloud connector specified by `cloudDbSystemConnectorId`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateCloudDbSystemConnector.go.html to see an example of how to use UpdateCloudDbSystemConnector API.
+func (client DbManagementClient) UpdateCloudDbSystemConnector(ctx context.Context, request UpdateCloudDbSystemConnectorRequest) (response UpdateCloudDbSystemConnectorResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateCloudDbSystemConnector, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateCloudDbSystemConnectorResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateCloudDbSystemConnectorResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateCloudDbSystemConnectorResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateCloudDbSystemConnectorResponse")
+	}
+	return
+}
+
+// updateCloudDbSystemConnector implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) updateCloudDbSystemConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/cloudDbSystemConnectors/{cloudDbSystemConnectorId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateCloudDbSystemConnectorResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudDbSystemConnector/UpdateCloudDbSystemConnector"
+		err = common.PostProcessServiceError(err, "DbManagement", "UpdateCloudDbSystemConnector", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateCloudDbSystemDiscovery Updates the cloud DB system discovery specified by `cloudDbSystemDiscoveryId`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateCloudDbSystemDiscovery.go.html to see an example of how to use UpdateCloudDbSystemDiscovery API.
+func (client DbManagementClient) UpdateCloudDbSystemDiscovery(ctx context.Context, request UpdateCloudDbSystemDiscoveryRequest) (response UpdateCloudDbSystemDiscoveryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateCloudDbSystemDiscovery, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateCloudDbSystemDiscoveryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateCloudDbSystemDiscoveryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateCloudDbSystemDiscoveryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateCloudDbSystemDiscoveryResponse")
+	}
+	return
+}
+
+// updateCloudDbSystemDiscovery implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) updateCloudDbSystemDiscovery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/cloudDbSystemDiscoveries/{cloudDbSystemDiscoveryId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateCloudDbSystemDiscoveryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudDbSystemDiscovery/UpdateCloudDbSystemDiscovery"
+		err = common.PostProcessServiceError(err, "DbManagement", "UpdateCloudDbSystemDiscovery", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateCloudListener Updates the cloud listener specified by `cloudListenerId`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateCloudListener.go.html to see an example of how to use UpdateCloudListener API.
+func (client DbManagementClient) UpdateCloudListener(ctx context.Context, request UpdateCloudListenerRequest) (response UpdateCloudListenerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateCloudListener, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateCloudListenerResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateCloudListenerResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateCloudListenerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateCloudListenerResponse")
+	}
+	return
+}
+
+// updateCloudListener implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) updateCloudListener(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/cloudListeners/{cloudListenerId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateCloudListenerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudListener/UpdateCloudListener"
+		err = common.PostProcessServiceError(err, "DbManagement", "UpdateCloudListener", apiReferenceLink)
 		return response, err
 	}
 
@@ -13415,7 +16463,7 @@ func (client DbManagementClient) updateExternalMysqlDatabaseConnector(ctx contex
 	return response, err
 }
 
-// UpdateJob Updates the details for the recurring scheduled job specified by jobId. Note that non-recurring (one time) jobs cannot be updated.
+// UpdateJob Updates the details of the recurring scheduled job specified by jobId. Note that non-recurring (one time) jobs cannot be updated.
 //
 // # See also
 //

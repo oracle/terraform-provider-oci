@@ -122,6 +122,12 @@ func (s *DatabaseAutonomousContainerDatabaseDataSourceCrud) SetData() error {
 	}
 	s.D.Set("dataguard_group_members", dataguardGroupMembers)
 
+	customerContacts := []interface{}{}
+	for _, item := range s.Res.CustomerContacts {
+		customerContacts = append(customerContacts, ACDCustomerContactToMap(item))
+	}
+	s.D.Set("customer_contacts", customerContacts)
+
 	if s.Res.DbName != nil {
 		s.D.Set("db_name", *s.Res.DbName)
 	}
@@ -218,6 +224,10 @@ func (s *DatabaseAutonomousContainerDatabaseDataSourceCrud) SetData() error {
 
 	if s.Res.NextMaintenanceRunId != nil {
 		s.D.Set("next_maintenance_run_id", *s.Res.NextMaintenanceRunId)
+	}
+
+	if s.Res.OkvEndPointGroupName != nil {
+		s.D.Set("okv_end_point_group_name", *s.Res.OkvEndPointGroupName)
 	}
 
 	if s.Res.PatchId != nil {

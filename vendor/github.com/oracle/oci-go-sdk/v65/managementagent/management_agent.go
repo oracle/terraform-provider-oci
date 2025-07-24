@@ -103,6 +103,10 @@ type ManagementAgent struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{ "orcl-cloud": { "free-tier-retained": "true" } }`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m ManagementAgent) String() string {
@@ -159,6 +163,7 @@ func (m *ManagementAgent) UnmarshalJSON(data []byte) (e error) {
 		DataSourceList            []datasource                      `json:"dataSourceList"`
 		FreeformTags              map[string]string                 `json:"freeformTags"`
 		DefinedTags               map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags                map[string]map[string]interface{} `json:"systemTags"`
 		Id                        *string                           `json:"id"`
 		Version                   *string                           `json:"version"`
 		CompartmentId             *string                           `json:"compartmentId"`
@@ -224,6 +229,8 @@ func (m *ManagementAgent) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
+
+	m.SystemTags = model.SystemTags
 
 	m.Id = model.Id
 

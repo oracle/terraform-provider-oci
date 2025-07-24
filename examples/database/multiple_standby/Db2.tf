@@ -158,6 +158,8 @@ resource "oci_database_database" "standby_database" {
     protection_mode = "MAXIMUM_PERFORMANCE"
     transport_type = "ASYNC"
     source_tde_wallet_password = "BEstrO0ng_#11"
+    defined_tags     = map("example-tag-namespace-all.example-tag", "databaseDefinedTags1")
+    freeform_tags    = {"databaseFreeformTagsK" = "databaseFreeformTagsV"}
   }
 
   db_home_id = oci_database_db_home.test_db_home2.id

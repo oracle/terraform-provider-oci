@@ -57,6 +57,18 @@ type ManagementAgentInstallKey struct {
 
 	// If set to true, the install key has no expiration date or usage limit. Defaults to false
 	IsUnlimited *bool `mandatory:"false" json:"isUnlimited"`
+
+	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
+	// Example: `{"bar-key": "value"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"foo-namespace": {"bar-key": "value"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{ "orcl-cloud": { "free-tier-retained": "true" } }`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m ManagementAgentInstallKey) String() string {

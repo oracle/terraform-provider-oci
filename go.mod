@@ -14,7 +14,7 @@ require (
 	github.com/hashicorp/terraform-plugin-mux v0.18.0
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.36.1
 	github.com/hashicorp/terraform-plugin-testing v1.9.0
-	github.com/oracle/oci-go-sdk/v65 v65.95.2
+	github.com/oracle/oci-go-sdk/v65 v65.96.0
 	github.com/stretchr/testify v1.9.0
 	golang.org/x/mod v0.24.0
 	gopkg.in/yaml.v2 v2.4.0
@@ -26,7 +26,7 @@ require (
 	github.com/agext/levenshtein v1.2.3 // indirect
 	github.com/apparentlymart/go-textseg v1.0.0 // indirect
 	github.com/apparentlymart/go-textseg/v15 v15.0.0 // indirect
-	github.com/cloudflare/circl v1.6.0 // indirect
+	github.com/cloudflare/circl v1.6.1 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/gofrs/flock v0.12.1 // indirect
 	github.com/golang/protobuf v1.5.4 // indirect

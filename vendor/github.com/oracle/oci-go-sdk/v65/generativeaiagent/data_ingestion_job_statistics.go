@@ -28,6 +28,9 @@ type DataIngestionJobStatistics struct {
 	// The number of files that have been successfully ingested during the ingestion.
 	NumberOfIngestedFiles *int `mandatory:"false" json:"numberOfIngestedFiles"`
 
+	// The number of files that have been ignored during the ingestion.
+	NumberOfIgnoredFiles *int `mandatory:"false" json:"numberOfIgnoredFiles"`
+
 	// The duration of this ingestion job.
 	DurationInSeconds *int `mandatory:"false" json:"durationInSeconds"`
 }

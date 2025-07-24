@@ -1419,6 +1419,18 @@ func (s *DatabaseDatabaseResourceCrud) mapToCreateDatabaseFromBackupDetails(fiel
 		result.DbUniqueName = &tmp
 	}
 
+	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
+		tmp, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return result, fmt.Errorf("unable to convert defined_tags, encountered error: %v", err)
+		}
+		result.DefinedTags = tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
+		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
 	if pluggableDatabases, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "pluggable_databases")); ok {
 		interfaces := pluggableDatabases.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -1462,6 +1474,18 @@ func (s *DatabaseDatabaseResourceCrud) mapToCreateStandbyDetails(fieldKeyFormat 
 	if dbUniqueName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_unique_name")); ok {
 		tmp := dbUniqueName.(string)
 		result.DbUniqueName = &tmp
+	}
+
+	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
+		tmp, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return result, fmt.Errorf("unable to convert defined_tags, encountered error: %v", err)
+		}
+		result.DefinedTags = tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
+		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isActiveDataGuardEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_active_data_guard_enabled")); ok {
@@ -2498,6 +2522,11 @@ func adgDiffSuppress(k string, old, new string, d *schema.ResourceData) bool {
 		item, ok := member.(map[string]interface{})
 		if ok {
 			if databaseId, exists := item["database_id"]; exists && databaseId.(string) == d.Id() {
+				// To suppress diff on the primary database for the field "is_active_data_guard_enabled" because during
+				//role change with the standby (failover/switchover), there is a diff in the primary db if the standby db is created with ADG value as true.
+				if dgRoleValue, exists := item["role"]; exists && dgRoleValue.(string) == "PRIMARY" {
+					return true
+				}
 				if fieldValue, exists := item["is_active_data_guard_enabled"]; exists {
 					return compareBooleanField(fieldValue, new)
 				}

@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_management_managed_my_sql_database_outbound_replications
 This data source provides the list of Managed My Sql Database Outbound Replications in Oracle Cloud Infrastructure Database Management service.
 
-Retrieves information pertaining to outbound replications of a specific MySQL server.
+Retrieves information pertaining to the outbound replications of a specific MySQL server.
 
 
 ## Example Usage
@@ -44,5 +44,5 @@ The following attributes are exported:
 	* `replica_port` - The port on the replica server, as specified on the replica with the --report-port option. A zero in this column means that the replica port (--report-port) was not set.
 	* `replica_server_id` - The server ID value of the replica.
 	* `replica_uuid` - The Universally Unique Identifier (UUID) value of the replica server.
-* `outbound_replications_count` - The number of outbound replications from this server.
+* `outbound_replications_count` - The number of outbound replications from the MySQL server.
 

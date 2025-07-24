@@ -213,6 +213,9 @@ resource "oci_database_management_external_db_system_discovery" "test_external_d
 #      is_selected_for_monitoring = "false"
 #    }
 #  }
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
 }
 
 # List ExternalDbSystemDiscovery resources
@@ -240,6 +243,9 @@ resource "oci_database_management_external_db_system" "test_external_db_system" 
     "${oci_identity_tag_namespace.tag_namespace1.name}.${oci_identity_tag.tag1.name}" = var.db_system_defined_tags_value
   }
   freeform_tags = var.db_system_freeform_tags
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
 }
 
 # List ExternalDbSystem resources
@@ -281,7 +287,7 @@ resource "oci_database_management_external_db_system_connector" "test_external_a
   }
   freeform_tags = var.db_system_connector_freeform_tags
   lifecycle {
-    ignore_changes = [connection_info]
+    ignore_changes = [connection_info, defined_tags]
   }
 }
 
@@ -389,6 +395,9 @@ resource "oci_database_management_external_db_system_connector" "test_external_l
     "${oci_identity_tag_namespace.tag_namespace1.name}.${oci_identity_tag.tag1.name}" = var.db_system_connector_defined_tags_value
   }
   freeform_tags = var.db_system_connector_freeform_tags
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
 }
 
 # List ExternalListeners in ExternalDbSystem
@@ -428,7 +437,7 @@ data "oci_database_management_external_db_system_connectors" "test_external_db_s
   #Optional
   compartment_id        = var.compartment_id
   display_name          = var.external_asm_connector_display_name
-  depends_on = [oci_database_management_external_db_system_connector.test_external_asm_connector]
+  #depends_on = [oci_database_management_external_db_system_connector.test_external_asm_connector]
 }
 
 data "oci_database_management_managed_databases_asm_properties" "test_managed_databases_asm_properties" {

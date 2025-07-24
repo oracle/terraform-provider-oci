@@ -23,7 +23,7 @@ type ManagedMySqlDatabaseOutboundReplicationCollection struct {
 	// The list of ManagedMySqlDatabaseOutboundReplicationSummary records.
 	Items []ManagedMySqlDatabaseOutboundReplicationSummary `mandatory:"true" json:"items"`
 
-	// The number of outbound replications from this server.
+	// The number of outbound replications from the MySQL server.
 	OutboundReplicationsCount *int `mandatory:"false" json:"outboundReplicationsCount"`
 }
 

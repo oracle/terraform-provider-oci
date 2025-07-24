@@ -128,6 +128,21 @@ resource "oci_database_autonomous_database" "test_autonomous_database_apex" {
   is_free_tier             = "false"
 }
 
+resource "oci_database_autonomous_database" "test_autonomous_database_sch_db_ug" {
+  admin_password           = random_string.autonomous_database_admin_password.result
+  compartment_id           = var.compartment_ocid
+  compute_count            = "2.0"
+  compute_model            = "ECPU"
+  data_storage_size_in_tbs = "1"
+  db_name                  = "adbSchDb7"
+  license_model            = "LICENSE_INCLUDED"
+  is_free_tier             = "false"
+  db_version               = "23ai"
+#   is_disable_db_version_upgrade_schedule = "false"
+#   is_schedule_db_version_upgrade_to_earliest = "false"
+#   time_scheduled_db_version_upgrade = "2025-06-06T01:50:00.000Z"
+}
+
 resource "oci_database_autonomous_database" "test_autonomous_database_bck_ret_lock" {
   admin_password           = random_string.autonomous_database_admin_password.result
   compartment_id           = var.compartment_ocid
@@ -400,4 +415,13 @@ resource "oci_database_autonomous_database" "test_autonomous_database_shrink" {
   license_model            = "LICENSE_INCLUDED"
   shrink_adb_trigger       = "2"
   is_auto_scaling_for_storage_enabled = "true"
+}
+
+data "oci_database_autonomous_databases_clones" "test_autonomous_databases_clones" {
+  #Required
+  autonomous_database_id = oci_database_autonomous_database.test_autonomous_database.id
+  compartment_id = var.compartment_ocid
+
+  #Optional
+  clone_type = "REFRESHABLE_CLONE"
 }

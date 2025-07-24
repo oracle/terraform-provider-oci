@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// ManagedMySqlDatabaseGeneralReplicationInformation General information about replication of a MySQL server.
+// ManagedMySqlDatabaseGeneralReplicationInformation General information about the replication of a MySQL server.
 type ManagedMySqlDatabaseGeneralReplicationInformation struct {
 
 	// This server's ID.
@@ -29,7 +29,7 @@ type ManagedMySqlDatabaseGeneralReplicationInformation struct {
 	// If the value is ON, the instance is configured as read_only. If the value is SUPER, the instance is configured as super_read_only. If the value is OFF, the instance is neither read_only nor super_read_only.
 	ReadOnly MySqlReadOnlyEnum `mandatory:"true" json:"readOnly"`
 
-	// The type of the instance. Source, Replica, Primary Group Member, Secondary Group Member, and so on. If the instance is replicating from one or more sources and has one or more replicas, i.e., it belongs to a replication chain, the instance type can be Replica/Source.
+	// The type of the instance for example, Source, Replica, Primary Group Member, and Secondary Group Member. If the instance is replicating from one or more sources and has one or more replicas, which means, it belongs to a replication chain, the instance type can be Replica/Source.
 	InstanceType *string `mandatory:"false" json:"instanceType"`
 
 	// This server's host name.
@@ -56,13 +56,13 @@ type ManagedMySqlDatabaseGeneralReplicationInformation struct {
 	// The number of sources this server is replicating from.
 	InboundReplicationsCount *int `mandatory:"false" json:"inboundReplicationsCount"`
 
-	// Global Transaction Identifier (GTID) mode of this server.
+	// The Global Transaction Identifier (GTID) mode of this server.
 	GtidMode *string `mandatory:"false" json:"gtidMode"`
 
 	// The set of global transaction identifiers for transactions that have been executed on this source server.
 	ExecutedGtidSet *string `mandatory:"false" json:"executedGtidSet"`
 
-	// Status of binary logging on this server.
+	// The status of binary logging on this server.
 	BinaryLogging *string `mandatory:"false" json:"binaryLogging"`
 
 	// The binary logging format used by this server.

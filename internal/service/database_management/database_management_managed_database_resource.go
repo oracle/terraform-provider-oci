@@ -477,35 +477,6 @@ func (s *DatabaseManagementManagedDatabaseResourceCrud) SetData() error {
 	return nil
 }
 
-func ConnectorDetailsToMap(obj *oci_database_management.ConnectorDetails) map[string]interface{} {
-	result := map[string]interface{}{}
-	switch v := (*obj).(type) {
-	case oci_database_management.ExternalConnectorDetails:
-		result["connector_type"] = "EXTERNAL"
-
-		if v.DatabaseConnectorId != nil {
-			result["database_connector_id"] = string(*v.DatabaseConnectorId)
-		}
-	case oci_database_management.MacsConnectorDetails:
-		result["connector_type"] = "MACS"
-
-		if v.ManagementAgentId != nil {
-			result["management_agent_id"] = string(*v.ManagementAgentId)
-		}
-	case oci_database_management.PrivateEndPointConnectorDetails:
-		result["connector_type"] = "PE"
-
-		if v.PrivateEndPointId != nil {
-			result["private_end_point_id"] = string(*v.PrivateEndPointId)
-		}
-	default:
-		log.Printf("[WARN] Received 'connector_type' of unknown type %v", *obj)
-		return nil
-	}
-
-	return result
-}
-
 func DatabaseConnectionCredentialsToMap(obj *oci_database_management.DatabaseConnectionCredentials) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {

@@ -122,7 +122,6 @@ Make sure the `output_path` is empty before running resource discovery
 * `retry_timeout` - The time duration for which API calls will wait and retry operation in case of API errors. By default, the retry timeout duration is 15s
 * `services` - Comma-separated list of service resources to export. If not specified, all resources within the given compartment (which excludes identity resources) are exported. The following values can be specified:
     * `adm` - Discovers adm resources within the specified compartment
-    * `ai_anomaly_detection` - Discovers ai_anomaly_detection resources within the specified compartment
     * `ai_document` - Discovers ai_document resources within the specified compartment
     * `ai_language` - Discovers ai_language resources within the specified compartment
     * `ai_vision` - Discovers ai_vision resources within the specified compartment
@@ -336,13 +335,7 @@ adm
 * oci\_adm\_remediation\_recipe
 * oci\_adm\_remediation\_run
 
-ai_anomaly_detection
 
-* oci\_ai\_anomaly\_detection\_data\_asset
-* oci\_ai\_anomaly\_detection\_model
-* oci\_ai\_anomaly\_detection\_project
-* oci\_ai\_anomaly\_detection\_ai\_private\_endpoint
-* oci\_ai\_anomaly\_detection\_detect\_anomaly\_job
 
 ai_document
 
@@ -1025,6 +1018,7 @@ management_agent
 * oci\_management\_agent\_management\_agent
 * oci\_management\_agent\_management\_agent\_install\_key
 * oci\_management\_agent\_management\_agent\_data\_source
+* oci\_management\_agent\_named\_credential
 
 marketplace
 

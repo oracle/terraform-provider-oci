@@ -7,6 +7,7 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_ai_document_model", AiDocumentModelDataSource())
+	tfresource.RegisterDatasource("oci_ai_document_model_type", AiDocumentModelTypeDataSource())
 	tfresource.RegisterDatasource("oci_ai_document_models", AiDocumentModelsDataSource())
 	tfresource.RegisterDatasource("oci_ai_document_processor_job", AiDocumentProcessorJobDataSource())
 	tfresource.RegisterDatasource("oci_ai_document_project", AiDocumentProjectDataSource())
