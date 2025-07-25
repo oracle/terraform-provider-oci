@@ -444,6 +444,9 @@ func RouteRuleToMap(obj oci_core.RouteRule) map[string]interface{} {
 		result["network_entity_id"] = string(*obj.NetworkEntityId)
 	}
 
+	if obj.RouteType != "" {
+		result["route_type"] = string(obj.RouteType)
+	}
 	return result
 }
 
@@ -480,10 +483,14 @@ func routeRulesHashCodeForSets(v interface{}) int {
 		buf.WriteString(fmt.Sprintf("%v-", networkEntityId))
 	}
 
-	if routeType, ok := m["route_type"]; ok && routeType != "" {
-		buf.WriteString(fmt.Sprintf("%v-", routeType))
+	routeType := ""
+	if val, ok := m["route_type"]; ok && val != "" {
+		routeType = val.(string)
 	}
-
+	if routeType == "" {
+		routeType = "STATIC" // normalize default
+	}
+	buf.WriteString(fmt.Sprintf("%v-", routeType))
 	return utils.GetStringHashcode(buf.String())
 
 }
