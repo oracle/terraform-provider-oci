@@ -72,6 +72,10 @@ func (s *DatabaseExascaleDbStorageVaultDataSourceCrud) SetData() error {
 
 	s.D.Set("attached_shape_attributes", s.Res.AttachedShapeAttributes)
 
+	if s.Res.AutoscaleLimitInGBs != nil {
+		s.D.Set("autoscale_limit_in_gbs", *s.Res.AutoscaleLimitInGBs)
+	}
+
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
@@ -106,6 +110,10 @@ func (s *DatabaseExascaleDbStorageVaultDataSourceCrud) SetData() error {
 		s.D.Set("high_capacity_database_storage", []interface{}{ExascaleDbStorageDetailsToMap(s.Res.HighCapacityDatabaseStorage)})
 	} else {
 		s.D.Set("high_capacity_database_storage", nil)
+	}
+
+	if s.Res.IsAutoscaleEnabled != nil {
+		s.D.Set("is_autoscale_enabled", *s.Res.IsAutoscaleEnabled)
 	}
 
 	if s.Res.LifecycleDetails != nil {

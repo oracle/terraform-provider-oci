@@ -70,6 +70,11 @@ func DatabaseExascaleDbStorageVaultResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"autoscale_limit_in_gbs": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"cluster_placement_group_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -99,6 +104,11 @@ func DatabaseExascaleDbStorageVaultResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"is_autoscale_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
 			},
 			"subscription_id": {
 				Type:     schema.TypeString,
@@ -245,6 +255,11 @@ func (s *DatabaseExascaleDbStorageVaultResourceCrud) Create() error {
 		request.AdditionalFlashCacheInPercent = &tmp
 	}
 
+	if autoscaleLimitInGBs, ok := s.D.GetOkExists("autoscale_limit_in_gbs"); ok {
+		tmp := autoscaleLimitInGBs.(int)
+		request.AutoscaleLimitInGBs = &tmp
+	}
+
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
 		tmp := availabilityDomain.(string)
 		request.AvailabilityDomain = &tmp
@@ -296,6 +311,11 @@ func (s *DatabaseExascaleDbStorageVaultResourceCrud) Create() error {
 			}
 			request.HighCapacityDatabaseStorage = &tmp
 		}
+	}
+
+	if isAutoscaleEnabled, ok := s.D.GetOkExists("is_autoscale_enabled"); ok {
+		tmp := isAutoscaleEnabled.(bool)
+		request.IsAutoscaleEnabled = &tmp
 	}
 
 	if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
@@ -370,6 +390,11 @@ func (s *DatabaseExascaleDbStorageVaultResourceCrud) Update() error {
 		request.AdditionalFlashCacheInPercent = &tmp
 	}
 
+	if autoscaleLimitInGBs, ok := s.D.GetOkExists("autoscale_limit_in_gbs"); ok {
+		tmp := autoscaleLimitInGBs.(int)
+		request.AutoscaleLimitInGBs = &tmp
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -404,6 +429,11 @@ func (s *DatabaseExascaleDbStorageVaultResourceCrud) Update() error {
 			}
 			request.HighCapacityDatabaseStorage = &tmp
 		}
+	}
+
+	if isAutoscaleEnabled, ok := s.D.GetOkExists("is_autoscale_enabled"); ok {
+		tmp := isAutoscaleEnabled.(bool)
+		request.IsAutoscaleEnabled = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
@@ -454,6 +484,10 @@ func (s *DatabaseExascaleDbStorageVaultResourceCrud) SetData() error {
 
 	s.D.Set("attached_shape_attributes", s.Res.AttachedShapeAttributes)
 
+	if s.Res.AutoscaleLimitInGBs != nil {
+		s.D.Set("autoscale_limit_in_gbs", *s.Res.AutoscaleLimitInGBs)
+	}
+
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
@@ -488,6 +522,10 @@ func (s *DatabaseExascaleDbStorageVaultResourceCrud) SetData() error {
 		s.D.Set("high_capacity_database_storage", []interface{}{ExascaleDbStorageDetailsToMap(s.Res.HighCapacityDatabaseStorage)})
 	} else {
 		s.D.Set("high_capacity_database_storage", nil)
+	}
+
+	if s.Res.IsAutoscaleEnabled != nil {
+		s.D.Set("is_autoscale_enabled", *s.Res.IsAutoscaleEnabled)
 	}
 
 	if s.Res.LifecycleDetails != nil {
