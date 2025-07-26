@@ -55,6 +55,8 @@ var (
 		"compartment_id":                    acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":                      acctest.Representation{RepType: acctest.Required, Create: `TFExascaleDbStorageVault`, Update: `TFExascaleDbStorageVaultUpdatedName`},
 		"high_capacity_database_storage":    acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseExascaleDbStorageVaultHighCapacityDatabaseStorageRepresentation},
+		"autoscale_limit_in_gbs":            acctest.Representation{RepType: acctest.Optional, Create: `1000`, Update: `1800`},
+		"is_autoscale_enabled":              acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"additional_flash_cache_in_percent": acctest.Representation{RepType: acctest.Optional, Create: `20`, Update: `25`},
 		"description":                       acctest.Representation{RepType: acctest.Optional, Create: `ExaScale DB Storage Vault - description`, Update: `ExaScale DB Storage Vault - updated description`},
 		"time_zone":                         acctest.Representation{RepType: acctest.Optional, Create: `US/Pacific`},
@@ -145,6 +147,7 @@ func TestDatabaseExascaleDbStorageVaultResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + DatabaseExascaleDbStorageVaultResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_exascale_db_storage_vault", "test_exascale_db_storage_vault", acctest.Optional, acctest.Create, DatabaseExascaleDbStorageVaultRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "autoscale_limit_in_gbs", "1000"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -154,6 +157,7 @@ func TestDatabaseExascaleDbStorageVaultResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "attached_shape_attributes.#", "0"), // attached_shape_attributes should be null for a vault with no cluster
 				//resource.TestCheckResourceAttr(resourceName, "vm_cluster_count", "0"),
 				resource.TestCheckResourceAttr(resourceName, "high_capacity_database_storage.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "is_autoscale_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "high_capacity_database_storage.0.total_size_in_gbs", "800"),
 				resource.TestCheckResourceAttr(resourceName, "additional_flash_cache_in_percent", "20"),
 				resource.TestCheckResourceAttr(resourceName, "description", "ExaScale DB Storage Vault - description"),
@@ -182,6 +186,7 @@ func TestDatabaseExascaleDbStorageVaultResource_basic(t *testing.T) {
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "autoscale_limit_in_gbs", "1000"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -191,6 +196,7 @@ func TestDatabaseExascaleDbStorageVaultResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "attached_shape_attributes.#", "0"), // attached_shape_attributes should be null for a vault with no cluster
 				//resource.TestCheckResourceAttr(resourceName, "vm_cluster_count", "0"),
 				resource.TestCheckResourceAttr(resourceName, "high_capacity_database_storage.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "is_autoscale_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "high_capacity_database_storage.0.total_size_in_gbs", "800"),
 				resource.TestCheckResourceAttr(resourceName, "additional_flash_cache_in_percent", "20"),
 				resource.TestCheckResourceAttr(resourceName, "description", "ExaScale DB Storage Vault - description"),
@@ -214,6 +220,7 @@ func TestDatabaseExascaleDbStorageVaultResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + DatabaseExascaleDbStorageVaultResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_exascale_db_storage_vault", "test_exascale_db_storage_vault", acctest.Optional, acctest.Update, DatabaseExascaleDbStorageVaultRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "autoscale_limit_in_gbs", "1800"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -223,6 +230,7 @@ func TestDatabaseExascaleDbStorageVaultResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "attached_shape_attributes.#", "0"), // attached_shape_attributes should be null for a vault with no cluster
 				//resource.TestCheckResourceAttr(resourceName, "vm_cluster_count", "0"),
 				resource.TestCheckResourceAttr(resourceName, "high_capacity_database_storage.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "is_autoscale_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "high_capacity_database_storage.0.total_size_in_gbs", "1600"),
 				resource.TestCheckResourceAttr(resourceName, "additional_flash_cache_in_percent", "25"),
 				resource.TestCheckResourceAttr(resourceName, "description", "ExaScale DB Storage Vault - updated description"),
@@ -253,8 +261,8 @@ func TestDatabaseExascaleDbStorageVaultResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "TFExascaleDbStorageVaultUpdatedName"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_cluster_count_greater_than_or_equal_to", "0"),
-
 				resource.TestCheckResourceAttr(datasourceName, "exascale_db_storage_vaults.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "exascale_db_storage_vaults.0.autoscale_limit_in_gbs", "1800"),
 				resource.TestCheckResourceAttrSet(datasourceName, "exascale_db_storage_vaults.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "exascale_db_storage_vaults.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "exascale_db_storage_vaults.0.time_created"),
@@ -265,6 +273,7 @@ func TestDatabaseExascaleDbStorageVaultResource_basic(t *testing.T) {
 				//resource.TestCheckResourceAttr(datasourceName, "exascale_db_storage_vaults.0.vm_cluster_count", "0"),
 				resource.TestCheckResourceAttr(datasourceName, "exascale_db_storage_vaults.0.high_capacity_database_storage.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "exascale_db_storage_vaults.0.high_capacity_database_storage.0.available_size_in_gbs"),
+				resource.TestCheckResourceAttr(datasourceName, "exascale_db_storage_vaults.0.is_autoscale_enabled", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "exascale_db_storage_vaults.0.high_capacity_database_storage.0.total_size_in_gbs", "1600"),
 				resource.TestCheckResourceAttr(datasourceName, "exascale_db_storage_vaults.0.additional_flash_cache_in_percent", "25"),
 				resource.TestCheckResourceAttr(datasourceName, "exascale_db_storage_vaults.0.description", "ExaScale DB Storage Vault - updated description"),
@@ -282,6 +291,7 @@ func TestDatabaseExascaleDbStorageVaultResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "exascale_db_storage_vault_id"),
 
+				resource.TestCheckResourceAttr(singularDatasourceName, "autoscale_limit_in_gbs", "1800"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
@@ -292,6 +302,7 @@ func TestDatabaseExascaleDbStorageVaultResource_basic(t *testing.T) {
 				//resource.TestCheckResourceAttr(singularDatasourceName, "vm_cluster_count", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "high_capacity_database_storage.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "high_capacity_database_storage.0.available_size_in_gbs"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_autoscale_enabled", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "high_capacity_database_storage.0.total_size_in_gbs", "1600"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "additional_flash_cache_in_percent", "25"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "time_zone", "US/Pacific"),
