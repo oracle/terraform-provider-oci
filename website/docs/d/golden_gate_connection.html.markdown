@@ -50,6 +50,9 @@ The following attributes are exported:
     * DATABRICKS - Required fields by authentication types:
       * PERSONAL_ACCESS_TOKEN: username is always 'token', user must enter password
       * OAUTH_M2M: user must enter clientId and clientSecret
+* `azure_authority_host` - The endpoint used for authentication with Microsoft Entra ID (formerly Azure Active Directory). Default value: https://login.microsoftonline.com When connecting to a non-public Azure Cloud, the endpoint must be provided, eg:
+	* Azure China: https://login.chinacloudapi.cn/
+	* Azure US Government: https://login.microsoftonline.us/
 * `azure_tenant_id` - Azure tenant ID of the application. This property is required when 'authenticationType' is set to 'AZURE_ACTIVE_DIRECTORY'. e.g.: 14593954-d337-4a61-a364-9f758c64f97f
 * `bootstrap_servers` - Kafka bootstrap. Equivalent of bootstrap.servers configuration property in Kafka: list of KafkaBootstrapServer objects specified by host/port. Used for establishing the initial connection to the Kafka cluster. Example: `"server1.example.com:9092,server2.example.com:9092"` 
 	* `host` - The name or address of a host. 
@@ -91,6 +94,7 @@ The following attributes are exported:
 * `display_name` - An object's Display Name. 
 * `does_use_secret_ids` - Indicates that sensitive attributes are provided via Secrets.
 * `endpoint`
+    * AMAZON_KINESIS: The endpoint URL of the Amazon Kinesis service. e.g.: 'https://kinesis.us-east-1.amazonaws.com' If not provided, GoldenGate will default to 'https://kinesis.<region>.amazonaws.com'.
     * AMAZON_S3: The Amazon Endpoint for S3. e.g.: 'https://my-bucket.s3.us-east-1.amazonaws.com'
     * AZURE_DATA_LAKE_STORAGE: Azure Storage service endpoint. e.g: https://test.blob.core.windows.net
     * MICROSOFT_FABRIC: Optional Microsoft Fabric service endpoint. Default value: https://onelake.dfs.fabric.microsoft.com 
@@ -126,7 +130,9 @@ The following attributes are exported:
 * `producer_properties` - The base64 encoded content of the producer.properties file. 
 * `public_key_fingerprint` - The fingerprint of the API Key of the user specified by the userId. See documentation: https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm 
 * `redis_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Redis cluster. 
-* `region` - The name of the region. e.g.: us-ashburn-1 If the region is not provided, backend will default to the default region.
+* `region` - The name of the region:
+  	* OCI_OBJECT_STORAGE, ORACLE_NOSQL - OCI region, e.g.: 'us-ashburn-1'
+  	* AMAZON_KINESIS, AMAZON_S3 - region of the 3rd party cloud service, e.g. 'us-west-2'
 * `routing_method` - Controls the network traffic direction to the target: SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.  SHARED_DEPLOYMENT_ENDPOINT: Network traffic flows from the assigned deployment's private endpoint through the deployment's subnet. DEDICATED_ENDPOINT: A dedicated private endpoint is created in the target VCN subnet for the connection. The subnetId is required when DEDICATED_ENDPOINT networking is selected.
 * `sas_token_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the sas token is stored. Note: When provided, 'sasToken' field must not be provided.
 * `secret_access_key_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the secret access key is stored. Note: When provided, 'secretAccessKey' field must not be provided.
@@ -138,12 +144,16 @@ The following attributes are exported:
 * `service_account_key_file_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the content of the service account key file is stored, which contains the credentials required to use Google Cloud Storage. Note: When provided, 'serviceAccountKeyFile' field must not be provided.
 * `session_mode` - The mode of the database connection session to be established by the data client. 'REDIRECT' - for a RAC database, 'DIRECT' - for a non-RAC database. Connection to a RAC database involves a redirection received from the SCAN listeners to the database node to connect to. By default the mode would be DIRECT.
 * `should_use_jndi` - If set to true, Java Naming and Directory Interface (JNDI) properties should be provided.
-* `should_use_resource_principal` - Indicates that the user intents to connect to the instance through resource principal.
+* `should_use_resource_principal` - Specifies that the user intends to authenticate to the instance using a resource principal. Default: false
 * `should_validate_server_certificate` - If set to true, the driver validates the certificate that is sent by the database server.
 * `ssl_ca` - Database Certificate - The base64 encoded content of a .pem or .crt file. containing the server public key (for 1-way SSL). The supported file formats are .pem and .crt. In case of MYSQL and POSTGRESQL connections it is not included in GET responses if the `view=COMPACT` query parameter is specified.
 * `ssl_cert` - Client Certificate - The base64 encoded content of a .pem or .crt file containing the client public key (for 2-way SSL). It is not included in GET responses if the `view=COMPACT` query parameter is specified. 
-* `ssl_client_keystash_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the keystash file is stored,  which contains the encrypted password to the key database file. Note: When provided, 'sslClientKeystash' field must not be provided. 
-* `ssl_client_keystoredb_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the keystore file stored,  which created at the client containing the server certificate / CA root certificate. Note: When provided, 'sslClientKeystoredb' field must not be provided. 
+* `ssl_client_keystash_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the keystash file is stored,  which contains the encrypted password to the key database file. This property is not supported for IBM Db2 for i, as client TLS mode is not available.
+
+	Note: When provided, 'sslClientKeystash' field must not be provided. 
+* `ssl_client_keystoredb_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the keystore file stored,  which created at the client containing the server certificate / CA root certificate. This property is not supported for IBM Db2 for i, as client TLS mode is not available.
+
+	Note: When provided, 'sslClientKeystoredb' field must not be provided. 
 * `ssl_crl` - The base64 encoded list of certificates revoked by the trusted certificate authorities (Trusted CA). Note: This is an optional property and only applicable if TLS/MTLS option is selected. It is not included in GET responses if the `view=COMPACT` query parameter is specified. 
 * `ssl_key_password_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored for the cert inside of the Keystore. In case it differs from the KeyStore password, it should be provided. Note: When provided, 'sslKeyPassword' field must not be provided. 
 * `ssl_key_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the Client Key
