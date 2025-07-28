@@ -74,6 +74,14 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("access_key_id", *v.AccessKeyId)
 		}
 
+		if v.Endpoint != nil {
+			s.D.Set("endpoint", *v.Endpoint)
+		}
+
+		if v.Region != nil {
+			s.D.Set("region", *v.Region)
+		}
+
 		if v.SecretAccessKeySecretId != nil {
 			s.D.Set("secret_access_key_secret_id", *v.SecretAccessKeySecretId)
 		}
@@ -343,6 +351,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		}
 
 		s.D.Set("authentication_type", v.AuthenticationType)
+
+		if v.AzureAuthorityHost != nil {
+			s.D.Set("azure_authority_host", *v.AzureAuthorityHost)
+		}
 
 		if v.AzureTenantId != nil {
 			s.D.Set("azure_tenant_id", *v.AzureTenantId)
@@ -660,9 +672,9 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("ssl_client_keystoredb_secret_id", *v.SslClientKeystoredbSecretId)
 		}
 
-		//if v.SslServerCertificate != nil {
-		//	s.D.Set("ssl_server_certificate", *v.SslServerCertificate)
-		//}
+		if v.SslServerCertificate != nil {
+			s.D.Set("ssl_server_certificate", *v.SslServerCertificate)
+		}
 
 		s.D.Set("technology_type", v.TechnologyType)
 
@@ -1262,9 +1274,9 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 	case oci_golden_gate.HdfsConnection:
 		s.D.Set("connection_type", "HDFS")
 
-		//if v.CoreSiteXml != nil {
-		//	s.D.Set("core_site_xml", *v.CoreSiteXml)
-		//}
+		if v.CoreSiteXml != nil {
+			s.D.Set("core_site_xml", *v.CoreSiteXml)
+		}
 
 		s.D.Set("technology_type", v.TechnologyType)
 
@@ -2044,9 +2056,9 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		s.D.Set("technology_type", v.TechnologyType)
 
-		//if v.TlsCaFile != nil {
-		//	s.D.Set("tls_ca_file", *v.TlsCaFile)
-		//}
+		if v.TlsCaFile != nil {
+			s.D.Set("tls_ca_file", *v.TlsCaFile)
+		}
 
 		if v.TlsCertificateKeyFilePasswordSecretId != nil {
 			s.D.Set("tls_certificate_key_file_password_secret_id", *v.TlsCertificateKeyFilePasswordSecretId)
@@ -2166,17 +2178,17 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		s.D.Set("security_protocol", v.SecurityProtocol)
 
-		//if v.SslCa != nil {
-		//	s.D.Set("ssl_ca", *v.SslCa)
-		//}
-		//
-		//if v.SslCert != nil {
-		//	s.D.Set("ssl_cert", *v.SslCert)
-		//}
-		//
-		//if v.SslCrl != nil {
-		//	s.D.Set("ssl_crl", *v.SslCrl)
-		//}
+		if v.SslCa != nil {
+			s.D.Set("ssl_ca", *v.SslCa)
+		}
+
+		if v.SslCert != nil {
+			s.D.Set("ssl_cert", *v.SslCert)
+		}
+
+		if v.SslCrl != nil {
+			s.D.Set("ssl_crl", *v.SslCrl)
+		}
 
 		if v.SslKeySecretId != nil {
 			s.D.Set("ssl_key_secret_id", *v.SslKeySecretId)
@@ -2270,6 +2282,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.PrivateKeyPassphraseSecretId != nil {
 			s.D.Set("private_key_passphrase_secret_id", *v.PrivateKeyPassphraseSecretId)
+		}
+
+		if v.PublicKeyFingerprint != nil {
+			s.D.Set("public_key_fingerprint", *v.PublicKeyFingerprint)
 		}
 
 		if v.Region != nil {
@@ -2606,17 +2622,17 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		s.D.Set("security_protocol", v.SecurityProtocol)
 
-		//if v.SslCa != nil {
-		//	s.D.Set("ssl_ca", *v.SslCa)
-		//}
-		//
-		//if v.SslCert != nil {
-		//	s.D.Set("ssl_cert", *v.SslCert)
-		//}
-		//
-		//if v.SslCrl != nil {
-		//	s.D.Set("ssl_crl", *v.SslCrl)
-		//}
+		if v.SslCa != nil {
+			s.D.Set("ssl_ca", *v.SslCa)
+		}
+
+		if v.SslCert != nil {
+			s.D.Set("ssl_cert", *v.SslCert)
+		}
+
+		if v.SslCrl != nil {
+			s.D.Set("ssl_crl", *v.SslCrl)
+		}
 
 		if v.SslKeySecretId != nil {
 			s.D.Set("ssl_key_secret_id", *v.SslKeySecretId)
@@ -2886,7 +2902,7 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
 		}
-		s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
+		s.D.Set("nsg_ids", nsgIds)
 
 		s.D.Set("routing_method", v.RoutingMethod)
 

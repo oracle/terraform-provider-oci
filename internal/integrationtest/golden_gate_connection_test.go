@@ -141,6 +141,8 @@ var (
 			"display_name":        acctest.Representation{RepType: acctest.Required, Create: `TF-connection-refresh-test`},
 			"description":         acctest.Representation{RepType: acctest.Required, Create: `description`},
 			"trigger_refresh":     acctest.Representation{RepType: acctest.Required, Create: `true`},
+			"key_id":              acctest.Representation{RepType: acctest.Required},
+			"vault_id":            acctest.Representation{RepType: acctest.Required},
 		},
 	)
 
@@ -171,6 +173,8 @@ var (
 				"routing_method":    acctest.Representation{RepType: acctest.Optional, Create: `SHARED_DEPLOYMENT_ENDPOINT`, Update: `DEDICATED_ENDPOINT`},
 				"access_key_id":     acctest.Representation{RepType: acctest.Required, Create: `AKIAIOSFODNN7EXAMPLE`, Update: `AKIAIOSFODNN7UPDATED`},
 				"secret_access_key": acctest.Representation{RepType: acctest.Required, Create: `mysecret`},
+				"endpoint":          acctest.Representation{RepType: acctest.Required, Create: `https://kinesis.us-east-1.amazonaws.com`, Update: `https://kinesis.us-west-1.amazonaws.com`},
+				"region":            acctest.Representation{RepType: acctest.Required, Create: `us-east-1`, Update: `us-west-1`},
 			},
 		},
 
@@ -191,12 +195,13 @@ var (
 		// Azure DataLake
 		{connectionType: oci_golden_gate.ConnectionTypeAzureDataLakeStorage, technologyType: oci_golden_gate.TechnologyTypeAzureDataLakeStorage,
 			representation: map[string]interface{}{
-				"authentication_type": acctest.Representation{RepType: acctest.Required, Create: string(oci_golden_gate.AzureDataLakeStorageConnectionAuthenticationTypeAzureActiveDirectory)},
-				"account_name":        acctest.Representation{RepType: acctest.Required, Create: `myAccount`, Update: `updatedAccount`},
-				"endpoint":            acctest.Representation{RepType: acctest.Required, Create: `https://whatever.com`, Update: `https://exactly.com`},
-				"azure_tenant_id":     acctest.Representation{RepType: acctest.Required, Create: `14593954-d337-4a61-a364-9f758c64f97f`},
-				"client_id":           acctest.Representation{RepType: acctest.Required, Create: `06ecaabf-8b80-4ec8-a0ec-20cbf463703d`},
-				"client_secret":       acctest.Representation{RepType: acctest.Required, Create: `dO29Q~F5-VwnA.lZdd11xFF_t5NAXCaGwDl9NbT1`},
+				"authentication_type":  acctest.Representation{RepType: acctest.Required, Create: string(oci_golden_gate.AzureDataLakeStorageConnectionAuthenticationTypeAzureActiveDirectory)},
+				"account_name":         acctest.Representation{RepType: acctest.Required, Create: `myAccount`, Update: `updatedAccount`},
+				"endpoint":             acctest.Representation{RepType: acctest.Required, Create: `https://whatever.com`, Update: `https://exactly.com`},
+				"azure_tenant_id":      acctest.Representation{RepType: acctest.Required, Create: `14593954-d337-4a61-a364-9f758c64f97f`},
+				"client_id":            acctest.Representation{RepType: acctest.Required, Create: `06ecaabf-8b80-4ec8-a0ec-20cbf463703d`},
+				"client_secret":        acctest.Representation{RepType: acctest.Required, Create: `dO29Q~F5-VwnA.lZdd11xFF_t5NAXCaGwDl9NbT1`},
+				"azure_authority_host": acctest.Representation{RepType: acctest.Required, Create: `https://login.microsoftonline.com`, Update: `https://login2.microsoftonline.com`},
 			},
 		},
 
@@ -262,6 +267,8 @@ var (
 				"username":            acctest.Representation{RepType: acctest.Required, Create: `admin`, Update: `new_admin`},
 				"security_protocol":   acctest.Representation{RepType: acctest.Required, Create: string(oci_golden_gate.Db2ConnectionSecurityProtocolPlain)},
 				"password_secret_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.password_secret_id}`, Update: `${var.new_password_secret_id}`},
+				"key_id":              acctest.Representation{RepType: acctest.Required},
+				"vault_id":            acctest.Representation{RepType: acctest.Required},
 				"does_use_secret_ids": acctest.Representation{RepType: acctest.Required, Create: `true`},
 			},
 		},

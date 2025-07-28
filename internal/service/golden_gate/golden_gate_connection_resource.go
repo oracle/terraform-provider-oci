@@ -138,6 +138,11 @@ func GoldenGateConnectionResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"azure_authority_host": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"azure_tenant_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -1185,6 +1190,14 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("access_key_id", *v.AccessKeyId)
 		}
 
+		if v.Endpoint != nil {
+			s.D.Set("endpoint", *v.Endpoint)
+		}
+
+		if v.Region != nil {
+			s.D.Set("region", *v.Region)
+		}
+
 		if v.SecretAccessKeySecretId != nil {
 			s.D.Set("secret_access_key_secret_id", *v.SecretAccessKeySecretId)
 		}
@@ -1466,6 +1479,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		}
 
 		s.D.Set("authentication_type", v.AuthenticationType)
+
+		if v.AzureAuthorityHost != nil {
+			s.D.Set("azure_authority_host", *v.AzureAuthorityHost)
+		}
 
 		if v.AzureTenantId != nil {
 			s.D.Set("azure_tenant_id", *v.AzureTenantId)
@@ -1793,9 +1810,9 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("ssl_client_keystoredb_secret_id", *v.SslClientKeystoredbSecretId)
 		}
 
-		//if v.SslServerCertificate != nil {
-		//	s.D.Set("ssl_server_certificate", *v.SslServerCertificate)
-		//}
+		if v.SslServerCertificate != nil {
+			s.D.Set("ssl_server_certificate", *v.SslServerCertificate)
+		}
 
 		s.D.Set("technology_type", v.TechnologyType)
 
@@ -2421,9 +2438,9 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 	case oci_golden_gate.HdfsConnection:
 		s.D.Set("connection_type", "HDFS")
 
-		//if v.CoreSiteXml != nil {
-		//	s.D.Set("core_site_xml", *v.CoreSiteXml)
-		//}
+		if v.CoreSiteXml != nil {
+			s.D.Set("core_site_xml", *v.CoreSiteXml)
+		}
 
 		s.D.Set("technology_type", v.TechnologyType)
 
@@ -3231,9 +3248,9 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		s.D.Set("technology_type", v.TechnologyType)
 
-		//if v.TlsCaFile != nil {
-		//	s.D.Set("tls_ca_file", *v.TlsCaFile)
-		//}
+		if v.TlsCaFile != nil {
+			s.D.Set("tls_ca_file", *v.TlsCaFile)
+		}
 
 		if v.TlsCertificateKeyFilePasswordSecretId != nil {
 			s.D.Set("tls_certificate_key_file_password_secret_id", *v.TlsCertificateKeyFilePasswordSecretId)
@@ -3357,17 +3374,17 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		s.D.Set("security_protocol", v.SecurityProtocol)
 
-		//if v.SslCa != nil {
-		//	s.D.Set("ssl_ca", *v.SslCa)
-		//}
-		//
-		//if v.SslCert != nil {
-		//	s.D.Set("ssl_cert", *v.SslCert)
-		//}
-		//
-		//if v.SslCrl != nil {
-		//	s.D.Set("ssl_crl", *v.SslCrl)
-		//}
+		if v.SslCa != nil {
+			s.D.Set("ssl_ca", *v.SslCa)
+		}
+
+		if v.SslCert != nil {
+			s.D.Set("ssl_cert", *v.SslCert)
+		}
+
+		if v.SslCrl != nil {
+			s.D.Set("ssl_crl", *v.SslCrl)
+		}
 
 		if v.SslKeySecretId != nil {
 			s.D.Set("ssl_key_secret_id", *v.SslKeySecretId)
@@ -3465,6 +3482,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		if v.PrivateKeyPassphraseSecretId != nil {
 			s.D.Set("private_key_passphrase_secret_id", *v.PrivateKeyPassphraseSecretId)
+		}
+
+		if v.PublicKeyFingerprint != nil {
+			s.D.Set("public_key_fingerprint", *v.PublicKeyFingerprint)
 		}
 
 		if v.Region != nil {
@@ -3811,17 +3832,17 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		s.D.Set("security_protocol", v.SecurityProtocol)
 
-		//if v.SslCa != nil {
-		//	s.D.Set("ssl_ca", *v.SslCa)
-		//}
-		//
-		//if v.SslCert != nil {
-		//	s.D.Set("ssl_cert", *v.SslCert)
-		//}
-		//
-		//if v.SslCrl != nil {
-		//	s.D.Set("ssl_crl", *v.SslCrl)
-		//}
+		if v.SslCa != nil {
+			s.D.Set("ssl_ca", *v.SslCa)
+		}
+
+		if v.SslCert != nil {
+			s.D.Set("ssl_cert", *v.SslCert)
+		}
+
+		if v.SslCrl != nil {
+			s.D.Set("ssl_crl", *v.SslCrl)
+		}
 
 		if v.SslKeySecretId != nil {
 			s.D.Set("ssl_key_secret_id", *v.SslKeySecretId)
@@ -3883,7 +3904,7 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
 		}
-		s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
+		s.D.Set("nsg_ids", nsgIds)
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
@@ -3999,7 +4020,7 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
 		}
-		s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
+		s.D.Set("nsg_ids", nsgIds)
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
@@ -4101,7 +4122,7 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
 		}
-		s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
+		s.D.Set("nsg_ids", nsgIds)
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
@@ -4209,6 +4230,14 @@ func ConnectionSummaryToMap(obj oci_golden_gate.ConnectionSummary, datasource bo
 			result["access_key_id"] = string(*v.AccessKeyId)
 		}
 
+		if v.Endpoint != nil {
+			result["endpoint"] = string(*v.Endpoint)
+		}
+
+		if v.Region != nil {
+			result["region"] = string(*v.Region)
+		}
+
 		if v.SecretAccessKeySecretId != nil {
 			result["secret_access_key_secret_id"] = string(*v.SecretAccessKeySecretId)
 		}
@@ -4262,6 +4291,10 @@ func ConnectionSummaryToMap(obj oci_golden_gate.ConnectionSummary, datasource bo
 		}
 
 		result["authentication_type"] = string(v.AuthenticationType)
+
+		if v.AzureAuthorityHost != nil {
+			result["azure_authority_host"] = string(*v.AzureAuthorityHost)
+		}
 
 		if v.AzureTenantId != nil {
 			result["azure_tenant_id"] = string(*v.AzureTenantId)
@@ -4779,6 +4812,10 @@ func ConnectionSummaryToMap(obj oci_golden_gate.ConnectionSummary, datasource bo
 			result["private_key_passphrase_secret_id"] = string(*v.PrivateKeyPassphraseSecretId)
 		}
 
+		if v.PublicKeyFingerprint != nil {
+			result["public_key_fingerprint"] = string(*v.PublicKeyFingerprint)
+		}
+
 		if v.Region != nil {
 			result["region"] = string(*v.Region)
 		}
@@ -4837,6 +4874,10 @@ func ConnectionSummaryToMap(obj oci_golden_gate.ConnectionSummary, datasource bo
 
 		if v.PrivateKeyPassphraseSecretId != nil {
 			result["private_key_passphrase_secret_id"] = string(*v.PrivateKeyPassphraseSecretId)
+		}
+
+		if v.PublicKeyFingerprint != nil {
+			result["public_key_fingerprint"] = string(*v.PublicKeyFingerprint)
 		}
 
 		if v.Region != nil {
@@ -6179,6 +6220,14 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := accessKeyId.(string)
 			details.AccessKeyId = &tmp
 		}
+		if endpoint, ok := s.D.GetOkExists("endpoint"); ok {
+			tmp := endpoint.(string)
+			details.Endpoint = &tmp
+		}
+		if region, ok := s.D.GetOkExists("region"); ok {
+			tmp := region.(string)
+			details.Region = &tmp
+		}
 		if secretAccessKey, ok := s.D.GetOkExists("secret_access_key"); ok {
 			tmp := secretAccessKey.(string)
 			details.SecretAccessKey = &tmp
@@ -6465,6 +6514,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		}
 		if authenticationType, ok := s.D.GetOkExists("authentication_type"); ok {
 			details.AuthenticationType = oci_golden_gate.AzureDataLakeStorageConnectionAuthenticationTypeEnum(authenticationType.(string))
+		}
+		if azureAuthorityHost, ok := s.D.GetOkExists("azure_authority_host"); ok {
+			tmp := azureAuthorityHost.(string)
+			details.AzureAuthorityHost = &tmp
 		}
 		if azureTenantId, ok := s.D.GetOkExists("azure_tenant_id"); ok {
 			tmp := azureTenantId.(string)
@@ -9347,6 +9400,14 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 			tmp := accessKeyId.(string)
 			details.AccessKeyId = &tmp
 		}
+		if endpoint, ok := s.D.GetOkExists("endpoint"); ok {
+			tmp := endpoint.(string)
+			details.Endpoint = &tmp
+		}
+		if region, ok := s.D.GetOkExists("region"); ok {
+			tmp := region.(string)
+			details.Region = &tmp
+		}
 		if secretAccessKey, ok := s.D.GetOkExists("secret_access_key"); ok {
 			tmp := secretAccessKey.(string)
 			details.SecretAccessKey = &tmp
@@ -9582,6 +9643,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		}
 		if authenticationType, ok := s.D.GetOkExists("authentication_type"); ok {
 			details.AuthenticationType = oci_golden_gate.AzureDataLakeStorageConnectionAuthenticationTypeEnum(authenticationType.(string))
+		}
+		if azureAuthorityHost, ok := s.D.GetOkExists("azure_authority_host"); ok {
+			tmp := azureAuthorityHost.(string)
+			details.AzureAuthorityHost = &tmp
 		}
 		if azureTenantId, ok := s.D.GetOkExists("azure_tenant_id"); ok {
 			tmp := azureTenantId.(string)
