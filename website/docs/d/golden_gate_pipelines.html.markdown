@@ -82,7 +82,7 @@ The following attributes are exported:
 		* `action_on_dml_error` - Action upon DML Error (active only if 'Replicate schema changes (DDL)' is selected) i.e canReplicateSchemaChange=true 
 		* `can_replicate_schema_change` - If ENABLED, then addition or removal of schema is also replicated, apart from individual tables and records when creating or updating the pipeline. 
 	* `should_restart_on_failure` - If ENABLED, then the replication process restarts itself upon failure. This option applies when creating or updating a pipeline. 
-	* `start_using_default_mapping` - If ENABLED, then the pipeline is started as part of pipeline creation. It uses default mapping. This option applies when creating or updating a pipeline. 
+	* `start_using_default_mapping` - If ENABLED, then the pipeline is started as part of pipeline creation. It uses default mapping. This option only applies when creating a pipeline and is not applicable while updating a pipeline. 
 * `recipe_type` - The type of the recipe 
 * `source_connection_details` - The source connection details for creating a pipeline. 
 	* `connection_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the connection being referenced. 
