@@ -55,6 +55,7 @@ data "oci_core_images" "test_images" {
   compartment_id           = var.compartment_ocid
   operating_system         = "Oracle Linux"
   operating_system_version = "8"
+  shape                    = var.instance_shape
   sort_by                  = "TIMECREATED"
   sort_order               = "DESC"
 }
@@ -103,7 +104,6 @@ resource "oci_core_ipv6" "test_ipv6" {
 
 # List IPv6s
 data "oci_core_ipv6s" "ipv6_datasource" {
-  depends_on = [oci_core_ipv6.test_ipv6]
   vnic_id    = oci_core_ipv6.test_ipv6.vnic_id
 }
 

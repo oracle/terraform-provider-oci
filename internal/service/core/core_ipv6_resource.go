@@ -5,6 +5,8 @@ package core
 
 import (
 	"context"
+	"net"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -28,6 +30,12 @@ func CoreIpv6Resource() *schema.Resource {
 			// Required
 
 			// Optional
+			"cidr_prefix_length": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -47,10 +55,11 @@ func CoreIpv6Resource() *schema.Resource {
 				Elem:     schema.TypeString,
 			},
 			"ip_address": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: ipDiffSuppressFunc,
 			},
 			"ipv6subnet_cidr": {
 				Type:     schema.TypeString,
@@ -169,6 +178,11 @@ func (s *CoreIpv6ResourceCrud) DeletedTarget() []string {
 
 func (s *CoreIpv6ResourceCrud) Create() error {
 	request := oci_core.CreateIpv6Request{}
+
+	if cidrPrefixLength, ok := s.D.GetOkExists("cidr_prefix_length"); ok {
+		tmp := cidrPrefixLength.(int)
+		request.CidrPrefixLength = &tmp
+	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
@@ -351,6 +365,10 @@ func (s *CoreIpv6ResourceCrud) Delete() error {
 }
 
 func (s *CoreIpv6ResourceCrud) SetData() error {
+	if s.Res.CidrPrefixLength != nil {
+		s.D.Set("cidr_prefix_length", *s.Res.CidrPrefixLength)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -412,4 +430,14 @@ func (s *CoreIpv6ResourceCrud) Ipv6VnicDetach() error {
 	}
 
 	return nil
+}
+
+func ipDiffSuppressFunc(key string, old string, new string, d *schema.ResourceData) bool {
+	if old == "" || new == "" {
+		return false
+	}
+
+	oldParsedIp := net.ParseIP(old)
+	newParsedIp := net.ParseIP(new)
+	return strings.EqualFold(oldParsedIp.String(), newParsedIp.String())
 }
