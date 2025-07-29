@@ -109,6 +109,10 @@ func (s *CoreIpv6sDataSourceCrud) SetData() error {
 	for _, r := range s.Res.Items {
 		ipv6 := map[string]interface{}{}
 
+		if r.CidrPrefixLength != nil {
+			ipv6["cidr_prefix_length"] = *r.CidrPrefixLength
+		}
+
 		if r.CompartmentId != nil {
 			ipv6["compartment_id"] = *r.CompartmentId
 		}
