@@ -66,6 +66,10 @@ func (s *CoreIpv6DataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.CidrPrefixLength != nil {
+		s.D.Set("cidr_prefix_length", *s.Res.CidrPrefixLength)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

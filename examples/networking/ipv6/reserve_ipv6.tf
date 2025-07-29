@@ -20,7 +20,6 @@ resource "oci_core_ipv6" "test_reserve_ipv6_available" {
 
 # List IPv6s
 data "oci_core_ipv6s" "reserve_ipv6_datasource" {
-  depends_on = [oci_core_ipv6.test_reserve_ipv6,oci_core_ipv6.test_reserve_ipv6_available]
   subnet_id  = oci_core_subnet.example_subnet.id
 }
 
