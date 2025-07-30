@@ -693,6 +693,18 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["used_data_storage_size_in_tbs"] = *r.UsedDataStorageSizeInTBs
 		}
 
+		if r.VanityConnectionUrls != nil {
+			autonomousDatabase["vanity_connection_urls"] = []interface{}{AutonomousDatabaseConnectionUrlsToMap(r.VanityConnectionUrls)}
+		} else {
+			autonomousDatabase["vanity_connection_urls"] = nil
+		}
+
+		if r.VanityUrlDetails != nil {
+			autonomousDatabase["vanity_url_details"] = []interface{}{VanityUrlDetailsToMap(r.VanityUrlDetails)}
+		} else {
+			autonomousDatabase["vanity_url_details"] = nil
+		}
+
 		if r.VaultId != nil {
 			autonomousDatabase["vault_id"] = *r.VaultId
 		}
