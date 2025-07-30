@@ -20,6 +20,8 @@ import (
 
 // HttpBackend Send the request to an HTTP backend.
 type HttpBackend struct {
+
+	// The url of the HTTP Backend
 	Url *string `mandatory:"true" json:"url"`
 
 	// Defines a timeout for establishing a connection with a proxied server.

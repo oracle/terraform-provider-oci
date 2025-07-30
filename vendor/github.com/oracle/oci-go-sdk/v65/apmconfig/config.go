@@ -99,8 +99,16 @@ func (m *config) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 
 	var err error
 	switch m.ConfigType {
+	case "AGENT":
+		mm := AgentConfig{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "OPTIONS":
 		mm := Options{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MACS_APM_EXTENSION":
+		mm := MacsApmExtension{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "METRIC_GROUP":

@@ -648,7 +648,7 @@ func (client DashxApisClient) getManagementSavedSearch(ctx context.Context, requ
 	return response, err
 }
 
-// GetOobManagementDashboard Gets an OOB dashboard and its saved searches by ID.  Deleted or unauthorized saved searches are marked by tile's state property.
+// GetOobManagementDashboard Gets an out-of-the-box dashboard and its saved searches by ID.  Deleted or unauthorized saved searches are marked by tile's state property.
 //
 // # See also
 //
@@ -705,7 +705,7 @@ func (client DashxApisClient) getOobManagementDashboard(ctx context.Context, req
 	return response, err
 }
 
-// GetOobManagementSavedSearch Gets a saved search by ID.
+// GetOobManagementSavedSearch Gets an out-of-the-box saved search by ID.
 //
 // # See also
 //
@@ -943,7 +943,7 @@ func (client DashxApisClient) listManagementSavedSearches(ctx context.Context, r
 	return response, err
 }
 
-// ListOobManagementDashboards Gets the list of OOB dashboards with pagination.  Returned properties are the summary.
+// ListOobManagementDashboards Gets the list of out-of-the-box dashboards with pagination. Returned properties are the summary.
 //
 // # See also
 //
@@ -1000,7 +1000,7 @@ func (client DashxApisClient) listOobManagementDashboards(ctx context.Context, r
 	return response, err
 }
 
-// ListOobManagementSavedSearches Gets the list of out-of-box saved searches in a compartment with pagination.  Returned properties are the summary.
+// ListOobManagementSavedSearches Gets the list of out-of-the-box saved searches in a compartment with pagination.  Returned properties are the summary.
 //
 // # See also
 //
