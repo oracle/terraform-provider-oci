@@ -1524,6 +1524,76 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+			"vanity_connection_urls": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"apex_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"database_transforms_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"graph_studio_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"machine_learning_notebook_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"machine_learning_user_management_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"mongo_db_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"ords_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"sql_dev_web_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"vanity_url_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Optional
+						"api_gateway_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+							Optional: true,
+						},
+						"is_disabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+							Optional: true,
+						},
+						"vanity_url_host_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+							Optional: true,
+						},
+					},
+				},
+			},
 		},
 	}
 }
@@ -2377,6 +2447,17 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.TimeOfAutoRefreshStart = &oci_common.SDKTime{Time: tmp}
 	}
 
+	if vanityUrlDetails, ok := s.D.GetOkExists("vanity_url_details"); ok && s.D.HasChange("vanity_url_details") {
+		if tmpList := vanityUrlDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "vanity_url_details", 0)
+			tmp, err := s.mapToVanityUrlDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.VanityUrlDetails = &tmp
+		}
+	}
+
 	if whitelistedIps, ok := s.D.GetOkExists("whitelisted_ips"); ok && s.D.HasChange("whitelisted_ips") {
 		set := whitelistedIps.(*schema.Set)
 		interfaces := set.List()
@@ -2955,6 +3036,18 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	if s.Res.UsedDataStorageSizeInTBs != nil {
 		s.D.Set("used_data_storage_size_in_tbs", *s.Res.UsedDataStorageSizeInTBs)
+	}
+
+	if s.Res.VanityConnectionUrls != nil {
+		s.D.Set("vanity_connection_urls", []interface{}{AutonomousDatabaseConnectionUrlsToMap(s.Res.VanityConnectionUrls)})
+	} else {
+		s.D.Set("vanity_connection_urls", nil)
+	}
+
+	if s.Res.VanityUrlDetails != nil {
+		s.D.Set("vanity_url_details", []interface{}{VanityUrlDetailsToMap(s.Res.VanityUrlDetails)})
+	} else {
+		s.D.Set("vanity_url_details", nil)
 	}
 
 	if s.Res.VaultId != nil {
@@ -3581,6 +3674,53 @@ func ScheduledOperationDetailsToMap(obj oci_database.ScheduledOperationDetails) 
 
 	if obj.ScheduledStopTime != nil {
 		result["scheduled_stop_time"] = string(*obj.ScheduledStopTime)
+	}
+
+	return result
+}
+
+func (s *DatabaseAutonomousDatabaseResourceCrud) mapToVanityUrlDetails(fieldKeyFormat string) (oci_database.VanityUrlDetails, error) {
+	result := oci_database.VanityUrlDetails{}
+
+	if isDisabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_disabled")); ok && isDisabled.(bool) == true {
+		result.ApiGatewayId = nil
+		result.VanityUrlHostName = nil
+		tmp := true
+		result.IsDisabled = &tmp
+		return result, nil
+	}
+
+	if apiGatewayId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "api_gateway_id")); ok {
+		tmp := apiGatewayId.(string)
+		result.ApiGatewayId = &tmp
+	}
+
+	if isDisabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_disabled")); ok {
+		tmp := isDisabled.(bool)
+		result.IsDisabled = &tmp
+	}
+
+	if vanityUrlHostName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vanity_url_host_name")); ok {
+		tmp := vanityUrlHostName.(string)
+		result.VanityUrlHostName = &tmp
+	}
+
+	return result, nil
+}
+
+func VanityUrlDetailsToMap(obj *oci_database.VanityUrlDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ApiGatewayId != nil {
+		result["api_gateway_id"] = string(*obj.ApiGatewayId)
+	}
+
+	if obj.IsDisabled != nil {
+		result["is_disabled"] = bool(*obj.IsDisabled)
+	}
+
+	if obj.VanityUrlHostName != nil {
+		result["vanity_url_host_name"] = string(*obj.VanityUrlHostName)
 	}
 
 	return result

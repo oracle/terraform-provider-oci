@@ -1227,6 +1227,76 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"vanity_connection_urls": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"apex_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"database_transforms_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"graph_studio_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"machine_learning_notebook_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"machine_learning_user_management_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"mongo_db_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"ords_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"sql_dev_web_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"vanity_url_details": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"api_gateway_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"is_disabled": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"vanity_url_host_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"vault_id": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -1818,6 +1888,18 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 
 		if r.UsedDataStorageSizeInTBs != nil {
 			autonomousDatabasesClone["used_data_storage_size_in_tbs"] = *r.UsedDataStorageSizeInTBs
+		}
+
+		if r.VanityConnectionUrls != nil {
+			autonomousDatabasesClone["vanity_connection_urls"] = []interface{}{AutonomousDatabaseConnectionUrlsToMap(r.VanityConnectionUrls)}
+		} else {
+			autonomousDatabasesClone["vanity_connection_urls"] = nil
+		}
+
+		if r.VanityUrlDetails != nil {
+			autonomousDatabasesClone["vanity_url_details"] = []interface{}{VanityUrlDetailsToMap(r.VanityUrlDetails)}
+		} else {
+			autonomousDatabasesClone["vanity_url_details"] = nil
 		}
 
 		if r.VaultId != nil {
