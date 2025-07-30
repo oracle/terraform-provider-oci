@@ -338,7 +338,7 @@ var (
 		"type": acctest.Representation{RepType: acctest.Required, Create: `bootVolume`},
 	}
 	CoreInstanceSourceDetailsRepresentation = map[string]interface{}{
-		"source_id":                            acctest.Representation{RepType: acctest.Required, Create: `${var.InstanceImageOCID[var.region]`},
+		"source_id":                            acctest.Representation{RepType: acctest.Required, Create: `${var.InstanceImageOCID[var.region]}`},
 		"source_type":                          acctest.Representation{RepType: acctest.Required, Create: `image`, Update: `image`},
 		"boot_volume_size_in_gbs":              acctest.Representation{RepType: acctest.Optional, Create: `60`, Update: `70`},
 		"boot_volume_vpus_per_gb":              acctest.Representation{RepType: acctest.Optional, Create: `10`},

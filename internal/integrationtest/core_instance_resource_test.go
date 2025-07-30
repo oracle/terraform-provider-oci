@@ -2602,6 +2602,137 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_launchOption
 	})
 }
 
+func TestResourceCoreInstance_UpdateSecurityAttributes(t *testing.T) {
+	httpreplay.SetScenario("TestAccResourceCoreInstance_securityAttributes")
+	defer httpreplay.SaveScenario()
+
+	instanceName := "t"
+	instanceResourceKey := "oci_core_instance." + instanceName
+
+	subnetConfig := acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet",
+		acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation,
+			map[string]interface{}{
+				"dns_label": acctest.Representation{RepType: acctest.Required, Create: "dnslabel"},
+			}))
+	vcnConfig := acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn",
+		acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation,
+			map[string]interface{}{
+				"dns_label": acctest.Representation{RepType: acctest.Required, Create: "dnslabel"},
+			}))
+	AvailabilityDomainConfig := AvailabilityDomainConfig
+	imageConfig := utils.OciImageIdsVariable
+	instanceCreateConfig := acctest.GenerateResourceFromRepresentationMap("oci_core_instance", instanceName,
+		acctest.Required, acctest.Create, CoreInstanceRepresentation)
+
+	securityAttributesInstanceConfig := acctest.GenerateResourceFromRepresentationMap("oci_core_instance",
+		instanceName, acctest.Required, acctest.Create,
+		acctest.RepresentationCopyWithNewProperties(CoreInstanceRepresentation, map[string]interface{}{
+			"security_attributes": acctest.Representation{RepType: acctest.Required, Create: map[string]string{
+				"oracle-zpr.sensitivity.value": "low",
+				"oracle-zpr.sensitivity.mode":  "enforce",
+			}},
+		}))
+	changedSecurityAttributesConfig := acctest.GenerateResourceFromRepresentationMap("oci_core_instance",
+		instanceName, acctest.Required, acctest.Create,
+		acctest.RepresentationCopyWithNewProperties(CoreInstanceRepresentation, map[string]interface{}{
+			"security_attributes": acctest.Representation{RepType: acctest.Required, Create: map[string]string{
+				"oracle-zpr.sensitivity.value": "medium",
+				"oracle-zpr.sensitivity.mode":  "enforce",
+			}},
+		}))
+	deletedSecurityAttributesConfig := acctest.GenerateResourceFromRepresentationMap("oci_core_instance",
+		instanceName, acctest.Required, acctest.Create,
+		acctest.RepresentationCopyWithNewProperties(CoreInstanceRepresentation, map[string]interface{}{
+			"security_attributes": acctest.Representation{RepType: acctest.Required, Create: map[string]string{}},
+		}))
+	securityAttributesTimeoutConfig := acctest.GenerateResourceFromRepresentationMap("oci_core_instance",
+		instanceName, acctest.Required, acctest.Create,
+		acctest.RepresentationCopyWithNewProperties(CoreInstanceRepresentation, map[string]interface{}{
+			"security_attributes": acctest.Representation{RepType: acctest.Required, Create: map[string]string{
+				"oracle-zpr.sensitivity.value": "low",
+				"oracle-zpr.sensitivity.mode":  "enforce",
+			}},
+			"timeouts": acctest.RepresentationGroup{RepType: acctest.Required, Group: map[string]interface{}{
+				"update": acctest.Representation{RepType: acctest.Required, Create: "1s"},
+			}},
+		}))
+
+	config := acctest.LegacyTestProviderConfig() + AvailabilityDomainConfig + imageConfig + subnetConfig + vcnConfig
+
+	var instanceId string
+	resource.Test(t, resource.TestCase{
+		Providers: map[string]*schema.Provider{
+			"oci": acctest.TestAccProvider,
+		},
+		CheckDestroy: testAccCheckCoreInstanceDestroy,
+		Steps: []resource.TestStep{
+			{ // Create an instance
+				Config: config + instanceCreateConfig,
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					func(s *terraform.State) (err error) {
+						instanceId, err = acctest.FromInstanceState(s, instanceResourceKey, "id")
+						return err
+					},
+				),
+			},
+			{ // Verify add security_attributes
+				Config: config + securityAttributesInstanceConfig,
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttr(instanceResourceKey, "security_attributes.%", "2"),
+					resource.TestCheckResourceAttr(instanceResourceKey, "security_attributes.oracle-zpr.sensitivity.value", "low"),
+					resource.TestCheckResourceAttr(instanceResourceKey, "security_attributes.oracle-zpr.sensitivity.mode", "enforce"),
+					func(ts *terraform.State) (err error) {
+						newId, err := acctest.FromInstanceState(ts, instanceResourceKey, "id")
+						if newId != instanceId {
+							return fmt.Errorf("expected same instance ocid, got different")
+						}
+						return err
+					},
+				),
+			},
+			{ // Verify change security_attributes
+				Config: config + changedSecurityAttributesConfig,
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttr(instanceResourceKey, "security_attributes.%", "2"),
+					resource.TestCheckResourceAttr(instanceResourceKey, "security_attributes.oracle-zpr.sensitivity.value", "medium"),
+					resource.TestCheckResourceAttr(instanceResourceKey, "security_attributes.oracle-zpr.sensitivity.mode", "enforce"),
+					func(ts *terraform.State) (err error) {
+						newId, err := acctest.FromInstanceState(ts, instanceResourceKey, "id")
+						if newId != instanceId {
+							return fmt.Errorf("expected same instance ocid, got different")
+						}
+						return err
+					},
+				),
+			},
+			{ // Verify remove security_attributes
+				Config: config + deletedSecurityAttributesConfig,
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttr(instanceResourceKey, "security_attributes.%", "0"),
+					func(ts *terraform.State) (err error) {
+						newId, err := acctest.FromInstanceState(ts, instanceResourceKey, "id")
+						if newId != instanceId {
+							return fmt.Errorf("expected same instance ocid, got different")
+						}
+						return err
+					},
+				),
+			},
+			{ // Verify update timeout
+				Config: config + securityAttributesTimeoutConfig,
+				Check: func(ts *terraform.State) (err error) {
+					newId, err := acctest.FromInstanceState(ts, instanceResourceKey, "id")
+					if newId != instanceId {
+						return fmt.Errorf("expected same instance ocid, got different")
+					}
+					return err
+				},
+				ExpectError: regexp.MustCompile("Timed out waiting for configuration to reach specified condition"),
+			},
+		},
+	})
+}
+
 // issue-routing-tag: core/computeSharedOwnershipVmAndBm
 func TestAccResourceCoreInstance_nvmeVMShape(t *testing.T) {
 	httpreplay.SetScenario("TestAccResourceCoreInstance_nvmeVMShape")
