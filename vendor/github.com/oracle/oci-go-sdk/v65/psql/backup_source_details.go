@@ -17,8 +17,7 @@ import (
 	"strings"
 )
 
-// BackupSourceDetails Restoring to a new database system from the backup.
-// The database system details that are part of the CreateDbSystem request are not required, but if present will override the details from the backup's database system snapshot.
+// BackupSourceDetails Details of the database system backup.
 type BackupSourceDetails struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database system backup.

@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// SourceDetails The source used to restore the database system.
+// SourceDetails The source of the database system.
 type SourceDetails interface {
 }
 

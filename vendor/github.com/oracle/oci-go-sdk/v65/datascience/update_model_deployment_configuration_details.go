@@ -50,6 +50,10 @@ func (m *updatemodeldeploymentconfigurationdetails) UnmarshalPolymorphicJSON(dat
 
 	var err error
 	switch m.DeploymentType {
+	case "MODEL_GROUP":
+		mm := UpdateModelGroupDeploymentConfigurationDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "SINGLE_MODEL":
 		mm := UpdateSingleModelDeploymentConfigurationDetails{}
 		err = json.Unmarshal(data, &mm)

@@ -28,6 +28,7 @@ type HeaderValidationRequestPolicy struct {
 	// `DISABLED` type turns the validation off.
 	ValidationMode HeaderValidationRequestPolicyValidationModeEnum `mandatory:"false" json:"validationMode,omitempty"`
 
+	// The List of Headers
 	Headers []HeaderValidationItem `mandatory:"false" json:"headers"`
 }
 

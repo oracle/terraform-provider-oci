@@ -397,6 +397,64 @@ func (client ConfigClient) getConfig(ctx context.Context, request common.OCIRequ
 	return response, err
 }
 
+// GetMatchAgentsWithAttributeKey The domain-wide agents matching attribute key.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmconfig/GetMatchAgentsWithAttributeKey.go.html to see an example of how to use GetMatchAgentsWithAttributeKey API.
+// A default retry strategy applies to this operation GetMatchAgentsWithAttributeKey()
+func (client ConfigClient) GetMatchAgentsWithAttributeKey(ctx context.Context, request GetMatchAgentsWithAttributeKeyRequest) (response GetMatchAgentsWithAttributeKeyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getMatchAgentsWithAttributeKey, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetMatchAgentsWithAttributeKeyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetMatchAgentsWithAttributeKeyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetMatchAgentsWithAttributeKeyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetMatchAgentsWithAttributeKeyResponse")
+	}
+	return
+}
+
+// getMatchAgentsWithAttributeKey implements the OCIOperation interface (enables retrying operations)
+func (client ConfigClient) getMatchAgentsWithAttributeKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/actions/matchAgentsWithAttributeKey", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetMatchAgentsWithAttributeKeyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-config/20210201/MatchAgentsWithAttributeKey/GetMatchAgentsWithAttributeKey"
+		err = common.PostProcessServiceError(err, "Config", "GetMatchAgentsWithAttributeKey", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ImportConfiguration Import configurations Item(s) with its dependencies into a destination domain.
 //
 // # See also
@@ -748,6 +806,64 @@ func (client ConfigClient) updateConfig(ctx context.Context, request common.OCIR
 	}
 
 	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &config{})
+	return response, err
+}
+
+// UpdateMatchAgentsWithAttributeKey Updates the agent matching attribute key for the APM Domain.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmconfig/UpdateMatchAgentsWithAttributeKey.go.html to see an example of how to use UpdateMatchAgentsWithAttributeKey API.
+// A default retry strategy applies to this operation UpdateMatchAgentsWithAttributeKey()
+func (client ConfigClient) UpdateMatchAgentsWithAttributeKey(ctx context.Context, request UpdateMatchAgentsWithAttributeKeyRequest) (response UpdateMatchAgentsWithAttributeKeyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateMatchAgentsWithAttributeKey, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateMatchAgentsWithAttributeKeyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateMatchAgentsWithAttributeKeyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateMatchAgentsWithAttributeKeyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateMatchAgentsWithAttributeKeyResponse")
+	}
+	return
+}
+
+// updateMatchAgentsWithAttributeKey implements the OCIOperation interface (enables retrying operations)
+func (client ConfigClient) updateMatchAgentsWithAttributeKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/actions/matchAgentsWithAttributeKey", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateMatchAgentsWithAttributeKeyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-config/20210201/MatchAgentsWithAttributeKey/UpdateMatchAgentsWithAttributeKey"
+		err = common.PostProcessServiceError(err, "Config", "UpdateMatchAgentsWithAttributeKey", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
 	return response, err
 }
 

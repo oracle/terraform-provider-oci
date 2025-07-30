@@ -22,6 +22,8 @@ import (
 const (
 	//UsingExpectHeaderEnvVar is the key to determine whether expect 100-continue is enabled or not
 	UsingExpectHeaderEnvVar = "OCI_GOSDK_USING_EXPECT_HEADER"
+	//EncodePathParamsEnvVar determines if special characters in path params such as / and & are URL encoded
+	EncodePathParamsEnvVar = "OCI_GOSDK_ENCODE_PATH_PARAMS"
 )
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -459,6 +461,11 @@ func addToPath(request *http.Request, value reflect.Value, field reflect.StructF
 	// path should not be empty for any operations
 	if len(additionalURLPathPart) == 0 {
 		return fmt.Errorf("value cannot be empty for field %s in path", field.Name)
+	}
+
+	// encode path param if EncodePathParamsEnvVar is set
+	if IsEnvVarTrue(EncodePathParamsEnvVar) {
+		additionalURLPathPart = url.PathEscape(additionalURLPathPart)
 	}
 
 	if request.URL == nil {
