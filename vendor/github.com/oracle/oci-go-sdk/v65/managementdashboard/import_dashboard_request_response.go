@@ -38,6 +38,16 @@ type ImportDashboardRequest struct {
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// By default, if a resource with the same OCID exists in the target compartment, it is updated during the import process, otherwise, a new resource is created.
+	// However, if this attribute is set to true, then during the import process if a resource with the same displayName exists in the compartment, then it is updated even if the OCIDs are different. This is useful when importing the same resource multiple times. If the compartment and displayName remain the same, the resource is only updated and multiple copies of a resource are not created.
+	OverrideSameName *string `mandatory:"false" contributesTo:"query" name:"overrideSameName"`
+
+	// If this attribute is set, the dashboard resources are created or updated in the compartment specified by OCID. If this attribute is not set, the compartment specified in the JSON metadata is used.
+	OverrideDashboardCompartmentOcid *string `mandatory:"false" contributesTo:"query" name:"overrideDashboardCompartmentOcid"`
+
+	// If this attribute is set, the saved search resources are created or updated in the compartment specified by OCID. If this attribute is not set, the compartment specified in the JSON metadata is used.
+	OverrideSavedSearchCompartmentOcid *string `mandatory:"false" contributesTo:"query" name:"overrideSavedSearchCompartmentOcid"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
