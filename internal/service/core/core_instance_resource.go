@@ -1620,11 +1620,35 @@ func (s *CoreInstanceResourceCrud) Update() error {
 		return err
 	}
 
-	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
-		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
-	}
-
 	s.Res = &response.Instance
+
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		if s.D.HasChange("security_attributes") {
+			securityAttributesRequest := oci_core.UpdateInstanceRequest{}
+			tmp := s.D.Id()
+			securityAttributesRequest.InstanceId = &tmp
+			securityAttributesRequest.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+			securityAttributesResponse, err := s.Client.UpdateInstance(context.Background(), securityAttributesRequest)
+			securityAttributeErrorMsgTemplate := `[ERROR] Failed to update Security Attributes: %q (Instance ID: "%v"`
+			if err != nil {
+				log.Printf(securityAttributeErrorMsgTemplate+`, desired Security Attributes: %q)`, err, s.Res.Id, securityAttributes)
+				return err
+			}
+			s.Res = &securityAttributesResponse.Instance
+			areSecurityAttributesStable := func() bool {
+				return s.Res != nil &&
+					s.Res.SecurityAttributesState == oci_core.InstanceSecurityAttributesStateStable
+			}
+			if !areSecurityAttributesStable() {
+				log.Printf(`[DEBUG] Waiting for securityAttributesState to become [%s]`, oci_core.InstanceSecurityAttributesStateStable)
+				err := tfresource.WaitForResourceCondition(s, areSecurityAttributesStable, s.D.Timeout(schema.TimeoutUpdate))
+				if err != nil {
+					log.Printf(securityAttributeErrorMsgTemplate+`, timed out waiting for Security Attributes to update)`, err, s.Res.Id)
+					return err
+				}
+			}
+		}
+	}
 
 	// Check for changes in the create_vnic_details sub resource and separately Update the vnic
 	_, ok := s.D.GetOkExists("create_vnic_details")
