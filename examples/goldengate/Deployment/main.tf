@@ -46,6 +46,10 @@ variable "deployment_license_model" {
   	default = "LICENSE_INCLUDED"
 }
 
+variable "byol_license_model" {
+	default = "BRING_YOUR_OWN_LICENSE"
+}
+
 variable "deployment_ogg_data_admin_password" {
   	default = "BEstrO0ng_#11"
 }
@@ -82,6 +86,14 @@ variable "deployment_backup_schedule_frequency_backup_scheduled" {
 
 variable "deployment_backup_schedule_is_metadata_only" {
 	default = false
+}
+
+variable "byol_cpu_core_count_limit" {
+	default = 2
+}
+
+variable "is_byol_cpu_core_count_limit_enabled" {
+	default = true
 }
 
 provider "oci" {
@@ -135,13 +147,15 @@ resource "oci_golden_gate_deployment" "test_deployment" {
 }
 
 resource "oci_golden_gate_deployment" "test_deployment_GOLDENGATE" {
-	compartment_id          = var.compartment_id
-	cpu_core_count          = var.deployment_cpu_core_count
-	deployment_type         = var.deployment_deployment_type
-	display_name            = var.deployment_display_name
-	is_auto_scaling_enabled = var.deployment_is_auto_scaling_enabled
-	license_model           = var.deployment_license_model
-	subnet_id               = var.test_subnet_id
+	compartment_id          			 = var.compartment_id
+	cpu_core_count          			 = var.deployment_cpu_core_count
+	deployment_type        				 = var.deployment_deployment_type
+	display_name            			 = var.deployment_display_name
+	is_auto_scaling_enabled 			 = var.deployment_is_auto_scaling_enabled
+	license_model           			 = var.byol_license_model
+	subnet_id               			 = var.test_subnet_id
+	byol_cpu_core_count_limit			 = var.byol_cpu_core_count_limit
+	is_byol_cpu_core_count_limit_enabled = var.is_byol_cpu_core_count_limit_enabled
 	ogg_data {
 		deployment_name 	= var.deployment_ogg_data_deployment_name
 		credential_store 	= var.deployment_ogg_data_credential_store
