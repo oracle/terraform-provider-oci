@@ -102,11 +102,6 @@ func ApigatewaySubscriberResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
-						"compartment_id": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
 
 						// Computed
 						"related_resource_id": {
@@ -612,11 +607,6 @@ func (s *ApigatewaySubscriberResourceCrud) SetData() error {
 func (s *ApigatewaySubscriberResourceCrud) mapToAddResourceLockDetails(fieldKeyFormat string) (oci_apigateway.AddResourceLockDetails, error) {
 	result := oci_apigateway.AddResourceLockDetails{}
 
-	if compartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compartment_id")); ok {
-		tmp := compartmentId.(string)
-		result.CompartmentId = &tmp
-	}
-
 	if message, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "message")); ok {
 		tmp := message.(string)
 		result.Message = &tmp
@@ -624,11 +614,6 @@ func (s *ApigatewaySubscriberResourceCrud) mapToAddResourceLockDetails(fieldKeyF
 
 	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
 		result.Type = oci_apigateway.AddResourceLockDetailsTypeEnum(type_.(string))
-	}
-
-	if relatedResourceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "related_resource_id")); ok {
-		tmp := relatedResourceId.(string)
-		result.RelatedResourceId = &tmp
 	}
 
 	return result, nil

@@ -124,11 +124,6 @@ func ApigatewayGatewayResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
-						"compartment_id": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
 
 						// Computed
 						"related_resource_id": {
@@ -827,11 +822,6 @@ func (s *ApigatewayGatewayResourceCrud) SetData() error {
 func (s *ApigatewayGatewayResourceCrud) mapToAddResourceLockDetails(fieldKeyFormat string) (oci_apigateway.AddResourceLockDetails, error) {
 	result := oci_apigateway.AddResourceLockDetails{}
 
-	if compartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compartment_id")); ok {
-		tmp := compartmentId.(string)
-		result.CompartmentId = &tmp
-	}
-
 	if message, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "message")); ok {
 		tmp := message.(string)
 		result.Message = &tmp
@@ -841,20 +831,11 @@ func (s *ApigatewayGatewayResourceCrud) mapToAddResourceLockDetails(fieldKeyForm
 		result.Type = oci_apigateway.AddResourceLockDetailsTypeEnum(type_.(string))
 	}
 
-	if relatedResourceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "related_resource_id")); ok {
-		tmp := relatedResourceId.(string)
-		result.RelatedResourceId = &tmp
-	}
-
 	return result, nil
 }
 
 func ResourceLockToMap(obj oci_apigateway.ResourceLock) map[string]interface{} {
 	result := map[string]interface{}{}
-
-	if obj.CompartmentId != nil {
-		result["compartment_id"] = string(*obj.CompartmentId)
-	}
 
 	if obj.Message != nil {
 		result["message"] = string(*obj.Message)
