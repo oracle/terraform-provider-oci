@@ -1,3 +1,21 @@
+## 7.12.0 (July 30, 2025)
+
+### Added
+- Support for ODSC - Enable Burstable for Data Science Notebooks, ML Jobs, and ML Pipeline
+- Support for APM - Scheduled Backend Queries - UI & API
+- Support for Ops Insights support for ADB@ExaCC
+- oprional parameters to import
+- Support for API Platform Cloud Service
+- Support for OCI Data Science Multi Model Deployment Experience
+- Support for Design/Implement CPU architecture agnostic configurations
+- Support for Secrets in Vault - Cross Region Replication Feature
+- Support for APM - Agent & Configurations Updates
+
+### Bug Fix
+- Update domain override logic to get realm domain from oci-go-sdk instead of using regex to extract realmn domain
+- Fix for VCN is_ipv6enabled plan drift on apply.
+- ed - Pagination for resource discovery of private zones
+
 ## 7.11.0 (July 23, 2025)
 
 ### Added
