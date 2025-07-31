@@ -20,6 +20,18 @@ variable "api_display_name" {
   default = "test API definiton"
 }
 
+variable "locks_type" {
+  default = "DELETE"
+}
+
+variable "locks_message" {
+  default = "LockTest"
+}
+
+variable "is_lock_override" {
+  default = true
+}
+
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
