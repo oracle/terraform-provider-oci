@@ -159,26 +159,28 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		}
 
 		goldenGateDeploymentRepresentation = map[string]interface{}{
-			"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-			"cpu_core_count":            acctest.Representation{RepType: acctest.Optional, Create: `1`},
-			"deployment_type":           acctest.Representation{RepType: acctest.Optional, Create: `DATABASE_ORACLE`},
-			"display_name":              acctest.Representation{RepType: acctest.Required, Create: `Terraform_integration_test`, Update: `Terraform_integration_test2`},
-			"is_auto_scaling_enabled":   acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-			"subnet_id":                 acctest.Representation{RepType: acctest.Required, Create: `${var.test_subnet_id}`},
-			"license_model":             acctest.Representation{RepType: acctest.Optional, Create: `LICENSE_INCLUDED`},
-			"description":               acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-			"fqdn":                      acctest.Representation{RepType: acctest.Optional, Update: `fqdn1.oggdevops.us`},
-			"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-			"is_public":                 acctest.Representation{RepType: acctest.Optional, Create: `false`},
-			"ogg_data":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: goldenGateDeploymentOggDataRepresentation},
-			"lifecycle":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRepresentation},
-			"maintenance_configuration": acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentMaintenanceConfigurationRepresentation},
-			"maintenance_window":        acctest.RepresentationGroup{RepType: acctest.Required, Group: deploymentMaintenanceWindowRepresentation},
-			"backup_schedule":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentBackupScheduleRepresentation},
-			"availability_domain":       acctest.Representation{RepType: acctest.Optional, Create: `${var.availability_domain}`},
-			"fault_domain":              acctest.Representation{RepType: acctest.Optional, Create: `${var.fault_domain}`},
-			"placements":                []acctest.RepresentationGroup{}, // start with empty peer list
-			"source_deployment_id":      acctest.Representation{RepType: acctest.Optional, Create: nil},
+			"compartment_id":                       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+			"cpu_core_count":                       acctest.Representation{RepType: acctest.Optional, Create: `1`},
+			"deployment_type":                      acctest.Representation{RepType: acctest.Optional, Create: `DATABASE_ORACLE`},
+			"display_name":                         acctest.Representation{RepType: acctest.Required, Create: `Terraform_integration_test`, Update: `Terraform_integration_test2`},
+			"is_auto_scaling_enabled":              acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+			"subnet_id":                            acctest.Representation{RepType: acctest.Required, Create: `${var.test_subnet_id}`},
+			"license_model":                        acctest.Representation{RepType: acctest.Optional, Create: `LICENSE_INCLUDED`},
+			"byol_cpu_core_count_limit":            acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+			"is_byol_cpu_core_count_limit_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+			"description":                          acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+			"fqdn":                                 acctest.Representation{RepType: acctest.Optional, Update: `fqdn1.oggdevops.us`},
+			"freeform_tags":                        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+			"is_public":                            acctest.Representation{RepType: acctest.Optional, Create: `false`},
+			"ogg_data":                             acctest.RepresentationGroup{RepType: acctest.Required, Group: goldenGateDeploymentOggDataRepresentation},
+			"lifecycle":                            acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRepresentation},
+			"maintenance_configuration":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentMaintenanceConfigurationRepresentation},
+			"maintenance_window":                   acctest.RepresentationGroup{RepType: acctest.Required, Group: deploymentMaintenanceWindowRepresentation},
+			"backup_schedule":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentBackupScheduleRepresentation},
+			"availability_domain":                  acctest.Representation{RepType: acctest.Optional, Create: `${var.availability_domain}`},
+			"fault_domain":                         acctest.Representation{RepType: acctest.Optional, Create: `${var.fault_domain}`},
+			"placements":                           []acctest.RepresentationGroup{}, // start with empty peer list
+			"source_deployment_id":                 acctest.Representation{RepType: acctest.Optional, Create: nil},
 		}
 
 		deploymentLocksRepresentation = map[string]interface{}{
@@ -242,8 +244,8 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Required, acctest.Create, goldenGateDeploymentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
-				resource.TestCheckResourceAttr(resourceName, "deployment_type", "DATABASE_ORACLE"),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "4"),
+				resource.TestCheckResourceAttr(resourceName, "deployment_type", "OGG"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "Terraform_integration_test"),
 				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
@@ -452,6 +454,8 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "byol_cpu_core_count_limit", "10"),
+				resource.TestCheckResourceAttr(resourceName, "is_byol_cpu_core_count_limit_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_public", "false"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_configuration.#", "1"),
@@ -512,6 +516,8 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "byol_cpu_core_count_limit", "10"),
+				resource.TestCheckResourceAttr(resourceName, "is_byol_cpu_core_count_limit_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_public", "false"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_configuration.#", "1"),
@@ -565,6 +571,8 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "byol_cpu_core_count_limit", "11"),
+				resource.TestCheckResourceAttr(resourceName, "is_byol_cpu_core_count_limit_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_public", "false"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_configuration.#", "1"),
@@ -617,6 +625,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "assignable_connection_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "assigned_connection_id"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "deployment_type", "OGG"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "Terraform_integration_test2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "fqdn"),
 				resource.TestCheckResourceAttr(datasourceName, "lifecycle_sub_state", "RECOVERING"),
@@ -653,6 +662,8 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_auto_scaling_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "byol_cpu_core_count_limit", "11"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_byol_cpu_core_count_limit_enabled", "true"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_healthy"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_latest_version"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_public"),
@@ -697,7 +708,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		{
 			Config: config,
 		},
-		/* Start/stop/upgrade test*/
+		// Start/stop/upgrade test
 		// 0. create a new and locked deployment and stop it right after the creation
 		{
 			Config: config +
@@ -811,6 +822,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			Config: config,
 		},
 	}
+	//acctest.ResourceTest(t, testAccCheckGoldenGateDeploymentDestroy, []resource.TestStep{steps[0], steps[len(steps)-1]})
 	acctest.ResourceTest(t, testAccCheckGoldenGateDeploymentDestroy, steps)
 }
 
