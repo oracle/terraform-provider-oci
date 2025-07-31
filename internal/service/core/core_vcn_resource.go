@@ -37,19 +37,16 @@ func CoreVcnResource() *schema.Resource {
 				Type:     schema.TypeList,
 				Optional: true,
 				Computed: true,
-				// ForceNew: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
 						"byoipv6range_id": {
 							Type:     schema.TypeString,
 							Required: true,
-							ForceNew: true,
 						},
 						"ipv6cidr_block": {
 							Type:     schema.TypeString,
 							Required: true,
-							ForceNew: true,
 						},
 
 						// Optional
@@ -367,25 +364,38 @@ func (s *CoreVcnResourceCrud) Update() error {
 		}
 	}
 
-	if _, ok := s.D.GetOkExists("is_ipv6enabled"); ok && s.D.HasChange("is_ipv6enabled") {
-		enableIPv6Request := oci_core.AddIpv6VcnCidrRequest{}
-		tmp := s.D.Id()
-		enableIPv6Request.VcnId = &tmp
-		enableIPv6Request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
-
-		_, err := s.Client.AddIpv6VcnCidr(context.Background(), enableIPv6Request)
-		if err != nil {
-			return err
+	// GUA
+	isIpv6enabled, isIpv6enabledExists := s.D.GetOkExists("is_ipv6enabled")
+	isOracleGuaEnabled, guaOk := s.D.GetOkExists("is_oracle_gua_allocation_enabled")
+	isOracleGuaEnabled = !guaOk || isOracleGuaEnabled.(bool)
+	if isIpv6enabledExists && isIpv6enabled.(bool) {
+		if isOracleGuaEnabled.(bool) && (s.D.HasChange("is_ipv6enabled") || s.D.HasChange("is_oracle_gua_allocation_enabled")) {
+			enableIPv6Request := oci_core.AddIpv6VcnCidrRequest{}
+			addVcnIpv6CidrDetails := oci_core.AddVcnIpv6CidrDetails{}
+			tmp := s.D.Id()
+			enableIPv6Request.VcnId = &tmp
+			enableIPv6Request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
+			isOracleGuaAllocationEnabled := true
+			addVcnIpv6CidrDetails.IsOracleGuaAllocationEnabled = &isOracleGuaAllocationEnabled
+			enableIPv6Request.AddVcnIpv6CidrDetails = addVcnIpv6CidrDetails
+			_, err := s.Client.AddIpv6VcnCidr(context.Background(), enableIPv6Request)
+			if err != nil {
+				return err
+			}
 		}
 	}
 
-	if byoipv6CidrDetails, ok := s.D.GetOkExists("byoipv6Cidr_details"); ok && s.D.HasChange("byoipv6Cidr_details") {
-		err := s.addByoIpv6CidrBlocks(byoipv6CidrDetails)
-		if err != nil {
-			return err
+	if _, ok := s.D.GetOkExists("byoipv6cidr_details"); ok && s.D.HasChange("byoipv6cidr_details") {
+		oldRaw, newRaw := s.D.GetChange("byoipv6cidr_details")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateByoIpv6CidrBlocks(oldRaw, newRaw)
+			if err != nil {
+				return err
+			}
 		}
 	}
 
+	// ULA
 	if _, ok := s.D.GetOkExists("ipv6private_cidr_blocks"); ok && s.D.HasChange("ipv6private_cidr_blocks") {
 		oldRaw, newRaw := s.D.GetChange("ipv6private_cidr_blocks")
 		if newRaw != "" && oldRaw != "" {
@@ -393,31 +403,6 @@ func (s *CoreVcnResourceCrud) Update() error {
 			if err != nil {
 				return err
 			}
-		}
-	}
-
-	if _, ok := s.D.GetOkExists("byoipv6cidr_blocks"); ok && s.D.HasChange("byoipv6cidr_blocks") {
-		oldRaw, newRaw := s.D.GetChange("byoipv6cidr_blocks")
-		if newRaw != "" && oldRaw != "" {
-			err := s.updateIpv6CidrBlocks(oldRaw, newRaw)
-			if err != nil {
-				return err
-			}
-		}
-	}
-
-	if enableOracleGuaAllocation, ok := s.D.GetOkExists("is_oracle_gua_allocation_enabled"); ok && s.D.HasChange("is_oracle_gua_allocation_enabled") {
-		enableIPv6Request := oci_core.AddIpv6VcnCidrRequest{}
-		addVcnIpv6CidrDetails := oci_core.AddVcnIpv6CidrDetails{}
-		tmp := s.D.Id()
-		enableIPv6Request.VcnId = &tmp
-		enableIPv6Request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
-		isOracleGuaAllocationEnabled := enableOracleGuaAllocation.(bool)
-		addVcnIpv6CidrDetails.IsOracleGuaAllocationEnabled = &isOracleGuaAllocationEnabled
-		enableIPv6Request.AddVcnIpv6CidrDetails = addVcnIpv6CidrDetails
-		_, err := s.Client.AddIpv6VcnCidr(context.Background(), enableIPv6Request)
-		if err != nil {
-			return err
 		}
 	}
 
@@ -469,23 +454,66 @@ func (s *CoreVcnResourceCrud) Update() error {
 	return nil
 }
 
-func (s *CoreVcnResourceCrud) addByoIpv6CidrBlocks(byoipv6CidrDetails interface{}) error {
-	request := oci_core.AddIpv6VcnCidrRequest{}
-	addVcnIpv6CidrDetails := oci_core.AddVcnIpv6CidrDetails{}
-	fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "byoipv6cidr_details", byoipv6CidrDetails)
-	converted, err := s.mapToByoipv6CidrDetails(fieldKeyFormat)
-	if err != nil {
-		return err
+func (s *CoreVcnResourceCrud) updateByoIpv6CidrBlocks(oldRaw interface{}, newRaw interface{}) error {
+	interfaces := oldRaw.([]interface{})
+	oldByoipCidrDetails := make([]oci_core.Byoipv6CidrDetails, len(interfaces))
+	for i := range interfaces {
+		stateDataIndex := i
+		fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "byoipv6cidr_details", stateDataIndex)
+		oldByoipv6rangeIdRaw, _ := s.D.GetChange(fmt.Sprintf(fieldKeyFormat, "byoipv6range_id"))
+		oldIpv6cidrBlockRaw, _ := s.D.GetChange(fmt.Sprintf(fieldKeyFormat, "ipv6cidr_block"))
+		result := oci_core.Byoipv6CidrDetails{}
+		oldByoipv6rangeId := oldByoipv6rangeIdRaw.(string)
+		oldIpv6cidrBlock := oldIpv6cidrBlockRaw.(string)
+		result.Byoipv6RangeId = &oldByoipv6rangeId
+		result.Ipv6CidrBlock = &oldIpv6cidrBlock
+		oldByoipCidrDetails[i] = result
+	}
+	interfaces = newRaw.([]interface{})
+	newByoipCidrDetails := make([]oci_core.Byoipv6CidrDetails, len(interfaces))
+	for i := range interfaces {
+		stateDataIndex := i
+		fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "byoipv6cidr_details", stateDataIndex)
+		converted, err := s.mapToByoipv6CidrDetails(fieldKeyFormat)
+		if err != nil {
+			return err
+		}
+		newByoipCidrDetails[i] = converted
 	}
 
-	addVcnIpv6CidrDetails.Byoipv6CidrDetail = &converted
-	idTmp := s.D.Id()
-	request.VcnId = &idTmp
-	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
-	request.AddVcnIpv6CidrDetails = addVcnIpv6CidrDetails
-	_, err = s.Client.AddIpv6VcnCidr(context.Background(), request)
-	if err != nil {
-		return err
+	canEdit, operation, byoipv6CidrDetails := oneEditAwayByoipv6(oldByoipCidrDetails, newByoipCidrDetails)
+	if !canEdit {
+		return fmt.Errorf("only one add/remove is allowed at once, new byoipv6_cidr_block must be added at the end of list")
+	}
+	if operation == "modify" {
+		return fmt.Errorf("Modification not allowed, only add / destroy")
+	}
+
+	if operation == "add" {
+		addIpv6VcnCidrRequest := oci_core.AddIpv6VcnCidrRequest{}
+		addVcnIpv6CidrDetails := oci_core.AddVcnIpv6CidrDetails{}
+		idTmp := s.D.Id()
+		addIpv6VcnCidrRequest.VcnId = &idTmp
+		addIpv6VcnCidrRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
+		addVcnIpv6CidrDetails.Byoipv6CidrDetail = &byoipv6CidrDetails
+		addIpv6VcnCidrRequest.AddVcnIpv6CidrDetails = addVcnIpv6CidrDetails
+		_, err := s.Client.AddIpv6VcnCidr(context.Background(), addIpv6VcnCidrRequest)
+		if err != nil {
+			return err
+		}
+	}
+	if operation == "remove" {
+		removeIpv6VcnCidrRequest := oci_core.RemoveIpv6VcnCidrRequest{}
+		removeVcnIpv6CidrDetails := oci_core.RemoveVcnIpv6CidrDetails{}
+		idTmp := s.D.Id()
+		removeIpv6VcnCidrRequest.VcnId = &idTmp
+		removeIpv6VcnCidrRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
+		removeVcnIpv6CidrDetails.Ipv6CidrBlock = byoipv6CidrDetails.Ipv6CidrBlock
+		removeIpv6VcnCidrRequest.RemoveVcnIpv6CidrDetails = removeVcnIpv6CidrDetails
+		_, err := s.Client.RemoveIpv6VcnCidr(context.Background(), removeIpv6VcnCidrRequest)
+		if err != nil {
+			return err
+		}
 	}
 	return nil
 }
@@ -597,7 +625,9 @@ func (s *CoreVcnResourceCrud) SetData() error {
 
 	s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
 
-	if (s.Res.Ipv6CidrBlocks != nil && len(s.Res.Ipv6CidrBlocks) > 0) || (s.Res.Ipv6PrivateCidrBlocks != nil && len(s.Res.Ipv6PrivateCidrBlocks) > 0) {
+	if (s.Res.Ipv6CidrBlocks != nil && len(s.Res.Ipv6CidrBlocks) > 0) ||
+		(s.Res.Ipv6PrivateCidrBlocks != nil && len(s.Res.Ipv6PrivateCidrBlocks) > 0) ||
+		(s.Res.Byoipv6CidrBlocks != nil && len(s.Res.Byoipv6CidrBlocks) > 0) {
 		s.D.Set("is_ipv6enabled", true)
 	} else {
 		s.D.Set("is_ipv6enabled", false)
@@ -628,7 +658,6 @@ func (s *CoreVcnResourceCrud) mapToByoipv6CidrDetails(fieldKeyFormat string) (oc
 		tmp := ipv6CidrBlock.(string)
 		result.Ipv6CidrBlock = &tmp
 	}
-
 	return result, nil
 }
 
@@ -760,4 +789,48 @@ func oneEditAway(oldBlocks []string, newBlocks []string) (bool, string, string, 
 		}
 	}
 	return true, "remove", oldBlocks[len(oldBlocks)-1], ""
+}
+
+func oneEditAwayByoipv6(oldBlocks []oci_core.Byoipv6CidrDetails, newBlocks []oci_core.Byoipv6CidrDetails) (bool, string, oci_core.Byoipv6CidrDetails) {
+	if Abs(len(newBlocks)-len(oldBlocks)) > 1 {
+		return false, "", oci_core.Byoipv6CidrDetails{}
+	}
+	if len(newBlocks) == len(oldBlocks) {
+		for i := 0; i < len(oldBlocks); i++ {
+			if !compareByoipv6CidrDetails(oldBlocks[i], newBlocks[i]) {
+				for j := i + 1; j < len(oldBlocks); j++ {
+					if !compareByoipv6CidrDetails(oldBlocks[j], newBlocks[j]) {
+						return false, "", oci_core.Byoipv6CidrDetails{}
+					}
+				}
+				return true, "modify", newBlocks[i]
+			}
+		}
+	}
+	if len(newBlocks) > len(oldBlocks) {
+		for i := 0; i < len(oldBlocks); i++ {
+			if !compareByoipv6CidrDetails(oldBlocks[i], newBlocks[i]) {
+				return false, "", oci_core.Byoipv6CidrDetails{}
+			}
+		}
+		return true, "add", newBlocks[len(newBlocks)-1]
+	}
+	for i := 0; i < len(newBlocks); i++ {
+		if !compareByoipv6CidrDetails(oldBlocks[i], newBlocks[i]) {
+			for j := i + 1; j < len(newBlocks); j++ {
+				if !compareByoipv6CidrDetails(oldBlocks[j], newBlocks[j-1]) {
+					return false, "", oci_core.Byoipv6CidrDetails{}
+				}
+			}
+			return true, "remove", oldBlocks[i]
+		}
+	}
+	return true, "remove", oldBlocks[len(oldBlocks)-1]
+}
+
+func compareByoipv6CidrDetails(left oci_core.Byoipv6CidrDetails, right oci_core.Byoipv6CidrDetails) bool {
+	if *left.Byoipv6RangeId == *right.Byoipv6RangeId && *left.Ipv6CidrBlock == *right.Ipv6CidrBlock {
+		return true
+	}
+	return false
 }

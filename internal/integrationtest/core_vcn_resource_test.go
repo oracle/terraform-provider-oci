@@ -217,6 +217,131 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_
 	})
 }
 
+func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_ipv6() {
+	var resId string
+	resource.Test(s.T(), resource.TestCase{
+		Providers: s.Providers,
+		Steps: []resource.TestStep{
+			// test Create non ipv6enabled vcn
+			{
+				Config: s.Config + `
+					resource "oci_core_virtual_network" "t" {
+						cidr_block = "10.0.0.0/16"
+						compartment_id = "${var.compartment_id}"
+					}`,
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "default_route_table_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "default_security_list_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "cidr_block", "10.0.0.0/16"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VcnLifecycleStateAvailable)),
+					resource.TestCheckResourceAttr(s.ResourceName, "is_ipv6enabled", "false"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "dns_label"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "vcn_domain_name"),
+					func(s *terraform.State) (err error) {
+						resId, err = acctest.FromInstanceState(s, "oci_core_virtual_network.t", "id")
+						return err
+					},
+				),
+			},
+			// test Update with ULA prefix
+			{
+				Config: s.Config + `
+					resource "oci_core_virtual_network" "t" {
+						cidr_block = "10.0.0.0/16"
+						compartment_id = "${var.compartment_id}"
+						is_ipv6enabled = true
+  						is_oracle_gua_allocation_enabled = false
+						ipv6private_cidr_blocks = ["fc00::/48"]
+					}`,
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "default_route_table_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "default_security_list_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "cidr_block", "10.0.0.0/16"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VcnLifecycleStateAvailable)),
+					resource.TestCheckResourceAttr(s.ResourceName, "ipv6private_cidr_blocks.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "is_ipv6enabled", "true"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ipv6cidr_blocks.#", "0"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "dns_label"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "vcn_domain_name"),
+					func(s *terraform.State) (err error) {
+						resId2, err := acctest.FromInstanceState(s, "oci_core_virtual_network.t", "id")
+						if resId != resId2 {
+							return fmt.Errorf("expected same vcn ocid, got different")
+						}
+						return err
+					},
+				),
+			},
+			// Step add GUA cidr
+			{
+				Config: s.Config + `
+					resource "oci_core_virtual_network" "t" {
+						cidr_block = "10.0.0.0/16"
+						compartment_id = "${var.compartment_id}"
+						is_ipv6enabled = true
+  						is_oracle_gua_allocation_enabled = true
+						ipv6private_cidr_blocks = ["fc00::/48"]
+					}`,
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "default_route_table_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "default_security_list_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "cidr_block", "10.0.0.0/16"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VcnLifecycleStateAvailable)),
+					resource.TestCheckResourceAttr(s.ResourceName, "ipv6private_cidr_blocks.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ipv6cidr_blocks.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "is_ipv6enabled", "true"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "dns_label"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "vcn_domain_name"),
+					func(s *terraform.State) (err error) {
+						resId2, err := acctest.FromInstanceState(s, "oci_core_virtual_network.t", "id")
+						if resId != resId2 {
+							return fmt.Errorf("expected same vcn ocid, got different")
+						}
+						return err
+					},
+				),
+			},
+			// Step remove ULA cidr
+			{
+				Config: s.Config + `
+					resource "oci_core_virtual_network" "t" {
+						cidr_block = "10.0.0.0/16"
+						compartment_id = "${var.compartment_id}"
+						is_ipv6enabled = true
+  						is_oracle_gua_allocation_enabled = true
+						ipv6private_cidr_blocks = []
+					}`,
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "default_route_table_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "default_security_list_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "cidr_block", "10.0.0.0/16"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VcnLifecycleStateAvailable)),
+					resource.TestCheckResourceAttr(s.ResourceName, "ipv6private_cidr_blocks.#", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ipv6cidr_blocks.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "is_ipv6enabled", "true"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "dns_label"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "vcn_domain_name"),
+					func(s *terraform.State) (err error) {
+						resId2, err := acctest.FromInstanceState(s, "oci_core_virtual_network.t", "id")
+						if resId != resId2 {
+							return fmt.Errorf("expected same vcn ocid, got different")
+						}
+						return err
+					},
+				),
+			},
+		},
+	})
+}
+
 // issue-routing-tag: core/virtualNetwork
 func TestResourceCoreVirtualNetworkTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestResourceCoreVirtualNetworkTestSuite")
