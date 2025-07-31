@@ -26,7 +26,7 @@ type ListConfigsRequest struct {
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// A filter to match configuration items of a given type.
-	// Supported values are SPAN_FILTER, METRIC_GROUP, and APDEX.
+	// Supported values are SPAN_FILTER, METRIC_GROUP, APDEX, AGENT and MACS_APM_EXTENSION.
 	ConfigType *string `mandatory:"false" contributesTo:"query" name:"configType"`
 
 	// A filter to return resources that match the given display name.

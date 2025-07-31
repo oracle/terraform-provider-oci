@@ -127,11 +127,13 @@ Make sure the `output_path` is empty before running resource discovery
     * `ai_vision` - Discovers ai_vision resources within the specified compartment
     * `analytics` - Discovers analytics resources within the specified compartment
     * `announcements_service` - Discovers announcements_service resources within the specified compartment
+    * `api_platform` - Discovers api_platform resources within the specified compartment
     * `apiaccesscontrol` - Discovers apiaccesscontrol resources within the specified compartment
     * `apigateway` - Discovers apigateway resources within the specified compartment
     * `apm` - Discovers apm resources within the specified compartment
     * `apm_config` - Discovers apm_config resources within the specified compartment
     * `apm_synthetics` - Discovers apm_synthetics resources within the specified compartment
+    * `apm_traces` - Discovers apm_traces resources within the specified compartment
     * `artifacts` - Discovers artifacts resources within the specified compartment
     * `auto_scaling` - Discovers auto_scaling resources within the specified compartment
     * `bastion` - Discovers bastion resources within the specified compartment
@@ -364,6 +366,10 @@ announcements_service
 * oci\_announcements\_service\_announcement\_subscriptions\_actions\_change\_compartment
 * oci\_announcements\_service\_announcement\_subscriptions\_filter\_group
 
+api_platform
+    
+* oci\_api\_platform\_api\_platform\_instance
+
 apiaccesscontrol
     
 * oci\_apiaccesscontrol\_privileged\_api\_control
@@ -383,7 +389,7 @@ apm
 * oci\_apm\_apm\_domain
 
 apm_config
-
+    
 * oci\_apm\_config\_config
 
 apm_synthetics
@@ -393,6 +399,10 @@ apm_synthetics
 * oci\_apm\_synthetics\_dedicated\_vantage\_point
 * oci\_apm\_synthetics\_on\_premise\_vantage\_point\_worker
 * oci\_apm\_synthetics\_on\_premise\_vantage\_point
+
+apm_traces
+    
+* oci\_apm\_traces\_scheduled\_query
 
 artifacts
 
@@ -705,6 +715,9 @@ datascience
 * oci\_datascience\_ml\_application\_implementation
 * oci\_datascience\_ml\_application\_instance
 * oci\_datascience\_ml\_application
+* oci\_datascience\_model\_group\_version\_history
+* oci\_datascience\_model\_group\_artifact
+* oci\_datascience\_model\_group
 
 dblm
 

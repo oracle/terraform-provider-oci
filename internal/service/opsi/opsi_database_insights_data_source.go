@@ -237,7 +237,6 @@ func (s *OpsiDatabaseInsightsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
-
 	s.D.SetId(tfresource.GenerateDataSourceHashID("OpsiDatabaseInsightsDataSource-", OpsiDatabaseInsightsDataSource(), s.D))
 	resources := []map[string]interface{}{}
 	databaseInsight := map[string]interface{}{}
@@ -245,13 +244,12 @@ func (s *OpsiDatabaseInsightsDataSourceCrud) SetData() error {
 	items := []interface{}{}
 	for _, item := range s.Res.Items {
 		result := DatabaseInsightSummaryToMap(item)
+		items = append(items, DatabaseInsightSummaryToMap(item))
 		if len(result) != 0 {
 			items = append(items, result)
 		}
-
 	}
 	databaseInsight["items"] = items
-
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
 		items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, OpsiDatabaseInsightsDataSource().Schema["database_insights_collection"].Elem.(*schema.Resource).Schema)
 		databaseInsight["items"] = items

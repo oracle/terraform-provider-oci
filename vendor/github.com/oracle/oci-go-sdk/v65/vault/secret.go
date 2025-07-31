@@ -65,6 +65,13 @@ type Secret struct {
 	// metadata might specify the connection endpoint and the connection string. Provide additional metadata as key-value pairs.
 	Metadata map[string]interface{} `mandatory:"false" json:"metadata"`
 
+	ReplicationConfig *ReplicationConfig `mandatory:"false" json:"replicationConfig"`
+
+	// A Boolean value that indicates whether the secret is a source or replica secret.
+	IsReplica *bool `mandatory:"false" json:"isReplica"`
+
+	SourceRegionInformation *SourceRegionInformation `mandatory:"false" json:"sourceRegionInformation"`
+
 	RotationConfig *RotationConfig `mandatory:"false" json:"rotationConfig"`
 
 	// Additional information about the status of the secret rotation
@@ -127,6 +134,9 @@ func (m *Secret) UnmarshalJSON(data []byte) (e error) {
 		KeyId                      *string                           `json:"keyId"`
 		LifecycleDetails           *string                           `json:"lifecycleDetails"`
 		Metadata                   map[string]interface{}            `json:"metadata"`
+		ReplicationConfig          *ReplicationConfig                `json:"replicationConfig"`
+		IsReplica                  *bool                             `json:"isReplica"`
+		SourceRegionInformation    *SourceRegionInformation          `json:"sourceRegionInformation"`
 		RotationConfig             *RotationConfig                   `json:"rotationConfig"`
 		RotationStatus             SecretRotationStatusEnum          `json:"rotationStatus"`
 		LastRotationTime           *common.SDKTime                   `json:"lastRotationTime"`
@@ -162,6 +172,12 @@ func (m *Secret) UnmarshalJSON(data []byte) (e error) {
 	m.LifecycleDetails = model.LifecycleDetails
 
 	m.Metadata = model.Metadata
+
+	m.ReplicationConfig = model.ReplicationConfig
+
+	m.IsReplica = model.IsReplica
+
+	m.SourceRegionInformation = model.SourceRegionInformation
 
 	m.RotationConfig = model.RotationConfig
 

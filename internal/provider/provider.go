@@ -11,7 +11,6 @@ import (
 	"os"
 	"path"
 	"path/filepath"
-	"regexp"
 	"strconv"
 	"strings"
 	"time"
@@ -681,11 +680,16 @@ func BuildConfigureClientFn(configProvider oci_common.ConfigurationProvider, htt
 
 		domainNameOverride := utils.GetEnvSettingWithBlankDefault(globalvar.DomainNameOverrideEnv)
 
-		if domainNameOverride != "" {
+		//Example host:https://auth.us-ashburn-1.oraclecloud.com Example DomainOverride value: oraclecloudmars35.com
+		//Output Host after Override should be: https://auth.us-ashburn-1.oraclecloudmars35.com
+		if domainNameOverride != "" && !strings.HasSuffix(client.Host, domainNameOverride) {
 			hasCorrectDomainName := utils.GetEnvSettingWithBlankDefault(globalvar.HasCorrectDomainNameEnv)
-			re := regexp.MustCompile(`(.*?)[-\w]+\.\w+$`) // (capture: preamble) match: d0main-name . tld end-of-string
 			if hasCorrectDomainName == "" || !strings.HasSuffix(client.Host, hasCorrectDomainName) {
-				client.Host = re.ReplaceAllString(client.Host, "${1}"+domainNameOverride) // non-match conveniently returns original string
+				region, _ := configProvider.Region()
+				currentRealmDomain := oci_common.StringToRegion(region).SecondLevelDomain()
+				if currentRealmDomain != "" && strings.HasSuffix(client.Host, currentRealmDomain) {
+					client.Host = strings.TrimSuffix(client.Host, currentRealmDomain) + domainNameOverride
+				}
 			}
 		}
 

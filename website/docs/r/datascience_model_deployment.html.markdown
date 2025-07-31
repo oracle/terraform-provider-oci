@@ -155,7 +155,7 @@ The following arguments are supported:
 		* `server_port` - (Applicable when environment_configuration_type=OCIR_CONTAINER) (Updatable) The port on which the web server serving the inference is running. The port can be anything between `1024` and `65535`. The following ports cannot be used `24224`, `8446`, `8447`. 
 	* `model_configuration_details` - (Required) (Updatable) The model configuration details.
 		* `bandwidth_mbps` - (Optional) (Updatable) The minimum network bandwidth for the model deployment.
-		* `instance_configuration` - (Required) (Updatable) The model deployment instance configuration
+		* `instance_configuration` - (Required) (Updatable) The model deployment instance configuration.
 			* `instance_shape_name` - (Required) (Updatable) The shape used to launch the model deployment instances.
 			* `model_deployment_instance_shape_config_details` - (Optional) (Updatable) Details for the model-deployment instance shape configuration.
 				* `cpu_baseline` - (Optional) (Updatable) The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
@@ -254,7 +254,7 @@ The following attributes are exported:
 		* `server_port` - The port on which the web server serving the inference is running. The port can be anything between `1024` and `65535`. The following ports cannot be used `24224`, `8446`, `8447`. 
 	* `model_configuration_details` - The model configuration details.
 		* `bandwidth_mbps` - The minimum network bandwidth for the model deployment.
-		* `instance_configuration` - The model deployment instance configuration
+		* `instance_configuration` - The model deployment instance configuration.
 			* `instance_shape_name` - The shape used to launch the model deployment instances.
 			* `model_deployment_instance_shape_config_details` - Details for the model-deployment instance shape configuration.
 				* `cpu_baseline` - The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 

@@ -49,6 +49,9 @@ type CreateCertificateDetails struct {
 	// Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Locks associated with this resource.
+	Locks []AddResourceLockDetails `mandatory:"false" json:"locks"`
 }
 
 func (m CreateCertificateDetails) String() string {

@@ -37,7 +37,7 @@ type DefaultConfiguration struct {
 	DbVersion *string `mandatory:"true" json:"dbVersion"`
 
 	// The name of the shape for the configuration.
-	// Example: `VM.Standard.E4.Flex`
+	// For multi-shape enabled configurations, it is set to PostgreSQL. Please use compatibleShapes property to get list of supported shapes for such configurations.
 	Shape *string `mandatory:"true" json:"shape"`
 
 	// CPU core count.
@@ -47,6 +47,9 @@ type DefaultConfiguration struct {
 	// Memory size in gigabytes with 1GB increment.
 	// Its value is set to 0 if configuration is for a flexible shape.
 	InstanceMemorySizeInGBs *int `mandatory:"true" json:"instanceMemorySizeInGBs"`
+
+	// Indicates the collection of compatible shapes for this configuration.
+	CompatibleShapes []string `mandatory:"true" json:"compatibleShapes"`
 
 	ConfigurationDetails *DefaultConfigurationDetails `mandatory:"true" json:"configurationDetails"`
 

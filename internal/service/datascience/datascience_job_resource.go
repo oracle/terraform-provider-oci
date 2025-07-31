@@ -123,6 +123,11 @@ func DatascienceJobResource() *schema.Resource {
 									// Required
 
 									// Optional
+									"cpu_baseline": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 									"memory_in_gbs": {
 										Type:     schema.TypeFloat,
 										Optional: true,
@@ -1086,6 +1091,10 @@ func JobLogConfigurationDetailsToMap(obj *oci_datascience.JobLogConfigurationDet
 func (s *DatascienceJobResourceCrud) mapToJobShapeConfigDetails(fieldKeyFormat string) (oci_datascience.JobShapeConfigDetails, error) {
 	result := oci_datascience.JobShapeConfigDetails{}
 
+	if cpuBaseline, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cpu_baseline")); ok {
+		result.CpuBaseline = oci_datascience.JobShapeConfigDetailsCpuBaselineEnum(cpuBaseline.(string))
+	}
+
 	if memoryInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs")); ok {
 		tmp := float32(memoryInGBs.(float64))
 		result.MemoryInGBs = &tmp
@@ -1101,6 +1110,8 @@ func (s *DatascienceJobResourceCrud) mapToJobShapeConfigDetails(fieldKeyFormat s
 
 func JobShapeConfigDetailsToMap(obj *oci_datascience.JobShapeConfigDetails) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	result["cpu_baseline"] = string(obj.CpuBaseline)
 
 	if obj.MemoryInGBs != nil {
 		result["memory_in_gbs"] = float32(*obj.MemoryInGBs)

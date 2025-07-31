@@ -42,10 +42,14 @@ type CreateGatewayDetails struct {
 	// An array of Network Security Groups OCIDs associated with this API Gateway.
 	NetworkSecurityGroupIds []string `mandatory:"false" json:"networkSecurityGroupIds"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource which can be
+	// empty string.
 	CertificateId *string `mandatory:"false" json:"certificateId"`
 
 	ResponseCacheDetails ResponseCacheDetails `mandatory:"false" json:"responseCacheDetails"`
+
+	// Locks associated with this resource.
+	Locks []AddResourceLockDetails `mandatory:"false" json:"locks"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair
 	// with no predefined name, type, or namespace. For more information, see
@@ -89,6 +93,7 @@ func (m *CreateGatewayDetails) UnmarshalJSON(data []byte) (e error) {
 		NetworkSecurityGroupIds []string                          `json:"networkSecurityGroupIds"`
 		CertificateId           *string                           `json:"certificateId"`
 		ResponseCacheDetails    responsecachedetails              `json:"responseCacheDetails"`
+		Locks                   []AddResourceLockDetails          `json:"locks"`
 		FreeformTags            map[string]string                 `json:"freeformTags"`
 		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
 		CaBundles               []cabundle                        `json:"caBundles"`
@@ -118,6 +123,8 @@ func (m *CreateGatewayDetails) UnmarshalJSON(data []byte) (e error) {
 		m.ResponseCacheDetails = nil
 	}
 
+	m.Locks = make([]AddResourceLockDetails, len(model.Locks))
+	copy(m.Locks, model.Locks)
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags

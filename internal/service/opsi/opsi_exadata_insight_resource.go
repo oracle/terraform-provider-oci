@@ -116,6 +116,263 @@ func OpsiExadataInsightResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"member_autonomous_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"compartment_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"connection_credential_details": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"credential_type": {
+													Type:             schema.TypeString,
+													Required:         true,
+													ForceNew:         true,
+													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+													ValidateFunc: validation.StringInSlice([]string{
+														"CREDENTIALS_BY_IAM",
+														"CREDENTIALS_BY_NAMED_CREDS",
+														"CREDENTIALS_BY_SOURCE",
+														"CREDENTIALS_BY_VAULT",
+													}, true),
+												},
+
+												// Optional
+												"credential_source_name": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"named_credential_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"password_secret_id": {
+													Type:      schema.TypeString,
+													Optional:  true,
+													Computed:  true,
+													ForceNew:  true,
+													Sensitive: true,
+												},
+												"role": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"user_name": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"wallet_secret_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+									"connection_details": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"host_name": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"port": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"protocol": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"service_name": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+									"credential_details": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"credential_type": {
+													Type:             schema.TypeString,
+													Required:         true,
+													ForceNew:         true,
+													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+													ValidateFunc: validation.StringInSlice([]string{
+														"CREDENTIALS_BY_IAM",
+														"CREDENTIALS_BY_NAMED_CREDS",
+														"CREDENTIALS_BY_SOURCE",
+														"CREDENTIALS_BY_VAULT",
+													}, true),
+												},
+
+												// Optional
+												"credential_source_name": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"named_credential_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"password_secret_id": {
+													Type:      schema.TypeString,
+													Optional:  true,
+													Computed:  true,
+													ForceNew:  true,
+													Sensitive: true,
+												},
+												"role": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"user_name": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"wallet_secret_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+									"database_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"database_resource_type": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"defined_tags": {
+										Type:             schema.TypeMap,
+										Optional:         true,
+										Computed:         true,
+										ForceNew:         true,
+										DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+										Elem:             schema.TypeString,
+									},
+									"deployment_type": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"entity_source": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"freeform_tags": {
+										Type:     schema.TypeMap,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										Elem:     schema.TypeString,
+									},
+									"is_advanced_features_enabled": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"management_agent_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"opsi_private_endpoint_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"system_tags": {
+										Type:     schema.TypeMap,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										Elem:     schema.TypeString,
+									},
+
+									// Computed
+								},
+							},
+						},
 						"member_database_details": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -147,6 +404,7 @@ func OpsiExadataInsightResource() *schema.Resource {
 													ForceNew:         true,
 													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 													ValidateFunc: validation.StringInSlice([]string{
+														"CREDENTIALS_BY_NAMED_CREDS",
 														"CREDENTIALS_BY_SOURCE",
 														"CREDENTIALS_BY_VAULT",
 													}, true),
@@ -154,6 +412,12 @@ func OpsiExadataInsightResource() *schema.Resource {
 
 												// Optional
 												"credential_source_name": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"named_credential_id": {
 													Type:     schema.TypeString,
 													Optional: true,
 													Computed: true,
@@ -267,6 +531,7 @@ func OpsiExadataInsightResource() *schema.Resource {
 													ForceNew:         true,
 													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 													ValidateFunc: validation.StringInSlice([]string{
+														"CREDENTIALS_BY_IAM",
 														"CREDENTIALS_BY_SOURCE",
 														"CREDENTIALS_BY_VAULT",
 													}, true),
@@ -274,6 +539,12 @@ func OpsiExadataInsightResource() *schema.Resource {
 
 												// Optional
 												"credential_source_name": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"named_credential_id": {
 													Type:     schema.TypeString,
 													Optional: true,
 													Computed: true,
@@ -1097,26 +1368,6 @@ func (s *OpsiExadataInsightResourceCrud) mapToConnectionDetails(fieldKeyFormat s
 	return result, nil
 }
 
-/*func ConnectionDetailsToMap(obj *oci_opsi.ConnectionDetails) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.HostName != nil {
-		result["host_name"] = string(*obj.HostName)
-	}
-
-	if obj.Port != nil {
-		result["port"] = int(*obj.Port)
-	}
-
-	result["protocol"] = string(obj.Protocol)
-
-	if obj.ServiceName != nil {
-		result["service_name"] = string(*obj.ServiceName)
-	}
-
-	return result
-}*/
-
 func (s *OpsiExadataInsightResourceCrud) mapToCreateEmManagedExternalExadataMemberEntityDetails(fieldKeyFormat string) (oci_opsi.CreateEmManagedExternalExadataMemberEntityDetails, error) {
 	result := oci_opsi.CreateEmManagedExternalExadataMemberEntityDetails{}
 
@@ -1142,6 +1393,124 @@ func CreateEmManagedExternalExadataMemberEntityDetailsToMap(obj oci_opsi.CreateE
 
 	if obj.EnterpriseManagerEntityIdentifier != nil {
 		result["enterprise_manager_entity_identifier"] = string(*obj.EnterpriseManagerEntityIdentifier)
+	}
+
+	return result
+}
+
+func (s *OpsiExadataInsightResourceCrud) mapToCreateMacsManagedAutonomousDatabaseInsightDetails(fieldKeyFormat string) (oci_opsi.CreateMacsManagedAutonomousDatabaseInsightDetails, error) {
+	result := oci_opsi.CreateMacsManagedAutonomousDatabaseInsightDetails{}
+
+	if compartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compartment_id")); ok {
+		tmp := compartmentId.(string)
+		result.CompartmentId = &tmp
+	}
+
+	if connectionCredentialDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connection_credential_details")); ok {
+		if tmpList := connectionCredentialDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "connection_credential_details"), 0)
+			tmp, err := s.mapToCredentialDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert connection_credential_details, encountered error: %v", err)
+			}
+			result.ConnectionCredentialDetails = tmp
+		}
+	}
+
+	if connectionDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connection_details")); ok {
+		if tmpList := connectionDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "connection_details"), 0)
+			tmp, err := s.mapToConnectionDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert connection_details, encountered error: %v", err)
+			}
+			result.ConnectionDetails = &tmp
+		}
+	}
+
+	if databaseId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_id")); ok {
+		tmp := databaseId.(string)
+		result.DatabaseId = &tmp
+	}
+
+	if databaseResourceType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_resource_type")); ok {
+		tmp := databaseResourceType.(string)
+		result.DatabaseResourceType = &tmp
+	}
+
+	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
+		tmp, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return result, fmt.Errorf("unable to convert defined_tags, encountered error: %v", err)
+		}
+		result.DefinedTags = tmp
+	}
+
+	if deploymentType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "deployment_type")); ok {
+		result.DeploymentType = oci_opsi.CreateMacsManagedAutonomousDatabaseInsightDetailsDeploymentTypeEnum(deploymentType.(string))
+	}
+
+	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
+		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if managementAgentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "management_agent_id")); ok {
+		tmp := managementAgentId.(string)
+		result.ManagementAgentId = &tmp
+	}
+
+	if systemTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "system_tags")); ok {
+		tmp, err := tfresource.MapToSystemTags(systemTags.(map[string]interface{}))
+		if err != nil {
+			return result, fmt.Errorf("unable to convert system_tags, encountered error: %v", err)
+		}
+		result.SystemTags = tmp
+	}
+
+	return result, nil
+}
+
+func CreateMacsManagedAutonomousDatabaseInsightDetailsToMap(obj oci_opsi.CreateMacsManagedAutonomousDatabaseInsightDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.ConnectionCredentialDetails != nil {
+		connectionCredentialDetailsArray := []interface{}{}
+		if connectionCredentialDetailsMap := CredentialDetailsToMap(&obj.ConnectionCredentialDetails); connectionCredentialDetailsMap != nil {
+			connectionCredentialDetailsArray = append(connectionCredentialDetailsArray, connectionCredentialDetailsMap)
+		}
+		result["connection_credential_details"] = connectionCredentialDetailsArray
+	}
+
+	if obj.ConnectionDetails != nil {
+		result["connection_details"] = []interface{}{ConnectionDetailsToMap(obj.ConnectionDetails)}
+	}
+
+	if obj.DatabaseId != nil {
+		result["database_id"] = string(*obj.DatabaseId)
+	}
+
+	if obj.DatabaseResourceType != nil {
+		result["database_resource_type"] = string(*obj.DatabaseResourceType)
+	}
+
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	}
+
+	result["deployment_type"] = string(obj.DeploymentType)
+
+	result["freeform_tags"] = obj.FreeformTags
+
+	if obj.ManagementAgentId != nil {
+		result["management_agent_id"] = string(*obj.ManagementAgentId)
+	}
+
+	if obj.SystemTags != nil {
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
 	}
 
 	return result
@@ -1273,6 +1642,23 @@ func (s *OpsiExadataInsightResourceCrud) mapToCreateMacsManagedCloudExadataVmclu
 		result.CompartmentId = &tmp
 	}
 
+	if memberAutonomousDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "member_autonomous_details")); ok {
+		interfaces := memberAutonomousDetails.([]interface{})
+		tmp := make([]oci_opsi.CreateMacsManagedAutonomousDatabaseInsightDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "member_autonomous_details"), stateDataIndex)
+			converted, err := s.mapToCreateMacsManagedAutonomousDatabaseInsightDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "member_autonomous_details")) {
+			result.MemberAutonomousDetails = tmp
+		}
+	}
+
 	if memberDatabaseDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "member_database_details")); ok {
 		interfaces := memberDatabaseDetails.([]interface{})
 		tmp := make([]oci_opsi.CreateMacsManagedCloudDatabaseInsightDetails, len(interfaces))
@@ -1305,16 +1691,127 @@ func CreateMacsManagedCloudExadataVmclusterDetailsToMap(obj oci_opsi.CreateMacsM
 		result["compartment_id"] = string(*obj.CompartmentId)
 	}
 
+	memberAutonomousDetails := []interface{}{}
+	for _, item := range obj.MemberAutonomousDetails {
+		memberAutonomousDetails = append(memberAutonomousDetails, CreateMacsManagedAutonomousDatabaseInsightDetailsToMap(item))
+	}
+	result["member_autonomous_details"] = memberAutonomousDetails
+
 	memberDatabaseDetails := []interface{}{}
 	for _, item := range obj.MemberDatabaseDetails {
 		memberDatabaseDetails = append(memberDatabaseDetails, CreateMacsManagedCloudDatabaseInsightDetailsToMap(item))
 	}
 	result["member_database_details"] = memberDatabaseDetails
 
-	//result["vm_cluster_type"] = string(obj.VmClusterType)
-
 	if obj.VmclusterId != nil {
 		result["vmcluster_id"] = string(*obj.VmclusterId)
+	}
+
+	return result
+}
+
+func (s *OpsiExadataInsightResourceCrud) mapToCreateAutonomousDatabaseInsightDetails(fieldKeyFormat string) (oci_opsi.CreateAutonomousDatabaseInsightDetails, error) {
+	result := oci_opsi.CreateAutonomousDatabaseInsightDetails{}
+
+	if compartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compartment_id")); ok {
+		tmp := compartmentId.(string)
+		result.CompartmentId = &tmp
+	}
+
+	if connectionDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connection_details")); ok {
+		if tmpList := connectionDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "connection_details"), 0)
+			tmp, err := s.mapToConnectionDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert connection_details, encountered error: %v", err)
+			}
+			result.ConnectionDetails = &tmp
+		}
+	}
+
+	if credentialDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "credential_details")); ok {
+		if tmpList := credentialDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "credential_details"), 0)
+			tmp, err := s.mapToCredentialDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert credential_details, encountered error: %v", err)
+			}
+			result.CredentialDetails = tmp
+		}
+	}
+
+	if databaseId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_id")); ok {
+		tmp := databaseId.(string)
+		result.DatabaseId = &tmp
+	}
+
+	if databaseResourceType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_resource_type")); ok {
+		tmp := databaseResourceType.(string)
+		result.DatabaseResourceType = &tmp
+	}
+
+	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
+		tmp, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return result, fmt.Errorf("unable to convert defined_tags, encountered error: %v", err)
+		}
+		result.DefinedTags = tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
+		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if isAdvancedFeaturesEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_advanced_features_enabled")); ok {
+		tmp := isAdvancedFeaturesEnabled.(bool)
+		result.IsAdvancedFeaturesEnabled = &tmp
+	}
+
+	if opsiPrivateEndpointId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "opsi_private_endpoint_id")); ok {
+		tmp := opsiPrivateEndpointId.(string)
+		result.OpsiPrivateEndpointId = &tmp
+	}
+
+	if systemTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "system_tags")); ok {
+		tmp, err := tfresource.MapToSystemTags(systemTags.(map[string]interface{}))
+		if err != nil {
+			return result, fmt.Errorf("unable to convert system_tags, encountered error: %v", err)
+		}
+		result.SystemTags = tmp
+	}
+
+	return result, nil
+}
+
+func CreateAutonomousDatabaseInsightDetailsToMap(obj oci_opsi.CreateAutonomousDatabaseInsightDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.ConnectionDetails != nil {
+		result["connection_details"] = []interface{}{ConnectionDetailsToMap(obj.ConnectionDetails)}
+	}
+
+	if obj.CredentialDetails != nil {
+		credentialDetailsArray := []interface{}{}
+		if credentialDetailsMap := CredentialDetailsToMap(&obj.CredentialDetails); credentialDetailsMap != nil {
+			credentialDetailsArray = append(credentialDetailsArray, credentialDetailsMap)
+		}
+		result["credential_details"] = credentialDetailsArray
+	}
+
+	if obj.DatabaseId != nil {
+		result["database_id"] = string(*obj.DatabaseId)
+	}
+
+	if obj.DatabaseResourceType != nil {
+		result["database_resource_type"] = string(*obj.DatabaseResourceType)
+	}
+
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
 	}
 
 	return result
@@ -1470,6 +1967,23 @@ func (s *OpsiExadataInsightResourceCrud) mapToCreatePeComanagedExadataVmclusterD
 		result.DbmPrivateEndpointId = &tmp
 	}
 
+	if memberAutonomousDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "member_autonomous_details")); ok {
+		interfaces := memberAutonomousDetails.([]interface{})
+		tmp := make([]oci_opsi.CreateAutonomousDatabaseInsightDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "member_autonomous_details"), stateDataIndex)
+			converted, err := s.mapToCreateAutonomousDatabaseInsightDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "member_autonomous_details")) {
+			result.MemberAutonomousDetails = tmp
+		}
+	}
+
 	if memberDatabaseDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "member_database_details")); ok {
 		interfaces := memberDatabaseDetails.([]interface{})
 		tmp := make([]oci_opsi.CreatePeComanagedDatabaseInsightDetails, len(interfaces))
@@ -1492,6 +2006,10 @@ func (s *OpsiExadataInsightResourceCrud) mapToCreatePeComanagedExadataVmclusterD
 		result.OpsiPrivateEndpointId = &tmp
 	}
 
+	if vmClusterType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vm_cluster_type")); ok {
+		result.VmClusterType = oci_opsi.ExadataVmClusterTypeEnum(vmClusterType.(string))
+	}
+
 	if vmclusterId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vmcluster_id")); ok {
 		tmp := vmclusterId.(string)
 		result.VmclusterId = &tmp
@@ -1511,6 +2029,12 @@ func CreatePeComanagedExadataVmclusterDetailsToMap(obj oci_opsi.CreatePeComanage
 		result["dbm_private_endpoint_id"] = string(*obj.DbmPrivateEndpointId)
 	}
 
+	memberAutonomousDetails := []interface{}{}
+	for _, item := range obj.MemberAutonomousDetails {
+		memberAutonomousDetails = append(memberAutonomousDetails, CreateAutonomousDatabaseInsightDetailsToMap(item))
+	}
+	result["member_autonomous_details"] = memberAutonomousDetails
+
 	memberDatabaseDetails := []interface{}{}
 	for _, item := range obj.MemberDatabaseDetails {
 		memberDatabaseDetails = append(memberDatabaseDetails, CreatePeComanagedDatabaseInsightDetailsToMap(item))
@@ -1520,6 +2044,8 @@ func CreatePeComanagedExadataVmclusterDetailsToMap(obj oci_opsi.CreatePeComanage
 	if obj.OpsiPrivateEndpointId != nil {
 		result["opsi_private_endpoint_id"] = string(*obj.OpsiPrivateEndpointId)
 	}
+
+	result["vm_cluster_type"] = string(obj.VmClusterType)
 
 	if obj.VmclusterId != nil {
 		result["vmcluster_id"] = string(*obj.VmclusterId)
@@ -1539,6 +2065,13 @@ func (s *OpsiExadataInsightResourceCrud) mapToCredentialDetails(fieldKeyFormat s
 		credentialType = "" // default value
 	}
 	switch strings.ToLower(credentialType) {
+	case strings.ToLower("CREDENTIALS_BY_NAMED_CREDS"):
+		details := oci_opsi.CredentialByNamedCredentials{}
+		if namedCredentialId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "named_credential_id")); ok {
+			tmp := namedCredentialId.(string)
+			details.NamedCredentialId = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("CREDENTIALS_BY_SOURCE"):
 		details := oci_opsi.CredentialsBySource{}
 		if credentialSourceName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "credential_source_name")); ok {
@@ -1562,10 +2095,6 @@ func (s *OpsiExadataInsightResourceCrud) mapToCredentialDetails(fieldKeyFormat s
 		if walletSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "wallet_secret_id")); ok {
 			tmp := walletSecretId.(string)
 			details.WalletSecretId = &tmp
-		}
-		if credentialSourceName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "credential_source_name")); ok {
-			tmp := credentialSourceName.(string)
-			details.CredentialSourceName = &tmp
 		}
 		baseObject = details
 	default:

@@ -80,13 +80,17 @@ func PsqlConfigurationResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"shape": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 
 			// Optional
+			"compatible_shapes": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+				ConflictsWith: []string{"shape"},
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -122,6 +126,13 @@ func PsqlConfigurationResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"shape": {
+				Type:          schema.TypeString,
+				Optional:      true,
+				Computed:      true,
+				ForceNew:      true,
+				ConflictsWith: []string{"compatible_shapes"},
 			},
 			"system_tags": {
 				Type:     schema.TypeMap,
@@ -193,6 +204,10 @@ func PsqlConfigurationResource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"default_config_id": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
@@ -282,6 +297,19 @@ func (s *PsqlConfigurationResourceCrud) Create() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if compatibleShapes, ok := s.D.GetOkExists("compatible_shapes"); ok {
+		interfaces := compatibleShapes.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("compatible_shapes") {
+			request.CompatibleShapes = tmp
+		}
 	}
 
 	if dbConfigurationOverrides, ok := s.D.GetOkExists("db_configuration_overrides"); ok {
@@ -390,6 +418,19 @@ func (s *PsqlConfigurationResourceCrud) Update() error {
 	}
 	request := oci_psql.UpdateConfigurationRequest{}
 
+	if compatibleShapes, ok := s.D.GetOkExists("compatible_shapes"); ok {
+		interfaces := compatibleShapes.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("compatible_shapes") {
+			request.CompatibleShapes = tmp
+		}
+	}
+
 	tmp := s.D.Id()
 	request.ConfigurationId = &tmp
 
@@ -443,6 +484,8 @@ func (s *PsqlConfigurationResourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	s.D.Set("compatible_shapes", s.Res.CompatibleShapes)
+
 	s.D.Set("config_type", s.Res.ConfigType)
 
 	if s.Res.ConfigurationDetails != nil {
@@ -453,6 +496,10 @@ func (s *PsqlConfigurationResourceCrud) SetData() error {
 
 	if s.Res.DbVersion != nil {
 		s.D.Set("db_version", *s.Res.DbVersion)
+	}
+
+	if s.Res.DefaultConfigId != nil {
+		s.D.Set("default_config_id", *s.Res.DefaultConfigId)
 	}
 
 	if s.Res.DefinedTags != nil {
@@ -590,8 +637,14 @@ func ConfigurationSummaryToMap(obj oci_psql.ConfigurationSummary) map[string]int
 		result["compartment_id"] = string(*obj.CompartmentId)
 	}
 
+	result["compatible_shapes"] = obj.CompatibleShapes
+
 	if obj.DbVersion != nil {
 		result["db_version"] = string(*obj.DbVersion)
+	}
+
+	if obj.DefaultConfigId != nil {
+		result["default_config_id"] = string(*obj.DefaultConfigId)
 	}
 
 	if obj.DefinedTags != nil {
