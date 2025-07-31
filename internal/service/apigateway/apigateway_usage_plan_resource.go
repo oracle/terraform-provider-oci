@@ -152,6 +152,42 @@ func ApigatewayUsagePlanResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"locks": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"type": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+						"message": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+						"related_resource_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_created": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"is_lock_override": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"lifecycle_details": {
@@ -161,6 +197,11 @@ func ApigatewayUsagePlanResource() *schema.Resource {
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -286,6 +327,23 @@ func (s *ApigatewayUsagePlanResourceCrud) Create() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if locks, ok := s.D.GetOkExists("locks"); ok {
+		interfaces := locks.([]interface{})
+		tmp := make([]oci_apigateway.AddResourceLockDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+			converted, err := s.mapToAddResourceLockDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("locks") {
+			request.Locks = tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")
@@ -494,6 +552,11 @@ func (s *ApigatewayUsagePlanResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		request.IsLockOverride = &tmp
+	}
+
 	tmp := s.D.Id()
 	request.UsagePlanId = &tmp
 
@@ -510,6 +573,11 @@ func (s *ApigatewayUsagePlanResourceCrud) Update() error {
 
 func (s *ApigatewayUsagePlanResourceCrud) Delete() error {
 	request := oci_apigateway.DeleteUsagePlanRequest{}
+
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		request.IsLockOverride = &tmp
+	}
 
 	tmp := s.D.Id()
 	request.UsagePlanId = &tmp
@@ -553,7 +621,17 @@ func (s *ApigatewayUsagePlanResourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	locks := []interface{}{}
+	for _, item := range s.Res.Locks {
+		locks = append(locks, ResourceLockToMap(item))
+	}
+	s.D.Set("locks", locks)
+
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
@@ -564,6 +642,21 @@ func (s *ApigatewayUsagePlanResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *ApigatewayUsagePlanResourceCrud) mapToAddResourceLockDetails(fieldKeyFormat string) (oci_apigateway.AddResourceLockDetails, error) {
+	result := oci_apigateway.AddResourceLockDetails{}
+
+	if message, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "message")); ok {
+		tmp := message.(string)
+		result.Message = &tmp
+	}
+
+	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
+		result.Type = oci_apigateway.AddResourceLockDetailsTypeEnum(type_.(string))
+	}
+
+	return result, nil
 }
 
 func (s *ApigatewayUsagePlanResourceCrud) mapToEntitlement(fieldKeyFormat string) (oci_apigateway.Entitlement, error) {
@@ -787,7 +880,17 @@ func UsagePlanSummaryToMap(obj oci_apigateway.UsagePlanSummary) map[string]inter
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
 
+	locks := []interface{}{}
+	for _, item := range obj.Locks {
+		locks = append(locks, ResourceLockToMap(item))
+	}
+	result["locks"] = locks
+
 	result["state"] = string(obj.LifecycleState)
+
+	if obj.SystemTags != nil {
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	}
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()
@@ -805,6 +908,11 @@ func (s *ApigatewayUsagePlanResourceCrud) updateCompartment(compartment interfac
 
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		changeCompartmentRequest.IsLockOverride = &tmp
+	}
 
 	idTmp := s.D.Id()
 	changeCompartmentRequest.UsagePlanId = &idTmp

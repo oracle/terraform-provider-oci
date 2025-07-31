@@ -73,6 +73,42 @@ func ApigatewayCertificateResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"locks": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"type": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+						"message": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+						"related_resource_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_created": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"is_lock_override": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"lifecycle_details": {
@@ -89,6 +125,11 @@ func ApigatewayCertificateResource() *schema.Resource {
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
+			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -211,6 +252,23 @@ func (s *ApigatewayCertificateResourceCrud) Create() error {
 	if intermediateCertificates, ok := s.D.GetOkExists("intermediate_certificates"); ok {
 		tmp := intermediateCertificates.(string)
 		request.IntermediateCertificates = &tmp
+	}
+
+	if locks, ok := s.D.GetOkExists("locks"); ok {
+		interfaces := locks.([]interface{})
+		tmp := make([]oci_apigateway.AddResourceLockDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+			converted, err := s.mapToAddResourceLockDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("locks") {
+			request.Locks = tmp
+		}
 	}
 
 	if privateKey, ok := s.D.GetOkExists("private_key"); ok {
@@ -411,6 +469,11 @@ func (s *ApigatewayCertificateResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		request.IsLockOverride = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
 	response, err := s.Client.UpdateCertificate(context.Background(), request)
@@ -427,6 +490,11 @@ func (s *ApigatewayCertificateResourceCrud) Delete() error {
 
 	tmp := s.D.Id()
 	request.CertificateId = &tmp
+
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		request.IsLockOverride = &tmp
+	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
@@ -461,9 +529,19 @@ func (s *ApigatewayCertificateResourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	locks := []interface{}{}
+	for _, item := range s.Res.Locks {
+		locks = append(locks, ResourceLockToMap(item))
+	}
+	s.D.Set("locks", locks)
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	s.D.Set("subject_names", s.Res.SubjectNames)
+
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
@@ -478,6 +556,21 @@ func (s *ApigatewayCertificateResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *ApigatewayCertificateResourceCrud) mapToAddResourceLockDetails(fieldKeyFormat string) (oci_apigateway.AddResourceLockDetails, error) {
+	result := oci_apigateway.AddResourceLockDetails{}
+
+	if message, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "message")); ok {
+		tmp := message.(string)
+		result.Message = &tmp
+	}
+
+	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
+		result.Type = oci_apigateway.AddResourceLockDetailsTypeEnum(type_.(string))
+	}
+
+	return result, nil
 }
 
 func CertificateSummaryToMap(obj oci_apigateway.CertificateSummary) map[string]interface{} {
@@ -505,9 +598,19 @@ func CertificateSummaryToMap(obj oci_apigateway.CertificateSummary) map[string]i
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
 
+	locks := []interface{}{}
+	for _, item := range obj.Locks {
+		locks = append(locks, ResourceLockToMap(item))
+	}
+	result["locks"] = locks
+
 	result["state"] = string(obj.LifecycleState)
 
 	result["subject_names"] = obj.SubjectNames
+
+	if obj.SystemTags != nil {
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	}
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()
@@ -532,6 +635,11 @@ func (s *ApigatewayCertificateResourceCrud) updateCompartment(compartment interf
 
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		changeCompartmentRequest.IsLockOverride = &tmp
+	}
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
