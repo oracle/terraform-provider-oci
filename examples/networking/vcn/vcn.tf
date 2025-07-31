@@ -39,7 +39,25 @@ resource "oci_core_vcn" "vcn" {
   security_attributes = {"sample-namespace.value": "examplevalue", "sample-namespace.mode": "examplemode"}
 }
 
+resource "oci_core_vcn" "test_vcn_ipv6" {
+  compartment_id = var.compartment_ocid
+  display_name = "test-vcn-ipv6"
+  cidr_blocks = [
+    "10.0.100.0/24",
+    "10.0.101.0/24",
+  ]
+  is_ipv6enabled = "true"
+  is_oracle_gua_allocation_enabled = "false"
+  ipv6private_cidr_blocks = [
+    "2a04:4447:f001:100::/64",
+  ]
+}
+
 output "vcn_id" {
   value = oci_core_vcn.vcn.id
+}
+
+output "vcn_ipv6_id" {
+  value = oci_core_vcn.test_vcn_ipv6.id
 }
 

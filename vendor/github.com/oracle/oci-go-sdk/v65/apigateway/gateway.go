@@ -60,6 +60,9 @@ type Gateway struct {
 	// resource in a Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// The hostname for APIs deployed on the gateway.
 	Hostname *string `mandatory:"false" json:"hostname"`
 
@@ -82,6 +85,10 @@ type Gateway struct {
 	// Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// System tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
 	// An array of CA bundles that should be used on the Gateway for TLS validation.
 	CaBundles []CaBundle `mandatory:"false" json:"caBundles"`
@@ -119,12 +126,14 @@ func (m *Gateway) UnmarshalJSON(data []byte) (e error) {
 		TimeUpdated             *common.SDKTime                   `json:"timeUpdated"`
 		LifecycleState          GatewayLifecycleStateEnum         `json:"lifecycleState"`
 		LifecycleDetails        *string                           `json:"lifecycleDetails"`
+		Locks                   []ResourceLock                    `json:"locks"`
 		Hostname                *string                           `json:"hostname"`
 		CertificateId           *string                           `json:"certificateId"`
 		IpAddresses             []IpAddress                       `json:"ipAddresses"`
 		ResponseCacheDetails    responsecachedetails              `json:"responseCacheDetails"`
 		FreeformTags            map[string]string                 `json:"freeformTags"`
 		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags              map[string]map[string]interface{} `json:"systemTags"`
 		CaBundles               []cabundle                        `json:"caBundles"`
 		Id                      *string                           `json:"id"`
 		CompartmentId           *string                           `json:"compartmentId"`
@@ -150,6 +159,8 @@ func (m *Gateway) UnmarshalJSON(data []byte) (e error) {
 
 	m.LifecycleDetails = model.LifecycleDetails
 
+	m.Locks = make([]ResourceLock, len(model.Locks))
+	copy(m.Locks, model.Locks)
 	m.Hostname = model.Hostname
 
 	m.CertificateId = model.CertificateId
@@ -169,6 +180,8 @@ func (m *Gateway) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
+
+	m.SystemTags = model.SystemTags
 
 	m.CaBundles = make([]CaBundle, len(model.CaBundles))
 	for i, n := range model.CaBundles {

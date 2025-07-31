@@ -11,6 +11,7 @@ import (
 	tf_ai_vision "github.com/oracle/terraform-provider-oci/internal/service/ai_vision"
 	tf_analytics "github.com/oracle/terraform-provider-oci/internal/service/analytics"
 	tf_announcements_service "github.com/oracle/terraform-provider-oci/internal/service/announcements_service"
+	tf_api_platform "github.com/oracle/terraform-provider-oci/internal/service/api_platform"
 	tf_apiaccesscontrol "github.com/oracle/terraform-provider-oci/internal/service/apiaccesscontrol"
 	tf_apigateway "github.com/oracle/terraform-provider-oci/internal/service/apigateway"
 	tf_apm "github.com/oracle/terraform-provider-oci/internal/service/apm"
@@ -152,6 +153,9 @@ func init() {
 	}
 	if common.CheckForEnabledServices("announcementsservice") {
 		tf_announcements_service.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("apiplatform") {
+		tf_api_platform.RegisterDatasource()
 	}
 	if common.CheckForEnabledServices("apiaccesscontrol") {
 		tf_apiaccesscontrol.RegisterDatasource()

@@ -19,14 +19,17 @@ type ModelDeploymentTypeEnum string
 // Set of constants representing the allowable values for ModelDeploymentTypeEnum
 const (
 	ModelDeploymentTypeSingleModel ModelDeploymentTypeEnum = "SINGLE_MODEL"
+	ModelDeploymentTypeModelGroup  ModelDeploymentTypeEnum = "MODEL_GROUP"
 )
 
 var mappingModelDeploymentTypeEnum = map[string]ModelDeploymentTypeEnum{
 	"SINGLE_MODEL": ModelDeploymentTypeSingleModel,
+	"MODEL_GROUP":  ModelDeploymentTypeModelGroup,
 }
 
 var mappingModelDeploymentTypeEnumLowerCase = map[string]ModelDeploymentTypeEnum{
 	"single_model": ModelDeploymentTypeSingleModel,
+	"model_group":  ModelDeploymentTypeModelGroup,
 }
 
 // GetModelDeploymentTypeEnumValues Enumerates the set of values for ModelDeploymentTypeEnum
@@ -42,6 +45,7 @@ func GetModelDeploymentTypeEnumValues() []ModelDeploymentTypeEnum {
 func GetModelDeploymentTypeEnumStringValues() []string {
 	return []string{
 		"SINGLE_MODEL",
+		"MODEL_GROUP",
 	}
 }
 

@@ -33,12 +33,17 @@ type ListConfigurationsRequest struct {
 	// Version of the PostgreSQL database, such as 14.9.
 	DbVersion *string `mandatory:"false" contributesTo:"query" name:"dbVersion"`
 
-	// The name of the shape for the configuration.
-	// Example: `VM.Standard.E4.Flex`
+	// The compute name of the shape for the configuration.
 	Shape *string `mandatory:"false" contributesTo:"query" name:"shape"`
 
 	// A unique identifier for the configuration.
 	ConfigurationId *string `mandatory:"false" contributesTo:"query" name:"configurationId"`
+
+	// The instance ocpu count for the configuration.
+	InstanceOcpuCount *int `mandatory:"false" contributesTo:"query" name:"instanceOcpuCount"`
+
+	// The instance memory size in GBs for the configuration.
+	InstanceMemorySizeInGBs *int `mandatory:"false" contributesTo:"query" name:"instanceMemorySizeInGBs"`
 
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`

@@ -20,6 +20,8 @@ import (
 
 // OAuth2LogoutBackend Backend which when called triggers OAuth2 logout.
 type OAuth2LogoutBackend struct {
+
+	// A list of allowed post-logout URLs to which a request can be redirected after revoke access
 	AllowedPostLogoutUris []string `mandatory:"false" json:"allowedPostLogoutUris"`
 
 	// Defines a state that should be shared on redirecting to postLogout URL.

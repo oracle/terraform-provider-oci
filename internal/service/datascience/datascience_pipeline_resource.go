@@ -227,6 +227,11 @@ func DatasciencePipelineResource() *schema.Resource {
 												// Required
 
 												// Optional
+												"cpu_baseline": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
 												"memory_in_gbs": {
 													Type:     schema.TypeFloat,
 													Optional: true,
@@ -258,6 +263,11 @@ func DatasciencePipelineResource() *schema.Resource {
 												// Required
 
 												// Optional
+												"cpu_baseline": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
 												"memory_in_gbs": {
 													Type:     schema.TypeFloat,
 													Optional: true,
@@ -320,6 +330,11 @@ func DatasciencePipelineResource() *schema.Resource {
 												// Required
 
 												// Optional
+												"cpu_baseline": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
 												"memory_in_gbs": {
 													Type:     schema.TypeFloat,
 													Optional: true,
@@ -556,6 +571,11 @@ func DatasciencePipelineResource() *schema.Resource {
 									// Required
 
 									// Optional
+									"cpu_baseline": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 									"memory_in_gbs": {
 										Type:     schema.TypeFloat,
 										Optional: true,
@@ -1699,6 +1719,10 @@ func (s *DatasciencePipelineResourceCrud) mapToPipelineLogConfigurationDetails(f
 func (s *DatasciencePipelineResourceCrud) mapToPipelineShapeConfigDetails(fieldKeyFormat string) (oci_datascience.PipelineShapeConfigDetails, error) {
 	result := oci_datascience.PipelineShapeConfigDetails{}
 
+	if cpuBaseline, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cpu_baseline")); ok {
+		result.CpuBaseline = oci_datascience.PipelineShapeConfigDetailsCpuBaselineEnum(cpuBaseline.(string))
+	}
+
 	if memoryInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs")); ok {
 		tmp := float32(memoryInGBs.(float64))
 		result.MemoryInGBs = &tmp
@@ -1711,20 +1735,6 @@ func (s *DatasciencePipelineResourceCrud) mapToPipelineShapeConfigDetails(fieldK
 
 	return result, nil
 }
-
-// func PipelineShapeConfigDetailsToMap(obj *oci_datascience.PipelineShapeConfigDetails) map[string]interface{} {
-// 	result := map[string]interface{}{}
-
-// 	if obj.MemoryInGBs != nil {
-// 		result["memory_in_gbs"] = float32(*obj.MemoryInGBs)
-// 	}
-
-// 	if obj.Ocpus != nil {
-// 		result["ocpus"] = float32(*obj.Ocpus)
-// 	}
-
-// 	return result
-// }
 
 func (s *DatasciencePipelineResourceCrud) mapToPipelineStepConfigurationDetails(fieldKeyFormat string) (oci_datascience.PipelineStepConfigurationDetails, error) {
 	result := oci_datascience.PipelineStepConfigurationDetails{}

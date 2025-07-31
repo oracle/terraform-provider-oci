@@ -28,14 +28,14 @@ type CreateConfigurationDetails struct {
 	// Version of the PostgreSQL database.
 	DbVersion *string `mandatory:"true" json:"dbVersion"`
 
-	// The name of the shape for the configuration.
-	// Example: `VM.Standard.E4.Flex`
-	Shape *string `mandatory:"true" json:"shape"`
-
 	DbConfigurationOverrides *DbConfigurationOverrideCollection `mandatory:"true" json:"dbConfigurationOverrides"`
 
 	// Details about the configuration set.
 	Description *string `mandatory:"false" json:"description"`
+
+	// The name of the shape for the configuration.
+	// For multi-shape enabled configurations, it is set to PostgreSQL.X86 or similar. Please use compatibleShapes property to set the list of supported shapes.
+	Shape *string `mandatory:"false" json:"shape"`
 
 	// Whether the configuration supports flexible shapes.
 	IsFlexible *bool `mandatory:"false" json:"isFlexible"`
@@ -47,6 +47,9 @@ type CreateConfigurationDetails struct {
 	// Memory size in gigabytes with 1GB increment.
 	// Skip or set it's value to 0 if configuration is for a flexible shape.
 	InstanceMemorySizeInGBs *int `mandatory:"false" json:"instanceMemorySizeInGBs"`
+
+	// Indicates the collection of compatible shapes for this configuration.
+	CompatibleShapes []string `mandatory:"false" json:"compatibleShapes"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`

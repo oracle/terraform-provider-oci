@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// InstanceConfiguration The model deployment instance configuration
+// InstanceConfiguration The model deployment instance configuration.
 type InstanceConfiguration struct {
 
 	// The shape used to launch the model deployment instances.

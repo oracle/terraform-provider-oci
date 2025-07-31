@@ -89,6 +89,10 @@ func (s *VaultSecretDataSourceCrud) SetData() error {
 		s.D.Set("is_auto_generation_enabled", *s.Res.IsAutoGenerationEnabled)
 	}
 
+	if s.Res.IsReplica != nil {
+		s.D.Set("is_replica", *s.Res.IsReplica)
+	}
+
 	if s.Res.KeyId != nil {
 		s.D.Set("key_id", *s.Res.KeyId)
 	}
@@ -105,6 +109,12 @@ func (s *VaultSecretDataSourceCrud) SetData() error {
 
 	if s.Res.NextRotationTime != nil {
 		s.D.Set("next_rotation_time", s.Res.NextRotationTime.String())
+	}
+
+	if s.Res.ReplicationConfig != nil {
+		s.D.Set("replication_config", []interface{}{ReplicationConfigToMap(s.Res.ReplicationConfig)})
+	} else {
+		s.D.Set("replication_config", nil)
 	}
 
 	if s.Res.RotationConfig != nil {
@@ -134,6 +144,12 @@ func (s *VaultSecretDataSourceCrud) SetData() error {
 		secretRules = append(secretRules, SecretRuleToMap(item))
 	}
 	s.D.Set("secret_rules", secretRules)
+
+	if s.Res.SourceRegionInformation != nil {
+		s.D.Set("source_region_information", []interface{}{SourceRegionInformationToMap(s.Res.SourceRegionInformation)})
+	} else {
+		s.D.Set("source_region_information", nil)
+	}
 
 	s.D.Set("state", s.Res.LifecycleState)
 

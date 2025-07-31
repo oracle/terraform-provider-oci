@@ -67,6 +67,14 @@ func (m *updateconfigdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}
 		mm := UpdateMetricGroupDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "AGENT":
+		mm := UpdateAgentConfigDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MACS_APM_EXTENSION":
+		mm := UpdateMacsApmExtensionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "APDEX":
 		mm := UpdateApdexRulesDetails{}
 		err = json.Unmarshal(data, &mm)

@@ -84,6 +84,52 @@ func (s *ApmConfigConfigDataSourceCrud) SetData() error {
 	s.D.SetId(*s.Res.GetId())
 
 	switch v := (s.Res.Config).(type) {
+	case oci_apm_config.AgentConfig:
+		s.D.Set("config_type", "AGENT")
+
+		if v.Config != nil {
+			s.D.Set("config", []interface{}{AgentConfigMapToMap(v.Config)})
+		} else {
+			s.D.Set("config", nil)
+		}
+
+		s.D.Set("match_agents_with_attribute_key", v.MatchAgentsWithAttributeKey)
+
+		if v.MatchAgentsWithAttributeValue != nil {
+			s.D.Set("match_agents_with_attribute_value", *v.MatchAgentsWithAttributeValue)
+		}
+
+		if v.Overrides != nil {
+			s.D.Set("overrides", []interface{}{AgentConfigOverridesToMap(v.Overrides)})
+		} else {
+			s.D.Set("overrides", nil)
+		}
+
+		if v.CreatedBy != nil {
+			s.D.Set("created_by", *v.CreatedBy)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Etag != nil {
+			s.D.Set("etag", *v.Etag)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.UpdatedBy != nil {
+			s.D.Set("updated_by", *v.UpdatedBy)
+		}
 	case oci_apm_config.ApdexRules:
 		s.D.Set("config_type", "APDEX")
 
@@ -96,6 +142,64 @@ func (s *ApmConfigConfigDataSourceCrud) SetData() error {
 			rules = append(rules, ApdexToMap(item))
 		}
 		s.D.Set("rules", rules)
+
+		if v.CreatedBy != nil {
+			s.D.Set("created_by", *v.CreatedBy)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.Etag != nil {
+			s.D.Set("etag", *v.Etag)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.UpdatedBy != nil {
+			s.D.Set("updated_by", *v.UpdatedBy)
+		}
+	case oci_apm_config.MacsApmExtension:
+		s.D.Set("config_type", "MACS_APM_EXTENSION")
+
+		if v.AgentVersion != nil {
+			s.D.Set("agent_version", *v.AgentVersion)
+		}
+
+		if v.AttachInstallDir != nil {
+			s.D.Set("attach_install_dir", *v.AttachInstallDir)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.ManagementAgentId != nil {
+			s.D.Set("management_agent_id", *v.ManagementAgentId)
+		}
+
+		s.D.Set("process_filter", v.ProcessFilter)
+
+		if v.RunAsUser != nil {
+			s.D.Set("run_as_user", *v.RunAsUser)
+		}
+
+		if v.ServiceName != nil {
+			s.D.Set("service_name", *v.ServiceName)
+		}
 
 		if v.CreatedBy != nil {
 			s.D.Set("created_by", *v.CreatedBy)
