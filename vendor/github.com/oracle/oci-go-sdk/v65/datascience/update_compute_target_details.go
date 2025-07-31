@@ -34,7 +34,7 @@ type UpdateComputeTargetDetails struct {
 	// Key should not end with underscore eg. `TEST_`
 	// Key if added cannot be empty. Value can be empty.
 	// No specific size limits on individual Values. But overall metadata is limited to 2048 bytes.
-	// Key can't be system reserved keys, system reserved keys starts with ODSC_.
+	// Key can't be reserved Compute Target metadata.
 	Metadata map[string]string `mandatory:"false" json:"metadata"`
 
 	ComputeConfigurationDetails UpdateComputeConfigurationDetails `mandatory:"false" json:"computeConfigurationDetails"`

@@ -133,9 +133,12 @@ type AutonomousDatabase struct {
 	// - To get the exact value of data storage size without rounding error, please see `dataStorageSizeInGBs` of Autonomous Database.
 	DataStorageSizeInTBs *int `mandatory:"false" json:"dataStorageSizeInTBs"`
 
-	// The amount of memory (in GBs) enabled per ECPU or OCPU.
+	// The amount of memory (in GBs rounded off to nearest integer value) enabled per ECPU or OCPU. This is deprecated. Please refer to memoryPerComputeUnitInGBs for accurate value.
 	// This property is applicable only to Autonomous Database on Dedicated Exadata infrastructure.
 	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
+
+	// The amount of memory (in GBs) to be enabled per OCPU or ECPU.
+	MemoryPerComputeUnitInGBs *float32 `mandatory:"false" json:"memoryPerComputeUnitInGBs"`
 
 	// The quantity of data in the database, in gigabytes.
 	// For Autonomous Transaction Processing databases using ECPUs on Serverless Infrastructure, this value is always populated. In all the other cases, this value will be null and `dataStorageSizeInTBs` will be populated instead.
@@ -628,6 +631,7 @@ func (m *AutonomousDatabase) UnmarshalJSON(data []byte) (e error) {
 		ProvisionableCpus                       []float32                                               `json:"provisionableCpus"`
 		DataStorageSizeInTBs                    *int                                                    `json:"dataStorageSizeInTBs"`
 		MemoryPerOracleComputeUnitInGBs         *int                                                    `json:"memoryPerOracleComputeUnitInGBs"`
+		MemoryPerComputeUnitInGBs               *float32                                                `json:"memoryPerComputeUnitInGBs"`
 		DataStorageSizeInGBs                    *int                                                    `json:"dataStorageSizeInGBs"`
 		UsedDataStorageSizeInGBs                *int                                                    `json:"usedDataStorageSizeInGBs"`
 		InfrastructureType                      AutonomousDatabaseInfrastructureTypeEnum                `json:"infrastructureType"`
@@ -812,6 +816,8 @@ func (m *AutonomousDatabase) UnmarshalJSON(data []byte) (e error) {
 	m.DataStorageSizeInTBs = model.DataStorageSizeInTBs
 
 	m.MemoryPerOracleComputeUnitInGBs = model.MemoryPerOracleComputeUnitInGBs
+
+	m.MemoryPerComputeUnitInGBs = model.MemoryPerComputeUnitInGBs
 
 	m.DataStorageSizeInGBs = model.DataStorageSizeInGBs
 

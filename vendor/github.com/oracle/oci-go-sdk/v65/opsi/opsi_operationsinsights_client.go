@@ -10045,9 +10045,8 @@ func (client OperationsInsightsClient) summarizeSqlStatisticsTimeSeriesByPlan(ct
 	return response, err
 }
 
-// SynchronizeAutonomousDatabaseToExadata Synchronize infrastructure details that has been missing when autonomous database onboarded in Operations Insights.
-// Onboarded Opsi ExadataInsight resource need to be provided with compartmentId for searching infrastruture details.
-// The query parameters, DatabaseId and DatabaseInsightId, are mutually exclusive and provided for searching Opsi resources that have been onboarded.
+// SynchronizeAutonomousDatabaseToExadata Synchronize infrastructure details that has been missing when autonomous database onboarded in Ops Insights.
+// Parameters exadataInsightId, databaseId, or databaseInsightId (id) are mutually exclusive, and scope the Ops Insights resources which are scoped for the search to find ADB-D resources missing the Exadata infrastructure details.
 // A default retry strategy applies to this operation SynchronizeAutonomousDatabaseToExadata()
 func (client OperationsInsightsClient) SynchronizeAutonomousDatabaseToExadata(ctx context.Context, request SynchronizeAutonomousDatabaseToExadataRequest) (response SynchronizeAutonomousDatabaseToExadataResponse, err error) {
 	var ociResponse common.OCIResponse

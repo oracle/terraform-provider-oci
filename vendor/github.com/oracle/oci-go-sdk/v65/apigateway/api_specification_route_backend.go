@@ -56,6 +56,10 @@ func (m *apispecificationroutebackend) UnmarshalPolymorphicJSON(data []byte) (in
 		mm := OAuth2LogoutBackend{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "WEBSOCKET_PROXY_BACKEND":
+		mm := WebSocketProxyBackend{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "HTTP_BACKEND":
 		mm := HttpBackend{}
 		err = json.Unmarshal(data, &mm)
@@ -102,6 +106,7 @@ const (
 	ApiSpecificationRouteBackendTypeOracleFunctionsBackend ApiSpecificationRouteBackendTypeEnum = "ORACLE_FUNCTIONS_BACKEND"
 	ApiSpecificationRouteBackendTypeHttpBackend            ApiSpecificationRouteBackendTypeEnum = "HTTP_BACKEND"
 	ApiSpecificationRouteBackendTypeStockResponseBackend   ApiSpecificationRouteBackendTypeEnum = "STOCK_RESPONSE_BACKEND"
+	ApiSpecificationRouteBackendTypeWebsocketProxyBackend  ApiSpecificationRouteBackendTypeEnum = "WEBSOCKET_PROXY_BACKEND"
 	ApiSpecificationRouteBackendTypeDynamicRoutingBackend  ApiSpecificationRouteBackendTypeEnum = "DYNAMIC_ROUTING_BACKEND"
 	ApiSpecificationRouteBackendTypeOauth2LogoutBackend    ApiSpecificationRouteBackendTypeEnum = "OAUTH2_LOGOUT_BACKEND"
 )
@@ -110,6 +115,7 @@ var mappingApiSpecificationRouteBackendTypeEnum = map[string]ApiSpecificationRou
 	"ORACLE_FUNCTIONS_BACKEND": ApiSpecificationRouteBackendTypeOracleFunctionsBackend,
 	"HTTP_BACKEND":             ApiSpecificationRouteBackendTypeHttpBackend,
 	"STOCK_RESPONSE_BACKEND":   ApiSpecificationRouteBackendTypeStockResponseBackend,
+	"WEBSOCKET_PROXY_BACKEND":  ApiSpecificationRouteBackendTypeWebsocketProxyBackend,
 	"DYNAMIC_ROUTING_BACKEND":  ApiSpecificationRouteBackendTypeDynamicRoutingBackend,
 	"OAUTH2_LOGOUT_BACKEND":    ApiSpecificationRouteBackendTypeOauth2LogoutBackend,
 }
@@ -118,6 +124,7 @@ var mappingApiSpecificationRouteBackendTypeEnumLowerCase = map[string]ApiSpecifi
 	"oracle_functions_backend": ApiSpecificationRouteBackendTypeOracleFunctionsBackend,
 	"http_backend":             ApiSpecificationRouteBackendTypeHttpBackend,
 	"stock_response_backend":   ApiSpecificationRouteBackendTypeStockResponseBackend,
+	"websocket_proxy_backend":  ApiSpecificationRouteBackendTypeWebsocketProxyBackend,
 	"dynamic_routing_backend":  ApiSpecificationRouteBackendTypeDynamicRoutingBackend,
 	"oauth2_logout_backend":    ApiSpecificationRouteBackendTypeOauth2LogoutBackend,
 }
@@ -137,6 +144,7 @@ func GetApiSpecificationRouteBackendTypeEnumStringValues() []string {
 		"ORACLE_FUNCTIONS_BACKEND",
 		"HTTP_BACKEND",
 		"STOCK_RESPONSE_BACKEND",
+		"WEBSOCKET_PROXY_BACKEND",
 		"DYNAMIC_ROUTING_BACKEND",
 		"OAUTH2_LOGOUT_BACKEND",
 	}

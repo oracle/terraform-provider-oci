@@ -26,6 +26,11 @@ type PipelineMlJobStepUpdateDetails struct {
 	Description *string `mandatory:"false" json:"description"`
 
 	StepConfigurationDetails *PipelineStepConfigurationDetails `mandatory:"false" json:"stepConfigurationDetails"`
+
+	// Name used when creating the steprun.
+	StepRunName *string `mandatory:"false" json:"stepRunName"`
+
+	StepParameters PipelineStepParameterDetails `mandatory:"false" json:"stepParameters"`
 }
 
 // GetStepName returns StepName
@@ -71,4 +76,40 @@ func (m PipelineMlJobStepUpdateDetails) MarshalJSON() (buff []byte, e error) {
 	}
 
 	return json.Marshal(&s)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *PipelineMlJobStepUpdateDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Description              *string                           `json:"description"`
+		StepConfigurationDetails *PipelineStepConfigurationDetails `json:"stepConfigurationDetails"`
+		StepRunName              *string                           `json:"stepRunName"`
+		StepParameters           pipelinestepparameterdetails      `json:"stepParameters"`
+		StepName                 *string                           `json:"stepName"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.Description = model.Description
+
+	m.StepConfigurationDetails = model.StepConfigurationDetails
+
+	m.StepRunName = model.StepRunName
+
+	nn, e = model.StepParameters.UnmarshalPolymorphicJSON(model.StepParameters.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.StepParameters = nn.(PipelineStepParameterDetails)
+	} else {
+		m.StepParameters = nil
+	}
+
+	m.StepName = model.StepName
+
+	return
 }

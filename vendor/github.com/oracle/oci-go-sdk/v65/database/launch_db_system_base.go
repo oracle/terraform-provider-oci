@@ -120,7 +120,7 @@ type LaunchDbSystemBase interface {
 	// Specify 80 or 40. The default is 80 percent assigned to DATA storage. Not applicable for virtual machine DB systems.
 	GetDataStoragePercentage() *int
 
-	// Size (in GB) of the initial data volume that will be created and attached to a virtual machine DB system. You can scale up storage after provisioning, as needed. Note that the total storage size attached will be more than the amount you specify to allow for REDO/RECO space and software volume.
+	// Size (in GB) of the initial data volume that will be created and attached to a virtual machine DB system. You can scale up storage after provisioning, as needed. Note that the total storage size attached will be more than the amount you specify to allow for REDO/RECO space and software volume. By default this will be set to 256.
 	GetInitialDataStorageSizeInGB() *int
 
 	// The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
@@ -129,7 +129,7 @@ type LaunchDbSystemBase interface {
 	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. Autonomous Database Serverless does not use key versions, hence is not applicable for Autonomous Database Serverless instances.
 	GetKmsKeyVersionId() *string
 
-	// The number of nodes to launch for a 2-node RAC virtual machine DB system. Specify either 1 or 2.
+	// The number of nodes to launch for a virtual machine DB system. Specify either 1 or 2. By default this will be set to 1.
 	GetNodeCount() *int
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

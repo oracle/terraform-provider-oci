@@ -20,6 +20,14 @@ type UpdateManagedComputeClusterInstanceConfigurationDetails struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute capacity reservation.
 	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
+
+	// The shape used to launch the instances in compute target. Supported shapes can be retrieved using compute target shapes api.
+	InstanceShape *string `mandatory:"false" json:"instanceShape"`
+
+	// The size of the boot volume to attach to the instance.
+	BootVolumeSizeInGBs *int `mandatory:"false" json:"bootVolumeSizeInGBs"`
+
+	InstanceShapeDetails *ManagedComputeClusterInstanceShapeDetails `mandatory:"false" json:"instanceShapeDetails"`
 }
 
 func (m UpdateManagedComputeClusterInstanceConfigurationDetails) String() string {

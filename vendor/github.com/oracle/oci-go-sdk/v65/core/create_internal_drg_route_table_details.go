@@ -48,6 +48,9 @@ type CreateInternalDrgRouteTableDetails struct {
 
 	// Timings info for upstream services to track route propagation latency
 	UpstreamTimings []UpstreamTiming `mandatory:"false" json:"upstreamTimings"`
+
+	// The type of DrgRouteTable
+	DrgRouteTableType CreateInternalDrgRouteTableDetailsDrgRouteTableTypeEnum `mandatory:"false" json:"drgRouteTableType,omitempty"`
 }
 
 func (m CreateInternalDrgRouteTableDetails) String() string {
@@ -60,8 +63,57 @@ func (m CreateInternalDrgRouteTableDetails) String() string {
 func (m CreateInternalDrgRouteTableDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingCreateInternalDrgRouteTableDetailsDrgRouteTableTypeEnum(string(m.DrgRouteTableType)); !ok && m.DrgRouteTableType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DrgRouteTableType: %s. Supported values are: %s.", m.DrgRouteTableType, strings.Join(GetCreateInternalDrgRouteTableDetailsDrgRouteTableTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// CreateInternalDrgRouteTableDetailsDrgRouteTableTypeEnum Enum with underlying type: string
+type CreateInternalDrgRouteTableDetailsDrgRouteTableTypeEnum string
+
+// Set of constants representing the allowable values for CreateInternalDrgRouteTableDetailsDrgRouteTableTypeEnum
+const (
+	CreateInternalDrgRouteTableDetailsDrgRouteTableTypeDefault            CreateInternalDrgRouteTableDetailsDrgRouteTableTypeEnum = "DEFAULT"
+	CreateInternalDrgRouteTableDetailsDrgRouteTableTypeUnderlayAccessProd CreateInternalDrgRouteTableDetailsDrgRouteTableTypeEnum = "UNDERLAY_ACCESS_PROD"
+	CreateInternalDrgRouteTableDetailsDrgRouteTableTypeUnderlayAccessTest CreateInternalDrgRouteTableDetailsDrgRouteTableTypeEnum = "UNDERLAY_ACCESS_TEST"
+)
+
+var mappingCreateInternalDrgRouteTableDetailsDrgRouteTableTypeEnum = map[string]CreateInternalDrgRouteTableDetailsDrgRouteTableTypeEnum{
+	"DEFAULT":              CreateInternalDrgRouteTableDetailsDrgRouteTableTypeDefault,
+	"UNDERLAY_ACCESS_PROD": CreateInternalDrgRouteTableDetailsDrgRouteTableTypeUnderlayAccessProd,
+	"UNDERLAY_ACCESS_TEST": CreateInternalDrgRouteTableDetailsDrgRouteTableTypeUnderlayAccessTest,
+}
+
+var mappingCreateInternalDrgRouteTableDetailsDrgRouteTableTypeEnumLowerCase = map[string]CreateInternalDrgRouteTableDetailsDrgRouteTableTypeEnum{
+	"default":              CreateInternalDrgRouteTableDetailsDrgRouteTableTypeDefault,
+	"underlay_access_prod": CreateInternalDrgRouteTableDetailsDrgRouteTableTypeUnderlayAccessProd,
+	"underlay_access_test": CreateInternalDrgRouteTableDetailsDrgRouteTableTypeUnderlayAccessTest,
+}
+
+// GetCreateInternalDrgRouteTableDetailsDrgRouteTableTypeEnumValues Enumerates the set of values for CreateInternalDrgRouteTableDetailsDrgRouteTableTypeEnum
+func GetCreateInternalDrgRouteTableDetailsDrgRouteTableTypeEnumValues() []CreateInternalDrgRouteTableDetailsDrgRouteTableTypeEnum {
+	values := make([]CreateInternalDrgRouteTableDetailsDrgRouteTableTypeEnum, 0)
+	for _, v := range mappingCreateInternalDrgRouteTableDetailsDrgRouteTableTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateInternalDrgRouteTableDetailsDrgRouteTableTypeEnumStringValues Enumerates the set of values in String for CreateInternalDrgRouteTableDetailsDrgRouteTableTypeEnum
+func GetCreateInternalDrgRouteTableDetailsDrgRouteTableTypeEnumStringValues() []string {
+	return []string{
+		"DEFAULT",
+		"UNDERLAY_ACCESS_PROD",
+		"UNDERLAY_ACCESS_TEST",
+	}
+}
+
+// GetMappingCreateInternalDrgRouteTableDetailsDrgRouteTableTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateInternalDrgRouteTableDetailsDrgRouteTableTypeEnum(val string) (CreateInternalDrgRouteTableDetailsDrgRouteTableTypeEnum, bool) {
+	enum, ok := mappingCreateInternalDrgRouteTableDetailsDrgRouteTableTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

@@ -44,6 +44,8 @@ type UpdateDatabaseDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	ManagedSoftwareUpdateDetails *ManagedSoftwareUpdateInputDetails `mandatory:"false" json:"managedSoftwareUpdateDetails"`
+
+	PatchOptions *PatchOptions `mandatory:"false" json:"patchOptions"`
 }
 
 func (m UpdateDatabaseDetails) String() string {

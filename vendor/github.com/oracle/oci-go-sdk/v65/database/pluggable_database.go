@@ -77,6 +77,9 @@ type PluggableDatabase struct {
 	// Pluggable Database Node Level Details.
 	// Example: [{"nodeName" : "node1", "openMode" : "READ_WRITE"}, {"nodeName" : "node2", "openMode" : "READ_ONLY"}]
 	PdbNodeLevelDetails []PluggableDatabaseNodeLevelDetails `mandatory:"false" json:"pdbNodeLevelDetails"`
+
+	// The patch version of the pluggable database.
+	PatchVersion *string `mandatory:"false" json:"patchVersion"`
 }
 
 func (m PluggableDatabase) String() string {

@@ -33,6 +33,9 @@ type ListMultiCloudResourceDiscoveriesRequest struct {
 	// The type of Multi Cloud Resource.
 	ResourceType MultiCloudResourceDiscoveryResourceTypeEnum `mandatory:"false" contributesTo:"query" name:"resourceType" omitEmpty:"true"`
 
+	// The Resources filter to discover resources in respective Cloud Provider.
+	ResourcesFilter []string `contributesTo:"query" name:"resourcesFilter" collectionFormat:"multi"`
+
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 

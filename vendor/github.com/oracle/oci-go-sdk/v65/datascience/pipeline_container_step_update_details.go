@@ -31,6 +31,8 @@ type PipelineContainerStepUpdateDetails struct {
 
 	// The storage mount details to mount to the instance running the pipeline step.
 	StepStorageMountConfigurationDetailsList []StorageMountConfigurationDetails `mandatory:"false" json:"stepStorageMountConfigurationDetailsList"`
+
+	StepParameters PipelineStepParameterDetails `mandatory:"false" json:"stepParameters"`
 }
 
 // GetStepName returns StepName
@@ -85,6 +87,7 @@ func (m *PipelineContainerStepUpdateDetails) UnmarshalJSON(data []byte) (e error
 		StepConfigurationDetails                 *PipelineStepConfigurationDetails           `json:"stepConfigurationDetails"`
 		StepInfrastructureConfigurationDetails   *PipelineInfrastructureConfigurationDetails `json:"stepInfrastructureConfigurationDetails"`
 		StepStorageMountConfigurationDetailsList []storagemountconfigurationdetails          `json:"stepStorageMountConfigurationDetailsList"`
+		StepParameters                           pipelinestepparameterdetails                `json:"stepParameters"`
 		StepName                                 *string                                     `json:"stepName"`
 	}{}
 
@@ -111,6 +114,16 @@ func (m *PipelineContainerStepUpdateDetails) UnmarshalJSON(data []byte) (e error
 			m.StepStorageMountConfigurationDetailsList[i] = nil
 		}
 	}
+	nn, e = model.StepParameters.UnmarshalPolymorphicJSON(model.StepParameters.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.StepParameters = nn.(PipelineStepParameterDetails)
+	} else {
+		m.StepParameters = nil
+	}
+
 	m.StepName = model.StepName
 
 	return

@@ -19,6 +19,10 @@ import (
 // UpdateManagedComputeClusterModelDeployInfrastructureConfigDetails Infrastructure configuration details for updating a model deploy of managed compute cluster type compute target.
 // You can update the `modelDeploymentResourceConfiguration` and `scalingPolicy` properties.
 type UpdateManagedComputeClusterModelDeployInfrastructureConfigDetails struct {
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a Compute Target.
+	ComputeTargetId *string `mandatory:"false" json:"computeTargetId"`
+
 	ModelDeploymentResourceConfiguration *ManagedComputeClusterModelDeploymentResourceConfiguration `mandatory:"false" json:"modelDeploymentResourceConfiguration"`
 
 	ScalingPolicy ManagedComputeClusterWorkloadScalingPolicy `mandatory:"false" json:"scalingPolicy"`
@@ -57,6 +61,7 @@ func (m UpdateManagedComputeClusterModelDeployInfrastructureConfigDetails) Marsh
 // UnmarshalJSON unmarshals from json
 func (m *UpdateManagedComputeClusterModelDeployInfrastructureConfigDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		ComputeTargetId                      *string                                                    `json:"computeTargetId"`
 		ModelDeploymentResourceConfiguration *ManagedComputeClusterModelDeploymentResourceConfiguration `json:"modelDeploymentResourceConfiguration"`
 		ScalingPolicy                        managedcomputeclusterworkloadscalingpolicy                 `json:"scalingPolicy"`
 	}{}
@@ -66,6 +71,8 @@ func (m *UpdateManagedComputeClusterModelDeployInfrastructureConfigDetails) Unma
 		return
 	}
 	var nn interface{}
+	m.ComputeTargetId = model.ComputeTargetId
+
 	m.ModelDeploymentResourceConfiguration = model.ModelDeploymentResourceConfiguration
 
 	nn, e = model.ScalingPolicy.UnmarshalPolymorphicJSON(model.ScalingPolicy.JsonData)

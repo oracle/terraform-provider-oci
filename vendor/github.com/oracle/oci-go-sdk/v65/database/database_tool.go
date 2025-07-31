@@ -55,42 +55,39 @@ type DatabaseToolNameEnum string
 
 // Set of constants representing the allowable values for DatabaseToolNameEnum
 const (
-	DatabaseToolNameApex                DatabaseToolNameEnum = "APEX"
-	DatabaseToolNameDatabaseActions     DatabaseToolNameEnum = "DATABASE_ACTIONS"
-	DatabaseToolNameGraphStudio         DatabaseToolNameEnum = "GRAPH_STUDIO"
-	DatabaseToolNameOml                 DatabaseToolNameEnum = "OML"
-	DatabaseToolNameDataTransforms      DatabaseToolNameEnum = "DATA_TRANSFORMS"
-	DatabaseToolNameOrds                DatabaseToolNameEnum = "ORDS"
-	DatabaseToolNameMongodbApi          DatabaseToolNameEnum = "MONGODB_API"
-	DatabaseToolNameDla                 DatabaseToolNameEnum = "DLA"
-	DatabaseToolNameSpatialStudio       DatabaseToolNameEnum = "SPATIAL_STUDIO"
-	DatabaseToolNameVectorDatabaseTools DatabaseToolNameEnum = "VECTOR_DATABASE_TOOLS"
+	DatabaseToolNameApex            DatabaseToolNameEnum = "APEX"
+	DatabaseToolNameDatabaseActions DatabaseToolNameEnum = "DATABASE_ACTIONS"
+	DatabaseToolNameGraphStudio     DatabaseToolNameEnum = "GRAPH_STUDIO"
+	DatabaseToolNameOml             DatabaseToolNameEnum = "OML"
+	DatabaseToolNameDataTransforms  DatabaseToolNameEnum = "DATA_TRANSFORMS"
+	DatabaseToolNameOrds            DatabaseToolNameEnum = "ORDS"
+	DatabaseToolNameMongodbApi      DatabaseToolNameEnum = "MONGODB_API"
+	DatabaseToolNameDla             DatabaseToolNameEnum = "DLA"
+	DatabaseToolNameSpatialStudio   DatabaseToolNameEnum = "SPATIAL_STUDIO"
 )
 
 var mappingDatabaseToolNameEnum = map[string]DatabaseToolNameEnum{
-	"APEX":                  DatabaseToolNameApex,
-	"DATABASE_ACTIONS":      DatabaseToolNameDatabaseActions,
-	"GRAPH_STUDIO":          DatabaseToolNameGraphStudio,
-	"OML":                   DatabaseToolNameOml,
-	"DATA_TRANSFORMS":       DatabaseToolNameDataTransforms,
-	"ORDS":                  DatabaseToolNameOrds,
-	"MONGODB_API":           DatabaseToolNameMongodbApi,
-	"DLA":                   DatabaseToolNameDla,
-	"SPATIAL_STUDIO":        DatabaseToolNameSpatialStudio,
-	"VECTOR_DATABASE_TOOLS": DatabaseToolNameVectorDatabaseTools,
+	"APEX":             DatabaseToolNameApex,
+	"DATABASE_ACTIONS": DatabaseToolNameDatabaseActions,
+	"GRAPH_STUDIO":     DatabaseToolNameGraphStudio,
+	"OML":              DatabaseToolNameOml,
+	"DATA_TRANSFORMS":  DatabaseToolNameDataTransforms,
+	"ORDS":             DatabaseToolNameOrds,
+	"MONGODB_API":      DatabaseToolNameMongodbApi,
+	"DLA":              DatabaseToolNameDla,
+	"SPATIAL_STUDIO":   DatabaseToolNameSpatialStudio,
 }
 
 var mappingDatabaseToolNameEnumLowerCase = map[string]DatabaseToolNameEnum{
-	"apex":                  DatabaseToolNameApex,
-	"database_actions":      DatabaseToolNameDatabaseActions,
-	"graph_studio":          DatabaseToolNameGraphStudio,
-	"oml":                   DatabaseToolNameOml,
-	"data_transforms":       DatabaseToolNameDataTransforms,
-	"ords":                  DatabaseToolNameOrds,
-	"mongodb_api":           DatabaseToolNameMongodbApi,
-	"dla":                   DatabaseToolNameDla,
-	"spatial_studio":        DatabaseToolNameSpatialStudio,
-	"vector_database_tools": DatabaseToolNameVectorDatabaseTools,
+	"apex":             DatabaseToolNameApex,
+	"database_actions": DatabaseToolNameDatabaseActions,
+	"graph_studio":     DatabaseToolNameGraphStudio,
+	"oml":              DatabaseToolNameOml,
+	"data_transforms":  DatabaseToolNameDataTransforms,
+	"ords":             DatabaseToolNameOrds,
+	"mongodb_api":      DatabaseToolNameMongodbApi,
+	"dla":              DatabaseToolNameDla,
+	"spatial_studio":   DatabaseToolNameSpatialStudio,
 }
 
 // GetDatabaseToolNameEnumValues Enumerates the set of values for DatabaseToolNameEnum
@@ -114,7 +111,6 @@ func GetDatabaseToolNameEnumStringValues() []string {
 		"MONGODB_API",
 		"DLA",
 		"SPATIAL_STUDIO",
-		"VECTOR_DATABASE_TOOLS",
 	}
 }
 

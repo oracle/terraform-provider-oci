@@ -53,10 +53,6 @@ func (m *streamsourcedetails) UnmarshalPolymorphicJSON(data []byte) (interface{}
 
 	var err error
 	switch m.SourceType {
-	case "LIVEKIT_WEBRTC":
-		mm := LiveKitWebrtcSourceDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "RTSP":
 		mm := RtspSourceDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -93,18 +89,15 @@ type StreamSourceDetailsSourceTypeEnum string
 
 // Set of constants representing the allowable values for StreamSourceDetailsSourceTypeEnum
 const (
-	StreamSourceDetailsSourceTypeRtsp          StreamSourceDetailsSourceTypeEnum = "RTSP"
-	StreamSourceDetailsSourceTypeLivekitWebrtc StreamSourceDetailsSourceTypeEnum = "LIVEKIT_WEBRTC"
+	StreamSourceDetailsSourceTypeRtsp StreamSourceDetailsSourceTypeEnum = "RTSP"
 )
 
 var mappingStreamSourceDetailsSourceTypeEnum = map[string]StreamSourceDetailsSourceTypeEnum{
-	"RTSP":           StreamSourceDetailsSourceTypeRtsp,
-	"LIVEKIT_WEBRTC": StreamSourceDetailsSourceTypeLivekitWebrtc,
+	"RTSP": StreamSourceDetailsSourceTypeRtsp,
 }
 
 var mappingStreamSourceDetailsSourceTypeEnumLowerCase = map[string]StreamSourceDetailsSourceTypeEnum{
-	"rtsp":           StreamSourceDetailsSourceTypeRtsp,
-	"livekit_webrtc": StreamSourceDetailsSourceTypeLivekitWebrtc,
+	"rtsp": StreamSourceDetailsSourceTypeRtsp,
 }
 
 // GetStreamSourceDetailsSourceTypeEnumValues Enumerates the set of values for StreamSourceDetailsSourceTypeEnum
@@ -120,7 +113,6 @@ func GetStreamSourceDetailsSourceTypeEnumValues() []StreamSourceDetailsSourceTyp
 func GetStreamSourceDetailsSourceTypeEnumStringValues() []string {
 	return []string{
 		"RTSP",
-		"LIVEKIT_WEBRTC",
 	}
 }
 

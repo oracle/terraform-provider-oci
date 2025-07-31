@@ -4,6 +4,7 @@
 
 // Oracle Database MultiCloud Data plane Integration
 //
+// <b>Microsoft Azure</b>:<br>
 // 1. Oracle Azure Connector Resource: This is for installing Azure Arc Server in ExaCS VM Cluster.
 //   There are two way to install Azure Arc Server (Azure Identity) in ExaCS VMCluster.
 //     a. Using Bearer Access Token or
@@ -12,6 +13,11 @@
 //    and same will be used in multiple ExaCS VMCluster to mount the Azure Container.
 // 3. Oracle Azure Blob Mount Resource: This is for to mount Azure Container in ExaCS VMCluster
 //    using Oracle Azure Connector and Oracle Azure Blob Container Resource.
+// <b>Google Cloud</b>:<br>
+// 1. Oracle Google Cloud Connector Resource: This is for installing Google Identity in ExaCS VM Cluster.<br>
+// 2. Discover Google Key-Rings and Keys Resource: This is for to discover Google Key-Rings.<br>
+// 3. Google Key-Rings Resource: This is for to maintain Google Key-Rings in Oracle Cloud.<br>
+// 4. Google Key Resource: This is for to maintain Google Key in Oracle Cloud for a Google Key-Ring.<br>
 //
 
 package dbmulticloud
@@ -52,6 +58,16 @@ const (
 	OperationTypeMoveAzureVaultAssociation      OperationTypeEnum = "MOVE_AZURE_VAULT_ASSOCIATION"
 	OperationTypePatchDbResource                OperationTypeEnum = "PATCH_DB_RESOURCE"
 	OperationTypeCreateGcpIdentityConfiguration OperationTypeEnum = "CREATE_GCP_IDENTITY_CONFIGURATION"
+	OperationTypeCreateGcpConnector             OperationTypeEnum = "CREATE_GCP_CONNECTOR"
+	OperationTypeDeleteGcpConnector             OperationTypeEnum = "DELETE_GCP_CONNECTOR"
+	OperationTypeUpdateGcpConnector             OperationTypeEnum = "UPDATE_GCP_CONNECTOR"
+	OperationTypeMoveGcpConnector               OperationTypeEnum = "MOVE_GCP_CONNECTOR"
+	OperationTypeGcpDiscovery                   OperationTypeEnum = "GCP_DISCOVERY"
+	OperationTypeCreateGcpKeyRing               OperationTypeEnum = "CREATE_GCP_KEY_RING"
+	OperationTypeDeleteGcpKeyRing               OperationTypeEnum = "DELETE_GCP_KEY_RING"
+	OperationTypeUpdateGcpKeyRing               OperationTypeEnum = "UPDATE_GCP_KEY_RING"
+	OperationTypeMoveGcpKeyRing                 OperationTypeEnum = "MOVE_GCP_KEY_RING"
+	OperationTypeRefreshGcpKeyRing              OperationTypeEnum = "REFRESH_GCP_KEY_RING"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -82,6 +98,16 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"MOVE_AZURE_VAULT_ASSOCIATION":      OperationTypeMoveAzureVaultAssociation,
 	"PATCH_DB_RESOURCE":                 OperationTypePatchDbResource,
 	"CREATE_GCP_IDENTITY_CONFIGURATION": OperationTypeCreateGcpIdentityConfiguration,
+	"CREATE_GCP_CONNECTOR":              OperationTypeCreateGcpConnector,
+	"DELETE_GCP_CONNECTOR":              OperationTypeDeleteGcpConnector,
+	"UPDATE_GCP_CONNECTOR":              OperationTypeUpdateGcpConnector,
+	"MOVE_GCP_CONNECTOR":                OperationTypeMoveGcpConnector,
+	"GCP_DISCOVERY":                     OperationTypeGcpDiscovery,
+	"CREATE_GCP_KEY_RING":               OperationTypeCreateGcpKeyRing,
+	"DELETE_GCP_KEY_RING":               OperationTypeDeleteGcpKeyRing,
+	"UPDATE_GCP_KEY_RING":               OperationTypeUpdateGcpKeyRing,
+	"MOVE_GCP_KEY_RING":                 OperationTypeMoveGcpKeyRing,
+	"REFRESH_GCP_KEY_RING":              OperationTypeRefreshGcpKeyRing,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -112,6 +138,16 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"move_azure_vault_association":      OperationTypeMoveAzureVaultAssociation,
 	"patch_db_resource":                 OperationTypePatchDbResource,
 	"create_gcp_identity_configuration": OperationTypeCreateGcpIdentityConfiguration,
+	"create_gcp_connector":              OperationTypeCreateGcpConnector,
+	"delete_gcp_connector":              OperationTypeDeleteGcpConnector,
+	"update_gcp_connector":              OperationTypeUpdateGcpConnector,
+	"move_gcp_connector":                OperationTypeMoveGcpConnector,
+	"gcp_discovery":                     OperationTypeGcpDiscovery,
+	"create_gcp_key_ring":               OperationTypeCreateGcpKeyRing,
+	"delete_gcp_key_ring":               OperationTypeDeleteGcpKeyRing,
+	"update_gcp_key_ring":               OperationTypeUpdateGcpKeyRing,
+	"move_gcp_key_ring":                 OperationTypeMoveGcpKeyRing,
+	"refresh_gcp_key_ring":              OperationTypeRefreshGcpKeyRing,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -153,6 +189,16 @@ func GetOperationTypeEnumStringValues() []string {
 		"MOVE_AZURE_VAULT_ASSOCIATION",
 		"PATCH_DB_RESOURCE",
 		"CREATE_GCP_IDENTITY_CONFIGURATION",
+		"CREATE_GCP_CONNECTOR",
+		"DELETE_GCP_CONNECTOR",
+		"UPDATE_GCP_CONNECTOR",
+		"MOVE_GCP_CONNECTOR",
+		"GCP_DISCOVERY",
+		"CREATE_GCP_KEY_RING",
+		"DELETE_GCP_KEY_RING",
+		"UPDATE_GCP_KEY_RING",
+		"MOVE_GCP_KEY_RING",
+		"REFRESH_GCP_KEY_RING",
 	}
 }
 

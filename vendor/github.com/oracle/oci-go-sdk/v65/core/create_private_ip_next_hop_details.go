@@ -37,6 +37,9 @@ type CreatePrivateIpNextHopDetails struct {
 	// Turns on/off flow stickiness for the private IP's nextHop. The default is 'false'.
 	IsFlowStickinessEnabled *bool `mandatory:"false" json:"isFlowStickinessEnabled"`
 
+	// Turns on/off health check for the private IP's nextHop. The default is 'true'.
+	IsHealthCheckEnabled *bool `mandatory:"false" json:"isHealthCheckEnabled"`
+
 	// Hashing config to use while selecting target
 	// DEFAULT_HASHING: The choice of hashing method is determined by the dataplane and may evolve over time based on implementation decisions
 	// MODULAR_HASHING: Uses modular hashing

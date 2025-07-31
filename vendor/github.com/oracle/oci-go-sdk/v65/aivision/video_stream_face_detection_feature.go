@@ -24,6 +24,10 @@ type VideoStreamFaceDetectionFeature struct {
 
 	// Whether or not return face landmarks.
 	ShouldReturnLandmarks *bool `mandatory:"false" json:"shouldReturnLandmarks"`
+
+	// The minimum confidence score, between 0 and 1,
+	// when the value is set, results with lower confidence will not be returned.
+	MinConfidence *float32 `mandatory:"false" json:"minConfidence"`
 }
 
 func (m VideoStreamFaceDetectionFeature) String() string {

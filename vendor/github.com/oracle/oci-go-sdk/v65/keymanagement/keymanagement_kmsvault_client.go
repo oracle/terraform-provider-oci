@@ -701,6 +701,64 @@ func (client KmsVaultClient) listVaults(ctx context.Context, request common.OCIR
 	return response, err
 }
 
+// RegisterVaultForMtls Registers mTLS configuration for crypto operations on the specified vault.
+func (client KmsVaultClient) RegisterVaultForMtls(ctx context.Context, request RegisterVaultForMtlsRequest) (response RegisterVaultForMtlsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.registerVaultForMtls, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RegisterVaultForMtlsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RegisterVaultForMtlsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RegisterVaultForMtlsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RegisterVaultForMtlsResponse")
+	}
+	return
+}
+
+// registerVaultForMtls implements the OCIOperation interface (enables retrying operations)
+func (client KmsVaultClient) registerVaultForMtls(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/vaults/{vaultId}/actions/registerVaultForMtls", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RegisterVaultForMtlsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/VaultMtlsRegistrationResponse/RegisterVaultForMtls"
+		err = common.PostProcessServiceError(err, "KmsVault", "RegisterVaultForMtls", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RestoreVaultFromFile Restores a vault from an encrypted backup file. If a vault
 // with the same OCID already exists, this operation returns a response with a
 // 409 HTTP status error code.
@@ -939,6 +997,59 @@ func (client KmsVaultClient) updateVault(ctx context.Context, request common.OCI
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Vault/UpdateVault"
 		err = common.PostProcessServiceError(err, "KmsVault", "UpdateVault", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// VaultMtlsDetails Fetches the mtls details for a vault
+func (client KmsVaultClient) VaultMtlsDetails(ctx context.Context, request VaultMtlsDetailsRequest) (response VaultMtlsDetailsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.vaultMtlsDetails, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = VaultMtlsDetailsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = VaultMtlsDetailsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(VaultMtlsDetailsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into VaultMtlsDetailsResponse")
+	}
+	return
+}
+
+// vaultMtlsDetails implements the OCIOperation interface (enables retrying operations)
+func (client KmsVaultClient) vaultMtlsDetails(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20180608/vaults/{vaultId}/vaultMtlsDetails", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response VaultMtlsDetailsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/VaultMtlsDetails/VaultMtlsDetails"
+		err = common.PostProcessServiceError(err, "KmsVault", "VaultMtlsDetails", apiReferenceLink)
 		return response, err
 	}
 

@@ -41,6 +41,10 @@ type DrProtectionGroupMemberVolumeGroup struct {
 	SourceVolumeToDestinationEncryptionKeyMappings []SourceVolumeToDestinationEncryptionKeyMapping `mandatory:"false" json:"sourceVolumeToDestinationEncryptionKeyMappings"`
 
 	CommonDestinationKey *VaultAndEncryptionKey `mandatory:"false" json:"commonDestinationKey"`
+
+	// The OCID of a compartment in the destination region in which the volume group should be launched.
+	// Example: `ocid1.compartment.oc1..uniqueID`
+	DestinationCompartmentId *string `mandatory:"false" json:"destinationCompartmentId"`
 }
 
 // GetMemberId returns MemberId

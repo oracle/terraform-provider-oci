@@ -95,6 +95,9 @@ type PrivateIp struct {
 	// Example: `10.0.3.3`
 	IpAddress *string `mandatory:"false" json:"ipAddress"`
 
+	// The secondary IPv4 CIDR prefix length.
+	CidrPrefixLength *int `mandatory:"false" json:"cidrPrefixLength"`
+
 	// Whether this private IP is the primary one on the VNIC. Primary private IPs
 	// are unassigned and deleted automatically when the VNIC is terminated.
 	// Example: `true`
@@ -132,6 +135,9 @@ type PrivateIp struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the IP address or VNIC will use. For more information, see
 	// Per-resource Routing (https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#Overview_of_Routing_for_Your_VCN__source_routing).
 	RouteTableId *string `mandatory:"false" json:"routeTableId"`
+
+	// Ipv4 Subnet CIDR specified whn creating the PrivateIP.
+	Ipv4SubnetCidrAtCreation *string `mandatory:"false" json:"ipv4SubnetCidrAtCreation"`
 }
 
 func (m PrivateIp) String() string {

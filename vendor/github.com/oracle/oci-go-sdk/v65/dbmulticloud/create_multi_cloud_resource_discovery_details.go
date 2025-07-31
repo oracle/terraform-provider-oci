@@ -4,6 +4,7 @@
 
 // Oracle Database MultiCloud Data plane Integration
 //
+// <b>Microsoft Azure</b>:<br>
 // 1. Oracle Azure Connector Resource: This is for installing Azure Arc Server in ExaCS VM Cluster.
 //   There are two way to install Azure Arc Server (Azure Identity) in ExaCS VMCluster.
 //     a. Using Bearer Access Token or
@@ -12,6 +13,11 @@
 //    and same will be used in multiple ExaCS VMCluster to mount the Azure Container.
 // 3. Oracle Azure Blob Mount Resource: This is for to mount Azure Container in ExaCS VMCluster
 //    using Oracle Azure Connector and Oracle Azure Blob Container Resource.
+// <b>Google Cloud</b>:<br>
+// 1. Oracle Google Cloud Connector Resource: This is for installing Google Identity in ExaCS VM Cluster.<br>
+// 2. Discover Google Key-Rings and Keys Resource: This is for to discover Google Key-Rings.<br>
+// 3. Google Key-Rings Resource: This is for to maintain Google Key-Rings in Oracle Cloud.<br>
+// 4. Google Key Resource: This is for to maintain Google Key in Oracle Cloud for a Google Key-Ring.<br>
 //
 
 package dbmulticloud
@@ -36,6 +42,17 @@ type CreateMultiCloudResourceDiscoveryDetails struct {
 
 	// Resource Type to discover.
 	ResourceType MultiCloudResourceDiscoveryResourceTypeEnum `mandatory:"true" json:"resourceType"`
+
+	// Discover resource using attributes as key-value pair.
+	// For GCP supported attributes (keyRing)
+	// For Azure supported attributes (keyVault)
+	// GCP Example
+	// `{"keyRing": "projects/db-mc-dataplane/locations/global/keyRings/dbmci-keyring"}` or
+	// `{"keyRing": "dbmci-keyring"}`
+	// Azure Example
+	// `{"keyVault": "/subscriptions/fd42b73d-5f28-4a23-ae7c-ca08c625fe07/resourceGroups/yumfei0808Test/providers/Microsoft.KeyVault/managedHSMs/orp7HSM001"}` or
+	// `{"keyVault": "orp7HSM001"}`
+	ResourcesFilter map[string]string `mandatory:"false" json:"resourcesFilter"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).

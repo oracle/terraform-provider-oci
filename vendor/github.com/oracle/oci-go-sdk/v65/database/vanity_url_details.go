@@ -18,8 +18,8 @@ import (
 // VanityUrlDetails Details for api gateway and vanity url(custom url) for dbTools.
 type VanityUrlDetails struct {
 
-	// Indicates whether vanity url mapping is enabled.
-	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
+	// Indicates if the vanity url details should be deleted for the Autonomous Database.
+	IsDisabled *bool `mandatory:"false" json:"isDisabled"`
 
 	// API Gateway ID.
 	ApiGatewayId *string `mandatory:"false" json:"apiGatewayId"`

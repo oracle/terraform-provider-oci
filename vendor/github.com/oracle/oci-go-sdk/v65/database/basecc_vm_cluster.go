@@ -118,6 +118,9 @@ type BaseccVmCluster struct {
 	// Operating system version of the image.
 	SystemVersion *string `mandatory:"false" json:"systemVersion"`
 
+	// The vmcluster type for the Base Cloud@Customer VM cluster.
+	VmClusterType BaseccVmClusterVmClusterTypeEnum `mandatory:"false" json:"vmClusterType,omitempty"`
+
 	CloudAutomationUpdateDetails *CloudAutomationUpdateDetails `mandatory:"false" json:"cloudAutomationUpdateDetails"`
 }
 
@@ -139,6 +142,9 @@ func (m BaseccVmCluster) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingBaseccVmClusterLicenseModelEnum(string(m.LicenseModel)); !ok && m.LicenseModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetBaseccVmClusterLicenseModelEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingBaseccVmClusterVmClusterTypeEnum(string(m.VmClusterType)); !ok && m.VmClusterType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VmClusterType: %s. Supported values are: %s.", m.VmClusterType, strings.Join(GetBaseccVmClusterVmClusterTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -301,5 +307,47 @@ func GetBaseccVmClusterLicenseModelEnumStringValues() []string {
 // GetMappingBaseccVmClusterLicenseModelEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingBaseccVmClusterLicenseModelEnum(val string) (BaseccVmClusterLicenseModelEnum, bool) {
 	enum, ok := mappingBaseccVmClusterLicenseModelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// BaseccVmClusterVmClusterTypeEnum Enum with underlying type: string
+type BaseccVmClusterVmClusterTypeEnum string
+
+// Set of constants representing the allowable values for BaseccVmClusterVmClusterTypeEnum
+const (
+	BaseccVmClusterVmClusterTypeRegular   BaseccVmClusterVmClusterTypeEnum = "REGULAR"
+	BaseccVmClusterVmClusterTypeDeveloper BaseccVmClusterVmClusterTypeEnum = "DEVELOPER"
+)
+
+var mappingBaseccVmClusterVmClusterTypeEnum = map[string]BaseccVmClusterVmClusterTypeEnum{
+	"REGULAR":   BaseccVmClusterVmClusterTypeRegular,
+	"DEVELOPER": BaseccVmClusterVmClusterTypeDeveloper,
+}
+
+var mappingBaseccVmClusterVmClusterTypeEnumLowerCase = map[string]BaseccVmClusterVmClusterTypeEnum{
+	"regular":   BaseccVmClusterVmClusterTypeRegular,
+	"developer": BaseccVmClusterVmClusterTypeDeveloper,
+}
+
+// GetBaseccVmClusterVmClusterTypeEnumValues Enumerates the set of values for BaseccVmClusterVmClusterTypeEnum
+func GetBaseccVmClusterVmClusterTypeEnumValues() []BaseccVmClusterVmClusterTypeEnum {
+	values := make([]BaseccVmClusterVmClusterTypeEnum, 0)
+	for _, v := range mappingBaseccVmClusterVmClusterTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetBaseccVmClusterVmClusterTypeEnumStringValues Enumerates the set of values in String for BaseccVmClusterVmClusterTypeEnum
+func GetBaseccVmClusterVmClusterTypeEnumStringValues() []string {
+	return []string{
+		"REGULAR",
+		"DEVELOPER",
+	}
+}
+
+// GetMappingBaseccVmClusterVmClusterTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingBaseccVmClusterVmClusterTypeEnum(val string) (BaseccVmClusterVmClusterTypeEnum, bool) {
+	enum, ok := mappingBaseccVmClusterVmClusterTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

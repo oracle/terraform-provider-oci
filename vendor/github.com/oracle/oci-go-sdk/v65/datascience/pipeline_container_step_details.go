@@ -39,6 +39,8 @@ type PipelineContainerStepDetails struct {
 
 	// A flag to indicate whether the artifact has been uploaded for this step or not.
 	IsArtifactUploaded *bool `mandatory:"false" json:"isArtifactUploaded"`
+
+	StepParameters PipelineStepParameterDetails `mandatory:"false" json:"stepParameters"`
 }
 
 // GetStepName returns StepName
@@ -100,6 +102,7 @@ func (m *PipelineContainerStepDetails) UnmarshalJSON(data []byte) (e error) {
 		StepInfrastructureConfigurationDetails   *PipelineInfrastructureConfigurationDetails `json:"stepInfrastructureConfigurationDetails"`
 		StepStorageMountConfigurationDetailsList []storagemountconfigurationdetails          `json:"stepStorageMountConfigurationDetailsList"`
 		IsArtifactUploaded                       *bool                                       `json:"isArtifactUploaded"`
+		StepParameters                           pipelinestepparameterdetails                `json:"stepParameters"`
 		StepName                                 *string                                     `json:"stepName"`
 		StepContainerConfigurationDetails        pipelinecontainerconfigurationdetails       `json:"stepContainerConfigurationDetails"`
 	}{}
@@ -130,6 +133,16 @@ func (m *PipelineContainerStepDetails) UnmarshalJSON(data []byte) (e error) {
 		}
 	}
 	m.IsArtifactUploaded = model.IsArtifactUploaded
+
+	nn, e = model.StepParameters.UnmarshalPolymorphicJSON(model.StepParameters.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.StepParameters = nn.(PipelineStepParameterDetails)
+	} else {
+		m.StepParameters = nil
+	}
 
 	m.StepName = model.StepName
 

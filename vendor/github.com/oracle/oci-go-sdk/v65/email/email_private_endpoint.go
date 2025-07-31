@@ -91,6 +91,9 @@ type EmailPrivateEndpoint struct {
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m EmailPrivateEndpoint) String() string {
@@ -165,7 +168,6 @@ const (
 	EmailPrivateEndpointLifecycleStateCreating EmailPrivateEndpointLifecycleStateEnum = "CREATING"
 	EmailPrivateEndpointLifecycleStateUpdating EmailPrivateEndpointLifecycleStateEnum = "UPDATING"
 	EmailPrivateEndpointLifecycleStateActive   EmailPrivateEndpointLifecycleStateEnum = "ACTIVE"
-	EmailPrivateEndpointLifecycleStateInactive EmailPrivateEndpointLifecycleStateEnum = "INACTIVE"
 	EmailPrivateEndpointLifecycleStateDeleting EmailPrivateEndpointLifecycleStateEnum = "DELETING"
 	EmailPrivateEndpointLifecycleStateDeleted  EmailPrivateEndpointLifecycleStateEnum = "DELETED"
 	EmailPrivateEndpointLifecycleStateFailed   EmailPrivateEndpointLifecycleStateEnum = "FAILED"
@@ -175,7 +177,6 @@ var mappingEmailPrivateEndpointLifecycleStateEnum = map[string]EmailPrivateEndpo
 	"CREATING": EmailPrivateEndpointLifecycleStateCreating,
 	"UPDATING": EmailPrivateEndpointLifecycleStateUpdating,
 	"ACTIVE":   EmailPrivateEndpointLifecycleStateActive,
-	"INACTIVE": EmailPrivateEndpointLifecycleStateInactive,
 	"DELETING": EmailPrivateEndpointLifecycleStateDeleting,
 	"DELETED":  EmailPrivateEndpointLifecycleStateDeleted,
 	"FAILED":   EmailPrivateEndpointLifecycleStateFailed,
@@ -185,7 +186,6 @@ var mappingEmailPrivateEndpointLifecycleStateEnumLowerCase = map[string]EmailPri
 	"creating": EmailPrivateEndpointLifecycleStateCreating,
 	"updating": EmailPrivateEndpointLifecycleStateUpdating,
 	"active":   EmailPrivateEndpointLifecycleStateActive,
-	"inactive": EmailPrivateEndpointLifecycleStateInactive,
 	"deleting": EmailPrivateEndpointLifecycleStateDeleting,
 	"deleted":  EmailPrivateEndpointLifecycleStateDeleted,
 	"failed":   EmailPrivateEndpointLifecycleStateFailed,
@@ -206,7 +206,6 @@ func GetEmailPrivateEndpointLifecycleStateEnumStringValues() []string {
 		"CREATING",
 		"UPDATING",
 		"ACTIVE",
-		"INACTIVE",
 		"DELETING",
 		"DELETED",
 		"FAILED",

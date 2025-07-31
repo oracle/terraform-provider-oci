@@ -41,6 +41,9 @@ type ListBaseccVmClustersRequest struct {
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// A filter to return only basecc vmclusters that match the given vmcluster type exactly.
+	VmClusterType BaseccVmClusterSummaryVmClusterTypeEnum `mandatory:"false" contributesTo:"query" name:"vmClusterType" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -85,6 +88,9 @@ func (request ListBaseccVmClustersRequest) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingBaseccVmClusterSummaryLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetBaseccVmClusterSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingBaseccVmClusterSummaryVmClusterTypeEnum(string(request.VmClusterType)); !ok && request.VmClusterType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VmClusterType: %s. Supported values are: %s.", request.VmClusterType, strings.Join(GetBaseccVmClusterSummaryVmClusterTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

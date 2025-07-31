@@ -67,6 +67,9 @@ type CreateInternalDrgDetails struct {
 
 	// Indicates if Drg is Substrate Access or not
 	IsSubstrateAccess *bool `mandatory:"false" json:"isSubstrateAccess"`
+
+	// The type of the Substrate Access DRG. Can only be specified when isSubstrateAccess = TRUE.
+	SubstrateAccessDrgType CreateInternalDrgDetailsSubstrateAccessDrgTypeEnum `mandatory:"false" json:"substrateAccessDrgType,omitempty"`
 }
 
 func (m CreateInternalDrgDetails) String() string {
@@ -79,8 +82,53 @@ func (m CreateInternalDrgDetails) String() string {
 func (m CreateInternalDrgDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingCreateInternalDrgDetailsSubstrateAccessDrgTypeEnum(string(m.SubstrateAccessDrgType)); !ok && m.SubstrateAccessDrgType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SubstrateAccessDrgType: %s. Supported values are: %s.", m.SubstrateAccessDrgType, strings.Join(GetCreateInternalDrgDetailsSubstrateAccessDrgTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// CreateInternalDrgDetailsSubstrateAccessDrgTypeEnum Enum with underlying type: string
+type CreateInternalDrgDetailsSubstrateAccessDrgTypeEnum string
+
+// Set of constants representing the allowable values for CreateInternalDrgDetailsSubstrateAccessDrgTypeEnum
+const (
+	CreateInternalDrgDetailsSubstrateAccessDrgTypeProd CreateInternalDrgDetailsSubstrateAccessDrgTypeEnum = "SUBSTRATE_ACCESS_DRG_PROD"
+	CreateInternalDrgDetailsSubstrateAccessDrgTypeTest CreateInternalDrgDetailsSubstrateAccessDrgTypeEnum = "SUBSTRATE_ACCESS_DRG_TEST"
+)
+
+var mappingCreateInternalDrgDetailsSubstrateAccessDrgTypeEnum = map[string]CreateInternalDrgDetailsSubstrateAccessDrgTypeEnum{
+	"SUBSTRATE_ACCESS_DRG_PROD": CreateInternalDrgDetailsSubstrateAccessDrgTypeProd,
+	"SUBSTRATE_ACCESS_DRG_TEST": CreateInternalDrgDetailsSubstrateAccessDrgTypeTest,
+}
+
+var mappingCreateInternalDrgDetailsSubstrateAccessDrgTypeEnumLowerCase = map[string]CreateInternalDrgDetailsSubstrateAccessDrgTypeEnum{
+	"substrate_access_drg_prod": CreateInternalDrgDetailsSubstrateAccessDrgTypeProd,
+	"substrate_access_drg_test": CreateInternalDrgDetailsSubstrateAccessDrgTypeTest,
+}
+
+// GetCreateInternalDrgDetailsSubstrateAccessDrgTypeEnumValues Enumerates the set of values for CreateInternalDrgDetailsSubstrateAccessDrgTypeEnum
+func GetCreateInternalDrgDetailsSubstrateAccessDrgTypeEnumValues() []CreateInternalDrgDetailsSubstrateAccessDrgTypeEnum {
+	values := make([]CreateInternalDrgDetailsSubstrateAccessDrgTypeEnum, 0)
+	for _, v := range mappingCreateInternalDrgDetailsSubstrateAccessDrgTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateInternalDrgDetailsSubstrateAccessDrgTypeEnumStringValues Enumerates the set of values in String for CreateInternalDrgDetailsSubstrateAccessDrgTypeEnum
+func GetCreateInternalDrgDetailsSubstrateAccessDrgTypeEnumStringValues() []string {
+	return []string{
+		"SUBSTRATE_ACCESS_DRG_PROD",
+		"SUBSTRATE_ACCESS_DRG_TEST",
+	}
+}
+
+// GetMappingCreateInternalDrgDetailsSubstrateAccessDrgTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateInternalDrgDetailsSubstrateAccessDrgTypeEnum(val string) (CreateInternalDrgDetailsSubstrateAccessDrgTypeEnum, bool) {
+	enum, ok := mappingCreateInternalDrgDetailsSubstrateAccessDrgTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

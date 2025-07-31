@@ -40,9 +40,6 @@ type ComputeTarget struct {
 	// The state of the compute target.
 	LifecycleState ComputeTargetLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate the compute target with.
-	ProjectId *string `mandatory:"false" json:"projectId"`
-
 	// Metadata for the compute target.
 	// The size of metadata must be less than 2048 bytes.
 	// Key should be under 32 characters.
@@ -52,7 +49,7 @@ type ComputeTarget struct {
 	// Key should not end with underscore eg. `TEST_`
 	// Key if added cannot be empty. Value can be empty.
 	// No specific size limits on individual Values. But overall metadata is limited to 2048 bytes.
-	// Key can't be system reserved keys, system reserved keys starts with ODSC_.
+	// Key can't be reserved Compute Target metadata.
 	Metadata map[string]string `mandatory:"false" json:"metadata"`
 
 	// A short description of the compute target.
@@ -94,7 +91,6 @@ func (m ComputeTarget) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *ComputeTarget) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		ProjectId                   *string                           `json:"projectId"`
 		Metadata                    map[string]string                 `json:"metadata"`
 		Description                 *string                           `json:"description"`
 		ComputeTargetSystemData     computetargetsystemdata           `json:"computeTargetSystemData"`
@@ -115,8 +111,6 @@ func (m *ComputeTarget) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
-	m.ProjectId = model.ProjectId
-
 	m.Metadata = model.Metadata
 
 	m.Description = model.Description

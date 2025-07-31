@@ -14,11 +14,11 @@ import (
 // SynchronizeAutonomousDatabaseToExadataRequest wrapper for the SynchronizeAutonomousDatabaseToExadata operation
 type SynchronizeAutonomousDatabaseToExadataRequest struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
-
 	// The information to be updated.
 	SynchronizeAutonomousDatabaseToExadataDetails `contributesTo:"body"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// Optional OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated DBaaS entity.
 	DatabaseId *string `mandatory:"false" contributesTo:"query" name:"databaseId"`

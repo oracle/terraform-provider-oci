@@ -1,0 +1,52 @@
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
+// Code generated. DO NOT EDIT.
+
+// Oracle Database MultiCloud Data plane Integration
+//
+// <b>Microsoft Azure</b>:<br>
+// 1. Oracle Azure Connector Resource: This is for installing Azure Arc Server in ExaCS VM Cluster.
+//   There are two way to install Azure Arc Server (Azure Identity) in ExaCS VMCluster.
+//     a. Using Bearer Access Token or
+//     b. By providing Authentication token
+// 2. Oracle Azure Blob Container Resource: This is for to capture Azure Container details
+//    and same will be used in multiple ExaCS VMCluster to mount the Azure Container.
+// 3. Oracle Azure Blob Mount Resource: This is for to mount Azure Container in ExaCS VMCluster
+//    using Oracle Azure Connector and Oracle Azure Blob Container Resource.
+// <b>Google Cloud</b>:<br>
+// 1. Oracle Google Cloud Connector Resource: This is for installing Google Identity in ExaCS VM Cluster.<br>
+// 2. Discover Google Key-Rings and Keys Resource: This is for to discover Google Key-Rings.<br>
+// 3. Google Key-Rings Resource: This is for to maintain Google Key-Rings in Oracle Cloud.<br>
+// 4. Google Key Resource: This is for to maintain Google Key in Oracle Cloud for a Google Key-Ring.<br>
+//
+
+package dbmulticloud
+
+import (
+	"fmt"
+	"github.com/oracle/oci-go-sdk/v65/common"
+	"strings"
+)
+
+// RefreshOracleDbAzureVaultDetails Details for to refresh DB Azure Vault Resource.
+type RefreshOracleDbAzureVaultDetails struct {
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB Azure Connector Resource.
+	OracleDbAzureConnectorId *string `mandatory:"false" json:"oracleDbAzureConnectorId"`
+}
+
+func (m RefreshOracleDbAzureVaultDetails) String() string {
+	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m RefreshOracleDbAzureVaultDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}

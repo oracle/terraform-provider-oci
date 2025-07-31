@@ -85,6 +85,9 @@ type CreateBaseccVmClusterDetails struct {
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// The vmcluster type for the Base Cloud@Customer VM cluster.
+	VmClusterType CreateBaseccVmClusterDetailsVmClusterTypeEnum `mandatory:"false" json:"vmClusterType,omitempty"`
+
 	CloudAutomationUpdateDetails *CloudAutomationUpdateDetails `mandatory:"false" json:"cloudAutomationUpdateDetails"`
 }
 
@@ -103,6 +106,9 @@ func (m CreateBaseccVmClusterDetails) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingCreateBaseccVmClusterDetailsLicenseModelEnum(string(m.LicenseModel)); !ok && m.LicenseModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetCreateBaseccVmClusterDetailsLicenseModelEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingCreateBaseccVmClusterDetailsVmClusterTypeEnum(string(m.VmClusterType)); !ok && m.VmClusterType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VmClusterType: %s. Supported values are: %s.", m.VmClusterType, strings.Join(GetCreateBaseccVmClusterDetailsVmClusterTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -203,5 +209,47 @@ func GetCreateBaseccVmClusterDetailsLicenseModelEnumStringValues() []string {
 // GetMappingCreateBaseccVmClusterDetailsLicenseModelEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingCreateBaseccVmClusterDetailsLicenseModelEnum(val string) (CreateBaseccVmClusterDetailsLicenseModelEnum, bool) {
 	enum, ok := mappingCreateBaseccVmClusterDetailsLicenseModelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// CreateBaseccVmClusterDetailsVmClusterTypeEnum Enum with underlying type: string
+type CreateBaseccVmClusterDetailsVmClusterTypeEnum string
+
+// Set of constants representing the allowable values for CreateBaseccVmClusterDetailsVmClusterTypeEnum
+const (
+	CreateBaseccVmClusterDetailsVmClusterTypeRegular   CreateBaseccVmClusterDetailsVmClusterTypeEnum = "REGULAR"
+	CreateBaseccVmClusterDetailsVmClusterTypeDeveloper CreateBaseccVmClusterDetailsVmClusterTypeEnum = "DEVELOPER"
+)
+
+var mappingCreateBaseccVmClusterDetailsVmClusterTypeEnum = map[string]CreateBaseccVmClusterDetailsVmClusterTypeEnum{
+	"REGULAR":   CreateBaseccVmClusterDetailsVmClusterTypeRegular,
+	"DEVELOPER": CreateBaseccVmClusterDetailsVmClusterTypeDeveloper,
+}
+
+var mappingCreateBaseccVmClusterDetailsVmClusterTypeEnumLowerCase = map[string]CreateBaseccVmClusterDetailsVmClusterTypeEnum{
+	"regular":   CreateBaseccVmClusterDetailsVmClusterTypeRegular,
+	"developer": CreateBaseccVmClusterDetailsVmClusterTypeDeveloper,
+}
+
+// GetCreateBaseccVmClusterDetailsVmClusterTypeEnumValues Enumerates the set of values for CreateBaseccVmClusterDetailsVmClusterTypeEnum
+func GetCreateBaseccVmClusterDetailsVmClusterTypeEnumValues() []CreateBaseccVmClusterDetailsVmClusterTypeEnum {
+	values := make([]CreateBaseccVmClusterDetailsVmClusterTypeEnum, 0)
+	for _, v := range mappingCreateBaseccVmClusterDetailsVmClusterTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateBaseccVmClusterDetailsVmClusterTypeEnumStringValues Enumerates the set of values in String for CreateBaseccVmClusterDetailsVmClusterTypeEnum
+func GetCreateBaseccVmClusterDetailsVmClusterTypeEnumStringValues() []string {
+	return []string{
+		"REGULAR",
+		"DEVELOPER",
+	}
+}
+
+// GetMappingCreateBaseccVmClusterDetailsVmClusterTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateBaseccVmClusterDetailsVmClusterTypeEnum(val string) (CreateBaseccVmClusterDetailsVmClusterTypeEnum, bool) {
+	enum, ok := mappingCreateBaseccVmClusterDetailsVmClusterTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

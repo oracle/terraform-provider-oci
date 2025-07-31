@@ -473,6 +473,72 @@ func (client VirtualNetworkClient) addDrgRouteRules(ctx context.Context, request
 	return response, err
 }
 
+// AddIpv4SubnetCidr Add an IPv4 prefix to a subnet.
+// A default retry strategy applies to this operation AddIpv4SubnetCidr()
+func (client VirtualNetworkClient) AddIpv4SubnetCidr(ctx context.Context, request AddIpv4SubnetCidrRequest) (response AddIpv4SubnetCidrResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.addIpv4SubnetCidr, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddIpv4SubnetCidrResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddIpv4SubnetCidrResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddIpv4SubnetCidrResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddIpv4SubnetCidrResponse")
+	}
+	return
+}
+
+// addIpv4SubnetCidr implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) addIpv4SubnetCidr(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/subnets/{subnetId}/actions/addIpv4Cidr", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response AddIpv4SubnetCidrResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Subnet/AddIpv4SubnetCidr"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "AddIpv4SubnetCidr", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // AddIpv6SubnetCidr Add an IPv6 prefix to a subnet.
 func (client VirtualNetworkClient) AddIpv6SubnetCidr(ctx context.Context, request AddIpv6SubnetCidrRequest) (response AddIpv6SubnetCidrResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -16959,6 +17025,72 @@ func (client VirtualNetworkClient) getDrgAttachment(ctx context.Context, request
 	return response, err
 }
 
+// GetDrgCustomerInternal Get the the list of IPSEC / FC / RPC ocids of a DRG
+// A default retry strategy applies to this operation GetDrgCustomerInternal()
+func (client VirtualNetworkClient) GetDrgCustomerInternal(ctx context.Context, request GetDrgCustomerInternalRequest) (response GetDrgCustomerInternalResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.getDrgCustomerInternal, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDrgCustomerInternalResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDrgCustomerInternalResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDrgCustomerInternalResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDrgCustomerInternalResponse")
+	}
+	return
+}
+
+// getDrgCustomerInternal implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getDrgCustomerInternal(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internal/drgs/{drgId}/actions/customers", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response GetDrgCustomerInternalResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Drg/GetDrgCustomerInternal"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetDrgCustomerInternal", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetDrgMigrationCountRegion Gets the migrated drg count for a Region
 func (client VirtualNetworkClient) GetDrgMigrationCountRegion(ctx context.Context, request GetDrgMigrationCountRegionRequest) (response GetDrgMigrationCountRegionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -17072,6 +17204,72 @@ func (client VirtualNetworkClient) getDrgMigrationCountTenancy(ctx context.Conte
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgMigrationCountTenancy/GetDrgMigrationCountTenancy"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetDrgMigrationCountTenancy", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetDrgPromotionStatusInternal Get the promotion/unpromotion status of a DRG
+// A default retry strategy applies to this operation GetDrgPromotionStatusInternal()
+func (client VirtualNetworkClient) GetDrgPromotionStatusInternal(ctx context.Context, request GetDrgPromotionStatusInternalRequest) (response GetDrgPromotionStatusInternalResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.getDrgPromotionStatusInternal, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDrgPromotionStatusInternalResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDrgPromotionStatusInternalResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDrgPromotionStatusInternalResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDrgPromotionStatusInternalResponse")
+	}
+	return
+}
+
+// getDrgPromotionStatusInternal implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getDrgPromotionStatusInternal(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internal/drgs/{drgId}/actions/promotionStatus", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response GetDrgPromotionStatusInternalResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Drg/GetDrgPromotionStatusInternal"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetDrgPromotionStatusInternal", apiReferenceLink)
 		return response, err
 	}
 
@@ -29199,7 +29397,7 @@ func (client VirtualNetworkClient) ManageRouteUnificationInternal(ctx context.Co
 // manageRouteUnificationInternal implements the OCIOperation interface (enables retrying operations)
 func (client VirtualNetworkClient) manageRouteUnificationInternal(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/drgAttachments/{drgAttachmentId}/actions/manageRouteUnificationInternal", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/internal/drgAttachments/{drgAttachmentId}/actions/manageRouteUnification", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -29483,6 +29681,77 @@ func (client VirtualNetworkClient) migrateIPSecConnection(ctx context.Context, r
 	return response, err
 }
 
+// ModifyIpv4SubnetCidr Updates the specified Ipv4 CIDR block of a Subnet. The new Ipv4 CIDR IP range must meet the following criteria:
+// - Must be valid.
+// - Must not overlap with another Ipv4 CIDR block in the Subnet or the on-premises network CIDR block.
+// - Must not exceed the limit of Ipv4 CIDR blocks allowed per Subnet.
+// - Must include IP addresses from the original CIDR block that are used in the VCN's existing route rules.
+// - No IP address in an existing subnet should be outside of the new CIDR block range.
+// A default retry strategy applies to this operation ModifyIpv4SubnetCidr()
+func (client VirtualNetworkClient) ModifyIpv4SubnetCidr(ctx context.Context, request ModifyIpv4SubnetCidrRequest) (response ModifyIpv4SubnetCidrResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.modifyIpv4SubnetCidr, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ModifyIpv4SubnetCidrResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ModifyIpv4SubnetCidrResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ModifyIpv4SubnetCidrResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ModifyIpv4SubnetCidrResponse")
+	}
+	return
+}
+
+// modifyIpv4SubnetCidr implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) modifyIpv4SubnetCidr(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/subnets/{subnetId}/actions/modifyIpv4Cidr", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ModifyIpv4SubnetCidrResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Subnet/ModifyIpv4SubnetCidr"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ModifyIpv4SubnetCidr", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ModifyReverseConnections Modifies the configuration for reverse connections and the DNS proxy for the specified private endpoint.
 func (client VirtualNetworkClient) ModifyReverseConnections(ctx context.Context, request ModifyReverseConnectionsRequest) (response ModifyReverseConnectionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -29733,6 +30002,72 @@ func (client VirtualNetworkClient) privateIpVnicDetach(ctx context.Context, requ
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PrivateIp/PrivateIpVnicDetach"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "PrivateIpVnicDetach", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// PromoteDrgInternal Promote connections on this DRG from V1 to V2
+// A default retry strategy applies to this operation PromoteDrgInternal()
+func (client VirtualNetworkClient) PromoteDrgInternal(ctx context.Context, request PromoteDrgInternalRequest) (response PromoteDrgInternalResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.promoteDrgInternal, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PromoteDrgInternalResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PromoteDrgInternalResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PromoteDrgInternalResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PromoteDrgInternalResponse")
+	}
+	return
+}
+
+// promoteDrgInternal implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) promoteDrgInternal(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internal/drgs/{drgId}/actions/promote", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response PromoteDrgInternalResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Drg/PromoteDrgInternal"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "PromoteDrgInternal", apiReferenceLink)
 		return response, err
 	}
 
@@ -30335,6 +30670,72 @@ func (client VirtualNetworkClient) removeImportDrgRouteDistribution(ctx context.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgRouteTable/RemoveImportDrgRouteDistribution"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "RemoveImportDrgRouteDistribution", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RemoveIpv4SubnetCidr Remove an IPv4 prefix from a subnet
+// A default retry strategy applies to this operation RemoveIpv4SubnetCidr()
+func (client VirtualNetworkClient) RemoveIpv4SubnetCidr(ctx context.Context, request RemoveIpv4SubnetCidrRequest) (response RemoveIpv4SubnetCidrResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.removeIpv4SubnetCidr, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveIpv4SubnetCidrResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveIpv4SubnetCidrResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveIpv4SubnetCidrResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveIpv4SubnetCidrResponse")
+	}
+	return
+}
+
+// removeIpv4SubnetCidr implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) removeIpv4SubnetCidr(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/subnets/{subnetId}/actions/removeIpv4Cidr", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response RemoveIpv4SubnetCidrResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Subnet/RemoveIpv4SubnetCidr"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "RemoveIpv4SubnetCidr", apiReferenceLink)
 		return response, err
 	}
 
@@ -32074,6 +32475,72 @@ func (client VirtualNetworkClient) unmapInternalPrivateIp(ctx context.Context, r
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalPrivateIpMapping/UnmapInternalPrivateIp"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "UnmapInternalPrivateIp", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UnpromoteDrgInternal Unpromote connections on this DRG from V2 to V1
+// A default retry strategy applies to this operation UnpromoteDrgInternal()
+func (client VirtualNetworkClient) UnpromoteDrgInternal(ctx context.Context, request UnpromoteDrgInternalRequest) (response UnpromoteDrgInternalResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.unpromoteDrgInternal, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UnpromoteDrgInternalResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UnpromoteDrgInternalResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UnpromoteDrgInternalResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UnpromoteDrgInternalResponse")
+	}
+	return
+}
+
+// unpromoteDrgInternal implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) unpromoteDrgInternal(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internal/drgs/{drgId}/actions/unpromote", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response UnpromoteDrgInternalResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Drg/UnpromoteDrgInternal"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UnpromoteDrgInternal", apiReferenceLink)
 		return response, err
 	}
 

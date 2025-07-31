@@ -60,6 +60,9 @@ type Pipeline struct {
 	// The storage mount details to mount to the instance running the pipeline step.
 	StorageMountConfigurationDetailsList []StorageMountConfigurationDetails `mandatory:"false" json:"storageMountConfigurationDetailsList"`
 
+	// Parameters used in the pipeline.
+	Parameters map[string]string `mandatory:"false" json:"parameters"`
+
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in 'Failed' state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
@@ -104,6 +107,7 @@ func (m *Pipeline) UnmarshalJSON(data []byte) (e error) {
 		LogConfigurationDetails              *PipelineLogConfigurationDetails            `json:"logConfigurationDetails"`
 		InfrastructureConfigurationDetails   *PipelineInfrastructureConfigurationDetails `json:"infrastructureConfigurationDetails"`
 		StorageMountConfigurationDetailsList []storagemountconfigurationdetails          `json:"storageMountConfigurationDetailsList"`
+		Parameters                           map[string]string                           `json:"parameters"`
 		LifecycleDetails                     *string                                     `json:"lifecycleDetails"`
 		FreeformTags                         map[string]string                           `json:"freeformTags"`
 		DefinedTags                          map[string]map[string]interface{}           `json:"definedTags"`
@@ -153,6 +157,8 @@ func (m *Pipeline) UnmarshalJSON(data []byte) (e error) {
 			m.StorageMountConfigurationDetailsList[i] = nil
 		}
 	}
+	m.Parameters = model.Parameters
+
 	m.LifecycleDetails = model.LifecycleDetails
 
 	m.FreeformTags = model.FreeformTags

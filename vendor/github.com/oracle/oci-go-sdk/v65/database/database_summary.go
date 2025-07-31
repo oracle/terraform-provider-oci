@@ -134,6 +134,9 @@ type DatabaseSummary struct {
 
 	// Represents database will be under oracle managed home or customer managed home
 	HomeType DatabaseSummaryHomeTypeEnum `mandatory:"false" json:"homeType,omitempty"`
+
+	// The patch version of the database.
+	PatchVersion *string `mandatory:"false" json:"patchVersion"`
 }
 
 func (m DatabaseSummary) String() string {
@@ -194,6 +197,7 @@ func (m *DatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 		StorageSizeDetails                         *DatabaseStorageSizeResponseDetails `json:"storageSizeDetails"`
 		ManagedSoftwareUpdateDetails               *ManagedSoftwareUpdateDetails       `json:"managedSoftwareUpdateDetails"`
 		HomeType                                   DatabaseSummaryHomeTypeEnum         `json:"homeType"`
+		PatchVersion                               *string                             `json:"patchVersion"`
 		Id                                         *string                             `json:"id"`
 		CompartmentId                              *string                             `json:"compartmentId"`
 		DbName                                     *string                             `json:"dbName"`
@@ -279,6 +283,8 @@ func (m *DatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 	m.ManagedSoftwareUpdateDetails = model.ManagedSoftwareUpdateDetails
 
 	m.HomeType = model.HomeType
+
+	m.PatchVersion = model.PatchVersion
 
 	m.Id = model.Id
 

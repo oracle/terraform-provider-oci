@@ -243,6 +243,11 @@ type CreateInternalVnicDetails struct {
 
 	// Indicates if the security attributes is owned at the parent resource (e.g., Compute Instance) or by the VNIC.
 	IsGroupedSecurityAttributes *bool `mandatory:"false" json:"isGroupedSecurityAttributes"`
+
+	// Any one of the IPv4 CIDRs allocated to the subnet.
+	SubnetCidr *string `mandatory:"false" json:"subnetCidr"`
+
+	HealthCheckMetaData *HealthCheckMetaData `mandatory:"false" json:"healthCheckMetaData"`
 }
 
 func (m CreateInternalVnicDetails) String() string {

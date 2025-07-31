@@ -209,6 +209,8 @@ type InternalVnic struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of `Cluster Placement Group` to be used
 	// for the ServiceVnic placement.
 	CpgId *string `mandatory:"false" json:"cpgId"`
+
+	HealthCheckMetaData *HealthCheckMetaData `mandatory:"false" json:"healthCheckMetaData"`
 }
 
 func (m InternalVnic) String() string {

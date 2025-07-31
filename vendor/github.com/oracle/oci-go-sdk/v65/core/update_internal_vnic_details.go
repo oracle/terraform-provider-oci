@@ -112,6 +112,8 @@ type UpdateInternalVnicDetails struct {
 	// Defaults to `false`, in which case we do enforce that throttling.
 	// Change from `true` to `false` will not change existing resource pool.
 	BypassInternetThrottle *bool `mandatory:"false" json:"bypassInternetThrottle"`
+
+	HealthCheckMetaData *HealthCheckMetaData `mandatory:"false" json:"healthCheckMetaData"`
 }
 
 func (m UpdateInternalVnicDetails) String() string {

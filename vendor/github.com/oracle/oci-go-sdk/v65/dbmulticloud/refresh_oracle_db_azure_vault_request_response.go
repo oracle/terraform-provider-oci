@@ -17,6 +17,9 @@ type RefreshOracleDbAzureVaultRequest struct {
 	// The ID of the Oracle DB Azure Vault Resource.
 	OracleDbAzureVaultId *string `mandatory:"true" contributesTo:"path" name:"oracleDbAzureVaultId"`
 
+	// Details for to refresh OracleDbAzureVault.
+	RefreshOracleDbAzureVaultDetails `contributesTo:"body"`
+
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
 	// server error without risk of executing that same action again. Retry tokens expire after 24
 	// hours, but can be invalidated before then due to conflicting operations. For example, if a resource

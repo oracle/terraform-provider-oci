@@ -50,10 +50,6 @@ func (m *streamoutputlocation) UnmarshalPolymorphicJSON(data []byte) (interface{
 
 	var err error
 	switch m.OutputLocationType {
-	case "LIVEKIT_WEBRTC_AGENT":
-		mm := LiveKitWebrtcAgentOutputLocation{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "OBJECT_STORAGE":
 		mm := ObjectStorageOutputLocation{}
 		err = json.Unmarshal(data, &mm)
@@ -85,18 +81,15 @@ type StreamOutputLocationOutputLocationTypeEnum string
 
 // Set of constants representing the allowable values for StreamOutputLocationOutputLocationTypeEnum
 const (
-	StreamOutputLocationOutputLocationTypeObjectStorage      StreamOutputLocationOutputLocationTypeEnum = "OBJECT_STORAGE"
-	StreamOutputLocationOutputLocationTypeLivekitWebrtcAgent StreamOutputLocationOutputLocationTypeEnum = "LIVEKIT_WEBRTC_AGENT"
+	StreamOutputLocationOutputLocationTypeObjectStorage StreamOutputLocationOutputLocationTypeEnum = "OBJECT_STORAGE"
 )
 
 var mappingStreamOutputLocationOutputLocationTypeEnum = map[string]StreamOutputLocationOutputLocationTypeEnum{
-	"OBJECT_STORAGE":       StreamOutputLocationOutputLocationTypeObjectStorage,
-	"LIVEKIT_WEBRTC_AGENT": StreamOutputLocationOutputLocationTypeLivekitWebrtcAgent,
+	"OBJECT_STORAGE": StreamOutputLocationOutputLocationTypeObjectStorage,
 }
 
 var mappingStreamOutputLocationOutputLocationTypeEnumLowerCase = map[string]StreamOutputLocationOutputLocationTypeEnum{
-	"object_storage":       StreamOutputLocationOutputLocationTypeObjectStorage,
-	"livekit_webrtc_agent": StreamOutputLocationOutputLocationTypeLivekitWebrtcAgent,
+	"object_storage": StreamOutputLocationOutputLocationTypeObjectStorage,
 }
 
 // GetStreamOutputLocationOutputLocationTypeEnumValues Enumerates the set of values for StreamOutputLocationOutputLocationTypeEnum
@@ -112,7 +105,6 @@ func GetStreamOutputLocationOutputLocationTypeEnumValues() []StreamOutputLocatio
 func GetStreamOutputLocationOutputLocationTypeEnumStringValues() []string {
 	return []string{
 		"OBJECT_STORAGE",
-		"LIVEKIT_WEBRTC_AGENT",
 	}
 }
 

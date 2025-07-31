@@ -4,6 +4,7 @@
 
 // Oracle Database MultiCloud Data plane Integration
 //
+// <b>Microsoft Azure</b>:<br>
 // 1. Oracle Azure Connector Resource: This is for installing Azure Arc Server in ExaCS VM Cluster.
 //   There are two way to install Azure Arc Server (Azure Identity) in ExaCS VMCluster.
 //     a. Using Bearer Access Token or
@@ -12,6 +13,11 @@
 //    and same will be used in multiple ExaCS VMCluster to mount the Azure Container.
 // 3. Oracle Azure Blob Mount Resource: This is for to mount Azure Container in ExaCS VMCluster
 //    using Oracle Azure Connector and Oracle Azure Blob Container Resource.
+// <b>Google Cloud</b>:<br>
+// 1. Oracle Google Cloud Connector Resource: This is for installing Google Identity in ExaCS VM Cluster.<br>
+// 2. Discover Google Key-Rings and Keys Resource: This is for to discover Google Key-Rings.<br>
+// 3. Google Key-Rings Resource: This is for to maintain Google Key-Rings in Oracle Cloud.<br>
+// 4. Google Key Resource: This is for to maintain Google Key in Oracle Cloud for a Google Key-Ring.<br>
 //
 
 package dbmulticloud
@@ -45,6 +51,12 @@ type OracleDbAzureKey struct {
 
 	// Description of the current lifecycle state in more detail.
 	LifecycleStateDetails *string `mandatory:"false" json:"lifecycleStateDetails"`
+
+	// Key Resource type.
+	ResourceType *string `mandatory:"false" json:"resourceType"`
+
+	// Gcp Key properties
+	KeyProperties *interface{} `mandatory:"false" json:"keyProperties"`
 
 	// Time when the Oracle DB Azure Vault Key was created in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format, e.g. '2020-05-22T21:10:29.600Z'
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`

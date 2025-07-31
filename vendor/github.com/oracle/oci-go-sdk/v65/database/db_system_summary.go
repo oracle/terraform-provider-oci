@@ -67,9 +67,6 @@ type DbSystemSummary struct {
 	// The domain name for the DB system.
 	Domain *string `mandatory:"true" json:"domain"`
 
-	// The number of CPU cores enabled on the DB system.
-	CpuCoreCount *int `mandatory:"true" json:"cpuCoreCount"`
-
 	// The Oracle Database Edition that applies to all the databases on the DB system.
 	// Exadata DB systems and 2-node RAC DB systems require ENTERPRISE_EDITION_EXTREME_PERFORMANCE.
 	DatabaseEdition DbSystemSummaryDatabaseEditionEnum `mandatory:"true" json:"databaseEdition"`
@@ -120,6 +117,9 @@ type DbSystemSummary struct {
 
 	// The most recent OS Patch Version applied on the DB system.
 	OsVersion *string `mandatory:"false" json:"osVersion"`
+
+	// The number of CPU cores enabled on the DB system.
+	CpuCoreCount *int `mandatory:"false" json:"cpuCoreCount"`
 
 	// The cluster name for Exadata and 2-node RAC virtual machine DB systems. The cluster name must begin with an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted. The cluster name can be no longer than 11 characters and is not case sensitive.
 	ClusterName *string `mandatory:"false" json:"clusterName"`

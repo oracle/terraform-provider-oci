@@ -16,30 +16,25 @@ import (
 	"strings"
 )
 
-// LiveKitWebrtcAgentOutputLocation The Livekit agent where we will publish results
-type LiveKitWebrtcAgentOutputLocation struct {
+// VideoStreamObjectDetectionFeature Video stream object detection feature
+type VideoStreamObjectDetectionFeature struct {
 
-	// Url for room
-	RoomUrl *string `mandatory:"true" json:"roomUrl"`
+	// The minimum confidence score, between 0 and 1,
+	// when the value is set, results with lower confidence will not be returned.
+	MinConfidence *float32 `mandatory:"false" json:"minConfidence"`
 
-	// participant name for the agent where results need to be sent back
-	AgentPeerName *string `mandatory:"true" json:"agentPeerName"`
-
-	// User generated auth token to access the stream
-	Token *string `mandatory:"false" json:"token"`
-
-	// Object storage output location
-	OboToken *string `mandatory:"false" json:"oboToken"`
+	// The maximum number of results per frame to return.
+	MaxResults *int `mandatory:"false" json:"maxResults"`
 }
 
-func (m LiveKitWebrtcAgentOutputLocation) String() string {
+func (m VideoStreamObjectDetectionFeature) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m LiveKitWebrtcAgentOutputLocation) ValidateEnumValue() (bool, error) {
+func (m VideoStreamObjectDetectionFeature) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -49,14 +44,14 @@ func (m LiveKitWebrtcAgentOutputLocation) ValidateEnumValue() (bool, error) {
 }
 
 // MarshalJSON marshals to json representation
-func (m LiveKitWebrtcAgentOutputLocation) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeLiveKitWebrtcAgentOutputLocation LiveKitWebrtcAgentOutputLocation
+func (m VideoStreamObjectDetectionFeature) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeVideoStreamObjectDetectionFeature VideoStreamObjectDetectionFeature
 	s := struct {
-		DiscriminatorParam string `json:"outputLocationType"`
-		MarshalTypeLiveKitWebrtcAgentOutputLocation
+		DiscriminatorParam string `json:"featureType"`
+		MarshalTypeVideoStreamObjectDetectionFeature
 	}{
-		"LIVEKIT_WEBRTC_AGENT",
-		(MarshalTypeLiveKitWebrtcAgentOutputLocation)(m),
+		"OBJECT_DETECTION",
+		(MarshalTypeVideoStreamObjectDetectionFeature)(m),
 	}
 
 	return json.Marshal(&s)

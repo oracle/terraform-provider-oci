@@ -24,9 +24,6 @@ type CreateComputeTargetDetails struct {
 
 	ComputeConfigurationDetails ComputeConfigurationDetails `mandatory:"true" json:"computeConfigurationDetails"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate the compute target with.
-	ProjectId *string `mandatory:"false" json:"projectId"`
-
 	// A user-friendly display name for the resource.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
@@ -42,7 +39,7 @@ type CreateComputeTargetDetails struct {
 	// Key should not end with underscore eg. `TEST_`
 	// Key if added cannot be empty. Value can be empty.
 	// No specific size limits on individual Values. But overall metadata is limited to 2048 bytes.
-	// Key can't be system reserved keys, system reserved keys starts with ODSC_.
+	// Key can't be reserved Compute Target metadata.
 	Metadata map[string]string `mandatory:"false" json:"metadata"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -73,7 +70,6 @@ func (m CreateComputeTargetDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateComputeTargetDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		ProjectId                   *string                           `json:"projectId"`
 		DisplayName                 *string                           `json:"displayName"`
 		Description                 *string                           `json:"description"`
 		Metadata                    map[string]string                 `json:"metadata"`
@@ -88,8 +84,6 @@ func (m *CreateComputeTargetDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
-	m.ProjectId = model.ProjectId
-
 	m.DisplayName = model.DisplayName
 
 	m.Description = model.Description

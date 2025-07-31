@@ -54,10 +54,6 @@ func (m *streamnetworkaccessdetails) UnmarshalPolymorphicJSON(data []byte) (inte
 		mm := PrivateStreamNetworkAccessDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "PUBLIC":
-		mm := PublicStreamNetworkAccessDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	default:
 		common.Logf("Received unsupported enum value for StreamNetworkAccessDetails: %s.", m.StreamAccessType)
 		return *m, nil
@@ -86,17 +82,14 @@ type StreamNetworkAccessDetailsStreamAccessTypeEnum string
 // Set of constants representing the allowable values for StreamNetworkAccessDetailsStreamAccessTypeEnum
 const (
 	StreamNetworkAccessDetailsStreamAccessTypePrivate StreamNetworkAccessDetailsStreamAccessTypeEnum = "PRIVATE"
-	StreamNetworkAccessDetailsStreamAccessTypePublic  StreamNetworkAccessDetailsStreamAccessTypeEnum = "PUBLIC"
 )
 
 var mappingStreamNetworkAccessDetailsStreamAccessTypeEnum = map[string]StreamNetworkAccessDetailsStreamAccessTypeEnum{
 	"PRIVATE": StreamNetworkAccessDetailsStreamAccessTypePrivate,
-	"PUBLIC":  StreamNetworkAccessDetailsStreamAccessTypePublic,
 }
 
 var mappingStreamNetworkAccessDetailsStreamAccessTypeEnumLowerCase = map[string]StreamNetworkAccessDetailsStreamAccessTypeEnum{
 	"private": StreamNetworkAccessDetailsStreamAccessTypePrivate,
-	"public":  StreamNetworkAccessDetailsStreamAccessTypePublic,
 }
 
 // GetStreamNetworkAccessDetailsStreamAccessTypeEnumValues Enumerates the set of values for StreamNetworkAccessDetailsStreamAccessTypeEnum
@@ -112,7 +105,6 @@ func GetStreamNetworkAccessDetailsStreamAccessTypeEnumValues() []StreamNetworkAc
 func GetStreamNetworkAccessDetailsStreamAccessTypeEnumStringValues() []string {
 	return []string{
 		"PRIVATE",
-		"PUBLIC",
 	}
 }
 

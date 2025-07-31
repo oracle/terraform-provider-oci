@@ -32,12 +32,6 @@ type TrackingType struct {
 
 	// Whether or not return face landmarks.
 	ShouldReturnLandmarks *bool `mandatory:"false" json:"shouldReturnLandmarks"`
-
-	// Which biometric store user wants to do face recognition
-	BiometricStoreId *string `mandatory:"false" json:"biometricStoreId"`
-
-	// compartment Id of biometric compartment.
-	BiometricStoreCompartmentId *string `mandatory:"false" json:"biometricStoreCompartmentId"`
 }
 
 func (m TrackingType) String() string {

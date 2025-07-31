@@ -4,6 +4,7 @@
 
 // Oracle Database MultiCloud Data plane Integration
 //
+// <b>Microsoft Azure</b>:<br>
 // 1. Oracle Azure Connector Resource: This is for installing Azure Arc Server in ExaCS VM Cluster.
 //   There are two way to install Azure Arc Server (Azure Identity) in ExaCS VMCluster.
 //     a. Using Bearer Access Token or
@@ -12,6 +13,11 @@
 //    and same will be used in multiple ExaCS VMCluster to mount the Azure Container.
 // 3. Oracle Azure Blob Mount Resource: This is for to mount Azure Container in ExaCS VMCluster
 //    using Oracle Azure Connector and Oracle Azure Blob Container Resource.
+// <b>Google Cloud</b>:<br>
+// 1. Oracle Google Cloud Connector Resource: This is for installing Google Identity in ExaCS VM Cluster.<br>
+// 2. Discover Google Key-Rings and Keys Resource: This is for to discover Google Key-Rings.<br>
+// 3. Google Key-Rings Resource: This is for to maintain Google Key-Rings in Oracle Cloud.<br>
+// 4. Google Key Resource: This is for to maintain Google Key in Oracle Cloud for a Google Key-Ring.<br>
 //
 
 package dbmulticloud
@@ -64,6 +70,9 @@ type OracleDbAzureConnectorSummary struct {
 	// Azure Identity Mechanism.
 	AzureIdentityMechanism OracleDbAzureConnectorAzureIdentityMechanismEnum `mandatory:"false" json:"azureIdentityMechanism,omitempty"`
 
+	// The current lifecycle state of the GCP Identity Connector Resource.
+	AzureIdentityConnectivityStatus OracleDbAzureConnectorAzureIdentityConnectivityStatusEnum `mandatory:"false" json:"azureIdentityConnectivityStatus,omitempty"`
+
 	// Time when the Oracle DB Azure Connector Resource was created expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format, e.g. '2020-05-22T21:10:29.600Z'
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
@@ -103,6 +112,9 @@ func (m OracleDbAzureConnectorSummary) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingOracleDbAzureConnectorAzureIdentityMechanismEnum(string(m.AzureIdentityMechanism)); !ok && m.AzureIdentityMechanism != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AzureIdentityMechanism: %s. Supported values are: %s.", m.AzureIdentityMechanism, strings.Join(GetOracleDbAzureConnectorAzureIdentityMechanismEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingOracleDbAzureConnectorAzureIdentityConnectivityStatusEnum(string(m.AzureIdentityConnectivityStatus)); !ok && m.AzureIdentityConnectivityStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AzureIdentityConnectivityStatus: %s. Supported values are: %s.", m.AzureIdentityConnectivityStatus, strings.Join(GetOracleDbAzureConnectorAzureIdentityConnectivityStatusEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

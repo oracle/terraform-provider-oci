@@ -131,6 +131,7 @@ const (
 	DbSystemShapeSummaryShapeTypeIntel        DbSystemShapeSummaryShapeTypeEnum = "INTEL"
 	DbSystemShapeSummaryShapeTypeIntelFlexX9  DbSystemShapeSummaryShapeTypeEnum = "INTEL_FLEX_X9"
 	DbSystemShapeSummaryShapeTypeAmpereFlexA1 DbSystemShapeSummaryShapeTypeEnum = "AMPERE_FLEX_A1"
+	DbSystemShapeSummaryShapeTypeStandardX86  DbSystemShapeSummaryShapeTypeEnum = "STANDARD_X86"
 )
 
 var mappingDbSystemShapeSummaryShapeTypeEnum = map[string]DbSystemShapeSummaryShapeTypeEnum{
@@ -138,6 +139,7 @@ var mappingDbSystemShapeSummaryShapeTypeEnum = map[string]DbSystemShapeSummarySh
 	"INTEL":          DbSystemShapeSummaryShapeTypeIntel,
 	"INTEL_FLEX_X9":  DbSystemShapeSummaryShapeTypeIntelFlexX9,
 	"AMPERE_FLEX_A1": DbSystemShapeSummaryShapeTypeAmpereFlexA1,
+	"STANDARD_X86":   DbSystemShapeSummaryShapeTypeStandardX86,
 }
 
 var mappingDbSystemShapeSummaryShapeTypeEnumLowerCase = map[string]DbSystemShapeSummaryShapeTypeEnum{
@@ -145,6 +147,7 @@ var mappingDbSystemShapeSummaryShapeTypeEnumLowerCase = map[string]DbSystemShape
 	"intel":          DbSystemShapeSummaryShapeTypeIntel,
 	"intel_flex_x9":  DbSystemShapeSummaryShapeTypeIntelFlexX9,
 	"ampere_flex_a1": DbSystemShapeSummaryShapeTypeAmpereFlexA1,
+	"standard_x86":   DbSystemShapeSummaryShapeTypeStandardX86,
 }
 
 // GetDbSystemShapeSummaryShapeTypeEnumValues Enumerates the set of values for DbSystemShapeSummaryShapeTypeEnum
@@ -163,6 +166,7 @@ func GetDbSystemShapeSummaryShapeTypeEnumStringValues() []string {
 		"INTEL",
 		"INTEL_FLEX_X9",
 		"AMPERE_FLEX_A1",
+		"STANDARD_X86",
 	}
 }
 

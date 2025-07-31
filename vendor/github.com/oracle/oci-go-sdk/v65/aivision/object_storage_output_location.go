@@ -27,9 +27,6 @@ type ObjectStorageOutputLocation struct {
 
 	// The Object Storage folder name.
 	Prefix *string `mandatory:"true" json:"prefix"`
-
-	// Object storage output location
-	OboToken *string `mandatory:"false" json:"oboToken"`
 }
 
 func (m ObjectStorageOutputLocation) String() string {
