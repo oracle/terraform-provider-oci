@@ -23,6 +23,7 @@ data "oci_golden_gate_deployments" "test_deployments" {
 	#Optional
 	assignable_connection_id = oci_golden_gate_connection.test_connection.id
 	assigned_connection_id = oci_golden_gate_connection.test_connection.id
+	deployment_type = var.deployment_deployment_type
 	display_name = var.deployment_display_name
 	fqdn = var.deployment_fqdn
 	lifecycle_sub_state = var.deployment_lifecycle_sub_state
@@ -38,6 +39,7 @@ The following arguments are supported:
 * `assignable_connection_id` - (Optional) Return the deployments to which the specified connectionId may be assigned. 
 * `assigned_connection_id` - (Optional) The OCID of the connection which for the deployment must be assigned. 
 * `compartment_id` - (Required) The OCID of the compartment that contains the work request. Work requests should be scoped  to the same compartment as the resource the work request affects. If the work request concerns  multiple resources, and those resources are not in the same compartment, it is up to the service team  to pick the primary resource whose compartment should be used. 
+* `deployment_type` - (Optional) A filter that returns only the resources matching the specified 'deploymentType'. 
 * `display_name` - (Optional) A filter to return only the resources that match the entire 'displayName' given. 
 * `fqdn` - (Optional) A filter to return only the resources that match the 'fqdn' given. 
 * `lifecycle_sub_state` - (Optional) A filter to return only the resources that match the 'lifecycleSubState' given. 
@@ -89,6 +91,8 @@ The following attributes are exported:
 * `ingress_ips` - List of ingress IP addresses from where the GoldenGate deployment connects to this connection's privateIp.  Customers may optionally set up ingress security rules to restrict traffic from these IP addresses. 
 	* `ingress_ip` - A Private Endpoint IPv4 or IPv6 Address created in the customer's subnet. 
 * `is_auto_scaling_enabled` - Indicates if auto scaling is enabled for the Deployment's CPU core count. 
+* `byol_cpu_core_count_limit` - The maximum number of CPUs allowed with a 'Bring Your Own License' (BYOL) license type. Any CPU usage above this limit is considered as License Included and billed.
+* `is_byol_cpu_core_count_limit_enabled` - Flag to allow to configure the 'Bring Your Own License' (BYOL) license type CPU limit. If enabled, the exact number of CPUs must be provided via byolCpuCoreCountLimit. 
 * `is_healthy` - True if all of the aggregate resources are working correctly. 
 * `is_latest_version` - Indicates if the resource is the the latest available version. 
 * `is_public` - True if this object is publicly available. 

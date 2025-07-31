@@ -43,6 +43,8 @@ resource "oci_golden_gate_deployment" "test_deployment" {
 	fqdn = var.deployment_fqdn
 	freeform_tags = {"bar-key"= "value"}
 	is_auto_scaling_enabled = var.deployment_is_auto_scaling_enabled
+	byol_cpu_core_count_limit = var.deployment_byol_cpu_core_count_limit
+	is_byol_cpu_core_count_limit_enabled = var.deployment_is_byol_cpu_core_count_limit_enabled
 	is_public = var.deployment_is_public
 	license_model = var.deployment_license_model
 	load_balancer_subnet_id = oci_core_subnet.test_subnet.id
@@ -125,7 +127,9 @@ The following arguments are supported:
 * `fault_domain` - (Optional) The fault domain of a placement.
 * `fqdn` - (Optional) (Updatable) A three-label Fully Qualified Domain Name (FQDN) for a resource. 
 * `freeform_tags` - (Optional) (Updatable) A simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.  Example: `{"bar-key": "value"}` 
-* `is_auto_scaling_enabled` - (Optional) (Updatable) Indicates if auto scaling is enabled for the Deployment's CPU core count. 
+* `is_auto_scaling_enabled` - (Optional) (Updatable) Indicates if auto scaling is enabled for the Deployment's CPU core count.
+* `byol_cpu_core_count_limit` - (Optional) (Updatable) The maximum number of CPUs allowed with a 'Bring Your Own License' (BYOL) license type. Any CPU usage above this limit is considered as License Included and billed.
+* `is_byol_cpu_core_count_limit_enabled` - (Optional) (Updatable) Flag to allow to configure the 'Bring Your Own License' (BYOL) license type CPU limit. If enabled, the exact number of CPUs must be provided via byolCpuCoreCountLimit.
 * `is_public` - (Optional) (Updatable) True if this object is publicly available.
 * `license_model` - (Optional) (Updatable) The Oracle license model that applies to a Deployment. 
 * `load_balancer_subnet_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a public subnet in the customer tenancy. Can be provided only for public deployments. If provided, the loadbalancer will be created in this subnet instead of the service tenancy. For backward compatibility, this is an optional property. It will become mandatory for public deployments after October 1, 2024.
@@ -206,6 +210,8 @@ The following attributes are exported:
 * `ingress_ips` - List of ingress IP addresses from where the GoldenGate deployment connects to this connection's privateIp.  Customers may optionally set up ingress security rules to restrict traffic from these IP addresses. 
 	* `ingress_ip` - A Private Endpoint IPv4 or IPv6 Address created in the customer's subnet. 
 * `is_auto_scaling_enabled` - Indicates if auto scaling is enabled for the Deployment's CPU core count. 
+* `byol_cpu_core_count_limit` - The maximum number of CPUs allowed with a 'Bring Your Own License' (BYOL) license type. Any CPU usage above this limit is considered as License Included and billed.
+* `is_byol_cpu_core_count_limit_enabled` - Flag to allow to configure the 'Bring Your Own License' (BYOL) license type CPU limit. If enabled, the exact number of CPUs must be provided via byolCpuCoreCountLimit. 
 * `is_healthy` - True if all of the aggregate resources are working correctly. 
 * `is_latest_version` - Indicates if the resource is the the latest available version. 
 * `is_public` - True if this object is publicly available. 

@@ -86,6 +86,10 @@ func GoldenGateDeploymentPeersDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"time_last_synced": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"time_role_changed": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -221,6 +225,10 @@ func DeploymentPeerSummaryToMap(obj oci_golden_gate.DeploymentPeerSummary) map[s
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.TimeLastSynced != nil {
+		result["time_last_synced"] = obj.TimeLastSynced.String()
 	}
 
 	if obj.TimeRoleChanged != nil {

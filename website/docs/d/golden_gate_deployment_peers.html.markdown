@@ -55,6 +55,7 @@ The following attributes are exported:
 	* `region` - The name of the region. e.g.: us-ashburn-1 If the region is not provided, backend will default to the default region. 
 	* `state` - Possible lifecycle states for deployment peer.
 	* `time_created` - The time the resource was created. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
+	* `time_last_synced` - The time of the last data synchronization from the primary to the standby peer. [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
 	* `time_role_changed` - The time of the last role change. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
 	* `time_updated` - The time the resource was last updated. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
 

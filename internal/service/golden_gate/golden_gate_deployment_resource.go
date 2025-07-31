@@ -93,6 +93,11 @@ func GoldenGateDeploymentResource() *schema.Resource {
 					},
 				},
 			},
+			"byol_cpu_core_count_limit": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"availability_domain": {
 				Type:             schema.TypeString,
 				Optional:         true,
@@ -150,6 +155,11 @@ func GoldenGateDeploymentResource() *schema.Resource {
 				Elem:     schema.TypeString,
 			},
 			"is_auto_scaling_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"is_byol_cpu_core_count_limit_enabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
@@ -765,6 +775,10 @@ func (s *GoldenGateDeploymentResourceCrud) Create() error {
 		}
 	}
 
+	if byolCpuCoreCountLimit, ok := s.D.GetOkExists("byol_cpu_core_count_limit"); ok {
+		tmp := byolCpuCoreCountLimit.(int)
+		request.ByolCpuCoreCountLimit = &tmp
+	}
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
 		tmp := availabilityDomain.(string)
 		request.AvailabilityDomain = &tmp
@@ -828,6 +842,11 @@ func (s *GoldenGateDeploymentResourceCrud) Create() error {
 	if isAutoScalingEnabled, ok := s.D.GetOkExists("is_auto_scaling_enabled"); ok {
 		tmp := isAutoScalingEnabled.(bool)
 		request.IsAutoScalingEnabled = &tmp
+	}
+
+	if isByolCpuCoreCountLimitEnabled, ok := s.D.GetOkExists("is_byol_cpu_core_count_limit_enabled"); ok {
+		tmp := isByolCpuCoreCountLimitEnabled.(bool)
+		request.IsByolCpuCoreCountLimitEnabled = &tmp
 	}
 
 	if isPublic, ok := s.D.GetOkExists("is_public"); ok {
@@ -1106,6 +1125,11 @@ func (s *GoldenGateDeploymentResourceCrud) Update() error {
 		}
 	}
 
+	if byolCpuCoreCountLimit, ok := s.D.GetOkExists("byol_cpu_core_count_limit"); ok {
+		tmp := byolCpuCoreCountLimit.(int)
+		request.ByolCpuCoreCountLimit = &tmp
+	}
+
 	if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
 		tmp := cpuCoreCount.(int)
 		request.CpuCoreCount = &tmp
@@ -1148,6 +1172,11 @@ func (s *GoldenGateDeploymentResourceCrud) Update() error {
 	if isAutoScalingEnabled, ok := s.D.GetOkExists("is_auto_scaling_enabled"); ok {
 		tmp := isAutoScalingEnabled.(bool)
 		request.IsAutoScalingEnabled = &tmp
+	}
+
+	if isByolCpuCoreCountLimitEnabled, ok := s.D.GetOkExists("is_byol_cpu_core_count_limit_enabled"); ok {
+		tmp := isByolCpuCoreCountLimitEnabled.(bool)
+		request.IsByolCpuCoreCountLimitEnabled = &tmp
 	}
 
 	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
@@ -1281,6 +1310,9 @@ func (s *GoldenGateDeploymentResourceCrud) SetData() error {
 		s.D.Set("backup_schedule", nil)
 	}
 
+	if s.Res.ByolCpuCoreCountLimit != nil {
+		s.D.Set("byol_cpu_core_count_limit", *s.Res.ByolCpuCoreCountLimit)
+	}
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
@@ -1345,6 +1377,10 @@ func (s *GoldenGateDeploymentResourceCrud) SetData() error {
 
 	if s.Res.IsAutoScalingEnabled != nil {
 		s.D.Set("is_auto_scaling_enabled", *s.Res.IsAutoScalingEnabled)
+	}
+
+	if s.Res.IsByolCpuCoreCountLimitEnabled != nil {
+		s.D.Set("is_byol_cpu_core_count_limit_enabled", *s.Res.IsByolCpuCoreCountLimitEnabled)
 	}
 
 	if s.Res.IsHealthy != nil {
@@ -1977,6 +2013,10 @@ func DeploymentPlacementInfoToMap(obj oci_golden_gate.DeploymentPlacementInfo) m
 func DeploymentSummaryToMap(obj oci_golden_gate.DeploymentSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.ByolCpuCoreCountLimit != nil {
+		result["byol_cpu_core_count_limit"] = int(*obj.ByolCpuCoreCountLimit)
+	}
+
 	result["category"] = string(obj.Category)
 
 	if obj.CompartmentId != nil {
@@ -2019,6 +2059,10 @@ func DeploymentSummaryToMap(obj oci_golden_gate.DeploymentSummary) map[string]in
 
 	if obj.IsAutoScalingEnabled != nil {
 		result["is_auto_scaling_enabled"] = bool(*obj.IsAutoScalingEnabled)
+	}
+
+	if obj.IsByolCpuCoreCountLimitEnabled != nil {
+		result["is_byol_cpu_core_count_limit_enabled"] = bool(*obj.IsByolCpuCoreCountLimitEnabled)
 	}
 
 	if obj.IsLatestVersion != nil {

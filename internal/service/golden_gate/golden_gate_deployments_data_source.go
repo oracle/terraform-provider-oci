@@ -30,6 +30,10 @@ func GoldenGateDeploymentsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"deployment_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -102,6 +106,10 @@ func (s *GoldenGateDeploymentsDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if deploymentType, ok := s.D.GetOkExists("deployment_type"); ok {
+		request.DeploymentType = oci_golden_gate.ListDeploymentsDeploymentTypeEnum(deploymentType.(string))
 	}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
