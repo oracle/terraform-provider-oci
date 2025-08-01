@@ -1,12 +1,13 @@
 package integrationtest
 
 import (
+	"strings"
+	"testing"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	"github.com/oracle/terraform-provider-oci/internal/globalvar"
 	"github.com/stretchr/testify/assert"
-	"strings"
-	"testing"
 )
 
 func TestProviderServiceEndpointOverridePrecedenceOverDomainOverrideWhenBothSet(t *testing.T) {
