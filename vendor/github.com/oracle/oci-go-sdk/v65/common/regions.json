@@ -622,5 +622,11 @@
         "realmKey": "oc1",
         "regionIdentifier": "sa-riodejaneiro-2",
         "realmDomainComponent": "oraclecloud.com"
+    },
+    {
+        "regionKey": "des",
+        "realmKey": "oc1",
+        "regionIdentifier": "ap-chennai-1",
+        "realmDomainComponent": "oraclecloud.com"
     }
 ]
