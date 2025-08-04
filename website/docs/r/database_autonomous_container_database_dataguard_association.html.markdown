@@ -34,10 +34,12 @@ resource "oci_database_autonomous_container_database_dataguard_association" "tes
 			type = var.autonomous_container_database_dataguard_association_peer_autonomous_container_database_backup_config_backup_destination_details_type
 
 			#Optional
+			backup_retention_policy_on_terminate = var.autonomous_container_database_dataguard_association_peer_autonomous_container_database_backup_config_backup_destination_details_backup_retention_policy_on_terminate
 			dbrs_policy_id = oci_identity_policy.test_policy.id
 			id = var.autonomous_container_database_dataguard_association_peer_autonomous_container_database_backup_config_backup_destination_details_id
 			internet_proxy = var.autonomous_container_database_dataguard_association_peer_autonomous_container_database_backup_config_backup_destination_details_internet_proxy
 			is_remote = var.autonomous_container_database_dataguard_association_peer_autonomous_container_database_backup_config_backup_destination_details_is_remote
+			is_retention_lock_enabled = var.autonomous_container_database_dataguard_association_peer_autonomous_container_database_backup_config_backup_destination_details_is_retention_lock_enabled
 			remote_region = var.autonomous_container_database_dataguard_association_peer_autonomous_container_database_backup_config_backup_destination_details_remote_region
 			vpc_password = var.autonomous_container_database_dataguard_association_peer_autonomous_container_database_backup_config_backup_destination_details_vpc_password
 			vpc_user = var.autonomous_container_database_dataguard_association_peer_autonomous_container_database_backup_config_backup_destination_details_vpc_user
@@ -60,13 +62,13 @@ The following arguments are supported:
 * `fast_start_fail_over_lag_limit_in_seconds` - (Optional) (Updatable) The lag time for my preference based on data loss tolerance in seconds.
 * `peer_autonomous_container_database_backup_config` - (Optional) Backup options for the standby Autonomous Container Database. 
 	* `backup_destination_details` - (Optional) Backup destination details.
+		* `backup_retention_policy_on_terminate` - (Optional) Defines the automatic and manual backup retention policy for the Autonomous Database termination.  The retention policy set on the Autonomous Container Database is not applicable for cross region remote backups and backups hosted on recovery Appliance backup destination. Options are 'RETAIN_PER_RETENTION_WINDOW' or 'RETAIN_FOR_72_HOURS'.The default value is 'RETAIN_FOR_72_HOURS'. 
 		* `dbrs_policy_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DBRS policy used for backup.
 		* `id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup destination.
 		* `internet_proxy` - (Optional) Proxy URL to connect to object store.
-		* `is_remote` - (Optional) Indicates whether the backup destination is cross-region or local region.
-		* `remote_region` - (Optional) The name of the remote region where the remote automatic incremental backups will be stored.
-
-			For information about valid region names, see [Regions and Availability Domains](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm). 
+		* `is_remote` - (Optional) Indicates whether the backup destination is cross-region or local.
+		* `is_retention_lock_enabled` - (Optional) Indicates if backup retention is locked for all the database backups in the Autonomous Container Database (ACD). The retention window cannot be decreased if the backup retention lock is enabled. Once applied on the Autonomous Container Database, the retention lock cannot be removed, or the retention period cannot be decreased after a 14-day period. If the backup is a Long Term Backup and retention lock is enabled, the backup cannot be deleted and must expire. The retention lock set on the Autonomous Container Database is not applicable for cross region remote backups and backups hosted on recovery Appliance backup destination. 
+		* `remote_region` - (Optional) The name of the remote region where the remote automatic incremental backups will be stored.           For information about valid region names, see [Regions and Availability Domains](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm). 
 		* `type` - (Required) Type of the database backup destination.
 		* `vpc_password` - (Optional) For a RECOVERY_APPLIANCE backup destination, the password for the VPC user that is used to access the Recovery Appliance.
 		* `vpc_user` - (Optional) For a RECOVERY_APPLIANCE backup destination, the Virtual Private Catalog (VPC) user that is used to access the Recovery Appliance.

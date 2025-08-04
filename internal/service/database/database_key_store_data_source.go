@@ -72,6 +72,16 @@ func (s *DatabaseKeyStoreDataSourceCrud) SetData() error {
 	}
 	s.D.Set("associated_databases", associatedDatabases)
 
+	if s.Res.AssociatedLongTermBackupCount != nil {
+		s.D.Set("associated_long_term_backup_count", *s.Res.AssociatedLongTermBackupCount)
+	}
+
+	associatedLongTermBackups := []interface{}{}
+	for _, item := range s.Res.AssociatedLongTermBackups {
+		associatedLongTermBackups = append(associatedLongTermBackups, AssociatedLongTermBackupToMap(item))
+	}
+	s.D.Set("associated_long_term_backups", associatedLongTermBackups)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

@@ -165,6 +165,8 @@ func TestDatabaseBackupDestinationResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "backup_destinations.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "backup_destinations.0.associated_databases.#", "0"),
+				resource.TestCheckResourceAttrSet(datasourceName, "backup_destinations.0.associated_long_term_backup_count"),
+				resource.TestCheckResourceAttr(datasourceName, "backup_destinations.0.associated_long_term_backups.#", "0"),
 				resource.TestCheckResourceAttr(datasourceName, "backup_destinations.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "backup_destinations.0.connection_string", "connectionString2"),
 				resource.TestCheckResourceAttr(datasourceName, "backup_destinations.0.display_name", "Recovery Appliance1"),
@@ -184,8 +186,8 @@ func TestDatabaseBackupDestinationResource_basic(t *testing.T) {
 				compartmentIdVariableStr + DatabaseBackupDestinationResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "backup_destination_id"),
-
 				resource.TestCheckResourceAttr(singularDatasourceName, "associated_databases.#", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "associated_long_term_backups.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "connection_string", "connectionString2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "Recovery Appliance1"),

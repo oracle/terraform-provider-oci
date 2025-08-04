@@ -128,6 +128,31 @@ func DatabaseKeyStoreResource() *schema.Resource {
 					},
 				},
 			},
+			"associated_long_term_backup_count": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"associated_long_term_backups": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"display_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -365,6 +390,16 @@ func (s *DatabaseKeyStoreResourceCrud) SetData() error {
 		associatedDatabases = append(associatedDatabases, KeyStoreAssociatedDatabaseDetailsToMap(item))
 	}
 	s.D.Set("associated_databases", associatedDatabases)
+
+	if s.Res.AssociatedLongTermBackupCount != nil {
+		s.D.Set("associated_long_term_backup_count", *s.Res.AssociatedLongTermBackupCount)
+	}
+
+	associatedLongTermBackups := []interface{}{}
+	for _, item := range s.Res.AssociatedLongTermBackups {
+		associatedLongTermBackups = append(associatedLongTermBackups, AssociatedLongTermBackupToMap(item))
+	}
+	s.D.Set("associated_long_term_backups", associatedLongTermBackups)
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)

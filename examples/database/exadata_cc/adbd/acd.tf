@@ -6,10 +6,13 @@ resource "random_string" "db_unique_name" {
 
 resource "oci_database_autonomous_container_database" "autonomous_container_database" {
   autonomous_vm_cluster_id = oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster.id
-  db_version = "19.26.0.1.0"
+  db_version = "19.28.0.1.0"
   backup_config {
     backup_destination_details {
-      type = "LOCAL"
+      type = "NFS"
+      id = oci_database_backup_destination.test_backup_destination.id
+      backup_retention_policy_on_terminate = "RETAIN_FOR_72_HOURS"
+      is_retention_lock_enabled = false
     }
     recovery_window_in_days = "7"
   }
@@ -31,6 +34,14 @@ resource "oci_database_autonomous_container_database" "autonomous_container_data
   // OKV related
   key_store_id = oci_database_key_store.test_key_store.id
   okv_end_point_group_name = "DUMMY_OKV_EPG_GROUP"
+
+  customer_contacts {
+    email = "contact1@example.com"
+  }
+
+  customer_contacts {
+    email = "contact2@example.com"
+  }
 }
 
 resource "oci_database_key_store" "test_key_store" {
@@ -42,13 +53,6 @@ resource "oci_database_key_store" "test_key_store" {
     secret_id      = var.okv_secret
     type           = "ORACLE_KEY_VAULT"
     vault_id       = var.kms_vault_ocid
-  }
-  customer_contacts {
-    email = "contact1@example.com"
-  }
-
-  customer_contacts {
-    email = "contact2@example.com"
   }
 }
 

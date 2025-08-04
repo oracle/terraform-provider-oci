@@ -22,7 +22,6 @@ For Exadata Cloud Service instances, support for this API will end on May 15th, 
 
 Use the [CreateCloudExadataInfrastructure](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/CloudExadataInfrastructure/CreateCloudExadataInfrastructure/) and [CreateCloudVmCluster](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/CloudVmCluster/CreateCloudVmCluster/) APIs to provision a new Exadata Cloud Service instance.
 
-**Important:** When `auto_backup_enabled` is not present in the configuration or set to true, the `auto_backup_window` and `auto_full_backup_window` will be ignored
 
 ## Example Usage
 
@@ -54,9 +53,11 @@ resource "oci_database_db_system" "test_db_system" {
 				backup_destination_details {
 
 					#Optional
+					backup_retention_policy_on_terminate = var.db_system_db_home_database_db_backup_config_backup_destination_details_backup_retention_policy_on_terminate
 					dbrs_policy_id = oci_identity_policy.test_policy.id
 					id = var.db_system_db_home_database_db_backup_config_backup_destination_details_id
 					is_remote = var.db_system_db_home_database_db_backup_config_backup_destination_details_is_remote
+					is_retention_lock_enabled = var.db_system_db_home_database_db_backup_config_backup_destination_details_is_retention_lock_enabled
 					remote_region = var.db_system_db_home_database_db_backup_config_backup_destination_details_remote_region
 					type = var.db_system_db_home_database_db_backup_config_backup_destination_details_type
 				}
@@ -69,8 +70,11 @@ resource "oci_database_db_system" "test_db_system" {
 			defined_tags = var.db_system_db_home_database_defined_tags
 			encryption_key_location_details {
 				#Required
-				hsm_password = var.db_system_db_home_database_encryption_key_location_details_hsm_password
 				provider_type = var.db_system_db_home_database_encryption_key_location_details_provider_type
+
+				#Optional
+				azure_encryption_key_id = oci_kms_key.test_key.id
+				hsm_password = var.db_system_db_home_database_encryption_key_location_details_hsm_password
 			}
 			freeform_tags = var.db_system_db_home_database_freeform_tags
 			key_store_id = oci_database_key_store.test_key_store.id
@@ -82,8 +86,11 @@ resource "oci_database_db_system" "test_db_system" {
 			sid_prefix = var.db_system_db_home_database_sid_prefix
 			source_encryption_key_location_details {
 				#Required
-				hsm_password = var.db_system_db_home_database_source_encryption_key_location_details_hsm_password
 				provider_type = var.db_system_db_home_database_source_encryption_key_location_details_provider_type
+
+				#Optional
+				azure_encryption_key_id = oci_kms_key.test_key.id
+				hsm_password = var.db_system_db_home_database_source_encryption_key_location_details_hsm_password
 			}
 			tde_wallet_password = var.db_system_db_home_database_tde_wallet_password
 			time_stamp_for_point_in_time_recovery = var.db_system_db_home_database_time_stamp_for_point_in_time_recovery
@@ -92,7 +99,6 @@ resource "oci_database_db_system" "test_db_system" {
 
 		#Optional
 		database_software_image_id = oci_database_database_software_image.test_database_software_image.id
-		db_unique_name = var.db_unique_name
 		db_version = var.db_system_db_home_db_version
 		defined_tags = var.db_system_db_home_defined_tags
 		display_name = var.db_system_db_home_display_name
@@ -155,13 +161,14 @@ resource "oci_database_db_system" "test_db_system" {
 		}
 		patching_mode = var.db_system_maintenance_window_details_patching_mode
 		preference = var.db_system_maintenance_window_details_preference
+		skip_ru = var.db_system_maintenance_window_details_skip_ru
 		weeks_of_month = var.db_system_maintenance_window_details_weeks_of_month
 	}
 	node_count = var.db_system_node_count
 	nsg_ids = var.db_system_nsg_ids
 	private_ip = var.db_system_private_ip
-	security_attributes = var.db_system_security_attributes
 	private_ip_v6 = var.db_system_private_ip_v6
+	security_attributes = var.db_system_security_attributes
 	source = var.db_system_source
 	source_db_system_id = oci_database_db_system.test_db_system.id
 	sparse_diskgroup = var.db_system_sparse_diskgroup
@@ -224,9 +231,11 @@ The following arguments are supported:
 			* `auto_full_backup_window` - (Applicable when source=DB_SYSTEM | NONE) Time window selected for initiating full backup for the database system. There are twelve available two-hour time windows. If no option is selected, the value is null and a start time between 12:00 AM to 7:00 AM in the region of the database is automatically chosen. For example, if the user selects SLOT_TWO from the enum list, the automatic backup job will start in between 2:00 AM (inclusive) to 4:00 AM (exclusive).  Example: `SLOT_TWO` 
 			* `backup_deletion_policy` - (Applicable when source=DB_SYSTEM | NONE) This defines when the backups will be deleted. - IMMEDIATE option keep the backup for predefined time i.e 72 hours and then delete permanently... - RETAIN will keep the backups as per the policy defined for database backups.
 			* `backup_destination_details` - (Applicable when source=DB_SYSTEM | NONE) (Updatable) Backup destination details.
+				* `backup_retention_policy_on_terminate` - (Applicable when source=DB_SYSTEM | NONE) Defines the automatic and manual backup retention policy for the Autonomous Database termination.  The retention policy set on the Autonomous Container Database is not applicable for cross region remote backups and backups hosted on recovery Appliance backup destination. Options are 'RETAIN_PER_RETENTION_WINDOW' or 'RETAIN_FOR_72_HOURS'.The default value is 'RETAIN_FOR_72_HOURS'. 
 				* `dbrs_policy_id` - (Applicable when source=DB_SYSTEM | NONE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DBRS policy used for backup.
 				* `id` - (Applicable when source=DB_SYSTEM | NONE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup destination.
 				* `is_remote` - (Applicable when source=DB_SYSTEM | NONE) Indicates whether the backup destination is cross-region or local.
+				* `is_retention_lock_enabled` - (Applicable when source=DB_SYSTEM | NONE) Indicates if backup retention is locked for all the database backups in the Autonomous Container Database (ACD). The retention window cannot be decreased if the backup retention lock is enabled. Once applied on the Autonomous Container Database, the retention lock cannot be removed, or the retention period cannot be decreased after a 14-day period. If the backup is a Long Term Backup and retention lock is enabled, the backup cannot be deleted and must expire. The retention lock set on the Autonomous Container Database is not applicable for cross region remote backups and backups hosted on recovery Appliance backup destination.
 				* `remote_region` - (Applicable when source=DB_SYSTEM | NONE) The name of the remote region where the remote automatic incremental backups will be stored.           For information about valid region names, see [Regions and Availability Domains](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm). 
 				* `type` - (Required when source=DB_SYSTEM | NONE) Type of the database backup destination.
 			* `recovery_window_in_days` - (Applicable when source=DB_SYSTEM | NONE) (Updatable) Number of days between the current and the earliest point of recoverability covered by automatic backups. This value applies to automatic backups only. After a new automatic backup has been created, Oracle removes old automatic backups that are created before the window. When the value is updated, it is applied to all existing automatic backups. 
@@ -241,7 +250,7 @@ The following arguments are supported:
 			* `azure_encryption_key_id` - (Required when provider_type=AZURE) Provide the key OCID of a registered Azure key.
 			* `hsm_password` - (Required when provider_type=EXTERNAL) Provide the HSM password as you would in RDBMS for External HSM.
 			* `provider_type` - (Required) Use 'EXTERNAL' for creating a new database or migrating a database key to an External HSM. Use 'AZURE' for creating a new database or migrating a database key to Azure. 
-		* `freeform_tags` - (Applicable when source=DB_BACKUP | DB_SYSTEM | NONE) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
+		* `freeform_tags` - (Applicable when source=DB_BACKUP | DB_SYSTEM | NONE) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 		* `key_store_id` - (Applicable when source=NONE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
 		* `kms_key_id` - (Applicable when source=NONE) The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 		* `kms_key_version_id` - (Applicable when source=NONE) The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. Autonomous Database Serverless does not use key versions, hence is not applicable for Autonomous Database Serverless instances. 
@@ -250,13 +259,13 @@ The following arguments are supported:
 		* `pluggable_databases` - (Applicable when source=DATABASE | DB_BACKUP) The list of pluggable databases that needs to be restored into new database.
 		* `sid_prefix` - (Applicable when source=DB_BACKUP | NONE) Specifies a prefix for the `Oracle SID` of the database to be created. 
 		* `source_encryption_key_location_details` - (Applicable when source=DB_BACKUP) Types of providers supported for managing database encryption keys
-			* `hsm_password` - (Required) Provide the HSM password as you would in RDBMS for External HSM.
-			* `provider_type` - (Required) Use 'EXTERNAL' for creating a new database or migrate database key with External HSM.
+			* `azure_encryption_key_id` - (Required when provider_type=AZURE) Provide the key OCID of a registered Azure key.
+			* `hsm_password` - (Required when provider_type=EXTERNAL) Provide the HSM password as you would in RDBMS for External HSM.
+			* `provider_type` - (Required) Use 'EXTERNAL' for creating a new database or migrating a database key to an External HSM. Use 'AZURE' for creating a new database or migrating a database key to Azure. 
 		* `tde_wallet_password` - (Applicable when source=NONE) The optional password to open the TDE wallet. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numeric, and two special characters. The special characters must be _, \#, or -.
 		* `time_stamp_for_point_in_time_recovery` - (Applicable when source=DATABASE) The point in time of the original database from which the new database is created. If not specifed, the latest backup is used to create the database.
 		* `vault_id` - (Applicable when source=NONE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
 	* `database_software_image_id` - (Applicable when source=DB_BACKUP | NONE) The database software image [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the image to be used to restore a database.
-    * `db_unique_name` - (Optional) The `DB_UNIQUE_NAME` of the Oracle Database.
 	* `db_version` - (Required when source=NONE) A valid Oracle Database version. For a list of supported versions, use the ListDbVersions operation.
 
 		This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier. 
@@ -292,8 +301,7 @@ The following arguments are supported:
 	* `custom_action_timeout_in_mins` - (Applicable when source=NONE) (Updatable) Determines the amount of time the system will wait before the start of each database server patching operation. Custom action timeout is in minutes and valid value is between 15 to 120 (inclusive). 
 	* `days_of_week` - (Applicable when source=NONE) (Updatable) Days during the week when maintenance should be performed.
 		* `name` - (Required when source=NONE) (Updatable) Name of the day of the week.
-	* `hours_of_day` - (Applicable when source=NONE) (Updatable) The window of hours during the day when maintenance should be performed. The window is a 4 hour slot. Valid values are
-		* 0 - represents time slot 0:00 - 3:59 UTC - 4 - represents time slot 4:00 - 7:59 UTC - 8 - represents time slot 8:00 - 11:59 UTC - 12 - represents time slot 12:00 - 15:59 UTC - 16 - represents time slot 16:00 - 19:59 UTC - 20 - represents time slot 20:00 - 23:59 UTC
+	* `hours_of_day` - (Applicable when source=NONE) (Updatable) The window of hours during the day when maintenance should be performed. The window is a 4 hour slot. Valid values are - 0 - represents time slot 0:00 - 3:59 UTC - 4 - represents time slot 4:00 - 7:59 UTC - 8 - represents time slot 8:00 - 11:59 UTC - 12 - represents time slot 12:00 - 15:59 UTC - 16 - represents time slot 16:00 - 19:59 UTC - 20 - represents time slot 20:00 - 23:59 UTC
 	* `is_custom_action_timeout_enabled` - (Applicable when source=NONE) (Updatable) If true, enables the configuration of a custom action timeout (waiting period) between database server patching operations.
 	* `is_monthly_patching_enabled` - (Applicable when source=NONE) (Updatable) If true, enables the monthly patching option.
 	* `lead_time_in_weeks` - (Applicable when source=NONE) (Updatable) Lead time window allows user to set a lead time to prepare for a down time. The lead time is in weeks and valid value is between 1 to 4. 
@@ -303,13 +311,14 @@ The following arguments are supported:
 
 		*IMPORTANT*: Non-rolling infrastructure patching involves system down time. See [Oracle-Managed Infrastructure Maintenance Updates](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/examaintenance.htm#Oracle) for more information. 
 	* `preference` - (Applicable when source=NONE) (Updatable) The maintenance window scheduling preference.
+	* `skip_ru` - (Applicable when source=NONE) (Updatable) If true, skips the release update (RU) for the quarter. You cannot skip two consecutive quarters. An RU skip request will only be honoured if the current version of the Autonomous Container Database is supported for current quarter. 
 	* `weeks_of_month` - (Applicable when source=NONE) (Updatable) Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed. 
 * `node_count` - (Optional) The number of nodes to launch for a virtual machine DB system. Specify either 1 or 2. By default this will be set to 1. 
 * `nsg_ids` - (Optional) (Updatable) The list of [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). **NsgIds restrictions:**
-	* A network security group (NSG) is optional for Autonomous Databases with private access. The nsgIds list can be empty.
+	* A network security group (NSG) is optional for Autonomous Databases with private access. The nsgIds list can be empty. 
 * `private_ip` - (Optional) A private IP address of your choice. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address from the subnet. Supported for VM BM shape.
-* `security_attributes` - (Optional) (Updatable) Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
 * `private_ip_v6` - (Optional) A private IPv6 address of your choice. Must be an available IP address within the subnet's CIDR. If you don't specify a value and the subnet is dual stack, Oracle automatically assigns a private IPv6 address from the subnet. 
+* `security_attributes` - (Optional) (Updatable) Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
 * `shape` - (Required) (Updatable) The shape of the DB system. The shape determines resources allocated to the DB system.
 	* For virtual machine shapes, the number of CPU cores and memory
 	* For bare metal and Exadata shapes, the number of CPU cores, memory, and storage
@@ -382,8 +391,7 @@ The following attributes are exported:
 	* `custom_action_timeout_in_mins` - Determines the amount of time the system will wait before the start of each database server patching operation. Custom action timeout is in minutes and valid value is between 15 to 120 (inclusive). 
 	* `days_of_week` - Days during the week when maintenance should be performed.
 		* `name` - Name of the day of the week.
-	* `hours_of_day` - The window of hours during the day when maintenance should be performed. The window is a 4 hour slot. Valid values are
-		* 0 - represents time slot 0:00 - 3:59 UTC - 4 - represents time slot 4:00 - 7:59 UTC - 8 - represents time slot 8:00 - 11:59 UTC - 12 - represents time slot 12:00 - 15:59 UTC - 16 - represents time slot 16:00 - 19:59 UTC - 20 - represents time slot 20:00 - 23:59 UTC
+	* `hours_of_day` - The window of hours during the day when maintenance should be performed. The window is a 4 hour slot. Valid values are - 0 - represents time slot 0:00 - 3:59 UTC - 4 - represents time slot 4:00 - 7:59 UTC - 8 - represents time slot 8:00 - 11:59 UTC - 12 - represents time slot 12:00 - 15:59 UTC - 16 - represents time slot 16:00 - 19:59 UTC - 20 - represents time slot 20:00 - 23:59 UTC
 	* `is_custom_action_timeout_enabled` - If true, enables the configuration of a custom action timeout (waiting period) between database server patching operations.
 	* `is_monthly_patching_enabled` - If true, enables the monthly patching option.
 	* `lead_time_in_weeks` - Lead time window allows user to set a lead time to prepare for a down time. The lead time is in weeks and valid value is between 1 to 4. 
@@ -393,6 +401,7 @@ The following attributes are exported:
 
 		*IMPORTANT*: Non-rolling infrastructure patching involves system down time. See [Oracle-Managed Infrastructure Maintenance Updates](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/examaintenance.htm#Oracle) for more information. 
 	* `preference` - The maintenance window scheduling preference.
+	* `skip_ru` - If true, skips the release update (RU) for the quarter. You cannot skip two consecutive quarters. An RU skip request will only be honoured if the current version of the Autonomous Container Database is supported for current quarter. 
 	* `weeks_of_month` - Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed. 
 * `memory_size_in_gbs` - Memory allocated to the DB system, in gigabytes.
 * `next_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the next maintenance run.
