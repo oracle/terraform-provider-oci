@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"regexp"
 	"strconv"
+	"strings"
 	"testing"
 	"time"
 
@@ -99,6 +100,17 @@ var (
 		"display_name":         acctest.Representation{RepType: acctest.Optional, Create: `mount-target-6`},
 		"hostname_label":       acctest.Representation{RepType: acctest.Optional, Create: `hostnamelabel`},
 		"ip_address":           acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.5`},
+		"requested_throughput": acctest.Representation{RepType: acctest.Optional, Create: `1`},
+		"lifecycle":            acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
+	}
+	FileStorageIPV6MountTargetRepresentation = map[string]interface{}{
+		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"subnet_id":           acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet1.id}`},
+		//"defined_tags":         acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":         acctest.Representation{RepType: acctest.Optional, Create: `mount-target-ipv6`},
+		"hostname_label":       acctest.Representation{RepType: acctest.Optional, Create: `hostnamelabel`},
+		"ip_address":           acctest.Representation{RepType: acctest.Optional, Create: `${cidrhost(oci_core_vcn.test_vcn.ipv6cidr_blocks[0], 21)}`},
 		"requested_throughput": acctest.Representation{RepType: acctest.Optional, Create: `1`},
 		"lifecycle":            acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
 	}
@@ -483,7 +495,53 @@ func TestFileStorageMountTargetResource_failedWorkRequest(t *testing.T) {
 		},
 	})
 }
+func TestFileStorageMountTargetResource_ipv6(t *testing.T) {
+	httpreplay.SetScenario("TestFileStorageMountTargetResource_ipv6")
+	defer httpreplay.SaveScenario()
+	config := acctest.ProviderTestConfig()
 
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_file_storage_mount_target.test_mount_target123"
+	// Get subnet CIDR block based on its VCN CIDR Block
+	// For example: VCN CIDR Block: 2607:9b80:9a0f:0100::/56, Subnet CIDR Block: 2607:9b80:9a0f:0100::/64
+	subnetCidrBlock := `${substr(oci_core_vcn.test_vcn.ipv6cidr_blocks[0], 0, length(oci_core_vcn.test_vcn.ipv6cidr_blocks[0]) - 2)}${64}`
+	//subnetCidrBlock := `fd1b:392a:ffb6::/64`
+	acctest.ResourceTest(t, testAccCheckFileStorageMountTargetDestroy, []resource.TestStep{
+		// verify resource creation fails for the second mount target with the same ip_address
+		{
+			Config: config + compartmentIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet1", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{
+					"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`},
+					"dns_label":           acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
+					"ipv6cidr_blocks":     acctest.Representation{RepType: acctest.Required, Create: []string{subnetCidrBlock}},
+				})) +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
+					"dns_label":      acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
+					"is_ipv6enabled": acctest.Representation{RepType: acctest.Required, Create: `true`},
+				})) +
+				AvailabilityDomainConfig +
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target123", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithRemovedProperties(FileStorageIPV6MountTargetRepresentation, []string{"idmap_type", "kerberos", "ldap_idmap"})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				//resource.TestCheckResourceAttr(resourceName, "ip_address", "fd1b:392a:ffb6::20"),
+				func(s *terraform.State) (err error) {
+					// Get the IP address from the resource state
+					ipAddress, err := acctest.FromInstanceState(s, resourceName, "ip_address")
+
+					// Check if the IP address contains a colon (which is typical for IPv6)
+					if !strings.Contains(ipAddress, ":") {
+						return fmt.Errorf("IP address %s is not an IPv6 address (it does not contain a colon)", ipAddress)
+					}
+
+					// If it contains a colon, it's an IPv6 address, no error
+					return nil
+				},
+			),
+		},
+	})
+}
 func TestFileStorageMountTargetResource_hpmtTest(t *testing.T) {
 	httpreplay.SetScenario("TestFileStorageMountTargetResource_hpmtTest")
 	defer httpreplay.SaveScenario()
