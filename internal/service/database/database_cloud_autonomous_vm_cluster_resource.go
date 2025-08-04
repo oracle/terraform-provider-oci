@@ -428,6 +428,10 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+			"memory_per_compute_unit_in_gbs": {
+				Type:     schema.TypeFloat,
+				Computed: true,
+			},
 			"memory_size_in_gbs": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -1065,6 +1069,10 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) SetData() error {
 
 	if s.Res.MaxAcdsLowestScaledValue != nil {
 		s.D.Set("max_acds_lowest_scaled_value", *s.Res.MaxAcdsLowestScaledValue)
+	}
+
+	if s.Res.MemoryPerComputeUnitInGBs != nil {
+		s.D.Set("memory_per_compute_unit_in_gbs", *s.Res.MemoryPerComputeUnitInGBs)
 	}
 
 	if s.Res.MemoryPerOracleComputeUnitInGBs != nil {

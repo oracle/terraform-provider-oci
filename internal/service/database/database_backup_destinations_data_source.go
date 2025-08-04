@@ -108,6 +108,16 @@ func (s *DatabaseBackupDestinationsDataSourceCrud) SetData() error {
 		}
 		backupDestination["associated_databases"] = associatedDatabases
 
+		if r.AssociatedLongTermBackupCount != nil {
+			backupDestination["associated_long_term_backup_count"] = *r.AssociatedLongTermBackupCount
+		}
+
+		associatedLongTermBackups := []interface{}{}
+		for _, item := range r.AssociatedLongTermBackups {
+			associatedLongTermBackups = append(associatedLongTermBackups, AssociatedLongTermBackupToMap(item))
+		}
+		backupDestination["associated_long_term_backups"] = associatedLongTermBackups
+
 		if r.ConnectionString != nil {
 			backupDestination["connection_string"] = *r.ConnectionString
 		}

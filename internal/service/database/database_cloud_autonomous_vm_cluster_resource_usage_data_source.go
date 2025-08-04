@@ -128,6 +128,10 @@ func DatabaseCloudAutonomousVmClusterResourceUsageDataSource() *schema.Resource 
 				Type:     schema.TypeFloat,
 				Computed: true,
 			},
+			"memory_per_compute_unit_in_gbs": {
+				Type:     schema.TypeFloat,
+				Computed: true,
+			},
 			"memory_per_oracle_compute_unit_in_gbs": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -252,6 +256,10 @@ func (s *DatabaseCloudAutonomousVmClusterResourceUsageDataSourceCrud) SetData() 
 
 	if s.Res.ExadataStorageInTBs != nil {
 		s.D.Set("exadata_storage_in_tbs", *s.Res.ExadataStorageInTBs)
+	}
+
+	if s.Res.MemoryPerComputeUnitInGBs != nil {
+		s.D.Set("memory_per_compute_unit_in_gbs", *s.Res.MemoryPerComputeUnitInGBs)
 	}
 
 	if s.Res.MemoryPerOracleComputeUnitInGBs != nil {

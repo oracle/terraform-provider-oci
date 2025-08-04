@@ -13,6 +13,11 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
   backup_config {
     #Optional
     recovery_window_in_days = var.autonomous_container_database_backup_config_recovery_window_in_days
+    backup_destination_details {
+      type = "OBJECT_STORE"
+      backup_retention_policy_on_terminate = "RETAIN_FOR_72_HOURS"
+      is_retention_lock_enabled = false
+    }
   }
 
   #Optional
@@ -88,6 +93,11 @@ resource "oci_database_autonomous_container_database" "autonomous_container_data
   cloud_autonomous_vm_cluster_id       = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id
   database_software_image_id = oci_database_autonomous_database_software_image.autonomous_database_software_image.id
   backup_config {
+    backup_destination_details {
+      type = "OBJECT_STORE"
+      backup_retention_policy_on_terminate = "RETAIN_FOR_72_HOURS"
+      is_retention_lock_enabled = false
+    }
     recovery_window_in_days = "7"
   }
   compartment_id = var.compartment_ocid

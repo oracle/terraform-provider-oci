@@ -246,6 +246,10 @@ func (s *DatabaseCloudAutonomousVmClustersDataSourceCrud) SetData() error {
 			cloudAutonomousVmCluster["max_acds_lowest_scaled_value"] = *r.MaxAcdsLowestScaledValue
 		}
 
+		if r.MemoryPerComputeUnitInGBs != nil {
+			cloudAutonomousVmCluster["memory_per_compute_unit_in_gbs"] = *r.MemoryPerComputeUnitInGBs
+		}
+
 		if r.MemoryPerOracleComputeUnitInGBs != nil {
 			cloudAutonomousVmCluster["memory_per_oracle_compute_unit_in_gbs"] = *r.MemoryPerOracleComputeUnitInGBs
 		}

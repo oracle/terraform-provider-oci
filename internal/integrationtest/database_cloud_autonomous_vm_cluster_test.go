@@ -54,7 +54,7 @@ var (
 		"display_name":                    acctest.Representation{RepType: acctest.Required, Create: `CloudAutonomousVmCluster`, Update: `displayName2`},
 		"subnet_id":                       acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.exadata_subnet.id}`},
 		"cluster_time_zone":               acctest.Representation{RepType: acctest.Optional, Create: `Etc/UTC`},
-		"defined_tags":                    acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":                    acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"compute_model":                   acctest.Representation{RepType: acctest.Optional, Create: `ECPU`},
 		"description":                     acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"freeform_tags":                   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
@@ -253,7 +253,6 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr,
 			},
-
 			// verify Create with optionals
 			{
 				Config: config + compartmentIdVariableStr + DatabaseCloudAutonomousVmClusterResourceDependencies +
@@ -484,7 +483,7 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 
 func testAccCheckDatabaseCloudAutonomousVmClusterDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := acctest.TestAccProvider.Meta().(*client.OracleClients).DatabaseClient()
+	client := acctest.GetTestClients(&schema.ResourceData{}).DatabaseClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_database_cloud_autonomous_vm_cluster" {
 			noResourceFound = false

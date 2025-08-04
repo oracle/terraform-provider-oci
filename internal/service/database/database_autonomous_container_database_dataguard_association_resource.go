@@ -88,6 +88,12 @@ func DatabaseAutonomousContainerDatabaseDataguardAssociationResource() *schema.R
 									},
 
 									// Optional
+									"backup_retention_policy_on_terminate": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
 									"dbrs_policy_id": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -107,6 +113,12 @@ func DatabaseAutonomousContainerDatabaseDataguardAssociationResource() *schema.R
 										ForceNew: true,
 									},
 									"is_remote": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"is_retention_lock_enabled": {
 										Type:     schema.TypeBool,
 										Optional: true,
 										Computed: true,
@@ -619,6 +631,10 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationResourceCrud) Mi
 func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationResourceCrud) mapToBackupDestinationDetails(fieldKeyFormat string) (oci_database.BackupDestinationDetails, error) {
 	result := oci_database.BackupDestinationDetails{}
 
+	if backupRetentionPolicyOnTerminate, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_retention_policy_on_terminate")); ok {
+		result.BackupRetentionPolicyOnTerminate = oci_database.BackupDestinationDetailsBackupRetentionPolicyOnTerminateEnum(backupRetentionPolicyOnTerminate.(string))
+	}
+
 	if dbrsPolicyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dbrs_policy_id")); ok {
 		tmp := dbrsPolicyId.(string)
 		result.DbrsPolicyId = &tmp
@@ -637,6 +653,11 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationResourceCrud) ma
 	if isRemote, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_remote")); ok {
 		tmp := isRemote.(bool)
 		result.IsRemote = &tmp
+	}
+
+	if isRetentionLockEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_retention_lock_enabled")); ok {
+		tmp := isRetentionLockEnabled.(bool)
+		result.IsRetentionLockEnabled = &tmp
 	}
 
 	if remoteRegion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "remote_region")); ok {
