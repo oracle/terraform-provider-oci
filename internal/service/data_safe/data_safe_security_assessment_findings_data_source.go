@@ -86,6 +86,10 @@ func DataSafeSecurityAssessmentFindingsDataSource() *schema.Resource {
 								Type: schema.TypeString,
 							},
 						},
+						"doclink": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"has_target_db_risk_level_changed": {
 							Type:     schema.TypeBool,
 							Computed: true,
@@ -137,6 +141,10 @@ func DataSafeSecurityAssessmentFindingsDataSource() *schema.Resource {
 										Computed: true,
 									},
 									"obp": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"orp": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -310,6 +318,10 @@ func (s *DataSafeSecurityAssessmentFindingsDataSourceCrud) SetData() error {
 			securityAssessmentFinding["details"] = nil
 		}
 
+		if r.Doclink != nil {
+			securityAssessmentFinding["doclink"] = *r.Doclink
+		}
+
 		if r.HasTargetDbRiskLevelChanged != nil {
 			securityAssessmentFinding["has_target_db_risk_level_changed"] = *r.HasTargetDbRiskLevelChanged
 		}
@@ -401,6 +413,10 @@ func FindingsReferencesToMap(obj *oci_data_safe.References) map[string]interface
 
 	if obj.Obp != nil {
 		result["obp"] = string(*obj.Obp)
+	}
+
+	if obj.Orp != nil {
+		result["orp"] = string(*obj.Orp)
 	}
 
 	if obj.Stig != nil {
