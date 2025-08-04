@@ -248,6 +248,13 @@ func FileStorageMountTargetResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"mount_target_ipv6ids": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"observed_throughput": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -693,6 +700,8 @@ func (s *FileStorageMountTargetResourceCrud) SetData() error {
 		locks = append(locks, MountTargetResourceLockToMap(item))
 	}
 	s.D.Set("locks", locks)
+
+	s.D.Set("mount_target_ipv6ids", s.Res.MountTargetIpv6Ids)
 
 	nsgIds := []interface{}{}
 	for _, item := range s.Res.NsgIds {
