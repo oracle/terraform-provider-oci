@@ -140,6 +140,11 @@ func DatabaseDatabaseResource() *schema.Resource {
 												// Required
 
 												// Optional
+												"backup_retention_policy_on_terminate": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
 												"dbrs_policy_id": {
 													Type:     schema.TypeString,
 													Optional: true,
@@ -151,6 +156,12 @@ func DatabaseDatabaseResource() *schema.Resource {
 													Computed: true,
 												},
 												"is_remote": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"is_retention_lock_enabled": {
 													Type:     schema.TypeBool,
 													Optional: true,
 													Computed: true,
@@ -624,6 +635,10 @@ func DatabaseDatabaseResource() *schema.Resource {
 									// Optional
 
 									// Computed
+									"backup_retention_policy_on_terminate": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"dbrs_policy_id": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -633,6 +648,10 @@ func DatabaseDatabaseResource() *schema.Resource {
 										Computed: true,
 									},
 									"is_remote": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"is_retention_lock_enabled": {
 										Type:     schema.TypeBool,
 										Computed: true,
 									},
@@ -1142,6 +1161,10 @@ func (s *DatabaseDatabaseResourceCrud) ChangeKeyStoreType() error {
 func (s *DatabaseDatabaseResourceCrud) mapToBackupDestinationDetails(fieldKeyFormat string) (oci_database.BackupDestinationDetails, error) {
 	result := oci_database.BackupDestinationDetails{}
 
+	if backupRetentionPolicyOnTerminate, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_retention_policy_on_terminate")); ok {
+		result.BackupRetentionPolicyOnTerminate = oci_database.BackupDestinationDetailsBackupRetentionPolicyOnTerminateEnum(backupRetentionPolicyOnTerminate.(string))
+	}
+
 	if dbrsPolicyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dbrs_policy_id")); ok {
 		tmp := dbrsPolicyId.(string)
 		result.DbrsPolicyId = &tmp
@@ -1160,6 +1183,11 @@ func (s *DatabaseDatabaseResourceCrud) mapToBackupDestinationDetails(fieldKeyFor
 	if isRemote, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_remote")); ok {
 		tmp := isRemote.(bool)
 		result.IsRemote = &tmp
+	}
+
+	if isRetentionLockEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_retention_lock_enabled")); ok {
+		tmp := isRetentionLockEnabled.(bool)
+		result.IsRetentionLockEnabled = &tmp
 	}
 
 	if remoteRegion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "remote_region")); ok {
@@ -1186,7 +1214,6 @@ func (s *DatabaseDatabaseResourceCrud) mapToBackupDestinationDetails(fieldKeyFor
 
 func (s *DatabaseDatabaseResourceCrud) mapToUpdateBackupDestinationDetails(fieldKeyFormat string) (oci_database.BackupDestinationDetails, error) {
 	result := oci_database.BackupDestinationDetails{}
-
 	fields := map[string]func(string){
 		"dbrs_policy_id": func(val string) { tmp := val; result.DbrsPolicyId = &tmp },
 		"id":             func(val string) { tmp := val; result.Id = &tmp },
@@ -1208,6 +1235,17 @@ func (s *DatabaseDatabaseResourceCrud) mapToUpdateBackupDestinationDetails(field
 				}
 			}
 		}
+	}
+
+	// handle bool field
+	if isRetentionLockEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_retention_lock_enabled")); ok {
+		tmp := isRetentionLockEnabled.(bool)
+		result.IsRetentionLockEnabled = &tmp
+	}
+
+	// handle enum field
+	if backupRetentionPolicyOnTerminate, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_retention_policy_on_terminate")); ok {
+		result.BackupRetentionPolicyOnTerminate = oci_database.BackupDestinationDetailsBackupRetentionPolicyOnTerminateEnum(backupRetentionPolicyOnTerminate.(string))
 	}
 
 	return result, nil
@@ -1252,6 +1290,8 @@ func (s *DatabaseDatabaseResourceCrud) DatabaseBackupConfigToMap(obj *oci_databa
 func (s *DatabaseDatabaseResourceCrud) BackupDestinationDetailsToMap(obj oci_database.BackupDestinationDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	result["backup_retention_policy_on_terminate"] = string(obj.BackupRetentionPolicyOnTerminate)
+
 	if obj.DbrsPolicyId != nil {
 		result["dbrs_policy_id"] = string(*obj.DbrsPolicyId)
 	}
@@ -1266,6 +1306,10 @@ func (s *DatabaseDatabaseResourceCrud) BackupDestinationDetailsToMap(obj oci_dat
 
 	if obj.IsRemote != nil {
 		result["is_remote"] = bool(*obj.IsRemote)
+	}
+
+	if obj.IsRetentionLockEnabled != nil {
+		result["is_retention_lock_enabled"] = bool(*obj.IsRetentionLockEnabled)
 	}
 
 	if obj.RemoteRegion != nil {
@@ -1288,6 +1332,8 @@ func (s *DatabaseDatabaseResourceCrud) BackupDestinationDetailsToMap(obj oci_dat
 func BackupDestinationDetailsToMap(obj oci_database.BackupDestinationDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	result["backup_retention_policy_on_terminate"] = string(obj.BackupRetentionPolicyOnTerminate)
+
 	if obj.DbrsPolicyId != nil {
 		result["dbrs_policy_id"] = string(*obj.DbrsPolicyId)
 	}
@@ -1302,6 +1348,10 @@ func BackupDestinationDetailsToMap(obj oci_database.BackupDestinationDetails) ma
 
 	if obj.IsRemote != nil {
 		result["is_remote"] = bool(*obj.IsRemote)
+	}
+
+	if obj.IsRetentionLockEnabled != nil {
+		result["is_retention_lock_enabled"] = bool(*obj.IsRetentionLockEnabled)
 	}
 
 	if obj.RemoteRegion != nil {

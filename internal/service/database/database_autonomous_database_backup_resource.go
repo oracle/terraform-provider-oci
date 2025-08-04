@@ -69,6 +69,12 @@ func DatabaseAutonomousDatabaseBackupResource() *schema.Resource {
 						},
 
 						// Optional
+						"backup_retention_policy_on_terminate": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 						"id": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -82,6 +88,12 @@ func DatabaseAutonomousDatabaseBackupResource() *schema.Resource {
 							ForceNew: true,
 						},
 						"is_remote": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"is_retention_lock_enabled": {
 							Type:     schema.TypeBool,
 							Optional: true,
 							Computed: true,
@@ -121,6 +133,10 @@ func DatabaseAutonomousDatabaseBackupResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"infrastructure_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"is_automatic": {
 				Type:     schema.TypeBool,
 				Computed: true,
@@ -149,9 +165,84 @@ func DatabaseAutonomousDatabaseBackupResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"region": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"size_in_tbs": {
 				Type:     schema.TypeFloat,
 				Computed: true,
+			},
+			"source_database_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"autonomous_container_database_customer_contacts": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"email": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"autonomous_container_database_display_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"autonomous_container_database_dst_file_version": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"autonomous_container_database_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"autonomous_database_customer_contacts": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"email": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"autonomous_database_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"autonomous_vm_cluster_display_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"db_workload": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"state": {
 				Type:     schema.TypeString,
@@ -402,6 +493,8 @@ func (s *DatabaseAutonomousDatabaseBackupResourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	s.D.Set("infrastructure_type", s.Res.InfrastructureType)
+
 	if s.Res.IsAutomatic != nil {
 		s.D.Set("is_automatic", *s.Res.IsAutomatic)
 	}
@@ -430,12 +523,22 @@ func (s *DatabaseAutonomousDatabaseBackupResourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	if s.Res.Region != nil {
+		s.D.Set("region", *s.Res.Region)
+	}
+
 	if s.Res.RetentionPeriodInDays != nil {
 		s.D.Set("retention_period_in_days", *s.Res.RetentionPeriodInDays)
 	}
 
 	if s.Res.SizeInTBs != nil {
 		s.D.Set("size_in_tbs", *s.Res.SizeInTBs)
+	}
+
+	if s.Res.SourceDatabaseDetails != nil {
+		s.D.Set("source_database_details", []interface{}{SourceDatabaseDetailsToMap(s.Res.SourceDatabaseDetails)})
+	} else {
+		s.D.Set("source_database_details", nil)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
@@ -464,6 +567,10 @@ func (s *DatabaseAutonomousDatabaseBackupResourceCrud) SetData() error {
 func (s *DatabaseAutonomousDatabaseBackupResourceCrud) mapToAutonomousBackupDestinationDetails(fieldKeyFormat string) (oci_database.BackupDestinationDetails, error) {
 	result := oci_database.BackupDestinationDetails{}
 
+	if backupRetentionPolicyOnTerminate, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_retention_policy_on_terminate")); ok {
+		result.BackupRetentionPolicyOnTerminate = oci_database.BackupDestinationDetailsBackupRetentionPolicyOnTerminateEnum(backupRetentionPolicyOnTerminate.(string))
+	}
+
 	if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
 		tmp := id.(string)
 		result.Id = &tmp
@@ -477,6 +584,11 @@ func (s *DatabaseAutonomousDatabaseBackupResourceCrud) mapToAutonomousBackupDest
 	if isRemote, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_remote")); ok {
 		tmp := isRemote.(bool)
 		result.IsRemote = &tmp
+	}
+
+	if isRetentionLockEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_retention_lock_enabled")); ok {
+		tmp := isRetentionLockEnabled.(bool)
+		result.IsRetentionLockEnabled = &tmp
 	}
 
 	if remoteRegion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "remote_region")); ok {
@@ -504,6 +616,8 @@ func (s *DatabaseAutonomousDatabaseBackupResourceCrud) mapToAutonomousBackupDest
 func AutonomousBackupDestinationDetailsToMap(obj *oci_database.BackupDestinationDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	result["backup_retention_policy_on_terminate"] = string(obj.BackupRetentionPolicyOnTerminate)
+
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
 	}
@@ -514,6 +628,10 @@ func AutonomousBackupDestinationDetailsToMap(obj *oci_database.BackupDestination
 
 	if obj.IsRemote != nil {
 		result["is_remote"] = bool(*obj.IsRemote)
+	}
+
+	if obj.IsRetentionLockEnabled != nil {
+		result["is_retention_lock_enabled"] = bool(*obj.IsRetentionLockEnabled)
 	}
 
 	if obj.RemoteRegion != nil {
@@ -529,6 +647,56 @@ func AutonomousBackupDestinationDetailsToMap(obj *oci_database.BackupDestination
 	if obj.VpcUser != nil {
 		result["vpc_user"] = string(*obj.VpcUser)
 	}
+
+	return result
+}
+
+func CustomerContactToMap(obj oci_database.CustomerContact) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Email != nil {
+		result["email"] = string(*obj.Email)
+	}
+
+	return result
+}
+
+func SourceDatabaseDetailsToMap(obj *oci_database.SourceDatabaseDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	autonomousContainerDatabaseCustomerContacts := []interface{}{}
+	for _, item := range obj.AutonomousContainerDatabaseCustomerContacts {
+		autonomousContainerDatabaseCustomerContacts = append(autonomousContainerDatabaseCustomerContacts, CustomerContactToMap(item))
+	}
+	result["autonomous_container_database_customer_contacts"] = autonomousContainerDatabaseCustomerContacts
+
+	if obj.AutonomousContainerDatabaseDisplayName != nil {
+		result["autonomous_container_database_display_name"] = string(*obj.AutonomousContainerDatabaseDisplayName)
+	}
+
+	if obj.AutonomousContainerDatabaseDstFileVersion != nil {
+		result["autonomous_container_database_dst_file_version"] = string(*obj.AutonomousContainerDatabaseDstFileVersion)
+	}
+
+	if obj.AutonomousContainerDatabaseName != nil {
+		result["autonomous_container_database_name"] = string(*obj.AutonomousContainerDatabaseName)
+	}
+
+	autonomousDatabaseCustomerContacts := []interface{}{}
+	for _, item := range obj.AutonomousDatabaseCustomerContacts {
+		autonomousDatabaseCustomerContacts = append(autonomousDatabaseCustomerContacts, CustomerContactToMap(item))
+	}
+	result["autonomous_database_customer_contacts"] = autonomousDatabaseCustomerContacts
+
+	if obj.AutonomousDatabaseName != nil {
+		result["autonomous_database_name"] = string(*obj.AutonomousDatabaseName)
+	}
+
+	if obj.AutonomousVmClusterDisplayName != nil {
+		result["autonomous_vm_cluster_display_name"] = string(*obj.AutonomousVmClusterDisplayName)
+	}
+
+	result["db_workload"] = string(obj.DbWorkload)
 
 	return result
 }

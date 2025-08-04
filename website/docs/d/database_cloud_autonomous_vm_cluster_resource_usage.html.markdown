@@ -56,7 +56,8 @@ The following attributes are exported:
 * `display_name` - The user-friendly name for the Autonomous VM cluster. The name does not need to be unique.
 * `exadata_storage_in_tbs` - Total exadata storage allocated for the Autonomous VM Cluster. DATA + RECOVERY + SPARSE + any overhead in TBs.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Cloud Autonomous VM cluster.
-* `memory_per_oracle_compute_unit_in_gbs` - The amount of memory (in GBs) to be enabled per each CPU core.
+* `memory_per_compute_unit_in_gbs` - The amount of memory (in GBs) to be enabled per OCPU or ECPU. 
+* `memory_per_oracle_compute_unit_in_gbs` - The amount of memory (in GBs, rounded off to nearest integer value) enabled per ECPU or OCPU. This is deprecated. Please refer to memoryPerComputeUnitInGBs for accurate value.
 * `memory_size_in_gbs` - The memory allocated in GBs.
 * `non_provisionable_autonomous_container_databases` - The number of non-provisionable Autonomous Container Databases in an Autonomous VM Cluster.
 * `provisionable_autonomous_container_databases` - The number of provisionable Autonomous Container Databases in an Autonomous VM Cluster.

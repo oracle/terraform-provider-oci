@@ -522,7 +522,8 @@ The following attributes are exported:
 	* `retention_period_in_days` - Retention period, in days, for long-term backups
 	* `time_of_backup` - The timestamp for the long-term backup schedule. For a MONTHLY cadence, months having fewer days than the provided date will have the backup taken on the last day of that month.
 * `maintenance_target_component` - The component chosen for maintenance.
-* `memory_per_oracle_compute_unit_in_gbs` - The amount of memory (in GBs) enabled per ECPU or OCPU. 
+* `memory_per_compute_unit_in_gbs` - The amount of memory (in GBs) to be enabled per OCPU or ECPU. 
+* `memory_per_oracle_compute_unit_in_gbs` - The amount of memory (in GBs, rounded off to nearest integer value) enabled per ECPU or OCPU. This is deprecated. Please refer to memoryPerComputeUnitInGBs for accurate value. 
 * `ncharacter_set` - The national character set for the autonomous database.  The default is AL16UTF16. Allowed values are: AL16UTF16 or UTF8. 
 * `net_services_architecture` - Enabling SHARED server architecture enables a database server to allow many client processes to share very few server processes, thereby increasing the number of supported users. 
 * `next_long_term_backup_time_stamp` - The date and time when the next long-term backup would be created.
@@ -630,7 +631,7 @@ The following attributes are exported:
 * `time_of_last_switchover` - The timestamp of the last switchover operation for the Autonomous Database.
 * `time_of_next_refresh` - The date and time of next refresh.
 * `time_reclamation_of_free_autonomous_database` - The date and time the Always Free database will be stopped because of inactivity. If this time is reached without any database activity, the database will automatically be put into the STOPPED state. 
-* `time_scheduled_db_version_upgrade` - The date and time the Autonomous Database scheduled to upgrade to 23ai. Send this value along with the target db_version value to schedule the database version upgrade. After the upgrade is scheduled and before the scheduled upgrade time arrives, please keep the db_version value the same as the backend's current db_version.
+* `time_scheduled_db_version_upgrade` - The date and time the Autonomous Database scheduled to upgrade to 23ai. 
 * `time_undeleted` - The date and time the Autonomous Database was most recently undeleted. 
 * `time_until_reconnect_clone_enabled` - The time and date as an RFC3339 formatted string, e.g., 2022-01-01T12:00:00.000Z, to set the limit for a refreshable clone to be reconnected to its source database.
 * `total_backup_storage_size_in_gbs` - The backup storage to the database.

@@ -7,11 +7,11 @@ import (
 	"context"
 	"time"
 
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
+
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func DatabaseAutonomousDatabaseDataSource() *schema.Resource {
@@ -77,14 +77,14 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("allocated_storage_size_in_tbs", *s.Res.AllocatedStorageSizeInTBs)
 	}
 
-	if s.Res.ArePrimaryWhitelistedIpsUsed != nil {
-		s.D.Set("are_primary_whitelisted_ips_used", *s.Res.ArePrimaryWhitelistedIpsUsed)
-	}
-
 	if s.Res.ApexDetails != nil {
 		s.D.Set("apex_details", []interface{}{AutonomousDatabaseApexToMap(s.Res.ApexDetails)})
 	} else {
 		s.D.Set("apex_details", nil)
+	}
+
+	if s.Res.ArePrimaryWhitelistedIpsUsed != nil {
+		s.D.Set("are_primary_whitelisted_ips_used", *s.Res.ArePrimaryWhitelistedIpsUsed)
 	}
 
 	if s.Res.AutoRefreshFrequencyInSeconds != nil {
@@ -237,14 +237,6 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("in_memory_percentage", *s.Res.InMemoryPercentage)
 	}
 
-	if s.Res.InMemoryAreaInGBs != nil {
-		s.D.Set("in_memory_area_in_gbs", *s.Res.InMemoryAreaInGBs)
-	}
-
-	if s.Res.InMemoryPercentage != nil {
-		s.D.Set("in_memory_percentage", *s.Res.InMemoryPercentage)
-	}
-
 	s.D.Set("infrastructure_type", s.Res.InfrastructureType)
 
 	if s.Res.IsAccessControlEnabled != nil {
@@ -353,17 +345,17 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("long_term_backup_schedule", nil)
 	}
 
-	//if s.Res.MaxCpuCoreCount != nil {
-	//	s.D.Set("max_cpu_core_count", *s.Res.MaxCpuCoreCount)
-	//}
+	if s.Res.MaintenanceTargetComponent != nil {
+		s.D.Set("maintenance_target_component", *s.Res.MaintenanceTargetComponent)
+	}
+
+	if s.Res.MemoryPerComputeUnitInGBs != nil {
+		s.D.Set("memory_per_compute_unit_in_gbs", *s.Res.MemoryPerComputeUnitInGBs)
+	}
 
 	if s.Res.MemoryPerOracleComputeUnitInGBs != nil {
 		s.D.Set("memory_per_oracle_compute_unit_in_gbs", *s.Res.MemoryPerOracleComputeUnitInGBs)
 	}
-
-	//if s.Res.MaxCpuCoreCount != nil {
-	//	s.D.Set("max_cpu_core_count", *s.Res.MaxCpuCoreCount)
-	//}
 
 	if s.Res.NcharacterSet != nil {
 		s.D.Set("ncharacter_set", *s.Res.NcharacterSet)
@@ -509,10 +501,6 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 
 	if s.Res.TimeMaintenanceEnd != nil {
 		s.D.Set("time_maintenance_end", s.Res.TimeMaintenanceEnd.String())
-	}
-
-	if s.Res.MaintenanceTargetComponent != nil {
-		s.D.Set("maintenance_target_component", *s.Res.MaintenanceTargetComponent)
 	}
 
 	if s.Res.TimeOfAutoRefreshStart != nil {

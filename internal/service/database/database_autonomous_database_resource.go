@@ -532,7 +532,6 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -1217,6 +1216,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 			},
 			"maintenance_target_component": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"memory_per_compute_unit_in_gbs": {
+				Type:     schema.TypeFloat,
 				Computed: true,
 			},
 			"memory_per_oracle_compute_unit_in_gbs": {
@@ -2733,6 +2736,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 	//	s.D.Set("max_cpu_core_count", *s.Res.MaxCpuCoreCount)
 	//}
 
+	if s.Res.MemoryPerComputeUnitInGBs != nil {
+		s.D.Set("memory_per_compute_unit_in_gbs", *s.Res.MemoryPerComputeUnitInGBs)
+	}
+
 	if s.Res.MemoryPerOracleComputeUnitInGBs != nil {
 		s.D.Set("memory_per_oracle_compute_unit_in_gbs", *s.Res.MemoryPerOracleComputeUnitInGBs)
 	}
@@ -3347,16 +3354,6 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) mapToCustomerContact(fieldKeyFo
 	}
 
 	return result, nil
-}
-
-func CustomerContactToMap(obj oci_database.CustomerContact) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.Email != nil {
-		result["email"] = string(*obj.Email)
-	}
-
-	return result
 }
 
 func DatabaseConnectionStringProfileToMap(obj oci_database.DatabaseConnectionStringProfile) map[string]interface{} {

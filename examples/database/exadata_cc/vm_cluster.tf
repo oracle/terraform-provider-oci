@@ -495,5 +495,5 @@ data "oci_database_backup_destinations" "test_database_backup_destinations" {
 
 data "oci_database_backup_destination" "test_database_backup_destination" {
   #Required
-  id = oci_database_backup_destination.test_backup_destination_nfs.id
+  backup_destination_id = oci_database_backup_destination.test_backup_destination_nfs.id
 }

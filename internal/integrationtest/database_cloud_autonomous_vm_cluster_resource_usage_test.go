@@ -20,11 +20,8 @@ var (
 		"cloud_autonomous_vm_cluster_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id}`},
 	}
 
-	DatabaseCloudAutonomousVmClusterResourceUsageResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_autonomous_vm_cluster", "test_cloud_autonomous_vm_cluster", acctest.Required, acctest.Create, DatabaseCloudAutonomousVmClusterRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Required, acctest.Create, DatabaseCloudExadataInfrastructureRepresentation) +
-		AvailabilityDomainConfig
+	DatabaseCloudAutonomousVmClusterResourceUsageResourceConfig = DatabaseCloudAutonomousVmClusterResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_autonomous_vm_cluster", "test_cloud_autonomous_vm_cluster", acctest.Required, acctest.Create, DatabaseCloudAutonomousVmClusterRepresentation)
 )
 
 // issue-routing-tag: database/dbaas-atp-d
@@ -51,7 +48,7 @@ func TestDatabaseCloudAutonomousVmClusterResourceUsageResource_basic(t *testing.
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cloud_autonomous_vm_cluster_id"),
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_data_storage_size_in_tbs"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "autonomous_vm_resource_usage.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "autonomous_vm_resource_usage.#", "4"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "available_autonomous_data_storage_size_in_tbs"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "available_cpus"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_node_storage_size_in_gbs"),

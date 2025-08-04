@@ -787,6 +787,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"memory_per_compute_unit_in_gbs": {
+							Type:     schema.TypeFloat,
+							Computed: true,
+						},
 						"long_term_backup_schedule": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -1605,6 +1609,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 		//if r.MaxCpuCoreCount != nil {
 		//	autonomousDatabasesClone["max_cpu_core_count"] = *r.MaxCpuCoreCount
 		//}
+
+		if r.MemoryPerComputeUnitInGBs != nil {
+			autonomousDatabasesClone["memory_per_compute_unit_in_gbs"] = *r.MemoryPerComputeUnitInGBs
+		}
 
 		if r.MemoryPerOracleComputeUnitInGBs != nil {
 			autonomousDatabasesClone["memory_per_oracle_compute_unit_in_gbs"] = *r.MemoryPerOracleComputeUnitInGBs

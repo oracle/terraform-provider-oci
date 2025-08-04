@@ -45,9 +45,11 @@ resource "oci_database_db_home" "test_db_home" {
 			backup_destination_details {
 
 				#Optional
+				backup_retention_policy_on_terminate = var.db_home_database_db_backup_config_backup_destination_details_backup_retention_policy_on_terminate
 				dbrs_policy_id = oci_identity_policy.test_policy.id
 				id = var.db_home_database_db_backup_config_backup_destination_details_id
 				is_remote = var.db_home_database_db_backup_config_backup_destination_details_is_remote
+				is_retention_lock_enabled = var.db_home_database_db_backup_config_backup_destination_details_is_retention_lock_enabled
 				remote_region = var.db_home_database_db_backup_config_backup_destination_details_remote_region
 				type = var.db_home_database_db_backup_config_backup_destination_details_type
 			}
@@ -129,12 +131,12 @@ The following arguments are supported:
 		* `auto_full_backup_window` - (Applicable when source=NONE | VM_CLUSTER_NEW) Time window selected for initiating full backup for the database system. There are twelve available two-hour time windows. If no option is selected, the value is null and a start time between 12:00 AM to 7:00 AM in the region of the database is automatically chosen. For example, if the user selects SLOT_TWO from the enum list, the automatic backup job will start in between 2:00 AM (inclusive) to 4:00 AM (exclusive).  Example: `SLOT_TWO` 
 		* `backup_deletion_policy` - (Applicable when source=NONE | VM_CLUSTER_NEW) This defines when the backups will be deleted. - IMMEDIATE option keep the backup for predefined time i.e 72 hours and then delete permanently... - RETAIN will keep the backups as per the policy defined for database backups.
 		* `backup_destination_details` - (Applicable when source=NONE | VM_CLUSTER_NEW) Backup destination details.
+			* `backup_retention_policy_on_terminate` - (Applicable when source=NONE | VM_CLUSTER_NEW) Defines the automatic and manual backup retention policy for the Autonomous Database termination.  The retention policy set on the Autonomous Container Database is not applicable for cross region remote backups and backups hosted on recovery Appliance backup destination. Options are 'RETAIN_PER_RETENTION_WINDOW' or 'RETAIN_FOR_72_HOURS'.The default value is 'RETAIN_FOR_72_HOURS'. 
 			* `dbrs_policy_id` - (Applicable when source=NONE | VM_CLUSTER_NEW) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DBRS policy used for backup.
 			* `id` - (Applicable when source=NONE | VM_CLUSTER_NEW) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup destination.
-			* `is_remote` - (Applicable when source=NONE | VM_CLUSTER_NEW) Indicates whether the backup destination is cross-region or local region.
-			* `remote_region` - (Applicable when source=NONE | VM_CLUSTER_NEW) The name of the remote region where the remote automatic incremental backups will be stored.
-
-				For information about valid region names, see [Regions and Availability Domains](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm). 
+			* `is_remote` - (Applicable when source=NONE | VM_CLUSTER_NEW) Indicates whether the backup destination is cross-region or local.
+			* `is_retention_lock_enabled` - (Applicable when source=NONE | VM_CLUSTER_NEW) Indicates if backup retention is locked for all the database backups in the Autonomous Container Database (ACD). The retention window cannot be decreased if the backup retention lock is enabled. Once applied on the Autonomous Container Database, the retention lock cannot be removed, or the retention period cannot be decreased after a 14-day period. If the backup is a Long Term Backup and retention lock is enabled, the backup cannot be deleted and must expire. The retention lock set on the Autonomous Container Database is not applicable for cross region remote backups and backups hosted on recovery Appliance backup destination. 
+			* `remote_region` - (Applicable when source=NONE | VM_CLUSTER_NEW) The name of the remote region where the remote automatic incremental backups will be stored.           For information about valid region names, see [Regions and Availability Domains](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm). 
 			* `type` - (Applicable when source=NONE | VM_CLUSTER_NEW) Type of the database backup destination. Supported values: `NFS`.
 		* `recovery_window_in_days` - (Applicable when source=NONE | VM_CLUSTER_NEW) (Updatable) Number of days between the current and the earliest point of recoverability covered by automatic backups. This value applies to automatic backups only. After a new automatic backup has been created, Oracle removes old automatic backups that are created before the window. When the value is updated, it is applied to all existing automatic backups. 
 		* `run_immediate_full_backup` - (Applicable when source=NONE | VM_CLUSTER_NEW) If set to true, configures automatic full backups in the local region (the region of the DB system) for the first backup run immediately.

@@ -250,3 +250,23 @@ func createDatabaseClient(clients *tf_client.OracleClients, region string) (clie
 	databaseClient.SetRegion(region)
 	return databaseClient, nil
 }
+
+func triggerUndeleteAutonomousDatabase(clients *tf_client.OracleClients, region string, compartmentId string, autonomousDatabaseId string) error {
+	databaseClient, err := createDatabaseClient(clients, region)
+	if err != nil {
+		return err
+	}
+
+	if autonomousDatabaseId != "" {
+		CreateAutonomousDatabaseRequest := oci_database.CreateAutonomousDatabaseRequest{}
+		undeleteAutonomousRequest := oci_database.UndeleteAutonomousDatabaseDetails{}
+		undeleteAutonomousRequest.SourceId = &autonomousDatabaseId
+		undeleteAutonomousRequest.CompartmentId = &compartmentId
+		CreateAutonomousDatabaseRequest.CreateAutonomousDatabaseDetails = undeleteAutonomousRequest
+		_, err := databaseClient.CreateAutonomousDatabase(context.Background(), CreateAutonomousDatabaseRequest)
+		if err != nil {
+			return fmt.Errorf("failed to undelete source autonomous database resource with error : %v", err)
+		}
+	}
+	return nil
+}

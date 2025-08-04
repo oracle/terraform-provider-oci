@@ -62,7 +62,3 @@ data "oci_database_cloud_autonomous_vm_cluster_resource_usage" "test_cloud_auton
 data "oci_database_autonomous_database_software_image" "test_autonomous_database_software_image" {
   autonomous_database_software_image_id = oci_database_autonomous_database_software_image.autonomous_database_software_image.id
 }
-
-data "oci_database_cloud_autonomous_vm_clusters" "test_cloud_autonomous_vm_clusters" {
-  compartment_id = var.compartment_ocid
-}

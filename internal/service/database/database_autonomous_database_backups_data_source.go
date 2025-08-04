@@ -22,11 +22,23 @@ func DatabaseAutonomousDatabaseBackupsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"backup_destination_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
 			"display_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"infrastructure_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"key_store_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -73,6 +85,11 @@ func (s *DatabaseAutonomousDatabaseBackupsDataSourceCrud) Get() error {
 		request.AutonomousDatabaseId = &tmp
 	}
 
+	if backupDestinationId, ok := s.D.GetOkExists("backup_destination_id"); ok {
+		tmp := backupDestinationId.(string)
+		request.BackupDestinationId = &tmp
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -81,6 +98,15 @@ func (s *DatabaseAutonomousDatabaseBackupsDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if infrastructureType, ok := s.D.GetOkExists("infrastructure_type"); ok {
+		request.InfrastructureType = oci_database.AutonomousDatabaseBackupSummaryInfrastructureTypeEnum(infrastructureType.(string))
+	}
+
+	if keyStoreId, ok := s.D.GetOkExists("key_store_id"); ok {
+		tmp := keyStoreId.(string)
+		request.KeyStoreId = &tmp
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
@@ -157,6 +183,8 @@ func (s *DatabaseAutonomousDatabaseBackupsDataSourceCrud) SetData() error {
 			autonomousDatabaseBackup["id"] = *r.Id
 		}
 
+		autonomousDatabaseBackup["infrastructure_type"] = r.InfrastructureType
+
 		if r.IsAutomatic != nil {
 			autonomousDatabaseBackup["is_automatic"] = *r.IsAutomatic
 		}
@@ -185,12 +213,22 @@ func (s *DatabaseAutonomousDatabaseBackupsDataSourceCrud) SetData() error {
 			autonomousDatabaseBackup["lifecycle_details"] = *r.LifecycleDetails
 		}
 
+		if r.Region != nil {
+			autonomousDatabaseBackup["region"] = *r.Region
+		}
+
 		if r.RetentionPeriodInDays != nil {
 			autonomousDatabaseBackup["retention_period_in_days"] = *r.RetentionPeriodInDays
 		}
 
 		if r.SizeInTBs != nil {
 			autonomousDatabaseBackup["size_in_tbs"] = *r.SizeInTBs
+		}
+
+		if r.SourceDatabaseDetails != nil {
+			autonomousDatabaseBackup["source_database_details"] = []interface{}{SourceDatabaseDetailsToMap(r.SourceDatabaseDetails)}
+		} else {
+			autonomousDatabaseBackup["source_database_details"] = nil
 		}
 
 		autonomousDatabaseBackup["state"] = r.LifecycleState
