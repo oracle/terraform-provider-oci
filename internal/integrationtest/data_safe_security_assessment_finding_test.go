@@ -63,6 +63,7 @@ func TestDataSafeSecurityAssessmentFindingResource_basic(t *testing.T) {
 	acctest.SaveConfigContent("", "", "", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
+
 		// verify datasource
 		{
 			Config: config +

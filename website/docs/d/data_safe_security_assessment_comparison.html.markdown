@@ -53,6 +53,7 @@ The following attributes are exported:
 				* `cis` - Relevant section from CIS.
 				* `gdpr` - Relevant section from GDPR.
 				* `obp` - Relevant section from OBP.
+				* `orp` - Relevant section from ORP.
 				* `stig` - Relevant section from STIG.
 			* `remarks` - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
 			* `severity` - The severity of the finding.
@@ -75,6 +76,7 @@ The following attributes are exported:
 				* `cis` - Relevant section from CIS.
 				* `gdpr` - Relevant section from GDPR.
 				* `obp` - Relevant section from OBP.
+				* `orp` - Relevant section from ORP.
 				* `stig` - Relevant section from STIG.
 			* `remarks` - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
 			* `severity` - The severity of the finding.
@@ -102,6 +104,7 @@ The following attributes are exported:
 				* `cis` - Relevant section from CIS.
 				* `gdpr` - Relevant section from GDPR.
 				* `obp` - Relevant section from OBP.
+				* `orp` - Relevant section from ORP.
 				* `stig` - Relevant section from STIG.
 			* `remarks` - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
 			* `severity` - The severity of the finding.
@@ -124,6 +127,7 @@ The following attributes are exported:
 				* `cis` - Relevant section from CIS.
 				* `gdpr` - Relevant section from GDPR.
 				* `obp` - Relevant section from OBP.
+				* `orp` - Relevant section from ORP.
 				* `stig` - Relevant section from STIG.
 			* `remarks` - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
 			* `severity` - The severity of the finding.
@@ -153,6 +157,7 @@ The following attributes are exported:
 				* `cis` - Relevant section from CIS.
 				* `gdpr` - Relevant section from GDPR.
 				* `obp` - Relevant section from OBP.
+				* `orp` - Relevant section from ORP.
 				* `stig` - Relevant section from STIG.
 			* `remarks` - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
 			* `severity` - The severity of the finding.
@@ -175,6 +180,7 @@ The following attributes are exported:
 				* `cis` - Relevant section from CIS.
 				* `gdpr` - Relevant section from GDPR.
 				* `obp` - Relevant section from OBP.
+				* `orp` - Relevant section from ORP.
 				* `stig` - Relevant section from STIG.
 			* `remarks` - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
 			* `severity` - The severity of the finding.
@@ -202,6 +208,7 @@ The following attributes are exported:
 				* `cis` - Relevant section from CIS.
 				* `gdpr` - Relevant section from GDPR.
 				* `obp` - Relevant section from OBP.
+				* `orp` - Relevant section from ORP.
 				* `stig` - Relevant section from STIG.
 			* `remarks` - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
 			* `severity` - The severity of the finding.
@@ -224,6 +231,7 @@ The following attributes are exported:
 				* `cis` - Relevant section from CIS.
 				* `gdpr` - Relevant section from GDPR.
 				* `obp` - Relevant section from OBP.
+				* `orp` - Relevant section from ORP.
 				* `stig` - Relevant section from STIG.
 			* `remarks` - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
 			* `severity` - The severity of the finding.
@@ -251,6 +259,7 @@ The following attributes are exported:
 				* `cis` - Relevant section from CIS.
 				* `gdpr` - Relevant section from GDPR.
 				* `obp` - Relevant section from OBP.
+				* `orp` - Relevant section from ORP.
 				* `stig` - Relevant section from STIG.
 			* `remarks` - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
 			* `severity` - The severity of the finding.
@@ -273,6 +282,7 @@ The following attributes are exported:
 				* `cis` - Relevant section from CIS.
 				* `gdpr` - Relevant section from GDPR.
 				* `obp` - Relevant section from OBP.
+				* `orp` - Relevant section from ORP.
 				* `stig` - Relevant section from STIG.
 			* `remarks` - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
 			* `severity` - The severity of the finding.
@@ -300,6 +310,7 @@ The following attributes are exported:
 				* `cis` - Relevant section from CIS.
 				* `gdpr` - Relevant section from GDPR.
 				* `obp` - Relevant section from OBP.
+				* `orp` - Relevant section from ORP.
 				* `stig` - Relevant section from STIG.
 			* `remarks` - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
 			* `severity` - The severity of the finding.
@@ -322,6 +333,7 @@ The following attributes are exported:
 				* `cis` - Relevant section from CIS.
 				* `gdpr` - Relevant section from GDPR.
 				* `obp` - Relevant section from OBP.
+				* `orp` - Relevant section from ORP.
 				* `stig` - Relevant section from STIG.
 			* `remarks` - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
 			* `severity` - The severity of the finding.
@@ -349,6 +361,7 @@ The following attributes are exported:
 				* `cis` - Relevant section from CIS.
 				* `gdpr` - Relevant section from GDPR.
 				* `obp` - Relevant section from OBP.
+				* `orp` - Relevant section from ORP.
 				* `stig` - Relevant section from STIG.
 			* `remarks` - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
 			* `severity` - The severity of the finding.
@@ -371,6 +384,7 @@ The following attributes are exported:
 				* `cis` - Relevant section from CIS.
 				* `gdpr` - Relevant section from GDPR.
 				* `obp` - Relevant section from OBP.
+				* `orp` - Relevant section from ORP.
 				* `stig` - Relevant section from STIG.
 			* `remarks` - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
 			* `severity` - The severity of the finding.

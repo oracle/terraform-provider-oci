@@ -128,6 +128,10 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 																Type:     schema.TypeString,
 																Computed: true,
 															},
+															"orp": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
 															"stig": {
 																Type:     schema.TypeString,
 																Computed: true,
@@ -234,6 +238,10 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 																Computed: true,
 															},
 															"obp": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"orp": {
 																Type:     schema.TypeString,
 																Computed: true,
 															},
@@ -384,6 +392,10 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 																Type:     schema.TypeString,
 																Computed: true,
 															},
+															"orp": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
 															"stig": {
 																Type:     schema.TypeString,
 																Computed: true,
@@ -490,6 +502,10 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 																Computed: true,
 															},
 															"obp": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"orp": {
 																Type:     schema.TypeString,
 																Computed: true,
 															},
@@ -648,6 +664,10 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 																Type:     schema.TypeString,
 																Computed: true,
 															},
+															"orp": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
 															"stig": {
 																Type:     schema.TypeString,
 																Computed: true,
@@ -754,6 +774,10 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 																Computed: true,
 															},
 															"obp": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"orp": {
 																Type:     schema.TypeString,
 																Computed: true,
 															},
@@ -904,6 +928,10 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 																Type:     schema.TypeString,
 																Computed: true,
 															},
+															"orp": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
 															"stig": {
 																Type:     schema.TypeString,
 																Computed: true,
@@ -1010,6 +1038,10 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 																Computed: true,
 															},
 															"obp": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"orp": {
 																Type:     schema.TypeString,
 																Computed: true,
 															},
@@ -1160,6 +1192,10 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 																Type:     schema.TypeString,
 																Computed: true,
 															},
+															"orp": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
 															"stig": {
 																Type:     schema.TypeString,
 																Computed: true,
@@ -1266,6 +1302,10 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 																Computed: true,
 															},
 															"obp": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"orp": {
 																Type:     schema.TypeString,
 																Computed: true,
 															},
@@ -1416,6 +1456,10 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 																Type:     schema.TypeString,
 																Computed: true,
 															},
+															"orp": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
 															"stig": {
 																Type:     schema.TypeString,
 																Computed: true,
@@ -1522,6 +1566,10 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 																Computed: true,
 															},
 															"obp": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"orp": {
 																Type:     schema.TypeString,
 																Computed: true,
 															},
@@ -1672,6 +1720,10 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 																Type:     schema.TypeString,
 																Computed: true,
 															},
+															"orp": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
 															"stig": {
 																Type:     schema.TypeString,
 																Computed: true,
@@ -1778,6 +1830,10 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 																Computed: true,
 															},
 															"obp": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"orp": {
 																Type:     schema.TypeString,
 																Computed: true,
 															},
@@ -2026,6 +2082,10 @@ func ReferencesToMap(obj *oci_data_safe.References) map[string]interface{} {
 
 	if obj.Obp != nil {
 		result["obp"] = string(*obj.Obp)
+	}
+
+	if obj.Orp != nil {
+		result["orp"] = string(*obj.Orp)
 	}
 
 	if obj.Stig != nil {

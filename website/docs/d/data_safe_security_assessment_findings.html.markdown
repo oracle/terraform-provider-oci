@@ -48,7 +48,7 @@ The following arguments are supported:
 * `scim_query` - (Optional) The scimQuery query parameter accepts filter expressions that use the syntax described in Section 3.2.2.2 of the System for Cross-Domain Identity Management (SCIM) specification, which is available at [RFC3339](https://tools.ietf.org/html/draft-ietf-scim-api-12). In SCIM filtering expressions, text, date, and time values must be enclosed in quotation marks, with date and time values using ISO-8601 format. (Numeric and boolean values should not be quoted.)
 
 	**Example:** | scimQuery=(severity eq 'high') and (targetId eq 'target_1') scimQuery=(category eq "Users") and (targetId eq "target_1") scimQuery=(reference eq 'CIS') and (targetId eq 'target_1')
-	Supported fields: severity findingKey reference targetId isTopFinding title category remarks details summary isRiskModified
+	Supported fields: severity findingKey reference targetId targetName isTopFinding title category remarks details summary isRiskModified
 * `security_assessment_id` - (Required) The OCID of the security assessment.
 * `severity` - (Optional) A filter to return only findings of a particular risk level.
 * `state` - (Optional) A filter to return only the findings that match the specified lifecycle states.
@@ -67,6 +67,7 @@ The following attributes are exported:
 
 * `assessment_id` - The OCID of the assessment that generated this finding.
 * `details` - The details of the finding. Provides detailed information to explain the finding summary, typically results from the assessed database, followed by any recommendations for changes.
+* `doclink` - Documentation link provided by Oracle that explains a specific security finding or check.
 * `is_top_finding` - Indicates whether a given finding is marked as topFinding or not.
 * `has_target_db_risk_level_changed` - Determines if this risk level has changed on the target database since the last time 'severity' was modified by user.
 * `is_risk_modified` - Determines if this risk level was modified by user.
@@ -79,6 +80,7 @@ The following attributes are exported:
 	* `cis` - Relevant section from CIS.
 	* `gdpr` - Relevant section from GDPR.
 	* `obp` - Relevant section from OBP.
+	* `orp` - Relevant section from ORP.
 	* `stig` - Relevant section from STIG.
 * `remarks` - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
 * `severity` - The severity of the finding as determined by security assessment and is same as oracleDefinedSeverity, unless modified by user.
