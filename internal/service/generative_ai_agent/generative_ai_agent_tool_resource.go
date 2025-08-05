@@ -60,13 +60,65 @@ func GenerativeAiAgentToolResource() *schema.Resource {
 							Required:         true,
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
+								"AGENT_TOOL_CONFIG",
 								"FUNCTION_CALLING_TOOL_CONFIG",
+								"HTTP_ENDPOINT_TOOL_CONFIG",
 								"RAG_TOOL_CONFIG",
 								"SQL_TOOL_CONFIG",
 							}, true),
 						},
 
 						// Optional
+						"agent_endpoint_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"api_schema": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"api_schema_input_location_type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"INLINE",
+											"OBJECT_STORAGE_LOCATION",
+										}, true),
+									},
+
+									// Optional
+									"bucket": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"content": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"namespace": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"object": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
 						"database_connection": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -198,6 +250,100 @@ func GenerativeAiAgentToolResource() *schema.Resource {
 								},
 							},
 						},
+						"http_endpoint_auth_config": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"http_endpoint_auth_sources": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"http_endpoint_auth_scope": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"http_endpoint_auth_scope_config": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+															"http_endpoint_auth_scope_config_type": {
+																Type:             schema.TypeString,
+																Required:         true,
+																DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																ValidateFunc: validation.StringInSlice([]string{
+																	"HTTP_ENDPOINT_API_KEY_AUTH_SCOPE_CONFIG",
+																	"HTTP_ENDPOINT_BASIC_AUTH_SCOPE_CONFIG",
+																	"HTTP_ENDPOINT_BEARER_AUTH_SCOPE_CONFIG",
+																	"HTTP_ENDPOINT_IDCS_AUTH_SCOPE_CONFIG",
+																	"HTTP_ENDPOINT_NO_AUTH_SCOPE_CONFIG",
+																	"HTTP_ENDPOINT_OCI_AUTH_SCOPE_CONFIG",
+																}, true),
+															},
+
+															// Optional
+															"client_id": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+															},
+															"idcs_url": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+															},
+															"key_location": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+															},
+															"key_name": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+															},
+															"scope_url": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+															},
+															"vault_secret_id": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+															},
+
+															// Computed
+														},
+													},
+												},
+
+												// Computed
+											},
+										},
+									},
+
+									// Computed
+								},
+							},
+						},
 						"icl_examples": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -274,6 +420,11 @@ func GenerativeAiAgentToolResource() *schema.Resource {
 						},
 						"should_enable_sql_execution": {
 							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"subnet_id": {
+							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
@@ -780,6 +931,76 @@ func (s *GenerativeAiAgentToolResourceCrud) SetData() error {
 	return nil
 }
 
+func (s *GenerativeAiAgentToolResourceCrud) mapToApiSchemaInputLocation(fieldKeyFormat string) (oci_generative_ai_agent.ApiSchemaInputLocation, error) {
+	var baseObject oci_generative_ai_agent.ApiSchemaInputLocation
+	//discriminator
+	apiSchemaInputLocationTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "api_schema_input_location_type"))
+	var apiSchemaInputLocationType string
+	if ok {
+		apiSchemaInputLocationType = apiSchemaInputLocationTypeRaw.(string)
+	} else {
+		apiSchemaInputLocationType = "" // default value
+	}
+	switch strings.ToLower(apiSchemaInputLocationType) {
+	case strings.ToLower("INLINE"):
+		details := oci_generative_ai_agent.ApiSchemaInlineInputLocation{}
+		if content, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "content")); ok {
+			tmp := content.(string)
+			details.Content = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("OBJECT_STORAGE_LOCATION"):
+		details := oci_generative_ai_agent.ApiSchemaObjectStorageInputLocation{}
+		if bucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+			tmp := bucket.(string)
+			details.BucketName = &tmp
+		}
+		if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := namespace.(string)
+			details.NamespaceName = &tmp
+		}
+		if object, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "object")); ok {
+			tmp := object.(string)
+			details.ObjectName = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown api_schema_input_location_type '%v' was specified", apiSchemaInputLocationType)
+	}
+	return baseObject, nil
+}
+
+func ApiSchemaInputLocationToMap(obj *oci_generative_ai_agent.ApiSchemaInputLocation) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_generative_ai_agent.ApiSchemaInlineInputLocation:
+		result["api_schema_input_location_type"] = "INLINE"
+
+		if v.Content != nil {
+			result["content"] = string(*v.Content)
+		}
+	case oci_generative_ai_agent.ApiSchemaObjectStorageInputLocation:
+		result["api_schema_input_location_type"] = "OBJECT_STORAGE_LOCATION"
+
+		if v.BucketName != nil {
+			result["bucket"] = string(*v.BucketName)
+		}
+
+		if v.NamespaceName != nil {
+			result["namespace"] = string(*v.NamespaceName)
+		}
+
+		if v.ObjectName != nil {
+			result["object"] = string(*v.ObjectName)
+		}
+	default:
+		log.Printf("[WARN] Received 'api_schema_input_location_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
 func (s *GenerativeAiAgentToolResourceCrud) mapToDatabaseConnection(fieldKeyFormat string) (oci_generative_ai_agent.DatabaseConnection, error) {
 	var baseObject oci_generative_ai_agent.DatabaseConnection
 	//discriminator
@@ -854,6 +1075,205 @@ func FunctionToMap(obj *oci_generative_ai_agent.Function) map[string]interface{}
 	}
 
 	result["parameters"] = obj.Parameters
+
+	return result
+}
+
+func (s *GenerativeAiAgentToolResourceCrud) mapToHttpEndpointAuthConfig(fieldKeyFormat string) (oci_generative_ai_agent.HttpEndpointAuthConfig, error) {
+	result := oci_generative_ai_agent.HttpEndpointAuthConfig{}
+
+	if httpEndpointAuthSources, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "http_endpoint_auth_sources")); ok {
+		interfaces := httpEndpointAuthSources.([]interface{})
+		tmp := make([]oci_generative_ai_agent.HttpEndpointAuthSource, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "http_endpoint_auth_sources"), stateDataIndex)
+			converted, err := s.mapToHttpEndpointAuthSource(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "http_endpoint_auth_sources")) {
+			result.HttpEndpointAuthSources = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func HttpEndpointAuthConfigToMap(obj *oci_generative_ai_agent.HttpEndpointAuthConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	httpEndpointAuthSources := []interface{}{}
+	for _, item := range obj.HttpEndpointAuthSources {
+		httpEndpointAuthSources = append(httpEndpointAuthSources, HttpEndpointAuthSourceToMap(item))
+	}
+	result["http_endpoint_auth_sources"] = httpEndpointAuthSources
+
+	return result
+}
+
+func (s *GenerativeAiAgentToolResourceCrud) mapToHttpEndpointAuthScopeConfig(fieldKeyFormat string) (oci_generative_ai_agent.HttpEndpointAuthScopeConfig, error) {
+	var baseObject oci_generative_ai_agent.HttpEndpointAuthScopeConfig
+	//discriminator
+	httpEndpointAuthScopeConfigTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "http_endpoint_auth_scope_config_type"))
+	var httpEndpointAuthScopeConfigType string
+	if ok {
+		httpEndpointAuthScopeConfigType = httpEndpointAuthScopeConfigTypeRaw.(string)
+	} else {
+		httpEndpointAuthScopeConfigType = "" // default value
+	}
+	switch strings.ToLower(httpEndpointAuthScopeConfigType) {
+	case strings.ToLower("HTTP_ENDPOINT_API_KEY_AUTH_SCOPE_CONFIG"):
+		details := oci_generative_ai_agent.HttpEndpointApiKeyAuthScopeConfig{}
+		if keyLocation, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key_location")); ok {
+			details.KeyLocation = oci_generative_ai_agent.HttpEndpointApiKeyAuthScopeConfigKeyLocationEnum(keyLocation.(string))
+		}
+		if keyName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key_name")); ok {
+			tmp := keyName.(string)
+			details.KeyName = &tmp
+		}
+		if vaultSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vault_secret_id")); ok {
+			tmp := vaultSecretId.(string)
+			details.VaultSecretId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("HTTP_ENDPOINT_BASIC_AUTH_SCOPE_CONFIG"):
+		details := oci_generative_ai_agent.HttpEndpointBasicAuthScopeConfig{}
+		if vaultSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vault_secret_id")); ok {
+			tmp := vaultSecretId.(string)
+			details.VaultSecretId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("HTTP_ENDPOINT_BEARER_AUTH_SCOPE_CONFIG"):
+		details := oci_generative_ai_agent.HttpEndpointBearerAuthScopeConfig{}
+		if vaultSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vault_secret_id")); ok {
+			tmp := vaultSecretId.(string)
+			details.VaultSecretId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("HTTP_ENDPOINT_IDCS_AUTH_SCOPE_CONFIG"):
+		details := oci_generative_ai_agent.HttpEndpointIdcsAuthScopeConfig{}
+		if clientId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "client_id")); ok {
+			tmp := clientId.(string)
+			details.ClientId = &tmp
+		}
+		if idcsUrl, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "idcs_url")); ok {
+			tmp := idcsUrl.(string)
+			details.IdcsUrl = &tmp
+		}
+		if scopeUrl, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scope_url")); ok {
+			tmp := scopeUrl.(string)
+			details.ScopeUrl = &tmp
+		}
+		if vaultSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vault_secret_id")); ok {
+			tmp := vaultSecretId.(string)
+			details.VaultSecretId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("HTTP_ENDPOINT_NO_AUTH_SCOPE_CONFIG"):
+		details := oci_generative_ai_agent.HttpEndpointNoAuthScopeConfig{}
+		baseObject = details
+	case strings.ToLower("HTTP_ENDPOINT_OCI_AUTH_SCOPE_CONFIG"):
+		details := oci_generative_ai_agent.HttpEndpointOciAuthScopeConfig{}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown http_endpoint_auth_scope_config_type '%v' was specified", httpEndpointAuthScopeConfigType)
+	}
+	return baseObject, nil
+}
+
+func HttpEndpointAuthScopeConfigToMap(obj *oci_generative_ai_agent.HttpEndpointAuthScopeConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_generative_ai_agent.HttpEndpointApiKeyAuthScopeConfig:
+		result["http_endpoint_auth_scope_config_type"] = "HTTP_ENDPOINT_API_KEY_AUTH_SCOPE_CONFIG"
+
+		result["key_location"] = string(v.KeyLocation)
+
+		if v.KeyName != nil {
+			result["key_name"] = string(*v.KeyName)
+		}
+
+		if v.VaultSecretId != nil {
+			result["vault_secret_id"] = string(*v.VaultSecretId)
+		}
+	case oci_generative_ai_agent.HttpEndpointBasicAuthScopeConfig:
+		result["http_endpoint_auth_scope_config_type"] = "HTTP_ENDPOINT_BASIC_AUTH_SCOPE_CONFIG"
+
+		if v.VaultSecretId != nil {
+			result["vault_secret_id"] = string(*v.VaultSecretId)
+		}
+	case oci_generative_ai_agent.HttpEndpointBearerAuthScopeConfig:
+		result["http_endpoint_auth_scope_config_type"] = "HTTP_ENDPOINT_BEARER_AUTH_SCOPE_CONFIG"
+
+		if v.VaultSecretId != nil {
+			result["vault_secret_id"] = string(*v.VaultSecretId)
+		}
+	case oci_generative_ai_agent.HttpEndpointIdcsAuthScopeConfig:
+		result["http_endpoint_auth_scope_config_type"] = "HTTP_ENDPOINT_IDCS_AUTH_SCOPE_CONFIG"
+
+		if v.ClientId != nil {
+			result["client_id"] = string(*v.ClientId)
+		}
+
+		if v.IdcsUrl != nil {
+			result["idcs_url"] = string(*v.IdcsUrl)
+		}
+
+		if v.ScopeUrl != nil {
+			result["scope_url"] = string(*v.ScopeUrl)
+		}
+
+		if v.VaultSecretId != nil {
+			result["vault_secret_id"] = string(*v.VaultSecretId)
+		}
+	case oci_generative_ai_agent.HttpEndpointNoAuthScopeConfig:
+		result["http_endpoint_auth_scope_config_type"] = "HTTP_ENDPOINT_NO_AUTH_SCOPE_CONFIG"
+	case oci_generative_ai_agent.HttpEndpointOciAuthScopeConfig:
+		result["http_endpoint_auth_scope_config_type"] = "HTTP_ENDPOINT_OCI_AUTH_SCOPE_CONFIG"
+	default:
+		log.Printf("[WARN] Received 'http_endpoint_auth_scope_config_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *GenerativeAiAgentToolResourceCrud) mapToHttpEndpointAuthSource(fieldKeyFormat string) (oci_generative_ai_agent.HttpEndpointAuthSource, error) {
+	result := oci_generative_ai_agent.HttpEndpointAuthSource{}
+
+	if httpEndpointAuthScope, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "http_endpoint_auth_scope")); ok {
+		result.HttpEndpointAuthScope = oci_generative_ai_agent.HttpEndpointAuthSourceHttpEndpointAuthScopeEnum(httpEndpointAuthScope.(string))
+	}
+
+	if httpEndpointAuthScopeConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "http_endpoint_auth_scope_config")); ok {
+		if tmpList := httpEndpointAuthScopeConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "http_endpoint_auth_scope_config"), 0)
+			tmp, err := s.mapToHttpEndpointAuthScopeConfig(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert http_endpoint_auth_scope_config, encountered error: %v", err)
+			}
+			result.HttpEndpointAuthScopeConfig = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func HttpEndpointAuthSourceToMap(obj oci_generative_ai_agent.HttpEndpointAuthSource) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["http_endpoint_auth_scope"] = string(obj.HttpEndpointAuthScope)
+
+	if obj.HttpEndpointAuthScopeConfig != nil {
+		httpEndpointAuthScopeConfigArray := []interface{}{}
+		if httpEndpointAuthScopeConfigMap := HttpEndpointAuthScopeConfigToMap(&obj.HttpEndpointAuthScopeConfig); httpEndpointAuthScopeConfigMap != nil {
+			httpEndpointAuthScopeConfigArray = append(httpEndpointAuthScopeConfigArray, httpEndpointAuthScopeConfigMap)
+		}
+		result["http_endpoint_auth_scope_config"] = httpEndpointAuthScopeConfigArray
+	}
 
 	return result
 }
@@ -971,6 +1391,13 @@ func (s *GenerativeAiAgentToolResourceCrud) mapToToolConfig(fieldKeyFormat strin
 		toolConfigType = "" // default value
 	}
 	switch strings.ToLower(toolConfigType) {
+	case strings.ToLower("AGENT_TOOL_CONFIG"):
+		details := oci_generative_ai_agent.AgentToolConfig{}
+		if agentEndpointId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "agent_endpoint_id")); ok {
+			tmp := agentEndpointId.(string)
+			details.AgentEndpointId = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("FUNCTION_CALLING_TOOL_CONFIG"):
 		details := oci_generative_ai_agent.FunctionCallingToolConfig{}
 		if function, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "function")); ok {
@@ -982,6 +1409,33 @@ func (s *GenerativeAiAgentToolResourceCrud) mapToToolConfig(fieldKeyFormat strin
 				}
 				details.Function = &tmp
 			}
+		}
+		baseObject = details
+	case strings.ToLower("HTTP_ENDPOINT_TOOL_CONFIG"):
+		details := oci_generative_ai_agent.HttpEndpointToolConfig{}
+		if apiSchema, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "api_schema")); ok {
+			if tmpList := apiSchema.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "api_schema"), 0)
+				tmp, err := s.mapToApiSchemaInputLocation(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert api_schema, encountered error: %v", err)
+				}
+				details.ApiSchema = tmp
+			}
+		}
+		if httpEndpointAuthConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "http_endpoint_auth_config")); ok {
+			if tmpList := httpEndpointAuthConfig.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "http_endpoint_auth_config"), 0)
+				tmp, err := s.mapToHttpEndpointAuthConfig(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert http_endpoint_auth_config, encountered error: %v", err)
+				}
+				details.HttpEndpointAuthConfig = &tmp
+			}
+		}
+		if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("RAG_TOOL_CONFIG"):
@@ -1089,11 +1543,35 @@ func (s *GenerativeAiAgentToolResourceCrud) mapToToolConfig(fieldKeyFormat strin
 func ToolConfigToMap(obj *oci_generative_ai_agent.ToolConfig) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
+	case oci_generative_ai_agent.AgentToolConfig:
+		result["tool_config_type"] = "AGENT_TOOL_CONFIG"
+
+		if v.AgentEndpointId != nil {
+			result["agent_endpoint_id"] = string(*v.AgentEndpointId)
+		}
 	case oci_generative_ai_agent.FunctionCallingToolConfig:
 		result["tool_config_type"] = "FUNCTION_CALLING_TOOL_CONFIG"
 
 		if v.Function != nil {
 			result["function"] = []interface{}{FunctionToMap(v.Function)}
+		}
+	case oci_generative_ai_agent.HttpEndpointToolConfig:
+		result["tool_config_type"] = "HTTP_ENDPOINT_TOOL_CONFIG"
+
+		if v.ApiSchema != nil {
+			apiSchemaArray := []interface{}{}
+			if apiSchemaMap := ApiSchemaInputLocationToMap(&v.ApiSchema); apiSchemaMap != nil {
+				apiSchemaArray = append(apiSchemaArray, apiSchemaMap)
+			}
+			result["api_schema"] = apiSchemaArray
+		}
+
+		if v.HttpEndpointAuthConfig != nil {
+			result["http_endpoint_auth_config"] = []interface{}{HttpEndpointAuthConfigToMap(v.HttpEndpointAuthConfig)}
+		}
+
+		if v.SubnetId != nil {
+			result["subnet_id"] = string(*v.SubnetId)
 		}
 	case oci_generative_ai_agent.RagToolConfig:
 		result["tool_config_type"] = "RAG_TOOL_CONFIG"
