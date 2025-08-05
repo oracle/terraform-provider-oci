@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strconv"
 	"strings"
 	"time"
 
@@ -27,9 +28,9 @@ func GenerativeAiAgentKnowledgeBaseResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: tfresource.GetTimeoutDuration("50m"),
-			Update: tfresource.GetTimeoutDuration("20m"),
-			Delete: tfresource.GetTimeoutDuration("20m"),
+			Create: tfresource.GetTimeoutDuration("60m"),
+			Update: tfresource.GetTimeoutDuration("30m"),
+			Delete: tfresource.GetTimeoutDuration("30m"),
 		},
 		Create: createGenerativeAiAgentKnowledgeBase,
 		Read:   readGenerativeAiAgentKnowledgeBase,
@@ -249,6 +250,22 @@ func GenerativeAiAgentKnowledgeBaseResource() *schema.Resource {
 			},
 
 			// Computed
+			"knowledge_base_statistics": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"size_in_bytes": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"total_ingested_files": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -660,6 +677,12 @@ func (s *GenerativeAiAgentKnowledgeBaseResourceCrud) SetData() error {
 		s.D.Set("index_config", nil)
 	}
 
+	if s.Res.KnowledgeBaseStatistics != nil {
+		s.D.Set("knowledge_base_statistics", []interface{}{KnowledgeBaseStatisticsToMap(s.Res.KnowledgeBaseStatistics)})
+	} else {
+		s.D.Set("knowledge_base_statistics", nil)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
@@ -961,6 +984,20 @@ func IndexSchemaToMap(obj *oci_generative_ai_agent.IndexSchema) map[string]inter
 
 	if obj.UrlKey != nil {
 		result["url_key"] = string(*obj.UrlKey)
+	}
+
+	return result
+}
+
+func KnowledgeBaseStatisticsToMap(obj *oci_generative_ai_agent.KnowledgeBaseStatistics) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.SizeInBytes != nil {
+		result["size_in_bytes"] = strconv.FormatInt(*obj.SizeInBytes, 10)
+	}
+
+	if obj.TotalIngestedFiles != nil {
+		result["total_ingested_files"] = strconv.FormatInt(*obj.TotalIngestedFiles, 10)
 	}
 
 	return result
