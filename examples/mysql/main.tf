@@ -47,6 +47,17 @@ resource "oci_core_network_security_group" "test_network_security_group" {
 
 resource "oci_mysql_mysql_backup" "test_mysql_backup" {
   db_system_id = oci_mysql_mysql_db_system.test_mysql_backup_db_system.id
+
+  #Optional
+  # To trigger backup validation, set the validate_trigger field to 1 or any higher value.
+  # Each increment to validate_trigger will re-run the backup validation.
+  # Note: Validation is supported only via the update backup resource.
+  # validate_trigger = "1"
+
+  # Set this value to true or false before performing backup validation.
+  # validate_backup_details {
+  #   is_prepared_backup_required = "false"
+  # }
 }
 
 resource "oci_mysql_mysql_db_system" "test_mysql_backup_db_system" {
@@ -173,6 +184,14 @@ data "oci_mysql_mysql_configurations" "test_mysql_configurations" {
   #Optional
   state        = "ACTIVE"
   shape_name   = "MySQL.VM.Standard.E3.1.8GB"
+}
+
+data "oci_mysql_mysql_backups" "test_mysql_backups" {
+  #Required
+  compartment_id = var.compartment_ocid
+
+  #Optional
+  backup_id = oci_mysql_mysql_backup.test_mysql_backup.id
 }
 
 data "oci_mysql_shapes" "test_shapes" {
