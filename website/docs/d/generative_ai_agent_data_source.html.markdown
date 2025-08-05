@@ -35,8 +35,7 @@ The following attributes are exported:
 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `data_source_config` - The details of data source. 
-	* `data_source_config_type` - The type of the tool. The allowed values are:
-		* `OCI_OBJECT_STORAGE`: The data source is Oracle Cloud Infrastructure Object Storage. 
+	* `data_source_config_type` - The type of the tool. 
 	* `object_storage_prefixes` - The locations of data items in Object Storage, can either be an object (File) or a prefix (folder).
 		* `bucket` - The bucket name of an object.
 		* `namespace` - The namespace name of an object.

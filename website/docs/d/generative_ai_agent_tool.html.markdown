@@ -46,6 +46,7 @@ The following attributes are exported:
 * `time_created` - The date and time the Tool was created, in the format defined by [RFC 3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 * `time_updated` - The date and time the Tool was updated, in the format defined by [RFC 3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 * `tool_config` - The configuration and type of Tool. 
+	* `agent_endpoint_id` - The AgentEndpoint OCID to be used as a tool in this agent.
 	* `api_schema` - The input location definition for Api schema.
 		* `api_schema_input_location_type` - Type of Api Schema InputLocation. The allowed values are:
 			* `INLINE`: The Api schema input location is inline.
@@ -73,6 +74,17 @@ The following attributes are exported:
 		* `parameters` - The parameters the function accepts, defined using a JSON Schema object.  Refer to the guide for examples and the JSON Schema documentation for details on the format. 
 	* `generation_llm_customization` - Configuration to customize LLM. 
 		* `instruction` - If specified, the default instruction is replaced with provided instruction.
+	* `http_endpoint_auth_config` - Authentication configuration used for HTTP Endpoint tools. Defines the type of authentication and the source of credentials. 
+		* `http_endpoint_auth_sources` - A list of credential sources from which authentication credentials can be resolved. Only AGENT is supported for HTTP Endpoint Tool. 
+			* `http_endpoint_auth_scope` - Specifies the level from which credentials should be resolved.
+			* `http_endpoint_auth_scope_config` - Subset of AuthScopeConfig allowed for HTTP Endpoint Tool. 
+				* `client_id` - IDCS client ID.
+				* `http_endpoint_auth_scope_config_type` - The type of authentication to be applied for this HTTP Endpoint. 
+				* `idcs_url` - IDCS OpenID discovery endpoint.
+				* `key_location` - The location of the API key in the request.
+				* `key_name` - The name of the key parameter in the location.
+				* `scope_url` - OAuth2 scopes for token generation.
+				* `vault_secret_id` - The OCID of the vault secret with username:password. Required when `authScope` is AGENT. 
 	* `icl_examples` - The input location definition.
 		* `bucket` - The bucket name of an object.
 		* `content` - Inline content as input.
@@ -86,6 +98,7 @@ The following attributes are exported:
 	* `model_size` - Size of the model.
 	* `should_enable_self_correction` - To enable/disable self correction.
 	* `should_enable_sql_execution` - To enable/disable SQL execution.
+	* `subnet_id` - The subnet ID from agent developer tenancy through which the egress is going to be routed.
 	* `table_and_column_description` - The input location definition.
 		* `bucket` - The bucket name of an object.
 		* `content` - Inline content as input.

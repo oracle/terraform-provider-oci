@@ -259,6 +259,10 @@ func GenerativeAiAgentKnowledgeBaseResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"total_ingested_files": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 					},
 				},
 			},
@@ -990,6 +994,10 @@ func KnowledgeBaseStatisticsToMap(obj *oci_generative_ai_agent.KnowledgeBaseStat
 
 	if obj.SizeInBytes != nil {
 		result["size_in_bytes"] = strconv.FormatInt(*obj.SizeInBytes, 10)
+	}
+
+	if obj.TotalIngestedFiles != nil {
+		result["total_ingested_files"] = strconv.FormatInt(*obj.TotalIngestedFiles, 10)
 	}
 
 	return result

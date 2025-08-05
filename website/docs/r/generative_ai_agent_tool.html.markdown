@@ -26,6 +26,7 @@ resource "oci_generative_ai_agent_tool" "test_tool" {
 		tool_config_type = var.tool_tool_config_tool_config_type
 
 		#Optional
+		agent_endpoint_id = oci_generative_ai_agent_agent_endpoint.test_agent_endpoint.id
 		api_schema {
 			#Required
 			api_schema_input_location_type = var.tool_tool_config_api_schema_api_schema_input_location_type
@@ -64,6 +65,27 @@ resource "oci_generative_ai_agent_tool" "test_tool" {
 			#Optional
 			instruction = var.tool_tool_config_generation_llm_customization_instruction
 		}
+		http_endpoint_auth_config {
+
+			#Optional
+			http_endpoint_auth_sources {
+
+				#Optional
+				http_endpoint_auth_scope = var.tool_tool_config_http_endpoint_auth_config_http_endpoint_auth_sources_http_endpoint_auth_scope
+				http_endpoint_auth_scope_config {
+					#Required
+					http_endpoint_auth_scope_config_type = var.tool_tool_config_http_endpoint_auth_config_http_endpoint_auth_sources_http_endpoint_auth_scope_config_http_endpoint_auth_scope_config_type
+
+					#Optional
+					client_id = oci_generative_ai_agent_client.test_client.id
+					idcs_url = var.tool_tool_config_http_endpoint_auth_config_http_endpoint_auth_sources_http_endpoint_auth_scope_config_idcs_url
+					key_location = var.tool_tool_config_http_endpoint_auth_config_http_endpoint_auth_sources_http_endpoint_auth_scope_config_key_location
+					key_name = oci_kms_key.test_key.name
+					scope_url = var.tool_tool_config_http_endpoint_auth_config_http_endpoint_auth_sources_http_endpoint_auth_scope_config_scope_url
+					vault_secret_id = oci_vault_secret.test_secret.id
+				}
+			}
+		}
 		icl_examples {
 			#Required
 			input_location_type = var.tool_tool_config_icl_examples_input_location_type
@@ -82,6 +104,7 @@ resource "oci_generative_ai_agent_tool" "test_tool" {
 		model_size = var.tool_tool_config_model_size
 		should_enable_self_correction = var.tool_tool_config_should_enable_self_correction
 		should_enable_sql_execution = var.tool_tool_config_should_enable_sql_execution
+		subnet_id = oci_core_subnet.test_subnet.id
 		table_and_column_description {
 			#Required
 			input_location_type = var.tool_tool_config_table_and_column_description_input_location_type
@@ -114,6 +137,7 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `metadata` - (Optional) (Updatable) Key-value pairs to allow additional configurations.
 * `tool_config` - (Required) (Updatable) The configuration and type of Tool. 
+	* `agent_endpoint_id` - (Required when tool_config_type=AGENT_TOOL_CONFIG) (Updatable) The AgentEndpoint OCID to be used as a tool in this agent.
 	* `api_schema` - (Required when tool_config_type=HTTP_ENDPOINT_TOOL_CONFIG) (Updatable) The input location definition for Api schema.
 		* `api_schema_input_location_type` - (Required) (Updatable) Type of Api Schema InputLocation. The allowed values are:
 			* `INLINE`: The Api schema input location is inline.
@@ -141,6 +165,17 @@ The following arguments are supported:
 		* `parameters` - (Applicable when tool_config_type=FUNCTION_CALLING_TOOL_CONFIG) (Updatable) The parameters the function accepts, defined using a JSON Schema object.  Refer to the guide for examples and the JSON Schema documentation for details on the format. 
 	* `generation_llm_customization` - (Applicable when tool_config_type=RAG_TOOL_CONFIG | SQL_TOOL_CONFIG) (Updatable) Configuration to customize LLM. 
 		* `instruction` - (Applicable when tool_config_type=RAG_TOOL_CONFIG | SQL_TOOL_CONFIG) (Updatable) If specified, the default instruction is replaced with provided instruction.
+	* `http_endpoint_auth_config` - (Required when tool_config_type=HTTP_ENDPOINT_TOOL_CONFIG) (Updatable) Authentication configuration used for HTTP Endpoint tools. Defines the type of authentication and the source of credentials. 
+		* `http_endpoint_auth_sources` - (Required when tool_config_type=HTTP_ENDPOINT_TOOL_CONFIG) (Updatable) A list of credential sources from which authentication credentials can be resolved. Only AGENT is supported for HTTP Endpoint Tool. 
+			* `http_endpoint_auth_scope` - (Required when tool_config_type=HTTP_ENDPOINT_TOOL_CONFIG) (Updatable) Specifies the level from which credentials should be resolved.
+			* `http_endpoint_auth_scope_config` - (Required when tool_config_type=HTTP_ENDPOINT_TOOL_CONFIG) (Updatable) Subset of AuthScopeConfig allowed for HTTP Endpoint Tool. 
+				* `client_id` - (Required when http_endpoint_auth_scope_config_type=HTTP_ENDPOINT_IDCS_AUTH_SCOPE_CONFIG) (Updatable) IDCS client ID.
+				* `http_endpoint_auth_scope_config_type` - (Required) (Updatable) The type of authentication to be applied for this HTTP Endpoint. 
+				* `idcs_url` - (Required when http_endpoint_auth_scope_config_type=HTTP_ENDPOINT_IDCS_AUTH_SCOPE_CONFIG) (Updatable) IDCS OpenID discovery endpoint.
+				* `key_location` - (Required when http_endpoint_auth_scope_config_type=HTTP_ENDPOINT_API_KEY_AUTH_SCOPE_CONFIG) (Updatable) The location of the API key in the request.
+				* `key_name` - (Required when http_endpoint_auth_scope_config_type=HTTP_ENDPOINT_API_KEY_AUTH_SCOPE_CONFIG) (Updatable) The name of the key parameter in the location.
+				* `scope_url` - (Required when http_endpoint_auth_scope_config_type=HTTP_ENDPOINT_IDCS_AUTH_SCOPE_CONFIG) (Updatable) OAuth2 scopes for token generation.
+				* `vault_secret_id` - (Required when http_endpoint_auth_scope_config_type=HTTP_ENDPOINT_API_KEY_AUTH_SCOPE_CONFIG | HTTP_ENDPOINT_BASIC_AUTH_SCOPE_CONFIG | HTTP_ENDPOINT_BEARER_AUTH_SCOPE_CONFIG | HTTP_ENDPOINT_IDCS_AUTH_SCOPE_CONFIG) (Updatable) The OCID of the vault secret with username:password. Required when `authScope` is AGENT. 
 	* `icl_examples` - (Applicable when tool_config_type=SQL_TOOL_CONFIG) (Updatable) The input location definition.
 		* `bucket` - (Required when input_location_type=OBJECT_STORAGE_PREFIX) (Updatable) The bucket name of an object.
 		* `content` - (Applicable when input_location_type=INLINE) (Updatable) Inline content as input.
@@ -154,6 +189,7 @@ The following arguments are supported:
 	* `model_size` - (Applicable when tool_config_type=SQL_TOOL_CONFIG) (Updatable) Size of the model.
 	* `should_enable_self_correction` - (Applicable when tool_config_type=SQL_TOOL_CONFIG) (Updatable) To enable/disable self correction.
 	* `should_enable_sql_execution` - (Applicable when tool_config_type=SQL_TOOL_CONFIG) (Updatable) To enable/disable SQL execution.
+	* `subnet_id` - (Required when tool_config_type=HTTP_ENDPOINT_TOOL_CONFIG) (Updatable) The subnet ID from agent developer tenancy through which the egress is going to be routed.
 	* `table_and_column_description` - (Applicable when tool_config_type=SQL_TOOL_CONFIG) (Updatable) The input location definition.
 		* `bucket` - (Required when input_location_type=OBJECT_STORAGE_PREFIX) (Updatable) The bucket name of an object.
 		* `content` - (Applicable when input_location_type=INLINE) (Updatable) Inline content as input.
@@ -188,6 +224,7 @@ The following attributes are exported:
 * `time_created` - The date and time the Tool was created, in the format defined by [RFC 3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 * `time_updated` - The date and time the Tool was updated, in the format defined by [RFC 3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 * `tool_config` - The configuration and type of Tool. 
+	* `agent_endpoint_id` - The AgentEndpoint OCID to be used as a tool in this agent.
 	* `api_schema` - The input location definition for Api schema.
 		* `api_schema_input_location_type` - Type of Api Schema InputLocation. The allowed values are:
 			* `INLINE`: The Api schema input location is inline.
@@ -215,6 +252,17 @@ The following attributes are exported:
 		* `parameters` - The parameters the function accepts, defined using a JSON Schema object.  Refer to the guide for examples and the JSON Schema documentation for details on the format. 
 	* `generation_llm_customization` - Configuration to customize LLM. 
 		* `instruction` - If specified, the default instruction is replaced with provided instruction.
+	* `http_endpoint_auth_config` - Authentication configuration used for HTTP Endpoint tools. Defines the type of authentication and the source of credentials. 
+		* `http_endpoint_auth_sources` - A list of credential sources from which authentication credentials can be resolved. Only AGENT is supported for HTTP Endpoint Tool. 
+			* `http_endpoint_auth_scope` - Specifies the level from which credentials should be resolved.
+			* `http_endpoint_auth_scope_config` - Subset of AuthScopeConfig allowed for HTTP Endpoint Tool. 
+				* `client_id` - IDCS client ID.
+				* `http_endpoint_auth_scope_config_type` - The type of authentication to be applied for this HTTP Endpoint. 
+				* `idcs_url` - IDCS OpenID discovery endpoint.
+				* `key_location` - The location of the API key in the request.
+				* `key_name` - The name of the key parameter in the location.
+				* `scope_url` - OAuth2 scopes for token generation.
+				* `vault_secret_id` - The OCID of the vault secret with username:password. Required when `authScope` is AGENT. 
 	* `icl_examples` - The input location definition.
 		* `bucket` - The bucket name of an object.
 		* `content` - Inline content as input.
@@ -228,6 +276,7 @@ The following attributes are exported:
 	* `model_size` - Size of the model.
 	* `should_enable_self_correction` - To enable/disable self correction.
 	* `should_enable_sql_execution` - To enable/disable SQL execution.
+	* `subnet_id` - The subnet ID from agent developer tenancy through which the egress is going to be routed.
 	* `table_and_column_description` - The input location definition.
 		* `bucket` - The bucket name of an object.
 		* `content` - Inline content as input.

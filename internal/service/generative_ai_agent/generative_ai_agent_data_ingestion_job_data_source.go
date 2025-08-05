@@ -76,6 +76,12 @@ func (s *GenerativeAiAgentDataIngestionJobDataSourceCrud) SetData() error {
 		s.D.Set("data_ingestion_job_statistics", nil)
 	}
 
+	if s.Res.DataIngestionJobType != nil {
+		s.D.Set("data_ingestion_job_type", []interface{}{DataIngestionJobTypeToMap(s.Res.DataIngestionJobType)})
+	} else {
+		s.D.Set("data_ingestion_job_type", nil)
+	}
+
 	if s.Res.DataSourceId != nil {
 		s.D.Set("data_source_id", *s.Res.DataSourceId)
 	}

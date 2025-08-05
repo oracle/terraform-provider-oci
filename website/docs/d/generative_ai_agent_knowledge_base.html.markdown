@@ -43,14 +43,10 @@ The following attributes are exported:
 	* `cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OpenSearch Cluster.
 	* `database_connection` - The connection type for Databases. 
 		* `connection_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Tools Connection.
-		* `connection_type` - The type of Database connection. The allowed values are:
-			* `DATABASE_TOOL_CONNECTION`: This allows the service to connect to a vector store via a Database Tools Connection. 
+		* `connection_type` - The type of Database connection. 
 	* `database_functions` - Array of Database functions to be used.
 		* `name` - The name of the Database function. 
-	* `index_config_type` - The type of index. The allowed values are:
-		* `DEFAULT_INDEX_CONFIG`: DefaultIndexConfig allows the service to create and manage vector store on behalf of the customer.
-		* `OCI_OPEN_SEARCH_INDEX_CONFIG`: OciOpenSearchIndexConfig allows customer to configure their OpenSearch cluster.
-		* `OCI_DATABASE_CONFIG`: OciDatabaseConfig allows customer to configure their Database. 
+	* `index_config_type` - The type of index. 
 	* `indexes` - Index configuration for open search.
 		* `name` - The index name in opensearch.
 		* `schema` - The index schema details. 
@@ -62,13 +58,12 @@ The following attributes are exported:
 		* `client_id` - The IDCS Connect clientId.
 		* `idcs_url` - The URL represent authentication url of the IDCS.
 		* `scope_url` - Fully qualified scope url
-		* `type` - The type of OpenID. The allowed values are:
-			* `IDCS_SECRET`: The OpenID configuration used is OpenSearch is IDCS.
-			* `BASIC_AUTH_SECRET`: Basic authentication use for OpenSearch 
+		* `type` - The type of OpenID. 
 		* `vault_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret for basic authentication.
 	* `should_enable_hybrid_search` - Whether to enable Hybrid search in service managed OpenSearch.
 * `knowledge_base_statistics` - Statistics for Default Knowledge Base.
 	* `size_in_bytes` - Knowledge Base size in bytes.
+	* `total_ingested_files` - Total number of ingested files in Knowledge Base.
 * `lifecycle_details` - A message that describes the current state of the knowledge base in more detail. For example, can be used to provide actionable information for a resource in the Failed state. 
 * `state` - The current state of the knowledge base.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 

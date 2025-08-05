@@ -94,8 +94,29 @@ func GenerativeAiAgentDataIngestionJobResource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"number_of_ignored_files": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"number_of_ingested_files": {
 							Type:     schema.TypeInt,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"data_ingestion_job_type": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"type": {
+							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
@@ -416,6 +437,12 @@ func (s *GenerativeAiAgentDataIngestionJobResourceCrud) SetData() error {
 		s.D.Set("data_ingestion_job_statistics", nil)
 	}
 
+	if s.Res.DataIngestionJobType != nil {
+		s.D.Set("data_ingestion_job_type", []interface{}{DataIngestionJobTypeToMap(s.Res.DataIngestionJobType)})
+	} else {
+		s.D.Set("data_ingestion_job_type", nil)
+	}
+
 	if s.Res.DataSourceId != nil {
 		s.D.Set("data_source_id", *s.Res.DataSourceId)
 	}
@@ -470,6 +497,10 @@ func DataIngestionJobStatisticsToMap(obj *oci_generative_ai_agent.DataIngestionJ
 		result["number_of_failed_files"] = int(*obj.NumberOfFailedFiles)
 	}
 
+	if obj.NumberOfIgnoredFiles != nil {
+		result["number_of_ignored_files"] = int(*obj.NumberOfIgnoredFiles)
+	}
+
 	if obj.NumberOfIngestedFiles != nil {
 		result["number_of_ingested_files"] = int(*obj.NumberOfIngestedFiles)
 	}
@@ -482,6 +513,14 @@ func DataIngestionJobSummaryToMap(obj oci_generative_ai_agent.DataIngestionJobSu
 
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.DataIngestionJobStatistics != nil {
+		result["data_ingestion_job_statistics"] = []interface{}{DataIngestionJobStatisticsToMap(obj.DataIngestionJobStatistics)}
+	}
+
+	if obj.DataIngestionJobType != nil {
+		result["data_ingestion_job_type"] = []interface{}{DataIngestionJobTypeToMap(obj.DataIngestionJobType)}
 	}
 
 	if obj.DataSourceId != nil {
@@ -523,6 +562,14 @@ func DataIngestionJobSummaryToMap(obj oci_generative_ai_agent.DataIngestionJobSu
 	if obj.TimeUpdated != nil {
 		result["time_updated"] = obj.TimeUpdated.String()
 	}
+
+	return result
+}
+
+func DataIngestionJobTypeToMap(obj *oci_generative_ai_agent.DataIngestionJobType) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["type"] = string(obj.Type)
 
 	return result
 }
