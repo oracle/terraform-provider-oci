@@ -43,7 +43,10 @@ The following arguments are supported:
 * `display_name` - (Optional) (Updatable) A user-supplied display name for the backup.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `retention_in_days` - (Optional) (Updatable) Number of days to retain this backup.
-* `soft_delete` - (Optional) (Updatable) Retains the backup to be deleted due to the retention policy in DELETE SCHEDULED state for 7 days before permanently deleting it. 
+* `soft_delete` - (Optional) (Updatable) Retains the backup to be deleted due to the retention policy in DELETE SCHEDULED state for 7 days before permanently deleting it.
+* `validate_trigger` - (Optional) (Updatable) An optional integer property when incremented will trigger a validation of the backup. Set the integer to 1 initially and increment it by 1 to re-trigger validation.
+* `validate-backup-details` - Details required to validate backup. **Note:** Validate action can only be called from update resource operation.
+	* `is_prepared_backup_required` - Specifies whether the backup needs to be prepared for fast restore or not. Set to true to prepare the backup **Note:** Prepare backup is a one time operation, therefore this field can be set to true only once.
 * `source_details` - (Optional) Details of backup source in the cloud.
 	* `region` - (Required) The region of the backup source.
 	* `backup_id` - (Required) The OCID of the source backup.
@@ -58,6 +61,15 @@ The following attributes are exported:
 
 * `backup_size_in_gbs` - The size of the backup in base-2 (IEC) gibibytes. (GiB).
 * `backup_type` - The type of backup.
+* `backup_validation_details` - Backup validation details.
+	* `backup_preparation_status` - Indicates whether the backup has been prepared successfully.  PREPARED: The backup is prepared one. NOT_PREPARED: The backup is not prepared. 
+	* `error_message` - Error message if the backup validation has failed.
+	* `estimated_restore_duration` - The estimated restore duration of the backup.
+	* `prepared_backup_details` - Prepared backup details.
+		* `prepared_backup_restore_reduction_in_minutes` - The estimated time saving when this prepared backup is restored.
+		* `time_prepared` - The date and time the backup was prepared.
+	* `time_last_validated` - The date and time of the most recent validation performed on the backup.
+	* `validation_status` - The status of backup validation:  NOT_VALIDATED (Default): The backup has not been validated.  VALIDATED: The backup has been validated successfully.  NEEDS_ATTENTION: The backup validation failed due to a transient issue. Validation should be retried.  FAILED: The backup cannot be restored.
 * `compartment_id` - The OCID of the compartment the backup exists in.
 * `creation_type` - Indicates how the backup was created: manually, automatic, or by an Operator. 
 * `data_storage_size_in_gb` - Initial size of the data volume in GiBs. 

@@ -21,7 +21,7 @@ data "oci_mysql_mysql_backups" "test_mysql_backups" {
 	compartment_id = var.compartment_id
 
 	#Optional
-	backup_id = oci_mysql_mysql_backup.test_backup.id
+	backup_id = oci_mysql_mysql_backup.test_mysql_backup.id
 	creation_type = var.mysql_backup_creation_type
 	db_system_id = oci_mysql_mysql_db_system.test_db_system.id
 	display_name = var.mysql_backup_display_name
@@ -55,6 +55,15 @@ The following attributes are exported:
 
 * `backup_size_in_gbs` - The size of the backup in base-2 (IEC) gibibytes. (GiB).
 * `backup_type` - The type of backup.
+* `backup_validation_details` - Backup validation details.
+	* `backup_preparation_status` - Indicates whether the backup has been prepared successfully.  PREPARED: The backup is prepared one. NOT_PREPARED: The backup is not prepared. 
+	* `error_message` - Error message if the backup validation has failed.
+	* `estimated_restore_duration` - The estimated restore duration of the backup.
+	* `prepared_backup_details` - Prepared backup details.
+		* `prepared_backup_restore_reduction_in_minutes` - The estimated time saving when this prepared backup is restored.
+		* `time_prepared` - The date and time the backup was prepared.
+	* `time_last_validated` - The date and time of the most recent validation performed on the backup.
+	* `validation_status` - The status of backup validation:  NOT_VALIDATED (Default): The backup has not been validated.  VALIDATED: The backup has been validated successfully.  NEEDS_ATTENTION: The backup validation failed due to a transient issue. Validation should be retried.  FAILED: The backup cannot be restored.
 * `compartment_id` - The OCID of the compartment the backup exists in.
 * `creation_type` - Indicates how the backup was created: manually, automatic, or by an Operator. 
 * `data_storage_size_in_gb` - Initial size of the data volume in GiBs. 

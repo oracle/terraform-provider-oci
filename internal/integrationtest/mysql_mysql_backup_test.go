@@ -35,7 +35,7 @@ var (
 		"backup_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_mysql_mysql_backup.test_mysql_backup.id}`},
 	}
 
-	MysqlMysqlMysqlBackupDataSourceRepresentation = map[string]interface{}{
+	MysqlMysqlBackupDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"backup_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_mysql_mysql_backup.test_mysql_backup.id}`},
 		"creation_type":  acctest.Representation{RepType: acctest.Optional, Create: `MANUAL`},
@@ -44,22 +44,29 @@ var (
 		"soft_delete":    acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: MysqlMysqlBackupDataSourceFilterRepresentation}}
+
 	MysqlMysqlBackupDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_mysql_mysql_backup.test_mysql_backup.id}`}},
 	}
 
 	MysqlMysqlBackupRepresentation = map[string]interface{}{
-		"db_system_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_mysql_mysql_db_system.test_mysql_backup_db_system.id}`},
-		"backup_type":       acctest.Representation{RepType: acctest.Optional, Create: `INCREMENTAL`},
-		"defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":       acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"display_name":      acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"freeform_tags":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"retention_in_days": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
-		"soft_delete":       acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
-		"compartment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"lifecycle":         acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesForMysqlBackup},
+		"db_system_id":            acctest.Representation{RepType: acctest.Required, Create: `${oci_mysql_mysql_db_system.test_mysql_backup_db_system.id}`},
+		"backup_type":             acctest.Representation{RepType: acctest.Optional, Create: `INCREMENTAL`},
+		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":             acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"display_name":            acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"retention_in_days":       acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"soft_delete":             acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
+		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"validate_trigger":        acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `1`},
+		"lifecycle":               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesForMysqlBackup},
+		"validate_backup_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlMysqlBackupValidateBackupDetailsRepresentation},
+	}
+
+	MysqlMysqlBackupValidateBackupDetailsRepresentation = map[string]interface{}{
+		"is_prepared_backup_required": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 	}
 
 	ignoreDefinedTagsChangesForMysqlBackup = map[string]interface{}{
@@ -184,7 +191,10 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + MysqlMysqlBackupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", acctest.Optional, acctest.Update, MysqlMysqlBackupRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithNewProperties(MysqlMysqlBackupRepresentation, map[string]interface{}{
+						"validate_trigger": acctest.Representation{RepType: acctest.Optional, Update: `0`},
+					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "backup_type", "INCREMENTAL"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -209,10 +219,41 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 				},
 			),
 		},
+
+		// verify backup validation
+		{
+			Config: config + compartmentIdVariableStr + MysqlMysqlBackupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", acctest.Optional, acctest.Update, MysqlMysqlBackupRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "backup_type", "INCREMENTAL"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "creation_type"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "retention_in_days", "11"),
+				resource.TestCheckResourceAttr(resourceName, "soft_delete", "DISABLED"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "validate_trigger", "1"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_mysql_backups", "test_mysql_backups", acctest.Optional, acctest.Update, MysqlMysqlMysqlBackupDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_mysql_backups", "test_mysql_backups", acctest.Optional, acctest.Update, MysqlMysqlBackupDataSourceRepresentation) +
 				compartmentIdVariableStr + MysqlMysqlBackupResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", acctest.Optional, acctest.Update, MysqlMysqlBackupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -241,6 +282,8 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "backups.0.soft_delete", "DISABLED"),
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.time_created"),
+				resource.TestCheckResourceAttr(datasourceName, "backups.0.backup_preparation_status", "PREPARED"),
+				resource.TestCheckResourceAttr(datasourceName, "backups.0.validation_status", "VALIDATED"),
 			),
 		},
 		// verify singular datasource
@@ -253,6 +296,9 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "backup_size_in_gbs"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "backup_type", "INCREMENTAL"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "backup_validation_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "backup_validation_details.0.backup_preparation_status", "PREPARED"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "backup_validation_details.0.validation_status", "VALIDATED"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "creation_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_storage_size_in_gb"),
@@ -273,11 +319,14 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + MysqlMysqlBackupRequiredOnlyResource,
-			ImportState:             true,
-			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{},
-			ResourceName:            resourceName,
+			Config:            config + MysqlMysqlBackupRequiredOnlyResource,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"validate_trigger",
+				"validate_backup_details",
+			},
+			ResourceName: resourceName,
 		},
 	})
 }
