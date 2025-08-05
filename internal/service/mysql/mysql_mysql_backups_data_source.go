@@ -49,7 +49,160 @@ func MysqlMysqlBackupsDataSource() *schema.Resource {
 			"backups": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     tfresource.GetDataSourceItemSchema(MysqlMysqlBackupResource()),
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+
+						"compartment_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"creation_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"db_system_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"display_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+
+						// Optional
+
+						// Computed
+						"description": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"soft_delete": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"backup_preparation_status": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"validation_status": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_created": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"lifecycle_details": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"backup_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"data_storage_size_in_gb": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"backup_size_in_gbs": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"retention_in_days": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"mysql_version": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"shape_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"freeform_tags": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
+						"defined_tags": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
+						"system_tags": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
+						"immediate_source_backup_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"original_source_backup_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_copy_created": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"db_system_snapshot_summary": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Computed
+									"display_name": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"region": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"encrypt_data": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"key_generation_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"key_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 		},
 	}
@@ -81,6 +234,10 @@ func (s *MysqlMysqlBackupsDataSourceCrud) Get() error {
 		request.BackupId = &tmp
 	}
 
+	if backupPreparationStatus, ok := s.D.GetOkExists("backup_preparation_status"); ok {
+		request.BackupPreparationStatus = oci_mysql.BackupValidationDetailsBackupPreparationStatusEnum(backupPreparationStatus.(string))
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -106,6 +263,10 @@ func (s *MysqlMysqlBackupsDataSourceCrud) Get() error {
 
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_mysql.BackupLifecycleStateEnum(state.(string))
+	}
+
+	if validationStatus, ok := s.D.GetOkExists("validation_status"); ok {
+		request.ValidationStatus = oci_mysql.BackupValidationDetailsValidationStatusEnum(validationStatus.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "mysql")
@@ -143,6 +304,8 @@ func (s *MysqlMysqlBackupsDataSourceCrud) SetData() error {
 		mysqlBackup := map[string]interface{}{
 			"compartment_id": *r.CompartmentId,
 		}
+
+		mysqlBackup["backup_preparation_status"] = oci_mysql.BackupValidationDetailsBackupPreparationStatusEnum(r.BackupPreparationStatus)
 
 		if r.BackupSizeInGBs != nil {
 			mysqlBackup["backup_size_in_gbs"] = *r.BackupSizeInGBs
@@ -229,6 +392,8 @@ func (s *MysqlMysqlBackupsDataSourceCrud) SetData() error {
 		if r.TimeCreated != nil {
 			mysqlBackup["time_created"] = r.TimeCreated.String()
 		}
+
+		mysqlBackup["validation_status"] = oci_mysql.BackupValidationDetailsBackupPreparationStatusEnum(r.ValidationStatus)
 
 		resources = append(resources, mysqlBackup)
 	}

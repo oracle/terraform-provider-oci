@@ -20,11 +20,15 @@ func MysqlMysqlBackupResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createMysqlMysqlBackup,
-		Read:     readMysqlMysqlBackup,
-		Update:   updateMysqlMysqlBackup,
-		Delete:   deleteMysqlMysqlBackup,
+		Timeouts: &schema.ResourceTimeout{
+			Create: &tfresource.TwentyMinutes,
+			Update: &tfresource.ThirtyMinutes,
+			Delete: &tfresource.TwentyMinutes,
+		},
+		Create: createMysqlMysqlBackup,
+		Read:   readMysqlMysqlBackup,
+		Update: updateMysqlMysqlBackup,
+		Delete: deleteMysqlMysqlBackup,
 		Schema: map[string]*schema.Schema{
 			// Optional
 			"db_system_id": {
@@ -108,10 +112,82 @@ func MysqlMysqlBackupResource() *schema.Resource {
 				Computed: true,
 			},
 
+			"validate_trigger": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
+
 			// Computed
 			"backup_size_in_gbs": {
 				Type:     schema.TypeInt,
 				Computed: true,
+			},
+			"backup_validation_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"backup_preparation_status": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"error_message": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"estimated_restore_duration": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"prepared_backup_details": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"prepared_backup_restore_reduction_in_minutes": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"time_prepared": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"time_last_validated": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"validation_status": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"validate_backup_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"is_prepared_backup_required": {
+							Type:     schema.TypeBool,
+							Required: true,
+						},
+					},
+				},
 			},
 			"creation_type": {
 				Type:     schema.TypeString,
@@ -646,7 +722,27 @@ func updateMysqlMysqlBackup(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbBackupsClient()
 
-	return tfresource.UpdateResource(d, sync)
+	if _, ok := sync.D.GetOkExists("validate_trigger"); ok && sync.D.HasChange("validate_trigger") {
+		oldRaw, newRaw := sync.D.GetChange("validate_trigger")
+		oldValue := oldRaw.(int)
+		newValue := newRaw.(int)
+		if oldValue < newValue {
+			err := sync.ValidateBackup()
+
+			if err != nil {
+				return err
+			}
+		} else {
+			sync.D.Set("validate_trigger", oldRaw)
+			return fmt.Errorf("new value of trigger should be greater than the old value")
+		}
+	}
+
+	if err := tfresource.UpdateResource(d, sync); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func deleteMysqlMysqlBackup(d *schema.ResourceData, m interface{}) error {
@@ -955,6 +1051,12 @@ func (s *MysqlMysqlBackupResourceCrud) SetData() error {
 
 	s.D.Set("backup_type", s.Res.BackupType)
 
+	if s.Res.BackupValidationDetails != nil {
+		s.D.Set("backup_validation_details", []interface{}{BackupValidationDetailsToMap(s.Res.BackupValidationDetails)})
+	} else {
+		s.D.Set("backup_validation_details", nil)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -1042,6 +1144,39 @@ func (s *MysqlMysqlBackupResourceCrud) SetData() error {
 	return nil
 }
 
+func (s *MysqlMysqlBackupResourceCrud) ValidateBackup() error {
+	request := oci_mysql.ValidateBackupRequest{}
+
+	backupId := s.D.Id()
+	request.BackupId = &backupId
+
+	if validateBackupDetails, ok := s.D.GetOkExists("validate_backup_details"); ok && validateBackupDetails != nil {
+		fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "validate_backup_details", 0)
+
+		if isPreparedBackupRequired, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_prepared_backup_required")); ok && isPreparedBackupRequired != nil {
+			tmp := isPreparedBackupRequired.(bool)
+			request.IsPreparedBackupRequired = &tmp
+		}
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
+
+	response, err := s.Client.ValidateBackup(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	val := s.D.Get("validate_trigger")
+	s.D.Set("validate_trigger", val)
+
+	s.Res = &response.Backup
+	return nil
+}
+
 func BackupPolicyToMap(obj *oci_mysql.BackupPolicy) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -1074,6 +1209,32 @@ func BackupPolicyToMap(obj *oci_mysql.BackupPolicy) map[string]interface{} {
 	if obj.WindowStartTime != nil {
 		result["window_start_time"] = string(*obj.WindowStartTime)
 	}
+
+	return result
+}
+
+func BackupValidationDetailsToMap(obj *oci_mysql.BackupValidationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["backup_preparation_status"] = string(obj.BackupPreparationStatus)
+
+	if obj.ErrorMessage != nil {
+		result["error_message"] = string(*obj.ErrorMessage)
+	}
+
+	if obj.EstimatedRestoreDuration != nil {
+		result["estimated_restore_duration"] = string(*obj.EstimatedRestoreDuration)
+	}
+
+	if obj.PreparedBackupDetails != nil {
+		result["prepared_backup_details"] = []interface{}{PreparedBackupDetailsToMap(obj.PreparedBackupDetails)}
+	}
+
+	if obj.TimeLastValidated != nil {
+		result["time_last_validated"] = obj.TimeLastValidated.String()
+	}
+
+	result["validation_status"] = string(obj.ValidationStatus)
 
 	return result
 }
@@ -1305,6 +1466,20 @@ func (s *MysqlMysqlBackupResourceCrud) mapToEncryptDataDetails(fieldKeyFormat st
 	}
 
 	return result, nil
+}
+
+func PreparedBackupDetailsToMap(obj *oci_mysql.PreparedBackupDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.PreparedBackupRestoreReductionInMinutes != nil {
+		result["prepared_backup_restore_reduction_in_minutes"] = int(*obj.PreparedBackupRestoreReductionInMinutes)
+	}
+
+	if obj.TimePrepared != nil {
+		result["time_prepared"] = obj.TimePrepared.String()
+	}
+
+	return result
 }
 
 func (s *MysqlMysqlBackupResourceCrud) updateCompartment(compartment interface{}) error {
