@@ -102,6 +102,7 @@ func TestGenerativeAiAgentDataIngestionJobResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_data_ingestion_job", "test_data_ingestion_job", acctest.Optional, acctest.Create, GenerativeAiAgentDataIngestionJobRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "data_ingestion_job_type.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "data_ingestion_job_statistics.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "data_source_id"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -131,6 +132,7 @@ func TestGenerativeAiAgentDataIngestionJobResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_data_ingestion_job", "test_data_ingestion_job", acctest.Optional, acctest.Update, GenerativeAiAgentDataIngestionJobRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "data_ingestion_job_type.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "data_source_id"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "SUCCEEDED"),
@@ -148,6 +150,7 @@ func TestGenerativeAiAgentDataIngestionJobResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_ingestion_job_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "data_ingestion_job_type.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "data_ingestion_job_statistics.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName"),

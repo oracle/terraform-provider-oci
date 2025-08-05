@@ -56,7 +56,10 @@ The following attributes are exported:
 	The statistics of data ingestion job. 
 	* `duration_in_seconds` - The duration of this ingestion job.
 	* `number_of_failed_files` - The number of files that have failed during the ingestion.
+	* `number_of_ignored_files` - The number of files that have been ignored during the ingestion.
 	* `number_of_ingested_files` - The number of files that have been successfully ingested during the ingestion.
+* `data_ingestion_job_type` - DataIngestionJob type.
+	* `type` - Type of ingestionJob.
 * `data_source_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the parent DataSource.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `description` - A user-friendly name. Does not have to be unique, and it's changeable.
