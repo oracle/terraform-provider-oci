@@ -49,6 +49,8 @@ The following attributes are exported:
 * `cluster_mode` - Specifies whether the cluster is sharded or non-sharded.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the compartment that contains the cluster.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
+* `discovery_endpoint_ip_address` - The private IP address of the API endpoint for sharded cluster discovery.
+* `discovery_fqdn` - The fully qualified domain name (FQDN) of the API endpoint for sharded cluster discovery.
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the cluster.

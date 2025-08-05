@@ -99,6 +99,14 @@ func RedisRedisClusterResource() *schema.Resource {
 			},
 
 			// Computed
+			"discovery_endpoint_ip_address": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"discovery_fqdn": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -644,6 +652,14 @@ func (s *RedisRedisClusterResourceCrud) SetData() error {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
 
+	if s.Res.DiscoveryEndpointIpAddress != nil {
+		s.D.Set("discovery_endpoint_ip_address", *s.Res.DiscoveryEndpointIpAddress)
+	}
+
+	if s.Res.DiscoveryFqdn != nil {
+		s.D.Set("discovery_fqdn", *s.Res.DiscoveryFqdn)
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
@@ -762,6 +778,14 @@ func RedisClusterSummaryToMap(obj oci_redis.RedisClusterSummary, datasource bool
 
 	if obj.DefinedTags != nil {
 		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	}
+
+	if obj.DiscoveryEndpointIpAddress != nil {
+		result["discovery_endpoint_ip_address"] = string(*obj.DiscoveryEndpointIpAddress)
+	}
+
+	if obj.DiscoveryFqdn != nil {
+		result["discovery_fqdn"] = string(*obj.DiscoveryFqdn)
 	}
 
 	if obj.DisplayName != nil {
