@@ -122,7 +122,8 @@ The following attributes are exported:
 		* `availability_domain` - The availability domain of the instance.  Example: `Uocm:PHX-AD-1` 
 		* `capacity_reservation_id` - The OCID of the compute capacity reservation this instance is launched under.
 		* `cluster_placement_group_id` - The OCID of the cluster placement group of the instance.
-		* `compartment_id` - The OCID of the compartment containing the instance. Instances created from instance configurations are placed in the same compartment as the instance that was used to create the instance configuration.
+		* `compartment_id` - The OCID of the compartment containing the instance. Instances created from instance configurations are placed in the same compartment as the instance that was used to create the instance configuration. 
+		* `compute_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the [compute cluster](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm) that the instance will be created in. 
 		* `create_vnic_details` - Contains the properties of the VNIC for an instance configuration. See [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) and [Instance Configurations](https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/instancemanagement.htm#config) for more information. 
 			* `assign_ipv6ip` - Whether to allocate an IPv6 address at instance and VNIC creation from an IPv6 enabled subnet. Default: False. When provided you may optionally provide an IPv6 prefix (`ipv6SubnetCidr`) of your choice to assign the IPv6 address from. If `ipv6SubnetCidr` is not provided then an IPv6 prefix is chosen for you. 
 			* `assign_private_dns_record` - Whether the VNIC should be assigned a private DNS record. See the `assignPrivateDnsRecord` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) for more information.
@@ -228,6 +229,9 @@ The following attributes are exported:
 			You'll get back a response that includes all the instance information; only the metadata information; or the metadata information for the specified key name, respectively.
 
 			The combined size of the `metadata` and `extendedMetadata` objects can be a maximum of 32,000 bytes. 
+		* `placement_constraint_details` - The details for providing placement constraints. 
+			* `compute_host_group_id` - The OCID of the compute host group. This is only available for dedicated capacity customers.
+			* `type` - The type for the placement constraints. Use `HOST_GROUP` when specifying the compute host group OCID. 
 		* `platform_config` - The platform configuration requested for the instance.
 
 			If you provide the parameter, the instance is created with the platform configuration that you specify. For any values that you omit, the instance uses the default configuration values for the `shape` that you specify. If you don't provide the parameter, the default values for the `shape` are used.
@@ -361,6 +365,7 @@ The following attributes are exported:
 			* `capacity_reservation_id` - The OCID of the compute capacity reservation this instance is launched under.
 			* `cluster_placement_group_id` - The OCID of the cluster placement group of the instance.
 			* `compartment_id` - The OCID of the compartment containing the instance. Instances created from instance configurations are placed in the same compartment as the instance that was used to create the instance configuration. 
+			* `compute_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the [compute cluster](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm) that the instance will be created in. 
 			* `create_vnic_details` - Contains the properties of the VNIC for an instance configuration. See [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) and [Instance Configurations](https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/instancemanagement.htm#config) for more information. 
 				* `assign_private_dns_record` - Whether the VNIC should be assigned a private DNS record. See the `assignPrivateDnsRecord` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) for more information. 
 				* `assign_public_ip` - Whether the VNIC should be assigned a public IP address. See the `assignPublicIp` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) for more information. 
@@ -462,6 +467,9 @@ The following attributes are exported:
 				You'll get back a response that includes all the instance information; only the metadata information; or the metadata information for the specified key name, respectively.
 
 				The combined size of the `metadata` and `extendedMetadata` objects can be a maximum of 32,000 bytes. 
+			* `placement_constraint_details` - The details for providing placement constraints. 
+				* `compute_host_group_id` - The OCID of the compute host group. This is only available for dedicated capacity customers.
+				* `type` - The type for the placement constraints. Use `HOST_GROUP` when specifying the compute host group OCID. 
 			* `platform_config` - The platform configuration requested for the instance.
 
 				If you provide the parameter, the instance is created with the platform configuration that you specify. For any values that you omit, the instance uses the default configuration values for the `shape` that you specify. If you don't provide the parameter, the default values for the `shape` are used.
