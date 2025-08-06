@@ -450,12 +450,6 @@
         "realmDomainComponent": "oraclecloud.com"
     },
     {
-        "regionKey": "fyv",
-        "realmKey": "oc1",
-        "regionIdentifier": "ap-kulai-1",
-        "realmDomainComponent": "oraclecloud.com"
-    },
-    {
         "regionKey": "hsg",
         "realmKey": "oc1",
         "regionIdentifier": "ap-batam-1",
