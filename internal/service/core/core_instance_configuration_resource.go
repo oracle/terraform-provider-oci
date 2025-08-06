@@ -480,6 +480,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 										Computed: true,
 										ForceNew: true,
 									},
+									"compute_cluster_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
 									"create_vnic_details": {
 										Type:     schema.TypeList,
 										Optional: true,
@@ -772,6 +778,37 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 										Computed: true,
 										ForceNew: true,
 										Elem:     schema.TypeString,
+									},
+									"placement_constraint_details": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"compute_host_group_id": {
+													Type:     schema.TypeString,
+													Required: true,
+													ForceNew: true,
+												},
+												"type": {
+													Type:             schema.TypeString,
+													Required:         true,
+													ForceNew:         true,
+													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+													ValidateFunc: validation.StringInSlice([]string{
+														"HOST_GROUP",
+													}, true),
+												},
+
+												// Optional
+
+												// Computed
+											},
+										},
 									},
 									"platform_config": {
 										Type:     schema.TypeList,
@@ -1508,6 +1545,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Optional: true,
 													Computed: true,
 												},
+												"compute_cluster_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
 												"create_vnic_details": {
 													Type:     schema.TypeList,
 													Optional: true,
@@ -1801,6 +1844,37 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Computed: true,
 													ForceNew: true,
 													Elem:     schema.TypeString,
+												},
+												"placement_constraint_details": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+															"compute_host_group_id": {
+																Type:     schema.TypeString,
+																Required: true,
+																ForceNew: true,
+															},
+															"type": {
+																Type:             schema.TypeString,
+																Required:         true,
+																ForceNew:         true,
+																DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																ValidateFunc: validation.StringInSlice([]string{
+																	"HOST_GROUP",
+																}, true),
+															},
+
+															// Optional
+
+															// Computed
+														},
+													},
 												},
 												"platform_config": {
 													Type:     schema.TypeList,
@@ -3844,6 +3918,11 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 		result.CompartmentId = &tmp
 	}
 
+	if computeClusterId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compute_cluster_id")); ok {
+		tmp := computeClusterId.(string)
+		result.ComputeClusterId = &tmp
+	}
+
 	if createVnicDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "create_vnic_details")); ok {
 		if tmpList := createVnicDetails.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "create_vnic_details"), 0)
@@ -3947,6 +4026,17 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 		result.Metadata = tfresource.ObjectMapToStringMap(metadata.(map[string]interface{}))
 	}
 
+	if placementConstraintDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "placement_constraint_details")); ok {
+		if tmpList := placementConstraintDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "placement_constraint_details"), 0)
+			tmp, err := s.mapToInstanceConfigurationPlacementConstraintDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert placement_constraint_details, encountered error: %v", err)
+			}
+			result.PlacementConstraintDetails = tmp
+		}
+	}
+
 	if platformConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "platform_config")); ok {
 		if tmpList := platformConfig.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "platform_config"), 0)
@@ -4034,6 +4124,10 @@ func InstanceConfigurationLaunchInstanceDetailsToMap(obj *oci_core.InstanceConfi
 		result["compartment_id"] = string(*obj.CompartmentId)
 	}
 
+	if obj.ComputeClusterId != nil {
+		result["compute_cluster_id"] = string(*obj.ComputeClusterId)
+	}
+
 	if obj.CreateVnicDetails != nil {
 		result["create_vnic_details"] = []interface{}{InstanceConfigurationCreateVnicDetailsToMap(obj.CreateVnicDetails, datasource)}
 	}
@@ -4083,6 +4177,14 @@ func InstanceConfigurationLaunchInstanceDetailsToMap(obj *oci_core.InstanceConfi
 	result["licensing_configs"] = licensingConfigs
 
 	result["metadata"] = obj.Metadata
+
+	if obj.PlacementConstraintDetails != nil {
+		placementConstraintDetailsArray := []interface{}{}
+		if placementConstraintDetailsMap := InstanceConfigurationPlacementConstraintDetailsToMap(&obj.PlacementConstraintDetails); placementConstraintDetailsMap != nil {
+			placementConstraintDetailsArray = append(placementConstraintDetailsArray, placementConstraintDetailsMap)
+		}
+		result["placement_constraint_details"] = placementConstraintDetailsArray
+	}
 
 	if obj.PlatformConfig != nil {
 		platformConfigArray := []interface{}{}
@@ -4909,6 +5011,47 @@ func InstanceConfigurationLaunchOptionsToMap(obj *oci_core.InstanceConfiguration
 	result["network_type"] = string(obj.NetworkType)
 
 	result["remote_data_volume_type"] = string(obj.RemoteDataVolumeType)
+
+	return result
+}
+
+func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationPlacementConstraintDetails(fieldKeyFormat string) (oci_core.InstanceConfigurationPlacementConstraintDetails, error) {
+	var baseObject oci_core.InstanceConfigurationPlacementConstraintDetails
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("HOST_GROUP"):
+		details := oci_core.InstanceConfigurationHostGroupPlacementConstraintDetails{}
+		if computeHostGroupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compute_host_group_id")); ok {
+			tmp := computeHostGroupId.(string)
+			details.ComputeHostGroupId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
+	}
+	return baseObject, nil
+}
+
+func InstanceConfigurationPlacementConstraintDetailsToMap(obj *oci_core.InstanceConfigurationPlacementConstraintDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_core.InstanceConfigurationHostGroupPlacementConstraintDetails:
+		result["type"] = "HOST_GROUP"
+
+		if v.ComputeHostGroupId != nil {
+			result["compute_host_group_id"] = string(*v.ComputeHostGroupId)
+		}
+	default:
+		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
+		return nil
+	}
 
 	return result
 }
