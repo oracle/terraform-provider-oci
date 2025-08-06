@@ -248,6 +248,13 @@ Make sure the `output_path` is empty before running resource discovery
 * The compartment export functionality currently supports discovery of the target compartment. The ability to discover resources in child compartments is not yet supported.
 * If using Instance Principals, resources can not be discovered if compartment_id is not specified
 
+
+You can specify the maximum number of parallel chunks used for importing resources by setting the following environment variable. By default, it is set to twice the number of CPU cores.
+
+```
+export TF_MAX_PARALLEL_CHUNKS=<Positive Integer>
+```
+
 ### Exit status
 
 While discovering resources if there is any error related to the APIs or service unavailability, the tool will move on to find next resource. All the errors encountered will be displayed after the discovery is complete.
