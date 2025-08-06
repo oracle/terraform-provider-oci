@@ -13,6 +13,7 @@ import (
 	"runtime"
 	"runtime/debug"
 	"sort"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -300,7 +301,13 @@ func RunExportCommand(args *tf_export.ExportCommandArgs) (err error, status Stat
 	numCPU := runtime.NumCPU()
 	MaxParallelFindResource = numCPU * 4
 	// max parallel chunks for state genation that can be executed in parallel
-	MaxParallelChunks = numCPU * 4
+	MaxParallelChunks = numCPU * 2 // default value
+	if env := os.Getenv("TF_MAX_PARALLEL_CHUNKS"); env != "" {
+		if value, err := strconv.Atoi(env); err == nil && value > 0 {
+			MaxParallelChunks = value
+			utils.Debugf("[INFO] Found ENV Variable TF_MAX_PARALLEL_CHUNKS. Value - %d", MaxParallelChunks)
+		}
+	}
 	utils.Debugf("[INFO] Setting MaxParalleFindResources=%d, MaxParallelChunks=%d", MaxParallelFindResource, MaxParallelChunks)
 
 	ctx, err := createResourceDiscoveryContext(clients.(*tf_client.OracleClients), args, tenancyOcid)
