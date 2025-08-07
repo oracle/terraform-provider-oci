@@ -1,3 +1,14 @@
+## 7.13.0 (August 6, 2025)
+
+### Added
+- Max Parallel Chunks configurable via env
+- Formatting changes in files
+
+### Bug Fix
+- for Create route table when route rule contains route_type.
+- Api Gateway terraform correction to align with public sdk resource locking changes
+- Adbs switchover logic and secret Id bug
+
 ## 7.12.0 (July 30, 2025)
 
 ### Added

@@ -57,3 +57,30 @@ resource "oci_core_route_table" "example_route_table" {
   }
 }
 
+resource "oci_core_vcn" "example_vcn_2" {
+  cidr_block     = "10.1.0.0/16"
+  compartment_id = var.compartment_ocid
+  display_name   = "exampleVCN"
+  dns_label      = "tfexamplevcn"
+}
+
+resource "oci_core_internet_gateway" "example_ig_2" {
+  compartment_id = var.compartment_ocid
+  display_name   = "exampleIG"
+  vcn_id         = oci_core_vcn.example_vcn_2.id
+}
+
+resource "oci_core_route_table" "example_route_table_static" {
+  compartment_id = var.compartment_ocid
+  vcn_id         = oci_core_vcn.example_vcn_2.id
+  display_name   = "exampleRouteTable"
+
+  route_rules {
+    description       = var.route_table_route_rules_description
+    destination       = "10.0.0.0/0"
+    destination_type  = "CIDR_BLOCK"
+    network_entity_id = oci_core_internet_gateway.example_ig_2.id
+    route_type = "STATIC"
+  }
+}
+

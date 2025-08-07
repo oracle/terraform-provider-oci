@@ -2993,6 +2993,42 @@ func ApigatewayDeploymentResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"locks": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"type": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+						"message": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+						"related_resource_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_created": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"is_lock_override": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"endpoint": {
@@ -3006,6 +3042,11 @@ func ApigatewayDeploymentResource() *schema.Resource {
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -3131,6 +3172,23 @@ func (s *ApigatewayDeploymentResourceCrud) Create() error {
 	if gatewayId, ok := s.D.GetOkExists("gateway_id"); ok {
 		tmp := gatewayId.(string)
 		request.GatewayId = &tmp
+	}
+
+	if locks, ok := s.D.GetOkExists("locks"); ok {
+		interfaces := locks.([]interface{})
+		tmp := make([]oci_apigateway.AddResourceLockDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+			converted, err := s.mapToAddResourceLockDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("locks") {
+			request.Locks = tmp
+		}
 	}
 
 	if pathPrefix, ok := s.D.GetOkExists("path_prefix"); ok {
@@ -3341,6 +3399,11 @@ func (s *ApigatewayDeploymentResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		request.IsLockOverride = &tmp
+	}
+
 	if specification, ok := s.D.GetOkExists("specification"); ok {
 		if tmpList := specification.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "specification", 0)
@@ -3368,6 +3431,11 @@ func (s *ApigatewayDeploymentResourceCrud) Delete() error {
 
 	tmp := s.D.Id()
 	request.DeploymentId = &tmp
+
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		request.IsLockOverride = &tmp
+	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
@@ -3410,6 +3478,12 @@ func (s *ApigatewayDeploymentResourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	locks := []interface{}{}
+	for _, item := range s.Res.Locks {
+		locks = append(locks, ResourceLockToMap(item))
+	}
+	s.D.Set("locks", locks)
+
 	if s.Res.PathPrefix != nil {
 		s.D.Set("path_prefix", *s.Res.PathPrefix)
 	}
@@ -3421,6 +3495,10 @@ func (s *ApigatewayDeploymentResourceCrud) SetData() error {
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
@@ -3452,6 +3530,21 @@ func AccessLogPolicyToMap(obj *oci_apigateway.AccessLogPolicy) map[string]interf
 	}
 
 	return result
+}
+
+func (s *ApigatewayDeploymentResourceCrud) mapToAddResourceLockDetails(fieldKeyFormat string) (oci_apigateway.AddResourceLockDetails, error) {
+	result := oci_apigateway.AddResourceLockDetails{}
+
+	if message, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "message")); ok {
+		tmp := message.(string)
+		result.Message = &tmp
+	}
+
+	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
+		result.Type = oci_apigateway.AddResourceLockDetailsTypeEnum(type_.(string))
+	}
+
+	return result, nil
 }
 
 func (s *ApigatewayDeploymentResourceCrud) mapToAdditionalValidationPolicy(fieldKeyFormat string) (oci_apigateway.AdditionalValidationPolicy, error) {
@@ -5014,11 +5107,21 @@ func DeploymentSummaryToMap(obj oci_apigateway.DeploymentSummary) map[string]int
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
 
+	locks := []interface{}{}
+	for _, item := range obj.Locks {
+		locks = append(locks, ResourceLockToMap(item))
+	}
+	result["locks"] = locks
+
 	if obj.PathPrefix != nil {
 		result["path_prefix"] = string(*obj.PathPrefix)
 	}
 
 	result["state"] = string(obj.LifecycleState)
+
+	if obj.SystemTags != nil {
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	}
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()
@@ -6745,6 +6848,11 @@ func (s *ApigatewayDeploymentResourceCrud) updateCompartment(compartment interfa
 
 	idTmp := s.D.Id()
 	changeCompartmentRequest.DeploymentId = &idTmp
+
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		changeCompartmentRequest.IsLockOverride = &tmp
+	}
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
