@@ -14,7 +14,7 @@ import (
 // UpdateMultiCloudResourceDiscoveryRequest wrapper for the UpdateMultiCloudResourceDiscovery operation
 type UpdateMultiCloudResourceDiscoveryRequest struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multi Cloud Discovery Resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud Discovery Resource.
 	MultiCloudResourceDiscoveryId *string `mandatory:"true" contributesTo:"path" name:"multiCloudResourceDiscoveryId"`
 
 	// Details for to update MultiCloudResourceDiscovery.

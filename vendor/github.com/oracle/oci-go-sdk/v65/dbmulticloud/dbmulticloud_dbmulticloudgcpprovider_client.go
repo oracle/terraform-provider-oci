@@ -2,22 +2,27 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Oracle Database MultiCloud Data plane Integration
+// Oracle Database MultiCloud Data Plane Integration
 //
-// <b>Microsoft Azure</b>:<br>
-// 1. Oracle Azure Connector Resource: This is for installing Azure Arc Server in ExaCS VM Cluster.
-//   There are two way to install Azure Arc Server (Azure Identity) in ExaCS VMCluster.
-//     a. Using Bearer Access Token or
-//     b. By providing Authentication token
-// 2. Oracle Azure Blob Container Resource: This is for to capture Azure Container details
-//    and same will be used in multiple ExaCS VMCluster to mount the Azure Container.
-// 3. Oracle Azure Blob Mount Resource: This is for to mount Azure Container in ExaCS VMCluster
-//    using Oracle Azure Connector and Oracle Azure Blob Container Resource.
-// <b>Google Cloud</b>:<br>
-// 1. Oracle Google Cloud Connector Resource: This is for installing Google Identity in ExaCS VM Cluster.<br>
-// 2. Discover Google Key-Rings and Keys Resource: This is for to discover Google Key-Rings.<br>
-// 3. Google Key-Rings Resource: This is for to maintain Google Key-Rings in Oracle Cloud.<br>
-// 4. Google Key Resource: This is for to maintain Google Key in Oracle Cloud for a Google Key-Ring.<br>
+// <b>Microsoft Azure:</b> <br>
+// <b>Oracle Azure Connector Resource:</b>:&nbsp;&nbsp;The Oracle Azure Connector Resource is used to install the Azure Arc Server on an Exadata VM cluster in Oracle Exadata Database Service on Dedicated Infrastructure (ExaDB-D).
+//  The supported method to install the Azure Arc Server (Azure Identity) on the Exadata VM cluster:
+// <ul>
+//  <li>Using a Bearer Access Token</li>
+// </ul>
+// <b>Oracle Azure Blob Container Resource:</b>&nbsp;&nbsp;The Oracle Azure Blob Container Resource is used to capture the details of an Azure Blob Container.
+// This resource can then be reused across multiple Exadata VM clusters in Oracle Exadata Database Service on Dedicated Infrastructure (ExaDB-D) to mount the Azure container.
+// <b>Oracle Azure Blob Mount Resource:</b>&nbsp;&nbsp;The Oracle Azure Blob Mount Resource is used to mount an Azure Blob Container on an Exadata VM cluster in Oracle Exadata Database Service on Dedicated Infrastructure (ExaDB-D).
+// It relies on both the Oracle Azure Connector and the Oracle Azure Blob Container Resource to perform the mount operation.
+// <b>Discover Azure Vaults and Keys Resource:</b>&nbsp;&nbsp;The Discover Oracle Azure Vaults and Azure Keys Resource is used to discover Azure Vaults and the associated encryption keys available in your Azure project.
+// <b>Oracle Azure Vault:</b>&nbsp;&nbsp;The Oracle Azure Vault Resource is used to manage Azure Vaults within Oracle Cloud Infrastructure (OCI) for use with services such as Oracle Exadata Database Service on Dedicated Infrastructure.
+// <b>Oracle Azure Key:</b>&nbsp;&nbsp;Oracle Azure Key Resource is used to register and manage a Oracle Azure Key Key within Oracle Cloud Infrastructure (OCI) under an associated Azure Vault.
+// <br>
+// <b>Google Cloud:</b><br>
+// <b>Oracle Google Cloud Connector Resource:</b>&nbsp;&nbsp;The Oracle Google Cloud Connector Resource is used to install the Google Cloud Identity Connector on an Exadata VM cluster in Oracle Exadata Database Service on Dedicated Infrastructure (ExaDB-D).
+// <b>Discover Google Key Rings and Keys Resource:</b>&nbsp;&nbsp;The Discover Google Key Rings and Keys Resource is used to discover Google Cloud Key Rings and the associated encryption keys available in your Google Cloud project.
+// <b>Google Key Rings Resource:</b>&nbsp;&nbsp;The Google Key Rings Resource is used to register and manage Google Cloud Key Rings within Oracle Cloud Infrastructure (OCI) for use with services such as Oracle Exadata Database Service on Dedicated Infrastructure.
+// <b>Google Key Resource:</b>&nbsp;&nbsp;The Google Key Resource is used to register and manage a Google Cloud Key within Oracle Cloud Infrastructure (OCI) under an associated Google Key Ring.
 //
 
 package dbmulticloud
@@ -154,7 +159,7 @@ func (client DbMulticloudGCPProviderClient) changeOracleDbGcpIdentityConnectorCo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbGcpIdentityConnector/ChangeOracleDbGcpIdentityConnectorCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DbMulticloudGCPProvider", "ChangeOracleDbGcpIdentityConnectorCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -213,7 +218,7 @@ func (client DbMulticloudGCPProviderClient) changeOracleDbGcpKeyRingCompartment(
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbGcpKeyRing/ChangeOracleDbGcpKeyRingCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DbMulticloudGCPProvider", "ChangeOracleDbGcpKeyRingCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -222,7 +227,7 @@ func (client DbMulticloudGCPProviderClient) changeOracleDbGcpKeyRingCompartment(
 	return response, err
 }
 
-// CreateOracleDbGcpIdentityConnector Creates Oracle DB GCP Identity Connector Resource.
+// CreateOracleDbGcpIdentityConnector Creates Oracle DB GCP Identity Connector resource.
 // A default retry strategy applies to this operation CreateOracleDbGcpIdentityConnector()
 func (client DbMulticloudGCPProviderClient) CreateOracleDbGcpIdentityConnector(ctx context.Context, request CreateOracleDbGcpIdentityConnectorRequest) (response CreateOracleDbGcpIdentityConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -272,7 +277,7 @@ func (client DbMulticloudGCPProviderClient) createOracleDbGcpIdentityConnector(c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbGcpIdentityConnector/CreateOracleDbGcpIdentityConnector"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DbMulticloudGCPProvider", "CreateOracleDbGcpIdentityConnector", apiReferenceLink)
 		return response, err
 	}
@@ -281,7 +286,7 @@ func (client DbMulticloudGCPProviderClient) createOracleDbGcpIdentityConnector(c
 	return response, err
 }
 
-// CreateOracleDbGcpKeyRing Create DB GCP Key Rings based on the provided information, this will fetch Keys related to GCP Key Rings.
+// CreateOracleDbGcpKeyRing Creates DB GCP Key Rings based on the provided information and retrieves the associated keys.
 // A default retry strategy applies to this operation CreateOracleDbGcpKeyRing()
 func (client DbMulticloudGCPProviderClient) CreateOracleDbGcpKeyRing(ctx context.Context, request CreateOracleDbGcpKeyRingRequest) (response CreateOracleDbGcpKeyRingResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -331,7 +336,7 @@ func (client DbMulticloudGCPProviderClient) createOracleDbGcpKeyRing(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbGcpKeyRing/CreateOracleDbGcpKeyRing"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DbMulticloudGCPProvider", "CreateOracleDbGcpKeyRing", apiReferenceLink)
 		return response, err
 	}
@@ -340,7 +345,7 @@ func (client DbMulticloudGCPProviderClient) createOracleDbGcpKeyRing(ctx context
 	return response, err
 }
 
-// DeleteOracleDbGcpIdentityConnector Delete Oracle DB GCP Identity Connector Resource and delete connector too from Database Resource.
+// DeleteOracleDbGcpIdentityConnector Deletes the Oracle DB GCP Identity Connector resource and removes the associated connector from the database resource.
 // A default retry strategy applies to this operation DeleteOracleDbGcpIdentityConnector()
 func (client DbMulticloudGCPProviderClient) DeleteOracleDbGcpIdentityConnector(ctx context.Context, request DeleteOracleDbGcpIdentityConnectorRequest) (response DeleteOracleDbGcpIdentityConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -385,7 +390,7 @@ func (client DbMulticloudGCPProviderClient) deleteOracleDbGcpIdentityConnector(c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbGcpIdentityConnector/DeleteOracleDbGcpIdentityConnector"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DbMulticloudGCPProvider", "DeleteOracleDbGcpIdentityConnector", apiReferenceLink)
 		return response, err
 	}
@@ -394,7 +399,7 @@ func (client DbMulticloudGCPProviderClient) deleteOracleDbGcpIdentityConnector(c
 	return response, err
 }
 
-// DeleteOracleDbGcpKeyRing Delete  GCP Key Ring details.
+// DeleteOracleDbGcpKeyRing Deletes the GCP Key Ring and its associated metadata.
 // A default retry strategy applies to this operation DeleteOracleDbGcpKeyRing()
 func (client DbMulticloudGCPProviderClient) DeleteOracleDbGcpKeyRing(ctx context.Context, request DeleteOracleDbGcpKeyRingRequest) (response DeleteOracleDbGcpKeyRingResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -439,7 +444,7 @@ func (client DbMulticloudGCPProviderClient) deleteOracleDbGcpKeyRing(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbGcpKeyRing/DeleteOracleDbGcpKeyRing"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DbMulticloudGCPProvider", "DeleteOracleDbGcpKeyRing", apiReferenceLink)
 		return response, err
 	}
@@ -448,7 +453,7 @@ func (client DbMulticloudGCPProviderClient) deleteOracleDbGcpKeyRing(ctx context
 	return response, err
 }
 
-// GetOracleDbGcpIdentityConnector Get Oracle DB Oracle DB GCP Identity Connector form a particular Resource ID.
+// GetOracleDbGcpIdentityConnector Retrieves the Oracle DB GCP Identity Connector for a specified resource OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // A default retry strategy applies to this operation GetOracleDbGcpIdentityConnector()
 func (client DbMulticloudGCPProviderClient) GetOracleDbGcpIdentityConnector(ctx context.Context, request GetOracleDbGcpIdentityConnectorRequest) (response GetOracleDbGcpIdentityConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -493,7 +498,7 @@ func (client DbMulticloudGCPProviderClient) getOracleDbGcpIdentityConnector(ctx 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbGcpIdentityConnector/GetOracleDbGcpIdentityConnector"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DbMulticloudGCPProvider", "GetOracleDbGcpIdentityConnector", apiReferenceLink)
 		return response, err
 	}
@@ -502,7 +507,7 @@ func (client DbMulticloudGCPProviderClient) getOracleDbGcpIdentityConnector(ctx 
 	return response, err
 }
 
-// GetOracleDbGcpKey Get Oracle DB Google Cloud Key Details form a particular resource ID.
+// GetOracleDbGcpKey Retrieves Oracle DB Google Cloud Key details using a specific resource OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // A default retry strategy applies to this operation GetOracleDbGcpKey()
 func (client DbMulticloudGCPProviderClient) GetOracleDbGcpKey(ctx context.Context, request GetOracleDbGcpKeyRequest) (response GetOracleDbGcpKeyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -547,7 +552,7 @@ func (client DbMulticloudGCPProviderClient) getOracleDbGcpKey(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbGcpKey/GetOracleDbGcpKey"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DbMulticloudGCPProvider", "GetOracleDbGcpKey", apiReferenceLink)
 		return response, err
 	}
@@ -556,7 +561,7 @@ func (client DbMulticloudGCPProviderClient) getOracleDbGcpKey(ctx context.Contex
 	return response, err
 }
 
-// GetOracleDbGcpKeyRing Get Oracle GCP Key Ring Details form a particular Container Resource ID.
+// GetOracleDbGcpKeyRing Retrieves the Oracle GCP Key Ring details using a specific Container resource OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // A default retry strategy applies to this operation GetOracleDbGcpKeyRing()
 func (client DbMulticloudGCPProviderClient) GetOracleDbGcpKeyRing(ctx context.Context, request GetOracleDbGcpKeyRingRequest) (response GetOracleDbGcpKeyRingResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -601,7 +606,7 @@ func (client DbMulticloudGCPProviderClient) getOracleDbGcpKeyRing(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbGcpKeyRing/GetOracleDbGcpKeyRing"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DbMulticloudGCPProvider", "GetOracleDbGcpKeyRing", apiReferenceLink)
 		return response, err
 	}
@@ -610,7 +615,7 @@ func (client DbMulticloudGCPProviderClient) getOracleDbGcpKeyRing(ctx context.Co
 	return response, err
 }
 
-// ListOracleDbGcpIdentityConnectors Lists the all Oracle DB GCP Identity Connectors based on filters.
+// ListOracleDbGcpIdentityConnectors Lists all Oracle DB GCP Identity Connectors based on the specified filters.
 // A default retry strategy applies to this operation ListOracleDbGcpIdentityConnectors()
 func (client DbMulticloudGCPProviderClient) ListOracleDbGcpIdentityConnectors(ctx context.Context, request ListOracleDbGcpIdentityConnectorsRequest) (response ListOracleDbGcpIdentityConnectorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -655,7 +660,7 @@ func (client DbMulticloudGCPProviderClient) listOracleDbGcpIdentityConnectors(ct
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbGcpIdentityConnector/ListOracleDbGcpIdentityConnectors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DbMulticloudGCPProvider", "ListOracleDbGcpIdentityConnectors", apiReferenceLink)
 		return response, err
 	}
@@ -709,7 +714,7 @@ func (client DbMulticloudGCPProviderClient) listOracleDbGcpKeyRings(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbGcpKeyRing/ListOracleDbGcpKeyRings"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DbMulticloudGCPProvider", "ListOracleDbGcpKeyRings", apiReferenceLink)
 		return response, err
 	}
@@ -718,7 +723,7 @@ func (client DbMulticloudGCPProviderClient) listOracleDbGcpKeyRings(ctx context.
 	return response, err
 }
 
-// ListOracleDbGcpKeys Lists the all Oracle DB Google Cloud Keys based on filters.
+// ListOracleDbGcpKeys Lists all Oracle DB Google Cloud Keys based on the specified filters.
 // A default retry strategy applies to this operation ListOracleDbGcpKeys()
 func (client DbMulticloudGCPProviderClient) ListOracleDbGcpKeys(ctx context.Context, request ListOracleDbGcpKeysRequest) (response ListOracleDbGcpKeysResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -763,7 +768,7 @@ func (client DbMulticloudGCPProviderClient) listOracleDbGcpKeys(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbGcpKey/ListOracleDbGcpKeys"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DbMulticloudGCPProvider", "ListOracleDbGcpKeys", apiReferenceLink)
 		return response, err
 	}
@@ -772,7 +777,66 @@ func (client DbMulticloudGCPProviderClient) listOracleDbGcpKeys(ctx context.Cont
 	return response, err
 }
 
-// RefreshOracleDbGcpKeyRing Refresh Oracle GCP Key Ring details from backend.
+// RefreshOracleDbGcpIdentityConnector Refreshes the Oracle DB GCP Connector resource.
+// A default retry strategy applies to this operation RefreshOracleDbGcpIdentityConnector()
+func (client DbMulticloudGCPProviderClient) RefreshOracleDbGcpIdentityConnector(ctx context.Context, request RefreshOracleDbGcpIdentityConnectorRequest) (response RefreshOracleDbGcpIdentityConnectorResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.refreshOracleDbGcpIdentityConnector, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RefreshOracleDbGcpIdentityConnectorResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RefreshOracleDbGcpIdentityConnectorResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RefreshOracleDbGcpIdentityConnectorResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RefreshOracleDbGcpIdentityConnectorResponse")
+	}
+	return
+}
+
+// refreshOracleDbGcpIdentityConnector implements the OCIOperation interface (enables retrying operations)
+func (client DbMulticloudGCPProviderClient) refreshOracleDbGcpIdentityConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/oracleDbGcpIdentityConnector/{oracleDbGcpIdentityConnectorId}/actions/refresh", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RefreshOracleDbGcpIdentityConnectorResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DbMulticloudGCPProvider", "RefreshOracleDbGcpIdentityConnector", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RefreshOracleDbGcpKeyRing Refreshes Oracle GCP Key Ring details from the backend.
 // A default retry strategy applies to this operation RefreshOracleDbGcpKeyRing()
 func (client DbMulticloudGCPProviderClient) RefreshOracleDbGcpKeyRing(ctx context.Context, request RefreshOracleDbGcpKeyRingRequest) (response RefreshOracleDbGcpKeyRingResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -822,7 +886,7 @@ func (client DbMulticloudGCPProviderClient) refreshOracleDbGcpKeyRing(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbGcpKeyRing/RefreshOracleDbGcpKeyRing"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DbMulticloudGCPProvider", "RefreshOracleDbGcpKeyRing", apiReferenceLink)
 		return response, err
 	}
@@ -831,7 +895,7 @@ func (client DbMulticloudGCPProviderClient) refreshOracleDbGcpKeyRing(ctx contex
 	return response, err
 }
 
-// UpdateOracleDbGcpIdentityConnector Modifies the existing Oracle DB GCP Identity Connector resource for a given ID.
+// UpdateOracleDbGcpIdentityConnector Modifies the existing Oracle DB GCP Identity Connector resource for a given OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // A default retry strategy applies to this operation UpdateOracleDbGcpIdentityConnector()
 func (client DbMulticloudGCPProviderClient) UpdateOracleDbGcpIdentityConnector(ctx context.Context, request UpdateOracleDbGcpIdentityConnectorRequest) (response UpdateOracleDbGcpIdentityConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -876,7 +940,7 @@ func (client DbMulticloudGCPProviderClient) updateOracleDbGcpIdentityConnector(c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbGcpIdentityConnector/UpdateOracleDbGcpIdentityConnector"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DbMulticloudGCPProvider", "UpdateOracleDbGcpIdentityConnector", apiReferenceLink)
 		return response, err
 	}
@@ -885,7 +949,7 @@ func (client DbMulticloudGCPProviderClient) updateOracleDbGcpIdentityConnector(c
 	return response, err
 }
 
-// UpdateOracleDbGcpKeyRing Modifies the existing Oracle GCP Key Ring Details for a given ID.
+// UpdateOracleDbGcpKeyRing Modifies the existing Oracle GCP Key Ring Details for a given OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // A default retry strategy applies to this operation UpdateOracleDbGcpKeyRing()
 func (client DbMulticloudGCPProviderClient) UpdateOracleDbGcpKeyRing(ctx context.Context, request UpdateOracleDbGcpKeyRingRequest) (response UpdateOracleDbGcpKeyRingResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -930,7 +994,7 @@ func (client DbMulticloudGCPProviderClient) updateOracleDbGcpKeyRing(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbGcpKeyRing/UpdateOracleDbGcpKeyRing"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DbMulticloudGCPProvider", "UpdateOracleDbGcpKeyRing", apiReferenceLink)
 		return response, err
 	}

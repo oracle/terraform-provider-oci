@@ -14,7 +14,7 @@ import (
 // GetOracleDbAzureBlobMountRequest wrapper for the GetOracleDbAzureBlobMount operation
 type GetOracleDbAzureBlobMountRequest struct {
 
-	// The ID of the Azure Container Resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB Azure Blob Mount resource.
 	OracleDbAzureBlobMountId *string `mandatory:"true" contributesTo:"path" name:"oracleDbAzureBlobMountId"`
 
 	// The maximum number of items to return.

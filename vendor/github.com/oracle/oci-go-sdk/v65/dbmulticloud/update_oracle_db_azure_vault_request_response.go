@@ -14,7 +14,7 @@ import (
 // UpdateOracleDbAzureVaultRequest wrapper for the UpdateOracleDbAzureVault operation
 type UpdateOracleDbAzureVaultRequest struct {
 
-	// The ID of the Oracle DB Azure Vault Resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB Azure Vault resource.
 	OracleDbAzureVaultId *string `mandatory:"true" contributesTo:"path" name:"oracleDbAzureVaultId"`
 
 	// Details for to update OracleDbAzureVault.

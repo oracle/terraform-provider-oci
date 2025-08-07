@@ -14,7 +14,7 @@ import (
 // GetOracleDbGcpKeyRequest wrapper for the GetOracleDbGcpKey operation
 type GetOracleDbGcpKeyRequest struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB Google Cloud Key Resource ID.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB Google Cloud Key resource.
 	OracleDbGcpKeyId *string `mandatory:"true" contributesTo:"path" name:"oracleDbGcpKeyId"`
 
 	// The client request ID for tracing.

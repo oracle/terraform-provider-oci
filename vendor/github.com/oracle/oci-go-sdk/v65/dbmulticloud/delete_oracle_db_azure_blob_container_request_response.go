@@ -14,7 +14,7 @@ import (
 // DeleteOracleDbAzureBlobContainerRequest wrapper for the DeleteOracleDbAzureBlobContainer operation
 type DeleteOracleDbAzureBlobContainerRequest struct {
 
-	// The ID of the Oracle DB Azure Blob Container Resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB Azure Blob Container resource.
 	OracleDbAzureBlobContainerId *string `mandatory:"true" contributesTo:"path" name:"oracleDbAzureBlobContainerId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

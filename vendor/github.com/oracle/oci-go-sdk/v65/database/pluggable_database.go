@@ -80,6 +80,9 @@ type PluggableDatabase struct {
 
 	// The patch version of the pluggable database.
 	PatchVersion *string `mandatory:"false" json:"patchVersion"`
+
+	// Indicates whether the Pluggable Database has opted in for RP support.
+	IsResourcePrincipalEnabled *bool `mandatory:"false" json:"isResourcePrincipalEnabled"`
 }
 
 func (m PluggableDatabase) String() string {

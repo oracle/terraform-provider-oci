@@ -14,7 +14,7 @@ import (
 // DeleteOracleDbAzureConnectorRequest wrapper for the DeleteOracleDbAzureConnector operation
 type DeleteOracleDbAzureConnectorRequest struct {
 
-	// The ID of the Oracle DB Azure Connector Resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB Azure Connector resource.
 	OracleDbAzureConnectorId *string `mandatory:"true" contributesTo:"path" name:"oracleDbAzureConnectorId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

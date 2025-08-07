@@ -2,22 +2,27 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Oracle Database MultiCloud Data plane Integration
+// Oracle Database MultiCloud Data Plane Integration
 //
-// <b>Microsoft Azure</b>:<br>
-// 1. Oracle Azure Connector Resource: This is for installing Azure Arc Server in ExaCS VM Cluster.
-//   There are two way to install Azure Arc Server (Azure Identity) in ExaCS VMCluster.
-//     a. Using Bearer Access Token or
-//     b. By providing Authentication token
-// 2. Oracle Azure Blob Container Resource: This is for to capture Azure Container details
-//    and same will be used in multiple ExaCS VMCluster to mount the Azure Container.
-// 3. Oracle Azure Blob Mount Resource: This is for to mount Azure Container in ExaCS VMCluster
-//    using Oracle Azure Connector and Oracle Azure Blob Container Resource.
-// <b>Google Cloud</b>:<br>
-// 1. Oracle Google Cloud Connector Resource: This is for installing Google Identity in ExaCS VM Cluster.<br>
-// 2. Discover Google Key-Rings and Keys Resource: This is for to discover Google Key-Rings.<br>
-// 3. Google Key-Rings Resource: This is for to maintain Google Key-Rings in Oracle Cloud.<br>
-// 4. Google Key Resource: This is for to maintain Google Key in Oracle Cloud for a Google Key-Ring.<br>
+// <b>Microsoft Azure:</b> <br>
+// <b>Oracle Azure Connector Resource:</b>:&nbsp;&nbsp;The Oracle Azure Connector Resource is used to install the Azure Arc Server on an Exadata VM cluster in Oracle Exadata Database Service on Dedicated Infrastructure (ExaDB-D).
+//  The supported method to install the Azure Arc Server (Azure Identity) on the Exadata VM cluster:
+// <ul>
+//  <li>Using a Bearer Access Token</li>
+// </ul>
+// <b>Oracle Azure Blob Container Resource:</b>&nbsp;&nbsp;The Oracle Azure Blob Container Resource is used to capture the details of an Azure Blob Container.
+// This resource can then be reused across multiple Exadata VM clusters in Oracle Exadata Database Service on Dedicated Infrastructure (ExaDB-D) to mount the Azure container.
+// <b>Oracle Azure Blob Mount Resource:</b>&nbsp;&nbsp;The Oracle Azure Blob Mount Resource is used to mount an Azure Blob Container on an Exadata VM cluster in Oracle Exadata Database Service on Dedicated Infrastructure (ExaDB-D).
+// It relies on both the Oracle Azure Connector and the Oracle Azure Blob Container Resource to perform the mount operation.
+// <b>Discover Azure Vaults and Keys Resource:</b>&nbsp;&nbsp;The Discover Oracle Azure Vaults and Azure Keys Resource is used to discover Azure Vaults and the associated encryption keys available in your Azure project.
+// <b>Oracle Azure Vault:</b>&nbsp;&nbsp;The Oracle Azure Vault Resource is used to manage Azure Vaults within Oracle Cloud Infrastructure (OCI) for use with services such as Oracle Exadata Database Service on Dedicated Infrastructure.
+// <b>Oracle Azure Key:</b>&nbsp;&nbsp;Oracle Azure Key Resource is used to register and manage a Oracle Azure Key Key within Oracle Cloud Infrastructure (OCI) under an associated Azure Vault.
+// <br>
+// <b>Google Cloud:</b><br>
+// <b>Oracle Google Cloud Connector Resource:</b>&nbsp;&nbsp;The Oracle Google Cloud Connector Resource is used to install the Google Cloud Identity Connector on an Exadata VM cluster in Oracle Exadata Database Service on Dedicated Infrastructure (ExaDB-D).
+// <b>Discover Google Key Rings and Keys Resource:</b>&nbsp;&nbsp;The Discover Google Key Rings and Keys Resource is used to discover Google Cloud Key Rings and the associated encryption keys available in your Google Cloud project.
+// <b>Google Key Rings Resource:</b>&nbsp;&nbsp;The Google Key Rings Resource is used to register and manage Google Cloud Key Rings within Oracle Cloud Infrastructure (OCI) for use with services such as Oracle Exadata Database Service on Dedicated Infrastructure.
+// <b>Google Key Resource:</b>&nbsp;&nbsp;The Google Key Resource is used to register and manage a Google Cloud Key within Oracle Cloud Infrastructure (OCI) under an associated Google Key Ring.
 //
 
 package dbmulticloud
@@ -104,7 +109,7 @@ func (client *OracleDBAzureConnectorClient) ConfigurationProvider() *common.Conf
 	return client.config
 }
 
-// ChangeOracleDbAzureConnectorCompartment Moves the Oracle DB Azure Connector Resource into a different compartment. When provided, 'If-Match' is checked against 'ETag' values of the resource.
+// ChangeOracleDbAzureConnectorCompartment Moves the Oracle DB Azure Connector resource into a different compartment. When provided, 'If-Match' is checked against 'ETag' values of the resource.
 // A default retry strategy applies to this operation ChangeOracleDbAzureConnectorCompartment()
 func (client OracleDBAzureConnectorClient) ChangeOracleDbAzureConnectorCompartment(ctx context.Context, request ChangeOracleDbAzureConnectorCompartmentRequest) (response ChangeOracleDbAzureConnectorCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -154,7 +159,7 @@ func (client OracleDBAzureConnectorClient) changeOracleDbAzureConnectorCompartme
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureConnector/ChangeOracleDbAzureConnectorCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OracleDBAzureConnector", "ChangeOracleDbAzureConnectorCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -163,7 +168,7 @@ func (client OracleDBAzureConnectorClient) changeOracleDbAzureConnectorCompartme
 	return response, err
 }
 
-// CreateOracleDbAzureConnector Creates Oracle DB Azure Connector Resource and configured Azure Identity in OCI Database Resource.
+// CreateOracleDbAzureConnector Creates Oracle DB Azure Connector resource and configured Azure Identity in Oracle Database resource.
 // A default retry strategy applies to this operation CreateOracleDbAzureConnector()
 func (client OracleDBAzureConnectorClient) CreateOracleDbAzureConnector(ctx context.Context, request CreateOracleDbAzureConnectorRequest) (response CreateOracleDbAzureConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -213,7 +218,7 @@ func (client OracleDBAzureConnectorClient) createOracleDbAzureConnector(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureConnector/CreateOracleDbAzureConnector"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OracleDBAzureConnector", "CreateOracleDbAzureConnector", apiReferenceLink)
 		return response, err
 	}
@@ -222,7 +227,7 @@ func (client OracleDBAzureConnectorClient) createOracleDbAzureConnector(ctx cont
 	return response, err
 }
 
-// DeleteOracleDbAzureConnector Delete Oracle DB Azure Connector Resource and delete Azure Arc Identity too from Database Resource.
+// DeleteOracleDbAzureConnector Deletes the Oracle DB Azure Identity Connector resource.
 // A default retry strategy applies to this operation DeleteOracleDbAzureConnector()
 func (client OracleDBAzureConnectorClient) DeleteOracleDbAzureConnector(ctx context.Context, request DeleteOracleDbAzureConnectorRequest) (response DeleteOracleDbAzureConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -267,7 +272,7 @@ func (client OracleDBAzureConnectorClient) deleteOracleDbAzureConnector(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureConnector/DeleteOracleDbAzureConnector"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OracleDBAzureConnector", "DeleteOracleDbAzureConnector", apiReferenceLink)
 		return response, err
 	}
@@ -276,7 +281,7 @@ func (client OracleDBAzureConnectorClient) deleteOracleDbAzureConnector(ctx cont
 	return response, err
 }
 
-// GetOracleDbAzureConnector Get Oracle DB Azure Connector Resource form a particular Resource ID.
+// GetOracleDbAzureConnector Retrieves the Oracle DB Azure Identity Connector for a specified resource OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // A default retry strategy applies to this operation GetOracleDbAzureConnector()
 func (client OracleDBAzureConnectorClient) GetOracleDbAzureConnector(ctx context.Context, request GetOracleDbAzureConnectorRequest) (response GetOracleDbAzureConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -321,7 +326,7 @@ func (client OracleDBAzureConnectorClient) getOracleDbAzureConnector(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureConnector/GetOracleDbAzureConnector"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OracleDBAzureConnector", "GetOracleDbAzureConnector", apiReferenceLink)
 		return response, err
 	}
@@ -330,7 +335,7 @@ func (client OracleDBAzureConnectorClient) getOracleDbAzureConnector(ctx context
 	return response, err
 }
 
-// ListOracleDbAzureConnectors Lists the all Oracle DB Azure Connector Resource based on filters.
+// ListOracleDbAzureConnectors Lists all Oracle DB Azure Connector resources based on the specified filters.
 // A default retry strategy applies to this operation ListOracleDbAzureConnectors()
 func (client OracleDBAzureConnectorClient) ListOracleDbAzureConnectors(ctx context.Context, request ListOracleDbAzureConnectorsRequest) (response ListOracleDbAzureConnectorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -375,7 +380,7 @@ func (client OracleDBAzureConnectorClient) listOracleDbAzureConnectors(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureConnector/ListOracleDbAzureConnectors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OracleDBAzureConnector", "ListOracleDbAzureConnectors", apiReferenceLink)
 		return response, err
 	}
@@ -384,7 +389,7 @@ func (client OracleDBAzureConnectorClient) listOracleDbAzureConnectors(ctx conte
 	return response, err
 }
 
-// PatchOracleDbAzureConnector Patch Azure Arc Agent on VM Cluster with new version.
+// PatchOracleDbAzureConnector Patch Azure Arc Agent on Oracle Cloud VM Cluster with new version.
 // A default retry strategy applies to this operation PatchOracleDbAzureConnector()
 func (client OracleDBAzureConnectorClient) PatchOracleDbAzureConnector(ctx context.Context, request PatchOracleDbAzureConnectorRequest) (response PatchOracleDbAzureConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -429,7 +434,7 @@ func (client OracleDBAzureConnectorClient) patchOracleDbAzureConnector(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureConnector/PatchOracleDbAzureConnector"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OracleDBAzureConnector", "PatchOracleDbAzureConnector", apiReferenceLink)
 		return response, err
 	}
@@ -438,7 +443,66 @@ func (client OracleDBAzureConnectorClient) patchOracleDbAzureConnector(ctx conte
 	return response, err
 }
 
-// UpdateOracleDbAzureConnector Modifies the existing Oracle DB Azure Connector Resource for a given ID.
+// RefreshOracleDbAzureConnector Refreshes the Oracle DB Azure Connector resource.
+// A default retry strategy applies to this operation RefreshOracleDbAzureConnector()
+func (client OracleDBAzureConnectorClient) RefreshOracleDbAzureConnector(ctx context.Context, request RefreshOracleDbAzureConnectorRequest) (response RefreshOracleDbAzureConnectorResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.refreshOracleDbAzureConnector, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RefreshOracleDbAzureConnectorResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RefreshOracleDbAzureConnectorResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RefreshOracleDbAzureConnectorResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RefreshOracleDbAzureConnectorResponse")
+	}
+	return
+}
+
+// refreshOracleDbAzureConnector implements the OCIOperation interface (enables retrying operations)
+func (client OracleDBAzureConnectorClient) refreshOracleDbAzureConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/oracleDbAzureConnector/{oracleDbAzureConnectorId}/actions/refresh", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RefreshOracleDbAzureConnectorResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "OracleDBAzureConnector", "RefreshOracleDbAzureConnector", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateOracleDbAzureConnector Modifies the existing Oracle DB Azure Connector resource for a given OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // A default retry strategy applies to this operation UpdateOracleDbAzureConnector()
 func (client OracleDBAzureConnectorClient) UpdateOracleDbAzureConnector(ctx context.Context, request UpdateOracleDbAzureConnectorRequest) (response UpdateOracleDbAzureConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -483,7 +547,7 @@ func (client OracleDBAzureConnectorClient) updateOracleDbAzureConnector(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureConnector/UpdateOracleDbAzureConnector"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OracleDBAzureConnector", "UpdateOracleDbAzureConnector", apiReferenceLink)
 		return response, err
 	}

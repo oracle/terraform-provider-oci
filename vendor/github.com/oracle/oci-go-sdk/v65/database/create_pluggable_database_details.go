@@ -53,6 +53,9 @@ type CreatePluggableDatabaseDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Indicates whether the Pluggable Database has opted in for RP support.
+	IsResourcePrincipalEnabled *bool `mandatory:"false" json:"isResourcePrincipalEnabled"`
 }
 
 func (m CreatePluggableDatabaseDetails) String() string {
@@ -82,6 +85,7 @@ func (m *CreatePluggableDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 		PdbCreationTypeDetails         createpluggabledatabasecreationtypedetails `json:"pdbCreationTypeDetails"`
 		FreeformTags                   map[string]string                          `json:"freeformTags"`
 		DefinedTags                    map[string]map[string]interface{}          `json:"definedTags"`
+		IsResourcePrincipalEnabled     *bool                                      `json:"isResourcePrincipalEnabled"`
 		PdbName                        *string                                    `json:"pdbName"`
 		ContainerDatabaseId            *string                                    `json:"containerDatabaseId"`
 	}{}
@@ -114,6 +118,8 @@ func (m *CreatePluggableDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
+
+	m.IsResourcePrincipalEnabled = model.IsResourcePrincipalEnabled
 
 	m.PdbName = model.PdbName
 

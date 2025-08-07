@@ -14,7 +14,7 @@ import (
 // DeleteOracleDbAzureVaultAssociationRequest wrapper for the DeleteOracleDbAzureVaultAssociation operation
 type DeleteOracleDbAzureVaultAssociationRequest struct {
 
-	// The ID of the Oracle DB Azure Vault Association Resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB Azure Vault Association resource.
 	OracleDbAzureVaultAssociationId *string `mandatory:"true" contributesTo:"path" name:"oracleDbAzureVaultAssociationId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

@@ -27,6 +27,9 @@ type UpdatePluggableDatabaseDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Indicates whether the Pluggable Database has opted in for RP support.
+	IsResourcePrincipalEnabled *bool `mandatory:"false" json:"isResourcePrincipalEnabled"`
 }
 
 func (m UpdatePluggableDatabaseDetails) String() string {

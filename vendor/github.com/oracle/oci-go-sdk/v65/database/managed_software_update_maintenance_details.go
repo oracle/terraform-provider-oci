@@ -21,11 +21,17 @@ type ManagedSoftwareUpdateMaintenanceDetails struct {
 	// The date and time of the database was scheduled for update.
 	TimeScheduled *common.SDKTime `mandatory:"true" json:"timeScheduled"`
 
-	// The state of the maintenance.
-	State ManagedSoftwareUpdateMaintenanceDetailsStateEnum `mandatory:"true" json:"state"`
-
 	// The version of the database was scheduled for update.
 	Version *string `mandatory:"true" json:"version"`
+
+	// The managed software update readiness status
+	UpdateReadinessStatus ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum `mandatory:"false" json:"updateReadinessStatus,omitempty"`
+
+	// This field will contain actual cause of update readiness state.
+	UpdateReadinessStatusDetails *string `mandatory:"false" json:"updateReadinessStatusDetails"`
+
+	// The date and time of when the status was updated.
+	TimeOfStatusUpdate *common.SDKTime `mandatory:"false" json:"timeOfStatusUpdate"`
 
 	// Oracle Managed Database Software update method, either "ROLLING" or "NONROLLING"
 	UpdateMode ManagedSoftwareUpdateMaintenanceDetailsUpdateModeEnum `mandatory:"false" json:"updateMode,omitempty"`
@@ -43,10 +49,10 @@ func (m ManagedSoftwareUpdateMaintenanceDetails) String() string {
 // Not recommended for calling this function directly
 func (m ManagedSoftwareUpdateMaintenanceDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingManagedSoftwareUpdateMaintenanceDetailsStateEnum(string(m.State)); !ok && m.State != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for State: %s. Supported values are: %s.", m.State, strings.Join(GetManagedSoftwareUpdateMaintenanceDetailsStateEnumStringValues(), ",")))
-	}
 
+	if _, ok := GetMappingManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum(string(m.UpdateReadinessStatus)); !ok && m.UpdateReadinessStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpdateReadinessStatus: %s. Supported values are: %s.", m.UpdateReadinessStatus, strings.Join(GetManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingManagedSoftwareUpdateMaintenanceDetailsUpdateModeEnum(string(m.UpdateMode)); !ok && m.UpdateMode != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpdateMode: %s. Supported values are: %s.", m.UpdateMode, strings.Join(GetManagedSoftwareUpdateMaintenanceDetailsUpdateModeEnumStringValues(), ",")))
 	}
@@ -56,57 +62,65 @@ func (m ManagedSoftwareUpdateMaintenanceDetails) ValidateEnumValue() (bool, erro
 	return false, nil
 }
 
-// ManagedSoftwareUpdateMaintenanceDetailsStateEnum Enum with underlying type: string
-type ManagedSoftwareUpdateMaintenanceDetailsStateEnum string
+// ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum Enum with underlying type: string
+type ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum string
 
-// Set of constants representing the allowable values for ManagedSoftwareUpdateMaintenanceDetailsStateEnum
+// Set of constants representing the allowable values for ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum
 const (
-	ManagedSoftwareUpdateMaintenanceDetailsStateScheduled           ManagedSoftwareUpdateMaintenanceDetailsStateEnum = "SCHEDULED"
-	ManagedSoftwareUpdateMaintenanceDetailsStateReadyForPatching    ManagedSoftwareUpdateMaintenanceDetailsStateEnum = "READY_FOR_PATCHING"
-	ManagedSoftwareUpdateMaintenanceDetailsStateSucceeded           ManagedSoftwareUpdateMaintenanceDetailsStateEnum = "SUCCEEDED"
-	ManagedSoftwareUpdateMaintenanceDetailsStateNotReadyForPatching ManagedSoftwareUpdateMaintenanceDetailsStateEnum = "NOT_READY_FOR_PATCHING"
-	ManagedSoftwareUpdateMaintenanceDetailsStateInProgress          ManagedSoftwareUpdateMaintenanceDetailsStateEnum = "IN_PROGRESS"
+	ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusScheduled           ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum = "SCHEDULED"
+	ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusReadyForPatching    ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum = "READY_FOR_PATCHING"
+	ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusSucceeded           ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum = "SUCCEEDED"
+	ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusNotReadyForPatching ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum = "NOT_READY_FOR_PATCHING"
+	ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusInProgress          ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum = "IN_PROGRESS"
+	ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusNeedsAttention      ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum = "NEEDS_ATTENTION"
+	ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusAwaitingResolution  ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum = "AWAITING_RESOLUTION"
 )
 
-var mappingManagedSoftwareUpdateMaintenanceDetailsStateEnum = map[string]ManagedSoftwareUpdateMaintenanceDetailsStateEnum{
-	"SCHEDULED":              ManagedSoftwareUpdateMaintenanceDetailsStateScheduled,
-	"READY_FOR_PATCHING":     ManagedSoftwareUpdateMaintenanceDetailsStateReadyForPatching,
-	"SUCCEEDED":              ManagedSoftwareUpdateMaintenanceDetailsStateSucceeded,
-	"NOT_READY_FOR_PATCHING": ManagedSoftwareUpdateMaintenanceDetailsStateNotReadyForPatching,
-	"IN_PROGRESS":            ManagedSoftwareUpdateMaintenanceDetailsStateInProgress,
+var mappingManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum = map[string]ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum{
+	"SCHEDULED":              ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusScheduled,
+	"READY_FOR_PATCHING":     ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusReadyForPatching,
+	"SUCCEEDED":              ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusSucceeded,
+	"NOT_READY_FOR_PATCHING": ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusNotReadyForPatching,
+	"IN_PROGRESS":            ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusInProgress,
+	"NEEDS_ATTENTION":        ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusNeedsAttention,
+	"AWAITING_RESOLUTION":    ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusAwaitingResolution,
 }
 
-var mappingManagedSoftwareUpdateMaintenanceDetailsStateEnumLowerCase = map[string]ManagedSoftwareUpdateMaintenanceDetailsStateEnum{
-	"scheduled":              ManagedSoftwareUpdateMaintenanceDetailsStateScheduled,
-	"ready_for_patching":     ManagedSoftwareUpdateMaintenanceDetailsStateReadyForPatching,
-	"succeeded":              ManagedSoftwareUpdateMaintenanceDetailsStateSucceeded,
-	"not_ready_for_patching": ManagedSoftwareUpdateMaintenanceDetailsStateNotReadyForPatching,
-	"in_progress":            ManagedSoftwareUpdateMaintenanceDetailsStateInProgress,
+var mappingManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnumLowerCase = map[string]ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum{
+	"scheduled":              ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusScheduled,
+	"ready_for_patching":     ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusReadyForPatching,
+	"succeeded":              ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusSucceeded,
+	"not_ready_for_patching": ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusNotReadyForPatching,
+	"in_progress":            ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusInProgress,
+	"needs_attention":        ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusNeedsAttention,
+	"awaiting_resolution":    ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusAwaitingResolution,
 }
 
-// GetManagedSoftwareUpdateMaintenanceDetailsStateEnumValues Enumerates the set of values for ManagedSoftwareUpdateMaintenanceDetailsStateEnum
-func GetManagedSoftwareUpdateMaintenanceDetailsStateEnumValues() []ManagedSoftwareUpdateMaintenanceDetailsStateEnum {
-	values := make([]ManagedSoftwareUpdateMaintenanceDetailsStateEnum, 0)
-	for _, v := range mappingManagedSoftwareUpdateMaintenanceDetailsStateEnum {
+// GetManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnumValues Enumerates the set of values for ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum
+func GetManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnumValues() []ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum {
+	values := make([]ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum, 0)
+	for _, v := range mappingManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum {
 		values = append(values, v)
 	}
 	return values
 }
 
-// GetManagedSoftwareUpdateMaintenanceDetailsStateEnumStringValues Enumerates the set of values in String for ManagedSoftwareUpdateMaintenanceDetailsStateEnum
-func GetManagedSoftwareUpdateMaintenanceDetailsStateEnumStringValues() []string {
+// GetManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnumStringValues Enumerates the set of values in String for ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum
+func GetManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnumStringValues() []string {
 	return []string{
 		"SCHEDULED",
 		"READY_FOR_PATCHING",
 		"SUCCEEDED",
 		"NOT_READY_FOR_PATCHING",
 		"IN_PROGRESS",
+		"NEEDS_ATTENTION",
+		"AWAITING_RESOLUTION",
 	}
 }
 
-// GetMappingManagedSoftwareUpdateMaintenanceDetailsStateEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingManagedSoftwareUpdateMaintenanceDetailsStateEnum(val string) (ManagedSoftwareUpdateMaintenanceDetailsStateEnum, bool) {
-	enum, ok := mappingManagedSoftwareUpdateMaintenanceDetailsStateEnumLowerCase[strings.ToLower(val)]
+// GetMappingManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum(val string) (ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum, bool) {
+	enum, ok := mappingManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

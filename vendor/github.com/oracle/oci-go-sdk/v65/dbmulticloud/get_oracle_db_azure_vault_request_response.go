@@ -14,7 +14,7 @@ import (
 // GetOracleDbAzureVaultRequest wrapper for the GetOracleDbAzureVault operation
 type GetOracleDbAzureVaultRequest struct {
 
-	// The ID of the Oracle DB Azure Vault Resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB Azure Vault resource.
 	OracleDbAzureVaultId *string `mandatory:"true" contributesTo:"path" name:"oracleDbAzureVaultId"`
 
 	// The maximum number of items to return.

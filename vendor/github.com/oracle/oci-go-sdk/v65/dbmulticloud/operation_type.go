@@ -2,22 +2,27 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Oracle Database MultiCloud Data plane Integration
+// Oracle Database MultiCloud Data Plane Integration
 //
-// <b>Microsoft Azure</b>:<br>
-// 1. Oracle Azure Connector Resource: This is for installing Azure Arc Server in ExaCS VM Cluster.
-//   There are two way to install Azure Arc Server (Azure Identity) in ExaCS VMCluster.
-//     a. Using Bearer Access Token or
-//     b. By providing Authentication token
-// 2. Oracle Azure Blob Container Resource: This is for to capture Azure Container details
-//    and same will be used in multiple ExaCS VMCluster to mount the Azure Container.
-// 3. Oracle Azure Blob Mount Resource: This is for to mount Azure Container in ExaCS VMCluster
-//    using Oracle Azure Connector and Oracle Azure Blob Container Resource.
-// <b>Google Cloud</b>:<br>
-// 1. Oracle Google Cloud Connector Resource: This is for installing Google Identity in ExaCS VM Cluster.<br>
-// 2. Discover Google Key-Rings and Keys Resource: This is for to discover Google Key-Rings.<br>
-// 3. Google Key-Rings Resource: This is for to maintain Google Key-Rings in Oracle Cloud.<br>
-// 4. Google Key Resource: This is for to maintain Google Key in Oracle Cloud for a Google Key-Ring.<br>
+// <b>Microsoft Azure:</b> <br>
+// <b>Oracle Azure Connector Resource:</b>:&nbsp;&nbsp;The Oracle Azure Connector Resource is used to install the Azure Arc Server on an Exadata VM cluster in Oracle Exadata Database Service on Dedicated Infrastructure (ExaDB-D).
+//  The supported method to install the Azure Arc Server (Azure Identity) on the Exadata VM cluster:
+// <ul>
+//  <li>Using a Bearer Access Token</li>
+// </ul>
+// <b>Oracle Azure Blob Container Resource:</b>&nbsp;&nbsp;The Oracle Azure Blob Container Resource is used to capture the details of an Azure Blob Container.
+// This resource can then be reused across multiple Exadata VM clusters in Oracle Exadata Database Service on Dedicated Infrastructure (ExaDB-D) to mount the Azure container.
+// <b>Oracle Azure Blob Mount Resource:</b>&nbsp;&nbsp;The Oracle Azure Blob Mount Resource is used to mount an Azure Blob Container on an Exadata VM cluster in Oracle Exadata Database Service on Dedicated Infrastructure (ExaDB-D).
+// It relies on both the Oracle Azure Connector and the Oracle Azure Blob Container Resource to perform the mount operation.
+// <b>Discover Azure Vaults and Keys Resource:</b>&nbsp;&nbsp;The Discover Oracle Azure Vaults and Azure Keys Resource is used to discover Azure Vaults and the associated encryption keys available in your Azure project.
+// <b>Oracle Azure Vault:</b>&nbsp;&nbsp;The Oracle Azure Vault Resource is used to manage Azure Vaults within Oracle Cloud Infrastructure (OCI) for use with services such as Oracle Exadata Database Service on Dedicated Infrastructure.
+// <b>Oracle Azure Key:</b>&nbsp;&nbsp;Oracle Azure Key Resource is used to register and manage a Oracle Azure Key Key within Oracle Cloud Infrastructure (OCI) under an associated Azure Vault.
+// <br>
+// <b>Google Cloud:</b><br>
+// <b>Oracle Google Cloud Connector Resource:</b>&nbsp;&nbsp;The Oracle Google Cloud Connector Resource is used to install the Google Cloud Identity Connector on an Exadata VM cluster in Oracle Exadata Database Service on Dedicated Infrastructure (ExaDB-D).
+// <b>Discover Google Key Rings and Keys Resource:</b>&nbsp;&nbsp;The Discover Google Key Rings and Keys Resource is used to discover Google Cloud Key Rings and the associated encryption keys available in your Google Cloud project.
+// <b>Google Key Rings Resource:</b>&nbsp;&nbsp;The Google Key Rings Resource is used to register and manage Google Cloud Key Rings within Oracle Cloud Infrastructure (OCI) for use with services such as Oracle Exadata Database Service on Dedicated Infrastructure.
+// <b>Google Key Resource:</b>&nbsp;&nbsp;The Google Key Resource is used to register and manage a Google Cloud Key within Oracle Cloud Infrastructure (OCI) under an associated Google Key Ring.
 //
 
 package dbmulticloud
@@ -35,6 +40,7 @@ const (
 	OperationTypeDeleteAzureConnector           OperationTypeEnum = "DELETE_AZURE_CONNECTOR"
 	OperationTypeUpdateAzureConnector           OperationTypeEnum = "UPDATE_AZURE_CONNECTOR"
 	OperationTypeMoveAzureConnector             OperationTypeEnum = "MOVE_AZURE_CONNECTOR"
+	OperationTypeRefreshAzureConnector          OperationTypeEnum = "REFRESH_AZURE_CONNECTOR"
 	OperationTypeCreateAzureBlobContainer       OperationTypeEnum = "CREATE_AZURE_BLOB_CONTAINER"
 	OperationTypeDeleteAzureBlobContainer       OperationTypeEnum = "DELETE_AZURE_BLOB_CONTAINER"
 	OperationTypeUpdateAzureBlobContainer       OperationTypeEnum = "UPDATE_AZURE_BLOB_CONTAINER"
@@ -62,6 +68,7 @@ const (
 	OperationTypeDeleteGcpConnector             OperationTypeEnum = "DELETE_GCP_CONNECTOR"
 	OperationTypeUpdateGcpConnector             OperationTypeEnum = "UPDATE_GCP_CONNECTOR"
 	OperationTypeMoveGcpConnector               OperationTypeEnum = "MOVE_GCP_CONNECTOR"
+	OperationTypeRefreshGcpConnector            OperationTypeEnum = "REFRESH_GCP_CONNECTOR"
 	OperationTypeGcpDiscovery                   OperationTypeEnum = "GCP_DISCOVERY"
 	OperationTypeCreateGcpKeyRing               OperationTypeEnum = "CREATE_GCP_KEY_RING"
 	OperationTypeDeleteGcpKeyRing               OperationTypeEnum = "DELETE_GCP_KEY_RING"
@@ -75,6 +82,7 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"DELETE_AZURE_CONNECTOR":            OperationTypeDeleteAzureConnector,
 	"UPDATE_AZURE_CONNECTOR":            OperationTypeUpdateAzureConnector,
 	"MOVE_AZURE_CONNECTOR":              OperationTypeMoveAzureConnector,
+	"REFRESH_AZURE_CONNECTOR":           OperationTypeRefreshAzureConnector,
 	"CREATE_AZURE_BLOB_CONTAINER":       OperationTypeCreateAzureBlobContainer,
 	"DELETE_AZURE_BLOB_CONTAINER":       OperationTypeDeleteAzureBlobContainer,
 	"UPDATE_AZURE_BLOB_CONTAINER":       OperationTypeUpdateAzureBlobContainer,
@@ -102,6 +110,7 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"DELETE_GCP_CONNECTOR":              OperationTypeDeleteGcpConnector,
 	"UPDATE_GCP_CONNECTOR":              OperationTypeUpdateGcpConnector,
 	"MOVE_GCP_CONNECTOR":                OperationTypeMoveGcpConnector,
+	"REFRESH_GCP_CONNECTOR":             OperationTypeRefreshGcpConnector,
 	"GCP_DISCOVERY":                     OperationTypeGcpDiscovery,
 	"CREATE_GCP_KEY_RING":               OperationTypeCreateGcpKeyRing,
 	"DELETE_GCP_KEY_RING":               OperationTypeDeleteGcpKeyRing,
@@ -115,6 +124,7 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"delete_azure_connector":            OperationTypeDeleteAzureConnector,
 	"update_azure_connector":            OperationTypeUpdateAzureConnector,
 	"move_azure_connector":              OperationTypeMoveAzureConnector,
+	"refresh_azure_connector":           OperationTypeRefreshAzureConnector,
 	"create_azure_blob_container":       OperationTypeCreateAzureBlobContainer,
 	"delete_azure_blob_container":       OperationTypeDeleteAzureBlobContainer,
 	"update_azure_blob_container":       OperationTypeUpdateAzureBlobContainer,
@@ -142,6 +152,7 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"delete_gcp_connector":              OperationTypeDeleteGcpConnector,
 	"update_gcp_connector":              OperationTypeUpdateGcpConnector,
 	"move_gcp_connector":                OperationTypeMoveGcpConnector,
+	"refresh_gcp_connector":             OperationTypeRefreshGcpConnector,
 	"gcp_discovery":                     OperationTypeGcpDiscovery,
 	"create_gcp_key_ring":               OperationTypeCreateGcpKeyRing,
 	"delete_gcp_key_ring":               OperationTypeDeleteGcpKeyRing,
@@ -166,6 +177,7 @@ func GetOperationTypeEnumStringValues() []string {
 		"DELETE_AZURE_CONNECTOR",
 		"UPDATE_AZURE_CONNECTOR",
 		"MOVE_AZURE_CONNECTOR",
+		"REFRESH_AZURE_CONNECTOR",
 		"CREATE_AZURE_BLOB_CONTAINER",
 		"DELETE_AZURE_BLOB_CONTAINER",
 		"UPDATE_AZURE_BLOB_CONTAINER",
@@ -193,6 +205,7 @@ func GetOperationTypeEnumStringValues() []string {
 		"DELETE_GCP_CONNECTOR",
 		"UPDATE_GCP_CONNECTOR",
 		"MOVE_GCP_CONNECTOR",
+		"REFRESH_GCP_CONNECTOR",
 		"GCP_DISCOVERY",
 		"CREATE_GCP_KEY_RING",
 		"DELETE_GCP_KEY_RING",

@@ -14,7 +14,7 @@ import (
 // UpdateOracleDbGcpIdentityConnectorRequest wrapper for the UpdateOracleDbGcpIdentityConnector operation
 type UpdateOracleDbGcpIdentityConnectorRequest struct {
 
-	// The ID of the Oracle DB GCP Identity Configuration Resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB GCP Identity Configuration Resource.
 	OracleDbGcpIdentityConnectorId *string `mandatory:"true" contributesTo:"path" name:"oracleDbGcpIdentityConnectorId"`
 
 	// Details for to update OracleDbGcpIdentityConnector.

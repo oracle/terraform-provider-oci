@@ -53,6 +53,8 @@ type MacsManagedCloudExadataInsight struct {
 	// true if virtualization is used in the Exadata system
 	IsVirtualizedExadata *bool `mandatory:"false" json:"isVirtualizedExadata"`
 
+	ChargebackPlanDetails *ChargebackPlanDetails `mandatory:"false" json:"chargebackPlanDetails"`
+
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
@@ -62,6 +64,9 @@ type MacsManagedCloudExadataInsight struct {
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	// A message describing the status of the Exadata Resource. For example, it can be used to provide actionable information about the policies needed to access the Exadata Resource.
+	StatusDetails *string `mandatory:"false" json:"statusDetails"`
 
 	// Operations Insights internal representation of the the Exadata system type.
 	ExadataType ExadataTypeEnum `mandatory:"false" json:"exadataType,omitempty"`
@@ -119,6 +124,11 @@ func (m MacsManagedCloudExadataInsight) GetStatus() ResourceStatusEnum {
 	return m.Status
 }
 
+// GetChargebackPlanDetails returns ChargebackPlanDetails
+func (m MacsManagedCloudExadataInsight) GetChargebackPlanDetails() *ChargebackPlanDetails {
+	return m.ChargebackPlanDetails
+}
+
 // GetFreeformTags returns FreeformTags
 func (m MacsManagedCloudExadataInsight) GetFreeformTags() map[string]string {
 	return m.FreeformTags
@@ -152,6 +162,11 @@ func (m MacsManagedCloudExadataInsight) GetLifecycleState() ExadataInsightLifecy
 // GetLifecycleDetails returns LifecycleDetails
 func (m MacsManagedCloudExadataInsight) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
+}
+
+// GetStatusDetails returns StatusDetails
+func (m MacsManagedCloudExadataInsight) GetStatusDetails() *string {
+	return m.StatusDetails
 }
 
 func (m MacsManagedCloudExadataInsight) String() string {

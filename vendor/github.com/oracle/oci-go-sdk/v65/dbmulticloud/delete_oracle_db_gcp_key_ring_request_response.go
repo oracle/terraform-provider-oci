@@ -14,7 +14,7 @@ import (
 // DeleteOracleDbGcpKeyRingRequest wrapper for the DeleteOracleDbGcpKeyRing operation
 type DeleteOracleDbGcpKeyRingRequest struct {
 
-	// The ID of the Oracle DB GCP Key-Ring Resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB GCP Key-Ring resource.
 	OracleDbGcpKeyRingId *string `mandatory:"true" contributesTo:"path" name:"oracleDbGcpKeyRingId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

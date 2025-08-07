@@ -39,6 +39,9 @@ type MacsManagedExternalDatabaseConfigurationSummary struct {
 	// The version of the database.
 	DatabaseVersion *string `mandatory:"true" json:"databaseVersion"`
 
+	// Flag is to identify if advanced features for autonomous database is enabled or not
+	IsAdvancedFeaturesEnabled *bool `mandatory:"true" json:"isAdvancedFeaturesEnabled"`
+
 	// Name of the CDB.Only applies to PDB.
 	CdbName *string `mandatory:"true" json:"cdbName"`
 
@@ -94,6 +97,11 @@ func (m MacsManagedExternalDatabaseConfigurationSummary) GetDatabaseType() *stri
 // GetDatabaseVersion returns DatabaseVersion
 func (m MacsManagedExternalDatabaseConfigurationSummary) GetDatabaseVersion() *string {
 	return m.DatabaseVersion
+}
+
+// GetIsAdvancedFeaturesEnabled returns IsAdvancedFeaturesEnabled
+func (m MacsManagedExternalDatabaseConfigurationSummary) GetIsAdvancedFeaturesEnabled() *bool {
+	return m.IsAdvancedFeaturesEnabled
 }
 
 // GetCdbName returns CdbName

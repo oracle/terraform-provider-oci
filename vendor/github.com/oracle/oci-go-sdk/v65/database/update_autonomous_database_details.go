@@ -260,6 +260,11 @@ type UpdateAutonomousDatabaseDetails struct {
 	// follows a schedule applying patches prior to the REGULAR schedule. A REGULAR maintenance schedule follows the normal cycle
 	AutonomousMaintenanceScheduleType UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum `mandatory:"false" json:"autonomousMaintenanceScheduleType,omitempty"`
 
+	AutonomousDatabaseMaintenanceWindow *AutonomousDatabaseMaintenanceWindowSummary `mandatory:"false" json:"autonomousDatabaseMaintenanceWindow"`
+
+	// The date until which maintenance of Autonomous Database is temporarily paused.
+	TimeMaintenancePauseUntil *common.SDKTime `mandatory:"false" json:"timeMaintenancePauseUntil"`
+
 	// True if the Autonomous Database is backup retention locked.
 	IsBackupRetentionLocked *bool `mandatory:"false" json:"isBackupRetentionLocked"`
 
@@ -401,6 +406,8 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 		ResourcePoolSummary                  *ResourcePoolSummary                                                 `json:"resourcePoolSummary"`
 		IsOracleServiceGatewayAllowed        *bool                                                                `json:"isOracleServiceGatewayAllowed"`
 		AutonomousMaintenanceScheduleType    UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum `json:"autonomousMaintenanceScheduleType"`
+		AutonomousDatabaseMaintenanceWindow  *AutonomousDatabaseMaintenanceWindowSummary                          `json:"autonomousDatabaseMaintenanceWindow"`
+		TimeMaintenancePauseUntil            *common.SDKTime                                                      `json:"timeMaintenancePauseUntil"`
 		IsBackupRetentionLocked              *bool                                                                `json:"isBackupRetentionLocked"`
 		TimeScheduledDbVersionUpgrade        *common.SDKTime                                                      `json:"timeScheduledDbVersionUpgrade"`
 		IsDisableDbVersionUpgradeSchedule    *bool                                                                `json:"isDisableDbVersionUpgradeSchedule"`
@@ -517,6 +524,10 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	m.IsOracleServiceGatewayAllowed = model.IsOracleServiceGatewayAllowed
 
 	m.AutonomousMaintenanceScheduleType = model.AutonomousMaintenanceScheduleType
+
+	m.AutonomousDatabaseMaintenanceWindow = model.AutonomousDatabaseMaintenanceWindow
+
+	m.TimeMaintenancePauseUntil = model.TimeMaintenancePauseUntil
 
 	m.IsBackupRetentionLocked = model.IsBackupRetentionLocked
 

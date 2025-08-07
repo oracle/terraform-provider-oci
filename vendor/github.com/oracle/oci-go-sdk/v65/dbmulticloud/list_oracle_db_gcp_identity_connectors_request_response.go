@@ -17,14 +17,13 @@ type ListOracleDbGcpIdentityConnectorsRequest struct {
 	// The ID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// A filter to return Oracle DB GCP Identity Connector Resource that match the given display name.
+	// A filter to return Oracle DB GCP Identity Connector resources that match the specified display name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// A filter to return Oracle DB GCP Identity Connector Resource that match the given resource ID.
+	// A filter to return Oracle DB GCP Identity Connector resource that match the given resource OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ResourceId *string `mandatory:"false" contributesTo:"query" name:"resourceId"`
 
-	// A filter to return only resources that match the given lifecycle state. The
-	// state value is case-insensitive.
+	// A filter to return only resources that match the specified lifecycle state. The state value is case-insensitive.
 	LifecycleState OracleDbGcpIdentityConnectorLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// The maximum number of items to return.

@@ -14,7 +14,7 @@ import (
 // DeleteOracleDbGcpIdentityConnectorRequest wrapper for the DeleteOracleDbGcpIdentityConnector operation
 type DeleteOracleDbGcpIdentityConnectorRequest struct {
 
-	// The ID of the Oracle DB GCP Identity Configuration Resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB GCP Identity Configuration Resource.
 	OracleDbGcpIdentityConnectorId *string `mandatory:"true" contributesTo:"path" name:"oracleDbGcpIdentityConnectorId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

@@ -17,17 +17,17 @@ type ListOracleDbGcpKeyRingsRequest struct {
 	// The ID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// A filter to return Oracle DB GCP Key-Rings.
+	// A filter to return Oracle DB GCP Key Ring resources that match the specified display name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// A filter to return Oracle DB GCP Key-Ring Resources.
+	// A filter to return Oracle DB GCP Key Rings.
 	OracleDbGcpKeyRingId *string `mandatory:"false" contributesTo:"query" name:"oracleDbGcpKeyRingId"`
 
 	// A filter to return only resources that match the given lifecycle state. The
 	// state value is case-insensitive.
 	LifecycleState OracleDbGcpKeyRingLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// A filter to return Oracle DB GCP Identity Connector Resources.
+	// A filter to return Oracle DB GCP Identity Connector resources that match the specified resource OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	OracleDbGcpConnectorId *string `mandatory:"false" contributesTo:"query" name:"oracleDbGcpConnectorId"`
 
 	// The maximum number of items to return.

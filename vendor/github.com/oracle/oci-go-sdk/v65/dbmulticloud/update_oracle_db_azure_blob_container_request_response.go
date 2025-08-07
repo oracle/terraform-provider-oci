@@ -14,7 +14,7 @@ import (
 // UpdateOracleDbAzureBlobContainerRequest wrapper for the UpdateOracleDbAzureBlobContainer operation
 type UpdateOracleDbAzureBlobContainerRequest struct {
 
-	// The ID of the Oracle DB Azure Blob Container Resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB Azure Blob Container resource.
 	OracleDbAzureBlobContainerId *string `mandatory:"true" contributesTo:"path" name:"oracleDbAzureBlobContainerId"`
 
 	// Details for to update OracleDbAzureBlobContainer.

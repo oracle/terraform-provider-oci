@@ -253,6 +253,8 @@ type CreateAutonomousDatabaseBase interface {
 	// True if allow Oracle services to use the Service Gateway to connect to the Autonomous Database.
 	GetIsOracleServiceGatewayAllowed() *bool
 
+	GetAutonomousDatabaseMaintenanceWindow() *AutonomousDatabaseMaintenanceWindowSummary
+
 	// The list of scheduled operations. Consists of values such as dayOfWeek, scheduledStartTime, scheduledStopTime.
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	GetScheduledOperations() []ScheduledOperationDetails
@@ -333,6 +335,7 @@ type createautonomousdatabasebase struct {
 	ResourcePoolSummary                      *ResourcePoolSummary                                              `mandatory:"false" json:"resourcePoolSummary"`
 	AutonomousMaintenanceScheduleType        CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum `mandatory:"false" json:"autonomousMaintenanceScheduleType,omitempty"`
 	IsOracleServiceGatewayAllowed            *bool                                                             `mandatory:"false" json:"isOracleServiceGatewayAllowed"`
+	AutonomousDatabaseMaintenanceWindow      *AutonomousDatabaseMaintenanceWindowSummary                       `mandatory:"false" json:"autonomousDatabaseMaintenanceWindow"`
 	ScheduledOperations                      []ScheduledOperationDetails                                       `mandatory:"false" json:"scheduledOperations"`
 	IsAutoScalingForStorageEnabled           *bool                                                             `mandatory:"false" json:"isAutoScalingForStorageEnabled"`
 	DatabaseEdition                          AutonomousDatabaseSummaryDatabaseEditionEnum                      `mandatory:"false" json:"databaseEdition,omitempty"`
@@ -406,6 +409,7 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.ResourcePoolSummary = s.Model.ResourcePoolSummary
 	m.AutonomousMaintenanceScheduleType = s.Model.AutonomousMaintenanceScheduleType
 	m.IsOracleServiceGatewayAllowed = s.Model.IsOracleServiceGatewayAllowed
+	m.AutonomousDatabaseMaintenanceWindow = s.Model.AutonomousDatabaseMaintenanceWindow
 	m.ScheduledOperations = s.Model.ScheduledOperations
 	m.IsAutoScalingForStorageEnabled = s.Model.IsAutoScalingForStorageEnabled
 	m.DatabaseEdition = s.Model.DatabaseEdition
@@ -713,6 +717,11 @@ func (m createautonomousdatabasebase) GetAutonomousMaintenanceScheduleType() Cre
 // GetIsOracleServiceGatewayAllowed returns IsOracleServiceGatewayAllowed
 func (m createautonomousdatabasebase) GetIsOracleServiceGatewayAllowed() *bool {
 	return m.IsOracleServiceGatewayAllowed
+}
+
+// GetAutonomousDatabaseMaintenanceWindow returns AutonomousDatabaseMaintenanceWindow
+func (m createautonomousdatabasebase) GetAutonomousDatabaseMaintenanceWindow() *AutonomousDatabaseMaintenanceWindowSummary {
+	return m.AutonomousDatabaseMaintenanceWindow
 }
 
 // GetScheduledOperations returns ScheduledOperations

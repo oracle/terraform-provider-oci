@@ -14,7 +14,7 @@ import (
 // DeleteOracleDbAzureVaultRequest wrapper for the DeleteOracleDbAzureVault operation
 type DeleteOracleDbAzureVaultRequest struct {
 
-	// The ID of the Oracle DB Azure Vault Resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB Azure Vault resource.
 	OracleDbAzureVaultId *string `mandatory:"true" contributesTo:"path" name:"oracleDbAzureVaultId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

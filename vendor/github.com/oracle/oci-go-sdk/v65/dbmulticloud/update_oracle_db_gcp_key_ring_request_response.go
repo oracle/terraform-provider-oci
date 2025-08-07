@@ -14,7 +14,7 @@ import (
 // UpdateOracleDbGcpKeyRingRequest wrapper for the UpdateOracleDbGcpKeyRing operation
 type UpdateOracleDbGcpKeyRingRequest struct {
 
-	// The ID of the Oracle DB GCP Key-Ring Resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB GCP Key-Ring resource.
 	OracleDbGcpKeyRingId *string `mandatory:"true" contributesTo:"path" name:"oracleDbGcpKeyRingId"`
 
 	// Details for to update OracleDbGcpKeyRing.

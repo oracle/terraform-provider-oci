@@ -39,6 +39,9 @@ type DatabaseConfigurationSummary interface {
 	// The version of the database.
 	GetDatabaseVersion() *string
 
+	// Flag is to identify if advanced features for autonomous database is enabled or not
+	GetIsAdvancedFeaturesEnabled() *bool
+
 	// Name of the CDB.Only applies to PDB.
 	GetCdbName() *string
 
@@ -55,18 +58,19 @@ type DatabaseConfigurationSummary interface {
 }
 
 type databaseconfigurationsummary struct {
-	JsonData            []byte
-	ProcessorCount      *int                              `mandatory:"false" json:"processorCount"`
-	DatabaseInsightId   *string                           `mandatory:"true" json:"databaseInsightId"`
-	CompartmentId       *string                           `mandatory:"true" json:"compartmentId"`
-	DatabaseName        *string                           `mandatory:"true" json:"databaseName"`
-	DatabaseDisplayName *string                           `mandatory:"true" json:"databaseDisplayName"`
-	DatabaseType        *string                           `mandatory:"true" json:"databaseType"`
-	DatabaseVersion     *string                           `mandatory:"true" json:"databaseVersion"`
-	CdbName             *string                           `mandatory:"true" json:"cdbName"`
-	DefinedTags         map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
-	FreeformTags        map[string]string                 `mandatory:"true" json:"freeformTags"`
-	EntitySource        string                            `json:"entitySource"`
+	JsonData                  []byte
+	ProcessorCount            *int                              `mandatory:"false" json:"processorCount"`
+	DatabaseInsightId         *string                           `mandatory:"true" json:"databaseInsightId"`
+	CompartmentId             *string                           `mandatory:"true" json:"compartmentId"`
+	DatabaseName              *string                           `mandatory:"true" json:"databaseName"`
+	DatabaseDisplayName       *string                           `mandatory:"true" json:"databaseDisplayName"`
+	DatabaseType              *string                           `mandatory:"true" json:"databaseType"`
+	DatabaseVersion           *string                           `mandatory:"true" json:"databaseVersion"`
+	IsAdvancedFeaturesEnabled *bool                             `mandatory:"true" json:"isAdvancedFeaturesEnabled"`
+	CdbName                   *string                           `mandatory:"true" json:"cdbName"`
+	DefinedTags               map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
+	FreeformTags              map[string]string                 `mandatory:"true" json:"freeformTags"`
+	EntitySource              string                            `json:"entitySource"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -86,6 +90,7 @@ func (m *databaseconfigurationsummary) UnmarshalJSON(data []byte) error {
 	m.DatabaseDisplayName = s.Model.DatabaseDisplayName
 	m.DatabaseType = s.Model.DatabaseType
 	m.DatabaseVersion = s.Model.DatabaseVersion
+	m.IsAdvancedFeaturesEnabled = s.Model.IsAdvancedFeaturesEnabled
 	m.CdbName = s.Model.CdbName
 	m.DefinedTags = s.Model.DefinedTags
 	m.FreeformTags = s.Model.FreeformTags
@@ -175,6 +180,11 @@ func (m databaseconfigurationsummary) GetDatabaseType() *string {
 // GetDatabaseVersion returns DatabaseVersion
 func (m databaseconfigurationsummary) GetDatabaseVersion() *string {
 	return m.DatabaseVersion
+}
+
+// GetIsAdvancedFeaturesEnabled returns IsAdvancedFeaturesEnabled
+func (m databaseconfigurationsummary) GetIsAdvancedFeaturesEnabled() *bool {
+	return m.IsAdvancedFeaturesEnabled
 }
 
 // GetCdbName returns CdbName

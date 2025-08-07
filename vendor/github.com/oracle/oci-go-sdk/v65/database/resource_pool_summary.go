@@ -21,6 +21,9 @@ type ResourcePoolSummary struct {
 	// Resource pool size.
 	PoolSize *int `mandatory:"false" json:"poolSize"`
 
+	// Resource pool storage size in TBs.
+	PoolStorageSizeInTBs *int `mandatory:"false" json:"poolStorageSizeInTBs"`
+
 	// Resource Pool total capacity, it's currently 4x of pool size
 	TotalComputeCapacity *int `mandatory:"false" json:"totalComputeCapacity"`
 

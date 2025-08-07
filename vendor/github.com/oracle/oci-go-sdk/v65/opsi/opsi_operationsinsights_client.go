@@ -270,6 +270,65 @@ func (client OperationsInsightsClient) changeAwrHubSourceCompartment(ctx context
 	return response, err
 }
 
+// ChangeChargebackPlanCompartment Moves a Chargeback Plan insight resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation ChangeChargebackPlanCompartment()
+func (client OperationsInsightsClient) ChangeChargebackPlanCompartment(ctx context.Context, request ChangeChargebackPlanCompartmentRequest) (response ChangeChargebackPlanCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeChargebackPlanCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeChargebackPlanCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeChargebackPlanCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeChargebackPlanCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeChargebackPlanCompartmentResponse")
+	}
+	return
+}
+
+// changeChargebackPlanCompartment implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) changeChargebackPlanCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/chargebackPlans/{chargebackplanId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeChargebackPlanCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/ChargebackPlan/ChangeChargebackPlanCompartment"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ChangeChargebackPlanCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeDatabaseInsightCompartment Moves a DatabaseInsight resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
 // A default retry strategy applies to this operation ChangeDatabaseInsightCompartment()
 func (client OperationsInsightsClient) ChangeDatabaseInsightCompartment(ctx context.Context, request ChangeDatabaseInsightCompartmentRequest) (response ChangeDatabaseInsightCompartmentResponse, err error) {
@@ -1151,6 +1210,124 @@ func (client OperationsInsightsClient) createAwrHubSource(ctx context.Context, r
 	return response, err
 }
 
+// CreateChargebackPlan Create a chargeback plan resource for the resource in Ops Insights.
+// A default retry strategy applies to this operation CreateChargebackPlan()
+func (client OperationsInsightsClient) CreateChargebackPlan(ctx context.Context, request CreateChargebackPlanRequest) (response CreateChargebackPlanResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createChargebackPlan, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateChargebackPlanResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateChargebackPlanResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateChargebackPlanResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateChargebackPlanResponse")
+	}
+	return
+}
+
+// createChargebackPlan implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) createChargebackPlan(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/chargebackPlans", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateChargebackPlanResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/ChargebackPlan/CreateChargebackPlan"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "CreateChargebackPlan", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateChargebackPlanReport Creates a chargeback plan report for a resource in Ops Insights
+// A default retry strategy applies to this operation CreateChargebackPlanReport()
+func (client OperationsInsightsClient) CreateChargebackPlanReport(ctx context.Context, request CreateChargebackPlanReportRequest) (response CreateChargebackPlanReportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createChargebackPlanReport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateChargebackPlanReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateChargebackPlanReportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateChargebackPlanReportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateChargebackPlanReportResponse")
+	}
+	return
+}
+
+// createChargebackPlanReport implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) createChargebackPlanReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/chargebackPlanReport", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateChargebackPlanReportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/ChargebackPlan/CreateChargebackPlanReport"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "CreateChargebackPlanReport", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateDatabaseInsight Create a Database Insight resource for a database in Operations Insights. The database will be enabled in Operations Insights. Database metric collection and analysis will be started.
 // A default retry strategy applies to this operation CreateDatabaseInsight()
 func (client OperationsInsightsClient) CreateDatabaseInsight(ctx context.Context, request CreateDatabaseInsightRequest) (response CreateDatabaseInsightResponse, err error) {
@@ -1900,6 +2077,114 @@ func (client OperationsInsightsClient) deleteAwrHubSource(ctx context.Context, r
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/AwrHubSources/DeleteAwrHubSource"
 		err = common.PostProcessServiceError(err, "OperationsInsights", "DeleteAwrHubSource", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteChargebackPlan Deletes a chargeback plan if it's not assigned to any resource.
+// A default retry strategy applies to this operation DeleteChargebackPlan()
+func (client OperationsInsightsClient) DeleteChargebackPlan(ctx context.Context, request DeleteChargebackPlanRequest) (response DeleteChargebackPlanResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteChargebackPlan, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteChargebackPlanResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteChargebackPlanResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteChargebackPlanResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteChargebackPlanResponse")
+	}
+	return
+}
+
+// deleteChargebackPlan implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) deleteChargebackPlan(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/chargebackPlans/{chargebackplanId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteChargebackPlanResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/ChargebackPlan/DeleteChargebackPlan"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "DeleteChargebackPlan", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteChargebackPlanReport Deletes a chargeback plan report if it's not assigned to any resource.
+// A default retry strategy applies to this operation DeleteChargebackPlanReport()
+func (client OperationsInsightsClient) DeleteChargebackPlanReport(ctx context.Context, request DeleteChargebackPlanReportRequest) (response DeleteChargebackPlanReportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteChargebackPlanReport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteChargebackPlanReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteChargebackPlanReportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteChargebackPlanReportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteChargebackPlanReportResponse")
+	}
+	return
+}
+
+// deleteChargebackPlanReport implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) deleteChargebackPlanReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/chargebackPlanReport/{chargebackPlanReportId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteChargebackPlanReportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/ChargebackPlan/DeleteChargebackPlanReport"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "DeleteChargebackPlanReport", apiReferenceLink)
 		return response, err
 	}
 
@@ -2804,6 +3089,65 @@ func (client OperationsInsightsClient) disableKubeClusterInsight(ctx context.Con
 	return response, err
 }
 
+// DisablePlanExadataInsight Disables a chargeback plan on an Exadata system in Operations Insights. Metering-related metric collection and analysis will be stopped.
+// A default retry strategy applies to this operation DisablePlanExadataInsight()
+func (client OperationsInsightsClient) DisablePlanExadataInsight(ctx context.Context, request DisablePlanExadataInsightRequest) (response DisablePlanExadataInsightResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.disablePlanExadataInsight, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DisablePlanExadataInsightResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DisablePlanExadataInsightResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DisablePlanExadataInsightResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DisablePlanExadataInsightResponse")
+	}
+	return
+}
+
+// disablePlanExadataInsight implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) disablePlanExadataInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/exadataInsights/{exadataInsightId}/actions/disablePlan", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DisablePlanExadataInsightResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/ExadataInsights/DisablePlanExadataInsight"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "DisablePlanExadataInsight", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DownloadOperationsInsightsWarehouseWallet Download the ADW wallet for Operations Insights Warehouse using which the Hub data is exposed.
 // A default retry strategy applies to this operation DownloadOperationsInsightsWarehouseWallet()
 func (client OperationsInsightsClient) DownloadOperationsInsightsWarehouseWallet(ctx context.Context, request DownloadOperationsInsightsWarehouseWalletRequest) (response DownloadOperationsInsightsWarehouseWalletResponse, err error) {
@@ -3216,6 +3560,65 @@ func (client OperationsInsightsClient) enableKubeClusterInsight(ctx context.Cont
 	return response, err
 }
 
+// EnablePlanExadataInsight Enables a chargeback plan on an Exadata system in Operations Insights. Metering-related metric collection and analysis will be started.
+// A default retry strategy applies to this operation EnablePlanExadataInsight()
+func (client OperationsInsightsClient) EnablePlanExadataInsight(ctx context.Context, request EnablePlanExadataInsightRequest) (response EnablePlanExadataInsightResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.enablePlanExadataInsight, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnablePlanExadataInsightResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnablePlanExadataInsightResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnablePlanExadataInsightResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnablePlanExadataInsightResponse")
+	}
+	return
+}
+
+// enablePlanExadataInsight implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) enablePlanExadataInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/exadataInsights/{exadataInsightId}/actions/enablePlan", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnablePlanExadataInsightResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/ExadataInsights/EnablePlanExadataInsight"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "EnablePlanExadataInsight", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetAwrDatabaseReport Gets the AWR report for the specified database.
 // A default retry strategy applies to this operation GetAwrDatabaseReport()
 func (client OperationsInsightsClient) GetAwrDatabaseReport(ctx context.Context, request GetAwrDatabaseReportRequest) (response GetAwrDatabaseReportResponse, err error) {
@@ -3533,6 +3936,167 @@ func (client OperationsInsightsClient) getAwrReport(ctx context.Context, request
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/AwrHubs/GetAwrReport"
 		err = common.PostProcessServiceError(err, "OperationsInsights", "GetAwrReport", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetChargebackPlan Gets the details of the specified chargeback plan.
+// A default retry strategy applies to this operation GetChargebackPlan()
+func (client OperationsInsightsClient) GetChargebackPlan(ctx context.Context, request GetChargebackPlanRequest) (response GetChargebackPlanResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getChargebackPlan, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetChargebackPlanResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetChargebackPlanResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetChargebackPlanResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetChargebackPlanResponse")
+	}
+	return
+}
+
+// getChargebackPlan implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) getChargebackPlan(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/chargebackPlans/{chargebackplanId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetChargebackPlanResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/ChargebackPlan/GetChargebackPlan"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "GetChargebackPlan", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetChargebackPlanReport Gets the details of the specified chargeback plan plan report
+// A default retry strategy applies to this operation GetChargebackPlanReport()
+func (client OperationsInsightsClient) GetChargebackPlanReport(ctx context.Context, request GetChargebackPlanReportRequest) (response GetChargebackPlanReportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getChargebackPlanReport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetChargebackPlanReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetChargebackPlanReportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetChargebackPlanReportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetChargebackPlanReportResponse")
+	}
+	return
+}
+
+// getChargebackPlanReport implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) getChargebackPlanReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/chargebackPlanReport/{chargebackPlanReportId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetChargebackPlanReportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/ChargebackPlan/GetChargebackPlanReport"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "GetChargebackPlanReport", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetChargebackPlanReportContent Generates the chargeback report in csv format for a specified time interval
+// A default retry strategy applies to this operation GetChargebackPlanReportContent()
+func (client OperationsInsightsClient) GetChargebackPlanReportContent(ctx context.Context, request GetChargebackPlanReportContentRequest) (response GetChargebackPlanReportContentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getChargebackPlanReportContent, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetChargebackPlanReportContentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetChargebackPlanReportContentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetChargebackPlanReportContentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetChargebackPlanReportContentResponse")
+	}
+	return
+}
+
+// getChargebackPlanReportContent implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) getChargebackPlanReportContent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/chargebackPlanReport/{chargebackPlanReportId}/content", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetChargebackPlanReportContentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/ChargebackPlan/GetChargebackPlanReportContent"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "GetChargebackPlanReportContent", apiReferenceLink)
 		return response, err
 	}
 
@@ -5486,6 +6050,114 @@ func (client OperationsInsightsClient) listAwrSnapshots(ctx context.Context, req
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/AwrHubs/ListAwrSnapshots"
 		err = common.PostProcessServiceError(err, "OperationsInsights", "ListAwrSnapshots", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListChargebackPlanReports Gets a list of Ops Insights chargeback plan reports for a resource.
+// A default retry strategy applies to this operation ListChargebackPlanReports()
+func (client OperationsInsightsClient) ListChargebackPlanReports(ctx context.Context, request ListChargebackPlanReportsRequest) (response ListChargebackPlanReportsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listChargebackPlanReports, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListChargebackPlanReportsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListChargebackPlanReportsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListChargebackPlanReportsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListChargebackPlanReportsResponse")
+	}
+	return
+}
+
+// listChargebackPlanReports implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) listChargebackPlanReports(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/chargebackPlanReport", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListChargebackPlanReportsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/ChargebackPlan/ListChargebackPlanReports"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListChargebackPlanReports", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListChargebackPlans Gets a list of Ops Insights chargeback plans.
+// A default retry strategy applies to this operation ListChargebackPlans()
+func (client OperationsInsightsClient) ListChargebackPlans(ctx context.Context, request ListChargebackPlansRequest) (response ListChargebackPlansResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listChargebackPlans, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListChargebackPlansResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListChargebackPlansResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListChargebackPlansResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListChargebackPlansResponse")
+	}
+	return
+}
+
+// listChargebackPlans implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) listChargebackPlans(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/chargebackPlans", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListChargebackPlansResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/ChargebackPlan/ListChargebackPlans"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListChargebackPlans", apiReferenceLink)
 		return response, err
 	}
 
@@ -10324,6 +10996,114 @@ func (client OperationsInsightsClient) updateAwrHubSource(ctx context.Context, r
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/AwrHubSources/UpdateAwrHubSource"
 		err = common.PostProcessServiceError(err, "OperationsInsights", "UpdateAwrHubSource", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateChargebackPlan Updates one or more attributes of the specified chargeback plan.
+// A default retry strategy applies to this operation UpdateChargebackPlan()
+func (client OperationsInsightsClient) UpdateChargebackPlan(ctx context.Context, request UpdateChargebackPlanRequest) (response UpdateChargebackPlanResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateChargebackPlan, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateChargebackPlanResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateChargebackPlanResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateChargebackPlanResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateChargebackPlanResponse")
+	}
+	return
+}
+
+// updateChargebackPlan implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) updateChargebackPlan(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/chargebackPlans/{chargebackplanId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateChargebackPlanResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/ChargebackPlan/UpdateChargebackPlan"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "UpdateChargebackPlan", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateChargebackPlanReport Updates one or more attributes of the specified chargeback plan report.
+// A default retry strategy applies to this operation UpdateChargebackPlanReport()
+func (client OperationsInsightsClient) UpdateChargebackPlanReport(ctx context.Context, request UpdateChargebackPlanReportRequest) (response UpdateChargebackPlanReportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateChargebackPlanReport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateChargebackPlanReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateChargebackPlanReportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateChargebackPlanReportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateChargebackPlanReportResponse")
+	}
+	return
+}
+
+// updateChargebackPlanReport implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) updateChargebackPlanReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/chargebackPlanReport/{chargebackPlanReportId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateChargebackPlanReportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/ChargebackPlan/UpdateChargebackPlanReport"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "UpdateChargebackPlanReport", apiReferenceLink)
 		return response, err
 	}
 

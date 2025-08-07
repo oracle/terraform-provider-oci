@@ -14,7 +14,7 @@ import (
 // GetOracleDbAzureConnectorRequest wrapper for the GetOracleDbAzureConnector operation
 type GetOracleDbAzureConnectorRequest struct {
 
-	// The ID of the Oracle DB Azure Connector Resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB Azure Connector resource.
 	OracleDbAzureConnectorId *string `mandatory:"true" contributesTo:"path" name:"oracleDbAzureConnectorId"`
 
 	// The maximum number of items to return.

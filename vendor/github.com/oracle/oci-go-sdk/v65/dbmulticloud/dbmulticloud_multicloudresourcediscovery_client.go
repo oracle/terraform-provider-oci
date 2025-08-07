@@ -2,22 +2,27 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Oracle Database MultiCloud Data plane Integration
+// Oracle Database MultiCloud Data Plane Integration
 //
-// <b>Microsoft Azure</b>:<br>
-// 1. Oracle Azure Connector Resource: This is for installing Azure Arc Server in ExaCS VM Cluster.
-//   There are two way to install Azure Arc Server (Azure Identity) in ExaCS VMCluster.
-//     a. Using Bearer Access Token or
-//     b. By providing Authentication token
-// 2. Oracle Azure Blob Container Resource: This is for to capture Azure Container details
-//    and same will be used in multiple ExaCS VMCluster to mount the Azure Container.
-// 3. Oracle Azure Blob Mount Resource: This is for to mount Azure Container in ExaCS VMCluster
-//    using Oracle Azure Connector and Oracle Azure Blob Container Resource.
-// <b>Google Cloud</b>:<br>
-// 1. Oracle Google Cloud Connector Resource: This is for installing Google Identity in ExaCS VM Cluster.<br>
-// 2. Discover Google Key-Rings and Keys Resource: This is for to discover Google Key-Rings.<br>
-// 3. Google Key-Rings Resource: This is for to maintain Google Key-Rings in Oracle Cloud.<br>
-// 4. Google Key Resource: This is for to maintain Google Key in Oracle Cloud for a Google Key-Ring.<br>
+// <b>Microsoft Azure:</b> <br>
+// <b>Oracle Azure Connector Resource:</b>:&nbsp;&nbsp;The Oracle Azure Connector Resource is used to install the Azure Arc Server on an Exadata VM cluster in Oracle Exadata Database Service on Dedicated Infrastructure (ExaDB-D).
+//  The supported method to install the Azure Arc Server (Azure Identity) on the Exadata VM cluster:
+// <ul>
+//  <li>Using a Bearer Access Token</li>
+// </ul>
+// <b>Oracle Azure Blob Container Resource:</b>&nbsp;&nbsp;The Oracle Azure Blob Container Resource is used to capture the details of an Azure Blob Container.
+// This resource can then be reused across multiple Exadata VM clusters in Oracle Exadata Database Service on Dedicated Infrastructure (ExaDB-D) to mount the Azure container.
+// <b>Oracle Azure Blob Mount Resource:</b>&nbsp;&nbsp;The Oracle Azure Blob Mount Resource is used to mount an Azure Blob Container on an Exadata VM cluster in Oracle Exadata Database Service on Dedicated Infrastructure (ExaDB-D).
+// It relies on both the Oracle Azure Connector and the Oracle Azure Blob Container Resource to perform the mount operation.
+// <b>Discover Azure Vaults and Keys Resource:</b>&nbsp;&nbsp;The Discover Oracle Azure Vaults and Azure Keys Resource is used to discover Azure Vaults and the associated encryption keys available in your Azure project.
+// <b>Oracle Azure Vault:</b>&nbsp;&nbsp;The Oracle Azure Vault Resource is used to manage Azure Vaults within Oracle Cloud Infrastructure (OCI) for use with services such as Oracle Exadata Database Service on Dedicated Infrastructure.
+// <b>Oracle Azure Key:</b>&nbsp;&nbsp;Oracle Azure Key Resource is used to register and manage a Oracle Azure Key Key within Oracle Cloud Infrastructure (OCI) under an associated Azure Vault.
+// <br>
+// <b>Google Cloud:</b><br>
+// <b>Oracle Google Cloud Connector Resource:</b>&nbsp;&nbsp;The Oracle Google Cloud Connector Resource is used to install the Google Cloud Identity Connector on an Exadata VM cluster in Oracle Exadata Database Service on Dedicated Infrastructure (ExaDB-D).
+// <b>Discover Google Key Rings and Keys Resource:</b>&nbsp;&nbsp;The Discover Google Key Rings and Keys Resource is used to discover Google Cloud Key Rings and the associated encryption keys available in your Google Cloud project.
+// <b>Google Key Rings Resource:</b>&nbsp;&nbsp;The Google Key Rings Resource is used to register and manage Google Cloud Key Rings within Oracle Cloud Infrastructure (OCI) for use with services such as Oracle Exadata Database Service on Dedicated Infrastructure.
+// <b>Google Key Resource:</b>&nbsp;&nbsp;The Google Key Resource is used to register and manage a Google Cloud Key within Oracle Cloud Infrastructure (OCI) under an associated Google Key Ring.
 //
 
 package dbmulticloud
@@ -104,7 +109,7 @@ func (client *MultiCloudResourceDiscoveryClient) ConfigurationProvider() *common
 	return client.config
 }
 
-// ChangeMultiCloudResourceDiscoveryCompartment Moves the Oracle Discovery resource into a different compartment. When provided, 'If-Match' is checked against 'ETag' values of the resource.
+// ChangeMultiCloudResourceDiscoveryCompartment Moves the Multicloud Resource Discovery resource into a different compartment. When provided, 'If-Match' is checked against 'ETag' values of the resource.
 // A default retry strategy applies to this operation ChangeMultiCloudResourceDiscoveryCompartment()
 func (client MultiCloudResourceDiscoveryClient) ChangeMultiCloudResourceDiscoveryCompartment(ctx context.Context, request ChangeMultiCloudResourceDiscoveryCompartmentRequest) (response ChangeMultiCloudResourceDiscoveryCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -154,7 +159,7 @@ func (client MultiCloudResourceDiscoveryClient) changeMultiCloudResourceDiscover
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/MultiCloudResourceDiscovery/ChangeMultiCloudResourceDiscoveryCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "MultiCloudResourceDiscovery", "ChangeMultiCloudResourceDiscoveryCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -163,7 +168,7 @@ func (client MultiCloudResourceDiscoveryClient) changeMultiCloudResourceDiscover
 	return response, err
 }
 
-// CreateMultiCloudResourceDiscovery Discover Azure Vaults and Keys based on the provided information.
+// CreateMultiCloudResourceDiscovery Discovers Multicloud Resource and their associated resources based on the information provided.
 // A default retry strategy applies to this operation CreateMultiCloudResourceDiscovery()
 func (client MultiCloudResourceDiscoveryClient) CreateMultiCloudResourceDiscovery(ctx context.Context, request CreateMultiCloudResourceDiscoveryRequest) (response CreateMultiCloudResourceDiscoveryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -213,7 +218,7 @@ func (client MultiCloudResourceDiscoveryClient) createMultiCloudResourceDiscover
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/MultiCloudResourceDiscovery/CreateMultiCloudResourceDiscovery"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "MultiCloudResourceDiscovery", "CreateMultiCloudResourceDiscovery", apiReferenceLink)
 		return response, err
 	}
@@ -222,7 +227,7 @@ func (client MultiCloudResourceDiscoveryClient) createMultiCloudResourceDiscover
 	return response, err
 }
 
-// DeleteMultiCloudResourceDiscovery Delete Multi Cloud Discovery resource.
+// DeleteMultiCloudResourceDiscovery Deletes the Multicloud Resource Discovery resource and removes its associated metadata from Oracle Cloud Infrastructure.
 // A default retry strategy applies to this operation DeleteMultiCloudResourceDiscovery()
 func (client MultiCloudResourceDiscoveryClient) DeleteMultiCloudResourceDiscovery(ctx context.Context, request DeleteMultiCloudResourceDiscoveryRequest) (response DeleteMultiCloudResourceDiscoveryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -267,7 +272,7 @@ func (client MultiCloudResourceDiscoveryClient) deleteMultiCloudResourceDiscover
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/MultiCloudResourceDiscovery/DeleteMultiCloudResourceDiscovery"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "MultiCloudResourceDiscovery", "DeleteMultiCloudResourceDiscovery", apiReferenceLink)
 		return response, err
 	}
@@ -276,7 +281,7 @@ func (client MultiCloudResourceDiscoveryClient) deleteMultiCloudResourceDiscover
 	return response, err
 }
 
-// GetMultiCloudResourceDiscovery Get Multi Cloud Discovered Resource Details form a particular resource ID.
+// GetMultiCloudResourceDiscovery Retrieves detailed information about a Multicloud discovered resource by specifying its unique resource OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // A default retry strategy applies to this operation GetMultiCloudResourceDiscovery()
 func (client MultiCloudResourceDiscoveryClient) GetMultiCloudResourceDiscovery(ctx context.Context, request GetMultiCloudResourceDiscoveryRequest) (response GetMultiCloudResourceDiscoveryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -321,7 +326,7 @@ func (client MultiCloudResourceDiscoveryClient) getMultiCloudResourceDiscovery(c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/MultiCloudResourceDiscovery/GetMultiCloudResourceDiscovery"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "MultiCloudResourceDiscovery", "GetMultiCloudResourceDiscovery", apiReferenceLink)
 		return response, err
 	}
@@ -330,7 +335,7 @@ func (client MultiCloudResourceDiscoveryClient) getMultiCloudResourceDiscovery(c
 	return response, err
 }
 
-// ListMultiCloudResourceDiscoveries Lists the all Multi Cloud Resource Discovery based on filters.
+// ListMultiCloudResourceDiscoveries Lists all Multicloud Resource Discovery resources based on the specified filters.
 // A default retry strategy applies to this operation ListMultiCloudResourceDiscoveries()
 func (client MultiCloudResourceDiscoveryClient) ListMultiCloudResourceDiscoveries(ctx context.Context, request ListMultiCloudResourceDiscoveriesRequest) (response ListMultiCloudResourceDiscoveriesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -375,7 +380,7 @@ func (client MultiCloudResourceDiscoveryClient) listMultiCloudResourceDiscoverie
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/MultiCloudResourceDiscovery/ListMultiCloudResourceDiscoveries"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "MultiCloudResourceDiscovery", "ListMultiCloudResourceDiscoveries", apiReferenceLink)
 		return response, err
 	}
@@ -384,7 +389,7 @@ func (client MultiCloudResourceDiscoveryClient) listMultiCloudResourceDiscoverie
 	return response, err
 }
 
-// UpdateMultiCloudResourceDiscovery Modifies the existing Azure Discovered Resource for a given ID.
+// UpdateMultiCloudResourceDiscovery Modifies the properties of an Azure discovered resource identified by the specified resource OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // A default retry strategy applies to this operation UpdateMultiCloudResourceDiscovery()
 func (client MultiCloudResourceDiscoveryClient) UpdateMultiCloudResourceDiscovery(ctx context.Context, request UpdateMultiCloudResourceDiscoveryRequest) (response UpdateMultiCloudResourceDiscoveryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -429,7 +434,7 @@ func (client MultiCloudResourceDiscoveryClient) updateMultiCloudResourceDiscover
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/MultiCloudResourceDiscovery/UpdateMultiCloudResourceDiscovery"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "MultiCloudResourceDiscovery", "UpdateMultiCloudResourceDiscovery", apiReferenceLink)
 		return response, err
 	}
