@@ -2281,7 +2281,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		}
 	}
 
-	if secretId, ok := s.D.GetOkExists("secret_id"); ok && s.D.HasChange("secret_version_number") {
+	if secretId, ok := s.D.GetOkExists("secret_id"); ok && s.D.HasChange("secret_id") {
 		tmp := secretId.(string)
 		request.SecretId = &tmp
 		if _, ok := s.D.GetOkExists("freeform_tags"); ok && !s.D.HasChange("freeform_tags") {
@@ -6313,9 +6313,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) validateSwitchoverDatabase() er
 		newId := strings.ToLower(strings.TrimSpace(newIdRaw.(string)))
 
 		if newId != "" {
-			_, dgRegionTypeExists := s.D.GetOkExists("dataguard_region_type")
 			_, dgRoleExists := s.D.GetOkExists("role")
-			if !dgRegionTypeExists || !dgRoleExists {
+			if !dgRoleExists {
 				return fmt.Errorf("Autonomous Data Guard not found in enabled state")
 			}
 

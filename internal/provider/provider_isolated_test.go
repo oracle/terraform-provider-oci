@@ -2,16 +2,17 @@ package provider
 
 import (
 	"crypto/tls"
-	oci_common "github.com/oracle/oci-go-sdk/v65/common"
-	"github.com/oracle/terraform-provider-oci/internal/globalvar"
-	"github.com/oracle/terraform-provider-oci/internal/utils"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 	"net/http"
 	"os"
 	"os/exec"
 	"strings"
 	"testing"
+
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
+	"github.com/oracle/terraform-provider-oci/internal/globalvar"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 // ensure a custom domain can be targeted and expected http client settings are preserved

@@ -339,6 +339,7 @@ func TestResourceCoreRouteTable_defaultResource(t *testing.T) {
 						route_rules {
 							cidr_block = "0.0.0.0/0"
 							network_entity_id = "${oci_core_internet_gateway.internet-gateway1.id}"
+							route_type = "STATIC"
 						}
 					}` + defaultRouteTable,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -350,6 +351,12 @@ func TestResourceCoreRouteTable_defaultResource(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "1"),
 					acctest.CheckResourceSetContainsElementWithProperties(resourceName, "route_rules", map[string]string{
 						"cidr_block": "0.0.0.0/0",
+					},
+						[]string{
+							"network_entity_id",
+						}),
+					acctest.CheckResourceSetContainsElementWithProperties(resourceName, "route_rules", map[string]string{
+						"route_type": "STATIC",
 					},
 						[]string{
 							"network_entity_id",
@@ -414,6 +421,12 @@ func TestResourceCoreRouteTable_defaultResource(t *testing.T) {
 						[]string{
 							"network_entity_id",
 						}),
+					acctest.CheckResourceSetContainsElementWithProperties(resourceName, "route_rules", map[string]string{
+						"route_type": "STATIC",
+					},
+						[]string{
+							"network_entity_id",
+						}),
 					resource.TestCheckResourceAttr(resourceName, "state", string(core.RouteTableLifecycleStateAvailable)),
 					resource.TestCheckResourceAttrSet(defaultResourceName, "manage_default_resource_id"),
 					resource.TestCheckResourceAttr(defaultResourceName, "compartment_id", compartmentIdU),
@@ -427,6 +440,12 @@ func TestResourceCoreRouteTable_defaultResource(t *testing.T) {
 						}),
 					acctest.CheckResourceSetContainsElementWithProperties(defaultResourceName, "route_rules", map[string]string{
 						"cidr_block": "10.0.0.0/8",
+					},
+						[]string{
+							"network_entity_id",
+						}),
+					acctest.CheckResourceSetContainsElementWithProperties(resourceName, "route_rules", map[string]string{
+						"route_type": "STATIC",
 					},
 						[]string{
 							"network_entity_id",
