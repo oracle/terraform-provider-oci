@@ -140,6 +140,7 @@ func DisasterRecoveryDrProtectionGroupResource() *schema.Resource {
 								"DATABASE",
 								"FILE_SYSTEM",
 								"LOAD_BALANCER",
+								"MYSQL_DB_SYSTEM",
 								"NETWORK_LOAD_BALANCER",
 								"OBJECT_STORAGE_BUCKET",
 								"OKE_CLUSTER",
@@ -197,6 +198,14 @@ func DisasterRecoveryDrProtectionGroupResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
+									},
+									"exclude_namespaces": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
 									},
 									"image_replication_vault_secret_id": {
 										Type:     schema.TypeString,
@@ -412,6 +421,60 @@ func DisasterRecoveryDrProtectionGroupResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"db_system_admin_user_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"password_vault_secret_id": {
+										Type:      schema.TypeString,
+										Optional:  true,
+										Computed:  true,
+										Sensitive: true,
+									},
+									"username": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"db_system_replication_user_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"password_vault_secret_id": {
+										Type:      schema.TypeString,
+										Optional:  true,
+										Computed:  true,
+										Sensitive: true,
+									},
+									"username": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
 						"destination_availability_domain": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -573,6 +636,16 @@ func DisasterRecoveryDrProtectionGroupResource() *schema.Resource {
 								},
 							},
 						},
+						"gtid_reconciliation_timeout": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"is_continue_on_gtid_reconciliation_timeout": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"is_movable": {
 							Type:     schema.TypeBool,
 							Optional: true,
@@ -682,6 +755,11 @@ func DisasterRecoveryDrProtectionGroupResource() *schema.Resource {
 							Sensitive: true,
 						},
 						"peer_cluster_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"peer_db_system_id": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -1471,27 +1549,37 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToComputeInstanceMova
 
 	if destinationPrimaryPrivateIpAddress, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_primary_private_ip_address")); ok {
 		tmp := destinationPrimaryPrivateIpAddress.(string)
-		result.DestinationPrimaryPrivateIpAddress = &tmp
+		if tmp != "" {
+			result.DestinationPrimaryPrivateIpAddress = &tmp
+		}
 	}
 
 	if destinationPrimaryPrivateIpHostnameLabel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_primary_private_ip_hostname_label")); ok {
 		tmp := destinationPrimaryPrivateIpHostnameLabel.(string)
-		result.DestinationPrimaryPrivateIpHostnameLabel = &tmp
+		if tmp != "" {
+			result.DestinationPrimaryPrivateIpHostnameLabel = &tmp
+		}
 	}
 
 	if destinationReservedPublicIpId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_reserved_public_ip_id")); ok {
 		tmp := destinationReservedPublicIpId.(string)
-		result.DestinationReservedPublicIpId = &tmp
+		if tmp != "" {
+			result.DestinationReservedPublicIpId = &tmp
+		}
 	}
 
 	if destinationSubnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_subnet_id")); ok {
 		tmp := destinationSubnetId.(string)
-		result.DestinationSubnetId = &tmp
+		if tmp != "" {
+			result.DestinationSubnetId = &tmp
+		}
 	}
 
 	if sourceVnicId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_vnic_id")); ok {
 		tmp := sourceVnicId.(string)
-		result.SourceVnicId = &tmp
+		if tmp != "" {
+			result.SourceVnicId = &tmp
+		}
 	}
 
 	return result, nil
@@ -1538,6 +1626,20 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToComputeInstanceVnic
 		}
 		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "destination_nsg_id_list")) {
 			result.DestinationNsgIdList = tmp
+		}
+	}
+
+	if destinationPrimaryPrivateIpAddress, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_primary_private_ip_address")); ok {
+		tmp := destinationPrimaryPrivateIpAddress.(string)
+		if tmp != "" {
+			result.DestinationPrimaryPrivateIpAddress = &tmp
+		}
+	}
+
+	if destinationPrimaryPrivateIpHostnameLabel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_primary_private_ip_hostname_label")); ok {
+		tmp := destinationPrimaryPrivateIpHostnameLabel.(string)
+		if tmp != "" {
+			result.DestinationPrimaryPrivateIpHostnameLabel = &tmp
 		}
 	}
 
@@ -2187,6 +2289,10 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToCreateDrProtectionG
 			tmp := destinationAvailabilityDomain.(string)
 			details.DestinationAvailabilityDomain = &tmp
 		}
+		if destinationCompartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_compartment_id")); ok {
+			tmp := destinationCompartmentId.(string)
+			details.DestinationCompartmentId = &tmp
+		}
 		if destinationEncryptionKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_encryption_key")); ok {
 			if tmpList := destinationEncryptionKey.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "destination_encryption_key"), 0)
@@ -2245,6 +2351,45 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToCreateDrProtectionG
 		if destinationLoadBalancerId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_load_balancer_id")); ok {
 			tmp := destinationLoadBalancerId.(string)
 			details.DestinationLoadBalancerId = &tmp
+		}
+		if memberId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "member_id")); ok {
+			tmp := memberId.(string)
+			details.MemberId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("MYSQL_DB_SYSTEM"):
+		details := oci_disaster_recovery.UpdateDrProtectionGroupMemberMySqlDbSystemDetails{}
+		if dbSystemAdminUserDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_system_admin_user_details")); ok {
+			if tmpList := dbSystemAdminUserDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "db_system_admin_user_details"), 0)
+				tmp, err := s.mapToUpdateMySqlDbSystemAdminUserDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert db_system_admin_user_details, encountered error: %v", err)
+				}
+				details.DbSystemAdminUserDetails = &tmp
+			}
+		}
+		if dbSystemReplicationUserDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_system_replication_user_details")); ok {
+			if tmpList := dbSystemReplicationUserDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "db_system_replication_user_details"), 0)
+				tmp, err := s.mapToUpdateMySqlDbSystemReplicationUserDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert db_system_replication_user_details, encountered error: %v", err)
+				}
+				details.DbSystemReplicationUserDetails = &tmp
+			}
+		}
+		if gtidReconciliationTimeout, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "gtid_reconciliation_timeout")); ok {
+			tmp := gtidReconciliationTimeout.(int)
+			details.GtidReconciliationTimeout = &tmp
+		}
+		if isContinueOnGtidReconciliationTimeout, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_continue_on_gtid_reconciliation_timeout")); ok {
+			tmp := isContinueOnGtidReconciliationTimeout.(bool)
+			details.IsContinueOnGtidReconciliationTimeout = &tmp
+		}
+		if peerDbSystemId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "peer_db_system_id")); ok {
+			tmp := peerDbSystemId.(string)
+			details.PeerDbSystemId = &tmp
 		}
 		if memberId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "member_id")); ok {
 			tmp := memberId.(string)
@@ -2409,7 +2554,41 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToCreateDrProtectionG
 		}
 		baseObject = details
 	case strings.ToLower("VOLUME_GROUP"):
-		details := oci_disaster_recovery.CreateDrProtectionGroupMemberVolumeGroupDetails{}
+		details := oci_disaster_recovery.UpdateDrProtectionGroupMemberVolumeGroupDetails{}
+		if commonDestinationKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "common_destination_key")); ok {
+			if tmpList := commonDestinationKey.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "common_destination_key"), 0)
+				tmp, err := s.mapToUpdateVaultAndEncryptionKeyDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert common_destination_key, encountered error: %v", err)
+				}
+				details.CommonDestinationKey = &tmp
+			}
+		}
+		if destinationBackupPolicyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_backup_policy_id")); ok {
+			tmp := destinationBackupPolicyId.(string)
+			details.DestinationBackupPolicyId = &tmp
+		}
+		if destinationCompartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_compartment_id")); ok {
+			tmp := destinationCompartmentId.(string)
+			details.DestinationCompartmentId = &tmp
+		}
+		if sourceVolumeToDestinationEncryptionKeyMappings, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_volume_to_destination_encryption_key_mappings")); ok {
+			interfaces := sourceVolumeToDestinationEncryptionKeyMappings.([]interface{})
+			tmp := make([]oci_disaster_recovery.UpdateSourceVolumeToDestinationEncryptionKeyMappingDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "source_volume_to_destination_encryption_key_mappings"), stateDataIndex)
+				converted, err := s.mapToUpdateSourceVolumeToDestinationEncryptionKeyMappingDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "source_volume_to_destination_encryption_key_mappings")) {
+				details.SourceVolumeToDestinationEncryptionKeyMappings = tmp
+			}
+		}
 		if memberId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "member_id")); ok {
 			tmp := memberId.(string)
 			details.MemberId = &tmp
@@ -2660,6 +2839,10 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToUpdateDrProtectionG
 				details.DestinationAvailabilityDomain = &tmp
 			}
 		}
+		if destinationCompartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_compartment_id")); ok {
+			tmp := destinationCompartmentId.(string)
+			details.DestinationCompartmentId = &tmp
+		}
 		if destinationEncryptionKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_encryption_key")); ok {
 			if tmpList := destinationEncryptionKey.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "destination_encryption_key"), 0)
@@ -2728,6 +2911,45 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToUpdateDrProtectionG
 			if tmp != "" {
 				details.MemberId = &tmp
 			}
+		}
+		baseObject = details
+	case strings.ToLower("MYSQL_DB_SYSTEM"):
+		details := oci_disaster_recovery.UpdateDrProtectionGroupMemberMySqlDbSystemDetails{}
+		if dbSystemAdminUserDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_system_admin_user_details")); ok {
+			if tmpList := dbSystemAdminUserDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "db_system_admin_user_details"), 0)
+				tmp, err := s.mapToUpdateMySqlDbSystemAdminUserDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert db_system_admin_user_details, encountered error: %v", err)
+				}
+				details.DbSystemAdminUserDetails = &tmp
+			}
+		}
+		if dbSystemReplicationUserDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_system_replication_user_details")); ok {
+			if tmpList := dbSystemReplicationUserDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "db_system_replication_user_details"), 0)
+				tmp, err := s.mapToUpdateMySqlDbSystemReplicationUserDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert db_system_replication_user_details, encountered error: %v", err)
+				}
+				details.DbSystemReplicationUserDetails = &tmp
+			}
+		}
+		if gtidReconciliationTimeout, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "gtid_reconciliation_timeout")); ok {
+			tmp := gtidReconciliationTimeout.(int)
+			details.GtidReconciliationTimeout = &tmp
+		}
+		if isContinueOnGtidReconciliationTimeout, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_continue_on_gtid_reconciliation_timeout")); ok {
+			tmp := isContinueOnGtidReconciliationTimeout.(bool)
+			details.IsContinueOnGtidReconciliationTimeout = &tmp
+		}
+		if peerDbSystemId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "peer_db_system_id")); ok {
+			tmp := peerDbSystemId.(string)
+			details.PeerDbSystemId = &tmp
+		}
+		if memberId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "member_id")); ok {
+			tmp := memberId.(string)
+			details.MemberId = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("NETWORK_LOAD_BALANCER"):
@@ -2919,6 +3141,10 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToUpdateDrProtectionG
 			tmp := destinationBackupPolicyId.(string)
 			details.DestinationBackupPolicyId = &tmp
 		}
+		if destinationCompartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_compartment_id")); ok {
+			tmp := destinationCompartmentId.(string)
+			details.DestinationCompartmentId = &tmp
+		}
 		if sourceVolumeToDestinationEncryptionKeyMappings, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_volume_to_destination_encryption_key_mappings")); ok {
 			interfaces := sourceVolumeToDestinationEncryptionKeyMappings.([]interface{})
 			tmp := make([]oci_disaster_recovery.UpdateSourceVolumeToDestinationEncryptionKeyMappingDetails, len(interfaces))
@@ -3075,6 +3301,10 @@ func DrProtectionGroupMemberToMap(obj oci_disaster_recovery.DrProtectionGroupMem
 			result["destination_availability_domain"] = string(*v.DestinationAvailabilityDomain)
 		}
 
+		if v.DestinationCompartmentId != nil {
+			result["destination_compartment_id"] = string(*v.DestinationCompartmentId)
+		}
+
 		if v.DestinationEncryptionKey != nil {
 			result["destination_encryption_key"] = []interface{}{VaultAndEncryptionKeyToMap(v.DestinationEncryptionKey)}
 		}
@@ -3108,7 +3338,59 @@ func DrProtectionGroupMemberToMap(obj oci_disaster_recovery.DrProtectionGroupMem
 		if v.MemberId != nil {
 			result["member_id"] = string(*v.MemberId)
 		}
-	case oci_disaster_recovery.DrProtectionGroupMemberNetworkLoadBalancer:
+	case oci_disaster_recovery.UpdateDrProtectionGroupMemberMySqlDbSystemDetails:
+		result["member_type"] = "MYSQL_DB_SYSTEM"
+
+		if v.DbSystemAdminUserDetails != nil {
+			result["db_system_admin_user_details"] = []interface{}{UpdateMySqlDbSystemAdminUserDetailsToMap(v.DbSystemAdminUserDetails)}
+		}
+
+		if v.DbSystemReplicationUserDetails != nil {
+			result["db_system_replication_user_details"] = []interface{}{UpdateMySqlDbSystemReplicationUserDetailsToMap(v.DbSystemReplicationUserDetails)}
+		}
+
+		if v.GtidReconciliationTimeout != nil {
+			result["gtid_reconciliation_timeout"] = int(*v.GtidReconciliationTimeout)
+		}
+
+		if v.IsContinueOnGtidReconciliationTimeout != nil {
+			result["is_continue_on_gtid_reconciliation_timeout"] = bool(*v.IsContinueOnGtidReconciliationTimeout)
+		}
+
+		if v.PeerDbSystemId != nil {
+			result["peer_db_system_id"] = string(*v.PeerDbSystemId)
+		}
+
+		if v.MemberId != nil {
+			result["member_id"] = string(*v.MemberId)
+		}
+	case oci_disaster_recovery.DrProtectionGroupMemberMySqlDbSystem:
+		result["member_type"] = "MYSQL_DB_SYSTEM"
+
+		if v.DbSystemAdminUserDetails != nil {
+			result["db_system_admin_user_details"] = []interface{}{MySqlDbSystemAdminUserDetailsToMap(v.DbSystemAdminUserDetails)}
+		}
+
+		if v.DbSystemReplicationUserDetails != nil {
+			result["db_system_replication_user_details"] = []interface{}{MySqlDbSystemReplicationUserDetailsToMap(v.DbSystemReplicationUserDetails)}
+		}
+
+		if v.GtidReconciliationTimeout != nil {
+			result["gtid_reconciliation_timeout"] = int(*v.GtidReconciliationTimeout)
+		}
+
+		if v.IsContinueOnGtidReconciliationTimeout != nil {
+			result["is_continue_on_gtid_reconciliation_timeout"] = bool(*v.IsContinueOnGtidReconciliationTimeout)
+		}
+
+		if v.PeerDbSystemId != nil {
+			result["peer_db_system_id"] = string(*v.PeerDbSystemId)
+		}
+
+		if v.MemberId != nil {
+			result["member_id"] = string(*v.MemberId)
+		}
+	case oci_disaster_recovery.UpdateDrProtectionGroupMemberNetworkLoadBalancerDetails:
 		result["member_type"] = "NETWORK_LOAD_BALANCER"
 
 		backendSetMappings := []interface{}{}
@@ -3203,6 +3485,10 @@ func DrProtectionGroupMemberToMap(obj oci_disaster_recovery.DrProtectionGroupMem
 			result["destination_backup_policy_id"] = string(*v.DestinationBackupPolicyId)
 		}
 
+		if v.DestinationCompartmentId != nil {
+			result["destination_compartment_id"] = string(*v.DestinationCompartmentId)
+		}
+
 		sourceVolumeToDestinationEncryptionKeyMappings := []interface{}{}
 		for _, item := range v.SourceVolumeToDestinationEncryptionKeyMappings {
 			sourceVolumeToDestinationEncryptionKeyMappings = append(sourceVolumeToDestinationEncryptionKeyMappings, SourceVolumeToDestinationEncryptionKeyMappingToMap(item))
@@ -3279,6 +3565,98 @@ func FileSystemUnmountDetailsToMap(obj *oci_disaster_recovery.FileSystemUnmountD
 
 	if obj.MountTargetId != nil {
 		result["mount_target_id"] = string(*obj.MountTargetId)
+	}
+
+	return result
+}
+
+func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToCreateMySqlDbSystemAdminUserDetails(fieldKeyFormat string) (oci_disaster_recovery.CreateMySqlDbSystemAdminUserDetails, error) {
+	result := oci_disaster_recovery.CreateMySqlDbSystemAdminUserDetails{}
+
+	if passwordVaultSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password_vault_secret_id")); ok {
+		tmp := passwordVaultSecretId.(string)
+		result.PasswordVaultSecretId = &tmp
+	}
+
+	if username, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "username")); ok {
+		tmp := username.(string)
+		result.Username = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToUpdateMySqlDbSystemAdminUserDetails(fieldKeyFormat string) (oci_disaster_recovery.UpdateMySqlDbSystemAdminUserDetails, error) {
+	result := oci_disaster_recovery.UpdateMySqlDbSystemAdminUserDetails{}
+
+	if passwordVaultSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password_vault_secret_id")); ok {
+		tmp := passwordVaultSecretId.(string)
+		result.PasswordVaultSecretId = &tmp
+	}
+
+	if username, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "username")); ok {
+		tmp := username.(string)
+		result.Username = &tmp
+	}
+
+	return result, nil
+}
+
+func MySqlDbSystemAdminUserDetailsToMap(obj *oci_disaster_recovery.MySqlDbSystemAdminUserDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.PasswordVaultSecretId != nil {
+		result["password_vault_secret_id"] = string(*obj.PasswordVaultSecretId)
+	}
+
+	if obj.Username != nil {
+		result["username"] = string(*obj.Username)
+	}
+
+	return result
+}
+
+func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToCreateMySqlDbSystemReplicationUserDetails(fieldKeyFormat string) (oci_disaster_recovery.CreateMySqlDbSystemReplicationUserDetails, error) {
+	result := oci_disaster_recovery.CreateMySqlDbSystemReplicationUserDetails{}
+
+	if passwordVaultSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password_vault_secret_id")); ok {
+		tmp := passwordVaultSecretId.(string)
+		result.PasswordVaultSecretId = &tmp
+	}
+
+	if username, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "username")); ok {
+		tmp := username.(string)
+		result.Username = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToUpdateMySqlDbSystemReplicationUserDetails(fieldKeyFormat string) (oci_disaster_recovery.UpdateMySqlDbSystemReplicationUserDetails, error) {
+	result := oci_disaster_recovery.UpdateMySqlDbSystemReplicationUserDetails{}
+
+	if passwordVaultSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password_vault_secret_id")); ok {
+		tmp := passwordVaultSecretId.(string)
+		result.PasswordVaultSecretId = &tmp
+	}
+
+	if username, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "username")); ok {
+		tmp := username.(string)
+		result.Username = &tmp
+	}
+
+	return result, nil
+}
+
+func MySqlDbSystemReplicationUserDetailsToMap(obj *oci_disaster_recovery.MySqlDbSystemReplicationUserDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.PasswordVaultSecretId != nil {
+		result["password_vault_secret_id"] = string(*obj.PasswordVaultSecretId)
+	}
+
+	if obj.Username != nil {
+		result["username"] = string(*obj.Username)
 	}
 
 	return result
@@ -3392,6 +3770,19 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToCreateOkeClusterBac
 		result.BackupSchedule = &tmp
 	}
 
+	if excludeNamespaces, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "exclude_namespaces")); ok {
+		interfaces := excludeNamespaces.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "exclude_namespaces")) {
+			result.ExcludeNamespaces = tmp
+		}
+	}
+
 	if imageReplicationVaultSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "image_replication_vault_secret_id")); ok {
 		tmp := imageReplicationVaultSecretId.(string)
 		if tmp != "" {
@@ -3434,6 +3825,19 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToUpdateOkeClusterBac
 		result.BackupSchedule = &tmp
 	}
 
+	if excludeNamespaces, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "exclude_namespaces")); ok {
+		interfaces := excludeNamespaces.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "exclude_namespaces")) {
+			result.ExcludeNamespaces = tmp
+		}
+	}
+
 	if imageReplicationVaultSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "image_replication_vault_secret_id")); ok {
 		tmp := imageReplicationVaultSecretId.(string)
 		if tmp != "" {
@@ -3474,6 +3878,8 @@ func OkeClusterBackupConfigToMap(obj *oci_disaster_recovery.OkeClusterBackupConf
 	if obj.BackupSchedule != nil {
 		result["backup_schedule"] = string(*obj.BackupSchedule)
 	}
+
+	result["exclude_namespaces"] = obj.ExcludeNamespaces
 
 	if obj.ImageReplicationVaultSecretId != nil {
 		result["image_replication_vault_secret_id"] = string(*obj.ImageReplicationVaultSecretId)
@@ -4013,7 +4419,7 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToNetworkLoadBalancer
 	return result, nil
 }
 
-func NetworkLoadBalancerBackendSetMappingDetailsToMap(obj oci_disaster_recovery.NetworkLoadBalancerBackendSetMapping) map[string]interface{} {
+func NetworkLoadBalancerBackendSetMappingDetailsToMap(obj oci_disaster_recovery.NetworkLoadBalancerBackendSetMappingDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.DestinationBackendSetName != nil {
@@ -4213,6 +4619,34 @@ func UpdateFileSystemUnmountDetailsToMap(obj *oci_disaster_recovery.UpdateFileSy
 	return result
 }
 
+func UpdateMySqlDbSystemAdminUserDetailsToMap(obj *oci_disaster_recovery.UpdateMySqlDbSystemAdminUserDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.PasswordVaultSecretId != nil {
+		result["password_vault_secret_id"] = string(*obj.PasswordVaultSecretId)
+	}
+
+	if obj.Username != nil {
+		result["username"] = string(*obj.Username)
+	}
+
+	return result
+}
+
+func UpdateMySqlDbSystemReplicationUserDetailsToMap(obj *oci_disaster_recovery.UpdateMySqlDbSystemReplicationUserDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.PasswordVaultSecretId != nil {
+		result["password_vault_secret_id"] = string(*obj.PasswordVaultSecretId)
+	}
+
+	if obj.Username != nil {
+		result["username"] = string(*obj.Username)
+	}
+
+	return result
+}
+
 func UpdateOkeBackupLocationDetailsToMap(obj *oci_disaster_recovery.UpdateOkeBackupLocationDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -4233,6 +4667,8 @@ func UpdateOkeClusterBackupConfigDetailsToMap(obj *oci_disaster_recovery.UpdateO
 	if obj.BackupSchedule != nil {
 		result["backup_schedule"] = string(*obj.BackupSchedule)
 	}
+
+	result["exclude_namespaces"] = obj.ExcludeNamespaces
 
 	if obj.ImageReplicationVaultSecretId != nil {
 		result["image_replication_vault_secret_id"] = string(*obj.ImageReplicationVaultSecretId)
