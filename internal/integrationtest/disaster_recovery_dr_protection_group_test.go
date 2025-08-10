@@ -65,6 +65,64 @@ var (
 		"log_location":   acctest.RepresentationGroup{RepType: acctest.Required, Group: DisasterRecoveryDrProtectionGroupLogLocationRepresentation},
 	}
 
+	DisasterRecoveryPeerDrProtectionGroupWithStandbyMySQLRepresentation = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `peerDisplayName`},
+		"log_location":   acctest.RepresentationGroup{RepType: acctest.Required, Group: DisasterRecoveryDrProtectionGroupLogLocationRepresentation},
+		"members":        acctest.RepresentationGroup{RepType: acctest.Required, Group: DisasterRecoveryDrProtectionGroupStandbyMySQLMembersRepresentation},
+	}
+
+	DisasterRecoveryDrProtectionGroupStandbyMySQLMembersRepresentation = map[string]interface{}{
+		"member_id":                                  acctest.Representation{RepType: acctest.Required, Create: `${data.oci_mysql_mysql_db_systems.test_mysql_db_systems_standby.db_systems[0].id}`},
+		"member_type":                                acctest.Representation{RepType: acctest.Required, Create: `MYSQL_DB_SYSTEM`},
+		"peer_db_system_id":                          acctest.Representation{RepType: acctest.Required, Create: `${data.oci_mysql_mysql_db_systems.test_mysql_db_systems_primary.db_systems[0].id}`},
+		"db_system_admin_user_details":               acctest.RepresentationGroup{RepType: acctest.Required, Group: DisasterRecoveryDrProtectionGroupStandbyMySQLAdminUserDetailsRepresentation},
+		"db_system_replication_user_details":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DisasterRecoveryDrProtectionGroupStandbyMySQLReplicationUserDetailsRepresentation},
+		"gtid_reconciliation_timeout":                acctest.Representation{RepType: acctest.Required, Create: `600`},
+		"is_continue_on_gtid_reconciliation_timeout": acctest.Representation{RepType: acctest.Required, Create: `false`},
+	}
+
+	DisasterRecoveryDrProtectionGroupStandbyMySQLAdminUserDetailsRepresentation = map[string]interface{}{
+		"username":                 acctest.Representation{RepType: acctest.Required, Create: `example-mysqldb-standby`},
+		"password_vault_secret_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_vault_secrets.test_mysql_secret.secrets[0].id}`},
+	}
+
+	DisasterRecoveryDrProtectionGroupStandbyMySQLReplicationUserDetailsRepresentation = map[string]interface{}{
+		"username":                 acctest.Representation{RepType: acctest.Required, Create: `example-mysqldb-standby`},
+		"password_vault_secret_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_vault_secrets.test_mysql_secret.secrets[0].id}`},
+	}
+
+	DisasterRecoveryDrProtectionGroupWithPrimaryMySQLRepresentation = map[string]interface{}{
+		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":         acctest.Representation{RepType: acctest.Required, Create: `My DR Protection Group`, Update: `displayName2`},
+		"log_location":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DisasterRecoveryDrProtectionGroupLogLocationRepresentation},
+		"association":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: DisasterRecoveryDrProtectionGroupAssociationRepresentation},
+		"members":              acctest.RepresentationGroup{RepType: acctest.Required, Group: DisasterRecoveryDrProtectionGroupPrimaryMySQLMembersRepresentation},
+		"freeform_tags":        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: DefinedTagsIgnoreRepresentation},
+		"disassociate_trigger": acctest.Representation{RepType: acctest.Optional, Create: `0`},
+	}
+
+	DisasterRecoveryDrProtectionGroupPrimaryMySQLMembersRepresentation = map[string]interface{}{
+		"member_id":                                  acctest.Representation{RepType: acctest.Required, Create: `${data.oci_mysql_mysql_db_systems.test_mysql_db_systems_primary.db_systems[0].id}`},
+		"member_type":                                acctest.Representation{RepType: acctest.Required, Create: `MYSQL_DB_SYSTEM`},
+		"peer_db_system_id":                          acctest.Representation{RepType: acctest.Required, Create: `${data.oci_mysql_mysql_db_systems.test_mysql_db_systems_standby.db_systems[0].id}`},
+		"db_system_admin_user_details":               acctest.RepresentationGroup{RepType: acctest.Required, Group: DisasterRecoveryDrProtectionGroupPrimaryMySQLAdminUserDetailsRepresentation},
+		"db_system_replication_user_details":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DisasterRecoveryDrProtectionGroupPrimaryMySQLReplicationUserDetailsRepresentation},
+		"gtid_reconciliation_timeout":                acctest.Representation{RepType: acctest.Required, Create: `600`},
+		"is_continue_on_gtid_reconciliation_timeout": acctest.Representation{RepType: acctest.Required, Create: `false`},
+	}
+
+	DisasterRecoveryDrProtectionGroupPrimaryMySQLAdminUserDetailsRepresentation = map[string]interface{}{
+		"username":                 acctest.Representation{RepType: acctest.Required, Create: `example-mysqldb-primary`},
+		"password_vault_secret_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_vault_secrets.test_mysql_secret.secrets[0].id}`},
+	}
+
+	DisasterRecoveryDrProtectionGroupPrimaryMySQLReplicationUserDetailsRepresentation = map[string]interface{}{
+		"username":                 acctest.Representation{RepType: acctest.Required, Create: `example-mysqldb-primary`},
+		"password_vault_secret_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_vault_secrets.test_mysql_secret.secrets[0].id}`},
+	}
+
 	DefinedTagsIgnoreRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
@@ -159,6 +217,35 @@ var (
 	}
 	`
 
+	MySQLDatabaseDependencyConfig = `
+	data "oci_mysql_mysql_db_systems" "test_mysql_db_systems_primary" {
+		#Required
+		compartment_id = var.compartment_id
+
+		#Optional
+		display_name = "example-mysqldb-primary"
+		state        = "ACTIVE"
+	}
+
+	data "oci_mysql_mysql_db_systems" "test_mysql_db_systems_standby" {
+		#Required
+		compartment_id = var.compartment_id
+
+		#Optional
+		display_name = "example-mysqldb-standby"
+		state        = "ACTIVE"
+	}
+
+	data "oci_vault_secrets" "test_mysql_secret" {
+		#Required
+		compartment_id = var.compartment_id
+
+		#Optional
+		name  = "mysql_secret"
+		state = "ACTIVE"
+	}
+	`
+
 	DisasterRecoveryDrProtectionGroupWithVolumeGroupMemberConfig = `
 	resource "oci_disaster_recovery_dr_protection_group" "test_dr_protection_group" {
 		#Required
@@ -214,11 +301,67 @@ var (
 	}
 	`
 
-	DisasterRecoveryDrProtectionGroupResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_protection_group", "test_peer", acctest.Optional, acctest.Create, DisasterRecoveryPeerDrProtectionGroupRepresentation) +
+	DisasterRecoveryDrProtectionGroupWithPrimaryMySQLMemberConfig = `
+	# Update the existing test_dr_protection_group to have Primary MySQL member
+	resource "oci_disaster_recovery_dr_protection_group" "test_dr_protection_group" {
+		#Required
+		compartment_id = var.compartment_id
+		display_name   = "My DR Protection Group"
+		log_location {
+			#Required
+			bucket    = data.oci_objectstorage_bucket.test_bucket.name
+			namespace = data.oci_objectstorage_namespace.test_namespace.namespace
+		}
+		members {
+			member_id   = data.oci_mysql_mysql_db_systems.test_mysql_db_systems_primary.db_systems[0].id
+			member_type = "MYSQL_DB_SYSTEM"
+			
+			# Peer database system (standby)
+			peer_db_system_id = data.oci_mysql_mysql_db_systems.test_mysql_db_systems_standby.db_systems[0].id
+			
+			# Admin user credentials
+			db_system_admin_user_details {
+				username                  = "example-mysqldb-primary"
+				password_vault_secret_id  = data.oci_vault_secrets.test_mysql_secret.secrets[0].id
+			}
+			
+			# Replication user credentials
+			db_system_replication_user_details {
+				username                  = "example-mysqldb-primary"
+				password_vault_secret_id  = data.oci_vault_secrets.test_mysql_secret.secrets[0].id
+			}
+			
+			# GTID reconciliation settings
+			gtid_reconciliation_timeout                   = 600
+			is_continue_on_gtid_reconciliation_timeout    = false
+		}
+		
+		# Keep the same association with test_peer
+		association {
+    		role        = "PRIMARY"
+    		peer_id     = oci_disaster_recovery_dr_protection_group.test_peer.id
+    		peer_region = var.region
+  		}
+	}
+	`
+
+	DisasterRecoveryDrProtectionGroupWithStandbyMySQLMemberConfig = DisasterRecoveryDrProtectionGroupResourceDependenciesWithStandbyMySQL +
+		acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_protection_group", "test_dr_protection_group", acctest.Optional, acctest.Create, DisasterRecoveryDrProtectionGroupWithPrimaryMySQLRepresentation)
+
+	DisasterRecoveryDrProtectionGroupResourceDependenciesWithStandbyMySQL = acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_protection_group", "test_peer", acctest.Required, acctest.Create, DisasterRecoveryPeerDrProtectionGroupWithStandbyMySQLRepresentation) +
 		ObjectStorageBucketDependencyConfig +
 		VolumeGroupDependencyConfig +
 		ComputeInstanceDependencyConfig +
 		FileSystemDependencyConfig +
+		MySQLDatabaseDependencyConfig +
+		AvailabilityDomainConfig
+
+	DisasterRecoveryDrProtectionGroupResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_protection_group", "test_peer", acctest.Required, acctest.Create, DisasterRecoveryPeerDrProtectionGroupRepresentation) +
+		ObjectStorageBucketDependencyConfig +
+		VolumeGroupDependencyConfig +
+		ComputeInstanceDependencyConfig +
+		FileSystemDependencyConfig +
+		MySQLDatabaseDependencyConfig +
 		AvailabilityDomainConfig
 	//DefinedTagsDependencies
 )
@@ -354,10 +497,10 @@ func TestDisasterRecoveryDrProtectionGroupResource_basic(t *testing.T) {
 			),
 		},
 
-		// Verify create with optionals, add VolumeGroup with Backup policy configured as a member
+		// Verify create with optionals, add Primary MySQL DB System as a member
 		{
 			Config: config + compartmentIdVariableStr + DisasterRecoveryDrProtectionGroupResourceDependencies +
-				DisasterRecoveryDrProtectionGroupWithVolumeGroupMemberConfig,
+				DisasterRecoveryDrProtectionGroupWithPrimaryMySQLMemberConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "association.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "association.0.peer_id"),
@@ -365,14 +508,22 @@ func TestDisasterRecoveryDrProtectionGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "association.0.role", "PRIMARY"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "My DR Protection Group"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "log_location.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "log_location.0.bucket", "testBucketName"),
 				resource.TestCheckResourceAttrSet(resourceName, "log_location.0.namespace"),
 				resource.TestCheckResourceAttr(resourceName, "members.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "members.0.member_id"),
-				resource.TestCheckResourceAttr(resourceName, "members.0.member_type", "VOLUME_GROUP"),
+				resource.TestCheckResourceAttr(resourceName, "members.0.member_type", "MYSQL_DB_SYSTEM"),
+				resource.TestCheckResourceAttrSet(resourceName, "members.0.peer_db_system_id"),
+				resource.TestCheckResourceAttr(resourceName, "members.0.db_system_admin_user_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "members.0.db_system_admin_user_details.0.username", "example-mysqldb-primary"),
+				resource.TestCheckResourceAttrSet(resourceName, "members.0.db_system_admin_user_details.0.password_vault_secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "members.0.db_system_replication_user_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "members.0.db_system_replication_user_details.0.username", "example-mysqldb-primary"),
+				resource.TestCheckResourceAttrSet(resourceName, "members.0.db_system_replication_user_details.0.password_vault_secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "members.0.gtid_reconciliation_timeout", "600"),
+				resource.TestCheckResourceAttr(resourceName, "members.0.is_continue_on_gtid_reconciliation_timeout", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "role"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -390,29 +541,52 @@ func TestDisasterRecoveryDrProtectionGroupResource_basic(t *testing.T) {
 			),
 		},
 
-		// Verify create with optionals, add FileSystem with Snapshot policy configured as a member
+		// Verify create with optionals, add Standby MySQL DB System to peer
 		{
-			Config: config + compartmentIdVariableStr + DisasterRecoveryDrProtectionGroupResourceDependencies +
-				DisasterRecoveryDrProtectionGroupWithFileSystemMemberConfig,
+			Config: config + compartmentIdVariableStr + DisasterRecoveryDrProtectionGroupWithStandbyMySQLMemberConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				// Check primary DR protection group (test_dr_protection_group) - should have Primary MySQL member
 				resource.TestCheckResourceAttr(resourceName, "association.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "association.0.peer_id"),
 				resource.TestCheckResourceAttr(resourceName, "association.0.peer_region", region),
 				resource.TestCheckResourceAttr(resourceName, "association.0.role", "PRIMARY"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "My DR Protection Group"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "log_location.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "log_location.0.bucket", "testBucketName"),
 				resource.TestCheckResourceAttrSet(resourceName, "log_location.0.namespace"),
 				resource.TestCheckResourceAttr(resourceName, "members.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "members.0.member_id"),
-				resource.TestCheckResourceAttr(resourceName, "members.0.member_type", "FILE_SYSTEM"),
+				resource.TestCheckResourceAttr(resourceName, "members.0.member_type", "MYSQL_DB_SYSTEM"),
+				resource.TestCheckResourceAttrSet(resourceName, "members.0.peer_db_system_id"),
+				resource.TestCheckResourceAttr(resourceName, "members.0.db_system_admin_user_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "members.0.db_system_admin_user_details.0.username", "example-mysqldb-primary"),
+				resource.TestCheckResourceAttrSet(resourceName, "members.0.db_system_admin_user_details.0.password_vault_secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "members.0.db_system_replication_user_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "members.0.db_system_replication_user_details.0.username", "example-mysqldb-primary"),
+				resource.TestCheckResourceAttrSet(resourceName, "members.0.db_system_replication_user_details.0.password_vault_secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "members.0.gtid_reconciliation_timeout", "600"),
+				resource.TestCheckResourceAttr(resourceName, "members.0.is_continue_on_gtid_reconciliation_timeout", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "role"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+
+				// Check peer DR protection group (test_peer) - should now have Standby MySQL member
+				resource.TestCheckResourceAttr("oci_disaster_recovery_dr_protection_group.test_peer", "display_name", "peerDisplayName"),
+				resource.TestCheckResourceAttr("oci_disaster_recovery_dr_protection_group.test_peer", "members.#", "1"),
+				resource.TestCheckResourceAttr("oci_disaster_recovery_dr_protection_group.test_peer", "members.0.member_type", "MYSQL_DB_SYSTEM"),
+				resource.TestCheckResourceAttrSet("oci_disaster_recovery_dr_protection_group.test_peer", "members.0.member_id"),
+				resource.TestCheckResourceAttrSet("oci_disaster_recovery_dr_protection_group.test_peer", "members.0.peer_db_system_id"),
+				resource.TestCheckResourceAttr("oci_disaster_recovery_dr_protection_group.test_peer", "members.0.db_system_admin_user_details.#", "1"),
+				resource.TestCheckResourceAttr("oci_disaster_recovery_dr_protection_group.test_peer", "members.0.db_system_admin_user_details.0.username", "example-mysqldb-standby"),
+				resource.TestCheckResourceAttrSet("oci_disaster_recovery_dr_protection_group.test_peer", "members.0.db_system_admin_user_details.0.password_vault_secret_id"),
+				resource.TestCheckResourceAttr("oci_disaster_recovery_dr_protection_group.test_peer", "members.0.db_system_replication_user_details.#", "1"),
+				resource.TestCheckResourceAttr("oci_disaster_recovery_dr_protection_group.test_peer", "members.0.db_system_replication_user_details.0.username", "example-mysqldb-standby"),
+				resource.TestCheckResourceAttrSet("oci_disaster_recovery_dr_protection_group.test_peer", "members.0.db_system_replication_user_details.0.password_vault_secret_id"),
+				resource.TestCheckResourceAttr("oci_disaster_recovery_dr_protection_group.test_peer", "members.0.gtid_reconciliation_timeout", "600"),
+				resource.TestCheckResourceAttr("oci_disaster_recovery_dr_protection_group.test_peer", "members.0.is_continue_on_gtid_reconciliation_timeout", "false"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")

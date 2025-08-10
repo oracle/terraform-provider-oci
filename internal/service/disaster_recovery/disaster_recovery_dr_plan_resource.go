@@ -1386,6 +1386,55 @@ func UpdateObjectStorageScriptLocationDetailsToMap(obj *oci_disaster_recovery.Up
 	return result
 }
 
+func (s *DisasterRecoveryDrPlanResourceCrud) populateTopLevelPolymorphicUpdateDrPlanRequest(request *oci_disaster_recovery.UpdateDrPlanRequest) error {
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists("type")
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("DEFAULT"):
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			request.DefinedTags = convertedDefinedTags
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			request.DisplayName = &tmp
+		}
+		tmp := s.D.Id()
+		request.DrPlanId = &tmp
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if planGroups, ok := s.D.GetOkExists("plan_groups"); ok {
+			interfaces := planGroups.([]interface{})
+			tmp := make([]oci_disaster_recovery.UpdateDrPlanGroupDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "plan_groups", stateDataIndex)
+				converted, err := s.mapToUpdateDrPlanGroupDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("plan_groups") {
+				request.PlanGroups = tmp
+			}
+		}
+	default:
+		return fmt.Errorf("unknown type '%v' was specified", type_)
+	}
+	return nil
+}
+
 func (s *DisasterRecoveryDrPlanResourceCrud) populateTopLevelPolymorphicRefreshDrPlanRequest(request *oci_disaster_recovery.RefreshDrPlanRequest) error {
 	//typeRaw, ok := s.D.GetOkExists("type")
 	//var type_ string
