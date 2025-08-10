@@ -26,9 +26,11 @@ import (
 
 var (
 	DisasterRecoveryDrPlanExecutionRequiredOnlyResource = DisasterRecoveryDrPlanExecutionResourceDependencies +
+		DrProtectionGroupWithMySQLConfig + DrPlanConfig +
 		acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_plan_execution", "test_dr_plan_execution", acctest.Required, acctest.Create, DisasterRecoveryDrPlanExecutionRepresentation)
 
 	DisasterRecoveryDrPlanExecutionResourceConfig = DisasterRecoveryDrPlanExecutionResourceDependencies +
+		DrProtectionGroupWithMySQLConfig + DrPlanConfig +
 		acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_plan_execution", "test_dr_plan_execution", acctest.Optional, acctest.Update, DisasterRecoveryDrPlanExecutionRepresentation)
 
 	DisasterRecoveryDisasterRecoveryDrPlanExecutionSingularDataSourceRepresentation = map[string]interface{}{
@@ -61,15 +63,18 @@ var (
 		"are_warnings_ignored":  acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 
-	DisasterRecoveryDrPlanExecutionResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_protection_group", "test_peer", acctest.Optional, acctest.Create, DisasterRecoveryPeerDrProtectionGroupRepresentation) +
+	DisasterRecoveryDrPlanExecutionResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_protection_group", "test_peer", acctest.Required, acctest.Create, DisasterRecoveryPeerDrProtectionGroupWithStandbyMySQLRepresentation) +
 		ObjectStorageBucketDependencyConfig +
 		VolumeGroupDependencyConfig +
+		ComputeInstanceDependencyConfig +
+		FileSystemDependencyConfig +
+		MySQLDatabaseDependencyConfig +
 		AvailabilityDomainConfig
 	//DefinedTagsDependencies
 
-	DrProtectionGroupConfig = acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_protection_group", "test_dr_protection_group", acctest.Optional, acctest.Create, DisasterRecoveryDrProtectionGroupRepresentation)
+	DrProtectionGroupWithMySQLConfig = acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_protection_group", "test_dr_protection_group", acctest.Optional, acctest.Create, DisasterRecoveryDrProtectionGroupWithPrimaryMySQLRepresentation)
 
-	DrProtectionGroupWithDisassociateTriggerConfig = acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_protection_group", "test_dr_protection_group", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(DisasterRecoveryDrProtectionGroupRepresentation, map[string]interface{}{
+	DrProtectionGroupWithDisassociateTriggerConfig = acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_protection_group", "test_dr_protection_group", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(DisasterRecoveryDrProtectionGroupWithPrimaryMySQLRepresentation, map[string]interface{}{
 		"disassociate_trigger": acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `1`},
 	}))
 
@@ -93,19 +98,23 @@ func TestDisasterRecoveryDrPlanExecutionResource_basic(t *testing.T) {
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+DisasterRecoveryDrPlanExecutionResourceDependencies+
-		DrProtectionGroupConfig+DrPlanConfig+
+		DrProtectionGroupWithMySQLConfig+DrPlanConfig+
 		acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_plan_execution", "test_dr_plan_execution", acctest.Optional, acctest.Create, DisasterRecoveryDrPlanExecutionRepresentation), "disasterrecovery", "drPlanExecution", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// Create Dependencies
 		{
-			Config: config + compartmentIdVariableStr + DisasterRecoveryDrPlanExecutionResourceDependencies +
-				DrProtectionGroupConfig,
+			Config: config + compartmentIdVariableStr + DisasterRecoveryDrPlanExecutionResourceDependencies,
 		},
-		// verify Create
+		// Create primary DRPG and establish association
 		{
 			Config: config + compartmentIdVariableStr + DisasterRecoveryDrPlanExecutionResourceDependencies +
-				DrProtectionGroupConfig + DrPlanConfig +
+				DrProtectionGroupWithMySQLConfig,
+		},
+		// verify Create DR Plan and execution
+		{
+			Config: config + compartmentIdVariableStr + DisasterRecoveryDrPlanExecutionResourceDependencies +
+				DrProtectionGroupWithMySQLConfig + DrPlanConfig +
 				acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_plan_execution", "test_dr_plan_execution", acctest.Required, acctest.Create, DisasterRecoveryDrPlanExecutionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "execution_options.#", "1"),
@@ -122,12 +131,12 @@ func TestDisasterRecoveryDrPlanExecutionResource_basic(t *testing.T) {
 		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DisasterRecoveryDrPlanExecutionResourceDependencies +
-				DrProtectionGroupConfig + DrPlanConfig,
+				DrProtectionGroupWithMySQLConfig + DrPlanConfig,
 		},
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + DisasterRecoveryDrPlanExecutionResourceDependencies +
-				DrProtectionGroupConfig + DrPlanConfig +
+				DrProtectionGroupWithMySQLConfig + DrPlanConfig +
 				acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_plan_execution", "test_dr_plan_execution", acctest.Optional, acctest.Create, DisasterRecoveryDrPlanExecutionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -164,7 +173,7 @@ func TestDisasterRecoveryDrPlanExecutionResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DisasterRecoveryDrPlanExecutionResourceDependencies +
-				DrProtectionGroupConfig + DrPlanConfig +
+				DrProtectionGroupWithMySQLConfig + DrPlanConfig +
 				acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_plan_execution", "test_dr_plan_execution", acctest.Optional, acctest.Update, DisasterRecoveryDrPlanExecutionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -198,7 +207,7 @@ func TestDisasterRecoveryDrPlanExecutionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config + compartmentIdVariableStr + DisasterRecoveryDrPlanExecutionResourceDependencies +
-				DrProtectionGroupConfig + DrPlanConfig +
+				DrProtectionGroupWithMySQLConfig + DrPlanConfig +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_disaster_recovery_dr_plan_executions", "test_dr_plan_executions", acctest.Optional, acctest.Update,
 					acctest.RepresentationCopyWithRemovedProperties(DisasterRecoveryDisasterRecoveryDrPlanExecutionDataSourceRepresentation, []string{"state"})) +
 				acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_plan_execution", "test_dr_plan_execution", acctest.Optional, acctest.Update, DisasterRecoveryDrPlanExecutionRepresentation),
@@ -215,7 +224,6 @@ func TestDisasterRecoveryDrPlanExecutionResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config + compartmentIdVariableStr + DisasterRecoveryDrPlanExecutionResourceConfig +
-				DrProtectionGroupConfig + DrPlanConfig +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_disaster_recovery_dr_plan_execution", "test_dr_plan_execution", acctest.Required, acctest.Create, DisasterRecoveryDisasterRecoveryDrPlanExecutionSingularDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "dr_plan_execution_id"),
@@ -244,8 +252,7 @@ func TestDisasterRecoveryDrPlanExecutionResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config: config + compartmentIdVariableStr + DisasterRecoveryDrPlanExecutionRequiredOnlyResource +
-				DrProtectionGroupConfig + DrPlanConfig,
+			Config:                  config + compartmentIdVariableStr + DisasterRecoveryDrPlanExecutionRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -254,7 +261,7 @@ func TestDisasterRecoveryDrPlanExecutionResource_basic(t *testing.T) {
 		// delete dr plan and dr plan execution
 		{
 			Config: config + compartmentIdVariableStr + DisasterRecoveryDrPlanExecutionResourceDependencies +
-				DrProtectionGroupConfig,
+				DrProtectionGroupWithMySQLConfig,
 		},
 		// Disassociate DrProtectionGroup
 		{

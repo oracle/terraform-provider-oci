@@ -58,6 +58,7 @@ resource "oci_disaster_recovery_dr_protection_group" "test_dr_protection_group" 
 
 			#Optional
 			backup_schedule = var.dr_protection_group_members_backup_config_backup_schedule
+			exclude_namespaces = var.dr_protection_group_members_backup_config_exclude_namespaces
 			image_replication_vault_secret_id = oci_vault_secret.test_secret.id
 			max_number_of_backups_retained = var.dr_protection_group_members_backup_config_max_number_of_backups_retained
 			namespaces = var.dr_protection_group_members_backup_config_namespaces
@@ -107,6 +108,18 @@ resource "oci_disaster_recovery_dr_protection_group" "test_dr_protection_group" 
 			vault_id = oci_kms_vault.test_vault.id
 		}
 		connection_string_type = var.dr_protection_group_members_connection_string_type
+		db_system_admin_user_details {
+
+			#Optional
+			password_vault_secret_id = oci_vault_secret.test_secret.id
+			username = var.dr_protection_group_members_db_system_admin_user_details_username
+		}
+		db_system_replication_user_details {
+
+			#Optional
+			password_vault_secret_id = oci_vault_secret.test_secret.id
+			username = var.dr_protection_group_members_db_system_replication_user_details_username
+		}
 		destination_availability_domain = var.dr_protection_group_members_destination_availability_domain
 		destination_backup_policy_id = oci_identity_policy.test_policy.id
 		destination_capacity_reservation_id = var.destination_capacity_reservation_id
@@ -144,6 +157,8 @@ resource "oci_disaster_recovery_dr_protection_group" "test_dr_protection_group" 
 				mount_target_id = oci_file_storage_mount_target.test_mount_target.id
 			}
 		}
+		gtid_reconciliation_timeout = var.dr_protection_group_members_gtid_reconciliation_timeout
+		is_continue_on_gtid_reconciliation_timeout = var.dr_protection_group_members_is_continue_on_gtid_reconciliation_timeout
 		is_movable = var.dr_protection_group_members_is_movable
 		is_retain_fault_domain = var.dr_protection_group_members_is_retain_fault_domain
 		is_start_stop_enabled = var.dr_protection_group_members_is_start_stop_enabled
@@ -170,6 +185,7 @@ resource "oci_disaster_recovery_dr_protection_group" "test_dr_protection_group" 
 			source_network_load_balancer_id = oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id
 		}
 		peer_cluster_id = oci_containerengine_cluster.test_cluster.id
+		peer_db_system_id = oci_database_db_system.test_db_system.id
 		source_volume_to_destination_encryption_key_mappings {
 
 			#Optional
@@ -254,9 +270,10 @@ The following arguments are supported:
 			Examples:  FREQ=WEEKLY;BYDAY=MO,WE;BYHOUR=10;INTERVAL=1 -> Run a backup every Monday and Wednesday at 10:00 AM. FREQ=WEEKLY;BYDAY=MO,WE;BYHOUR=10;INTERVAL=2 -> Invalid configuration (Cannot specify an interval of 2).
 
 			FREQ=HOURLY;INTERVAL=25 -> Invalid configuration (Cannot specify an interval of 25). FREQ=HOURLY;INTERVAL=0 -> Invalid configuration (Cannot specify an interval of 0). FREQ=HOURLY;INTERVAL=24 -> Run a backup every 24 hours. FREQ=HOURLY;INTERVAL=1 -> Run a backup every hour. FREQ=HOURLY;BYMINUTE=30;INTERVAL=15 -> Run a backup every 15 hours at the 30th minute. FREQ=DAILY;INTERVAL=31 -> Invalid configuration (Cannot specify an interval of 31). FREQ=DAILY;INTERVAL=0 -> Invalid configuration (Cannot specify an interval of 0). FREQ=DAILY;INTERVAL=30 -> Run a backup every 30 days at 12:00 midnight.  FREQ=DAILY;BYHOUR=17;BYMINUTE=10;INTERVAL=1 -> Run a backup daily at 05:10 PM. 
+		* `exclude_namespaces` - (Applicable when member_type=OKE_CLUSTER) (Updatable) A list of namespaces to be excluded from the backup.  The default value is null. If a list of namespaces to exclude is not provided, all namespaces will be backed up. Specify either the `namespaces` or the `excludeNamespaces` parameter, but not both. This property applies to OKE cluster members in the primary region.  Example: ["namespace_string_3", "namespace_string_4"] 
 		* `image_replication_vault_secret_id` - (Applicable when member_type=OKE_CLUSTER) (Updatable) The OCID of the vault secret that stores the image credential. This property applies to the OKE cluster member in both the primary and standby region. 
 		* `max_number_of_backups_retained` - (Applicable when member_type=OKE_CLUSTER) (Updatable) The maximum number of backups that should be retained. This property applies to the OKE cluster member in primary region. 
-		* `namespaces` - (Applicable when member_type=OKE_CLUSTER) (Updatable) A list of namespaces that need to be backed up.  The default value is null. If a list of namespaces is not provided, all namespaces will be backed up. This property applies to the OKE cluster member in primary region.  Example: ["default", "pv-nginx"] 
+		* `namespaces` - (Applicable when member_type=OKE_CLUSTER) (Updatable) A list of namespaces to be included in the backup.  The default value is null. If a list of namespaces to include is not provided, all namespaces will be backed up. Specify either the `namespaces` or the `excludeNamespaces` parameter, but not both. This property applies to the OKE cluster member in primary region.  Example: ["default", "pv-nginx"] 
 		* `replicate_images` - (Applicable when member_type=OKE_CLUSTER) (Updatable) Controls the behaviour of image replication across regions. Image replication is enabled by default for DR Protection Groups with a primary role. This property applies to the OKE cluster member in primary region. 
 	* `backup_location` - (Applicable when member_type=OKE_CLUSTER) (Updatable) The details for creating the backup location of an OKE Cluster.
 		* `bucket` - (Applicable when member_type=OKE_CLUSTER) (Updatable) The bucket name inside the object storage namespace.  Example: `operation_logs` 
@@ -278,10 +295,16 @@ The following arguments are supported:
 		* `encryption_key_id` - (Required when member_type=VOLUME_GROUP) (Updatable) The OCID of the customer-managed encryption key in the destination region vault.  Example: `ocid1.key.oc1..uniqueID` 
 		* `vault_id` - (Required when member_type=VOLUME_GROUP) (Updatable) The OCID of the destination region vault for the customer-managed encryption key.  Example: `ocid1.vault.oc1..uniqueID` 
 	* `connection_string_type` - (Applicable when member_type=AUTONOMOUS_CONTAINER_DATABASE) (Updatable) The type of connection strings used to connect to an Autonomous Container Database snapshot standby created during a DR Drill operation. See https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html for information about these service types. 
+	* `db_system_admin_user_details` - (Applicable when member_type=MYSQL_DB_SYSTEM) (Updatable) The credentials for the HeatWave MySQL DB System administrator user, containing the username and the OCID of the Vault secret that stores the password.
+		* `password_vault_secret_id` - (Required when member_type=MYSQL_DB_SYSTEM) (Updatable) The OCID of the vault secret where the HeatWave MySQL DB System password is stored.  Example: `ocid1.vaultsecret.oc1..uniqueID` 
+		* `username` - (Required when member_type=MYSQL_DB_SYSTEM) (Updatable) The user name for connecting to the HeatWave MySQL DB System node.  Example: `user` 
+	* `db_system_replication_user_details` - (Applicable when member_type=MYSQL_DB_SYSTEM) (Updatable) The credentials for the HeatWave MySQL DB System replication user, containing the username and the OCID of the Vault secret that stores the password.
+		* `password_vault_secret_id` - (Required when member_type=MYSQL_DB_SYSTEM) (Updatable) The OCID of the vault secret where the HeatWave MySQL DB System password is stored.  Example: `ocid1.vaultsecret.oc1..uniqueID` 
+		* `username` - (Required when member_type=MYSQL_DB_SYSTEM) (Updatable) The user name for connecting to the HeatWave MySQL DB System node.  Example: `user` 
 	* `destination_availability_domain` - (Applicable when member_type=FILE_SYSTEM) (Updatable) The availability domain of the destination mount target.  Example: `BBTh:region-AD` 
 	* `destination_backup_policy_id` - (Applicable when member_type=VOLUME_GROUP) (Updatable) The OCID of the backup policy to use in the destination region. This policy will be used to create backups  for this volume group after it moves the destination region.  Example: `ocid1.volumebackuppolicy.oc1..uniqueID` 
 	* `destination_capacity_reservation_id` - (Applicable when member_type=COMPUTE_INSTANCE_MOVABLE) (Updatable) The OCID of a capacity reservation in the destination region which will be used to launch the compute instance.  Example: `ocid1.capacityreservation.oc1..uniqueID` 
-	* `destination_compartment_id` - (Applicable when member_type=COMPUTE_INSTANCE | COMPUTE_INSTANCE_MOVABLE) (Updatable) The OCID of a compartment in the destination region in which the compute instance should be launched.  Example: `ocid1.compartment.oc1..uniqueID` 
+	* `destination_compartment_id` - (Applicable when member_type=COMPUTE_INSTANCE | COMPUTE_INSTANCE_MOVABLE | FILE_SYSTEM | VOLUME_GROUP) (Updatable) The OCID of a compartment in the destination region in which the compute instance should be launched.  Example: `ocid1.compartment.oc1..uniqueID` 
 	* `destination_dedicated_vm_host_id` - (Applicable when member_type=COMPUTE_INSTANCE | COMPUTE_INSTANCE_MOVABLE) (Updatable) The OCID of a dedicated VM host in the destination region where the compute instance should be launched.  Example: `ocid1.dedicatedvmhost.oc1..uniqueID` 
 	* `destination_encryption_key` - (Applicable when member_type=AUTONOMOUS_DATABASE | FILE_SYSTEM) (Updatable) Create properties for a customer-managed vault and encryption key in the destination region.  The customer-managed encryption key in this will be used to encrypt the resource or containing resources after they  move to the destination region. 
 		* `encryption_key_id` - (Required when member_type=AUTONOMOUS_DATABASE | FILE_SYSTEM) (Updatable) The OCID of the customer-managed encryption key in the destination region vault.  Example: `ocid1.key.oc1..uniqueID` 
@@ -300,6 +323,8 @@ The following arguments are supported:
 		* `mount_target_id` - (Required when member_type=COMPUTE_INSTANCE_NON_MOVABLE) (Updatable) The OCID of the mount target.  Example: `ocid1.mounttarget.oc1..uniqueID` 
 		* `unmount_details` - (Required when member_type=COMPUTE_INSTANCE_MOVABLE) (Updatable) The details for creating a file system unmount. 
 			* `mount_target_id` - (Applicable when member_type=COMPUTE_INSTANCE_MOVABLE) (Updatable) The OCID of the mount target.  Example: `ocid1.mounttarget.oc1..uniqueID` 
+	* `gtid_reconciliation_timeout` - (Applicable when member_type=MYSQL_DB_SYSTEM) (Updatable) The maximum time (in seconds) to wait for the Global Transaction Identifier (GTID) synchronization process to complete before timing out.  Example: `600` 
+	* `is_continue_on_gtid_reconciliation_timeout` - (Applicable when member_type=MYSQL_DB_SYSTEM) (Updatable) A flag indicating whether to continue with DR operation if the Global Transaction Identifier (GTID) reconciliation operation times out.  Example: `false` 
 	* `is_movable` - (Applicable when member_type=COMPUTE_INSTANCE) (Updatable) A flag indicating if the compute instance should be moved during DR operations.  Example: `false` 
 	* `is_retain_fault_domain` - (Applicable when member_type=COMPUTE_INSTANCE_MOVABLE) (Updatable) A flag indicating if the compute instance should be moved to the same fault domain in the destination region.  The compute instance launch will fail if this flag is set to true and capacity is not available in the  specified fault domain in the destination region.  Example: `false` 
 	* `is_start_stop_enabled` - (Applicable when member_type=COMPUTE_INSTANCE_NON_MOVABLE) (Updatable) A flag indicating whether the non-movable compute instance should be started and stopped during DR operations. *Prechecks cannot be executed on stopped instances that are configured to be started.* 
@@ -319,6 +344,7 @@ The following arguments are supported:
 		* `source_network_load_balancer_id` - (Required when member_type=OKE_CLUSTER) (Updatable) The OCID of the source Network Load Balancer.  Example: `ocid1.networkloadbalancer.oc1..uniqueID` 
 	* `password_vault_secret_id` - (Applicable when member_type=AUTONOMOUS_DATABASE | DATABASE) (Updatable) The OCID of the vault secret where the database SYSDBA password is stored. This password is required and used for performing database DR Drill operations when using full clone.  Example: `ocid1.vaultsecret.oc1..uniqueID` 
 	* `peer_cluster_id` - (Applicable when member_type=OKE_CLUSTER) (Updatable) The OCID of the peer OKE cluster. This property applies to the OKE cluster member in both the primary and standby region.   Example: `ocid1.cluster.oc1..uniqueID` 
+	* `peer_db_system_id` - (Applicable when member_type=MYSQL_DB_SYSTEM) (Updatable) The OCID of the peer HeatWave MySQL DB System from the peer region.  Example: `ocid1.mysqldbsystem.oc1..uniqueID` 
 	* `source_volume_to_destination_encryption_key_mappings` - (Applicable when member_type=VOLUME_GROUP) (Updatable) A list of mappings between source volume IDs in the volume group and customer-managed encryption keys in the  destination region which will be used to encrypt the volume after it moves to the destination region.
 
 		If you add the entry for source volumes and its corresponding vault and encryption keys here, you can not use  'commonDestinationKey' for encrypting all volumes with common encryption key. Similarly, if you specify common vault and encryption key using 'commonDestinationKey', you cannot specify vaults and encryption keys individually  for each volume using 'sourceVolumeToDestinationEncryptionKeyMappings'.
@@ -377,9 +403,10 @@ The following attributes are exported:
 		* `source_backend_set_name` - The name of the source backend set.  Example: `My_Source_Backend_Set` 
 	* `backup_config` - The details of backup performed on OKE Cluster. 
 		* `backup_schedule` - The schedule for backing up namespaces to the destination region. If a backup schedule is not specified, only a single backup will be created. This format of the string specifying the backup schedule must conform with RFC-5545. This schedule will use the UTC timezone. This property applies to the OKE cluster member in primary region.  Example: FREQ=WEEKLY;BYDAY=MO,TU,WE,TH;BYHOUR=10;INTERVAL=1 
+		* `exclude_namespaces` - A list of namespaces to be excluded from the backup.  The default value is null. If a list of namespaces to exclude is not provided, all namespaces will be backed up. Specify either the `namespaces` or the `excludeNamespaces` parameter, but not both. This property applies to OKE cluster members in the primary region.  Example: ["namespace_string_3", "namespace_string_4"] 
 		* `image_replication_vault_secret_id` - The OCID of the vault secret that stores the image credential. This property applies to the OKE cluster member in both the primary and standby region. 
 		* `max_number_of_backups_retained` - The maximum number of backups that should be retained. This property applies to the OKE cluster member in primary region. 
-		* `namespaces` - A list of namespaces that need to be backed up.  The default value is null. If a list of namespaces is not provided, all namespaces will be backed up. This property applies to the OKE cluster member in primary region.  Example: ["default", "pv-nginx"] 
+		* `namespaces` - A list of namespaces to be included in the backup.  The default value is null. If a list of namespaces to include is not provided, all namespaces will be backed up. Specify either the `namespaces` or the `excludeNamespaces` parameter, but not both. This property applies to the OKE cluster member in primary region.  Example: ["default", "pv-nginx"] 
 		* `replicate_images` - Controls the behaviour of image replication across regions. This property applies to the OKE cluster member in primary region. 
 	* `backup_location` - The details for object storage backup location of an OKE Cluster
 		* `bucket` - The bucket name inside the object storage namespace.  Example: `operation_logs` 
@@ -406,6 +433,12 @@ The following attributes are exported:
 		* `encryption_key_id` - The OCID of the customer-managed encryption key in the destination region vault.  Example: `ocid1.key.oc1..uniqueID` 
 		* `vault_id` - The OCID of the destination region vault for the customer-managed encryption key.  Example: `ocid1.vault.oc1..uniqueID` 
 	* `connection_string_type` - The type of connection strings used to connect to an Autonomous Container Database snapshot standby created during a DR Drill operation. See https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html for information about these service types. 
+	* `db_system_admin_user_details` - The credentials for the HeatWave MySQL DB System administrator user, containing the username and the OCID of the vault secret that stores the password.
+		* `password_vault_secret_id` - The OCID of the vault secret where the HeatWave MySQL DB System password is stored.  Example: `ocid1.vaultsecret.oc1..uniqueID` 
+		* `username` - The user name for connecting to the HeatWave MySQL DB System node.  Example: `user` 
+	* `db_system_replication_user_details` - The credentials for the HeatWave MySQL DB System replication user, containing the username and the OCID of the vault secret that stores the password.
+		* `password_vault_secret_id` - The OCID of the vault secret where the HeatWave MySQL DB System password is stored.  Example: `ocid1.vaultsecret.oc1..uniqueID` 
+		* `username` - The user name for connecting to the HeatWave MySQL DB System node.  Example: `user` 
 	* `destination_availability_domain` - The availability domain of the destination mount target. Example: `BBTh:region-AD` 
 	* `destination_backup_policy_id` - The OCID of the backup policy to use in the destination region. This policy will be used to create backups for this volume group after it moves the destination region.  Example: `ocid1.volumebackuppolicy.oc1..uniqueID` 
 	* `destination_capacity_reservation_id` - The OCID of a capacity reservation in the destination region which will be used to launch the compute instance.  Example: `ocid1.capacityreservation.oc1..uniqueID` 
@@ -432,6 +465,8 @@ The following attributes are exported:
 		* `mount_target_id` - The OCID of mount target.  Example: `ocid1.mounttarget.oc1..uniqueID` 
 		* `unmount_details` - Unmount details for a file system.
 			* `mount_target_id` - The OCID of the mount target for this file system.  Example: `ocid1.mounttarget.oc1..uniqueID` 
+	* `gtid_reconciliation_timeout` - The maximum time (in seconds) to wait for the Global Transaction Identifier (GTID) synchronization process to complete before timing out.  Example: `600` 
+	* `is_continue_on_gtid_reconciliation_timeout` - A flag indicating whether to continue with DR operation if the Global Transaction Identifier (GTID) reconciliation operation times out.  Example: `false` 
 	* `is_movable` - A flag indicating if the compute instance should be moved during DR operations.  Example: `false` 
 	* `is_retain_fault_domain` - A flag indicating if the compute instance should be moved to the same fault domain in the destination region.  The compute instance launch will fail if this flag is set to true and capacity is not available in the  specified fault domain in the destination region.  Example: `false` 
 	* `is_start_stop_enabled` - A flag indicating whether the non-movable compute instance needs to be started and stopped during DR operations. 
@@ -451,6 +486,7 @@ The following attributes are exported:
 		* `source_network_load_balancer_id` - The OCID of the source Network Load Balancer.  Example: `ocid1.networkloadbalancer.oc1..uniqueID` 
 	* `password_vault_secret_id` - The OCID of the vault secret where the database SYSDBA password is stored. This password is required and used for performing database DR Drill operations when using full clone.  Example: `ocid1.vaultsecret.oc1..uniqueID` 
 	* `peer_cluster_id` - The OCID of the peer OKE cluster. This property applies to the OKE cluster member in both the primary and standby region.  Example: `ocid1.cluster.oc1.uniqueID` 
+	* `peer_db_system_id` - The OCID of the peer HeatWave MySQL DB System from the peer region.  Example: `ocid1.mysqldbsystem.oc1..uniqueID` 
 	* `source_volume_to_destination_encryption_key_mappings` - A list of mappings between source volume IDs in the volume group and customer-managed encryption keys in the  destination region which will be used to encrypt the volume after it moves to the destination region.
 
 		If you add the entry for source volumes and its corresponding vault and encryption keys here, you can not use  'commonDestinationKey' for encrypting all volumes with common encryption key. Similarly, if you specify common vault and encryption key using 'commonDestinationKey', you cannot specify vaults and encryption keys individually  for each volume using 'sourceVolumeToDestinationEncryptionKeyMappings'.
