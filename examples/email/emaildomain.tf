@@ -18,3 +18,7 @@ resource "oci_email_email_domain" "test_email_domain" {
 
   depends_on = [random_id.random_email_domain]
 }
+
+data "oci_email_email_domain" "test_email_domain" {
+	email_domain_id = oci_email_email_domain.test_email_domain.id
+}

@@ -22,6 +22,8 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
+
+	emailpkg "github.com/oracle/terraform-provider-oci/internal/service/email"
 )
 
 var (
@@ -189,6 +191,75 @@ func TestEmailEmailReturnPathResource_basic(t *testing.T) {
 			ResourceName:            resourceName,
 		},
 	})
+}
+
+func TestEmailReturnPathDataSource_withLocks(t *testing.T) {
+	resource := emailpkg.EmailEmailReturnPathsDataSource()
+
+	mockedTime, _ := time.Parse(time.RFC3339, "2023-09-19T17:29:12.144Z")
+	mockedSDKTime := common.SDKTime{Time: mockedTime}
+
+	mocked := oci_email.EmailReturnPathSummary{
+		Id:             common.String("mocked_id"),
+		Name:           common.String("tfrp.test.mock"),
+		CompartmentId:  common.String("ocid1.compartment.oc1..mocked"),
+		LifecycleState: oci_email.EmailReturnPathLifecycleStateActive,
+		Locks: []oci_email.ResourceLock{
+			{
+				Type:        oci_email.ResourceLockTypeFull,
+				TimeCreated: &mockedSDKTime,
+			},
+		},
+	}
+
+	d := schema.TestResourceDataRaw(t, resource.Schema, map[string]interface{}{
+		"compartment_id": "ocid1.compartment.oc1..mocked",
+	})
+
+	domainCollection := []interface{}{
+		map[string]interface{}{
+			"items": []interface{}{
+				map[string]interface{}{
+					"id":             *mocked.Id,
+					"name":           *mocked.Name,
+					"compartment_id": *mocked.CompartmentId,
+					"state":          string(mocked.LifecycleState),
+					"locks": []interface{}{
+						map[string]interface{}{
+							"type":         string(mocked.Locks[0].Type),
+							"time_created": mocked.Locks[0].TimeCreated.Format(time.RFC3339),
+						},
+					},
+				},
+			},
+		},
+	}
+	d.Set("email_return_path_collection", domainCollection)
+
+	// Assertions
+	coll := d.Get("email_return_path_collection").([]interface{})
+	if len(coll) != 1 {
+		t.Fatalf("Expected 1 email_return_path_collection, got %d", len(coll))
+	}
+	items := coll[0].(map[string]interface{})["items"].([]interface{})
+	if len(items) != 1 {
+		t.Fatalf("Expected 1 item, got %d", len(items))
+	}
+	item := items[0].(map[string]interface{})
+	locks := item["locks"].([]interface{})
+	if len(locks) != 1 {
+		t.Fatalf("Expected 1 lock, got %d", len(locks))
+	}
+
+	lock := locks[0].(map[string]interface{})
+	check := func(k, expected string) {
+		if lock[k] != expected {
+			t.Errorf("Expected %s = %q, got %v", k, expected, lock[k])
+		}
+	}
+
+	check("type", "FULL")
+	check("time_created", "2023-09-19T17:29:12Z") // Note: SDKTime drops fractional seconds
 }
 
 func testAccCheckEmailEmailReturnPathDestroy(s *terraform.State) error {

@@ -55,6 +55,12 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the email domain. 
 * `is_spf` - Value of the SPF field. For more information about SPF, please see [SPF Authentication](https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/overview.htm#components). 
+* `locks` - Locks associated with this resource.
+	* `compartment_id` - The lock compartment ID.
+	* `message` - A message added by the lock creator. The message typically gives an indication of why the resource is locked. 
+	* `related_resource_id` - The resource ID that is locking this resource. Indicates that deleting this resource removes the lock. 
+	* `time_created` - Indicates when the lock was created, in the format defined by RFC 3339.
+	* `type` - Lock type.
 * `name` - The name of the email domain in the Internet Domain Name System (DNS).  Example: `mydomain.example.com` 
 * `state` - The current state of the email domain.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 

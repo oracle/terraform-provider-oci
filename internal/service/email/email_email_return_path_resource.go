@@ -80,6 +80,39 @@ func EmailEmailReturnPathResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"locks": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"compartment_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"message": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"related_resource_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_created": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -371,6 +404,11 @@ func (s *EmailEmailReturnPathResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		request.IsLockOverride = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "email")
 
 	response, err := s.Client.UpdateEmailReturnPath(context.Background(), request)
@@ -387,6 +425,11 @@ func (s *EmailEmailReturnPathResourceCrud) Delete() error {
 
 	tmp := s.D.Id()
 	request.EmailReturnPathId = &tmp
+
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		request.IsLockOverride = &tmp
+	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "email")
 
@@ -428,6 +471,12 @@ func (s *EmailEmailReturnPathResourceCrud) SetData() error {
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
+
+	locks := []interface{}{}
+	for _, item := range s.Res.Locks {
+		locks = append(locks, EmailReturnPathResourceLockToMap(item))
+	}
+	s.D.Set("locks", locks)
 
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
@@ -475,6 +524,12 @@ func EmailReturnPathSummaryToMap(obj oci_email.EmailReturnPathSummary) map[strin
 		result["id"] = string(*obj.Id)
 	}
 
+	locks := []interface{}{}
+	for _, item := range obj.Locks {
+		locks = append(locks, ResourceLockToMap(item))
+	}
+	result["locks"] = locks
+
 	if obj.Name != nil {
 		result["name"] = string(*obj.Name)
 	}
@@ -496,6 +551,30 @@ func EmailReturnPathSummaryToMap(obj oci_email.EmailReturnPathSummary) map[strin
 	if obj.TimeUpdated != nil {
 		result["time_updated"] = obj.TimeUpdated.String()
 	}
+
+	return result
+}
+
+func EmailReturnPathResourceLockToMap(obj oci_email.ResourceLock) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.Message != nil {
+		result["message"] = string(*obj.Message)
+	}
+
+	if obj.RelatedResourceId != nil {
+		result["related_resource_id"] = string(*obj.RelatedResourceId)
+	}
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	result["type"] = string(obj.Type)
 
 	return result
 }

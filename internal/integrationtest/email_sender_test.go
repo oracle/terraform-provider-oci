@@ -23,6 +23,7 @@ import (
 	oci_email "github.com/oracle/oci-go-sdk/v65/email"
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
+	emailpkg "github.com/oracle/terraform-provider-oci/internal/service/email"
 )
 
 var (
@@ -213,6 +214,64 @@ func TestEmailSenderResource_basic(t *testing.T) {
 			ResourceName:            resourceName,
 		},
 	})
+}
+
+func TestEmailEmailSenderDataSource_withLocks(t *testing.T) {
+	resource := emailpkg.EmailSendersDataSource()
+
+	d := schema.TestResourceDataRaw(t, resource.Schema, map[string]interface{}{
+		"compartment_id": "ocid1.compartment.oc1..mocked",
+		"filter": []interface{}{
+			map[string]interface{}{
+				"name":   "id",
+				"values": []interface{}{"mocked-sender-id"},
+			},
+		},
+	})
+
+	mockedTime, _ := time.Parse(time.RFC3339Nano, "2023-09-19T17:29:12.144Z")
+
+	// Build one mocked sender with one lock.
+	sender := map[string]interface{}{
+		"id":             "mocked-sender-id",
+		"email_address":  "johnsmith2025@example.com",
+		"compartment_id": "ocid1.compartment.oc1..mocked",
+		"state":          "ACTIVE",
+		"locks": []interface{}{
+			map[string]interface{}{
+				"type":         "FULL",
+				"time_created": mockedTime.Format(time.RFC3339Nano),
+			},
+		},
+	}
+
+	// Inject into the data source's computed field.
+	if err := d.Set("senders", []interface{}{sender}); err != nil {
+		t.Fatalf("failed to set senders: %v", err)
+	}
+
+	// Assertions
+	senders := d.Get("senders").([]interface{})
+	if len(senders) != 1 {
+		t.Fatalf("expected 1 sender, got %d", len(senders))
+	}
+
+	s := senders[0].(map[string]interface{})
+	locks := s["locks"].([]interface{})
+	if len(locks) != 1 {
+		t.Fatalf("expected 1 lock, got %d", len(locks))
+	}
+
+	lock := locks[0].(map[string]interface{})
+	check := func(key, expected string) {
+		if actual, ok := lock[key]; !ok || actual != expected {
+			t.Errorf("expected lock[%s] = %q, got %v", key, expected, actual)
+		}
+	}
+
+	check("type", "FULL")
+	check("time_created", "2023-09-19T17:29:12.144Z")
+
 }
 
 func testAccCheckEmailSenderDestroy(s *terraform.State) error {
