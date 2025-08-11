@@ -55,6 +55,12 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the email return path. 
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in 'Failed' state. 
+* `locks` - Locks associated with this resource.
+	* `compartment_id` - The lock compartment ID.
+	* `message` - A message added by the lock creator. The message typically gives an indication of why the resource is locked. 
+	* `related_resource_id` - The resource ID that is locking this resource. Indicates that deleting this resource removes the lock. 
+	* `time_created` - Indicates when the lock was created, in the format defined by RFC 3339.
+	* `type` - Lock type.
 * `name` - The email return path domain in the Internet Domain Name System (DNS).  Example: `iad1.rp.example.com` 
 * `parent_resource_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the EmailDomain that this email return path belongs to. 
 * `state` - The current state of the email return path.

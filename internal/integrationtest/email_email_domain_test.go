@@ -21,6 +21,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_email "github.com/oracle/oci-go-sdk/v65/email"
+	emailpkg "github.com/oracle/terraform-provider-oci/internal/service/email"
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
@@ -218,6 +219,74 @@ func TestEmailEmailDomainResource_basic(t *testing.T) {
 			ResourceName:            resourceName,
 		},
 	})
+}
+
+func TestEmailEmailDomainDataSource_withLocks(t *testing.T) {
+	resource := emailpkg.EmailEmailDomainsDataSource()
+
+	d := schema.TestResourceDataRaw(t, resource.Schema, map[string]interface{}{
+		"compartment_id": "ocid1.compartment.oc1..mocked",
+		"filter": []interface{}{
+			map[string]interface{}{
+				"name":   "id",
+				"values": []interface{}{"mocked-emaildomain-id"},
+			},
+		},
+	})
+
+	mockedTime, _ := time.Parse(time.RFC3339Nano, "2023-09-19T17:29:12.144Z")
+
+	// Build one mocked domain item with one lock.
+	item := map[string]interface{}{
+		"id":             "mocked-emaildomain-id",
+		"name":           "mocked.email.ap-mumbai-1.oci.oc-test.com",
+		"compartment_id": "ocid1.compartment.oc1..mocked",
+		"state":          "ACTIVE",
+		"locks": []interface{}{
+			map[string]interface{}{
+				"type":         "FULL",
+				"time_created": mockedTime.Format(time.RFC3339Nano),
+			},
+		},
+	}
+
+	collection := []interface{}{
+		map[string]interface{}{
+			"items": []interface{}{item},
+		},
+	}
+
+	// Set the computed collection on the data source (allowed in unit tests via ResourceData).
+	if err := d.Set("email_domain_collection", collection); err != nil {
+		t.Fatalf("failed to set email_domain_collection: %v", err)
+	}
+
+	// Assertions
+	coll := d.Get("email_domain_collection").([]interface{})
+	if len(coll) != 1 {
+		t.Fatalf("expected 1 email_domain_collection, got %d", len(coll))
+	}
+
+	items := coll[0].(map[string]interface{})["items"].([]interface{})
+	if len(items) != 1 {
+		t.Fatalf("expected 1 item, got %d", len(items))
+	}
+
+	got := items[0].(map[string]interface{})
+	locks := got["locks"].([]interface{})
+	if len(locks) != 1 {
+		t.Fatalf("expected 1 lock, got %d", len(locks))
+	}
+
+	lock := locks[0].(map[string]interface{})
+	check := func(key, expected string) {
+		if actual, ok := lock[key]; !ok || actual != expected {
+			t.Errorf("expected lock[%s] = %q, got %v", key, expected, actual)
+		}
+	}
+
+	check("type", "FULL")
+	check("time_created", "2023-09-19T17:29:12.144Z")
 }
 
 func testAccCheckEmailEmailDomainDestroy(s *terraform.State) error {
