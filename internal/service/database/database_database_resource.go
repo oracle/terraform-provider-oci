@@ -1128,37 +1128,27 @@ func (s *DatabaseDatabaseResourceCrud) mapToBackupDestinationDetails(fieldKeyFor
 func (s *DatabaseDatabaseResourceCrud) mapToUpdateBackupDestinationDetails(fieldKeyFormat string) (oci_database.BackupDestinationDetails, error) {
 	result := oci_database.BackupDestinationDetails{}
 
-	if dbrsPolicyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dbrs_policy_id")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "dbrs_policy_id")) {
-		tmp := dbrsPolicyId.(string)
-		result.DbrsPolicyId = &tmp
+	fields := map[string]func(string){
+		"dbrs_policy_id": func(val string) { tmp := val; result.DbrsPolicyId = &tmp },
+		"id":             func(val string) { tmp := val; result.Id = &tmp },
+		"type":           func(val string) { result.Type = oci_database.BackupDestinationDetailsTypeEnum(val) },
+		"vpc_password":   func(val string) { tmp := val; result.VpcPassword = &tmp },
+		"vpc_user":       func(val string) { tmp := val; result.VpcUser = &tmp },
 	}
 
-	if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "id")) {
-		tmp := id.(string)
-		result.Id = &tmp
-	}
-
-	typeKey := fmt.Sprintf(fieldKeyFormat, "type")
-
-	if type_, ok := s.D.GetOkExists(typeKey); ok {
-		if s.D.HasChange(typeKey) {
-			// Field changed, use the new value
-			result.Type = oci_database.BackupDestinationDetailsTypeEnum(type_.(string))
-		} else {
-			// Field not changed, get old value to preserve it
-			_, oldVal := s.D.GetChange(typeKey)
-			result.Type = oci_database.BackupDestinationDetailsTypeEnum(oldVal.(string))
+	for fieldName, setter := range fields {
+		key := fmt.Sprintf(fieldKeyFormat, fieldName)
+		if val, ok := s.D.GetOkExists(key); ok {
+			if s.D.HasChange(key) {
+				setter(val.(string))
+			} else {
+				_, oldVal := s.D.GetChange(key)
+				oldValStr := oldVal.(string)
+				if oldValStr != "" {
+					setter(oldValStr)
+				}
+			}
 		}
-	}
-
-	if vpcPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vpc_password")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "vpc_password")) {
-		tmp := vpcPassword.(string)
-		result.VpcPassword = &tmp
-	}
-
-	if vpcUser, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vpc_user")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "vpc_user")) {
-		tmp := vpcUser.(string)
-		result.VpcUser = &tmp
 	}
 
 	return result, nil
