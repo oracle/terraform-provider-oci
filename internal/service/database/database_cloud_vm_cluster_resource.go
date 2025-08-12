@@ -374,6 +374,7 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{
 					"OCI",
 					"AZURE",
+					"GCP",
 					"NONE",
 				}, true),
 			},
@@ -1129,6 +1130,11 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 				}
 			}
 		case strings.ToLower("AZURE"):
+			err := s.RegisterCloudVmClusterPkcs(newRaw.(string))
+			if err != nil {
+				return err
+			}
+		case strings.ToLower("GCP"):
 			err := s.RegisterCloudVmClusterPkcs(newRaw.(string))
 			if err != nil {
 				return err

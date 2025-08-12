@@ -59,6 +59,7 @@ resource "oci_database_database" "test_database" {
 
 			#Optional
 			azure_encryption_key_id = oci_kms_key.test_key.id
+			gcp_encryption_key_id = oci_kms_key.test_key.id
 			hsm_password = var.database_database_encryption_key_location_details_hsm_password
 		}
 		freeform_tags = var.database_database_freeform_tags
@@ -79,6 +80,7 @@ resource "oci_database_database" "test_database" {
 
 			#Optional
 			azure_encryption_key_id = oci_kms_key.test_key.id
+			gcp_encryption_key_id = oci_kms_key.test_key.id
 			hsm_password = var.database_database_source_encryption_key_location_details_hsm_password
 		}
 		storage_size_details {
@@ -141,8 +143,9 @@ The following arguments are supported:
 	* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 	* `encryption_key_location_details` - (Applicable when source=NONE) Types of providers supported for managing database encryption keys
 		* `azure_encryption_key_id` - (Required when provider_type=AZURE) Provide the key OCID of a registered Azure key.
+        * `gcp_encryption_key_id` - (Required when provider_type=GCP) Provide the key OCID of a registered GCP key.
 		* `hsm_password` - (Required when provider_type=EXTERNAL) Provide the HSM password as you would in RDBMS for External HSM.
-		* `provider_type` - (Required) Use 'EXTERNAL' for creating a new database or migrating a database key to an External HSM. Use 'AZURE' for creating a new database or migrating a database key to Azure.
+		* `provider_type` - (Required) Use 'EXTERNAL' for creating a new database or migrating a database key to an External HSM. Use 'AZURE' for creating a new database or migrating a database key to Azure.  Use 'GCP' for creating a new database or migrating a database key to GCP.
 	* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 	* `is_active_data_guard_enabled` - (Applicable when source=DATAGUARD) True if active Data Guard is enabled.
 	* `key_store_id` - (Applicable when source=NONE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
@@ -157,8 +160,9 @@ The following arguments are supported:
 	* `source_database_id` - (Required when source=DATAGUARD) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source database.
 	* `source_encryption_key_location_details` - (Applicable when source=DATAGUARD | DB_BACKUP) Types of providers supported for managing database encryption keys
 		* `azure_encryption_key_id` - (Required when provider_type=AZURE) Provide the key OCID of a registered Azure key.
+        * `gcp_encryption_key_id` - (Required when provider_type=GCP) Provide the key OCID of a registered GCP key.
 		* `hsm_password` - (Required when provider_type=EXTERNAL) Provide the HSM password as you would in RDBMS for External HSM.
-		* `provider_type` - (Required) Use 'EXTERNAL' for creating a new database or migrating a database key to an External HSM. Use 'AZURE' for creating a new database or migrating a database key to Azure.
+		* `provider_type` - (Required) Use 'EXTERNAL' for creating a new database or migrating a database key to an External HSM. Use 'AZURE' for creating a new database or migrating a database key to Azure.  Use 'GCP' for creating a new database or migrating a database key to GCP.
 	* `source_tde_wallet_password` - (Required when source=DATAGUARD) The TDE wallet password of the source database specified by 'sourceDatabaseId'.
 	* `storage_size_details` - (Optional) The database storage size details. This database option is supported for the Exadata VM cluster on Exascale Infrastructure. 
 		* `data_storage_size_in_gb` - (Required) (Updatable) The DATA storage size, in gigabytes, that is applicable for the database. 
@@ -250,8 +254,9 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `encryption_key_location_details` - Types of providers supported for managing database encryption keys
 	* `azure_encryption_key_id` - Provide the key OCID of a registered Azure key.
+    * `gcp_encryption_key_id` - Provide the key OCID of a registered GCP key.
 	* `hsm_password` - Provide the HSM password as you would in RDBMS for External HSM.
-	* `provider_type` - Use 'EXTERNAL' for creating a new database or migrating a database key to an External HSM. Use 'AZURE' for creating a new database or migrating a database key to Azure. 
+	* `provider_type` - Use 'EXTERNAL' for creating a new database or migrating a database key to an External HSM. Use 'AZURE' for creating a new database or migrating a database key to Azure. Use 'GCP' for creating a new database or migrating a database key to GCP.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database.
 * `is_cdb` - True if the database is a container database.
