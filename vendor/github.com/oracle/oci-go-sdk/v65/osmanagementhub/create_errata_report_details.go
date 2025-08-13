@@ -46,10 +46,10 @@ type CreateErrataReportDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// The start issue date to filter by
-	TimeStartIssueDate *common.SDKTime `mandatory:"false" json:"timeStartIssueDate"`
+	TimeIssueDateStarted *common.SDKTime `mandatory:"false" json:"timeIssueDateStarted"`
 
 	// The end issue date to filter by
-	TimeEndIssueDate *common.SDKTime `mandatory:"false" json:"timeEndIssueDate"`
+	TimeIssueDateEnded *common.SDKTime `mandatory:"false" json:"timeIssueDateEnded"`
 
 	// The managed instance ids.
 	ManagedInstanceIds []string `mandatory:"false" json:"managedInstanceIds"`

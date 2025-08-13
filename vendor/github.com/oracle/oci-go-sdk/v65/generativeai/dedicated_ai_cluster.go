@@ -279,21 +279,24 @@ type DedicatedAiClusterUnitShapeEnum string
 
 // Set of constants representing the allowable values for DedicatedAiClusterUnitShapeEnum
 const (
-	DedicatedAiClusterUnitShapeLargeCohere    DedicatedAiClusterUnitShapeEnum = "LARGE_COHERE"
-	DedicatedAiClusterUnitShapeLargeCohereV2  DedicatedAiClusterUnitShapeEnum = "LARGE_COHERE_V2"
-	DedicatedAiClusterUnitShapeSmallCohere    DedicatedAiClusterUnitShapeEnum = "SMALL_COHERE"
-	DedicatedAiClusterUnitShapeSmallCohereV2  DedicatedAiClusterUnitShapeEnum = "SMALL_COHERE_V2"
-	DedicatedAiClusterUnitShapeSmallCohere4   DedicatedAiClusterUnitShapeEnum = "SMALL_COHERE_4"
-	DedicatedAiClusterUnitShapeEmbedCohere    DedicatedAiClusterUnitShapeEnum = "EMBED_COHERE"
-	DedicatedAiClusterUnitShapeLlama270       DedicatedAiClusterUnitShapeEnum = "LLAMA2_70"
-	DedicatedAiClusterUnitShapeLargeGeneric   DedicatedAiClusterUnitShapeEnum = "LARGE_GENERIC"
-	DedicatedAiClusterUnitShapeLargeCohereV22 DedicatedAiClusterUnitShapeEnum = "LARGE_COHERE_V2_2"
-	DedicatedAiClusterUnitShapeLargeGeneric4  DedicatedAiClusterUnitShapeEnum = "LARGE_GENERIC_4"
-	DedicatedAiClusterUnitShapeSmallGenericV2 DedicatedAiClusterUnitShapeEnum = "SMALL_GENERIC_V2"
-	DedicatedAiClusterUnitShapeLargeGeneric2  DedicatedAiClusterUnitShapeEnum = "LARGE_GENERIC_2"
-	DedicatedAiClusterUnitShapeLargeGenericV2 DedicatedAiClusterUnitShapeEnum = "LARGE_GENERIC_V2"
-	DedicatedAiClusterUnitShapeLargeCohereV3  DedicatedAiClusterUnitShapeEnum = "LARGE_COHERE_V3"
-	DedicatedAiClusterUnitShapeRerankCohere   DedicatedAiClusterUnitShapeEnum = "RERANK_COHERE"
+	DedicatedAiClusterUnitShapeLargeCohere     DedicatedAiClusterUnitShapeEnum = "LARGE_COHERE"
+	DedicatedAiClusterUnitShapeLargeCohereV2   DedicatedAiClusterUnitShapeEnum = "LARGE_COHERE_V2"
+	DedicatedAiClusterUnitShapeSmallCohere     DedicatedAiClusterUnitShapeEnum = "SMALL_COHERE"
+	DedicatedAiClusterUnitShapeSmallCohereV2   DedicatedAiClusterUnitShapeEnum = "SMALL_COHERE_V2"
+	DedicatedAiClusterUnitShapeSmallCohere4    DedicatedAiClusterUnitShapeEnum = "SMALL_COHERE_4"
+	DedicatedAiClusterUnitShapeEmbedCohere     DedicatedAiClusterUnitShapeEnum = "EMBED_COHERE"
+	DedicatedAiClusterUnitShapeLlama270        DedicatedAiClusterUnitShapeEnum = "LLAMA2_70"
+	DedicatedAiClusterUnitShapeLargeGeneric    DedicatedAiClusterUnitShapeEnum = "LARGE_GENERIC"
+	DedicatedAiClusterUnitShapeLargeCohereV22  DedicatedAiClusterUnitShapeEnum = "LARGE_COHERE_V2_2"
+	DedicatedAiClusterUnitShapeLargeGeneric4   DedicatedAiClusterUnitShapeEnum = "LARGE_GENERIC_4"
+	DedicatedAiClusterUnitShapeSmallGenericV2  DedicatedAiClusterUnitShapeEnum = "SMALL_GENERIC_V2"
+	DedicatedAiClusterUnitShapeLargeGeneric2   DedicatedAiClusterUnitShapeEnum = "LARGE_GENERIC_2"
+	DedicatedAiClusterUnitShapeLargeGenericV2  DedicatedAiClusterUnitShapeEnum = "LARGE_GENERIC_V2"
+	DedicatedAiClusterUnitShapeLargeCohereV3   DedicatedAiClusterUnitShapeEnum = "LARGE_COHERE_V3"
+	DedicatedAiClusterUnitShapeRerankCohere    DedicatedAiClusterUnitShapeEnum = "RERANK_COHERE"
+	DedicatedAiClusterUnitShapeSmallGenericV1  DedicatedAiClusterUnitShapeEnum = "SMALL_GENERIC_V1"
+	DedicatedAiClusterUnitShapeMediumGenericV1 DedicatedAiClusterUnitShapeEnum = "MEDIUM_GENERIC_V1"
+	DedicatedAiClusterUnitShapeLargeGenericV1  DedicatedAiClusterUnitShapeEnum = "LARGE_GENERIC_V1"
 )
 
 var mappingDedicatedAiClusterUnitShapeEnum = map[string]DedicatedAiClusterUnitShapeEnum{
@@ -312,6 +315,9 @@ var mappingDedicatedAiClusterUnitShapeEnum = map[string]DedicatedAiClusterUnitSh
 	"LARGE_GENERIC_V2":  DedicatedAiClusterUnitShapeLargeGenericV2,
 	"LARGE_COHERE_V3":   DedicatedAiClusterUnitShapeLargeCohereV3,
 	"RERANK_COHERE":     DedicatedAiClusterUnitShapeRerankCohere,
+	"SMALL_GENERIC_V1":  DedicatedAiClusterUnitShapeSmallGenericV1,
+	"MEDIUM_GENERIC_V1": DedicatedAiClusterUnitShapeMediumGenericV1,
+	"LARGE_GENERIC_V1":  DedicatedAiClusterUnitShapeLargeGenericV1,
 }
 
 var mappingDedicatedAiClusterUnitShapeEnumLowerCase = map[string]DedicatedAiClusterUnitShapeEnum{
@@ -330,6 +336,9 @@ var mappingDedicatedAiClusterUnitShapeEnumLowerCase = map[string]DedicatedAiClus
 	"large_generic_v2":  DedicatedAiClusterUnitShapeLargeGenericV2,
 	"large_cohere_v3":   DedicatedAiClusterUnitShapeLargeCohereV3,
 	"rerank_cohere":     DedicatedAiClusterUnitShapeRerankCohere,
+	"small_generic_v1":  DedicatedAiClusterUnitShapeSmallGenericV1,
+	"medium_generic_v1": DedicatedAiClusterUnitShapeMediumGenericV1,
+	"large_generic_v1":  DedicatedAiClusterUnitShapeLargeGenericV1,
 }
 
 // GetDedicatedAiClusterUnitShapeEnumValues Enumerates the set of values for DedicatedAiClusterUnitShapeEnum
@@ -359,6 +368,9 @@ func GetDedicatedAiClusterUnitShapeEnumStringValues() []string {
 		"LARGE_GENERIC_V2",
 		"LARGE_COHERE_V3",
 		"RERANK_COHERE",
+		"SMALL_GENERIC_V1",
+		"MEDIUM_GENERIC_V1",
+		"LARGE_GENERIC_V1",
 	}
 }
 

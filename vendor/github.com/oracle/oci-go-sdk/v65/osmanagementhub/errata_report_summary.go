@@ -55,13 +55,10 @@ type ErrataReportSummary struct {
 	SystemTags map[string]map[string]interface{} `mandatory:"true" json:"systemTags"`
 
 	// The start issue date to filter by
-	TimeStartIssueDate *common.SDKTime `mandatory:"true" json:"timeStartIssueDate"`
+	TimeIssueDateStarted *common.SDKTime `mandatory:"true" json:"timeIssueDateStarted"`
 
 	// The end issue date to filter by
-	TimeEndIssueDate *common.SDKTime `mandatory:"true" json:"timeEndIssueDate"`
-
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the tenancy that the managed instance resides in.
-	TenancyId *string `mandatory:"false" json:"tenancyId"`
+	TimeIssueDateEnded *common.SDKTime `mandatory:"true" json:"timeIssueDateEnded"`
 
 	// User-specified description for the Osmh Report.
 	Description *string `mandatory:"false" json:"description"`
@@ -99,11 +96,6 @@ func (m ErrataReportSummary) GetDisplayName() *string {
 // GetCompartmentId returns CompartmentId
 func (m ErrataReportSummary) GetCompartmentId() *string {
 	return m.CompartmentId
-}
-
-// GetTenancyId returns TenancyId
-func (m ErrataReportSummary) GetTenancyId() *string {
-	return m.TenancyId
 }
 
 // GetReportVersion returns ReportVersion

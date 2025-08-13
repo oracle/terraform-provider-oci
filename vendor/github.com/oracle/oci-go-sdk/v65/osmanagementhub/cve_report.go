@@ -57,9 +57,6 @@ type CveReport struct {
 	// The list of cve names.
 	Cves []string `mandatory:"true" json:"cves"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the tenancy that the managed instance resides in.
-	TenancyId *string `mandatory:"false" json:"tenancyId"`
-
 	// User-specified description for the Osmh Report.
 	Description *string `mandatory:"false" json:"description"`
 
@@ -68,6 +65,9 @@ type CveReport struct {
 
 	// Indicates if sub-compartments are included in the report.
 	IsSubCompartmentIncluded *bool `mandatory:"false" json:"isSubCompartmentIncluded"`
+
+	// size of the report content in bytes
+	SizeInBytes *int64 `mandatory:"false" json:"sizeInBytes"`
 
 	// A message that describes the current state of the OsmhReporting in more detail. For example,
 	// can be used to provide actionable information for a resource in the Failed state.
@@ -93,11 +93,6 @@ func (m CveReport) GetDisplayName() *string {
 // GetCompartmentId returns CompartmentId
 func (m CveReport) GetCompartmentId() *string {
 	return m.CompartmentId
-}
-
-// GetTenancyId returns TenancyId
-func (m CveReport) GetTenancyId() *string {
-	return m.TenancyId
 }
 
 // GetReportVersion returns ReportVersion
@@ -133,6 +128,11 @@ func (m CveReport) GetIsSubCompartmentIncluded() *bool {
 // GetOsFamilies returns OsFamilies
 func (m CveReport) GetOsFamilies() []OsFamilyEnum {
 	return m.OsFamilies
+}
+
+// GetSizeInBytes returns SizeInBytes
+func (m CveReport) GetSizeInBytes() *int64 {
+	return m.SizeInBytes
 }
 
 // GetLifecycleState returns LifecycleState

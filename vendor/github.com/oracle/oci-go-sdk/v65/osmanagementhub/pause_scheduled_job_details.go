@@ -20,7 +20,7 @@ import (
 type PauseScheduledJobDetails struct {
 
 	// The time this scheduled job is set to be paused (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
-	TimeToPause *common.SDKTime `mandatory:"false" json:"timeToPause"`
+	TimeStartPause *common.SDKTime `mandatory:"false" json:"timeStartPause"`
 }
 
 func (m PauseScheduledJobDetails) String() string {

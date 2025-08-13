@@ -21,6 +21,9 @@ import (
 type UpdateReportVulnerabilitiesDetails struct {
 	VulnerabilityDetails VulnerabilityDetails `mandatory:"true" json:"vulnerabilityDetails"`
 
+	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	DisplayName *string `mandatory:"false" json:"displayName"`
+
 	// Indicates whether the managed instances should use the required Software Source to execute the vulnerability
 	// update (even if it is not attached to it).
 	ShouldUseMissingSoftwareSources *bool `mandatory:"false" json:"shouldUseMissingSoftwareSources"`
@@ -57,6 +60,7 @@ func (m UpdateReportVulnerabilitiesDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *UpdateReportVulnerabilitiesDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		DisplayName                     *string              `json:"displayName"`
 		ShouldUseMissingSoftwareSources *bool                `json:"shouldUseMissingSoftwareSources"`
 		ManagedInstanceIds              []string             `json:"managedInstanceIds"`
 		ManagedInstanceGroupIds         []string             `json:"managedInstanceGroupIds"`
@@ -70,6 +74,8 @@ func (m *UpdateReportVulnerabilitiesDetails) UnmarshalJSON(data []byte) (e error
 		return
 	}
 	var nn interface{}
+	m.DisplayName = model.DisplayName
+
 	m.ShouldUseMissingSoftwareSources = model.ShouldUseMissingSoftwareSources
 
 	m.ManagedInstanceIds = make([]string, len(model.ManagedInstanceIds))

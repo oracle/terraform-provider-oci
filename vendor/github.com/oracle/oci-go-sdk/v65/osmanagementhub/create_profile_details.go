@@ -20,7 +20,7 @@ import (
 // CreateProfileDetails Provides the information used to create a new registration profile.
 type CreateProfileDetails interface {
 
-	// A user-friendly name. Does not have to be unique and you can change the name later. Avoid entering
+	// A user-friendly name. Must be unique and you can change the name later. Avoid entering
 	// confidential information.
 	GetDisplayName() *string
 

@@ -57,9 +57,6 @@ type Report interface {
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	GetSystemTags() map[string]map[string]interface{}
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the tenancy that the managed instance resides in.
-	GetTenancyId() *string
-
 	// User-specified description for the Osmh Report.
 	GetDescription() *string
 
@@ -72,6 +69,9 @@ type Report interface {
 	// List of operating system types.
 	GetOsFamilies() []OsFamilyEnum
 
+	// size of the report content in bytes
+	GetSizeInBytes() *int64
+
 	// A message that describes the current state of the OsmhReporting in more detail. For example,
 	// can be used to provide actionable information for a resource in the Failed state.
 	GetLifecycleDetails() *string
@@ -79,11 +79,11 @@ type Report interface {
 
 type report struct {
 	JsonData                 []byte
-	TenancyId                *string                           `mandatory:"false" json:"tenancyId"`
 	Description              *string                           `mandatory:"false" json:"description"`
 	CompartmentIds           []string                          `mandatory:"false" json:"compartmentIds"`
 	IsSubCompartmentIncluded *bool                             `mandatory:"false" json:"isSubCompartmentIncluded"`
 	OsFamilies               []OsFamilyEnum                    `mandatory:"false" json:"osFamilies,omitempty"`
+	SizeInBytes              *int64                            `mandatory:"false" json:"sizeInBytes"`
 	LifecycleDetails         *string                           `mandatory:"false" json:"lifecycleDetails"`
 	Id                       *string                           `mandatory:"true" json:"id"`
 	DisplayName              *string                           `mandatory:"true" json:"displayName"`
@@ -119,11 +119,11 @@ func (m *report) UnmarshalJSON(data []byte) error {
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.SystemTags = s.Model.SystemTags
-	m.TenancyId = s.Model.TenancyId
 	m.Description = s.Model.Description
 	m.CompartmentIds = s.Model.CompartmentIds
 	m.IsSubCompartmentIncluded = s.Model.IsSubCompartmentIncluded
 	m.OsFamilies = s.Model.OsFamilies
+	m.SizeInBytes = s.Model.SizeInBytes
 	m.LifecycleDetails = s.Model.LifecycleDetails
 	m.ReportType = s.Model.ReportType
 
@@ -153,11 +153,6 @@ func (m *report) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 	}
 }
 
-// GetTenancyId returns TenancyId
-func (m report) GetTenancyId() *string {
-	return m.TenancyId
-}
-
 // GetDescription returns Description
 func (m report) GetDescription() *string {
 	return m.Description
@@ -176,6 +171,11 @@ func (m report) GetIsSubCompartmentIncluded() *bool {
 // GetOsFamilies returns OsFamilies
 func (m report) GetOsFamilies() []OsFamilyEnum {
 	return m.OsFamilies
+}
+
+// GetSizeInBytes returns SizeInBytes
+func (m report) GetSizeInBytes() *int64 {
+	return m.SizeInBytes
 }
 
 // GetLifecycleDetails returns LifecycleDetails

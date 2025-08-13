@@ -18,15 +18,18 @@ type AssetSourceCredentialsTypeEnum string
 
 // Set of constants representing the allowable values for AssetSourceCredentialsTypeEnum
 const (
-	AssetSourceCredentialsTypeBasic AssetSourceCredentialsTypeEnum = "BASIC"
+	AssetSourceCredentialsTypeBasic  AssetSourceCredentialsTypeEnum = "BASIC"
+	AssetSourceCredentialsTypeApiKey AssetSourceCredentialsTypeEnum = "API_KEY"
 )
 
 var mappingAssetSourceCredentialsTypeEnum = map[string]AssetSourceCredentialsTypeEnum{
-	"BASIC": AssetSourceCredentialsTypeBasic,
+	"BASIC":   AssetSourceCredentialsTypeBasic,
+	"API_KEY": AssetSourceCredentialsTypeApiKey,
 }
 
 var mappingAssetSourceCredentialsTypeEnumLowerCase = map[string]AssetSourceCredentialsTypeEnum{
-	"basic": AssetSourceCredentialsTypeBasic,
+	"basic":   AssetSourceCredentialsTypeBasic,
+	"api_key": AssetSourceCredentialsTypeApiKey,
 }
 
 // GetAssetSourceCredentialsTypeEnumValues Enumerates the set of values for AssetSourceCredentialsTypeEnum
@@ -42,6 +45,7 @@ func GetAssetSourceCredentialsTypeEnumValues() []AssetSourceCredentialsTypeEnum 
 func GetAssetSourceCredentialsTypeEnumStringValues() []string {
 	return []string{
 		"BASIC",
+		"API_KEY",
 	}
 }
 

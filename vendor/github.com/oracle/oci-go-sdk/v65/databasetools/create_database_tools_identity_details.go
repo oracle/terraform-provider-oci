@@ -22,7 +22,7 @@ type CreateDatabaseToolsIdentityDetails interface {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the Database Tools identity.
 	GetCompartmentId() *string
 
-	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	// A user-friendly name. Does not have to be unique and can be updated. Avoid entering confidential information.
 	GetDisplayName() *string
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related Database Tools connection.

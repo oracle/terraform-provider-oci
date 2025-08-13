@@ -20,7 +20,7 @@ import (
 // CreateLifecycleProfileDetails Provides the information used to create a lifecycle environment registration profile.
 type CreateLifecycleProfileDetails struct {
 
-	// A user-friendly name. Does not have to be unique and you can change the name later. Avoid entering
+	// A user-friendly name. Must be unique and you can change the name later. Avoid entering
 	// confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 

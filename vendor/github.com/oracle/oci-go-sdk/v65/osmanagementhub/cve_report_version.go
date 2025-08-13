@@ -57,9 +57,6 @@ type CveReportVersion struct {
 	// The list of cve names.
 	Cves []string `mandatory:"true" json:"cves"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the tenancy that the managed instance resides in.
-	TenancyId *string `mandatory:"false" json:"tenancyId"`
-
 	// User-specified description for the Osmh Report.
 	Description *string `mandatory:"false" json:"description"`
 
@@ -69,18 +66,18 @@ type CveReportVersion struct {
 	// Indicates if sub-compartments are included in the report.
 	IsSubCompartmentIncluded *bool `mandatory:"false" json:"isSubCompartmentIncluded"`
 
-	// The content of the report in JSON format
-	ReportContent *string `mandatory:"false" json:"reportContent"`
+	// size of the report version content in bytes
+	SizeInBytes *int64 `mandatory:"false" json:"sizeInBytes"`
 
 	// A message that describes the current state of the OsmhReporting in more detail. For example,
 	// can be used to provide actionable information for a resource in the Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// The current state of the Osmh Report.
+	LifecycleState ReportLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+
 	// List of operating system types.
 	OsFamilies []OsFamilyEnum `mandatory:"false" json:"osFamilies,omitempty"`
-
-	// The current state of the OsmhReporting.
-	LifecycleState ReportVersionLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }
 
 // GetId returns Id
@@ -96,11 +93,6 @@ func (m CveReportVersion) GetDisplayName() *string {
 // GetCompartmentId returns CompartmentId
 func (m CveReportVersion) GetCompartmentId() *string {
 	return m.CompartmentId
-}
-
-// GetTenancyId returns TenancyId
-func (m CveReportVersion) GetTenancyId() *string {
-	return m.TenancyId
 }
 
 // GetReportVersion returns ReportVersion
@@ -138,13 +130,13 @@ func (m CveReportVersion) GetOsFamilies() []OsFamilyEnum {
 	return m.OsFamilies
 }
 
-// GetReportContent returns ReportContent
-func (m CveReportVersion) GetReportContent() *string {
-	return m.ReportContent
+// GetSizeInBytes returns SizeInBytes
+func (m CveReportVersion) GetSizeInBytes() *int64 {
+	return m.SizeInBytes
 }
 
 // GetLifecycleState returns LifecycleState
-func (m CveReportVersion) GetLifecycleState() ReportVersionLifecycleStateEnum {
+func (m CveReportVersion) GetLifecycleState() ReportLifecycleStateEnum {
 	return m.LifecycleState
 }
 
@@ -178,15 +170,15 @@ func (m CveReportVersion) String() string {
 func (m CveReportVersion) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingReportLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetReportLifecycleStateEnumStringValues(), ",")))
+	}
 	for _, val := range m.OsFamilies {
 		if _, ok := GetMappingOsFamilyEnum(string(val)); !ok && val != "" {
 			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsFamilies: %s. Supported values are: %s.", val, strings.Join(GetOsFamilyEnumStringValues(), ",")))
 		}
 	}
 
-	if _, ok := GetMappingReportVersionLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetReportVersionLifecycleStateEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

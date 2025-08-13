@@ -55,13 +55,10 @@ type ErrataReportVersion struct {
 	SystemTags map[string]map[string]interface{} `mandatory:"true" json:"systemTags"`
 
 	// The start issue date to filter by
-	TimeStartIssueDate *common.SDKTime `mandatory:"true" json:"timeStartIssueDate"`
+	TimeIssueDateStarted *common.SDKTime `mandatory:"true" json:"timeIssueDateStarted"`
 
 	// The end issue date to filter by
-	TimeEndIssueDate *common.SDKTime `mandatory:"true" json:"timeEndIssueDate"`
-
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the tenancy that the managed instance resides in.
-	TenancyId *string `mandatory:"false" json:"tenancyId"`
+	TimeIssueDateEnded *common.SDKTime `mandatory:"true" json:"timeIssueDateEnded"`
 
 	// User-specified description for the Osmh Report.
 	Description *string `mandatory:"false" json:"description"`
@@ -72,8 +69,8 @@ type ErrataReportVersion struct {
 	// Indicates if sub-compartments are included in the report.
 	IsSubCompartmentIncluded *bool `mandatory:"false" json:"isSubCompartmentIncluded"`
 
-	// The content of the report in JSON format
-	ReportContent *string `mandatory:"false" json:"reportContent"`
+	// size of the report version content in bytes
+	SizeInBytes *int64 `mandatory:"false" json:"sizeInBytes"`
 
 	// A message that describes the current state of the OsmhReporting in more detail. For example,
 	// can be used to provide actionable information for a resource in the Failed state.
@@ -91,11 +88,11 @@ type ErrataReportVersion struct {
 	// The dynamic set ids.
 	DynamicSetIds []string `mandatory:"false" json:"dynamicSetIds"`
 
+	// The current state of the Osmh Report.
+	LifecycleState ReportLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+
 	// List of operating system types.
 	OsFamilies []OsFamilyEnum `mandatory:"false" json:"osFamilies,omitempty"`
-
-	// The current state of the OsmhReporting.
-	LifecycleState ReportVersionLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// List of operating system vendors.
 	Vendors []VendorNameEnum `mandatory:"false" json:"vendors,omitempty"`
@@ -120,11 +117,6 @@ func (m ErrataReportVersion) GetDisplayName() *string {
 // GetCompartmentId returns CompartmentId
 func (m ErrataReportVersion) GetCompartmentId() *string {
 	return m.CompartmentId
-}
-
-// GetTenancyId returns TenancyId
-func (m ErrataReportVersion) GetTenancyId() *string {
-	return m.TenancyId
 }
 
 // GetReportVersion returns ReportVersion
@@ -162,13 +154,13 @@ func (m ErrataReportVersion) GetOsFamilies() []OsFamilyEnum {
 	return m.OsFamilies
 }
 
-// GetReportContent returns ReportContent
-func (m ErrataReportVersion) GetReportContent() *string {
-	return m.ReportContent
+// GetSizeInBytes returns SizeInBytes
+func (m ErrataReportVersion) GetSizeInBytes() *int64 {
+	return m.SizeInBytes
 }
 
 // GetLifecycleState returns LifecycleState
-func (m ErrataReportVersion) GetLifecycleState() ReportVersionLifecycleStateEnum {
+func (m ErrataReportVersion) GetLifecycleState() ReportLifecycleStateEnum {
 	return m.LifecycleState
 }
 
@@ -202,15 +194,15 @@ func (m ErrataReportVersion) String() string {
 func (m ErrataReportVersion) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingReportLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetReportLifecycleStateEnumStringValues(), ",")))
+	}
 	for _, val := range m.OsFamilies {
 		if _, ok := GetMappingOsFamilyEnum(string(val)); !ok && val != "" {
 			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsFamilies: %s. Supported values are: %s.", val, strings.Join(GetOsFamilyEnumStringValues(), ",")))
 		}
 	}
 
-	if _, ok := GetMappingReportVersionLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetReportVersionLifecycleStateEnumStringValues(), ",")))
-	}
 	for _, val := range m.Vendors {
 		if _, ok := GetMappingVendorNameEnum(string(val)); !ok && val != "" {
 			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Vendors: %s. Supported values are: %s.", val, strings.Join(GetVendorNameEnumStringValues(), ",")))

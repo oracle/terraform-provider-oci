@@ -55,6 +55,10 @@ func (m *targetenvironment) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 
 	var err error
 	switch m.TargetEnvironmentType {
+	case "OLVM_TARGET_ENV":
+		mm := OlvmTargetEnvironment{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "VM_TARGET_ENV":
 		mm := VmTargetEnvironment{}
 		err = json.Unmarshal(data, &mm)
@@ -91,15 +95,18 @@ type TargetEnvironmentTargetEnvironmentTypeEnum string
 
 // Set of constants representing the allowable values for TargetEnvironmentTargetEnvironmentTypeEnum
 const (
-	TargetEnvironmentTargetEnvironmentTypeVmTargetEnv TargetEnvironmentTargetEnvironmentTypeEnum = "VM_TARGET_ENV"
+	TargetEnvironmentTargetEnvironmentTypeVmTargetEnv   TargetEnvironmentTargetEnvironmentTypeEnum = "VM_TARGET_ENV"
+	TargetEnvironmentTargetEnvironmentTypeOlvmTargetEnv TargetEnvironmentTargetEnvironmentTypeEnum = "OLVM_TARGET_ENV"
 )
 
 var mappingTargetEnvironmentTargetEnvironmentTypeEnum = map[string]TargetEnvironmentTargetEnvironmentTypeEnum{
-	"VM_TARGET_ENV": TargetEnvironmentTargetEnvironmentTypeVmTargetEnv,
+	"VM_TARGET_ENV":   TargetEnvironmentTargetEnvironmentTypeVmTargetEnv,
+	"OLVM_TARGET_ENV": TargetEnvironmentTargetEnvironmentTypeOlvmTargetEnv,
 }
 
 var mappingTargetEnvironmentTargetEnvironmentTypeEnumLowerCase = map[string]TargetEnvironmentTargetEnvironmentTypeEnum{
-	"vm_target_env": TargetEnvironmentTargetEnvironmentTypeVmTargetEnv,
+	"vm_target_env":   TargetEnvironmentTargetEnvironmentTypeVmTargetEnv,
+	"olvm_target_env": TargetEnvironmentTargetEnvironmentTypeOlvmTargetEnv,
 }
 
 // GetTargetEnvironmentTargetEnvironmentTypeEnumValues Enumerates the set of values for TargetEnvironmentTargetEnvironmentTypeEnum
@@ -115,6 +122,7 @@ func GetTargetEnvironmentTargetEnvironmentTypeEnumValues() []TargetEnvironmentTa
 func GetTargetEnvironmentTargetEnvironmentTypeEnumStringValues() []string {
 	return []string{
 		"VM_TARGET_ENV",
+		"OLVM_TARGET_ENV",
 	}
 }
 

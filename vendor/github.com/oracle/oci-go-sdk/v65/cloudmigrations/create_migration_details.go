@@ -24,6 +24,9 @@ type CreateMigrationDetails struct {
 	// Compartment identifier
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
+	// Type of migration project (OCI/OLVM). This determines the target environment for the migration.
+	MigrationType MigrationMigrationTypeEnum `mandatory:"false" json:"migrationType,omitempty"`
+
 	// Replication schedule identifier
 	ReplicationScheduleId *string `mandatory:"false" json:"replicationScheduleId"`
 
@@ -49,6 +52,9 @@ func (m CreateMigrationDetails) String() string {
 func (m CreateMigrationDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingMigrationMigrationTypeEnum(string(m.MigrationType)); !ok && m.MigrationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MigrationType: %s. Supported values are: %s.", m.MigrationType, strings.Join(GetMigrationMigrationTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

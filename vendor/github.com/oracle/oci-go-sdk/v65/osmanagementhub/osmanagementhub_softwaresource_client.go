@@ -157,65 +157,6 @@ func (client SoftwareSourceClient) addPackagesToSoftwareSource(ctx context.Conte
 	return response, err
 }
 
-// AvailableSoftwareSourcesToAddInCompartment Retrieves a list of software sources that are available for specified compartment. This API returns repos that are not already selected in the specified compartment.
-// A default retry strategy applies to this operation AvailableSoftwareSourcesToAddInCompartment()
-func (client SoftwareSourceClient) AvailableSoftwareSourcesToAddInCompartment(ctx context.Context, request AvailableSoftwareSourcesToAddInCompartmentRequest) (response AvailableSoftwareSourcesToAddInCompartmentResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.availableSoftwareSourcesToAddInCompartment, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = AvailableSoftwareSourcesToAddInCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = AvailableSoftwareSourcesToAddInCompartmentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(AvailableSoftwareSourcesToAddInCompartmentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into AvailableSoftwareSourcesToAddInCompartmentResponse")
-	}
-	return
-}
-
-// availableSoftwareSourcesToAddInCompartment implements the OCIOperation interface (enables retrying operations)
-func (client SoftwareSourceClient) availableSoftwareSourcesToAddInCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/softwareSources/actions/availableSoftwareSources", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response AvailableSoftwareSourcesToAddInCompartmentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/AvailableSoftwareSourcesToAddInCompartment"
-		err = common.PostProcessServiceError(err, "SoftwareSource", "AvailableSoftwareSourcesToAddInCompartment", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ChangeAvailabilityOfSoftwareSources Updates the availability for a list of specified software sources.
 // A default retry strategy applies to this operation ChangeAvailabilityOfSoftwareSources()
 func (client SoftwareSourceClient) ChangeAvailabilityOfSoftwareSources(ctx context.Context, request ChangeAvailabilityOfSoftwareSourcesRequest) (response ChangeAvailabilityOfSoftwareSourcesResponse, err error) {
@@ -1212,6 +1153,65 @@ func (client SoftwareSourceClient) listAvailableSoftwarePackages(ctx context.Con
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/ListAvailableSoftwarePackages"
 		err = common.PostProcessServiceError(err, "SoftwareSource", "ListAvailableSoftwarePackages", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAvailableSoftwareSourcesToAdd Retrieves a list of software source repos that are available to add to a specified compartment. This API returns repos that are not already selected in the specified compartment.
+// A default retry strategy applies to this operation ListAvailableSoftwareSourcesToAdd()
+func (client SoftwareSourceClient) ListAvailableSoftwareSourcesToAdd(ctx context.Context, request ListAvailableSoftwareSourcesToAddRequest) (response ListAvailableSoftwareSourcesToAddResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.listAvailableSoftwareSourcesToAdd, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAvailableSoftwareSourcesToAddResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAvailableSoftwareSourcesToAddResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAvailableSoftwareSourcesToAddResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAvailableSoftwareSourcesToAddResponse")
+	}
+	return
+}
+
+// listAvailableSoftwareSourcesToAdd implements the OCIOperation interface (enables retrying operations)
+func (client SoftwareSourceClient) listAvailableSoftwareSourcesToAdd(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/softwareSources/actions/availableSoftwareSources", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAvailableSoftwareSourcesToAddResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/ListAvailableSoftwareSourcesToAdd"
+		err = common.PostProcessServiceError(err, "SoftwareSource", "ListAvailableSoftwareSourcesToAdd", apiReferenceLink)
 		return response, err
 	}
 

@@ -25,7 +25,7 @@ type InstallSnapDetails struct {
 	// The snap channel to install from (e.g. stable, 1.2/edge, beta, candidate, or a custom channel).
 	Channel *string `mandatory:"false" json:"channel"`
 
-	// If true, allows installing snaps not signed by the Snap Store. E.g., snaps from local file. Use with caution.
+	// If false, allows installing snaps not signed by the Snap Store. E.g., snaps from local file. Use with caution.
 	IsSigned *bool `mandatory:"false" json:"isSigned"`
 
 	// The confinement mode for the snap.

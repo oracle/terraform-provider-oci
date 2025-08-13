@@ -412,6 +412,122 @@ func (client EmailClient) addSenderLock(ctx context.Context, request common.OCIR
 	return response, err
 }
 
+// ChangeEmailDeliveryConfigCompartment Moves a resource into a different compartment. When provided, 'If-Match' is checked against 'ETag' values of the resource.
+func (client EmailClient) ChangeEmailDeliveryConfigCompartment(ctx context.Context, request ChangeEmailDeliveryConfigCompartmentRequest) (response ChangeEmailDeliveryConfigCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeEmailDeliveryConfigCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeEmailDeliveryConfigCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeEmailDeliveryConfigCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeEmailDeliveryConfigCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeEmailDeliveryConfigCompartmentResponse")
+	}
+	return
+}
+
+// changeEmailDeliveryConfigCompartment implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) changeEmailDeliveryConfigCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/emailDeliveryConfigs/{emailDeliveryConfigId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeEmailDeliveryConfigCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailDeliveryConfig/ChangeEmailDeliveryConfigCompartment"
+		err = common.PostProcessServiceError(err, "Email", "ChangeEmailDeliveryConfigCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeEmailDeliveryConfigIpAssociationCompartment Moves a resource into a different compartment. When provided, 'If-Match' is checked against 'ETag' values of the resource.
+func (client EmailClient) ChangeEmailDeliveryConfigIpAssociationCompartment(ctx context.Context, request ChangeEmailDeliveryConfigIpAssociationCompartmentRequest) (response ChangeEmailDeliveryConfigIpAssociationCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeEmailDeliveryConfigIpAssociationCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeEmailDeliveryConfigIpAssociationCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeEmailDeliveryConfigIpAssociationCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeEmailDeliveryConfigIpAssociationCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeEmailDeliveryConfigIpAssociationCompartmentResponse")
+	}
+	return
+}
+
+// changeEmailDeliveryConfigIpAssociationCompartment implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) changeEmailDeliveryConfigIpAssociationCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/emailDeliveryConfigIpAssociations/{emailDeliveryConfigIpAssociationId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeEmailDeliveryConfigIpAssociationCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailDeliveryConfigIpAssociation/ChangeEmailDeliveryConfigIpAssociationCompartment"
+		err = common.PostProcessServiceError(err, "Email", "ChangeEmailDeliveryConfigIpAssociationCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeEmailDomainCompartment Moves an email domain into a different compartment.
 // When provided, If-Match is checked against ETag value of the resource.
 // For information about moving resources between compartments, see
@@ -583,6 +699,64 @@ func (client EmailClient) changeEmailPrivateEndpointCompartment(ctx context.Cont
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailPrivateEndpoint/ChangeEmailPrivateEndpointCompartment"
 		err = common.PostProcessServiceError(err, "Email", "ChangeEmailPrivateEndpointCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeEmailRecipientDomainCompartment Moves a resource into a different compartment. When provided, 'If-Match' is checked against 'ETag' values of the resource.
+func (client EmailClient) ChangeEmailRecipientDomainCompartment(ctx context.Context, request ChangeEmailRecipientDomainCompartmentRequest) (response ChangeEmailRecipientDomainCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeEmailRecipientDomainCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeEmailRecipientDomainCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeEmailRecipientDomainCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeEmailRecipientDomainCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeEmailRecipientDomainCompartmentResponse")
+	}
+	return
+}
+
+// changeEmailRecipientDomainCompartment implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) changeEmailRecipientDomainCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/emailRecipientDomains/{emailRecipientDomainId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeEmailRecipientDomainCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailRecipientDomain/ChangeEmailRecipientDomainCompartment"
+		err = common.PostProcessServiceError(err, "Email", "ChangeEmailRecipientDomainCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -763,6 +937,122 @@ func (client EmailClient) createDkim(ctx context.Context, request common.OCIRequ
 	return response, err
 }
 
+// CreateEmailDeliveryConfig Creates a delivery config.
+func (client EmailClient) CreateEmailDeliveryConfig(ctx context.Context, request CreateEmailDeliveryConfigRequest) (response CreateEmailDeliveryConfigResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createEmailDeliveryConfig, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateEmailDeliveryConfigResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateEmailDeliveryConfigResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateEmailDeliveryConfigResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateEmailDeliveryConfigResponse")
+	}
+	return
+}
+
+// createEmailDeliveryConfig implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) createEmailDeliveryConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/emailDeliveryConfigs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateEmailDeliveryConfigResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Email", "CreateEmailDeliveryConfig", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateEmailDeliveryConfigIpAssociation Creates an email delivery configuration ip association.
+func (client EmailClient) CreateEmailDeliveryConfigIpAssociation(ctx context.Context, request CreateEmailDeliveryConfigIpAssociationRequest) (response CreateEmailDeliveryConfigIpAssociationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createEmailDeliveryConfigIpAssociation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateEmailDeliveryConfigIpAssociationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateEmailDeliveryConfigIpAssociationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateEmailDeliveryConfigIpAssociationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateEmailDeliveryConfigIpAssociationResponse")
+	}
+	return
+}
+
+// createEmailDeliveryConfigIpAssociation implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) createEmailDeliveryConfigIpAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/emailDeliveryConfigIpAssociations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateEmailDeliveryConfigIpAssociationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Email", "CreateEmailDeliveryConfigIpAssociation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateEmailDomain Creates a new email domain. Avoid entering confidential information.
 func (client EmailClient) CreateEmailDomain(ctx context.Context, request CreateEmailDomainRequest) (response CreateEmailDomainResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -930,6 +1220,64 @@ func (client EmailClient) createEmailPrivateEndpoint(ctx context.Context, reques
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailPrivateEndpoint/CreateEmailPrivateEndpoint"
 		err = common.PostProcessServiceError(err, "Email", "CreateEmailPrivateEndpoint", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateEmailRecipientDomain Creates a recipient domain for a tenancy.
+func (client EmailClient) CreateEmailRecipientDomain(ctx context.Context, request CreateEmailRecipientDomainRequest) (response CreateEmailRecipientDomainResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createEmailRecipientDomain, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateEmailRecipientDomainResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateEmailRecipientDomainResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateEmailRecipientDomainResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateEmailRecipientDomainResponse")
+	}
+	return
+}
+
+// createEmailRecipientDomain implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) createEmailRecipientDomain(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/emailRecipientDomains", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateEmailRecipientDomainResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Email", "CreateEmailRecipientDomain", apiReferenceLink)
 		return response, err
 	}
 
@@ -1230,6 +1578,112 @@ func (client EmailClient) deleteDkim(ctx context.Context, request common.OCIRequ
 	return response, err
 }
 
+// DeleteEmailDeliveryConfig Removes a delivery configuration for a tenancy in a given compartment for a provided `emailDeliveryConfigId`.
+func (client EmailClient) DeleteEmailDeliveryConfig(ctx context.Context, request DeleteEmailDeliveryConfigRequest) (response DeleteEmailDeliveryConfigResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteEmailDeliveryConfig, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteEmailDeliveryConfigResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteEmailDeliveryConfigResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteEmailDeliveryConfigResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteEmailDeliveryConfigResponse")
+	}
+	return
+}
+
+// deleteEmailDeliveryConfig implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) deleteEmailDeliveryConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/emailDeliveryConfigs/{emailDeliveryConfigId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteEmailDeliveryConfigResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailDeliveryConfig/DeleteEmailDeliveryConfig"
+		err = common.PostProcessServiceError(err, "Email", "DeleteEmailDeliveryConfig", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteEmailDeliveryConfigIpAssociation Removes a delivery configuration ip association for a tenancy in a given compartment for a provided `emailDeliveryConfigIpAssociationId`.
+func (client EmailClient) DeleteEmailDeliveryConfigIpAssociation(ctx context.Context, request DeleteEmailDeliveryConfigIpAssociationRequest) (response DeleteEmailDeliveryConfigIpAssociationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteEmailDeliveryConfigIpAssociation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteEmailDeliveryConfigIpAssociationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteEmailDeliveryConfigIpAssociationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteEmailDeliveryConfigIpAssociationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteEmailDeliveryConfigIpAssociationResponse")
+	}
+	return
+}
+
+// deleteEmailDeliveryConfigIpAssociation implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) deleteEmailDeliveryConfigIpAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/emailDeliveryConfigIpAssociations/{emailDeliveryConfigIpAssociationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteEmailDeliveryConfigIpAssociationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailDeliveryConfigIpAssociation/DeleteEmailDeliveryConfigIpAssociation"
+		err = common.PostProcessServiceError(err, "Email", "DeleteEmailDeliveryConfigIpAssociation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteEmailDomain Deletes an email domain.
 func (client EmailClient) DeleteEmailDomain(ctx context.Context, request DeleteEmailDomainRequest) (response DeleteEmailDomainResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1382,6 +1836,59 @@ func (client EmailClient) deleteEmailPrivateEndpoint(ctx context.Context, reques
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailPrivateEndpoint/DeleteEmailPrivateEndpoint"
 		err = common.PostProcessServiceError(err, "Email", "DeleteEmailPrivateEndpoint", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteEmailRecipientDomain Removes a recipient domain for a tenancy in a given compartment for a provided `emailRecipientDomainId`.
+func (client EmailClient) DeleteEmailRecipientDomain(ctx context.Context, request DeleteEmailRecipientDomainRequest) (response DeleteEmailRecipientDomainResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteEmailRecipientDomain, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteEmailRecipientDomainResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteEmailRecipientDomainResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteEmailRecipientDomainResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteEmailRecipientDomainResponse")
+	}
+	return
+}
+
+// deleteEmailRecipientDomain implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) deleteEmailRecipientDomain(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/emailRecipientDomains/{emailRecipientDomainId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteEmailRecipientDomainResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailRecipientDomain/DeleteEmailRecipientDomain"
+		err = common.PostProcessServiceError(err, "Email", "DeleteEmailRecipientDomain", apiReferenceLink)
 		return response, err
 	}
 
@@ -1709,6 +2216,114 @@ func (client EmailClient) getEmailConfiguration(ctx context.Context, request com
 	return response, err
 }
 
+// GetEmailDeliveryConfig Gets the details of a delivery configuration for a given
+// `emailDeliveryConfigId`. Each delivery configuration is given a unique OCID.
+func (client EmailClient) GetEmailDeliveryConfig(ctx context.Context, request GetEmailDeliveryConfigRequest) (response GetEmailDeliveryConfigResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getEmailDeliveryConfig, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetEmailDeliveryConfigResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetEmailDeliveryConfigResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetEmailDeliveryConfigResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetEmailDeliveryConfigResponse")
+	}
+	return
+}
+
+// getEmailDeliveryConfig implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) getEmailDeliveryConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/emailDeliveryConfigs/{emailDeliveryConfigId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetEmailDeliveryConfigResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailDeliveryConfig/GetEmailDeliveryConfig"
+		err = common.PostProcessServiceError(err, "Email", "GetEmailDeliveryConfig", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetEmailDeliveryConfigIpAssociation Gets the details of a delivery configuration ip association resource for a given
+// `emailDeliveryConfigIpAssociationId`.
+func (client EmailClient) GetEmailDeliveryConfigIpAssociation(ctx context.Context, request GetEmailDeliveryConfigIpAssociationRequest) (response GetEmailDeliveryConfigIpAssociationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getEmailDeliveryConfigIpAssociation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetEmailDeliveryConfigIpAssociationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetEmailDeliveryConfigIpAssociationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetEmailDeliveryConfigIpAssociationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetEmailDeliveryConfigIpAssociationResponse")
+	}
+	return
+}
+
+// getEmailDeliveryConfigIpAssociation implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) getEmailDeliveryConfigIpAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/emailDeliveryConfigIpAssociations/{emailDeliveryConfigIpAssociationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetEmailDeliveryConfigIpAssociationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailDeliveryConfigIpAssociation/GetEmailDeliveryConfigIpAssociation"
+		err = common.PostProcessServiceError(err, "Email", "GetEmailDeliveryConfigIpAssociation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetEmailDomain Retrieves the specified email domain.
 func (client EmailClient) GetEmailDomain(ctx context.Context, request GetEmailDomainRequest) (response GetEmailDomainResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1861,6 +2476,60 @@ func (client EmailClient) getEmailPrivateEndpoint(ctx context.Context, request c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailPrivateEndpoint/GetEmailPrivateEndpoint"
 		err = common.PostProcessServiceError(err, "Email", "GetEmailPrivateEndpoint", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetEmailRecipientDomain Gets the details of a recipient domain for a given
+// `emailRecipientDomainId`. Each recipient domain is given a unique OCID.
+func (client EmailClient) GetEmailRecipientDomain(ctx context.Context, request GetEmailRecipientDomainRequest) (response GetEmailRecipientDomainResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getEmailRecipientDomain, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetEmailRecipientDomainResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetEmailRecipientDomainResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetEmailRecipientDomainResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetEmailRecipientDomainResponse")
+	}
+	return
+}
+
+// getEmailRecipientDomain implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) getEmailRecipientDomain(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/emailRecipientDomains/{emailRecipientDomainId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetEmailRecipientDomainResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailRecipientDomain/GetEmailRecipientDomain"
+		err = common.PostProcessServiceError(err, "Email", "GetEmailRecipientDomain", apiReferenceLink)
 		return response, err
 	}
 
@@ -2187,6 +2856,114 @@ func (client EmailClient) listDkims(ctx context.Context, request common.OCIReque
 	return response, err
 }
 
+// ListEmailDeliveryConfigIpAssociations Gets a list of email delivery configurations ip associations. The returned list
+// is sorted by creation time in descending order.
+func (client EmailClient) ListEmailDeliveryConfigIpAssociations(ctx context.Context, request ListEmailDeliveryConfigIpAssociationsRequest) (response ListEmailDeliveryConfigIpAssociationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listEmailDeliveryConfigIpAssociations, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListEmailDeliveryConfigIpAssociationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListEmailDeliveryConfigIpAssociationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListEmailDeliveryConfigIpAssociationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListEmailDeliveryConfigIpAssociationsResponse")
+	}
+	return
+}
+
+// listEmailDeliveryConfigIpAssociations implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) listEmailDeliveryConfigIpAssociations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/emailDeliveryConfigIpAssociations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListEmailDeliveryConfigIpAssociationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailDeliveryConfigIpAssociation/ListEmailDeliveryConfigIpAssociations"
+		err = common.PostProcessServiceError(err, "Email", "ListEmailDeliveryConfigIpAssociations", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListEmailDeliveryConfigs Gets a list of delivery configurations. The returned list
+// is sorted by creation time in descending order.
+func (client EmailClient) ListEmailDeliveryConfigs(ctx context.Context, request ListEmailDeliveryConfigsRequest) (response ListEmailDeliveryConfigsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listEmailDeliveryConfigs, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListEmailDeliveryConfigsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListEmailDeliveryConfigsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListEmailDeliveryConfigsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListEmailDeliveryConfigsResponse")
+	}
+	return
+}
+
+// listEmailDeliveryConfigs implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) listEmailDeliveryConfigs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/emailDeliveryConfigs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListEmailDeliveryConfigsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailDeliveryConfig/ListEmailDeliveryConfigs"
+		err = common.PostProcessServiceError(err, "Email", "ListEmailDeliveryConfigs", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListEmailDomains Lists email domains in the specified compartment.
 func (client EmailClient) ListEmailDomains(ctx context.Context, request ListEmailDomainsRequest) (response ListEmailDomainsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2392,6 +3169,61 @@ func (client EmailClient) listEmailPrivateEndpoints(ctx context.Context, request
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailPrivateEndpoint/ListEmailPrivateEndpoints"
 		err = common.PostProcessServiceError(err, "Email", "ListEmailPrivateEndpoints", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListEmailRecipientDomains Gets a list of email domains. The
+// `compartmentId` for email domains must be a tenancy OCID. The returned list
+// is sorted by creation time in descending order.
+func (client EmailClient) ListEmailRecipientDomains(ctx context.Context, request ListEmailRecipientDomainsRequest) (response ListEmailRecipientDomainsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listEmailRecipientDomains, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListEmailRecipientDomainsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListEmailRecipientDomainsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListEmailRecipientDomainsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListEmailRecipientDomainsResponse")
+	}
+	return
+}
+
+// listEmailRecipientDomains implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) listEmailRecipientDomains(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/emailRecipientDomains", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListEmailRecipientDomainsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailRecipientDomain/ListEmailRecipientDomains"
+		err = common.PostProcessServiceError(err, "Email", "ListEmailRecipientDomains", apiReferenceLink)
 		return response, err
 	}
 
@@ -2772,6 +3604,59 @@ func (client EmailClient) listWorkRequests(ctx context.Context, request common.O
 	return response, err
 }
 
+// PatchEmailDeliveryConfig Patches delivery config identified by id.
+func (client EmailClient) PatchEmailDeliveryConfig(ctx context.Context, request PatchEmailDeliveryConfigRequest) (response PatchEmailDeliveryConfigResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.patchEmailDeliveryConfig, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PatchEmailDeliveryConfigResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PatchEmailDeliveryConfigResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PatchEmailDeliveryConfigResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PatchEmailDeliveryConfigResponse")
+	}
+	return
+}
+
+// patchEmailDeliveryConfig implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) patchEmailDeliveryConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPatch, "/emailDeliveryConfigs/{emailDeliveryConfigId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PatchEmailDeliveryConfigResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailDeliveryConfig/PatchEmailDeliveryConfig"
+		err = common.PostProcessServiceError(err, "Email", "PatchEmailDeliveryConfig", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RemoveEmailDomainLock Remove a lock to a resource.
 func (client EmailClient) RemoveEmailDomainLock(ctx context.Context, request RemoveEmailDomainLockRequest) (response RemoveEmailDomainLockResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3090,6 +3975,59 @@ func (client EmailClient) removeSenderLock(ctx context.Context, request common.O
 	return response, err
 }
 
+// UpdateConfiguration Updates  email configuration associated with the specified compartment. The only valid value for compartmentId query parameter is a tenancy OCID.
+func (client EmailClient) UpdateConfiguration(ctx context.Context, request UpdateConfigurationRequest) (response UpdateConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateConfigurationResponse")
+	}
+	return
+}
+
+// updateConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) updateConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/configuration", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/Configuration/UpdateConfiguration"
+		err = common.PostProcessServiceError(err, "Email", "UpdateConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateDkim Modifies a DKIM.
 func (client EmailClient) UpdateDkim(ctx context.Context, request UpdateDkimRequest) (response UpdateDkimResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3136,6 +4074,112 @@ func (client EmailClient) updateDkim(ctx context.Context, request common.OCIRequ
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/Dkim/UpdateDkim"
 		err = common.PostProcessServiceError(err, "Email", "UpdateDkim", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateEmailDeliveryConfig Update delivery config identified by id.
+func (client EmailClient) UpdateEmailDeliveryConfig(ctx context.Context, request UpdateEmailDeliveryConfigRequest) (response UpdateEmailDeliveryConfigResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateEmailDeliveryConfig, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateEmailDeliveryConfigResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateEmailDeliveryConfigResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateEmailDeliveryConfigResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateEmailDeliveryConfigResponse")
+	}
+	return
+}
+
+// updateEmailDeliveryConfig implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) updateEmailDeliveryConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/emailDeliveryConfigs/{emailDeliveryConfigId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateEmailDeliveryConfigResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailDeliveryConfig/UpdateEmailDeliveryConfig"
+		err = common.PostProcessServiceError(err, "Email", "UpdateEmailDeliveryConfig", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateEmailDeliveryConfigIpAssociation Update delivery config ip association identified by emailDeliveryConfigIpAssociationId.
+func (client EmailClient) UpdateEmailDeliveryConfigIpAssociation(ctx context.Context, request UpdateEmailDeliveryConfigIpAssociationRequest) (response UpdateEmailDeliveryConfigIpAssociationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateEmailDeliveryConfigIpAssociation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateEmailDeliveryConfigIpAssociationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateEmailDeliveryConfigIpAssociationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateEmailDeliveryConfigIpAssociationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateEmailDeliveryConfigIpAssociationResponse")
+	}
+	return
+}
+
+// updateEmailDeliveryConfigIpAssociation implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) updateEmailDeliveryConfigIpAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/emailDeliveryConfigIpAssociations/{emailDeliveryConfigIpAssociationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateEmailDeliveryConfigIpAssociationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailDeliveryConfig/UpdateEmailDeliveryConfigIpAssociation"
+		err = common.PostProcessServiceError(err, "Email", "UpdateEmailDeliveryConfigIpAssociation", apiReferenceLink)
 		return response, err
 	}
 
@@ -3295,6 +4339,59 @@ func (client EmailClient) updateEmailPrivateEndpoint(ctx context.Context, reques
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailPrivateEndpoint/UpdateEmailPrivateEndpoint"
 		err = common.PostProcessServiceError(err, "Email", "UpdateEmailPrivateEndpoint", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateEmailRecipientDomain Update recipient domain identified by id.
+func (client EmailClient) UpdateEmailRecipientDomain(ctx context.Context, request UpdateEmailRecipientDomainRequest) (response UpdateEmailRecipientDomainResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateEmailRecipientDomain, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateEmailRecipientDomainResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateEmailRecipientDomainResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateEmailRecipientDomainResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateEmailRecipientDomainResponse")
+	}
+	return
+}
+
+// updateEmailRecipientDomain implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) updateEmailRecipientDomain(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/emailRecipientDomains/{emailRecipientDomainId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateEmailRecipientDomainResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailRecipientDomain/UpdateEmailRecipientDomain"
+		err = common.PostProcessServiceError(err, "Email", "UpdateEmailRecipientDomain", apiReferenceLink)
 		return response, err
 	}
 

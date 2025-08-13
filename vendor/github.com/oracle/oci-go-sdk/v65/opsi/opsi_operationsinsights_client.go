@@ -1032,6 +1032,65 @@ func (client OperationsInsightsClient) changeOpsiConfigurationCompartment(ctx co
 	return response, err
 }
 
+// ChangeOpsiDataStoreEncryptionKey Changes Encryption Key of a datastore in Ops Insights. Customer's can choose option to use their own Encryption Keys
+// A default retry strategy applies to this operation ChangeOpsiDataStoreEncryptionKey()
+func (client OperationsInsightsClient) ChangeOpsiDataStoreEncryptionKey(ctx context.Context, request ChangeOpsiDataStoreEncryptionKeyRequest) (response ChangeOpsiDataStoreEncryptionKeyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeOpsiDataStoreEncryptionKey, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeOpsiDataStoreEncryptionKeyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeOpsiDataStoreEncryptionKeyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeOpsiDataStoreEncryptionKeyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeOpsiDataStoreEncryptionKeyResponse")
+	}
+	return
+}
+
+// changeOpsiDataStoreEncryptionKey implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) changeOpsiDataStoreEncryptionKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/opsiDataStores/actions/changeEncryptionKey", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeOpsiDataStoreEncryptionKeyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OpsiDataStores/ChangeOpsiDataStoreEncryptionKey"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ChangeOpsiDataStoreEncryptionKey", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangePeComanagedDatabaseInsight Change the connection details of a co-managed  database insight. When provided, If-Match is checked against ETag values of the resource.
 // A default retry strategy applies to this operation ChangePeComanagedDatabaseInsight()
 func (client OperationsInsightsClient) ChangePeComanagedDatabaseInsight(ctx context.Context, request ChangePeComanagedDatabaseInsightRequest) (response ChangePeComanagedDatabaseInsightResponse, err error) {
@@ -7150,6 +7209,60 @@ func (client OperationsInsightsClient) listOpsiDataObjects(ctx context.Context, 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OpsiDataObjects/ListOpsiDataObjects"
 		err = common.PostProcessServiceError(err, "OperationsInsights", "ListOpsiDataObjects", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListOpsiDataStoreEncryptionKeys Returns a list of historical encryption keys used for the Ops Insights datastore. Each entry includes details such as the key provider and activation timestamp. This resource has one or more subtypes based on the value of the provider attribute.
+// A default retry strategy applies to this operation ListOpsiDataStoreEncryptionKeys()
+func (client OperationsInsightsClient) ListOpsiDataStoreEncryptionKeys(ctx context.Context, request ListOpsiDataStoreEncryptionKeysRequest) (response ListOpsiDataStoreEncryptionKeysResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listOpsiDataStoreEncryptionKeys, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListOpsiDataStoreEncryptionKeysResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListOpsiDataStoreEncryptionKeysResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListOpsiDataStoreEncryptionKeysResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListOpsiDataStoreEncryptionKeysResponse")
+	}
+	return
+}
+
+// listOpsiDataStoreEncryptionKeys implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) listOpsiDataStoreEncryptionKeys(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/opsiDataStores/encryptionKeys", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListOpsiDataStoreEncryptionKeysResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OpsiDataStores/ListOpsiDataStoreEncryptionKeys"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListOpsiDataStoreEncryptionKeys", apiReferenceLink)
 		return response, err
 	}
 

@@ -19,7 +19,7 @@ import (
 // UpdateDatabaseToolsIdentityOracleDatabaseResourcePrincipalDetails Database Tools identity information to be updated for the Oracle Database resource principal identity type.
 type UpdateDatabaseToolsIdentityOracleDatabaseResourcePrincipalDetails struct {
 
-	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	// A user-friendly name. Does not have to be unique and can be updated. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.

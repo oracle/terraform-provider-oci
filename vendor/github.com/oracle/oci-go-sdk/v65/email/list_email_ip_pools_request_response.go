@@ -42,7 +42,7 @@ type ListEmailIpPoolsRequest struct {
 	// The sort order to use, either ascending or descending order.
 	SortOrder ListEmailIpPoolsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// Specifies the attribute with which to sort the return paths.
+	// Specifies the attribute with which to sort the Email IpPools.
 	// Default: `TIMECREATED`
 	// * **TIMECREATED:** Sorts by timeCreated.
 	SortBy ListEmailIpPoolsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`

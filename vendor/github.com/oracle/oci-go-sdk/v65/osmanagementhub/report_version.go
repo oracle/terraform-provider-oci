@@ -40,8 +40,8 @@ type ReportVersion interface {
 	// Example: `2016-08-25T21:10:29.600Z`
 	GetTimeUpdated() *common.SDKTime
 
-	// The current state of the OsmhReporting.
-	GetLifecycleState() ReportVersionLifecycleStateEnum
+	// The current state of the Osmh Report.
+	GetLifecycleState() ReportLifecycleStateEnum
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -57,9 +57,6 @@ type ReportVersion interface {
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	GetSystemTags() map[string]map[string]interface{}
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the tenancy that the managed instance resides in.
-	GetTenancyId() *string
-
 	// User-specified description for the Osmh Report.
 	GetDescription() *string
 
@@ -72,8 +69,8 @@ type ReportVersion interface {
 	// List of operating system types.
 	GetOsFamilies() []OsFamilyEnum
 
-	// The content of the report in JSON format
-	GetReportContent() *string
+	// size of the report version content in bytes
+	GetSizeInBytes() *int64
 
 	// A message that describes the current state of the OsmhReporting in more detail. For example,
 	// can be used to provide actionable information for a resource in the Failed state.
@@ -82,12 +79,11 @@ type ReportVersion interface {
 
 type reportversion struct {
 	JsonData                 []byte
-	TenancyId                *string                           `mandatory:"false" json:"tenancyId"`
 	Description              *string                           `mandatory:"false" json:"description"`
 	CompartmentIds           []string                          `mandatory:"false" json:"compartmentIds"`
 	IsSubCompartmentIncluded *bool                             `mandatory:"false" json:"isSubCompartmentIncluded"`
 	OsFamilies               []OsFamilyEnum                    `mandatory:"false" json:"osFamilies,omitempty"`
-	ReportContent            *string                           `mandatory:"false" json:"reportContent"`
+	SizeInBytes              *int64                            `mandatory:"false" json:"sizeInBytes"`
 	LifecycleDetails         *string                           `mandatory:"false" json:"lifecycleDetails"`
 	Id                       *string                           `mandatory:"true" json:"id"`
 	DisplayName              *string                           `mandatory:"true" json:"displayName"`
@@ -95,7 +91,7 @@ type reportversion struct {
 	ReportVersion            *string                           `mandatory:"true" json:"reportVersion"`
 	TimeCreated              *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
 	TimeUpdated              *common.SDKTime                   `mandatory:"true" json:"timeUpdated"`
-	LifecycleState           ReportVersionLifecycleStateEnum   `mandatory:"true" json:"lifecycleState"`
+	LifecycleState           ReportLifecycleStateEnum          `mandatory:"true" json:"lifecycleState"`
 	FreeformTags             map[string]string                 `mandatory:"true" json:"freeformTags"`
 	DefinedTags              map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
 	SystemTags               map[string]map[string]interface{} `mandatory:"true" json:"systemTags"`
@@ -123,12 +119,11 @@ func (m *reportversion) UnmarshalJSON(data []byte) error {
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.SystemTags = s.Model.SystemTags
-	m.TenancyId = s.Model.TenancyId
 	m.Description = s.Model.Description
 	m.CompartmentIds = s.Model.CompartmentIds
 	m.IsSubCompartmentIncluded = s.Model.IsSubCompartmentIncluded
 	m.OsFamilies = s.Model.OsFamilies
-	m.ReportContent = s.Model.ReportContent
+	m.SizeInBytes = s.Model.SizeInBytes
 	m.LifecycleDetails = s.Model.LifecycleDetails
 	m.ReportType = s.Model.ReportType
 
@@ -158,11 +153,6 @@ func (m *reportversion) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 	}
 }
 
-// GetTenancyId returns TenancyId
-func (m reportversion) GetTenancyId() *string {
-	return m.TenancyId
-}
-
 // GetDescription returns Description
 func (m reportversion) GetDescription() *string {
 	return m.Description
@@ -183,9 +173,9 @@ func (m reportversion) GetOsFamilies() []OsFamilyEnum {
 	return m.OsFamilies
 }
 
-// GetReportContent returns ReportContent
-func (m reportversion) GetReportContent() *string {
-	return m.ReportContent
+// GetSizeInBytes returns SizeInBytes
+func (m reportversion) GetSizeInBytes() *int64 {
+	return m.SizeInBytes
 }
 
 // GetLifecycleDetails returns LifecycleDetails
@@ -224,7 +214,7 @@ func (m reportversion) GetTimeUpdated() *common.SDKTime {
 }
 
 // GetLifecycleState returns LifecycleState
-func (m reportversion) GetLifecycleState() ReportVersionLifecycleStateEnum {
+func (m reportversion) GetLifecycleState() ReportLifecycleStateEnum {
 	return m.LifecycleState
 }
 
@@ -252,8 +242,8 @@ func (m reportversion) String() string {
 // Not recommended for calling this function directly
 func (m reportversion) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingReportVersionLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetReportVersionLifecycleStateEnumStringValues(), ",")))
+	if _, ok := GetMappingReportLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetReportLifecycleStateEnumStringValues(), ",")))
 	}
 
 	for _, val := range m.OsFamilies {
@@ -266,62 +256,4 @@ func (m reportversion) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// ReportVersionLifecycleStateEnum Enum with underlying type: string
-type ReportVersionLifecycleStateEnum string
-
-// Set of constants representing the allowable values for ReportVersionLifecycleStateEnum
-const (
-	ReportVersionLifecycleStateCreating ReportVersionLifecycleStateEnum = "CREATING"
-	ReportVersionLifecycleStateUpdating ReportVersionLifecycleStateEnum = "UPDATING"
-	ReportVersionLifecycleStateActive   ReportVersionLifecycleStateEnum = "ACTIVE"
-	ReportVersionLifecycleStateDeleting ReportVersionLifecycleStateEnum = "DELETING"
-	ReportVersionLifecycleStateDeleted  ReportVersionLifecycleStateEnum = "DELETED"
-	ReportVersionLifecycleStateFailed   ReportVersionLifecycleStateEnum = "FAILED"
-)
-
-var mappingReportVersionLifecycleStateEnum = map[string]ReportVersionLifecycleStateEnum{
-	"CREATING": ReportVersionLifecycleStateCreating,
-	"UPDATING": ReportVersionLifecycleStateUpdating,
-	"ACTIVE":   ReportVersionLifecycleStateActive,
-	"DELETING": ReportVersionLifecycleStateDeleting,
-	"DELETED":  ReportVersionLifecycleStateDeleted,
-	"FAILED":   ReportVersionLifecycleStateFailed,
-}
-
-var mappingReportVersionLifecycleStateEnumLowerCase = map[string]ReportVersionLifecycleStateEnum{
-	"creating": ReportVersionLifecycleStateCreating,
-	"updating": ReportVersionLifecycleStateUpdating,
-	"active":   ReportVersionLifecycleStateActive,
-	"deleting": ReportVersionLifecycleStateDeleting,
-	"deleted":  ReportVersionLifecycleStateDeleted,
-	"failed":   ReportVersionLifecycleStateFailed,
-}
-
-// GetReportVersionLifecycleStateEnumValues Enumerates the set of values for ReportVersionLifecycleStateEnum
-func GetReportVersionLifecycleStateEnumValues() []ReportVersionLifecycleStateEnum {
-	values := make([]ReportVersionLifecycleStateEnum, 0)
-	for _, v := range mappingReportVersionLifecycleStateEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetReportVersionLifecycleStateEnumStringValues Enumerates the set of values in String for ReportVersionLifecycleStateEnum
-func GetReportVersionLifecycleStateEnumStringValues() []string {
-	return []string{
-		"CREATING",
-		"UPDATING",
-		"ACTIVE",
-		"DELETING",
-		"DELETED",
-		"FAILED",
-	}
-}
-
-// GetMappingReportVersionLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingReportVersionLifecycleStateEnum(val string) (ReportVersionLifecycleStateEnum, bool) {
-	enum, ok := mappingReportVersionLifecycleStateEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }

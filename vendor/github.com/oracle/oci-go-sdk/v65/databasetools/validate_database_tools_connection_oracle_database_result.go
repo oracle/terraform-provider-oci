@@ -37,6 +37,12 @@ type ValidateDatabaseToolsConnectionOracleDatabaseResult struct {
 	// The database name.
 	DatabaseName *string `mandatory:"false" json:"databaseName"`
 
+	// Displays the CLOUD_SERVICE value within the USERENV context
+	CloudService *string `mandatory:"false" json:"cloudService"`
+
+	// Status on whether a Database Tools identity type can be used with this connection or not.
+	DatabaseToolsIdentityStatuses []ValidationIdentityStatus `mandatory:"false" json:"databaseToolsIdentityStatuses"`
+
 	// The DBMS_CLOUD package installation status.
 	DbmsCloudStatus DbmsCloudStatusEnum `mandatory:"true" json:"dbmsCloudStatus"`
 }

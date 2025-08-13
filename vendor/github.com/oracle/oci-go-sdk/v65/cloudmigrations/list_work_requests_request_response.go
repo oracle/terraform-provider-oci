@@ -220,6 +220,7 @@ const (
 	ListWorkRequestsOperationTypeCreateTargetAsset         ListWorkRequestsOperationTypeEnum = "CREATE_TARGET_ASSET"
 	ListWorkRequestsOperationTypeUpdateTargetAsset         ListWorkRequestsOperationTypeEnum = "UPDATE_TARGET_ASSET"
 	ListWorkRequestsOperationTypeDeleteTargetAsset         ListWorkRequestsOperationTypeEnum = "DELETE_TARGET_ASSET"
+	ListWorkRequestsOperationTypePrepareTargetAsset        ListWorkRequestsOperationTypeEnum = "PREPARE_TARGET_ASSET"
 )
 
 var mappingListWorkRequestsOperationTypeEnum = map[string]ListWorkRequestsOperationTypeEnum{
@@ -246,6 +247,7 @@ var mappingListWorkRequestsOperationTypeEnum = map[string]ListWorkRequestsOperat
 	"CREATE_TARGET_ASSET":         ListWorkRequestsOperationTypeCreateTargetAsset,
 	"UPDATE_TARGET_ASSET":         ListWorkRequestsOperationTypeUpdateTargetAsset,
 	"DELETE_TARGET_ASSET":         ListWorkRequestsOperationTypeDeleteTargetAsset,
+	"PREPARE_TARGET_ASSET":        ListWorkRequestsOperationTypePrepareTargetAsset,
 }
 
 var mappingListWorkRequestsOperationTypeEnumLowerCase = map[string]ListWorkRequestsOperationTypeEnum{
@@ -272,6 +274,7 @@ var mappingListWorkRequestsOperationTypeEnumLowerCase = map[string]ListWorkReque
 	"create_target_asset":         ListWorkRequestsOperationTypeCreateTargetAsset,
 	"update_target_asset":         ListWorkRequestsOperationTypeUpdateTargetAsset,
 	"delete_target_asset":         ListWorkRequestsOperationTypeDeleteTargetAsset,
+	"prepare_target_asset":        ListWorkRequestsOperationTypePrepareTargetAsset,
 }
 
 // GetListWorkRequestsOperationTypeEnumValues Enumerates the set of values for ListWorkRequestsOperationTypeEnum
@@ -309,6 +312,7 @@ func GetListWorkRequestsOperationTypeEnumStringValues() []string {
 		"CREATE_TARGET_ASSET",
 		"UPDATE_TARGET_ASSET",
 		"DELETE_TARGET_ASSET",
+		"PREPARE_TARGET_ASSET",
 	}
 }
 

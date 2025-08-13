@@ -26,7 +26,7 @@ type LlmCustomization struct {
 
 	// Hyper parameters for LLM configuration. Accepts Key-value pairs to configure various hyper parameters.
 	// Refer to the guide for examples and the JSON Schema documentation for details on the format.
-	LlmHyperParameters map[string]string `mandatory:"false" json:"llmHyperParameters"`
+	LlmHyperParameters map[string]interface{} `mandatory:"false" json:"llmHyperParameters"`
 
 	// If specified, the default instruction is replaced with provided instruction.
 	Instruction *string `mandatory:"false" json:"instruction"`
@@ -51,9 +51,9 @@ func (m LlmCustomization) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *LlmCustomization) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		LlmSelection       llmselection      `json:"llmSelection"`
-		LlmHyperParameters map[string]string `json:"llmHyperParameters"`
-		Instruction        *string           `json:"instruction"`
+		LlmSelection       llmselection           `json:"llmSelection"`
+		LlmHyperParameters map[string]interface{} `json:"llmHyperParameters"`
+		Instruction        *string                `json:"instruction"`
 	}{}
 
 	e = json.Unmarshal(data, &model)

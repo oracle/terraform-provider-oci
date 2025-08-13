@@ -94,19 +94,19 @@ type ListScheduledJobsRequest struct {
 
 	// A filter to return only scheduled jobs with a pause time on or after the given value, in ISO 8601 format.
 	// Example: 2017-07-14T02:40:00.000Z
-	TimeToPauseGreaterThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeToPauseGreaterThan"`
+	TimeStartPauseGreaterThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeStartPauseGreaterThan"`
 
 	// A filter to return only scheduled jobs with a pause time on or before the given value, in ISO 8601 format.
 	// Example: 2017-07-14T02:40:00.000Z
-	TimeToPauseLessThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeToPauseLessThan"`
+	TimeStartPauseLessThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeStartPauseLessThan"`
 
 	// A filter to return only scheduled jobs with a resume time on or after the given value, in ISO 8601 format.
 	// Example: 2017-07-14T02:40:00.000Z
-	TimeToResumeGreaterThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeToResumeGreaterThan"`
+	TimeStartResumeGreaterThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeStartResumeGreaterThan"`
 
 	// A filter to return only scheduled jobs with a resume time on or before the given value, in ISO 8601 format.
 	// Example: 2017-07-14T02:40:00.000Z
-	TimeToResumeLessThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeToResumeLessThan"`
+	TimeStartResumeLessThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeStartResumeLessThan"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source. This filter returns resources associated with this software source.
 	SoftwareSourceId *string `mandatory:"false" contributesTo:"query" name:"softwareSourceId"`

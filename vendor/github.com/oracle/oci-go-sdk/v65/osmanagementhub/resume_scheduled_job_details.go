@@ -20,10 +20,13 @@ import (
 type ResumeScheduledJobDetails struct {
 
 	// The time this scheduled job is set to be resumed (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
-	TimeToResume *string `mandatory:"false" json:"timeToResume"`
+	TimeStartResume *common.SDKTime `mandatory:"false" json:"timeStartResume"`
+
+	// Indicates whether to cancel the upcoming scheduled job's resume.
+	ShouldCancelResume *bool `mandatory:"false" json:"shouldCancelResume"`
 
 	// Indicates whether the scheduled job should run immediately upon resumption.
-	ShouldRunAtTimeToResume *bool `mandatory:"false" json:"shouldRunAtTimeToResume"`
+	ShouldRunAtTimeStartResume *bool `mandatory:"false" json:"shouldRunAtTimeStartResume"`
 }
 
 func (m ResumeScheduledJobDetails) String() string {

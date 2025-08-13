@@ -57,9 +57,6 @@ type ReportSummary interface {
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	GetSystemTags() map[string]map[string]interface{}
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the tenancy that the managed instance resides in.
-	GetTenancyId() *string
-
 	// User-specified description for the Osmh Report.
 	GetDescription() *string
 
@@ -73,7 +70,6 @@ type ReportSummary interface {
 
 type reportsummary struct {
 	JsonData         []byte
-	TenancyId        *string                           `mandatory:"false" json:"tenancyId"`
 	Description      *string                           `mandatory:"false" json:"description"`
 	OsFamilies       []OsFamilyEnum                    `mandatory:"false" json:"osFamilies,omitempty"`
 	LifecycleDetails *string                           `mandatory:"false" json:"lifecycleDetails"`
@@ -111,7 +107,6 @@ func (m *reportsummary) UnmarshalJSON(data []byte) error {
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.SystemTags = s.Model.SystemTags
-	m.TenancyId = s.Model.TenancyId
 	m.Description = s.Model.Description
 	m.OsFamilies = s.Model.OsFamilies
 	m.LifecycleDetails = s.Model.LifecycleDetails
@@ -141,11 +136,6 @@ func (m *reportsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 		common.Logf("Received unsupported enum value for ReportSummary: %s.", m.ReportType)
 		return *m, nil
 	}
-}
-
-// GetTenancyId returns TenancyId
-func (m reportsummary) GetTenancyId() *string {
-	return m.TenancyId
 }
 
 // GetDescription returns Description

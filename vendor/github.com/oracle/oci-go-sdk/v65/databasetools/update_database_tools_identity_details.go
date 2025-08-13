@@ -19,7 +19,7 @@ import (
 // UpdateDatabaseToolsIdentityDetails Database Tools identity information to be updated.
 type UpdateDatabaseToolsIdentityDetails interface {
 
-	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	// A user-friendly name. Does not have to be unique and can be updated. Avoid entering confidential information.
 	GetDisplayName() *string
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.

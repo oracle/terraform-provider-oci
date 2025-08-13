@@ -57,9 +57,6 @@ type CveReportSummary struct {
 	// The list of cve names.
 	Cves []string `mandatory:"true" json:"cves"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the tenancy that the managed instance resides in.
-	TenancyId *string `mandatory:"false" json:"tenancyId"`
-
 	// User-specified description for the Osmh Report.
 	Description *string `mandatory:"false" json:"description"`
 
@@ -87,11 +84,6 @@ func (m CveReportSummary) GetDisplayName() *string {
 // GetCompartmentId returns CompartmentId
 func (m CveReportSummary) GetCompartmentId() *string {
 	return m.CompartmentId
-}
-
-// GetTenancyId returns TenancyId
-func (m CveReportSummary) GetTenancyId() *string {
-	return m.TenancyId
 }
 
 // GetReportVersion returns ReportVersion

@@ -122,6 +122,10 @@ func (m *targetassetsummary) UnmarshalPolymorphicJSON(data []byte) (interface{},
 		mm := VmTargetAssetSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OLVM_INSTANCE":
+		mm := OlvmTargetAssetSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Received unsupported enum value for TargetAssetSummary: %s.", m.Type)
 		return *m, nil
@@ -222,15 +226,18 @@ type TargetAssetSummaryTypeEnum string
 
 // Set of constants representing the allowable values for TargetAssetSummaryTypeEnum
 const (
-	TargetAssetSummaryTypeInstance TargetAssetSummaryTypeEnum = "INSTANCE"
+	TargetAssetSummaryTypeInstance     TargetAssetSummaryTypeEnum = "INSTANCE"
+	TargetAssetSummaryTypeOlvmInstance TargetAssetSummaryTypeEnum = "OLVM_INSTANCE"
 )
 
 var mappingTargetAssetSummaryTypeEnum = map[string]TargetAssetSummaryTypeEnum{
-	"INSTANCE": TargetAssetSummaryTypeInstance,
+	"INSTANCE":      TargetAssetSummaryTypeInstance,
+	"OLVM_INSTANCE": TargetAssetSummaryTypeOlvmInstance,
 }
 
 var mappingTargetAssetSummaryTypeEnumLowerCase = map[string]TargetAssetSummaryTypeEnum{
-	"instance": TargetAssetSummaryTypeInstance,
+	"instance":      TargetAssetSummaryTypeInstance,
+	"olvm_instance": TargetAssetSummaryTypeOlvmInstance,
 }
 
 // GetTargetAssetSummaryTypeEnumValues Enumerates the set of values for TargetAssetSummaryTypeEnum
@@ -246,6 +253,7 @@ func GetTargetAssetSummaryTypeEnumValues() []TargetAssetSummaryTypeEnum {
 func GetTargetAssetSummaryTypeEnumStringValues() []string {
 	return []string{
 		"INSTANCE",
+		"OLVM_INSTANCE",
 	}
 }
 

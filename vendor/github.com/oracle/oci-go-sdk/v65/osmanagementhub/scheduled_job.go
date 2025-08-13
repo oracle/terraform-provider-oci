@@ -138,10 +138,10 @@ type ScheduledJob struct {
 	IsPaused *bool `mandatory:"false" json:"isPaused"`
 
 	// The time this scheduled job is set to be paused (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
-	TimeToPause *common.SDKTime `mandatory:"false" json:"timeToPause"`
+	TimeStartPause *common.SDKTime `mandatory:"false" json:"timeStartPause"`
 
 	// The time this scheduled job is set to be resumed (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
-	TimeToResume *common.SDKTime `mandatory:"false" json:"timeToResume"`
+	TimeStartResume *common.SDKTime `mandatory:"false" json:"timeStartResume"`
 }
 
 func (m ScheduledJob) String() string {

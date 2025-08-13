@@ -82,6 +82,11 @@ type MigrationAsset struct {
 
 	// List of migration assets that depends on the asset.
 	DependsOn []string `mandatory:"false" json:"dependsOn"`
+
+	ReplicationLocationDetail *ReplicationLocationDetail `mandatory:"false" json:"replicationLocationDetail"`
+
+	// Mapping of source disk id to destination disk details
+	DestinationDisks map[string]DestinationDisk `mandatory:"false" json:"destinationDisks"`
 }
 
 func (m MigrationAsset) String() string {

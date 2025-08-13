@@ -22,6 +22,9 @@ import (
 // LlmConfig Configuration to Agent LLM.
 type LlmConfig struct {
 	RoutingLlmCustomization *LlmCustomization `mandatory:"false" json:"routingLlmCustomization"`
+
+	// The runtimeVersion of the system prompt.
+	RuntimeVersion *string `mandatory:"false" json:"runtimeVersion"`
 }
 
 func (m LlmConfig) String() string {

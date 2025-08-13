@@ -55,13 +55,10 @@ type ErrataReport struct {
 	SystemTags map[string]map[string]interface{} `mandatory:"true" json:"systemTags"`
 
 	// The start issue date to filter by
-	TimeStartIssueDate *common.SDKTime `mandatory:"true" json:"timeStartIssueDate"`
+	TimeIssueDateStarted *common.SDKTime `mandatory:"true" json:"timeIssueDateStarted"`
 
 	// The end issue date to filter by
-	TimeEndIssueDate *common.SDKTime `mandatory:"true" json:"timeEndIssueDate"`
-
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the tenancy that the managed instance resides in.
-	TenancyId *string `mandatory:"false" json:"tenancyId"`
+	TimeIssueDateEnded *common.SDKTime `mandatory:"true" json:"timeIssueDateEnded"`
 
 	// User-specified description for the Osmh Report.
 	Description *string `mandatory:"false" json:"description"`
@@ -71,6 +68,9 @@ type ErrataReport struct {
 
 	// Indicates if sub-compartments are included in the report.
 	IsSubCompartmentIncluded *bool `mandatory:"false" json:"isSubCompartmentIncluded"`
+
+	// size of the report content in bytes
+	SizeInBytes *int64 `mandatory:"false" json:"sizeInBytes"`
 
 	// A message that describes the current state of the OsmhReporting in more detail. For example,
 	// can be used to provide actionable information for a resource in the Failed state.
@@ -119,11 +119,6 @@ func (m ErrataReport) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetTenancyId returns TenancyId
-func (m ErrataReport) GetTenancyId() *string {
-	return m.TenancyId
-}
-
 // GetReportVersion returns ReportVersion
 func (m ErrataReport) GetReportVersion() *string {
 	return m.ReportVersion
@@ -157,6 +152,11 @@ func (m ErrataReport) GetIsSubCompartmentIncluded() *bool {
 // GetOsFamilies returns OsFamilies
 func (m ErrataReport) GetOsFamilies() []OsFamilyEnum {
 	return m.OsFamilies
+}
+
+// GetSizeInBytes returns SizeInBytes
+func (m ErrataReport) GetSizeInBytes() *int64 {
+	return m.SizeInBytes
 }
 
 // GetLifecycleState returns LifecycleState

@@ -19,9 +19,6 @@ import (
 // SnapSummary Provides summary information for a snap.
 type SnapSummary struct {
 
-	// The list of snap channel collections.
-	Channels []SnapChannelCollection `mandatory:"true" json:"channels"`
-
 	// The name of the snap.
 	Name *string `mandatory:"true" json:"name"`
 
@@ -34,6 +31,9 @@ type SnapSummary struct {
 	// The version of the snap.
 	Version *string `mandatory:"true" json:"version"`
 
+	// The track this snap is following.
+	Tracking *string `mandatory:"true" json:"tracking"`
+
 	// The description of of snap.
 	Description *string `mandatory:"false" json:"description"`
 
@@ -41,7 +41,7 @@ type SnapSummary struct {
 	StoreUrl *string `mandatory:"false" json:"storeUrl"`
 
 	// The date and time of the snap's last refresh in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format.
-	TimeRefresh *common.SDKTime `mandatory:"false" json:"timeRefresh"`
+	TimeRefreshed *common.SDKTime `mandatory:"false" json:"timeRefreshed"`
 }
 
 func (m SnapSummary) String() string {

@@ -29,6 +29,9 @@ type Configuration struct {
 
 	// Endpoint used to submit emails via the standard SMTP submission protocol. Note that TLS 1.2 and standard SMTP authentication is required for submission.
 	SmtpSubmitEndpoint *string `mandatory:"true" json:"smtpSubmitEndpoint"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the email delivery config.
+	EmailDeliveryConfigId *string `mandatory:"false" json:"emailDeliveryConfigId"`
 }
 
 func (m Configuration) String() string {
