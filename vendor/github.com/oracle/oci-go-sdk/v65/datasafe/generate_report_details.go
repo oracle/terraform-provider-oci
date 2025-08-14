@@ -31,6 +31,9 @@ type GenerateReportDetails struct {
 	// Array of database target OCIDs.
 	TargetIds []string `mandatory:"false" json:"targetIds"`
 
+	// Array of target group OCIDs.
+	TargetGroupIds []string `mandatory:"false" json:"targetGroupIds"`
+
 	// The description of the report to be generated
 	Description *string `mandatory:"false" json:"description"`
 

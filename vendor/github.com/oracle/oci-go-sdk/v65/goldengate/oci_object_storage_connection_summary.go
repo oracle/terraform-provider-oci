@@ -105,7 +105,12 @@ type OciObjectStorageConnectionSummary struct {
 	// Note: When provided, 'privateKeyPassphrase' field must not be provided.
 	PrivateKeyPassphraseSecretId *string `mandatory:"false" json:"privateKeyPassphraseSecretId"`
 
-	// Indicates that the user intents to connect to the instance through resource principal.
+	// The fingerprint of the API Key of the user specified by the userId.
+	// See documentation: https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm
+	PublicKeyFingerprint *string `mandatory:"false" json:"publicKeyFingerprint"`
+
+	// Specifies that the user intends to authenticate to the instance using a resource principal.
+	// Default: false
 	ShouldUseResourcePrincipal *bool `mandatory:"false" json:"shouldUseResourcePrincipal"`
 
 	// Possible lifecycle states for connection.

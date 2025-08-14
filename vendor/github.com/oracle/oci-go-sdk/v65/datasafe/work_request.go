@@ -73,453 +73,573 @@ type WorkRequestOperationTypeEnum string
 
 // Set of constants representing the allowable values for WorkRequestOperationTypeEnum
 const (
-	WorkRequestOperationTypeEnableDataSafeConfiguration               WorkRequestOperationTypeEnum = "ENABLE_DATA_SAFE_CONFIGURATION"
-	WorkRequestOperationTypeCreatePrivateEndpoint                     WorkRequestOperationTypeEnum = "CREATE_PRIVATE_ENDPOINT"
-	WorkRequestOperationTypeUpdatePrivateEndpoint                     WorkRequestOperationTypeEnum = "UPDATE_PRIVATE_ENDPOINT"
-	WorkRequestOperationTypeDeletePrivateEndpoint                     WorkRequestOperationTypeEnum = "DELETE_PRIVATE_ENDPOINT"
-	WorkRequestOperationTypeChangePrivateEndpointCompartment          WorkRequestOperationTypeEnum = "CHANGE_PRIVATE_ENDPOINT_COMPARTMENT"
-	WorkRequestOperationTypeCreateOnpremConnector                     WorkRequestOperationTypeEnum = "CREATE_ONPREM_CONNECTOR"
-	WorkRequestOperationTypeUpdateOnpremConnector                     WorkRequestOperationTypeEnum = "UPDATE_ONPREM_CONNECTOR"
-	WorkRequestOperationTypeDeleteOnpremConnector                     WorkRequestOperationTypeEnum = "DELETE_ONPREM_CONNECTOR"
-	WorkRequestOperationTypeUpdateOnpremConnectorWallet               WorkRequestOperationTypeEnum = "UPDATE_ONPREM_CONNECTOR_WALLET"
-	WorkRequestOperationTypeChangeOnpremConnectorCompartment          WorkRequestOperationTypeEnum = "CHANGE_ONPREM_CONNECTOR_COMPARTMENT"
-	WorkRequestOperationTypeCreateTargetDatabase                      WorkRequestOperationTypeEnum = "CREATE_TARGET_DATABASE"
-	WorkRequestOperationTypeUpdateTargetDatabase                      WorkRequestOperationTypeEnum = "UPDATE_TARGET_DATABASE"
-	WorkRequestOperationTypeActivateTargetDatabase                    WorkRequestOperationTypeEnum = "ACTIVATE_TARGET_DATABASE"
-	WorkRequestOperationTypeDeactivateTargetDatabase                  WorkRequestOperationTypeEnum = "DEACTIVATE_TARGET_DATABASE"
-	WorkRequestOperationTypeDeleteTargetDatabase                      WorkRequestOperationTypeEnum = "DELETE_TARGET_DATABASE"
-	WorkRequestOperationTypeChangeTargetDatabaseCompartment           WorkRequestOperationTypeEnum = "CHANGE_TARGET_DATABASE_COMPARTMENT"
-	WorkRequestOperationTypeCreatePeerTargetDatabase                  WorkRequestOperationTypeEnum = "CREATE_PEER_TARGET_DATABASE"
-	WorkRequestOperationTypeUpdatePeerTargetDatabase                  WorkRequestOperationTypeEnum = "UPDATE_PEER_TARGET_DATABASE"
-	WorkRequestOperationTypeDeletePeerTargetDatabase                  WorkRequestOperationTypeEnum = "DELETE_PEER_TARGET_DATABASE"
-	WorkRequestOperationTypeRefreshTargetDatabase                     WorkRequestOperationTypeEnum = "REFRESH_TARGET_DATABASE"
-	WorkRequestOperationTypeProvisionPolicy                           WorkRequestOperationTypeEnum = "PROVISION_POLICY"
-	WorkRequestOperationTypeRetrievePolicy                            WorkRequestOperationTypeEnum = "RETRIEVE_POLICY"
-	WorkRequestOperationTypeUpdatePolicy                              WorkRequestOperationTypeEnum = "UPDATE_POLICY"
-	WorkRequestOperationTypeChangePolicyCompartment                   WorkRequestOperationTypeEnum = "CHANGE_POLICY_COMPARTMENT"
-	WorkRequestOperationTypeCreateUserAssessment                      WorkRequestOperationTypeEnum = "CREATE_USER_ASSESSMENT"
-	WorkRequestOperationTypeAssessUserAssessment                      WorkRequestOperationTypeEnum = "ASSESS_USER_ASSESSMENT"
-	WorkRequestOperationTypeCreateSnapshotUserAssessment              WorkRequestOperationTypeEnum = "CREATE_SNAPSHOT_USER_ASSESSMENT"
-	WorkRequestOperationTypeCreateScheduleUserAssessment              WorkRequestOperationTypeEnum = "CREATE_SCHEDULE_USER_ASSESSMENT"
-	WorkRequestOperationTypeCompareWithBaselineUserAssessment         WorkRequestOperationTypeEnum = "COMPARE_WITH_BASELINE_USER_ASSESSMENT"
-	WorkRequestOperationTypeDeleteUserAssessment                      WorkRequestOperationTypeEnum = "DELETE_USER_ASSESSMENT"
-	WorkRequestOperationTypeUpdateUserAssessment                      WorkRequestOperationTypeEnum = "UPDATE_USER_ASSESSMENT"
-	WorkRequestOperationTypeChangeUserAssessmentCompartment           WorkRequestOperationTypeEnum = "CHANGE_USER_ASSESSMENT_COMPARTMENT"
-	WorkRequestOperationTypeSetUserAssessmentBaseline                 WorkRequestOperationTypeEnum = "SET_USER_ASSESSMENT_BASELINE"
-	WorkRequestOperationTypeUnsetUserAssessmentBaseline               WorkRequestOperationTypeEnum = "UNSET_USER_ASSESSMENT_BASELINE"
-	WorkRequestOperationTypeGenerateUserAssessmentReport              WorkRequestOperationTypeEnum = "GENERATE_USER_ASSESSMENT_REPORT"
-	WorkRequestOperationTypeCreateSecurityAssessment                  WorkRequestOperationTypeEnum = "CREATE_SECURITY_ASSESSMENT"
-	WorkRequestOperationTypeCreateSecurityAssessmentNow               WorkRequestOperationTypeEnum = "CREATE_SECURITY_ASSESSMENT_NOW"
-	WorkRequestOperationTypeAssessSecurityAssessment                  WorkRequestOperationTypeEnum = "ASSESS_SECURITY_ASSESSMENT"
-	WorkRequestOperationTypeCreateSnapshotSecurityAssessment          WorkRequestOperationTypeEnum = "CREATE_SNAPSHOT_SECURITY_ASSESSMENT"
-	WorkRequestOperationTypeCreateScheduleSecurityAssessment          WorkRequestOperationTypeEnum = "CREATE_SCHEDULE_SECURITY_ASSESSMENT"
-	WorkRequestOperationTypeCompareWithBaselineSecurityAssessment     WorkRequestOperationTypeEnum = "COMPARE_WITH_BASELINE_SECURITY_ASSESSMENT"
-	WorkRequestOperationTypeDeleteSecurityAssessment                  WorkRequestOperationTypeEnum = "DELETE_SECURITY_ASSESSMENT"
-	WorkRequestOperationTypeUpdateSecurityAssessment                  WorkRequestOperationTypeEnum = "UPDATE_SECURITY_ASSESSMENT"
-	WorkRequestOperationTypeUpdateFindingRisk                         WorkRequestOperationTypeEnum = "UPDATE_FINDING_RISK"
-	WorkRequestOperationTypeChangeSecurityAssessmentCompartment       WorkRequestOperationTypeEnum = "CHANGE_SECURITY_ASSESSMENT_COMPARTMENT"
-	WorkRequestOperationTypeSetSecurityAssessmentBaseline             WorkRequestOperationTypeEnum = "SET_SECURITY_ASSESSMENT_BASELINE"
-	WorkRequestOperationTypeUnsetSecurityAssessmentBaseline           WorkRequestOperationTypeEnum = "UNSET_SECURITY_ASSESSMENT_BASELINE"
-	WorkRequestOperationTypeGenerateSecurityAssessmentReport          WorkRequestOperationTypeEnum = "GENERATE_SECURITY_ASSESSMENT_REPORT"
-	WorkRequestOperationTypeDeleteSqlFirewallAllowedSql               WorkRequestOperationTypeEnum = "DELETE_SQL_FIREWALL_ALLOWED_SQL"
-	WorkRequestOperationTypeBulkCreateSqlFirewallAllowedSql           WorkRequestOperationTypeEnum = "BULK_CREATE_SQL_FIREWALL_ALLOWED_SQL"
-	WorkRequestOperationTypeBulkDeleteSqlFirewallAllowedSql           WorkRequestOperationTypeEnum = "BULK_DELETE_SQL_FIREWALL_ALLOWED_SQL"
-	WorkRequestOperationTypeCreateAuditProfile                        WorkRequestOperationTypeEnum = "CREATE_AUDIT_PROFILE"
-	WorkRequestOperationTypeCalculateVolume                           WorkRequestOperationTypeEnum = "CALCULATE_VOLUME"
-	WorkRequestOperationTypeCalculateCollectedVolume                  WorkRequestOperationTypeEnum = "CALCULATE_COLLECTED_VOLUME"
-	WorkRequestOperationTypeCreateDbSecurityConfig                    WorkRequestOperationTypeEnum = "CREATE_DB_SECURITY_CONFIG"
-	WorkRequestOperationTypeRefreshDbSecurityConfig                   WorkRequestOperationTypeEnum = "REFRESH_DB_SECURITY_CONFIG"
-	WorkRequestOperationTypeUpdateDbSecurityConfig                    WorkRequestOperationTypeEnum = "UPDATE_DB_SECURITY_CONFIG"
-	WorkRequestOperationTypeChangeDbSecurityConfigCompartment         WorkRequestOperationTypeEnum = "CHANGE_DB_SECURITY_CONFIG_COMPARTMENT"
-	WorkRequestOperationTypeGenerateFirewallPolicy                    WorkRequestOperationTypeEnum = "GENERATE_FIREWALL_POLICY"
-	WorkRequestOperationTypeUpdateFirewallPolicy                      WorkRequestOperationTypeEnum = "UPDATE_FIREWALL_POLICY"
-	WorkRequestOperationTypeChangeFirewallPolicyCompartment           WorkRequestOperationTypeEnum = "CHANGE_FIREWALL_POLICY_COMPARTMENT"
-	WorkRequestOperationTypeDeleteFirewallPolicy                      WorkRequestOperationTypeEnum = "DELETE_FIREWALL_POLICY"
-	WorkRequestOperationTypeCreateSqlCollection                       WorkRequestOperationTypeEnum = "CREATE_SQL_COLLECTION"
-	WorkRequestOperationTypeUpdateSqlCollection                       WorkRequestOperationTypeEnum = "UPDATE_SQL_COLLECTION"
-	WorkRequestOperationTypeStartSqlCollection                        WorkRequestOperationTypeEnum = "START_SQL_COLLECTION"
-	WorkRequestOperationTypeStopSqlCollection                         WorkRequestOperationTypeEnum = "STOP_SQL_COLLECTION"
-	WorkRequestOperationTypeDeleteSqlCollection                       WorkRequestOperationTypeEnum = "DELETE_SQL_COLLECTION"
-	WorkRequestOperationTypeChangeSqlCollectionCompartment            WorkRequestOperationTypeEnum = "CHANGE_SQL_COLLECTION_COMPARTMENT"
-	WorkRequestOperationTypeRefreshSqlCollectionLogInsights           WorkRequestOperationTypeEnum = "REFRESH_SQL_COLLECTION_LOG_INSIGHTS"
-	WorkRequestOperationTypePurgeSqlCollectionLogs                    WorkRequestOperationTypeEnum = "PURGE_SQL_COLLECTION_LOGS"
-	WorkRequestOperationTypeRefreshViolations                         WorkRequestOperationTypeEnum = "REFRESH_VIOLATIONS"
-	WorkRequestOperationTypeCreateArchival                            WorkRequestOperationTypeEnum = "CREATE_ARCHIVAL"
-	WorkRequestOperationTypeUpdateSecurityPolicy                      WorkRequestOperationTypeEnum = "UPDATE_SECURITY_POLICY"
-	WorkRequestOperationTypeChangeSecurityPolicyCompartment           WorkRequestOperationTypeEnum = "CHANGE_SECURITY_POLICY_COMPARTMENT"
-	WorkRequestOperationTypeUpdateSecurityPolicyDeployment            WorkRequestOperationTypeEnum = "UPDATE_SECURITY_POLICY_DEPLOYMENT"
-	WorkRequestOperationTypeChangeSecurityPolicyDeploymentCompartment WorkRequestOperationTypeEnum = "CHANGE_SECURITY_POLICY_DEPLOYMENT_COMPARTMENT"
-	WorkRequestOperationTypeAuditTrail                                WorkRequestOperationTypeEnum = "AUDIT_TRAIL"
-	WorkRequestOperationTypeDeleteAuditTrail                          WorkRequestOperationTypeEnum = "DELETE_AUDIT_TRAIL"
-	WorkRequestOperationTypeDiscoverAuditTrails                       WorkRequestOperationTypeEnum = "DISCOVER_AUDIT_TRAILS"
-	WorkRequestOperationTypeUpdateAuditTrail                          WorkRequestOperationTypeEnum = "UPDATE_AUDIT_TRAIL"
-	WorkRequestOperationTypeUpdateAuditProfile                        WorkRequestOperationTypeEnum = "UPDATE_AUDIT_PROFILE"
-	WorkRequestOperationTypeAuditChangeCompartment                    WorkRequestOperationTypeEnum = "AUDIT_CHANGE_COMPARTMENT"
-	WorkRequestOperationTypeCreateReportDefinition                    WorkRequestOperationTypeEnum = "CREATE_REPORT_DEFINITION"
-	WorkRequestOperationTypeUpdateReportDefinition                    WorkRequestOperationTypeEnum = "UPDATE_REPORT_DEFINITION"
-	WorkRequestOperationTypeChangeReportDefinitionCompartment         WorkRequestOperationTypeEnum = "CHANGE_REPORT_DEFINITION_COMPARTMENT"
-	WorkRequestOperationTypeDeleteReportDefinition                    WorkRequestOperationTypeEnum = "DELETE_REPORT_DEFINITION"
-	WorkRequestOperationTypeGenerateReport                            WorkRequestOperationTypeEnum = "GENERATE_REPORT"
-	WorkRequestOperationTypeChangeReportCompartment                   WorkRequestOperationTypeEnum = "CHANGE_REPORT_COMPARTMENT"
-	WorkRequestOperationTypeDeleteArchiveRetrieval                    WorkRequestOperationTypeEnum = "DELETE_ARCHIVE_RETRIEVAL"
-	WorkRequestOperationTypeCreateArchiveRetrieval                    WorkRequestOperationTypeEnum = "CREATE_ARCHIVE_RETRIEVAL"
-	WorkRequestOperationTypeUpdateArchiveRetrieval                    WorkRequestOperationTypeEnum = "UPDATE_ARCHIVE_RETRIEVAL"
-	WorkRequestOperationTypeChangeArchiveRetrievalCompartment         WorkRequestOperationTypeEnum = "CHANGE_ARCHIVE_RETRIEVAL_COMPARTMENT"
-	WorkRequestOperationTypeUpdateAlert                               WorkRequestOperationTypeEnum = "UPDATE_ALERT"
-	WorkRequestOperationTypeTargetAlertPolicyAssociation              WorkRequestOperationTypeEnum = "TARGET_ALERT_POLICY_ASSOCIATION"
-	WorkRequestOperationTypeCreateSensitiveDataModel                  WorkRequestOperationTypeEnum = "CREATE_SENSITIVE_DATA_MODEL"
-	WorkRequestOperationTypeUpdateSensitiveDataModel                  WorkRequestOperationTypeEnum = "UPDATE_SENSITIVE_DATA_MODEL"
-	WorkRequestOperationTypeDeleteSensitiveDataModel                  WorkRequestOperationTypeEnum = "DELETE_SENSITIVE_DATA_MODEL"
-	WorkRequestOperationTypeUploadSensitiveDataModel                  WorkRequestOperationTypeEnum = "UPLOAD_SENSITIVE_DATA_MODEL"
-	WorkRequestOperationTypeGenerateSensitiveDataModelForDownload     WorkRequestOperationTypeEnum = "GENERATE_SENSITIVE_DATA_MODEL_FOR_DOWNLOAD"
-	WorkRequestOperationTypeCreateSensitiveColumn                     WorkRequestOperationTypeEnum = "CREATE_SENSITIVE_COLUMN"
-	WorkRequestOperationTypeUpdateSensitiveColumn                     WorkRequestOperationTypeEnum = "UPDATE_SENSITIVE_COLUMN"
-	WorkRequestOperationTypePatchSensitiveColumns                     WorkRequestOperationTypeEnum = "PATCH_SENSITIVE_COLUMNS"
-	WorkRequestOperationTypeCreateDiscoveryJob                        WorkRequestOperationTypeEnum = "CREATE_DISCOVERY_JOB"
-	WorkRequestOperationTypeDeleteDiscoveryJob                        WorkRequestOperationTypeEnum = "DELETE_DISCOVERY_JOB"
-	WorkRequestOperationTypePatchDiscoveryJobResult                   WorkRequestOperationTypeEnum = "PATCH_DISCOVERY_JOB_RESULT"
-	WorkRequestOperationTypeApplyDiscoveryJobResult                   WorkRequestOperationTypeEnum = "APPLY_DISCOVERY_JOB_RESULT"
-	WorkRequestOperationTypeGenerateDiscoveryReport                   WorkRequestOperationTypeEnum = "GENERATE_DISCOVERY_REPORT"
-	WorkRequestOperationTypeCreateSensitiveType                       WorkRequestOperationTypeEnum = "CREATE_SENSITIVE_TYPE"
-	WorkRequestOperationTypeUpdateSensitiveType                       WorkRequestOperationTypeEnum = "UPDATE_SENSITIVE_TYPE"
-	WorkRequestOperationTypeCreateMaskingPolicy                       WorkRequestOperationTypeEnum = "CREATE_MASKING_POLICY"
-	WorkRequestOperationTypeUpdateMaskingPolicy                       WorkRequestOperationTypeEnum = "UPDATE_MASKING_POLICY"
-	WorkRequestOperationTypeDeleteMaskingPolicy                       WorkRequestOperationTypeEnum = "DELETE_MASKING_POLICY"
-	WorkRequestOperationTypeUploadMaskingPolicy                       WorkRequestOperationTypeEnum = "UPLOAD_MASKING_POLICY"
-	WorkRequestOperationTypeGenerateMaskingPolicyForDownload          WorkRequestOperationTypeEnum = "GENERATE_MASKING_POLICY_FOR_DOWNLOAD"
-	WorkRequestOperationTypeCreateMaskingColumn                       WorkRequestOperationTypeEnum = "CREATE_MASKING_COLUMN"
-	WorkRequestOperationTypeUpdateMaskingColumn                       WorkRequestOperationTypeEnum = "UPDATE_MASKING_COLUMN"
-	WorkRequestOperationTypePatchMaskingColumns                       WorkRequestOperationTypeEnum = "PATCH_MASKING_COLUMNS"
-	WorkRequestOperationTypeGenerateMaskingReport                     WorkRequestOperationTypeEnum = "GENERATE_MASKING_REPORT"
-	WorkRequestOperationTypeCreateLibraryMaskingFormat                WorkRequestOperationTypeEnum = "CREATE_LIBRARY_MASKING_FORMAT"
-	WorkRequestOperationTypeUpdateLibraryMaskingFormat                WorkRequestOperationTypeEnum = "UPDATE_LIBRARY_MASKING_FORMAT"
-	WorkRequestOperationTypeAddColumnsFromSdm                         WorkRequestOperationTypeEnum = "ADD_COLUMNS_FROM_SDM"
-	WorkRequestOperationTypeMaskingJob                                WorkRequestOperationTypeEnum = "MASKING_JOB"
-	WorkRequestOperationTypeCreateDifference                          WorkRequestOperationTypeEnum = "CREATE_DIFFERENCE"
-	WorkRequestOperationTypeDeleteDifference                          WorkRequestOperationTypeEnum = "DELETE_DIFFERENCE"
-	WorkRequestOperationTypeUpdateDifference                          WorkRequestOperationTypeEnum = "UPDATE_DIFFERENCE"
-	WorkRequestOperationTypePatchDifference                           WorkRequestOperationTypeEnum = "PATCH_DIFFERENCE"
-	WorkRequestOperationTypeApplyDifference                           WorkRequestOperationTypeEnum = "APPLY_DIFFERENCE"
-	WorkRequestOperationTypeMaskPolicyGenerateHealthReport            WorkRequestOperationTypeEnum = "MASK_POLICY_GENERATE_HEALTH_REPORT"
-	WorkRequestOperationTypeMaskPolicyDeleteHealthReport              WorkRequestOperationTypeEnum = "MASK_POLICY_DELETE_HEALTH_REPORT"
-	WorkRequestOperationTypeCreateSensitiveTypesExport                WorkRequestOperationTypeEnum = "CREATE_SENSITIVE_TYPES_EXPORT"
-	WorkRequestOperationTypeUpdateSensitiveTypesExport                WorkRequestOperationTypeEnum = "UPDATE_SENSITIVE_TYPES_EXPORT"
-	WorkRequestOperationTypeBulkCreateSensitiveTypes                  WorkRequestOperationTypeEnum = "BULK_CREATE_SENSITIVE_TYPES"
-	WorkRequestOperationTypeAbortMasking                              WorkRequestOperationTypeEnum = "ABORT_MASKING"
-	WorkRequestOperationTypeCreateSecurityPolicyReport                WorkRequestOperationTypeEnum = "CREATE_SECURITY_POLICY_REPORT"
-	WorkRequestOperationTypeRefreshSecurityPolicyCache                WorkRequestOperationTypeEnum = "REFRESH_SECURITY_POLICY_CACHE"
-	WorkRequestOperationTypeDeleteSecurityPolicyCache                 WorkRequestOperationTypeEnum = "DELETE_SECURITY_POLICY_CACHE"
-	WorkRequestOperationTypeCreateSchedule                            WorkRequestOperationTypeEnum = "CREATE_SCHEDULE"
-	WorkRequestOperationTypeRemoveScheduleReport                      WorkRequestOperationTypeEnum = "REMOVE_SCHEDULE_REPORT"
-	WorkRequestOperationTypeUpdateAllAlert                            WorkRequestOperationTypeEnum = "UPDATE_ALL_ALERT"
-	WorkRequestOperationTypePatchTargetAlertPolicyAssociation         WorkRequestOperationTypeEnum = "PATCH_TARGET_ALERT_POLICY_ASSOCIATION"
-	WorkRequestOperationTypeCreateAlertPolicy                         WorkRequestOperationTypeEnum = "CREATE_ALERT_POLICY"
-	WorkRequestOperationTypeUpdateAlertPolicy                         WorkRequestOperationTypeEnum = "UPDATE_ALERT_POLICY"
-	WorkRequestOperationTypeDeleteAlertPolicy                         WorkRequestOperationTypeEnum = "DELETE_ALERT_POLICY"
-	WorkRequestOperationTypeCreateAlertPolicyRule                     WorkRequestOperationTypeEnum = "CREATE_ALERT_POLICY_RULE"
-	WorkRequestOperationTypeUpdateAlertPolicyRule                     WorkRequestOperationTypeEnum = "UPDATE_ALERT_POLICY_RULE"
-	WorkRequestOperationTypeDeleteAlertPolicyRule                     WorkRequestOperationTypeEnum = "DELETE_ALERT_POLICY_RULE"
-	WorkRequestOperationTypeChangeAlertPolicyCompartment              WorkRequestOperationTypeEnum = "CHANGE_ALERT_POLICY_COMPARTMENT"
+	WorkRequestOperationTypeEnableDataSafeConfiguration                   WorkRequestOperationTypeEnum = "ENABLE_DATA_SAFE_CONFIGURATION"
+	WorkRequestOperationTypeCreatePrivateEndpoint                         WorkRequestOperationTypeEnum = "CREATE_PRIVATE_ENDPOINT"
+	WorkRequestOperationTypeUpdatePrivateEndpoint                         WorkRequestOperationTypeEnum = "UPDATE_PRIVATE_ENDPOINT"
+	WorkRequestOperationTypeDeletePrivateEndpoint                         WorkRequestOperationTypeEnum = "DELETE_PRIVATE_ENDPOINT"
+	WorkRequestOperationTypeChangePrivateEndpointCompartment              WorkRequestOperationTypeEnum = "CHANGE_PRIVATE_ENDPOINT_COMPARTMENT"
+	WorkRequestOperationTypeCreateOnpremConnector                         WorkRequestOperationTypeEnum = "CREATE_ONPREM_CONNECTOR"
+	WorkRequestOperationTypeUpdateOnpremConnector                         WorkRequestOperationTypeEnum = "UPDATE_ONPREM_CONNECTOR"
+	WorkRequestOperationTypeDeleteOnpremConnector                         WorkRequestOperationTypeEnum = "DELETE_ONPREM_CONNECTOR"
+	WorkRequestOperationTypeUpdateOnpremConnectorWallet                   WorkRequestOperationTypeEnum = "UPDATE_ONPREM_CONNECTOR_WALLET"
+	WorkRequestOperationTypeChangeOnpremConnectorCompartment              WorkRequestOperationTypeEnum = "CHANGE_ONPREM_CONNECTOR_COMPARTMENT"
+	WorkRequestOperationTypeCreateTargetDatabase                          WorkRequestOperationTypeEnum = "CREATE_TARGET_DATABASE"
+	WorkRequestOperationTypeUpdateTargetDatabase                          WorkRequestOperationTypeEnum = "UPDATE_TARGET_DATABASE"
+	WorkRequestOperationTypeActivateTargetDatabase                        WorkRequestOperationTypeEnum = "ACTIVATE_TARGET_DATABASE"
+	WorkRequestOperationTypeDeactivateTargetDatabase                      WorkRequestOperationTypeEnum = "DEACTIVATE_TARGET_DATABASE"
+	WorkRequestOperationTypeDeleteTargetDatabase                          WorkRequestOperationTypeEnum = "DELETE_TARGET_DATABASE"
+	WorkRequestOperationTypeChangeTargetDatabaseCompartment               WorkRequestOperationTypeEnum = "CHANGE_TARGET_DATABASE_COMPARTMENT"
+	WorkRequestOperationTypeCreatePeerTargetDatabase                      WorkRequestOperationTypeEnum = "CREATE_PEER_TARGET_DATABASE"
+	WorkRequestOperationTypeUpdatePeerTargetDatabase                      WorkRequestOperationTypeEnum = "UPDATE_PEER_TARGET_DATABASE"
+	WorkRequestOperationTypeDeletePeerTargetDatabase                      WorkRequestOperationTypeEnum = "DELETE_PEER_TARGET_DATABASE"
+	WorkRequestOperationTypeRefreshTargetDatabase                         WorkRequestOperationTypeEnum = "REFRESH_TARGET_DATABASE"
+	WorkRequestOperationTypeProvisionPolicy                               WorkRequestOperationTypeEnum = "PROVISION_POLICY"
+	WorkRequestOperationTypeRetrievePolicy                                WorkRequestOperationTypeEnum = "RETRIEVE_POLICY"
+	WorkRequestOperationTypeUpdatePolicy                                  WorkRequestOperationTypeEnum = "UPDATE_POLICY"
+	WorkRequestOperationTypeChangePolicyCompartment                       WorkRequestOperationTypeEnum = "CHANGE_POLICY_COMPARTMENT"
+	WorkRequestOperationTypeCreateUserAssessment                          WorkRequestOperationTypeEnum = "CREATE_USER_ASSESSMENT"
+	WorkRequestOperationTypeAssessUserAssessment                          WorkRequestOperationTypeEnum = "ASSESS_USER_ASSESSMENT"
+	WorkRequestOperationTypeCreateSnapshotUserAssessment                  WorkRequestOperationTypeEnum = "CREATE_SNAPSHOT_USER_ASSESSMENT"
+	WorkRequestOperationTypeCreateScheduleUserAssessment                  WorkRequestOperationTypeEnum = "CREATE_SCHEDULE_USER_ASSESSMENT"
+	WorkRequestOperationTypeCompareWithBaselineUserAssessment             WorkRequestOperationTypeEnum = "COMPARE_WITH_BASELINE_USER_ASSESSMENT"
+	WorkRequestOperationTypeDeleteUserAssessment                          WorkRequestOperationTypeEnum = "DELETE_USER_ASSESSMENT"
+	WorkRequestOperationTypeUpdateUserAssessment                          WorkRequestOperationTypeEnum = "UPDATE_USER_ASSESSMENT"
+	WorkRequestOperationTypeChangeUserAssessmentCompartment               WorkRequestOperationTypeEnum = "CHANGE_USER_ASSESSMENT_COMPARTMENT"
+	WorkRequestOperationTypeSetUserAssessmentBaseline                     WorkRequestOperationTypeEnum = "SET_USER_ASSESSMENT_BASELINE"
+	WorkRequestOperationTypeUnsetUserAssessmentBaseline                   WorkRequestOperationTypeEnum = "UNSET_USER_ASSESSMENT_BASELINE"
+	WorkRequestOperationTypeGenerateUserAssessmentReport                  WorkRequestOperationTypeEnum = "GENERATE_USER_ASSESSMENT_REPORT"
+	WorkRequestOperationTypeCreateSecurityAssessment                      WorkRequestOperationTypeEnum = "CREATE_SECURITY_ASSESSMENT"
+	WorkRequestOperationTypeCreateSecurityAssessmentNow                   WorkRequestOperationTypeEnum = "CREATE_SECURITY_ASSESSMENT_NOW"
+	WorkRequestOperationTypeAssessSecurityAssessment                      WorkRequestOperationTypeEnum = "ASSESS_SECURITY_ASSESSMENT"
+	WorkRequestOperationTypeCreateSnapshotSecurityAssessment              WorkRequestOperationTypeEnum = "CREATE_SNAPSHOT_SECURITY_ASSESSMENT"
+	WorkRequestOperationTypeCreateScheduleSecurityAssessment              WorkRequestOperationTypeEnum = "CREATE_SCHEDULE_SECURITY_ASSESSMENT"
+	WorkRequestOperationTypeCompareWithBaselineSecurityAssessment         WorkRequestOperationTypeEnum = "COMPARE_WITH_BASELINE_SECURITY_ASSESSMENT"
+	WorkRequestOperationTypeDeleteSecurityAssessment                      WorkRequestOperationTypeEnum = "DELETE_SECURITY_ASSESSMENT"
+	WorkRequestOperationTypeUpdateSecurityAssessment                      WorkRequestOperationTypeEnum = "UPDATE_SECURITY_ASSESSMENT"
+	WorkRequestOperationTypePatchChecks                                   WorkRequestOperationTypeEnum = "PATCH_CHECKS"
+	WorkRequestOperationTypeUpdateFindingSeverity                         WorkRequestOperationTypeEnum = "UPDATE_FINDING_SEVERITY"
+	WorkRequestOperationTypeApplyTemplate                                 WorkRequestOperationTypeEnum = "APPLY_TEMPLATE"
+	WorkRequestOperationTypeFleetGenerateSecurityAssessmentReport         WorkRequestOperationTypeEnum = "FLEET_GENERATE_SECURITY_ASSESSMENT_REPORT"
+	WorkRequestOperationTypeFleetGenerateUserAssessmentReport             WorkRequestOperationTypeEnum = "FLEET_GENERATE_USER_ASSESSMENT_REPORT"
+	WorkRequestOperationTypeRefreshTargetDatabaseGroupWithChanges         WorkRequestOperationTypeEnum = "REFRESH_TARGET_DATABASE_GROUP_WITH_CHANGES"
+	WorkRequestOperationTypeUpdateFindingRisk                             WorkRequestOperationTypeEnum = "UPDATE_FINDING_RISK"
+	WorkRequestOperationTypeChangeSecurityAssessmentCompartment           WorkRequestOperationTypeEnum = "CHANGE_SECURITY_ASSESSMENT_COMPARTMENT"
+	WorkRequestOperationTypeSetSecurityAssessmentBaseline                 WorkRequestOperationTypeEnum = "SET_SECURITY_ASSESSMENT_BASELINE"
+	WorkRequestOperationTypeUnsetSecurityAssessmentBaseline               WorkRequestOperationTypeEnum = "UNSET_SECURITY_ASSESSMENT_BASELINE"
+	WorkRequestOperationTypeGenerateSecurityAssessmentReport              WorkRequestOperationTypeEnum = "GENERATE_SECURITY_ASSESSMENT_REPORT"
+	WorkRequestOperationTypeDeleteSqlFirewallAllowedSql                   WorkRequestOperationTypeEnum = "DELETE_SQL_FIREWALL_ALLOWED_SQL"
+	WorkRequestOperationTypeBulkCreateSqlFirewallAllowedSql               WorkRequestOperationTypeEnum = "BULK_CREATE_SQL_FIREWALL_ALLOWED_SQL"
+	WorkRequestOperationTypeBulkDeleteSqlFirewallAllowedSql               WorkRequestOperationTypeEnum = "BULK_DELETE_SQL_FIREWALL_ALLOWED_SQL"
+	WorkRequestOperationTypeCreateAuditProfile                            WorkRequestOperationTypeEnum = "CREATE_AUDIT_PROFILE"
+	WorkRequestOperationTypeCalculateVolume                               WorkRequestOperationTypeEnum = "CALCULATE_VOLUME"
+	WorkRequestOperationTypeCalculateCollectedVolume                      WorkRequestOperationTypeEnum = "CALCULATE_COLLECTED_VOLUME"
+	WorkRequestOperationTypeCreateDbSecurityConfig                        WorkRequestOperationTypeEnum = "CREATE_DB_SECURITY_CONFIG"
+	WorkRequestOperationTypeRefreshDbSecurityConfig                       WorkRequestOperationTypeEnum = "REFRESH_DB_SECURITY_CONFIG"
+	WorkRequestOperationTypeUpdateDbSecurityConfig                        WorkRequestOperationTypeEnum = "UPDATE_DB_SECURITY_CONFIG"
+	WorkRequestOperationTypeChangeDbSecurityConfigCompartment             WorkRequestOperationTypeEnum = "CHANGE_DB_SECURITY_CONFIG_COMPARTMENT"
+	WorkRequestOperationTypeGenerateFirewallPolicy                        WorkRequestOperationTypeEnum = "GENERATE_FIREWALL_POLICY"
+	WorkRequestOperationTypeUpdateFirewallPolicy                          WorkRequestOperationTypeEnum = "UPDATE_FIREWALL_POLICY"
+	WorkRequestOperationTypeChangeFirewallPolicyCompartment               WorkRequestOperationTypeEnum = "CHANGE_FIREWALL_POLICY_COMPARTMENT"
+	WorkRequestOperationTypeDeleteFirewallPolicy                          WorkRequestOperationTypeEnum = "DELETE_FIREWALL_POLICY"
+	WorkRequestOperationTypeCreateSqlCollection                           WorkRequestOperationTypeEnum = "CREATE_SQL_COLLECTION"
+	WorkRequestOperationTypeUpdateSqlCollection                           WorkRequestOperationTypeEnum = "UPDATE_SQL_COLLECTION"
+	WorkRequestOperationTypeStartSqlCollection                            WorkRequestOperationTypeEnum = "START_SQL_COLLECTION"
+	WorkRequestOperationTypeStopSqlCollection                             WorkRequestOperationTypeEnum = "STOP_SQL_COLLECTION"
+	WorkRequestOperationTypeDeleteSqlCollection                           WorkRequestOperationTypeEnum = "DELETE_SQL_COLLECTION"
+	WorkRequestOperationTypeChangeSqlCollectionCompartment                WorkRequestOperationTypeEnum = "CHANGE_SQL_COLLECTION_COMPARTMENT"
+	WorkRequestOperationTypeRefreshSqlCollectionLogInsights               WorkRequestOperationTypeEnum = "REFRESH_SQL_COLLECTION_LOG_INSIGHTS"
+	WorkRequestOperationTypePurgeSqlCollectionLogs                        WorkRequestOperationTypeEnum = "PURGE_SQL_COLLECTION_LOGS"
+	WorkRequestOperationTypeRefreshViolations                             WorkRequestOperationTypeEnum = "REFRESH_VIOLATIONS"
+	WorkRequestOperationTypeCreateArchival                                WorkRequestOperationTypeEnum = "CREATE_ARCHIVAL"
+	WorkRequestOperationTypeCreateSecurityPolicy                          WorkRequestOperationTypeEnum = "CREATE_SECURITY_POLICY"
+	WorkRequestOperationTypeDeleteSecurityPolicy                          WorkRequestOperationTypeEnum = "DELETE_SECURITY_POLICY"
+	WorkRequestOperationTypeSecurityPolicyDeploymentActions               WorkRequestOperationTypeEnum = "SECURITY_POLICY_DEPLOYMENT_ACTIONS"
+	WorkRequestOperationTypeProvisionSecurityPolicyDeployment             WorkRequestOperationTypeEnum = "PROVISION_SECURITY_POLICY_DEPLOYMENT"
+	WorkRequestOperationTypeUpdateSecurityPolicy                          WorkRequestOperationTypeEnum = "UPDATE_SECURITY_POLICY"
+	WorkRequestOperationTypeChangeSecurityPolicyCompartment               WorkRequestOperationTypeEnum = "CHANGE_SECURITY_POLICY_COMPARTMENT"
+	WorkRequestOperationTypeUpdateSecurityPolicyDeployment                WorkRequestOperationTypeEnum = "UPDATE_SECURITY_POLICY_DEPLOYMENT"
+	WorkRequestOperationTypeChangeSecurityPolicyDeploymentCompartment     WorkRequestOperationTypeEnum = "CHANGE_SECURITY_POLICY_DEPLOYMENT_COMPARTMENT"
+	WorkRequestOperationTypeAuditTrail                                    WorkRequestOperationTypeEnum = "AUDIT_TRAIL"
+	WorkRequestOperationTypeDeleteAuditTrail                              WorkRequestOperationTypeEnum = "DELETE_AUDIT_TRAIL"
+	WorkRequestOperationTypeDiscoverAuditTrails                           WorkRequestOperationTypeEnum = "DISCOVER_AUDIT_TRAILS"
+	WorkRequestOperationTypeUpdateAuditTrail                              WorkRequestOperationTypeEnum = "UPDATE_AUDIT_TRAIL"
+	WorkRequestOperationTypeUpdateAuditProfile                            WorkRequestOperationTypeEnum = "UPDATE_AUDIT_PROFILE"
+	WorkRequestOperationTypeAuditChangeCompartment                        WorkRequestOperationTypeEnum = "AUDIT_CHANGE_COMPARTMENT"
+	WorkRequestOperationTypeCreateReportDefinition                        WorkRequestOperationTypeEnum = "CREATE_REPORT_DEFINITION"
+	WorkRequestOperationTypeUpdateReportDefinition                        WorkRequestOperationTypeEnum = "UPDATE_REPORT_DEFINITION"
+	WorkRequestOperationTypeChangeReportDefinitionCompartment             WorkRequestOperationTypeEnum = "CHANGE_REPORT_DEFINITION_COMPARTMENT"
+	WorkRequestOperationTypeDeleteReportDefinition                        WorkRequestOperationTypeEnum = "DELETE_REPORT_DEFINITION"
+	WorkRequestOperationTypeGenerateReport                                WorkRequestOperationTypeEnum = "GENERATE_REPORT"
+	WorkRequestOperationTypeChangeReportCompartment                       WorkRequestOperationTypeEnum = "CHANGE_REPORT_COMPARTMENT"
+	WorkRequestOperationTypeDeleteArchiveRetrieval                        WorkRequestOperationTypeEnum = "DELETE_ARCHIVE_RETRIEVAL"
+	WorkRequestOperationTypeCreateArchiveRetrieval                        WorkRequestOperationTypeEnum = "CREATE_ARCHIVE_RETRIEVAL"
+	WorkRequestOperationTypeUpdateArchiveRetrieval                        WorkRequestOperationTypeEnum = "UPDATE_ARCHIVE_RETRIEVAL"
+	WorkRequestOperationTypeChangeArchiveRetrievalCompartment             WorkRequestOperationTypeEnum = "CHANGE_ARCHIVE_RETRIEVAL_COMPARTMENT"
+	WorkRequestOperationTypeUpdateAlert                                   WorkRequestOperationTypeEnum = "UPDATE_ALERT"
+	WorkRequestOperationTypeTargetAlertPolicyAssociation                  WorkRequestOperationTypeEnum = "TARGET_ALERT_POLICY_ASSOCIATION"
+	WorkRequestOperationTypeCreateTargetDatabaseGroup                     WorkRequestOperationTypeEnum = "CREATE_TARGET_DATABASE_GROUP"
+	WorkRequestOperationTypeUpdateTargetDatabaseGroup                     WorkRequestOperationTypeEnum = "UPDATE_TARGET_DATABASE_GROUP"
+	WorkRequestOperationTypeDeleteTargetDatabaseGroup                     WorkRequestOperationTypeEnum = "DELETE_TARGET_DATABASE_GROUP"
+	WorkRequestOperationTypeChangeTargetDatabaseGroupCompartment          WorkRequestOperationTypeEnum = "CHANGE_TARGET_DATABASE_GROUP_COMPARTMENT"
+	WorkRequestOperationTypeCreateSecurityPolicyConfig                    WorkRequestOperationTypeEnum = "CREATE_SECURITY_POLICY_CONFIG"
+	WorkRequestOperationTypeUpdateSecurityPolicyConfig                    WorkRequestOperationTypeEnum = "UPDATE_SECURITY_POLICY_CONFIG"
+	WorkRequestOperationTypeDeleteSecurityPolicyConfig                    WorkRequestOperationTypeEnum = "DELETE_SECURITY_POLICY_CONFIG"
+	WorkRequestOperationTypeChangeSecurityPolicyConfigCompartment         WorkRequestOperationTypeEnum = "CHANGE_SECURITY_POLICY_CONFIG_COMPARTMENT"
+	WorkRequestOperationTypeCreateUnifiedAuditPolicy                      WorkRequestOperationTypeEnum = "CREATE_UNIFIED_AUDIT_POLICY"
+	WorkRequestOperationTypeUpdateUnifiedAuditPolicy                      WorkRequestOperationTypeEnum = "UPDATE_UNIFIED_AUDIT_POLICY"
+	WorkRequestOperationTypeDeleteUnifiedAuditPolicy                      WorkRequestOperationTypeEnum = "DELETE_UNIFIED_AUDIT_POLICY"
+	WorkRequestOperationTypeChangeUnifiedAuditPolicyCompartment           WorkRequestOperationTypeEnum = "CHANGE_UNIFIED_AUDIT_POLICY_COMPARTMENT"
+	WorkRequestOperationTypeUpdateUnifiedAuditPolicyDefinition            WorkRequestOperationTypeEnum = "UPDATE_UNIFIED_AUDIT_POLICY_DEFINITION"
+	WorkRequestOperationTypeDeleteUnifiedAuditPolicyDefinition            WorkRequestOperationTypeEnum = "DELETE_UNIFIED_AUDIT_POLICY_DEFINITION"
+	WorkRequestOperationTypeChangeUnifiedAuditPolicyDefinitionCompartment WorkRequestOperationTypeEnum = "CHANGE_UNIFIED_AUDIT_POLICY_DEFINITION_COMPARTMENT"
+	WorkRequestOperationTypeFetchAuditPolicyDetails                       WorkRequestOperationTypeEnum = "FETCH_AUDIT_POLICY_DETAILS"
+	WorkRequestOperationTypeBulkCreateUnifiedAuditPolicy                  WorkRequestOperationTypeEnum = "BULK_CREATE_UNIFIED_AUDIT_POLICY"
+	WorkRequestOperationTypeCreateSensitiveDataModel                      WorkRequestOperationTypeEnum = "CREATE_SENSITIVE_DATA_MODEL"
+	WorkRequestOperationTypeUpdateSensitiveDataModel                      WorkRequestOperationTypeEnum = "UPDATE_SENSITIVE_DATA_MODEL"
+	WorkRequestOperationTypeDeleteSensitiveDataModel                      WorkRequestOperationTypeEnum = "DELETE_SENSITIVE_DATA_MODEL"
+	WorkRequestOperationTypeUploadSensitiveDataModel                      WorkRequestOperationTypeEnum = "UPLOAD_SENSITIVE_DATA_MODEL"
+	WorkRequestOperationTypeGenerateSensitiveDataModelForDownload         WorkRequestOperationTypeEnum = "GENERATE_SENSITIVE_DATA_MODEL_FOR_DOWNLOAD"
+	WorkRequestOperationTypeCreateSensitiveColumn                         WorkRequestOperationTypeEnum = "CREATE_SENSITIVE_COLUMN"
+	WorkRequestOperationTypeUpdateSensitiveColumn                         WorkRequestOperationTypeEnum = "UPDATE_SENSITIVE_COLUMN"
+	WorkRequestOperationTypePatchSensitiveColumns                         WorkRequestOperationTypeEnum = "PATCH_SENSITIVE_COLUMNS"
+	WorkRequestOperationTypeCreateDiscoveryJob                            WorkRequestOperationTypeEnum = "CREATE_DISCOVERY_JOB"
+	WorkRequestOperationTypeDeleteDiscoveryJob                            WorkRequestOperationTypeEnum = "DELETE_DISCOVERY_JOB"
+	WorkRequestOperationTypePatchDiscoveryJobResult                       WorkRequestOperationTypeEnum = "PATCH_DISCOVERY_JOB_RESULT"
+	WorkRequestOperationTypeApplyDiscoveryJobResult                       WorkRequestOperationTypeEnum = "APPLY_DISCOVERY_JOB_RESULT"
+	WorkRequestOperationTypeGenerateDiscoveryReport                       WorkRequestOperationTypeEnum = "GENERATE_DISCOVERY_REPORT"
+	WorkRequestOperationTypeCreateSensitiveType                           WorkRequestOperationTypeEnum = "CREATE_SENSITIVE_TYPE"
+	WorkRequestOperationTypeUpdateSensitiveType                           WorkRequestOperationTypeEnum = "UPDATE_SENSITIVE_TYPE"
+	WorkRequestOperationTypeCreateMaskingPolicy                           WorkRequestOperationTypeEnum = "CREATE_MASKING_POLICY"
+	WorkRequestOperationTypeUpdateMaskingPolicy                           WorkRequestOperationTypeEnum = "UPDATE_MASKING_POLICY"
+	WorkRequestOperationTypeDeleteMaskingPolicy                           WorkRequestOperationTypeEnum = "DELETE_MASKING_POLICY"
+	WorkRequestOperationTypeUploadMaskingPolicy                           WorkRequestOperationTypeEnum = "UPLOAD_MASKING_POLICY"
+	WorkRequestOperationTypeGenerateMaskingPolicyForDownload              WorkRequestOperationTypeEnum = "GENERATE_MASKING_POLICY_FOR_DOWNLOAD"
+	WorkRequestOperationTypeCreateMaskingColumn                           WorkRequestOperationTypeEnum = "CREATE_MASKING_COLUMN"
+	WorkRequestOperationTypeUpdateMaskingColumn                           WorkRequestOperationTypeEnum = "UPDATE_MASKING_COLUMN"
+	WorkRequestOperationTypePatchMaskingColumns                           WorkRequestOperationTypeEnum = "PATCH_MASKING_COLUMNS"
+	WorkRequestOperationTypeGenerateMaskingReport                         WorkRequestOperationTypeEnum = "GENERATE_MASKING_REPORT"
+	WorkRequestOperationTypeCreateLibraryMaskingFormat                    WorkRequestOperationTypeEnum = "CREATE_LIBRARY_MASKING_FORMAT"
+	WorkRequestOperationTypeUpdateLibraryMaskingFormat                    WorkRequestOperationTypeEnum = "UPDATE_LIBRARY_MASKING_FORMAT"
+	WorkRequestOperationTypeAddColumnsFromSdm                             WorkRequestOperationTypeEnum = "ADD_COLUMNS_FROM_SDM"
+	WorkRequestOperationTypeMaskingJob                                    WorkRequestOperationTypeEnum = "MASKING_JOB"
+	WorkRequestOperationTypeCreateDifference                              WorkRequestOperationTypeEnum = "CREATE_DIFFERENCE"
+	WorkRequestOperationTypeDeleteDifference                              WorkRequestOperationTypeEnum = "DELETE_DIFFERENCE"
+	WorkRequestOperationTypeUpdateDifference                              WorkRequestOperationTypeEnum = "UPDATE_DIFFERENCE"
+	WorkRequestOperationTypePatchDifference                               WorkRequestOperationTypeEnum = "PATCH_DIFFERENCE"
+	WorkRequestOperationTypeApplyDifference                               WorkRequestOperationTypeEnum = "APPLY_DIFFERENCE"
+	WorkRequestOperationTypeDeleteMaskingReport                           WorkRequestOperationTypeEnum = "DELETE_MASKING_REPORT"
+	WorkRequestOperationTypeMaskPolicyGenerateHealthReport                WorkRequestOperationTypeEnum = "MASK_POLICY_GENERATE_HEALTH_REPORT"
+	WorkRequestOperationTypeMaskPolicyDeleteHealthReport                  WorkRequestOperationTypeEnum = "MASK_POLICY_DELETE_HEALTH_REPORT"
+	WorkRequestOperationTypeCreateSensitiveTypesExport                    WorkRequestOperationTypeEnum = "CREATE_SENSITIVE_TYPES_EXPORT"
+	WorkRequestOperationTypeUpdateSensitiveTypesExport                    WorkRequestOperationTypeEnum = "UPDATE_SENSITIVE_TYPES_EXPORT"
+	WorkRequestOperationTypeBulkCreateSensitiveTypes                      WorkRequestOperationTypeEnum = "BULK_CREATE_SENSITIVE_TYPES"
+	WorkRequestOperationTypeCreateSensitiveTypeGroup                      WorkRequestOperationTypeEnum = "CREATE_SENSITIVE_TYPE_GROUP"
+	WorkRequestOperationTypeUpdateSensitiveTypeGroup                      WorkRequestOperationTypeEnum = "UPDATE_SENSITIVE_TYPE_GROUP"
+	WorkRequestOperationTypeDeleteSensitiveTypeGroup                      WorkRequestOperationTypeEnum = "DELETE_SENSITIVE_TYPE_GROUP"
+	WorkRequestOperationTypeDeleteSensitiveType                           WorkRequestOperationTypeEnum = "DELETE_SENSITIVE_TYPE"
+	WorkRequestOperationTypePatchGroupedSensitiveTypes                    WorkRequestOperationTypeEnum = "PATCH_GROUPED_SENSITIVE_TYPES"
+	WorkRequestOperationTypeCreateRelation                                WorkRequestOperationTypeEnum = "CREATE_RELATION"
+	WorkRequestOperationTypeDeleteRelation                                WorkRequestOperationTypeEnum = "DELETE_RELATION"
+	WorkRequestOperationTypeAbortMasking                                  WorkRequestOperationTypeEnum = "ABORT_MASKING"
+	WorkRequestOperationTypeCreateSecurityPolicyReport                    WorkRequestOperationTypeEnum = "CREATE_SECURITY_POLICY_REPORT"
+	WorkRequestOperationTypeRefreshSecurityPolicyCache                    WorkRequestOperationTypeEnum = "REFRESH_SECURITY_POLICY_CACHE"
+	WorkRequestOperationTypeDeleteSecurityPolicyCache                     WorkRequestOperationTypeEnum = "DELETE_SECURITY_POLICY_CACHE"
+	WorkRequestOperationTypeCreateSchedule                                WorkRequestOperationTypeEnum = "CREATE_SCHEDULE"
+	WorkRequestOperationTypeRemoveScheduleReport                          WorkRequestOperationTypeEnum = "REMOVE_SCHEDULE_REPORT"
+	WorkRequestOperationTypeUpdateAllAlert                                WorkRequestOperationTypeEnum = "UPDATE_ALL_ALERT"
+	WorkRequestOperationTypePatchTargetAlertPolicyAssociation             WorkRequestOperationTypeEnum = "PATCH_TARGET_ALERT_POLICY_ASSOCIATION"
+	WorkRequestOperationTypeCreateAlertPolicy                             WorkRequestOperationTypeEnum = "CREATE_ALERT_POLICY"
+	WorkRequestOperationTypeUpdateAlertPolicy                             WorkRequestOperationTypeEnum = "UPDATE_ALERT_POLICY"
+	WorkRequestOperationTypeDeleteAlertPolicy                             WorkRequestOperationTypeEnum = "DELETE_ALERT_POLICY"
+	WorkRequestOperationTypeCreateAlertPolicyRule                         WorkRequestOperationTypeEnum = "CREATE_ALERT_POLICY_RULE"
+	WorkRequestOperationTypeUpdateAlertPolicyRule                         WorkRequestOperationTypeEnum = "UPDATE_ALERT_POLICY_RULE"
+	WorkRequestOperationTypeDeleteAlertPolicyRule                         WorkRequestOperationTypeEnum = "DELETE_ALERT_POLICY_RULE"
+	WorkRequestOperationTypeChangeAlertPolicyCompartment                  WorkRequestOperationTypeEnum = "CHANGE_ALERT_POLICY_COMPARTMENT"
+	WorkRequestOperationTypeUpdateTargetGroupAuditProfile                 WorkRequestOperationTypeEnum = "UPDATE_TARGET_GROUP_AUDIT_PROFILE"
+	WorkRequestOperationTypeCreateAttributeSet                            WorkRequestOperationTypeEnum = "CREATE_ATTRIBUTE_SET"
+	WorkRequestOperationTypeUpdateAttributeSet                            WorkRequestOperationTypeEnum = "UPDATE_ATTRIBUTE_SET"
+	WorkRequestOperationTypeDeleteAttributeSet                            WorkRequestOperationTypeEnum = "DELETE_ATTRIBUTE_SET"
+	WorkRequestOperationTypeChangeAttributeSetCompartment                 WorkRequestOperationTypeEnum = "CHANGE_ATTRIBUTE_SET_COMPARTMENT"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
-	"ENABLE_DATA_SAFE_CONFIGURATION":                WorkRequestOperationTypeEnableDataSafeConfiguration,
-	"CREATE_PRIVATE_ENDPOINT":                       WorkRequestOperationTypeCreatePrivateEndpoint,
-	"UPDATE_PRIVATE_ENDPOINT":                       WorkRequestOperationTypeUpdatePrivateEndpoint,
-	"DELETE_PRIVATE_ENDPOINT":                       WorkRequestOperationTypeDeletePrivateEndpoint,
-	"CHANGE_PRIVATE_ENDPOINT_COMPARTMENT":           WorkRequestOperationTypeChangePrivateEndpointCompartment,
-	"CREATE_ONPREM_CONNECTOR":                       WorkRequestOperationTypeCreateOnpremConnector,
-	"UPDATE_ONPREM_CONNECTOR":                       WorkRequestOperationTypeUpdateOnpremConnector,
-	"DELETE_ONPREM_CONNECTOR":                       WorkRequestOperationTypeDeleteOnpremConnector,
-	"UPDATE_ONPREM_CONNECTOR_WALLET":                WorkRequestOperationTypeUpdateOnpremConnectorWallet,
-	"CHANGE_ONPREM_CONNECTOR_COMPARTMENT":           WorkRequestOperationTypeChangeOnpremConnectorCompartment,
-	"CREATE_TARGET_DATABASE":                        WorkRequestOperationTypeCreateTargetDatabase,
-	"UPDATE_TARGET_DATABASE":                        WorkRequestOperationTypeUpdateTargetDatabase,
-	"ACTIVATE_TARGET_DATABASE":                      WorkRequestOperationTypeActivateTargetDatabase,
-	"DEACTIVATE_TARGET_DATABASE":                    WorkRequestOperationTypeDeactivateTargetDatabase,
-	"DELETE_TARGET_DATABASE":                        WorkRequestOperationTypeDeleteTargetDatabase,
-	"CHANGE_TARGET_DATABASE_COMPARTMENT":            WorkRequestOperationTypeChangeTargetDatabaseCompartment,
-	"CREATE_PEER_TARGET_DATABASE":                   WorkRequestOperationTypeCreatePeerTargetDatabase,
-	"UPDATE_PEER_TARGET_DATABASE":                   WorkRequestOperationTypeUpdatePeerTargetDatabase,
-	"DELETE_PEER_TARGET_DATABASE":                   WorkRequestOperationTypeDeletePeerTargetDatabase,
-	"REFRESH_TARGET_DATABASE":                       WorkRequestOperationTypeRefreshTargetDatabase,
-	"PROVISION_POLICY":                              WorkRequestOperationTypeProvisionPolicy,
-	"RETRIEVE_POLICY":                               WorkRequestOperationTypeRetrievePolicy,
-	"UPDATE_POLICY":                                 WorkRequestOperationTypeUpdatePolicy,
-	"CHANGE_POLICY_COMPARTMENT":                     WorkRequestOperationTypeChangePolicyCompartment,
-	"CREATE_USER_ASSESSMENT":                        WorkRequestOperationTypeCreateUserAssessment,
-	"ASSESS_USER_ASSESSMENT":                        WorkRequestOperationTypeAssessUserAssessment,
-	"CREATE_SNAPSHOT_USER_ASSESSMENT":               WorkRequestOperationTypeCreateSnapshotUserAssessment,
-	"CREATE_SCHEDULE_USER_ASSESSMENT":               WorkRequestOperationTypeCreateScheduleUserAssessment,
-	"COMPARE_WITH_BASELINE_USER_ASSESSMENT":         WorkRequestOperationTypeCompareWithBaselineUserAssessment,
-	"DELETE_USER_ASSESSMENT":                        WorkRequestOperationTypeDeleteUserAssessment,
-	"UPDATE_USER_ASSESSMENT":                        WorkRequestOperationTypeUpdateUserAssessment,
-	"CHANGE_USER_ASSESSMENT_COMPARTMENT":            WorkRequestOperationTypeChangeUserAssessmentCompartment,
-	"SET_USER_ASSESSMENT_BASELINE":                  WorkRequestOperationTypeSetUserAssessmentBaseline,
-	"UNSET_USER_ASSESSMENT_BASELINE":                WorkRequestOperationTypeUnsetUserAssessmentBaseline,
-	"GENERATE_USER_ASSESSMENT_REPORT":               WorkRequestOperationTypeGenerateUserAssessmentReport,
-	"CREATE_SECURITY_ASSESSMENT":                    WorkRequestOperationTypeCreateSecurityAssessment,
-	"CREATE_SECURITY_ASSESSMENT_NOW":                WorkRequestOperationTypeCreateSecurityAssessmentNow,
-	"ASSESS_SECURITY_ASSESSMENT":                    WorkRequestOperationTypeAssessSecurityAssessment,
-	"CREATE_SNAPSHOT_SECURITY_ASSESSMENT":           WorkRequestOperationTypeCreateSnapshotSecurityAssessment,
-	"CREATE_SCHEDULE_SECURITY_ASSESSMENT":           WorkRequestOperationTypeCreateScheduleSecurityAssessment,
-	"COMPARE_WITH_BASELINE_SECURITY_ASSESSMENT":     WorkRequestOperationTypeCompareWithBaselineSecurityAssessment,
-	"DELETE_SECURITY_ASSESSMENT":                    WorkRequestOperationTypeDeleteSecurityAssessment,
-	"UPDATE_SECURITY_ASSESSMENT":                    WorkRequestOperationTypeUpdateSecurityAssessment,
-	"UPDATE_FINDING_RISK":                           WorkRequestOperationTypeUpdateFindingRisk,
-	"CHANGE_SECURITY_ASSESSMENT_COMPARTMENT":        WorkRequestOperationTypeChangeSecurityAssessmentCompartment,
-	"SET_SECURITY_ASSESSMENT_BASELINE":              WorkRequestOperationTypeSetSecurityAssessmentBaseline,
-	"UNSET_SECURITY_ASSESSMENT_BASELINE":            WorkRequestOperationTypeUnsetSecurityAssessmentBaseline,
-	"GENERATE_SECURITY_ASSESSMENT_REPORT":           WorkRequestOperationTypeGenerateSecurityAssessmentReport,
-	"DELETE_SQL_FIREWALL_ALLOWED_SQL":               WorkRequestOperationTypeDeleteSqlFirewallAllowedSql,
-	"BULK_CREATE_SQL_FIREWALL_ALLOWED_SQL":          WorkRequestOperationTypeBulkCreateSqlFirewallAllowedSql,
-	"BULK_DELETE_SQL_FIREWALL_ALLOWED_SQL":          WorkRequestOperationTypeBulkDeleteSqlFirewallAllowedSql,
-	"CREATE_AUDIT_PROFILE":                          WorkRequestOperationTypeCreateAuditProfile,
-	"CALCULATE_VOLUME":                              WorkRequestOperationTypeCalculateVolume,
-	"CALCULATE_COLLECTED_VOLUME":                    WorkRequestOperationTypeCalculateCollectedVolume,
-	"CREATE_DB_SECURITY_CONFIG":                     WorkRequestOperationTypeCreateDbSecurityConfig,
-	"REFRESH_DB_SECURITY_CONFIG":                    WorkRequestOperationTypeRefreshDbSecurityConfig,
-	"UPDATE_DB_SECURITY_CONFIG":                     WorkRequestOperationTypeUpdateDbSecurityConfig,
-	"CHANGE_DB_SECURITY_CONFIG_COMPARTMENT":         WorkRequestOperationTypeChangeDbSecurityConfigCompartment,
-	"GENERATE_FIREWALL_POLICY":                      WorkRequestOperationTypeGenerateFirewallPolicy,
-	"UPDATE_FIREWALL_POLICY":                        WorkRequestOperationTypeUpdateFirewallPolicy,
-	"CHANGE_FIREWALL_POLICY_COMPARTMENT":            WorkRequestOperationTypeChangeFirewallPolicyCompartment,
-	"DELETE_FIREWALL_POLICY":                        WorkRequestOperationTypeDeleteFirewallPolicy,
-	"CREATE_SQL_COLLECTION":                         WorkRequestOperationTypeCreateSqlCollection,
-	"UPDATE_SQL_COLLECTION":                         WorkRequestOperationTypeUpdateSqlCollection,
-	"START_SQL_COLLECTION":                          WorkRequestOperationTypeStartSqlCollection,
-	"STOP_SQL_COLLECTION":                           WorkRequestOperationTypeStopSqlCollection,
-	"DELETE_SQL_COLLECTION":                         WorkRequestOperationTypeDeleteSqlCollection,
-	"CHANGE_SQL_COLLECTION_COMPARTMENT":             WorkRequestOperationTypeChangeSqlCollectionCompartment,
-	"REFRESH_SQL_COLLECTION_LOG_INSIGHTS":           WorkRequestOperationTypeRefreshSqlCollectionLogInsights,
-	"PURGE_SQL_COLLECTION_LOGS":                     WorkRequestOperationTypePurgeSqlCollectionLogs,
-	"REFRESH_VIOLATIONS":                            WorkRequestOperationTypeRefreshViolations,
-	"CREATE_ARCHIVAL":                               WorkRequestOperationTypeCreateArchival,
-	"UPDATE_SECURITY_POLICY":                        WorkRequestOperationTypeUpdateSecurityPolicy,
-	"CHANGE_SECURITY_POLICY_COMPARTMENT":            WorkRequestOperationTypeChangeSecurityPolicyCompartment,
-	"UPDATE_SECURITY_POLICY_DEPLOYMENT":             WorkRequestOperationTypeUpdateSecurityPolicyDeployment,
-	"CHANGE_SECURITY_POLICY_DEPLOYMENT_COMPARTMENT": WorkRequestOperationTypeChangeSecurityPolicyDeploymentCompartment,
-	"AUDIT_TRAIL":                                   WorkRequestOperationTypeAuditTrail,
-	"DELETE_AUDIT_TRAIL":                            WorkRequestOperationTypeDeleteAuditTrail,
-	"DISCOVER_AUDIT_TRAILS":                         WorkRequestOperationTypeDiscoverAuditTrails,
-	"UPDATE_AUDIT_TRAIL":                            WorkRequestOperationTypeUpdateAuditTrail,
-	"UPDATE_AUDIT_PROFILE":                          WorkRequestOperationTypeUpdateAuditProfile,
-	"AUDIT_CHANGE_COMPARTMENT":                      WorkRequestOperationTypeAuditChangeCompartment,
-	"CREATE_REPORT_DEFINITION":                      WorkRequestOperationTypeCreateReportDefinition,
-	"UPDATE_REPORT_DEFINITION":                      WorkRequestOperationTypeUpdateReportDefinition,
-	"CHANGE_REPORT_DEFINITION_COMPARTMENT":          WorkRequestOperationTypeChangeReportDefinitionCompartment,
-	"DELETE_REPORT_DEFINITION":                      WorkRequestOperationTypeDeleteReportDefinition,
-	"GENERATE_REPORT":                               WorkRequestOperationTypeGenerateReport,
-	"CHANGE_REPORT_COMPARTMENT":                     WorkRequestOperationTypeChangeReportCompartment,
-	"DELETE_ARCHIVE_RETRIEVAL":                      WorkRequestOperationTypeDeleteArchiveRetrieval,
-	"CREATE_ARCHIVE_RETRIEVAL":                      WorkRequestOperationTypeCreateArchiveRetrieval,
-	"UPDATE_ARCHIVE_RETRIEVAL":                      WorkRequestOperationTypeUpdateArchiveRetrieval,
-	"CHANGE_ARCHIVE_RETRIEVAL_COMPARTMENT":          WorkRequestOperationTypeChangeArchiveRetrievalCompartment,
-	"UPDATE_ALERT":                                  WorkRequestOperationTypeUpdateAlert,
-	"TARGET_ALERT_POLICY_ASSOCIATION":               WorkRequestOperationTypeTargetAlertPolicyAssociation,
-	"CREATE_SENSITIVE_DATA_MODEL":                   WorkRequestOperationTypeCreateSensitiveDataModel,
-	"UPDATE_SENSITIVE_DATA_MODEL":                   WorkRequestOperationTypeUpdateSensitiveDataModel,
-	"DELETE_SENSITIVE_DATA_MODEL":                   WorkRequestOperationTypeDeleteSensitiveDataModel,
-	"UPLOAD_SENSITIVE_DATA_MODEL":                   WorkRequestOperationTypeUploadSensitiveDataModel,
-	"GENERATE_SENSITIVE_DATA_MODEL_FOR_DOWNLOAD":    WorkRequestOperationTypeGenerateSensitiveDataModelForDownload,
-	"CREATE_SENSITIVE_COLUMN":                       WorkRequestOperationTypeCreateSensitiveColumn,
-	"UPDATE_SENSITIVE_COLUMN":                       WorkRequestOperationTypeUpdateSensitiveColumn,
-	"PATCH_SENSITIVE_COLUMNS":                       WorkRequestOperationTypePatchSensitiveColumns,
-	"CREATE_DISCOVERY_JOB":                          WorkRequestOperationTypeCreateDiscoveryJob,
-	"DELETE_DISCOVERY_JOB":                          WorkRequestOperationTypeDeleteDiscoveryJob,
-	"PATCH_DISCOVERY_JOB_RESULT":                    WorkRequestOperationTypePatchDiscoveryJobResult,
-	"APPLY_DISCOVERY_JOB_RESULT":                    WorkRequestOperationTypeApplyDiscoveryJobResult,
-	"GENERATE_DISCOVERY_REPORT":                     WorkRequestOperationTypeGenerateDiscoveryReport,
-	"CREATE_SENSITIVE_TYPE":                         WorkRequestOperationTypeCreateSensitiveType,
-	"UPDATE_SENSITIVE_TYPE":                         WorkRequestOperationTypeUpdateSensitiveType,
-	"CREATE_MASKING_POLICY":                         WorkRequestOperationTypeCreateMaskingPolicy,
-	"UPDATE_MASKING_POLICY":                         WorkRequestOperationTypeUpdateMaskingPolicy,
-	"DELETE_MASKING_POLICY":                         WorkRequestOperationTypeDeleteMaskingPolicy,
-	"UPLOAD_MASKING_POLICY":                         WorkRequestOperationTypeUploadMaskingPolicy,
-	"GENERATE_MASKING_POLICY_FOR_DOWNLOAD":          WorkRequestOperationTypeGenerateMaskingPolicyForDownload,
-	"CREATE_MASKING_COLUMN":                         WorkRequestOperationTypeCreateMaskingColumn,
-	"UPDATE_MASKING_COLUMN":                         WorkRequestOperationTypeUpdateMaskingColumn,
-	"PATCH_MASKING_COLUMNS":                         WorkRequestOperationTypePatchMaskingColumns,
-	"GENERATE_MASKING_REPORT":                       WorkRequestOperationTypeGenerateMaskingReport,
-	"CREATE_LIBRARY_MASKING_FORMAT":                 WorkRequestOperationTypeCreateLibraryMaskingFormat,
-	"UPDATE_LIBRARY_MASKING_FORMAT":                 WorkRequestOperationTypeUpdateLibraryMaskingFormat,
-	"ADD_COLUMNS_FROM_SDM":                          WorkRequestOperationTypeAddColumnsFromSdm,
-	"MASKING_JOB":                                   WorkRequestOperationTypeMaskingJob,
-	"CREATE_DIFFERENCE":                             WorkRequestOperationTypeCreateDifference,
-	"DELETE_DIFFERENCE":                             WorkRequestOperationTypeDeleteDifference,
-	"UPDATE_DIFFERENCE":                             WorkRequestOperationTypeUpdateDifference,
-	"PATCH_DIFFERENCE":                              WorkRequestOperationTypePatchDifference,
-	"APPLY_DIFFERENCE":                              WorkRequestOperationTypeApplyDifference,
-	"MASK_POLICY_GENERATE_HEALTH_REPORT":            WorkRequestOperationTypeMaskPolicyGenerateHealthReport,
-	"MASK_POLICY_DELETE_HEALTH_REPORT":              WorkRequestOperationTypeMaskPolicyDeleteHealthReport,
-	"CREATE_SENSITIVE_TYPES_EXPORT":                 WorkRequestOperationTypeCreateSensitiveTypesExport,
-	"UPDATE_SENSITIVE_TYPES_EXPORT":                 WorkRequestOperationTypeUpdateSensitiveTypesExport,
-	"BULK_CREATE_SENSITIVE_TYPES":                   WorkRequestOperationTypeBulkCreateSensitiveTypes,
-	"ABORT_MASKING":                                 WorkRequestOperationTypeAbortMasking,
-	"CREATE_SECURITY_POLICY_REPORT":                 WorkRequestOperationTypeCreateSecurityPolicyReport,
-	"REFRESH_SECURITY_POLICY_CACHE":                 WorkRequestOperationTypeRefreshSecurityPolicyCache,
-	"DELETE_SECURITY_POLICY_CACHE":                  WorkRequestOperationTypeDeleteSecurityPolicyCache,
-	"CREATE_SCHEDULE":                               WorkRequestOperationTypeCreateSchedule,
-	"REMOVE_SCHEDULE_REPORT":                        WorkRequestOperationTypeRemoveScheduleReport,
-	"UPDATE_ALL_ALERT":                              WorkRequestOperationTypeUpdateAllAlert,
-	"PATCH_TARGET_ALERT_POLICY_ASSOCIATION":         WorkRequestOperationTypePatchTargetAlertPolicyAssociation,
-	"CREATE_ALERT_POLICY":                           WorkRequestOperationTypeCreateAlertPolicy,
-	"UPDATE_ALERT_POLICY":                           WorkRequestOperationTypeUpdateAlertPolicy,
-	"DELETE_ALERT_POLICY":                           WorkRequestOperationTypeDeleteAlertPolicy,
-	"CREATE_ALERT_POLICY_RULE":                      WorkRequestOperationTypeCreateAlertPolicyRule,
-	"UPDATE_ALERT_POLICY_RULE":                      WorkRequestOperationTypeUpdateAlertPolicyRule,
-	"DELETE_ALERT_POLICY_RULE":                      WorkRequestOperationTypeDeleteAlertPolicyRule,
-	"CHANGE_ALERT_POLICY_COMPARTMENT":               WorkRequestOperationTypeChangeAlertPolicyCompartment,
+	"ENABLE_DATA_SAFE_CONFIGURATION":                     WorkRequestOperationTypeEnableDataSafeConfiguration,
+	"CREATE_PRIVATE_ENDPOINT":                            WorkRequestOperationTypeCreatePrivateEndpoint,
+	"UPDATE_PRIVATE_ENDPOINT":                            WorkRequestOperationTypeUpdatePrivateEndpoint,
+	"DELETE_PRIVATE_ENDPOINT":                            WorkRequestOperationTypeDeletePrivateEndpoint,
+	"CHANGE_PRIVATE_ENDPOINT_COMPARTMENT":                WorkRequestOperationTypeChangePrivateEndpointCompartment,
+	"CREATE_ONPREM_CONNECTOR":                            WorkRequestOperationTypeCreateOnpremConnector,
+	"UPDATE_ONPREM_CONNECTOR":                            WorkRequestOperationTypeUpdateOnpremConnector,
+	"DELETE_ONPREM_CONNECTOR":                            WorkRequestOperationTypeDeleteOnpremConnector,
+	"UPDATE_ONPREM_CONNECTOR_WALLET":                     WorkRequestOperationTypeUpdateOnpremConnectorWallet,
+	"CHANGE_ONPREM_CONNECTOR_COMPARTMENT":                WorkRequestOperationTypeChangeOnpremConnectorCompartment,
+	"CREATE_TARGET_DATABASE":                             WorkRequestOperationTypeCreateTargetDatabase,
+	"UPDATE_TARGET_DATABASE":                             WorkRequestOperationTypeUpdateTargetDatabase,
+	"ACTIVATE_TARGET_DATABASE":                           WorkRequestOperationTypeActivateTargetDatabase,
+	"DEACTIVATE_TARGET_DATABASE":                         WorkRequestOperationTypeDeactivateTargetDatabase,
+	"DELETE_TARGET_DATABASE":                             WorkRequestOperationTypeDeleteTargetDatabase,
+	"CHANGE_TARGET_DATABASE_COMPARTMENT":                 WorkRequestOperationTypeChangeTargetDatabaseCompartment,
+	"CREATE_PEER_TARGET_DATABASE":                        WorkRequestOperationTypeCreatePeerTargetDatabase,
+	"UPDATE_PEER_TARGET_DATABASE":                        WorkRequestOperationTypeUpdatePeerTargetDatabase,
+	"DELETE_PEER_TARGET_DATABASE":                        WorkRequestOperationTypeDeletePeerTargetDatabase,
+	"REFRESH_TARGET_DATABASE":                            WorkRequestOperationTypeRefreshTargetDatabase,
+	"PROVISION_POLICY":                                   WorkRequestOperationTypeProvisionPolicy,
+	"RETRIEVE_POLICY":                                    WorkRequestOperationTypeRetrievePolicy,
+	"UPDATE_POLICY":                                      WorkRequestOperationTypeUpdatePolicy,
+	"CHANGE_POLICY_COMPARTMENT":                          WorkRequestOperationTypeChangePolicyCompartment,
+	"CREATE_USER_ASSESSMENT":                             WorkRequestOperationTypeCreateUserAssessment,
+	"ASSESS_USER_ASSESSMENT":                             WorkRequestOperationTypeAssessUserAssessment,
+	"CREATE_SNAPSHOT_USER_ASSESSMENT":                    WorkRequestOperationTypeCreateSnapshotUserAssessment,
+	"CREATE_SCHEDULE_USER_ASSESSMENT":                    WorkRequestOperationTypeCreateScheduleUserAssessment,
+	"COMPARE_WITH_BASELINE_USER_ASSESSMENT":              WorkRequestOperationTypeCompareWithBaselineUserAssessment,
+	"DELETE_USER_ASSESSMENT":                             WorkRequestOperationTypeDeleteUserAssessment,
+	"UPDATE_USER_ASSESSMENT":                             WorkRequestOperationTypeUpdateUserAssessment,
+	"CHANGE_USER_ASSESSMENT_COMPARTMENT":                 WorkRequestOperationTypeChangeUserAssessmentCompartment,
+	"SET_USER_ASSESSMENT_BASELINE":                       WorkRequestOperationTypeSetUserAssessmentBaseline,
+	"UNSET_USER_ASSESSMENT_BASELINE":                     WorkRequestOperationTypeUnsetUserAssessmentBaseline,
+	"GENERATE_USER_ASSESSMENT_REPORT":                    WorkRequestOperationTypeGenerateUserAssessmentReport,
+	"CREATE_SECURITY_ASSESSMENT":                         WorkRequestOperationTypeCreateSecurityAssessment,
+	"CREATE_SECURITY_ASSESSMENT_NOW":                     WorkRequestOperationTypeCreateSecurityAssessmentNow,
+	"ASSESS_SECURITY_ASSESSMENT":                         WorkRequestOperationTypeAssessSecurityAssessment,
+	"CREATE_SNAPSHOT_SECURITY_ASSESSMENT":                WorkRequestOperationTypeCreateSnapshotSecurityAssessment,
+	"CREATE_SCHEDULE_SECURITY_ASSESSMENT":                WorkRequestOperationTypeCreateScheduleSecurityAssessment,
+	"COMPARE_WITH_BASELINE_SECURITY_ASSESSMENT":          WorkRequestOperationTypeCompareWithBaselineSecurityAssessment,
+	"DELETE_SECURITY_ASSESSMENT":                         WorkRequestOperationTypeDeleteSecurityAssessment,
+	"UPDATE_SECURITY_ASSESSMENT":                         WorkRequestOperationTypeUpdateSecurityAssessment,
+	"PATCH_CHECKS":                                       WorkRequestOperationTypePatchChecks,
+	"UPDATE_FINDING_SEVERITY":                            WorkRequestOperationTypeUpdateFindingSeverity,
+	"APPLY_TEMPLATE":                                     WorkRequestOperationTypeApplyTemplate,
+	"FLEET_GENERATE_SECURITY_ASSESSMENT_REPORT":          WorkRequestOperationTypeFleetGenerateSecurityAssessmentReport,
+	"FLEET_GENERATE_USER_ASSESSMENT_REPORT":              WorkRequestOperationTypeFleetGenerateUserAssessmentReport,
+	"REFRESH_TARGET_DATABASE_GROUP_WITH_CHANGES":         WorkRequestOperationTypeRefreshTargetDatabaseGroupWithChanges,
+	"UPDATE_FINDING_RISK":                                WorkRequestOperationTypeUpdateFindingRisk,
+	"CHANGE_SECURITY_ASSESSMENT_COMPARTMENT":             WorkRequestOperationTypeChangeSecurityAssessmentCompartment,
+	"SET_SECURITY_ASSESSMENT_BASELINE":                   WorkRequestOperationTypeSetSecurityAssessmentBaseline,
+	"UNSET_SECURITY_ASSESSMENT_BASELINE":                 WorkRequestOperationTypeUnsetSecurityAssessmentBaseline,
+	"GENERATE_SECURITY_ASSESSMENT_REPORT":                WorkRequestOperationTypeGenerateSecurityAssessmentReport,
+	"DELETE_SQL_FIREWALL_ALLOWED_SQL":                    WorkRequestOperationTypeDeleteSqlFirewallAllowedSql,
+	"BULK_CREATE_SQL_FIREWALL_ALLOWED_SQL":               WorkRequestOperationTypeBulkCreateSqlFirewallAllowedSql,
+	"BULK_DELETE_SQL_FIREWALL_ALLOWED_SQL":               WorkRequestOperationTypeBulkDeleteSqlFirewallAllowedSql,
+	"CREATE_AUDIT_PROFILE":                               WorkRequestOperationTypeCreateAuditProfile,
+	"CALCULATE_VOLUME":                                   WorkRequestOperationTypeCalculateVolume,
+	"CALCULATE_COLLECTED_VOLUME":                         WorkRequestOperationTypeCalculateCollectedVolume,
+	"CREATE_DB_SECURITY_CONFIG":                          WorkRequestOperationTypeCreateDbSecurityConfig,
+	"REFRESH_DB_SECURITY_CONFIG":                         WorkRequestOperationTypeRefreshDbSecurityConfig,
+	"UPDATE_DB_SECURITY_CONFIG":                          WorkRequestOperationTypeUpdateDbSecurityConfig,
+	"CHANGE_DB_SECURITY_CONFIG_COMPARTMENT":              WorkRequestOperationTypeChangeDbSecurityConfigCompartment,
+	"GENERATE_FIREWALL_POLICY":                           WorkRequestOperationTypeGenerateFirewallPolicy,
+	"UPDATE_FIREWALL_POLICY":                             WorkRequestOperationTypeUpdateFirewallPolicy,
+	"CHANGE_FIREWALL_POLICY_COMPARTMENT":                 WorkRequestOperationTypeChangeFirewallPolicyCompartment,
+	"DELETE_FIREWALL_POLICY":                             WorkRequestOperationTypeDeleteFirewallPolicy,
+	"CREATE_SQL_COLLECTION":                              WorkRequestOperationTypeCreateSqlCollection,
+	"UPDATE_SQL_COLLECTION":                              WorkRequestOperationTypeUpdateSqlCollection,
+	"START_SQL_COLLECTION":                               WorkRequestOperationTypeStartSqlCollection,
+	"STOP_SQL_COLLECTION":                                WorkRequestOperationTypeStopSqlCollection,
+	"DELETE_SQL_COLLECTION":                              WorkRequestOperationTypeDeleteSqlCollection,
+	"CHANGE_SQL_COLLECTION_COMPARTMENT":                  WorkRequestOperationTypeChangeSqlCollectionCompartment,
+	"REFRESH_SQL_COLLECTION_LOG_INSIGHTS":                WorkRequestOperationTypeRefreshSqlCollectionLogInsights,
+	"PURGE_SQL_COLLECTION_LOGS":                          WorkRequestOperationTypePurgeSqlCollectionLogs,
+	"REFRESH_VIOLATIONS":                                 WorkRequestOperationTypeRefreshViolations,
+	"CREATE_ARCHIVAL":                                    WorkRequestOperationTypeCreateArchival,
+	"CREATE_SECURITY_POLICY":                             WorkRequestOperationTypeCreateSecurityPolicy,
+	"DELETE_SECURITY_POLICY":                             WorkRequestOperationTypeDeleteSecurityPolicy,
+	"SECURITY_POLICY_DEPLOYMENT_ACTIONS":                 WorkRequestOperationTypeSecurityPolicyDeploymentActions,
+	"PROVISION_SECURITY_POLICY_DEPLOYMENT":               WorkRequestOperationTypeProvisionSecurityPolicyDeployment,
+	"UPDATE_SECURITY_POLICY":                             WorkRequestOperationTypeUpdateSecurityPolicy,
+	"CHANGE_SECURITY_POLICY_COMPARTMENT":                 WorkRequestOperationTypeChangeSecurityPolicyCompartment,
+	"UPDATE_SECURITY_POLICY_DEPLOYMENT":                  WorkRequestOperationTypeUpdateSecurityPolicyDeployment,
+	"CHANGE_SECURITY_POLICY_DEPLOYMENT_COMPARTMENT":      WorkRequestOperationTypeChangeSecurityPolicyDeploymentCompartment,
+	"AUDIT_TRAIL":                                        WorkRequestOperationTypeAuditTrail,
+	"DELETE_AUDIT_TRAIL":                                 WorkRequestOperationTypeDeleteAuditTrail,
+	"DISCOVER_AUDIT_TRAILS":                              WorkRequestOperationTypeDiscoverAuditTrails,
+	"UPDATE_AUDIT_TRAIL":                                 WorkRequestOperationTypeUpdateAuditTrail,
+	"UPDATE_AUDIT_PROFILE":                               WorkRequestOperationTypeUpdateAuditProfile,
+	"AUDIT_CHANGE_COMPARTMENT":                           WorkRequestOperationTypeAuditChangeCompartment,
+	"CREATE_REPORT_DEFINITION":                           WorkRequestOperationTypeCreateReportDefinition,
+	"UPDATE_REPORT_DEFINITION":                           WorkRequestOperationTypeUpdateReportDefinition,
+	"CHANGE_REPORT_DEFINITION_COMPARTMENT":               WorkRequestOperationTypeChangeReportDefinitionCompartment,
+	"DELETE_REPORT_DEFINITION":                           WorkRequestOperationTypeDeleteReportDefinition,
+	"GENERATE_REPORT":                                    WorkRequestOperationTypeGenerateReport,
+	"CHANGE_REPORT_COMPARTMENT":                          WorkRequestOperationTypeChangeReportCompartment,
+	"DELETE_ARCHIVE_RETRIEVAL":                           WorkRequestOperationTypeDeleteArchiveRetrieval,
+	"CREATE_ARCHIVE_RETRIEVAL":                           WorkRequestOperationTypeCreateArchiveRetrieval,
+	"UPDATE_ARCHIVE_RETRIEVAL":                           WorkRequestOperationTypeUpdateArchiveRetrieval,
+	"CHANGE_ARCHIVE_RETRIEVAL_COMPARTMENT":               WorkRequestOperationTypeChangeArchiveRetrievalCompartment,
+	"UPDATE_ALERT":                                       WorkRequestOperationTypeUpdateAlert,
+	"TARGET_ALERT_POLICY_ASSOCIATION":                    WorkRequestOperationTypeTargetAlertPolicyAssociation,
+	"CREATE_TARGET_DATABASE_GROUP":                       WorkRequestOperationTypeCreateTargetDatabaseGroup,
+	"UPDATE_TARGET_DATABASE_GROUP":                       WorkRequestOperationTypeUpdateTargetDatabaseGroup,
+	"DELETE_TARGET_DATABASE_GROUP":                       WorkRequestOperationTypeDeleteTargetDatabaseGroup,
+	"CHANGE_TARGET_DATABASE_GROUP_COMPARTMENT":           WorkRequestOperationTypeChangeTargetDatabaseGroupCompartment,
+	"CREATE_SECURITY_POLICY_CONFIG":                      WorkRequestOperationTypeCreateSecurityPolicyConfig,
+	"UPDATE_SECURITY_POLICY_CONFIG":                      WorkRequestOperationTypeUpdateSecurityPolicyConfig,
+	"DELETE_SECURITY_POLICY_CONFIG":                      WorkRequestOperationTypeDeleteSecurityPolicyConfig,
+	"CHANGE_SECURITY_POLICY_CONFIG_COMPARTMENT":          WorkRequestOperationTypeChangeSecurityPolicyConfigCompartment,
+	"CREATE_UNIFIED_AUDIT_POLICY":                        WorkRequestOperationTypeCreateUnifiedAuditPolicy,
+	"UPDATE_UNIFIED_AUDIT_POLICY":                        WorkRequestOperationTypeUpdateUnifiedAuditPolicy,
+	"DELETE_UNIFIED_AUDIT_POLICY":                        WorkRequestOperationTypeDeleteUnifiedAuditPolicy,
+	"CHANGE_UNIFIED_AUDIT_POLICY_COMPARTMENT":            WorkRequestOperationTypeChangeUnifiedAuditPolicyCompartment,
+	"UPDATE_UNIFIED_AUDIT_POLICY_DEFINITION":             WorkRequestOperationTypeUpdateUnifiedAuditPolicyDefinition,
+	"DELETE_UNIFIED_AUDIT_POLICY_DEFINITION":             WorkRequestOperationTypeDeleteUnifiedAuditPolicyDefinition,
+	"CHANGE_UNIFIED_AUDIT_POLICY_DEFINITION_COMPARTMENT": WorkRequestOperationTypeChangeUnifiedAuditPolicyDefinitionCompartment,
+	"FETCH_AUDIT_POLICY_DETAILS":                         WorkRequestOperationTypeFetchAuditPolicyDetails,
+	"BULK_CREATE_UNIFIED_AUDIT_POLICY":                   WorkRequestOperationTypeBulkCreateUnifiedAuditPolicy,
+	"CREATE_SENSITIVE_DATA_MODEL":                        WorkRequestOperationTypeCreateSensitiveDataModel,
+	"UPDATE_SENSITIVE_DATA_MODEL":                        WorkRequestOperationTypeUpdateSensitiveDataModel,
+	"DELETE_SENSITIVE_DATA_MODEL":                        WorkRequestOperationTypeDeleteSensitiveDataModel,
+	"UPLOAD_SENSITIVE_DATA_MODEL":                        WorkRequestOperationTypeUploadSensitiveDataModel,
+	"GENERATE_SENSITIVE_DATA_MODEL_FOR_DOWNLOAD":         WorkRequestOperationTypeGenerateSensitiveDataModelForDownload,
+	"CREATE_SENSITIVE_COLUMN":                            WorkRequestOperationTypeCreateSensitiveColumn,
+	"UPDATE_SENSITIVE_COLUMN":                            WorkRequestOperationTypeUpdateSensitiveColumn,
+	"PATCH_SENSITIVE_COLUMNS":                            WorkRequestOperationTypePatchSensitiveColumns,
+	"CREATE_DISCOVERY_JOB":                               WorkRequestOperationTypeCreateDiscoveryJob,
+	"DELETE_DISCOVERY_JOB":                               WorkRequestOperationTypeDeleteDiscoveryJob,
+	"PATCH_DISCOVERY_JOB_RESULT":                         WorkRequestOperationTypePatchDiscoveryJobResult,
+	"APPLY_DISCOVERY_JOB_RESULT":                         WorkRequestOperationTypeApplyDiscoveryJobResult,
+	"GENERATE_DISCOVERY_REPORT":                          WorkRequestOperationTypeGenerateDiscoveryReport,
+	"CREATE_SENSITIVE_TYPE":                              WorkRequestOperationTypeCreateSensitiveType,
+	"UPDATE_SENSITIVE_TYPE":                              WorkRequestOperationTypeUpdateSensitiveType,
+	"CREATE_MASKING_POLICY":                              WorkRequestOperationTypeCreateMaskingPolicy,
+	"UPDATE_MASKING_POLICY":                              WorkRequestOperationTypeUpdateMaskingPolicy,
+	"DELETE_MASKING_POLICY":                              WorkRequestOperationTypeDeleteMaskingPolicy,
+	"UPLOAD_MASKING_POLICY":                              WorkRequestOperationTypeUploadMaskingPolicy,
+	"GENERATE_MASKING_POLICY_FOR_DOWNLOAD":               WorkRequestOperationTypeGenerateMaskingPolicyForDownload,
+	"CREATE_MASKING_COLUMN":                              WorkRequestOperationTypeCreateMaskingColumn,
+	"UPDATE_MASKING_COLUMN":                              WorkRequestOperationTypeUpdateMaskingColumn,
+	"PATCH_MASKING_COLUMNS":                              WorkRequestOperationTypePatchMaskingColumns,
+	"GENERATE_MASKING_REPORT":                            WorkRequestOperationTypeGenerateMaskingReport,
+	"CREATE_LIBRARY_MASKING_FORMAT":                      WorkRequestOperationTypeCreateLibraryMaskingFormat,
+	"UPDATE_LIBRARY_MASKING_FORMAT":                      WorkRequestOperationTypeUpdateLibraryMaskingFormat,
+	"ADD_COLUMNS_FROM_SDM":                               WorkRequestOperationTypeAddColumnsFromSdm,
+	"MASKING_JOB":                                        WorkRequestOperationTypeMaskingJob,
+	"CREATE_DIFFERENCE":                                  WorkRequestOperationTypeCreateDifference,
+	"DELETE_DIFFERENCE":                                  WorkRequestOperationTypeDeleteDifference,
+	"UPDATE_DIFFERENCE":                                  WorkRequestOperationTypeUpdateDifference,
+	"PATCH_DIFFERENCE":                                   WorkRequestOperationTypePatchDifference,
+	"APPLY_DIFFERENCE":                                   WorkRequestOperationTypeApplyDifference,
+	"DELETE_MASKING_REPORT":                              WorkRequestOperationTypeDeleteMaskingReport,
+	"MASK_POLICY_GENERATE_HEALTH_REPORT":                 WorkRequestOperationTypeMaskPolicyGenerateHealthReport,
+	"MASK_POLICY_DELETE_HEALTH_REPORT":                   WorkRequestOperationTypeMaskPolicyDeleteHealthReport,
+	"CREATE_SENSITIVE_TYPES_EXPORT":                      WorkRequestOperationTypeCreateSensitiveTypesExport,
+	"UPDATE_SENSITIVE_TYPES_EXPORT":                      WorkRequestOperationTypeUpdateSensitiveTypesExport,
+	"BULK_CREATE_SENSITIVE_TYPES":                        WorkRequestOperationTypeBulkCreateSensitiveTypes,
+	"CREATE_SENSITIVE_TYPE_GROUP":                        WorkRequestOperationTypeCreateSensitiveTypeGroup,
+	"UPDATE_SENSITIVE_TYPE_GROUP":                        WorkRequestOperationTypeUpdateSensitiveTypeGroup,
+	"DELETE_SENSITIVE_TYPE_GROUP":                        WorkRequestOperationTypeDeleteSensitiveTypeGroup,
+	"DELETE_SENSITIVE_TYPE":                              WorkRequestOperationTypeDeleteSensitiveType,
+	"PATCH_GROUPED_SENSITIVE_TYPES":                      WorkRequestOperationTypePatchGroupedSensitiveTypes,
+	"CREATE_RELATION":                                    WorkRequestOperationTypeCreateRelation,
+	"DELETE_RELATION":                                    WorkRequestOperationTypeDeleteRelation,
+	"ABORT_MASKING":                                      WorkRequestOperationTypeAbortMasking,
+	"CREATE_SECURITY_POLICY_REPORT":                      WorkRequestOperationTypeCreateSecurityPolicyReport,
+	"REFRESH_SECURITY_POLICY_CACHE":                      WorkRequestOperationTypeRefreshSecurityPolicyCache,
+	"DELETE_SECURITY_POLICY_CACHE":                       WorkRequestOperationTypeDeleteSecurityPolicyCache,
+	"CREATE_SCHEDULE":                                    WorkRequestOperationTypeCreateSchedule,
+	"REMOVE_SCHEDULE_REPORT":                             WorkRequestOperationTypeRemoveScheduleReport,
+	"UPDATE_ALL_ALERT":                                   WorkRequestOperationTypeUpdateAllAlert,
+	"PATCH_TARGET_ALERT_POLICY_ASSOCIATION":              WorkRequestOperationTypePatchTargetAlertPolicyAssociation,
+	"CREATE_ALERT_POLICY":                                WorkRequestOperationTypeCreateAlertPolicy,
+	"UPDATE_ALERT_POLICY":                                WorkRequestOperationTypeUpdateAlertPolicy,
+	"DELETE_ALERT_POLICY":                                WorkRequestOperationTypeDeleteAlertPolicy,
+	"CREATE_ALERT_POLICY_RULE":                           WorkRequestOperationTypeCreateAlertPolicyRule,
+	"UPDATE_ALERT_POLICY_RULE":                           WorkRequestOperationTypeUpdateAlertPolicyRule,
+	"DELETE_ALERT_POLICY_RULE":                           WorkRequestOperationTypeDeleteAlertPolicyRule,
+	"CHANGE_ALERT_POLICY_COMPARTMENT":                    WorkRequestOperationTypeChangeAlertPolicyCompartment,
+	"UPDATE_TARGET_GROUP_AUDIT_PROFILE":                  WorkRequestOperationTypeUpdateTargetGroupAuditProfile,
+	"CREATE_ATTRIBUTE_SET":                               WorkRequestOperationTypeCreateAttributeSet,
+	"UPDATE_ATTRIBUTE_SET":                               WorkRequestOperationTypeUpdateAttributeSet,
+	"DELETE_ATTRIBUTE_SET":                               WorkRequestOperationTypeDeleteAttributeSet,
+	"CHANGE_ATTRIBUTE_SET_COMPARTMENT":                   WorkRequestOperationTypeChangeAttributeSetCompartment,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
-	"enable_data_safe_configuration":                WorkRequestOperationTypeEnableDataSafeConfiguration,
-	"create_private_endpoint":                       WorkRequestOperationTypeCreatePrivateEndpoint,
-	"update_private_endpoint":                       WorkRequestOperationTypeUpdatePrivateEndpoint,
-	"delete_private_endpoint":                       WorkRequestOperationTypeDeletePrivateEndpoint,
-	"change_private_endpoint_compartment":           WorkRequestOperationTypeChangePrivateEndpointCompartment,
-	"create_onprem_connector":                       WorkRequestOperationTypeCreateOnpremConnector,
-	"update_onprem_connector":                       WorkRequestOperationTypeUpdateOnpremConnector,
-	"delete_onprem_connector":                       WorkRequestOperationTypeDeleteOnpremConnector,
-	"update_onprem_connector_wallet":                WorkRequestOperationTypeUpdateOnpremConnectorWallet,
-	"change_onprem_connector_compartment":           WorkRequestOperationTypeChangeOnpremConnectorCompartment,
-	"create_target_database":                        WorkRequestOperationTypeCreateTargetDatabase,
-	"update_target_database":                        WorkRequestOperationTypeUpdateTargetDatabase,
-	"activate_target_database":                      WorkRequestOperationTypeActivateTargetDatabase,
-	"deactivate_target_database":                    WorkRequestOperationTypeDeactivateTargetDatabase,
-	"delete_target_database":                        WorkRequestOperationTypeDeleteTargetDatabase,
-	"change_target_database_compartment":            WorkRequestOperationTypeChangeTargetDatabaseCompartment,
-	"create_peer_target_database":                   WorkRequestOperationTypeCreatePeerTargetDatabase,
-	"update_peer_target_database":                   WorkRequestOperationTypeUpdatePeerTargetDatabase,
-	"delete_peer_target_database":                   WorkRequestOperationTypeDeletePeerTargetDatabase,
-	"refresh_target_database":                       WorkRequestOperationTypeRefreshTargetDatabase,
-	"provision_policy":                              WorkRequestOperationTypeProvisionPolicy,
-	"retrieve_policy":                               WorkRequestOperationTypeRetrievePolicy,
-	"update_policy":                                 WorkRequestOperationTypeUpdatePolicy,
-	"change_policy_compartment":                     WorkRequestOperationTypeChangePolicyCompartment,
-	"create_user_assessment":                        WorkRequestOperationTypeCreateUserAssessment,
-	"assess_user_assessment":                        WorkRequestOperationTypeAssessUserAssessment,
-	"create_snapshot_user_assessment":               WorkRequestOperationTypeCreateSnapshotUserAssessment,
-	"create_schedule_user_assessment":               WorkRequestOperationTypeCreateScheduleUserAssessment,
-	"compare_with_baseline_user_assessment":         WorkRequestOperationTypeCompareWithBaselineUserAssessment,
-	"delete_user_assessment":                        WorkRequestOperationTypeDeleteUserAssessment,
-	"update_user_assessment":                        WorkRequestOperationTypeUpdateUserAssessment,
-	"change_user_assessment_compartment":            WorkRequestOperationTypeChangeUserAssessmentCompartment,
-	"set_user_assessment_baseline":                  WorkRequestOperationTypeSetUserAssessmentBaseline,
-	"unset_user_assessment_baseline":                WorkRequestOperationTypeUnsetUserAssessmentBaseline,
-	"generate_user_assessment_report":               WorkRequestOperationTypeGenerateUserAssessmentReport,
-	"create_security_assessment":                    WorkRequestOperationTypeCreateSecurityAssessment,
-	"create_security_assessment_now":                WorkRequestOperationTypeCreateSecurityAssessmentNow,
-	"assess_security_assessment":                    WorkRequestOperationTypeAssessSecurityAssessment,
-	"create_snapshot_security_assessment":           WorkRequestOperationTypeCreateSnapshotSecurityAssessment,
-	"create_schedule_security_assessment":           WorkRequestOperationTypeCreateScheduleSecurityAssessment,
-	"compare_with_baseline_security_assessment":     WorkRequestOperationTypeCompareWithBaselineSecurityAssessment,
-	"delete_security_assessment":                    WorkRequestOperationTypeDeleteSecurityAssessment,
-	"update_security_assessment":                    WorkRequestOperationTypeUpdateSecurityAssessment,
-	"update_finding_risk":                           WorkRequestOperationTypeUpdateFindingRisk,
-	"change_security_assessment_compartment":        WorkRequestOperationTypeChangeSecurityAssessmentCompartment,
-	"set_security_assessment_baseline":              WorkRequestOperationTypeSetSecurityAssessmentBaseline,
-	"unset_security_assessment_baseline":            WorkRequestOperationTypeUnsetSecurityAssessmentBaseline,
-	"generate_security_assessment_report":           WorkRequestOperationTypeGenerateSecurityAssessmentReport,
-	"delete_sql_firewall_allowed_sql":               WorkRequestOperationTypeDeleteSqlFirewallAllowedSql,
-	"bulk_create_sql_firewall_allowed_sql":          WorkRequestOperationTypeBulkCreateSqlFirewallAllowedSql,
-	"bulk_delete_sql_firewall_allowed_sql":          WorkRequestOperationTypeBulkDeleteSqlFirewallAllowedSql,
-	"create_audit_profile":                          WorkRequestOperationTypeCreateAuditProfile,
-	"calculate_volume":                              WorkRequestOperationTypeCalculateVolume,
-	"calculate_collected_volume":                    WorkRequestOperationTypeCalculateCollectedVolume,
-	"create_db_security_config":                     WorkRequestOperationTypeCreateDbSecurityConfig,
-	"refresh_db_security_config":                    WorkRequestOperationTypeRefreshDbSecurityConfig,
-	"update_db_security_config":                     WorkRequestOperationTypeUpdateDbSecurityConfig,
-	"change_db_security_config_compartment":         WorkRequestOperationTypeChangeDbSecurityConfigCompartment,
-	"generate_firewall_policy":                      WorkRequestOperationTypeGenerateFirewallPolicy,
-	"update_firewall_policy":                        WorkRequestOperationTypeUpdateFirewallPolicy,
-	"change_firewall_policy_compartment":            WorkRequestOperationTypeChangeFirewallPolicyCompartment,
-	"delete_firewall_policy":                        WorkRequestOperationTypeDeleteFirewallPolicy,
-	"create_sql_collection":                         WorkRequestOperationTypeCreateSqlCollection,
-	"update_sql_collection":                         WorkRequestOperationTypeUpdateSqlCollection,
-	"start_sql_collection":                          WorkRequestOperationTypeStartSqlCollection,
-	"stop_sql_collection":                           WorkRequestOperationTypeStopSqlCollection,
-	"delete_sql_collection":                         WorkRequestOperationTypeDeleteSqlCollection,
-	"change_sql_collection_compartment":             WorkRequestOperationTypeChangeSqlCollectionCompartment,
-	"refresh_sql_collection_log_insights":           WorkRequestOperationTypeRefreshSqlCollectionLogInsights,
-	"purge_sql_collection_logs":                     WorkRequestOperationTypePurgeSqlCollectionLogs,
-	"refresh_violations":                            WorkRequestOperationTypeRefreshViolations,
-	"create_archival":                               WorkRequestOperationTypeCreateArchival,
-	"update_security_policy":                        WorkRequestOperationTypeUpdateSecurityPolicy,
-	"change_security_policy_compartment":            WorkRequestOperationTypeChangeSecurityPolicyCompartment,
-	"update_security_policy_deployment":             WorkRequestOperationTypeUpdateSecurityPolicyDeployment,
-	"change_security_policy_deployment_compartment": WorkRequestOperationTypeChangeSecurityPolicyDeploymentCompartment,
-	"audit_trail":                                   WorkRequestOperationTypeAuditTrail,
-	"delete_audit_trail":                            WorkRequestOperationTypeDeleteAuditTrail,
-	"discover_audit_trails":                         WorkRequestOperationTypeDiscoverAuditTrails,
-	"update_audit_trail":                            WorkRequestOperationTypeUpdateAuditTrail,
-	"update_audit_profile":                          WorkRequestOperationTypeUpdateAuditProfile,
-	"audit_change_compartment":                      WorkRequestOperationTypeAuditChangeCompartment,
-	"create_report_definition":                      WorkRequestOperationTypeCreateReportDefinition,
-	"update_report_definition":                      WorkRequestOperationTypeUpdateReportDefinition,
-	"change_report_definition_compartment":          WorkRequestOperationTypeChangeReportDefinitionCompartment,
-	"delete_report_definition":                      WorkRequestOperationTypeDeleteReportDefinition,
-	"generate_report":                               WorkRequestOperationTypeGenerateReport,
-	"change_report_compartment":                     WorkRequestOperationTypeChangeReportCompartment,
-	"delete_archive_retrieval":                      WorkRequestOperationTypeDeleteArchiveRetrieval,
-	"create_archive_retrieval":                      WorkRequestOperationTypeCreateArchiveRetrieval,
-	"update_archive_retrieval":                      WorkRequestOperationTypeUpdateArchiveRetrieval,
-	"change_archive_retrieval_compartment":          WorkRequestOperationTypeChangeArchiveRetrievalCompartment,
-	"update_alert":                                  WorkRequestOperationTypeUpdateAlert,
-	"target_alert_policy_association":               WorkRequestOperationTypeTargetAlertPolicyAssociation,
-	"create_sensitive_data_model":                   WorkRequestOperationTypeCreateSensitiveDataModel,
-	"update_sensitive_data_model":                   WorkRequestOperationTypeUpdateSensitiveDataModel,
-	"delete_sensitive_data_model":                   WorkRequestOperationTypeDeleteSensitiveDataModel,
-	"upload_sensitive_data_model":                   WorkRequestOperationTypeUploadSensitiveDataModel,
-	"generate_sensitive_data_model_for_download":    WorkRequestOperationTypeGenerateSensitiveDataModelForDownload,
-	"create_sensitive_column":                       WorkRequestOperationTypeCreateSensitiveColumn,
-	"update_sensitive_column":                       WorkRequestOperationTypeUpdateSensitiveColumn,
-	"patch_sensitive_columns":                       WorkRequestOperationTypePatchSensitiveColumns,
-	"create_discovery_job":                          WorkRequestOperationTypeCreateDiscoveryJob,
-	"delete_discovery_job":                          WorkRequestOperationTypeDeleteDiscoveryJob,
-	"patch_discovery_job_result":                    WorkRequestOperationTypePatchDiscoveryJobResult,
-	"apply_discovery_job_result":                    WorkRequestOperationTypeApplyDiscoveryJobResult,
-	"generate_discovery_report":                     WorkRequestOperationTypeGenerateDiscoveryReport,
-	"create_sensitive_type":                         WorkRequestOperationTypeCreateSensitiveType,
-	"update_sensitive_type":                         WorkRequestOperationTypeUpdateSensitiveType,
-	"create_masking_policy":                         WorkRequestOperationTypeCreateMaskingPolicy,
-	"update_masking_policy":                         WorkRequestOperationTypeUpdateMaskingPolicy,
-	"delete_masking_policy":                         WorkRequestOperationTypeDeleteMaskingPolicy,
-	"upload_masking_policy":                         WorkRequestOperationTypeUploadMaskingPolicy,
-	"generate_masking_policy_for_download":          WorkRequestOperationTypeGenerateMaskingPolicyForDownload,
-	"create_masking_column":                         WorkRequestOperationTypeCreateMaskingColumn,
-	"update_masking_column":                         WorkRequestOperationTypeUpdateMaskingColumn,
-	"patch_masking_columns":                         WorkRequestOperationTypePatchMaskingColumns,
-	"generate_masking_report":                       WorkRequestOperationTypeGenerateMaskingReport,
-	"create_library_masking_format":                 WorkRequestOperationTypeCreateLibraryMaskingFormat,
-	"update_library_masking_format":                 WorkRequestOperationTypeUpdateLibraryMaskingFormat,
-	"add_columns_from_sdm":                          WorkRequestOperationTypeAddColumnsFromSdm,
-	"masking_job":                                   WorkRequestOperationTypeMaskingJob,
-	"create_difference":                             WorkRequestOperationTypeCreateDifference,
-	"delete_difference":                             WorkRequestOperationTypeDeleteDifference,
-	"update_difference":                             WorkRequestOperationTypeUpdateDifference,
-	"patch_difference":                              WorkRequestOperationTypePatchDifference,
-	"apply_difference":                              WorkRequestOperationTypeApplyDifference,
-	"mask_policy_generate_health_report":            WorkRequestOperationTypeMaskPolicyGenerateHealthReport,
-	"mask_policy_delete_health_report":              WorkRequestOperationTypeMaskPolicyDeleteHealthReport,
-	"create_sensitive_types_export":                 WorkRequestOperationTypeCreateSensitiveTypesExport,
-	"update_sensitive_types_export":                 WorkRequestOperationTypeUpdateSensitiveTypesExport,
-	"bulk_create_sensitive_types":                   WorkRequestOperationTypeBulkCreateSensitiveTypes,
-	"abort_masking":                                 WorkRequestOperationTypeAbortMasking,
-	"create_security_policy_report":                 WorkRequestOperationTypeCreateSecurityPolicyReport,
-	"refresh_security_policy_cache":                 WorkRequestOperationTypeRefreshSecurityPolicyCache,
-	"delete_security_policy_cache":                  WorkRequestOperationTypeDeleteSecurityPolicyCache,
-	"create_schedule":                               WorkRequestOperationTypeCreateSchedule,
-	"remove_schedule_report":                        WorkRequestOperationTypeRemoveScheduleReport,
-	"update_all_alert":                              WorkRequestOperationTypeUpdateAllAlert,
-	"patch_target_alert_policy_association":         WorkRequestOperationTypePatchTargetAlertPolicyAssociation,
-	"create_alert_policy":                           WorkRequestOperationTypeCreateAlertPolicy,
-	"update_alert_policy":                           WorkRequestOperationTypeUpdateAlertPolicy,
-	"delete_alert_policy":                           WorkRequestOperationTypeDeleteAlertPolicy,
-	"create_alert_policy_rule":                      WorkRequestOperationTypeCreateAlertPolicyRule,
-	"update_alert_policy_rule":                      WorkRequestOperationTypeUpdateAlertPolicyRule,
-	"delete_alert_policy_rule":                      WorkRequestOperationTypeDeleteAlertPolicyRule,
-	"change_alert_policy_compartment":               WorkRequestOperationTypeChangeAlertPolicyCompartment,
+	"enable_data_safe_configuration":                     WorkRequestOperationTypeEnableDataSafeConfiguration,
+	"create_private_endpoint":                            WorkRequestOperationTypeCreatePrivateEndpoint,
+	"update_private_endpoint":                            WorkRequestOperationTypeUpdatePrivateEndpoint,
+	"delete_private_endpoint":                            WorkRequestOperationTypeDeletePrivateEndpoint,
+	"change_private_endpoint_compartment":                WorkRequestOperationTypeChangePrivateEndpointCompartment,
+	"create_onprem_connector":                            WorkRequestOperationTypeCreateOnpremConnector,
+	"update_onprem_connector":                            WorkRequestOperationTypeUpdateOnpremConnector,
+	"delete_onprem_connector":                            WorkRequestOperationTypeDeleteOnpremConnector,
+	"update_onprem_connector_wallet":                     WorkRequestOperationTypeUpdateOnpremConnectorWallet,
+	"change_onprem_connector_compartment":                WorkRequestOperationTypeChangeOnpremConnectorCompartment,
+	"create_target_database":                             WorkRequestOperationTypeCreateTargetDatabase,
+	"update_target_database":                             WorkRequestOperationTypeUpdateTargetDatabase,
+	"activate_target_database":                           WorkRequestOperationTypeActivateTargetDatabase,
+	"deactivate_target_database":                         WorkRequestOperationTypeDeactivateTargetDatabase,
+	"delete_target_database":                             WorkRequestOperationTypeDeleteTargetDatabase,
+	"change_target_database_compartment":                 WorkRequestOperationTypeChangeTargetDatabaseCompartment,
+	"create_peer_target_database":                        WorkRequestOperationTypeCreatePeerTargetDatabase,
+	"update_peer_target_database":                        WorkRequestOperationTypeUpdatePeerTargetDatabase,
+	"delete_peer_target_database":                        WorkRequestOperationTypeDeletePeerTargetDatabase,
+	"refresh_target_database":                            WorkRequestOperationTypeRefreshTargetDatabase,
+	"provision_policy":                                   WorkRequestOperationTypeProvisionPolicy,
+	"retrieve_policy":                                    WorkRequestOperationTypeRetrievePolicy,
+	"update_policy":                                      WorkRequestOperationTypeUpdatePolicy,
+	"change_policy_compartment":                          WorkRequestOperationTypeChangePolicyCompartment,
+	"create_user_assessment":                             WorkRequestOperationTypeCreateUserAssessment,
+	"assess_user_assessment":                             WorkRequestOperationTypeAssessUserAssessment,
+	"create_snapshot_user_assessment":                    WorkRequestOperationTypeCreateSnapshotUserAssessment,
+	"create_schedule_user_assessment":                    WorkRequestOperationTypeCreateScheduleUserAssessment,
+	"compare_with_baseline_user_assessment":              WorkRequestOperationTypeCompareWithBaselineUserAssessment,
+	"delete_user_assessment":                             WorkRequestOperationTypeDeleteUserAssessment,
+	"update_user_assessment":                             WorkRequestOperationTypeUpdateUserAssessment,
+	"change_user_assessment_compartment":                 WorkRequestOperationTypeChangeUserAssessmentCompartment,
+	"set_user_assessment_baseline":                       WorkRequestOperationTypeSetUserAssessmentBaseline,
+	"unset_user_assessment_baseline":                     WorkRequestOperationTypeUnsetUserAssessmentBaseline,
+	"generate_user_assessment_report":                    WorkRequestOperationTypeGenerateUserAssessmentReport,
+	"create_security_assessment":                         WorkRequestOperationTypeCreateSecurityAssessment,
+	"create_security_assessment_now":                     WorkRequestOperationTypeCreateSecurityAssessmentNow,
+	"assess_security_assessment":                         WorkRequestOperationTypeAssessSecurityAssessment,
+	"create_snapshot_security_assessment":                WorkRequestOperationTypeCreateSnapshotSecurityAssessment,
+	"create_schedule_security_assessment":                WorkRequestOperationTypeCreateScheduleSecurityAssessment,
+	"compare_with_baseline_security_assessment":          WorkRequestOperationTypeCompareWithBaselineSecurityAssessment,
+	"delete_security_assessment":                         WorkRequestOperationTypeDeleteSecurityAssessment,
+	"update_security_assessment":                         WorkRequestOperationTypeUpdateSecurityAssessment,
+	"patch_checks":                                       WorkRequestOperationTypePatchChecks,
+	"update_finding_severity":                            WorkRequestOperationTypeUpdateFindingSeverity,
+	"apply_template":                                     WorkRequestOperationTypeApplyTemplate,
+	"fleet_generate_security_assessment_report":          WorkRequestOperationTypeFleetGenerateSecurityAssessmentReport,
+	"fleet_generate_user_assessment_report":              WorkRequestOperationTypeFleetGenerateUserAssessmentReport,
+	"refresh_target_database_group_with_changes":         WorkRequestOperationTypeRefreshTargetDatabaseGroupWithChanges,
+	"update_finding_risk":                                WorkRequestOperationTypeUpdateFindingRisk,
+	"change_security_assessment_compartment":             WorkRequestOperationTypeChangeSecurityAssessmentCompartment,
+	"set_security_assessment_baseline":                   WorkRequestOperationTypeSetSecurityAssessmentBaseline,
+	"unset_security_assessment_baseline":                 WorkRequestOperationTypeUnsetSecurityAssessmentBaseline,
+	"generate_security_assessment_report":                WorkRequestOperationTypeGenerateSecurityAssessmentReport,
+	"delete_sql_firewall_allowed_sql":                    WorkRequestOperationTypeDeleteSqlFirewallAllowedSql,
+	"bulk_create_sql_firewall_allowed_sql":               WorkRequestOperationTypeBulkCreateSqlFirewallAllowedSql,
+	"bulk_delete_sql_firewall_allowed_sql":               WorkRequestOperationTypeBulkDeleteSqlFirewallAllowedSql,
+	"create_audit_profile":                               WorkRequestOperationTypeCreateAuditProfile,
+	"calculate_volume":                                   WorkRequestOperationTypeCalculateVolume,
+	"calculate_collected_volume":                         WorkRequestOperationTypeCalculateCollectedVolume,
+	"create_db_security_config":                          WorkRequestOperationTypeCreateDbSecurityConfig,
+	"refresh_db_security_config":                         WorkRequestOperationTypeRefreshDbSecurityConfig,
+	"update_db_security_config":                          WorkRequestOperationTypeUpdateDbSecurityConfig,
+	"change_db_security_config_compartment":              WorkRequestOperationTypeChangeDbSecurityConfigCompartment,
+	"generate_firewall_policy":                           WorkRequestOperationTypeGenerateFirewallPolicy,
+	"update_firewall_policy":                             WorkRequestOperationTypeUpdateFirewallPolicy,
+	"change_firewall_policy_compartment":                 WorkRequestOperationTypeChangeFirewallPolicyCompartment,
+	"delete_firewall_policy":                             WorkRequestOperationTypeDeleteFirewallPolicy,
+	"create_sql_collection":                              WorkRequestOperationTypeCreateSqlCollection,
+	"update_sql_collection":                              WorkRequestOperationTypeUpdateSqlCollection,
+	"start_sql_collection":                               WorkRequestOperationTypeStartSqlCollection,
+	"stop_sql_collection":                                WorkRequestOperationTypeStopSqlCollection,
+	"delete_sql_collection":                              WorkRequestOperationTypeDeleteSqlCollection,
+	"change_sql_collection_compartment":                  WorkRequestOperationTypeChangeSqlCollectionCompartment,
+	"refresh_sql_collection_log_insights":                WorkRequestOperationTypeRefreshSqlCollectionLogInsights,
+	"purge_sql_collection_logs":                          WorkRequestOperationTypePurgeSqlCollectionLogs,
+	"refresh_violations":                                 WorkRequestOperationTypeRefreshViolations,
+	"create_archival":                                    WorkRequestOperationTypeCreateArchival,
+	"create_security_policy":                             WorkRequestOperationTypeCreateSecurityPolicy,
+	"delete_security_policy":                             WorkRequestOperationTypeDeleteSecurityPolicy,
+	"security_policy_deployment_actions":                 WorkRequestOperationTypeSecurityPolicyDeploymentActions,
+	"provision_security_policy_deployment":               WorkRequestOperationTypeProvisionSecurityPolicyDeployment,
+	"update_security_policy":                             WorkRequestOperationTypeUpdateSecurityPolicy,
+	"change_security_policy_compartment":                 WorkRequestOperationTypeChangeSecurityPolicyCompartment,
+	"update_security_policy_deployment":                  WorkRequestOperationTypeUpdateSecurityPolicyDeployment,
+	"change_security_policy_deployment_compartment":      WorkRequestOperationTypeChangeSecurityPolicyDeploymentCompartment,
+	"audit_trail":                                        WorkRequestOperationTypeAuditTrail,
+	"delete_audit_trail":                                 WorkRequestOperationTypeDeleteAuditTrail,
+	"discover_audit_trails":                              WorkRequestOperationTypeDiscoverAuditTrails,
+	"update_audit_trail":                                 WorkRequestOperationTypeUpdateAuditTrail,
+	"update_audit_profile":                               WorkRequestOperationTypeUpdateAuditProfile,
+	"audit_change_compartment":                           WorkRequestOperationTypeAuditChangeCompartment,
+	"create_report_definition":                           WorkRequestOperationTypeCreateReportDefinition,
+	"update_report_definition":                           WorkRequestOperationTypeUpdateReportDefinition,
+	"change_report_definition_compartment":               WorkRequestOperationTypeChangeReportDefinitionCompartment,
+	"delete_report_definition":                           WorkRequestOperationTypeDeleteReportDefinition,
+	"generate_report":                                    WorkRequestOperationTypeGenerateReport,
+	"change_report_compartment":                          WorkRequestOperationTypeChangeReportCompartment,
+	"delete_archive_retrieval":                           WorkRequestOperationTypeDeleteArchiveRetrieval,
+	"create_archive_retrieval":                           WorkRequestOperationTypeCreateArchiveRetrieval,
+	"update_archive_retrieval":                           WorkRequestOperationTypeUpdateArchiveRetrieval,
+	"change_archive_retrieval_compartment":               WorkRequestOperationTypeChangeArchiveRetrievalCompartment,
+	"update_alert":                                       WorkRequestOperationTypeUpdateAlert,
+	"target_alert_policy_association":                    WorkRequestOperationTypeTargetAlertPolicyAssociation,
+	"create_target_database_group":                       WorkRequestOperationTypeCreateTargetDatabaseGroup,
+	"update_target_database_group":                       WorkRequestOperationTypeUpdateTargetDatabaseGroup,
+	"delete_target_database_group":                       WorkRequestOperationTypeDeleteTargetDatabaseGroup,
+	"change_target_database_group_compartment":           WorkRequestOperationTypeChangeTargetDatabaseGroupCompartment,
+	"create_security_policy_config":                      WorkRequestOperationTypeCreateSecurityPolicyConfig,
+	"update_security_policy_config":                      WorkRequestOperationTypeUpdateSecurityPolicyConfig,
+	"delete_security_policy_config":                      WorkRequestOperationTypeDeleteSecurityPolicyConfig,
+	"change_security_policy_config_compartment":          WorkRequestOperationTypeChangeSecurityPolicyConfigCompartment,
+	"create_unified_audit_policy":                        WorkRequestOperationTypeCreateUnifiedAuditPolicy,
+	"update_unified_audit_policy":                        WorkRequestOperationTypeUpdateUnifiedAuditPolicy,
+	"delete_unified_audit_policy":                        WorkRequestOperationTypeDeleteUnifiedAuditPolicy,
+	"change_unified_audit_policy_compartment":            WorkRequestOperationTypeChangeUnifiedAuditPolicyCompartment,
+	"update_unified_audit_policy_definition":             WorkRequestOperationTypeUpdateUnifiedAuditPolicyDefinition,
+	"delete_unified_audit_policy_definition":             WorkRequestOperationTypeDeleteUnifiedAuditPolicyDefinition,
+	"change_unified_audit_policy_definition_compartment": WorkRequestOperationTypeChangeUnifiedAuditPolicyDefinitionCompartment,
+	"fetch_audit_policy_details":                         WorkRequestOperationTypeFetchAuditPolicyDetails,
+	"bulk_create_unified_audit_policy":                   WorkRequestOperationTypeBulkCreateUnifiedAuditPolicy,
+	"create_sensitive_data_model":                        WorkRequestOperationTypeCreateSensitiveDataModel,
+	"update_sensitive_data_model":                        WorkRequestOperationTypeUpdateSensitiveDataModel,
+	"delete_sensitive_data_model":                        WorkRequestOperationTypeDeleteSensitiveDataModel,
+	"upload_sensitive_data_model":                        WorkRequestOperationTypeUploadSensitiveDataModel,
+	"generate_sensitive_data_model_for_download":         WorkRequestOperationTypeGenerateSensitiveDataModelForDownload,
+	"create_sensitive_column":                            WorkRequestOperationTypeCreateSensitiveColumn,
+	"update_sensitive_column":                            WorkRequestOperationTypeUpdateSensitiveColumn,
+	"patch_sensitive_columns":                            WorkRequestOperationTypePatchSensitiveColumns,
+	"create_discovery_job":                               WorkRequestOperationTypeCreateDiscoveryJob,
+	"delete_discovery_job":                               WorkRequestOperationTypeDeleteDiscoveryJob,
+	"patch_discovery_job_result":                         WorkRequestOperationTypePatchDiscoveryJobResult,
+	"apply_discovery_job_result":                         WorkRequestOperationTypeApplyDiscoveryJobResult,
+	"generate_discovery_report":                          WorkRequestOperationTypeGenerateDiscoveryReport,
+	"create_sensitive_type":                              WorkRequestOperationTypeCreateSensitiveType,
+	"update_sensitive_type":                              WorkRequestOperationTypeUpdateSensitiveType,
+	"create_masking_policy":                              WorkRequestOperationTypeCreateMaskingPolicy,
+	"update_masking_policy":                              WorkRequestOperationTypeUpdateMaskingPolicy,
+	"delete_masking_policy":                              WorkRequestOperationTypeDeleteMaskingPolicy,
+	"upload_masking_policy":                              WorkRequestOperationTypeUploadMaskingPolicy,
+	"generate_masking_policy_for_download":               WorkRequestOperationTypeGenerateMaskingPolicyForDownload,
+	"create_masking_column":                              WorkRequestOperationTypeCreateMaskingColumn,
+	"update_masking_column":                              WorkRequestOperationTypeUpdateMaskingColumn,
+	"patch_masking_columns":                              WorkRequestOperationTypePatchMaskingColumns,
+	"generate_masking_report":                            WorkRequestOperationTypeGenerateMaskingReport,
+	"create_library_masking_format":                      WorkRequestOperationTypeCreateLibraryMaskingFormat,
+	"update_library_masking_format":                      WorkRequestOperationTypeUpdateLibraryMaskingFormat,
+	"add_columns_from_sdm":                               WorkRequestOperationTypeAddColumnsFromSdm,
+	"masking_job":                                        WorkRequestOperationTypeMaskingJob,
+	"create_difference":                                  WorkRequestOperationTypeCreateDifference,
+	"delete_difference":                                  WorkRequestOperationTypeDeleteDifference,
+	"update_difference":                                  WorkRequestOperationTypeUpdateDifference,
+	"patch_difference":                                   WorkRequestOperationTypePatchDifference,
+	"apply_difference":                                   WorkRequestOperationTypeApplyDifference,
+	"delete_masking_report":                              WorkRequestOperationTypeDeleteMaskingReport,
+	"mask_policy_generate_health_report":                 WorkRequestOperationTypeMaskPolicyGenerateHealthReport,
+	"mask_policy_delete_health_report":                   WorkRequestOperationTypeMaskPolicyDeleteHealthReport,
+	"create_sensitive_types_export":                      WorkRequestOperationTypeCreateSensitiveTypesExport,
+	"update_sensitive_types_export":                      WorkRequestOperationTypeUpdateSensitiveTypesExport,
+	"bulk_create_sensitive_types":                        WorkRequestOperationTypeBulkCreateSensitiveTypes,
+	"create_sensitive_type_group":                        WorkRequestOperationTypeCreateSensitiveTypeGroup,
+	"update_sensitive_type_group":                        WorkRequestOperationTypeUpdateSensitiveTypeGroup,
+	"delete_sensitive_type_group":                        WorkRequestOperationTypeDeleteSensitiveTypeGroup,
+	"delete_sensitive_type":                              WorkRequestOperationTypeDeleteSensitiveType,
+	"patch_grouped_sensitive_types":                      WorkRequestOperationTypePatchGroupedSensitiveTypes,
+	"create_relation":                                    WorkRequestOperationTypeCreateRelation,
+	"delete_relation":                                    WorkRequestOperationTypeDeleteRelation,
+	"abort_masking":                                      WorkRequestOperationTypeAbortMasking,
+	"create_security_policy_report":                      WorkRequestOperationTypeCreateSecurityPolicyReport,
+	"refresh_security_policy_cache":                      WorkRequestOperationTypeRefreshSecurityPolicyCache,
+	"delete_security_policy_cache":                       WorkRequestOperationTypeDeleteSecurityPolicyCache,
+	"create_schedule":                                    WorkRequestOperationTypeCreateSchedule,
+	"remove_schedule_report":                             WorkRequestOperationTypeRemoveScheduleReport,
+	"update_all_alert":                                   WorkRequestOperationTypeUpdateAllAlert,
+	"patch_target_alert_policy_association":              WorkRequestOperationTypePatchTargetAlertPolicyAssociation,
+	"create_alert_policy":                                WorkRequestOperationTypeCreateAlertPolicy,
+	"update_alert_policy":                                WorkRequestOperationTypeUpdateAlertPolicy,
+	"delete_alert_policy":                                WorkRequestOperationTypeDeleteAlertPolicy,
+	"create_alert_policy_rule":                           WorkRequestOperationTypeCreateAlertPolicyRule,
+	"update_alert_policy_rule":                           WorkRequestOperationTypeUpdateAlertPolicyRule,
+	"delete_alert_policy_rule":                           WorkRequestOperationTypeDeleteAlertPolicyRule,
+	"change_alert_policy_compartment":                    WorkRequestOperationTypeChangeAlertPolicyCompartment,
+	"update_target_group_audit_profile":                  WorkRequestOperationTypeUpdateTargetGroupAuditProfile,
+	"create_attribute_set":                               WorkRequestOperationTypeCreateAttributeSet,
+	"update_attribute_set":                               WorkRequestOperationTypeUpdateAttributeSet,
+	"delete_attribute_set":                               WorkRequestOperationTypeDeleteAttributeSet,
+	"change_attribute_set_compartment":                   WorkRequestOperationTypeChangeAttributeSetCompartment,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -577,6 +697,12 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"COMPARE_WITH_BASELINE_SECURITY_ASSESSMENT",
 		"DELETE_SECURITY_ASSESSMENT",
 		"UPDATE_SECURITY_ASSESSMENT",
+		"PATCH_CHECKS",
+		"UPDATE_FINDING_SEVERITY",
+		"APPLY_TEMPLATE",
+		"FLEET_GENERATE_SECURITY_ASSESSMENT_REPORT",
+		"FLEET_GENERATE_USER_ASSESSMENT_REPORT",
+		"REFRESH_TARGET_DATABASE_GROUP_WITH_CHANGES",
 		"UPDATE_FINDING_RISK",
 		"CHANGE_SECURITY_ASSESSMENT_COMPARTMENT",
 		"SET_SECURITY_ASSESSMENT_BASELINE",
@@ -606,6 +732,10 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"PURGE_SQL_COLLECTION_LOGS",
 		"REFRESH_VIOLATIONS",
 		"CREATE_ARCHIVAL",
+		"CREATE_SECURITY_POLICY",
+		"DELETE_SECURITY_POLICY",
+		"SECURITY_POLICY_DEPLOYMENT_ACTIONS",
+		"PROVISION_SECURITY_POLICY_DEPLOYMENT",
 		"UPDATE_SECURITY_POLICY",
 		"CHANGE_SECURITY_POLICY_COMPARTMENT",
 		"UPDATE_SECURITY_POLICY_DEPLOYMENT",
@@ -628,6 +758,23 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"CHANGE_ARCHIVE_RETRIEVAL_COMPARTMENT",
 		"UPDATE_ALERT",
 		"TARGET_ALERT_POLICY_ASSOCIATION",
+		"CREATE_TARGET_DATABASE_GROUP",
+		"UPDATE_TARGET_DATABASE_GROUP",
+		"DELETE_TARGET_DATABASE_GROUP",
+		"CHANGE_TARGET_DATABASE_GROUP_COMPARTMENT",
+		"CREATE_SECURITY_POLICY_CONFIG",
+		"UPDATE_SECURITY_POLICY_CONFIG",
+		"DELETE_SECURITY_POLICY_CONFIG",
+		"CHANGE_SECURITY_POLICY_CONFIG_COMPARTMENT",
+		"CREATE_UNIFIED_AUDIT_POLICY",
+		"UPDATE_UNIFIED_AUDIT_POLICY",
+		"DELETE_UNIFIED_AUDIT_POLICY",
+		"CHANGE_UNIFIED_AUDIT_POLICY_COMPARTMENT",
+		"UPDATE_UNIFIED_AUDIT_POLICY_DEFINITION",
+		"DELETE_UNIFIED_AUDIT_POLICY_DEFINITION",
+		"CHANGE_UNIFIED_AUDIT_POLICY_DEFINITION_COMPARTMENT",
+		"FETCH_AUDIT_POLICY_DETAILS",
+		"BULK_CREATE_UNIFIED_AUDIT_POLICY",
 		"CREATE_SENSITIVE_DATA_MODEL",
 		"UPDATE_SENSITIVE_DATA_MODEL",
 		"DELETE_SENSITIVE_DATA_MODEL",
@@ -661,11 +808,19 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"UPDATE_DIFFERENCE",
 		"PATCH_DIFFERENCE",
 		"APPLY_DIFFERENCE",
+		"DELETE_MASKING_REPORT",
 		"MASK_POLICY_GENERATE_HEALTH_REPORT",
 		"MASK_POLICY_DELETE_HEALTH_REPORT",
 		"CREATE_SENSITIVE_TYPES_EXPORT",
 		"UPDATE_SENSITIVE_TYPES_EXPORT",
 		"BULK_CREATE_SENSITIVE_TYPES",
+		"CREATE_SENSITIVE_TYPE_GROUP",
+		"UPDATE_SENSITIVE_TYPE_GROUP",
+		"DELETE_SENSITIVE_TYPE_GROUP",
+		"DELETE_SENSITIVE_TYPE",
+		"PATCH_GROUPED_SENSITIVE_TYPES",
+		"CREATE_RELATION",
+		"DELETE_RELATION",
 		"ABORT_MASKING",
 		"CREATE_SECURITY_POLICY_REPORT",
 		"REFRESH_SECURITY_POLICY_CACHE",
@@ -681,6 +836,11 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"UPDATE_ALERT_POLICY_RULE",
 		"DELETE_ALERT_POLICY_RULE",
 		"CHANGE_ALERT_POLICY_COMPARTMENT",
+		"UPDATE_TARGET_GROUP_AUDIT_PROFILE",
+		"CREATE_ATTRIBUTE_SET",
+		"UPDATE_ATTRIBUTE_SET",
+		"DELETE_ATTRIBUTE_SET",
+		"CHANGE_ATTRIBUTE_SET_COMPARTMENT",
 	}
 }
 

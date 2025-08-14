@@ -77,6 +77,9 @@ type PullRequest struct {
 	// List of Reviewers.
 	Reviewers []Reviewer `mandatory:"false" json:"reviewers"`
 
+	// The commit ID when the Pull Request was merged.
+	MergedCommitId *string `mandatory:"false" json:"mergedCommitId"`
+
 	MergeChecks *MergeCheckCollection `mandatory:"false" json:"mergeChecks"`
 
 	MergedBy *PrincipalDetails `mandatory:"false" json:"mergedBy"`

@@ -51,6 +51,9 @@ type ListAuditPolicyAnalyticsRequest struct {
 	// A filter to return only items related to a specific target OCID.
 	TargetId *string `mandatory:"false" contributesTo:"query" name:"targetId"`
 
+	// A filter to return the target database group that matches the specified OCID.
+	TargetDatabaseGroupId *string `mandatory:"false" contributesTo:"query" name:"targetDatabaseGroupId"`
+
 	// The current state of the audit policy.
 	LifecycleState ListAuditPolicyAnalyticsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 

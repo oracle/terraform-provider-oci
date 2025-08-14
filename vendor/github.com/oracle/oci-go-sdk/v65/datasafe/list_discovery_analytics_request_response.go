@@ -31,6 +31,15 @@ type ListDiscoveryAnalyticsRequest struct {
 	// A filter to return only items related to a specific target OCID.
 	TargetId *string `mandatory:"false" contributesTo:"query" name:"targetId"`
 
+	// A filter to return the target database group that matches the specified OCID.
+	TargetDatabaseGroupId *string `mandatory:"false" contributesTo:"query" name:"targetDatabaseGroupId"`
+
+	// The field to sort by. You can specify only one sorting parameter (sortOrder). The default order for all the fields is ascending.
+	SortBy ListDiscoveryAnalyticsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
+
+	// The sort order to use, either ascending (ASC) or descending (DESC).
+	SortOrder ListDiscoveryAnalyticsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
+
 	// A filter to return only the resources that match the specified sensitive data model OCID.
 	SensitiveDataModelId *string `mandatory:"false" contributesTo:"query" name:"sensitiveDataModelId"`
 
@@ -49,6 +58,9 @@ type ListDiscoveryAnalyticsRequest struct {
 	// A filter to return only the common sensitive type resources. Common sensitive types belong to
 	// library sensitive types which are frequently used to perform sensitive data discovery.
 	IsCommon *bool `mandatory:"false" contributesTo:"query" name:"isCommon"`
+
+	// An optional filter to return only resources that match the specified OCID of the sensitive type group resource.
+	SensitiveTypeGroupId *string `mandatory:"false" contributesTo:"query" name:"sensitiveTypeGroupId"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
@@ -88,6 +100,12 @@ func (request ListDiscoveryAnalyticsRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingListDiscoveryAnalyticsGroupByEnum(string(request.GroupBy)); !ok && request.GroupBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for GroupBy: %s. Supported values are: %s.", request.GroupBy, strings.Join(GetListDiscoveryAnalyticsGroupByEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListDiscoveryAnalyticsSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDiscoveryAnalyticsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListDiscoveryAnalyticsSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDiscoveryAnalyticsSortOrderEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -180,5 +198,85 @@ func GetListDiscoveryAnalyticsGroupByEnumStringValues() []string {
 // GetMappingListDiscoveryAnalyticsGroupByEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListDiscoveryAnalyticsGroupByEnum(val string) (ListDiscoveryAnalyticsGroupByEnum, bool) {
 	enum, ok := mappingListDiscoveryAnalyticsGroupByEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListDiscoveryAnalyticsSortByEnum Enum with underlying type: string
+type ListDiscoveryAnalyticsSortByEnum string
+
+// Set of constants representing the allowable values for ListDiscoveryAnalyticsSortByEnum
+const (
+	ListDiscoveryAnalyticsSortByTimelastdiscovered ListDiscoveryAnalyticsSortByEnum = "timeLastDiscovered"
+)
+
+var mappingListDiscoveryAnalyticsSortByEnum = map[string]ListDiscoveryAnalyticsSortByEnum{
+	"timeLastDiscovered": ListDiscoveryAnalyticsSortByTimelastdiscovered,
+}
+
+var mappingListDiscoveryAnalyticsSortByEnumLowerCase = map[string]ListDiscoveryAnalyticsSortByEnum{
+	"timelastdiscovered": ListDiscoveryAnalyticsSortByTimelastdiscovered,
+}
+
+// GetListDiscoveryAnalyticsSortByEnumValues Enumerates the set of values for ListDiscoveryAnalyticsSortByEnum
+func GetListDiscoveryAnalyticsSortByEnumValues() []ListDiscoveryAnalyticsSortByEnum {
+	values := make([]ListDiscoveryAnalyticsSortByEnum, 0)
+	for _, v := range mappingListDiscoveryAnalyticsSortByEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListDiscoveryAnalyticsSortByEnumStringValues Enumerates the set of values in String for ListDiscoveryAnalyticsSortByEnum
+func GetListDiscoveryAnalyticsSortByEnumStringValues() []string {
+	return []string{
+		"timeLastDiscovered",
+	}
+}
+
+// GetMappingListDiscoveryAnalyticsSortByEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListDiscoveryAnalyticsSortByEnum(val string) (ListDiscoveryAnalyticsSortByEnum, bool) {
+	enum, ok := mappingListDiscoveryAnalyticsSortByEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListDiscoveryAnalyticsSortOrderEnum Enum with underlying type: string
+type ListDiscoveryAnalyticsSortOrderEnum string
+
+// Set of constants representing the allowable values for ListDiscoveryAnalyticsSortOrderEnum
+const (
+	ListDiscoveryAnalyticsSortOrderAsc  ListDiscoveryAnalyticsSortOrderEnum = "ASC"
+	ListDiscoveryAnalyticsSortOrderDesc ListDiscoveryAnalyticsSortOrderEnum = "DESC"
+)
+
+var mappingListDiscoveryAnalyticsSortOrderEnum = map[string]ListDiscoveryAnalyticsSortOrderEnum{
+	"ASC":  ListDiscoveryAnalyticsSortOrderAsc,
+	"DESC": ListDiscoveryAnalyticsSortOrderDesc,
+}
+
+var mappingListDiscoveryAnalyticsSortOrderEnumLowerCase = map[string]ListDiscoveryAnalyticsSortOrderEnum{
+	"asc":  ListDiscoveryAnalyticsSortOrderAsc,
+	"desc": ListDiscoveryAnalyticsSortOrderDesc,
+}
+
+// GetListDiscoveryAnalyticsSortOrderEnumValues Enumerates the set of values for ListDiscoveryAnalyticsSortOrderEnum
+func GetListDiscoveryAnalyticsSortOrderEnumValues() []ListDiscoveryAnalyticsSortOrderEnum {
+	values := make([]ListDiscoveryAnalyticsSortOrderEnum, 0)
+	for _, v := range mappingListDiscoveryAnalyticsSortOrderEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListDiscoveryAnalyticsSortOrderEnumStringValues Enumerates the set of values in String for ListDiscoveryAnalyticsSortOrderEnum
+func GetListDiscoveryAnalyticsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
+}
+
+// GetMappingListDiscoveryAnalyticsSortOrderEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListDiscoveryAnalyticsSortOrderEnum(val string) (ListDiscoveryAnalyticsSortOrderEnum, bool) {
+	enum, ok := mappingListDiscoveryAnalyticsSortOrderEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

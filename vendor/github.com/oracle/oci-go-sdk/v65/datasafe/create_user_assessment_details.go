@@ -21,7 +21,7 @@ type CreateUserAssessmentDetails struct {
 	// The OCID of the compartment that contains the user assessment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID of the target database on which the user assessment is to be run.
+	// The OCID of the target database or target database group on which user assessment is to be run.
 	TargetId *string `mandatory:"true" json:"targetId"`
 
 	// The description of the user assessment.
@@ -50,6 +50,9 @@ type CreateUserAssessmentDetails struct {
 	//   5. No constraint introduced when it is '*'. When not, day of month must equal the given value
 	Schedule *string `mandatory:"false" json:"schedule"`
 
+	// The type of user assessment resource whether it is individual or group resource. For individual target use type TARGET_DATABASE and for group resource use type TARGET_DATABASE_GROUP. If not provided, TARGET_DATABASE would be used as default value.
+	TargetType UserAssessmentTargetTypeEnum `mandatory:"false" json:"targetType,omitempty"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -69,6 +72,9 @@ func (m CreateUserAssessmentDetails) String() string {
 func (m CreateUserAssessmentDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingUserAssessmentTargetTypeEnum(string(m.TargetType)); !ok && m.TargetType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TargetType: %s. Supported values are: %s.", m.TargetType, strings.Join(GetUserAssessmentTargetTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

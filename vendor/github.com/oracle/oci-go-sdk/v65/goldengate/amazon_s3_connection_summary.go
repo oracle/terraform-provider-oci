@@ -94,9 +94,12 @@ type AmazonS3ConnectionSummary struct {
 
 	// The Amazon Endpoint for S3.
 	// e.g.: 'https://my-bucket.s3.us-east-1.amazonaws.com'
+	// If not provided, GoldenGate will default to 'https://s3.<region>.amazonaws.com'.
 	Endpoint *string `mandatory:"false" json:"endpoint"`
 
-	// The name of the region where the bucket is created.
+	// The name of the AWS region where the bucket is created.
+	// If not provided, GoldenGate will default to 'us-west-2'.
+	// Note: this property will become mandatory after May 20, 2026.
 	Region *string `mandatory:"false" json:"region"`
 
 	// Possible lifecycle states for connection.

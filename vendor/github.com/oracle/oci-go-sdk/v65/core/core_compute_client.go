@@ -5600,7 +5600,7 @@ func (client ComputeClient) listComputeGpuMemoryClusters(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeGpuMemoryClusterCollection/ListComputeGpuMemoryClusters"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeGpuMemoryCluster/ListComputeGpuMemoryClusters"
 		err = common.PostProcessServiceError(err, "Compute", "ListComputeGpuMemoryClusters", apiReferenceLink)
 		return response, err
 	}
