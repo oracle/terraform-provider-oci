@@ -43,6 +43,20 @@ type ListAuditTrailAnalyticsRequest struct {
 	// A filter to return only items related to a specific target OCID.
 	TargetId *string `mandatory:"false" contributesTo:"query" name:"targetId"`
 
+	// An optional filter to return audit events whose creation time in the database is greater than and equal to the date-time specified,
+	// in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	TimeStarted *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeStarted"`
+
+	// An optional filter to return audit events whose creation time in the database is less than and equal to the date-time specified,
+	// in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	TimeEnded *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeEnded"`
+
+	// Default time zone is UTC if no time zone provided. The date-time considerations of the resource will be in accordance with the specified time zone.
+	QueryTimeZone *string `mandatory:"false" contributesTo:"query" name:"queryTimeZone"`
+
+	// A filter to return the target database group that matches the specified OCID.
+	TargetDatabaseGroupId *string `mandatory:"false" contributesTo:"query" name:"targetDatabaseGroupId"`
+
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 

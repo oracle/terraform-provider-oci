@@ -124,6 +124,16 @@ func (s *DatascienceJobDataSourceCrud) SetData() error {
 		s.D.Set("job_log_configuration_details", nil)
 	}
 
+	if s.Res.JobNodeConfigurationDetails != nil {
+		jobNodeConfigurationDetailsArray := []interface{}{}
+		if jobNodeConfigurationDetailsMap := JobNodeConfigurationDetailsToMap(&s.Res.JobNodeConfigurationDetails); jobNodeConfigurationDetailsMap != nil {
+			jobNodeConfigurationDetailsArray = append(jobNodeConfigurationDetailsArray, jobNodeConfigurationDetailsMap)
+		}
+		s.D.Set("job_node_configuration_details", jobNodeConfigurationDetailsArray)
+	} else {
+		s.D.Set("job_node_configuration_details", nil)
+	}
+
 	jobStorageMountConfigurationDetailsList := []interface{}{}
 	for _, item := range s.Res.JobStorageMountConfigurationDetailsList {
 		jobStorageMountConfigurationDetailsList = append(jobStorageMountConfigurationDetailsList, StorageMountConfigurationDetailsToMap(item))

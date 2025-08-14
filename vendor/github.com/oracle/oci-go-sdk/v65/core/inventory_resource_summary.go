@@ -30,6 +30,9 @@ type InventoryResourceSummary struct {
 	// Resource types of the resource.
 	ResourceType InventoryResourceSummaryResourceTypeEnum `mandatory:"false" json:"resourceType,omitempty"`
 
+	// Mac Address of IP Resource
+	MacAddress *string `mandatory:"false" json:"macAddress"`
+
 	// Lists the 'IpAddressCollection' object.
 	IpAddressCollection []InventoryIpAddressSummary `mandatory:"false" json:"ipAddressCollection"`
 

@@ -37,6 +37,12 @@ type ListAuditProfilesRequest struct {
 	// A filter to return only items related to a specific target OCID.
 	TargetId *string `mandatory:"false" contributesTo:"query" name:"targetId"`
 
+	// A filter to return the target database group that matches the specified OCID.
+	TargetDatabaseGroupId *string `mandatory:"false" contributesTo:"query" name:"targetDatabaseGroupId"`
+
+	// A optional filter to return only resources that belong to the specified audit profile type.
+	TargetType ListAuditProfilesTargetTypeEnum `mandatory:"false" contributesTo:"query" name:"targetType" omitEmpty:"true"`
+
 	// A filter to return only resources that match the specified display name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
@@ -110,6 +116,9 @@ func (request ListAuditProfilesRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingListAuditProfilesAccessLevelEnum(string(request.AccessLevel)); !ok && request.AccessLevel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccessLevel: %s. Supported values are: %s.", request.AccessLevel, strings.Join(GetListAuditProfilesAccessLevelEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListAuditProfilesTargetTypeEnum(string(request.TargetType)); !ok && request.TargetType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TargetType: %s. Supported values are: %s.", request.TargetType, strings.Join(GetListAuditProfilesTargetTypeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListAuditProfilesLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListAuditProfilesLifecycleStateEnumStringValues(), ",")))
@@ -195,6 +204,48 @@ func GetListAuditProfilesAccessLevelEnumStringValues() []string {
 // GetMappingListAuditProfilesAccessLevelEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListAuditProfilesAccessLevelEnum(val string) (ListAuditProfilesAccessLevelEnum, bool) {
 	enum, ok := mappingListAuditProfilesAccessLevelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListAuditProfilesTargetTypeEnum Enum with underlying type: string
+type ListAuditProfilesTargetTypeEnum string
+
+// Set of constants representing the allowable values for ListAuditProfilesTargetTypeEnum
+const (
+	ListAuditProfilesTargetTypeDatabase      ListAuditProfilesTargetTypeEnum = "TARGET_DATABASE"
+	ListAuditProfilesTargetTypeDatabaseGroup ListAuditProfilesTargetTypeEnum = "TARGET_DATABASE_GROUP"
+)
+
+var mappingListAuditProfilesTargetTypeEnum = map[string]ListAuditProfilesTargetTypeEnum{
+	"TARGET_DATABASE":       ListAuditProfilesTargetTypeDatabase,
+	"TARGET_DATABASE_GROUP": ListAuditProfilesTargetTypeDatabaseGroup,
+}
+
+var mappingListAuditProfilesTargetTypeEnumLowerCase = map[string]ListAuditProfilesTargetTypeEnum{
+	"target_database":       ListAuditProfilesTargetTypeDatabase,
+	"target_database_group": ListAuditProfilesTargetTypeDatabaseGroup,
+}
+
+// GetListAuditProfilesTargetTypeEnumValues Enumerates the set of values for ListAuditProfilesTargetTypeEnum
+func GetListAuditProfilesTargetTypeEnumValues() []ListAuditProfilesTargetTypeEnum {
+	values := make([]ListAuditProfilesTargetTypeEnum, 0)
+	for _, v := range mappingListAuditProfilesTargetTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListAuditProfilesTargetTypeEnumStringValues Enumerates the set of values in String for ListAuditProfilesTargetTypeEnum
+func GetListAuditProfilesTargetTypeEnumStringValues() []string {
+	return []string{
+		"TARGET_DATABASE",
+		"TARGET_DATABASE_GROUP",
+	}
+}
+
+// GetMappingListAuditProfilesTargetTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListAuditProfilesTargetTypeEnum(val string) (ListAuditProfilesTargetTypeEnum, bool) {
+	enum, ok := mappingListAuditProfilesTargetTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

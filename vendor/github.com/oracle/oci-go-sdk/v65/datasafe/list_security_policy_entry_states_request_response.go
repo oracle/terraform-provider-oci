@@ -33,6 +33,12 @@ type ListSecurityPolicyEntryStatesRequest struct {
 	// An optional filter to return only resources that match the specified security policy entry OCID.
 	SecurityPolicyEntryId *string `mandatory:"false" contributesTo:"query" name:"securityPolicyEntryId"`
 
+	// The type of the security policy deployment.
+	SecurityPolicyEntryType SecurityPolicyEntryStateSummaryEntryTypeEnum `mandatory:"false" contributesTo:"query" name:"securityPolicyEntryType" omitEmpty:"true"`
+
+	// An optional filter to return only resources that match the specified target id.
+	TargetId *string `mandatory:"false" contributesTo:"query" name:"targetId"`
+
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
@@ -75,6 +81,9 @@ func (request ListSecurityPolicyEntryStatesRequest) ValidateEnumValue() (bool, e
 	if _, ok := GetMappingListSecurityPolicyEntryStatesDeploymentStatusEnum(string(request.DeploymentStatus)); !ok && request.DeploymentStatus != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DeploymentStatus: %s. Supported values are: %s.", request.DeploymentStatus, strings.Join(GetListSecurityPolicyEntryStatesDeploymentStatusEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingSecurityPolicyEntryStateSummaryEntryTypeEnum(string(request.SecurityPolicyEntryType)); !ok && request.SecurityPolicyEntryType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SecurityPolicyEntryType: %s. Supported values are: %s.", request.SecurityPolicyEntryType, strings.Join(GetSecurityPolicyEntryStateSummaryEntryTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -116,27 +125,36 @@ type ListSecurityPolicyEntryStatesDeploymentStatusEnum string
 
 // Set of constants representing the allowable values for ListSecurityPolicyEntryStatesDeploymentStatusEnum
 const (
-	ListSecurityPolicyEntryStatesDeploymentStatusCreated      ListSecurityPolicyEntryStatesDeploymentStatusEnum = "CREATED"
-	ListSecurityPolicyEntryStatesDeploymentStatusModified     ListSecurityPolicyEntryStatesDeploymentStatusEnum = "MODIFIED"
-	ListSecurityPolicyEntryStatesDeploymentStatusConflict     ListSecurityPolicyEntryStatesDeploymentStatusEnum = "CONFLICT"
-	ListSecurityPolicyEntryStatesDeploymentStatusUnauthorized ListSecurityPolicyEntryStatesDeploymentStatusEnum = "UNAUTHORIZED"
-	ListSecurityPolicyEntryStatesDeploymentStatusDeleted      ListSecurityPolicyEntryStatesDeploymentStatusEnum = "DELETED"
+	ListSecurityPolicyEntryStatesDeploymentStatusCreated           ListSecurityPolicyEntryStatesDeploymentStatusEnum = "CREATED"
+	ListSecurityPolicyEntryStatesDeploymentStatusModified          ListSecurityPolicyEntryStatesDeploymentStatusEnum = "MODIFIED"
+	ListSecurityPolicyEntryStatesDeploymentStatusConflict          ListSecurityPolicyEntryStatesDeploymentStatusEnum = "CONFLICT"
+	ListSecurityPolicyEntryStatesDeploymentStatusConnectivityIssue ListSecurityPolicyEntryStatesDeploymentStatusEnum = "CONNECTIVITY_ISSUE"
+	ListSecurityPolicyEntryStatesDeploymentStatusUnsupportedSyntax ListSecurityPolicyEntryStatesDeploymentStatusEnum = "UNSUPPORTED_SYNTAX"
+	ListSecurityPolicyEntryStatesDeploymentStatusUnknownError      ListSecurityPolicyEntryStatesDeploymentStatusEnum = "UNKNOWN_ERROR"
+	ListSecurityPolicyEntryStatesDeploymentStatusUnauthorized      ListSecurityPolicyEntryStatesDeploymentStatusEnum = "UNAUTHORIZED"
+	ListSecurityPolicyEntryStatesDeploymentStatusDeleted           ListSecurityPolicyEntryStatesDeploymentStatusEnum = "DELETED"
 )
 
 var mappingListSecurityPolicyEntryStatesDeploymentStatusEnum = map[string]ListSecurityPolicyEntryStatesDeploymentStatusEnum{
-	"CREATED":      ListSecurityPolicyEntryStatesDeploymentStatusCreated,
-	"MODIFIED":     ListSecurityPolicyEntryStatesDeploymentStatusModified,
-	"CONFLICT":     ListSecurityPolicyEntryStatesDeploymentStatusConflict,
-	"UNAUTHORIZED": ListSecurityPolicyEntryStatesDeploymentStatusUnauthorized,
-	"DELETED":      ListSecurityPolicyEntryStatesDeploymentStatusDeleted,
+	"CREATED":            ListSecurityPolicyEntryStatesDeploymentStatusCreated,
+	"MODIFIED":           ListSecurityPolicyEntryStatesDeploymentStatusModified,
+	"CONFLICT":           ListSecurityPolicyEntryStatesDeploymentStatusConflict,
+	"CONNECTIVITY_ISSUE": ListSecurityPolicyEntryStatesDeploymentStatusConnectivityIssue,
+	"UNSUPPORTED_SYNTAX": ListSecurityPolicyEntryStatesDeploymentStatusUnsupportedSyntax,
+	"UNKNOWN_ERROR":      ListSecurityPolicyEntryStatesDeploymentStatusUnknownError,
+	"UNAUTHORIZED":       ListSecurityPolicyEntryStatesDeploymentStatusUnauthorized,
+	"DELETED":            ListSecurityPolicyEntryStatesDeploymentStatusDeleted,
 }
 
 var mappingListSecurityPolicyEntryStatesDeploymentStatusEnumLowerCase = map[string]ListSecurityPolicyEntryStatesDeploymentStatusEnum{
-	"created":      ListSecurityPolicyEntryStatesDeploymentStatusCreated,
-	"modified":     ListSecurityPolicyEntryStatesDeploymentStatusModified,
-	"conflict":     ListSecurityPolicyEntryStatesDeploymentStatusConflict,
-	"unauthorized": ListSecurityPolicyEntryStatesDeploymentStatusUnauthorized,
-	"deleted":      ListSecurityPolicyEntryStatesDeploymentStatusDeleted,
+	"created":            ListSecurityPolicyEntryStatesDeploymentStatusCreated,
+	"modified":           ListSecurityPolicyEntryStatesDeploymentStatusModified,
+	"conflict":           ListSecurityPolicyEntryStatesDeploymentStatusConflict,
+	"connectivity_issue": ListSecurityPolicyEntryStatesDeploymentStatusConnectivityIssue,
+	"unsupported_syntax": ListSecurityPolicyEntryStatesDeploymentStatusUnsupportedSyntax,
+	"unknown_error":      ListSecurityPolicyEntryStatesDeploymentStatusUnknownError,
+	"unauthorized":       ListSecurityPolicyEntryStatesDeploymentStatusUnauthorized,
+	"deleted":            ListSecurityPolicyEntryStatesDeploymentStatusDeleted,
 }
 
 // GetListSecurityPolicyEntryStatesDeploymentStatusEnumValues Enumerates the set of values for ListSecurityPolicyEntryStatesDeploymentStatusEnum
@@ -154,6 +172,9 @@ func GetListSecurityPolicyEntryStatesDeploymentStatusEnumStringValues() []string
 		"CREATED",
 		"MODIFIED",
 		"CONFLICT",
+		"CONNECTIVITY_ISSUE",
+		"UNSUPPORTED_SYNTAX",
+		"UNKNOWN_ERROR",
 		"UNAUTHORIZED",
 		"DELETED",
 	}

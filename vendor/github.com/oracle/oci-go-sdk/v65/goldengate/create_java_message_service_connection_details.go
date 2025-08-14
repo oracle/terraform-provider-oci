@@ -86,7 +86,7 @@ type CreateJavaMessageServiceConnectionDetails struct {
 	// Note: When provided, 'jndiSecurityCredentials' field must not be provided.
 	JndiSecurityCredentialsSecretId *string `mandatory:"false" json:"jndiSecurityCredentialsSecretId"`
 
-	// Connectin URL of the Java Message Service, specifying the protocol, host, and port.
+	// Connection URL of the Java Message Service, specifying the protocol, host, and port.
 	// e.g.: 'mq://myjms.host.domain:7676'
 	ConnectionUrl *string `mandatory:"false" json:"connectionUrl"`
 

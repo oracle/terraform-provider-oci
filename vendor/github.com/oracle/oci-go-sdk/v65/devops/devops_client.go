@@ -6845,6 +6845,122 @@ func (client DevopsClient) reopenPullRequest(ctx context.Context, request common
 	return response, err
 }
 
+// ReopenPullRequestComment Reopen a PullRequest Comment
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ReopenPullRequestComment.go.html to see an example of how to use ReopenPullRequestComment API.
+// A default retry strategy applies to this operation ReopenPullRequestComment()
+func (client DevopsClient) ReopenPullRequestComment(ctx context.Context, request ReopenPullRequestCommentRequest) (response ReopenPullRequestCommentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.reopenPullRequestComment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ReopenPullRequestCommentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ReopenPullRequestCommentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ReopenPullRequestCommentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ReopenPullRequestCommentResponse")
+	}
+	return
+}
+
+// reopenPullRequestComment implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) reopenPullRequestComment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pullRequests/{pullRequestId}/comments/{commentId}/actions/reopen", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ReopenPullRequestCommentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/PullRequest/ReopenPullRequestComment"
+		err = common.PostProcessServiceError(err, "Devops", "ReopenPullRequestComment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ResolvePullRequestComment Resolve a PullRequest Comment
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ResolvePullRequestComment.go.html to see an example of how to use ResolvePullRequestComment API.
+// A default retry strategy applies to this operation ResolvePullRequestComment()
+func (client DevopsClient) ResolvePullRequestComment(ctx context.Context, request ResolvePullRequestCommentRequest) (response ResolvePullRequestCommentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.resolvePullRequestComment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ResolvePullRequestCommentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ResolvePullRequestCommentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ResolvePullRequestCommentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ResolvePullRequestCommentResponse")
+	}
+	return
+}
+
+// resolvePullRequestComment implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) resolvePullRequestComment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pullRequests/{pullRequestId}/comments/{commentId}/actions/resolve", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ResolvePullRequestCommentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/PullRequest/ResolvePullRequestComment"
+		err = common.PostProcessServiceError(err, "Devops", "ResolvePullRequestComment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ReviewPullRequest Review a PullRequest
 //
 // # See also
