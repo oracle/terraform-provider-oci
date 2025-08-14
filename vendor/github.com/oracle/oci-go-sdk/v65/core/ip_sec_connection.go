@@ -56,18 +56,6 @@ type IpSecConnection struct {
 	// The IPSec connection's current state.
 	LifecycleState IpSecConnectionLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// Static routes to the CPE. The CIDR must not be a
-	// multicast address or class E address.
-	// Used for routing a given IPSec tunnel's traffic only if the tunnel
-	// is using static routing. If you configure at least one tunnel to use static routing, then
-	// you must provide at least one valid static route. If you configure both
-	// tunnels to use BGP dynamic routing, you can provide an empty list for the static routes.
-	// The CIDR can be either IPv4 or IPv6. IPv6 addressing is supported for all commercial and government regions.
-	// See IPv6 Addresses (https://docs.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
-	// Example: `10.0.1.0/24`
-	// Example: `2001:db8::/32`
-	StaticRoutes []string `mandatory:"true" json:"staticRoutes"`
-
 	// Defined tags for this resource. Each key is predefined and scoped to a
 	// namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
@@ -96,6 +84,18 @@ type IpSecConnection struct {
 	// The type of identifier for your CPE device. The value here must correspond to the value
 	// for `cpeLocalIdentifier`.
 	CpeLocalIdentifierType IpSecConnectionCpeLocalIdentifierTypeEnum `mandatory:"false" json:"cpeLocalIdentifierType,omitempty"`
+
+	// Static routes to the CPE. The CIDR must not be a
+	// multicast address or class E address.
+	// Used for routing a given IPSec tunnel's traffic only if the tunnel
+	// is using static routing. If you configure at least one tunnel to use static routing, then
+	// you must provide at least one valid static route. If you configure both
+	// tunnels to use BGP dynamic routing, you can provide an empty list for the static routes.
+	// The CIDR can be either IPv4 or IPv6. IPv6 addressing is supported for all commercial and government regions.
+	// See IPv6 Addresses (https://docs.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
+	// Example: `10.0.1.0/24`
+	// Example: `2001:db8::/32`
+	StaticRoutes []string `mandatory:"false" json:"staticRoutes"`
 
 	// The date and time the IPSec connection was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`

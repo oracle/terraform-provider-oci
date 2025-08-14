@@ -51,29 +51,36 @@ var (
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_datascience_job.test_job.id}`}},
 	}
-
+	// creating MULTI NODE job to test
 	DatascienceJobRepresentation = map[string]interface{}{
-		"compartment_id":                               acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"job_configuration_details":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceJobJobConfigurationDetailsRepresentation},
-		"job_infrastructure_configuration_details":     acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceJobJobInfrastructureConfigurationDetailsRepresentation},
-		"job_environment_configuration_details":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobJobEnvironmentConfigurationDetailsRepresentation},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		// for multi node this will be empty
+		// "job_configuration_details":                acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceJobEmptyJobConfigurationDetailsRepresentation},
+		// "job_infrastructure_configuration_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceJobEmptyJobInfrastructureConfigurationDetailsRepresentation},
 		"job_storage_mount_configuration_details_list": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobStorageMountConfigurationDetailsListRepresentation},
-		"project_id":                   acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_project.test_project.id}`},
-		"job_artifact":                 acctest.Representation{RepType: acctest.Optional, Create: `../../examples/datascience/job-artifact.py`},
-		"artifact_content_length":      acctest.Representation{RepType: acctest.Optional, Create: `1380`}, // wc -c job-artifact.py
-		"artifact_content_disposition": acctest.Representation{RepType: acctest.Optional, Create: `attachment; filename=job-artifact.py`},
-		"defined_tags":                 acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":                  acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"display_name":                 acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"freeform_tags":                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"delete_related_job_runs":      acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"lifecycle":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreMlJobDefinedTagsChangesRepresentation},
+		"project_id":                                   acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_project.test_project.id}`},
+		"job_artifact":                                 acctest.Representation{RepType: acctest.Required, Create: `../../examples/datascience/job-artifact.py`},
+		"artifact_content_length":                      acctest.Representation{RepType: acctest.Required, Create: `1380`}, // wc -c job-artifact.py
+		"artifact_content_disposition":                 acctest.Representation{RepType: acctest.Required, Create: `attachment; filename=job-artifact.py`},
+		"job_node_configuration_details":               acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceJobJobNodeConfigurationDetailsRepresentation},
+		"job_storage_mount_configuration_details_list": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobStorageMountConfigurationDetailsListRepresentation},
+		"description":                                  acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"display_name":                                 acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":                                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}},
+		"delete_related_job_runs":                      acctest.Representation{RepType: acctest.Required, Create: `true`},
+	}
+	ignoreMlJobDefinedTagsChangesRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `job_infrastructure_configuration_details`}},
+	}
+	DatascienceJobEmptyJobConfigurationDetailsRepresentation = map[string]interface{}{
+		"job_type": acctest.Representation{RepType: acctest.Required, Create: `EMPTY`},
 	}
 	DatascienceJobJobConfigurationDetailsRepresentation = map[string]interface{}{
 		"job_type":                   acctest.Representation{RepType: acctest.Required, Create: `DEFAULT`},
 		"command_line_arguments":     acctest.Representation{RepType: acctest.Optional, Create: `commandLineArguments`},
 		"environment_variables":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"environmentVariables": ""}},
 		"maximum_runtime_in_minutes": acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"startup_probe_details":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobJobConfigurationDetailsStartupProbeDetailsRepresentation},
 	}
 	DatascienceJobJobInfrastructureConfigurationDetailsRepresentation = map[string]interface{}{
 		"block_storage_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `50`, Update: `100`},
@@ -85,10 +92,36 @@ var (
 	DatascienceJobJobEnvironmentConfigurationDetailsRepresentation = map[string]interface{}{
 		"image":                acctest.Representation{RepType: acctest.Required, Create: `iad.ocir.io/ociodscdev/byod_hello_wrld:1.0`},
 		"job_environment_type": acctest.Representation{RepType: acctest.Required, Create: `OCIR_CONTAINER`},
-		"cmd":                  acctest.Representation{RepType: acctest.Optional, Create: []string{}},
-		"entrypoint":           acctest.Representation{RepType: acctest.Optional, Create: []string{}},
-		"image_digest":         acctest.Representation{RepType: acctest.Optional, Create: ``},
-		"image_signature_id":   acctest.Representation{RepType: acctest.Optional, Create: ``},
+		"cmd":                  acctest.Representation{RepType: acctest.Optional, Create: []string{`cmd`}},
+		"entrypoint":           acctest.Representation{RepType: acctest.Optional, Create: []string{`entrypoint`}},
+		"image_digest":         acctest.Representation{RepType: acctest.Optional, Create: `imageDigest`},
+		"image_signature_id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_datascience_image_signature.test_image_signature.id}`},
+	}
+	DatascienceJobEmptyJobInfrastructureConfigurationDetailsRepresentation = map[string]interface{}{
+		"job_infrastructure_type": acctest.Representation{RepType: acctest.Required, Create: `EMPTY`},
+	}
+	DatascienceJobJobInfrastructureConfigurationDetailsRepresentation = map[string]interface{}{
+		"job_infrastructure_type":   acctest.Representation{RepType: acctest.Required, Create: `MULTI_NODE`},
+		"block_storage_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `50`},
+		"job_shape_config_details":  acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceJobJobInfrastructureConfigurationDetailsJobShapeConfigDetailsRepresentation},
+		"shape_name":                acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.E4.Flex`},
+		"subnet_id":                 acctest.Representation{RepType: acctest.Optional, Create: `subnet_id`},
+	}
+	DatascienceMultiNodeJobJobInfrastructureConfigurationDetailsRepresentation = map[string]interface{}{
+		"job_infrastructure_type":   acctest.Representation{RepType: acctest.Required, Create: `MULTI_NODE`},
+		"block_storage_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `50`},
+		"job_shape_config_details":  acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceJobJobInfrastructureConfigurationDetailsJobShapeConfigDetailsRepresentation},
+		"shape_name":                acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.E4.Flex`},
+		"cmd":                       acctest.Representation{RepType: acctest.Optional, Create: []string{}},
+		"entrypoint":                acctest.Representation{RepType: acctest.Optional, Create: []string{}},
+		"image_digest":              acctest.Representation{RepType: acctest.Optional, Create: ``},
+		"image_signature_id":        acctest.Representation{RepType: acctest.Optional, Create: ``},
+	}
+	DatascienceJobJobLogConfigurationDetailsRepresentation = map[string]interface{}{
+		"enable_auto_log_creation": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"enable_logging":           acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"log_group_id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_logging_log_group.test_log_group.id}`},
+		"log_id":                   acctest.Representation{RepType: acctest.Optional, Create: `${oci_logging_log.test_log.id}`},
 	}
 	DatascienceJobStorageMountConfigurationDetailsListRepresentation = map[string]interface{}{
 		"destination_directory_name": acctest.Representation{RepType: acctest.Required, Create: `oss`, Update: `oss1`},
@@ -107,24 +140,72 @@ var (
 		"ocpus":         acctest.Representation{RepType: acctest.Required, Create: `2.0`, Update: `4.0`},
 		"memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `14.0`, Update: `28.0`},
 	}
-
-	// easier to work with from JobRuns
-	mlJobWithArtifactNoLogging = map[string]interface{}{
-		"compartment_id":                           acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"job_configuration_details":                acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceJobJobConfigurationDetailsRepresentation},
-		"job_infrastructure_configuration_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceJobJobInfrastructureConfigurationDetailsRepresentation},
-		"project_id":                               acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_project.test_project.id}`},
-		"job_artifact":                             acctest.Representation{RepType: acctest.Required, Create: `../../examples/datascience/job-artifact.py`},
-		"artifact_content_length":                  acctest.Representation{RepType: acctest.Required, Create: `1380`}, // wc -c job-artifact.py
-		"artifact_content_disposition":             acctest.Representation{RepType: acctest.Required, Create: `attachment; filename=job-artifact.py`},
-		"lifecycle":                                acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreMlJobDefinedTagsChangesRepresentation},
+	DatascienceJobJobNodeConfigurationDetailsRepresentation = map[string]interface{}{
+		"job_node_type":                             acctest.Representation{RepType: acctest.Required, Create: `MULTI_NODE`},
+		"job_network_configuration":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceJobJobNodeConfigurationDetailsJobNetworkConfigurationRepresentation},
+		"job_node_group_configuration_details_list": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceJobJobNodeConfigurationDetailsJobNodeGroupConfigurationDetailsListRepresentation},
+		"maximum_runtime_in_minutes":                acctest.Representation{RepType: acctest.Required, Create: `10`},
+		"startup_order":                             acctest.Representation{RepType: acctest.Required, Create: `IN_ORDER`},
+	}
+	DatascienceJobJobConfigurationDetailsStartupProbeDetailsRepresentation = map[string]interface{}{
+		"command":                  acctest.Representation{RepType: acctest.Required, Create: []string{`command`}},
+		"job_probe_check_type":     acctest.Representation{RepType: acctest.Required, Create: `EXEC`},
+		"failure_threshold":        acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"initial_delay_in_seconds": acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"period_in_seconds":        acctest.Representation{RepType: acctest.Optional, Create: `10`},
+	}
+	DatascienceJobJobInfrastructureConfigurationDetailsJobShapeConfigDetailsRepresentation = map[string]interface{}{
+		"memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `16.0`},
+		"ocpus":         acctest.Representation{RepType: acctest.Required, Create: `3.0`},
+	}
+	DatascienceJobJobNodeConfigurationDetailsJobNetworkConfigurationRepresentation = map[string]interface{}{
+		"job_network_type": acctest.Representation{RepType: acctest.Required, Create: `CUSTOM_NETWORK`},
+		"subnet_id":        acctest.Representation{RepType: acctest.Required, Create: `subnet_id`},
+	}
+	DatascienceJobJobNodeConfigurationDetailsJobNodeGroupConfigurationDetailsListRepresentation = map[string]interface{}{
+		"name":                      acctest.Representation{RepType: acctest.Required, Create: `replica1`},
+		"job_configuration_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceJobJobNodeConfigurationDetailsJobNodeGroupConfigurationDetailsListJobConfigurationDetailsRepresentation},
+		// "job_environment_configuration_details":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobJobNodeConfigurationDetailsJobNodeGroupConfigurationDetailsListJobEnvironmentConfigurationDetailsRepresentation},
+		"job_infrastructure_configuration_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceMultiNodeJobJobInfrastructureConfigurationDetailsRepresentation},
+		"minimum_success_replicas":                 acctest.Representation{RepType: acctest.Optional, Create: `1`},
+		"replicas":                                 acctest.Representation{RepType: acctest.Required, Create: `1`},
+	}
+	DatascienceJobJobNodeConfigurationDetailsJobNodeGroupConfigurationDetailsListJobConfigurationDetailsRepresentation = map[string]interface{}{
+		"job_type":               acctest.Representation{RepType: acctest.Required, Create: `DEFAULT`},
+		"command_line_arguments": acctest.Representation{RepType: acctest.Optional, Create: `commandLineArguments`},
+		"environment_variables":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"environmentVariables": "environmentVariables"}},
+		// "maximum_runtime_in_minutes": acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"startup_probe_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobJobNodeConfigurationDetailsJobNodeGroupConfigurationDetailsListJobConfigurationDetailsStartupProbeDetailsRepresentation},
+	}
+	DatascienceJobJobNodeConfigurationDetailsJobNodeGroupConfigurationDetailsListJobEnvironmentConfigurationDetailsRepresentation = map[string]interface{}{
+		"image":                acctest.Representation{RepType: acctest.Required, Create: `image`},
+		"job_environment_type": acctest.Representation{RepType: acctest.Required, Create: `OCIR_CONTAINER`},
+		"cmd":                  acctest.Representation{RepType: acctest.Optional, Create: []string{`cmd`}},
+		"entrypoint":           acctest.Representation{RepType: acctest.Optional, Create: []string{`entrypoint`}},
+		"image_digest":         acctest.Representation{RepType: acctest.Optional, Create: `imageDigest`},
+		"image_signature_id":   acctest.Representation{RepType: acctest.Optional, Create: `imageSignatureId`},
+	}
+	DatascienceJobJobNodeConfigurationDetailsJobNodeGroupConfigurationDetailsListJobInfrastructureConfigurationDetailsRepresentation = map[string]interface{}{
+		"job_infrastructure_type":   acctest.Representation{RepType: acctest.Required, Create: `STANDALONE`},
+		"block_storage_size_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"job_shape_config_details":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobJobNodeConfigurationDetailsJobNodeGroupConfigurationDetailsListJobInfrastructureConfigurationDetailsJobShapeConfigDetailsRepresentation},
+		"shape_name":                acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard.E4.Flex`},
+		"subnet_id":                 acctest.Representation{RepType: acctest.Optional, Create: `subnet_id`},
+	}
+	DatascienceJobJobNodeConfigurationDetailsJobNodeGroupConfigurationDetailsListJobConfigurationDetailsStartupProbeDetailsRepresentation = map[string]interface{}{
+		"command":                  acctest.Representation{RepType: acctest.Required, Create: []string{`11`}},
+		"job_probe_check_type":     acctest.Representation{RepType: acctest.Required, Create: `EXEC`},
+		"failure_threshold":        acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"initial_delay_in_seconds": acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"period_in_seconds":        acctest.Representation{RepType: acctest.Optional, Create: `10`},
+	}
+	DatascienceJobJobNodeConfigurationDetailsJobNodeGroupConfigurationDetailsListJobInfrastructureConfigurationDetailsJobShapeConfigDetailsRepresentation = map[string]interface{}{
+		"memory_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `16.0`},
+		"ocpus":         acctest.Representation{RepType: acctest.Optional, Create: `3.0`},
 	}
 
-	DatascienceJobResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_core_shapes", "test_shapes", acctest.Required, acctest.Create, CoreCoreShapeDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, DatascienceProjectRepresentation) +
-		DefinedTagsDependencies
+	DatascienceJobResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, DatascienceProjectRepresentation)
+	// DefinedTagsDependencies
 )
 
 // issue-routing-tag: datascience/default
@@ -164,10 +245,8 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "job_configuration_details.0.job_type", "DEFAULT"),
+					resource.TestCheckResourceAttr(resourceName, "job_configuration_details.0.job_type", "EMPTY"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.block_storage_size_in_gbs", "50"),
-					resource.TestCheckResourceAttrSet(resourceName, "job_infrastructure_configuration_details.0.shape_name"),
 					resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
 					func(s *terraform.State) (err error) {
@@ -214,6 +293,41 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "job_storage_mount_configuration_details_list.0.destination_directory_name", "oss"),
 					resource.TestCheckResourceAttr(resourceName, "job_storage_mount_configuration_details_list.0.destination_path", "/mnt"),
 					resource.TestCheckResourceAttr(resourceName, "job_storage_mount_configuration_details_list.0.storage_type", "OBJECT_STORAGE"),
+					resource.TestCheckResourceAttr(resourceName, "job_configuration_details.0.job_type", "EMPTY"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_network_configuration.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_network_configuration.0.job_network_type", "CUSTOM_NETWORK"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_configuration_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_configuration_details.0.command_line_arguments", "commandLineArguments"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_configuration_details.0.environment_variables.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_configuration_details.0.job_type", "DEFAULT"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_configuration_details.0.startup_probe_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_configuration_details.0.startup_probe_details.0.command.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_configuration_details.0.startup_probe_details.0.failure_threshold", "10"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_configuration_details.0.startup_probe_details.0.initial_delay_in_seconds", "10"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_configuration_details.0.startup_probe_details.0.job_probe_check_type", "EXEC"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_configuration_details.0.startup_probe_details.0.period_in_seconds", "10"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_environment_configuration_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_environment_configuration_details.0.cmd.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_environment_configuration_details.0.entrypoint.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_environment_configuration_details.0.image", "image"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_environment_configuration_details.0.image_digest", "imageDigest"),
+					resource.TestCheckResourceAttrSet(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_environment_configuration_details.0.image_signature_id"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.block_storage_size_in_gbs", "50"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_infrastructure_type", "MULTI_NODE"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_shape_config_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_shape_config_details.0.memory_in_gbs", "16"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_shape_config_details.0.ocpus", "3"),
+					resource.TestCheckResourceAttrSet(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.shape_name"),
+					resource.TestCheckResourceAttrSet(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.subnet_id"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.minimum_success_replicas", "1"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.name", "replica1"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.replicas", "1"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_type", "MULTI_NODE"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.maximum_runtime_in_minutes", "10"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.startup_order", "IN_ORDER"),
 					resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -245,6 +359,7 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "job_configuration_details.0.job_type", "EMPTY"),
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_details.0.command_line_arguments", "commandLineArguments"),
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_details.0.environment_variables.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_details.0.job_type", "DEFAULT"),
@@ -280,7 +395,6 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					},
 				),
 			},
-
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + DatascienceJobResourceDependencies +
@@ -291,6 +405,7 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "job_configuration_details.0.job_type", "EMPTY"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_details.0.command_line_arguments", "commandLineArguments"),
@@ -386,6 +501,28 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "job_storage_mount_configuration_details_list.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_storage_mount_configuration_details_list.0.destination_directory_name", "oss1"),
 					resource.TestCheckResourceAttr(resourceName, "job_storage_mount_configuration_details_list.0.destination_path", "/mnt"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_configuration_details.0.job_type", "EMPTY"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_override_details.0.job_network_configuration.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_override_details.0.job_network_configuration.0.job_network_type", "CUSTOM_NETWORK"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_override_details.0.job_node_group_configuration_details_list.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_override_details.0.job_node_group_configuration_details_list.0.job_configuration_details.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_override_details.0.job_node_group_configuration_details_list.0.job_configuration_details.0.command_line_arguments", "commandLineArguments"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_override_details.0.job_node_group_configuration_details_list.0.job_configuration_details.0.environment_variables.%", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_override_details.0.job_node_group_configuration_details_list.0.job_configuration_details.0.job_type", "DEFAULT"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_override_details.0.job_node_group_configuration_details_list.0.job_configuration_details.0.maximum_runtime_in_minutes", "10"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_override_details.0.job_node_group_configuration_details_list.0.job_configuration_details.0.startup_probe_details.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_override_details.0.job_node_group_configuration_details_list.0.job_environment_configuration_details.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_override_details.0.job_node_group_configuration_details_list.0.job_environment_configuration_details.0.cmd.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_override_details.0.job_node_group_configuration_details_list.0.job_environment_configuration_details.0.entrypoint.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_override_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_override_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.block_storage_size_in_gbs", "50"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_override_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_infrastructure_type", "MULTI_NODE"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_override_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_shape_config_details.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_override_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_shape_config_details.0.memory_in_gbs", "16"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_override_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_shape_config_details.0.ocpus", "3"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_override_details.0.job_node_group_configuration_details_list.0.minimum_success_replicas", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_override_details.0.job_node_group_configuration_details_list.0.name", "replica1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_override_details.0.job_node_group_configuration_details_list.0.replicas", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),

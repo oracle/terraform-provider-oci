@@ -27,6 +27,8 @@ type DefaultJobConfigurationDetails struct {
 
 	// A time bound for the execution of the job. Timer starts when the job becomes active.
 	MaximumRuntimeInMinutes *int64 `mandatory:"false" json:"maximumRuntimeInMinutes"`
+
+	StartupProbeDetails JobProbeDetails `mandatory:"false" json:"startupProbeDetails"`
 }
 
 func (m DefaultJobConfigurationDetails) String() string {
@@ -57,4 +59,37 @@ func (m DefaultJobConfigurationDetails) MarshalJSON() (buff []byte, e error) {
 	}
 
 	return json.Marshal(&s)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *DefaultJobConfigurationDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		EnvironmentVariables    map[string]string `json:"environmentVariables"`
+		CommandLineArguments    *string           `json:"commandLineArguments"`
+		MaximumRuntimeInMinutes *int64            `json:"maximumRuntimeInMinutes"`
+		StartupProbeDetails     jobprobedetails   `json:"startupProbeDetails"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.EnvironmentVariables = model.EnvironmentVariables
+
+	m.CommandLineArguments = model.CommandLineArguments
+
+	m.MaximumRuntimeInMinutes = model.MaximumRuntimeInMinutes
+
+	nn, e = model.StartupProbeDetails.UnmarshalPolymorphicJSON(model.StartupProbeDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.StartupProbeDetails = nn.(JobProbeDetails)
+	} else {
+		m.StartupProbeDetails = nil
+	}
+
+	return
 }

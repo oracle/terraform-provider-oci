@@ -283,14 +283,17 @@ type BuildStageImageEnum string
 // Set of constants representing the allowable values for BuildStageImageEnum
 const (
 	BuildStageImageOl7X8664Standard10 BuildStageImageEnum = "OL7_X86_64_STANDARD_10"
+	BuildStageImageOl8X8664Standard10 BuildStageImageEnum = "OL8_X86_64_STANDARD_10"
 )
 
 var mappingBuildStageImageEnum = map[string]BuildStageImageEnum{
 	"OL7_X86_64_STANDARD_10": BuildStageImageOl7X8664Standard10,
+	"OL8_X86_64_STANDARD_10": BuildStageImageOl8X8664Standard10,
 }
 
 var mappingBuildStageImageEnumLowerCase = map[string]BuildStageImageEnum{
 	"ol7_x86_64_standard_10": BuildStageImageOl7X8664Standard10,
+	"ol8_x86_64_standard_10": BuildStageImageOl8X8664Standard10,
 }
 
 // GetBuildStageImageEnumValues Enumerates the set of values for BuildStageImageEnum
@@ -306,6 +309,7 @@ func GetBuildStageImageEnumValues() []BuildStageImageEnum {
 func GetBuildStageImageEnumStringValues() []string {
 	return []string{
 		"OL7_X86_64_STANDARD_10",
+		"OL8_X86_64_STANDARD_10",
 	}
 }
 

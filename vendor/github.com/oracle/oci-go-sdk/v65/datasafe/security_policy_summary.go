@@ -36,6 +36,9 @@ type SecurityPolicySummary struct {
 	// The description of the security policy.
 	Description *string `mandatory:"false" json:"description"`
 
+	// The type of the security policy.
+	SecurityPolicyType SecurityPolicySecurityPolicyTypeEnum `mandatory:"false" json:"securityPolicyType,omitempty"`
+
 	// The last date and time the security policy was updated, in the format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
@@ -68,6 +71,9 @@ func (m SecurityPolicySummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetSecurityPolicyLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingSecurityPolicySecurityPolicyTypeEnum(string(m.SecurityPolicyType)); !ok && m.SecurityPolicyType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SecurityPolicyType: %s. Supported values are: %s.", m.SecurityPolicyType, strings.Join(GetSecurityPolicySecurityPolicyTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

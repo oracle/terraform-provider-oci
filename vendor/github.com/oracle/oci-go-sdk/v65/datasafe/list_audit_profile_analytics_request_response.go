@@ -40,6 +40,9 @@ type ListAuditProfileAnalyticsRequest struct {
 	// The group by parameter for summarize operation on audit.
 	GroupBy []ListAuditProfileAnalyticsGroupByEnum `contributesTo:"query" name:"groupBy" omitEmpty:"true" collectionFormat:"multi"`
 
+	// A optional filter to return only resources that belong to the specified audit profile type.
+	TargetType ListAuditProfileAnalyticsTargetTypeEnum `mandatory:"false" contributesTo:"query" name:"targetType" omitEmpty:"true"`
+
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
@@ -88,6 +91,9 @@ func (request ListAuditProfileAnalyticsRequest) ValidateEnumValue() (bool, error
 		}
 	}
 
+	if _, ok := GetMappingListAuditProfileAnalyticsTargetTypeEnum(string(request.TargetType)); !ok && request.TargetType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TargetType: %s. Supported values are: %s.", request.TargetType, strings.Join(GetListAuditProfileAnalyticsTargetTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -171,15 +177,27 @@ type ListAuditProfileAnalyticsGroupByEnum string
 
 // Set of constants representing the allowable values for ListAuditProfileAnalyticsGroupByEnum
 const (
-	ListAuditProfileAnalyticsGroupByIspaidusageenabled ListAuditProfileAnalyticsGroupByEnum = "isPaidUsageEnabled"
+	ListAuditProfileAnalyticsGroupByIspaidusageenabled  ListAuditProfileAnalyticsGroupByEnum = "isPaidUsageEnabled"
+	ListAuditProfileAnalyticsGroupByTargettype          ListAuditProfileAnalyticsGroupByEnum = "targetType"
+	ListAuditProfileAnalyticsGroupByPaidusagesource     ListAuditProfileAnalyticsGroupByEnum = "paidUsageSource"
+	ListAuditProfileAnalyticsGroupByOnlinemonthssource  ListAuditProfileAnalyticsGroupByEnum = "onlineMonthsSource"
+	ListAuditProfileAnalyticsGroupByOfflinemonthssource ListAuditProfileAnalyticsGroupByEnum = "offlineMonthsSource"
 )
 
 var mappingListAuditProfileAnalyticsGroupByEnum = map[string]ListAuditProfileAnalyticsGroupByEnum{
-	"isPaidUsageEnabled": ListAuditProfileAnalyticsGroupByIspaidusageenabled,
+	"isPaidUsageEnabled":  ListAuditProfileAnalyticsGroupByIspaidusageenabled,
+	"targetType":          ListAuditProfileAnalyticsGroupByTargettype,
+	"paidUsageSource":     ListAuditProfileAnalyticsGroupByPaidusagesource,
+	"onlineMonthsSource":  ListAuditProfileAnalyticsGroupByOnlinemonthssource,
+	"offlineMonthsSource": ListAuditProfileAnalyticsGroupByOfflinemonthssource,
 }
 
 var mappingListAuditProfileAnalyticsGroupByEnumLowerCase = map[string]ListAuditProfileAnalyticsGroupByEnum{
-	"ispaidusageenabled": ListAuditProfileAnalyticsGroupByIspaidusageenabled,
+	"ispaidusageenabled":  ListAuditProfileAnalyticsGroupByIspaidusageenabled,
+	"targettype":          ListAuditProfileAnalyticsGroupByTargettype,
+	"paidusagesource":     ListAuditProfileAnalyticsGroupByPaidusagesource,
+	"onlinemonthssource":  ListAuditProfileAnalyticsGroupByOnlinemonthssource,
+	"offlinemonthssource": ListAuditProfileAnalyticsGroupByOfflinemonthssource,
 }
 
 // GetListAuditProfileAnalyticsGroupByEnumValues Enumerates the set of values for ListAuditProfileAnalyticsGroupByEnum
@@ -195,11 +213,57 @@ func GetListAuditProfileAnalyticsGroupByEnumValues() []ListAuditProfileAnalytics
 func GetListAuditProfileAnalyticsGroupByEnumStringValues() []string {
 	return []string{
 		"isPaidUsageEnabled",
+		"targetType",
+		"paidUsageSource",
+		"onlineMonthsSource",
+		"offlineMonthsSource",
 	}
 }
 
 // GetMappingListAuditProfileAnalyticsGroupByEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListAuditProfileAnalyticsGroupByEnum(val string) (ListAuditProfileAnalyticsGroupByEnum, bool) {
 	enum, ok := mappingListAuditProfileAnalyticsGroupByEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListAuditProfileAnalyticsTargetTypeEnum Enum with underlying type: string
+type ListAuditProfileAnalyticsTargetTypeEnum string
+
+// Set of constants representing the allowable values for ListAuditProfileAnalyticsTargetTypeEnum
+const (
+	ListAuditProfileAnalyticsTargetTypeDatabase      ListAuditProfileAnalyticsTargetTypeEnum = "TARGET_DATABASE"
+	ListAuditProfileAnalyticsTargetTypeDatabaseGroup ListAuditProfileAnalyticsTargetTypeEnum = "TARGET_DATABASE_GROUP"
+)
+
+var mappingListAuditProfileAnalyticsTargetTypeEnum = map[string]ListAuditProfileAnalyticsTargetTypeEnum{
+	"TARGET_DATABASE":       ListAuditProfileAnalyticsTargetTypeDatabase,
+	"TARGET_DATABASE_GROUP": ListAuditProfileAnalyticsTargetTypeDatabaseGroup,
+}
+
+var mappingListAuditProfileAnalyticsTargetTypeEnumLowerCase = map[string]ListAuditProfileAnalyticsTargetTypeEnum{
+	"target_database":       ListAuditProfileAnalyticsTargetTypeDatabase,
+	"target_database_group": ListAuditProfileAnalyticsTargetTypeDatabaseGroup,
+}
+
+// GetListAuditProfileAnalyticsTargetTypeEnumValues Enumerates the set of values for ListAuditProfileAnalyticsTargetTypeEnum
+func GetListAuditProfileAnalyticsTargetTypeEnumValues() []ListAuditProfileAnalyticsTargetTypeEnum {
+	values := make([]ListAuditProfileAnalyticsTargetTypeEnum, 0)
+	for _, v := range mappingListAuditProfileAnalyticsTargetTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListAuditProfileAnalyticsTargetTypeEnumStringValues Enumerates the set of values in String for ListAuditProfileAnalyticsTargetTypeEnum
+func GetListAuditProfileAnalyticsTargetTypeEnumStringValues() []string {
+	return []string{
+		"TARGET_DATABASE",
+		"TARGET_DATABASE_GROUP",
+	}
+}
+
+// GetMappingListAuditProfileAnalyticsTargetTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListAuditProfileAnalyticsTargetTypeEnum(val string) (ListAuditProfileAnalyticsTargetTypeEnum, bool) {
+	enum, ok := mappingListAuditProfileAnalyticsTargetTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

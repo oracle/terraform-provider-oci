@@ -6,6 +6,8 @@ package redis
 import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterResource() {
+	tfresource.RegisterResource("oci_redis_oci_cache_config_set", RedisOciCacheConfigSetResource())
+	tfresource.RegisterResource("oci_redis_oci_cache_config_setlist_associated_oci_cache_cluster", RedisOciCacheConfigSetlistAssociatedOciCacheClusterResource())
 	tfresource.RegisterResource("oci_redis_oci_cache_user", RedisOciCacheUserResource())
 	tfresource.RegisterResource("oci_redis_oci_cache_user_get_redis_cluster", RedisOciCacheUserGetRedisClusterResource())
 	tfresource.RegisterResource("oci_redis_redis_cluster", RedisRedisClusterResource())

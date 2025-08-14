@@ -117,6 +117,12 @@ type AuditEventSummary struct {
 	// The type of the auditing.
 	AuditType AuditEventSummaryAuditTypeEnum `mandatory:"false" json:"auditType,omitempty"`
 
+	// The user ID of the external user of the audit event.
+	ExternalUserId *string `mandatory:"false" json:"externalUserId"`
+
+	// The user on whom the GRANT/REVOKE/AUDIT/NOAUDIT statement was executed.
+	TargetUser *string `mandatory:"false" json:"targetUser"`
+
 	// The secondary id assigned for the peer database registered with Data Safe.
 	PeerTargetDatabaseKey *int `mandatory:"false" json:"peerTargetDatabaseKey"`
 

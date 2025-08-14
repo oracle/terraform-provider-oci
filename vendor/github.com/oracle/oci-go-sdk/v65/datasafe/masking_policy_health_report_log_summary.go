@@ -46,6 +46,7 @@ type MaskingPolicyHealthReportLogSummary struct {
 	// ACTIVE_MASK_JOB_CHECK checks if there is any active masking job running on the target database.
 	// DETERMINISTIC_ENCRYPTION_FORMAT_CHECK checks if any masking column has deterministic encryption masking format.
 	// COLUMN_EXIST_CHECK checks if the masking columns are available in the target database.
+	// TIME_TRAVEL_CHECK checks if the masking tables have Time Travel enabled.
 	HealthCheckType MaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum `mandatory:"false" json:"healthCheckType,omitempty"`
 }
 
@@ -137,6 +138,7 @@ const (
 	MaskingPolicyHealthReportLogSummaryHealthCheckTypeTargetValidationCheck              MaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum = "TARGET_VALIDATION_CHECK"
 	MaskingPolicyHealthReportLogSummaryHealthCheckTypeDeterministicEncryptionFormatCheck MaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum = "DETERMINISTIC_ENCRYPTION_FORMAT_CHECK"
 	MaskingPolicyHealthReportLogSummaryHealthCheckTypeColumnExistCheck                   MaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum = "COLUMN_EXIST_CHECK"
+	MaskingPolicyHealthReportLogSummaryHealthCheckTypeTimeTravelCheck                    MaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum = "TIME_TRAVEL_CHECK"
 )
 
 var mappingMaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum = map[string]MaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum{
@@ -155,6 +157,7 @@ var mappingMaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum = map[string]M
 	"TARGET_VALIDATION_CHECK":               MaskingPolicyHealthReportLogSummaryHealthCheckTypeTargetValidationCheck,
 	"DETERMINISTIC_ENCRYPTION_FORMAT_CHECK": MaskingPolicyHealthReportLogSummaryHealthCheckTypeDeterministicEncryptionFormatCheck,
 	"COLUMN_EXIST_CHECK":                    MaskingPolicyHealthReportLogSummaryHealthCheckTypeColumnExistCheck,
+	"TIME_TRAVEL_CHECK":                     MaskingPolicyHealthReportLogSummaryHealthCheckTypeTimeTravelCheck,
 }
 
 var mappingMaskingPolicyHealthReportLogSummaryHealthCheckTypeEnumLowerCase = map[string]MaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum{
@@ -173,6 +176,7 @@ var mappingMaskingPolicyHealthReportLogSummaryHealthCheckTypeEnumLowerCase = map
 	"target_validation_check":               MaskingPolicyHealthReportLogSummaryHealthCheckTypeTargetValidationCheck,
 	"deterministic_encryption_format_check": MaskingPolicyHealthReportLogSummaryHealthCheckTypeDeterministicEncryptionFormatCheck,
 	"column_exist_check":                    MaskingPolicyHealthReportLogSummaryHealthCheckTypeColumnExistCheck,
+	"time_travel_check":                     MaskingPolicyHealthReportLogSummaryHealthCheckTypeTimeTravelCheck,
 }
 
 // GetMaskingPolicyHealthReportLogSummaryHealthCheckTypeEnumValues Enumerates the set of values for MaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum
@@ -202,6 +206,7 @@ func GetMaskingPolicyHealthReportLogSummaryHealthCheckTypeEnumStringValues() []s
 		"TARGET_VALIDATION_CHECK",
 		"DETERMINISTIC_ENCRYPTION_FORMAT_CHECK",
 		"COLUMN_EXIST_CHECK",
+		"TIME_TRAVEL_CHECK",
 	}
 }
 

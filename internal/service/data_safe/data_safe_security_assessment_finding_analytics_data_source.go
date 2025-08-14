@@ -19,6 +19,10 @@ func DataSafeSecurityAssessmentFindingAnalyticsDataSource() *schema.Resource {
 		Read: readDataSafeSecurityAssessmentFindingAnalytics,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
+			"scim_query": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"access_level": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -164,6 +168,11 @@ func (s *DataSafeSecurityAssessmentFindingAnalyticsDataSourceCrud) Get() error {
 	if findingKey, ok := s.D.GetOkExists("finding_key"); ok {
 		tmp := findingKey.(string)
 		request.FindingKey = &tmp
+	}
+
+	if scimQuery, ok := s.D.GetOkExists("scim_query"); ok {
+		tmp := scimQuery.(string)
+		request.ScimQuery = &tmp
 	}
 
 	if groupBy, ok := s.D.GetOkExists("group_by"); ok {

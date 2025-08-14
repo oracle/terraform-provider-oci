@@ -18,7 +18,7 @@ import (
 // DeleteProtectedBranchDetails Information to delete a protected branch
 type DeleteProtectedBranchDetails struct {
 
-	// Name of a protected branch.
+	// The branchName can either be exact branch name or branch pattern.
 	BranchName *string `mandatory:"true" json:"branchName"`
 }
 

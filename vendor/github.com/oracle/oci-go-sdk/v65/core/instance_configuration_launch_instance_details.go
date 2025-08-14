@@ -34,6 +34,12 @@ type InstanceConfigurationLaunchInstanceDetails struct {
 	// The OCID of the compute capacity reservation this instance is launched under.
 	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
 
+	PlacementConstraintDetails InstanceConfigurationPlacementConstraintDetails `mandatory:"false" json:"placementConstraintDetails"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the
+	// compute cluster (https://docs.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm) that the instance will be created in.
+	ComputeClusterId *string `mandatory:"false" json:"computeClusterId"`
+
 	// The OCID of the compartment containing the instance.
 	// Instances created from instance configurations are placed in the same compartment
 	// as the instance that was used to create the instance configuration.
@@ -215,6 +221,8 @@ func (m *InstanceConfigurationLaunchInstanceDetails) UnmarshalJSON(data []byte) 
 	model := struct {
 		AvailabilityDomain             *string                                                                  `json:"availabilityDomain"`
 		CapacityReservationId          *string                                                                  `json:"capacityReservationId"`
+		PlacementConstraintDetails     instanceconfigurationplacementconstraintdetails                          `json:"placementConstraintDetails"`
+		ComputeClusterId               *string                                                                  `json:"computeClusterId"`
 		CompartmentId                  *string                                                                  `json:"compartmentId"`
 		ClusterPlacementGroupId        *string                                                                  `json:"clusterPlacementGroupId"`
 		CreateVnicDetails              *InstanceConfigurationCreateVnicDetails                                  `json:"createVnicDetails"`
@@ -250,6 +258,18 @@ func (m *InstanceConfigurationLaunchInstanceDetails) UnmarshalJSON(data []byte) 
 	m.AvailabilityDomain = model.AvailabilityDomain
 
 	m.CapacityReservationId = model.CapacityReservationId
+
+	nn, e = model.PlacementConstraintDetails.UnmarshalPolymorphicJSON(model.PlacementConstraintDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.PlacementConstraintDetails = nn.(InstanceConfigurationPlacementConstraintDetails)
+	} else {
+		m.PlacementConstraintDetails = nil
+	}
+
+	m.ComputeClusterId = model.ComputeClusterId
 
 	m.CompartmentId = model.CompartmentId
 

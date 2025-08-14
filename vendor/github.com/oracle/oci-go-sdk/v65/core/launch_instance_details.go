@@ -87,9 +87,6 @@ type LaunchInstanceDetails struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// The OCID of the compute host group attached to the host where the bare metal instance will be launched.
-	ComputeHostGroupId *string `mandatory:"false" json:"computeHostGroupId"`
-
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the
 	// compute cluster (https://docs.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm) that the instance will be created in.
 	ComputeClusterId *string `mandatory:"false" json:"computeClusterId"`
@@ -236,7 +233,6 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 		FaultDomain                    *string                                  `json:"faultDomain"`
 		ClusterPlacementGroupId        *string                                  `json:"clusterPlacementGroupId"`
 		FreeformTags                   map[string]string                        `json:"freeformTags"`
-		ComputeHostGroupId             *string                                  `json:"computeHostGroupId"`
 		ComputeClusterId               *string                                  `json:"computeClusterId"`
 		HostnameLabel                  *string                                  `json:"hostnameLabel"`
 		ImageId                        *string                                  `json:"imageId"`
@@ -285,8 +281,6 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	m.ClusterPlacementGroupId = model.ClusterPlacementGroupId
 
 	m.FreeformTags = model.FreeformTags
-
-	m.ComputeHostGroupId = model.ComputeHostGroupId
 
 	m.ComputeClusterId = model.ComputeClusterId
 

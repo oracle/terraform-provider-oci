@@ -575,6 +575,21 @@ resource "oci_datascience_pipeline_run" "test_pipeline_run" {
 #   #   log_group_id             = oci_logging_log_group.pipeline_run.id
 #   #   # log_id                   = oci_logging_log.test_log.id
 #   # }
+# New Optional parameter
+# #   infrastructure_configuration_override_details {
+#     #Required
+#     block_storage_size_in_gbs = var.pipeline_infrastructure_configuration_details_block_storage_size_in_gbs
+#     shape_name                = "VM.Standard2.1"
+#     # optional for custom networking
+#     subnet_id                 = var.subnet_id
+#     #Optional ONLY required if the shape is a flex shape
+#     # shape_config_details {
+
+#     #   #Optional
+#     #   memory_in_gbs = var.pipeline_infrastructure_configuration_details_shape_config_details_memory_in_gbs
+#     #   ocpus         = var.pipeline_infrastructure_configuration_details_shape_config_details_ocpus
+#     # }
+#   }
 #   project_id = oci_datascience_project.pipeline.id
 #   step_override_details {
 #     #Required

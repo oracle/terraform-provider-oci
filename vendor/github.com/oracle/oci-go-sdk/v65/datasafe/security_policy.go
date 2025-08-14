@@ -36,6 +36,9 @@ type SecurityPolicy struct {
 	// The description of the security policy.
 	Description *string `mandatory:"false" json:"description"`
 
+	// The type of the security policy.
+	SecurityPolicyType SecurityPolicySecurityPolicyTypeEnum `mandatory:"false" json:"securityPolicyType,omitempty"`
+
 	// The last date and time the security policy was updated, in the format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
@@ -68,8 +71,53 @@ func (m SecurityPolicy) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetSecurityPolicyLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingSecurityPolicySecurityPolicyTypeEnum(string(m.SecurityPolicyType)); !ok && m.SecurityPolicyType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SecurityPolicyType: %s. Supported values are: %s.", m.SecurityPolicyType, strings.Join(GetSecurityPolicySecurityPolicyTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// SecurityPolicySecurityPolicyTypeEnum Enum with underlying type: string
+type SecurityPolicySecurityPolicyTypeEnum string
+
+// Set of constants representing the allowable values for SecurityPolicySecurityPolicyTypeEnum
+const (
+	SecurityPolicySecurityPolicyTypeDatasafeManaged SecurityPolicySecurityPolicyTypeEnum = "DATASAFE_MANAGED"
+	SecurityPolicySecurityPolicyTypeSeededPolicy    SecurityPolicySecurityPolicyTypeEnum = "SEEDED_POLICY"
+)
+
+var mappingSecurityPolicySecurityPolicyTypeEnum = map[string]SecurityPolicySecurityPolicyTypeEnum{
+	"DATASAFE_MANAGED": SecurityPolicySecurityPolicyTypeDatasafeManaged,
+	"SEEDED_POLICY":    SecurityPolicySecurityPolicyTypeSeededPolicy,
+}
+
+var mappingSecurityPolicySecurityPolicyTypeEnumLowerCase = map[string]SecurityPolicySecurityPolicyTypeEnum{
+	"datasafe_managed": SecurityPolicySecurityPolicyTypeDatasafeManaged,
+	"seeded_policy":    SecurityPolicySecurityPolicyTypeSeededPolicy,
+}
+
+// GetSecurityPolicySecurityPolicyTypeEnumValues Enumerates the set of values for SecurityPolicySecurityPolicyTypeEnum
+func GetSecurityPolicySecurityPolicyTypeEnumValues() []SecurityPolicySecurityPolicyTypeEnum {
+	values := make([]SecurityPolicySecurityPolicyTypeEnum, 0)
+	for _, v := range mappingSecurityPolicySecurityPolicyTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetSecurityPolicySecurityPolicyTypeEnumStringValues Enumerates the set of values in String for SecurityPolicySecurityPolicyTypeEnum
+func GetSecurityPolicySecurityPolicyTypeEnumStringValues() []string {
+	return []string{
+		"DATASAFE_MANAGED",
+		"SEEDED_POLICY",
+	}
+}
+
+// GetMappingSecurityPolicySecurityPolicyTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingSecurityPolicySecurityPolicyTypeEnum(val string) (SecurityPolicySecurityPolicyTypeEnum, bool) {
+	enum, ok := mappingSecurityPolicySecurityPolicyTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

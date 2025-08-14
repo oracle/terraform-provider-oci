@@ -21,7 +21,7 @@ type AuditProfile struct {
 	// The OCID of the audit profile.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID of the compartment that contains the audit.
+	// The OCID of the compartment that contains the audit profile.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The display name of the audit profile.
@@ -36,7 +36,7 @@ type AuditProfile struct {
 	// The current state of the audit profile.
 	LifecycleState AuditProfileLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The OCID of the Data Safe target for which the audit profile is created.
+	// The OCID of the target database or target database group for which the audit profile is created.
 	TargetId *string `mandatory:"true" json:"targetId"`
 
 	// Indicates if you want to continue collecting audit records beyond the free limit of one million audit records per month per target database,
@@ -44,17 +44,17 @@ type AuditProfile struct {
 	// You can change at the global level or at the target level.
 	IsPaidUsageEnabled *bool `mandatory:"true" json:"isPaidUsageEnabled"`
 
-	// Indicates the number of months the audit records will be stored online in Oracle Data Safe audit repository for immediate reporting and analysis.
+	// Number of months the audit records will be stored online in the audit repository for immediate reporting and analysis.
 	// Minimum: 1; Maximum: 12 months
 	OnlineMonths *int `mandatory:"true" json:"onlineMonths"`
 
-	// Indicates the number of months the audit records will be stored offline in the Data Safe audit archive.
+	// Number of months the audit records will be stored offline in the offline archive.
 	// Minimum: 0; Maximum: 72 months.
-	// If you have a requirement to store the audit data even longer in archive, please contact the Oracle Support.
+	// If you have a requirement to store the audit data even longer in the offline archive, please contact the Oracle Support.
 	OfflineMonths *int `mandatory:"true" json:"offlineMonths"`
 
-	// Indicates whether audit retention settings like online and offline months is set at the
-	// target level overriding the global audit retention settings.
+	// Indicates whether audit retention settings like online and offline months set at the
+	// target level override both the global settings and the target group level audit retention settings.
 	IsOverrideGlobalRetentionSetting *bool `mandatory:"true" json:"isOverrideGlobalRetentionSetting"`
 
 	// Details about the current state of the audit profile in Data Safe.
@@ -63,12 +63,29 @@ type AuditProfile struct {
 	// The description of the audit profile.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Indicates the list of available audit trails on the target.
+	// Contains the list of available audit trails on the target database.
 	AuditTrails []AuditTrail `mandatory:"false" json:"auditTrails"`
 
-	// Indicates number of audit records collected by Data Safe in the current calendar month.
+	// Number of audit records collected in the current calendar month.
 	// Audit records for the Data Safe service account are excluded and are not counted towards your monthly free limit.
 	AuditCollectedVolume *int64 `mandatory:"false" json:"auditCollectedVolume"`
+
+	// Indicates whether audit paid usage settings specified at the target database level override both the global settings and the target group level paid usage settings.
+	// Enabling paid usage continues the collection of audit records beyond the free limit of one million audit records per month per target database,
+	// potentially incurring additional charges. For more information, see Data Safe Price List (https://www.oracle.com/cloud/price-list/#data-safe).
+	IsOverrideGlobalPaidUsage *bool `mandatory:"false" json:"isOverrideGlobalPaidUsage"`
+
+	// The name or the OCID of the resource from which the online month retention setting is sourced. For example, a global setting or a target database group OCID.
+	OnlineMonthsSource *string `mandatory:"false" json:"onlineMonthsSource"`
+
+	// The name or the OCID of the resource from which the offline month retention setting is sourced. For example, a global setting or a target database group OCID.
+	OfflineMonthsSource *string `mandatory:"false" json:"offlineMonthsSource"`
+
+	// The name or the OCID of the resource from which the paid usage setting is sourced. For example, a global setting or a target database group OCID.
+	PaidUsageSource *string `mandatory:"false" json:"paidUsageSource"`
+
+	// The resource type that is represented by the audit profile.
+	TargetType AuditProfileTargetTypeEnum `mandatory:"false" json:"targetType,omitempty"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`
@@ -96,6 +113,9 @@ func (m AuditProfile) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAuditProfileLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingAuditProfileTargetTypeEnum(string(m.TargetType)); !ok && m.TargetType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TargetType: %s. Supported values are: %s.", m.TargetType, strings.Join(GetAuditProfileTargetTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
