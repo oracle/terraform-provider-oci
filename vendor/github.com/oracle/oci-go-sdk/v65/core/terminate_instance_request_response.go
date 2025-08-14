@@ -35,6 +35,11 @@ type TerminateInstanceRequest struct {
 	// default value is `true`.
 	PreserveDataVolumesCreatedAtLaunch *bool `mandatory:"false" contributesTo:"query" name:"preserveDataVolumesCreatedAtLaunch"`
 
+	// This optional parameter overrides recycle level for hosts. The parameter can be used when hosts are associated
+	// with a Capacity Reservation.
+	// * `FULL_RECYCLE` - Does not skip host wipe. This is the default behavior.
+	RecycleLevel TerminateInstanceRecycleLevelEnum `mandatory:"false" contributesTo:"query" name:"recycleLevel" omitEmpty:"true"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -75,6 +80,9 @@ func (request TerminateInstanceRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request TerminateInstanceRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingTerminateInstanceRecycleLevelEnum(string(request.RecycleLevel)); !ok && request.RecycleLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RecycleLevel: %s. Supported values are: %s.", request.RecycleLevel, strings.Join(GetTerminateInstanceRecycleLevelEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -99,4 +107,42 @@ func (response TerminateInstanceResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response TerminateInstanceResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// TerminateInstanceRecycleLevelEnum Enum with underlying type: string
+type TerminateInstanceRecycleLevelEnum string
+
+// Set of constants representing the allowable values for TerminateInstanceRecycleLevelEnum
+const (
+	TerminateInstanceRecycleLevelFullRecycle TerminateInstanceRecycleLevelEnum = "FULL_RECYCLE"
+)
+
+var mappingTerminateInstanceRecycleLevelEnum = map[string]TerminateInstanceRecycleLevelEnum{
+	"FULL_RECYCLE": TerminateInstanceRecycleLevelFullRecycle,
+}
+
+var mappingTerminateInstanceRecycleLevelEnumLowerCase = map[string]TerminateInstanceRecycleLevelEnum{
+	"full_recycle": TerminateInstanceRecycleLevelFullRecycle,
+}
+
+// GetTerminateInstanceRecycleLevelEnumValues Enumerates the set of values for TerminateInstanceRecycleLevelEnum
+func GetTerminateInstanceRecycleLevelEnumValues() []TerminateInstanceRecycleLevelEnum {
+	values := make([]TerminateInstanceRecycleLevelEnum, 0)
+	for _, v := range mappingTerminateInstanceRecycleLevelEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetTerminateInstanceRecycleLevelEnumStringValues Enumerates the set of values in String for TerminateInstanceRecycleLevelEnum
+func GetTerminateInstanceRecycleLevelEnumStringValues() []string {
+	return []string{
+		"FULL_RECYCLE",
+	}
+}
+
+// GetMappingTerminateInstanceRecycleLevelEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingTerminateInstanceRecycleLevelEnum(val string) (TerminateInstanceRecycleLevelEnum, bool) {
+	enum, ok := mappingTerminateInstanceRecycleLevelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

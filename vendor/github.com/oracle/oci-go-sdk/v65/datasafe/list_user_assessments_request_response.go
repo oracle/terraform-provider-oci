@@ -83,6 +83,12 @@ type ListUserAssessmentsRequest struct {
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// A filter to return only only target database resources or target database group resources.
+	TargetType ListUserAssessmentsTargetTypeEnum `mandatory:"false" contributesTo:"query" name:"targetType" omitEmpty:"true"`
+
+	// A filter to return the target database group that matches the specified OCID.
+	TargetDatabaseGroupId *string `mandatory:"false" contributesTo:"query" name:"targetDatabaseGroupId"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -136,6 +142,9 @@ func (request ListUserAssessmentsRequest) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingListUserAssessmentsSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListUserAssessmentsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListUserAssessmentsTargetTypeEnum(string(request.TargetType)); !ok && request.TargetType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TargetType: %s. Supported values are: %s.", request.TargetType, strings.Join(GetListUserAssessmentsTargetTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -446,5 +455,47 @@ func GetListUserAssessmentsSortByEnumStringValues() []string {
 // GetMappingListUserAssessmentsSortByEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListUserAssessmentsSortByEnum(val string) (ListUserAssessmentsSortByEnum, bool) {
 	enum, ok := mappingListUserAssessmentsSortByEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListUserAssessmentsTargetTypeEnum Enum with underlying type: string
+type ListUserAssessmentsTargetTypeEnum string
+
+// Set of constants representing the allowable values for ListUserAssessmentsTargetTypeEnum
+const (
+	ListUserAssessmentsTargetTypeDatabase      ListUserAssessmentsTargetTypeEnum = "TARGET_DATABASE"
+	ListUserAssessmentsTargetTypeDatabaseGroup ListUserAssessmentsTargetTypeEnum = "TARGET_DATABASE_GROUP"
+)
+
+var mappingListUserAssessmentsTargetTypeEnum = map[string]ListUserAssessmentsTargetTypeEnum{
+	"TARGET_DATABASE":       ListUserAssessmentsTargetTypeDatabase,
+	"TARGET_DATABASE_GROUP": ListUserAssessmentsTargetTypeDatabaseGroup,
+}
+
+var mappingListUserAssessmentsTargetTypeEnumLowerCase = map[string]ListUserAssessmentsTargetTypeEnum{
+	"target_database":       ListUserAssessmentsTargetTypeDatabase,
+	"target_database_group": ListUserAssessmentsTargetTypeDatabaseGroup,
+}
+
+// GetListUserAssessmentsTargetTypeEnumValues Enumerates the set of values for ListUserAssessmentsTargetTypeEnum
+func GetListUserAssessmentsTargetTypeEnumValues() []ListUserAssessmentsTargetTypeEnum {
+	values := make([]ListUserAssessmentsTargetTypeEnum, 0)
+	for _, v := range mappingListUserAssessmentsTargetTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListUserAssessmentsTargetTypeEnumStringValues Enumerates the set of values in String for ListUserAssessmentsTargetTypeEnum
+func GetListUserAssessmentsTargetTypeEnumStringValues() []string {
+	return []string{
+		"TARGET_DATABASE",
+		"TARGET_DATABASE_GROUP",
+	}
+}
+
+// GetMappingListUserAssessmentsTargetTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListUserAssessmentsTargetTypeEnum(val string) (ListUserAssessmentsTargetTypeEnum, bool) {
+	enum, ok := mappingListUserAssessmentsTargetTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

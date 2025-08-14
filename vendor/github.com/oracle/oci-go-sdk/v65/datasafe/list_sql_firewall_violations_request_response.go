@@ -51,7 +51,7 @@ type ListSqlFirewallViolationsRequest struct {
 	// at RFC3339 (https://tools.ietf.org/html/draft-ietf-scim-api-12). In SCIM filtering expressions,
 	// text, date, and time values must be enclosed in quotation marks, with date and time values using ISO-8601 format.
 	// (Numeric and boolean values should not be quoted.)
-	// **Example:** query=(operationTime ge '2021-06-04T01-00-26') and (violationAction eq 'BLOCKED')
+	// **Example:** query=(operationTime ge "2021-06-04T01:00:26.000Z") and (violationAction eq "BLOCKED")
 	ScimQuery *string `mandatory:"false" contributesTo:"query" name:"scimQuery"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

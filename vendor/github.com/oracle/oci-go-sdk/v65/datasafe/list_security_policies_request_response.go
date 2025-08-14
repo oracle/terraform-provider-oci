@@ -43,6 +43,9 @@ type ListSecurityPoliciesRequest struct {
 	// The current state of the security policy.
 	LifecycleState ListSecurityPoliciesLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
+	// The type of the security policy.
+	SecurityPolicyType SecurityPolicySecurityPolicyTypeEnum `mandatory:"false" contributesTo:"query" name:"securityPolicyType" omitEmpty:"true"`
+
 	// An optional filter to return only resources that match the specified OCID of the security policy resource.
 	SecurityPolicyId *string `mandatory:"false" contributesTo:"query" name:"securityPolicyId"`
 
@@ -98,6 +101,9 @@ func (request ListSecurityPoliciesRequest) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingListSecurityPoliciesLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListSecurityPoliciesLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingSecurityPolicySecurityPolicyTypeEnum(string(request.SecurityPolicyType)); !ok && request.SecurityPolicyType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SecurityPolicyType: %s. Supported values are: %s.", request.SecurityPolicyType, strings.Join(GetSecurityPolicySecurityPolicyTypeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListSecurityPoliciesSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListSecurityPoliciesSortOrderEnumStringValues(), ",")))

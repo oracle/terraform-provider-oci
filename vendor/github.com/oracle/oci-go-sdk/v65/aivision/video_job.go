@@ -33,7 +33,7 @@ type VideoJob struct {
 
 	OutputLocation *OutputLocation `mandatory:"true" json:"outputLocation"`
 
-	// The current state of the batch document job.
+	// The current state of the video job.
 	LifecycleState VideoJobLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// Video job display name.

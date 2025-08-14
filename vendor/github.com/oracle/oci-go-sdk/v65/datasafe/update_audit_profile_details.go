@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// UpdateAuditProfileDetails The details used to update a audit profile.
+// UpdateAuditProfileDetails The details used to update the audit profile.
 type UpdateAuditProfileDetails struct {
 
 	// The description of the audit profile.
@@ -28,6 +28,11 @@ type UpdateAuditProfileDetails struct {
 	// potentially incurring additional charges. The default value is inherited from the global settings.
 	// You can change at the global level or at the target level.
 	IsPaidUsageEnabled *bool `mandatory:"false" json:"isPaidUsageEnabled"`
+
+	// Indicates whether audit paid usage settings specified at the target database level override both the global settings and the target group level paid usage settings.
+	// Enabling paid usage continues the collection of audit records beyond the free limit of one million audit records per month per target database,
+	// potentially incurring additional charges. For more information, see Data Safe Price List (https://www.oracle.com/cloud/price-list/#data-safe).
+	IsOverrideGlobalPaidUsage *bool `mandatory:"false" json:"isOverrideGlobalPaidUsage"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`
