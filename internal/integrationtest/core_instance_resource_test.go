@@ -3042,3 +3042,104 @@ func TestAccResourceCoreInstance_FlexibleMemory(t *testing.T) {
 		},
 	})
 }
+
+func TestResourceCoreInstance_StartStop(t *testing.T) {
+	httpreplay.SetScenario("TestAccResourceCoreInstance_StartStop")
+	defer httpreplay.SaveScenario()
+
+	instanceName := "t"
+	instanceResourceKey := "oci_core_instance." + instanceName
+
+	subnetConfig := acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet",
+		acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation,
+			map[string]interface{}{
+				"dns_label": acctest.Representation{RepType: acctest.Required, Create: "dnslabel"},
+			}))
+	vcnConfig := acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn",
+		acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation,
+			map[string]interface{}{
+				"dns_label": acctest.Representation{RepType: acctest.Required, Create: "dnslabel"},
+			}))
+	AvailabilityDomainConfig := AvailabilityDomainConfig
+	imageConfig := utils.OciImageIdsVariable
+
+	instanceCreateConfig := acctest.GenerateResourceFromRepresentationMap("oci_core_instance", instanceName,
+		acctest.Required, acctest.Create, CoreInstanceRepresentation)
+
+	instanceStoppedConfig := acctest.GenerateResourceFromRepresentationMap("oci_core_instance", instanceName,
+		acctest.Required, acctest.Create,
+		acctest.RepresentationCopyWithNewProperties(CoreInstanceRepresentation, map[string]interface{}{
+			"state": acctest.Representation{RepType: acctest.Required, Create: "STOPPED"},
+		}))
+
+	instanceStoppedTimeoutConfig := acctest.GenerateResourceFromRepresentationMap("oci_core_instance", instanceName,
+		acctest.Required, acctest.Create,
+		acctest.RepresentationCopyWithNewProperties(CoreInstanceRepresentation, map[string]interface{}{
+			"state": acctest.Representation{RepType: acctest.Required, Create: "STOPPED"},
+			"timeouts": acctest.RepresentationGroup{RepType: acctest.Required, Group: map[string]interface{}{
+				"update": acctest.Representation{RepType: acctest.Required, Create: "1s"},
+			}},
+		}))
+
+	instanceRunningConfig := acctest.GenerateResourceFromRepresentationMap("oci_core_instance", instanceName,
+		acctest.Required, acctest.Create,
+		acctest.RepresentationCopyWithNewProperties(CoreInstanceRepresentation, map[string]interface{}{
+			"state": acctest.Representation{RepType: acctest.Required, Create: "RUNNING"},
+		}))
+
+	config := acctest.LegacyTestProviderConfig() + AvailabilityDomainConfig + imageConfig + subnetConfig + vcnConfig
+
+	var instanceId string
+	resource.Test(t, resource.TestCase{
+		Providers: map[string]*schema.Provider{
+			"oci": acctest.TestAccProvider,
+		},
+		Steps: []resource.TestStep{
+			{ // Create an instance with default behavior (service default)
+				Config: config + instanceCreateConfig,
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					func(s *terraform.State) (err error) {
+						instanceId, err = acctest.FromInstanceState(s, instanceResourceKey, "id")
+						return err
+					},
+				),
+			},
+			{ // Update to STOPPED (should call InstanceAction("STOP") and wait)
+				Config: config + instanceStoppedConfig,
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttr(instanceResourceKey, "state", string(core.InstanceLifecycleStateStopped)),
+					func(ts *terraform.State) (err error) {
+						newId, err := acctest.FromInstanceState(ts, instanceResourceKey, "id")
+						if err != nil {
+							return err
+						}
+						if newId != instanceId {
+							return fmt.Errorf("expected same instance ocid, got different")
+						}
+						return nil
+					},
+				),
+			},
+			{ // Update to RUNNING (should call InstanceAction("START") and wait)
+				Config: config + instanceRunningConfig,
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttr(instanceResourceKey, "state", string(core.InstanceLifecycleStateRunning)),
+					func(ts *terraform.State) (err error) {
+						newId, err := acctest.FromInstanceState(ts, instanceResourceKey, "id")
+						if err != nil {
+							return err
+						}
+						if newId != instanceId {
+							return fmt.Errorf("expected same instance ocid, got different")
+						}
+						return nil
+					},
+				),
+			},
+			{ // Force a short update timeout while transitioning to STOPPED; expect the wait to time out.
+				Config:      config + instanceStoppedTimeoutConfig,
+				ExpectError: regexp.MustCompile("(?i)(timed out.*specified condition|timeout)"),
+			},
+		},
+	})
+}
