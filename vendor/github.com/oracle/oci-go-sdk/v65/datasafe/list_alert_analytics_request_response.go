@@ -70,7 +70,7 @@ type ListAlertAnalyticsRequest struct {
 	// text, date, and time values must be enclosed in quotation marks, with date and time values using ISO-8601 format.
 	// (Numeric and boolean values should not be quoted.)
 	// **Example:** |
-	// query=(timeCreated ge '2021-06-04T01-00-26') and (targetNames eq 'target_1')
+	// query=(timeCreated ge "2021-06-04T01:00:26.000Z") and (targetNames eq "target_1")
 	// query=(featureDetails.userName eq "user") and (targetNames eq "target_1")
 	// Supported fields:
 	// severity

@@ -454,5 +454,17 @@
         "realmKey": "oc1",
         "regionIdentifier": "ap-batam-1",
         "realmDomainComponent": "oraclecloud.com"
+    },
+    {
+        "regionKey": "pgc",
+        "realmKey": "oc42",
+        "regionIdentifier": "us-newark-1",
+        "realmDomainComponent": "oraclecloud42.com"
+    },
+    {
+        "regionKey": "jsk",
+        "realmKey": "oc51",
+        "regionIdentifier": "eu-budapest-1",
+        "realmDomainComponent": "oraclecloud51.com"
     }
 ]

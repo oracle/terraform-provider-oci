@@ -51,6 +51,9 @@ type IpInventorySubnetResourceSummary struct {
 	// Name of the created resource.
 	AssignedResourceName *string `mandatory:"false" json:"assignedResourceName"`
 
+	// Primary flag for IP Resource
+	IsPrimary *bool `mandatory:"false" json:"isPrimary"`
+
 	// Type of the resource.
 	AssignedResourceType IpInventorySubnetResourceSummaryAssignedResourceTypeEnum `mandatory:"false" json:"assignedResourceType,omitempty"`
 
