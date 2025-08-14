@@ -96,8 +96,8 @@ func (s *DataSafeOnPremConnectorsDataSourceCrud) Get() error {
 		request.OnPremConnectorId = &tmp
 	}
 
-	if onPremConnectorLifecycleState, ok := s.D.GetOkExists("on_prem_connector_lifecycle_state"); ok {
-		request.OnPremConnectorLifecycleState = oci_data_safe.ListOnPremConnectorsOnPremConnectorLifecycleStateEnum(onPremConnectorLifecycleState.(string))
+	if v, ok := s.D.GetOkExists("lifecycle_state"); ok {
+		request.LifecycleState = oci_data_safe.ListOnPremConnectorsLifecycleStateEnum(v.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
