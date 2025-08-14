@@ -1,3 +1,22 @@
+## 7.14.0 (August 13, 2025)
+
+### Added
+- Support for scimQuery field for findingAnalytics API in data safe
+- Support for ODSC - Distributed Training V2 (DTv2)
+- Support for OCI Cache - Customer Managed Config Sets
+- Support for AI Vision Service Stream Video Processing
+- Support for GoldenGate Connections Release 8
+- Support for OL8 migration for Devops Build runner
+- Support for fields computeClusterId and placementConstraintDetails in Instance Configuration Launch Details
+- Max Parallel Chunks configurable via env
+- Formatting changes in files
+
+### Bug Fix
+- Fix using security_attributes in UpdateInstance and add tests
+- remove usages of freeformTags and definedTags from ApplianceImageSummary
+- EXACC update fix to send destionationDetails
+- Resolved errors with VCN update requests for IPv6 CIDRs
+
 ## 7.13.0 (August 6, 2025)
 
 ### Added
