@@ -36,6 +36,9 @@ type RepositoryCommit struct {
 	// Email of who creates the commit.
 	CommitterEmail *string `mandatory:"false" json:"committerEmail"`
 
+	// Id of the PullRequest that this commit was merged with.
+	MergedPullRequestId *string `mandatory:"false" json:"mergedPullRequestId"`
+
 	// An array of parent commit IDs of created commit.
 	ParentCommitIds []string `mandatory:"false" json:"parentCommitIds"`
 

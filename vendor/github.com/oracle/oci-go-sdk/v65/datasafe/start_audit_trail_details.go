@@ -24,6 +24,10 @@ type StartAuditTrailDetails struct {
 	// Indicates if auto purge is enabled on the target database, which helps delete audit data in the
 	// target database every seven days so that the database's audit trail does not become too large.
 	IsAutoPurgeEnabled *bool `mandatory:"false" json:"isAutoPurgeEnabled"`
+
+	// Indicates if the Datasafe updates last archive time on target database. If isAutoPurgeEnabled field
+	// is enabled, this field must be true.
+	CanUpdateLastArchiveTimeOnTarget *bool `mandatory:"false" json:"canUpdateLastArchiveTimeOnTarget"`
 }
 
 func (m StartAuditTrailDetails) String() string {

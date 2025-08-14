@@ -42,8 +42,17 @@ type ReportSummary struct {
 	// Specifies the format of report to be .xls or .pdf or .json.
 	MimeType ReportSummaryMimeTypeEnum `mandatory:"false" json:"mimeType,omitempty"`
 
+	// Specifies the time at which the report was created.
+	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
+
+	// The date and time of the report update in Data Safe.
+	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
+
 	// The type of the report.
 	Type ReportTypeEnum `mandatory:"false" json:"type,omitempty"`
+
+	// Specifies the name of a resource that provides data for the report. For example alerts, events.
+	DataSource ReportDefinitionDataSourceEnum `mandatory:"false" json:"dataSource,omitempty"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`
@@ -72,6 +81,9 @@ func (m ReportSummary) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingReportTypeEnum(string(m.Type)); !ok && m.Type != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetReportTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingReportDefinitionDataSourceEnum(string(m.DataSource)); !ok && m.DataSource != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataSource: %s. Supported values are: %s.", m.DataSource, strings.Join(GetReportDefinitionDataSourceEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

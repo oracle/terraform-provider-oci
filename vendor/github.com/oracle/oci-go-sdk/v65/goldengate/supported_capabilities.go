@@ -25,6 +25,7 @@ const (
 	SupportedCapabilitiesPlacement            SupportedCapabilitiesEnum = "PLACEMENT"
 	SupportedCapabilitiesDisasterRecovery     SupportedCapabilitiesEnum = "DISASTER_RECOVERY"
 	SupportedCapabilitiesScheduleManualBackup SupportedCapabilitiesEnum = "SCHEDULE_MANUAL_BACKUP"
+	SupportedCapabilitiesMulticloud           SupportedCapabilitiesEnum = "MULTICLOUD"
 )
 
 var mappingSupportedCapabilitiesEnum = map[string]SupportedCapabilitiesEnum{
@@ -35,6 +36,7 @@ var mappingSupportedCapabilitiesEnum = map[string]SupportedCapabilitiesEnum{
 	"PLACEMENT":              SupportedCapabilitiesPlacement,
 	"DISASTER_RECOVERY":      SupportedCapabilitiesDisasterRecovery,
 	"SCHEDULE_MANUAL_BACKUP": SupportedCapabilitiesScheduleManualBackup,
+	"MULTICLOUD":             SupportedCapabilitiesMulticloud,
 }
 
 var mappingSupportedCapabilitiesEnumLowerCase = map[string]SupportedCapabilitiesEnum{
@@ -45,6 +47,7 @@ var mappingSupportedCapabilitiesEnumLowerCase = map[string]SupportedCapabilities
 	"placement":              SupportedCapabilitiesPlacement,
 	"disaster_recovery":      SupportedCapabilitiesDisasterRecovery,
 	"schedule_manual_backup": SupportedCapabilitiesScheduleManualBackup,
+	"multicloud":             SupportedCapabilitiesMulticloud,
 }
 
 // GetSupportedCapabilitiesEnumValues Enumerates the set of values for SupportedCapabilitiesEnum
@@ -66,6 +69,7 @@ func GetSupportedCapabilitiesEnumStringValues() []string {
 		"PLACEMENT",
 		"DISASTER_RECOVERY",
 		"SCHEDULE_MANUAL_BACKUP",
+		"MULTICLOUD",
 	}
 }
 

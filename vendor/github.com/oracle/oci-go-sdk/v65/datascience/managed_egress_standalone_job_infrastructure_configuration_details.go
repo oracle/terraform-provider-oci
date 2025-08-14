@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ManagedEgressStandaloneJobInfrastructureConfigurationDetails The standalone job infrastructure configuration with network egress settings preconfigured.
+// ManagedEgressStandaloneJobInfrastructureConfigurationDetails This type should only be used at the top level infrastructure configuration field for configuring single-node jobs.
 type ManagedEgressStandaloneJobInfrastructureConfigurationDetails struct {
 
 	// The shape used to launch the job run instances.

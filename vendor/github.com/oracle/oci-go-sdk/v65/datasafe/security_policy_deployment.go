@@ -27,7 +27,7 @@ type SecurityPolicyDeployment struct {
 	// The display name of the security policy deployment.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID of the target where the security policy is deployed.
+	// The OCID of the target/target group where the security policy is deployed.
 	TargetId *string `mandatory:"true" json:"targetId"`
 
 	// The OCID of the security policy corresponding to the security policy deployment.
@@ -41,6 +41,12 @@ type SecurityPolicyDeployment struct {
 
 	// The description of the security policy deployment.
 	Description *string `mandatory:"false" json:"description"`
+
+	// Indicates whether the security policy deployment is for a target database or a target database group.
+	TargetType SecurityPolicyDeploymentTargetTypeEnum `mandatory:"false" json:"targetType,omitempty"`
+
+	// The last date and time the security policy was deployed, in the format defined by RFC3339.
+	TimeDeployed *common.SDKTime `mandatory:"false" json:"timeDeployed"`
 
 	// The last date and time the security policy deployment was updated, in the format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
@@ -74,8 +80,53 @@ func (m SecurityPolicyDeployment) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetSecurityPolicyDeploymentLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingSecurityPolicyDeploymentTargetTypeEnum(string(m.TargetType)); !ok && m.TargetType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TargetType: %s. Supported values are: %s.", m.TargetType, strings.Join(GetSecurityPolicyDeploymentTargetTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// SecurityPolicyDeploymentTargetTypeEnum Enum with underlying type: string
+type SecurityPolicyDeploymentTargetTypeEnum string
+
+// Set of constants representing the allowable values for SecurityPolicyDeploymentTargetTypeEnum
+const (
+	SecurityPolicyDeploymentTargetTypeDatabase      SecurityPolicyDeploymentTargetTypeEnum = "TARGET_DATABASE"
+	SecurityPolicyDeploymentTargetTypeDatabaseGroup SecurityPolicyDeploymentTargetTypeEnum = "TARGET_DATABASE_GROUP"
+)
+
+var mappingSecurityPolicyDeploymentTargetTypeEnum = map[string]SecurityPolicyDeploymentTargetTypeEnum{
+	"TARGET_DATABASE":       SecurityPolicyDeploymentTargetTypeDatabase,
+	"TARGET_DATABASE_GROUP": SecurityPolicyDeploymentTargetTypeDatabaseGroup,
+}
+
+var mappingSecurityPolicyDeploymentTargetTypeEnumLowerCase = map[string]SecurityPolicyDeploymentTargetTypeEnum{
+	"target_database":       SecurityPolicyDeploymentTargetTypeDatabase,
+	"target_database_group": SecurityPolicyDeploymentTargetTypeDatabaseGroup,
+}
+
+// GetSecurityPolicyDeploymentTargetTypeEnumValues Enumerates the set of values for SecurityPolicyDeploymentTargetTypeEnum
+func GetSecurityPolicyDeploymentTargetTypeEnumValues() []SecurityPolicyDeploymentTargetTypeEnum {
+	values := make([]SecurityPolicyDeploymentTargetTypeEnum, 0)
+	for _, v := range mappingSecurityPolicyDeploymentTargetTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetSecurityPolicyDeploymentTargetTypeEnumStringValues Enumerates the set of values in String for SecurityPolicyDeploymentTargetTypeEnum
+func GetSecurityPolicyDeploymentTargetTypeEnumStringValues() []string {
+	return []string{
+		"TARGET_DATABASE",
+		"TARGET_DATABASE_GROUP",
+	}
+}
+
+// GetMappingSecurityPolicyDeploymentTargetTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingSecurityPolicyDeploymentTargetTypeEnum(val string) (SecurityPolicyDeploymentTargetTypeEnum, bool) {
+	enum, ok := mappingSecurityPolicyDeploymentTargetTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

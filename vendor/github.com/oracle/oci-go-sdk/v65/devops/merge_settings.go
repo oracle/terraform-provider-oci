@@ -19,10 +19,10 @@ import (
 type MergeSettings struct {
 
 	// Default type of merge strategy associated with the a Project or Repository.
-	DefaultMergeStrategy MergeStrategyEnum `mandatory:"true" json:"defaultMergeStrategy"`
+	DefaultMergeStrategy MergeStrategyEnum `mandatory:"false" json:"defaultMergeStrategy,omitempty"`
 
 	// List of merge strategies which are allowed for a Project or Repository.
-	AllowedMergeStrategies []MergeStrategyEnum `mandatory:"true" json:"allowedMergeStrategies"`
+	AllowedMergeStrategies []MergeStrategyEnum `mandatory:"false" json:"allowedMergeStrategies"`
 }
 
 func (m MergeSettings) String() string {
@@ -34,10 +34,10 @@ func (m MergeSettings) String() string {
 // Not recommended for calling this function directly
 func (m MergeSettings) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+
 	if _, ok := GetMappingMergeStrategyEnum(string(m.DefaultMergeStrategy)); !ok && m.DefaultMergeStrategy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DefaultMergeStrategy: %s. Supported values are: %s.", m.DefaultMergeStrategy, strings.Join(GetMergeStrategyEnumStringValues(), ",")))
 	}
-
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

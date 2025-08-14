@@ -231,22 +231,19 @@ type ListMaskingPolicyReferentialRelationsSortByEnum string
 const (
 	ListMaskingPolicyReferentialRelationsSortByRelationtype ListMaskingPolicyReferentialRelationsSortByEnum = "relationType"
 	ListMaskingPolicyReferentialRelationsSortBySchemaname   ListMaskingPolicyReferentialRelationsSortByEnum = "schemaName"
-	ListMaskingPolicyReferentialRelationsSortByTablename    ListMaskingPolicyReferentialRelationsSortByEnum = "tableName"
-	ListMaskingPolicyReferentialRelationsSortByColumnname   ListMaskingPolicyReferentialRelationsSortByEnum = "columnName"
+	ListMaskingPolicyReferentialRelationsSortByObjectname   ListMaskingPolicyReferentialRelationsSortByEnum = "objectName"
 )
 
 var mappingListMaskingPolicyReferentialRelationsSortByEnum = map[string]ListMaskingPolicyReferentialRelationsSortByEnum{
 	"relationType": ListMaskingPolicyReferentialRelationsSortByRelationtype,
 	"schemaName":   ListMaskingPolicyReferentialRelationsSortBySchemaname,
-	"tableName":    ListMaskingPolicyReferentialRelationsSortByTablename,
-	"columnName":   ListMaskingPolicyReferentialRelationsSortByColumnname,
+	"objectName":   ListMaskingPolicyReferentialRelationsSortByObjectname,
 }
 
 var mappingListMaskingPolicyReferentialRelationsSortByEnumLowerCase = map[string]ListMaskingPolicyReferentialRelationsSortByEnum{
 	"relationtype": ListMaskingPolicyReferentialRelationsSortByRelationtype,
 	"schemaname":   ListMaskingPolicyReferentialRelationsSortBySchemaname,
-	"tablename":    ListMaskingPolicyReferentialRelationsSortByTablename,
-	"columnname":   ListMaskingPolicyReferentialRelationsSortByColumnname,
+	"objectname":   ListMaskingPolicyReferentialRelationsSortByObjectname,
 }
 
 // GetListMaskingPolicyReferentialRelationsSortByEnumValues Enumerates the set of values for ListMaskingPolicyReferentialRelationsSortByEnum
@@ -263,8 +260,7 @@ func GetListMaskingPolicyReferentialRelationsSortByEnumStringValues() []string {
 	return []string{
 		"relationType",
 		"schemaName",
-		"tableName",
-		"columnName",
+		"objectName",
 	}
 }
 

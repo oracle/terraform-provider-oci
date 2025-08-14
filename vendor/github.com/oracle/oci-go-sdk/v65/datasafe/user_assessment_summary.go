@@ -64,6 +64,12 @@ type UserAssessmentSummary struct {
 	// The OCID of the last user assessment baseline against which the latest assessment was compared.
 	LastComparedBaselineId *string `mandatory:"false" json:"lastComparedBaselineId"`
 
+	// The OCID of target database group.
+	TargetDatabaseGroupId *string `mandatory:"false" json:"targetDatabaseGroupId"`
+
+	// Indicates whether the user assessment is for a target database or a target database group.
+	TargetType UserAssessmentTargetTypeEnum `mandatory:"false" json:"targetType,omitempty"`
+
 	// Details about the current state of the user assessment.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
@@ -126,6 +132,9 @@ func (m UserAssessmentSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetUserAssessmentSummaryTypeEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingUserAssessmentTargetTypeEnum(string(m.TargetType)); !ok && m.TargetType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TargetType: %s. Supported values are: %s.", m.TargetType, strings.Join(GetUserAssessmentTargetTypeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingUserAssessmentSummaryTriggeredByEnum(string(m.TriggeredBy)); !ok && m.TriggeredBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TriggeredBy: %s. Supported values are: %s.", m.TriggeredBy, strings.Join(GetUserAssessmentSummaryTriggeredByEnumStringValues(), ",")))
 	}

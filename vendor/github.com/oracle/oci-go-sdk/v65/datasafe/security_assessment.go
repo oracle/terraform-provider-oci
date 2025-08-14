@@ -64,6 +64,12 @@ type SecurityAssessment struct {
 	// The version of the target database.
 	TargetVersion *string `mandatory:"false" json:"targetVersion"`
 
+	// The ocid of a security assessment which is of type TEMPLATE, this will be null or empty when type is TEMPLATE.
+	TemplateAssessmentId *string `mandatory:"false" json:"templateAssessmentId"`
+
+	// The ocid of a security assessment which is of type TEMPLATE_BASELINE, this will be null or empty when type is TEMPLATE_BASELINE.
+	BaselineAssessmentId *string `mandatory:"false" json:"baselineAssessmentId"`
+
 	// Indicates whether or not the security assessment is set as a baseline. This is applicable only for saved security assessments.
 	IsBaseline *bool `mandatory:"false" json:"isBaseline"`
 
@@ -87,6 +93,15 @@ type SecurityAssessment struct {
 
 	// Indicates whether the assessment is scheduled to run.
 	IsAssessmentScheduled *bool `mandatory:"false" json:"isAssessmentScheduled"`
+
+	// The OCID of the target database group that the group assessment is created for.
+	TargetDatabaseGroupId *string `mandatory:"false" json:"targetDatabaseGroupId"`
+
+	// Indicates whether the security assessment is for a target database or a target database group.
+	TargetType SecurityAssessmentTargetTypeEnum `mandatory:"false" json:"targetType,omitempty"`
+
+	// The security checks to be evaluated for type template.
+	Checks []Check `mandatory:"false" json:"checks"`
 
 	// Schedule to save the assessment periodically in the specified format:
 	// <version-string>;<version-specific-schedule>
@@ -139,6 +154,9 @@ func (m SecurityAssessment) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingSecurityAssessmentTriggeredByEnum(string(m.TriggeredBy)); !ok && m.TriggeredBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TriggeredBy: %s. Supported values are: %s.", m.TriggeredBy, strings.Join(GetSecurityAssessmentTriggeredByEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingSecurityAssessmentTargetTypeEnum(string(m.TargetType)); !ok && m.TargetType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TargetType: %s. Supported values are: %s.", m.TargetType, strings.Join(GetSecurityAssessmentTargetTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -193,24 +211,30 @@ type SecurityAssessmentTypeEnum string
 
 // Set of constants representing the allowable values for SecurityAssessmentTypeEnum
 const (
-	SecurityAssessmentTypeLatest       SecurityAssessmentTypeEnum = "LATEST"
-	SecurityAssessmentTypeSaved        SecurityAssessmentTypeEnum = "SAVED"
-	SecurityAssessmentTypeSaveSchedule SecurityAssessmentTypeEnum = "SAVE_SCHEDULE"
-	SecurityAssessmentTypeCompartment  SecurityAssessmentTypeEnum = "COMPARTMENT"
+	SecurityAssessmentTypeLatest           SecurityAssessmentTypeEnum = "LATEST"
+	SecurityAssessmentTypeSaved            SecurityAssessmentTypeEnum = "SAVED"
+	SecurityAssessmentTypeSaveSchedule     SecurityAssessmentTypeEnum = "SAVE_SCHEDULE"
+	SecurityAssessmentTypeCompartment      SecurityAssessmentTypeEnum = "COMPARTMENT"
+	SecurityAssessmentTypeTemplate         SecurityAssessmentTypeEnum = "TEMPLATE"
+	SecurityAssessmentTypeTemplateBaseline SecurityAssessmentTypeEnum = "TEMPLATE_BASELINE"
 )
 
 var mappingSecurityAssessmentTypeEnum = map[string]SecurityAssessmentTypeEnum{
-	"LATEST":        SecurityAssessmentTypeLatest,
-	"SAVED":         SecurityAssessmentTypeSaved,
-	"SAVE_SCHEDULE": SecurityAssessmentTypeSaveSchedule,
-	"COMPARTMENT":   SecurityAssessmentTypeCompartment,
+	"LATEST":            SecurityAssessmentTypeLatest,
+	"SAVED":             SecurityAssessmentTypeSaved,
+	"SAVE_SCHEDULE":     SecurityAssessmentTypeSaveSchedule,
+	"COMPARTMENT":       SecurityAssessmentTypeCompartment,
+	"TEMPLATE":          SecurityAssessmentTypeTemplate,
+	"TEMPLATE_BASELINE": SecurityAssessmentTypeTemplateBaseline,
 }
 
 var mappingSecurityAssessmentTypeEnumLowerCase = map[string]SecurityAssessmentTypeEnum{
-	"latest":        SecurityAssessmentTypeLatest,
-	"saved":         SecurityAssessmentTypeSaved,
-	"save_schedule": SecurityAssessmentTypeSaveSchedule,
-	"compartment":   SecurityAssessmentTypeCompartment,
+	"latest":            SecurityAssessmentTypeLatest,
+	"saved":             SecurityAssessmentTypeSaved,
+	"save_schedule":     SecurityAssessmentTypeSaveSchedule,
+	"compartment":       SecurityAssessmentTypeCompartment,
+	"template":          SecurityAssessmentTypeTemplate,
+	"template_baseline": SecurityAssessmentTypeTemplateBaseline,
 }
 
 // GetSecurityAssessmentTypeEnumValues Enumerates the set of values for SecurityAssessmentTypeEnum
@@ -229,6 +253,8 @@ func GetSecurityAssessmentTypeEnumStringValues() []string {
 		"SAVED",
 		"SAVE_SCHEDULE",
 		"COMPARTMENT",
+		"TEMPLATE",
+		"TEMPLATE_BASELINE",
 	}
 }
 
