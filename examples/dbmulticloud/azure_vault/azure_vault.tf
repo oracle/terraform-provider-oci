@@ -30,3 +30,7 @@ oracle_db_azure_resource_group = "Prasanna.RG"
 oracle_db_connector_id = var.oracle_db_azure_connector_id
 type = "managedHSMs"
 }
+
+output "azure_vault_id" {
+  value = oci_dbmulticloud_oracle_db_azure_vault.test_oracle_db_azure_vault.id
+}

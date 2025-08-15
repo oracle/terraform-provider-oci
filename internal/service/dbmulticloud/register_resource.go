@@ -12,4 +12,6 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_dbmulticloud_oracle_db_azure_connector", DbmulticloudOracleDbAzureConnectorResource())
 	tfresource.RegisterResource("oci_dbmulticloud_oracle_db_azure_vault", DbmulticloudOracleDbAzureVaultResource())
 	tfresource.RegisterResource("oci_dbmulticloud_oracle_db_azure_vault_association", DbmulticloudOracleDbAzureVaultAssociationResource())
+	tfresource.RegisterResource("oci_dbmulticloud_oracle_db_gcp_identity_connector", DbmulticloudOracleDbGcpIdentityConnectorResource())
+	tfresource.RegisterResource("oci_dbmulticloud_oracle_db_gcp_key_ring", DbmulticloudOracleDbGcpKeyRingResource())
 }
