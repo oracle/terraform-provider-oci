@@ -20,4 +20,10 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_dbmulticloud_oracle_db_azure_vault_association", DbmulticloudOracleDbAzureVaultAssociationDataSource())
 	tfresource.RegisterDatasource("oci_dbmulticloud_oracle_db_azure_vault_associations", DbmulticloudOracleDbAzureVaultAssociationsDataSource())
 	tfresource.RegisterDatasource("oci_dbmulticloud_oracle_db_azure_vaults", DbmulticloudOracleDbAzureVaultsDataSource())
+	tfresource.RegisterDatasource("oci_dbmulticloud_oracle_db_gcp_identity_connector", DbmulticloudOracleDbGcpIdentityConnectorDataSource())
+	tfresource.RegisterDatasource("oci_dbmulticloud_oracle_db_gcp_identity_connectors", DbmulticloudOracleDbGcpIdentityConnectorsDataSource())
+	tfresource.RegisterDatasource("oci_dbmulticloud_oracle_db_gcp_key", DbmulticloudOracleDbGcpKeyDataSource())
+	tfresource.RegisterDatasource("oci_dbmulticloud_oracle_db_gcp_key_ring", DbmulticloudOracleDbGcpKeyRingDataSource())
+	tfresource.RegisterDatasource("oci_dbmulticloud_oracle_db_gcp_key_rings", DbmulticloudOracleDbGcpKeyRingsDataSource())
+	tfresource.RegisterDatasource("oci_dbmulticloud_oracle_db_gcp_keys", DbmulticloudOracleDbGcpKeysDataSource())
 }

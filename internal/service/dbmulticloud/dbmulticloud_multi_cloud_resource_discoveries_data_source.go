@@ -38,6 +38,13 @@ func DbmulticloudMultiCloudResourceDiscoveriesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"resources_filter": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -103,6 +110,12 @@ func (s *DbmulticloudMultiCloudResourceDiscoveriesDataSourceCrud) Get() error {
 
 	if resourceType, ok := s.D.GetOkExists("resource_type"); ok {
 		request.ResourceType = oci_dbmulticloud.MultiCloudResourceDiscoveryResourceTypeEnum(resourceType.(string))
+	}
+
+	if resourcesFilter, ok := s.D.GetOkExists("resources_filter"); ok {
+		arr := []string{resourcesFilter.(string)}
+		//request.ResourcesFilter = tfresource.ObjectMapToStringMap(resourcesFilter.(map[string]interface{}))
+		request.ResourcesFilter = arr
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {

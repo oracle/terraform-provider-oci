@@ -37,11 +37,15 @@ var (
 	}
 
 	DbmulticloudMultiCloudResourceDiscoveryDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `Tersi_Discover_Test`},
-		"resource_type":  acctest.Representation{RepType: acctest.Required, Create: `VAULTS`},
-		"state":          acctest.Representation{RepType: acctest.Optional, Create: `SUCCEEDED`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DbmulticloudMultiCloudResourceDiscoveryDataSourceFilterRepresentation}}
+		"compartment_id":                    acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":                      acctest.Representation{RepType: acctest.Optional, Create: `Tersi_Discover_Test`, Update: `Tersi_Discover_Test`},
+		"multi_cloud_resource_discovery_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_dbmulticloud_multi_cloud_resource_discovery.test_multi_cloud_resource_discovery.id}`},
+		"oracle_db_azure_connector_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_dbmulticloud_oracle_db_azure_connector.test_oracle_db_azure_connector.id}`},
+		"resource_type":                     acctest.Representation{RepType: acctest.Optional, Create: `VAULTS`},
+		//"resources_filter":                  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"keyVault": "resourcesFilter"}, Update: map[string]string{"keyVault": "resourcesFilter2"}},
+		"state":  acctest.Representation{RepType: acctest.Optional, Create: `SUCCEEDED`},
+		"filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: DbmulticloudMultiCloudResourceDiscoveryDataSourceFilterRepresentation}}
+
 	DbmulticloudMultiCloudResourceDiscoveryDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_dbmulticloud_multi_cloud_resource_discovery.test_multi_cloud_resource_discovery.id}`}},
@@ -49,9 +53,11 @@ var (
 
 	DbmulticloudMultiCloudResourceDiscoveryRepresentation = map[string]interface{}{
 		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":           acctest.Representation{RepType: acctest.Required, Create: `Tersi_Discover_Test`},
+		"display_name":           acctest.Representation{RepType: acctest.Required, Create: `Tersi_Discover_Test`, Update: `Tersi_Discover_Test`},
 		"oracle_db_connector_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_dbmulticloud_oracle_db_azure_connector.test_oracle_db_azure_connector.id}`},
 		"resource_type":          acctest.Representation{RepType: acctest.Required, Create: `VAULTS`},
+		"freeform_tags":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		//"resources_filter":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"keyVault": "resourcesFilter"}, Update: map[string]string{"keyVault": "resourcesFilter2"}},
 	}
 
 	DbmulticloudMultiCloudResourceDiscoveryResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_dbmulticloud_oracle_db_azure_connector", "test_oracle_db_azure_connector", acctest.Required, acctest.Create, DbmulticloudOracleDbAzureConnectorRepresentation)
@@ -111,6 +117,7 @@ func TestDbmulticloudMultiCloudResourceDiscoveryResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "oracle_db_connector_id"),
 				resource.TestCheckResourceAttr(resourceName, "resource_type", "VAULTS"),
+				resource.TestCheckResourceAttr(resourceName, "resources_filter.%", "0"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -137,6 +144,7 @@ func TestDbmulticloudMultiCloudResourceDiscoveryResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "oracle_db_connector_id"),
 				resource.TestCheckResourceAttr(resourceName, "resource_type", "VAULTS"),
+				resource.TestCheckResourceAttr(resourceName, "resources_filter.%", "0"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -158,6 +166,7 @@ func TestDbmulticloudMultiCloudResourceDiscoveryResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "oracle_db_connector_id"),
 				resource.TestCheckResourceAttr(resourceName, "resource_type", "VAULTS"),
+				resource.TestCheckResourceAttr(resourceName, "resources_filter.%", "0"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -177,6 +186,14 @@ func TestDbmulticloudMultiCloudResourceDiscoveryResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "Tersi_Discover_Test"),
+				resource.TestCheckResourceAttrSet(datasourceName, "multi_cloud_resource_discovery_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "oracle_db_azure_connector_id"),
+				resource.TestCheckResourceAttr(datasourceName, "resource_type", "VAULTS"),
+				resource.TestCheckResourceAttr(datasourceName, "resources_filter.#", "0"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "SUCCEEDED"),
+
+				resource.TestCheckResourceAttr(datasourceName, "multi_cloud_resource_discovery_summary_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "multi_cloud_resource_discovery_summary_collection.0.items.#", "1"),
 			),
 		},
 		// verify singular datasource
@@ -189,7 +206,10 @@ func TestDbmulticloudMultiCloudResourceDiscoveryResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "Tersi_Discover_Test"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-
+				resource.TestCheckResourceAttr(singularDatasourceName, "resource_type", "VAULTS"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "resources.#", "2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "resources_filter.%", "0"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),

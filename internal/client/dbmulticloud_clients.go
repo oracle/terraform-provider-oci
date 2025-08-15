@@ -10,6 +10,7 @@ import (
 )
 
 func init() {
+	RegisterOracleClient("oci_dbmulticloud.DbMulticloudGCPProviderClient", &OracleClient{InitClientFn: initDbmulticloudDbMulticloudGCPProviderClient})
 	RegisterOracleClient("oci_dbmulticloud.WorkRequestClient", &OracleClient{InitClientFn: initDbmulticloudWorkRequestClient})
 	RegisterOracleClient("oci_dbmulticloud.MultiCloudResourceDiscoveryClient", &OracleClient{InitClientFn: initDbmulticloudMultiCloudResourceDiscoveryClient})
 	RegisterOracleClient("oci_dbmulticloud.OracleDBAzureBlobContainerClient", &OracleClient{InitClientFn: initDbmulticloudOracleDBAzureBlobContainerClient})
@@ -18,6 +19,26 @@ func init() {
 	RegisterOracleClient("oci_dbmulticloud.OracleDbAzureKeyClient", &OracleClient{InitClientFn: initDbmulticloudOracleDbAzureKeyClient})
 	RegisterOracleClient("oci_dbmulticloud.OracleDbAzureVaultClient", &OracleClient{InitClientFn: initDbmulticloudOracleDbAzureVaultClient})
 	RegisterOracleClient("oci_dbmulticloud.OracleDbAzureVaultAssociationClient", &OracleClient{InitClientFn: initDbmulticloudOracleDbAzureVaultAssociationClient})
+}
+
+func initDbmulticloudDbMulticloudGCPProviderClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+	client, err := oci_dbmulticloud.NewDbMulticloudGCPProviderClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return nil, err
+	}
+	err = configureClient(&client.BaseClient)
+	if err != nil {
+		return nil, err
+	}
+
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
+	}
+	return &client, nil
+}
+
+func (m *OracleClients) DbMulticloudGCPProviderClient() *oci_dbmulticloud.DbMulticloudGCPProviderClient {
+	return m.GetClient("oci_dbmulticloud.DbMulticloudGCPProviderClient").(*oci_dbmulticloud.DbMulticloudGCPProviderClient)
 }
 
 func initDbmulticloudWorkRequestClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

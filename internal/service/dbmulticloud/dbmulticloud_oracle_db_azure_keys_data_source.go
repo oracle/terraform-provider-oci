@@ -79,6 +79,10 @@ func DbmulticloudOracleDbAzureKeysDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"key_properties": {
+										Type:     schema.TypeMap,
+										Computed: true,
+									},
 									"last_modification": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -88,6 +92,10 @@ func DbmulticloudOracleDbAzureKeysDataSource() *schema.Resource {
 										Computed: true,
 									},
 									"oracle_db_azure_vault_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"resource_type": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -239,6 +247,20 @@ func OracleDbAzureKeySummaryToMap(obj oci_dbmulticloud.OracleDbAzureKeySummary) 
 		result["id"] = string(*obj.Id)
 	}
 
+	//if obj.KeyProperties != nil {
+	//	result["key_properties"] = []interface{}{obj.KeyProperties}
+	//}
+	if obj.KeyProperties != nil {
+		keyPropsInterface := *obj.KeyProperties
+
+		keyPropsMap, ok := keyPropsInterface.(map[string]interface{})
+		if !ok {
+			return result
+		}
+
+		result["key_properties"] = keyPropsMap
+	}
+
 	if obj.LastModification != nil {
 		result["last_modification"] = string(*obj.LastModification)
 	}
@@ -249,6 +271,10 @@ func OracleDbAzureKeySummaryToMap(obj oci_dbmulticloud.OracleDbAzureKeySummary) 
 
 	if obj.OracleDbAzureVaultId != nil {
 		result["oracle_db_azure_vault_id"] = string(*obj.OracleDbAzureVaultId)
+	}
+
+	if obj.ResourceType != nil {
+		result["resource_type"] = string(*obj.ResourceType)
 	}
 
 	result["state"] = string(obj.LifecycleState)

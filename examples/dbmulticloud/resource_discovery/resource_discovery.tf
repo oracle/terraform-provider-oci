@@ -27,3 +27,12 @@ display_name = "Tersi_Discover_Test"
 oracle_db_connector_id = var.oracle_db_azure_connector_id
 resource_type = "VAULTS"
 }
+
+data "oci_dbmulticloud_multi_cloud_resource_discovery" "test_multi_cloud_resource_discovery" {
+  multi_cloud_resource_discovery_id = oci_dbmulticloud_multi_cloud_resource_discovery.test_multi_cloud_resource_discovery.id
+}
+
+data "oci_dbmulticloud_multi_cloud_resource_discoveries" "test_multi_cloud_resource_discovery" {
+  compartment_id = var.compartment_ocid
+  resource_type = "VAULTS"
+}
