@@ -214,14 +214,14 @@ func TestDbmulticloudOracleDbAzureConnectorResource_basic(t *testing.T) {
 				compartmentIdVariableStr + DbmulticloudOracleDbAzureConnectorResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 
-				// resource.TestCheckResourceAttr(singularDatasourceName, "access_token", "Azure-accessToken"),
-				resource.TestCheckResourceAttrSet(resourceName, "access_token"),
+				//resource.TestCheckResourceAttr(singularDatasourceName, "access_token", "accessToken2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "arc_agent_nodes.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "azure_identity_connectivity_status"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "azure_identity_mechanism", "ARC_AGENT"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "azure_resource_group", "Prasanna.RG"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "AzureConnectorTest-Tersi"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "last_modification"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),

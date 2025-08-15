@@ -31,3 +31,11 @@ resource "oci_dbmulticloud_oracle_db_azure_connector" "test_oracle_db_azure_conn
   db_cluster_resource_id = var.db_cluster_resource_id
   display_name = "AzureConnectorTest-Tersi"
 }
+
+data "oci_dbmulticloud_oracle_db_azure_connector" "test_oracle_db_azure_connector" {
+  oracle_db_azure_connector_id = oci_dbmulticloud_oracle_db_azure_connector.test_oracle_db_azure_connector.id
+}
+
+output "azure_connector_id" {
+  value = oci_dbmulticloud_oracle_db_azure_connector.test_oracle_db_azure_connector.id
+}
