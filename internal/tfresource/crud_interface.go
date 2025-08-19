@@ -4,6 +4,7 @@
 package tfresource
 
 import (
+	"context"
 	"sync"
 	"time"
 )
@@ -114,4 +115,32 @@ type StatefullyDeletedResource interface {
 // operations.
 type SynchronizedResource interface {
 	GetMutex() *sync.Mutex
+}
+
+// SIGINT Changes
+type ResourceCreatorWithContext interface {
+	ResourceDataWriter
+	// ID identifies the resource, or a work request to Create the resource.
+	ID() string
+	CreateWithContext(ctx context.Context) error
+}
+
+type ResourceReaderWithContext interface {
+	ResourceDataWriter
+	ResourceFetcherWithContext
+}
+type ResourceUpdaterWithContext interface {
+	ResourceDataWriter
+	UpdateWithContext(ctx context.Context) error
+}
+type ResourceDeleterWithContext interface {
+	ResourceVoider
+	// ID identifies the resource, or a work request to Create the resource.
+	ID() string
+	DeleteWithContext(ctx context.Context) error
+}
+type ResourceFetcherWithContext interface {
+	// Get should Update the s.Resource, and is used by ReadResource() to populate s.D
+	// Get() may expect s.D.Id() to be set, but not s.Resource, or anything else in s.D
+	GetWithContext(ctx context.Context) error
 }
