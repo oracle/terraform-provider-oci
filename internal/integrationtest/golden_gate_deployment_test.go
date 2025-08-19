@@ -49,6 +49,8 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		OBJECTSTORAGE_UPDATE_BUCKET_NAME = "objectstorage_update_bucket_name"
 		AVAILABILITY_DOMAIN              = "availability_domain"
 		FAULT_DOMAIN                     = "fault_domain"
+		SUBSCRIPTION_ID                  = "subscription_id"
+		CLUSTER_PLACEMENT_GROUP_ID       = "cluster_placement_group_id"
 	)
 
 	var (
@@ -82,6 +84,8 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		groupId                      = utils.GetEnvSettingWithBlankDefault(GROUP_ID)
 		timeBackupScheduledForCreate = time.Now().UTC().Add(time.Hour * 3).Truncate(time.Millisecond).Format(time.RFC3339Nano)
 		timeBackupScheduledForUpdate = time.Now().UTC().Add(time.Hour * 6).Truncate(time.Millisecond).Format(time.RFC3339Nano)
+		subscriptionId               = utils.GetEnvSettingWithBlankDefault(SUBSCRIPTION_ID)
+		clusterPlacementGroupId      = utils.GetEnvSettingWithBlankDefault(CLUSTER_PLACEMENT_GROUP_ID)
 
 		resId  string
 		resId2 string
@@ -227,6 +231,8 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		makeVariableStr(OBJECTSTORAGE_NAMESPACE, t) +
 		makeVariableStr(AVAILABILITY_DOMAIN, t) +
 		makeVariableStr(FAULT_DOMAIN, t) +
+		makeVariableStr(SUBSCRIPTION_ID, t) +
+		makeVariableStr(CLUSTER_PLACEMENT_GROUP_ID, t) +
 		GoldenGateDeploymentResourceDependencies
 
 	if identityDomainId != "" {
@@ -821,9 +827,31 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		{
 			Config: config,
 		},
+		// check multicloud attribute. It must be included in test only if multicloud is available in the environment.
+		{
+			Config: config + testDeploymentIdVariableStr + acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Required, acctest.Create,
+				acctest.RepresentationCopyWithNewProperties(goldenGateDeploymentRepresentation, map[string]interface{}{
+					"subscription_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.subscription_id}`},
+					"cluster_placement_group_id": acctest.Representation{RepType: acctest.Required, Create: `${var.cluster_placement_group_id}`},
+				})),
+
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "subscription_id", subscriptionId),
+				resource.TestCheckResourceAttr(resourceName, "cluster_placement_group_id", clusterPlacementGroupId),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		//delete before next Create
+		{
+			Config: config,
+		},
 	}
 	//acctest.ResourceTest(t, testAccCheckGoldenGateDeploymentDestroy, []resource.TestStep{steps[0], steps[len(steps)-1]})
-	acctest.ResourceTest(t, testAccCheckGoldenGateDeploymentDestroy, steps)
+	acctest.ResourceTest(t, testAccCheckGoldenGateDeploymentDestroy, steps[len(steps)-2:]) // execute the last two added tests
 }
 
 func testAccCheckGoldenGateDeploymentDestroy(s *terraform.State) error {

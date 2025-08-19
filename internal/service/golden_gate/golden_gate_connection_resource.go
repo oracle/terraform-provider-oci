@@ -261,6 +261,12 @@ func GoldenGateConnectionResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"cluster_placement_group_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"connection_factory": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -719,6 +725,12 @@ func GoldenGateConnectionResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"subscription_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"tenancy_id": {
 				Type:     schema.TypeString,
@@ -1206,6 +1218,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		s.D.Set("technology_type", v.TechnologyType)
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -1264,6 +1280,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -1298,6 +1318,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("username", *v.Username)
 		}
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -1356,6 +1380,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -1394,6 +1422,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		s.D.Set("technology_type", v.TechnologyType)
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -1452,6 +1484,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -1508,6 +1544,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		s.D.Set("technology_type", v.TechnologyType)
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -1566,6 +1606,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -1600,6 +1644,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("username", *v.Username)
 		}
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -1658,6 +1706,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -1702,6 +1754,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		s.D.Set("technology_type", v.TechnologyType)
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -1760,6 +1816,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -1822,6 +1882,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("username", *v.Username)
 		}
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -1880,6 +1944,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -1922,6 +1990,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("username", *v.Username)
 		}
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -1980,6 +2052,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -2006,6 +2082,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		s.D.Set("technology_type", v.TechnologyType)
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -2064,6 +2144,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -2110,6 +2194,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("username", *v.Username)
 		}
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -2168,6 +2256,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -2194,6 +2286,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		s.D.Set("technology_type", v.TechnologyType)
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -2252,6 +2348,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -2278,6 +2378,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		s.D.Set("technology_type", v.TechnologyType)
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -2336,6 +2440,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -2362,6 +2470,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		s.D.Set("technology_type", v.TechnologyType)
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -2420,6 +2532,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -2446,6 +2562,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		s.D.Set("technology_type", v.TechnologyType)
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -2504,6 +2624,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -2546,6 +2670,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		s.D.Set("technology_type", v.TechnologyType)
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -2604,6 +2732,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -2694,6 +2826,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("username", *v.Username)
 		}
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -2752,6 +2888,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -2822,6 +2962,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("username", *v.Username)
 		}
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -2880,6 +3024,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -2940,6 +3088,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("username", *v.Username)
 		}
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -2998,6 +3150,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -3036,6 +3192,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("tenant_id", *v.TenantId)
 		}
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -3094,6 +3254,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -3156,6 +3320,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("username", *v.Username)
 		}
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -3214,6 +3382,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -3266,6 +3438,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("username", *v.Username)
 		}
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -3324,6 +3500,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -3400,6 +3580,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("username", *v.Username)
 		}
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -3458,6 +3642,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -3508,6 +3696,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("user_id", *v.UserId)
 		}
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -3566,6 +3758,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -3616,6 +3812,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("wallet_secret_id", *v.WalletSecretId)
 		}
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -3674,6 +3874,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -3724,6 +3928,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("user_id", *v.UserId)
 		}
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -3782,6 +3990,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -3856,6 +4068,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("username", *v.Username)
 		}
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -3914,6 +4130,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -3972,6 +4192,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("username", *v.Username)
 		}
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -4030,6 +4254,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -4074,6 +4302,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("username", *v.Username)
 		}
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -4132,6 +4364,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -6241,6 +6477,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if technologyType, ok := s.D.GetOkExists("technology_type"); ok {
 			details.TechnologyType = oci_golden_gate.AmazonKinesisConnectionTechnologyTypeEnum(technologyType.(string))
 		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -6306,6 +6546,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -6333,6 +6577,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := username.(string)
 			details.Username = &tmp
 		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -6398,6 +6646,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -6429,6 +6681,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if technologyType, ok := s.D.GetOkExists("technology_type"); ok {
 			details.TechnologyType = oci_golden_gate.AmazonS3ConnectionTechnologyTypeEnum(technologyType.(string))
 		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -6494,6 +6750,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -6552,6 +6812,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if technologyType, ok := s.D.GetOkExists("technology_type"); ok {
 			details.TechnologyType = oci_golden_gate.AzureDataLakeStorageConnectionTechnologyTypeEnum(technologyType.(string))
 		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -6617,6 +6881,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -6644,6 +6912,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := username.(string)
 			details.Username = &tmp
 		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -6709,6 +6981,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -6751,6 +7027,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if technologyType, ok := s.D.GetOkExists("technology_type"); ok {
 			details.TechnologyType = oci_golden_gate.DatabricksConnectionTechnologyTypeEnum(technologyType.(string))
 		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -6816,6 +7096,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -6890,6 +7174,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := username.(string)
 			details.Username = &tmp
 		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -6955,6 +7243,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -6994,6 +7286,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := username.(string)
 			details.Username = &tmp
 		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -7059,6 +7355,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -7074,6 +7374,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if technologyType, ok := s.D.GetOkExists("technology_type"); ok {
 			details.TechnologyType = oci_golden_gate.GenericConnectionTechnologyTypeEnum(technologyType.(string))
 		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -7139,6 +7443,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -7178,6 +7486,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := username.(string)
 			details.Username = &tmp
 		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -7243,6 +7555,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -7262,6 +7578,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if technologyType, ok := s.D.GetOkExists("technology_type"); ok {
 			details.TechnologyType = oci_golden_gate.GoogleBigQueryConnectionTechnologyTypeEnum(technologyType.(string))
 		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -7327,6 +7647,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -7346,6 +7670,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if technologyType, ok := s.D.GetOkExists("technology_type"); ok {
 			details.TechnologyType = oci_golden_gate.GoogleCloudStorageConnectionTechnologyTypeEnum(technologyType.(string))
 		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -7411,6 +7739,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -7430,6 +7762,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if technologyType, ok := s.D.GetOkExists("technology_type"); ok {
 			details.TechnologyType = oci_golden_gate.GooglePubSubConnectionTechnologyTypeEnum(technologyType.(string))
 		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -7495,6 +7831,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -7510,6 +7850,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if technologyType, ok := s.D.GetOkExists("technology_type"); ok {
 			details.TechnologyType = oci_golden_gate.HdfsConnectionTechnologyTypeEnum(technologyType.(string))
 		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -7575,6 +7919,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -7606,6 +7954,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if technologyType, ok := s.D.GetOkExists("technology_type"); ok {
 			details.TechnologyType = oci_golden_gate.IcebergConnectionTechnologyTypeEnum(technologyType.(string))
 		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -7671,6 +8023,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -7781,6 +8137,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := username.(string)
 			details.Username = &tmp
 		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -7846,6 +8206,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -7940,6 +8304,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := username.(string)
 			details.Username = &tmp
 		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -8005,6 +8373,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -8079,6 +8451,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := username.(string)
 			details.Username = &tmp
 		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -8144,6 +8520,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -8175,6 +8555,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := tenantId.(string)
 			details.TenantId = &tmp
 		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -8240,6 +8624,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -8306,6 +8694,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := username.(string)
 			details.Username = &tmp
 		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -8371,6 +8763,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -8425,6 +8821,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := username.(string)
 			details.Username = &tmp
 		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -8490,6 +8890,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -8575,6 +8979,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := username.(string)
 			details.Username = &tmp
 		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -8640,6 +9048,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -8687,6 +9099,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := userId.(string)
 			details.UserId = &tmp
 		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -8752,6 +9168,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -8801,6 +9221,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := walletSecretId.(string)
 			details.WalletSecretId = &tmp
 		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -8866,6 +9290,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -8913,6 +9341,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := userId.(string)
 			details.UserId = &tmp
 		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -8978,6 +9410,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -9063,6 +9499,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := username.(string)
 			details.Username = &tmp
 		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -9128,6 +9568,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -9198,6 +9642,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := username.(string)
 			details.Username = &tmp
 		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -9263,6 +9711,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -9309,6 +9761,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := username.(string)
 			details.Username = &tmp
 		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -9374,6 +9830,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
