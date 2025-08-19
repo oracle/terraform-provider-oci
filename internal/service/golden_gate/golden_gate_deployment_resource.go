@@ -99,6 +99,12 @@ func GoldenGateDeploymentResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"cluster_placement_group_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"availability_domain": {
 				Type:             schema.TypeString,
 				Optional:         true,
@@ -418,6 +424,12 @@ func GoldenGateDeploymentResource() *schema.Resource {
 				},
 			},
 			"source_deployment_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"subscription_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -780,6 +792,12 @@ func (s *GoldenGateDeploymentResourceCrud) CreateWithContext(ctx context.Context
 		tmp := byolCpuCoreCountLimit.(int)
 		request.ByolCpuCoreCountLimit = &tmp
 	}
+
+	if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+		tmp := clusterPlacementGroupId.(string)
+		request.ClusterPlacementGroupId = &tmp
+	}
+
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
 		tmp := availabilityDomain.(string)
 		request.AvailabilityDomain = &tmp
@@ -953,6 +971,11 @@ func (s *GoldenGateDeploymentResourceCrud) CreateWithContext(ctx context.Context
 	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 		tmp := subnetId.(string)
 		request.SubnetId = &tmp
+	}
+
+	if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+		tmp := subscriptionId.(string)
+		request.SubscriptionId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
@@ -1320,6 +1343,10 @@ func (s *GoldenGateDeploymentResourceCrud) SetData() error {
 
 	s.D.Set("category", s.Res.Category)
 
+	if s.Res.ClusterPlacementGroupId != nil {
+		s.D.Set("cluster_placement_group_id", *s.Res.ClusterPlacementGroupId)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -1478,6 +1505,10 @@ func (s *GoldenGateDeploymentResourceCrud) SetData() error {
 
 	if s.Res.SubnetId != nil {
 		s.D.Set("subnet_id", *s.Res.SubnetId)
+	}
+
+	if s.Res.SubscriptionId != nil {
+		s.D.Set("subscription_id", *s.Res.SubscriptionId)
 	}
 
 	if s.Res.SystemTags != nil {
@@ -2020,6 +2051,10 @@ func DeploymentSummaryToMap(obj oci_golden_gate.DeploymentSummary) map[string]in
 
 	result["category"] = string(obj.Category)
 
+	if obj.ClusterPlacementGroupId != nil {
+		result["cluster_placement_group_id"] = string(*obj.ClusterPlacementGroupId)
+	}
+
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
 	}
@@ -2116,6 +2151,10 @@ func DeploymentSummaryToMap(obj oci_golden_gate.DeploymentSummary) map[string]in
 
 	if obj.SubnetId != nil {
 		result["subnet_id"] = string(*obj.SubnetId)
+	}
+
+	if obj.SubscriptionId != nil {
+		result["subscription_id"] = string(*obj.SubscriptionId)
 	}
 
 	if obj.SystemTags != nil {

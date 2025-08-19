@@ -90,6 +90,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		s.D.Set("technology_type", v.TechnologyType)
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -144,6 +148,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -178,6 +186,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("username", *v.Username)
 		}
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -232,6 +244,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -270,6 +286,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		s.D.Set("technology_type", v.TechnologyType)
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -324,6 +344,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -380,6 +404,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		s.D.Set("technology_type", v.TechnologyType)
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -434,6 +462,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -470,6 +502,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("username", *v.Username)
 		}
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -524,6 +560,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -568,6 +608,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		s.D.Set("technology_type", v.TechnologyType)
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -622,6 +666,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -684,6 +732,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("username", *v.Username)
 		}
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -738,6 +790,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -780,6 +836,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("username", *v.Username)
 		}
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -834,6 +894,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -860,6 +924,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		s.D.Set("technology_type", v.TechnologyType)
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -914,6 +982,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -960,6 +1032,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("username", *v.Username)
 		}
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -1014,6 +1090,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -1040,6 +1120,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		s.D.Set("technology_type", v.TechnologyType)
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -1094,6 +1178,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -1120,6 +1208,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		s.D.Set("technology_type", v.TechnologyType)
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -1174,6 +1266,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -1200,6 +1296,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		s.D.Set("technology_type", v.TechnologyType)
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -1256,11 +1356,13 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("subnet_id", *v.SubnetId)
 		}
 
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
+		}
+
 		if v.SystemTags != nil {
 			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
 		}
-
-		s.D.Set("technology_type", v.TechnologyType)
 
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())
@@ -1282,6 +1384,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		s.D.Set("technology_type", v.TechnologyType)
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -1336,6 +1442,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -1378,6 +1488,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		s.D.Set("technology_type", v.TechnologyType)
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -1432,6 +1546,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -1522,6 +1640,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("username", *v.Username)
 		}
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -1576,6 +1698,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -1646,6 +1772,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("username", *v.Username)
 		}
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -1700,6 +1830,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -1760,6 +1894,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("username", *v.Username)
 		}
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -1814,6 +1952,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -1852,6 +1994,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("tenant_id", *v.TenantId)
 		}
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -1906,6 +2052,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -1968,6 +2118,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("username", *v.Username)
 		}
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -2022,6 +2176,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -2074,6 +2232,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("username", *v.Username)
 		}
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -2128,6 +2290,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -2204,6 +2370,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("username", *v.Username)
 		}
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -2258,6 +2428,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -2308,6 +2482,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("user_id", *v.UserId)
 		}
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -2362,6 +2540,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -2412,6 +2594,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("wallet_secret_id", *v.WalletSecretId)
 		}
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -2468,9 +2654,15 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("subnet_id", *v.SubnetId)
 		}
 
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
+		}
+
 		if v.SystemTags != nil {
 			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
 		}
+
+		s.D.Set("technology_type", v.TechnologyType)
 
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())
@@ -2516,6 +2708,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("user_id", *v.UserId)
 		}
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -2570,6 +2766,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -2646,6 +2846,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("username", *v.Username)
 		}
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -2700,6 +2904,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -2758,6 +2966,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("username", *v.Username)
 		}
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -2812,6 +3024,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {
@@ -2858,6 +3074,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("username", *v.Username)
 		}
 
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -2912,6 +3132,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
 		}
 
 		if v.SystemTags != nil {

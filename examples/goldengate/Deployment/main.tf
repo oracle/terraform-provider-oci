@@ -96,6 +96,14 @@ variable "is_byol_cpu_core_count_limit_enabled" {
 	default = true
 }
 
+variable "deployment_peer_display_name" {
+	default = "a_peer"
+}
+variable "deployment_peer_state" {
+	default = "ACTIVE"
+}
+
+
 provider "oci" {
   	tenancy_ocid     = var.tenancy_ocid
   	user_ocid        = var.user_ocid
@@ -204,4 +212,13 @@ data "oci_golden_gate_deployments" "test_deployments" {
   #Optional
   display_name = var.deployment_display_name
   state        = var.deployment_state
+}
+
+data "oci_golden_gate_deployment_peers" "test_deployment_peers" {
+	#Required
+	deployment_id = oci_golden_gate_deployment.test_deployment_GOLDENGATE.id
+
+	#Optional
+	display_name = var.deployment_peer_display_name
+	state        = var.deployment_peer_state
 }
