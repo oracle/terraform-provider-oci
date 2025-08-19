@@ -157,12 +157,14 @@ var (
 		{connectionType: oci_golden_gate.ConnectionTypeAmazonS3, technologyType: oci_golden_gate.TechnologyTypeAmazonS3,
 			representation: map[string]interface{}{
 				// Override compartment to test move compartment too.
-				"compartment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`, Update: `${var.compartment_id_for_move}`},
-				"access_key_id":     acctest.Representation{RepType: acctest.Required, Create: `AKIAIOSFODNN7EXAMPLE`, Update: `AKIAIOSFODNN7UPDATED`},
-				"secret_access_key": acctest.Representation{RepType: acctest.Required, Create: `mysecret`},
-				"locks":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: connectionLocksRepresentation},
-				"is_lock_override":  acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
-				"lifecycle":         acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsAndLocks},
+				"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`, Update: `${var.compartment_id_for_move}`},
+				"access_key_id":              acctest.Representation{RepType: acctest.Required, Create: `AKIAIOSFODNN7EXAMPLE`, Update: `AKIAIOSFODNN7UPDATED`},
+				"secret_access_key":          acctest.Representation{RepType: acctest.Required, Create: `mysecret`},
+				"locks":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: connectionLocksRepresentation},
+				"is_lock_override":           acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+				"lifecycle":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsAndLocks},
+				"subscription_id":            acctest.Representation{RepType: acctest.Optional, Create: `${var.subscription_id}`},
+				"cluster_placement_group_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.cluster_placement_group_id}`},
 			},
 		},
 
@@ -631,18 +633,20 @@ func TestGoldenGateConnectionResource_basic(t *testing.T) {
 	defer httpreplay.SaveScenario()
 
 	const (
-		COMPARTMENT_ID          = "compartment_id"
-		COMPARTMENT_ID_FOR_MOVE = "compartment_id_for_move"
-		KMS_KEY_ID              = "kms_key_id"
-		SUBNET_ID               = "subnet_id"
-		VAULT_ID                = "vault_id"
-		CONNECTION_TYPE         = "connection_type"
-		TECHNOLOGY_TYPE         = "technology_type"
-		ORACLE_WALLET           = "oracle_wallet"
-		PASSWORD                = "password"
-		NEW_PASSWORD            = "new_password"
-		PASSWORD_SECRET_ID      = "password_secret_id"
-		NEW_PASSWORD_SECRET_ID  = "new_password_secret_id"
+		COMPARTMENT_ID             = "compartment_id"
+		COMPARTMENT_ID_FOR_MOVE    = "compartment_id_for_move"
+		KMS_KEY_ID                 = "kms_key_id"
+		SUBNET_ID                  = "subnet_id"
+		VAULT_ID                   = "vault_id"
+		CONNECTION_TYPE            = "connection_type"
+		TECHNOLOGY_TYPE            = "technology_type"
+		ORACLE_WALLET              = "oracle_wallet"
+		PASSWORD                   = "password"
+		NEW_PASSWORD               = "new_password"
+		PASSWORD_SECRET_ID         = "password_secret_id"
+		NEW_PASSWORD_SECRET_ID     = "new_password_secret_id"
+		SUBSCRIPTION_ID            = "subscription_id"
+		CLUSTER_PLACEMENT_GROUP_ID = "cluster_placement_group_id"
 	)
 
 	config := acctest.ProviderTestConfig() +
@@ -655,7 +659,9 @@ func TestGoldenGateConnectionResource_basic(t *testing.T) {
 		makeVariableStr(PASSWORD, t) +
 		makeVariableStr(NEW_PASSWORD, t) +
 		makeVariableStr(PASSWORD_SECRET_ID, t) +
-		makeVariableStr(NEW_PASSWORD_SECRET_ID, t)
+		makeVariableStr(NEW_PASSWORD_SECRET_ID, t) +
+		makeVariableStr(SUBSCRIPTION_ID, t) +
+		makeVariableStr(CLUSTER_PLACEMENT_GROUP_ID, t)
 
 	var createResourcesConfig, dataSourceConfig, listDataSourceConfig, updateResourcesConfig string
 	// CREATE CHECK FUNCTION MAPS

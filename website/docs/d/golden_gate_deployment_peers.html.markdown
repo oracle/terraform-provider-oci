@@ -47,6 +47,7 @@ The following attributes are exported:
 
 * `items` - An array of DeploymentPeers. 
 	* `availability_domain` - The availability domain of a placement.
+	* `cluster_placement_group_id` - The OCID(https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster placement group for the resource. Only applicable for multicloud subscriptions. The cluster placement group id must be provided when a multicloud subscription id is provided. Otherwise the cluster placement group must not be provided. 
 	* `deployment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the deployment being referenced. 
 	* `display_name` - An object's Display Name. 
 	* `fault_domain` - The fault domain of a placement.
@@ -54,6 +55,7 @@ The following attributes are exported:
 	* `peer_type` - The type of the deployment peer. 
 	* `region` - The name of the region. e.g.: us-ashburn-1 If the region is not provided, backend will default to the default region. 
 	* `state` - Possible lifecycle states for deployment peer.
+	* `subscription_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
 	* `time_created` - The time the resource was created. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
 	* `time_last_synced` - The time of the last data synchronization from the primary to the standby peer. [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
 	* `time_role_changed` - The time of the last role change. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
