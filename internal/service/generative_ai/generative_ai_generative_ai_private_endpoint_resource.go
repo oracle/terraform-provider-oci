@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package generative_ai
@@ -19,68 +19,33 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
-func GenerativeAiEndpointResource() *schema.Resource {
+func GenerativeAiGenerativeAiPrivateEndpointResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: &schema.ResourceTimeout{
-			Create: tfresource.GetTimeoutDuration("80m"),
-			Update: tfresource.GetTimeoutDuration("20m"),
-			Delete: tfresource.GetTimeoutDuration("20m"),
-		},
-		Create: createGenerativeAiEndpoint,
-		Read:   readGenerativeAiEndpoint,
-		Update: updateGenerativeAiEndpoint,
-		Delete: deleteGenerativeAiEndpoint,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createGenerativeAiGenerativeAiPrivateEndpoint,
+		Read:     readGenerativeAiGenerativeAiPrivateEndpoint,
+		Update:   updateGenerativeAiGenerativeAiPrivateEndpoint,
+		Delete:   deleteGenerativeAiGenerativeAiPrivateEndpoint,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"dedicated_ai_cluster_id": {
+			"dns_prefix": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
-			"model_id": {
+			"subnet_id": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
 
 			// Optional
-			"content_moderation_config": {
-				Type:     schema.TypeList,
-				Optional: true,
-				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-						"is_enabled": {
-							Type:     schema.TypeBool,
-							Required: true,
-						},
-
-						// Optional
-						"mode": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"model_id": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-
-						// Computed
-					},
-				},
-			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -104,14 +69,30 @@ func GenerativeAiEndpointResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
-			"generative_ai_private_endpoint_id": {
-				Type:     schema.TypeString,
+			"nsg_ids": {
+				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
+				Set:      tfresource.LiteralTypeHashCodeForSets,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 
 			// Computed
+			"fqdn": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"lifecycle_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"previous_state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"private_endpoint_ip": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -136,32 +117,32 @@ func GenerativeAiEndpointResource() *schema.Resource {
 	}
 }
 
-func createGenerativeAiEndpoint(d *schema.ResourceData, m interface{}) error {
-	sync := &GenerativeAiEndpointResourceCrud{}
+func createGenerativeAiGenerativeAiPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+	sync := &GenerativeAiGenerativeAiPrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiClient()
 
 	return tfresource.CreateResource(d, sync)
 }
 
-func readGenerativeAiEndpoint(d *schema.ResourceData, m interface{}) error {
-	sync := &GenerativeAiEndpointResourceCrud{}
+func readGenerativeAiGenerativeAiPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+	sync := &GenerativeAiGenerativeAiPrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiClient()
 
 	return tfresource.ReadResource(sync)
 }
 
-func updateGenerativeAiEndpoint(d *schema.ResourceData, m interface{}) error {
-	sync := &GenerativeAiEndpointResourceCrud{}
+func updateGenerativeAiGenerativeAiPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+	sync := &GenerativeAiGenerativeAiPrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiClient()
 
 	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteGenerativeAiEndpoint(d *schema.ResourceData, m interface{}) error {
-	sync := &GenerativeAiEndpointResourceCrud{}
+func deleteGenerativeAiGenerativeAiPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+	sync := &GenerativeAiGenerativeAiPrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiClient()
 	sync.DisableNotFoundRetries = true
@@ -169,63 +150,47 @@ func deleteGenerativeAiEndpoint(d *schema.ResourceData, m interface{}) error {
 	return tfresource.DeleteResource(d, sync)
 }
 
-type GenerativeAiEndpointResourceCrud struct {
+type GenerativeAiGenerativeAiPrivateEndpointResourceCrud struct {
 	tfresource.BaseCrud
 	Client                 *oci_generative_ai.GenerativeAiClient
-	Res                    *oci_generative_ai.Endpoint
+	Res                    *oci_generative_ai.GenerativeAiPrivateEndpoint
 	DisableNotFoundRetries bool
 }
 
-func (s *GenerativeAiEndpointResourceCrud) ID() string {
+func (s *GenerativeAiGenerativeAiPrivateEndpointResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *GenerativeAiEndpointResourceCrud) CreatedPending() []string {
+func (s *GenerativeAiGenerativeAiPrivateEndpointResourceCrud) CreatedPending() []string {
 	return []string{
-		string(oci_generative_ai.EndpointLifecycleStateCreating),
+		string(oci_generative_ai.GenerativeAiPrivateEndpointLifecycleStateCreating),
 	}
 }
 
-func (s *GenerativeAiEndpointResourceCrud) CreatedTarget() []string {
+func (s *GenerativeAiGenerativeAiPrivateEndpointResourceCrud) CreatedTarget() []string {
 	return []string{
-		string(oci_generative_ai.EndpointLifecycleStateActive),
+		string(oci_generative_ai.GenerativeAiPrivateEndpointLifecycleStateActive),
 	}
 }
 
-func (s *GenerativeAiEndpointResourceCrud) DeletedPending() []string {
+func (s *GenerativeAiGenerativeAiPrivateEndpointResourceCrud) DeletedPending() []string {
 	return []string{
-		string(oci_generative_ai.EndpointLifecycleStateDeleting),
+		string(oci_generative_ai.GenerativeAiPrivateEndpointLifecycleStateDeleting),
 	}
 }
 
-func (s *GenerativeAiEndpointResourceCrud) DeletedTarget() []string {
+func (s *GenerativeAiGenerativeAiPrivateEndpointResourceCrud) DeletedTarget() []string {
 	return []string{
-		string(oci_generative_ai.EndpointLifecycleStateDeleted),
+		string(oci_generative_ai.GenerativeAiPrivateEndpointLifecycleStateDeleted),
 	}
 }
 
-func (s *GenerativeAiEndpointResourceCrud) Create() error {
-	request := oci_generative_ai.CreateEndpointRequest{}
+func (s *GenerativeAiGenerativeAiPrivateEndpointResourceCrud) Create() error {
+	request := oci_generative_ai.CreateGenerativeAiPrivateEndpointRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
-	}
-
-	if contentModerationConfig, ok := s.D.GetOkExists("content_moderation_config"); ok {
-		if tmpList := contentModerationConfig.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "content_moderation_config", 0)
-			tmp, err := s.mapToContentModerationConfig(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			request.ContentModerationConfig = &tmp
-		}
-	}
-
-	if dedicatedAiClusterId, ok := s.D.GetOkExists("dedicated_ai_cluster_id"); ok {
-		tmp := dedicatedAiClusterId.(string)
-		request.DedicatedAiClusterId = &tmp
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -246,23 +211,37 @@ func (s *GenerativeAiEndpointResourceCrud) Create() error {
 		request.DisplayName = &tmp
 	}
 
+	if dnsPrefix, ok := s.D.GetOkExists("dns_prefix"); ok {
+		tmp := dnsPrefix.(string)
+		request.DnsPrefix = &tmp
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	if generativeAiPrivateEndpointId, ok := s.D.GetOkExists("generative_ai_private_endpoint_id"); ok {
-		tmp := generativeAiPrivateEndpointId.(string)
-		request.GenerativeAiPrivateEndpointId = &tmp
+	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+		set := nsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+			request.NsgIds = tmp
+		}
 	}
 
-	if modelId, ok := s.D.GetOkExists("model_id"); ok {
-		tmp := modelId.(string)
-		request.ModelId = &tmp
+	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+		tmp := subnetId.(string)
+		request.SubnetId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai")
 
-	response, err := s.Client.CreateEndpoint(context.Background(), request)
+	response, err := s.Client.CreateGenerativeAiPrivateEndpoint(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -273,25 +252,25 @@ func (s *GenerativeAiEndpointResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getEndpointFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai"), oci_generative_ai.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getGenerativeAiPrivateEndpointFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai"), oci_generative_ai.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *GenerativeAiEndpointResourceCrud) getEndpointFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *GenerativeAiGenerativeAiPrivateEndpointResourceCrud) getGenerativeAiPrivateEndpointFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_generative_ai.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	endpointId, err := endpointWaitForWorkRequest(workId, "endpoint",
+	generativeAiPrivateEndpointId, err := generativeAiPrivateEndpointWaitForWorkRequest(workId, "generativeaiprivateendpoint",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		return err
 	}
-	s.D.SetId(*endpointId)
+	s.D.SetId(*generativeAiPrivateEndpointId)
 
 	return s.Get()
 }
 
-func endpointWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
+func generativeAiPrivateEndpointWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
 	startTime := time.Now()
 	stopTime := startTime.Add(timeout)
 	return func(response oci_common.OCIOperationResponse) bool {
@@ -314,10 +293,10 @@ func endpointWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci
 	}
 }
 
-func endpointWaitForWorkRequest(wId *string, entityType string, action oci_generative_ai.ActionTypeEnum,
+func generativeAiPrivateEndpointWaitForWorkRequest(wId *string, entityType string, action oci_generative_ai.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_generative_ai.GenerativeAiClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "generative_ai")
-	retryPolicy.ShouldRetryOperation = endpointWorkRequestShouldRetryFunc(timeout)
+	retryPolicy.ShouldRetryOperation = generativeAiPrivateEndpointWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_generative_ai.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
@@ -362,13 +341,13 @@ func endpointWaitForWorkRequest(wId *string, entityType string, action oci_gener
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_generative_ai.OperationStatusFailed || response.Status == oci_generative_ai.OperationStatusCanceled {
-		return nil, getErrorFromGenerativeAiEndpointWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromGenerativeAiGenerativeAiPrivateEndpointWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromGenerativeAiEndpointWorkRequest(client *oci_generative_ai.GenerativeAiClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_generative_ai.ActionTypeEnum) error {
+func getErrorFromGenerativeAiGenerativeAiPrivateEndpointWorkRequest(client *oci_generative_ai.GenerativeAiClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_generative_ai.ActionTypeEnum) error {
 	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_generative_ai.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
@@ -391,24 +370,24 @@ func getErrorFromGenerativeAiEndpointWorkRequest(client *oci_generative_ai.Gener
 	return workRequestErr
 }
 
-func (s *GenerativeAiEndpointResourceCrud) Get() error {
-	request := oci_generative_ai.GetEndpointRequest{}
+func (s *GenerativeAiGenerativeAiPrivateEndpointResourceCrud) Get() error {
+	request := oci_generative_ai.GetGenerativeAiPrivateEndpointRequest{}
 
 	tmp := s.D.Id()
-	request.EndpointId = &tmp
+	request.GenerativeAiPrivateEndpointId = &tmp
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai")
 
-	response, err := s.Client.GetEndpoint(context.Background(), request)
+	response, err := s.Client.GetGenerativeAiPrivateEndpoint(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
-	s.Res = &response.Endpoint
+	s.Res = &response.GenerativeAiPrivateEndpoint
 	return nil
 }
 
-func (s *GenerativeAiEndpointResourceCrud) Update() error {
+func (s *GenerativeAiGenerativeAiPrivateEndpointResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -418,18 +397,7 @@ func (s *GenerativeAiEndpointResourceCrud) Update() error {
 			}
 		}
 	}
-	request := oci_generative_ai.UpdateEndpointRequest{}
-
-	if contentModerationConfig, ok := s.D.GetOkExists("content_moderation_config"); ok {
-		if tmpList := contentModerationConfig.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "content_moderation_config", 0)
-			tmp, err := s.mapToContentModerationConfig(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			request.ContentModerationConfig = &tmp
-		}
-	}
+	request := oci_generative_ai.UpdateGenerativeAiPrivateEndpointRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
@@ -449,62 +417,66 @@ func (s *GenerativeAiEndpointResourceCrud) Update() error {
 		request.DisplayName = &tmp
 	}
 
-	tmp := s.D.Id()
-	request.EndpointId = &tmp
+	if dnsPrefix, ok := s.D.GetOkExists("dns_prefix"); ok {
+		tmp := dnsPrefix.(string)
+		request.DnsPrefix = &tmp
+	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	if generativeAiPrivateEndpointId, ok := s.D.GetOkExists("generative_ai_private_endpoint_id"); ok {
-		tmp := generativeAiPrivateEndpointId.(string)
-		request.GenerativeAiPrivateEndpointId = &tmp
+	tmp := s.D.Id()
+	request.GenerativeAiPrivateEndpointId = &tmp
+
+	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+		set := nsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+			request.NsgIds = tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai")
 
-	response, err := s.Client.UpdateEndpoint(context.Background(), request)
+	response, err := s.Client.UpdateGenerativeAiPrivateEndpoint(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getEndpointFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai"), oci_generative_ai.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getGenerativeAiPrivateEndpointFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai"), oci_generative_ai.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *GenerativeAiEndpointResourceCrud) Delete() error {
-	request := oci_generative_ai.DeleteEndpointRequest{}
+func (s *GenerativeAiGenerativeAiPrivateEndpointResourceCrud) Delete() error {
+	request := oci_generative_ai.DeleteGenerativeAiPrivateEndpointRequest{}
 
 	tmp := s.D.Id()
-	request.EndpointId = &tmp
+	request.GenerativeAiPrivateEndpointId = &tmp
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai")
 
-	response, err := s.Client.DeleteEndpoint(context.Background(), request)
+	response, err := s.Client.DeleteGenerativeAiPrivateEndpoint(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := endpointWaitForWorkRequest(workId, "endpoint",
+	_, delWorkRequestErr := generativeAiPrivateEndpointWaitForWorkRequest(workId, "generativeaiprivateendpoint",
 		oci_generative_ai.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
 
-func (s *GenerativeAiEndpointResourceCrud) SetData() error {
+func (s *GenerativeAiGenerativeAiPrivateEndpointResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
-	}
-
-	if s.Res.ContentModerationConfig != nil {
-		s.D.Set("content_moderation_config", []interface{}{ContentModerationConfigToMap(s.Res.ContentModerationConfig)})
-	} else {
-		s.D.Set("content_moderation_config", nil)
-	}
-
-	if s.Res.DedicatedAiClusterId != nil {
-		s.D.Set("dedicated_ai_cluster_id", *s.Res.DedicatedAiClusterId)
 	}
 
 	if s.Res.DefinedTags != nil {
@@ -519,21 +491,35 @@ func (s *GenerativeAiEndpointResourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
-
-	if s.Res.GenerativeAiPrivateEndpointId != nil {
-		s.D.Set("generative_ai_private_endpoint_id", *s.Res.GenerativeAiPrivateEndpointId)
+	if s.Res.Fqdn != nil {
+		s.D.Set("fqdn", *s.Res.Fqdn)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
-	if s.Res.ModelId != nil {
-		s.D.Set("model_id", *s.Res.ModelId)
+	nsgIds := []interface{}{}
+	for _, item := range s.Res.NsgIds {
+		nsgIds = append(nsgIds, item)
+	}
+	s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
+
+	if s.Res.PreviousState != nil {
+		s.D.Set("previous_state", *s.Res.PreviousState)
+	}
+
+	if s.Res.PrivateEndpointIp != nil {
+		s.D.Set("private_endpoint_ip", *s.Res.PrivateEndpointIp)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SubnetId != nil {
+		s.D.Set("subnet_id", *s.Res.SubnetId)
+	}
 
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
@@ -550,55 +536,11 @@ func (s *GenerativeAiEndpointResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *GenerativeAiEndpointResourceCrud) mapToContentModerationConfig(fieldKeyFormat string) (oci_generative_ai.ContentModerationConfig, error) {
-	result := oci_generative_ai.ContentModerationConfig{}
-
-	if isEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_enabled")); ok {
-		tmp := isEnabled.(bool)
-		result.IsEnabled = &tmp
-	}
-
-	if mode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "mode")); ok {
-		result.Mode = oci_generative_ai.ContentModerationConfigModeEnum(mode.(string))
-	}
-
-	if modelId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "model_id")); ok {
-		tmp := modelId.(string)
-		result.ModelId = &tmp
-	}
-
-	return result, nil
-}
-
-func ContentModerationConfigToMap(obj *oci_generative_ai.ContentModerationConfig) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.IsEnabled != nil {
-		result["is_enabled"] = bool(*obj.IsEnabled)
-	}
-
-	result["mode"] = string(obj.Mode)
-
-	if obj.ModelId != nil {
-		result["model_id"] = string(*obj.ModelId)
-	}
-
-	return result
-}
-
-func EndpointSummaryToMap(obj oci_generative_ai.EndpointSummary) map[string]interface{} {
+func GenerativeAiPrivateEndpointSummaryToMap(obj oci_generative_ai.GenerativeAiPrivateEndpointSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
-	}
-
-	if obj.ContentModerationConfig != nil {
-		result["content_moderation_config"] = []interface{}{ContentModerationConfigToMap(obj.ContentModerationConfig)}
-	}
-
-	if obj.DedicatedAiClusterId != nil {
-		result["dedicated_ai_cluster_id"] = string(*obj.DedicatedAiClusterId)
 	}
 
 	if obj.DefinedTags != nil {
@@ -613,11 +555,11 @@ func EndpointSummaryToMap(obj oci_generative_ai.EndpointSummary) map[string]inte
 		result["display_name"] = string(*obj.DisplayName)
 	}
 
-	result["freeform_tags"] = obj.FreeformTags
-
-	if obj.GenerativeAiPrivateEndpointId != nil {
-		result["generative_ai_private_endpoint_id"] = string(*obj.GenerativeAiPrivateEndpointId)
+	if obj.Fqdn != nil {
+		result["fqdn"] = string(*obj.Fqdn)
 	}
+
+	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
@@ -627,11 +569,15 @@ func EndpointSummaryToMap(obj oci_generative_ai.EndpointSummary) map[string]inte
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
 
-	if obj.ModelId != nil {
-		result["model_id"] = string(*obj.ModelId)
+	if obj.PrivateEndpointIp != nil {
+		result["private_endpoint_ip"] = string(*obj.PrivateEndpointIp)
 	}
 
 	result["state"] = string(obj.LifecycleState)
+
+	if obj.SubnetId != nil {
+		result["subnet_id"] = string(*obj.SubnetId)
+	}
 
 	if obj.SystemTags != nil {
 		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
@@ -648,25 +594,22 @@ func EndpointSummaryToMap(obj oci_generative_ai.EndpointSummary) map[string]inte
 	return result
 }
 
-func (s *GenerativeAiEndpointResourceCrud) updateCompartment(compartment interface{}) error {
-	changeCompartmentRequest := oci_generative_ai.ChangeEndpointCompartmentRequest{}
+func (s *GenerativeAiGenerativeAiPrivateEndpointResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_generative_ai.ChangeGenerativeAiPrivateEndpointCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
 
 	idTmp := s.D.Id()
-	changeCompartmentRequest.EndpointId = &idTmp
+	changeCompartmentRequest.GenerativeAiPrivateEndpointId = &idTmp
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai")
 
-	_, err := s.Client.ChangeEndpointCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeGenerativeAiPrivateEndpointCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
-		return waitErr
-	}
-
-	return nil
+	workId := response.OpcWorkRequestId
+	return s.getGenerativeAiPrivateEndpointFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai"), oci_generative_ai.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

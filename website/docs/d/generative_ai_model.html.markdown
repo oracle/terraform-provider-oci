@@ -32,9 +32,8 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `base_model_id` - The OCID of the base model that's used for fine-tuning. For pretrained models, the value is null.
-* `capabilities` - Describes what this model can be used for.
 * `compartment_id` - The compartment OCID for fine-tuned models. For pretrained models, this value is null.
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `description` - An optional description of the model.
 * `display_name` - A user-friendly name.
 * `fine_tune_details` - Details about fine-tuning a custom model. 

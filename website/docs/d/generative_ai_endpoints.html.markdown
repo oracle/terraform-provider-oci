@@ -21,6 +21,7 @@ data "oci_generative_ai_endpoints" "test_endpoints" {
 
 	#Optional
 	display_name = var.endpoint_display_name
+	generative_ai_private_endpoint_id = oci_generative_ai_generative_ai_private_endpoint.test_generative_ai_private_endpoint.id
 	id = var.endpoint_id
 	state = var.endpoint_state
 }
@@ -32,6 +33,7 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
 * `display_name` - (Optional) A filter to return only resources that match the given display name exactly.
+* `generative_ai_private_endpoint_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private endpoint.
 * `id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the endpoint.
 * `state` - (Optional) A filter to return only resources that their lifecycle state matches the given lifecycle state.
 
@@ -46,9 +48,13 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `description` - An optional description of the endpoint.
-* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable.
-* `model_id` - The OCID of the model that's used to create this endpoint.
+* `content_moderation_config` - The configuration details, whether to add the content moderation feature to the model. Content moderation removes toxic and biased content from responses.
+	* `is_enabled` - Whether to enable the content moderation feature.
+	* `mode` - Enum for the modes of operation for inference protection.
+	* `model_id` - The OCID of the model used for the feature.
+* `dedicated_ai_cluster_id` - The OCID of the dedicated AI cluster on which the model will be deployed to.
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
+* `lifecycle_details` - A message describing the current state of the endpoint in more detail that can provide actionable information.
 * `state` - The current state of the endpoint.
-* `time_updated` - The date and time that the endpoint was updated in the format of an RFC3339 datetime string.
+* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 

@@ -857,6 +857,7 @@ generative_ai
 * oci\_generative\_ai\_dedicated\_ai\_cluster
 * oci\_generative\_ai\_endpoint
 * oci\_generative\_ai\_model
+* oci\_generative\_ai\_generative\_ai\_private\_endpoint
 
 generative_ai_agent
     

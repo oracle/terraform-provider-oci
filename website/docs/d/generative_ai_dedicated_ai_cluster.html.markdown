@@ -32,5 +32,14 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
+* `description` - An optional description of the dedicated AI cluster.
+* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dedicated AI cluster.
+* `lifecycle_details` - A message describing the current state with detail that can provide actionable information.
+* `state` - The current state of the dedicated AI cluster.
+* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
+* `time_updated` - The date and time the dedicated AI cluster was updated, in the format defined by RFC 3339
+* `unit_count` - The number of dedicated units in this AI cluster.
+* `unit_shape` - The shape of dedicated unit in this AI cluster. The underlying hardware configuration is hidden from customers.
 
