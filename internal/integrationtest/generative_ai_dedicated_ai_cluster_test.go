@@ -51,7 +51,7 @@ var (
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"type":           acctest.Representation{RepType: acctest.Required, Create: `HOSTING`},
 		"unit_count":     acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `2`},
-		"unit_shape":     acctest.Representation{RepType: acctest.Required, Create: `SMALL_COHERE`},
+		"unit_shape":     acctest.Representation{RepType: acctest.Required, Create: `SMALL_COHERE_4`},
 		// "defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":   acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
@@ -64,7 +64,7 @@ var (
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"type":           acctest.Representation{RepType: acctest.Required, Create: `FINE_TUNING`},
 		"unit_count":     acctest.Representation{RepType: acctest.Required, Create: `2`},
-		"unit_shape":     acctest.Representation{RepType: acctest.Required, Create: `SMALL_COHERE`},
+		"unit_shape":     acctest.Representation{RepType: acctest.Required, Create: `LARGE_COHERE_V2`},
 		// "defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":   acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
@@ -115,7 +115,7 @@ func TestGenerativeAiDedicatedAiClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "type", "HOSTING"),
 				resource.TestCheckResourceAttr(resourceName, "unit_count", "1"),
-				resource.TestCheckResourceAttr(resourceName, "unit_shape", "SMALL_COHERE"),
+				resource.TestCheckResourceAttr(resourceName, "unit_shape", "SMALL_COHERE_4"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -142,7 +142,7 @@ func TestGenerativeAiDedicatedAiClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttr(resourceName, "type", "HOSTING"),
 				resource.TestCheckResourceAttr(resourceName, "unit_count", "1"),
-				resource.TestCheckResourceAttr(resourceName, "unit_shape", "SMALL_COHERE"),
+				resource.TestCheckResourceAttr(resourceName, "unit_shape", "SMALL_COHERE_4"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -173,7 +173,7 @@ func TestGenerativeAiDedicatedAiClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttr(resourceName, "type", "HOSTING"),
 				resource.TestCheckResourceAttr(resourceName, "unit_count", "1"),
-				resource.TestCheckResourceAttr(resourceName, "unit_shape", "SMALL_COHERE"),
+				resource.TestCheckResourceAttr(resourceName, "unit_shape", "SMALL_COHERE_4"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -199,7 +199,7 @@ func TestGenerativeAiDedicatedAiClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttr(resourceName, "type", "HOSTING"),
 				resource.TestCheckResourceAttr(resourceName, "unit_count", "2"),
-				resource.TestCheckResourceAttr(resourceName, "unit_shape", "SMALL_COHERE"),
+				resource.TestCheckResourceAttr(resourceName, "unit_shape", "SMALL_COHERE_4"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -243,7 +243,7 @@ func TestGenerativeAiDedicatedAiClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "type", "HOSTING"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "unit_count", "2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "unit_shape", "SMALL_COHERE"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "unit_shape", "SMALL_COHERE_4"),
 			),
 		},
 		// verify resource import
