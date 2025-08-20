@@ -23,10 +23,9 @@ func initAivisionAiServiceVisionClient(configProvider oci_common.ConfigurationPr
 		return nil, err
 	}
 
-	//if serviceClientOverrides.HostUrlOverride != "" {
-	//	client.Host = serviceClientOverrides.HostUrlOverride
-	//}
-	client.Host = "https://vision-beta.aiservice.us-ashburn-1.oci.oraclecloud.com/"
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
+	}
 	return &client, nil
 }
 
