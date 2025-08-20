@@ -56,7 +56,7 @@ func (m IpCapacity) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for StagingCidrState: %s. Supported values are: %s.", m.StagingCidrState, strings.Join(GetIpCapacityStagingCidrStateEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

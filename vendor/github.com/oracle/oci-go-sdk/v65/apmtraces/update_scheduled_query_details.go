@@ -76,7 +76,7 @@ func (m UpdateScheduledQueryDetails) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ScheduledQueryRetentionCriteria: %s. Supported values are: %s.", m.ScheduledQueryRetentionCriteria, strings.Join(GetScheduledQueryRetentionCriteriaEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

@@ -63,7 +63,7 @@ func (m BuildRunSnapshotSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BuildRunSource: %s. Supported values are: %s.", m.BuildRunSource, strings.Join(GetBuildRunSnapshotBuildRunSourceEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

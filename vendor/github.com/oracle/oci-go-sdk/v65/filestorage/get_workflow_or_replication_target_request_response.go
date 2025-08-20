@@ -67,7 +67,7 @@ func (request GetWorkflowOrReplicationTargetRequest) ValidateEnumValue() (bool, 
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for WorkflowType: %s. Supported values are: %s.", request.WorkflowType, strings.Join(GetGetWorkflowOrReplicationTargetWorkflowTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

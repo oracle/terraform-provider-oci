@@ -51,7 +51,7 @@ func (m TlsConfig) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CertificateStoreType: %s. Supported values are: %s.", m.CertificateStoreType, strings.Join(GetTlsConfigCertificateStoreTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

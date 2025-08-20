@@ -39,7 +39,7 @@ func (m OlvmSpm) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SpmStatus: %s. Supported values are: %s.", m.SpmStatus, strings.Join(GetOlvmSpmSpmStatusEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

@@ -68,7 +68,7 @@ func (m OkeClusterBackupConfig) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ReplicateImages: %s. Supported values are: %s.", m.ReplicateImages, strings.Join(GetOkeClusterImageReplicationEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

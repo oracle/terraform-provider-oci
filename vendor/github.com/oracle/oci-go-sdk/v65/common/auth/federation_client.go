@@ -139,10 +139,13 @@ type oAuth2FederationClient struct {
 	authClientKeyProvider common.KeyProvider
 	authClient            *common.BaseClient
 	securityToken         securityToken
+	lastRefresh           time.Time
 	scope                 string
 	targetCompartment     string
 	mux                   sync.Mutex
 }
+
+var OAuthTokenStaleWindow = 20 * time.Minute
 
 // newOAuth2FederationClient creates a new oAuth2FederationClient from the provided configProvider and Auth request parameters
 func newOAuth2FederationClient(configProvider common.ConfigurationProvider, scope string, targetCompartment string, sessionKeySupplier sessionKeySupplier) (federationClient, error) {
@@ -180,16 +183,33 @@ func (c *oAuth2FederationClient) GetClaim(key string) (interface{}, error) {
 	return c.securityToken.GetClaim(key)
 }
 
+// isTokenStale returns true if the JWT token is older than OAuthTokenStaleWindow
+func (c *oAuth2FederationClient) isTokenStale() bool {
+	return c.lastRefresh.IsZero() || time.Now().After(c.lastRefresh.Add(OAuthTokenStaleWindow))
+}
+
 func (c *oAuth2FederationClient) renewKeyAndSecurityTokenIfNotValid() (err error) {
 	panic("unimplemented")
 }
 
 func (c *oAuth2FederationClient) renewSecurityTokenIfNotValid() (err error) {
-	if c.securityToken == nil || !c.securityToken.Valid() {
+
+	// Get a new token if this one is stale (or nil), even if it is still valid
+	if c.securityToken == nil || c.isTokenStale() {
 		if err = c.renewSecurityToken(); err != nil {
-			return fmt.Errorf("failed to renew security token: %s", err.Error())
+			if c.securityToken != nil && c.securityToken.Valid() {
+				// Token is stale but still valid. We failed to get a new token
+				// but we can still use the old one
+				common.Debugln("failed to refresh OAuth token. Using valid cached token")
+				return nil
+			}
+
+			return fmt.Errorf("failed to refresh token: %s", err.Error())
 		}
 	}
+
+	// Token exists and is not stale,
+	// or token was stale and a new one was retrieved
 	return nil
 }
 
@@ -199,9 +219,14 @@ func (c *oAuth2FederationClient) renewSecurityToken() (err error) {
 	}
 
 	common.Logf("Renewing security token at: %v\n", time.Now().Format("15:04:05.000"))
-	if c.securityToken, err = c.getSecurityToken(); err != nil {
+	if newToken, err := c.getSecurityToken(); err != nil {
 		return fmt.Errorf("failed to get security token: %s", err.Error())
+	} else {
+		// only update token if a new one was retrieved.
+		c.lastRefresh = time.Now()
+		c.securityToken = newToken
 	}
+
 	common.Logf("Security token renewed at: %v\n", time.Now().Format("15:04:05.000"))
 
 	return nil

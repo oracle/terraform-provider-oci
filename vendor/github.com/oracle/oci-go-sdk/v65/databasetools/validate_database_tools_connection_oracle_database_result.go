@@ -81,7 +81,7 @@ func (m ValidateDatabaseToolsConnectionOracleDatabaseResult) ValidateEnumValue()
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DbmsCloudStatus: %s. Supported values are: %s.", m.DbmsCloudStatus, strings.Join(GetDbmsCloudStatusEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

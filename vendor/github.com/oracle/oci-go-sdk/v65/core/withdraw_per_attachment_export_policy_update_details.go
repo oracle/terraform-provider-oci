@@ -46,7 +46,7 @@ func (m WithdrawPerAttachmentExportPolicyUpdateDetails) ValidateEnumValue() (boo
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AttachmentType: %s. Supported values are: %s.", m.AttachmentType, strings.Join(GetWithdrawPerAttachmentExportPolicyUpdateDetailsAttachmentTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

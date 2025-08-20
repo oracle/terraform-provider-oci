@@ -102,7 +102,7 @@ func (m SqlPlanBaselineSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Adaptive: %s. Supported values are: %s.", m.Adaptive, strings.Join(GetSqlPlanBaselineSummaryAdaptiveEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

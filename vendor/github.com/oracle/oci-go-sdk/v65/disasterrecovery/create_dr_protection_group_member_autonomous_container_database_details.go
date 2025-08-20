@@ -50,7 +50,7 @@ func (m CreateDrProtectionGroupMemberAutonomousContainerDatabaseDetails) Validat
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConnectionStringType: %s. Supported values are: %s.", m.ConnectionStringType, strings.Join(GetAutonomousContainerDatabaseSnapshotStandbyConnectionStringTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

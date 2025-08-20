@@ -36,7 +36,7 @@ func (m OlvmErrorHandling) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OnError: %s. Supported values are: %s.", m.OnError, strings.Join(GetOlvmErrorHandlingOnErrorEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

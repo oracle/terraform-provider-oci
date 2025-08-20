@@ -37,7 +37,7 @@ func NewOAuth2ConfigurationProvider(configProvider common.ConfigurationProvider,
 	}, nil
 }
 
-// KeyID checks if the current security token, and retrieves a new token from Auth Service if not
+// KeyID checks if the current security token is valid, and retrieves a new token from Auth Service if not
 func (p OAuth2ConfigurationProvider) KeyID() (string, error) {
 	var securityToken string
 	var err error

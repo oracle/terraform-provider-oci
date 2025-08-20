@@ -54,7 +54,7 @@ func (m OlvmVnicProfileProperties) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PassThrough: %s. Supported values are: %s.", m.PassThrough, strings.Join(GetOlvmVnicProfilePropertiesPassThroughEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

@@ -51,7 +51,7 @@ func (m AutoKeyRotationDetails) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LastRotationStatus: %s. Supported values are: %s.", m.LastRotationStatus, strings.Join(GetAutoKeyRotationDetailsLastRotationStatusEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

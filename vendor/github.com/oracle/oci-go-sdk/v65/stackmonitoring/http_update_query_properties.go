@@ -48,7 +48,7 @@ func (m HttpUpdateQueryProperties) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ProtocolType: %s. Supported values are: %s.", m.ProtocolType, strings.Join(GetHttpProtocolTypesEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

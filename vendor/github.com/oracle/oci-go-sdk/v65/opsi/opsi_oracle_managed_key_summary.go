@@ -52,7 +52,7 @@ func (m OpsiOracleManagedKeySummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ActivationState: %s. Supported values are: %s.", m.ActivationState, strings.Join(GetOpsiDataStoreEncryptionKeySummaryActivationStateEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

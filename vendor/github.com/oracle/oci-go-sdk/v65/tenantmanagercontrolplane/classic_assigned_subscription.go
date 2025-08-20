@@ -146,7 +146,7 @@ func (m ClassicAssignedSubscription) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManagedBy: %s. Supported values are: %s.", m.ManagedBy, strings.Join(GetClassicSubscriptionManagedByEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

@@ -96,7 +96,7 @@ func (m VolumeGroup) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VolumeGroupScope: %s. Supported values are: %s.", m.VolumeGroupScope, strings.Join(GetVolumeGroupVolumeGroupScopeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }
