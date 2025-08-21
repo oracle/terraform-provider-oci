@@ -1,3 +1,11 @@
+## 7.15.0 (August 20, 2025)
+
+### Added
+- Support for APIGW Resource Locking
+- Support for IPv6-Prefix-for-Subnet & Flexible CIDR support for secondary IPs on VNIC Multi-Prefix-for-Subnet & Flexible CIDR support for secondary IP addresses on VNIC
+- Support for PDB Snapshots on ExaDB-XS
+
+
 ## 7.14.0 (August 13, 2025)
 
 ### Added
