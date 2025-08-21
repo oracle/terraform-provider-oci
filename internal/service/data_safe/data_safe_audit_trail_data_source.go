@@ -74,6 +74,10 @@ func (s *DataSafeAuditTrailDataSourceCrud) SetData() error {
 		s.D.Set("audit_profile_id", *s.Res.AuditProfileId)
 	}
 
+	if s.Res.CanUpdateLastArchiveTimeOnTarget != nil {
+		s.D.Set("can_update_last_archive_time_on_target", *s.Res.CanUpdateLastArchiveTimeOnTarget)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

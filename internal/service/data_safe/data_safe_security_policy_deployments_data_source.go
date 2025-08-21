@@ -50,6 +50,10 @@ func DataSafeSecurityPolicyDeploymentsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"target_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"security_policy_deployment_collection": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -125,6 +129,10 @@ func (s *DataSafeSecurityPolicyDeploymentsDataSourceCrud) Get() error {
 	if targetId, ok := s.D.GetOkExists("target_id"); ok {
 		tmp := targetId.(string)
 		request.TargetId = &tmp
+	}
+
+	if targetType, ok := s.D.GetOkExists("target_type"); ok {
+		request.TargetType = oci_data_safe.SecurityPolicyDeploymentTargetTypeEnum(targetType.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")

@@ -89,6 +89,11 @@ func DataSafeTargetDatabaseResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"pluggable_database_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"service_name": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -253,6 +258,12 @@ func DataSafeTargetDatabaseResource() *schema.Resource {
 									},
 									"listener_port": {
 										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"pluggable_database_id": {
+										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 										ForceNew: true,
@@ -451,6 +462,10 @@ func DataSafeTargetDatabaseResource() *schema.Resource {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
+									"pluggable_database_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"service_name": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -608,6 +623,8 @@ func (s *DataSafeTargetDatabaseResourceCrud) CreatedPending() []string {
 func (s *DataSafeTargetDatabaseResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_data_safe.TargetDatabaseLifecycleStateActive),
+		string(oci_data_safe.TargetDatabaseLifecycleStateNeedsAttention),
+		string(oci_data_safe.TargetDatabaseLifecycleStateFailed),
 	}
 }
 
@@ -1274,63 +1291,6 @@ func (s *DataSafeTargetDatabaseResourceCrud) mapToDatabaseDetails(fieldKeyFormat
 		return nil, fmt.Errorf("unknown database_type '%v' was specified", databaseType)
 	}
 	return baseObject, nil
-}
-
-func DatabaseDetailsToMap(obj *oci_data_safe.DatabaseDetails) map[string]interface{} {
-	result := map[string]interface{}{}
-	switch v := (*obj).(type) {
-	case oci_data_safe.AutonomousDatabaseDetails:
-		result["database_type"] = "AUTONOMOUS_DATABASE"
-
-		if v.AutonomousDatabaseId != nil {
-			result["autonomous_database_id"] = string(*v.AutonomousDatabaseId)
-		}
-
-		result["infrastructure_type"] = string(v.InfrastructureType)
-	case oci_data_safe.DatabaseCloudServiceDetails:
-		result["database_type"] = "DATABASE_CLOUD_SERVICE"
-
-		if v.DbSystemId != nil {
-			result["db_system_id"] = string(*v.DbSystemId)
-		}
-
-		if v.VmClusterId != nil {
-			result["vm_cluster_id"] = string(*v.VmClusterId)
-		}
-
-		if v.ListenerPort != nil {
-			result["listener_port"] = int(*v.ListenerPort)
-		}
-
-		if v.ServiceName != nil {
-			result["service_name"] = string(*v.ServiceName)
-		}
-
-		result["infrastructure_type"] = string(v.InfrastructureType)
-	case oci_data_safe.InstalledDatabaseDetails:
-		result["database_type"] = "INSTALLED_DATABASE"
-
-		if v.InstanceId != nil {
-			result["instance_id"] = string(*v.InstanceId)
-		}
-
-		result["ip_addresses"] = v.IpAddresses
-
-		if v.ListenerPort != nil {
-			result["listener_port"] = int(*v.ListenerPort)
-		}
-
-		if v.ServiceName != nil {
-			result["service_name"] = string(*v.ServiceName)
-		}
-
-		result["infrastructure_type"] = string(v.InfrastructureType)
-	default:
-		log.Printf("[WARN] Received 'database_type' of unknown type %v", *obj)
-		return nil
-	}
-
-	return result
 }
 
 func PeerTargetDatabaseToMap(obj oci_data_safe.PeerTargetDatabase) map[string]interface{} {

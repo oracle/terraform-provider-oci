@@ -48,7 +48,7 @@ The following arguments are supported:
 * `compartment_id_in_subtree` - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting. 
 * `scim_query` - (Optional) The scimQuery query parameter accepts filter expressions that use the syntax described in Section 3.2.2.2 of the System for Cross-Domain Identity Management (SCIM) specification, which is available at [RFC3339](https://tools.ietf.org/html/draft-ietf-scim-api-12). In SCIM filtering expressions, text, date, and time values must be enclosed in quotation marks, with date and time values using ISO-8601 format. (Numeric and boolean values should not be quoted.)
 
-	**Example:** (operationTime ge "2021-06-04T01-00-26") and (eventName eq "LOGON") The attrExp or the field (for example, operationTime and eventName in above example) which is used to filter can be any of the fields returned by AuditEventSummary. adminUser, commonUser, sensitiveActivity, dsActivity can only have eq operation and value 1. These define admin user activity, common user activity, sensitive data activity and data safe activity **Example:** (adminUser eq 1) 
+	**Example:** (auditEventTime ge "2021-06-04T01:00:26.000Z") and (eventName eq "LOGON") The attrExp or the field (for example, operationTime and eventName in above example) which is used to filter can be any of the fields returned by AuditEventSummary. adminUser, commonUser, sensitiveActivity, dsActivity can only have eq operation and value 1. These define admin user activity, common user activity, sensitive data activity and data safe activity **Example:** (adminUser eq 1) 
 
 
 ## Attributes Reference
@@ -87,6 +87,7 @@ The following attributes are exported:
 	* `error_message` - The detailed message on why the error occurred.
 	* `event_name` - The name of the detail action executed by the user on the target database. For example ALTER SEQUENCE, CREATE TRIGGER or CREATE INDEX.
 	* `extended_event_attributes` - List of all other attributes of the audit event seperated by a colon other than the one returned in audit record.
+	* `external_user_id` - The user ID of the external user of the audit event.
 	* `fga_policy_name` - Fine-grained auditing (FGA) policy name that generated this audit record.
 	* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}` 
 	* `id` - The OCID of the audit event.
@@ -102,6 +103,7 @@ The following attributes are exported:
 	* `target_class` - The class of the target that was audited.
 	* `target_id` - The OCID of the target database that was audited.
 	* `target_name` - The name of the target database that was audited.
+	* `target_user` - The user on whom the GRANT/REVOKE/AUDIT/NOAUDIT statement was executed.
 	* `time_collected` - The timestamp when this audit event was collected from the target database by Data Safe.
 	* `trail_source` - The underlying source of unified audit trail.
 

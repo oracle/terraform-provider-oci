@@ -35,6 +35,14 @@ func DataSafeMaskingAnalyticsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"sensitive_type_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"target_database_group_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"target_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -72,6 +80,10 @@ func DataSafeMaskingAnalyticsDataSource() *schema.Resource {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
+												"sensitive_type_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"target_id": {
 													Type:     schema.TypeString,
 													Computed: true,
@@ -80,6 +92,10 @@ func DataSafeMaskingAnalyticsDataSource() *schema.Resource {
 										},
 									},
 									"metric_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_last_masked": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -131,6 +147,16 @@ func (s *DataSafeMaskingAnalyticsDataSourceCrud) Get() error {
 	if maskingPolicyId, ok := s.D.GetOkExists("masking_policy_id"); ok {
 		tmp := maskingPolicyId.(string)
 		request.MaskingPolicyId = &tmp
+	}
+
+	if sensitiveTypeId, ok := s.D.GetOkExists("sensitive_type_id"); ok {
+		tmp := sensitiveTypeId.(string)
+		request.SensitiveTypeId = &tmp
+	}
+
+	if targetDatabaseGroupId, ok := s.D.GetOkExists("target_database_group_id"); ok {
+		tmp := targetDatabaseGroupId.(string)
+		request.TargetDatabaseGroupId = &tmp
 	}
 
 	if targetId, ok := s.D.GetOkExists("target_id"); ok {
@@ -196,6 +222,10 @@ func MaskingAnalyticsDimensionsToMap(obj *oci_data_safe.MaskingAnalyticsDimensio
 		result["policy_id"] = string(*obj.PolicyId)
 	}
 
+	if obj.SensitiveTypeId != nil {
+		result["sensitive_type_id"] = string(*obj.SensitiveTypeId)
+	}
+
 	if obj.TargetId != nil {
 		result["target_id"] = string(*obj.TargetId)
 	}
@@ -215,6 +245,10 @@ func MaskingAnalyticsSummaryToMap(obj oci_data_safe.MaskingAnalyticsSummary) map
 	}
 
 	result["metric_name"] = string(obj.MetricName)
+
+	if obj.TimeLastMasked != nil {
+		result["time_last_masked"] = obj.TimeLastMasked.String()
+	}
 
 	return result
 }

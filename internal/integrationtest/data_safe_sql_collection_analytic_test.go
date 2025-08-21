@@ -18,13 +18,14 @@ import (
 var (
 	DataSafeSqlCollectionAnalyticDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `ACCESSIBLE`},
-		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"access_level":              acctest.Representation{RepType: acctest.Required, Create: `ACCESSIBLE`},
+		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Required, Create: `true`},
 		"group_by":                  acctest.Representation{RepType: acctest.Optional, Create: []string{`targetId`}},
-		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `COMPLETED`},
+		"state":                     acctest.Representation{RepType: acctest.Required, Create: `COMPLETED`},
 		"target_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${var.target_id}`},
-		"time_ended":                acctest.Representation{RepType: acctest.Optional, Create: `2038-01-01T00:00:00.000Z`},
-		"time_started":              acctest.Representation{RepType: acctest.Optional, Create: `2018-01-01T00:00:00.000Z`},
+		"target_database_group_id":  acctest.Representation{RepType: acctest.Optional, Create: `${var.target_database_group_id}`},
+		"time_ended":                acctest.Representation{RepType: acctest.Optional, Create: `2026-01-01T00:00:00.000Z`},
+		"time_started":              acctest.Representation{RepType: acctest.Optional, Create: `2025-01-01T00:00:00.000Z`},
 	}
 
 	DataSafeSqlCollectionAnalyticResourceConfig = DefinedTagsDependencies
@@ -42,6 +43,9 @@ func TestDataSafeSqlCollectionAnalyticResource_basic(t *testing.T) {
 
 	targetId := utils.GetEnvSettingWithBlankDefault("data_safe_target_ocid")
 	targetIdVariableStr := fmt.Sprintf("variable \"target_id\" { default = \"%s\" }\n", targetId)
+
+	targetGroupId := utils.GetEnvSettingWithBlankDefault("data_safe_target_group_ocid")
+	targetGroupIdVariableStr := fmt.Sprintf("variable \"target_database_group_id\" { default = \"%s\" }\n", targetGroupId)
 
 	datasourceName := "data.oci_data_safe_sql_collection_analytics.test_sql_collection_analytics"
 
@@ -61,7 +65,7 @@ func TestDataSafeSqlCollectionAnalyticResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_sql_collection_analytics", "test_sql_collection_analytics", acctest.Optional, acctest.Create, DataSafeSqlCollectionAnalyticDataSourceRepresentation) +
-				compartmentIdVariableStr + targetIdVariableStr + DataSafeSqlCollectionAnalyticResourceConfig,
+				compartmentIdVariableStr + targetIdVariableStr + targetGroupIdVariableStr + DataSafeSqlCollectionAnalyticResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "sql_collection_analytics_collection.#"),
 				resource.TestCheckResourceAttr(datasourceName, "sql_collection_analytics_collection.0.items.#", "1"),

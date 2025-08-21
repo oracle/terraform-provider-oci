@@ -39,6 +39,7 @@ data "oci_data_safe_database_security_configs" "test_database_security_configs" 
 	database_security_config_id = oci_data_safe_database_security_config.test_database_security_config.id
 	display_name = var.database_security_config_display_name
 	state = var.database_security_config_state
+	target_database_group_id = oci_data_safe_target_database_group.test_target_database_group.id
 	target_id = oci_cloud_guard_target.test_target.id
 	time_created_greater_than_or_equal_to = var.database_security_config_time_created_greater_than_or_equal_to
 	time_created_less_than = var.database_security_config_time_created_less_than
@@ -55,6 +56,7 @@ The following arguments are supported:
 * `database_security_config_id` - (Optional) An optional filter to return only resources that match the specified OCID of the database security configuration resource.
 * `display_name` - (Optional) A filter to return only resources that match the specified display name. 
 * `state` - (Optional) The current state of the database security configuration.
+* `target_database_group_id` - (Optional) A filter to return the target database group that matches the specified OCID.
 * `target_id` - (Optional) A filter to return only items related to a specific target OCID.
 * `time_created_greater_than_or_equal_to` - (Optional) A filter to return only the resources that were created after the specified date and time, as defined by [RFC3339](https://tools.ietf.org/html/rfc3339). Using TimeCreatedGreaterThanOrEqualToQueryParam parameter retrieves all resources created after that date.
 

@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_data_safe_security_assessment_findings
 This data source provides the list of Security Assessment Findings in Oracle Cloud Infrastructure Data Safe service.
 
-List all the findings from all the targets in the specified compartment.
+Lists all the findings for the specified assessment except for type TEMPLATE. If the assessment is of type TEMPLATE_BASELINE, the findings returned are the security checks with the user-defined severity from the template.
 
 
 ## Example Usage
@@ -22,7 +22,10 @@ data "oci_data_safe_security_assessment_findings" "test_security_assessment_find
 
 	#Optional
 	access_level = var.security_assessment_finding_access_level
+	category = var.security_assessment_finding_category
 	compartment_id_in_subtree = var.security_assessment_finding_compartment_id_in_subtree
+	contains_references = var.security_assessment_finding_contains_references
+	contains_severity = var.security_assessment_finding_contains_severity
 	field = var.security_assessment_finding_field
 	finding_key = var.security_assessment_finding_finding_key
 	is_top_finding = var.security_assessment_finding_is_top_finding
@@ -32,6 +35,7 @@ data "oci_data_safe_security_assessment_findings" "test_security_assessment_find
 	severity = var.security_assessment_finding_severity
 	state = var.security_assessment_finding_state
 	target_id = oci_cloud_guard_target.test_target.id
+	target_ids = var.security_assessment_finding_target_ids
 }
 ```
 
@@ -40,6 +44,7 @@ data "oci_data_safe_security_assessment_findings" "test_security_assessment_find
 The following arguments are supported:
 
 * `access_level` - (Optional) Valid values are RESTRICTED and ACCESSIBLE. Default is RESTRICTED. Setting this to ACCESSIBLE returns only those compartments for which the user has INSPECT permissions directly or indirectly (permissions can be on a resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed. 
+* `category` - (Optional) The category of the finding.
 * `compartment_id_in_subtree` - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting. 
 * `field` - (Optional) Specifies a subset of fields to be returned in the response.
 * `finding_key` - (Optional) Each finding in security assessment has an associated key (think of key as a finding's name). For a given finding, the key will be the same across targets. The user can use these keys to filter the findings. 
@@ -53,6 +58,7 @@ The following arguments are supported:
 * `severity` - (Optional) A filter to return only findings of a particular risk level.
 * `state` - (Optional) A filter to return only the findings that match the specified lifecycle states.
 * `target_id` - (Optional) A filter to return only items related to a specific target OCID.
+* `target_ids` - (Optional) An optional filter to return only findings that match the specified target ids. Use this parameter to filter by multiple target ids.
 
 
 ## Attributes Reference
@@ -66,6 +72,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `assessment_id` - The OCID of the assessment that generated this finding.
+* `category` - The category to which the finding belongs to.
 * `details` - The details of the finding. Provides detailed information to explain the finding summary, typically results from the assessed database, followed by any recommendations for changes.
 * `doclink` - Documentation link provided by Oracle that explains a specific security finding or check.
 * `is_top_finding` - Indicates whether a given finding is marked as topFinding or not.

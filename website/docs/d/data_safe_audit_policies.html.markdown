@@ -40,6 +40,7 @@ data "oci_data_safe_audit_policies" "test_audit_policies" {
 	compartment_id_in_subtree = var.audit_policy_compartment_id_in_subtree
 	display_name = var.audit_policy_display_name
 	state = var.audit_policy_state
+	target_database_group_id = oci_data_safe_target_database_group.test_target_database_group.id
 	target_id = oci_cloud_guard_target.test_target.id
 }
 ```
@@ -54,6 +55,7 @@ The following arguments are supported:
 * `compartment_id_in_subtree` - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting. 
 * `display_name` - (Optional) A filter to return only resources that match the specified display name. 
 * `state` - (Optional) The current state of the audit policy.
+* `target_database_group_id` - (Optional) A filter to return the target database group that matches the specified OCID.
 * `target_id` - (Optional) A filter to return only items related to a specific target OCID.
 
 

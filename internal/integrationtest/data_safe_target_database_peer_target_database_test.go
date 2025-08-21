@@ -10,6 +10,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
@@ -24,16 +26,7 @@ import (
 )
 
 var (
-	DataSafeTargetDatabasePeerTargetDatabaseRequiredOnlyResource = DataSafeTargetDatabasePeerTargetDatabaseResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database_peer_target_database", "test_target_database_peer_target_database", acctest.Required, acctest.Create, DataSafeTargetDatabasePeerTargetDatabaseRepresentation)
-
-	DataSafeTargetDatabasePeerTargetDatabaseResourceConfig = DataSafeTargetDatabasePeerTargetDatabaseResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database_peer_target_database", "test_target_database_peer_target_database", acctest.Optional, acctest.Update, DataSafeTargetDatabasePeerTargetDatabaseRepresentation)
-
-	DataSafeTargetDatabasePeerTargetDatabaseSingularDataSourceRepresentation = map[string]interface{}{
-		"peer_target_database_id": acctest.Representation{RepType: acctest.Required, Create: `{}`},
-		"target_database_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.target_id}`},
-	}
+	DataSafeTargetDatabasePeerTargetDatabaseRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database_peer_target_database", "test_target_database_peer_target_database", acctest.Required, acctest.Create, DataSafeTargetDatabasePeerTargetDatabaseRepresentation)
 
 	DataSafeTargetDatabasePeerTargetDatabaseDataSourceRepresentation = map[string]interface{}{
 		"target_database_id": acctest.Representation{RepType: acctest.Required, Create: `${var.target_id}`},
@@ -41,7 +34,7 @@ var (
 	}
 	DataSafeTargetDatabasePeerTargetDatabaseDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
-		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_data_safe_target_database_peer_target_database.test_target_database_peer_target_database.id}`}},
+		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${var.target_id}`}},
 	}
 
 	DataSafeTargetDatabasePeerTargetDatabaseRepresentation = map[string]interface{}{
@@ -51,18 +44,11 @@ var (
 		"display_name":       acctest.Representation{RepType: acctest.Required, Create: `standby`, Update: `displayName2`},
 	}
 	DataSafeTargetDatabasePeerTargetDatabaseDatabaseDetailsRepresentation = map[string]interface{}{
-		"database_type":       acctest.Representation{RepType: acctest.Required, Create: `DATABASE_CLOUD_SERVICE`, Update: `DATABASE_CLOUD_SERVICE`},
-		"infrastructure_type": acctest.Representation{RepType: acctest.Required, Create: `ORACLE_CLOUD`, Update: `ORACLE_CLOUD`},
+		"database_type":       acctest.Representation{RepType: acctest.Required, Create: `DATABASE_CLOUD_SERVICE`},
+		"infrastructure_type": acctest.Representation{RepType: acctest.Required, Create: `ORACLE_CLOUD`},
 		"db_system_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.db_system_id}`},
-		"listener_port":       acctest.Representation{RepType: acctest.Required, Create: `1521`, Update: `1521`},
-		"service_name":        acctest.Representation{RepType: acctest.Required, Create: `DB1116_pdb1.sub06132343240.testtargetvcnad.oraclevcn.com`},
-		//"lifecycle":              acctest.RepresentationGroup{RepType: acctest.Required, Group: ignorePeerTargetDatabaseRep},
-	}
-
-	DataSafeTargetDatabasePeerTargetDatabaseResourceDependencies = utils.OciImageIdsVariable + DefinedTagsDependencies
-
-	ignorePeerTargetDatabaseRep = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `freeform_tags`}},
+		"listener_port":       acctest.Representation{RepType: acctest.Required, Create: `1521`},
+		"service_name":        acctest.Representation{RepType: acctest.Required, Create: `${var.service_name}`},
 	}
 )
 
@@ -83,18 +69,21 @@ func TestDataSafeTargetDatabasePeerTargetDatabaseResource_basic(t *testing.T) {
 	dbSystemId := utils.GetEnvSettingWithBlankDefault("data_safe_adg_db_system_ocid")
 	dbSystemIdVariableStr := fmt.Sprintf("variable \"db_system_id\" { default = \"%s\" }\n", dbSystemId)
 
+	serviceName := utils.GetEnvSettingWithBlankDefault("service_name")
+	serviceNamevariablestr := fmt.Sprintf("variable \"service_name\" { default = \"%s\" }\n", serviceName)
+
 	resourceName := "oci_data_safe_target_database_peer_target_database.test_target_database_peer_target_database"
 	datasourceName := "data.oci_data_safe_target_database_peer_target_databases.test_target_database_peer_target_databases"
 
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DataSafeTargetDatabasePeerTargetDatabaseResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database_peer_target_database", "test_target_database_peer_target_database", acctest.Optional, acctest.Create, DataSafeTargetDatabasePeerTargetDatabaseRepresentation), "datasafe", "targetDatabasePeerTargetDatabase", t)
 
 	acctest.ResourceTest(t, testAccCheckDataSafeTargetDatabasePeerTargetDatabaseDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + DataSafeTargetDatabasePeerTargetDatabaseResourceDependencies + targetIdVariableStr + dbSystemIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database_peer_target_database", "test_target_database_peer_target_database", acctest.Required, acctest.Create, DataSafeTargetDatabasePeerTargetDatabaseRepresentation),
+			Config: config + compartmentIdVariableStr + targetIdVariableStr + dbSystemIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database_peer_target_database", "test_target_database_peer_target_database", acctest.Required, acctest.Create, DataSafeTargetDatabasePeerTargetDatabaseRepresentation) + serviceNamevariablestr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "database_details.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "database_details.0.db_system_id"),
@@ -108,15 +97,50 @@ func TestDataSafeTargetDatabasePeerTargetDatabaseResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DataSafeTargetDatabasePeerTargetDatabaseResourceDependencies + targetIdVariableStr + dbSystemIdVariableStr,
+			Config: config + compartmentIdVariableStr + serviceNamevariablestr + dbSystemIdVariableStr,
+		},
+		// verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database_peer_target_database", "test_target_database_peer_target_database", acctest.Optional, acctest.Create, DataSafeTargetDatabasePeerTargetDatabaseRepresentation) + serviceNamevariablestr + dbSystemIdVariableStr + targetIdVariableStr,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "database_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "database_details.0.database_type", "DATABASE_CLOUD_SERVICE"),
+				resource.TestCheckResourceAttrSet(resourceName, "database_details.0.db_system_id"),
+				resource.TestCheckResourceAttr(resourceName, "database_details.0.infrastructure_type", "ORACLE_CLOUD"),
+				resource.TestCheckResourceAttr(resourceName, "database_details.0.listener_port", "1521"),
+				resource.TestCheckResourceAttrSet(resourceName, "database_details.0.service_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "dataguard_association_id"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "standby"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_database_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				func(s *terraform.State) (err error) {
+					var resId string
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
 		},
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + DataSafeTargetDatabasePeerTargetDatabaseResourceDependencies + targetIdVariableStr + dbSystemIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database_peer_target_database", "test_target_database_peer_target_database", acctest.Optional, acctest.Update, DataSafeTargetDatabasePeerTargetDatabaseRepresentation),
+			Config: config + compartmentIdVariableStr + targetIdVariableStr + dbSystemIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database_peer_target_database", "test_target_database_peer_target_database", acctest.Optional, acctest.Update, DataSafeTargetDatabasePeerTargetDatabaseRepresentation) + serviceNamevariablestr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "database_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "database_details.0.database_type", "DATABASE_CLOUD_SERVICE"),
+				resource.TestCheckResourceAttrSet(resourceName, "database_details.0.db_system_id"),
+				resource.TestCheckResourceAttr(resourceName, "database_details.0.infrastructure_type", "ORACLE_CLOUD"),
+				resource.TestCheckResourceAttr(resourceName, "database_details.0.listener_port", "1521"),
+				resource.TestCheckResourceAttrSet(resourceName, "database_details.0.service_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "dataguard_association_id"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 			),
@@ -125,8 +149,8 @@ func TestDataSafeTargetDatabasePeerTargetDatabaseResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_target_database_peer_target_databases", "test_target_database_peer_target_databases", acctest.Optional, acctest.Update, DataSafeTargetDatabasePeerTargetDatabaseDataSourceRepresentation) +
-				compartmentIdVariableStr + DataSafeTargetDatabasePeerTargetDatabaseResourceDependencies + targetIdVariableStr + dbSystemIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database_peer_target_database", "test_target_database_peer_target_database", acctest.Optional, acctest.Update, DataSafeTargetDatabasePeerTargetDatabaseRepresentation),
+				compartmentIdVariableStr + targetIdVariableStr + dbSystemIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database_peer_target_database", "test_target_database_peer_target_database", acctest.Optional, acctest.Update, DataSafeTargetDatabasePeerTargetDatabaseRepresentation) + serviceNamevariablestr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "target_database_id"),
 				resource.TestCheckResourceAttr(datasourceName, "peer_target_database_collection.#", "1"),
@@ -134,7 +158,7 @@ func TestDataSafeTargetDatabasePeerTargetDatabaseResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + DataSafeTargetDatabasePeerTargetDatabaseRequiredOnlyResource,
+			Config:                  config + DataSafeTargetDatabasePeerTargetDatabaseRequiredOnlyResource + serviceNamevariablestr + dbSystemIdVariableStr,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

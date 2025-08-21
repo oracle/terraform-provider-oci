@@ -38,6 +38,7 @@ data "oci_data_safe_sql_collection_analytics" "test_sql_collection_analytics" {
 	compartment_id_in_subtree = var.sql_collection_analytic_compartment_id_in_subtree
 	group_by = var.sql_collection_analytic_group_by
 	state = var.sql_collection_analytic_state
+	target_database_group_id = oci_data_safe_target_database_group.test_target_database_group.id
 	target_id = oci_cloud_guard_target.test_target.id
 	time_ended = var.sql_collection_analytic_time_ended
 	time_started = var.sql_collection_analytic_time_started
@@ -53,6 +54,7 @@ The following arguments are supported:
 * `compartment_id_in_subtree` - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting. 
 * `group_by` - (Optional) The group by parameter to summarize SQL collection aggregation.
 * `state` - (Optional) The current state of the SQL collection.
+* `target_database_group_id` - (Optional) A filter to return the target database group that matches the specified OCID.
 * `target_id` - (Optional) A filter to return only items related to a specific target OCID.
 * `time_ended` - (Optional) An optional filter to return the stats of the SQL collection logs collected before the date-time specified, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). 
 * `time_started` - (Optional) An optional filter to return the stats of the SQL collection logs collected after the date-time specified, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). 

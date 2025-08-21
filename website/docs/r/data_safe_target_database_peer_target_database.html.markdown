@@ -28,7 +28,8 @@ resource "oci_data_safe_target_database_peer_target_database" "test_target_datab
 		instance_id = oci_core_instance.test_instance.id
 		ip_addresses = var.target_database_peer_target_database_database_details_ip_addresses
 		listener_port = var.target_database_peer_target_database_database_details_listener_port
-		service_name = oci_core_service.test_service.name
+		pluggable_database_id = oci_database_pluggable_database.test_pluggable_database.id
+		service_name = oci_announcements_service_service.test_service.name
 		vm_cluster_id = oci_database_vm_cluster.test_vm_cluster.id
 	}
 	target_database_id = oci_data_safe_target_database.test_target_database.id
@@ -62,6 +63,7 @@ The following arguments are supported:
 	* `instance_id` - (Applicable when database_type=INSTALLED_DATABASE) (Updatable) The OCID of the compute instance on which the database is running.
 	* `ip_addresses` - (Applicable when database_type=INSTALLED_DATABASE) (Updatable) The list of database host IP Addresses. Fully qualified domain names can be used if connectionType is 'ONPREM_CONNECTOR'. 
 	* `listener_port` - (Required when database_type=DATABASE_CLOUD_SERVICE | INSTALLED_DATABASE) (Updatable) The port number of the database listener.
+	* `pluggable_database_id` - (Applicable when database_type=DATABASE_CLOUD_SERVICE) (Updatable) The OCID of the pluggable database registered as a target database in Data Safe.
 	* `service_name` - (Required when database_type=DATABASE_CLOUD_SERVICE | INSTALLED_DATABASE) (Updatable) The service name of the database registered as target database.
 	* `vm_cluster_id` - (Applicable when database_type=DATABASE_CLOUD_SERVICE) (Updatable) The OCID of the VM cluster in which the database is running.
 * `dataguard_association_id` - (Optional) The OCID of the Data Guard Association resource in which the database being registered is considered as peer database to the primary database.
@@ -91,6 +93,7 @@ The following attributes are exported:
 	* `instance_id` - The OCID of the compute instance on which the database is running.
 	* `ip_addresses` - The list of database host IP Addresses. Fully qualified domain names can be used if connectionType is 'ONPREM_CONNECTOR'. 
 	* `listener_port` - The port number of the database listener.
+	* `pluggable_database_id` - The OCID of the pluggable database registered as a target database in Data Safe.
 	* `service_name` - The service name of the database registered as target database.
 	* `vm_cluster_id` - The OCID of the VM cluster in which the database is running.
 * `database_unique_name` - Unique name of the database associated to the peer target database.

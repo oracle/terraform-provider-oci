@@ -42,7 +42,9 @@ data "oci_data_safe_user_assessments" "test_user_assessments" {
 	is_schedule_assessment = var.user_assessment_is_schedule_assessment
 	schedule_user_assessment_id = oci_data_safe_user_assessment.test_user_assessment.id
 	state = var.user_assessment_state
+	target_database_group_id = oci_data_safe_target_database_group.test_target_database_group.id
 	target_id = oci_cloud_guard_target.test_target.id
+	target_type = var.user_assessment_target_type
 	time_created_greater_than_or_equal_to = var.user_assessment_time_created_greater_than_or_equal_to
 	time_created_less_than = var.user_assessment_time_created_less_than
 	triggered_by = var.user_assessment_triggered_by
@@ -62,7 +64,9 @@ The following arguments are supported:
 * `is_schedule_assessment` - (Optional) A filter to return only user assessments of type SAVE_SCHEDULE. 
 * `schedule_user_assessment_id` - (Optional) The OCID of the user assessment of type SAVE_SCHEDULE.
 * `state` - (Optional) The current state of the user assessment.
+* `target_database_group_id` - (Optional) A filter to return the target database group that matches the specified OCID.
 * `target_id` - (Optional) A filter to return only items related to a specific target OCID.
+* `target_type` - (Optional) A filter to return only only target database resources or target database group resources.
 * `time_created_greater_than_or_equal_to` - (Optional) A filter to return only user assessments that were created after the specified date and time, as defined by [RFC3339](https://tools.ietf.org/html/rfc3339). Using timeCreatedGreaterThanOrEqualTo parameter retrieves all assessments created after that date.
 
 	**Example:** 2016-12-19T16:39:57.600Z 
@@ -103,7 +107,9 @@ The following attributes are exported:
 * `state` - The current state of the user assessment.
 * `statistics` - Map that contains maps of values. Example: `{"Operations": {"CostCenter": "42"}}` 
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
+* `target_database_group_id` - The OCID of target database group.
 * `target_ids` - Array of database target OCIDs.
+* `target_type` - Indicates whether the user assessment is for a target database or a target database group.
 * `time_created` - The date and time the user assessment was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `time_last_assessed` - The date and time the user assessment was last executed, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `time_updated` - The date and time the user assessment was last updated, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
