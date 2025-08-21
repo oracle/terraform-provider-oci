@@ -6,11 +6,14 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
-variable "compartment_ocid" {}
-variable "security_policy_ocid" {}
+variable "compartment_ocid" {
+  default = "<ocid>"
+}
+
+# variable "security_policy_ocid" {}
 
 variable "security_policy_access_level" {
-  default = "RESTRICTED"
+  default = "ACCESSIBLE"
 }
 
 variable "security_policy_compartment_id_in_subtree" {
@@ -49,7 +52,7 @@ provider "oci" {
 
 resource "oci_data_safe_security_policy" "test_security_policy" {
   #Required
-  security_policy_id = var.security_policy_ocid
+  compartment_id = var.compartment_ocid
 
   #Optional
   description           = var.security_policy_description

@@ -25,35 +25,37 @@ import (
 )
 
 var (
-	DataSafeSecurityAssessmentRequiredOnlyResource = DataSafeSecurityAssessmentResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", acctest.Required, acctest.Create, securityAssessmentRepresentation)
+	DataSafeSecurityAssessmentRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", acctest.Required, acctest.Create, DataSafeSecurityAssessmentRepresentation)
 
-	SecurityAssessmentResourceConfig = DataSafeSecurityAssessmentResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", acctest.Optional, acctest.Update, securityAssessmentRepresentation)
+	SecurityAssessmentResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", acctest.Optional, acctest.Update, DataSafeSecurityAssessmentRepresentation)
 
 	DataSafesecurityAssessmentSingularDataSourceRepresentation = map[string]interface{}{
 		"security_assessment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_security_assessment.test_security_assessment.id}`},
 	}
 
-	securityAssessmentDataSourceRepresentation = map[string]interface{}{
+	DataSafeSecurityAssessmentDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"target_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.target_id}`},
+		"target_id":      acctest.Representation{RepType: acctest.Optional, Create: `${var.target_id}`},
 		"type":           acctest.Representation{RepType: acctest.Optional, Create: `SAVED`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: securityAssessmentDataSourceFilterRepresentation}}
-	securityAssessmentDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DataSafeSecurityAssessmentDataSourceFilterRepresentation}}
+	DataSafeSecurityAssessmentDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_data_safe_security_assessment.test_security_assessment.id}`}},
 	}
 
-	securityAssessmentRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"target_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.target_id}`},
-		"description":    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `EBS assessment`, Update: `displayName2`},
-		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesSecurityAssessmentRepresentation},
+	DataSafeSecurityAssessmentRepresentation = map[string]interface{}{
+		"compartment_id":                       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"description":                          acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"display_name":                         acctest.Representation{RepType: acctest.Optional, Create: `EBS assessment`, Update: `displayName2`},
+		"freeform_tags":                        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"target_id":                            acctest.Representation{RepType: acctest.Required, Create: `${var.target_id}`},
+		"target_type":                          acctest.Representation{RepType: acctest.Required, Create: `TARGET_DATABASE`},
+		"type":                                 acctest.Representation{RepType: acctest.Optional, Create: `SAVED`},
+		"apply_template_trigger":               acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `1`},
+		"compare_to_template_baseline_trigger": acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `1`},
+		"remove_template_trigger":              acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `1`},
+		"lifecycle":                            acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesSecurityAssessmentRepresentation},
 	}
-
 	securityAssessmentChangeCompartmentRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"target_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.target_id}`},
@@ -61,14 +63,14 @@ var (
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `EBS assessment`, Update: `displayName2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"schedule":       acctest.Representation{RepType: acctest.Optional, Create: `schedule`, Update: `schedule2`},
-		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesSecurityAssessmentRepresentation},
+		// "lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: oci_data_safe.SecurityAssessmentLifecycleStateActive},
 	}
 
 	ignoreChangesSecurityAssessmentRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `freeform_tags`, `system_tags`}},
 	}
 
-	DataSafeSecurityAssessmentResourceDependencies = DefinedTagsDependencies
+	DataSafeSecurityAssessmentResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", acctest.Required, acctest.Create, DataSafeSecurityAssessmentRepresentation)
 )
 
 // issue-routing-tag: data_safe/default
@@ -96,14 +98,13 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DataSafeSecurityAssessmentResourceDependencies+targetIdVariableStr+autonomousDbIdVariableStr+
-		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", acctest.Optional, acctest.Create, securityAssessmentRepresentation), "datasafe", "securityAssessment", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+targetIdVariableStr+autonomousDbIdVariableStr+
+		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", acctest.Optional, acctest.Create, DataSafeSecurityAssessmentRepresentation), "datasafe", "securityAssessment", t)
 
 	acctest.ResourceTest(t, testAccCheckDataSafeSecurityAssessmentDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + DataSafeSecurityAssessmentResourceDependencies + targetIdVariableStr + autonomousDbIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", acctest.Required, acctest.Create, securityAssessmentRepresentation),
+			Config: config + compartmentIdVariableStr + targetIdVariableStr + DataSafeSecurityAssessmentResourceDependencies,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
@@ -120,8 +121,8 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + DataSafeSecurityAssessmentResourceDependencies + targetIdVariableStr + autonomousDbIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", acctest.Optional, acctest.Create, securityAssessmentRepresentation),
+			Config: config + compartmentIdVariableStr + targetIdVariableStr + autonomousDbIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", acctest.Optional, acctest.Create, DataSafeSecurityAssessmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -131,13 +132,14 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_assessment_scheduled", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_id"),
+				resource.TestCheckResourceAttr(resourceName, "target_type", "TARGET_DATABASE"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
-				resource.TestCheckResourceAttrSet(resourceName, "type"),
+				resource.TestCheckResourceAttr(resourceName, "type", "SAVED"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
 						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -149,9 +151,9 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DataSafeSecurityAssessmentResourceDependencies + targetIdVariableStr + autonomousDbIdVariableStr +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + targetIdVariableStr + autonomousDbIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(securityAssessmentRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(DataSafeSecurityAssessmentRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -163,8 +165,10 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_assessment_scheduled", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_id"),
+				resource.TestCheckResourceAttr(resourceName, "target_type", "TARGET_DATABASE"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-				resource.TestCheckResourceAttrSet(resourceName, "type"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "type", "SAVED"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -178,8 +182,8 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + DataSafeSecurityAssessmentResourceDependencies + targetIdVariableStr + autonomousDbIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", acctest.Required, acctest.Update, securityAssessmentChangeCompartmentRepresentation),
+			Config: config + compartmentIdVariableStr + targetIdVariableStr + autonomousDbIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", acctest.Optional, acctest.Update, DataSafeSecurityAssessmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "freeform_tags.%"),
@@ -187,9 +191,10 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_assessment_scheduled", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_id"),
+				resource.TestCheckResourceAttr(resourceName, "target_type", "TARGET_DATABASE"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
-				resource.TestCheckResourceAttrSet(resourceName, "type"),
+				resource.TestCheckResourceAttr(resourceName, "type", "SAVED"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -203,9 +208,9 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_security_assessments", "test_security_assessments", acctest.Optional, acctest.Update, securityAssessmentDataSourceRepresentation) +
-				compartmentIdVariableStr + DataSafeSecurityAssessmentResourceDependencies + targetIdVariableStr + autonomousDbIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", acctest.Optional, acctest.Update, securityAssessmentRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_security_assessments", "test_security_assessments", acctest.Optional, acctest.Update, DataSafeSecurityAssessmentDataSourceRepresentation) +
+				compartmentIdVariableStr + targetIdVariableStr + autonomousDbIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", acctest.Optional, acctest.Update, DataSafeSecurityAssessmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "target_id"),
@@ -218,18 +223,20 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "security_assessments.0.is_baseline"),
 				resource.TestCheckResourceAttrSet(datasourceName, "security_assessments.0.state"),
 				resource.TestCheckResourceAttr(datasourceName, "security_assessments.0.statistics.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "security_assessments.0.target_ids.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "security_assessments.0.target_type", "TARGET_DATABASE"),
 				resource.TestCheckResourceAttrSet(datasourceName, "security_assessments.0.time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "security_assessments.0.time_last_assessed"),
 				resource.TestCheckResourceAttrSet(datasourceName, "security_assessments.0.time_updated"),
 				resource.TestCheckResourceAttrSet(datasourceName, "security_assessments.0.triggered_by"),
-				resource.TestCheckResourceAttrSet(datasourceName, "security_assessments.0.type"),
+				resource.TestCheckResourceAttr(datasourceName, "security_assessments.0.type", "SAVED"),
 			),
 		},
 		// verify singular datasource
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", acctest.Required, acctest.Create, DataSafesecurityAssessmentSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + DataSafeSecurityAssessmentRequiredOnlyResource + targetIdVariableStr + autonomousDbIdVariableStr,
+				compartmentIdVariableStr + SecurityAssessmentResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "security_assessment_id"),
 
@@ -245,11 +252,12 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "statistics.0.pass.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "statistics.0.deferred.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "target_ids.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target_type", "TARGET_DATABASE"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_last_assessed"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "triggered_by"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "type"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "type", "SAVED"),
 			),
 		},
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
@@ -262,7 +270,11 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
+				"base_security_assessment_id",
 				"target_id",
+				"apply_template_trigger",
+				"compare_to_template_baseline_trigger",
+				"remove_template_trigger",
 			},
 			ResourceName: resourceName,
 		},

@@ -39,6 +39,7 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the security policy.
 * `lifecycle_details` - Details about the current state of the security policy in Data Safe.
+* `security_policy_type` - The type of the security policy.
 * `state` - The current state of the security policy.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time that the security policy was created, in the format defined by RFC3339.

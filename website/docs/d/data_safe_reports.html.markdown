@@ -22,6 +22,7 @@ data "oci_data_safe_reports" "test_reports" {
 	#Optional
 	access_level = var.report_access_level
 	compartment_id_in_subtree = var.report_compartment_id_in_subtree
+	data_source = var.report_data_source
 	display_name = var.report_display_name
 	mime_type = var.report_mime_type
 	report_definition_id = oci_data_safe_report_definition.test_report_definition.id
@@ -39,6 +40,7 @@ The following arguments are supported:
 * `access_level` - (Optional) Valid values are RESTRICTED and ACCESSIBLE. Default is RESTRICTED. Setting this to ACCESSIBLE returns only those compartments for which the user has INSPECT permissions directly or indirectly (permissions can be on a resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed. 
 * `compartment_id` - (Required) A filter to return only resources that match the specified compartment OCID.
 * `compartment_id_in_subtree` - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting. 
+* `data_source` - (Optional) Specifies the name of a resource that provides data for the report. For example  alerts, events.
 * `display_name` - (Optional) The name of the report definition to query.
 * `mime_type` - (Optional) An optional filter to return only resources that match the specified mime type.
 * `report_definition_id` - (Optional) The ID of the report definition to filter the list of reports
@@ -63,6 +65,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment containing the report.
+* `data_source` - Specifies the name of a resource that provides data for the report. For example alerts, events.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}` 
 * `description` - Specifies a description of the report.
 * `display_name` - Name of the report.
@@ -73,6 +76,8 @@ The following attributes are exported:
 * `report_definition_id` - The OCID of the report definition.
 * `state` - The current state of the audit report.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
+* `time_created` - Specifies the time at which the report was created.
 * `time_generated` - Specifies the date and time the report was generated.
+* `time_updated` - The date and time of the report update in Data Safe.
 * `type` - The type of the audit report.
 

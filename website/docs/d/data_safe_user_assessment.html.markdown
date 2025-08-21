@@ -52,7 +52,9 @@ The following attributes are exported:
 * `state` - The current state of the user assessment.
 * `statistics` - Map that contains maps of values. Example: `{"Operations": {"CostCenter": "42"}}` 
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
+* `target_database_group_id` - The OCID of target database group.
 * `target_ids` - Array of database target OCIDs.
+* `target_type` - Indicates whether the user assessment is for a target database or a target database group.
 * `time_created` - The date and time the user assessment was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `time_last_assessed` - The date and time the user assessment was last executed, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `time_updated` - The date and time the user assessment was last updated, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).

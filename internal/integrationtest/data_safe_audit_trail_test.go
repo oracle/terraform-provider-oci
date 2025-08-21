@@ -36,7 +36,6 @@ var (
 	DataSafeauditTrailSingularDataSourceRepresentation = map[string]interface{}{
 		"audit_trail_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_audit_trail.test_audit_trail.id}`},
 	}
-
 	auditTrailDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"audit_trail_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.trail_id}`},
@@ -46,7 +45,6 @@ var (
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_data_safe_audit_trail.test_audit_trail.id}`}},
 	}
-
 	auditTrailStartRepresentation = map[string]interface{}{
 		"audit_trail_id": acctest.Representation{RepType: acctest.Required, Create: `${var.trail_id}`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `INACTIVE`, Update: `ACTIVE`},
@@ -59,28 +57,41 @@ var (
 	}
 
 	auditTrailResumeRepresentation = map[string]interface{}{
-		"audit_trail_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.trail_id}`},
-		"description":           acctest.Representation{RepType: acctest.Optional, Create: `updated-description`, Update: `description2`},
-		"display_name":          acctest.Representation{RepType: acctest.Optional, Create: `updated-name`, Update: `displayName2`},
-		"is_auto_purge_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"resume_trigger":        acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `1`},
-		"state":                 acctest.Representation{RepType: acctest.Optional, Create: `INACTIVE`, Update: `ACTIVE`},
+		"audit_trail_id":                         acctest.Representation{RepType: acctest.Required, Create: `${var.trail_id}`},
+		"description":                            acctest.Representation{RepType: acctest.Optional, Create: `updated-description`, Update: `description2`},
+		"display_name":                           acctest.Representation{RepType: acctest.Optional, Create: `updated-name`, Update: `displayName2`},
+		"is_auto_purge_enabled":                  acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"can_update_last_archive_time_on_target": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"resume_trigger":                         acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `1`},
+		"state":                                  acctest.Representation{RepType: acctest.Optional, Create: `INACTIVE`, Update: `ACTIVE`},
 	}
-
 	auditTrailUpdateRepresentation = map[string]interface{}{
-		"audit_trail_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.trail_id}`},
-		"defined_tags":          acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":           acctest.Representation{RepType: acctest.Optional, Create: `updated-description`, Update: `description2`},
-		"display_name":          acctest.Representation{RepType: acctest.Optional, Create: `updated-name`, Update: `displayName2`},
-		"freeform_tags":         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"is_auto_purge_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"resume_trigger":        acctest.Representation{RepType: acctest.Optional, Create: `1`, Update: `1`},
-		"state":                 acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`, Update: `INACTIVE`},
-		"lifecycle":             acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreUpdateChangesRep},
+		"audit_trail_id":                         acctest.Representation{RepType: acctest.Required, Create: `${var.trail_id}`},
+		"defined_tags":                           acctest.Representation{RepType: acctest.Optional, Create: `${map("key", "value")}`, Update: `${map("updatedKey", "updatedValue")}`},
+		"description":                            acctest.Representation{RepType: acctest.Optional, Create: `updated-description`, Update: `description2`},
+		"display_name":                           acctest.Representation{RepType: acctest.Optional, Create: `updated-name`, Update: `displayName2`},
+		"freeform_tags":                          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_auto_purge_enabled":                  acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"can_update_last_archive_time_on_target": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"resume_trigger":                         acctest.Representation{RepType: acctest.Optional, Create: `1`, Update: `1`},
+		"state":                                  acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`, Update: `INACTIVE`},
+		"lifecycle":                              acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreUpdateChangesRep},
 	}
 
 	ignoreUpdateChangesRep = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `freeform_tags`}},
+	}
+
+	DataSafeAuditTrailRepresentation = map[string]interface{}{
+		"audit_trail_id":                         acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_audit_trail.test_audit_trail.id}`},
+		"can_update_last_archive_time_on_target": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"defined_tags":                           acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":                            acctest.Representation{RepType: acctest.Optional, Create: `updated-description`, Update: `description2`},
+		"display_name":                           acctest.Representation{RepType: acctest.Optional, Create: `updated-name`, Update: `displayName2`},
+		"freeform_tags":                          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_auto_purge_enabled":                  acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"resume_trigger":                         acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `1`},
+		"state":                                  acctest.Representation{RepType: acctest.Optional, Create: `INACTIVE`, Update: `ACTIVE`},
 	}
 
 	DataSafeAuditTrailResourceDependencies = DefinedTagsDependencies
@@ -140,6 +151,7 @@ func TestDataSafeAuditTrailResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "audit_profile_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "audit_trail_id"),
+				resource.TestCheckResourceAttr(resourceName, "can_update_last_archive_time_on_target", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -151,7 +163,7 @@ func TestDataSafeAuditTrailResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
 						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -168,6 +180,7 @@ func TestDataSafeAuditTrailResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "audit_profile_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "audit_trail_id"),
+				resource.TestCheckResourceAttr(resourceName, "can_update_last_archive_time_on_target", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -192,14 +205,13 @@ func TestDataSafeAuditTrailResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_trails", "test_audit_trails", acctest.Optional, acctest.Update, auditTrailDataSourceRepresentation) +
-				compartmentIdVariableStr + trailIdVariableStr + DataSafeAuditTrailResourceDependencies +
+				compartmentIdVariableStr + trailIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_trail", "test_audit_trail", acctest.Optional, acctest.Update, auditTrailUpdateRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "audit_trail_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-
 				resource.TestCheckResourceAttr(datasourceName, "audit_trail_collection.#", "1"),
 			),
 		},
@@ -213,6 +225,7 @@ func TestDataSafeAuditTrailResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "audit_collection_start_time"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "audit_profile_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "can_update_last_archive_time_on_target", "true"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),

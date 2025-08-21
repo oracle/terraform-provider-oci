@@ -139,7 +139,13 @@ func (s *DataSafeUserAssessmentDataSourceCrud) SetData() error {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}
 
+	if s.Res.TargetDatabaseGroupId != nil {
+		s.D.Set("target_database_group_id", *s.Res.TargetDatabaseGroupId)
+	}
+
 	s.D.Set("target_ids", s.Res.TargetIds)
+
+	s.D.Set("target_type", s.Res.TargetType)
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())

@@ -62,3 +62,8 @@ data "oci_data_safe_audit_policy" "test_audit_policy" {
   audit_policy_id           = oci_data_safe_audit_policy.test_audit_policy.id
 }
 
+data "oci_data_safe_audit_policies" "test_audit_policies" {
+  #Required
+  compartment_id = var.compartment_ocid
+}
+

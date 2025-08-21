@@ -34,6 +34,7 @@ The following attributes are exported:
 
 * `audit_collection_start_time` - The date from which the audit trail must start collecting data, in the format defined by RFC3339.
 * `audit_profile_id` - The OCID of the  parent audit.
+* `can_update_last_archive_time_on_target` - Indicates if the Datasafe updates last archive time on target database. If isAutoPurgeEnabled field is enabled, this field must be true. 
 * `compartment_id` - The OCID of the compartment that contains the audit trail and is the same as the compartment of the audit profile resource. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description of the audit trail.

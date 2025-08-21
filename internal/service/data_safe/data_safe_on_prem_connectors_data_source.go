@@ -38,7 +38,7 @@ func DataSafeOnPremConnectorsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"on_prem_connector_lifecycle_state": {
+			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -96,9 +96,9 @@ func (s *DataSafeOnPremConnectorsDataSourceCrud) Get() error {
 		request.OnPremConnectorId = &tmp
 	}
 
-	// if onPremConnectorLifecycleState, ok := s.D.GetOkExists("on_prem_connector_lifecycle_state"); ok {
-	// 	request.OnPremConnectorLifecycleState = oci_data_safe.ListOnPremConnectorsOnPremConnectorLifecycleStateEnum(onPremConnectorLifecycleState.(string))
-	// }
+	if state, ok := s.D.GetOkExists("state"); ok {
+		request.LifecycleState = oci_data_safe.ListOnPremConnectorsLifecycleStateEnum(state.(string))
+	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 

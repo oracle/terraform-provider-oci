@@ -494,7 +494,9 @@ func (s *DataSafeAuditPolicyManagementResourceCrud) SetData() error {
 }
 
 func (s *DataSafeAuditPolicyManagementResourceCrud) GetAuditPolicyWorkReq() error {
-	listWorkRequestsRequest := oci_data_safe.ListWorkRequestsRequest{SortBy: oci_data_safe.ListWorkRequestsSortByEnum("ACCEPTEDTIME"), SortOrder: oci_data_safe.ListWorkRequestsSortOrderEnum("ASC")}
+	var tmpTrue = true
+	listWorkRequestsRequest := oci_data_safe.ListWorkRequestsRequest{SortBy: oci_data_safe.ListWorkRequestsSortByEnum("ACCEPTEDTIME"), SortOrder: oci_data_safe.ListWorkRequestsSortOrderEnum("ASC"),
+		AccessLevel: oci_data_safe.ListWorkRequestsAccessLevelEnum("ACCESSIBLE"), CompartmentIdInSubtree: &tmpTrue}
 	var workId *string
 	tmp := "RETRIEVE_POLICY"
 	listWorkRequestsRequest.OperationType = &tmp

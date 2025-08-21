@@ -57,7 +57,15 @@ func DataSafeAuditProfilesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"target_database_group_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"target_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"target_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -147,9 +155,18 @@ func (s *DataSafeAuditProfilesDataSourceCrud) Get() error {
 		request.LifecycleState = oci_data_safe.ListAuditProfilesLifecycleStateEnum(state.(string))
 	}
 
+	if targetDatabaseGroupId, ok := s.D.GetOkExists("target_database_group_id"); ok {
+		tmp := targetDatabaseGroupId.(string)
+		request.TargetDatabaseGroupId = &tmp
+	}
+
 	if targetId, ok := s.D.GetOkExists("target_id"); ok {
 		tmp := targetId.(string)
 		request.TargetId = &tmp
+	}
+
+	if targetType, ok := s.D.GetOkExists("target_type"); ok {
+		request.TargetType = oci_data_safe.ListAuditProfilesTargetTypeEnum(targetType.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")

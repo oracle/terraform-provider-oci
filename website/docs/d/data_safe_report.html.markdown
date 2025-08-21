@@ -33,6 +33,7 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment containing the report.
+* `data_source` - Specifies the name of a resource that provides data for the report. For example alerts, events.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}` 
 * `description` - Specifies a description of the report.
 * `display_name` - Name of the report.
@@ -43,6 +44,8 @@ The following attributes are exported:
 * `report_definition_id` - The OCID of the report definition.
 * `state` - The current state of the audit report.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
+* `time_created` - Specifies the time at which the report was created.
 * `time_generated` - Specifies the date and time the report was generated.
+* `time_updated` - The date and time of the report update in Data Safe.
 * `type` - The type of the audit report.
 

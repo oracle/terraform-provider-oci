@@ -39,6 +39,11 @@ func DataSafeAuditTrailResource() *schema.Resource {
 			},
 
 			// Optional
+			"can_update_last_archive_time_on_target": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -311,6 +316,11 @@ func (s *DataSafeAuditTrailResourceCrud) Create() error {
 		request.AuditTrailId = &tmp
 	}
 
+	if canUpdateLastArchiveTimeOnTarget, ok := s.D.GetOkExists("can_update_last_archive_time_on_target"); ok {
+		tmp := canUpdateLastArchiveTimeOnTarget.(bool)
+		request.CanUpdateLastArchiveTimeOnTarget = &tmp
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -504,6 +514,11 @@ func (s *DataSafeAuditTrailResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.AuditTrailId = &tmp
 
+	if canUpdateLastArchiveTimeOnTarget, ok := s.D.GetOkExists("can_update_last_archive_time_on_target"); ok {
+		tmp := canUpdateLastArchiveTimeOnTarget.(bool)
+		request.CanUpdateLastArchiveTimeOnTarget = &tmp
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -569,6 +584,10 @@ func (s *DataSafeAuditTrailResourceCrud) SetData() error {
 
 	if s.Res.AuditProfileId != nil {
 		s.D.Set("audit_profile_id", *s.Res.AuditProfileId)
+	}
+
+	if s.Res.CanUpdateLastArchiveTimeOnTarget != nil {
+		s.D.Set("can_update_last_archive_time_on_target", *s.Res.CanUpdateLastArchiveTimeOnTarget)
 	}
 
 	if s.Res.CompartmentId != nil {
@@ -651,7 +670,7 @@ func (s *DataSafeAuditTrailResourceCrud) SetData() error {
 func (s *DataSafeAuditTrailResourceCrud) StartAuditTrail() error {
 	request := oci_data_safe.StartAuditTrailRequest{}
 
-	tmp, err := time.Parse(time.RFC3339, "2021-10-01T00:00:00.000Z")
+	tmp, err := time.Parse(time.RFC3339, "2025-06-01T00:00:00.000Z")
 	if err != nil {
 		return err
 	}
@@ -659,6 +678,11 @@ func (s *DataSafeAuditTrailResourceCrud) StartAuditTrail() error {
 
 	idTmp := s.D.Id()
 	request.AuditTrailId = &idTmp
+
+	if canUpdateLastArchiveTimeOnTarget, ok := s.D.GetOkExists("can_update_last_archive_time_on_target"); ok {
+		tmp := canUpdateLastArchiveTimeOnTarget.(bool)
+		request.CanUpdateLastArchiveTimeOnTarget = &tmp
+	}
 
 	if isAutoPurgeEnabled, ok := s.D.GetOkExists("is_auto_purge_enabled"); ok {
 		tmp := isAutoPurgeEnabled.(bool)

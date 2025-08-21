@@ -91,8 +91,21 @@ func DataSafeReportDefinitionResource() *schema.Resource {
 						},
 
 						// Optional
+						"applicable_operators": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 						"data_type": {
 							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"is_virtual": {
+							Type:     schema.TypeBool,
 							Optional: true,
 							Computed: true,
 						},
@@ -895,6 +908,24 @@ func ReportDefinitionSummaryToMap(obj oci_data_safe.ReportDefinitionSummary) map
 func (s *DataSafeReportDefinitionResourceCrud) mapTocolumn(fieldKeyFormat string) (oci_data_safe.Column, error) {
 	result := oci_data_safe.Column{}
 
+	if applicableOperators, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "applicable_operators")); ok {
+		interfaces := applicableOperators.([]interface{})
+		tmp := make([]oci_data_safe.ColumnApplicableOperatorsEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				switch v := interfaces[i].(type) {
+				case string:
+					tmp[i] = oci_data_safe.ColumnApplicableOperatorsEnum(v)
+				case oci_data_safe.ColumnApplicableOperatorsEnum:
+					tmp[i] = v
+				}
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "applicable_operators")) {
+			result.ApplicableOperators = tmp
+		}
+	}
+
 	if dataType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "data_type")); ok {
 		tmp := dataType.(string)
 		result.DataType = &tmp
@@ -920,11 +951,18 @@ func (s *DataSafeReportDefinitionResourceCrud) mapTocolumn(fieldKeyFormat string
 		result.IsHidden = &tmp
 	}
 
+	if isVirtual, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_virtual")); ok {
+		tmp := isVirtual.(bool)
+		result.IsVirtual = &tmp
+	}
+
 	return result, nil
 }
 
 func columnToMap(obj oci_data_safe.Column) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	result["applicable_operators"] = obj.ApplicableOperators
 
 	if obj.DataType != nil {
 		result["data_type"] = string(*obj.DataType)
@@ -944,6 +982,10 @@ func columnToMap(obj oci_data_safe.Column) map[string]interface{} {
 
 	if obj.IsHidden != nil {
 		result["is_hidden"] = bool(*obj.IsHidden)
+	}
+
+	if obj.IsVirtual != nil {
+		result["is_virtual"] = bool(*obj.IsVirtual)
 	}
 
 	return result

@@ -80,6 +80,12 @@ func DataSafeUserAssessmentResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"target_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"ignored_assessment_ids": {
@@ -141,6 +147,10 @@ func DataSafeUserAssessmentResource() *schema.Resource {
 				Type:     schema.TypeMap,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"target_database_group_id": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"target_ids": {
 				Type:     schema.TypeList,
@@ -286,6 +296,10 @@ func (s *DataSafeUserAssessmentResourceCrud) Create() error {
 		request.TargetId = &tmp
 	}
 
+	if targetType, ok := s.D.GetOkExists("target_type"); ok {
+		request.TargetType = oci_data_safe.UserAssessmentTargetTypeEnum(targetType.(string))
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
 	response, err := s.Client.CreateUserAssessment(context.Background(), request)
@@ -293,12 +307,15 @@ func (s *DataSafeUserAssessmentResourceCrud) Create() error {
 		return err
 	}
 
-	workId := response.OpcWorkRequestId
 	var identifier *string
 	identifier = response.Id
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
+	if request.TargetType == oci_data_safe.UserAssessmentTargetTypeTargetDatabaseGroup {
+		return s.Get()
+	}
+	workId := response.OpcWorkRequestId
 	return s.getUserAssessmentFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
@@ -583,7 +600,13 @@ func (s *DataSafeUserAssessmentResourceCrud) SetData() error {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}
 
+	if s.Res.TargetDatabaseGroupId != nil {
+		s.D.Set("target_database_group_id", *s.Res.TargetDatabaseGroupId)
+	}
+
 	s.D.Set("target_ids", s.Res.TargetIds)
+
+	s.D.Set("target_type", s.Res.TargetType)
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())

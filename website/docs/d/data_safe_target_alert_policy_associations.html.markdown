@@ -27,6 +27,7 @@ data "oci_data_safe_target_alert_policy_associations" "test_target_alert_policy_
 	state = var.target_alert_policy_association_state
 	target_alert_policy_association_id = oci_data_safe_target_alert_policy_association.test_target_alert_policy_association.id
 	target_id = oci_cloud_guard_target.test_target.id
+	target_type = var.target_alert_policy_association_target_type
 	time_created_greater_than_or_equal_to = var.target_alert_policy_association_time_created_greater_than_or_equal_to
 	time_created_less_than = var.target_alert_policy_association_time_created_less_than
 }
@@ -43,6 +44,7 @@ The following arguments are supported:
 * `state` - (Optional) An optional filter to return only alert policies that have the given life-cycle state.
 * `target_alert_policy_association_id` - (Optional) A filter to return only items related to a specific target-alert policy association ID.
 * `target_id` - (Optional) A filter to return only items related to a specific target OCID.
+* `target_type` - (Optional) A optional filter to return only resources that belong to the specified alert policy association type.
 * `time_created_greater_than_or_equal_to` - (Optional) A filter to return only the resources that were created after the specified date and time, as defined by [RFC3339](https://tools.ietf.org/html/rfc3339). Using TimeCreatedGreaterThanOrEqualToQueryParam parameter retrieves all resources created after that date.
 
   **Example:** 2016-12-19T16:39:57.600Z
@@ -71,7 +73,8 @@ The following attributes are exported:
 * `lifecycle_details` - Details about the current state of the target-alert policy association.
 * `policy_id` - The OCID of the alert policy.
 * `state` - The current state of the target-alert policy association.
-* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}`
+* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `target_id` - The OCID of the target on which alert policy is to be applied.
+* `target_type` - The resource type that is represented by the target alert policy association.
 * `time_created` - Creation date and time of the alert policy, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `time_updated` - Last date and time the alert policy was updated, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).

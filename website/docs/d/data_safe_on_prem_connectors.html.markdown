@@ -25,7 +25,7 @@ data "oci_data_safe_on_prem_connectors" "test_on_prem_connectors" {
 	compartment_id_in_subtree = var.on_prem_connector_compartment_id_in_subtree
 	display_name = var.on_prem_connector_display_name
 	on_prem_connector_id = oci_data_safe_on_prem_connector.test_on_prem_connector.id
-	on_prem_connector_lifecycle_state = var.on_prem_connector_on_prem_connector_lifecycle_state
+	state = var.on_prem_connector_state
 }
 ```
 
@@ -38,7 +38,7 @@ The following arguments are supported:
 * `compartment_id_in_subtree` - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting. 
 * `display_name` - (Optional) A filter to return only resources that match the specified display name. 
 * `on_prem_connector_id` - (Optional) A filter to return only the on-premises connector that matches the specified id.
-* `on_prem_connector_lifecycle_state` - (Optional) A filter to return only on-premises connector resources that match the specified lifecycle state.
+* `state` - (Optional) A filter to return only on-premises connector resources that match the specified lifecycle state.
 
 
 ## Attributes Reference

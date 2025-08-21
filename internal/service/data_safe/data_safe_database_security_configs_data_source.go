@@ -44,6 +44,10 @@ func DataSafeDatabaseSecurityConfigsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"target_database_group_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"target_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -121,6 +125,11 @@ func (s *DataSafeDatabaseSecurityConfigsDataSourceCrud) Get() error {
 
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_data_safe.ListDatabaseSecurityConfigsLifecycleStateEnum(state.(string))
+	}
+
+	if targetDatabaseGroupId, ok := s.D.GetOkExists("target_database_group_id"); ok {
+		tmp := targetDatabaseGroupId.(string)
+		request.TargetDatabaseGroupId = &tmp
 	}
 
 	if targetId, ok := s.D.GetOkExists("target_id"); ok {

@@ -39,7 +39,15 @@ func DataSafeDiscoveryAnalyticsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"sensitive_type_group_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"sensitive_type_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"target_database_group_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -100,6 +108,10 @@ func DataSafeDiscoveryAnalyticsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"time_last_discovered": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 								},
 							},
 						},
@@ -155,9 +167,19 @@ func (s *DataSafeDiscoveryAnalyticsDataSourceCrud) Get() error {
 		request.SensitiveDataModelId = &tmp
 	}
 
+	if sensitiveTypeGroupId, ok := s.D.GetOkExists("sensitive_type_group_id"); ok {
+		tmp := sensitiveTypeGroupId.(string)
+		request.SensitiveTypeGroupId = &tmp
+	}
+
 	if sensitiveTypeId, ok := s.D.GetOkExists("sensitive_type_id"); ok {
 		tmp := sensitiveTypeId.(string)
 		request.SensitiveTypeId = &tmp
+	}
+
+	if targetDatabaseGroupId, ok := s.D.GetOkExists("target_database_group_id"); ok {
+		tmp := targetDatabaseGroupId.(string)
+		request.TargetDatabaseGroupId = &tmp
 	}
 
 	if targetId, ok := s.D.GetOkExists("target_id"); ok {
@@ -276,6 +298,10 @@ func DiscoveryAnalyticsSummaryToMap(obj oci_data_safe.DiscoveryAnalyticsSummary)
 	}
 
 	result["metric_name"] = string(obj.MetricName)
+
+	if obj.TimeLastDiscovered != nil {
+		result["time_last_discovered"] = obj.TimeLastDiscovered.String()
+	}
 
 	return result
 }

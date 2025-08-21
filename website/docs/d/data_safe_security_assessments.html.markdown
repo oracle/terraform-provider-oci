@@ -42,7 +42,10 @@ data "oci_data_safe_security_assessments" "test_security_assessments" {
 	is_schedule_assessment = var.security_assessment_is_schedule_assessment
 	schedule_assessment_id = oci_data_safe_schedule_assessment.test_schedule_assessment.id
 	state = var.security_assessment_state
+	target_database_group_id = oci_data_safe_target_database_group.test_target_database_group.id
 	target_id = oci_cloud_guard_target.test_target.id
+	target_type = var.security_assessment_target_type
+	template_assessment_id = oci_data_safe_template_assessment.test_template_assessment.id
 	time_created_greater_than_or_equal_to = var.security_assessment_time_created_greater_than_or_equal_to
 	time_created_less_than = var.security_assessment_time_created_less_than
 	triggered_by = var.security_assessment_triggered_by
@@ -62,7 +65,10 @@ The following arguments are supported:
 * `is_schedule_assessment` - (Optional) A filter to return only security assessments of type save schedule. 
 * `schedule_assessment_id` - (Optional) The OCID of the security assessment of type SAVE_SCHEDULE.
 * `state` - (Optional) A filter to return only resources that match the specified lifecycle state.
+* `target_database_group_id` - (Optional) A filter to return the target database group that matches the specified OCID.
 * `target_id` - (Optional) A filter to return only items related to a specific target OCID.
+* `target_type` - (Optional) A filter to return only only target database resources or target database group resources.
+* `template_assessment_id` - (Optional) The OCID of the security assessment of type TEMPLATE.
 * `time_created_greater_than_or_equal_to` - (Optional) A filter to return only the resources that were created after the specified date and time, as defined by [RFC3339](https://tools.ietf.org/html/rfc3339). Using TimeCreatedGreaterThanOrEqualToQueryParam parameter retrieves all resources created after that date.
 
 	**Example:** 2016-12-19T16:39:57.600Z 
@@ -83,6 +89,19 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `baseline_assessment_id` - The ocid of a security assessment which is of type TEMPLATE_BASELINE, this will be null or empty when type is TEMPLATE_BASELINE.
+* `checks` - The security checks to be evaluated for type template.
+	* `category` - The category to which the check belongs to.
+	* `key` - A unique identifier for the check.
+	* `oneline` - Provides a recommended approach to take to remediate the check reported.
+	* `references` - Provides information on whether the check is related to a CIS Oracle Database Benchmark recommendation, STIG rule, GDPR Article/Recital or related to the Oracle Best Practice.
+		* `cis` - Relevant section from CIS.
+		* `gdpr` - Relevant section from GDPR.
+		* `obp` - Relevant section from OBP.
+		* `stig` - Relevant section from STIG.
+	* `remarks` - The explanation of the issue in this check. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
+	* `suggested_severity` - The severity of the check as suggested by Data Safe security assessment. This will be the default severity in the template baseline security assessment.
+	* `title` - The short title for the check.
 * `compartment_id` - The OCID of the compartment that contains the security assessment.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description of the security assessment.
@@ -170,13 +189,16 @@ The following attributes are exported:
 		* `user_accounts_findings_count` - The number of findings in the User Accounts category.
 	* `targets_count` - The total number of targets in this security assessment.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
+* `target_database_group_id` - The OCID of the target database group that the group assessment is created for.
 * `target_ids` - Array of database target OCIDs.
+* `target_type` - Indicates whether the security assessment is for a target database or a target database group.
 * `target_version` - The version of the target database.
+* `template_assessment_id` - The ocid of a security assessment which is of type TEMPLATE, this will be null or empty when type is TEMPLATE.
 * `time_created` - The date and time the security assessment was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `time_last_assessed` - The date and time the security assessment was last executed, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `time_updated` - The date and time the security assessment was last updated, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `triggered_by` - Indicates whether the security assessment was created by system or by a user.
-* `type` - The type of this security assessment. The possible types are:
+* `type` - The type of the security assessment. Possible values are:
 
-	LATEST: The most up-to-date assessment that is running automatically for a target. It is system generated. SAVED: A saved security assessment. LATEST assessments are always saved in order to maintain the history of runs. A SAVED assessment is also generated by a 'refresh' action (triggered by the user). SAVE_SCHEDULE: The schedule for periodic saves of LATEST assessments. COMPARTMENT: An automatically managed assessment type that stores all details of targets in one compartment. This type keeps an up-to-date assessment of all database risks in one compartment. It is automatically updated when the latest assessment or refresh action is executed. It is also automatically updated when a target is deleted or move to a different compartment. 
+	LATEST: The most up-to-date assessment that is running automatically for a target. It is system generated. SAVED: A saved security assessment. LATEST assessments are always saved in order to maintain the history of runs. A SAVED assessment is also generated by a 'refresh' action (triggered by the user). SAVE_SCHEDULE: The schedule for periodic saves of LATEST assessments. TEMPLATE: The security assessment contains the checks that the user would like to run. It is user defined. TEMPLATE_BASELINE: The security assessment contains the checks that the user would like to run, together with the max allowed severity. The max allowed severity can be defined by the user. COMPARTMENT: An automatically managed assessment type that stores all details of targets in one compartment. This type keeps an up-to-date assessment of all database risks in one compartment. It is automatically updated when the latest assessment or refresh action is executed. It is also automatically updated when a target is deleted or move to a different compartment. 
 

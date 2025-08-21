@@ -54,7 +54,15 @@ func DataSafeUserAssessmentsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"target_database_group_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"target_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"target_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -162,9 +170,18 @@ func (s *DataSafeUserAssessmentsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_data_safe.ListUserAssessmentsLifecycleStateEnum(state.(string))
 	}
 
+	if targetDatabaseGroupId, ok := s.D.GetOkExists("target_database_group_id"); ok {
+		tmp := targetDatabaseGroupId.(string)
+		request.TargetDatabaseGroupId = &tmp
+	}
+
 	if targetId, ok := s.D.GetOkExists("target_id"); ok {
 		tmp := targetId.(string)
 		request.TargetId = &tmp
+	}
+
+	if targetType, ok := s.D.GetOkExists("target_type"); ok {
+		request.TargetType = oci_data_safe.ListUserAssessmentsTargetTypeEnum(targetType.(string))
 	}
 
 	if timeCreatedGreaterThanOrEqualTo, ok := s.D.GetOkExists("time_created_greater_than_or_equal_to"); ok {
@@ -317,7 +334,13 @@ func (s *DataSafeUserAssessmentsDataSourceCrud) SetData() error {
 
 		userAssessment["statistics"] = statDetails
 
+		if r.TargetDatabaseGroupId != nil {
+			userAssessment["target_database_group_id"] = *r.TargetDatabaseGroupId
+		}
+
 		userAssessment["target_ids"] = r.TargetIds
+
+		userAssessment["target_type"] = r.TargetType
 
 		if r.TimeCreated != nil {
 			userAssessment["time_created"] = r.TimeCreated.String()

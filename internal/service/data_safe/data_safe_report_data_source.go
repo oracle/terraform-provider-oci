@@ -70,6 +70,8 @@ func (s *DataSafeReportDataSourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	s.D.Set("data_source", s.Res.DataSource)
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
@@ -100,8 +102,16 @@ func (s *DataSafeReportDataSourceCrud) SetData() error {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}
 
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
 	if s.Res.TimeGenerated != nil {
 		s.D.Set("time_generated", s.Res.TimeGenerated.String())
+	}
+
+	if s.Res.TimeUpdated != nil {
+		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
 
 	s.D.Set("type", s.Res.Type)

@@ -38,6 +38,7 @@ data "oci_data_safe_security_policies" "test_security_policies" {
 	compartment_id_in_subtree = var.security_policy_compartment_id_in_subtree
 	display_name = var.security_policy_display_name
 	security_policy_id = oci_data_safe_security_policy.test_security_policy.id
+	security_policy_type = var.security_policy_security_policy_type
 	state = var.security_policy_state
 }
 ```
@@ -51,6 +52,7 @@ The following arguments are supported:
 * `compartment_id_in_subtree` - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting. 
 * `display_name` - (Optional) A filter to return only resources that match the specified display name. 
 * `security_policy_id` - (Optional) An optional filter to return only resources that match the specified OCID of the security policy resource.
+* `security_policy_type` - (Optional) The type of the security policy.
 * `state` - (Optional) The current state of the security policy.
 
 
@@ -71,6 +73,7 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the security policy.
 * `lifecycle_details` - Details about the current state of the security policy in Data Safe.
+* `security_policy_type` - The type of the security policy.
 * `state` - The current state of the security policy.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time that the security policy was created, in the format defined by RFC3339.

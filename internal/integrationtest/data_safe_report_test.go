@@ -24,9 +24,10 @@ var (
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `RESTRICTED`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"data_source":               acctest.Representation{RepType: acctest.Optional, Create: `EVENTS`},
 		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
 		"mime_type":                 acctest.Representation{RepType: acctest.Optional, Create: `PDF`},
-		"report_definition_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_data_safe_report_definition.test_report_definition.id}`},
+		"report_definition_id":      acctest.Representation{RepType: acctest.Optional, Create: `${var.report_ocid}`},
 		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 		"time_generated_greater_than_or_equal_to": acctest.Representation{RepType: acctest.Optional, Create: `timeGeneratedGreaterThanOrEqualTo`},
 		"time_generated_less_than":                acctest.Representation{RepType: acctest.Optional, Create: `timeGeneratedLessThan`},
@@ -34,7 +35,7 @@ var (
 	}
 
 	DataSafeReportRepresentation = map[string]interface{}{
-		"report_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_report.test_report.id}`},
+		"report_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.rep_identifier}`},
 		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}

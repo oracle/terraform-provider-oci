@@ -6,8 +6,14 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
-variable "compartment_ocid" {}
-variable "target_id" {}
+variable "compartment_ocid" {
+  type    = string
+  default = "<ocid>"
+}
+variable "target_ocid" {
+  type    = string
+  default = "<ocid>"
+}
 
 variable "audit_trail_access_level" {
   default = "RESTRICTED"
@@ -62,7 +68,7 @@ provider "oci" {
 resource "oci_data_safe_audit_trail_management" "test_audit_trail_management" {
   #Required
   compartment_id = var.compartment_ocid
-  target_id = var.target_id
+  target_id = var.target_ocid
 
   #Optional
   description           = var.audit_trail_description

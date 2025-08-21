@@ -38,6 +38,10 @@ func DataSafeSecurityPoliciesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"security_policy_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -103,6 +107,10 @@ func (s *DataSafeSecurityPoliciesDataSourceCrud) Get() error {
 	if securityPolicyId, ok := s.D.GetOkExists("security_policy_id"); ok {
 		tmp := securityPolicyId.(string)
 		request.SecurityPolicyId = &tmp
+	}
+
+	if securityPolicyType, ok := s.D.GetOkExists("security_policy_type"); ok {
+		request.SecurityPolicyType = oci_data_safe.SecurityPolicySecurityPolicyTypeEnum(securityPolicyType.(string))
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {

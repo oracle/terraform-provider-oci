@@ -26,8 +26,11 @@ func DataSafeAuditTrailManagementResource() *schema.Resource {
 		Update:   updateDataSafeAuditTrailManagement,
 		Delete:   deleteDataSafeAuditTrailManagement,
 		Schema: map[string]*schema.Schema{
-
-			// Optional
+			"can_update_last_archive_time_on_target": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -221,6 +224,11 @@ func (s *DataSafeAuditTrailManagementResourceCrud) StartAuditTrail() error {
 	idTmp := s.D.Id()
 	request.AuditTrailId = &idTmp
 
+	if canUpdateLastArchiveTimeOnTarget, ok := s.D.GetOkExists("can_update_last_archive_time_on_target"); ok {
+		tmp := canUpdateLastArchiveTimeOnTarget.(bool)
+		request.CanUpdateLastArchiveTimeOnTarget = &tmp
+	}
+
 	if auditCollectionStartTime, ok := s.D.GetOkExists("audit_collection_start_time"); ok {
 		tmp, err := time.Parse(time.RFC3339, auditCollectionStartTime.(string))
 		if err != nil {
@@ -380,6 +388,11 @@ func (s *DataSafeAuditTrailManagementResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.AuditTrailId = &tmp
 
+	if canUpdateLastArchiveTimeOnTarget, ok := s.D.GetOkExists("can_update_last_archive_time_on_target"); ok {
+		tmp := canUpdateLastArchiveTimeOnTarget.(bool)
+		request.CanUpdateLastArchiveTimeOnTarget = &tmp
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -445,6 +458,10 @@ func (s *DataSafeAuditTrailManagementResourceCrud) SetData() error {
 
 	if s.Res.AuditProfileId != nil {
 		s.D.Set("audit_profile_id", *s.Res.AuditProfileId)
+	}
+
+	if s.Res.CanUpdateLastArchiveTimeOnTarget != nil {
+		s.D.Set("can_update_last_archive_time_on_target", *s.Res.CanUpdateLastArchiveTimeOnTarget)
 	}
 
 	if s.Res.CompartmentId != nil {

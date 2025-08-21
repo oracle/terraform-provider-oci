@@ -39,6 +39,7 @@ data "oci_data_safe_sensitive_column_analytics" "test_sensitive_column_analytics
 	sensitive_data_model_id = oci_data_safe_sensitive_data_model.test_sensitive_data_model.id
 	sensitive_type_group_id = oci_data_safe_sensitive_type_group.test_sensitive_type_group.id
 	sensitive_type_id = oci_data_safe_sensitive_type.test_sensitive_type.id
+	target_database_group_id = oci_data_safe_target_database_group.test_target_database_group.id
 	target_id = oci_cloud_guard_target.test_target.id
 }
 ```
@@ -57,6 +58,7 @@ The following arguments are supported:
 * `sensitive_data_model_id` - (Optional) A filter to return only the resources that match the specified sensitive data model OCID.
 * `sensitive_type_group_id` - (Optional) An optional filter to return only resources that match the specified OCID of the sensitive type group resource.
 * `sensitive_type_id` - (Optional) A filter to return only the sensitive columns that are associated with one of the sensitive types identified by the specified OCIDs.
+* `target_database_group_id` - (Optional) A filter to return the target database group that matches the specified OCID.
 * `target_id` - (Optional) A filter to return only items related to a specific target OCID.
 
 

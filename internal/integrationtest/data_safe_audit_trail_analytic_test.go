@@ -20,8 +20,8 @@ var (
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `RESTRICTED`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"group_by":                  acctest.Representation{RepType: acctest.Optional, Create: []string{`groupBy`}},
-		"target_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_cloud_guard_target.test_target.id}`},
+		"group_by":                  acctest.Representation{RepType: acctest.Optional, Create: []string{`lifecycleState`}},
+		"target_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${var.target_ocid}`},
 	}
 )
 
@@ -35,6 +35,9 @@ func TestDataSafeAuditTrailAnalyticResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	targetOcid := utils.GetEnvSettingWithBlankDefault("target_ocid")
+	targetOcidVariableStr := fmt.Sprintf("variable \"target_ocid\" { default = \"%s\" }\n", targetOcid)
+
 	singularDatasourceName := "data.oci_data_safe_audit_trail_analytic.test_audit_trail_analytic"
 
 	acctest.SaveConfigContent("", "", "", t)
@@ -43,8 +46,8 @@ func TestDataSafeAuditTrailAnalyticResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_trail_analytic", "test_audit_trail_analytic", acctest.Required, acctest.Create, DataSafeauditTrailAnalyticSingularDataSourceRepresentation) +
-				compartmentIdVariableStr,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_trail_analytic", "test_audit_trail_analytic", acctest.Optional, acctest.Create, DataSafeauditTrailAnalyticSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + targetOcidVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "items.#"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "items.0.count.#", "0"),

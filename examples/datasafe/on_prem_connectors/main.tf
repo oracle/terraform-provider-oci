@@ -33,7 +33,7 @@ variable "on_prem_connector_freeform_tags" {
   default = { "Department" = "Finance" }
 }
 
-variable "on_prem_connector_on_prem_connector_lifecycle_state" {
+variable "state" {
   default = "INACTIVE"
 }
 
@@ -56,5 +56,5 @@ data "oci_data_safe_on_prem_connectors" "test_on_prem_connectors" {
   compartment_id = var.compartment_id
   display_name = var.on_prem_connector_display_name
   on_prem_connector_id = oci_data_safe_on_prem_connector.test_on_prem_connector.id
-  on_prem_connector_lifecycle_state = var.on_prem_connector_on_prem_connector_lifecycle_state
+  state = var.state
 }

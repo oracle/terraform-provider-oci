@@ -16,14 +16,14 @@ import (
 )
 
 var (
-	DataSafemaskingAnalyticSingularDataSourceRepresentation = map[string]interface{}{
+	DataSafemaskingAnalyticDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"group_by":                  acctest.Representation{RepType: acctest.Optional, Create: `targetId`},
-	}
-
-	DataSafemaskingAnalyticDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"masking_policy_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_data_safe_masking_policy.test_masking_policy.id}`},
+		"sensitive_type_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_data_safe_sensitive_type.test_sensitive_type.id}`},
+		"target_database_group_id":  acctest.Representation{RepType: acctest.Optional, Create: `${oci_data_safe_target_database_group.test_target_database_group.id}`},
+		"target_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_cloud_guard_target.test_target.id}`},
 	}
 
 	DataSafeMaskingAnalyticResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_masking_analytics", "test_masking_analytics", acctest.Required, acctest.Create, DataSafemaskingAnalyticDataSourceRepresentation)

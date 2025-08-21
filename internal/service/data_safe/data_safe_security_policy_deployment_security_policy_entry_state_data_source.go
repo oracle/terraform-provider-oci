@@ -30,6 +30,10 @@ func DataSafeSecurityPolicyDeploymentSecurityPolicyEntryStateDataSource() *schem
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"deployment_status_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"entry_details": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -40,7 +44,15 @@ func DataSafeSecurityPolicyDeploymentSecurityPolicyEntryStateDataSource() *schem
 						// Optional
 
 						// Computed
+						"datasafe_user_exclusion_status": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"entry_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"exclude_datasafe_user_failure_msg": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -55,7 +67,15 @@ func DataSafeSecurityPolicyDeploymentSecurityPolicyEntryStateDataSource() *schem
 					},
 				},
 			},
+			"entry_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"security_policy_entry_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"target_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -114,6 +134,10 @@ func (s *DataSafeSecurityPolicyDeploymentSecurityPolicyEntryStateDataSourceCrud)
 
 	s.D.Set("deployment_status", s.Res.DeploymentStatus)
 
+	if s.Res.DeploymentStatusDetails != nil {
+		s.D.Set("deployment_status_details", *s.Res.DeploymentStatusDetails)
+	}
+
 	if s.Res.EntryDetails != nil {
 		entryDetailsArray := []interface{}{}
 		if entryDetailsMap := EntryDetailsToMap(&s.Res.EntryDetails); entryDetailsMap != nil {
@@ -124,8 +148,14 @@ func (s *DataSafeSecurityPolicyDeploymentSecurityPolicyEntryStateDataSourceCrud)
 		s.D.Set("entry_details", nil)
 	}
 
+	s.D.Set("entry_type", s.Res.EntryType)
+
 	if s.Res.SecurityPolicyEntryId != nil {
 		s.D.Set("security_policy_entry_id", *s.Res.SecurityPolicyEntryId)
+	}
+
+	if s.Res.TargetId != nil {
+		s.D.Set("target_id", *s.Res.TargetId)
 	}
 
 	return nil

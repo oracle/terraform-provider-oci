@@ -10,9 +10,10 @@ import (
 	"testing"
 	"time"
 
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
@@ -48,39 +49,17 @@ var (
 
 	targetDatabaseRepresentation = map[string]interface{}{
 		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"database_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: targetDatabaseDatabaseDetailsRepresentation},
+		"database_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: DataSafeTargetDatabaseDatabaseDetailsRepresentation},
 		"description":      acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":     acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
-		"lifecycle":        acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreTargetDatabaseRep},
 	}
-	targetDatabaseDatabaseDetailsRepresentation = map[string]interface{}{
-		"database_type":          acctest.Representation{RepType: acctest.Required, Create: `AUTONOMOUS_DATABASE`, Update: `AUTONOMOUS_DATABASE`},
-		"autonomous_database_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_database.test_autonomous_database.id}`},
-		"infrastructure_type":    acctest.Representation{RepType: acctest.Required, Create: `ORACLE_CLOUD`, Update: `ORACLE_CLOUD`},
-	}
-	targetDatabaseConnectionOptionRepresentation = map[string]interface{}{
-		"connection_type":              acctest.Representation{RepType: acctest.Required, Create: `PRIVATE_ENDPOINT`, Update: `PRIVATE_ENDPOINT`},
-		"datasafe_private_endpoint_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_data_safe_data_safe_private_endpoint.test_data_safe_private_endpoint.id}`},
-	}
-	targetDatabaseCredentialsRepresentation = map[string]interface{}{
-		"password":  acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`, Update: `BEstrO0ng_#12`},
-		"user_name": acctest.Representation{RepType: acctest.Required, Create: `ADMIN`},
-	}
-	targetDatabaseTlsConfigRepresentation = map[string]interface{}{
-		"status":                 acctest.Representation{RepType: acctest.Required, Create: `ENABLED`, Update: `DISABLED`},
-		"certificate_store_type": acctest.Representation{RepType: acctest.Optional, Create: `JKS`},
-		"key_store_content":      acctest.Representation{RepType: acctest.Optional, Create: `keyStoreContent`, Update: `keyStoreContent2`},
-		"store_password":         acctest.Representation{RepType: acctest.Optional, Create: `storePassword`, Update: `storePassword2`},
-		"trust_store_content":    acctest.Representation{RepType: acctest.Optional, Create: `trustStoreContent`, Update: `trustStoreContent2`},
+	DataSafeTargetDatabaseDatabaseDetailsRepresentation = map[string]interface{}{
+		"database_type":          acctest.Representation{RepType: acctest.Required, Create: `AUTONOMOUS_DATABASE`},
+		"infrastructure_type":    acctest.Representation{RepType: acctest.Required, Create: `ORACLE_CLOUD`},
+		"autonomous_database_id": acctest.Representation{RepType: acctest.Required, Create: `${var.autonomous_database_id}`},
 	}
 
-	DataSafeTargetDatabaseResourceDependencies = utils.OciImageIdsVariable +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create, DatabaseAutonomousDatabaseRepresentation) +
-		DefinedTagsDependencies
-
-	ignoreTargetDatabaseRep = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `freeform_tags`}},
-	}
+	DataSafeTargetDatabaseResourceDependencies = ""
 )
 
 // issue-routing-tag: data_safe/default
@@ -97,6 +76,9 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
+	autonomousDatabaseId := utils.GetEnvSettingWithBlankDefault("autonomous_db_id")
+	autonomousDatabaseIdvariablestr := fmt.Sprintf("variable \"autonomous_database_id\" { default = \"%s\" }\n", autonomousDatabaseId)
+
 	resourceName := "oci_data_safe_target_database.test_target_database"
 	datasourceName := "data.oci_data_safe_target_databases.test_target_databases"
 	singularDatasourceName := "data.oci_data_safe_target_database.test_target_database"
@@ -110,7 +92,7 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DataSafeTargetDatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", acctest.Required, acctest.Create, targetDatabaseRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", acctest.Required, acctest.Create, targetDatabaseRepresentation) + autonomousDatabaseIdvariablestr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "database_details.#", "1"),
@@ -131,18 +113,13 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + DataSafeTargetDatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", acctest.Optional, acctest.Create, targetDatabaseRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", acctest.Optional, acctest.Create, targetDatabaseRepresentation) + autonomousDatabaseIdvariablestr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "database_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "database_details.0.database_type", "AUTONOMOUS_DATABASE"),
 				resource.TestCheckResourceAttrSet(resourceName, "database_details.0.autonomous_database_id"),
 				resource.TestCheckResourceAttr(resourceName, "database_details.0.infrastructure_type", "ORACLE_CLOUD"),
-				resource.TestCheckResourceAttr(resourceName, "description", "description"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -162,7 +139,7 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(targetDatabaseRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
-					})),
+					})) + autonomousDatabaseIdvariablestr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "database_details.#", "1"),
@@ -172,8 +149,6 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -188,18 +163,14 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DataSafeTargetDatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", acctest.Optional, acctest.Update, targetDatabaseRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", acctest.Optional, acctest.Update, targetDatabaseRepresentation) + autonomousDatabaseIdvariablestr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "database_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "database_details.0.database_type", "AUTONOMOUS_DATABASE"),
-				resource.TestCheckResourceAttrSet(resourceName, "database_details.0.autonomous_database_id"),
 				resource.TestCheckResourceAttr(resourceName, "database_details.0.infrastructure_type", "ORACLE_CLOUD"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -215,12 +186,11 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_target_databases", "test_target_databases", acctest.Optional, acctest.Update, DataSafetargetDatabaseDataSourceRepresentation) +
 				compartmentIdVariableStr + DataSafeTargetDatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", acctest.Optional, acctest.Update, targetDatabaseRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", acctest.Optional, acctest.Update, targetDatabaseRepresentation) + autonomousDatabaseIdvariablestr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "target_database_id"),
-
 				resource.TestCheckResourceAttr(datasourceName, "target_databases.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "target_databases.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "target_databases.0.description", "description2"),
@@ -234,7 +204,7 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", acctest.Required, acctest.Create, DataSafetargetDatabaseSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + DataSafeTargetDatabaseResourceConfig,
+				compartmentIdVariableStr + DataSafeTargetDatabaseResourceConfig + autonomousDatabaseIdvariablestr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_database_id"),
 
@@ -244,7 +214,6 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "database_details.0.infrastructure_type", "ORACLE_CLOUD"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),

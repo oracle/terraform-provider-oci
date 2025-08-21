@@ -32,6 +32,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `automatic_undeploy` - Indicates whether the security policy will be un-deployed when a target is removed from a target group.
 * `compartment_id` - The OCID of the compartment containing the security policy deployment.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description of the security policy deployment.
@@ -42,7 +43,9 @@ The following attributes are exported:
 * `security_policy_id` - The OCID of the security policy corresponding to the security policy deployment.
 * `state` - The current state of the security policy deployment.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
-* `target_id` - The OCID of the target where the security policy is deployed.
+* `target_id` - The OCID of the target/target group where the security policy is deployed.
+* `target_type` - Indicates whether the security policy deployment is for a target database or a target database group.
 * `time_created` - The time that the security policy deployment was created, in the format defined by RFC3339.
+* `time_deployed` - The last date and time the security policy was deployed, in the format defined by RFC3339.
 * `time_updated` - The last date and time the security policy deployment was updated, in the format defined by RFC3339.
 

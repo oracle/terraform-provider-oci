@@ -23,6 +23,7 @@ resource "oci_data_safe_security_assessment" "test_security_assessment" {
 	compartment_id = var.compartment_id
 
 	#Optional
+	base_security_assessment_id = oci_data_safe_security_assessment.test_security_assessment.id
 	defined_tags = {"Operations.CostCenter"= "42"}
 	description = var.security_assessment_description
 	display_name = var.security_assessment_display_name
@@ -30,6 +31,9 @@ resource "oci_data_safe_security_assessment" "test_security_assessment" {
 	is_assessment_scheduled = var.security_assessment_is_assessment_scheduled
 	schedule = var.security_assessment_schedule
 	target_id = oci_cloud_guard_target.test_target.id
+	target_type = var.security_assessment_target_type
+	template_assessment_id = oci_data_safe_template_assessment.test_template_assessment.id
+	type = var.security_assessment_type
 }
 ```
 
@@ -37,6 +41,7 @@ resource "oci_data_safe_security_assessment" "test_security_assessment" {
 
 The following arguments are supported:
 
+* `base_security_assessment_id` - (Optional) The OCID of the security assessment. The assessment should be of type SAVED.  It will be required while creating the template baseline assessment for individual targets to fetch the detailed information from an existing security assessment. 
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment that contains the security assessment.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Optional) (Updatable) Description of the security assessment.
@@ -46,7 +51,13 @@ The following arguments are supported:
 * `schedule` - (Optional) (Updatable) To schedule the assessment for running periodically, specify the schedule in this attribute. Create or schedule one assessment per compartment. If not defined, the assessment runs immediately. Format - <version-string>;<version-specific-schedule>
 
 	Allowed version strings - "v1" v1's version specific schedule -<ss> <mm> <hh> <day-of-week> <day-of-month> Each of the above fields potentially introduce constraints. A workrequest is created only when clock time satisfies all the constraints. Constraints introduced: 1. seconds = <ss> (So, the allowed range for <ss> is [0, 59]) 2. minutes = <mm> (So, the allowed range for <mm> is [0, 59]) 3. hours = <hh> (So, the allowed range for <hh> is [0, 23]) <day-of-week> can be either '*' (without quotes or a number between 1(Monday) and 7(Sunday)) 4. No constraint introduced when it is '*'. When not, day of week must equal the given value <day-of-month> can be either '*' (without quotes or a number between 1 and 28) 5. No constraint introduced when it is '*'. When not, day of month must equal the given value 
-* `target_id` - (Optional) The OCID of the target database on which security assessment is to be run.
+* `target_id` - (Optional) The OCID of the target database or target database group on which security assessment is to be run.
+* `target_type` - (Optional) The type of security assessment resource whether it is individual or group resource. For individual target use type TARGET_DATABASE and for group resource use type TARGET_DATABASE_GROUP. If not provided, TARGET_DATABASE would be used as default value.
+* `template_assessment_id` - (Optional) The OCID of the template assessment. It will be required while creating the template baseline assessment.
+* `type` - (Optional) The type of the security assessment
+* `apply_template_trigger` - (Optional) (Updatable) An optional property when incremented triggers Apply Template. Could be set to any integer value.
+* `compare_to_template_baseline_trigger` - (Optional) (Updatable) An optional property when incremented triggers Compare To Template Baseline. Could be set to any integer value.
+* `remove_template_trigger` - (Optional) (Updatable) An optional property when incremented triggers Remove Template. Could be set to any integer value.
 
 
 ** IMPORTANT **
@@ -56,6 +67,19 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `baseline_assessment_id` - The ocid of a security assessment which is of type TEMPLATE_BASELINE, this will be null or empty when type is TEMPLATE_BASELINE.
+* `checks` - The security checks to be evaluated for type template.
+	* `category` - The category to which the check belongs to.
+	* `key` - A unique identifier for the check.
+	* `oneline` - Provides a recommended approach to take to remediate the check reported.
+	* `references` - Provides information on whether the check is related to a CIS Oracle Database Benchmark recommendation, STIG rule, GDPR Article/Recital or related to the Oracle Best Practice.
+		* `cis` - Relevant section from CIS.
+		* `gdpr` - Relevant section from GDPR.
+		* `obp` - Relevant section from OBP.
+		* `stig` - Relevant section from STIG.
+	* `remarks` - The explanation of the issue in this check. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
+	* `suggested_severity` - The severity of the check as suggested by Data Safe security assessment. This will be the default severity in the template baseline security assessment.
+	* `title` - The short title for the check.
 * `compartment_id` - The OCID of the compartment that contains the security assessment.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description of the security assessment.
@@ -143,15 +167,18 @@ The following attributes are exported:
 		* `user_accounts_findings_count` - The number of findings in the User Accounts category.
 	* `targets_count` - The total number of targets in this security assessment.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
+* `target_database_group_id` - The OCID of the target database group that the group assessment is created for.
 * `target_ids` - Array of database target OCIDs.
+* `target_type` - Indicates whether the security assessment is for a target database or a target database group.
 * `target_version` - The version of the target database.
+* `template_assessment_id` - The ocid of a security assessment which is of type TEMPLATE, this will be null or empty when type is TEMPLATE.
 * `time_created` - The date and time the security assessment was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `time_last_assessed` - The date and time the security assessment was last executed, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `time_updated` - The date and time the security assessment was last updated, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `triggered_by` - Indicates whether the security assessment was created by system or by a user.
-* `type` - The type of this security assessment. The possible types are:
+* `type` - The type of the security assessment. Possible values are:
 
-	LATEST: The most up-to-date assessment that is running automatically for a target. It is system generated. SAVED: A saved security assessment. LATEST assessments are always saved in order to maintain the history of runs. A SAVED assessment is also generated by a 'refresh' action (triggered by the user). SAVE_SCHEDULE: The schedule for periodic saves of LATEST assessments. COMPARTMENT: An automatically managed assessment type that stores all details of targets in one compartment. This type keeps an up-to-date assessment of all database risks in one compartment. It is automatically updated when the latest assessment or refresh action is executed. It is also automatically updated when a target is deleted or move to a different compartment. 
+	LATEST: The most up-to-date assessment that is running automatically for a target. It is system generated. SAVED: A saved security assessment. LATEST assessments are always saved in order to maintain the history of runs. A SAVED assessment is also generated by a 'refresh' action (triggered by the user). SAVE_SCHEDULE: The schedule for periodic saves of LATEST assessments. TEMPLATE: The security assessment contains the checks that the user would like to run. It is user defined. TEMPLATE_BASELINE: The security assessment contains the checks that the user would like to run, together with the max allowed severity. The max allowed severity can be defined by the user. COMPARTMENT: An automatically managed assessment type that stores all details of targets in one compartment. This type keeps an up-to-date assessment of all database risks in one compartment. It is automatically updated when the latest assessment or refresh action is executed. It is also automatically updated when a target is deleted or move to a different compartment. 
 
 ## Timeouts
 
