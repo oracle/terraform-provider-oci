@@ -28,8 +28,8 @@ var (
 		"security_assessment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_security_assessment.test_security_assessment1.id}`},
 	}
 
-	DataSafeSetSecurityAssessmentBaselineResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment1", acctest.Required, acctest.Create, securityAssessmentRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment2", acctest.Required, acctest.Create, securityAssessmentRepresentation)
+	DataSafeSetSecurityAssessmentBaselineResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment1", acctest.Required, acctest.Create, DataSafeSecurityAssessmentRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment2", acctest.Required, acctest.Create, DataSafeSecurityAssessmentRepresentation)
 )
 
 // issue-routing-tag: data_safe/default

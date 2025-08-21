@@ -6,7 +6,6 @@ package data_safe
 import (
 	"context"
 	"fmt"
-	"log"
 	"strconv"
 	"strings"
 	"time"
@@ -33,18 +32,22 @@ func DataSafeAuditProfileResource() *schema.Resource {
 		Delete:   deleteDataSafeAuditProfile,
 		Schema: map[string]*schema.Schema{
 			// Required
-			"audit_profile_id": {
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
+			"target_id": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+			"target_type": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
 
 			// Optional
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -68,13 +71,33 @@ func DataSafeAuditProfileResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"is_override_global_paid_usage": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"is_paid_usage_enabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
 			},
+			"offline_months": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
+			"online_months": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"change_retention_trigger": {
 				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"is_override_global_retention_setting": {
+				Type:     schema.TypeBool,
+				Computed: true,
 				Optional: true,
 			},
 
@@ -93,7 +116,6 @@ func DataSafeAuditProfileResource() *schema.Resource {
 						// Optional
 						"compartment_id": {
 							Type:     schema.TypeString,
-							Optional: true,
 							Computed: true,
 						},
 
@@ -104,6 +126,10 @@ func DataSafeAuditProfileResource() *schema.Resource {
 						},
 						"audit_profile_id": {
 							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"can_update_last_archive_time_on_target": {
+							Type:     schema.TypeBool,
 							Computed: true,
 						},
 						"defined_tags": {
@@ -196,20 +222,20 @@ func DataSafeAuditProfileResource() *schema.Resource {
 					},
 				},
 			},
-			"is_override_global_retention_setting": {
-				Type:     schema.TypeBool,
-				Computed: true,
-			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"offline_months": {
-				Type:     schema.TypeInt,
+			"offline_months_source": {
+				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"online_months": {
-				Type:     schema.TypeInt,
+			"online_months_source": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"paid_usage_source": {
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"state": {
@@ -220,10 +246,6 @@ func DataSafeAuditProfileResource() *schema.Resource {
 				Type:     schema.TypeMap,
 				Computed: true,
 				Elem:     schema.TypeString,
-			},
-			"target_id": {
-				Type:     schema.TypeString,
-				Computed: true,
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -241,35 +263,8 @@ func createDataSafeAuditProfile(d *schema.ResourceData, m interface{}) error {
 	sync := &DataSafeAuditProfileResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
-	compartment, ok := sync.D.GetOkExists("compartment_id")
-
-	err := tfresource.CreateResource(d, sync)
-	if err != nil {
-		return err
-	}
-
-	if _, ok := sync.D.GetOkExists("change_retention_trigger"); ok {
-		err := sync.ChangeRetention()
-		if err != nil {
-			return err
-		}
-	}
-
-	if ok && compartment != *sync.Res.CompartmentId {
-		err = sync.updateCompartment(compartment)
-		if err != nil {
-			return err
-		}
-		tmp := compartment.(string)
-		sync.Res.CompartmentId = &tmp
-		err := sync.Get()
-		if err != nil {
-			log.Printf("error doing a Get() after compartment update: %v", err)
-		}
-		err = sync.SetData()
-		if err != nil {
-			log.Printf("error doing a SetData() after compartment update: %v", err)
-		}
+	if e := tfresource.CreateResource(d, sync); e != nil {
+		return e
 	}
 	return nil
 }
@@ -286,13 +281,22 @@ func updateDataSafeAuditProfile(d *schema.ResourceData, m interface{}) error {
 	sync := &DataSafeAuditProfileResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
-
+	offlineMonths, _ := sync.D.GetOk("offline_months")
+	onlineMonths, _ := sync.D.GetOk("online_months")
+	isOverrideGlobalRetentionSetting, _ := sync.D.GetOk("is_override_global_retention_setting")
+	if sync.D.Get("target_type") == string(oci_data_safe.AuditProfileTargetTypeTargetDatabase) && sync.D.Id() == "" {
+		id, err := sync.fetchAuditProfileIdByTargetId()
+		if err != nil {
+			return fmt.Errorf("failed to fetch audit profile ID: %v", err)
+		}
+		sync.D.SetId(id)
+	}
 	if _, ok := sync.D.GetOkExists("change_retention_trigger"); ok && sync.D.HasChange("change_retention_trigger") {
 		oldRaw, newRaw := sync.D.GetChange("change_retention_trigger")
 		oldValue := oldRaw.(int)
 		newValue := newRaw.(int)
 		if oldValue < newValue {
-			err := sync.ChangeRetention()
+			err := sync.ChangeRetention(offlineMonths.(int), onlineMonths.(int), isOverrideGlobalRetentionSetting.(bool))
 
 			if err != nil {
 				return err
@@ -311,7 +315,14 @@ func updateDataSafeAuditProfile(d *schema.ResourceData, m interface{}) error {
 }
 
 func deleteDataSafeAuditProfile(d *schema.ResourceData, m interface{}) error {
-	return nil
+	sync := &DataSafeAuditProfileResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*client.OracleClients).DataSafeClient()
+	sync.DisableNotFoundRetries = true
+	if sync.D.Get("target_type") == string(oci_data_safe.AuditProfileTargetTypeTargetDatabase) {
+		return nil
+	}
+	return tfresource.DeleteResource(d, sync)
 }
 
 type DataSafeAuditProfileResourceCrud struct {
@@ -322,12 +333,18 @@ type DataSafeAuditProfileResourceCrud struct {
 }
 
 func (s *DataSafeAuditProfileResourceCrud) ID() string {
-	return *s.Res.Id
+	if s.Res != nil && s.Res.Id != nil && *s.Res.Id != "" {
+		return *s.Res.Id
+	}
+	return s.D.Id()
 }
 
 func (s *DataSafeAuditProfileResourceCrud) CreatedPending() []string {
-	return []string{
-		string(oci_data_safe.AuditProfileLifecycleStateCreating),
+	switch s.D.Get("target_type") {
+	case string(oci_data_safe.AuditProfileTargetTypeTargetDatabase):
+		return []string{string(oci_data_safe.AuditProfileLifecycleStateActive), string(oci_data_safe.AuditProfileLifecycleStateNeedsAttention)}
+	default:
+		return []string{string(oci_data_safe.AuditProfileLifecycleStateCreating)}
 	}
 }
 
@@ -339,23 +356,27 @@ func (s *DataSafeAuditProfileResourceCrud) CreatedTarget() []string {
 }
 
 func (s *DataSafeAuditProfileResourceCrud) DeletedPending() []string {
-	return []string{
-		string(oci_data_safe.AuditProfileLifecycleStateDeleting),
-	}
+	return []string{string(oci_data_safe.AuditProfileLifecycleStateDeleting)}
 }
 
 func (s *DataSafeAuditProfileResourceCrud) DeletedTarget() []string {
-	return []string{
-		string(oci_data_safe.AuditProfileLifecycleStateDeleted),
-	}
+	return []string{string(oci_data_safe.AuditProfileLifecycleStateDeleted)}
 }
 
 func (s *DataSafeAuditProfileResourceCrud) Create() error {
-	request := oci_data_safe.UpdateAuditProfileRequest{}
+	if s.D.Get("target_type") == string(oci_data_safe.AuditProfileTargetTypeTargetDatabase) {
+		id, err := s.fetchAuditProfileIdByTargetId()
+		if err != nil {
+			return fmt.Errorf("failed to fetch audit profile ID: %v", err)
+		}
+		s.D.SetId(id)
+		return nil
+	}
+	request := oci_data_safe.CreateAuditProfileRequest{}
 
-	if auditProfileId, ok := s.D.GetOkExists("audit_profile_id"); ok {
-		tmp := auditProfileId.(string)
-		request.AuditProfileId = &tmp
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -380,37 +401,49 @@ func (s *DataSafeAuditProfileResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isOverrideGlobalPaidUsage, ok := s.D.GetOkExists("is_override_global_paid_usage"); ok {
+		tmp := isOverrideGlobalPaidUsage.(bool)
+		request.IsOverrideGlobalPaidUsage = &tmp
+	}
+
 	if isPaidUsageEnabled, ok := s.D.GetOkExists("is_paid_usage_enabled"); ok {
 		tmp := isPaidUsageEnabled.(bool)
 		request.IsPaidUsageEnabled = &tmp
 	}
 
+	if offlineMonths, ok := s.D.GetOkExists("offline_months"); ok {
+		tmp := offlineMonths.(int)
+		request.OfflineMonths = &tmp
+	}
+
+	if onlineMonths, ok := s.D.GetOkExists("online_months"); ok {
+		tmp := onlineMonths.(int)
+		request.OnlineMonths = &tmp
+	}
+
+	if targetId, ok := s.D.GetOkExists("target_id"); ok {
+		tmp := targetId.(string)
+		request.TargetId = &tmp
+	}
+
+	if targetType, ok := s.D.GetOkExists("target_type"); ok {
+		request.TargetType = oci_data_safe.AuditProfileTargetTypeEnum(targetType.(string))
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.UpdateAuditProfile(context.Background(), request)
+	response, err := s.Client.CreateAuditProfile(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	workRequestResponse := oci_data_safe.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
-		oci_data_safe.GetWorkRequestRequest{
-			WorkRequestId: workId,
-			RequestMetadata: oci_common.RequestMetadata{
-				RetryPolicy: tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"),
-			},
-		})
-	if err == nil {
-		// The work request response contains an array of objects
-		for _, res := range workRequestResponse.Resources {
-			if res.EntityType != nil && strings.Contains(strings.ToLower(*res.EntityType), "auditprofile") && res.Identifier != nil {
-				s.D.SetId(*res.Identifier)
-				break
-			}
-		}
+	var identifier *string
+	identifier = response.Id
+	if identifier != nil {
+		s.D.SetId(*identifier)
 	}
-	return s.getAuditProfileFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getAuditProfileFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *DataSafeAuditProfileResourceCrud) getAuditProfileFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -582,6 +615,11 @@ func (s *DataSafeAuditProfileResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isOverrideGlobalPaidUsage, ok := s.D.GetOkExists("is_override_global_paid_usage"); ok {
+		tmp := isOverrideGlobalPaidUsage.(bool)
+		request.IsOverrideGlobalPaidUsage = &tmp
+	}
+
 	if isPaidUsageEnabled, ok := s.D.GetOkExists("is_paid_usage_enabled"); ok {
 		tmp := isPaidUsageEnabled.(bool)
 		request.IsPaidUsageEnabled = &tmp
@@ -596,6 +634,60 @@ func (s *DataSafeAuditProfileResourceCrud) Update() error {
 
 	workId := response.OpcWorkRequestId
 	return s.getAuditProfileFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func (s *DataSafeAuditProfileResourceCrud) fetchAuditProfileIdByTargetId() (string, error) {
+	request := oci_data_safe.ListAuditProfilesRequest{}
+	var auditProfile = new(oci_data_safe.AuditProfile)
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
+
+	if targetId, ok := s.D.GetOkExists("target_id"); ok {
+		tmp := targetId.(string)
+		request.TargetId = &tmp
+	}
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+
+	response, err := s.Client.ListAuditProfiles(context.Background(), request)
+	if err != nil {
+		return "", err
+	}
+	if len(response.AuditProfileCollection.Items) > 0 {
+		tmp1 := &response.AuditProfileCollection.Items[0]
+		auditProfile.Id = tmp1.Id
+		s.D.Set("is_override_global_retention_setting", tmp1.IsOverrideGlobalRetentionSetting)
+	}
+
+	if auditProfile.Id == nil {
+		return "", fmt.Errorf("no audit profile found matching the criteria")
+	}
+	s.D.SetId(*auditProfile.Id)
+	return *auditProfile.Id, nil
+}
+
+func (s *DataSafeAuditProfileResourceCrud) Delete() error {
+	if s.D.Get("target_type").(string) == string(oci_data_safe.AuditProfileTargetTypeTargetDatabase) {
+		return fmt.Errorf("audit profile for a target database cannot be deleted")
+	}
+	request := oci_data_safe.DeleteAuditProfileRequest{}
+
+	tmp := s.D.Id()
+	request.AuditProfileId = &tmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+
+	response, err := s.Client.DeleteAuditProfile(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	// Wait until it finishes
+	_, delWorkRequestErr := auditProfileWaitForWorkRequest(workId, "auditprofile",
+		oci_data_safe.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
+	return delWorkRequestErr
 }
 
 func (s *DataSafeAuditProfileResourceCrud) SetData() error {
@@ -627,6 +719,10 @@ func (s *DataSafeAuditProfileResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsOverrideGlobalPaidUsage != nil {
+		s.D.Set("is_override_global_paid_usage", *s.Res.IsOverrideGlobalPaidUsage)
+	}
+
 	if s.Res.IsOverrideGlobalRetentionSetting != nil {
 		s.D.Set("is_override_global_retention_setting", *s.Res.IsOverrideGlobalRetentionSetting)
 	}
@@ -643,8 +739,20 @@ func (s *DataSafeAuditProfileResourceCrud) SetData() error {
 		s.D.Set("offline_months", *s.Res.OfflineMonths)
 	}
 
+	if s.Res.OfflineMonthsSource != nil {
+		s.D.Set("offline_months_source", *s.Res.OfflineMonthsSource)
+	}
+
 	if s.Res.OnlineMonths != nil {
 		s.D.Set("online_months", *s.Res.OnlineMonths)
+	}
+
+	if s.Res.OnlineMonthsSource != nil {
+		s.D.Set("online_months_source", *s.Res.OnlineMonthsSource)
+	}
+
+	if s.Res.PaidUsageSource != nil {
+		s.D.Set("paid_usage_source", *s.Res.PaidUsageSource)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
@@ -657,6 +765,8 @@ func (s *DataSafeAuditProfileResourceCrud) SetData() error {
 		s.D.Set("target_id", *s.Res.TargetId)
 	}
 
+	s.D.Set("target_type", s.Res.TargetType)
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
@@ -665,32 +775,22 @@ func (s *DataSafeAuditProfileResourceCrud) SetData() error {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
 
+	if s.Res.IsOverrideGlobalPaidUsage != nil {
+		s.D.Set("is_override_global_paid_usage", *s.Res.IsOverrideGlobalPaidUsage)
+	}
+
 	return nil
 }
 
-func (s *DataSafeAuditProfileResourceCrud) ChangeRetention() error {
+func (s *DataSafeAuditProfileResourceCrud) ChangeRetention(offlineMonths int, onlineMonths int, isOverrideGlobalRetentionSetting bool) error {
 	request := oci_data_safe.ChangeRetentionRequest{}
 
 	idTmp := s.D.Id()
 	request.AuditProfileId = &idTmp
-
-	if isOverrideGlobalRetentionSetting, ok := s.D.GetOkExists("is_override_global_retention_setting"); ok {
-		tmp := isOverrideGlobalRetentionSetting.(bool)
-		request.IsOverrideGlobalRetentionSetting = &tmp
-	}
-
-	if offlineMonths, ok := s.D.GetOkExists("offline_months"); ok {
-		tmp := offlineMonths.(int)
-		request.OfflineMonths = &tmp
-	}
-
-	if onlineMonths, ok := s.D.GetOkExists("online_months"); ok {
-		tmp := onlineMonths.(int)
-		request.OnlineMonths = &tmp
-	}
-
+	request.OfflineMonths = &offlineMonths
+	request.OnlineMonths = &onlineMonths
+	request.IsOverrideGlobalRetentionSetting = &isOverrideGlobalRetentionSetting
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
-
 	response, err := s.Client.ChangeRetention(context.Background(), request)
 	if err != nil {
 		return err
@@ -737,6 +837,10 @@ func AuditProfileSummaryToMap(obj oci_data_safe.AuditProfileSummary) map[string]
 		result["id"] = string(*obj.Id)
 	}
 
+	if obj.IsOverrideGlobalPaidUsage != nil {
+		result["is_override_global_paid_usage"] = bool(*obj.IsOverrideGlobalPaidUsage)
+	}
+
 	if obj.IsOverrideGlobalRetentionSetting != nil {
 		result["is_override_global_retention_setting"] = bool(*obj.IsOverrideGlobalRetentionSetting)
 	}
@@ -763,6 +867,8 @@ func AuditProfileSummaryToMap(obj oci_data_safe.AuditProfileSummary) map[string]
 		result["target_id"] = string(*obj.TargetId)
 	}
 
+	result["target_type"] = string(obj.TargetType)
+
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()
 	}
@@ -783,6 +889,10 @@ func AuditTrailToMap(obj oci_data_safe.AuditTrail) map[string]interface{} {
 
 	if obj.AuditProfileId != nil {
 		result["audit_profile_id"] = string(*obj.AuditProfileId)
+	}
+
+	if obj.CanUpdateLastArchiveTimeOnTarget != nil {
+		result["can_update_last_archive_time_on_target"] = bool(*obj.CanUpdateLastArchiveTimeOnTarget)
 	}
 
 	if obj.CompartmentId != nil {

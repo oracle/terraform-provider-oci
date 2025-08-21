@@ -19,6 +19,10 @@ variable "description" {
   default = "description"
 }
 
+variable "target_type" {
+  default = "TARGET_DATABASE"
+}
+
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -35,6 +39,8 @@ resource "oci_data_safe_user_assessment" "oci_data_safe_user_assessment" {
   #Optional
   display_name = var.display_name
   description   = var.description
+  target_type = var.target_type
+
 }
 
 data "oci_data_safe_user_assessments" "test_user_assessments" {

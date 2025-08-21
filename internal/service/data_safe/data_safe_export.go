@@ -16,6 +16,7 @@ import (
 )
 
 func init() {
+	exportDataSafeSecurityAssessmentFindingHints.GetIdFn = getDataSafeSecurityAssessmentFindingId
 	exportDataSafeAlertPolicyRuleHints.GetIdFn = getDataSafeAlertPolicyRuleId
 	exportDataSafeMaskingPoliciesMaskingColumnHints.GetIdFn = getDataSafeMaskingPoliciesMaskingColumnId
 	exportDataSafeSensitiveDataModelsSensitiveColumnHints.GetIdFn = getDataSafeSensitiveDataModelsSensitiveColumnId
@@ -23,6 +24,7 @@ func init() {
 	exportDataSafeTargetDatabasePeerTargetDatabaseHints.GetIdFn = getDataSafeTargetDatabasePeerTargetDatabaseId
 	exportDataSafeSensitiveDataModelReferentialRelationHints.GetIdFn = getDataSafeSensitiveDataModelReferentialRelationId
 	exportDataSafeSensitiveTypeGroupGroupedSensitiveTypeHints.GetIdFn = getDataSafeSensitiveTypeGroupGroupedSensitiveTypeId
+	exportDataSafeSecurityAssessmentCheckHints.GetIdFn = getDataSafeSecurityAssessmentCheckId
 	exportDataSafeDiscoveryJobsResultHints.GetIdFn = getDataSafeDiscoveryJobsResultId
 	exportDataSafeAlertPolicyHints.FindResourcesOverrideFn = findAlertPolicies
 	tf_export.RegisterCompartmentGraphs("data_safe", dataSafeResourceGraph)
@@ -47,6 +49,12 @@ func getDataSafeDiscoveryJobsResultId(resource *tf_export.OCIResource) (string, 
 		return "", fmt.Errorf("[ERROR] unable to find resultKey for DataSafe DiscoveryJobsResult")
 	}
 	return GetDiscoveryJobsResultCompositeId(discoveryJobId, resultKey), nil
+}
+
+func getDataSafeSecurityAssessmentFindingId(resource *tf_export.OCIResource) (string, error) {
+
+	securityAssessmentId := resource.Parent.Id
+	return GetSecurityAssessmentFindingCompositeId(securityAssessmentId), nil
 }
 
 func getDataSafeAlertPolicyRuleId(resource *tf_export.OCIResource) (string, error) {
@@ -95,6 +103,12 @@ func getDataSafeSensitiveTypeGroupGroupedSensitiveTypeId(resource *tf_export.OCI
 	return GetSensitiveTypeGroupGroupedSensitiveTypeCompositeId(sensitiveTypeGroupId), nil
 }
 
+func getDataSafeSecurityAssessmentCheckId(resource *tf_export.OCIResource) (string, error) {
+
+	securityAssessmentId := resource.Parent.Id
+	return GetSecurityAssessmentCheckCompositeId(securityAssessmentId), nil
+}
+
 // Hints for discovering and exporting this resource to configuration and state files
 var exportDataSafeDataSafePrivateEndpointHints = &tf_export.TerraformResourceHints{
 	ResourceClass:          "oci_data_safe_data_safe_private_endpoint",
@@ -115,6 +129,7 @@ var exportDataSafeOnPremConnectorHints = &tf_export.TerraformResourceHints{
 	DiscoverableLifecycleStates: []string{
 		string(oci_data_safe.OnPremConnectorLifecycleStateInactive),
 		string(oci_data_safe.OnPremConnectorLifecycleStateActive),
+		string(oci_data_safe.OnPremConnectorLifecycleStateNeedsAttention),
 	},
 }
 
@@ -149,6 +164,42 @@ var exportDataSafeUserAssessmentHints = &tf_export.TerraformResourceHints{
 	DiscoverableLifecycleStates: []string{
 		string(oci_data_safe.UserAssessmentLifecycleStateSucceeded),
 	},
+}
+
+var exportDataSafeSecurityAssessmentFindingHints = &tf_export.TerraformResourceHints{
+	ResourceClass:               "oci_data_safe_security_assessment_finding",
+	DatasourceClass:             "oci_data_safe_security_assessment_findings",
+	DatasourceItemsAttr:         "findings",
+	ResourceAbbreviation:        "security_assessment_finding",
+	DiscoverableLifecycleStates: []string{
+		// string(oci_data_safe.SecurityAssessmentFindingLifecycleStateActive),
+		// string(oci_data_safe.SecurityAssessmentFindingLifecycleStateNeedsAttention),
+	},
+}
+
+var exportDataSafeCompareUserAssessmentHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_data_safe_compare_user_assessment",
+	ResourceAbbreviation: "compare_user_assessment",
+}
+
+var exportDataSafeSetUserAssessmentBaselineHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_data_safe_set_user_assessment_baseline",
+	ResourceAbbreviation: "set_user_assessment_baseline",
+}
+
+var exportDataSafeCompareSecurityAssessmentHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_data_safe_compare_security_assessment",
+	ResourceAbbreviation: "compare_security_assessment",
+}
+
+var exportDataSafeSetSecurityAssessmentBaselineHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_data_safe_set_security_assessment_baseline",
+	ResourceAbbreviation: "set_security_assessment_baseline",
+}
+
+var exportDataSafeUnsetUserAssessmentBaselineHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_data_safe_unset_user_assessment_baseline",
+	ResourceAbbreviation: "unset_user_assessment_baseline",
 }
 
 var exportDataSafeUnsetSecurityAssessmentBaselineHints = &tf_export.TerraformResourceHints{
@@ -459,6 +510,77 @@ var exportDataSafeSensitiveTypeGroupHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportDataSafeTargetDatabaseGroupHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_data_safe_target_database_group",
+	DatasourceClass:        "oci_data_safe_target_database_groups",
+	DatasourceItemsAttr:    "target_database_group_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "target_database_group",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_data_safe.TargetDatabaseGroupLifecycleStateActive),
+		string(oci_data_safe.TargetDatabaseGroupLifecycleStateNeedsAttention),
+	},
+}
+
+var exportDataSafeUnifiedAuditPolicyDefinitionHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_data_safe_unified_audit_policy_definition",
+	DatasourceClass:        "oci_data_safe_unified_audit_policy_definitions",
+	DatasourceItemsAttr:    "unified_audit_policy_definition_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "unified_audit_policy_definition",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_data_safe.UnifiedAuditPolicyDefinitionLifecycleStateActive),
+		string(oci_data_safe.UnifiedAuditPolicyDefinitionLifecycleStateNeedsAttention),
+	},
+}
+
+var exportDataSafeSecurityAssessmentCheckHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_data_safe_security_assessment_check",
+	DatasourceClass:      "oci_data_safe_security_assessment_checks",
+	DatasourceItemsAttr:  "checks",
+	ResourceAbbreviation: "security_assessment_check",
+}
+
+var exportDataSafeAttributeSetHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_data_safe_attribute_set",
+	DatasourceClass:        "oci_data_safe_attribute_sets",
+	DatasourceItemsAttr:    "attribute_set_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "attribute_set",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_data_safe.AttributeSetLifecycleStateActive),
+	},
+}
+
+var exportDataSafeSecurityPolicyConfigHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_data_safe_security_policy_config",
+	DatasourceClass:        "oci_data_safe_security_policy_configs",
+	DatasourceItemsAttr:    "security_policy_config_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "security_policy_config",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_data_safe.SecurityPolicyConfigLifecycleStateActive),
+		string(oci_data_safe.SecurityPolicyConfigLifecycleStateNeedsAttention),
+	},
+}
+
+var exportDataSafeUnifiedAuditPolicyHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_data_safe_unified_audit_policy",
+	DatasourceClass:        "oci_data_safe_unified_audit_policies",
+	DatasourceItemsAttr:    "unified_audit_policy_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "unified_audit_policy",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_data_safe.UnifiedAuditPolicyLifecycleStateActive),
+		string(oci_data_safe.UnifiedAuditPolicyLifecycleStateNeedsAttention),
+	},
+}
+
 var dataSafeResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDataSafeDataSafePrivateEndpointHints},
@@ -483,12 +605,31 @@ var dataSafeResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportDataSafeSdmMaskingPolicyDifferenceHints},
 		{TerraformResourceHints: exportDataSafeSensitiveTypesExportHints},
 		{TerraformResourceHints: exportDataSafeSensitiveTypeGroupHints},
+		{TerraformResourceHints: exportDataSafeTargetDatabaseGroupHints},
+		{TerraformResourceHints: exportDataSafeUnifiedAuditPolicyDefinitionHints},
+		{TerraformResourceHints: exportDataSafeAttributeSetHints},
+		{TerraformResourceHints: exportDataSafeSecurityPolicyConfigHints},
+		{TerraformResourceHints: exportDataSafeUnifiedAuditPolicyHints},
 	},
 	"oci_data_safe_alert_policy": {
 		{
 			TerraformResourceHints: exportDataSafeAlertPolicyRuleHints,
 			DatasourceQueryParams: map[string]string{
 				"alert_policy_id": "id",
+			},
+		},
+	},
+	"oci_data_safe_security_assessment": {
+		{
+			TerraformResourceHints: exportDataSafeSecurityAssessmentCheckHints,
+			DatasourceQueryParams: map[string]string{
+				"security_assessment_id": "id",
+			},
+		},
+		{
+			TerraformResourceHints: exportDataSafeSecurityAssessmentFindingHints,
+			DatasourceQueryParams: map[string]string{
+				"security_assessment_id": "id",
 			},
 		},
 	},

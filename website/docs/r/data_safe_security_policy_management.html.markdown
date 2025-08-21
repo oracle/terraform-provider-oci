@@ -10,7 +10,8 @@ description: |-
 # oci_data_safe_security_policy_management
 This resource provides the Security Policy Management resource in Oracle Cloud Infrastructure Data Safe service.
 
-Updates the security policy.
+Creates a Data Safe security policy.
+
 
 ## Example Usage
 
@@ -18,9 +19,9 @@ Updates the security policy.
 resource "oci_data_safe_security_policy_management" "test_security_policy_management" {
 	#Required
 	compartment_id = var.compartment_id
-	target_id = oci_data_safe_target_database.test_target_database.id
 	
 	#Optional
+	target_id = oci_data_safe_target_database.test_target_database.id
 	defined_tags = {"Operations.CostCenter"= "42"}
 	description = var.security_policy_management_description
 	display_name = var.security_policy_management_display_name
@@ -32,13 +33,12 @@ resource "oci_data_safe_security_policy_management" "test_security_policy_manage
 
 The following arguments are supported:
 
-* `compartment_id` - (Optional) (Updatable) The OCID of the compartment containing the security policy.
+* `compartment_id` - (Required) (Updatable) The OCID of the compartment in which to create the security policy.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}` 
-* `target_id` - (Required) Unique target identifier.
+* `target_id` - (Optional) Unique target identifier. If target id is not specified then new security policy will be created.
 * `description` - (Optional) (Updatable) The description of the security policy.
 * `display_name` - (Optional) (Updatable) The display name of the security policy. The name does not have to be unique, and it is changeable.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}` 
-* `security_policy_id` - (Required) The OCID of the security policy resource.
 
 
 ** IMPORTANT **
@@ -55,6 +55,7 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the security policy.
 * `lifecycle_details` - Details about the current state of the security policy in Data Safe.
+* `security_policy_type` - The type of the security policy.
 * `state` - The current state of the security policy.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time that the security policy was created, in the format defined by RFC3339.

@@ -40,6 +40,7 @@ data "oci_data_safe_audit_trails" "test_audit_trails" {
 	display_name = var.audit_trail_display_name
 	state = var.audit_trail_state
 	status = var.audit_trail_status
+	target_database_group_id = oci_data_safe_target_database_group.test_target_database_group.id
 	target_id = oci_cloud_guard_target.test_target.id
 }
 ```
@@ -55,6 +56,7 @@ The following arguments are supported:
 * `display_name` - (Optional) A filter to return only resources that match the specified display name. 
 * `state` - (Optional) A optional filter to return only resources that match the specified lifecycle state.
 * `status` - (Optional) A optional filter to return only resources that match the specified sub-state of audit trail.
+* `target_database_group_id` - (Optional) A filter to return the target database group that matches the specified OCID.
 * `target_id` - (Optional) A filter to return only items related to a specific target OCID.
 
 
@@ -70,6 +72,7 @@ The following attributes are exported:
 
 * `audit_collection_start_time` - The date from which the audit trail must start collecting data, in the format defined by RFC3339.
 * `audit_profile_id` - The OCID of the  parent audit.
+* `can_update_last_archive_time_on_target` - Indicates if the Datasafe updates last archive time on target database. If isAutoPurgeEnabled field is enabled, this field must be true. 
 * `compartment_id` - The OCID of the compartment that contains the audit trail and is the same as the compartment of the audit profile resource. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description of the audit trail.

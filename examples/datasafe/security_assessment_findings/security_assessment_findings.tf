@@ -36,6 +36,10 @@ resource "oci_data_safe_security_assessment" "oci_data_safe_security_assessment"
   #Optional
   description = var.description
   display_name = var.display_name
+
+  lifecycle {
+    ignore_changes = [system_tags]
+  }
 }
 
 data "oci_data_safe_security_assessment_findings" "test_security_assessment_findings" {

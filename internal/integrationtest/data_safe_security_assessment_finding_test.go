@@ -16,31 +16,18 @@ import (
 )
 
 var (
-	DataSafesecurityAssessmentFindingDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":            acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+	DataSafeSecurityAssessmentFindingDataSourceRepresentation = map[string]interface{}{
 		"security_assessment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.security_assessment_id}`},
 		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `ACCESSIBLE`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `true`},
-		"finding_key":               acctest.Representation{RepType: acctest.Optional, Create: `findingKey`},
-		"severity":                  acctest.Representation{RepType: acctest.Optional, Create: `high`},
-		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+		"finding_key":               acctest.Representation{RepType: acctest.Optional, Create: `${var.key}`},
+		"severity":                  acctest.Representation{RepType: acctest.Optional, Create: `HIGH`},
 		"target_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${var.target_id}`},
-		"is_top_finding":            acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
-
-	DataSafesecurityAssessmentFindingScimDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":            acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
-		"security_assessment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.security_assessment_id}`},
-		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `ACCESSIBLE`},
-		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `true`},
-		"field":                     acctest.Representation{RepType: acctest.Optional, Create: []string{`field`}},
-		"finding_key":               acctest.Representation{RepType: acctest.Optional, Create: `findingKey`},
-		"scim_query":                acctest.Representation{RepType: acctest.Optional, Create: `severity eq \"EVALUATE\"`},
-		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
-		"target_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${var.target_id}`},
-		"is_top_finding":            acctest.Representation{RepType: acctest.Optional, Create: `false`},
+	DataSafeSecurityAssessmentFindingRepresentation = map[string]interface{}{
+		"security_assessment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.security_assessment_id}`},
+		// "patch_operations":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: DataSafeSecurityAssessmentFindingPatchOperationsRepresentation},
 	}
-	DataSafeSecurityAssessmentFindingReferencesDataSourceRepresentation = DefinedTagsDependencies
 )
 
 // issue-routing-tag: data_safe/default
@@ -58,8 +45,13 @@ func TestDataSafeSecurityAssessmentFindingResource_basic(t *testing.T) {
 
 	assessmentId := utils.GetEnvSettingWithBlankDefault("data_safe_security_assessment_id")
 	securityAssessmentIdVariableStr := fmt.Sprintf("variable \"security_assessment_id\" { default = \"%s\" }\n", assessmentId)
+
+	findingKey := utils.GetEnvSettingWithBlankDefault("data_safe_key")
+	findingKeyVariableStr := fmt.Sprintf("variable \"key\" { default = \"%s\" }\n", findingKey)
+
 	datasourceName := "data.oci_data_safe_security_assessment_findings.test_security_assessment_findings"
 
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
 	acctest.SaveConfigContent("", "", "", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
@@ -67,12 +59,17 @@ func TestDataSafeSecurityAssessmentFindingResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_security_assessment_findings", "test_security_assessment_findings", acctest.Required, acctest.Create, DataSafesecurityAssessmentFindingDataSourceRepresentation) +
-				compartmentIdVariableStr + targetIdVariableStr + securityAssessmentIdVariableStr,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_security_assessment_findings", "test_security_assessment_findings", acctest.Optional, acctest.Update, DataSafeSecurityAssessmentFindingDataSourceRepresentation) +
+				compartmentIdVariableStr + targetIdVariableStr + securityAssessmentIdVariableStr + findingKeyVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(datasourceName, "security_assessment_id"),
-				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.target_id"),
-				resource.TestCheckResourceAttrSet(datasourceName, "findings.#"),
+				resource.TestCheckResourceAttr(datasourceName, "access_level", "ACCESSIBLE"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "finding_key", findingKey),
+				resource.TestCheckResourceAttr(datasourceName, "severity", "HIGH"),
+				resource.TestCheckResourceAttrSet(datasourceName, "target_id"),
+
+				resource.TestCheckResourceAttr(datasourceName, "findings.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.category"),
 				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.has_target_db_risk_level_changed"),
 				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.is_risk_modified"),
 				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.key"),
@@ -92,7 +89,7 @@ func TestDataSafeSecurityAssessmentFindingResource_basic(t *testing.T) {
 		// verify datasource with scim filter
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_security_assessment_findings", "test_security_assessment_findings", acctest.Required, acctest.Create, DataSafesecurityAssessmentFindingScimDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_security_assessment_findings", "test_security_assessment_findings", acctest.Required, acctest.Create, DataSafeSecurityAssessmentFindingDataSourceRepresentation) +
 				compartmentIdVariableStr + targetIdVariableStr + securityAssessmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "security_assessment_id"),

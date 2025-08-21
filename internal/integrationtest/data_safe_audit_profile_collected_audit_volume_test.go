@@ -17,21 +17,18 @@ import (
 
 var (
 	DataSafeauditProfileCollectedAuditVolumeSingularDataSourceRepresentation = map[string]interface{}{
-		"audit_profile_id":                    acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_audit_profile.test_audit_profile.id}`},
-		"work_request_id":                     acctest.Representation{RepType: acctest.Required, Create: `${oci_containerengine_work_request.test_work_request.id}`},
+		"audit_profile_id":                    acctest.Representation{RepType: acctest.Required, Create: `${var.auditProfileId}`},
+		"work_request_id":                     acctest.Representation{RepType: acctest.Required, Create: `${var.workId}`},
 		"month_in_consideration_greater_than": acctest.Representation{RepType: acctest.Optional, Create: `monthInConsiderationGreaterThan`},
 		"month_in_consideration_less_than":    acctest.Representation{RepType: acctest.Optional, Create: `monthInConsiderationLessThan`},
 	}
 
 	DataSafeauditProfileCollectedAuditVolumeDataSourceRepresentation = map[string]interface{}{
-		"audit_profile_id":                    acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_audit_profile.test_audit_profile.id}`},
-		"work_request_id":                     acctest.Representation{RepType: acctest.Required, Create: `${oci_containerengine_work_request.test_work_request.id}`},
+		"audit_profile_id":                    acctest.Representation{RepType: acctest.Required, Create: `${var.auditProfileId}`},
+		"work_request_id":                     acctest.Representation{RepType: acctest.Required, Create: `${var.workId}`},
 		"month_in_consideration_greater_than": acctest.Representation{RepType: acctest.Optional, Create: `monthInConsiderationGreaterThan`},
 		"month_in_consideration_less_than":    acctest.Representation{RepType: acctest.Optional, Create: `monthInConsiderationLessThan`},
 	}
-
-	DataSafeAuditProfileCollectedAuditVolumeResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_work_requests", "test_work_requests", acctest.Required, acctest.Create, ContainerengineContainerengineWorkRequestDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_profile", "test_audit_profile", acctest.Required, acctest.Create, auditProfileRepresentation)
 )
 
 // issue-routing-tag: data_safe/default
@@ -41,8 +38,11 @@ func TestDataSafeAuditProfileCollectedAuditVolumeResource_basic(t *testing.T) {
 
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
-	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	workId := utils.GetEnvSettingWithBlankDefault("work_request_id")
+	workIdVariableStr := fmt.Sprintf("variable \"workId\" { default = \"%s\" }\n", workId)
+
+	auditId := utils.GetEnvSettingWithBlankDefault("auditProfileId")
+	auditIdVariableStr := fmt.Sprintf("variable \"auditProfileId\" { default = \"%s\" }\n", auditId)
 
 	datasourceName := "data.oci_data_safe_audit_profile_collected_audit_volumes.test_audit_profile_collected_audit_volumes"
 	singularDatasourceName := "data.oci_data_safe_audit_profile_collected_audit_volume.test_audit_profile_collected_audit_volume"
@@ -52,28 +52,24 @@ func TestDataSafeAuditProfileCollectedAuditVolumeResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
-			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_profile_collected_audit_volumes", "test_audit_profile_collected_audit_volumes", acctest.Required, acctest.Create, DataSafeauditProfileCollectedAuditVolumeDataSourceRepresentation) +
-				compartmentIdVariableStr + DataSafeAuditProfileCollectedAuditVolumeResourceConfig,
+			Config: config + workIdVariableStr + auditIdVariableStr +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_profile_collected_audit_volumes", "test_audit_profile_collected_audit_volumes", acctest.Required, acctest.Create, DataSafeauditProfileCollectedAuditVolumeDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "audit_profile_id"),
-				resource.TestCheckResourceAttrSet(datasourceName, "month_in_consideration_greater_than"),
-				resource.TestCheckResourceAttrSet(datasourceName, "month_in_consideration_less_than"),
 				resource.TestCheckResourceAttrSet(datasourceName, "work_request_id"),
-
-				resource.TestCheckResourceAttrSet(datasourceName, "collected_audit_volume_collection.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "collected_audit_volume_collection.0.items.0.online_volume"),
+				resource.TestCheckResourceAttrSet(datasourceName, "collected_audit_volume_collection.0.items.0.archived_volume"),
 			),
 		},
 		// verify singular datasource
 		{
-			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_profile_collected_audit_volume", "test_audit_profile_collected_audit_volume", acctest.Required, acctest.Create, DataSafeauditProfileCollectedAuditVolumeSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + DataSafeAuditProfileCollectedAuditVolumeResourceConfig,
+			Config: config + workIdVariableStr + auditIdVariableStr +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_profile_collected_audit_volume", "test_audit_profile_collected_audit_volume", acctest.Required, acctest.Create, DataSafeauditProfileCollectedAuditVolumeSingularDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "audit_profile_id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "month_in_consideration_greater_than", "monthInConsiderationGreaterThan"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "month_in_consideration_less_than", "monthInConsiderationLessThan"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "work_request_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "items.0.online_volume"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "items.0.archived_volume"),
 			),
 		},
 	})

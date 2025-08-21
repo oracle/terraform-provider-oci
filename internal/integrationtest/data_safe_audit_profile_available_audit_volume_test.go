@@ -17,23 +17,12 @@ import (
 
 var (
 	DataSafeauditProfileAvailableAuditVolumeSingularDataSourceRepresentation = map[string]interface{}{
-		"audit_profile_id":                    acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_audit_profile.test_audit_profile.id}`},
-		"work_request_id":                     acctest.Representation{RepType: acctest.Required, Create: `${oci_containerengine_work_request.test_work_request.id}`},
+		"audit_profile_id":                    acctest.Representation{RepType: acctest.Required, Create: `${var.auditProfileId}`},
+		"work_request_id":                     acctest.Representation{RepType: acctest.Required, Create: `${var.workId}`},
 		"month_in_consideration_greater_than": acctest.Representation{RepType: acctest.Optional, Create: `monthInConsiderationGreaterThan`},
 		"month_in_consideration_less_than":    acctest.Representation{RepType: acctest.Optional, Create: `monthInConsiderationLessThan`},
 		"trail_location":                      acctest.Representation{RepType: acctest.Optional, Create: `trailLocation`},
 	}
-
-	DataSafeauditProfileAvailableAuditVolumeDataSourceRepresentation = map[string]interface{}{
-		"audit_profile_id":                    acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_audit_profile.test_audit_profile.id}`},
-		"work_request_id":                     acctest.Representation{RepType: acctest.Required, Create: `${oci_containerengine_work_request.test_work_request.id}`},
-		"month_in_consideration_greater_than": acctest.Representation{RepType: acctest.Optional, Create: `monthInConsiderationGreaterThan`},
-		"month_in_consideration_less_than":    acctest.Representation{RepType: acctest.Optional, Create: `monthInConsiderationLessThan`},
-		"trail_location":                      acctest.Representation{RepType: acctest.Optional, Create: `trailLocation`},
-	}
-
-	DataSafeAuditProfileAvailableAuditVolumeResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_work_requests", "test_work_requests", acctest.Required, acctest.Create, ContainerengineContainerengineWorkRequestDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_profile", "test_audit_profile", acctest.Required, acctest.Create, auditProfileRepresentation)
 )
 
 // issue-routing-tag: data_safe/default
@@ -43,25 +32,23 @@ func TestDataSafeAuditProfileAvailableAuditVolumeResource_basic(t *testing.T) {
 
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
-	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	workId := utils.GetEnvSettingWithBlankDefault("work_request_id")
+	workIdVariableStr := fmt.Sprintf("variable \"workId\" { default = \"%s\" }\n", workId)
+
+	auditId := utils.GetEnvSettingWithBlankDefault("auditProfileId")
+	auditIdVariableStr := fmt.Sprintf("variable \"auditProfileId\" { default = \"%s\" }\n", auditId)
 
 	datasourceName := "data.oci_data_safe_audit_profile_available_audit_volumes.test_audit_profile_available_audit_volumes"
 	singularDatasourceName := "data.oci_data_safe_audit_profile_available_audit_volume.test_audit_profile_available_audit_volume"
 
 	acctest.SaveConfigContent("", "", "", t)
-
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
-			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_profile_available_audit_volumes", "test_audit_profile_available_audit_volumes", acctest.Required, acctest.Create, DataSafeauditProfileAvailableAuditVolumeDataSourceRepresentation) +
-				compartmentIdVariableStr + DataSafeAuditProfileAvailableAuditVolumeResourceConfig,
+			Config: config + workIdVariableStr + auditIdVariableStr +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_profile_available_audit_volumes", "test_audit_profile_available_audit_volumes", acctest.Required, acctest.Create, DataSafeauditProfileAvailableAuditVolumeSingularDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "audit_profile_id"),
-				resource.TestCheckResourceAttrSet(datasourceName, "month_in_consideration_greater_than"),
-				resource.TestCheckResourceAttrSet(datasourceName, "month_in_consideration_less_than"),
-				resource.TestCheckResourceAttr(datasourceName, "trail_location", "trailLocation"),
 				resource.TestCheckResourceAttrSet(datasourceName, "work_request_id"),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "available_audit_volume_collection.#"),
@@ -69,15 +56,12 @@ func TestDataSafeAuditProfileAvailableAuditVolumeResource_basic(t *testing.T) {
 		},
 		// verify singular datasource
 		{
-			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_profile_available_audit_volume", "test_audit_profile_available_audit_volume", acctest.Required, acctest.Create, DataSafeauditProfileAvailableAuditVolumeSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + DataSafeAuditProfileAvailableAuditVolumeResourceConfig,
+			Config: config + workIdVariableStr + auditIdVariableStr +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_profile_available_audit_volume", "test_audit_profile_available_audit_volume", acctest.Required, acctest.Create, DataSafeauditProfileAvailableAuditVolumeSingularDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "audit_profile_id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "month_in_consideration_greater_than", "monthInConsiderationGreaterThan"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "month_in_consideration_less_than", "monthInConsiderationLessThan"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "trail_location", "trailLocation"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "work_request_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "items.#"),
 			),
 		},
 	})
