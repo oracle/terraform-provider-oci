@@ -27,7 +27,9 @@ data "oci_data_safe_discovery_analytics" "test_discovery_analytics" {
 	group_by = var.discovery_analytic_group_by
 	is_common = var.discovery_analytic_is_common
 	sensitive_data_model_id = oci_data_safe_sensitive_data_model.test_sensitive_data_model.id
+	sensitive_type_group_id = oci_data_safe_sensitive_type_group.test_sensitive_type_group.id
 	sensitive_type_id = oci_data_safe_sensitive_type.test_sensitive_type.id
+	target_database_group_id = oci_data_safe_target_database_group.test_target_database_group.id
 	target_id = oci_cloud_guard_target.test_target.id
 }
 ```
@@ -41,7 +43,9 @@ The following arguments are supported:
 * `group_by` - (Optional) Attribute by which the discovery analytics data should be grouped.
 * `is_common` - (Optional) A filter to return only the common sensitive type resources. Common sensitive types belong to  library sensitive types which are frequently used to perform sensitive data discovery. 
 * `sensitive_data_model_id` - (Optional) A filter to return only the resources that match the specified sensitive data model OCID.
+* `sensitive_type_group_id` - (Optional) An optional filter to return only resources that match the specified OCID of the sensitive type group resource.
 * `sensitive_type_id` - (Optional) A filter to return only items related to a specific sensitive type OCID.
+* `target_database_group_id` - (Optional) A filter to return the target database group that matches the specified OCID.
 * `target_id` - (Optional) A filter to return only items related to a specific target OCID.
 
 
@@ -62,4 +66,5 @@ The following attributes are exported:
 		* `sensitive_type_id` - The OCID of the sensitive type.
 		* `target_id` - The OCID of the target database.
 	* `metric_name` - The name of the aggregation metric.
+	* `time_last_discovered` - The date and time when data discovery was last done on the target database, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 

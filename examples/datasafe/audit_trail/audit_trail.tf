@@ -10,11 +10,11 @@ variable "compartment_ocid" {}
 variable "trail_ocid" {}
 
 variable "audit_trail_access_level" {
-  default = "RESTRICTED"
+  default = "ACCESSIBLE"
 }
 
 variable "audit_trail_compartment_id_in_subtree" {
-  default = false
+  default = true
 }
 
 variable "audit_trail_defined_tags_value" {
@@ -34,6 +34,10 @@ variable "audit_trail_freeform_tags" {
 }
 
 variable "audit_trail_is_auto_purge_enabled" {
+  default = false
+}
+
+variable "can_update_last_archive_time_on_target" {
   default = false
 }
 
@@ -64,6 +68,7 @@ resource "oci_data_safe_audit_trail" "test_audit_trail" {
   display_name          = var.audit_trail_display_name
   freeform_tags         = var.audit_trail_freeform_tags
   is_auto_purge_enabled = var.audit_trail_is_auto_purge_enabled
+  can_update_last_archive_time_on_target = var.can_update_last_archive_time_on_target
 }
 
 data "oci_data_safe_audit_trails" "test_audit_trails" {

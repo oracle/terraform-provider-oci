@@ -46,6 +46,7 @@ The following attributes are exported:
 	* `instance_id` - The OCID of the compute instance on which the database is running.
 	* `ip_addresses` - The list of database host IP Addresses. Fully qualified domain names can be used if connectionType is 'ONPREM_CONNECTOR'. 
 	* `listener_port` - The port number of the database listener.
+	* `pluggable_database_id` - The OCID of the pluggable database registered as a target database in Data Safe.
 	* `service_name` - The service name of the database registered as target database.
 	* `vm_cluster_id` - The OCID of the VM cluster in which the database is running.
 * `database_unique_name` - Unique name of the database associated to the peer target database.

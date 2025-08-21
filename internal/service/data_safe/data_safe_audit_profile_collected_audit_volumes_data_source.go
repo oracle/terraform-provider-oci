@@ -52,34 +52,21 @@ func DataSafeAuditProfileCollectedAuditVolumesDataSource() *schema.Resource {
 									// Optional
 
 									// Computed
-									"items": {
-										Type:     schema.TypeList,
+									"archived_volume": {
+										Type:     schema.TypeString,
 										Computed: true,
-										Elem: &schema.Resource{
-											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
-
-												// Computed
-												"archived_volume": {
-													Type:     schema.TypeString,
-													Computed: true,
-												},
-												"audit_profile_id": {
-													Type:     schema.TypeString,
-													Computed: true,
-												},
-												"month_in_consideration": {
-													Type:     schema.TypeString,
-													Computed: true,
-												},
-												"online_volume": {
-													Type:     schema.TypeString,
-													Computed: true,
-												},
-											},
-										},
+									},
+									"audit_profile_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"month_in_consideration": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"online_volume": {
+										Type:     schema.TypeString,
+										Computed: true,
 									},
 								},
 							},

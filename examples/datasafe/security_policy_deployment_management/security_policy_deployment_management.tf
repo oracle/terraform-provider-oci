@@ -7,7 +7,8 @@ variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
 variable "compartment_ocid" {}
-variable "security_policy_deployment_id" {}
+variable "security_policy_id" {}
+variable "target_type" {}
 variable "data_safe_target_ocid" {}
 
 variable "description" {
@@ -30,6 +31,8 @@ resource "oci_data_safe_security_policy_deployment_management" "test_security_po
   #Required
   compartment_id = var.compartment_ocid
   target_id = var.data_safe_target_ocid
+  security_policy_id = var.security_policy_id
+  target_type = var.target_type
 
   #Optional
   description = var.description

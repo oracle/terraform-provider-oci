@@ -6,50 +6,63 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
-variable "compartment_ocid" {}
-variable "profile_ocid" {}
 
-variable "audit_profile_access_level" {
-  default = "RESTRICTED"
+variable "compartment_id" {
+  type    = string
+  default = "<ocid>"
 }
 
-variable "audit_profile_audit_collected_volume_greater_than_or_equal_to" {
+variable "target_id" {
+  type    = string
+  default = "<ocid>"
+}
+variable "target_type" {
+  type    = string
+  default = "TARGET_DATABASE_GROUP"
+  #default = "TARGET_DATABASE"
+}
+
+variable "display_name" {
+  type    = string
+  default = "Audit_1"
+}
+
+variable "description" {
+  type    = string
+  default = "Description"
+}
+
+variable "freeform_tags" {
+  type = map(string)
+  default = {
+    Department = "Finance"
+  }
+}
+
+variable "is_override_global_paid_usage" {
+  type    = bool
+  default = true
+}
+
+variable "is_paid_usage_enabled" {
+  type    = bool
+  default = true
+}
+
+variable "offline_months" {
+  type    = number
   default = 10
 }
 
-variable "audit_profile_compartment_id_in_subtree" {
-  default = false
+variable "online_months" {
+  type    = number
+  default = 10
 }
 
-variable "audit_profile_defined_tags_value" {
-  default = "value"
+variable "displayName" {
+  type = string
+  default = "TestAuditProfile"
 }
-
-variable "audit_profile_description" {
-  default = "updated-description"
-}
-
-variable "audit_profile_display_name" {
-  default = "Audit_updated"
-}
-
-variable "audit_profile_freeform_tags" {
-  default = { "Department" = "Finance" }
-}
-
-variable "audit_profile_is_override_global_retention_setting" {
-  default = false
-}
-
-variable "audit_profile_is_paid_usage_enabled" {
-  default = false
-}
-
-variable "audit_profile_state" {
-  default = "AVAILABLE"
-}
-
-
 
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
@@ -59,19 +72,36 @@ provider "oci" {
   region           = var.region
 }
 
+/*
+* In case of target group 
+* Create Resource - Create audit profile
+* Update resource - Updates the audit profile 
+* Delete resource - Deletes audit profile
+* ------------------------------------------
+* In case of a target
+* Create resource - Will fetch the profile details via target and compartment ocid . No creation 
+* Update resource - Updates audit profile 
+* Destroy resource - Nothing is created so nothing will be destroyed
+*/
 resource "oci_data_safe_audit_profile" "test_audit_profile" {
-  #Required
-  audit_profile_id = var.profile_ocid
-
-  #Optional
-  description           = var.audit_profile_description
-  display_name          = var.audit_profile_display_name
-  freeform_tags         = var.audit_profile_freeform_tags
-  is_paid_usage_enabled = var.audit_profile_is_paid_usage_enabled
+  // Required
+  compartment_id = var.compartment_id
+  target_id                      = var.target_id
+  target_type                    = var.target_type
+  // Optional
+  display_name                   = var.displayName
+  description                    = var.description
+  freeform_tags                  = var.freeform_tags
+  is_override_global_paid_usage  = var.is_override_global_paid_usage
+  is_paid_usage_enabled          = var.is_paid_usage_enabled
+  offline_months                 = var.offline_months
+  online_months                  = var.online_months
+  change_retention_trigger       = 1
+  is_override_global_retention_setting = true
 }
+
 
 data "oci_data_safe_audit_profile" "test_audit_profile" {
-  #Optional
-  audit_profile_id                                = var.profile_ocid
+  #Required
+  audit_profile_id  = oci_data_safe_audit_profile.test_audit_profile.id
 }
-

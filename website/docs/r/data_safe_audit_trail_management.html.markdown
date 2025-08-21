@@ -21,6 +21,7 @@ resource "oci_data_safe_audit_trail_management" "test_audit_trail_management" {
 	target_id = oci_data_safe_target_database.test_target_database.id
 
 	#Optional
+	can_update_last_archive_time_on_target = var.audit_trail_management_can_update_last_archive_time_on_target
 	defined_tags = {"Operations.CostCenter"= "42"}
 	description = var.audit_trail_management_description
 	display_name = var.audit_trail_management_display_name
@@ -34,6 +35,7 @@ resource "oci_data_safe_audit_trail_management" "test_audit_trail_management" {
 The following arguments are supported:
 
 * `audit_trail_id` - (Required) The OCID of the audit trail.
+* `can_update_last_archive_time_on_target` - (Optional) (Updatable) Indicates if the Datasafe updates last archive time on target database. If isAutoPurgeEnabled field is enabled, this field must be true. 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}` 
 * `target_id` - (Required) The OCID of the target.
 * `compartment_id` - (Required) The OCID of the compartment that contains the target.
@@ -57,6 +59,7 @@ The following attributes are exported:
 
 * `audit_collection_start_time` - The date from which the audit trail must start collecting data, in the format defined by RFC3339.
 * `audit_profile_id` - The OCID of the  parent audit.
+* `can_update_last_archive_time_on_target` - Indicates if the Datasafe updates last archive time on target database. If isAutoPurgeEnabled field is enabled, this field must be true. 
 * `compartment_id` - The OCID of the compartment that contains the audit trail and is the same as the compartment of the audit profile resource. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description of the audit trail.

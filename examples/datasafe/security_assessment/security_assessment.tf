@@ -30,6 +30,10 @@ resource "oci_data_safe_security_assessment" "oci_data_safe_security_assessment"
   #Optional
   target_id = var.data_safe_target_ocid
   display_name = var.display_name
+
+  lifecycle {
+    ignore_changes = [system_tags]
+  }
 }
 
 data "oci_data_safe_security_assessments" "test_security_assessments" {

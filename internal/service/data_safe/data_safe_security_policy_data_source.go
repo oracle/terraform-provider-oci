@@ -88,6 +88,8 @@ func (s *DataSafeSecurityPolicyDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	s.D.Set("security_policy_type", s.Res.SecurityPolicyType)
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SystemTags != nil {

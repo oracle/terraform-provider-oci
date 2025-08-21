@@ -144,7 +144,8 @@ func (s *DataSafeOnPremConnectorResourceCrud) CreatedPending() []string {
 
 func (s *DataSafeOnPremConnectorResourceCrud) CreatedTarget() []string {
 	return []string{
-		string(oci_data_safe.OnPremConnectorLifecycleStateInactive),
+		string(oci_data_safe.ListOnPremConnectorsLifecycleStateInactive),
+		string(oci_data_safe.ListOnPremConnectorsLifecycleStateFailed),
 	}
 }
 
@@ -377,13 +378,12 @@ func (s *DataSafeOnPremConnectorResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.UpdateOnPremConnector(context.Background(), request)
+	_, err := s.Client.UpdateOnPremConnector(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
-	workId := response.OpcWorkRequestId
-	return s.getOnPremConnectorFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.Get()
 }
 
 func (s *DataSafeOnPremConnectorResourceCrud) Delete() error {

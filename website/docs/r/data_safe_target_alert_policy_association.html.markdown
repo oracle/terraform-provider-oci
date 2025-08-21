@@ -28,6 +28,7 @@ resource "oci_data_safe_target_alert_policy_association" "test_target_alert_poli
 	description = var.target_alert_policy_association_description
 	display_name = var.target_alert_policy_association_display_name
 	freeform_tags = {"Department"= "Finance"}
+	target_type = var.target_alert_policy_association_target_type
 }
 ```
 
@@ -42,7 +43,8 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}`
 * `is_enabled` - (Required) (Updatable) Indicates if the target-alert policy association is enabled or disabled.
 * `policy_id` - (Required) The OCID of the alert policy.
-* `target_id` - (Required) The OCID of the target.
+* `target_id` - (Required) The OCID of the target or target database group.
+* `target_type` - (Optional) The resource type that is represented by the alert policy association. Default is considered as TARGET_DATABASE.
 
 
 ** IMPORTANT **
@@ -62,8 +64,9 @@ The following attributes are exported:
 * `lifecycle_details` - Details about the current state of the target-alert policy association.
 * `policy_id` - The OCID of the alert policy.
 * `state` - The current state of the target-alert policy association.
-* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}`
+* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `target_id` - The OCID of the target on which alert policy is to be applied.
+* `target_type` - The resource type that is represented by the target alert policy association.
 * `time_created` - Creation date and time of the alert policy, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `time_updated` - Last date and time the alert policy was updated, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 
