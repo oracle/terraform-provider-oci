@@ -59,6 +59,8 @@ type DbSystemSummary struct {
 
 	Rest *RestDetails `mandatory:"false" json:"rest"`
 
+	DatabaseConsole *DatabaseConsoleDetails `mandatory:"false" json:"databaseConsole"`
+
 	// Specifies if the DB System is highly available.
 	IsHighlyAvailable *bool `mandatory:"false" json:"isHighlyAvailable"`
 

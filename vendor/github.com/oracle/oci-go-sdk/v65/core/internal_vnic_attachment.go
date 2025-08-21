@@ -237,7 +237,7 @@ const (
 	InternalVnicAttachmentVnicShapeVnicaasPrivatedns               InternalVnicAttachmentVnicShapeEnum = "VNICAAS_PRIVATEDNS"
 	InternalVnicAttachmentVnicShapeVnicaasFwaas                    InternalVnicAttachmentVnicShapeEnum = "VNICAAS_FWAAS"
 	InternalVnicAttachmentVnicShapeVnicaasLbaasFree                InternalVnicAttachmentVnicShapeEnum = "VNICAAS_LBAAS_FREE"
-	InternalVnicAttachmentVnicShapeVnicaasLbaas8g512k              InternalVnicAttachmentVnicShapeEnum = "VNICAAS_LBAAS_8G_512K"
+	InternalVnicAttachmentVnicShapeVnicaasLbaas60gGax              InternalVnicAttachmentVnicShapeEnum = "VNICAAS_LBAAS_60G_GAX"
 	InternalVnicAttachmentVnicShapeVnicaasLbaas8g1m                InternalVnicAttachmentVnicShapeEnum = "VNICAAS_LBAAS_8G_1M"
 	InternalVnicAttachmentVnicShapeVnicaasLbaas8g2m                InternalVnicAttachmentVnicShapeEnum = "VNICAAS_LBAAS_8G_2M"
 	InternalVnicAttachmentVnicShapeVnicaasLbaas8g3m                InternalVnicAttachmentVnicShapeEnum = "VNICAAS_LBAAS_8G_3M"
@@ -1819,7 +1819,7 @@ var mappingInternalVnicAttachmentVnicShapeEnum = map[string]InternalVnicAttachme
 	"VNICAAS_PRIVATEDNS":                   InternalVnicAttachmentVnicShapeVnicaasPrivatedns,
 	"VNICAAS_FWAAS":                        InternalVnicAttachmentVnicShapeVnicaasFwaas,
 	"VNICAAS_LBAAS_FREE":                   InternalVnicAttachmentVnicShapeVnicaasLbaasFree,
-	"VNICAAS_LBAAS_8G_512K":                InternalVnicAttachmentVnicShapeVnicaasLbaas8g512k,
+	"VNICAAS_LBAAS_60G_GAX":                InternalVnicAttachmentVnicShapeVnicaasLbaas60gGax,
 	"VNICAAS_LBAAS_8G_1M":                  InternalVnicAttachmentVnicShapeVnicaasLbaas8g1m,
 	"VNICAAS_LBAAS_8G_2M":                  InternalVnicAttachmentVnicShapeVnicaasLbaas8g2m,
 	"VNICAAS_LBAAS_8G_3M":                  InternalVnicAttachmentVnicShapeVnicaasLbaas8g3m,
@@ -3401,7 +3401,7 @@ var mappingInternalVnicAttachmentVnicShapeEnumLowerCase = map[string]InternalVni
 	"vnicaas_privatedns":                   InternalVnicAttachmentVnicShapeVnicaasPrivatedns,
 	"vnicaas_fwaas":                        InternalVnicAttachmentVnicShapeVnicaasFwaas,
 	"vnicaas_lbaas_free":                   InternalVnicAttachmentVnicShapeVnicaasLbaasFree,
-	"vnicaas_lbaas_8g_512k":                InternalVnicAttachmentVnicShapeVnicaasLbaas8g512k,
+	"vnicaas_lbaas_60g_gax":                InternalVnicAttachmentVnicShapeVnicaasLbaas60gGax,
 	"vnicaas_lbaas_8g_1m":                  InternalVnicAttachmentVnicShapeVnicaasLbaas8g1m,
 	"vnicaas_lbaas_8g_2m":                  InternalVnicAttachmentVnicShapeVnicaasLbaas8g2m,
 	"vnicaas_lbaas_8g_3m":                  InternalVnicAttachmentVnicShapeVnicaasLbaas8g3m,
@@ -4994,7 +4994,7 @@ func GetInternalVnicAttachmentVnicShapeEnumStringValues() []string {
 		"VNICAAS_PRIVATEDNS",
 		"VNICAAS_FWAAS",
 		"VNICAAS_LBAAS_FREE",
-		"VNICAAS_LBAAS_8G_512K",
+		"VNICAAS_LBAAS_60G_GAX",
 		"VNICAAS_LBAAS_8G_1M",
 		"VNICAAS_LBAAS_8G_2M",
 		"VNICAAS_LBAAS_8G_3M",

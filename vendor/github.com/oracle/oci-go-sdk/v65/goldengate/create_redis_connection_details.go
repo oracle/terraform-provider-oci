@@ -61,6 +61,11 @@ type CreateRedisConnectionDetails struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
 	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
 
+	// The OCID(/Content/General/Concepts/identifiers.htm) of the cluster placement group for the resource.
+	// Only applicable for multicloud subscriptions. The cluster placement group id must be provided when a multicloud
+	// subscription id is provided. Otherwise the cluster placement group must not be provided.
+	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
+
 	// Comma separated list of Redis server addresses, specified as host:port entries, where :port is optional.
 	// If port is not specified, it defaults to 6379.
 	// Used for establishing the initial connection to the Redis cluster.
@@ -198,6 +203,11 @@ func (m CreateRedisConnectionDetails) GetDoesUseSecretIds() *bool {
 // GetSubscriptionId returns SubscriptionId
 func (m CreateRedisConnectionDetails) GetSubscriptionId() *string {
 	return m.SubscriptionId
+}
+
+// GetClusterPlacementGroupId returns ClusterPlacementGroupId
+func (m CreateRedisConnectionDetails) GetClusterPlacementGroupId() *string {
+	return m.ClusterPlacementGroupId
 }
 
 func (m CreateRedisConnectionDetails) String() string {

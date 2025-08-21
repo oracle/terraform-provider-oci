@@ -100,6 +100,11 @@ type Db2ConnectionSummary struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
 	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
 
+	// The OCID(/Content/General/Concepts/identifiers.htm) of the cluster placement group for the resource.
+	// Only applicable for multicloud subscriptions. The cluster placement group id must be provided when a multicloud
+	// subscription id is provided. Otherwise the cluster placement group must not be provided.
+	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
+
 	// An array of name-value pair attribute entries.
 	// Used as additional parameters in connection string.
 	AdditionalAttributes []NameValuePair `mandatory:"false" json:"additionalAttributes"`
@@ -235,6 +240,11 @@ func (m Db2ConnectionSummary) GetDoesUseSecretIds() *bool {
 // GetSubscriptionId returns SubscriptionId
 func (m Db2ConnectionSummary) GetSubscriptionId() *string {
 	return m.SubscriptionId
+}
+
+// GetClusterPlacementGroupId returns ClusterPlacementGroupId
+func (m Db2ConnectionSummary) GetClusterPlacementGroupId() *string {
+	return m.ClusterPlacementGroupId
 }
 
 func (m Db2ConnectionSummary) String() string {

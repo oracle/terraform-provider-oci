@@ -53,6 +53,8 @@ const (
 	OperationTypeMoveHome                       OperationTypeEnum = "MOVE_HOME"
 	OperationTypeSingleTargetPrecheck           OperationTypeEnum = "SINGLE_TARGET_PRECHECK"
 	OperationTypeSingleTargetApply              OperationTypeEnum = "SINGLE_TARGET_APPLY"
+	OperationTypeCreateReadinessCheck           OperationTypeEnum = "CREATE_READINESS_CHECK"
+	OperationTypeDeleteReadinessCheck           OperationTypeEnum = "DELETE_READINESS_CHECK"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -90,6 +92,8 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"MOVE_HOME":                         OperationTypeMoveHome,
 	"SINGLE_TARGET_PRECHECK":            OperationTypeSingleTargetPrecheck,
 	"SINGLE_TARGET_APPLY":               OperationTypeSingleTargetApply,
+	"CREATE_READINESS_CHECK":            OperationTypeCreateReadinessCheck,
+	"DELETE_READINESS_CHECK":            OperationTypeDeleteReadinessCheck,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -127,6 +131,8 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"move_home":                         OperationTypeMoveHome,
 	"single_target_precheck":            OperationTypeSingleTargetPrecheck,
 	"single_target_apply":               OperationTypeSingleTargetApply,
+	"create_readiness_check":            OperationTypeCreateReadinessCheck,
+	"delete_readiness_check":            OperationTypeDeleteReadinessCheck,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -175,6 +181,8 @@ func GetOperationTypeEnumStringValues() []string {
 		"MOVE_HOME",
 		"SINGLE_TARGET_PRECHECK",
 		"SINGLE_TARGET_APPLY",
+		"CREATE_READINESS_CHECK",
+		"DELETE_READINESS_CHECK",
 	}
 }
 

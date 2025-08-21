@@ -55,8 +55,16 @@ func (m *allowedsecurityconfiguration) UnmarshalPolymorphicJSON(data []byte) (in
 		mm := StatefulEgressSecurityListConfiguration{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "STATEFUL_ZPR":
+		mm := StatefulZprConfiguration{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "NSG":
 		mm := NsgConfiguration{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ZPR":
+		mm := ZprConfiguration{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "INGRESS_SECURITY_LIST":
@@ -108,6 +116,8 @@ const (
 	AllowedSecurityConfigurationTypeStatefulIngressSecurityList AllowedSecurityConfigurationTypeEnum = "STATEFUL_INGRESS_SECURITY_LIST"
 	AllowedSecurityConfigurationTypeEgressSecurityList          AllowedSecurityConfigurationTypeEnum = "EGRESS_SECURITY_LIST"
 	AllowedSecurityConfigurationTypeStatefulEgressSecurityList  AllowedSecurityConfigurationTypeEnum = "STATEFUL_EGRESS_SECURITY_LIST"
+	AllowedSecurityConfigurationTypeZpr                         AllowedSecurityConfigurationTypeEnum = "ZPR"
+	AllowedSecurityConfigurationTypeStatefulZpr                 AllowedSecurityConfigurationTypeEnum = "STATEFUL_ZPR"
 )
 
 var mappingAllowedSecurityConfigurationTypeEnum = map[string]AllowedSecurityConfigurationTypeEnum{
@@ -117,6 +127,8 @@ var mappingAllowedSecurityConfigurationTypeEnum = map[string]AllowedSecurityConf
 	"STATEFUL_INGRESS_SECURITY_LIST": AllowedSecurityConfigurationTypeStatefulIngressSecurityList,
 	"EGRESS_SECURITY_LIST":           AllowedSecurityConfigurationTypeEgressSecurityList,
 	"STATEFUL_EGRESS_SECURITY_LIST":  AllowedSecurityConfigurationTypeStatefulEgressSecurityList,
+	"ZPR":                            AllowedSecurityConfigurationTypeZpr,
+	"STATEFUL_ZPR":                   AllowedSecurityConfigurationTypeStatefulZpr,
 }
 
 var mappingAllowedSecurityConfigurationTypeEnumLowerCase = map[string]AllowedSecurityConfigurationTypeEnum{
@@ -126,6 +138,8 @@ var mappingAllowedSecurityConfigurationTypeEnumLowerCase = map[string]AllowedSec
 	"stateful_ingress_security_list": AllowedSecurityConfigurationTypeStatefulIngressSecurityList,
 	"egress_security_list":           AllowedSecurityConfigurationTypeEgressSecurityList,
 	"stateful_egress_security_list":  AllowedSecurityConfigurationTypeStatefulEgressSecurityList,
+	"zpr":                            AllowedSecurityConfigurationTypeZpr,
+	"stateful_zpr":                   AllowedSecurityConfigurationTypeStatefulZpr,
 }
 
 // GetAllowedSecurityConfigurationTypeEnumValues Enumerates the set of values for AllowedSecurityConfigurationTypeEnum
@@ -146,6 +160,8 @@ func GetAllowedSecurityConfigurationTypeEnumStringValues() []string {
 		"STATEFUL_INGRESS_SECURITY_LIST",
 		"EGRESS_SECURITY_LIST",
 		"STATEFUL_EGRESS_SECURITY_LIST",
+		"ZPR",
+		"STATEFUL_ZPR",
 	}
 }
 

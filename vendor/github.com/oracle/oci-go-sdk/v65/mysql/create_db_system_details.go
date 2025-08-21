@@ -39,6 +39,8 @@ type CreateDbSystemDetails struct {
 
 	Rest *CreateRestDetails `mandatory:"false" json:"rest"`
 
+	DatabaseConsole *CreateDatabaseConsoleDetails `mandatory:"false" json:"databaseConsole"`
+
 	// Specifies if the DB System is highly available.
 	// When creating a DB System with High Availability, three instances
 	// are created and placed according to your region- and
@@ -193,6 +195,7 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 		DisplayName          *string                           `json:"displayName"`
 		Description          *string                           `json:"description"`
 		Rest                 *CreateRestDetails                `json:"rest"`
+		DatabaseConsole      *CreateDatabaseConsoleDetails     `json:"databaseConsole"`
 		IsHighlyAvailable    *bool                             `json:"isHighlyAvailable"`
 		AvailabilityDomain   *string                           `json:"availabilityDomain"`
 		FaultDomain          *string                           `json:"faultDomain"`
@@ -237,6 +240,8 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 	m.Description = model.Description
 
 	m.Rest = model.Rest
+
+	m.DatabaseConsole = model.DatabaseConsole
 
 	m.IsHighlyAvailable = model.IsHighlyAvailable
 

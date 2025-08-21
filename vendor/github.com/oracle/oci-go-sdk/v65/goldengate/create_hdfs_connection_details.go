@@ -65,6 +65,11 @@ type CreateHdfsConnectionDetails struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
 	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
 
+	// The OCID(/Content/General/Concepts/identifiers.htm) of the cluster placement group for the resource.
+	// Only applicable for multicloud subscriptions. The cluster placement group id must be provided when a multicloud
+	// subscription id is provided. Otherwise the cluster placement group must not be provided.
+	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
+
 	// Controls the network traffic direction to the target:
 	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.
 	// SHARED_DEPLOYMENT_ENDPOINT: Network traffic flows from the assigned deployment's private endpoint through the deployment's subnet.
@@ -138,6 +143,11 @@ func (m CreateHdfsConnectionDetails) GetDoesUseSecretIds() *bool {
 // GetSubscriptionId returns SubscriptionId
 func (m CreateHdfsConnectionDetails) GetSubscriptionId() *string {
 	return m.SubscriptionId
+}
+
+// GetClusterPlacementGroupId returns ClusterPlacementGroupId
+func (m CreateHdfsConnectionDetails) GetClusterPlacementGroupId() *string {
+	return m.ClusterPlacementGroupId
 }
 
 func (m CreateHdfsConnectionDetails) String() string {

@@ -108,6 +108,14 @@ type CreateVnicDetails struct {
 	// and instead provide the specific IPv6 address within that range to use.
 	Ipv6AddressIpv6SubnetCidrPairDetails []Ipv6AddressIpv6SubnetCidrPairDetails `mandatory:"false" json:"ipv6AddressIpv6SubnetCidrPairDetails"`
 
+	// One of the IPv4 CIDR blocks allocated to the subnet. Represents the IP range
+	// from which the VNIC's private IP address will be assigned if `privateIp` or
+	// `privateIpId` is not specified.
+	// Either this field or the `privateIp` (or `privateIpId`, if applicable) field
+	// must be provided, but not both simultaneously.
+	// Example: `192.168.1.0/28`
+	SubnetCidr *string `mandatory:"false" json:"subnetCidr"`
+
 	// A list of the OCIDs of the network security groups (NSGs) to add the VNIC to. For more
 	// information about NSGs, see
 	// NetworkSecurityGroup.

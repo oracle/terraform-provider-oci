@@ -14,6 +14,9 @@ import (
 // ListOpensearchClusterShapesRequest wrapper for the ListOpensearchClusterShapes operation
 type ListOpensearchClusterShapesRequest struct {
 
+	// The ID of the compartment in which to list resources.
+	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

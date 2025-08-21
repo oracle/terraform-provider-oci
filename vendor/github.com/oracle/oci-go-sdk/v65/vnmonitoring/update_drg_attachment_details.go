@@ -44,12 +44,6 @@ type UpdateDrgAttachmentDetails struct {
 	// are advertised out through the attachment.
 	// If this value is null, no routes are advertised through this attachment.
 	ExportDrgRouteDistributionId *string `mandatory:"false" json:"exportDrgRouteDistributionId"`
-
-	// This is the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table that is used to route the traffic as it enters a VCN through this attachment.
-	// For information about why you would associate a route table with a DRG attachment, see:
-	//   * Transit Routing: Access to Multiple VCNs in Same Region (https://docs.oracle.com/iaas/Content/Network/Tasks/transitrouting.htm)
-	//   * Transit Routing: Private Access to Oracle Services (https://docs.oracle.com/iaas/Content/Network/Tasks/transitroutingoracleservices.htm)
-	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 }
 
 func (m UpdateDrgAttachmentDetails) String() string {
@@ -77,7 +71,6 @@ func (m *UpdateDrgAttachmentDetails) UnmarshalJSON(data []byte) (e error) {
 		DefinedTags                  map[string]map[string]interface{} `json:"definedTags"`
 		FreeformTags                 map[string]string                 `json:"freeformTags"`
 		ExportDrgRouteDistributionId *string                           `json:"exportDrgRouteDistributionId"`
-		RouteTableId                 *string                           `json:"routeTableId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -104,8 +97,6 @@ func (m *UpdateDrgAttachmentDetails) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.ExportDrgRouteDistributionId = model.ExportDrgRouteDistributionId
-
-	m.RouteTableId = model.RouteTableId
 
 	return
 }

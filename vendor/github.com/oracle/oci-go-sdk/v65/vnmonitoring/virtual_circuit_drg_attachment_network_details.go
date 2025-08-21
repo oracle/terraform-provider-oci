@@ -39,7 +39,7 @@ type VirtualCircuitDrgAttachmentNetworkDetails struct {
 	// with the route target set to the value of the attachment's export route target.
 	ExportRouteTarget *string `mandatory:"false" json:"exportRouteTarget"`
 
-	// The MPLS label of the DRG attachment
+	// The MPLS label of the DRG attachment.
 	MplsLabel *int `mandatory:"false" json:"mplsLabel"`
 
 	// The BGP ASN to use for the IPSec connection's route target.
@@ -47,6 +47,24 @@ type VirtualCircuitDrgAttachmentNetworkDetails struct {
 
 	// The Oracle Cloud Infrastructure region name.
 	RegionName *string `mandatory:"false" json:"regionName"`
+
+	// Common Export route target to use for the DRG Attachment instead of per-attachment route target.
+	// This is applicable to DRG attachments that are assigned to a DRG route table which is whitelisted for high
+	// throughput mode.
+	CommonExportRT *string `mandatory:"false" json:"commonExportRT"`
+
+	// Common Import route target to use for the DRG attachment instead of per-attachment import route target.
+	// This is applicable to DRG attachments that are assigned to a DRG route table which is whitelisted for high
+	// throughput mode.
+	CommonImportRT *string `mandatory:"false" json:"commonImportRT"`
+
+	// This indicates whether the DRG route table associated with the DRG attachment is whitelisted for High Throughput mode.
+	// Example: `true`
+	IsIngressDisintermediationEnabled *bool `mandatory:"false" json:"isIngressDisintermediationEnabled"`
+
+	// This indicates whether the DRG route table associated with the DRG attachment is whitelisted for route unification.
+	// Example: `true`
+	IsRouteUnificationEnabled *bool `mandatory:"false" json:"isRouteUnificationEnabled"`
 
 	// Boolean flag that determines wether all traffic over the virtual circuits is encrypted.
 	// Example: `true`

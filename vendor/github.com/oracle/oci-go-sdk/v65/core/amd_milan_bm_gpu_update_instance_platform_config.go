@@ -72,6 +72,7 @@ const (
 	AmdMilanBmGpuUpdateInstancePlatformConfigNumaNodesPerSocketNps1 AmdMilanBmGpuUpdateInstancePlatformConfigNumaNodesPerSocketEnum = "NPS1"
 	AmdMilanBmGpuUpdateInstancePlatformConfigNumaNodesPerSocketNps2 AmdMilanBmGpuUpdateInstancePlatformConfigNumaNodesPerSocketEnum = "NPS2"
 	AmdMilanBmGpuUpdateInstancePlatformConfigNumaNodesPerSocketNps4 AmdMilanBmGpuUpdateInstancePlatformConfigNumaNodesPerSocketEnum = "NPS4"
+	AmdMilanBmGpuUpdateInstancePlatformConfigNumaNodesPerSocketNps6 AmdMilanBmGpuUpdateInstancePlatformConfigNumaNodesPerSocketEnum = "NPS6"
 )
 
 var mappingAmdMilanBmGpuUpdateInstancePlatformConfigNumaNodesPerSocketEnum = map[string]AmdMilanBmGpuUpdateInstancePlatformConfigNumaNodesPerSocketEnum{
@@ -79,6 +80,7 @@ var mappingAmdMilanBmGpuUpdateInstancePlatformConfigNumaNodesPerSocketEnum = map
 	"NPS1": AmdMilanBmGpuUpdateInstancePlatformConfigNumaNodesPerSocketNps1,
 	"NPS2": AmdMilanBmGpuUpdateInstancePlatformConfigNumaNodesPerSocketNps2,
 	"NPS4": AmdMilanBmGpuUpdateInstancePlatformConfigNumaNodesPerSocketNps4,
+	"NPS6": AmdMilanBmGpuUpdateInstancePlatformConfigNumaNodesPerSocketNps6,
 }
 
 var mappingAmdMilanBmGpuUpdateInstancePlatformConfigNumaNodesPerSocketEnumLowerCase = map[string]AmdMilanBmGpuUpdateInstancePlatformConfigNumaNodesPerSocketEnum{
@@ -86,6 +88,7 @@ var mappingAmdMilanBmGpuUpdateInstancePlatformConfigNumaNodesPerSocketEnumLowerC
 	"nps1": AmdMilanBmGpuUpdateInstancePlatformConfigNumaNodesPerSocketNps1,
 	"nps2": AmdMilanBmGpuUpdateInstancePlatformConfigNumaNodesPerSocketNps2,
 	"nps4": AmdMilanBmGpuUpdateInstancePlatformConfigNumaNodesPerSocketNps4,
+	"nps6": AmdMilanBmGpuUpdateInstancePlatformConfigNumaNodesPerSocketNps6,
 }
 
 // GetAmdMilanBmGpuUpdateInstancePlatformConfigNumaNodesPerSocketEnumValues Enumerates the set of values for AmdMilanBmGpuUpdateInstancePlatformConfigNumaNodesPerSocketEnum
@@ -104,6 +107,7 @@ func GetAmdMilanBmGpuUpdateInstancePlatformConfigNumaNodesPerSocketEnumStringVal
 		"NPS1",
 		"NPS2",
 		"NPS4",
+		"NPS6",
 	}
 }
 

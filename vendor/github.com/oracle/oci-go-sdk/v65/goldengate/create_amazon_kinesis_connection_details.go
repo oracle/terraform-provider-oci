@@ -64,6 +64,11 @@ type CreateAmazonKinesisConnectionDetails struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
 	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
 
+	// The OCID(/Content/General/Concepts/identifiers.htm) of the cluster placement group for the resource.
+	// Only applicable for multicloud subscriptions. The cluster placement group id must be provided when a multicloud
+	// subscription id is provided. Otherwise the cluster placement group must not be provided.
+	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
+
 	// Secret access key to access the Amazon Kinesis.
 	// Deprecated: This field is deprecated and replaced by "secretAccessKeySecretId". This field will be removed after February 15 2026.
 	SecretAccessKey *string `mandatory:"false" json:"secretAccessKey"`
@@ -155,6 +160,11 @@ func (m CreateAmazonKinesisConnectionDetails) GetDoesUseSecretIds() *bool {
 // GetSubscriptionId returns SubscriptionId
 func (m CreateAmazonKinesisConnectionDetails) GetSubscriptionId() *string {
 	return m.SubscriptionId
+}
+
+// GetClusterPlacementGroupId returns ClusterPlacementGroupId
+func (m CreateAmazonKinesisConnectionDetails) GetClusterPlacementGroupId() *string {
+	return m.ClusterPlacementGroupId
 }
 
 func (m CreateAmazonKinesisConnectionDetails) String() string {

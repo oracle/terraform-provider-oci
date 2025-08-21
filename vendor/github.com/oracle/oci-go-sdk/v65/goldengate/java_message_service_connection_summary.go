@@ -90,6 +90,11 @@ type JavaMessageServiceConnectionSummary struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
 	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
 
+	// The OCID(/Content/General/Concepts/identifiers.htm) of the cluster placement group for the resource.
+	// Only applicable for multicloud subscriptions. The cluster placement group id must be provided when a multicloud
+	// subscription id is provided. Otherwise the cluster placement group must not be provided.
+	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
+
 	// The Connection Factory can be looked up using this name.
 	// e.g.: 'ConnectionFactory'
 	JndiConnectionFactory *string `mandatory:"false" json:"jndiConnectionFactory"`
@@ -278,6 +283,11 @@ func (m JavaMessageServiceConnectionSummary) GetDoesUseSecretIds() *bool {
 // GetSubscriptionId returns SubscriptionId
 func (m JavaMessageServiceConnectionSummary) GetSubscriptionId() *string {
 	return m.SubscriptionId
+}
+
+// GetClusterPlacementGroupId returns ClusterPlacementGroupId
+func (m JavaMessageServiceConnectionSummary) GetClusterPlacementGroupId() *string {
+	return m.ClusterPlacementGroupId
 }
 
 func (m JavaMessageServiceConnectionSummary) String() string {

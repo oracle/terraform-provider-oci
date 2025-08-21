@@ -126,6 +126,7 @@ const (
 	AmdRomeBmGpuLaunchInstancePlatformConfigNumaNodesPerSocketNps1 AmdRomeBmGpuLaunchInstancePlatformConfigNumaNodesPerSocketEnum = "NPS1"
 	AmdRomeBmGpuLaunchInstancePlatformConfigNumaNodesPerSocketNps2 AmdRomeBmGpuLaunchInstancePlatformConfigNumaNodesPerSocketEnum = "NPS2"
 	AmdRomeBmGpuLaunchInstancePlatformConfigNumaNodesPerSocketNps4 AmdRomeBmGpuLaunchInstancePlatformConfigNumaNodesPerSocketEnum = "NPS4"
+	AmdRomeBmGpuLaunchInstancePlatformConfigNumaNodesPerSocketNps6 AmdRomeBmGpuLaunchInstancePlatformConfigNumaNodesPerSocketEnum = "NPS6"
 )
 
 var mappingAmdRomeBmGpuLaunchInstancePlatformConfigNumaNodesPerSocketEnum = map[string]AmdRomeBmGpuLaunchInstancePlatformConfigNumaNodesPerSocketEnum{
@@ -133,6 +134,7 @@ var mappingAmdRomeBmGpuLaunchInstancePlatformConfigNumaNodesPerSocketEnum = map[
 	"NPS1": AmdRomeBmGpuLaunchInstancePlatformConfigNumaNodesPerSocketNps1,
 	"NPS2": AmdRomeBmGpuLaunchInstancePlatformConfigNumaNodesPerSocketNps2,
 	"NPS4": AmdRomeBmGpuLaunchInstancePlatformConfigNumaNodesPerSocketNps4,
+	"NPS6": AmdRomeBmGpuLaunchInstancePlatformConfigNumaNodesPerSocketNps6,
 }
 
 var mappingAmdRomeBmGpuLaunchInstancePlatformConfigNumaNodesPerSocketEnumLowerCase = map[string]AmdRomeBmGpuLaunchInstancePlatformConfigNumaNodesPerSocketEnum{
@@ -140,6 +142,7 @@ var mappingAmdRomeBmGpuLaunchInstancePlatformConfigNumaNodesPerSocketEnumLowerCa
 	"nps1": AmdRomeBmGpuLaunchInstancePlatformConfigNumaNodesPerSocketNps1,
 	"nps2": AmdRomeBmGpuLaunchInstancePlatformConfigNumaNodesPerSocketNps2,
 	"nps4": AmdRomeBmGpuLaunchInstancePlatformConfigNumaNodesPerSocketNps4,
+	"nps6": AmdRomeBmGpuLaunchInstancePlatformConfigNumaNodesPerSocketNps6,
 }
 
 // GetAmdRomeBmGpuLaunchInstancePlatformConfigNumaNodesPerSocketEnumValues Enumerates the set of values for AmdRomeBmGpuLaunchInstancePlatformConfigNumaNodesPerSocketEnum
@@ -158,6 +161,7 @@ func GetAmdRomeBmGpuLaunchInstancePlatformConfigNumaNodesPerSocketEnumStringValu
 		"NPS1",
 		"NPS2",
 		"NPS4",
+		"NPS6",
 	}
 }
 

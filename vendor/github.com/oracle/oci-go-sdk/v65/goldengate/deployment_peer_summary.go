@@ -63,6 +63,8 @@ type DeploymentPeerSummary struct {
 	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
 
 	// The OCID(/Content/General/Concepts/identifiers.htm) of the cluster placement group for the resource.
+	// Only applicable for multicloud subscriptions. The cluster placement group id must be provided when a multicloud
+	// subscription id is provided. Otherwise the cluster placement group must not be provided.
 	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
 }
 

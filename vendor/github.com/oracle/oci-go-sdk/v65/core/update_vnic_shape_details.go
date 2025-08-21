@@ -115,7 +115,7 @@ const (
 	UpdateVnicShapeDetailsVnicShapeVnicaasPrivatedns               UpdateVnicShapeDetailsVnicShapeEnum = "VNICAAS_PRIVATEDNS"
 	UpdateVnicShapeDetailsVnicShapeVnicaasFwaas                    UpdateVnicShapeDetailsVnicShapeEnum = "VNICAAS_FWAAS"
 	UpdateVnicShapeDetailsVnicShapeVnicaasLbaasFree                UpdateVnicShapeDetailsVnicShapeEnum = "VNICAAS_LBAAS_FREE"
-	UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g512k              UpdateVnicShapeDetailsVnicShapeEnum = "VNICAAS_LBAAS_8G_512K"
+	UpdateVnicShapeDetailsVnicShapeVnicaasLbaas60gGax              UpdateVnicShapeDetailsVnicShapeEnum = "VNICAAS_LBAAS_60G_GAX"
 	UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g1m                UpdateVnicShapeDetailsVnicShapeEnum = "VNICAAS_LBAAS_8G_1M"
 	UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g2m                UpdateVnicShapeDetailsVnicShapeEnum = "VNICAAS_LBAAS_8G_2M"
 	UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g3m                UpdateVnicShapeDetailsVnicShapeEnum = "VNICAAS_LBAAS_8G_3M"
@@ -1697,7 +1697,7 @@ var mappingUpdateVnicShapeDetailsVnicShapeEnum = map[string]UpdateVnicShapeDetai
 	"VNICAAS_PRIVATEDNS":                   UpdateVnicShapeDetailsVnicShapeVnicaasPrivatedns,
 	"VNICAAS_FWAAS":                        UpdateVnicShapeDetailsVnicShapeVnicaasFwaas,
 	"VNICAAS_LBAAS_FREE":                   UpdateVnicShapeDetailsVnicShapeVnicaasLbaasFree,
-	"VNICAAS_LBAAS_8G_512K":                UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g512k,
+	"VNICAAS_LBAAS_60G_GAX":                UpdateVnicShapeDetailsVnicShapeVnicaasLbaas60gGax,
 	"VNICAAS_LBAAS_8G_1M":                  UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g1m,
 	"VNICAAS_LBAAS_8G_2M":                  UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g2m,
 	"VNICAAS_LBAAS_8G_3M":                  UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g3m,
@@ -3279,7 +3279,7 @@ var mappingUpdateVnicShapeDetailsVnicShapeEnumLowerCase = map[string]UpdateVnicS
 	"vnicaas_privatedns":                   UpdateVnicShapeDetailsVnicShapeVnicaasPrivatedns,
 	"vnicaas_fwaas":                        UpdateVnicShapeDetailsVnicShapeVnicaasFwaas,
 	"vnicaas_lbaas_free":                   UpdateVnicShapeDetailsVnicShapeVnicaasLbaasFree,
-	"vnicaas_lbaas_8g_512k":                UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g512k,
+	"vnicaas_lbaas_60g_gax":                UpdateVnicShapeDetailsVnicShapeVnicaasLbaas60gGax,
 	"vnicaas_lbaas_8g_1m":                  UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g1m,
 	"vnicaas_lbaas_8g_2m":                  UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g2m,
 	"vnicaas_lbaas_8g_3m":                  UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g3m,
@@ -4872,7 +4872,7 @@ func GetUpdateVnicShapeDetailsVnicShapeEnumStringValues() []string {
 		"VNICAAS_PRIVATEDNS",
 		"VNICAAS_FWAAS",
 		"VNICAAS_LBAAS_FREE",
-		"VNICAAS_LBAAS_8G_512K",
+		"VNICAAS_LBAAS_60G_GAX",
 		"VNICAAS_LBAAS_8G_1M",
 		"VNICAAS_LBAAS_8G_2M",
 		"VNICAAS_LBAAS_8G_3M",

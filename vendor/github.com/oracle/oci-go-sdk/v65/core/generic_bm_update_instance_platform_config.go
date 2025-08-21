@@ -71,6 +71,7 @@ const (
 	GenericBmUpdateInstancePlatformConfigNumaNodesPerSocketNps1 GenericBmUpdateInstancePlatformConfigNumaNodesPerSocketEnum = "NPS1"
 	GenericBmUpdateInstancePlatformConfigNumaNodesPerSocketNps2 GenericBmUpdateInstancePlatformConfigNumaNodesPerSocketEnum = "NPS2"
 	GenericBmUpdateInstancePlatformConfigNumaNodesPerSocketNps4 GenericBmUpdateInstancePlatformConfigNumaNodesPerSocketEnum = "NPS4"
+	GenericBmUpdateInstancePlatformConfigNumaNodesPerSocketNps6 GenericBmUpdateInstancePlatformConfigNumaNodesPerSocketEnum = "NPS6"
 )
 
 var mappingGenericBmUpdateInstancePlatformConfigNumaNodesPerSocketEnum = map[string]GenericBmUpdateInstancePlatformConfigNumaNodesPerSocketEnum{
@@ -78,6 +79,7 @@ var mappingGenericBmUpdateInstancePlatformConfigNumaNodesPerSocketEnum = map[str
 	"NPS1": GenericBmUpdateInstancePlatformConfigNumaNodesPerSocketNps1,
 	"NPS2": GenericBmUpdateInstancePlatformConfigNumaNodesPerSocketNps2,
 	"NPS4": GenericBmUpdateInstancePlatformConfigNumaNodesPerSocketNps4,
+	"NPS6": GenericBmUpdateInstancePlatformConfigNumaNodesPerSocketNps6,
 }
 
 var mappingGenericBmUpdateInstancePlatformConfigNumaNodesPerSocketEnumLowerCase = map[string]GenericBmUpdateInstancePlatformConfigNumaNodesPerSocketEnum{
@@ -85,6 +87,7 @@ var mappingGenericBmUpdateInstancePlatformConfigNumaNodesPerSocketEnumLowerCase 
 	"nps1": GenericBmUpdateInstancePlatformConfigNumaNodesPerSocketNps1,
 	"nps2": GenericBmUpdateInstancePlatformConfigNumaNodesPerSocketNps2,
 	"nps4": GenericBmUpdateInstancePlatformConfigNumaNodesPerSocketNps4,
+	"nps6": GenericBmUpdateInstancePlatformConfigNumaNodesPerSocketNps6,
 }
 
 // GetGenericBmUpdateInstancePlatformConfigNumaNodesPerSocketEnumValues Enumerates the set of values for GenericBmUpdateInstancePlatformConfigNumaNodesPerSocketEnum
@@ -103,6 +106,7 @@ func GetGenericBmUpdateInstancePlatformConfigNumaNodesPerSocketEnumStringValues(
 		"NPS1",
 		"NPS2",
 		"NPS4",
+		"NPS6",
 	}
 }
 

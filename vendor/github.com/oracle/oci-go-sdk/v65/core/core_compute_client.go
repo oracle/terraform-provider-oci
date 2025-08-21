@@ -8344,7 +8344,7 @@ func (client ComputeClient) updateComputeGpuMemoryCluster(ctx context.Context, r
 	return response, err
 }
 
-// UpdateComputeGpuMemoryFabric Customer can update displayName and tags for compute GPU memory fabric record
+// UpdateComputeGpuMemoryFabric Customer can update displayName, tags and for compute GPU memory fabric record
 // A default retry strategy applies to this operation UpdateComputeGpuMemoryFabric()
 func (client ComputeClient) UpdateComputeGpuMemoryFabric(ctx context.Context, request UpdateComputeGpuMemoryFabricRequest) (response UpdateComputeGpuMemoryFabricResponse, err error) {
 	var ociResponse common.OCIResponse

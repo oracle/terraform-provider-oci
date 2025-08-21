@@ -72,6 +72,9 @@ type FusionEnvironment struct {
 	// Language packs
 	AdditionalLanguagePacks []string `mandatory:"false" json:"additionalLanguagePacks"`
 
+	// Enable IPv4/IPv6 dual stack support for the environment.  Setting to true will assign an IPv6 address to the environment in addition to an IPv4 address.
+	IsIPv6DualStackEnabled *bool `mandatory:"false" json:"isIPv6DualStackEnabled"`
+
 	// The lockbox Id of this fusion environment. If there's no lockbox id, this field will be null
 	LockboxId *string `mandatory:"false" json:"lockboxId"`
 
@@ -147,6 +150,7 @@ func (m *FusionEnvironment) UnmarshalJSON(data []byte) (e error) {
 		PublicUrl                 *string                                    `json:"publicUrl"`
 		DnsPrefix                 *string                                    `json:"dnsPrefix"`
 		AdditionalLanguagePacks   []string                                   `json:"additionalLanguagePacks"`
+		IsIPv6DualStackEnabled    *bool                                      `json:"isIPv6DualStackEnabled"`
 		LockboxId                 *string                                    `json:"lockboxId"`
 		IsBreakGlassEnabled       *bool                                      `json:"isBreakGlassEnabled"`
 		Refresh                   *RefreshDetails                            `json:"refresh"`
@@ -197,6 +201,8 @@ func (m *FusionEnvironment) UnmarshalJSON(data []byte) (e error) {
 
 	m.AdditionalLanguagePacks = make([]string, len(model.AdditionalLanguagePacks))
 	copy(m.AdditionalLanguagePacks, model.AdditionalLanguagePacks)
+	m.IsIPv6DualStackEnabled = model.IsIPv6DualStackEnabled
+
 	m.LockboxId = model.LockboxId
 
 	m.IsBreakGlassEnabled = model.IsBreakGlassEnabled

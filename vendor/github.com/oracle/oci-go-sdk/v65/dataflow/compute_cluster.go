@@ -144,6 +144,9 @@ type ComputeCluster struct {
 	// Cluster Key of the cluster.
 	ClusterKey *string `mandatory:"false" json:"clusterKey"`
 
+	// Compute Cluster Type.
+	ClusterType *string `mandatory:"false" json:"clusterType"`
+
 	// The JDBC URL field. For example, jdbc:spark://{serviceFQDN}:443/default;SparkServerType=DFI
 	JdbcEndpointUrl *string `mandatory:"false" json:"jdbcEndpointUrl"`
 

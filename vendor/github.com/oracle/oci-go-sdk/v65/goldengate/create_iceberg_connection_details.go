@@ -65,6 +65,11 @@ type CreateIcebergConnectionDetails struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
 	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
 
+	// The OCID(/Content/General/Concepts/identifiers.htm) of the cluster placement group for the resource.
+	// Only applicable for multicloud subscriptions. The cluster placement group id must be provided when a multicloud
+	// subscription id is provided. Otherwise the cluster placement group must not be provided.
+	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
+
 	// Controls the network traffic direction to the target:
 	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.
 	// SHARED_DEPLOYMENT_ENDPOINT: Network traffic flows from the assigned deployment's private endpoint through the deployment's subnet.
@@ -140,6 +145,11 @@ func (m CreateIcebergConnectionDetails) GetSubscriptionId() *string {
 	return m.SubscriptionId
 }
 
+// GetClusterPlacementGroupId returns ClusterPlacementGroupId
+func (m CreateIcebergConnectionDetails) GetClusterPlacementGroupId() *string {
+	return m.ClusterPlacementGroupId
+}
+
 func (m CreateIcebergConnectionDetails) String() string {
 	return common.PointerString(m)
 }
@@ -179,22 +189,23 @@ func (m CreateIcebergConnectionDetails) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateIcebergConnectionDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description      *string                             `json:"description"`
-		FreeformTags     map[string]string                   `json:"freeformTags"`
-		DefinedTags      map[string]map[string]interface{}   `json:"definedTags"`
-		Locks            []AddResourceLockDetails            `json:"locks"`
-		VaultId          *string                             `json:"vaultId"`
-		KeyId            *string                             `json:"keyId"`
-		NsgIds           []string                            `json:"nsgIds"`
-		SubnetId         *string                             `json:"subnetId"`
-		RoutingMethod    RoutingMethodEnum                   `json:"routingMethod"`
-		DoesUseSecretIds *bool                               `json:"doesUseSecretIds"`
-		SubscriptionId   *string                             `json:"subscriptionId"`
-		DisplayName      *string                             `json:"displayName"`
-		CompartmentId    *string                             `json:"compartmentId"`
-		TechnologyType   IcebergConnectionTechnologyTypeEnum `json:"technologyType"`
-		Catalog          createicebergcatalogdetails         `json:"catalog"`
-		Storage          createicebergstoragedetails         `json:"storage"`
+		Description             *string                             `json:"description"`
+		FreeformTags            map[string]string                   `json:"freeformTags"`
+		DefinedTags             map[string]map[string]interface{}   `json:"definedTags"`
+		Locks                   []AddResourceLockDetails            `json:"locks"`
+		VaultId                 *string                             `json:"vaultId"`
+		KeyId                   *string                             `json:"keyId"`
+		NsgIds                  []string                            `json:"nsgIds"`
+		SubnetId                *string                             `json:"subnetId"`
+		RoutingMethod           RoutingMethodEnum                   `json:"routingMethod"`
+		DoesUseSecretIds        *bool                               `json:"doesUseSecretIds"`
+		SubscriptionId          *string                             `json:"subscriptionId"`
+		ClusterPlacementGroupId *string                             `json:"clusterPlacementGroupId"`
+		DisplayName             *string                             `json:"displayName"`
+		CompartmentId           *string                             `json:"compartmentId"`
+		TechnologyType          IcebergConnectionTechnologyTypeEnum `json:"technologyType"`
+		Catalog                 createicebergcatalogdetails         `json:"catalog"`
+		Storage                 createicebergstoragedetails         `json:"storage"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -223,6 +234,8 @@ func (m *CreateIcebergConnectionDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DoesUseSecretIds = model.DoesUseSecretIds
 
 	m.SubscriptionId = model.SubscriptionId
+
+	m.ClusterPlacementGroupId = model.ClusterPlacementGroupId
 
 	m.DisplayName = model.DisplayName
 

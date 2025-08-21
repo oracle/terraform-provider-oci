@@ -66,24 +66,30 @@ type CreateConnectionDetails interface {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
 	GetSubscriptionId() *string
+
+	// The OCID(/Content/General/Concepts/identifiers.htm) of the cluster placement group for the resource.
+	// Only applicable for multicloud subscriptions. The cluster placement group id must be provided when a multicloud
+	// subscription id is provided. Otherwise the cluster placement group must not be provided.
+	GetClusterPlacementGroupId() *string
 }
 
 type createconnectiondetails struct {
-	JsonData         []byte
-	Description      *string                           `mandatory:"false" json:"description"`
-	FreeformTags     map[string]string                 `mandatory:"false" json:"freeformTags"`
-	DefinedTags      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-	Locks            []AddResourceLockDetails          `mandatory:"false" json:"locks"`
-	VaultId          *string                           `mandatory:"false" json:"vaultId"`
-	KeyId            *string                           `mandatory:"false" json:"keyId"`
-	NsgIds           []string                          `mandatory:"false" json:"nsgIds"`
-	SubnetId         *string                           `mandatory:"false" json:"subnetId"`
-	RoutingMethod    RoutingMethodEnum                 `mandatory:"false" json:"routingMethod,omitempty"`
-	DoesUseSecretIds *bool                             `mandatory:"false" json:"doesUseSecretIds"`
-	SubscriptionId   *string                           `mandatory:"false" json:"subscriptionId"`
-	DisplayName      *string                           `mandatory:"true" json:"displayName"`
-	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
-	ConnectionType   string                            `json:"connectionType"`
+	JsonData                []byte
+	Description             *string                           `mandatory:"false" json:"description"`
+	FreeformTags            map[string]string                 `mandatory:"false" json:"freeformTags"`
+	DefinedTags             map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	Locks                   []AddResourceLockDetails          `mandatory:"false" json:"locks"`
+	VaultId                 *string                           `mandatory:"false" json:"vaultId"`
+	KeyId                   *string                           `mandatory:"false" json:"keyId"`
+	NsgIds                  []string                          `mandatory:"false" json:"nsgIds"`
+	SubnetId                *string                           `mandatory:"false" json:"subnetId"`
+	RoutingMethod           RoutingMethodEnum                 `mandatory:"false" json:"routingMethod,omitempty"`
+	DoesUseSecretIds        *bool                             `mandatory:"false" json:"doesUseSecretIds"`
+	SubscriptionId          *string                           `mandatory:"false" json:"subscriptionId"`
+	ClusterPlacementGroupId *string                           `mandatory:"false" json:"clusterPlacementGroupId"`
+	DisplayName             *string                           `mandatory:"true" json:"displayName"`
+	CompartmentId           *string                           `mandatory:"true" json:"compartmentId"`
+	ConnectionType          string                            `json:"connectionType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -110,6 +116,7 @@ func (m *createconnectiondetails) UnmarshalJSON(data []byte) error {
 	m.RoutingMethod = s.Model.RoutingMethod
 	m.DoesUseSecretIds = s.Model.DoesUseSecretIds
 	m.SubscriptionId = s.Model.SubscriptionId
+	m.ClusterPlacementGroupId = s.Model.ClusterPlacementGroupId
 	m.ConnectionType = s.Model.ConnectionType
 
 	return err
@@ -295,6 +302,11 @@ func (m createconnectiondetails) GetDoesUseSecretIds() *bool {
 // GetSubscriptionId returns SubscriptionId
 func (m createconnectiondetails) GetSubscriptionId() *string {
 	return m.SubscriptionId
+}
+
+// GetClusterPlacementGroupId returns ClusterPlacementGroupId
+func (m createconnectiondetails) GetClusterPlacementGroupId() *string {
+	return m.ClusterPlacementGroupId
 }
 
 // GetDisplayName returns DisplayName

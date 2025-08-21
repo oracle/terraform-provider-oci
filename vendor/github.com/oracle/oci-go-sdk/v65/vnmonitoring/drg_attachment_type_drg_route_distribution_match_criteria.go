@@ -68,6 +68,7 @@ const (
 	DrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeVirtualCircuit          DrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeEnum = "VIRTUAL_CIRCUIT"
 	DrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeRemotePeeringConnection DrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeEnum = "REMOTE_PEERING_CONNECTION"
 	DrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeIpsecTunnel             DrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeEnum = "IPSEC_TUNNEL"
+	DrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeFlexTunnel              DrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeEnum = "FLEX_TUNNEL"
 	DrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeLoopback                DrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeEnum = "LOOPBACK"
 )
 
@@ -76,6 +77,7 @@ var mappingDrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeEnum 
 	"VIRTUAL_CIRCUIT":           DrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeVirtualCircuit,
 	"REMOTE_PEERING_CONNECTION": DrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeRemotePeeringConnection,
 	"IPSEC_TUNNEL":              DrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeIpsecTunnel,
+	"FLEX_TUNNEL":               DrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeFlexTunnel,
 	"LOOPBACK":                  DrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeLoopback,
 }
 
@@ -84,6 +86,7 @@ var mappingDrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeEnumL
 	"virtual_circuit":           DrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeVirtualCircuit,
 	"remote_peering_connection": DrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeRemotePeeringConnection,
 	"ipsec_tunnel":              DrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeIpsecTunnel,
+	"flex_tunnel":               DrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeFlexTunnel,
 	"loopback":                  DrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeLoopback,
 }
 
@@ -103,6 +106,7 @@ func GetDrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeEnumStri
 		"VIRTUAL_CIRCUIT",
 		"REMOTE_PEERING_CONNECTION",
 		"IPSEC_TUNNEL",
+		"FLEX_TUNNEL",
 		"LOOPBACK",
 	}
 }

@@ -51,6 +51,8 @@ type UpdateDbSystemDetails struct {
 
 	Rest *UpdateRestDetails `mandatory:"false" json:"rest"`
 
+	DatabaseConsole *UpdateDatabaseConsoleDetails `mandatory:"false" json:"databaseConsole"`
+
 	// Specifies if the DB System is highly available.
 	// Set to true to enable high availability. Two secondary MySQL instances are created and placed in the unused
 	// availability or fault domains, depending on your region and subnet type.

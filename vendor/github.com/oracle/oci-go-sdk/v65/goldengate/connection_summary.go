@@ -95,31 +95,37 @@ type ConnectionSummary interface {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
 	GetSubscriptionId() *string
+
+	// The OCID(/Content/General/Concepts/identifiers.htm) of the cluster placement group for the resource.
+	// Only applicable for multicloud subscriptions. The cluster placement group id must be provided when a multicloud
+	// subscription id is provided. Otherwise the cluster placement group must not be provided.
+	GetClusterPlacementGroupId() *string
 }
 
 type connectionsummary struct {
-	JsonData         []byte
-	Description      *string                           `mandatory:"false" json:"description"`
-	FreeformTags     map[string]string                 `mandatory:"false" json:"freeformTags"`
-	DefinedTags      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-	SystemTags       map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
-	LifecycleDetails *string                           `mandatory:"false" json:"lifecycleDetails"`
-	VaultId          *string                           `mandatory:"false" json:"vaultId"`
-	KeyId            *string                           `mandatory:"false" json:"keyId"`
-	IngressIps       []IngressIpDetails                `mandatory:"false" json:"ingressIps"`
-	NsgIds           []string                          `mandatory:"false" json:"nsgIds"`
-	SubnetId         *string                           `mandatory:"false" json:"subnetId"`
-	RoutingMethod    RoutingMethodEnum                 `mandatory:"false" json:"routingMethod,omitempty"`
-	Locks            []ResourceLock                    `mandatory:"false" json:"locks"`
-	DoesUseSecretIds *bool                             `mandatory:"false" json:"doesUseSecretIds"`
-	SubscriptionId   *string                           `mandatory:"false" json:"subscriptionId"`
-	Id               *string                           `mandatory:"true" json:"id"`
-	DisplayName      *string                           `mandatory:"true" json:"displayName"`
-	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
-	LifecycleState   ConnectionLifecycleStateEnum      `mandatory:"true" json:"lifecycleState"`
-	TimeCreated      *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
-	TimeUpdated      *common.SDKTime                   `mandatory:"true" json:"timeUpdated"`
-	ConnectionType   string                            `json:"connectionType"`
+	JsonData                []byte
+	Description             *string                           `mandatory:"false" json:"description"`
+	FreeformTags            map[string]string                 `mandatory:"false" json:"freeformTags"`
+	DefinedTags             map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	SystemTags              map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+	LifecycleDetails        *string                           `mandatory:"false" json:"lifecycleDetails"`
+	VaultId                 *string                           `mandatory:"false" json:"vaultId"`
+	KeyId                   *string                           `mandatory:"false" json:"keyId"`
+	IngressIps              []IngressIpDetails                `mandatory:"false" json:"ingressIps"`
+	NsgIds                  []string                          `mandatory:"false" json:"nsgIds"`
+	SubnetId                *string                           `mandatory:"false" json:"subnetId"`
+	RoutingMethod           RoutingMethodEnum                 `mandatory:"false" json:"routingMethod,omitempty"`
+	Locks                   []ResourceLock                    `mandatory:"false" json:"locks"`
+	DoesUseSecretIds        *bool                             `mandatory:"false" json:"doesUseSecretIds"`
+	SubscriptionId          *string                           `mandatory:"false" json:"subscriptionId"`
+	ClusterPlacementGroupId *string                           `mandatory:"false" json:"clusterPlacementGroupId"`
+	Id                      *string                           `mandatory:"true" json:"id"`
+	DisplayName             *string                           `mandatory:"true" json:"displayName"`
+	CompartmentId           *string                           `mandatory:"true" json:"compartmentId"`
+	LifecycleState          ConnectionLifecycleStateEnum      `mandatory:"true" json:"lifecycleState"`
+	TimeCreated             *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
+	TimeUpdated             *common.SDKTime                   `mandatory:"true" json:"timeUpdated"`
+	ConnectionType          string                            `json:"connectionType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -153,6 +159,7 @@ func (m *connectionsummary) UnmarshalJSON(data []byte) error {
 	m.Locks = s.Model.Locks
 	m.DoesUseSecretIds = s.Model.DoesUseSecretIds
 	m.SubscriptionId = s.Model.SubscriptionId
+	m.ClusterPlacementGroupId = s.Model.ClusterPlacementGroupId
 	m.ConnectionType = s.Model.ConnectionType
 
 	return err
@@ -353,6 +360,11 @@ func (m connectionsummary) GetDoesUseSecretIds() *bool {
 // GetSubscriptionId returns SubscriptionId
 func (m connectionsummary) GetSubscriptionId() *string {
 	return m.SubscriptionId
+}
+
+// GetClusterPlacementGroupId returns ClusterPlacementGroupId
+func (m connectionsummary) GetClusterPlacementGroupId() *string {
+	return m.ClusterPlacementGroupId
 }
 
 // GetId returns Id

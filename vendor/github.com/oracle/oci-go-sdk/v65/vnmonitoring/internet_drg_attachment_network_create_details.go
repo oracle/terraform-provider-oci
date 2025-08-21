@@ -25,9 +25,6 @@ type InternetDrgAttachmentNetworkCreateDetails struct {
 
 	// The list of BYOIP Range OCIDs used to be accessible to the internet via this DRG.
 	ByoipRangeIds []string `mandatory:"false" json:"byoipRangeIds"`
-
-	// The list of Public IPv4 or IPv6 CIDRs ["100.0.0.0/24"] accessible to the internet via this DRG.
-	PublicCidrBlocks []string `mandatory:"false" json:"publicCidrBlocks"`
 }
 
 // GetId returns Id

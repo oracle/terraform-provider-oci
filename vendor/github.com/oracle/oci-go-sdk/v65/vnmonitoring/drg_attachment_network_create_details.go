@@ -80,6 +80,10 @@ func (m *drgattachmentnetworkcreatedetails) UnmarshalPolymorphicJSON(data []byte
 		mm := VcnDrgAttachmentNetworkCreateDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "FLEX_TUNNEL":
+		mm := FlexTunnelDrgAttachmentNetworkCreateDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Received unsupported enum value for DrgAttachmentNetworkCreateDetails: %s.", m.Type)
 		return *m, nil
@@ -117,6 +121,7 @@ const (
 	DrgAttachmentNetworkCreateDetailsTypeRemotePeeringConnection DrgAttachmentNetworkCreateDetailsTypeEnum = "REMOTE_PEERING_CONNECTION"
 	DrgAttachmentNetworkCreateDetailsTypeIpsecTunnel             DrgAttachmentNetworkCreateDetailsTypeEnum = "IPSEC_TUNNEL"
 	DrgAttachmentNetworkCreateDetailsTypeLoopback                DrgAttachmentNetworkCreateDetailsTypeEnum = "LOOPBACK"
+	DrgAttachmentNetworkCreateDetailsTypeFlexTunnel              DrgAttachmentNetworkCreateDetailsTypeEnum = "FLEX_TUNNEL"
 	DrgAttachmentNetworkCreateDetailsTypeInternet                DrgAttachmentNetworkCreateDetailsTypeEnum = "INTERNET"
 )
 
@@ -126,6 +131,7 @@ var mappingDrgAttachmentNetworkCreateDetailsTypeEnum = map[string]DrgAttachmentN
 	"REMOTE_PEERING_CONNECTION": DrgAttachmentNetworkCreateDetailsTypeRemotePeeringConnection,
 	"IPSEC_TUNNEL":              DrgAttachmentNetworkCreateDetailsTypeIpsecTunnel,
 	"LOOPBACK":                  DrgAttachmentNetworkCreateDetailsTypeLoopback,
+	"FLEX_TUNNEL":               DrgAttachmentNetworkCreateDetailsTypeFlexTunnel,
 	"INTERNET":                  DrgAttachmentNetworkCreateDetailsTypeInternet,
 }
 
@@ -135,6 +141,7 @@ var mappingDrgAttachmentNetworkCreateDetailsTypeEnumLowerCase = map[string]DrgAt
 	"remote_peering_connection": DrgAttachmentNetworkCreateDetailsTypeRemotePeeringConnection,
 	"ipsec_tunnel":              DrgAttachmentNetworkCreateDetailsTypeIpsecTunnel,
 	"loopback":                  DrgAttachmentNetworkCreateDetailsTypeLoopback,
+	"flex_tunnel":               DrgAttachmentNetworkCreateDetailsTypeFlexTunnel,
 	"internet":                  DrgAttachmentNetworkCreateDetailsTypeInternet,
 }
 
@@ -155,6 +162,7 @@ func GetDrgAttachmentNetworkCreateDetailsTypeEnumStringValues() []string {
 		"REMOTE_PEERING_CONNECTION",
 		"IPSEC_TUNNEL",
 		"LOOPBACK",
+		"FLEX_TUNNEL",
 		"INTERNET",
 	}
 }

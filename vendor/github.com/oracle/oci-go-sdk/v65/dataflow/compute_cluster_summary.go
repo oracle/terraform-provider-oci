@@ -107,6 +107,9 @@ type ComputeClusterSummary struct {
 	// The Spark version utilized to run the application.
 	SparkVersion *string `mandatory:"false" json:"sparkVersion"`
 
+	// Compute Cluster Type.
+	ClusterType *string `mandatory:"false" json:"clusterType"`
+
 	// The Spark configuration passed to the running process.
 	// See https://spark.apache.org/docs/latest/configuration.html#available-properties.
 	// Example: { "spark.app.name" : "My App Name", "spark.shuffle.io.maxRetries" : "4" }

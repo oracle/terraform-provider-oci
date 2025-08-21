@@ -81,6 +81,8 @@ type DbSystem struct {
 
 	Rest *RestDetails `mandatory:"false" json:"rest"`
 
+	DatabaseConsole *DatabaseConsoleDetails `mandatory:"false" json:"databaseConsole"`
+
 	// Specifies if the DB System is highly available.
 	IsHighlyAvailable *bool `mandatory:"false" json:"isHighlyAvailable"`
 
@@ -217,6 +219,7 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 		NsgIds                     []string                          `json:"nsgIds"`
 		SecurityAttributes         map[string]map[string]interface{} `json:"securityAttributes"`
 		Rest                       *RestDetails                      `json:"rest"`
+		DatabaseConsole            *DatabaseConsoleDetails           `json:"databaseConsole"`
 		IsHighlyAvailable          *bool                             `json:"isHighlyAvailable"`
 		CurrentPlacement           *DbSystemPlacement                `json:"currentPlacement"`
 		IsHeatWaveClusterAttached  *bool                             `json:"isHeatWaveClusterAttached"`
@@ -272,6 +275,8 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 	m.SecurityAttributes = model.SecurityAttributes
 
 	m.Rest = model.Rest
+
+	m.DatabaseConsole = model.DatabaseConsole
 
 	m.IsHighlyAvailable = model.IsHighlyAvailable
 

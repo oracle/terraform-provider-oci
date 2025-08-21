@@ -22,10 +22,6 @@ type InternetDrgAttachmentNetworkUpdateDetails struct {
 
 	// The list of BYOIP Range OCIDs accessible to the internet via this DRG.
 	ByoipRangeIds []string `mandatory:"false" json:"byoipRangeIds"`
-
-	// The list of Public IPv4 or IPv6 CIDRs ["100.0.0.0/24"]
-	// accessible to the internet via this DRG.
-	PublicCidrBlocks []string `mandatory:"false" json:"publicCidrBlocks"`
 }
 
 func (m InternetDrgAttachmentNetworkUpdateDetails) String() string {

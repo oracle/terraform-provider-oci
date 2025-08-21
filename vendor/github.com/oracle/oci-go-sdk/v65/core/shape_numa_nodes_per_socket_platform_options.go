@@ -62,6 +62,7 @@ const (
 	ShapeNumaNodesPerSocketPlatformOptionsAllowedValuesNps1 ShapeNumaNodesPerSocketPlatformOptionsAllowedValuesEnum = "NPS1"
 	ShapeNumaNodesPerSocketPlatformOptionsAllowedValuesNps2 ShapeNumaNodesPerSocketPlatformOptionsAllowedValuesEnum = "NPS2"
 	ShapeNumaNodesPerSocketPlatformOptionsAllowedValuesNps4 ShapeNumaNodesPerSocketPlatformOptionsAllowedValuesEnum = "NPS4"
+	ShapeNumaNodesPerSocketPlatformOptionsAllowedValuesNps6 ShapeNumaNodesPerSocketPlatformOptionsAllowedValuesEnum = "NPS6"
 )
 
 var mappingShapeNumaNodesPerSocketPlatformOptionsAllowedValuesEnum = map[string]ShapeNumaNodesPerSocketPlatformOptionsAllowedValuesEnum{
@@ -69,6 +70,7 @@ var mappingShapeNumaNodesPerSocketPlatformOptionsAllowedValuesEnum = map[string]
 	"NPS1": ShapeNumaNodesPerSocketPlatformOptionsAllowedValuesNps1,
 	"NPS2": ShapeNumaNodesPerSocketPlatformOptionsAllowedValuesNps2,
 	"NPS4": ShapeNumaNodesPerSocketPlatformOptionsAllowedValuesNps4,
+	"NPS6": ShapeNumaNodesPerSocketPlatformOptionsAllowedValuesNps6,
 }
 
 var mappingShapeNumaNodesPerSocketPlatformOptionsAllowedValuesEnumLowerCase = map[string]ShapeNumaNodesPerSocketPlatformOptionsAllowedValuesEnum{
@@ -76,6 +78,7 @@ var mappingShapeNumaNodesPerSocketPlatformOptionsAllowedValuesEnumLowerCase = ma
 	"nps1": ShapeNumaNodesPerSocketPlatformOptionsAllowedValuesNps1,
 	"nps2": ShapeNumaNodesPerSocketPlatformOptionsAllowedValuesNps2,
 	"nps4": ShapeNumaNodesPerSocketPlatformOptionsAllowedValuesNps4,
+	"nps6": ShapeNumaNodesPerSocketPlatformOptionsAllowedValuesNps6,
 }
 
 // GetShapeNumaNodesPerSocketPlatformOptionsAllowedValuesEnumValues Enumerates the set of values for ShapeNumaNodesPerSocketPlatformOptionsAllowedValuesEnum
@@ -94,6 +97,7 @@ func GetShapeNumaNodesPerSocketPlatformOptionsAllowedValuesEnumStringValues() []
 		"NPS1",
 		"NPS2",
 		"NPS4",
+		"NPS6",
 	}
 }
 
