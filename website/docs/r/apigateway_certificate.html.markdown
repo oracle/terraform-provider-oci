@@ -26,7 +26,14 @@ resource "oci_apigateway_certificate" "test_certificate" {
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = "${var.certificate_display_name}"
 	freeform_tags = {"Department"= "Finance"}
-	intermediate_certificates = "${var.certificate_intermediate_certificates}"
+	intermediate_certificates = var.certificate_intermediate_certificates
+	locks {
+		#Required
+		type = var.certificate_locks_type
+
+		#Optional
+		message = var.certificate_locks_message
+	}
 }
 ```
 
@@ -40,6 +47,9 @@ The following arguments are supported:
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `intermediate_certificates` - (Optional) The intermediate certificate data associated with the certificate in pem format.
+* `locks` - (Optional) Locks associated with this resource.
+	* `message` - (Optional) A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
+	* `type` - (Required) Type of the lock.
 * `private_key` - (Required) The private key associated with the certificate in pem format.
 
 
@@ -58,8 +68,14 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource. 
 * `intermediate_certificates` - The intermediate certificate data associated with the certificate in pem format.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in a Failed state. 
+* `locks` - Locks associated with this resource.
+	* `message` - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
+	* `related_resource_id` - The id of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 
+	* `time_created` - When the lock was created.
+	* `type` - Type of the lock.
 * `state` - The current state of the certificate.
 * `subject_names` - The entity to be secured by the certificate and additional host names.
+* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time this resource was created. An RFC3339 formatted datetime string.
 * `time_not_valid_after` - The date and time the certificate will expire.
 * `time_updated` - The time this resource was last updated. An RFC3339 formatted datetime string.

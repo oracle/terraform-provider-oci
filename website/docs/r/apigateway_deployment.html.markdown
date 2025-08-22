@@ -673,6 +673,13 @@ resource "oci_apigateway_deployment" "test_deployment" {
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = var.deployment_display_name
 	freeform_tags = {"Department"= "Finance"}
+	locks {
+		#Required
+		type = var.deployment_locks_type
+
+		#Optional
+		message = var.deployment_locks_message
+	}
 }
 ```
 
@@ -685,6 +692,9 @@ The following arguments are supported:
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `gateway_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource. 
+* `locks` - (Optional) Locks associated with this resource.
+	* `message` - (Optional) A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
+	* `type` - (Required) Type of the lock.
 * `path_prefix` - (Required) A path on which to deploy all routes contained in the API deployment specification. For more information, see [Deploying an API on an API Gateway by Creating an API Deployment](https://docs.cloud.oracle.com/iaas/Content/APIGateway/Tasks/apigatewaycreatingdeployment.htm). 
 * `specification` - (Required) (Updatable) The logical configuration of the API exposed by a deployment.
 	* `logging_policies` - (Optional) (Updatable) Policies controlling the pushing of logs to Oracle Cloud Infrastructure Public Logging. 
@@ -923,7 +933,7 @@ The following arguments are supported:
 				* "request.path[TOKEN]" 
 	* `routes` - (Optional) (Updatable) A list of routes that this API exposes.
 		* `backend` - (Required) (Updatable) The backend to forward requests to. 
-			* `allowed_post_logout_uris` - (Applicable when type=OAUTH2_LOGOUT_BACKEND) (Updatable) 
+			* `allowed_post_logout_uris` - (Applicable when type=OAUTH2_LOGOUT_BACKEND) (Updatable) A list of allowed post-logout URLs to which a request can be redirected after revoke access
 			* `body` - (Applicable when type=STOCK_RESPONSE_BACKEND) (Updatable) The body of the stock response from the mock backend.
 			* `connect_timeout_in_seconds` - (Applicable when type=HTTP_BACKEND) (Updatable) Defines a timeout for establishing a connection with a proxied server. 
 			* `function_id` - (Required when type=ORACLE_FUNCTIONS_BACKEND) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Functions function resource. 
@@ -959,7 +969,7 @@ The following arguments are supported:
 			* `send_timeout_in_seconds` - (Applicable when type=HTTP_BACKEND) (Updatable) Defines a timeout for transmitting a request to the proxied server. 
 			* `status` - (Required when type=STOCK_RESPONSE_BACKEND) (Updatable) The status code of the stock response from the mock backend.
 			* `type` - (Required) (Updatable) Type of the API backend.
-			* `url` - (Required when type=HTTP_BACKEND) (Updatable) 
+			* `url` - (Required when type=HTTP_BACKEND) (Updatable) The url of the HTTP Backend
 		* `logging_policies` - (Optional) (Updatable) Policies controlling the pushing of logs to Oracle Cloud Infrastructure Public Logging. 
 			* `access_log` - (Optional) (Updatable) Configures the logging policies for the access logs of an API Deployment. 
 				* `is_enabled` - (Optional) (Updatable) Enables pushing of access logs to the legacy Oracle Cloud Infrastructure Object Storage log archival bucket.
@@ -1020,7 +1030,7 @@ The following arguments are supported:
 						* `name` - (Required) (Updatable) The case-insensitive name of the header.  This name must be unique across transformation policies. 
 						* `values` - (Required) (Updatable) A list of new values.  Each value can be a constant or may include one or more expressions enclosed within ${} delimiters. 
 			* `header_validations` - (Optional) (Updatable) Validate the HTTP headers on the incoming API requests on a specific route.
-				* `headers` - (Optional) (Updatable) 
+				* `headers` - (Optional) (Updatable) The List of Headers
 					* `name` - (Required) (Updatable) Parameter name.
 					* `required` - (Optional) (Updatable) Determines if the header is required in the request.
 				* `validation_mode` - (Optional) (Updatable) Validation behavior mode.
@@ -1045,7 +1055,7 @@ The following arguments are supported:
 						* `name` - (Required) (Updatable) The case-sensitive name of the query parameter.  This name must be unique across transformation policies. 
 						* `values` - (Required) (Updatable) A list of new values.  Each value can be a constant or may include one or more expressions enclosed within ${} delimiters. 
 			* `query_parameter_validations` - (Optional) (Updatable) Validate the URL query parameters on the incoming API requests on a specific route.
-				* `parameters` - (Optional) (Updatable) 
+				* `parameters` - (Optional) (Updatable) The List of Query Parameters
 					* `name` - (Required) (Updatable) Parameter name.
 					* `required` - (Optional) (Updatable) Determines if the parameter is required in the request.
 				* `validation_mode` - (Optional) (Updatable) Validation behavior mode.
@@ -1099,6 +1109,11 @@ The following attributes are exported:
 * `gateway_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource. 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource. 
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in a Failed state. 
+* `locks` - Locks associated with this resource.
+	* `message` - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
+	* `related_resource_id` - The id of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 
+	* `time_created` - When the lock was created.
+	* `type` - Type of the lock.
 * `path_prefix` - A path on which to deploy all routes contained in the API deployment specification. For more information, see [Deploying an API on an API Gateway by Creating an API Deployment](https://docs.cloud.oracle.com/iaas/Content/APIGateway/Tasks/apigatewaycreatingdeployment.htm). 
 * `specification` - The logical configuration of the API exposed by a deployment.
 	* `logging_policies` - Policies controlling the pushing of logs to Oracle Cloud Infrastructure Public Logging. 
@@ -1336,7 +1351,7 @@ The following attributes are exported:
 				* "request.path[TOKEN]" 
 	* `routes` - A list of routes that this API exposes.
 		* `backend` - The backend to forward requests to. 
-			* `allowed_post_logout_uris` - 
+			* `allowed_post_logout_uris` - A list of allowed post-logout URLs to which a request can be redirected after revoke access
 			* `body` - The body of the stock response from the mock backend.
 			* `connect_timeout_in_seconds` - Defines a timeout for establishing a connection with a proxied server. 
 			* `function_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Functions function resource. 
@@ -1372,7 +1387,7 @@ The following attributes are exported:
 			* `send_timeout_in_seconds` - Defines a timeout for transmitting a request to the proxied server. 
 			* `status` - The status code of the stock response from the mock backend.
 			* `type` - Type of the API backend.
-			* `url` - 
+			* `url` - The url of the HTTP Backend
 		* `logging_policies` - Policies controlling the pushing of logs to Oracle Cloud Infrastructure Public Logging. 
 			* `access_log` - Configures the logging policies for the access logs of an API Deployment. 
 				* `is_enabled` - Enables pushing of access logs to the legacy Oracle Cloud Infrastructure Object Storage log archival bucket.
@@ -1433,7 +1448,7 @@ The following attributes are exported:
 						* `name` - The case-insensitive name of the header.  This name must be unique across transformation policies. 
 						* `values` - A list of new values.  Each value can be a constant or may include one or more expressions enclosed within ${} delimiters. 
 			* `header_validations` - Validate the HTTP headers on the incoming API requests on a specific route.
-				* `headers` - 
+				* `headers` - The List of Headers
 					* `name` - Parameter name.
 					* `required` - Determines if the header is required in the request.
 				* `validation_mode` - Validation behavior mode.
@@ -1458,7 +1473,7 @@ The following attributes are exported:
 						* `name` - The case-sensitive name of the query parameter.  This name must be unique across transformation policies. 
 						* `values` - A list of new values.  Each value can be a constant or may include one or more expressions enclosed within ${} delimiters. 
 			* `query_parameter_validations` - Validate the URL query parameters on the incoming API requests on a specific route.
-				* `parameters` - 
+				* `parameters` - The List of Query Parameters
 					* `name` - Parameter name.
 					* `required` - Determines if the parameter is required in the request.
 				* `validation_mode` - Validation behavior mode.
@@ -1496,6 +1511,7 @@ The following attributes are exported:
 				* `time_to_live_in_seconds` - Sets the number of seconds for a response from a backend being stored in the Response Cache before it expires. 
 				* `type` - Type of the Response Cache Store Policy.
 * `state` - The current state of the deployment.
+* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time this resource was created. An RFC3339 formatted datetime string.
 * `time_updated` - The time this resource was last updated. An RFC3339 formatted datetime string.
 

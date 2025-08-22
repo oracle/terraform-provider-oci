@@ -65,6 +65,9 @@ type Ipv6 struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
+	// Length of cidr range. Optional field to specify flexible cidr.
+	CidrPrefixLength *int `mandatory:"false" json:"cidrPrefixLength"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC the IPv6 is assigned to.
 	// The VNIC and IPv6 must be in the same subnet.
 	VnicId *string `mandatory:"false" json:"vnicId"`
