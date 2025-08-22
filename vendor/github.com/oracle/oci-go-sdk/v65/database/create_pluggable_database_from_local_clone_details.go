@@ -24,6 +24,9 @@ type CreatePluggableDatabaseFromLocalCloneDetails struct {
 
 	// True if Pluggable Database needs to be thin cloned and false if Pluggable Database needs to be thick cloned.
 	IsThinClone *bool `mandatory:"false" json:"isThinClone"`
+
+	// The OCID of the Source Pluggable Database Snapshot id.
+	SourcePluggableDatabaseSnapshotId *string `mandatory:"false" json:"sourcePluggableDatabaseSnapshotId"`
 }
 
 func (m CreatePluggableDatabaseFromLocalCloneDetails) String() string {

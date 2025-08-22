@@ -19,6 +19,7 @@ Creates an IPv6 for the specified VNIC.
 resource "oci_core_ipv6" "test_ipv6" {
 
 	#Optional
+	cidr_prefix_length = var.ipv6_cidr_prefix_length
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = var.ipv6_display_name
 	freeform_tags = {"Department"= "Finance"}
@@ -35,6 +36,7 @@ resource "oci_core_ipv6" "test_ipv6" {
 
 The following arguments are supported:
 
+* `cidr_prefix_length` - (Optional) Length of cidr range. Optional field to specify flexible cidr.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
@@ -55,6 +57,7 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `cidr_prefix_length` - Length of cidr range. Optional field to specify flexible cidr.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the IPv6. This is the same as the VNIC's compartment. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
