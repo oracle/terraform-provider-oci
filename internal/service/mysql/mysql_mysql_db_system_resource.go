@@ -236,6 +236,31 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"database_console": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"status": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+						"port": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"database_management": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -1158,6 +1183,17 @@ func (s *MysqlMysqlDbSystemResourceCrud) Create() error {
 		request.DataStorageSizeInGBs = &tmp
 	}
 
+	if databaseConsole, ok := s.D.GetOkExists("database_console"); ok {
+		if tmpList := databaseConsole.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database_console", 0)
+			tmp, err := s.mapToCreateDatabaseConsoleDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.DatabaseConsole = &tmp
+		}
+	}
+
 	if databaseManagement, ok := s.D.GetOkExists("database_management"); ok {
 		request.DatabaseManagement = oci_mysql.DatabaseManagementStatusEnum(databaseManagement.(string))
 	}
@@ -1423,6 +1459,17 @@ func (s *MysqlMysqlDbSystemResourceCrud) Update() error {
 		request.DataStorageSizeInGBs = &tmp
 	}
 
+	if databaseConsole, ok := s.D.GetOkExists("database_console"); ok && s.D.HasChange("database_console") {
+		if tmpList := databaseConsole.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database_console", 0)
+			tmp, err := s.mapToUpdateDatabaseConsoleDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.DatabaseConsole = &tmp
+		}
+	}
+
 	if databaseManagement, ok := s.D.GetOkExists("database_management"); ok && s.D.HasChange("database_management") {
 		request.DatabaseManagement = oci_mysql.DatabaseManagementStatusEnum(databaseManagement.(string))
 	}
@@ -1623,6 +1670,12 @@ func (s *MysqlMysqlDbSystemResourceCrud) SetData() error {
 
 	if s.Res.DataStorageSizeInGBs != nil {
 		s.D.Set("data_storage_size_in_gb", *s.Res.DataStorageSizeInGBs)
+	}
+
+	if s.Res.DatabaseConsole != nil {
+		s.D.Set("database_console", []interface{}{DatabaseConsoleDetailsToMap(s.Res.DatabaseConsole)})
+	} else {
+		s.D.Set("database_console", nil)
 	}
 
 	s.D.Set("database_management", s.Res.DatabaseManagement)
@@ -2162,6 +2215,36 @@ func (s *MysqlMysqlDbSystemResourceCrud) mapToCreateBackupPolicyDetails(fieldKey
 	return result, nil
 }
 
+func (s *MysqlMysqlDbSystemResourceCrud) mapToCreateDatabaseConsoleDetails(fieldKeyFormat string) (oci_mysql.CreateDatabaseConsoleDetails, error) {
+	result := oci_mysql.CreateDatabaseConsoleDetails{}
+
+	if port, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "port")); ok {
+		tmp := port.(int)
+		result.Port = &tmp
+	}
+
+	if status, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "status")); ok {
+		result.Status = oci_mysql.DatabaseConsoleStatusEnum(status.(string))
+	}
+
+	return result, nil
+}
+
+func (s *MysqlMysqlDbSystemResourceCrud) mapToUpdateDatabaseConsoleDetails(fieldKeyFormat string) (oci_mysql.UpdateDatabaseConsoleDetails, error) {
+	result := oci_mysql.UpdateDatabaseConsoleDetails{}
+
+	if port, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "port")); ok {
+		tmp := port.(int)
+		result.Port = &tmp
+	}
+
+	if status, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "status")); ok {
+		result.Status = oci_mysql.DatabaseConsoleStatusEnum(status.(string))
+	}
+
+	return result, nil
+}
+
 func (s *MysqlMysqlDbSystemResourceCrud) mapToCreateDbSystemSourceDetails(fieldKeyFormat string) (oci_mysql.CreateDbSystemSourceDetails, error) {
 	var baseObject oci_mysql.CreateDbSystemSourceDetails
 	//discriminator
@@ -2354,6 +2437,18 @@ func DataStorageToMap(obj *oci_mysql.DataStorage) map[string]interface{} {
 	if obj.MaxStorageSizeInGBs != nil {
 		result["max_storage_size_in_gbs"] = int(*obj.MaxStorageSizeInGBs)
 	}
+
+	return result
+}
+
+func DatabaseConsoleDetailsToMap(obj *oci_mysql.DatabaseConsoleDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Port != nil {
+		result["port"] = int(*obj.Port)
+	}
+
+	result["status"] = string(obj.Status)
 
 	return result
 }
