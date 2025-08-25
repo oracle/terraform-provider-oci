@@ -182,6 +182,12 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
 
   #Optional
   security_attributes = {"oracle-zpr.sensitivity.value": "low", "oracle-zpr.sensitivity.mode": "enforce"}
+ 
+  #Optional
+  database_console {
+    status = "DISABLED"
+    port = "8443"
+  }
 }
 
 data "oci_mysql_mysql_configurations" "test_mysql_configurations" {
@@ -215,6 +221,10 @@ data "oci_identity_availability_domains" "test_availability_domains" {
 data "oci_mysql_mysql_db_system" "test_mysql_db_system" {
   #Required
   db_system_id = oci_mysql_mysql_db_system.test_mysql_backup_db_system.id
+}
+
+data "oci_mysql_mysql_db_systems" "test_mysql_db_systems" {
+  compartment_id = var.compartment_ocid
 }
 
 data "oci_mysql_mysql_backup" "test_mysql_backup" {

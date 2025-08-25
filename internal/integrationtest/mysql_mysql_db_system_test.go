@@ -62,6 +62,7 @@ var (
 		"backup_policy":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlMysqlDbSystemBackupPolicyRepresentation},
 		"crash_recovery":          acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`},
 		"data_storage_size_in_gb": acctest.Representation{RepType: acctest.Required, Create: `50`},
+		"database_console":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlMysqlDbSystemDatabaseConsoleRepresentation},
 		"database_management":     acctest.Representation{RepType: acctest.Optional, Create: `DISABLED`},
 		"database_mode":           acctest.Representation{RepType: acctest.Optional, Create: `READ_WRITE`},
 		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -123,6 +124,11 @@ var (
 		"final_backup":               acctest.Representation{RepType: acctest.Optional, Create: `SKIP_FINAL_BACKUP`, Update: `REQUIRE_FINAL_BACKUP`},
 		//"is_delete_protected":       acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"is_delete_protected": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+	}
+
+	MysqlMysqlDbSystemDatabaseConsoleRepresentation = map[string]interface{}{
+		"status": acctest.Representation{RepType: acctest.Required, Create: `DISABLED`},
+		"port":   acctest.Representation{RepType: acctest.Optional, Create: `8443`},
 	}
 
 	MysqlMysqlDbSystemMaintenanceRepresentation = map[string]interface{}{
@@ -221,6 +227,8 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "data_storage.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "data_storage.0.is_auto_expand_storage_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_gb", "50"),
+				resource.TestCheckResourceAttr(resourceName, "database_console.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "database_console.0.status", "DISABLED"),
 				resource.TestCheckResourceAttr(resourceName, "database_management", "DISABLED"),
 				resource.TestCheckResourceAttr(resourceName, "database_mode", "READ_WRITE"),
 				resource.TestCheckResourceAttr(resourceName, "deletion_policy.#", "1"),
@@ -296,6 +304,8 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "data_storage.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "data_storage.0.is_auto_expand_storage_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_gb", "50"),
+				resource.TestCheckResourceAttr(resourceName, "database_console.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "database_console.0.status", "DISABLED"),
 				resource.TestCheckResourceAttr(resourceName, "database_management", "DISABLED"),
 				resource.TestCheckResourceAttr(resourceName, "database_mode", "READ_WRITE"),
 				resource.TestCheckResourceAttr(resourceName, "deletion_policy.#", "1"),
@@ -364,6 +374,8 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.crash_recovery", "ENABLED"),
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.current_placement.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.database_console.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.database_console.0.status", "DISABLED"),
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.database_management", "DISABLED"),
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.database_mode", "READ_WRITE"),
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.deletion_policy.#", "1"),
@@ -416,6 +428,8 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "data_storage.0.is_auto_expand_storage_enabled", "false"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_storage.0.max_storage_size_in_gbs"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "data_storage_size_in_gb", "50"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "database_console.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "database_console.0.status", "DISABLED"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "database_management", "DISABLED"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "database_mode", "READ_WRITE"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "deletion_policy.#", "1"),
