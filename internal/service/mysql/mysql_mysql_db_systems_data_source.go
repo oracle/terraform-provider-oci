@@ -186,6 +186,12 @@ func (s *MysqlMysqlDbSystemsDataSourceCrud) SetData() error {
 			mysqlDbSystem["current_placement"] = nil
 		}
 
+		if r.DatabaseConsole != nil {
+			mysqlDbSystem["database_console"] = []interface{}{DatabaseConsoleDetailsToMap(r.DatabaseConsole)}
+		} else {
+			mysqlDbSystem["database_console"] = nil
+		}
+
 		mysqlDbSystem["database_management"] = r.DatabaseManagement
 
 		mysqlDbSystem["database_mode"] = r.DatabaseMode

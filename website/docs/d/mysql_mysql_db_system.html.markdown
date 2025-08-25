@@ -132,6 +132,9 @@ The following attributes are exported:
 
 		It is not possible to decrease data storage size. You cannot set the maximum data storage size to less than either current DB System dataStorageSizeInGBs or allocatedStorageSizeInGBs. 
 * `data_storage_size_in_gb` - DEPRECATED: User specified size of the data volume. May be less than current allocatedStorageSizeInGBs. Replaced by dataStorage.dataStorageSizeInGBs. 
+* `database_console` - Database console configuration details. 
+	* `port` - The port on which the database console can be accessed. Supported port numbers are 443 and from 1024 to 65535.
+	* `status` - Whether the database console is enabled on the DB System.
 * `customer_contacts` - The list of customer email addresses that receive information from Oracle about the specified Oracle Cloud Infrastructure DB System resource.  Oracle uses these email addresses to send notifications about planned and unplanned software maintenance updates, information about system hardware, and other information needed by administrators.  Up to 10 email addresses can be added to the customer contacts for a DB System. 
 	* `email` - The email address used by Oracle to send notifications regarding the DB System. 
 * `data_storage_size_in_gb` - Initial size of the data volume in GiBs that will be created and attached. 

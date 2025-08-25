@@ -64,6 +64,13 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
 		max_storage_size_in_gbs = var.mysql_db_system_data_storage_max_storage_size_in_gbs
 	}
 	data_storage_size_in_gb = var.mysql_db_system_data_storage_size_in_gb
+	database_console {
+		#Required
+		status = var.mysql_db_system_database_console_status
+
+		#Optional
+		port = var.mysql_db_system_database_console_port
+	}
 	database_management = var.mysql_db_system_database_management
 	database_mode = var.mysql_db_system_database_mode
 	defined_tags = {"foo-namespace.bar-key"= "value"}
@@ -189,6 +196,9 @@ The following arguments are supported:
 * `customer_contacts` - (Optional) (Updatable) The list of customer email addresses that receive information from Oracle about the specified Oracle Cloud Infrastructure DB System resource.  Oracle uses these email addresses to send notifications about planned and unplanned software maintenance updates, information about system hardware, and other information needed by administrators.  Up to 10 email addresses can be added to the customer contacts for a DB System. 
 	* `email` - (Required) (Updatable) The email address used by Oracle to send notifications regarding the DB System. 
 * `data_storage_size_in_gb` - (Optional) (Updatable) Initial size of the data volume in GBs that will be created and attached. Keep in mind that this only specifies the size of the database data volume, the log volume for the database will be scaled appropriately with its shape. It is required if you are creating a new database. It cannot be set if you are creating a database from a backup.
+* `database_console` - (Optional) (Updatable) Details required to configure the database console while creating a DB System. 
+	* `port` - (Optional) (Updatable) The port on which the database console can be accessed. Supported port numbers are 443 and from 1024 to 65535.
+	* `status` - (Required) (Updatable) Enable/disable the database console on the DB System.
 * `database_management` - (Optional) (Updatable) Whether to enable monitoring via the Database Management service. 
 * `database_mode` - (Optional) (Updatable) The database mode indicating the types of statements that will be allowed to run in the DB system. This mode will apply only to statements run by user connections. Replicated write statements will continue  to be allowed regardless of the DatabaseMode.
 	* READ_WRITE (default): allow running read and write statements on the DB system;
@@ -375,6 +385,9 @@ The following attributes are exported:
 * `customer_contacts` - The list of customer email addresses that receive information from Oracle about the specified Oracle Cloud Infrastructure DB System resource.  Oracle uses these email addresses to send notifications about planned and unplanned software maintenance updates, information about system hardware, and other information needed by administrators.  Up to 10 email addresses can be added to the customer contacts for a DB System. 
 	* `email` - The email address used by Oracle to send notifications regarding the DB System. 
 * `data_storage_size_in_gb` - Initial size of the data volume in GiBs that will be created and attached. 
+* `database_console` - Database console configuration details. 
+	* `port` - The port on which the database console can be accessed. Supported port numbers are 443 and from 1024 to 65535.
+	* `status` - Whether the database console is enabled on the DB System.
 * `database_management` - Whether to enable monitoring via the Database Management service. 
 * `database_mode` - The database mode indicating the types of statements that are allowed to run in the the DB system. This mode applies only to statements run by user connections. Replicated write statements continue  to be allowed regardless of the DatabaseMode.
 	* READ_WRITE: allow running read and write statements on the DB system;

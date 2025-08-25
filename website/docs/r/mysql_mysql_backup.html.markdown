@@ -131,6 +131,9 @@ The following attributes are exported:
 
 			It is not possible to decrease data storage size. You cannot set the maximum data storage size to less than either current DB System dataStorageSizeInGBs or allocatedStorageSizeInGBs. 
 	* `data_storage_size_in_gb` - DEPRECATED: User specified size of the data volume. May be less than current allocatedStorageSizeInGBs. Replaced by dataStorage.dataStorageSizeInGBs. 
+	* `database_console` - Database console configuration details. 
+		* `port` - The port on which the database console can be accessed. Supported port numbers are 443 and from 1024 to 65535.
+		* `status` - Whether the database console is enabled on the DB System.
 	* `database_management` - Whether to enable monitoring via the Database Management service. 
 	* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 	* `deletion_policy` - The Deletion policy for the DB System.
