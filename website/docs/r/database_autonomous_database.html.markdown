@@ -72,9 +72,13 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
 		external_id = oci_database_external.test_external.id
 		key_arn = var.autonomous_database_encryption_key_key_arn
 		key_name = oci_kms_key.test_key.name
+		key_ring = var.autonomous_database_encryption_key_key_ring
 		kms_key_id = oci_kms_key.test_key.id
+		kms_rest_endpoint = var.autonomous_database_encryption_key_kms_rest_endpoint
+		location = var.autonomous_database_encryption_key_location
 		okv_kms_key = var.autonomous_database_encryption_key_okv_kms_key
 		okv_uri = var.autonomous_database_encryption_key_okv_uri
+		project = var.autonomous_database_encryption_key_project
 		service_endpoint_uri = var.autonomous_database_encryption_key_service_endpoint_uri
 		vault_id = oci_kms_vault.test_vault.id
 		vault_uri = var.autonomous_database_encryption_key_vault_uri
@@ -205,10 +209,14 @@ The following arguments are supported:
 	* `directory_name` - (Required when provider=OKV) (Updatable) OKV wallet directory name
 	* `external_id` - (Applicable when provider=AWS) (Updatable) AWS external ID
 	* `key_arn` - (Required when provider=AWS) (Updatable) AWS key ARN
-	* `key_name` - (Required when provider=AZURE) (Updatable) Azure key name
+	* `key_name` - (Required when provider=AZURE | GCP) (Updatable) Azure key name
+	* `key_ring` - (Required when provider=GCP) (Updatable) GCP key ring
 	* `kms_key_id` - (Required when provider=OCI) (Updatable) The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
+	* `kms_rest_endpoint` - (Applicable when provider=GCP) (Updatable) GCP kms REST API endpoint
+	* `location` - (Required when provider=GCP) (Updatable) GCP key ring location
 	* `okv_kms_key` - (Required when provider=OKV) (Updatable) UUID of OKV KMS Key
 	* `okv_uri` - (Required when provider=OKV) (Updatable) URI of OKV server
+	* `project` - (Required when provider=GCP) (Updatable) GCP project name
 	* `service_endpoint_uri` - (Required when provider=AWS) (Updatable) AWS key service endpoint URI
 	* `vault_id` - (Required when provider=OCI) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
 	* `vault_uri` - (Required when provider=AZURE) (Updatable) Azure vault URI
@@ -320,6 +328,7 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `actual_used_data_storage_size_in_tbs` - The current amount of storage in use for user and system data, in terabytes (TB). 
+* `additional_attributes` - Additional attributes for this resource. Each attribute is a simple key-value pair with no predefined name, type, or namespace. Example: `{ "gcpAccountName": "gcpName" }` 
 * `allocated_storage_size_in_tbs` - The amount of storage currently allocated for the database tables and billed for, rounded up. When auto-scaling is not enabled, this value is equal to the `dataStorageSizeInTBs` value. You can compare this value to the `actualUsedDataStorageSizeInTBs` value to determine if a manual shrink operation is appropriate for your allocated storage.
 
 	**Note:** Auto-scaling does not automatically decrease allocated storage when data is deleted from the database. 
@@ -417,9 +426,13 @@ The following attributes are exported:
 	* `external_id` - AWS external ID
 	* `key_arn` - AWS key ARN
 	* `key_name` - Azure key name
+	* `key_ring` - GCP key ring
 	* `kms_key_id` - The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
+	* `kms_rest_endpoint` - GCP kms REST API endpoint
+	* `location` - GCP key ring location
 	* `okv_kms_key` - UUID of OKV KMS Key
 	* `okv_uri` - URI of OKV server
+	* `project` - GCP project name
 	* `service_endpoint_uri` - AWS key service endpoint URI
 	* `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
 	* `vault_uri` - Azure vault URI
@@ -433,9 +446,13 @@ The following attributes are exported:
 		* `external_id` - AWS external ID
 		* `key_arn` - AWS key ARN
 		* `key_name` - Azure key name
+		* `key_ring` - GCP key ring
 		* `kms_key_id` - The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
+		* `kms_rest_endpoint` - GCP kms REST API endpoint
+		* `location` - GCP key ring location
 		* `okv_kms_key` - UUID of OKV KMS Key
 		* `okv_uri` - URI of OKV server
+		* `project` - GCP project name
 		* `service_endpoint_uri` - AWS key service endpoint URI
 		* `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
 		* `vault_uri` - Azure vault URI

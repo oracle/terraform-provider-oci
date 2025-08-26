@@ -39,4 +39,22 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
   encryption_key {
     autonomous_database_provider = "ORACLE_MANAGED"
   }
+
+  resource "oci_database_autonomous_database" "test_autonomous_database_gcp_kms" {
+    admin_password           = "BEstrO0ng_#11"
+    compartment_id           = var.compartment_ocid
+    cpu_core_count           = "1"
+    data_storage_size_in_tbs = "1"
+    db_name                  = "Xsk5djnfdl23423dss"
+    db_version               = "19c"
+    db_workload              = "AJD"
+    license_model            = "LICENSE_INCLUDED"
+    encryption_key {
+      autonomous_database_provider = "GCP"
+      key_name = "key_name"
+      key_ring = "key_ring"
+      location = "location"
+      project = "project"
+    }
+  }
 }

@@ -66,6 +66,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `actual_used_data_storage_size_in_tbs` - The current amount of storage in use for user and system data, in terabytes (TB). 
+* `additional_attributes` - Additional attributes for this resource. Each attribute is a simple key-value pair with no predefined name, type, or namespace. Example: `{ "gcpAccountName": "gcpName" }` 
 * `allocated_storage_size_in_tbs` - The amount of storage currently allocated for the database tables and billed for, rounded up. When auto-scaling is not enabled, this value is equal to the `dataStorageSizeInTBs` value. You can compare this value to the `actualUsedDataStorageSizeInTBs` value to determine if a manual shrink operation is appropriate for your allocated storage.
 
 	**Note:** Auto-scaling does not automatically decrease allocated storage when data is deleted from the database. 
@@ -163,9 +164,13 @@ The following attributes are exported:
 	* `external_id` - AWS external ID
 	* `key_arn` - AWS key ARN
 	* `key_name` - Azure key name
+	* `key_ring` - GCP key ring
 	* `kms_key_id` - The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
+	* `kms_rest_endpoint` - GCP kms REST API endpoint
+	* `location` - GCP key ring location
 	* `okv_kms_key` - UUID of OKV KMS Key
 	* `okv_uri` - URI of OKV server
+	* `project` - GCP project name
 	* `service_endpoint_uri` - AWS key service endpoint URI
 	* `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
 	* `vault_uri` - Azure vault URI
@@ -179,9 +184,13 @@ The following attributes are exported:
 		* `external_id` - AWS external ID
 		* `key_arn` - AWS key ARN
 		* `key_name` - Azure key name
+		* `key_ring` - GCP key ring
 		* `kms_key_id` - The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
+		* `kms_rest_endpoint` - GCP kms REST API endpoint
+		* `location` - GCP key ring location
 		* `okv_kms_key` - UUID of OKV KMS Key
 		* `okv_uri` - URI of OKV server
+		* `project` - GCP project name
 		* `service_endpoint_uri` - AWS key service endpoint URI
 		* `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
 		* `vault_uri` - Azure vault URI
