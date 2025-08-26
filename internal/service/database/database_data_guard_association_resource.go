@@ -90,6 +90,18 @@ func DatabaseDataGuardAssociationResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"compute_count": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"compute_model": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"cpu_core_count": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -740,6 +752,13 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 			if len(tmp) != 0 || s.D.HasChange("backup_network_nsg_ids") {
 				details.BackupNetworkNsgIds = tmp
 			}
+		}
+		if computeCount, ok := s.D.GetOkExists("compute_count"); ok {
+			tmp := computeCount.(int)
+			details.ComputeCount = &tmp
+		}
+		if computeModel, ok := s.D.GetOkExists("compute_model"); ok {
+			details.ComputeModel = oci_database.CreateDataGuardAssociationWithNewDbSystemDetailsComputeModelEnum(computeModel.(string))
 		}
 		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
 			tmp := cpuCoreCount.(int)

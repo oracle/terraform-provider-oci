@@ -30,6 +30,10 @@ func DatabaseDbSystemStoragePerformancesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"db_system_storage_performances": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -201,6 +205,11 @@ func (s *DatabaseDbSystemStoragePerformancesDataSourceCrud) Get() error {
 
 	if databaseEdition, ok := s.D.GetOkExists("database_edition"); ok {
 		request.DatabaseEdition = oci_database.ListDbSystemStoragePerformancesDatabaseEditionEnum(databaseEdition.(string))
+	}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
