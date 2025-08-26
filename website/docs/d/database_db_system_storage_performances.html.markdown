@@ -25,6 +25,9 @@ data "oci_database_db_system_storage_performances" "test_db_system_storage_perfo
 
 	#Optional
 	daatabase_edition = var.db_system_storage_performance_database_edition
+
+	#Optional
+	compartment_id = var.compartment_id
 }
 ```
 
@@ -42,6 +45,7 @@ The following arguments are supported:
 	* ENTERPRISE_EDITION_HIGH_PERFORMANCE
 	* ENTERPRISE_EDITION_EXTREME
 	* ENTERPRISE_EDITION_DEVELOPER
+* `compartment_id` - (Optional) Optional. The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 
 
 ## Attributes Reference

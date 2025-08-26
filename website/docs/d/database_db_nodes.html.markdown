@@ -60,6 +60,8 @@ The following attributes are exported:
 
 	**Note:** Applies only to Exadata Cloud Service. 
 * `backup_vnic_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup VNIC.
+* `compute_count` - The number of compute servers for the DB system.
+* `compute_model` - The compute model for Base Database Service. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. The ECPU compute model is the recommended model, and the OCPU compute model is legacy.
 * `cpu_core_count` - The number of CPU cores enabled on the Db node.
 * `db_node_storage_size_in_gbs` - The allocated local node storage in GBs on the Db node.
 * `db_server_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exacc Db server associated with the database node.

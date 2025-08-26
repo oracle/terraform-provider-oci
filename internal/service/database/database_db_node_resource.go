@@ -73,6 +73,14 @@ func DatabaseDbNodeResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"compute_count": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"compute_model": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"cpu_core_count": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -349,6 +357,12 @@ func (s *DatabaseDbNodeResourceCrud) SetData() error {
 	if s.Res.BackupVnicId != nil {
 		s.D.Set("backup_vnic_id", *s.Res.BackupVnicId)
 	}
+
+	if s.Res.ComputeCount != nil {
+		s.D.Set("compute_count", *s.Res.ComputeCount)
+	}
+
+	s.D.Set("compute_model", s.Res.ComputeModel)
 
 	if s.Res.CpuCoreCount != nil {
 		s.D.Set("cpu_core_count", *s.Res.CpuCoreCount)
