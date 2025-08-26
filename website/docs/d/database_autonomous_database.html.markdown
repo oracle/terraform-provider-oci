@@ -34,6 +34,7 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `actual_used_data_storage_size_in_tbs` - The current amount of storage in use for user and system data, in terabytes (TB). 
+* `additional_attributes` - Additional attributes for this resource. Each attribute is a simple key-value pair with no predefined name, type, or namespace. Example: `{ "gcpAccountName": "gcpName" }` 
 * `allocated_storage_size_in_tbs` - The amount of storage currently allocated for the database tables and billed for, rounded up. When auto-scaling is not enabled, this value is equal to the `dataStorageSizeInTBs` value. You can compare this value to the `actualUsedDataStorageSizeInTBs` value to determine if a manual shrink operation is appropriate for your allocated storage.
 
     **Note:** Auto-scaling does not automatically decrease allocated storage when data is deleted from the database. 
@@ -123,9 +124,13 @@ AL32UTF8, AR8ADOS710, AR8ADOS720, AR8APTEC715, AR8ARABICMACS, AR8ASMO8X, AR8ISO8
 	* `external_id` - AWS external ID
 	* `key_arn` - AWS key ARN
 	* `key_name` - Azure key name
+	* `key_ring` - GCP key ring
 	* `kms_key_id` - The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
+	* `kms_rest_endpoint` - GCP kms REST API endpoint
+	* `location` - GCP key ring location
 	* `okv_kms_key` - UUID of OKV KMS Key
 	* `okv_uri` - URI of OKV server
+	* `project` - GCP project name
 	* `service_endpoint_uri` - AWS key service endpoint URI
 	* `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
 	* `vault_uri` - Azure vault URI
@@ -139,9 +144,13 @@ AL32UTF8, AR8ADOS710, AR8ADOS720, AR8APTEC715, AR8ARABICMACS, AR8ASMO8X, AR8ISO8
 		* `external_id` - AWS external ID
 		* `key_arn` - AWS key ARN
 		* `key_name` - Azure key name
+		* `key_ring` - GCP key ring
 		* `kms_key_id` - The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
+		* `kms_rest_endpoint` - GCP kms REST API endpoint
+		* `location` - GCP key ring location
 		* `okv_kms_key` - UUID of OKV KMS Key
 		* `okv_uri` - URI of OKV server
+		* `project` - GCP project name
 		* `service_endpoint_uri` - AWS key service endpoint URI
 		* `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
 		* `vault_uri` - Azure vault URI
@@ -214,8 +223,8 @@ AL32UTF8, AR8ADOS710, AR8ADOS720, AR8APTEC715, AR8ARABICMACS, AR8ASMO8X, AR8ISO8
 	* `retention_period_in_days` - Retention period, in days, for long-term backups
 	* `time_of_backup` - The timestamp for the long-term backup schedule. For a MONTHLY cadence, months having fewer days than the provided date will have the backup taken on the last day of that month.
 * `maintenance_target_component` - The component chosen for maintenance.
-* `memory_per_oracle_compute_unit_in_gbs` - The amount of memory (in GBs) enabled per ECPU or OCPU.  
-* `ncharacter_set` - The national character set for the autonomous database.  The default is AL16UTF16. Allowed values are: AL16UTF16 or UTF8. 
+* `memory_per_oracle_compute_unit_in_gbs` - The amount of memory (in GBs) enabled per ECPU or OCPU. 
+* `ncharacter_set` - The national character set for the autonomous database.  The default is AL16UTF16. Allowed values are: AL16UTF16 or UTF8.  
 * `net_services_architecture` - Enabling SHARED server architecture enables a database server to allow many client processes to share very few server processes, thereby increasing the number of supported users. 
 * `next_long_term_backup_time_stamp` - The date and time when the next long-term backup would be created.
 * `nsg_ids` - The list of [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). **NsgIds restrictions:**
