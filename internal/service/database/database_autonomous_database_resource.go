@@ -280,6 +280,7 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{
 								"AWS",
 								"AZURE",
+								"GCP",
 								"OCI",
 								"OKV",
 								"ORACLE_MANAGED",
@@ -315,7 +316,22 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"key_ring": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"kms_key_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"kms_rest_endpoint": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"location": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -326,6 +342,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 							Computed: true,
 						},
 						"okv_uri": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"project": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -714,6 +735,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeFloat,
 				Computed: true,
 			},
+			"additional_attributes": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"allocated_storage_size_in_tbs": {
 				Type:     schema.TypeFloat,
 				Computed: true,
@@ -973,7 +999,19 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"key_ring": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"kms_key_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"kms_rest_endpoint": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"location": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -982,6 +1020,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 										Computed: true,
 									},
 									"okv_uri": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"project": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -2402,6 +2444,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("actual_used_data_storage_size_in_tbs", *s.Res.ActualUsedDataStorageSizeInTBs)
 	}
 
+	s.D.Set("additional_attributes", s.Res.AdditionalAttributes)
+
 	if s.Res.AllocatedStorageSizeInTBs != nil {
 		s.D.Set("allocated_storage_size_in_tbs", *s.Res.AllocatedStorageSizeInTBs)
 	}
@@ -3054,6 +3098,29 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) mapToAutonomousDatabaseEncrypti
 			details.VaultUri = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("GCP"):
+		details := oci_database.GcpKeyDetails{}
+		if keyName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key_name")); ok {
+			tmp := keyName.(string)
+			details.KeyName = &tmp
+		}
+		if keyRing, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key_ring")); ok {
+			tmp := keyRing.(string)
+			details.KeyRing = &tmp
+		}
+		if kmsRestEndpoint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_rest_endpoint")); ok {
+			tmp := kmsRestEndpoint.(string)
+			details.KmsRestEndpoint = &tmp
+		}
+		if location, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "location")); ok {
+			tmp := location.(string)
+			details.Location = &tmp
+		}
+		if project, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "project")); ok {
+			tmp := project.(string)
+			details.Project = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("OCI"):
 		details := oci_database.OciKeyDetails{}
 		if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
@@ -3127,6 +3194,28 @@ func AutonomousDatabaseEncryptionKeyDetailsToMap(obj *oci_database.AutonomousDat
 
 		if v.VaultUri != nil {
 			result["vault_uri"] = string(*v.VaultUri)
+		}
+	case oci_database.GcpKeyDetails:
+		result["autonomous_database_provider"] = "GCP"
+
+		if v.KeyName != nil {
+			result["key_name"] = string(*v.KeyName)
+		}
+
+		if v.KeyRing != nil {
+			result["key_ring"] = string(*v.KeyRing)
+		}
+
+		if v.KmsRestEndpoint != nil {
+			result["kms_rest_endpoint"] = string(*v.KmsRestEndpoint)
+		}
+
+		if v.Location != nil {
+			result["location"] = string(*v.Location)
+		}
+
+		if v.Project != nil {
+			result["project"] = string(*v.Project)
 		}
 	case oci_database.OciKeyDetails:
 		result["autonomous_database_provider"] = "OCI"

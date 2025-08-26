@@ -71,6 +71,8 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("actual_used_data_storage_size_in_tbs", *s.Res.ActualUsedDataStorageSizeInTBs)
 	}
 
+	s.D.Set("additional_attributes", s.Res.AdditionalAttributes)
+
 	if s.Res.AllocatedStorageSizeInTBs != nil {
 		s.D.Set("allocated_storage_size_in_tbs", *s.Res.AllocatedStorageSizeInTBs)
 	}

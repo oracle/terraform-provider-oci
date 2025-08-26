@@ -53,6 +53,11 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeFloat,
 							Computed: true,
 						},
+						"additional_attributes": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
 						"allocated_storage_size_in_tbs": {
 							Type:     schema.TypeFloat,
 							Computed: true,
@@ -438,7 +443,19 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"key_ring": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"kms_key_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"kms_rest_endpoint": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"location": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -447,6 +464,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 										Computed: true,
 									},
 									"okv_uri": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"project": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -517,7 +538,19 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
+												"key_ring": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"kms_key_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"kms_rest_endpoint": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"location": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -526,6 +559,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 													Computed: true,
 												},
 												"okv_uri": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"project": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -1287,6 +1324,8 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 		if r.ActualUsedDataStorageSizeInTBs != nil {
 			autonomousDatabasesClone["actual_used_data_storage_size_in_tbs"] = *r.ActualUsedDataStorageSizeInTBs
 		}
+
+		autonomousDatabasesClone["additional_attributes"] = r.AdditionalAttributes
 
 		if r.AllocatedStorageSizeInTBs != nil {
 			autonomousDatabasesClone["allocated_storage_size_in_tbs"] = *r.AllocatedStorageSizeInTBs
