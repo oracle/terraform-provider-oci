@@ -6,9 +6,10 @@ package integrationtest
 import (
 	"context"
 	"fmt"
+	"testing"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-	"testing"
 
 	oci_managed_kafka "github.com/oracle/oci-go-sdk/v65/managedkafka"
 
