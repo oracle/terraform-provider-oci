@@ -808,6 +808,11 @@ func CoreInstanceResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"resource_management": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"vcpus": {
 							Type:     schema.TypeInt,
 							Optional: true,
@@ -3693,6 +3698,10 @@ func (s *CoreInstanceResourceCrud) mapToLaunchInstanceShapeConfigDetails(fieldKe
 		result.Ocpus = &tmp
 	}
 
+	if resourceManagement, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "resource_management")); ok {
+		result.ResourceManagement = oci_core.LaunchInstanceShapeConfigDetailsResourceManagementEnum(resourceManagement.(string))
+	}
+
 	if vcpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vcpus")); ok {
 		tmp := vcpus.(int)
 		result.Vcpus = &tmp
@@ -3720,6 +3729,10 @@ func (s *CoreInstanceResourceCrud) mapToUpdateInstanceShapeConfigDetails(fieldKe
 			tmp := float32(ocpus.(float64))
 			result.Ocpus = &tmp
 		}
+	}
+
+	if resourceManagement, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "resource_management")); ok {
+		result.ResourceManagement = oci_core.UpdateInstanceShapeConfigDetailsResourceManagementEnum(resourceManagement.(string))
 	}
 
 	if vcpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vcpus")); ok {
@@ -3777,6 +3790,8 @@ func InstanceShapeConfigToMap(obj *oci_core.InstanceShapeConfig) map[string]inte
 	if obj.ProcessorDescription != nil {
 		result["processor_description"] = string(*obj.ProcessorDescription)
 	}
+
+	result["resource_management"] = string(obj.ResourceManagement)
 
 	if obj.Vcpus != nil {
 		result["vcpus"] = int(*obj.Vcpus)
