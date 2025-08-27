@@ -24,8 +24,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-
 	"hash/crc32"
 
 	"github.com/oracle/terraform-provider-oci/internal/utils"
