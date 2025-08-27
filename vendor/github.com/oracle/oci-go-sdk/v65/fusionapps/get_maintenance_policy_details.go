@@ -43,7 +43,7 @@ func (m GetMaintenancePolicyDetails) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EnvironmentMaintenanceOverride: %s. Supported values are: %s.", m.EnvironmentMaintenanceOverride, strings.Join(GetMaintenancePolicyEnvironmentMaintenanceOverrideEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

@@ -76,7 +76,7 @@ func (request AddVirtualMachineToVmClusterRequest) RetryPolicy() *common.RetryPo
 func (request AddVirtualMachineToVmClusterRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

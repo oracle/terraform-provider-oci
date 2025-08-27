@@ -57,6 +57,9 @@ type CreateDataGuardAssociationWithNewDbSystemDetails struct {
 	// The number of CPU cores available for AMD-based virtual machine DB systems.
 	CpuCoreCount *int `mandatory:"false" json:"cpuCoreCount"`
 
+	// The number of compute servers for the DB system.
+	ComputeCount *int `mandatory:"false" json:"computeCount"`
+
 	// The number of nodes to launch for the DB system of the standby in the Data Guard association. For a 2-node RAC virtual machine DB system, specify either 1 or 2. If you do not supply this parameter, the default is the node count of the primary DB system.
 	NodeCount *int `mandatory:"false" json:"nodeCount"`
 
@@ -138,6 +141,9 @@ type CreateDataGuardAssociationWithNewDbSystemDetails struct {
 	// The block storage volume performance level. Valid values are `BALANCED` and `HIGH_PERFORMANCE`. See Block Volume Performance (https://docs.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm) for more information.
 	StorageVolumePerformanceMode CreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum `mandatory:"false" json:"storageVolumePerformanceMode,omitempty"`
 
+	// The compute model for Base Database Service. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. The ECPU compute model is the recommended model, and the OCPU compute model is legacy.
+	ComputeModel CreateDataGuardAssociationWithNewDbSystemDetailsComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
+
 	// The Oracle license model that applies to all the databases on the dataguard standby DB system. The default is LICENSE_INCLUDED. Bring your own license (BYOL) allows you to select the DB edition using the optional parameter, for Autonomous Database Serverless.
 	LicenseModel CreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 
@@ -210,6 +216,9 @@ func (m CreateDataGuardAssociationWithNewDbSystemDetails) ValidateEnumValue() (b
 	if _, ok := GetMappingCreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum(string(m.StorageVolumePerformanceMode)); !ok && m.StorageVolumePerformanceMode != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for StorageVolumePerformanceMode: %s. Supported values are: %s.", m.StorageVolumePerformanceMode, strings.Join(GetCreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingCreateDataGuardAssociationWithNewDbSystemDetailsComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetCreateDataGuardAssociationWithNewDbSystemDetailsComputeModelEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingCreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelEnum(string(m.LicenseModel)); !ok && m.LicenseModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetCreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelEnumStringValues(), ",")))
 	}
@@ -221,7 +230,7 @@ func (m CreateDataGuardAssociationWithNewDbSystemDetails) ValidateEnumValue() (b
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TransportType: %s. Supported values are: %s.", m.TransportType, strings.Join(GetCreateDataGuardAssociationDetailsTransportTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }
@@ -253,6 +262,8 @@ func (m *CreateDataGuardAssociationWithNewDbSystemDetails) UnmarshalJSON(data []
 		Shape                              *string                                                                          `json:"shape"`
 		CpuCoreCount                       *int                                                                             `json:"cpuCoreCount"`
 		StorageVolumePerformanceMode       CreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum `json:"storageVolumePerformanceMode"`
+		ComputeModel                       CreateDataGuardAssociationWithNewDbSystemDetailsComputeModelEnum                 `json:"computeModel"`
+		ComputeCount                       *int                                                                             `json:"computeCount"`
 		NodeCount                          *int                                                                             `json:"nodeCount"`
 		SubnetId                           *string                                                                          `json:"subnetId"`
 		NsgIds                             []string                                                                         `json:"nsgIds"`
@@ -307,6 +318,10 @@ func (m *CreateDataGuardAssociationWithNewDbSystemDetails) UnmarshalJSON(data []
 	m.CpuCoreCount = model.CpuCoreCount
 
 	m.StorageVolumePerformanceMode = model.StorageVolumePerformanceMode
+
+	m.ComputeModel = model.ComputeModel
+
+	m.ComputeCount = model.ComputeCount
 
 	m.NodeCount = model.NodeCount
 
@@ -390,6 +405,48 @@ func GetCreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformance
 // GetMappingCreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingCreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum(val string) (CreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum, bool) {
 	enum, ok := mappingCreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// CreateDataGuardAssociationWithNewDbSystemDetailsComputeModelEnum Enum with underlying type: string
+type CreateDataGuardAssociationWithNewDbSystemDetailsComputeModelEnum string
+
+// Set of constants representing the allowable values for CreateDataGuardAssociationWithNewDbSystemDetailsComputeModelEnum
+const (
+	CreateDataGuardAssociationWithNewDbSystemDetailsComputeModelEcpu CreateDataGuardAssociationWithNewDbSystemDetailsComputeModelEnum = "ECPU"
+	CreateDataGuardAssociationWithNewDbSystemDetailsComputeModelOcpu CreateDataGuardAssociationWithNewDbSystemDetailsComputeModelEnum = "OCPU"
+)
+
+var mappingCreateDataGuardAssociationWithNewDbSystemDetailsComputeModelEnum = map[string]CreateDataGuardAssociationWithNewDbSystemDetailsComputeModelEnum{
+	"ECPU": CreateDataGuardAssociationWithNewDbSystemDetailsComputeModelEcpu,
+	"OCPU": CreateDataGuardAssociationWithNewDbSystemDetailsComputeModelOcpu,
+}
+
+var mappingCreateDataGuardAssociationWithNewDbSystemDetailsComputeModelEnumLowerCase = map[string]CreateDataGuardAssociationWithNewDbSystemDetailsComputeModelEnum{
+	"ecpu": CreateDataGuardAssociationWithNewDbSystemDetailsComputeModelEcpu,
+	"ocpu": CreateDataGuardAssociationWithNewDbSystemDetailsComputeModelOcpu,
+}
+
+// GetCreateDataGuardAssociationWithNewDbSystemDetailsComputeModelEnumValues Enumerates the set of values for CreateDataGuardAssociationWithNewDbSystemDetailsComputeModelEnum
+func GetCreateDataGuardAssociationWithNewDbSystemDetailsComputeModelEnumValues() []CreateDataGuardAssociationWithNewDbSystemDetailsComputeModelEnum {
+	values := make([]CreateDataGuardAssociationWithNewDbSystemDetailsComputeModelEnum, 0)
+	for _, v := range mappingCreateDataGuardAssociationWithNewDbSystemDetailsComputeModelEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateDataGuardAssociationWithNewDbSystemDetailsComputeModelEnumStringValues Enumerates the set of values in String for CreateDataGuardAssociationWithNewDbSystemDetailsComputeModelEnum
+func GetCreateDataGuardAssociationWithNewDbSystemDetailsComputeModelEnumStringValues() []string {
+	return []string{
+		"ECPU",
+		"OCPU",
+	}
+}
+
+// GetMappingCreateDataGuardAssociationWithNewDbSystemDetailsComputeModelEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateDataGuardAssociationWithNewDbSystemDetailsComputeModelEnum(val string) (CreateDataGuardAssociationWithNewDbSystemDetailsComputeModelEnum, bool) {
+	enum, ok := mappingCreateDataGuardAssociationWithNewDbSystemDetailsComputeModelEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 
