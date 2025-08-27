@@ -36,7 +36,7 @@ type BackupDestinationDetails struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DBRS policy used for backup.
 	DbrsPolicyId *string `mandatory:"false" json:"dbrsPolicyId"`
 
-	// Indicates whether the backup destination is cross-region or local region.
+	// Indicates whether the backup destination is cross-region or local.
 	IsRemote *bool `mandatory:"false" json:"isRemote"`
 
 	// The name of the remote region where the remote automatic incremental backups will be stored.
@@ -59,7 +59,7 @@ func (m BackupDestinationDetails) ValidateEnumValue() (bool, error) {
 	}
 
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

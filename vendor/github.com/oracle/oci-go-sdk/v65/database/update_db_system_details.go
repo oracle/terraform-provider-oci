@@ -66,6 +66,12 @@ type UpdateDbSystemDetails struct {
 	MaintenanceWindowDetails *MaintenanceWindow `mandatory:"false" json:"maintenanceWindowDetails"`
 
 	DataCollectionOptions *DataCollectionOptions `mandatory:"false" json:"dataCollectionOptions"`
+
+	// The compute model for Base Database Service. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. The ECPU compute model is the recommended model, and the OCPU compute model is legacy.
+	ComputeModel UpdateDbSystemDetailsComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
+
+	// The number of compute servers for the DB system.
+	ComputeCount *int `mandatory:"false" json:"computeCount"`
 }
 
 func (m UpdateDbSystemDetails) String() string {
@@ -81,8 +87,11 @@ func (m UpdateDbSystemDetails) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingUpdateDbSystemDetailsLicenseModelEnum(string(m.LicenseModel)); !ok && m.LicenseModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetUpdateDbSystemDetailsLicenseModelEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingUpdateDbSystemDetailsComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetUpdateDbSystemDetailsComputeModelEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }
@@ -126,5 +135,47 @@ func GetUpdateDbSystemDetailsLicenseModelEnumStringValues() []string {
 // GetMappingUpdateDbSystemDetailsLicenseModelEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingUpdateDbSystemDetailsLicenseModelEnum(val string) (UpdateDbSystemDetailsLicenseModelEnum, bool) {
 	enum, ok := mappingUpdateDbSystemDetailsLicenseModelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// UpdateDbSystemDetailsComputeModelEnum Enum with underlying type: string
+type UpdateDbSystemDetailsComputeModelEnum string
+
+// Set of constants representing the allowable values for UpdateDbSystemDetailsComputeModelEnum
+const (
+	UpdateDbSystemDetailsComputeModelEcpu UpdateDbSystemDetailsComputeModelEnum = "ECPU"
+	UpdateDbSystemDetailsComputeModelOcpu UpdateDbSystemDetailsComputeModelEnum = "OCPU"
+)
+
+var mappingUpdateDbSystemDetailsComputeModelEnum = map[string]UpdateDbSystemDetailsComputeModelEnum{
+	"ECPU": UpdateDbSystemDetailsComputeModelEcpu,
+	"OCPU": UpdateDbSystemDetailsComputeModelOcpu,
+}
+
+var mappingUpdateDbSystemDetailsComputeModelEnumLowerCase = map[string]UpdateDbSystemDetailsComputeModelEnum{
+	"ecpu": UpdateDbSystemDetailsComputeModelEcpu,
+	"ocpu": UpdateDbSystemDetailsComputeModelOcpu,
+}
+
+// GetUpdateDbSystemDetailsComputeModelEnumValues Enumerates the set of values for UpdateDbSystemDetailsComputeModelEnum
+func GetUpdateDbSystemDetailsComputeModelEnumValues() []UpdateDbSystemDetailsComputeModelEnum {
+	values := make([]UpdateDbSystemDetailsComputeModelEnum, 0)
+	for _, v := range mappingUpdateDbSystemDetailsComputeModelEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetUpdateDbSystemDetailsComputeModelEnumStringValues Enumerates the set of values in String for UpdateDbSystemDetailsComputeModelEnum
+func GetUpdateDbSystemDetailsComputeModelEnumStringValues() []string {
+	return []string{
+		"ECPU",
+		"OCPU",
+	}
+}
+
+// GetMappingUpdateDbSystemDetailsComputeModelEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingUpdateDbSystemDetailsComputeModelEnum(val string) (UpdateDbSystemDetailsComputeModelEnum, bool) {
+	enum, ok := mappingUpdateDbSystemDetailsComputeModelEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

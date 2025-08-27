@@ -57,7 +57,7 @@ func (m PeakResourceAssessmentStrategy) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MetricTimeWindow: %s. Supported values are: %s.", m.MetricTimeWindow, strings.Join(GetMetricTimeWindowEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

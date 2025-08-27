@@ -119,6 +119,12 @@ type DbNodeSummary struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exacc Db server associated with the database node.
 	DbServerId *string `mandatory:"false" json:"dbServerId"`
+
+	// The compute model for Base Database Service. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. The ECPU compute model is the recommended model, and the OCPU compute model is legacy.
+	ComputeModel DbNodeSummaryComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
+
+	// The number of compute servers for the DB system.
+	ComputeCount *int `mandatory:"false" json:"computeCount"`
 }
 
 func (m DbNodeSummary) String() string {
@@ -137,8 +143,11 @@ func (m DbNodeSummary) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingDbNodeSummaryMaintenanceTypeEnum(string(m.MaintenanceType)); !ok && m.MaintenanceType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MaintenanceType: %s. Supported values are: %s.", m.MaintenanceType, strings.Join(GetDbNodeSummaryMaintenanceTypeEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingDbNodeSummaryComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetDbNodeSummaryComputeModelEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }
@@ -252,5 +261,47 @@ func GetDbNodeSummaryMaintenanceTypeEnumStringValues() []string {
 // GetMappingDbNodeSummaryMaintenanceTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingDbNodeSummaryMaintenanceTypeEnum(val string) (DbNodeSummaryMaintenanceTypeEnum, bool) {
 	enum, ok := mappingDbNodeSummaryMaintenanceTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// DbNodeSummaryComputeModelEnum Enum with underlying type: string
+type DbNodeSummaryComputeModelEnum string
+
+// Set of constants representing the allowable values for DbNodeSummaryComputeModelEnum
+const (
+	DbNodeSummaryComputeModelEcpu DbNodeSummaryComputeModelEnum = "ECPU"
+	DbNodeSummaryComputeModelOcpu DbNodeSummaryComputeModelEnum = "OCPU"
+)
+
+var mappingDbNodeSummaryComputeModelEnum = map[string]DbNodeSummaryComputeModelEnum{
+	"ECPU": DbNodeSummaryComputeModelEcpu,
+	"OCPU": DbNodeSummaryComputeModelOcpu,
+}
+
+var mappingDbNodeSummaryComputeModelEnumLowerCase = map[string]DbNodeSummaryComputeModelEnum{
+	"ecpu": DbNodeSummaryComputeModelEcpu,
+	"ocpu": DbNodeSummaryComputeModelOcpu,
+}
+
+// GetDbNodeSummaryComputeModelEnumValues Enumerates the set of values for DbNodeSummaryComputeModelEnum
+func GetDbNodeSummaryComputeModelEnumValues() []DbNodeSummaryComputeModelEnum {
+	values := make([]DbNodeSummaryComputeModelEnum, 0)
+	for _, v := range mappingDbNodeSummaryComputeModelEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDbNodeSummaryComputeModelEnumStringValues Enumerates the set of values in String for DbNodeSummaryComputeModelEnum
+func GetDbNodeSummaryComputeModelEnumStringValues() []string {
+	return []string{
+		"ECPU",
+		"OCPU",
+	}
+}
+
+// GetMappingDbNodeSummaryComputeModelEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDbNodeSummaryComputeModelEnum(val string) (DbNodeSummaryComputeModelEnum, bool) {
+	enum, ok := mappingDbNodeSummaryComputeModelEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

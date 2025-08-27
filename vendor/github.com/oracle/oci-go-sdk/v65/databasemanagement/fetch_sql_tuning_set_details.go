@@ -80,7 +80,7 @@ func (m FetchSqlTuningSetDetails) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RankingMeasure3: %s. Supported values are: %s.", m.RankingMeasure3, strings.Join(GetRankingMeasureEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

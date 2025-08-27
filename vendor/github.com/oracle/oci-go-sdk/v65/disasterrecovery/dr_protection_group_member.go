@@ -63,6 +63,30 @@ func (m *drprotectiongroupmember) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := DrProtectionGroupMemberVolumeGroup{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "FILE_SYSTEM":
+		mm := DrProtectionGroupMemberFileSystem{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MYSQL_DB_SYSTEM":
+		mm := DrProtectionGroupMemberMySqlDbSystem{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AUTONOMOUS_DATABASE":
+		mm := DrProtectionGroupMemberAutonomousDatabase{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "COMPUTE_INSTANCE":
+		mm := DrProtectionGroupMemberComputeInstance{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AUTONOMOUS_CONTAINER_DATABASE":
+		mm := DrProtectionGroupMemberAutonomousContainerDatabase{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OKE_CLUSTER":
+		mm := DrProtectionGroupMemberOkeCluster{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "NETWORK_LOAD_BALANCER":
 		mm := DrProtectionGroupMemberNetworkLoadBalancer{}
 		err = json.Unmarshal(data, &mm)
@@ -71,40 +95,20 @@ func (m *drprotectiongroupmember) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := DrProtectionGroupMemberObjectStorageBucket{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "FILE_SYSTEM":
-		mm := DrProtectionGroupMemberFileSystem{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "COMPUTE_INSTANCE_MOVABLE":
 		mm := DrProtectionGroupMemberComputeInstanceMovable{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "AUTONOMOUS_DATABASE":
-		mm := DrProtectionGroupMemberAutonomousDatabase{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "LOAD_BALANCER":
 		mm := DrProtectionGroupMemberLoadBalancer{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "COMPUTE_INSTANCE":
-		mm := DrProtectionGroupMemberComputeInstance{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "COMPUTE_INSTANCE_NON_MOVABLE":
 		mm := DrProtectionGroupMemberComputeInstanceNonMovable{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "AUTONOMOUS_CONTAINER_DATABASE":
-		mm := DrProtectionGroupMemberAutonomousContainerDatabase{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "DATABASE":
 		mm := DrProtectionGroupMemberDatabase{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "OKE_CLUSTER":
-		mm := DrProtectionGroupMemberOkeCluster{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
@@ -129,7 +133,7 @@ func (m drprotectiongroupmember) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

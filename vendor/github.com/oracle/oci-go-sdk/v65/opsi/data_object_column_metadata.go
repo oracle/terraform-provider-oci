@@ -62,7 +62,7 @@ func (m DataObjectColumnMetadata) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataTypeName: %s. Supported values are: %s.", m.DataTypeName, strings.Join(GetDataObjectColumnMetadataDataTypeNameEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }
