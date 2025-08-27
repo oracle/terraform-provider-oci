@@ -85,7 +85,7 @@ func (request InvokeFunctionRequest) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FnInvokeType: %s. Supported values are: %s.", request.FnInvokeType, strings.Join(GetInvokeFunctionFnInvokeTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

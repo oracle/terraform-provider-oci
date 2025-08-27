@@ -39,6 +39,9 @@ type ListDeploymentsRequest struct {
 	// A filter to return only the resources that match the 'lifecycleSubState' given.
 	LifecycleSubState ListDeploymentsLifecycleSubStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleSubState" omitEmpty:"true"`
 
+	// A filter that returns only the resources matching the specified 'deploymentType'.
+	DeploymentType ListDeploymentsDeploymentTypeEnum `mandatory:"false" contributesTo:"query" name:"deploymentType" omitEmpty:"true"`
+
 	// A filter to return only the resources that match the entire 'displayName' given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
@@ -108,6 +111,9 @@ func (request ListDeploymentsRequest) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingListDeploymentsLifecycleSubStateEnum(string(request.LifecycleSubState)); !ok && request.LifecycleSubState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleSubState: %s. Supported values are: %s.", request.LifecycleSubState, strings.Join(GetListDeploymentsLifecycleSubStateEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingListDeploymentsDeploymentTypeEnum(string(request.DeploymentType)); !ok && request.DeploymentType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DeploymentType: %s. Supported values are: %s.", request.DeploymentType, strings.Join(GetListDeploymentsDeploymentTypeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingListDeploymentsSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDeploymentsSortOrderEnumStringValues(), ",")))
 	}
@@ -115,7 +121,7 @@ func (request ListDeploymentsRequest) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDeploymentsSortByEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }
@@ -442,6 +448,80 @@ func GetListDeploymentsLifecycleSubStateEnumStringValues() []string {
 // GetMappingListDeploymentsLifecycleSubStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListDeploymentsLifecycleSubStateEnum(val string) (ListDeploymentsLifecycleSubStateEnum, bool) {
 	enum, ok := mappingListDeploymentsLifecycleSubStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListDeploymentsDeploymentTypeEnum Enum with underlying type: string
+type ListDeploymentsDeploymentTypeEnum string
+
+// Set of constants representing the allowable values for ListDeploymentsDeploymentTypeEnum
+const (
+	ListDeploymentsDeploymentTypeOgg                        ListDeploymentsDeploymentTypeEnum = "OGG"
+	ListDeploymentsDeploymentTypeDatabaseOracle             ListDeploymentsDeploymentTypeEnum = "DATABASE_ORACLE"
+	ListDeploymentsDeploymentTypeBigdata                    ListDeploymentsDeploymentTypeEnum = "BIGDATA"
+	ListDeploymentsDeploymentTypeDatabaseMicrosoftSqlserver ListDeploymentsDeploymentTypeEnum = "DATABASE_MICROSOFT_SQLSERVER"
+	ListDeploymentsDeploymentTypeDatabaseMysql              ListDeploymentsDeploymentTypeEnum = "DATABASE_MYSQL"
+	ListDeploymentsDeploymentTypeDatabasePostgresql         ListDeploymentsDeploymentTypeEnum = "DATABASE_POSTGRESQL"
+	ListDeploymentsDeploymentTypeDatabaseDb2zos             ListDeploymentsDeploymentTypeEnum = "DATABASE_DB2ZOS"
+	ListDeploymentsDeploymentTypeDatabaseDb2i               ListDeploymentsDeploymentTypeEnum = "DATABASE_DB2I"
+	ListDeploymentsDeploymentTypeGgsa                       ListDeploymentsDeploymentTypeEnum = "GGSA"
+	ListDeploymentsDeploymentTypeDataTransforms             ListDeploymentsDeploymentTypeEnum = "DATA_TRANSFORMS"
+)
+
+var mappingListDeploymentsDeploymentTypeEnum = map[string]ListDeploymentsDeploymentTypeEnum{
+	"OGG":                          ListDeploymentsDeploymentTypeOgg,
+	"DATABASE_ORACLE":              ListDeploymentsDeploymentTypeDatabaseOracle,
+	"BIGDATA":                      ListDeploymentsDeploymentTypeBigdata,
+	"DATABASE_MICROSOFT_SQLSERVER": ListDeploymentsDeploymentTypeDatabaseMicrosoftSqlserver,
+	"DATABASE_MYSQL":               ListDeploymentsDeploymentTypeDatabaseMysql,
+	"DATABASE_POSTGRESQL":          ListDeploymentsDeploymentTypeDatabasePostgresql,
+	"DATABASE_DB2ZOS":              ListDeploymentsDeploymentTypeDatabaseDb2zos,
+	"DATABASE_DB2I":                ListDeploymentsDeploymentTypeDatabaseDb2i,
+	"GGSA":                         ListDeploymentsDeploymentTypeGgsa,
+	"DATA_TRANSFORMS":              ListDeploymentsDeploymentTypeDataTransforms,
+}
+
+var mappingListDeploymentsDeploymentTypeEnumLowerCase = map[string]ListDeploymentsDeploymentTypeEnum{
+	"ogg":                          ListDeploymentsDeploymentTypeOgg,
+	"database_oracle":              ListDeploymentsDeploymentTypeDatabaseOracle,
+	"bigdata":                      ListDeploymentsDeploymentTypeBigdata,
+	"database_microsoft_sqlserver": ListDeploymentsDeploymentTypeDatabaseMicrosoftSqlserver,
+	"database_mysql":               ListDeploymentsDeploymentTypeDatabaseMysql,
+	"database_postgresql":          ListDeploymentsDeploymentTypeDatabasePostgresql,
+	"database_db2zos":              ListDeploymentsDeploymentTypeDatabaseDb2zos,
+	"database_db2i":                ListDeploymentsDeploymentTypeDatabaseDb2i,
+	"ggsa":                         ListDeploymentsDeploymentTypeGgsa,
+	"data_transforms":              ListDeploymentsDeploymentTypeDataTransforms,
+}
+
+// GetListDeploymentsDeploymentTypeEnumValues Enumerates the set of values for ListDeploymentsDeploymentTypeEnum
+func GetListDeploymentsDeploymentTypeEnumValues() []ListDeploymentsDeploymentTypeEnum {
+	values := make([]ListDeploymentsDeploymentTypeEnum, 0)
+	for _, v := range mappingListDeploymentsDeploymentTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListDeploymentsDeploymentTypeEnumStringValues Enumerates the set of values in String for ListDeploymentsDeploymentTypeEnum
+func GetListDeploymentsDeploymentTypeEnumStringValues() []string {
+	return []string{
+		"OGG",
+		"DATABASE_ORACLE",
+		"BIGDATA",
+		"DATABASE_MICROSOFT_SQLSERVER",
+		"DATABASE_MYSQL",
+		"DATABASE_POSTGRESQL",
+		"DATABASE_DB2ZOS",
+		"DATABASE_DB2I",
+		"GGSA",
+		"DATA_TRANSFORMS",
+	}
+}
+
+// GetMappingListDeploymentsDeploymentTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListDeploymentsDeploymentTypeEnum(val string) (ListDeploymentsDeploymentTypeEnum, bool) {
+	enum, ok := mappingListDeploymentsDeploymentTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

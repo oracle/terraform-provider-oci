@@ -117,6 +117,12 @@ type DbNode struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exacc Db server associated with the database node.
 	DbServerId *string `mandatory:"false" json:"dbServerId"`
+
+	// The compute model for Base Database Service. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. The ECPU compute model is the recommended model, and the OCPU compute model is legacy.
+	ComputeModel DbNodeComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
+
+	// The number of compute servers for the DB system.
+	ComputeCount *int `mandatory:"false" json:"computeCount"`
 }
 
 func (m DbNode) String() string {
@@ -135,8 +141,11 @@ func (m DbNode) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingDbNodeMaintenanceTypeEnum(string(m.MaintenanceType)); !ok && m.MaintenanceType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MaintenanceType: %s. Supported values are: %s.", m.MaintenanceType, strings.Join(GetDbNodeMaintenanceTypeEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingDbNodeComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetDbNodeComputeModelEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }
@@ -250,5 +259,47 @@ func GetDbNodeMaintenanceTypeEnumStringValues() []string {
 // GetMappingDbNodeMaintenanceTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingDbNodeMaintenanceTypeEnum(val string) (DbNodeMaintenanceTypeEnum, bool) {
 	enum, ok := mappingDbNodeMaintenanceTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// DbNodeComputeModelEnum Enum with underlying type: string
+type DbNodeComputeModelEnum string
+
+// Set of constants representing the allowable values for DbNodeComputeModelEnum
+const (
+	DbNodeComputeModelEcpu DbNodeComputeModelEnum = "ECPU"
+	DbNodeComputeModelOcpu DbNodeComputeModelEnum = "OCPU"
+)
+
+var mappingDbNodeComputeModelEnum = map[string]DbNodeComputeModelEnum{
+	"ECPU": DbNodeComputeModelEcpu,
+	"OCPU": DbNodeComputeModelOcpu,
+}
+
+var mappingDbNodeComputeModelEnumLowerCase = map[string]DbNodeComputeModelEnum{
+	"ecpu": DbNodeComputeModelEcpu,
+	"ocpu": DbNodeComputeModelOcpu,
+}
+
+// GetDbNodeComputeModelEnumValues Enumerates the set of values for DbNodeComputeModelEnum
+func GetDbNodeComputeModelEnumValues() []DbNodeComputeModelEnum {
+	values := make([]DbNodeComputeModelEnum, 0)
+	for _, v := range mappingDbNodeComputeModelEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDbNodeComputeModelEnumStringValues Enumerates the set of values in String for DbNodeComputeModelEnum
+func GetDbNodeComputeModelEnumStringValues() []string {
+	return []string{
+		"ECPU",
+		"OCPU",
+	}
+}
+
+// GetMappingDbNodeComputeModelEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDbNodeComputeModelEnum(val string) (DbNodeComputeModelEnum, bool) {
+	enum, ok := mappingDbNodeComputeModelEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

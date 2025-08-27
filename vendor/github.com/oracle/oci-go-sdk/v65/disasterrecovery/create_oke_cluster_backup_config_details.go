@@ -21,11 +21,19 @@ import (
 // CreateOkeClusterBackupConfigDetails Create backup configuration properties for an OKE member.
 type CreateOkeClusterBackupConfigDetails struct {
 
-	// A list of namespaces that need to be backed up.
-	// The default value is null. If a list of namespaces is not provided, all namespaces will be backed up.
+	// A list of namespaces to be included in the backup.
+	// The default value is null. If a list of namespaces to include is not provided, all namespaces will be backed up.
+	// Specify either the `namespaces` or the `excludeNamespaces` parameter, but not both.
 	// This property applies to the OKE cluster member in primary region.
 	// Example: ["default", "pv-nginx"]
 	Namespaces []string `mandatory:"false" json:"namespaces"`
+
+	// A list of namespaces to be excluded from the backup.
+	// The default value is null. If a list of namespaces to exclude is not provided, all namespaces will be backed up.
+	// Specify either the `namespaces` or the `excludeNamespaces` parameter, but not both.
+	// This property applies to OKE cluster members in the primary region.
+	// Example: ["namespace_string_3", "namespace_string_4"]
+	ExcludeNamespaces []string `mandatory:"false" json:"excludeNamespaces"`
 
 	// The schedule for backing up namespaces to the destination region. If a backup schedule is not specified, only a single backup will be created.
 	// This format of the string specifying the backup schedule must conform with RFC-5545 (see examples below).
@@ -87,7 +95,7 @@ func (m CreateOkeClusterBackupConfigDetails) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ReplicateImages: %s. Supported values are: %s.", m.ReplicateImages, strings.Join(GetOkeClusterImageReplicationEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

@@ -54,6 +54,12 @@ type ComputeGpuMemoryFabricSummary struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
+	// The total number of available bare metal hosts located in this compute GPU memory fabric.
+	AvailableHostCount *int64 `mandatory:"false" json:"availableHostCount"`
+
+	// The total number of healthy bare metal hosts located in this compute GPU memory fabric.
+	HealthyHostCount *int64 `mandatory:"false" json:"healthyHostCount"`
+
 	// Defined tags for this resource. Each key is predefined and scoped to a
 	// namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
@@ -90,7 +96,7 @@ func (m ComputeGpuMemoryFabricSummary) ValidateEnumValue() (bool, error) {
 	}
 
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

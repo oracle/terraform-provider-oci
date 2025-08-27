@@ -39,7 +39,7 @@ func (m AddressTypeRule) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ThirdPartyValidation: %s. Supported values are: %s.", m.ThirdPartyValidation, strings.Join(GetThirdPartyValidationTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

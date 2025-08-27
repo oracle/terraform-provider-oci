@@ -128,7 +128,7 @@ func (m DelegatedResourceAccessRequestSummary) ValidateEnumValue() (bool, error)
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RequestStatus: %s. Supported values are: %s.", m.RequestStatus, strings.Join(GetDelegatedResourceAccessRequestStatusEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

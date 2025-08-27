@@ -120,6 +120,14 @@ type Deployment struct {
 	// A three-label Fully Qualified Domain Name (FQDN) for a resource.
 	Fqdn *string `mandatory:"false" json:"fqdn"`
 
+	// Flag to allow to configure the 'Bring Your Own License' (BYOL) license type CPU limit.
+	// If enabled, the exact number of CPUs must be provided via byolCpuCoreCountLimit.
+	IsByolCpuCoreCountLimitEnabled *bool `mandatory:"false" json:"isByolCpuCoreCountLimitEnabled"`
+
+	// The maximum number of CPUs allowed with a 'Bring Your Own License' (BYOL) license type.
+	// Any CPU usage above this limit is considered as License Included and billed.
+	ByolCpuCoreCountLimit *int `mandatory:"false" json:"byolCpuCoreCountLimit"`
+
 	// Specifies whether the deployment is used in a production or development/testing environment.
 	EnvironmentType EnvironmentTypeEnum `mandatory:"false" json:"environmentType,omitempty"`
 
@@ -236,7 +244,7 @@ func (m Deployment) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NextMaintenanceActionType: %s. Supported values are: %s.", m.NextMaintenanceActionType, strings.Join(GetMaintenanceActionTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

@@ -71,7 +71,7 @@ func (request DetectLanguageEntitiesRequest) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ModelVersion: %s. Supported values are: %s.", request.ModelVersion, strings.Join(GetDetectLanguageEntitiesModelVersionEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

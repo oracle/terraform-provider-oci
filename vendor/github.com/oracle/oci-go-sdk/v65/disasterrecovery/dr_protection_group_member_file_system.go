@@ -39,6 +39,10 @@ type DrProtectionGroupMemberFileSystem struct {
 	// The OCID of the snapshot policy to use in the destination region. This policy will be attached to the file system after it moves to the destination region.
 	// Example: `ocid1.filesystemsnapshotpolicy.oc1..uniqueID`
 	DestinationSnapshotPolicyId *string `mandatory:"false" json:"destinationSnapshotPolicyId"`
+
+	// The OCID of a compartment in the destination region in which the file system should be launched.
+	// Example: `ocid1.compartment.oc1..uniqueID`
+	DestinationCompartmentId *string `mandatory:"false" json:"destinationCompartmentId"`
 }
 
 // GetMemberId returns MemberId
@@ -57,7 +61,7 @@ func (m DrProtectionGroupMemberFileSystem) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

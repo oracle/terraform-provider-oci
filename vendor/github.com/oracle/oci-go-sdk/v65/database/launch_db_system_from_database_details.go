@@ -50,21 +50,6 @@ type LaunchDbSystemFromDatabaseDetails struct {
 	// the DB system will fail to provision.
 	Hostname *string `mandatory:"true" json:"hostname"`
 
-	// The number of CPU cores to enable for a bare metal or Exadata DB system or AMD VMDB Systems. The valid values depend on the specified shape:
-	// - BM.DenseIO1.36 - Specify a multiple of 2, from 2 to 36.
-	// - BM.DenseIO2.52 - Specify a multiple of 2, from 2 to 52.
-	// - Exadata.Base.48 - Specify a multiple of 2, from 0 to 48.
-	// - Exadata.Quarter1.84 - Specify a multiple of 2, from 22 to 84.
-	// - Exadata.Half1.168 - Specify a multiple of 4, from 44 to 168.
-	// - Exadata.Full1.336 - Specify a multiple of 8, from 88 to 336.
-	// - Exadata.Quarter2.92 - Specify a multiple of 2, from 0 to 92.
-	// - Exadata.Half2.184 - Specify a multiple of 4, from 0 to 184.
-	// - Exadata.Full2.368 - Specify a multiple of 8, from 0 to 368.
-	// - VM.Standard.E4.Flex - Specify any thing from 1 to 64.
-	// This parameter is not used for INTEL virtual machine DB systems because virtual machine DB systems have a set number of cores for each shape.
-	// For information about the number of cores for a virtual machine DB system shape, see Virtual Machine DB Systems (https://docs.oracle.com/iaas/Content/Database/Concepts/overview.htm#virtualmachine)
-	CpuCoreCount *int `mandatory:"true" json:"cpuCoreCount"`
-
 	DbHome *CreateDbHomeFromDatabaseDetails `mandatory:"true" json:"dbHome"`
 
 	// A Fault Domain is a grouping of hardware and infrastructure within an availability domain.
@@ -110,6 +95,21 @@ type LaunchDbSystemFromDatabaseDetails struct {
 	// (do not provide one). Otherwise, provide a valid DNS domain name. Hyphens (-) are not permitted.
 	Domain *string `mandatory:"false" json:"domain"`
 
+	// The number of CPU cores to enable for a bare metal or Exadata DB system or AMD VMDB Systems. The valid values depend on the specified shape:
+	// - BM.DenseIO1.36 - Specify a multiple of 2, from 2 to 36.
+	// - BM.DenseIO2.52 - Specify a multiple of 2, from 2 to 52.
+	// - Exadata.Base.48 - Specify a multiple of 2, from 0 to 48.
+	// - Exadata.Quarter1.84 - Specify a multiple of 2, from 22 to 84.
+	// - Exadata.Half1.168 - Specify a multiple of 4, from 44 to 168.
+	// - Exadata.Full1.336 - Specify a multiple of 8, from 88 to 336.
+	// - Exadata.Quarter2.92 - Specify a multiple of 2, from 0 to 92.
+	// - Exadata.Half2.184 - Specify a multiple of 4, from 0 to 184.
+	// - Exadata.Full2.368 - Specify a multiple of 8, from 0 to 368.
+	// - VM.Standard.E4.Flex - Specify any thing from 1 to 64.
+	// This parameter is not used for INTEL virtual machine DB systems because virtual machine DB systems have a set number of cores for each shape.
+	// For information about the number of cores for a virtual machine DB system shape, see Virtual Machine DB Systems (https://docs.oracle.com/iaas/Content/Database/Concepts/overview.htm#virtualmachine)
+	CpuCoreCount *int `mandatory:"false" json:"cpuCoreCount"`
+
 	// The cluster name for Exadata and 2-node RAC virtual machine DB systems. The cluster name must begin with an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted. The cluster name can be no longer than 11 characters and is not case sensitive.
 	ClusterName *string `mandatory:"false" json:"clusterName"`
 
@@ -118,7 +118,7 @@ type LaunchDbSystemFromDatabaseDetails struct {
 	// Specify 80 or 40. The default is 80 percent assigned to DATA storage. Not applicable for virtual machine DB systems.
 	DataStoragePercentage *int `mandatory:"false" json:"dataStoragePercentage"`
 
-	// Size (in GB) of the initial data volume that will be created and attached to a virtual machine DB system. You can scale up storage after provisioning, as needed. Note that the total storage size attached will be more than the amount you specify to allow for REDO/RECO space and software volume.
+	// Size (in GB) of the initial data volume that will be created and attached to a virtual machine DB system. You can scale up storage after provisioning, as needed. Note that the total storage size attached will be more than the amount you specify to allow for REDO/RECO space and software volume. By default this will be set to 256.
 	InitialDataStorageSizeInGB *int `mandatory:"false" json:"initialDataStorageSizeInGB"`
 
 	// The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
@@ -127,7 +127,7 @@ type LaunchDbSystemFromDatabaseDetails struct {
 	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. Autonomous Database Serverless does not use key versions, hence is not applicable for Autonomous Database Serverless instances.
 	KmsKeyVersionId *string `mandatory:"false" json:"kmsKeyVersionId"`
 
-	// The number of nodes to launch for a 2-node RAC virtual machine DB system. Specify either 1 or 2.
+	// The number of nodes to launch for a virtual machine DB system. Specify either 1 or 2. By default this will be set to 1.
 	NodeCount *int `mandatory:"false" json:"nodeCount"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -154,6 +154,9 @@ type LaunchDbSystemFromDatabaseDetails struct {
 
 	DataCollectionOptions *DataCollectionOptions `mandatory:"false" json:"dataCollectionOptions"`
 
+	// The number of compute servers for the DB system.
+	ComputeCount *int `mandatory:"false" json:"computeCount"`
+
 	// The Oracle Database Edition that applies to all the databases on the DB system.
 	// Exadata DB systems and 2-node RAC DB systems require ENTERPRISE_EDITION_EXTREME_PERFORMANCE.
 	DatabaseEdition LaunchDbSystemFromDatabaseDetailsDatabaseEditionEnum `mandatory:"true" json:"databaseEdition"`
@@ -168,6 +171,9 @@ type LaunchDbSystemFromDatabaseDetails struct {
 
 	// The block storage volume performance level. Valid values are `BALANCED` and `HIGH_PERFORMANCE`. See Block Volume Performance (https://docs.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm) for more information.
 	StorageVolumePerformanceMode LaunchDbSystemBaseStorageVolumePerformanceModeEnum `mandatory:"false" json:"storageVolumePerformanceMode,omitempty"`
+
+	// The compute model for Base Database Service. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. The ECPU compute model is the recommended model, and the OCPU compute model is legacy.
+	ComputeModel LaunchDbSystemBaseComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
 }
 
 // GetCompartmentId returns CompartmentId
@@ -315,6 +321,16 @@ func (m LaunchDbSystemFromDatabaseDetails) GetDataCollectionOptions() *DataColle
 	return m.DataCollectionOptions
 }
 
+// GetComputeModel returns ComputeModel
+func (m LaunchDbSystemFromDatabaseDetails) GetComputeModel() LaunchDbSystemBaseComputeModelEnum {
+	return m.ComputeModel
+}
+
+// GetComputeCount returns ComputeCount
+func (m LaunchDbSystemFromDatabaseDetails) GetComputeCount() *int {
+	return m.ComputeCount
+}
+
 func (m LaunchDbSystemFromDatabaseDetails) String() string {
 	return common.PointerString(m)
 }
@@ -337,8 +353,11 @@ func (m LaunchDbSystemFromDatabaseDetails) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingLaunchDbSystemBaseStorageVolumePerformanceModeEnum(string(m.StorageVolumePerformanceMode)); !ok && m.StorageVolumePerformanceMode != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for StorageVolumePerformanceMode: %s. Supported values are: %s.", m.StorageVolumePerformanceMode, strings.Join(GetLaunchDbSystemBaseStorageVolumePerformanceModeEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingLaunchDbSystemBaseComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetLaunchDbSystemBaseComputeModelEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

@@ -42,6 +42,8 @@ type CreateDatabaseFromBackupDetails struct {
 	// The list of pluggable databases that needs to be restored into new database.
 	PluggableDatabases []string `mandatory:"false" json:"pluggableDatabases"`
 
+	StorageSizeDetails *DatabaseStorageSizeDetails `mandatory:"false" json:"storageSizeDetails"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -63,7 +65,7 @@ func (m CreateDatabaseFromBackupDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }
@@ -77,6 +79,7 @@ func (m *CreateDatabaseFromBackupDetails) UnmarshalJSON(data []byte) (e error) {
 		DbName                             *string                           `json:"dbName"`
 		SidPrefix                          *string                           `json:"sidPrefix"`
 		PluggableDatabases                 []string                          `json:"pluggableDatabases"`
+		StorageSizeDetails                 *DatabaseStorageSizeDetails       `json:"storageSizeDetails"`
 		FreeformTags                       map[string]string                 `json:"freeformTags"`
 		DefinedTags                        map[string]map[string]interface{} `json:"definedTags"`
 		BackupId                           *string                           `json:"backupId"`
@@ -108,6 +111,8 @@ func (m *CreateDatabaseFromBackupDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.PluggableDatabases = make([]string, len(model.PluggableDatabases))
 	copy(m.PluggableDatabases, model.PluggableDatabases)
+	m.StorageSizeDetails = model.StorageSizeDetails
+
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags

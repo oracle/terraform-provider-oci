@@ -93,7 +93,7 @@ func (request ListUploadsRequest) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for WarningsFilter: %s. Supported values are: %s.", request.WarningsFilter, strings.Join(GetListUploadsWarningsFilterEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

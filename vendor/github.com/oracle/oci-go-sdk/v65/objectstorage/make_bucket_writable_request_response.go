@@ -90,7 +90,7 @@ func (request MakeBucketWritableRequest) RetryPolicy() *common.RetryPolicy {
 func (request MakeBucketWritableRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

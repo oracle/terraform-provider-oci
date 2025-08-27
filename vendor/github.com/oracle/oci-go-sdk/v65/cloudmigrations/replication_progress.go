@@ -60,7 +60,7 @@ func (m ReplicationProgress) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LastReplicationStatus: %s. Supported values are: %s.", m.LastReplicationStatus, strings.Join(GetReplicationProgressLastReplicationStatusEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

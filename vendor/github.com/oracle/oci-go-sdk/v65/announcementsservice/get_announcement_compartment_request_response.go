@@ -62,7 +62,7 @@ func (request GetAnnouncementCompartmentRequest) RetryPolicy() *common.RetryPoli
 func (request GetAnnouncementCompartmentRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

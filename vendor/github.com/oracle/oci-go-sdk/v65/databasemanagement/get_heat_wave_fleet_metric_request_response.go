@@ -84,7 +84,7 @@ func (request GetHeatWaveFleetMetricRequest) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FilterByHeatWaveStatus: %s. Supported values are: %s.", request.FilterByHeatWaveStatus, strings.Join(GetGetHeatWaveFleetMetricFilterByHeatWaveStatusEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }
