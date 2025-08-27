@@ -217,6 +217,7 @@ resource "oci_core_instance" "test_instance" {
 		memory_in_gbs = var.instance_shape_config_memory_in_gbs
 		nvmes = var.instance_shape_config_nvmes
 		ocpus = var.instance_shape_config_ocpus
+		resource_management = var.instance_shape_config_resource_management
 		vcpus = var.instance_shape_config_vcpus
 	}
 	source_details {
@@ -510,7 +511,8 @@ The following arguments are supported:
 		* `BASELINE_1_1` - baseline usage is an entire OCPU. This represents a non-burstable instance. 
 	* `memory_in_gbs` - (Optional) (Updatable) The total amount of memory available to the instance, in gigabytes. 
 	* `nvmes` - (Optional) (Updatable) The number of NVMe drives to be used for storage. A single drive has 6.8 TB available. 
-	* `ocpus` - (Optional) (Updatable) The total number of OCPUs available to the instance. 
+	* `ocpus` - (Optional) (Updatable) The total number of OCPUs available to the instance.
+	* `resource_management` - (Optional) (Updatable) This field is reserved for internal use. 
 	* `vcpus` - (Optional) (Updatable) The total number of VCPUs available to the instance. This can be used instead of OCPUs, in which case the actual number of OCPUs will be calculated based on this value and the actual hardware. This must be a multiple of 2.
 * `source_details` - (Optional) (Updatable) 
 	* `boot_volume_size_in_gbs` - (Applicable when source_type=image) (Updatable) The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 32,768 GB (32 TB). 
@@ -707,7 +709,8 @@ The following attributes are exported:
 	* `memory_in_gbs` - The total amount of memory available to the instance, in gigabytes. 
 	* `networking_bandwidth_in_gbps` - The networking bandwidth available to the instance, in gigabits per second. 
 	* `ocpus` - The total number of OCPUs available to the instance. 
-	* `processor_description` - A short description of the instance's processor (CPU). 
+	* `processor_description` - A short description of the instance's processor (CPU).
+	* `resource_management` - This field is reserved for internal use. 
 	* `vcpus` - The total number of VCPUs available to the instance. This can be used instead of OCPUs, in which case the actual number of OCPUs will be calculated based on this value and the actual hardware. This must be a multiple of 2.
 * `source_details` - 
 	* `boot_volume_size_in_gbs` - The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 32,768 GB (32 TB). 

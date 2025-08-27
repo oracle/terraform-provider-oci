@@ -210,6 +210,7 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 				memory_in_gbs = var.instance_configuration_instance_details_launch_details_shape_config_memory_in_gbs
 				nvmes = var.instance_configuration_instance_details_launch_details_shape_config_nvmes
 				ocpus = var.instance_configuration_instance_details_launch_details_shape_config_ocpus
+				resource_management = var.instance_configuration_instance_details_launch_details_shape_config_resource_management
 				vcpus = var.instance_configuration_instance_details_launch_details_shape_config_vcpus
 			}
 			source_details {
@@ -406,6 +407,7 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 					memory_in_gbs = var.instance_configuration_instance_details_options_launch_details_shape_config_memory_in_gbs
 					nvmes = var.instance_configuration_instance_details_options_launch_details_shape_config_nvmes
 					ocpus = var.instance_configuration_instance_details_options_launch_details_shape_config_ocpus
+					resource_management = var.instance_configuration_instance_details_options_launch_details_shape_config_resource_management
 					vcpus = var.instance_configuration_instance_details_options_launch_details_shape_config_vcpus
 				}
 				source_details {
@@ -719,6 +721,7 @@ The following arguments are supported:
 			* `memory_in_gbs` - (Applicable when instance_type=compute) The total amount of memory available to the instance, in gigabytes. 
 			* `nvmes` - (Applicable when instance_type=compute) The number of NVMe drives to be used for storage. A single drive has 6.8 TB available. 
 			* `ocpus` - (Applicable when instance_type=compute) The total number of OCPUs available to the instance. 
+			* `resource_management` - (Applicable when instance_type=compute) This field is reserved for internal use. 
 			* `vcpus` - (Applicable when instance_type=compute) The total number of VCPUs available to the instance. This can be used instead of OCPUs, in which case the actual number of OCPUs will be calculated based on this value and the actual hardware. This must be a multiple of 2. 
 		* `source_details` - (Applicable when instance_type=compute) 
 			* `boot_volume_id` - (Applicable when source_type=bootVolume) The OCID of the boot volume used to boot the instance.
@@ -964,6 +967,7 @@ The following arguments are supported:
 				* `memory_in_gbs` - (Applicable when instance_type=instance_options) The total amount of memory available to the instance, in gigabytes.
 				* `nvmes` - (Applicable when instance_type=instance_options) The number of NVMe drives to be used for storage. A single drive has 6.8 TB available.
 				* `ocpus` - (Applicable when instance_type=instance_options) The total number of OCPUs available to the instance.
+				* `resource_management` - (Applicable when instance_type=instance_options) This field is reserved for internal use. 
 				* `vcpus` - (Applicable when instance_type=instance_options) The total number of VCPUs available to the instance. This can be used instead of OCPUs, in which case the actual number of OCPUs will be calculated based on this value and the actual hardware. This must be a multiple of 2.
 			* `source_details` - (Applicable when instance_type=instance_options)
 				* `boot_volume_id` - (Applicable when source_type=bootVolume) The OCID of the boot volume used to boot the instance.
@@ -1260,6 +1264,7 @@ The following attributes are exported:
 			* `memory_in_gbs` - The total amount of memory available to the instance, in gigabytes. 
 			* `nvmes` - The number of NVMe drives to be used for storage. A single drive has 6.8 TB available. 
 			* `ocpus` - The total number of OCPUs available to the instance. 
+			* `resource_management` - This field is reserved for internal use. 
 			* `vcpus` - The total number of VCPUs available to the instance. This can be used instead of OCPUs, in which case the actual number of OCPUs will be calculated based on this value and the actual hardware. This must be a multiple of 2. 
 		* `source_details` - 
 			* `boot_volume_id` - The OCID of the boot volume used to boot the instance.
@@ -1501,6 +1506,7 @@ The following attributes are exported:
 				* `memory_in_gbs` - The total amount of memory available to the instance, in gigabytes.
 				* `nvmes` - The number of NVMe drives to be used for storage. A single drive has 6.8 TB available.
 				* `ocpus` - The total number of OCPUs available to the instance.
+				* `resource_management` - This field is reserved for internal use.
 				* `vcpus` - The total number of VCPUs available to the instance. This can be used instead of OCPUs, in which case the actual number of OCPUs will be calculated based on this value and the actual hardware. This must be a multiple of 2.
 			* `source_details` -
 				* `boot_volume_id` - The OCID of the boot volume used to boot the instance.
