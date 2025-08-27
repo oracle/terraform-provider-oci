@@ -6,11 +6,11 @@ package managed_kafka
 import (
 	"context"
 	"fmt"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"log"
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_managed_kafka "github.com/oracle/oci-go-sdk/v65/managedkafka"
@@ -223,7 +223,7 @@ func kafkaClusterSuperusersManagementWaitForWorkRequest(wId *string, entityType 
 	retryPolicy.ShouldRetryOperation = kafkaClusterSuperusersManagementWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_managed_kafka.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_managed_kafka.OperationStatusInProgress),
 			string(oci_managed_kafka.OperationStatusAccepted),
