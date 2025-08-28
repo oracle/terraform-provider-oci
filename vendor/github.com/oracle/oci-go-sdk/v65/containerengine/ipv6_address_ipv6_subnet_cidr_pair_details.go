@@ -12,45 +12,33 @@
 package containerengine
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// NodeConfigSourceFromInstanceConfigDetails Configure nodes from existing InstanceConfiguration object.
-type NodeConfigSourceFromInstanceConfigDetails struct {
+// Ipv6AddressIpv6SubnetCidrPairDetails Used to specify from which subnet prefixes an IPv6 address should be allocated, or to assign valid available IPv6 addresses
+type Ipv6AddressIpv6SubnetCidrPairDetails struct {
 
-	// The ocid of the InstanceConfiguration for the nodepool
-	InstanceConfigurationId *string `mandatory:"true" json:"instanceConfigurationId"`
+	// An IPv6 address of your choice. Must be an available IPv6 address within the subnet's prefix
+	Ipv6Address *string `mandatory:"false" json:"ipv6Address"`
+
+	// The IPv6 prefix allocated to the subnet
+	Ipv6SubnetCidr *string `mandatory:"false" json:"ipv6SubnetCidr"`
 }
 
-func (m NodeConfigSourceFromInstanceConfigDetails) String() string {
+func (m Ipv6AddressIpv6SubnetCidrPairDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m NodeConfigSourceFromInstanceConfigDetails) ValidateEnumValue() (bool, error) {
+func (m Ipv6AddressIpv6SubnetCidrPairDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// MarshalJSON marshals to json representation
-func (m NodeConfigSourceFromInstanceConfigDetails) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeNodeConfigSourceFromInstanceConfigDetails NodeConfigSourceFromInstanceConfigDetails
-	s := struct {
-		DiscriminatorParam string `json:"configurationSource"`
-		MarshalTypeNodeConfigSourceFromInstanceConfigDetails
-	}{
-		"INSTANCE_CONFIG",
-		(MarshalTypeNodeConfigSourceFromInstanceConfigDetails)(m),
-	}
-
-	return json.Marshal(&s)
 }

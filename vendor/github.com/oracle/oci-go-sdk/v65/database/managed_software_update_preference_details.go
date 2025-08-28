@@ -19,8 +19,8 @@ import (
 // ManagedSoftwareUpdatePreferenceDetails Oracle Managed Database Software Updates schedule will be created based on the provided update preferences
 type ManagedSoftwareUpdatePreferenceDetails struct {
 
-	// The update should be applied on the database for the selected day of the week.
-	DayOfWeek []ManagedSoftwareUpdateDayOfWeek `mandatory:"true" json:"dayOfWeek"`
+	// The update should be applied on the database for the selected days of the week.
+	DaysOfWeek []ManagedSoftwareUpdateDayOfWeek `mandatory:"true" json:"daysOfWeek"`
 
 	// The update should be applied on the database for the selected hour of the day.
 	HourOfDay *int `mandatory:"true" json:"hourOfDay"`
@@ -55,7 +55,7 @@ func (m ManagedSoftwareUpdatePreferenceDetails) ValidateEnumValue() (bool, error
 func (m *ManagedSoftwareUpdatePreferenceDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		UpdateMode           ManagedSoftwareUpdatePreferenceDetailsUpdateModeEnum `json:"updateMode"`
-		DayOfWeek            []ManagedSoftwareUpdateDayOfWeek                     `json:"dayOfWeek"`
+		DaysOfWeek           []ManagedSoftwareUpdateDayOfWeek                     `json:"daysOfWeek"`
 		HourOfDay            *int                                                 `json:"hourOfDay"`
 		VersionSchemeDetails versionschemedetails                                 `json:"versionSchemeDetails"`
 	}{}
@@ -67,8 +67,8 @@ func (m *ManagedSoftwareUpdatePreferenceDetails) UnmarshalJSON(data []byte) (e e
 	var nn interface{}
 	m.UpdateMode = model.UpdateMode
 
-	m.DayOfWeek = make([]ManagedSoftwareUpdateDayOfWeek, len(model.DayOfWeek))
-	copy(m.DayOfWeek, model.DayOfWeek)
+	m.DaysOfWeek = make([]ManagedSoftwareUpdateDayOfWeek, len(model.DaysOfWeek))
+	copy(m.DaysOfWeek, model.DaysOfWeek)
 	m.HourOfDay = model.HourOfDay
 
 	nn, e = model.VersionSchemeDetails.UnmarshalPolymorphicJSON(model.VersionSchemeDetails.JsonData)

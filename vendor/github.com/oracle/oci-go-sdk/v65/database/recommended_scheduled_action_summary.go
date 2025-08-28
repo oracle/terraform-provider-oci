@@ -71,6 +71,7 @@ const (
 	RecommendedScheduledActionSummaryActionTypeFsuVmClusterOsSoftwareUpdate    RecommendedScheduledActionSummaryActionTypeEnum = "FSU_VM_CLUSTER_OS_SOFTWARE_UPDATE"
 	RecommendedScheduledActionSummaryActionTypeFsuVmClusterGiSoftwareUpdate    RecommendedScheduledActionSummaryActionTypeEnum = "FSU_VM_CLUSTER_GI_SOFTWARE_UPDATE"
 	RecommendedScheduledActionSummaryActionTypeFsuVmClusterGiOsSoftwareUpdate  RecommendedScheduledActionSummaryActionTypeEnum = "FSU_VM_CLUSTER_GI_OS_SOFTWARE_UPDATE"
+	RecommendedScheduledActionSummaryActionTypeDbServerOnlineSoftwareUpdate    RecommendedScheduledActionSummaryActionTypeEnum = "DB_SERVER_ONLINE_SOFTWARE_UPDATE"
 )
 
 var mappingRecommendedScheduledActionSummaryActionTypeEnum = map[string]RecommendedScheduledActionSummaryActionTypeEnum{
@@ -80,6 +81,7 @@ var mappingRecommendedScheduledActionSummaryActionTypeEnum = map[string]Recommen
 	"FSU_VM_CLUSTER_OS_SOFTWARE_UPDATE":    RecommendedScheduledActionSummaryActionTypeFsuVmClusterOsSoftwareUpdate,
 	"FSU_VM_CLUSTER_GI_SOFTWARE_UPDATE":    RecommendedScheduledActionSummaryActionTypeFsuVmClusterGiSoftwareUpdate,
 	"FSU_VM_CLUSTER_GI_OS_SOFTWARE_UPDATE": RecommendedScheduledActionSummaryActionTypeFsuVmClusterGiOsSoftwareUpdate,
+	"DB_SERVER_ONLINE_SOFTWARE_UPDATE":     RecommendedScheduledActionSummaryActionTypeDbServerOnlineSoftwareUpdate,
 }
 
 var mappingRecommendedScheduledActionSummaryActionTypeEnumLowerCase = map[string]RecommendedScheduledActionSummaryActionTypeEnum{
@@ -89,6 +91,7 @@ var mappingRecommendedScheduledActionSummaryActionTypeEnumLowerCase = map[string
 	"fsu_vm_cluster_os_software_update":    RecommendedScheduledActionSummaryActionTypeFsuVmClusterOsSoftwareUpdate,
 	"fsu_vm_cluster_gi_software_update":    RecommendedScheduledActionSummaryActionTypeFsuVmClusterGiSoftwareUpdate,
 	"fsu_vm_cluster_gi_os_software_update": RecommendedScheduledActionSummaryActionTypeFsuVmClusterGiOsSoftwareUpdate,
+	"db_server_online_software_update":     RecommendedScheduledActionSummaryActionTypeDbServerOnlineSoftwareUpdate,
 }
 
 // GetRecommendedScheduledActionSummaryActionTypeEnumValues Enumerates the set of values for RecommendedScheduledActionSummaryActionTypeEnum
@@ -109,6 +112,7 @@ func GetRecommendedScheduledActionSummaryActionTypeEnumStringValues() []string {
 		"FSU_VM_CLUSTER_OS_SOFTWARE_UPDATE",
 		"FSU_VM_CLUSTER_GI_SOFTWARE_UPDATE",
 		"FSU_VM_CLUSTER_GI_OS_SOFTWARE_UPDATE",
+		"DB_SERVER_ONLINE_SOFTWARE_UPDATE",
 	}
 }
 

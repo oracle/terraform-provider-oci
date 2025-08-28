@@ -31,6 +31,13 @@ type UpdateLoadBalancerDetails struct {
 	//   Example: "ipMode":"IPV6"
 	IpMode UpdateLoadBalancerDetailsIpModeEnum `mandatory:"false" json:"ipMode,omitempty"`
 
+	// Used to disambiguate which subnet prefix should be used to create an IPv6 LB.
+	// Example: "2002::1234:abcd:ffff:c0a8:101/64"
+	Ipv6SubnetCidr *string `mandatory:"false" json:"ipv6SubnetCidr"`
+
+	// An array of reserved Ips.
+	ReservedIps []ReservedIp `mandatory:"false" json:"reservedIps"`
+
 	// Whether or not the load balancer has delete protection enabled.
 	// If "true", the loadbalancer will be protected against deletion if configured to accept traffic.
 	// If "false", the loadbalancer will not be protected against deletion.

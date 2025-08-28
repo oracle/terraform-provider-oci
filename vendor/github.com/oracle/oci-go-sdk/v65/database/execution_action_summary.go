@@ -235,18 +235,21 @@ const (
 	ExecutionActionSummaryActionTypeDbServerFullSoftwareUpdate      ExecutionActionSummaryActionTypeEnum = "DB_SERVER_FULL_SOFTWARE_UPDATE"
 	ExecutionActionSummaryActionTypeStorageServerFullSoftwareUpdate ExecutionActionSummaryActionTypeEnum = "STORAGE_SERVER_FULL_SOFTWARE_UPDATE"
 	ExecutionActionSummaryActionTypeNetworkSwitchFullSoftwareUpdate ExecutionActionSummaryActionTypeEnum = "NETWORK_SWITCH_FULL_SOFTWARE_UPDATE"
+	ExecutionActionSummaryActionTypeDbServerOnlineSoftwareUpdate    ExecutionActionSummaryActionTypeEnum = "DB_SERVER_ONLINE_SOFTWARE_UPDATE"
 )
 
 var mappingExecutionActionSummaryActionTypeEnum = map[string]ExecutionActionSummaryActionTypeEnum{
 	"DB_SERVER_FULL_SOFTWARE_UPDATE":      ExecutionActionSummaryActionTypeDbServerFullSoftwareUpdate,
 	"STORAGE_SERVER_FULL_SOFTWARE_UPDATE": ExecutionActionSummaryActionTypeStorageServerFullSoftwareUpdate,
 	"NETWORK_SWITCH_FULL_SOFTWARE_UPDATE": ExecutionActionSummaryActionTypeNetworkSwitchFullSoftwareUpdate,
+	"DB_SERVER_ONLINE_SOFTWARE_UPDATE":    ExecutionActionSummaryActionTypeDbServerOnlineSoftwareUpdate,
 }
 
 var mappingExecutionActionSummaryActionTypeEnumLowerCase = map[string]ExecutionActionSummaryActionTypeEnum{
 	"db_server_full_software_update":      ExecutionActionSummaryActionTypeDbServerFullSoftwareUpdate,
 	"storage_server_full_software_update": ExecutionActionSummaryActionTypeStorageServerFullSoftwareUpdate,
 	"network_switch_full_software_update": ExecutionActionSummaryActionTypeNetworkSwitchFullSoftwareUpdate,
+	"db_server_online_software_update":    ExecutionActionSummaryActionTypeDbServerOnlineSoftwareUpdate,
 }
 
 // GetExecutionActionSummaryActionTypeEnumValues Enumerates the set of values for ExecutionActionSummaryActionTypeEnum
@@ -264,6 +267,7 @@ func GetExecutionActionSummaryActionTypeEnumStringValues() []string {
 		"DB_SERVER_FULL_SOFTWARE_UPDATE",
 		"STORAGE_SERVER_FULL_SOFTWARE_UPDATE",
 		"NETWORK_SWITCH_FULL_SOFTWARE_UPDATE",
+		"DB_SERVER_ONLINE_SOFTWARE_UPDATE",
 	}
 }
 

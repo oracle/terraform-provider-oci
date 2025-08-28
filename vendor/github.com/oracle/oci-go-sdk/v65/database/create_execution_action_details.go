@@ -71,18 +71,21 @@ const (
 	CreateExecutionActionDetailsActionTypeDbServerFullSoftwareUpdate      CreateExecutionActionDetailsActionTypeEnum = "DB_SERVER_FULL_SOFTWARE_UPDATE"
 	CreateExecutionActionDetailsActionTypeStorageServerFullSoftwareUpdate CreateExecutionActionDetailsActionTypeEnum = "STORAGE_SERVER_FULL_SOFTWARE_UPDATE"
 	CreateExecutionActionDetailsActionTypeNetworkSwitchFullSoftwareUpdate CreateExecutionActionDetailsActionTypeEnum = "NETWORK_SWITCH_FULL_SOFTWARE_UPDATE"
+	CreateExecutionActionDetailsActionTypeDbServerOnlineSoftwareUpdate    CreateExecutionActionDetailsActionTypeEnum = "DB_SERVER_ONLINE_SOFTWARE_UPDATE"
 )
 
 var mappingCreateExecutionActionDetailsActionTypeEnum = map[string]CreateExecutionActionDetailsActionTypeEnum{
 	"DB_SERVER_FULL_SOFTWARE_UPDATE":      CreateExecutionActionDetailsActionTypeDbServerFullSoftwareUpdate,
 	"STORAGE_SERVER_FULL_SOFTWARE_UPDATE": CreateExecutionActionDetailsActionTypeStorageServerFullSoftwareUpdate,
 	"NETWORK_SWITCH_FULL_SOFTWARE_UPDATE": CreateExecutionActionDetailsActionTypeNetworkSwitchFullSoftwareUpdate,
+	"DB_SERVER_ONLINE_SOFTWARE_UPDATE":    CreateExecutionActionDetailsActionTypeDbServerOnlineSoftwareUpdate,
 }
 
 var mappingCreateExecutionActionDetailsActionTypeEnumLowerCase = map[string]CreateExecutionActionDetailsActionTypeEnum{
 	"db_server_full_software_update":      CreateExecutionActionDetailsActionTypeDbServerFullSoftwareUpdate,
 	"storage_server_full_software_update": CreateExecutionActionDetailsActionTypeStorageServerFullSoftwareUpdate,
 	"network_switch_full_software_update": CreateExecutionActionDetailsActionTypeNetworkSwitchFullSoftwareUpdate,
+	"db_server_online_software_update":    CreateExecutionActionDetailsActionTypeDbServerOnlineSoftwareUpdate,
 }
 
 // GetCreateExecutionActionDetailsActionTypeEnumValues Enumerates the set of values for CreateExecutionActionDetailsActionTypeEnum
@@ -100,6 +103,7 @@ func GetCreateExecutionActionDetailsActionTypeEnumStringValues() []string {
 		"DB_SERVER_FULL_SOFTWARE_UPDATE",
 		"STORAGE_SERVER_FULL_SOFTWARE_UPDATE",
 		"NETWORK_SWITCH_FULL_SOFTWARE_UPDATE",
+		"DB_SERVER_ONLINE_SOFTWARE_UPDATE",
 	}
 }
 

@@ -99,7 +99,11 @@ type NodePool struct {
 
 	NodePoolCyclingDetails *NodePoolCyclingDetails `mandatory:"false" json:"nodePoolCyclingDetails"`
 
-	NodeConfigurationSourceDetails NodeConfigurationSourceDetails `mandatory:"false" json:"nodeConfigurationSourceDetails"`
+	// A list of secondary vnics to attach to nodes
+	SecondaryVnics []NodePoolSecondaryVnicDetails `mandatory:"false" json:"secondaryVnics"`
+
+	// Emulation type for the physical network interface card (NIC) for nodes
+	NetworkLaunchType NetworkLaunchTypeEnum `mandatory:"false" json:"networkLaunchType,omitempty"`
 }
 
 func (m NodePool) String() string {
@@ -115,6 +119,9 @@ func (m NodePool) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingNodePoolLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetNodePoolLifecycleStateEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingNetworkLaunchTypeEnum(string(m.NetworkLaunchType)); !ok && m.NetworkLaunchType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NetworkLaunchType: %s. Supported values are: %s.", m.NetworkLaunchType, strings.Join(GetNetworkLaunchTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -124,32 +131,33 @@ func (m NodePool) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *NodePool) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Id                             *string                           `json:"id"`
-		LifecycleState                 NodePoolLifecycleStateEnum        `json:"lifecycleState"`
-		LifecycleDetails               *string                           `json:"lifecycleDetails"`
-		CompartmentId                  *string                           `json:"compartmentId"`
-		ClusterId                      *string                           `json:"clusterId"`
-		Name                           *string                           `json:"name"`
-		KubernetesVersion              *string                           `json:"kubernetesVersion"`
-		NodeMetadata                   map[string]string                 `json:"nodeMetadata"`
-		NodeImageId                    *string                           `json:"nodeImageId"`
-		NodeImageName                  *string                           `json:"nodeImageName"`
-		NodeShapeConfig                *NodeShapeConfig                  `json:"nodeShapeConfig"`
-		NodeSource                     nodesourceoption                  `json:"nodeSource"`
-		NodeSourceDetails              nodesourcedetails                 `json:"nodeSourceDetails"`
-		NodeShape                      *string                           `json:"nodeShape"`
-		InitialNodeLabels              []KeyValue                        `json:"initialNodeLabels"`
-		SshPublicKey                   *string                           `json:"sshPublicKey"`
-		QuantityPerSubnet              *int                              `json:"quantityPerSubnet"`
-		SubnetIds                      []string                          `json:"subnetIds"`
-		Nodes                          []Node                            `json:"nodes"`
-		NodeConfigDetails              *NodePoolNodeConfigDetails        `json:"nodeConfigDetails"`
-		FreeformTags                   map[string]string                 `json:"freeformTags"`
-		DefinedTags                    map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags                     map[string]map[string]interface{} `json:"systemTags"`
-		NodeEvictionNodePoolSettings   *NodeEvictionNodePoolSettings     `json:"nodeEvictionNodePoolSettings"`
-		NodePoolCyclingDetails         *NodePoolCyclingDetails           `json:"nodePoolCyclingDetails"`
-		NodeConfigurationSourceDetails nodeconfigurationsourcedetails    `json:"nodeConfigurationSourceDetails"`
+		Id                           *string                           `json:"id"`
+		LifecycleState               NodePoolLifecycleStateEnum        `json:"lifecycleState"`
+		LifecycleDetails             *string                           `json:"lifecycleDetails"`
+		CompartmentId                *string                           `json:"compartmentId"`
+		ClusterId                    *string                           `json:"clusterId"`
+		Name                         *string                           `json:"name"`
+		KubernetesVersion            *string                           `json:"kubernetesVersion"`
+		NodeMetadata                 map[string]string                 `json:"nodeMetadata"`
+		NodeImageId                  *string                           `json:"nodeImageId"`
+		NodeImageName                *string                           `json:"nodeImageName"`
+		NodeShapeConfig              *NodeShapeConfig                  `json:"nodeShapeConfig"`
+		NodeSource                   nodesourceoption                  `json:"nodeSource"`
+		NodeSourceDetails            nodesourcedetails                 `json:"nodeSourceDetails"`
+		NodeShape                    *string                           `json:"nodeShape"`
+		InitialNodeLabels            []KeyValue                        `json:"initialNodeLabels"`
+		SshPublicKey                 *string                           `json:"sshPublicKey"`
+		QuantityPerSubnet            *int                              `json:"quantityPerSubnet"`
+		SubnetIds                    []string                          `json:"subnetIds"`
+		Nodes                        []Node                            `json:"nodes"`
+		NodeConfigDetails            *NodePoolNodeConfigDetails        `json:"nodeConfigDetails"`
+		FreeformTags                 map[string]string                 `json:"freeformTags"`
+		DefinedTags                  map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags                   map[string]map[string]interface{} `json:"systemTags"`
+		NodeEvictionNodePoolSettings *NodeEvictionNodePoolSettings     `json:"nodeEvictionNodePoolSettings"`
+		NodePoolCyclingDetails       *NodePoolCyclingDetails           `json:"nodePoolCyclingDetails"`
+		SecondaryVnics               []NodePoolSecondaryVnicDetails    `json:"secondaryVnics"`
+		NetworkLaunchType            NetworkLaunchTypeEnum             `json:"networkLaunchType"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -223,15 +231,9 @@ func (m *NodePool) UnmarshalJSON(data []byte) (e error) {
 
 	m.NodePoolCyclingDetails = model.NodePoolCyclingDetails
 
-	nn, e = model.NodeConfigurationSourceDetails.UnmarshalPolymorphicJSON(model.NodeConfigurationSourceDetails.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.NodeConfigurationSourceDetails = nn.(NodeConfigurationSourceDetails)
-	} else {
-		m.NodeConfigurationSourceDetails = nil
-	}
+	m.SecondaryVnics = make([]NodePoolSecondaryVnicDetails, len(model.SecondaryVnics))
+	copy(m.SecondaryVnics, model.SecondaryVnics)
+	m.NetworkLaunchType = model.NetworkLaunchType
 
 	return
 }

@@ -526,6 +526,9 @@ type AutonomousDatabaseSummary struct {
 	// Additional attributes for this resource. Each attribute is a simple key-value pair with no predefined name, type, or namespace.
 	// Example: `{ "gcpAccountName": "gcpName" }`
 	AdditionalAttributes map[string]string `mandatory:"false" json:"additionalAttributes"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dedicated resource pool leader Autonomous Database in the same region, associated with local Autonomous Data Guard for a dedicated resource pool member.
+	LocalAdgResourcePoolLeaderId *string `mandatory:"false" json:"localAdgResourcePoolLeaderId"`
 }
 
 func (m AutonomousDatabaseSummary) String() string {
@@ -745,6 +748,7 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 		IncludedCompute                         *float32                                                       `json:"includedCompute"`
 		IncludedDataStorageInTBs                *float64                                                       `json:"includedDataStorageInTBs"`
 		AdditionalAttributes                    map[string]string                                              `json:"additionalAttributes"`
+		LocalAdgResourcePoolLeaderId            *string                                                        `json:"localAdgResourcePoolLeaderId"`
 		Id                                      *string                                                        `json:"id"`
 		CompartmentId                           *string                                                        `json:"compartmentId"`
 		LifecycleState                          AutonomousDatabaseSummaryLifecycleStateEnum                    `json:"lifecycleState"`
@@ -1049,6 +1053,8 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 	m.IncludedDataStorageInTBs = model.IncludedDataStorageInTBs
 
 	m.AdditionalAttributes = model.AdditionalAttributes
+
+	m.LocalAdgResourcePoolLeaderId = model.LocalAdgResourcePoolLeaderId
 
 	m.Id = model.Id
 

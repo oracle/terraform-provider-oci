@@ -77,6 +77,7 @@ const (
 	CreateScheduledActionDetailsActionTypeFsuVmClusterOsSoftwareUpdate    CreateScheduledActionDetailsActionTypeEnum = "FSU_VM_CLUSTER_OS_SOFTWARE_UPDATE"
 	CreateScheduledActionDetailsActionTypeFsuVmClusterGiSoftwareUpdate    CreateScheduledActionDetailsActionTypeEnum = "FSU_VM_CLUSTER_GI_SOFTWARE_UPDATE"
 	CreateScheduledActionDetailsActionTypeFsuVmClusterGiOsSoftwareUpdate  CreateScheduledActionDetailsActionTypeEnum = "FSU_VM_CLUSTER_GI_OS_SOFTWARE_UPDATE"
+	CreateScheduledActionDetailsActionTypeDbServerOnlineSoftwareUpdate    CreateScheduledActionDetailsActionTypeEnum = "DB_SERVER_ONLINE_SOFTWARE_UPDATE"
 )
 
 var mappingCreateScheduledActionDetailsActionTypeEnum = map[string]CreateScheduledActionDetailsActionTypeEnum{
@@ -86,6 +87,7 @@ var mappingCreateScheduledActionDetailsActionTypeEnum = map[string]CreateSchedul
 	"FSU_VM_CLUSTER_OS_SOFTWARE_UPDATE":    CreateScheduledActionDetailsActionTypeFsuVmClusterOsSoftwareUpdate,
 	"FSU_VM_CLUSTER_GI_SOFTWARE_UPDATE":    CreateScheduledActionDetailsActionTypeFsuVmClusterGiSoftwareUpdate,
 	"FSU_VM_CLUSTER_GI_OS_SOFTWARE_UPDATE": CreateScheduledActionDetailsActionTypeFsuVmClusterGiOsSoftwareUpdate,
+	"DB_SERVER_ONLINE_SOFTWARE_UPDATE":     CreateScheduledActionDetailsActionTypeDbServerOnlineSoftwareUpdate,
 }
 
 var mappingCreateScheduledActionDetailsActionTypeEnumLowerCase = map[string]CreateScheduledActionDetailsActionTypeEnum{
@@ -95,6 +97,7 @@ var mappingCreateScheduledActionDetailsActionTypeEnumLowerCase = map[string]Crea
 	"fsu_vm_cluster_os_software_update":    CreateScheduledActionDetailsActionTypeFsuVmClusterOsSoftwareUpdate,
 	"fsu_vm_cluster_gi_software_update":    CreateScheduledActionDetailsActionTypeFsuVmClusterGiSoftwareUpdate,
 	"fsu_vm_cluster_gi_os_software_update": CreateScheduledActionDetailsActionTypeFsuVmClusterGiOsSoftwareUpdate,
+	"db_server_online_software_update":     CreateScheduledActionDetailsActionTypeDbServerOnlineSoftwareUpdate,
 }
 
 // GetCreateScheduledActionDetailsActionTypeEnumValues Enumerates the set of values for CreateScheduledActionDetailsActionTypeEnum
@@ -115,6 +118,7 @@ func GetCreateScheduledActionDetailsActionTypeEnumStringValues() []string {
 		"FSU_VM_CLUSTER_OS_SOFTWARE_UPDATE",
 		"FSU_VM_CLUSTER_GI_SOFTWARE_UPDATE",
 		"FSU_VM_CLUSTER_GI_OS_SOFTWARE_UPDATE",
+		"DB_SERVER_ONLINE_SOFTWARE_UPDATE",
 	}
 }
 

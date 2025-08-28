@@ -17,18 +17,25 @@ import (
 	"strings"
 )
 
-// InstanceConfiguration Describes the instance configuration for Nodepool
-type InstanceConfiguration struct {
+// NodePoolSecondaryVnicDetails Details for secondary vnic attachments to Nodes
+type NodePoolSecondaryVnicDetails struct {
+	CreateVnicDetails *CreateVnicDetails `mandatory:"true" json:"createVnicDetails"`
+
+	// Display name for vnic attachment
+	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// Which physical network interface card (NIC) the VNIC will use
+	NicIndex *int `mandatory:"false" json:"nicIndex"`
 }
 
-func (m InstanceConfiguration) String() string {
+func (m NodePoolSecondaryVnicDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m InstanceConfiguration) ValidateEnumValue() (bool, error) {
+func (m NodePoolSecondaryVnicDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

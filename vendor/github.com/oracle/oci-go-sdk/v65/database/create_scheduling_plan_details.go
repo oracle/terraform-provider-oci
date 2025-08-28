@@ -41,6 +41,9 @@ type CreateSchedulingPlanDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The current intent of the Scheduling Plan. Valid states are EXADATA_INFRASTRUCTURE_FULL_SOFTWARE_UPDATE and EXADATA_INFRASTRUCTURE_SECURITY_UPDATE.
+	PlanIntent CreateSchedulingPlanDetailsPlanIntentEnum `mandatory:"false" json:"planIntent,omitempty"`
 }
 
 func (m CreateSchedulingPlanDetails) String() string {
@@ -56,6 +59,9 @@ func (m CreateSchedulingPlanDetails) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ServiceType: %s. Supported values are: %s.", m.ServiceType, strings.Join(GetCreateSchedulingPlanDetailsServiceTypeEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingCreateSchedulingPlanDetailsPlanIntentEnum(string(m.PlanIntent)); !ok && m.PlanIntent != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PlanIntent: %s. Supported values are: %s.", m.PlanIntent, strings.Join(GetCreateSchedulingPlanDetailsPlanIntentEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -105,5 +111,47 @@ func GetCreateSchedulingPlanDetailsServiceTypeEnumStringValues() []string {
 // GetMappingCreateSchedulingPlanDetailsServiceTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingCreateSchedulingPlanDetailsServiceTypeEnum(val string) (CreateSchedulingPlanDetailsServiceTypeEnum, bool) {
 	enum, ok := mappingCreateSchedulingPlanDetailsServiceTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// CreateSchedulingPlanDetailsPlanIntentEnum Enum with underlying type: string
+type CreateSchedulingPlanDetailsPlanIntentEnum string
+
+// Set of constants representing the allowable values for CreateSchedulingPlanDetailsPlanIntentEnum
+const (
+	CreateSchedulingPlanDetailsPlanIntentFullSoftwareUpdate CreateSchedulingPlanDetailsPlanIntentEnum = "EXADATA_INFRASTRUCTURE_FULL_SOFTWARE_UPDATE"
+	CreateSchedulingPlanDetailsPlanIntentSecurityUpdate     CreateSchedulingPlanDetailsPlanIntentEnum = "EXADATA_INFRASTRUCTURE_SECURITY_UPDATE"
+)
+
+var mappingCreateSchedulingPlanDetailsPlanIntentEnum = map[string]CreateSchedulingPlanDetailsPlanIntentEnum{
+	"EXADATA_INFRASTRUCTURE_FULL_SOFTWARE_UPDATE": CreateSchedulingPlanDetailsPlanIntentFullSoftwareUpdate,
+	"EXADATA_INFRASTRUCTURE_SECURITY_UPDATE":      CreateSchedulingPlanDetailsPlanIntentSecurityUpdate,
+}
+
+var mappingCreateSchedulingPlanDetailsPlanIntentEnumLowerCase = map[string]CreateSchedulingPlanDetailsPlanIntentEnum{
+	"exadata_infrastructure_full_software_update": CreateSchedulingPlanDetailsPlanIntentFullSoftwareUpdate,
+	"exadata_infrastructure_security_update":      CreateSchedulingPlanDetailsPlanIntentSecurityUpdate,
+}
+
+// GetCreateSchedulingPlanDetailsPlanIntentEnumValues Enumerates the set of values for CreateSchedulingPlanDetailsPlanIntentEnum
+func GetCreateSchedulingPlanDetailsPlanIntentEnumValues() []CreateSchedulingPlanDetailsPlanIntentEnum {
+	values := make([]CreateSchedulingPlanDetailsPlanIntentEnum, 0)
+	for _, v := range mappingCreateSchedulingPlanDetailsPlanIntentEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateSchedulingPlanDetailsPlanIntentEnumStringValues Enumerates the set of values in String for CreateSchedulingPlanDetailsPlanIntentEnum
+func GetCreateSchedulingPlanDetailsPlanIntentEnumStringValues() []string {
+	return []string{
+		"EXADATA_INFRASTRUCTURE_FULL_SOFTWARE_UPDATE",
+		"EXADATA_INFRASTRUCTURE_SECURITY_UPDATE",
+	}
+}
+
+// GetMappingCreateSchedulingPlanDetailsPlanIntentEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateSchedulingPlanDetailsPlanIntentEnum(val string) (CreateSchedulingPlanDetailsPlanIntentEnum, bool) {
+	enum, ok := mappingCreateSchedulingPlanDetailsPlanIntentEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

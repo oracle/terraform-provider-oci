@@ -314,6 +314,11 @@ type UpdateAutonomousDatabaseDetails struct {
 
 	// The included storage value for a FAW provisioned database, in terabytes.
 	IncludedDataStorageInTBs *float64 `mandatory:"false" json:"includedDataStorageInTBs"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a dedicated resource pool leader Autonomous Database in the same region, that is required when local Autonomous Data Guard is enabled for a dedicated resource pool member using the parameter `isLocalDataGuardEnabled`.
+	// This field applies only to dedicated resource pool members, and the specified leader must be different from the primary’s leader.
+	// Local Autonomous Data Guard can be enabled only if more than one dedicated resource pool exists in the region.
+	LocalAdgResourcePoolLeaderId *string `mandatory:"false" json:"localAdgResourcePoolLeaderId"`
 }
 
 func (m UpdateAutonomousDatabaseDetails) String() string {
@@ -424,6 +429,7 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 		IsDisconnectPeer                     *bool                                                                `json:"isDisconnectPeer"`
 		IncludedCompute                      *float32                                                             `json:"includedCompute"`
 		IncludedDataStorageInTBs             *float64                                                             `json:"includedDataStorageInTBs"`
+		LocalAdgResourcePoolLeaderId         *string                                                              `json:"localAdgResourcePoolLeaderId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -578,6 +584,8 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	m.IncludedCompute = model.IncludedCompute
 
 	m.IncludedDataStorageInTBs = model.IncludedDataStorageInTBs
+
+	m.LocalAdgResourcePoolLeaderId = model.LocalAdgResourcePoolLeaderId
 
 	return
 }

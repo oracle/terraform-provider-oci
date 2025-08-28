@@ -21,14 +21,14 @@ import (
 // OciVcnIpNativeNodePoolPodNetworkOptionDetails Network options specific to using the OCI VCN Native CNI
 type OciVcnIpNativeNodePoolPodNetworkOptionDetails struct {
 
-	// The OCIDs of the subnets in which to place pods for this node pool. This can be one of the node pool subnet IDs
-	PodSubnetIds []string `mandatory:"true" json:"podSubnetIds"`
-
 	// The max number of pods per node in the node pool. This value will be limited by the number of VNICs attachable to the node pool shape
 	MaxPodsPerNode *int `mandatory:"false" json:"maxPodsPerNode"`
 
 	// The OCIDs of the Network Security Group(s) to associate pods for this node pool with. For more information about NSGs, see NetworkSecurityGroup.
 	PodNsgIds []string `mandatory:"false" json:"podNsgIds"`
+
+	// The OCIDs of the subnets in which to place pods for this node pool. This can be one of the node pool subnet IDs
+	PodSubnetIds []string `mandatory:"false" json:"podSubnetIds"`
 }
 
 func (m OciVcnIpNativeNodePoolPodNetworkOptionDetails) String() string {

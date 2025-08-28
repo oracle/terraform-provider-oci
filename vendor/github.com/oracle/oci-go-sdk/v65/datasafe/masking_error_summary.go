@@ -55,18 +55,24 @@ type MaskingErrorSummaryStepNameEnum string
 
 // Set of constants representing the allowable values for MaskingErrorSummaryStepNameEnum
 const (
+	MaskingErrorSummaryStepNameValidate       MaskingErrorSummaryStepNameEnum = "VALIDATE"
+	MaskingErrorSummaryStepNameGenerateScript MaskingErrorSummaryStepNameEnum = "GENERATE_SCRIPT"
 	MaskingErrorSummaryStepNameExecuteMasking MaskingErrorSummaryStepNameEnum = "EXECUTE_MASKING"
 	MaskingErrorSummaryStepNamePreMasking     MaskingErrorSummaryStepNameEnum = "PRE_MASKING"
 	MaskingErrorSummaryStepNamePostMasking    MaskingErrorSummaryStepNameEnum = "POST_MASKING"
 )
 
 var mappingMaskingErrorSummaryStepNameEnum = map[string]MaskingErrorSummaryStepNameEnum{
+	"VALIDATE":        MaskingErrorSummaryStepNameValidate,
+	"GENERATE_SCRIPT": MaskingErrorSummaryStepNameGenerateScript,
 	"EXECUTE_MASKING": MaskingErrorSummaryStepNameExecuteMasking,
 	"PRE_MASKING":     MaskingErrorSummaryStepNamePreMasking,
 	"POST_MASKING":    MaskingErrorSummaryStepNamePostMasking,
 }
 
 var mappingMaskingErrorSummaryStepNameEnumLowerCase = map[string]MaskingErrorSummaryStepNameEnum{
+	"validate":        MaskingErrorSummaryStepNameValidate,
+	"generate_script": MaskingErrorSummaryStepNameGenerateScript,
 	"execute_masking": MaskingErrorSummaryStepNameExecuteMasking,
 	"pre_masking":     MaskingErrorSummaryStepNamePreMasking,
 	"post_masking":    MaskingErrorSummaryStepNamePostMasking,
@@ -84,6 +90,8 @@ func GetMaskingErrorSummaryStepNameEnumValues() []MaskingErrorSummaryStepNameEnu
 // GetMaskingErrorSummaryStepNameEnumStringValues Enumerates the set of values in String for MaskingErrorSummaryStepNameEnum
 func GetMaskingErrorSummaryStepNameEnumStringValues() []string {
 	return []string{
+		"VALIDATE",
+		"GENERATE_SCRIPT",
 		"EXECUTE_MASKING",
 		"PRE_MASKING",
 		"POST_MASKING",

@@ -14,7 +14,7 @@ import (
 // GetDataSafeConfigurationRequest wrapper for the GetDataSafeConfiguration operation
 type GetDataSafeConfigurationRequest struct {
 
-	// A filter to return only resources that match the specified compartment OCID.
+	// A filter to return the Data Safe configuration for the specified tenancy OCID.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// Unique identifier for the request.
