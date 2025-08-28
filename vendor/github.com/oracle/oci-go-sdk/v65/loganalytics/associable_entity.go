@@ -57,7 +57,7 @@ func (m AssociableEntity) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EligibilityStatus: %s. Supported values are: %s.", m.EligibilityStatus, strings.Join(GetAssociableEntityEligibilityStatusEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

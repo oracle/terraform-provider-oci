@@ -102,8 +102,14 @@ func (s *DataSafeSecurityPolicyDeploymentDataSourceCrud) SetData() error {
 		s.D.Set("target_id", *s.Res.TargetId)
 	}
 
+	s.D.Set("target_type", s.Res.TargetType)
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeDeployed != nil {
+		s.D.Set("time_deployed", s.Res.TimeDeployed.String())
 	}
 
 	if s.Res.TimeUpdated != nil {

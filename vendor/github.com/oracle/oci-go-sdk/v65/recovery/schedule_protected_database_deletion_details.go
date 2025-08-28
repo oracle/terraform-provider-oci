@@ -38,7 +38,7 @@ func (m ScheduleProtectedDatabaseDeletionDetails) ValidateEnumValue() (bool, err
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DeletionSchedule: %s. Supported values are: %s.", m.DeletionSchedule, strings.Join(GetDeletionScheduleEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

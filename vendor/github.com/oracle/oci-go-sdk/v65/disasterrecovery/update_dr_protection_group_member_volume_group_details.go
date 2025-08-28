@@ -41,6 +41,10 @@ type UpdateDrProtectionGroupMemberVolumeGroupDetails struct {
 	SourceVolumeToDestinationEncryptionKeyMappings []UpdateSourceVolumeToDestinationEncryptionKeyMappingDetails `mandatory:"false" json:"sourceVolumeToDestinationEncryptionKeyMappings"`
 
 	CommonDestinationKey *UpdateVaultAndEncryptionKeyDetails `mandatory:"false" json:"commonDestinationKey"`
+
+	// The OCID of a compartment in the destination region in which the volume group should be launched.
+	// Example: `ocid1.compartment.oc1..uniqueID`
+	DestinationCompartmentId *string `mandatory:"false" json:"destinationCompartmentId"`
 }
 
 // GetMemberId returns MemberId
@@ -59,7 +63,7 @@ func (m UpdateDrProtectionGroupMemberVolumeGroupDetails) ValidateEnumValue() (bo
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

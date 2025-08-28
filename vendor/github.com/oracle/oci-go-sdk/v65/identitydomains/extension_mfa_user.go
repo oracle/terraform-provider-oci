@@ -168,7 +168,7 @@ func (m ExtensionMfaUser) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MfaStatus: %s. Supported values are: %s.", m.MfaStatus, strings.Join(GetExtensionMfaUserMfaStatusEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

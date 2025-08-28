@@ -39,7 +39,7 @@ func (m UpdateDatabaseToolsRelatedResourcePostgresqlDetails) ValidateEnumValue()
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EntityType: %s. Supported values are: %s.", m.EntityType, strings.Join(GetRelatedResourceEntityTypePostgresqlEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

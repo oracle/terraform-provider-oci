@@ -81,6 +81,7 @@ import (
 	tf_log_analytics "github.com/oracle/terraform-provider-oci/internal/service/log_analytics"
 	tf_logging "github.com/oracle/terraform-provider-oci/internal/service/logging"
 	tf_lustre_file_storage "github.com/oracle/terraform-provider-oci/internal/service/lustre_file_storage"
+	tf_managed_kafka "github.com/oracle/terraform-provider-oci/internal/service/managed_kafka"
 	tf_management_agent "github.com/oracle/terraform-provider-oci/internal/service/management_agent"
 	tf_management_dashboard "github.com/oracle/terraform-provider-oci/internal/service/management_dashboard"
 	tf_marketplace "github.com/oracle/terraform-provider-oci/internal/service/marketplace"
@@ -363,6 +364,9 @@ func init() {
 	}
 	if common.CheckForEnabledServices("logging") {
 		tf_logging.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("managedkafka") {
+		tf_managed_kafka.RegisterDatasource()
 	}
 	if common.CheckForEnabledServices("lustrefilestorage") {
 		tf_lustre_file_storage.RegisterDatasource()

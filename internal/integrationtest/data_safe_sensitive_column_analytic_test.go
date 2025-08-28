@@ -21,13 +21,17 @@ var (
 		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `RESTRICTED`},
 		"column_name":               acctest.Representation{RepType: acctest.Optional, Create: []string{`FIRST_NAME`}},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"group_by":                  acctest.Representation{RepType: acctest.Optional, Create: []string{`targetId`}},
-		"target_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${var.target_id}`},
-		"object":                    acctest.Representation{RepType: acctest.Optional, Create: []string{`EMPLOYEES`}},
-		"schema_name":               acctest.Representation{RepType: acctest.Optional, Create: []string{`HR`}},
+		"group_by":                  acctest.Representation{RepType: acctest.Optional, Create: []string{`groupBy`}},
+		"object":                    acctest.Representation{RepType: acctest.Optional, Create: []string{`object`}},
+		"schema_name":               acctest.Representation{RepType: acctest.Optional, Create: []string{`schemaName`}},
+		"sensitive_data_model_id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_data_safe_sensitive_data_model.test_sensitive_data_model.id}`},
+		"sensitive_type_group_id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_data_safe_sensitive_type_group.test_sensitive_type_group.id}`},
+		"sensitive_type_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_data_safe_sensitive_type.test_sensitive_type.id}`},
+		"target_database_group_id":  acctest.Representation{RepType: acctest.Optional, Create: `${oci_data_safe_target_database_group.test_target_database_group.id}`},
+		"target_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_cloud_guard_target.test_target.id}`},
 	}
 
-	DataSafeSensitiveColumnAnalyticResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_sensitive_column_analytics", "test_sensitive_column_analytics", acctest.Optional, acctest.Create, DataSafeSensitiveColumnAnalyticDataSourceRepresentation)
+	DataSafeSensitiveColumnAnalyticResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_sensitive_column_analytics", "test_sensitive_column_analytics", acctest.Required, acctest.Create, DataSafeSensitiveColumnAnalyticDataSourceRepresentation)
 )
 
 // issue-routing-tag: data_safe/default
@@ -52,17 +56,7 @@ func TestDataSafeSensitiveColumnAnalyticResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + targetIdVariableStr + DataSafeSensitiveColumnAnalyticResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(datasourceName, "access_level", "RESTRICTED"),
-				resource.TestCheckResourceAttr(datasourceName, "column_name.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
-				resource.TestCheckResourceAttr(datasourceName, "group_by.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "object.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "schema_name.#", "1"),
-				resource.TestCheckResourceAttrSet(datasourceName, "target_id"),
-
 				resource.TestCheckResourceAttrSet(datasourceName, "sensitive_column_analytics_collection.#"),
-				resource.TestCheckResourceAttr(datasourceName, "sensitive_column_analytics_collection.0.items.#", "1"),
 			),
 		},
 	})

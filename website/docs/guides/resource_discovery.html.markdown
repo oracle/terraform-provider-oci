@@ -191,6 +191,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `log_analytics` - Discovers log_analytics resources within the specified compartment
     * `logging` - Discovers logging resources within the specified compartment
     * `lustre_file_storage` - Discovers lustre_file_storage resources within the specified compartment
+    * `managed_kafka` - Discovers managed_kafka resources within the specified compartment
     * `management_agent` - Discovers management_agent resources within the specified compartment
     * `marketplace` - Discovers marketplace resources within the specified compartment
     * `media_services` - Discovers media_services resources within the specified compartment
@@ -591,6 +592,7 @@ data_safe
 * oci\_data\_safe\_target\_database
 * oci\_data\_safe\_security\_assessment
 * oci\_data\_safe\_user\_assessment
+* oci\_data\_safe\_security\_assessment\_finding
 * oci\_data\_safe\_compare\_user\_assessment
 * oci\_data\_safe\_set\_user\_assessment\_baseline
 * oci\_data\_safe\_compare\_security\_assessment
@@ -625,6 +627,12 @@ data_safe
 * oci\_data\_safe\_sensitive\_data\_model\_referential\_relation
 * oci\_data\_safe\_sensitive\_type\_group\_grouped\_sensitive\_type
 * oci\_data\_safe\_sensitive\_type\_group
+* oci\_data\_safe\_target\_database\_group
+* oci\_data\_safe\_unified\_audit\_policy\_definition
+* oci\_data\_safe\_security\_assessment\_check
+* oci\_data\_safe\_attribute\_set
+* oci\_data\_safe\_security\_policy\_config
+* oci\_data\_safe\_unified\_audit\_policy
 
 database
 

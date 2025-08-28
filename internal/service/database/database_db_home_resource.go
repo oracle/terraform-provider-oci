@@ -289,6 +289,36 @@ func DatabaseDbHomeResource() *schema.Resource {
 								Type: schema.TypeString,
 							},
 						},
+						"storage_size_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"data_storage_size_in_gb": {
+										Type:     schema.TypeInt,
+										Required: true,
+										ForceNew: true,
+									},
+									"reco_storage_size_in_gbs": {
+										Type:     schema.TypeInt,
+										Required: true,
+										ForceNew: true,
+									},
+
+									// Optional
+									// Computed
+									"redo_log_storage_size_in_gbs": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"tde_wallet_password": {
 							Type:      schema.TypeString,
 							Optional:  true,
@@ -336,6 +366,7 @@ func DatabaseDbHomeResource() *schema.Resource {
 								},
 							},
 						},
+
 						"db_unique_name": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -1235,6 +1266,17 @@ func (s *DatabaseDbHomeResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat s
 		result.PdbName = &tmp
 	}
 
+	if storageSizeDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "storage_size_details")); ok {
+		if tmpList := storageSizeDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "storage_size_details"), 0)
+			tmp, err := s.mapToDatabaseStorageSizeDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert storage_size_details, encountered error: %v", err)
+			}
+			result.StorageSizeDetails = &tmp
+		}
+	}
+
 	if tdeWalletPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tde_wallet_password")); ok {
 		tmp := tdeWalletPassword.(string)
 		result.TdeWalletPassword = &tmp
@@ -1357,6 +1399,34 @@ func (s *DatabaseDbHomeResourceCrud) mapToCreateDatabaseFromBackupDetails(fieldK
 		tmp := sidPrefix.(string)
 		result.SidPrefix = &tmp
 	}
+
+	if storageSizeDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "storage_size_details")); ok {
+		if tmpList := storageSizeDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "storage_size_details"), 0)
+			tmp, err := s.mapToDatabaseStorageSizeDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert storage_size_details, encountered error: %v", err)
+			}
+			result.StorageSizeDetails = &tmp
+		}
+	}
+
+	return result, nil
+}
+
+func (s *DatabaseDbHomeResourceCrud) mapToDatabaseStorageSizeDetails(fieldKeyFormat string) (oci_database.DatabaseStorageSizeDetails, error) {
+	result := oci_database.DatabaseStorageSizeDetails{}
+
+	if dataStorageSizeInGB, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "data_storage_size_in_gb")); ok {
+		tmp := dataStorageSizeInGB.(int)
+		result.DataStorageSizeInGBs = &tmp
+	}
+
+	if recoStorageSizeInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "reco_storage_size_in_gbs")); ok {
+		tmp := recoStorageSizeInGBs.(int)
+		result.RecoStorageSizeInGBs = &tmp
+	}
+
 	return result, nil
 }
 
@@ -1906,6 +1976,10 @@ func (s *DatabaseDbHomeResourceCrud) DatabaseToMap(obj *oci_database.Database) m
 
 	if obj.LifecycleDetails != nil {
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
+	}
+
+	if obj.StorageSizeDetails != nil {
+		result["storage_size_details"] = []interface{}{DatabaseStorageSizeResponseDetailsToMap(obj.StorageSizeDetails)}
 	}
 
 	if obj.NcharacterSet != nil {

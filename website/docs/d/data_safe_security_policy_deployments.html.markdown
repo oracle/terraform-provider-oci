@@ -41,6 +41,7 @@ data "oci_data_safe_security_policy_deployments" "test_security_policy_deploymen
 	security_policy_id = oci_data_safe_security_policy.test_security_policy.id
 	state = var.security_policy_deployment_state
 	target_id = oci_cloud_guard_target.test_target.id
+	target_type = var.security_policy_deployment_target_type
 }
 ```
 
@@ -56,6 +57,7 @@ The following arguments are supported:
 * `security_policy_id` - (Optional) An optional filter to return only resources that match the specified OCID of the security policy resource.
 * `state` - (Optional) The current state of the security policy deployment.
 * `target_id` - (Optional) A filter to return only items related to a specific target OCID.
+* `target_type` - (Optional) A optional filter to return only resources that belong to the specified target type.
 
 
 ## Attributes Reference
@@ -68,6 +70,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `automatic_undeploy` - Indicates whether the security policy will be un-deployed when a target is removed from a target group.
 * `compartment_id` - The OCID of the compartment containing the security policy deployment.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description of the security policy deployment.
@@ -78,7 +81,9 @@ The following attributes are exported:
 * `security_policy_id` - The OCID of the security policy corresponding to the security policy deployment.
 * `state` - The current state of the security policy deployment.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
-* `target_id` - The OCID of the target where the security policy is deployed.
+* `target_id` - The OCID of the target/target group where the security policy is deployed.
+* `target_type` - Indicates whether the security policy deployment is for a target database or a target database group.
 * `time_created` - The time that the security policy deployment was created, in the format defined by RFC3339.
+* `time_deployed` - The last date and time the security policy was deployed, in the format defined by RFC3339.
 * `time_updated` - The last date and time the security policy deployment was updated, in the format defined by RFC3339.
 

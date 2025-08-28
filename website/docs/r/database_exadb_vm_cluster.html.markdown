@@ -62,7 +62,8 @@ resource "oci_database_exadb_vm_cluster" "test_exadb_vm_cluster" {
 	scan_listener_port_tcp = var.exadb_vm_cluster_scan_listener_port_tcp
 	scan_listener_port_tcp_ssl = var.exadb_vm_cluster_scan_listener_port_tcp_ssl
 	security_attributes = var.exadb_vm_cluster_security_attributes
-	subscription_id = var.tenant_subscription_id
+	shape_attribute = var.exadb_vm_cluster_shape_attribute
+    subscription_id = var.tenant_subscription_id
 	system_version = var.exadb_vm_cluster_system_version
 	time_zone = var.exadb_vm_cluster_time_zone
 }
@@ -108,6 +109,7 @@ The following arguments are supported:
 * `scan_listener_port_tcp_ssl` - (Optional) The Secured Communication (TCPS) protocol Single Client Access Name (SCAN) port. The default port is 2484. 
 * `security_attributes` - (Optional) (Updatable) Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
 * `shape` - (Required) The shape of the Exadata VM cluster on Exascale Infrastructure resource 
+* `shape_attribute` - (Optional) The type of Exascale storage used for Exadata VM cluster. The default is SMART_STORAGE which supports Oracle Database 23ai and later 
 * `ssh_public_keys` - (Required) (Updatable) The public key portion of one or more key pairs used for SSH access to the Exadata VM cluster on Exascale Infrastructure.
 * `subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet associated with the Exadata VM cluster on Exascale Infrastructure. 
 * `subscription_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
@@ -184,6 +186,7 @@ The following attributes are exported:
 * `scan_listener_port_tcp_ssl` - The Secured Communication (TCPS) protocol Single Client Access Name (SCAN) port. The default port is 2484. 
 * `security_attributes` - Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
 * `shape` - The shape of the Exadata VM cluster on Exascale Infrastructure resource 
+* `shape_attribute` - The type of Exascale storage used for Exadata VM cluster. The default is SMART_STORAGE which supports Oracle Database 23ai and later 
 * `ssh_public_keys` - The public key portion of one or more key pairs used for SSH access to the Exadata VM cluster on Exascale Infrastructure.
 * `state` - The current state of the Exadata VM cluster on Exascale Infrastructure.
 * `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet associated with the Exadata VM cluster on Exascale Infrastructure. 

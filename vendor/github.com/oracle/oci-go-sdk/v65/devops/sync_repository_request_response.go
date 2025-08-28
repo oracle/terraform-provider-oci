@@ -77,7 +77,7 @@ func (request SyncRepositoryRequest) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SyncMergeStrategy: %s. Supported values are: %s.", request.SyncMergeStrategy, strings.Join(GetSyncRepositorySyncMergeStrategyEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

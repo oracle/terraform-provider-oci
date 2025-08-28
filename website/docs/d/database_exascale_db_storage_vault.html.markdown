@@ -34,6 +34,7 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `additional_flash_cache_in_percent` - The size of additional Flash Cache in percentage of High Capacity database storage. 
+* `attached_shape_attributes` - The shapeAttribute of the Exadata VM cluster(s) associated with the Exadata Database Storage Vault. 
 * `availability_domain` - The name of the availability domain in which the Exadata Database Storage Vault is located.
 * `cluster_placement_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster placement group of the Exadata Infrastructure.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.

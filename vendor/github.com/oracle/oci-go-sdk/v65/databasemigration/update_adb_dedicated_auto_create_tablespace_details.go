@@ -48,7 +48,7 @@ func (m UpdateAdbDedicatedAutoCreateTablespaceDetails) ValidateEnumValue() (bool
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BlockSizeInKBs: %s. Supported values are: %s.", m.BlockSizeInKBs, strings.Join(GetDataPumpTablespaceBlockSizesInKbEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

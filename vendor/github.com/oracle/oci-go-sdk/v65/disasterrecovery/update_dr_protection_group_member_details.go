@@ -63,12 +63,12 @@ func (m *updatedrprotectiongroupmemberdetails) UnmarshalPolymorphicJSON(data []b
 		mm := UpdateDrProtectionGroupMemberComputeInstanceDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "NETWORK_LOAD_BALANCER":
-		mm := UpdateDrProtectionGroupMemberNetworkLoadBalancerDetails{}
+	case "MYSQL_DB_SYSTEM":
+		mm := UpdateDrProtectionGroupMemberMySqlDbSystemDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "OKE_CLUSTER":
-		mm := UpdateDrProtectionGroupMemberOkeClusterDetails{}
+	case "NETWORK_LOAD_BALANCER":
+		mm := UpdateDrProtectionGroupMemberNetworkLoadBalancerDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "AUTONOMOUS_DATABASE":
@@ -83,6 +83,18 @@ func (m *updatedrprotectiongroupmemberdetails) UnmarshalPolymorphicJSON(data []b
 		mm := UpdateDrProtectionGroupMemberVolumeGroupDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "LOAD_BALANCER":
+		mm := UpdateDrProtectionGroupMemberLoadBalancerDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "DATABASE":
+		mm := UpdateDrProtectionGroupMemberDatabaseDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OKE_CLUSTER":
+		mm := UpdateDrProtectionGroupMemberOkeClusterDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "COMPUTE_INSTANCE_NON_MOVABLE":
 		mm := UpdateDrProtectionGroupMemberComputeInstanceNonMovableDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -91,20 +103,12 @@ func (m *updatedrprotectiongroupmemberdetails) UnmarshalPolymorphicJSON(data []b
 		mm := UpdateDrProtectionGroupMemberAutonomousContainerDatabaseDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "LOAD_BALANCER":
-		mm := UpdateDrProtectionGroupMemberLoadBalancerDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "OBJECT_STORAGE_BUCKET":
 		mm := UpdateDrProtectionGroupMemberObjectStorageBucketDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "COMPUTE_INSTANCE_MOVABLE":
 		mm := UpdateDrProtectionGroupMemberComputeInstanceMovableDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "DATABASE":
-		mm := UpdateDrProtectionGroupMemberDatabaseDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
@@ -129,7 +133,7 @@ func (m updatedrprotectiongroupmemberdetails) ValidateEnumValue() (bool, error) 
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

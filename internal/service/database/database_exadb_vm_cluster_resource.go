@@ -260,6 +260,12 @@ func DatabaseExadbVmClusterResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"shape_attribute": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"subscription_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -610,6 +616,10 @@ func (s *DatabaseExadbVmClusterResourceCrud) Create() error {
 	if shape, ok := s.D.GetOkExists("shape"); ok {
 		tmp := shape.(string)
 		request.Shape = &tmp
+	}
+
+	if shapeAttribute, ok := s.D.GetOkExists("shape_attribute"); ok {
+		request.ShapeAttribute = oci_database.CreateExadbVmClusterDetailsShapeAttributeEnum(shapeAttribute.(string))
 	}
 
 	if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok {
@@ -1103,6 +1113,8 @@ func (s *DatabaseExadbVmClusterResourceCrud) SetData() error {
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)
 	}
+
+	s.D.Set("shape_attribute", s.Res.ShapeAttribute)
 
 	s.D.Set("ssh_public_keys", s.Res.SshPublicKeys)
 

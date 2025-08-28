@@ -95,6 +95,10 @@ func (s *DataSafeAuditProfileDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsOverrideGlobalPaidUsage != nil {
+		s.D.Set("is_override_global_paid_usage", *s.Res.IsOverrideGlobalPaidUsage)
+	}
+
 	if s.Res.IsOverrideGlobalRetentionSetting != nil {
 		s.D.Set("is_override_global_retention_setting", *s.Res.IsOverrideGlobalRetentionSetting)
 	}
@@ -111,8 +115,20 @@ func (s *DataSafeAuditProfileDataSourceCrud) SetData() error {
 		s.D.Set("offline_months", *s.Res.OfflineMonths)
 	}
 
+	if s.Res.OfflineMonthsSource != nil {
+		s.D.Set("offline_months_source", *s.Res.OfflineMonthsSource)
+	}
+
 	if s.Res.OnlineMonths != nil {
 		s.D.Set("online_months", *s.Res.OnlineMonths)
+	}
+
+	if s.Res.OnlineMonthsSource != nil {
+		s.D.Set("online_months_source", *s.Res.OnlineMonthsSource)
+	}
+
+	if s.Res.PaidUsageSource != nil {
+		s.D.Set("paid_usage_source", *s.Res.PaidUsageSource)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
@@ -124,6 +140,8 @@ func (s *DataSafeAuditProfileDataSourceCrud) SetData() error {
 	if s.Res.TargetId != nil {
 		s.D.Set("target_id", *s.Res.TargetId)
 	}
+
+	s.D.Set("target_type", s.Res.TargetType)
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())

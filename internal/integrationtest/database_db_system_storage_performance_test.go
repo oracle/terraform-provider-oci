@@ -4,7 +4,10 @@
 package integrationtest
 
 import (
+	"fmt"
 	"testing"
+
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 
@@ -32,6 +35,9 @@ func TestDatabaseDbSystemStoragePerformanceResource_basic(t *testing.T) {
 
 	config := acctest.ProviderTestConfig()
 
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
 	datasourceName := "data.oci_database_db_system_storage_performances.test_db_system_storage_performances"
 
 	acctest.SaveConfigContent("", "", "", t)
@@ -39,7 +45,7 @@ func TestDatabaseDbSystemStoragePerformanceResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
-			Config: config +
+			Config: config + compartmentIdVariableStr +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_system_storage_performances", "test_db_system_storage_performances", acctest.Required, acctest.Create, dbSystemStoragePerformanceDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "db_system_storage_performances.#"),

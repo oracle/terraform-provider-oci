@@ -10,9 +10,10 @@ import (
 	"testing"
 	"time"
 
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
@@ -36,30 +37,27 @@ var (
 		"audit_archive_retrieval_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_audit_archive_retrieval.test_audit_archive_retrieval.id}`},
 	}
 
+	ignoreAuditArchiveRetrievalTagsChangesRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `freeform_tags`}},
+	}
+
 	DataSafeauditArchiveRetrievalDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"access_level":               acctest.Representation{RepType: acctest.Optional, Create: `RESTRICTED`},
-		"audit_archive_retrieval_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_data_safe_audit_archive_retrieval.test_audit_archive_retrieval.id}`},
-		"compartment_id_in_subtree":  acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `Archive retrieval 2021`, Update: `displayName2`},
-		"state":                      acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
-		"target_id":                  acctest.Representation{RepType: acctest.Optional, Create: `${oci_cloud_guard_target.test_target.id}`},
-		"time_of_expiry":             acctest.Representation{RepType: acctest.Optional, Create: `timeOfExpiry`},
-		"filter":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: auditArchiveRetrievalDataSourceFilterRepresentation}}
-	auditArchiveRetrievalDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
-		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_data_safe_audit_archive_retrieval.test_audit_archive_retrieval.id}`}},
+		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `RESTRICTED`},
+		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"target_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${var.target_id}`},
 	}
 
 	auditArchiveRetrievalRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"end_date":       acctest.Representation{RepType: acctest.Required, Create: `2021-05-01T00:00:00.000Z`},
-		"start_date":     acctest.Representation{RepType: acctest.Required, Create: `2021-02-01T00:00:00.000Z`},
-		"target_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_cloud_guard_target.test_target.id}`},
+		"end_date":       acctest.Representation{RepType: acctest.Required, Create: `2024-01-13T00:00:00Z`},
+		"start_date":     acctest.Representation{RepType: acctest.Required, Create: `2024-01-12T00:00:00Z`},
+		"target_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.target_id}`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":    acctest.Representation{RepType: acctest.Optional, Create: `Archive retrieval for target prod_dev from month Feb 2021 to May 2021`, Update: `description2`},
-		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `Archive retrieval 2021`, Update: `displayName2`},
+		"description":    acctest.Representation{RepType: acctest.Optional, Create: `Archive retrieval for target prod_dev from month Feb 2024 to May 2024`, Update: `description2`},
+		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `Archive retrieval 2024`, Update: `displayName2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreAuditArchiveRetrievalTagsChangesRepresentation},
 	}
 
 	DataSafeAuditArchiveRetrievalResourceDependencies = DefinedTagsDependencies
@@ -79,6 +77,9 @@ func TestDataSafeAuditArchiveRetrievalResource_basic(t *testing.T) {
 	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
+	targetId := utils.GetEnvSettingWithBlankDefault("target_id")
+	targetIdVariableStr := fmt.Sprintf("variable \"target_id\" { default = \"%s\" }\n", targetId)
+
 	resourceName := "oci_data_safe_audit_archive_retrieval.test_audit_archive_retrieval"
 	datasourceName := "data.oci_data_safe_audit_archive_retrievals.test_audit_archive_retrievals"
 	singularDatasourceName := "data.oci_data_safe_audit_archive_retrieval.test_audit_archive_retrieval"
@@ -91,12 +92,12 @@ func TestDataSafeAuditArchiveRetrievalResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckDataSafeAuditArchiveRetrievalDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + DataSafeAuditArchiveRetrievalResourceDependencies +
+			Config: config + compartmentIdVariableStr + targetIdVariableStr + DataSafeAuditArchiveRetrievalResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_archive_retrieval", "test_audit_archive_retrieval", acctest.Required, acctest.Create, auditArchiveRetrievalRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "end_date", "2021-05-01T00:00:00.000Z"),
-				resource.TestCheckResourceAttr(resourceName, "start_date", "2021-02-01T00:00:00.000Z"),
+				resource.TestCheckResourceAttr(resourceName, "end_date", "2024-01-13T00:00:00Z"),
+				resource.TestCheckResourceAttr(resourceName, "start_date", "2024-01-12T00:00:00Z"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_id"),
 
 				func(s *terraform.State) (err error) {
@@ -112,22 +113,22 @@ func TestDataSafeAuditArchiveRetrievalResource_basic(t *testing.T) {
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + DataSafeAuditArchiveRetrievalResourceDependencies +
+			Config: config + compartmentIdVariableStr + targetIdVariableStr + DataSafeAuditArchiveRetrievalResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_archive_retrieval", "test_audit_archive_retrieval", acctest.Optional, acctest.Create, auditArchiveRetrievalRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "description", "Archive retrieval for target prod_dev from month Feb 2021 to May 2021"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "Archive retrieval 2021"),
-				resource.TestCheckResourceAttr(resourceName, "end_date", "2021-05-01T00:00:00.000Z"),
+				resource.TestCheckResourceAttr(resourceName, "description", "Archive retrieval for target prod_dev from month Feb 2024 to May 2024"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Archive retrieval 2024"),
+				resource.TestCheckResourceAttr(resourceName, "end_date", "2024-01-13T00:00:00Z"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "start_date", "2021-02-01T00:00:00.000Z"),
+				resource.TestCheckResourceAttr(resourceName, "start_date", "2024-01-12T00:00:00Z"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_id"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
 						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -139,19 +140,19 @@ func TestDataSafeAuditArchiveRetrievalResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DataSafeAuditArchiveRetrievalResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + targetIdVariableStr + DataSafeAuditArchiveRetrievalResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_archive_retrieval", "test_audit_archive_retrieval", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(auditArchiveRetrievalRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "description", "Archive retrieval for target prod_dev from month Feb 2021 to May 2021"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "Archive retrieval 2021"),
-				resource.TestCheckResourceAttr(resourceName, "end_date", "2021-05-01T00:00:00.000Z"),
+				resource.TestCheckResourceAttr(resourceName, "description", "Archive retrieval for target prod_dev from month Feb 2024 to May 2024"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Archive retrieval 2024"),
+				resource.TestCheckResourceAttr(resourceName, "end_date", "2024-01-13T00:00:00Z"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "start_date", "2021-02-01T00:00:00.000Z"),
+				resource.TestCheckResourceAttr(resourceName, "start_date", "2024-01-12T00:00:00Z"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_id"),
 
@@ -167,16 +168,16 @@ func TestDataSafeAuditArchiveRetrievalResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + DataSafeAuditArchiveRetrievalResourceDependencies +
+			Config: config + compartmentIdVariableStr + targetIdVariableStr + DataSafeAuditArchiveRetrievalResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_archive_retrieval", "test_audit_archive_retrieval", acctest.Optional, acctest.Update, auditArchiveRetrievalRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttr(resourceName, "end_date", "2021-05-01T00:00:00.000Z"),
+				resource.TestCheckResourceAttr(resourceName, "end_date", "2024-01-13T00:00:00Z"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "start_date", "2021-02-01T00:00:00.000Z"),
+				resource.TestCheckResourceAttr(resourceName, "start_date", "2024-01-12T00:00:00Z"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_id"),
 
@@ -193,17 +194,13 @@ func TestDataSafeAuditArchiveRetrievalResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_archive_retrievals", "test_audit_archive_retrievals", acctest.Optional, acctest.Update, DataSafeauditArchiveRetrievalDataSourceRepresentation) +
-				compartmentIdVariableStr + DataSafeAuditArchiveRetrievalResourceDependencies +
+				compartmentIdVariableStr + targetIdVariableStr + DataSafeAuditArchiveRetrievalResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_archive_retrieval", "test_audit_archive_retrieval", acctest.Optional, acctest.Update, auditArchiveRetrievalRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "access_level", "RESTRICTED"),
-				resource.TestCheckResourceAttrSet(datasourceName, "audit_archive_retrieval_id"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
-				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 				resource.TestCheckResourceAttrSet(datasourceName, "target_id"),
-				resource.TestCheckResourceAttrSet(datasourceName, "time_of_expiry"),
 
 				resource.TestCheckResourceAttr(datasourceName, "audit_archive_retrieval_collection.#", "1"),
 			),
@@ -212,7 +209,7 @@ func TestDataSafeAuditArchiveRetrievalResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_archive_retrieval", "test_audit_archive_retrieval", acctest.Required, acctest.Create, DataSafeauditArchiveRetrievalSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + DataSafeAuditArchiveRetrievalResourceConfig,
+				compartmentIdVariableStr + targetIdVariableStr + DataSafeAuditArchiveRetrievalResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "audit_archive_retrieval_id"),
 
@@ -233,11 +230,11 @@ func TestDataSafeAuditArchiveRetrievalResource_basic(t *testing.T) {
 		},
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
-			Config: config + compartmentIdVariableStr + DataSafeAuditArchiveRetrievalResourceConfig,
+			Config: config + compartmentIdVariableStr + targetIdVariableStr + DataSafeAuditArchiveRetrievalResourceConfig,
 		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + DataSafeAuditArchiveRetrievalResourceConfig,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

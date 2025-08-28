@@ -135,6 +135,14 @@ const (
 	DrPlanStepTypeObjectStorageBucketSwitchoverSetupReverseReplicationStandby           DrPlanStepTypeEnum = "OBJECT_STORAGE_BUCKET_SWITCHOVER_SETUP_REVERSE_REPLICATION_STANDBY"
 	DrPlanStepTypeObjectStorageBucketFailoverDeleteReplicationStandby                   DrPlanStepTypeEnum = "OBJECT_STORAGE_BUCKET_FAILOVER_DELETE_REPLICATION_STANDBY"
 	DrPlanStepTypeObjectStorageBucketFailoverSetupReverseReplicationStandby             DrPlanStepTypeEnum = "OBJECT_STORAGE_BUCKET_FAILOVER_SETUP_REVERSE_REPLICATION_STANDBY"
+	DrPlanStepTypeMysqlDbSystemSwitchoverPrecheck                                       DrPlanStepTypeEnum = "MYSQL_DB_SYSTEM_SWITCHOVER_PRECHECK"
+	DrPlanStepTypeMysqlDbSystemSwitchover                                               DrPlanStepTypeEnum = "MYSQL_DB_SYSTEM_SWITCHOVER"
+	DrPlanStepTypeMysqlDbSystemFailoverPrecheck                                         DrPlanStepTypeEnum = "MYSQL_DB_SYSTEM_FAILOVER_PRECHECK"
+	DrPlanStepTypeMysqlDbSystemFailover                                                 DrPlanStepTypeEnum = "MYSQL_DB_SYSTEM_FAILOVER"
+	DrPlanStepTypeMysqlDbSystemStartDrillPrecheck                                       DrPlanStepTypeEnum = "MYSQL_DB_SYSTEM_START_DRILL_PRECHECK"
+	DrPlanStepTypeMysqlDbSystemStartDrill                                               DrPlanStepTypeEnum = "MYSQL_DB_SYSTEM_START_DRILL"
+	DrPlanStepTypeMysqlDbSystemStopDrillPrecheck                                        DrPlanStepTypeEnum = "MYSQL_DB_SYSTEM_STOP_DRILL_PRECHECK"
+	DrPlanStepTypeMysqlDbSystemStopDrill                                                DrPlanStepTypeEnum = "MYSQL_DB_SYSTEM_STOP_DRILL"
 )
 
 var mappingDrPlanStepTypeEnum = map[string]DrPlanStepTypeEnum{
@@ -252,6 +260,14 @@ var mappingDrPlanStepTypeEnum = map[string]DrPlanStepTypeEnum{
 	"OBJECT_STORAGE_BUCKET_SWITCHOVER_SETUP_REVERSE_REPLICATION_STANDBY":             DrPlanStepTypeObjectStorageBucketSwitchoverSetupReverseReplicationStandby,
 	"OBJECT_STORAGE_BUCKET_FAILOVER_DELETE_REPLICATION_STANDBY":                      DrPlanStepTypeObjectStorageBucketFailoverDeleteReplicationStandby,
 	"OBJECT_STORAGE_BUCKET_FAILOVER_SETUP_REVERSE_REPLICATION_STANDBY":               DrPlanStepTypeObjectStorageBucketFailoverSetupReverseReplicationStandby,
+	"MYSQL_DB_SYSTEM_SWITCHOVER_PRECHECK":                                            DrPlanStepTypeMysqlDbSystemSwitchoverPrecheck,
+	"MYSQL_DB_SYSTEM_SWITCHOVER":                                                     DrPlanStepTypeMysqlDbSystemSwitchover,
+	"MYSQL_DB_SYSTEM_FAILOVER_PRECHECK":                                              DrPlanStepTypeMysqlDbSystemFailoverPrecheck,
+	"MYSQL_DB_SYSTEM_FAILOVER":                                                       DrPlanStepTypeMysqlDbSystemFailover,
+	"MYSQL_DB_SYSTEM_START_DRILL_PRECHECK":                                           DrPlanStepTypeMysqlDbSystemStartDrillPrecheck,
+	"MYSQL_DB_SYSTEM_START_DRILL":                                                    DrPlanStepTypeMysqlDbSystemStartDrill,
+	"MYSQL_DB_SYSTEM_STOP_DRILL_PRECHECK":                                            DrPlanStepTypeMysqlDbSystemStopDrillPrecheck,
+	"MYSQL_DB_SYSTEM_STOP_DRILL":                                                     DrPlanStepTypeMysqlDbSystemStopDrill,
 }
 
 var mappingDrPlanStepTypeEnumLowerCase = map[string]DrPlanStepTypeEnum{
@@ -369,6 +385,14 @@ var mappingDrPlanStepTypeEnumLowerCase = map[string]DrPlanStepTypeEnum{
 	"object_storage_bucket_switchover_setup_reverse_replication_standby":             DrPlanStepTypeObjectStorageBucketSwitchoverSetupReverseReplicationStandby,
 	"object_storage_bucket_failover_delete_replication_standby":                      DrPlanStepTypeObjectStorageBucketFailoverDeleteReplicationStandby,
 	"object_storage_bucket_failover_setup_reverse_replication_standby":               DrPlanStepTypeObjectStorageBucketFailoverSetupReverseReplicationStandby,
+	"mysql_db_system_switchover_precheck":                                            DrPlanStepTypeMysqlDbSystemSwitchoverPrecheck,
+	"mysql_db_system_switchover":                                                     DrPlanStepTypeMysqlDbSystemSwitchover,
+	"mysql_db_system_failover_precheck":                                              DrPlanStepTypeMysqlDbSystemFailoverPrecheck,
+	"mysql_db_system_failover":                                                       DrPlanStepTypeMysqlDbSystemFailover,
+	"mysql_db_system_start_drill_precheck":                                           DrPlanStepTypeMysqlDbSystemStartDrillPrecheck,
+	"mysql_db_system_start_drill":                                                    DrPlanStepTypeMysqlDbSystemStartDrill,
+	"mysql_db_system_stop_drill_precheck":                                            DrPlanStepTypeMysqlDbSystemStopDrillPrecheck,
+	"mysql_db_system_stop_drill":                                                     DrPlanStepTypeMysqlDbSystemStopDrill,
 }
 
 // GetDrPlanStepTypeEnumValues Enumerates the set of values for DrPlanStepTypeEnum
@@ -497,6 +521,14 @@ func GetDrPlanStepTypeEnumStringValues() []string {
 		"OBJECT_STORAGE_BUCKET_SWITCHOVER_SETUP_REVERSE_REPLICATION_STANDBY",
 		"OBJECT_STORAGE_BUCKET_FAILOVER_DELETE_REPLICATION_STANDBY",
 		"OBJECT_STORAGE_BUCKET_FAILOVER_SETUP_REVERSE_REPLICATION_STANDBY",
+		"MYSQL_DB_SYSTEM_SWITCHOVER_PRECHECK",
+		"MYSQL_DB_SYSTEM_SWITCHOVER",
+		"MYSQL_DB_SYSTEM_FAILOVER_PRECHECK",
+		"MYSQL_DB_SYSTEM_FAILOVER",
+		"MYSQL_DB_SYSTEM_START_DRILL_PRECHECK",
+		"MYSQL_DB_SYSTEM_START_DRILL",
+		"MYSQL_DB_SYSTEM_STOP_DRILL_PRECHECK",
+		"MYSQL_DB_SYSTEM_STOP_DRILL",
 	}
 }
 

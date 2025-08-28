@@ -49,7 +49,7 @@ The following arguments are supported:
 * `compartment_id_in_subtree` - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting. 
 * `scim_query` - (Optional) The scimQuery query parameter accepts filter expressions that use the syntax described in Section 3.2.2.2 of the System for Cross-Domain Identity Management (SCIM) specification, which is available at [RFC3339](https://tools.ietf.org/html/draft-ietf-scim-api-12). In SCIM filtering expressions, text, date, and time values must be enclosed in quotation marks, with date and time values using ISO-8601 format. (Numeric and boolean values should not be quoted.)
 
-	**Example:** query=(currentUser eq 'SCOTT') and (topLevel eq 'YES') 
+	**Example:** query=(currentUser eq "SCOTT") and (topLevel eq "YES") 
 
 
 ## Attributes Reference

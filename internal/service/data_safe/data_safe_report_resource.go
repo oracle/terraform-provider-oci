@@ -59,6 +59,10 @@ func DataSafeReportResource() *schema.Resource {
 			},
 
 			// Computed
+			"data_source": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"description": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -88,7 +92,15 @@ func DataSafeReportResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"time_generated": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_updated": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -416,6 +428,8 @@ func (s *DataSafeReportResourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	s.D.Set("data_source", s.Res.DataSource)
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
@@ -447,13 +461,71 @@ func (s *DataSafeReportResourceCrud) SetData() error {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}
 
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
 	if s.Res.TimeGenerated != nil {
 		s.D.Set("time_generated", s.Res.TimeGenerated.String())
+	}
+
+	if s.Res.TimeUpdated != nil {
+		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
 
 	s.D.Set("type", s.Res.Type)
 
 	return nil
+}
+
+func ReportSummaryToMap1(obj oci_data_safe.ReportSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+	result["data_source"] = string(obj.DataSource)
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	result["freeform_tags"] = obj.FreeformTags
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	result["mime_type"] = string(obj.MimeType)
+
+	if obj.ReportDefinitionId != nil {
+		result["report_definition_id"] = string(*obj.ReportDefinitionId)
+	}
+
+	result["state"] = string(obj.LifecycleState)
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.TimeGenerated != nil {
+		result["time_generated"] = obj.TimeGenerated.String()
+	}
+
+	if obj.TimeUpdated != nil {
+		result["time_updated"] = obj.TimeUpdated.String()
+	}
+
+	result["type"] = string(obj.Type)
+
+	return result
 }
 
 func (s *DataSafeReportResourceCrud) updateCompartment(compartment interface{}) error {

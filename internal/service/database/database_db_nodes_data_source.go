@@ -149,6 +149,12 @@ func (s *DatabaseDbNodesDataSourceCrud) SetData() error {
 			dbNode["backup_vnic_id"] = *r.BackupVnicId
 		}
 
+		if r.ComputeCount != nil {
+			dbNode["compute_count"] = *r.ComputeCount
+		}
+
+		dbNode["compute_model"] = r.ComputeModel
+
 		if r.CpuCoreCount != nil {
 			dbNode["cpu_core_count"] = *r.CpuCoreCount
 		}

@@ -39,6 +39,18 @@ type ListExascaleDbStorageVaultsRequest struct {
 	// A filter to return only resources that match the given cluster placement group ID exactly.
 	ClusterPlacementGroupId *string `mandatory:"false" contributesTo:"query" name:"clusterPlacementGroupId"`
 
+	// A filter to return only Exadata Database Storage Vaults which do not match the given attachedShapeAttributes
+	AttachedShapeAttributesNotEqualTo *string `mandatory:"false" contributesTo:"query" name:"attachedShapeAttributesNotEqualTo"`
+
+	// A filter to return only Exadata Database Storage Vaults which match the given attachedShapeAttributes or has null attachedShapeAttributes
+	AttachedShapeAttributes *string `mandatory:"false" contributesTo:"query" name:"attachedShapeAttributes"`
+
+	// A filter to return only Exadata Database Storage Vaults with associated Exadata VM Clusters less than or equal to the given count
+	VmClusterCountLessThanOrEqualTo *int `mandatory:"false" contributesTo:"query" name:"vmClusterCountLessThanOrEqualTo"`
+
+	// A filter to return only Exadata Database Storage Vaults with associated Exadata VM Clusters greater than or equal to the given count
+	VmClusterCountGreaterThanOrEqualTo *int `mandatory:"false" contributesTo:"query" name:"vmClusterCountGreaterThanOrEqualTo"`
+
 	// A filter to return only resources that match the entire display name given. The match is not case sensitive.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
@@ -94,7 +106,7 @@ func (request ListExascaleDbStorageVaultsRequest) ValidateEnumValue() (bool, err
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetExascaleDbStorageVaultLifecycleStateEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }
