@@ -36,15 +36,15 @@ var (
 		"on_prem_connector_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_on_prem_connector.test_on_prem_connector.id}`},
 	}
 
-	DataSafeonPremConnectorDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":                    acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"access_level":                      acctest.Representation{RepType: acctest.Optional, Create: `RESTRICTED`},
-		"compartment_id_in_subtree":         acctest.Representation{RepType: acctest.Optional, Create: `true`},
-		"display_name":                      acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"on_prem_connector_id":              acctest.Representation{RepType: acctest.Optional, Create: `${oci_data_safe_on_prem_connector.test_on_prem_connector.id}`},
-		"on_prem_connector_lifecycle_state": acctest.Representation{RepType: acctest.Optional, Create: `INACTIVE`},
-		"filter":                            acctest.RepresentationGroup{RepType: acctest.Required, Group: onPremConnectorDataSourceFilterRepresentation}}
-	onPremConnectorDataSourceFilterRepresentation = map[string]interface{}{
+	DataSafeOnPremConnectorDataSourceRepresentation = map[string]interface{}{
+		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `ACCESSIBLE`},
+		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"on_prem_connector_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_data_safe_on_prem_connector.test_on_prem_connector.id}`},
+		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `INACTIVE`},
+		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: DataSafeOnPremConnectorDataSourceFilterRepresentation}}
+	DataSafeOnPremConnectorDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_data_safe_on_prem_connector.test_on_prem_connector.id}`}},
 	}
@@ -179,16 +179,16 @@ func TestDataSafeOnPremConnectorResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_on_prem_connectors", "test_on_prem_connectors", acctest.Optional, acctest.Update, DataSafeonPremConnectorDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_on_prem_connectors", "test_on_prem_connectors", acctest.Optional, acctest.Update, DataSafeOnPremConnectorDataSourceRepresentation) +
 				compartmentIdVariableStr + DataSafeOnPremConnectorResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", acctest.Optional, acctest.Update, onPremConnectorRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(datasourceName, "access_level", "RESTRICTED"),
+				resource.TestCheckResourceAttr(datasourceName, "access_level", "ACCESSIBLE"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "on_prem_connector_id"),
-				resource.TestCheckResourceAttr(datasourceName, "on_prem_connector_lifecycle_state", "INACTIVE"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "INACTIVE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "on_prem_connectors.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "on_prem_connectors.0.compartment_id", compartmentId),
@@ -320,6 +320,7 @@ func getDataSafeOnPremConnectorIds(compartment string) ([]string, error) {
 
 	listOnPremConnectorsRequest := oci_data_safe.ListOnPremConnectorsRequest{}
 	listOnPremConnectorsRequest.CompartmentId = &compartmentId
+	listOnPremConnectorsRequest.LifecycleState = oci_data_safe.ListOnPremConnectorsLifecycleStateActive
 	listOnPremConnectorsResponse, err := dataSafeClient.ListOnPremConnectors(context.Background(), listOnPremConnectorsRequest)
 
 	if err != nil {
@@ -336,7 +337,7 @@ func getDataSafeOnPremConnectorIds(compartment string) ([]string, error) {
 func DataSafeonPremConnectorsSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if onPremConnectorResponse, ok := response.Response.(oci_data_safe.GetOnPremConnectorResponse); ok {
-		return string(onPremConnectorResponse.LifecycleState) != string(oci_data_safe.OnPremConnectorLifecycleStateDeleted)
+		return onPremConnectorResponse.LifecycleState != oci_data_safe.OnPremConnectorLifecycleStateDeleted
 	}
 	return false
 }

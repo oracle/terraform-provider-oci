@@ -59,6 +59,34 @@ func (m *createdrprotectiongroupmemberdetails) UnmarshalPolymorphicJSON(data []b
 
 	var err error
 	switch m.MemberType {
+	case "DATABASE":
+		mm := CreateDrProtectionGroupMemberDatabaseDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AUTONOMOUS_DATABASE":
+		mm := CreateDrProtectionGroupMemberAutonomousDatabaseDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "NETWORK_LOAD_BALANCER":
+		mm := CreateDrProtectionGroupMemberNetworkLoadBalancerDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MYSQL_DB_SYSTEM":
+		mm := CreateDrProtectionGroupMemberMySqlDbSystemDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "FILE_SYSTEM":
+		mm := CreateDrProtectionGroupMemberFileSystemDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OBJECT_STORAGE_BUCKET":
+		mm := CreateDrProtectionGroupMemberObjectStorageBucketDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "LOAD_BALANCER":
+		mm := CreateDrProtectionGroupMemberLoadBalancerDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "COMPUTE_INSTANCE_MOVABLE":
 		mm := CreateDrProtectionGroupMemberComputeInstanceMovableDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -75,36 +103,12 @@ func (m *createdrprotectiongroupmemberdetails) UnmarshalPolymorphicJSON(data []b
 		mm := CreateDrProtectionGroupMemberComputeInstanceDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "DATABASE":
-		mm := CreateDrProtectionGroupMemberDatabaseDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "AUTONOMOUS_DATABASE":
-		mm := CreateDrProtectionGroupMemberAutonomousDatabaseDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "NETWORK_LOAD_BALANCER":
-		mm := CreateDrProtectionGroupMemberNetworkLoadBalancerDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "VOLUME_GROUP":
 		mm := CreateDrProtectionGroupMemberVolumeGroupDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "OKE_CLUSTER":
 		mm := CreateDrProtectionGroupMemberOkeClusterDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "FILE_SYSTEM":
-		mm := CreateDrProtectionGroupMemberFileSystemDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "OBJECT_STORAGE_BUCKET":
-		mm := CreateDrProtectionGroupMemberObjectStorageBucketDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "LOAD_BALANCER":
-		mm := CreateDrProtectionGroupMemberLoadBalancerDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
@@ -129,7 +133,7 @@ func (m createdrprotectiongroupmemberdetails) ValidateEnumValue() (bool, error) 
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

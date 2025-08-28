@@ -21,10 +21,14 @@ data "oci_database_exascale_db_storage_vaults" "test_exascale_db_storage_vaults"
 	compartment_id = var.compartment_id
 
 	#Optional
+	attached_shape_attributes = var.exascale_db_storage_vault_attached_shape_attributes
+	attached_shape_attributes_not_equal_to = var.exascale_db_storage_vault_attached_shape_attributes_not_equal_to
 	cluster_placement_group_id = oci_cluster_placement_groups_cluster_placement_group.test_cluster_placement_group.id
 	display_name = var.exascale_db_storage_vault_display_name
 	exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
 	state = var.exascale_db_storage_vault_state
+	vm_cluster_count_greater_than_or_equal_to = var.exascale_db_storage_vault_vm_cluster_count_greater_than_or_equal_to
+	vm_cluster_count_less_than_or_equal_to = var.exascale_db_storage_vault_vm_cluster_count_less_than_or_equal_to
 }
 ```
 
@@ -32,11 +36,15 @@ data "oci_database_exascale_db_storage_vaults" "test_exascale_db_storage_vaults"
 
 The following arguments are supported:
 
+* `attached_shape_attributes` - (Optional) A filter to return only Exadata Database Storage Vaults which match the given attachedShapeAttributes or has null attachedShapeAttributes
+* `attached_shape_attributes_not_equal_to` - (Optional) A filter to return only Exadata Database Storage Vaults which do not match the given attachedShapeAttributes
 * `cluster_placement_group_id` - (Optional) A filter to return only resources that match the given cluster placement group ID exactly.
 * `compartment_id` - (Required) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.
 * `exadata_infrastructure_id` - (Optional) A filter to return only list of Vaults that are linked to the exadata infrastructure Id.
 * `state` - (Optional) A filter to return only Exadata Database Storage Vaults that match the given lifecycle state exactly.
+* `vm_cluster_count_greater_than_or_equal_to` - (Optional) A filter to return only Exadata Database Storage Vaults with associated Exadata VM Clusters greater than or equal to the given count
+* `vm_cluster_count_less_than_or_equal_to` - (Optional) A filter to return only Exadata Database Storage Vaults with associated Exadata VM Clusters less than or equal to the given count
 
 
 ## Attributes Reference
@@ -50,6 +58,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `additional_flash_cache_in_percent` - The size of additional Flash Cache in percentage of High Capacity database storage. 
+* `attached_shape_attributes` - The shapeAttribute of the Exadata VM cluster(s) associated with the Exadata Database Storage Vault. 
 * `availability_domain` - The name of the availability domain in which the Exadata Database Storage Vault is located.
 * `cluster_placement_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster placement group of the Exadata Infrastructure.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.

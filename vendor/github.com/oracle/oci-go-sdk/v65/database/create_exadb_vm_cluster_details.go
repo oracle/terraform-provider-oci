@@ -118,6 +118,9 @@ type CreateExadbVmClusterDetails struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
 	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
+
+	// The type of Exascale storage used for Exadata VM cluster. The default is SMART_STORAGE which supports Oracle Database 23ai and later
+	ShapeAttribute CreateExadbVmClusterDetailsShapeAttributeEnum `mandatory:"false" json:"shapeAttribute,omitempty"`
 }
 
 func (m CreateExadbVmClusterDetails) String() string {
@@ -133,8 +136,11 @@ func (m CreateExadbVmClusterDetails) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingCreateExadbVmClusterDetailsLicenseModelEnum(string(m.LicenseModel)); !ok && m.LicenseModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetCreateExadbVmClusterDetailsLicenseModelEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingCreateExadbVmClusterDetailsShapeAttributeEnum(string(m.ShapeAttribute)); !ok && m.ShapeAttribute != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ShapeAttribute: %s. Supported values are: %s.", m.ShapeAttribute, strings.Join(GetCreateExadbVmClusterDetailsShapeAttributeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }
@@ -178,5 +184,47 @@ func GetCreateExadbVmClusterDetailsLicenseModelEnumStringValues() []string {
 // GetMappingCreateExadbVmClusterDetailsLicenseModelEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingCreateExadbVmClusterDetailsLicenseModelEnum(val string) (CreateExadbVmClusterDetailsLicenseModelEnum, bool) {
 	enum, ok := mappingCreateExadbVmClusterDetailsLicenseModelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// CreateExadbVmClusterDetailsShapeAttributeEnum Enum with underlying type: string
+type CreateExadbVmClusterDetailsShapeAttributeEnum string
+
+// Set of constants representing the allowable values for CreateExadbVmClusterDetailsShapeAttributeEnum
+const (
+	CreateExadbVmClusterDetailsShapeAttributeSmartStorage CreateExadbVmClusterDetailsShapeAttributeEnum = "SMART_STORAGE"
+	CreateExadbVmClusterDetailsShapeAttributeBlockStorage CreateExadbVmClusterDetailsShapeAttributeEnum = "BLOCK_STORAGE"
+)
+
+var mappingCreateExadbVmClusterDetailsShapeAttributeEnum = map[string]CreateExadbVmClusterDetailsShapeAttributeEnum{
+	"SMART_STORAGE": CreateExadbVmClusterDetailsShapeAttributeSmartStorage,
+	"BLOCK_STORAGE": CreateExadbVmClusterDetailsShapeAttributeBlockStorage,
+}
+
+var mappingCreateExadbVmClusterDetailsShapeAttributeEnumLowerCase = map[string]CreateExadbVmClusterDetailsShapeAttributeEnum{
+	"smart_storage": CreateExadbVmClusterDetailsShapeAttributeSmartStorage,
+	"block_storage": CreateExadbVmClusterDetailsShapeAttributeBlockStorage,
+}
+
+// GetCreateExadbVmClusterDetailsShapeAttributeEnumValues Enumerates the set of values for CreateExadbVmClusterDetailsShapeAttributeEnum
+func GetCreateExadbVmClusterDetailsShapeAttributeEnumValues() []CreateExadbVmClusterDetailsShapeAttributeEnum {
+	values := make([]CreateExadbVmClusterDetailsShapeAttributeEnum, 0)
+	for _, v := range mappingCreateExadbVmClusterDetailsShapeAttributeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateExadbVmClusterDetailsShapeAttributeEnumStringValues Enumerates the set of values in String for CreateExadbVmClusterDetailsShapeAttributeEnum
+func GetCreateExadbVmClusterDetailsShapeAttributeEnumStringValues() []string {
+	return []string{
+		"SMART_STORAGE",
+		"BLOCK_STORAGE",
+	}
+}
+
+// GetMappingCreateExadbVmClusterDetailsShapeAttributeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateExadbVmClusterDetailsShapeAttributeEnum(val string) (CreateExadbVmClusterDetailsShapeAttributeEnum, bool) {
+	enum, ok := mappingCreateExadbVmClusterDetailsShapeAttributeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

@@ -95,6 +95,9 @@ type DbSystemShapeSummary struct {
 
 	// The maximum number of CPU cores per database node that can be enabled for this shape. Only applicable to the flex Exadata shape, ExaCC Elastic shapes and VM Flex shapes.
 	AvailableCoreCountPerNode *int `mandatory:"false" json:"availableCoreCountPerNode"`
+
+	// The shapeAttributes of the DB system shape.
+	ShapeAttributes []string `mandatory:"false" json:"shapeAttributes"`
 }
 
 func (m DbSystemShapeSummary) String() string {
@@ -114,7 +117,7 @@ func (m DbSystemShapeSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetDbSystemShapeSummaryComputeModelEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }
@@ -128,6 +131,7 @@ const (
 	DbSystemShapeSummaryShapeTypeIntel        DbSystemShapeSummaryShapeTypeEnum = "INTEL"
 	DbSystemShapeSummaryShapeTypeIntelFlexX9  DbSystemShapeSummaryShapeTypeEnum = "INTEL_FLEX_X9"
 	DbSystemShapeSummaryShapeTypeAmpereFlexA1 DbSystemShapeSummaryShapeTypeEnum = "AMPERE_FLEX_A1"
+	DbSystemShapeSummaryShapeTypeStandardX86  DbSystemShapeSummaryShapeTypeEnum = "STANDARD_X86"
 )
 
 var mappingDbSystemShapeSummaryShapeTypeEnum = map[string]DbSystemShapeSummaryShapeTypeEnum{
@@ -135,6 +139,7 @@ var mappingDbSystemShapeSummaryShapeTypeEnum = map[string]DbSystemShapeSummarySh
 	"INTEL":          DbSystemShapeSummaryShapeTypeIntel,
 	"INTEL_FLEX_X9":  DbSystemShapeSummaryShapeTypeIntelFlexX9,
 	"AMPERE_FLEX_A1": DbSystemShapeSummaryShapeTypeAmpereFlexA1,
+	"STANDARD_X86":   DbSystemShapeSummaryShapeTypeStandardX86,
 }
 
 var mappingDbSystemShapeSummaryShapeTypeEnumLowerCase = map[string]DbSystemShapeSummaryShapeTypeEnum{
@@ -142,6 +147,7 @@ var mappingDbSystemShapeSummaryShapeTypeEnumLowerCase = map[string]DbSystemShape
 	"intel":          DbSystemShapeSummaryShapeTypeIntel,
 	"intel_flex_x9":  DbSystemShapeSummaryShapeTypeIntelFlexX9,
 	"ampere_flex_a1": DbSystemShapeSummaryShapeTypeAmpereFlexA1,
+	"standard_x86":   DbSystemShapeSummaryShapeTypeStandardX86,
 }
 
 // GetDbSystemShapeSummaryShapeTypeEnumValues Enumerates the set of values for DbSystemShapeSummaryShapeTypeEnum
@@ -160,6 +166,7 @@ func GetDbSystemShapeSummaryShapeTypeEnumStringValues() []string {
 		"INTEL",
 		"INTEL_FLEX_X9",
 		"AMPERE_FLEX_A1",
+		"STANDARD_X86",
 	}
 }
 

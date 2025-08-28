@@ -51,7 +51,7 @@ func (m SchemaDriftConfig) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataTypeChangeHandling: %s. Supported values are: %s.", m.DataTypeChangeHandling, strings.Join(GetSchemaDriftConfigDataTypeChangeHandlingEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

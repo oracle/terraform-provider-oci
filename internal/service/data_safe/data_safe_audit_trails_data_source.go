@@ -46,6 +46,10 @@ func DataSafeAuditTrailsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"target_database_group_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"target_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -119,6 +123,11 @@ func (s *DataSafeAuditTrailsDataSourceCrud) Get() error {
 
 	if status, ok := s.D.GetOkExists("status"); ok {
 		request.Status = oci_data_safe.ListAuditTrailsStatusEnum(status.(string))
+	}
+
+	if targetDatabaseGroupId, ok := s.D.GetOkExists("target_database_group_id"); ok {
+		tmp := targetDatabaseGroupId.(string)
+		request.TargetDatabaseGroupId = &tmp
 	}
 
 	if targetId, ok := s.D.GetOkExists("target_id"); ok {

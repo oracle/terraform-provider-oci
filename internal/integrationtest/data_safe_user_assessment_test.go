@@ -41,15 +41,34 @@ var (
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_data_safe_user_assessment.test_user_assessment.id}`}},
 	}
 
+	DataSafeUserAssessmentRepresentation = map[string]interface{}{
+		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"target_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_cloud_guard_target.test_target.id}`},
+		"description":             acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"display_name":            acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_assessment_scheduled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"schedule":                acctest.Representation{RepType: acctest.Optional, Create: `schedule`, Update: `schedule2`},
+		"target_type":             acctest.Representation{RepType: acctest.Optional, Create: `TARGET_DATABASE`},
+	}
 	userAssessmentRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"target_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.target_id}`},
 		"description":    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"target_type":    acctest.Representation{RepType: acctest.Optional, Create: `TARGET_DATABASE`},
 		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesUserAssessmentRepresentation},
 	}
-
+	userAssessmentOptionalRepresentation = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"target_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.target_database_group_id}`},
+		"description":    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"target_type":    acctest.Representation{RepType: acctest.Optional, Create: `TARGET_DATABASE_GROUP`},
+		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesUserAssessmentRepresentation},
+	}
 	userAssessmentChangeCompartmentRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"target_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.target_id}`},
@@ -77,6 +96,9 @@ func TestDataSafeUserAssessmentResource_basic(t *testing.T) {
 
 	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
+	targetGroupId := utils.GetEnvSettingWithBlankDefault("data_safe_target_group_ocid")
+	targetGroupIdVariableStr := fmt.Sprintf("variable \"target_database_group_id\" { default = \"%s\" }\n", targetGroupId)
 
 	targetId := utils.GetEnvSettingWithBlankDefault("data_safe_target_ocid")
 	targetIdVariableStr := fmt.Sprintf("variable \"target_id\" { default = \"%s\" }\n", targetId)
@@ -110,7 +132,36 @@ func TestDataSafeUserAssessmentResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + targetIdVariableStr,
 		},
-		// verify Create with optionals
+		// verify Create with TargetGroupId (optional param)
+		{
+			Config: config + compartmentIdVariableStr + targetGroupIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", acctest.Optional, acctest.Create, userAssessmentOptionalRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_assessment_scheduled", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_id"),
+				resource.TestCheckResourceAttr(resourceName, "target_type", "TARGET_DATABASE_GROUP"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttrSet(resourceName, "type"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + targetIdVariableStr,
+		},
+		// verify Create with other optional params
 		{
 			Config: config + compartmentIdVariableStr + targetIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", acctest.Optional, acctest.Create, userAssessmentRepresentation),
@@ -120,7 +171,7 @@ func TestDataSafeUserAssessmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "is_assessment_scheduled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_assessment_scheduled", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -136,7 +187,7 @@ func TestDataSafeUserAssessmentResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + targetIdVariableStr +
+			Config: config + compartmentIdUVariableStr + targetIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(userAssessmentRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -147,9 +198,10 @@ func TestDataSafeUserAssessmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "is_assessment_scheduled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_assessment_scheduled", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_id"),
+				resource.TestCheckResourceAttr(resourceName, "target_type", "TARGET_DATABASE"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "type"),
 
@@ -171,9 +223,10 @@ func TestDataSafeUserAssessmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "is_assessment_scheduled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_assessment_scheduled", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_id"),
+				resource.TestCheckResourceAttr(resourceName, "target_type", "TARGET_DATABASE"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 				resource.TestCheckResourceAttrSet(resourceName, "type"),
@@ -203,7 +256,7 @@ func TestDataSafeUserAssessmentResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "user_assessments.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "user_assessments.0.id"),
-				resource.TestCheckResourceAttr(datasourceName, "user_assessments.0.is_assessment_scheduled", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "user_assessments.0.is_assessment_scheduled", "false"),
 				resource.TestCheckResourceAttrSet(datasourceName, "user_assessments.0.is_baseline"),
 				resource.TestCheckResourceAttrSet(datasourceName, "user_assessments.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "user_assessments.0.time_created"),
@@ -226,7 +279,7 @@ func TestDataSafeUserAssessmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "is_assessment_scheduled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_assessment_scheduled", "false"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_baseline"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "target_ids.#", "1"),

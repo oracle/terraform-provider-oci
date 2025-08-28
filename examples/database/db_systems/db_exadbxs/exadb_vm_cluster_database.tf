@@ -4,13 +4,17 @@
 resource "oci_database_db_home" "test_db_home" {
   display_name = "ExampleExaDbVmDbHome"
   db_system_id = oci_database_exadb_vm_cluster.test_exadb_vm_cluster.id
-  db_version   = data.oci_database_gi_version_minor_versions.test_gi_minor_versions.gi_minor_versions[0].version
+  db_version   = data.oci_database_db_versions.test_db_versions.db_versions[0].version
 }
 
 resource "oci_database_database" "test_db1" {
   database {
     admin_password = var.test_db_password
     db_name        = "TFDB1"
+    storage_size_details {
+      data_storage_size_in_gb = 60
+      reco_storage_size_in_gbs = 40
+    }
   }
   db_home_id = oci_database_db_home.test_db_home.id
   source     = "NONE"
@@ -80,4 +84,23 @@ data "oci_database_pluggable_databases" "test_pdbs" {
 
 data "oci_database_pluggable_database" "test_db1_local_cloned_pdb" {
   pluggable_database_id = oci_database_pluggable_database.test_db1_local_cloned_pdb.id
+}
+
+data "oci_database_db_homes" "test_db_homes" {
+  compartment_id = var.compartment_ocid
+  vm_cluster_id = oci_database_exadb_vm_cluster.test_exadb_vm_cluster.id
+  state = "AVAILABLE"
+}
+
+data "oci_database_db_home" "test_db_home" {
+  db_home_id = oci_database_db_home.test_db_home.id
+}
+
+data "oci_database_databases" "test_databases" {
+  compartment_id = var.compartment_ocid
+  db_home_id = oci_database_db_home.test_db_home.id
+}
+
+data "oci_database_database" "test_db1" {
+  database_id = oci_database_database.test_db1.id
 }

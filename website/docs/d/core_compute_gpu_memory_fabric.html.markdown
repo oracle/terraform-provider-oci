@@ -34,6 +34,7 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `additional_data` - Additional data that can be exposed to the customer. Right now it will include the switch tray ids. 
+* `available_host_count` - The total number of available bare metal hosts located in this compute GPU memory fabric.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the compartment. This should always be the root compartment. 
 * `compute_hpc_island_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for Customer-unique HPC Island 
 * `compute_local_block_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for Customer-unique Local Block 

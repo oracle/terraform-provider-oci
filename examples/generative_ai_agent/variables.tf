@@ -109,6 +109,10 @@ variable "test_namespace" {}
 
 variable "test_prefix" {}
 
+variable "test_subnet_id" {}
+
+variable "test_agent_endpoint_id" {}
+
 variable "agent_endpoint_guardrail_config_content_moderation_config_input_guardrail_mode" {
   default = "DISABLE"
 }

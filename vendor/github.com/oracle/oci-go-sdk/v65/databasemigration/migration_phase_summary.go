@@ -45,7 +45,7 @@ func (m MigrationPhaseSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RecommendedAction: %s. Supported values are: %s.", m.RecommendedAction, strings.Join(GetOdmsPhaseActionsEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

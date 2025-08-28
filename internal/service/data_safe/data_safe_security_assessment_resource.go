@@ -41,6 +41,12 @@ func DataSafeSecurityAssessmentResource() *schema.Resource {
 			},
 
 			// Optional
+			"base_security_assessment_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -80,8 +86,108 @@ func DataSafeSecurityAssessmentResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"target_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"template_assessment_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"apply_template_trigger": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"compare_to_template_baseline_trigger": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"remove_template_trigger": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
 
 			// Computed
+			"baseline_assessment_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"checks": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"category": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"key": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"oneline": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"references": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"cis": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"gdpr": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"obp": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"stig": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"remarks": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"suggested_severity": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"title": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"ignored_assessment_ids": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -461,6 +567,10 @@ func DataSafeSecurityAssessmentResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"target_database_group_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"target_ids": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -488,10 +598,6 @@ func DataSafeSecurityAssessmentResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"type": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 		},
 	}
 }
@@ -501,7 +607,32 @@ func createDataSafeSecurityAssessment(d *schema.ResourceData, m interface{}) err
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.CreateResource(d, sync)
+	if e := tfresource.CreateResource(d, sync); e != nil {
+		return e
+	}
+
+	if _, ok := sync.D.GetOkExists("apply_template_trigger"); ok {
+		err := sync.ApplySecurityAssessmentTemplate()
+		if err != nil {
+			return err
+		}
+	}
+
+	if _, ok := sync.D.GetOkExists("compare_to_template_baseline_trigger"); ok {
+		err := sync.CompareToTemplateBaseline()
+		if err != nil {
+			return err
+		}
+	}
+
+	if _, ok := sync.D.GetOkExists("remove_template_trigger"); ok {
+		err := sync.RemoveSecurityAssessmentTemplate()
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+
 }
 
 func readDataSafeSecurityAssessment(d *schema.ResourceData, m interface{}) error {
@@ -517,7 +648,59 @@ func updateDataSafeSecurityAssessment(d *schema.ResourceData, m interface{}) err
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.UpdateResource(d, sync)
+	if _, ok := sync.D.GetOkExists("apply_template_trigger"); ok && sync.D.HasChange("apply_template_trigger") {
+		oldRaw, newRaw := sync.D.GetChange("apply_template_trigger")
+		oldValue := oldRaw.(int)
+		newValue := newRaw.(int)
+		if oldValue < newValue {
+			err := sync.ApplySecurityAssessmentTemplate()
+
+			if err != nil {
+				return err
+			}
+		} else {
+			sync.D.Set("apply_template_trigger", oldRaw)
+			return fmt.Errorf("new value of trigger should be greater than the old value")
+		}
+	}
+
+	if _, ok := sync.D.GetOkExists("compare_to_template_baseline_trigger"); ok && sync.D.HasChange("compare_to_template_baseline_trigger") {
+		oldRaw, newRaw := sync.D.GetChange("compare_to_template_baseline_trigger")
+		oldValue := oldRaw.(int)
+		newValue := newRaw.(int)
+		if oldValue < newValue {
+			err := sync.CompareToTemplateBaseline()
+
+			if err != nil {
+				return err
+			}
+		} else {
+			sync.D.Set("compare_to_template_baseline_trigger", oldRaw)
+			return fmt.Errorf("new value of trigger should be greater than the old value")
+		}
+	}
+
+	if _, ok := sync.D.GetOkExists("remove_template_trigger"); ok && sync.D.HasChange("remove_template_trigger") {
+		oldRaw, newRaw := sync.D.GetChange("remove_template_trigger")
+		oldValue := oldRaw.(int)
+		newValue := newRaw.(int)
+		if oldValue < newValue {
+			err := sync.RemoveSecurityAssessmentTemplate()
+
+			if err != nil {
+				return err
+			}
+		} else {
+			sync.D.Set("remove_template_trigger", oldRaw)
+			return fmt.Errorf("new value of trigger should be greater than the old value")
+		}
+	}
+
+	if err := tfresource.UpdateResource(d, sync); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func deleteDataSafeSecurityAssessment(d *schema.ResourceData, m interface{}) error {
@@ -567,6 +750,11 @@ func (s *DataSafeSecurityAssessmentResourceCrud) DeletedTarget() []string {
 func (s *DataSafeSecurityAssessmentResourceCrud) Create() error {
 	request := oci_data_safe.CreateSecurityAssessmentRequest{}
 
+	if baseSecurityAssessmentId, ok := s.D.GetOkExists("base_security_assessment_id"); ok {
+		tmp := baseSecurityAssessmentId.(string)
+		request.BaseSecurityAssessmentId = &tmp
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -607,6 +795,19 @@ func (s *DataSafeSecurityAssessmentResourceCrud) Create() error {
 	if targetId, ok := s.D.GetOkExists("target_id"); ok {
 		tmp := targetId.(string)
 		request.TargetId = &tmp
+	}
+
+	if targetType, ok := s.D.GetOkExists("target_type"); ok {
+		request.TargetType = oci_data_safe.SecurityAssessmentTargetTypeEnum(targetType.(string))
+	}
+
+	if templateAssessmentId, ok := s.D.GetOkExists("template_assessment_id"); ok {
+		tmp := templateAssessmentId.(string)
+		request.TemplateAssessmentId = &tmp
+	}
+
+	if type_, ok := s.D.GetOkExists("type"); ok {
+		request.Type = oci_data_safe.CreateSecurityAssessmentDetailsTypeEnum(type_.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
@@ -834,6 +1035,16 @@ func (s *DataSafeSecurityAssessmentResourceCrud) Delete() error {
 }
 
 func (s *DataSafeSecurityAssessmentResourceCrud) SetData() error {
+	if s.Res.BaselineAssessmentId != nil {
+		s.D.Set("baseline_assessment_id", *s.Res.BaselineAssessmentId)
+	}
+
+	checks := []interface{}{}
+	for _, item := range s.Res.Checks {
+		checks = append(checks, CheckToMap(item))
+	}
+	s.D.Set("checks", checks)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -908,10 +1119,20 @@ func (s *DataSafeSecurityAssessmentResourceCrud) SetData() error {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}
 
+	if s.Res.TargetDatabaseGroupId != nil {
+		s.D.Set("target_database_group_id", *s.Res.TargetDatabaseGroupId)
+	}
+
 	s.D.Set("target_ids", s.Res.TargetIds)
+
+	s.D.Set("target_type", s.Res.TargetType)
 
 	if s.Res.TargetVersion != nil {
 		s.D.Set("target_version", *s.Res.TargetVersion)
+	}
+
+	if s.Res.TemplateAssessmentId != nil {
+		s.D.Set("template_assessment_id", *s.Res.TemplateAssessmentId)
 	}
 
 	if s.Res.TimeCreated != nil {
@@ -931,6 +1152,142 @@ func (s *DataSafeSecurityAssessmentResourceCrud) SetData() error {
 	s.D.Set("type", s.Res.Type)
 
 	return nil
+}
+
+func (s *DataSafeSecurityAssessmentResourceCrud) ApplySecurityAssessmentTemplate() error {
+	request := oci_data_safe.ApplySecurityAssessmentTemplateRequest{}
+
+	idTmp := s.D.Id()
+	request.SecurityAssessmentId = &idTmp
+
+	if templateAssessmentId, ok := s.D.GetOkExists("template_assessment_id"); ok {
+		tmp := templateAssessmentId.(string)
+		request.TemplateAssessmentId = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+
+	// response, err := s.Client.ApplySecurityAssessmentTemplate(context.Background(), request)
+	//if err != nil {
+	//	return err
+	//}
+	//
+	//if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	//	return waitErr
+	//}
+	//
+	//val := s.D.Get("apply_template_trigger")
+	//s.D.Set("apply_template_trigger", val)
+
+	// s.Res = &response.SecurityAssessment
+	return nil
+}
+
+func (s *DataSafeSecurityAssessmentResourceCrud) CompareToTemplateBaseline() error {
+	request := oci_data_safe.CompareToTemplateBaselineRequest{}
+
+	if comparisonSecurityAssessmentId, ok := s.D.GetOkExists("comparison_security_assessment_id"); ok {
+		tmp := comparisonSecurityAssessmentId.(string)
+		request.ComparisonSecurityAssessmentId = &tmp
+	}
+
+	idTmp := s.D.Id()
+	request.SecurityAssessmentId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+
+	//response, err := s.Client.CompareToTemplateBaseline(context.Background(), request)
+	//if err != nil {
+	//	return err
+	//}
+	//
+	//if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	//	return waitErr
+	//}
+	//
+	//val := s.D.Get("compare_to_template_baseline_trigger")
+	//s.D.Set("compare_to_template_baseline_trigger", val)
+	//
+	//s.Res = &response.SecurityAssessment
+	return nil
+}
+
+func (s *DataSafeSecurityAssessmentResourceCrud) RemoveSecurityAssessmentTemplate() error {
+	request := oci_data_safe.RemoveSecurityAssessmentTemplateRequest{}
+
+	idTmp := s.D.Id()
+	request.SecurityAssessmentId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+
+	//response, err := s.Client.RemoveSecurityAssessmentTemplate(context.Background(), request)
+	//if err != nil {
+	//	return err
+	//}
+	//
+	//if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	//	return waitErr
+	//}
+	//
+	//val := s.D.Get("remove_template_trigger")
+	//s.D.Set("remove_template_trigger", val)
+	//
+	//s.Res = &response.SecurityAssessment
+	return nil
+}
+
+func CheckToMap(obj oci_data_safe.Check) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Category != nil {
+		result["category"] = string(*obj.Category)
+	}
+
+	if obj.Key != nil {
+		result["key"] = string(*obj.Key)
+	}
+
+	if obj.Oneline != nil {
+		result["oneline"] = string(*obj.Oneline)
+	}
+
+	if obj.References != nil {
+		result["references"] = []interface{}{ReferencesToMap(obj.References)}
+	}
+
+	if obj.Remarks != nil {
+		result["remarks"] = string(*obj.Remarks)
+	}
+
+	result["suggested_severity"] = string(obj.SuggestedSeverity)
+
+	if obj.Title != nil {
+		result["title"] = string(*obj.Title)
+	}
+
+	return result
+}
+
+func ReferencesToMap3(obj *oci_data_safe.References) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Cis != nil {
+		result["cis"] = string(*obj.Cis)
+	}
+
+	if obj.Gdpr != nil {
+		result["gdpr"] = string(*obj.Gdpr)
+	}
+
+	if obj.Obp != nil {
+		result["obp"] = string(*obj.Obp)
+	}
+
+	if obj.Stig != nil {
+		result["stig"] = string(*obj.Stig)
+	}
+
+	return result
 }
 
 func SectionStatisticsToMap(obj *oci_data_safe.SectionStatistics) map[string]interface{} {

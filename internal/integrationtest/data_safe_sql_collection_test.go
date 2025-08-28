@@ -45,6 +45,7 @@ var (
 		"sql_collection_id":                     acctest.Representation{RepType: acctest.Optional, Create: `${oci_data_safe_sql_collection.test_sql_collection.id}`},
 		"state":                                 acctest.Representation{RepType: acctest.Optional, Create: `COMPLETED`},
 		"target_id":                             acctest.Representation{RepType: acctest.Optional, Create: `${var.target_id}`},
+		"target_database_group_id":              acctest.Representation{RepType: acctest.Optional, Create: `${var.target_database_group_id}`},
 		"time_created_greater_than_or_equal_to": acctest.Representation{RepType: acctest.Optional, Create: `2018-01-01T00:00:00.000Z`},
 		"filter":                                acctest.RepresentationGroup{RepType: acctest.Required, Group: DataSafeSqlCollectionDataSourceFilterRepresentation}}
 	DataSafeSqlCollectionDataSourceFilterRepresentation = map[string]interface{}{
@@ -120,6 +121,9 @@ func TestDataSafeSqlCollectionResource_basic(t *testing.T) {
 
 	targetId := utils.GetEnvSettingWithBlankDefault("data_safe_target_ocid")
 	targetIdVariableStr := fmt.Sprintf("variable \"target_id\" { default = \"%s\" }\n", targetId)
+
+	targetGroupId := utils.GetEnvSettingWithBlankDefault("data_safe_target_group_ocid")
+	targetGroupIdVariableStr := fmt.Sprintf("variable \"target_database_group_id\" { default = \"%s\" }\n", targetGroupId)
 
 	dbUserName := utils.GetEnvSettingWithBlankDefault("data_safe_db_user_name")
 	dbUserNameVariableStr := fmt.Sprintf("variable \"db_user_name\" { default = \"%s\" }\n", dbUserName)
@@ -266,7 +270,7 @@ func TestDataSafeSqlCollectionResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_sql_collections", "test_sql_collections", acctest.Optional, acctest.Update, DataSafeSqlCollectionDataSourceRepresentation) +
-				compartmentIdVariableStr + targetIdVariableStr + dbUserNameVariableStr + DataSafeSqlCollectionResourceDependencies +
+				compartmentIdVariableStr + targetIdVariableStr + targetGroupIdVariableStr + dbUserNameVariableStr + DataSafeSqlCollectionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sql_collection", "test_sql_collection", acctest.Optional, acctest.Update, DataSafeSqlCollectionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "access_level", "RESTRICTED"),
@@ -276,6 +280,7 @@ func TestDataSafeSqlCollectionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "sql_collection_id"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "COMPLETED"),
+				resource.TestCheckResourceAttrSet(datasourceName, "target_database_group_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "target_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "time_created_greater_than_or_equal_to"),
 

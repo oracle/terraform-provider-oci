@@ -32,6 +32,14 @@ func DataSafeSecurityPolicyDeploymentSecurityPolicyEntryStatesDataSource() *sche
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"security_policy_entry_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"target_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"security_policy_entry_state_collection": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -51,6 +59,10 @@ func DataSafeSecurityPolicyDeploymentSecurityPolicyEntryStatesDataSource() *sche
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"deployment_status_details": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"entry_details": {
 										Type:     schema.TypeList,
 										Computed: true,
@@ -61,7 +73,15 @@ func DataSafeSecurityPolicyDeploymentSecurityPolicyEntryStatesDataSource() *sche
 												// Optional
 
 												// Computed
+												"datasafe_user_exclusion_status": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"entry_type": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"exclude_datasafe_user_failure_msg": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -76,6 +96,10 @@ func DataSafeSecurityPolicyDeploymentSecurityPolicyEntryStatesDataSource() *sche
 											},
 										},
 									},
+									"entry_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"id": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -85,6 +109,10 @@ func DataSafeSecurityPolicyDeploymentSecurityPolicyEntryStatesDataSource() *sche
 										Computed: true,
 									},
 									"security_policy_entry_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"target_id": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -131,6 +159,15 @@ func (s *DataSafeSecurityPolicyDeploymentSecurityPolicyEntryStatesDataSourceCrud
 	if securityPolicyEntryId, ok := s.D.GetOkExists("security_policy_entry_id"); ok {
 		tmp := securityPolicyEntryId.(string)
 		request.SecurityPolicyEntryId = &tmp
+	}
+
+	if securityPolicyEntryType, ok := s.D.GetOkExists("security_policy_entry_type"); ok {
+		request.SecurityPolicyEntryType = oci_data_safe.SecurityPolicyEntryStateSummaryEntryTypeEnum(securityPolicyEntryType.(string))
+	}
+
+	if targetId, ok := s.D.GetOkExists("target_id"); ok {
+		tmp := targetId.(string)
+		request.TargetId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
@@ -187,6 +224,14 @@ func (s *DataSafeSecurityPolicyDeploymentSecurityPolicyEntryStatesDataSourceCrud
 func EntryDetailsToMap(obj *oci_data_safe.EntryDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
+	case oci_data_safe.AuditPolicyEntryDetails:
+		result["entry_type"] = "AUDIT_POLICY"
+
+		result["datasafe_user_exclusion_status"] = string(v.DatasafeUserExclusionStatus)
+
+		if v.ExcludeDatasafeUserFailureMsg != nil {
+			result["exclude_datasafe_user_failure_msg"] = string(*v.ExcludeDatasafeUserFailureMsg)
+		}
 	case oci_data_safe.FirewallPolicyEntryDetails:
 		result["entry_type"] = "FIREWALL_POLICY"
 
@@ -210,6 +255,12 @@ func SecurityPolicyEntryStateSummaryToMap(obj oci_data_safe.SecurityPolicyEntryS
 
 	result["deployment_status"] = string(obj.DeploymentStatus)
 
+	if obj.DeploymentStatusDetails != nil {
+		result["deployment_status_details"] = string(*obj.DeploymentStatusDetails)
+	}
+
+	result["entry_type"] = string(obj.EntryType)
+
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
 	}
@@ -220,6 +271,10 @@ func SecurityPolicyEntryStateSummaryToMap(obj oci_data_safe.SecurityPolicyEntryS
 
 	if obj.SecurityPolicyEntryId != nil {
 		result["security_policy_entry_id"] = string(*obj.SecurityPolicyEntryId)
+	}
+
+	if obj.TargetId != nil {
+		result["target_id"] = string(*obj.TargetId)
 	}
 
 	return result

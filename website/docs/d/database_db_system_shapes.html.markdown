@@ -21,6 +21,7 @@ data "oci_database_db_system_shapes" "test_db_system_shapes" {
 
 	#Optional
 	availability_domain = var.db_system_shape_availability_domain
+	shape_attribute = var.db_system_shape_shape_attribute
 }
 ```
 
@@ -30,6 +31,7 @@ The following arguments are supported:
 
 * `availability_domain` - (Optional) The name of the Availability Domain.
 * `compartment_id` - (Required) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `shape_attribute` - (Optional) If provided and applicable, return DB System shape parameters based on the shapeAttribute provided
 
 
 ## Attributes Reference
@@ -65,6 +67,7 @@ The following attributes are exported:
 * `minimum_node_count` - The minimum number of compute servers available for this shape.
 * `name` - The name of the shape used for the DB system.
 * `shape` - Deprecated. Use `name` instead of `shape`.
+* `shape_attributes` - The shapeAttributes of the DB system shape. 
 * `shape_family` - The family of the shape used for the DB system.
 * `shape_type` - The shape type for the virtual machine DB system. Shape type is determined by CPU hardware. Valid values are `AMD` , `INTEL` or `INTEL_FLEX_X9`.
 

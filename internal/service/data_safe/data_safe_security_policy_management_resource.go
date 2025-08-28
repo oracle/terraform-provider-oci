@@ -24,11 +24,10 @@ func DataSafeSecurityPolicyManagementResource() *schema.Resource {
 		Update:   updateDataSafeSecurityPolicyManagement,
 		Delete:   deleteDataSafeSecurityPolicyManagement,
 		Schema: map[string]*schema.Schema{
-			// Optional
+			// // Required
 			"compartment_id": {
 				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
+				Required: true,
 			},
 			"target_id": {
 				Type:     schema.TypeString,
@@ -64,6 +63,10 @@ func DataSafeSecurityPolicyManagementResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"security_policy_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -89,6 +92,11 @@ func createDataSafeSecurityPolicyManagement(d *schema.ResourceData, m interface{
 	sync := &DataSafeSecurityPolicyManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
+
+	val, ok := sync.D.GetOk("target_id")
+	if !ok || val == "" {
+		return tfresource.CreateResource(d, sync)
+	}
 
 	err := sync.GetIdFromDbSecurityConfigWorkReq()
 	err1 := sync.Get()
@@ -118,7 +126,12 @@ func updateDataSafeSecurityPolicyManagement(d *schema.ResourceData, m interface{
 }
 
 func deleteDataSafeSecurityPolicyManagement(d *schema.ResourceData, m interface{}) error {
-	return nil
+	sync := &DataSafeSecurityPolicyManagementResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*client.OracleClients).DataSafeClient()
+	sync.DisableNotFoundRetries = true
+
+	return tfresource.DeleteResource(d, sync)
 }
 
 type DataSafeSecurityPolicyManagementResourceCrud struct {
@@ -191,7 +204,6 @@ func (s *DataSafeSecurityPolicyManagementResourceCrud) GetIdFromSecurityPolicyDe
 		tmp1 := &response.SecurityPolicyDeploymentCollection.Items[0]
 		securityPolicy.Id = tmp1.SecurityPolicyId
 	}
-
 	if securityPolicy.Id == nil {
 		return nil
 	}
@@ -245,6 +257,52 @@ func (s *DataSafeSecurityPolicyManagementResourceCrud) Get() error {
 	return nil
 }
 
+func (s *DataSafeSecurityPolicyManagementResourceCrud) Create() error {
+	request := oci_data_safe.CreateSecurityPolicyRequest{}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
+
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
+	if description, ok := s.D.GetOkExists("description"); ok {
+		tmp := description.(string)
+		request.Description = &tmp
+	}
+
+	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+		tmp := displayName.(string)
+		request.DisplayName = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+
+	response, err := s.Client.CreateSecurityPolicy(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	var identifier *string
+	identifier = response.Id
+	if identifier != nil {
+		s.D.SetId(*identifier)
+	}
+	return s.getSecurityPolicyFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+}
+
 func (s *DataSafeSecurityPolicyManagementResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
@@ -293,6 +351,30 @@ func (s *DataSafeSecurityPolicyManagementResourceCrud) Update() error {
 	return s.getSecurityPolicyFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
+func (s *DataSafeSecurityPolicyManagementResourceCrud) Delete() error {
+	request := oci_data_safe.DeleteSecurityPolicyRequest{}
+
+	if _, ok := s.D.GetOkExists("target_id"); ok {
+		return nil
+	}
+
+	tmp := s.D.Id()
+	request.SecurityPolicyId = &tmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+
+	response, err := s.Client.DeleteSecurityPolicy(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	// Wait until it finishes
+	_, delWorkRequestErr := securityPolicyWaitForWorkRequest(workId, "securitypolicy",
+		oci_data_safe.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
+	return delWorkRequestErr
+}
+
 func (s *DataSafeSecurityPolicyManagementResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
@@ -315,6 +397,8 @@ func (s *DataSafeSecurityPolicyManagementResourceCrud) SetData() error {
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
+
+	s.D.Set("security_policy_type", s.Res.SecurityPolicyType)
 
 	s.D.Set("state", s.Res.LifecycleState)
 

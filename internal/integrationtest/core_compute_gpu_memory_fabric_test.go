@@ -68,6 +68,7 @@ func TestCoreComputeGpuMemoryFabricResource_basic(t *testing.T) {
 				"oci_core_compute_gpu_memory_fabric", "test_compute_gpu_memory_fabric", acctest.Required, acctest.Create, CoreComputeGpuMemoryFabricSingularDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_gpu_memory_fabric_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "available_host_count"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_local_block_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),

@@ -24,4 +24,7 @@ data "oci_database_db_system_storage_performances" "test_db_system_storage_perfo
 
   #Optional
   database_edition = var.database_edition
+
+  #Optional
+  compartment_id = var.compartment_id
 }

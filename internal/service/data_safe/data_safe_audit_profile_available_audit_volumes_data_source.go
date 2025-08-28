@@ -56,42 +56,29 @@ func DataSafeAuditProfileAvailableAuditVolumesDataSource() *schema.Resource {
 									// Optional
 
 									// Computed
-									"items": {
-										Type:     schema.TypeList,
+									"audit_profile_id": {
+										Type:     schema.TypeString,
 										Computed: true,
-										Elem: &schema.Resource{
-											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
-
-												// Computed
-												"audit_profile_id": {
-													Type:     schema.TypeString,
-													Computed: true,
-												},
-												"month_in_consideration": {
-													Type:     schema.TypeString,
-													Computed: true,
-												},
-												"trail_location": {
-													Type:     schema.TypeString,
-													Computed: true,
-												},
-												"volume": {
-													Type:     schema.TypeString,
-													Computed: true,
-												},
-												"audit_trail_id": {
-													Type:     schema.TypeString,
-													Computed: true,
-												},
-												"database_unique_name": {
-													Type:     schema.TypeString,
-													Computed: true,
-												},
-											},
-										},
+									},
+									"month_in_consideration": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"trail_location": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"volume": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"audit_trail_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"database_unique_name": {
+										Type:     schema.TypeString,
+										Computed: true,
 									},
 								},
 							},

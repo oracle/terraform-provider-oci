@@ -30,6 +30,7 @@ resource "oci_data_safe_user_assessment" "test_user_assessment" {
 	freeform_tags = {"Department"= "Finance"}
 	is_assessment_scheduled = var.user_assessment_is_assessment_scheduled
 	schedule = var.user_assessment_schedule
+	target_type = var.user_assessment_target_type
 }
 ```
 
@@ -46,7 +47,8 @@ The following arguments are supported:
 * `schedule` - (Optional) (Updatable) To schedule the assessment for saving periodically, specify the schedule in this attribute. Create or schedule one assessment per compartment. If not defined, the assessment runs immediately. Format - <version-string>;<version-specific-schedule>
 
 	Allowed version strings - "v1" v1's version specific schedule -<ss> <mm> <hh> <day-of-week> <day-of-month> Each of the above fields potentially introduce constraints. A workrequest is created only when clock time satisfies all the constraints. Constraints introduced: 1. seconds = <ss> (So, the allowed range for <ss> is [0, 59]) 2. minutes = <mm> (So, the allowed range for <mm> is [0, 59]) 3. hours = <hh> (So, the allowed range for <hh> is [0, 23]) <day-of-week> can be either '*' (without quotes or a number between 1(Monday) and 7(Sunday)) 4. No constraint introduced when it is '*'. When not, day of week must equal the given value <day-of-month> can be either '*' (without quotes or a number between 1 and 28) 5. No constraint introduced when it is '*'. When not, day of month must equal the given value 
-* `target_id` - (Required) The OCID of the target database on which the user assessment is to be run.
+* `target_id` - (Required) The OCID of the target database or target database group on which user assessment is to be run.
+* `target_type` - (Optional) The type of user assessment resource whether it is individual or group resource. For individual target use type TARGET_DATABASE and for group resource use type TARGET_DATABASE_GROUP. If not provided, TARGET_DATABASE would be used as default value.
 
 
 ** IMPORTANT **
@@ -76,7 +78,9 @@ The following attributes are exported:
 * `state` - The current state of the user assessment.
 * `statistics` - Map that contains maps of values. Example: `{"Operations": {"CostCenter": "42"}}` 
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
+* `target_database_group_id` - The OCID of target database group.
 * `target_ids` - Array of database target OCIDs.
+* `target_type` - Indicates whether the user assessment is for a target database or a target database group.
 * `time_created` - The date and time the user assessment was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `time_last_assessed` - The date and time the user assessment was last executed, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `time_updated` - The date and time the user assessment was last updated, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).

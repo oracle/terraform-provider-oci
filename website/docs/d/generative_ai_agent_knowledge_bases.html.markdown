@@ -10,8 +10,6 @@ description: |-
 # Data Source: oci_generative_ai_agent_knowledge_bases
 This data source provides the list of Knowledge Bases in Oracle Cloud Infrastructure Generative Ai Agent service.
 
-**ListKnowledgeBases**
-
 Gets a list of knowledge bases.
 
 
@@ -52,42 +50,31 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the knowledge base.
-* `index_config` - **IndexConfig**
-
-	The index configuration of Knowledge bases. 
+* `index_config` - The index configuration of Knowledge bases. 
 	* `cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OpenSearch Cluster.
-	* `database_connection` - **DatabaseConnection**
-
-		The connection type for Databases. 
+	* `database_connection` - The connection type for Databases. 
 		* `connection_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Tools Connection.
-		* `connection_type` - The type of Database connection. The allowed values are:
-			* `DATABASE_TOOL_CONNECTION`: This allows the service to connect to a vector store via a Database Tools Connection. 
+		* `connection_type` - The type of Database connection. 
 	* `database_functions` - Array of Database functions to be used.
 		* `name` - The name of the Database function. 
-	* `index_config_type` - The type of index. The allowed values are:
-		* `DEFAULT_INDEX_CONFIG`: DefaultIndexConfig allows the service to create and manage vector store on behalf of the customer.
-		* `OCI_OPEN_SEARCH_INDEX_CONFIG`: OciOpenSearchIndexConfig allows customer to configure their OpenSearch cluster.
-		* `OCI_DATABASE_CONFIG`: OciDatabaseConfig allows customer to configure their Database. 
+	* `index_config_type` - The type of index. 
 	* `indexes` - Index configuration for open search.
 		* `name` - The index name in opensearch.
-		* `schema` - **IndexSchema**
-
-			The index schema details. 
+		* `schema` - The index schema details. 
 			* `body_key` - Body key name.
 			* `embedding_body_key` - Field within customer managed Oracle Cloud Infrastructure OpenSearch document containing the vector embedding for queries.
 			* `title_key` - Title key that stores the Title of a document, if available.
 			* `url_key` - URL key that stores the URL of a document, if available.
-	* `secret_detail` - **SecretDetail**
-
-		The details of configured security configuration on OpenSearch. 
+	* `secret_detail` - The details of configured security configuration on OpenSearch. 
 		* `client_id` - The IDCS Connect clientId.
 		* `idcs_url` - The URL represent authentication url of the IDCS.
 		* `scope_url` - Fully qualified scope url
-		* `type` - The type of OpenID. The allowed values are:
-			* `IDCS_SECRET`: The OpenID configuration used is OpenSearch is IDCS.
-			* `BASIC_AUTH_SECRET`: Basic authentication use for OpenSearch 
+		* `type` - The type of OpenID. 
 		* `vault_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret for basic authentication.
 	* `should_enable_hybrid_search` - Whether to enable Hybrid search in service managed OpenSearch.
+* `knowledge_base_statistics` - Statistics for Default Knowledge Base.
+	* `size_in_bytes` - Knowledge Base size in bytes.
+	* `total_ingested_files` - Total number of ingested files in Knowledge Base.
 * `lifecycle_details` - A message that describes the current state of the knowledge base in more detail. For example, can be used to provide actionable information for a resource in the Failed state. 
 * `state` - The current state of the knowledge base.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 

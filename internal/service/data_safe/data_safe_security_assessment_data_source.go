@@ -66,6 +66,16 @@ func (s *DataSafeSecurityAssessmentDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.BaselineAssessmentId != nil {
+		s.D.Set("baseline_assessment_id", *s.Res.BaselineAssessmentId)
+	}
+
+	checks := []interface{}{}
+	for _, item := range s.Res.Checks {
+		checks = append(checks, CheckToMap(item))
+	}
+	s.D.Set("checks", checks)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -140,10 +150,20 @@ func (s *DataSafeSecurityAssessmentDataSourceCrud) SetData() error {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}
 
+	if s.Res.TargetDatabaseGroupId != nil {
+		s.D.Set("target_database_group_id", *s.Res.TargetDatabaseGroupId)
+	}
+
 	s.D.Set("target_ids", s.Res.TargetIds)
+
+	s.D.Set("target_type", s.Res.TargetType)
 
 	if s.Res.TargetVersion != nil {
 		s.D.Set("target_version", *s.Res.TargetVersion)
+	}
+
+	if s.Res.TemplateAssessmentId != nil {
+		s.D.Set("template_assessment_id", *s.Res.TemplateAssessmentId)
 	}
 
 	if s.Res.TimeCreated != nil {

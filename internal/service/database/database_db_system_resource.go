@@ -453,6 +453,16 @@ func DatabaseDbSystemResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"compute_count": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
+			"compute_model": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"cpu_core_count": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -1197,6 +1207,15 @@ func (s *DatabaseDbSystemResourceCrud) Update() error {
 		}
 	}
 
+	if computeCount, ok := s.D.GetOkExists("compute_count"); ok {
+		tmp := computeCount.(int)
+		request.ComputeCount = &tmp
+	}
+
+	if computeModel, ok := s.D.GetOkExists("compute_model"); ok {
+		request.ComputeModel = oci_database.UpdateDbSystemDetailsComputeModelEnum(computeModel.(string))
+	}
+
 	if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok && s.D.HasChange("cpu_core_count") {
 		tmp := cpuCoreCount.(int)
 		request.CpuCoreCount = &tmp
@@ -1374,6 +1393,12 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
+
+	if s.Res.ComputeCount != nil {
+		s.D.Set("compute_count", *s.Res.ComputeCount)
+	}
+
+	s.D.Set("compute_model", s.Res.ComputeModel)
 
 	if s.Res.CpuCoreCount != nil {
 		s.D.Set("cpu_core_count", *s.Res.CpuCoreCount)
@@ -2576,6 +2601,13 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
 		}
+		if computeCount, ok := s.D.GetOkExists("compute_count"); ok {
+			tmp := computeCount.(int)
+			details.ComputeCount = &tmp
+		}
+		if computeModel, ok := s.D.GetOkExists("compute_model"); ok {
+			details.ComputeModel = oci_database.LaunchDbSystemBaseComputeModelEnum(computeModel.(string))
+		}
 		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
 			tmp := cpuCoreCount.(int)
 			details.CpuCoreCount = &tmp
@@ -2764,6 +2796,13 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
 		}
+		if computeCount, ok := s.D.GetOkExists("compute_count"); ok {
+			tmp := computeCount.(int)
+			details.ComputeCount = &tmp
+		}
+		if computeModel, ok := s.D.GetOkExists("compute_model"); ok {
+			details.ComputeModel = oci_database.LaunchDbSystemBaseComputeModelEnum(computeModel.(string))
+		}
 		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
 			tmp := cpuCoreCount.(int)
 			details.CpuCoreCount = &tmp
@@ -2949,6 +2988,13 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
+		}
+		if computeCount, ok := s.D.GetOkExists("compute_count"); ok {
+			tmp := computeCount.(int)
+			details.ComputeCount = &tmp
+		}
+		if computeModel, ok := s.D.GetOkExists("compute_model"); ok {
+			details.ComputeModel = oci_database.LaunchDbSystemBaseComputeModelEnum(computeModel.(string))
 		}
 		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
 			tmp := cpuCoreCount.(int)
@@ -3137,6 +3183,13 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
+		}
+		if computeCount, ok := s.D.GetOkExists("compute_count"); ok {
+			tmp := computeCount.(int)
+			details.ComputeCount = &tmp
+		}
+		if computeModel, ok := s.D.GetOkExists("compute_model"); ok {
+			details.ComputeModel = oci_database.LaunchDbSystemBaseComputeModelEnum(computeModel.(string))
 		}
 		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
 			tmp := cpuCoreCount.(int)

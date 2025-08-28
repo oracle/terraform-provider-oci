@@ -22,7 +22,9 @@ var (
 		"group_by":                  acctest.Representation{RepType: acctest.Optional, Create: `targetId`},
 		"is_common":                 acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"sensitive_data_model_id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_data_safe_sensitive_data_model.test_sensitive_data_model.id}`},
+		"sensitive_type_group_id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_data_safe_sensitive_type_group.test_sensitive_type_group.id}`},
 		"sensitive_type_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_data_safe_sensitive_type.test_sensitive_type.id}`},
+		"target_database_group_id":  acctest.Representation{RepType: acctest.Optional, Create: `${oci_data_safe_target_database_group.test_target_database_group.id}`},
 		"target_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_cloud_guard_target.test_target.id}`},
 	}
 
@@ -38,7 +40,6 @@ func TestDataSafeDiscoveryAnalyticResource_basic(t *testing.T) {
 
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-
 	datasourceName := "data.oci_data_safe_discovery_analytics.test_discovery_analytics"
 
 	acctest.SaveConfigContent("", "", "", t)

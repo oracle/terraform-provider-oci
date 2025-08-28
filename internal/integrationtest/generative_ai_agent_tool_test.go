@@ -26,10 +26,14 @@ var (
 	GenerativeAiAgentToolRagRequiredOnlyResource             = acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_tool", "test_tool", acctest.Required, acctest.Create, GenerativeAiAgentRagToolRepresentation)
 	GenerativeAiAgentToolSqlRequiredOnlyResource             = acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_tool", "test_tool", acctest.Required, acctest.Create, GenerativeAiAgentSqlToolRepresentation)
 	GenerativeAiAgentToolFunctionCallingRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_tool", "test_tool", acctest.Required, acctest.Create, GenerativeAiAgentFunctionCallingToolRepresentation)
+	GenerativeAiAgentToolHttpEndpointRequiredOnlyResource    = acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_tool", "test_tool", acctest.Required, acctest.Create, GenerativeAiAgentHttpEndpointToolRepresentation)
+	GenerativeAiAgentToolAgentRequiredOnlyResource           = acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_tool", "test_tool", acctest.Required, acctest.Create, GenerativeAiAgentAgentToolRepresentation)
 
 	GenerativeAiAgentToolRagResourceConfig             = acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_tool", "test_tool", acctest.Optional, acctest.Update, GenerativeAiAgentRagToolRepresentation)
 	GenerativeAiAgentToolSqlResourceConfig             = acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_tool", "test_tool", acctest.Optional, acctest.Update, GenerativeAiAgentSqlToolRepresentation)
 	GenerativeAiAgentToolFunctionCallingResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_tool", "test_tool", acctest.Optional, acctest.Update, GenerativeAiAgentFunctionCallingToolRepresentation)
+	GenerativeAiAgentToolHttpEndpointResourceConfig    = acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_tool", "test_tool", acctest.Optional, acctest.Update, GenerativeAiAgentHttpEndpointToolRepresentation)
+	GenerativeAiAgentToolAgentResourceConfig           = acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_tool", "test_tool", acctest.Optional, acctest.Update, GenerativeAiAgentAgentToolRepresentation)
 
 	GenerativeAiAgentToolSingularDataSourceRepresentation = map[string]interface{}{
 		"tool_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_generative_ai_agent_tool.test_tool.id}`},
@@ -73,6 +77,22 @@ var (
 		"display_name":  acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
+	GenerativeAiAgentHttpEndpointToolRepresentation = map[string]interface{}{
+		"agent_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.agent_id}`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"description":    acctest.Representation{RepType: acctest.Required, Create: `description`, Update: `description2`},
+		"tool_config":    acctest.RepresentationGroup{RepType: acctest.Required, Group: GenerativeAiAgentTooHttpEndpointToolConfigRepresentation},
+		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+	}
+	GenerativeAiAgentAgentToolRepresentation = map[string]interface{}{
+		"agent_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.agent_id}`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"description":    acctest.Representation{RepType: acctest.Required, Create: `description`, Update: `description2`},
+		"tool_config":    acctest.RepresentationGroup{RepType: acctest.Required, Group: GenerativeAiAgentAgentToolConfigRepresentation},
+		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+	}
 	GenerativeAiAgentToolRagToolConfigRepresentation = map[string]interface{}{
 		"tool_config_type":             acctest.Representation{RepType: acctest.Required, Create: `RAG_TOOL_CONFIG`},
 		"generation_llm_customization": acctest.RepresentationGroup{RepType: acctest.Required, Group: GenerativeAiAgentToolToolConfigGenerationLlmCustomizationRepresentation},
@@ -81,6 +101,26 @@ var (
 	GenerativeAiAgentToolFunctionCallingToolConfigRepresentation = map[string]interface{}{
 		"tool_config_type": acctest.Representation{RepType: acctest.Required, Create: `FUNCTION_CALLING_TOOL_CONFIG`},
 		"function":         acctest.RepresentationGroup{RepType: acctest.Required, Group: GenerativeAiAgentToolToolConfigFunctionRepresentation},
+	}
+	GenerativeAiAgentTooHttpEndpointToolConfigRepresentation = map[string]interface{}{
+		"tool_config_type":          acctest.Representation{RepType: acctest.Required, Create: `HTTP_ENDPOINT_TOOL_CONFIG`},
+		"subnet_id":                 acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
+		"api_schema":                acctest.RepresentationGroup{RepType: acctest.Required, Group: GenerativeAiAgentToolToolConfigApiSchemaRepresentation},
+		"http_endpoint_auth_config": acctest.RepresentationGroup{RepType: acctest.Required, Group: GenerativeAiAgentToolToolConfigAuthConfigRepresentation},
+	}
+	GenerativeAiAgentAgentToolConfigRepresentation = map[string]interface{}{
+		"tool_config_type":  acctest.Representation{RepType: acctest.Required, Create: `AGENT_TOOL_CONFIG`},
+		"agent_endpoint_id": acctest.Representation{RepType: acctest.Required, Create: `${var.agent_endpoint_id}`, Update: `${var.agent_endpoint_id_for_update}`},
+	}
+	GenerativeAiAgentToolToolConfigAuthConfigRepresentation = map[string]interface{}{
+		"http_endpoint_auth_sources": acctest.RepresentationGroup{RepType: acctest.Required, Group: GenerativeAiAgentToolToolConfigAuthSourcesRepresentation},
+	}
+	GenerativeAiAgentToolToolConfigAuthSourcesRepresentation = map[string]interface{}{
+		"http_endpoint_auth_scope":        acctest.Representation{RepType: acctest.Required, Create: `AGENT`},
+		"http_endpoint_auth_scope_config": acctest.RepresentationGroup{RepType: acctest.Required, Group: GenerativeAiAgentToolToolConfigAuthScopeConfigRepresentation},
+	}
+	GenerativeAiAgentToolToolConfigAuthScopeConfigRepresentation = map[string]interface{}{
+		"http_endpoint_auth_scope_config_type": acctest.Representation{RepType: acctest.Required, Create: `HTTP_ENDPOINT_NO_AUTH_SCOPE_CONFIG`},
 	}
 	GenerativeAiAgentToolSqlToolConfigRepresentation = map[string]interface{}{
 		"tool_config_type":              acctest.Representation{RepType: acctest.Required, Create: `SQL_TOOL_CONFIG`},
@@ -110,6 +150,10 @@ var (
 		"description": acctest.Representation{RepType: acctest.Required, Create: `description`, Update: `description2`},
 		"name":        acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"parameters":  acctest.Representation{RepType: acctest.Required, Create: map[string]string{"parameters": "parameters"}, Update: map[string]string{"parameters2": "parameters2"}},
+	}
+	GenerativeAiAgentToolToolConfigApiSchemaRepresentation = map[string]interface{}{
+		"api_schema_input_location_type": acctest.Representation{RepType: acctest.Required, Create: `INLINE`},
+		"content":                        acctest.Representation{RepType: acctest.Required, Create: `{\"openapi\": \"3.0.0\",\"info\": {\"title\": \"Minimal API\",\"version\": \"1.0\"},\"servers\": [{\"url\": \"https://example.com/api\"}],\"paths\": {\"/ping\": {\"get\": {\"summary\": \"Ping for health check\",\"responses\": {\"200\": {\"description\": \"OK\"}}}}}}`, Update: `{\"openapi\": \"3.0.0\",\"info\": {\"title\": \"Minimal API\",\"version\": \"1.0\"},\"servers\": [{\"url\": \"https://updated.com/api\"}],\"paths\": {\"/ping\": {\"get\": {\"summary\": \"Ping for health check\",\"responses\": {\"200\": {\"description\": \"OK\"}}}}}}`},
 	}
 )
 
@@ -567,6 +611,278 @@ func TestGenerativeAiAgentToolResource_fc(t *testing.T) {
 		// verify FC resource import
 		{
 			Config:                  config + GenerativeAiAgentToolFunctionCallingRequiredOnlyResource,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
+		},
+	})
+}
+
+func TestGenerativeAiAgentToolResource_http(t *testing.T) {
+	httpreplay.SetScenario("TestGenerativeAiAgentToolResource_http")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	// To set the agent id for creating agent endpoint add TF_VAR env var for agent_id
+	agentId := utils.GetEnvSettingWithBlankDefault("agent_id")
+	agentIdVariableStr := fmt.Sprintf("variable \"agent_id\" { default = \"%s\" }\n", agentId)
+	subnetId := utils.GetEnvSettingWithBlankDefault("subnet_id")
+	subnetIdVariableStr := fmt.Sprintf("variable \"subnet_id\" { default = \"%s\" }\n", subnetId)
+
+	resourceName := "oci_generative_ai_agent_tool.test_tool"
+	datasourceName := "data.oci_generative_ai_agent_tools.test_tools"
+	singularDatasourceName := "data.oci_generative_ai_agent_tool.test_tool"
+
+	var resId, resId2 string
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+agentIdVariableStr+subnetIdVariableStr+
+		acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_tool", "test_tool", acctest.Optional, acctest.Create, GenerativeAiAgentHttpEndpointToolRepresentation), "generativeaiagent", "tool", t)
+
+	acctest.ResourceTest(t, testAccCheckGenerativeAiAgentToolDestroy, []resource.TestStep{
+		// verify http endpoint tool create
+		{
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + subnetIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_tool", "test_tool", acctest.Required, acctest.Create, GenerativeAiAgentHttpEndpointToolRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "agent_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "tool_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "tool_config.0.tool_config_type", "HTTP_ENDPOINT_TOOL_CONFIG"),
+				resource.TestCheckResourceAttr(resourceName, "tool_config.0.subnet_id", subnetId),
+				resource.TestCheckResourceAttr(resourceName, "tool_config.0.api_schema.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "tool_config.0.api_schema.0.api_schema_input_location_type", "INLINE"),
+				resource.TestCheckResourceAttr(resourceName, "tool_config.0.api_schema.0.content", `{"openapi": "3.0.0","info": {"title": "Minimal API","version": "1.0"},"servers": [{"url": "https://example.com/api"}],"paths": {"/ping": {"get": {"summary": "Ping for health check","responses": {"200": {"description": "OK"}}}}}}`),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// delete tool before next create
+		{
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + subnetIdVariableStr,
+		},
+		// verify http endpoint tool create with optionals
+		{
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + subnetIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_tool", "test_tool", acctest.Optional, acctest.Create, GenerativeAiAgentHttpEndpointToolRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "agent_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "tool_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "tool_config.0.tool_config_type", "HTTP_ENDPOINT_TOOL_CONFIG"),
+				resource.TestCheckResourceAttr(resourceName, "tool_config.0.subnet_id", subnetId),
+				resource.TestCheckResourceAttr(resourceName, "tool_config.0.api_schema.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "tool_config.0.api_schema.0.api_schema_input_location_type", "INLINE"),
+				resource.TestCheckResourceAttr(resourceName, "tool_config.0.api_schema.0.content", `{"openapi": "3.0.0","info": {"title": "Minimal API","version": "1.0"},"servers": [{"url": "https://example.com/api"}],"paths": {"/ping": {"get": {"summary": "Ping for health check","responses": {"200": {"description": "OK"}}}}}}`),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// verify http endpoint tool updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + subnetIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_tool", "test_tool", acctest.Optional, acctest.Update, GenerativeAiAgentHttpEndpointToolRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "agent_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "tool_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "tool_config.0.tool_config_type", "HTTP_ENDPOINT_TOOL_CONFIG"),
+				resource.TestCheckResourceAttr(resourceName, "tool_config.0.subnet_id", subnetId),
+				resource.TestCheckResourceAttr(resourceName, "tool_config.0.api_schema.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "tool_config.0.api_schema.0.api_schema_input_location_type", "INLINE"),
+				resource.TestCheckResourceAttr(resourceName, "tool_config.0.api_schema.0.content", `{"openapi": "3.0.0","info": {"title": "Minimal API","version": "1.0"},"servers": [{"url": "https://updated.com/api"}],"paths": {"/ping": {"get": {"summary": "Ping for health check","responses": {"200": {"description": "OK"}}}}}}`),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify http endpoint tool datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_generative_ai_agent_tools", "test_tools", acctest.Optional, acctest.Update, GenerativeAiAgentToolDataSourceRepresentation) +
+				compartmentIdVariableStr + agentIdVariableStr + subnetIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_tool", "test_tool", acctest.Optional, acctest.Update, GenerativeAiAgentHttpEndpointToolRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "agent_id", agentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+
+				resource.TestCheckResourceAttr(datasourceName, "tool_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "tool_collection.0.items.#", "1"),
+			),
+		},
+		// verify http endpoint tool singular datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_generative_ai_agent_tool", "test_tool", acctest.Required, acctest.Create, GenerativeAiAgentToolSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + agentIdVariableStr + subnetIdVariableStr + GenerativeAiAgentToolHttpEndpointResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "tool_id"),
+
+				resource.TestCheckResourceAttrSet(resourceName, "agent_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "tool_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "tool_config.0.tool_config_type", "HTTP_ENDPOINT_TOOL_CONFIG"),
+				resource.TestCheckResourceAttr(resourceName, "tool_config.0.subnet_id", subnetId),
+				resource.TestCheckResourceAttr(resourceName, "tool_config.0.api_schema.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "tool_config.0.api_schema.0.api_schema_input_location_type", "INLINE"),
+				resource.TestCheckResourceAttr(resourceName, "tool_config.0.api_schema.0.content", `{"openapi": "3.0.0","info": {"title": "Minimal API","version": "1.0"},"servers": [{"url": "https://updated.com/api"}],"paths": {"/ping": {"get": {"summary": "Ping for health check","responses": {"200": {"description": "OK"}}}}}}`),
+			),
+		},
+		// verify http endpoint resource import
+		{
+			Config:                  config + GenerativeAiAgentToolHttpEndpointRequiredOnlyResource,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
+		},
+	})
+}
+
+func TestGenerativeAiAgentToolResource_agent(t *testing.T) {
+	httpreplay.SetScenario("TestGenerativeAiAgentToolResource_agent")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	// To set the agent id for creating agent endpoint add TF_VAR env var for agent_id
+	agentId := utils.GetEnvSettingWithBlankDefault("agent_id")
+	agentIdVariableStr := fmt.Sprintf("variable \"agent_id\" { default = \"%s\" }\n", agentId)
+	agentEndpointId := utils.GetEnvSettingWithBlankDefault("agent_endpoint_id")
+	agentEndpointIdVariableStr := fmt.Sprintf("variable \"agent_endpoint_id\" { default = \"%s\" }\n", agentEndpointId)
+	agentEndpointIdForUpdate := utils.GetEnvSettingWithBlankDefault("agent_endpoint_id_for_update")
+	agentEndpointIdForUpdateVariableStr := fmt.Sprintf("variable \"agent_endpoint_id_for_update\" { default = \"%s\" }\n", agentEndpointIdForUpdate)
+
+	resourceName := "oci_generative_ai_agent_tool.test_tool"
+	datasourceName := "data.oci_generative_ai_agent_tools.test_tools"
+	singularDatasourceName := "data.oci_generative_ai_agent_tool.test_tool"
+
+	var resId, resId2 string
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+agentIdVariableStr+agentEndpointIdVariableStr+agentEndpointIdForUpdateVariableStr+
+		acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_tool", "test_tool", acctest.Optional, acctest.Create, GenerativeAiAgentAgentToolRepresentation), "generativeaiagent", "tool", t)
+
+	acctest.ResourceTest(t, testAccCheckGenerativeAiAgentToolDestroy, []resource.TestStep{
+		// verify agent tool create
+		{
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + agentEndpointIdVariableStr + agentEndpointIdForUpdateVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_tool", "test_tool", acctest.Required, acctest.Create, GenerativeAiAgentAgentToolRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "agent_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "tool_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "tool_config.0.tool_config_type", "AGENT_TOOL_CONFIG"),
+				resource.TestCheckResourceAttr(resourceName, "tool_config.0.agent_endpoint_id", agentEndpointId),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// delete tool before next create
+		{
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + agentEndpointIdVariableStr + agentEndpointIdForUpdateVariableStr,
+		},
+		// verify http endpoint tool create with optionals
+		{
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + agentEndpointIdVariableStr + agentEndpointIdForUpdateVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_tool", "test_tool", acctest.Optional, acctest.Create, GenerativeAiAgentAgentToolRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "agent_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "tool_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "tool_config.0.tool_config_type", "AGENT_TOOL_CONFIG"),
+				resource.TestCheckResourceAttr(resourceName, "tool_config.0.agent_endpoint_id", agentEndpointId),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// verify http endpoint tool updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + agentEndpointIdVariableStr + agentEndpointIdForUpdateVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_tool", "test_tool", acctest.Optional, acctest.Update, GenerativeAiAgentAgentToolRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "agent_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "tool_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "tool_config.0.tool_config_type", "AGENT_TOOL_CONFIG"),
+				resource.TestCheckResourceAttr(resourceName, "tool_config.0.agent_endpoint_id", agentEndpointIdForUpdate),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify http endpoint tool datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_generative_ai_agent_tools", "test_tools", acctest.Optional, acctest.Update, GenerativeAiAgentToolDataSourceRepresentation) +
+				compartmentIdVariableStr + agentIdVariableStr + agentEndpointIdVariableStr + agentEndpointIdForUpdateVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_tool", "test_tool", acctest.Optional, acctest.Update, GenerativeAiAgentAgentToolRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "agent_id", agentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+
+				resource.TestCheckResourceAttr(datasourceName, "tool_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "tool_collection.0.items.#", "1"),
+			),
+		},
+		// verify http endpoint tool singular datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_generative_ai_agent_tool", "test_tool", acctest.Required, acctest.Create, GenerativeAiAgentToolSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + agentIdVariableStr + agentEndpointIdVariableStr + agentEndpointIdForUpdateVariableStr + GenerativeAiAgentToolAgentResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "tool_id"),
+
+				resource.TestCheckResourceAttrSet(resourceName, "agent_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "tool_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "tool_config.0.tool_config_type", "AGENT_TOOL_CONFIG"),
+				resource.TestCheckResourceAttr(resourceName, "tool_config.0.agent_endpoint_id", agentEndpointIdForUpdate),
+			),
+		},
+		// verify http endpoint resource import
+		{
+			Config:                  config + GenerativeAiAgentToolAgentRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

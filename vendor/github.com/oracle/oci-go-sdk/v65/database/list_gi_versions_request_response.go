@@ -39,6 +39,9 @@ type ListGiVersionsRequest struct {
 	// If provided, filters the results for the specified resource Id.
 	ResourceId *string `mandatory:"false" contributesTo:"query" name:"resourceId"`
 
+	// If provided and applicable, return DB System shape parameters based on the shapeAttribute provided
+	ShapeAttribute *string `mandatory:"false" contributesTo:"query" name:"shapeAttribute"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -83,7 +86,7 @@ func (request ListGiVersionsRequest) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListGiVersionsSortOrderEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

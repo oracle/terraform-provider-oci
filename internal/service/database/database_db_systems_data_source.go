@@ -142,6 +142,12 @@ func (s *DatabaseDbSystemsDataSourceCrud) SetData() error {
 			dbSystem["cluster_name"] = *r.ClusterName
 		}
 
+		if r.ComputeCount != nil {
+			dbSystem["compute_count"] = *r.ComputeCount
+		}
+
+		dbSystem["compute_model"] = r.ComputeModel
+
 		if r.CpuCoreCount != nil {
 			dbSystem["cpu_core_count"] = *r.CpuCoreCount
 		}

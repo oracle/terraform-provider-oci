@@ -11,6 +11,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"io"
 	"io/ioutil"
 	"log"
@@ -22,6 +23,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"hash/crc32"
 
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
@@ -39,6 +42,7 @@ import (
 var (
 	//string value can store true,false and empty. Empty value can identify that user has not set the flag.
 	RealmSpecificServiceEndpointTemplateEnabled               = ""
+	DualStackEndpointTemplateEnabled                          = ""
 	FifteenMinutes                                            = 15 * time.Minute
 	TwentyMinutes                                             = 20 * time.Minute
 	ThirtyMinutes                                             = 30 * time.Minute
@@ -915,6 +919,10 @@ func GetSingularDataSourceItemSchema(resourceSchema *schema.Resource, addFieldMa
 	resourceSchema.Importer = nil
 	resourceSchema.Timeouts = nil
 	resourceSchema.CustomizeDiff = nil
+	resourceSchema.CreateContext = nil
+	resourceSchema.UpdateContext = nil
+	resourceSchema.DeleteContext = nil
+	resourceSchema.ReadContext = nil
 
 	var dataSourceSchema *schema.Resource = convertResFieldsToDSFields(resourceSchema)
 
@@ -1443,6 +1451,20 @@ func GetMd5Hash(source interface{}) string {
 	return hex.EncodeToString(hexSum[:])
 }
 
+func GetCrc32cHash(source interface{}) string {
+	if source == nil {
+		return ""
+	}
+	data := source.(string)
+	checksum := crc32.Checksum([]byte(data), crc32.MakeTable(crc32.Castagnoli))
+	return hex.EncodeToString([]byte{
+		byte(checksum >> 24),
+		byte(checksum >> 16),
+		byte(checksum >> 8),
+		byte(checksum),
+	})
+}
+
 func ValidateBoolInSlice(valid []bool) schema.SchemaValidateFunc {
 	return func(i interface{}, k string) (s []string, es []error) {
 		v, ok := i.(bool)
@@ -1467,4 +1489,174 @@ func ScheduledOperationDbSuppressfunc(k string, old, new string, d *schema.Resou
 		return true
 	}
 	return false
+}
+
+// SIGINT changes
+func CreateResourceWithContext(ctx context.Context, d schemaResourceData, sync ResourceCreatorWithContext) error {
+	if synchronizedResource, ok := sync.(SynchronizedResource); ok {
+		if mutex := synchronizedResource.GetMutex(); mutex != nil {
+			mutex.Lock()
+			defer mutex.Unlock()
+		}
+	}
+
+	if e := sync.CreateWithContext(ctx); e != nil {
+		return HandleError(sync, e)
+	}
+
+	// ID is required for state refresh
+	d.SetId(sync.ID())
+
+	if stateful, ok := sync.(StatefullyCreatedResource); ok {
+		if e := waitForStateRefreshVar(stateful, d.Timeout(schema.TimeoutCreate), "creation", stateful.CreatedPending(), stateful.CreatedTarget()); e != nil {
+			if stateful.State() == FAILED {
+				// Remove resource from state if asynchronous work request has failed so that it is recreated on next apply
+				// TODO: automatic retry on WorkRequestFailed
+				sync.VoidState()
+			}
+
+			//We need to SetData() here because if there is an error or timeout in the wait for state after the Create() was successful we want to store the resource in the statefile to avoid dangling resources
+			if setDataErr := sync.SetData(); setDataErr != nil {
+				log.Printf("[ERROR] error setting data after WaitForStateRefresh() error: %v", setDataErr)
+			}
+
+			return e
+		}
+	}
+
+	d.SetId(sync.ID())
+	if e := sync.SetData(); e != nil {
+		return e
+	}
+
+	if ew, waitOK := sync.(ExtraWaitPostCreateDelete); waitOK {
+		time.Sleep(ew.ExtraWaitPostCreateDelete())
+	}
+	return nil
+}
+
+func UpdateResourceWithContext(ctx context.Context, d schemaResourceData, sync ResourceUpdaterWithContext) error {
+	if synchronizedResource, ok := sync.(SynchronizedResource); ok {
+		if mutex := synchronizedResource.GetMutex(); mutex != nil {
+			mutex.Lock()
+			defer mutex.Unlock()
+		}
+	}
+
+	d.Partial(true)
+	if e := sync.UpdateWithContext(ctx); e != nil {
+
+		return HandleError(sync, e)
+	}
+	d.Partial(false)
+
+	if stateful, ok := sync.(StatefullyUpdatedResource); ok {
+		if e := waitForStateRefreshVar(stateful, d.Timeout(schema.TimeoutUpdate), "update", stateful.UpdatedPending(), stateful.UpdatedTarget()); e != nil {
+
+			return e
+		}
+	}
+
+	if e := sync.SetData(); e != nil {
+		return e
+	}
+
+	return nil
+}
+func DeleteResourceWithContext(ctx context.Context, d schemaResourceData, sync ResourceDeleterWithContext, readResource ...error) error {
+	if synchronizedResource, ok := sync.(SynchronizedResource); ok {
+		if mutex := synchronizedResource.GetMutex(); mutex != nil {
+			mutex.Lock()
+			defer mutex.Unlock()
+		}
+	}
+	if e := sync.DeleteWithContext(ctx); e != nil {
+		if len(readResource) > 0 {
+			var readResp = readResource[0]
+			handleMissingResourceError(sync, &e, readResp)
+		} else {
+			handleMissingResourceError(sync, &e)
+		}
+		return HandleError(sync, e)
+	}
+
+	if stateful, ok := sync.(StatefullyDeletedResource); ok {
+		if e := waitForStateRefreshVar(stateful, d.Timeout(schema.TimeoutDelete), "deletion", stateful.DeletedPending(), stateful.DeletedTarget()); e != nil {
+			handleMissingResourceError(sync, &e)
+			return e
+		}
+	}
+
+	if ew, waitOK := sync.(ExtraWaitPostCreateDelete); waitOK {
+		time.Sleep(ew.ExtraWaitPostCreateDelete())
+	}
+
+	if ew, waitOK := sync.(ExtraWaitPostDelete); waitOK {
+		time.Sleep(ew.ExtraWaitPostDelete())
+	}
+
+	sync.VoidState()
+
+	return nil
+}
+func GetSingularDataSourceItemSchemaWithContext(resourceSchema *schema.Resource, addFieldMap map[string]*schema.Schema, readFunc schema.ReadContextFunc) *schema.Resource {
+	if _, idExists := resourceSchema.Schema["id"]; !idExists {
+		resourceSchema.Schema["id"] = &schema.Schema{
+			Type:     schema.TypeString,
+			Computed: true,
+		}
+	}
+
+	// Ensure Create,Read, Update and Delete are not set for data source schemas. Otherwise, terraform will validate them
+	// as though they were resources.
+	resourceSchema.Create = nil
+	resourceSchema.Update = nil
+	resourceSchema.Delete = nil
+	resourceSchema.Read = nil
+	resourceSchema.ReadContext = readFunc
+	resourceSchema.Importer = nil
+	resourceSchema.Timeouts = nil
+	resourceSchema.CustomizeDiff = nil
+	resourceSchema.CreateContext = nil
+	resourceSchema.UpdateContext = nil
+	resourceSchema.DeleteContext = nil
+
+	var dataSourceSchema *schema.Resource = convertResFieldsToDSFields(resourceSchema)
+
+	for key, value := range addFieldMap {
+		dataSourceSchema.Schema[key] = value
+	}
+
+	return dataSourceSchema
+}
+func HandleDiagError(sync interface{}, err error) diag.Diagnostics {
+	if err != nil {
+		tfError := newCustomError(sync, err)
+		return diag.FromErr(tfError)
+	}
+	return diag.FromErr(err)
+}
+
+func ReadResourceWithContext(ctx context.Context, sync ResourceReaderWithContext) error {
+	if e := sync.GetWithContext(ctx); e != nil {
+		log.Printf("ERROR IN GET: %v\n", e.Error())
+		handleMissingResourceError(sync, &e)
+		return HandleError(sync, e)
+	}
+
+	if e := sync.SetData(); e != nil {
+		return e
+	}
+
+	// Remove resource from state if it has been terminated so that it is recreated on next apply
+	if dr, ok := sync.(StatefullyDeletedResource); ok {
+		for _, target := range dr.DeletedTarget() {
+			if dr.State() == target && dr.State() != string(oci_load_balancer.WorkRequestLifecycleStateSucceeded) {
+				dr.VoidState()
+				return nil
+			}
+		}
+	}
+
+	return nil
 }

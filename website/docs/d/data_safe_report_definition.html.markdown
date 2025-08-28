@@ -40,11 +40,13 @@ The following attributes are exported:
 	* `is_hidden` - Indicates whether the filter is hidden. Values can either be 'true' or 'false'.
 	* `operator` - Specifies the type of operator that must be applied for example in, eq etc.
 * `column_info` - An array of column objects in the order (left to right) displayed in the report. A column object stores all information about a column, including the name displayed on the UI, corresponding field name in the data source, data type of the column, and column visibility (if the column is visible to the user).
+	* `applicable_operators` - An array of operators that can be supported by column fieldName.
 	* `data_type` - Specifies the data type of the column.
 	* `display_name` - Name of the column displayed on UI.
 	* `display_order` - Specifies the display order of the column.
 	* `field_name` - Specifies the corresponding field name in the data source.
 	* `is_hidden` - Indicates if the column is hidden. Values can either be 'true' or 'false'.
+	* `is_virtual` - Specifies if column is virtual and can only be used as column filter.
 * `column_sortings` - An array of column sorting objects. Each column sorting object stores the column name to be sorted and if the sorting is in ascending order; sorting is done by the first column in the array, then by the second column in the array, etc.
 	* `field_name` - Name of the column that must be sorted.
 	* `is_ascending` - Indicates if the column must be sorted in ascending order. Values can either be 'true' or 'false'.

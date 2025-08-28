@@ -86,6 +86,12 @@ func (s *DatabaseDbNodeDataSourceCrud) SetData() error {
 		s.D.Set("backup_vnic_id", *s.Res.BackupVnicId)
 	}
 
+	if s.Res.ComputeCount != nil {
+		s.D.Set("compute_count", *s.Res.ComputeCount)
+	}
+
+	s.D.Set("compute_model", s.Res.ComputeModel)
+
 	if s.Res.CpuCoreCount != nil {
 		s.D.Set("cpu_core_count", *s.Res.CpuCoreCount)
 	}

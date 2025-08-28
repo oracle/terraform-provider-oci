@@ -31,8 +31,7 @@ var (
 		"compartment_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"access_level":                acctest.Representation{RepType: acctest.Optional, Create: `RESTRICTED`},
 		"compartment_id_in_subtree":   acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"database_security_config_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.database_security_config_id}`},
-	}
+		"database_security_config_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.database_security_config_id}`}}
 
 	DataSafeDatabaseSecurityConfigUpdateRepresentation = map[string]interface{}{
 		"database_security_config_id": acctest.Representation{RepType: acctest.Required, Create: `${var.database_security_config_id}`},
@@ -120,7 +119,6 @@ func TestDataSafeDatabaseSecurityConfigResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "database_security_config_id"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "sql_firewall_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "sql_firewall_config.0.exclude_job", "INCLUDED"),
@@ -164,7 +162,6 @@ func TestDataSafeDatabaseSecurityConfigResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "sql_firewall_config.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "sql_firewall_config.0.exclude_job", "INCLUDED"),

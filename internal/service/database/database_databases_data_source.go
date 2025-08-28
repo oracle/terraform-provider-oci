@@ -248,6 +248,12 @@ func (s *DatabaseDatabasesDataSourceCrud) SetData() error {
 
 		database["state"] = r.LifecycleState
 
+		if r.StorageSizeDetails != nil {
+			database["storage_size_details"] = []interface{}{DatabaseStorageSizeResponseDetailsToMap(r.StorageSizeDetails)}
+		} else {
+			database["storage_size_details"] = nil
+		}
+
 		if r.SystemTags != nil {
 			database["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
 		}

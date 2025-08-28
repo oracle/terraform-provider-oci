@@ -54,6 +54,10 @@ type DeploymentPeerSummary struct {
 
 	// Possible lifecycle states for deployment peer.
 	LifecycleState DeploymentPeerSummaryLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+
+	// The time of the last data synchronization from the primary to the standby peer.
+	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
+	TimeLastSynced *common.SDKTime `mandatory:"false" json:"timeLastSynced"`
 }
 
 func (m DeploymentPeerSummary) String() string {
@@ -76,7 +80,7 @@ func (m DeploymentPeerSummary) ValidateEnumValue() (bool, error) {
 	}
 
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

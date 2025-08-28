@@ -73,7 +73,7 @@ func (request ListExadbVmClusterUpdateHistoryEntriesRequest) ValidateEnumValue()
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpdateType: %s. Supported values are: %s.", request.UpdateType, strings.Join(GetListExadbVmClusterUpdateHistoryEntriesUpdateTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
-		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }

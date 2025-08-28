@@ -23,7 +23,7 @@ var (
 
 	DataSafeSecurityPolicyDeploymentSecurityPolicyEntryStateDataSourceRepresentation = map[string]interface{}{
 		"security_policy_deployment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.security_policy_deployment_id}`},
-		"deployment_status":             acctest.Representation{RepType: acctest.Optional, Create: `CREATED`},
+		"deployment_status":             acctest.Representation{RepType: acctest.Optional, Create: `CONFLICT`},
 	}
 )
 
@@ -56,7 +56,7 @@ func TestDataSafeSecurityPolicyDeploymentSecurityPolicyEntryStateResource_basic(
 				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_security_policy_deployment_security_policy_entry_states", "test_security_policy_deployment_security_policy_entry_states", acctest.Optional, acctest.Create, DataSafeSecurityPolicyDeploymentSecurityPolicyEntryStateDataSourceRepresentation) +
 				compartmentIdVariableStr + securityPolicyDeploymentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(datasourceName, "deployment_status", "CREATED"),
+				resource.TestCheckResourceAttr(datasourceName, "deployment_status", "CONFLICT"),
 				resource.TestCheckResourceAttrSet(datasourceName, "security_policy_deployment_id"),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "security_policy_entry_state_collection.#"),
@@ -69,7 +69,7 @@ func TestDataSafeSecurityPolicyDeploymentSecurityPolicyEntryStateResource_basic(
 				compartmentIdVariableStr + securityPolicyDeploymentIdVariableStr + securityPolicyEntryStateIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "security_policy_deployment_id"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "security_policy_entry_state_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "security_policy_entry_id"),
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "deployment_status"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "entry_details.#", "1"),

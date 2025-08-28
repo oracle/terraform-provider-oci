@@ -19,6 +19,7 @@ var (
 	DatabaseDatabaseDbSystemShapeDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"shape_attribute":     acctest.Representation{RepType: acctest.Optional, Create: `SMART_STORAGE`},
 	}
 
 	DatabaseDbSystemShapeResourceConfig = AvailabilityDomainConfig
@@ -47,6 +48,7 @@ func TestDatabaseDbSystemShapeResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "shape_attribute", "SMART_STORAGE"),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "db_system_shapes.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "db_system_shapes.0.are_server_types_supported"),

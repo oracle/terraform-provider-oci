@@ -26,6 +26,8 @@ data "oci_data_safe_masking_analytics" "test_masking_analytics" {
 	compartment_id_in_subtree = var.masking_analytic_compartment_id_in_subtree
 	group_by = var.masking_analytic_group_by
 	masking_policy_id = oci_data_safe_masking_policy.test_masking_policy.id
+	sensitive_type_id = oci_data_safe_sensitive_type.test_sensitive_type.id
+	target_database_group_id = oci_data_safe_target_database_group.test_target_database_group.id
 	target_id = oci_cloud_guard_target.test_target.id
 }
 ```
@@ -38,6 +40,8 @@ The following arguments are supported:
 * `compartment_id_in_subtree` - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting. 
 * `group_by` - (Optional) Attribute by which the masking analytics data should be grouped.
 * `masking_policy_id` - (Optional) A filter to return only the resources that match the specified masking policy OCID.
+* `sensitive_type_id` - (Optional) A filter to return only items related to a specific sensitive type OCID.
+* `target_database_group_id` - (Optional) A filter to return the target database group that matches the specified OCID.
 * `target_id` - (Optional) A filter to return only items related to a specific target OCID.
 
 
@@ -55,6 +59,8 @@ The following attributes are exported:
 	* `count` - The total count for the aggregation metric.
 	* `dimensions` - The scope of analytics data.
 		* `policy_id` - The OCID of the masking policy.
+		* `sensitive_type_id` - The OCID of the sensitive type masked.
 		* `target_id` - The OCID of the target database.
 	* `metric_name` - The name of the aggregation metric.
+	* `time_last_masked` - The date and time the target database was last masked using a masking policy, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 

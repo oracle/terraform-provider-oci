@@ -74,6 +74,10 @@ func DataSafeSensitiveColumnAnalyticsDataSource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"target_database_group_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"target_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -257,6 +261,11 @@ func (s *DataSafeSensitiveColumnAnalyticsDataSourceCrud) Get() error {
 		if len(tmp) != 0 || s.D.HasChange("sensitive_type_id") {
 			request.SensitiveTypeId = tmp
 		}
+	}
+
+	if targetDatabaseGroupId, ok := s.D.GetOkExists("target_database_group_id"); ok {
+		tmp := targetDatabaseGroupId.(string)
+		request.TargetDatabaseGroupId = &tmp
 	}
 
 	if targetId, ok := s.D.GetOkExists("target_id"); ok {

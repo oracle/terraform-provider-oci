@@ -52,7 +52,19 @@ func DataSafeSecurityAssessmentsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"target_database_group_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"target_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"target_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"template_assessment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -140,9 +152,23 @@ func (s *DataSafeSecurityAssessmentsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_data_safe.ListSecurityAssessmentsLifecycleStateEnum(state.(string))
 	}
 
+	if targetDatabaseGroupId, ok := s.D.GetOkExists("target_database_group_id"); ok {
+		tmp := targetDatabaseGroupId.(string)
+		request.TargetDatabaseGroupId = &tmp
+	}
+
 	if targetId, ok := s.D.GetOkExists("target_id"); ok {
 		tmp := targetId.(string)
 		request.TargetId = &tmp
+	}
+
+	if targetType, ok := s.D.GetOkExists("target_type"); ok {
+		request.TargetType = oci_data_safe.ListSecurityAssessmentsTargetTypeEnum(targetType.(string))
+	}
+
+	if templateAssessmentId, ok := s.D.GetOkExists("template_assessment_id"); ok {
+		tmp := templateAssessmentId.(string)
+		request.TemplateAssessmentId = &tmp
 	}
 
 	if timeCreatedGreaterThanOrEqualTo, ok := s.D.GetOkExists("time_created_greater_than_or_equal_to"); ok {
@@ -205,6 +231,10 @@ func (s *DataSafeSecurityAssessmentsDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.BaselineAssessmentId != nil {
+			securityAssessment["baseline_assessment_id"] = *r.BaselineAssessmentId
+		}
+
 		if r.DefinedTags != nil {
 			securityAssessment["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
 		}
@@ -265,7 +295,17 @@ func (s *DataSafeSecurityAssessmentsDataSourceCrud) SetData() error {
 			securityAssessment["statistics"] = nil
 		}
 
+		if r.TargetDatabaseGroupId != nil {
+			securityAssessment["target_database_group_id"] = *r.TargetDatabaseGroupId
+		}
+
 		securityAssessment["target_ids"] = r.TargetIds
+
+		securityAssessment["target_type"] = r.TargetType
+
+		if r.TemplateAssessmentId != nil {
+			securityAssessment["template_assessment_id"] = *r.TemplateAssessmentId
+		}
 
 		if r.TimeCreated != nil {
 			securityAssessment["time_created"] = r.TimeCreated.String()

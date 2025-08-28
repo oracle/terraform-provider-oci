@@ -35,6 +35,8 @@ resource "oci_database_data_guard_association" "test_data_guard_association" {
 	#Optional
 	availability_domain = var.data_guard_association_availability_domain
 	backup_network_nsg_ids = var.data_guard_association_backup_network_nsg_ids
+	compute_count = var.data_guard_association_compute_count
+	compute_model = var.data_guard_association_compute_model
 	cpu_core_count = var.data_guard_association_cpu_core_count
 	database_defined_tags = var.data_guard_association_database_defined_tags
 	database_freeform_tags = var.data_guard_association_database_freeform_tags
@@ -77,6 +79,8 @@ The following arguments are supported:
 
 * `availability_domain` - (Applicable when creation_type=NewDbSystem) The name of the availability domain that the standby database DB system will be located in. For example- "Uocm:PHX-AD-1".
 * `backup_network_nsg_ids` - (Applicable when creation_type=NewDbSystem) A list of the [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that the backup network of this DB system belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). Applicable only to Exadata systems. 
+* `compute_count` - (Applicable when creation_type=NewDbSystem) The number of compute servers for the DB system.
+* `compute_model` - (Applicable when creation_type=NewDbSystem) The compute model for Base Database Service. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. The ECPU compute model is the recommended model, and the OCPU compute model is legacy.
 * `cpu_core_count` - (Applicable when creation_type=NewDbSystem) The number of CPU cores available for AMD-based virtual machine DB systems.
 * `creation_type` - (Required) Specifies whether to create the peer database in an existing DB system or in a new DB system. 
 * `data_collection_options` - (Applicable when creation_type=NewDbSystem) Indicates user preferences for the various diagnostic collection options for the VM cluster/Cloud VM cluster/VMBM DBCS. 

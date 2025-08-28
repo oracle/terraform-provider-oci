@@ -76,6 +76,10 @@ func (s *GoldenGateDeploymentDataSourceCrud) SetData() error {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
 
+	if s.Res.ByolCpuCoreCountLimit != nil {
+		s.D.Set("byol_cpu_core_count_limit", *s.Res.ByolCpuCoreCountLimit)
+	}
+
 	s.D.Set("category", s.Res.Category)
 
 	if s.Res.CompartmentId != nil {
@@ -136,6 +140,10 @@ func (s *GoldenGateDeploymentDataSourceCrud) SetData() error {
 
 	if s.Res.IsAutoScalingEnabled != nil {
 		s.D.Set("is_auto_scaling_enabled", *s.Res.IsAutoScalingEnabled)
+	}
+
+	if s.Res.IsByolCpuCoreCountLimitEnabled != nil {
+		s.D.Set("is_byol_cpu_core_count_limit_enabled", *s.Res.IsByolCpuCoreCountLimitEnabled)
 	}
 
 	if s.Res.IsHealthy != nil {

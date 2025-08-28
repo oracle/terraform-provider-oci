@@ -32,6 +32,10 @@ func DataSafeReportsDataSource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 			},
+			"data_source": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -111,6 +115,10 @@ func (s *DataSafeReportsDataSourceCrud) Get() error {
 	if compartmentIdInSubtree, ok := s.D.GetOkExists("compartment_id_in_subtree"); ok {
 		tmp := compartmentIdInSubtree.(bool)
 		request.CompartmentIdInSubtree = &tmp
+	}
+
+	if dataSource, ok := s.D.GetOkExists("data_source"); ok {
+		request.DataSource = oci_data_safe.ListReportsDataSourceEnum(dataSource.(string))
 	}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {

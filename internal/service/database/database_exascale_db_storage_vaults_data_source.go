@@ -18,6 +18,14 @@ func DatabaseExascaleDbStorageVaultsDataSource() *schema.Resource {
 		Read: readDatabaseExascaleDbStorageVaults,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
+			"attached_shape_attributes": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"attached_shape_attributes_not_equal_to": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"cluster_placement_group_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -36,6 +44,14 @@ func DatabaseExascaleDbStorageVaultsDataSource() *schema.Resource {
 			},
 			"state": {
 				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"vm_cluster_count_greater_than_or_equal_to": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"vm_cluster_count_less_than_or_equal_to": {
+				Type:     schema.TypeInt,
 				Optional: true,
 			},
 			"exascale_db_storage_vaults": {
@@ -68,6 +84,16 @@ func (s *DatabaseExascaleDbStorageVaultsDataSourceCrud) VoidState() {
 func (s *DatabaseExascaleDbStorageVaultsDataSourceCrud) Get() error {
 	request := oci_database.ListExascaleDbStorageVaultsRequest{}
 
+	if attachedShapeAttributes, ok := s.D.GetOkExists("attached_shape_attributes"); ok {
+		tmp := attachedShapeAttributes.(string)
+		request.AttachedShapeAttributes = &tmp
+	}
+
+	if attachedShapeAttributesNotEqualTo, ok := s.D.GetOkExists("attached_shape_attributes_not_equal_to"); ok {
+		tmp := attachedShapeAttributesNotEqualTo.(string)
+		request.AttachedShapeAttributesNotEqualTo = &tmp
+	}
+
 	if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
 		tmp := clusterPlacementGroupId.(string)
 		request.ClusterPlacementGroupId = &tmp
@@ -90,6 +116,16 @@ func (s *DatabaseExascaleDbStorageVaultsDataSourceCrud) Get() error {
 
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_database.ExascaleDbStorageVaultLifecycleStateEnum(state.(string))
+	}
+
+	if vmClusterCountGreaterThanOrEqualTo, ok := s.D.GetOkExists("vm_cluster_count_greater_than_or_equal_to"); ok {
+		tmp := vmClusterCountGreaterThanOrEqualTo.(int)
+		request.VmClusterCountGreaterThanOrEqualTo = &tmp
+	}
+
+	if vmClusterCountLessThanOrEqualTo, ok := s.D.GetOkExists("vm_cluster_count_less_than_or_equal_to"); ok {
+		tmp := vmClusterCountLessThanOrEqualTo.(int)
+		request.VmClusterCountLessThanOrEqualTo = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
@@ -131,6 +167,8 @@ func (s *DatabaseExascaleDbStorageVaultsDataSourceCrud) SetData() error {
 		if r.AdditionalFlashCacheInPercent != nil {
 			exascaleDbStorageVault["additional_flash_cache_in_percent"] = *r.AdditionalFlashCacheInPercent
 		}
+
+		exascaleDbStorageVault["attached_shape_attributes"] = r.AttachedShapeAttributes
 
 		if r.AvailabilityDomain != nil {
 			exascaleDbStorageVault["availability_domain"] = *r.AvailabilityDomain

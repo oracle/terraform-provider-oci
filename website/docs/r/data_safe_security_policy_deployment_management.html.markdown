@@ -10,7 +10,8 @@ description: |-
 # oci_data_safe_security_policy_deployment_management
 This resource provides the Security Policy Deployment Management resource in Oracle Cloud Infrastructure Data Safe service.
 
-Updates the security policy deployment.
+Creates a Data Safe security policy deployment in the Data Safe Console.
+
 
 ## Example Usage
 
@@ -18,8 +19,9 @@ Updates the security policy deployment.
 resource "oci_data_safe_security_policy_deployment_management" "test_security_policy_deployment_management" {
 	#Required
 	compartment_id = var.compartment_id
-	target_id = oci_data_safe_target_database.test_target_database.id
-	
+	security_policy_id = oci_data_safe_security_policy.test_security_policy.id
+	target_id = oci_cloud_guard_target.test_target.id
+	target_type = var.security_policy_deployment_management_target_type
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
 	description = var.security_policy_deployment_management_description
@@ -32,13 +34,16 @@ resource "oci_data_safe_security_policy_deployment_management" "test_security_po
 
 The following arguments are supported:
 
-* `compartment_id` - (Optional) (Updatable) The OCID of the compartment containing the security policy deployment.
-* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}`
-* `target_id` - (Required) Unique target identifier.
-* `description` - (Optional) (Updatable) The description of the security policy deployment.
+* `compartment_id` - (Required) (Updatable) The OCID of the compartment in which to create the unified audit policy.
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}` 
+* `description` - (Optional) (Updatable) The description of the security policy.
 * `display_name` - (Optional) (Updatable) The display name of the security policy deployment. The name does not have to be unique, and it is changeable.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}` 
-* `security_policy_deployment_id` - (Required) The OCID of the security policy deployment resource.
+* `security_policy_id` - (Required) The OCID of the security policy corresponding to the security policy deployment.
+* `target_id` - (Required) The OCID of the target where the security policy is deployed.
+* `target_type` - (Required) Indicates whether the security policy deployment is for a target database or a target database group.
+* `deploy_trigger` - (Optional) (Updatable) An optional property when incremented triggers Deploy. Could be set to any integer value.
+* `refresh_trigger` - (Optional) (Updatable) An optional property when incremented triggers Refresh. Could be set to any integer value.
 
 
 ** IMPORTANT **
@@ -58,8 +63,10 @@ The following attributes are exported:
 * `security_policy_id` - The OCID of the security policy corresponding to the security policy deployment.
 * `state` - The current state of the security policy deployment.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
-* `target_id` - The OCID of the target where the security policy is deployed.
+* `target_id` - The OCID of the target/target group where the security policy is deployed.
+* `target_type` - Indicates whether the security policy deployment is for a target database or a target database group.
 * `time_created` - The time that the security policy deployment was created, in the format defined by RFC3339.
+* `time_deployed` - The last date and time the security policy was deployed, in the format defined by RFC3339.
 * `time_updated` - The last date and time the security policy deployment was updated, in the format defined by RFC3339.
 
 ## Timeouts
