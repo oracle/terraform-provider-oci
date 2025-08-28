@@ -1,3 +1,16 @@
+## 7.16.0 (August 27, 2025)
+
+### Added
+- Support for Compute: GPU Memory Fabric API Update - availableHostCount
+- Support for Mixed License, Recovery Point Time, filter deployments by type
+- Support for E6 - Standard x86 shape for BaseDB on DRCC Butterfly | BaseDB
+- Support for OCI Generative AI Agent - CY25 Q2 Release
+- Support for New managed service leveraging full capabilities and performance potential of raw Apache Kafka
+- Support for Oracle 19C Database in Exadata Database Service on Exascale Infrastructure (ExaDB-XS)
+- MySQL database support for FSDR
+- Data Safe Support for Target Database Group
+
+
 ## 7.15.0 (August 20, 2025)
 
 ### Added
