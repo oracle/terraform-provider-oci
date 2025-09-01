@@ -184,6 +184,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `identity_domains` - Discovers identity_domains resources within the specified compartment
     * `integration` - Discovers integration resources within the specified compartment
     * `jms` - Discovers jms resources within the specified compartment
+    * `jms_utils` - Discovers jms_utils resources within the specified compartment
     * `kms` - Discovers kms resources within the specified compartment
     * `license_manager` - Discovers license_manager resources within the specified compartment
     * `limits` - Discovers limits resources across the entire tenancy
@@ -987,6 +988,11 @@ jms
 * oci\_jms\_fleet
 * oci\_jms\_fleet\_advanced\_feature\_configuration
 * oci\_jms\_jms\_plugin
+
+jms_utils
+    
+* oci\_jms\_utils\_subscription\_acknowledgment\_configuration
+* oci\_jms\_utils\_analyze\_applications\_configuration
 
 kms
     
