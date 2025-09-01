@@ -229,18 +229,12 @@ func DatabaseDbHomeResource() *schema.Resource {
 										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 										ValidateFunc: validation.StringInSlice([]string{
 											"AZURE",
-											"GCP",
 											"EXTERNAL",
 										}, true),
 									},
 
 									// Optional
 									"azure_encryption_key_id": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-									},
-									"gcp_encryption_key_id": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -1515,13 +1509,6 @@ func (s *DatabaseDbHomeResourceCrud) mapToEncryptionKeyLocationDetails(fieldKeyF
 		if azureEncryptionKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "azure_encryption_key_id")); ok {
 			tmp := azureEncryptionKeyId.(string)
 			details.AzureEncryptionKeyId = &tmp
-		}
-		baseObject = details
-	case strings.ToLower("GCP"):
-		details := oci_database.GoogleCloudProviderEncryptionKeyDetails{}
-		if gcpEncryptionKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "gcp_encryption_key_id")); ok {
-			tmp := gcpEncryptionKeyId.(string)
-			details.GoogleCloudProviderEncryptionKeyId = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("EXTERNAL"):

@@ -95,10 +95,6 @@ func DatabaseBackupResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"gcp_encryption_key_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
 						"hsm_password": {
 							Type:      schema.TypeString,
 							Computed:  true,

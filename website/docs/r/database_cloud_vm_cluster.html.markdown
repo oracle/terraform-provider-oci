@@ -148,7 +148,7 @@ The following arguments are supported:
 * `subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet associated with the cloud VM cluster. 
 * `subscription_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
 * `system_version` - (Optional) Operating system version of the image.
-* `tde_key_store_type` - Use 'AZURE' for installing Azure encryption RPMS. Use 'GCP' for installing GCP encryption RPMS. Use 'OCI' to install oracle managed encryption RPMS. Use 'NONE' to uninstall encryption RPMS.
+* `tde_key_store_type` - Use 'AZURE' for installing azure encryption RPMS. Use 'OCI' to install oracle managed encryption RPMS. Use 'NONE' to uninstall encryption RPMS.
 * `time_zone` - (Optional) The time zone to use for the cloud VM cluster. For details, see [Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm). 
 * `vm_cluster_type` - (Optional) The vmcluster type for the VM cluster/Cloud VM cluster.
 

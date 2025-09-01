@@ -63,7 +63,6 @@ resource "oci_database_db_home" "test_db_home" {
 
 			#Optional
 			azure_encryption_key_id = oci_kms_key.test_key.id
-			gcp_encryption_key_id = oci_kms_key.test_key.id
 			hsm_password = var.db_home_database_encryption_key_location_details_hsm_password
 		}
 		freeform_tags = var.db_home_database_freeform_tags
@@ -80,7 +79,6 @@ resource "oci_database_db_home" "test_db_home" {
 
 			#Optional
 			azure_encryption_key_id = oci_kms_key.test_key.id
-			gco_encryption_key_id = oci_kms_key.test_key.id
 			hsm_password = var.db_home_database_source_encryption_key_location_details_hsm_password
 		}
 		storage_size_details {
@@ -147,9 +145,8 @@ The following arguments are supported:
 	* `defined_tags` - (Applicable when source=DB_BACKUP | NONE | VM_CLUSTER_BACKUP | VM_CLUSTER_NEW) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 	* `encryption_key_location_details` - (Applicable when source=NONE | VM_CLUSTER_NEW) Types of providers supported for managing database encryption keys
 		* `azure_encryption_key_id` - (Required when provider_type=AZURE) Provide the key OCID of a registered Azure key.
-        * `gcp_encryption_key_id` - (Required when provider_type=GCP) Provide the key OCID of a registered GCP key.
 		* `hsm_password` - (Required when provider_type=EXTERNAL) Provide the HSM password as you would in RDBMS for External HSM.
-		* `provider_type` - (Required) Use 'EXTERNAL' for creating a new database or migrating a database key to an External HSM. Use 'AZURE' for creating a new database or migrating a database key to Azure.  Use 'GCP' for creating a new database or migrating a database key to GCP.
+		* `provider_type` - (Required) Use 'EXTERNAL' for creating a new database or migrating a database key to an External HSM. Use 'AZURE' for creating a new database or migrating a database key to Azure.
 	* `freeform_tags` - (Applicable when source=DB_BACKUP | NONE | VM_CLUSTER_BACKUP | VM_CLUSTER_NEW) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
 	* `enable_database_delete` - (Optional) Defaults to false. If omitted or set to false the provider will not delete databases removed from the Db Home configuration.
 	* `key_store_id` - (Applicable when source=NONE | VM_CLUSTER_NEW) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
@@ -161,9 +158,8 @@ The following arguments are supported:
 	* `sid_prefix` - (Applicable when source=DB_BACKUP | NONE | VM_CLUSTER_BACKUP | VM_CLUSTER_NEW) Specifies a prefix for the `Oracle SID` of the database to be created. 
 	* `source_encryption_key_location_details` - (Applicable when source=DB_BACKUP | VM_CLUSTER_BACKUP) Types of providers supported for managing database encryption keys
 		* `azure_encryption_key_id` - (Required when provider_type=AZURE) Provide the key OCID of a registered Azure key.
-        * `gcp_encryption_key_id` - (Required when provider_type=GCP) Provide the key OCID of a registered GCP key.
 		* `hsm_password` - (Required when provider_type=EXTERNAL) Provide the HSM password as you would in RDBMS for External HSM.
-		* `provider_type` - (Required) Use 'EXTERNAL' for creating a new database or migrating a database key to an External HSM. Use 'AZURE' for creating a new database or migrating a database key to Azure.  Use 'GCP' for creating a new database or migrating a database key to GCP.
+		* `provider_type` - (Required) Use 'EXTERNAL' for creating a new database or migrating a database key to an External HSM. Use 'AZURE' for creating a new database or migrating a database key to Azure. 
 	* `storage_size_details` - (Applicable when source=DB_BACKUP | NONE | VM_CLUSTER_BACKUP | VM_CLUSTER_NEW) The database storage size details. This database option is supported for the Exadata VM cluster on Exascale Infrastructure. 
 		* `data_storage_size_in_gb` - (Required when source=DB_BACKUP | NONE | VM_CLUSTER_BACKUP | VM_CLUSTER_NEW) The DATA storage size, in gigabytes, that is applicable for the database. 
 		* `reco_storage_size_in_gbs` - (Required when source=DB_BACKUP | NONE | VM_CLUSTER_BACKUP | VM_CLUSTER_NEW) The RECO storage size, in gigabytes, that is applicable for the database. 

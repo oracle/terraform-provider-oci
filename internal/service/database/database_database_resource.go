@@ -243,18 +243,12 @@ func DatabaseDatabaseResource() *schema.Resource {
 										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 										ValidateFunc: validation.StringInSlice([]string{
 											"AZURE",
-											"GCP",
 											"EXTERNAL",
 										}, true),
 									},
 
 									// Optional
 									"azure_encryption_key_id": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-									},
-									"gcp_encryption_key_id": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -344,7 +338,6 @@ func DatabaseDatabaseResource() *schema.Resource {
 										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 										ValidateFunc: validation.StringInSlice([]string{
 											"AZURE",
-											"GCP",
 											"EXTERNAL",
 										}, true),
 									},
@@ -1759,13 +1752,6 @@ func (s *DatabaseDatabaseResourceCrud) mapToEncryptionKeyLocationDetails(fieldKe
 			details.AzureEncryptionKeyId = &tmp
 		}
 		baseObject = details
-	case strings.ToLower("GCP"):
-		details := oci_database.GoogleCloudProviderEncryptionKeyDetails{}
-		if gcpEncryptionKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "gcp_encryption_key_id")); ok {
-			tmp := gcpEncryptionKeyId.(string)
-			details.GoogleCloudProviderEncryptionKeyId = &tmp
-		}
-		baseObject = details
 	case strings.ToLower("EXTERNAL"):
 		details := oci_database.ExternalHsmEncryptionDetails{}
 		if hsmPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hsm_password")); ok {
@@ -1787,12 +1773,6 @@ func EncryptionKeyLocationDetailsToMap(obj *oci_database.EncryptionKeyLocationDe
 
 		if v.AzureEncryptionKeyId != nil {
 			result["azure_encryption_key_id"] = string(*v.AzureEncryptionKeyId)
-		}
-	case oci_database.GoogleCloudProviderEncryptionKeyDetails:
-		result["provider_type"] = "GCP"
-
-		if v.AzureEncryptionKeyId != nil {
-			result["gcp_encryption_key_id"] = string(*v.GoogleCloudProviderEncryptionKeyId)
 		}
 	case oci_database.ExternalHsmEncryptionDetails:
 		result["provider_type"] = "EXTERNAL"
