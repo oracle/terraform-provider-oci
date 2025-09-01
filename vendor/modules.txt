@@ -315,6 +315,7 @@ github.com/oracle/oci-go-sdk/v65/bds
 github.com/oracle/oci-go-sdk/v65/blockchain
 github.com/oracle/oci-go-sdk/v65/budget
 github.com/oracle/oci-go-sdk/v65/capacitymanagement
+github.com/oracle/oci-go-sdk/v65/certificates
 github.com/oracle/oci-go-sdk/v65/certificatesmanagement
 github.com/oracle/oci-go-sdk/v65/cloudbridge
 github.com/oracle/oci-go-sdk/v65/cloudguard
