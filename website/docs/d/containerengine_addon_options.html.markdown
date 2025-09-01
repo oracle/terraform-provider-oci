@@ -21,6 +21,7 @@ data "oci_containerengine_addon_options" "test_addon_options" {
 
 	#Optional
 	addon_name = oci_containerengine_addon.test_addon.name
+	should_show_all_versions = var.addon_option_should_show_all_versions
 }
 ```
 
@@ -30,6 +31,7 @@ The following arguments are supported:
 
 * `addon_name` - (Optional) The name of the addon.
 * `kubernetes_version` - (Required) The kubernetes version to fetch the addons.
+* `should_show_all_versions` - (Optional) Whether to show all add-on versions
 
 
 ## Attributes Reference

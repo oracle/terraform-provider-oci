@@ -20,8 +20,15 @@ var (
 
 	// representation for the real testing
 	ContainerengineAddonOptionDataSourceRepresentation = map[string]interface{}{
-		"kubernetes_version": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions[length(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)-2]}`},
-		"addon_name":         acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_containerengine_addon_options.test_adddon_options_dep.addon_options[0].name}`},
+		"kubernetes_version":       acctest.Representation{RepType: acctest.Required, Create: `${data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions[length(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)-2]}`},
+		"addon_name":               acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_containerengine_addon_options.test_adddon_options_dep.addon_options[0].name}`},
+		"should_show_all_versions": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+	}
+
+	ContainerengineAddonOptionDataSourceRepresentationShowAll = map[string]interface{}{
+		"kubernetes_version":       acctest.Representation{RepType: acctest.Required, Create: `${data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions[length(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)-2]}`},
+		"addon_name":               acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_containerengine_addon_options.test_adddon_options_dep.addon_options[0].name}`},
+		"should_show_all_versions": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 	}
 
 	// all dependencies for the data source test with required input
@@ -69,6 +76,27 @@ func TestContainerengineAddonOptionResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceNameForOptional, "addon_name"),
 				resource.TestCheckResourceAttrSet(datasourceNameForOptional, "kubernetes_version"),
+				resource.TestCheckResourceAttr(datasourceNameForOptional, "should_show_all_versions", "false"),
+
+				resource.TestCheckResourceAttrSet(datasourceNameForOptional, "addon_options.#"),
+				resource.TestCheckResourceAttrSet(datasourceNameForOptional, "addon_options.0.addon_group"),
+				resource.TestCheckResourceAttrSet(datasourceNameForOptional, "addon_options.0.addon_schema_version"),
+				resource.TestCheckResourceAttrSet(datasourceNameForOptional, "addon_options.0.description"),
+				resource.TestCheckResourceAttrSet(datasourceNameForOptional, "addon_options.0.is_essential"),
+				resource.TestCheckResourceAttrSet(datasourceNameForOptional, "addon_options.0.name"),
+				resource.TestCheckResourceAttrSet(datasourceNameForOptional, "addon_options.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceNameForOptional, "addon_options.0.time_created"),
+				resource.TestCheckResourceAttr(datasourceNameForOptional, "addon_options.0.versions.#", "1"),
+			),
+		},
+		// verify show all
+		{
+			Config: config + ContainerengineAddonOptionDataSourceDependenciesForRequired + ContainerengineAddonOptionDataSourceDependenciesForOptional +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_addon_options", "test_addon_options_with_name", acctest.Optional, acctest.Create, ContainerengineAddonOptionDataSourceRepresentationShowAll),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceNameForOptional, "addon_name"),
+				resource.TestCheckResourceAttrSet(datasourceNameForOptional, "kubernetes_version"),
+				resource.TestCheckResourceAttr(datasourceNameForOptional, "should_show_all_versions", "true"),
 
 				resource.TestCheckResourceAttrSet(datasourceNameForOptional, "addon_options.#"),
 				resource.TestCheckResourceAttrSet(datasourceNameForOptional, "addon_options.0.addon_group"),
