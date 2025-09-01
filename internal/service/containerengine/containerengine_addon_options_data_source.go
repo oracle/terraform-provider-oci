@@ -26,6 +26,10 @@ func ContainerengineAddonOptionsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"should_show_all_versions": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"addon_options": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -201,6 +205,11 @@ func (s *ContainerengineAddonOptionsDataSourceCrud) Get() error {
 	if kubernetesVersion, ok := s.D.GetOkExists("kubernetes_version"); ok {
 		tmp := kubernetesVersion.(string)
 		request.KubernetesVersion = &tmp
+	}
+
+	if shouldShowAllVersions, ok := s.D.GetOkExists("should_show_all_versions"); ok {
+		tmp := shouldShowAllVersions.(bool)
+		request.ShouldShowAllVersions = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "containerengine")
