@@ -227,18 +227,23 @@ func DatasciencePipelineResource() *schema.Resource {
 												// Required
 
 												// Optional
-												"cpu_baseline": {
-													Type:     schema.TypeString,
-													Optional: true,
-													Computed: true,
-												},
 												"memory_in_gbs": {
 													Type:     schema.TypeFloat,
 													Optional: true,
 													Computed: true,
 												},
+												"memory_in_gbs_parameterized": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
 												"ocpus": {
 													Type:     schema.TypeFloat,
+													Optional: true,
+													Computed: true,
+												},
+												"ocpus_parameterized": {
+													Type:     schema.TypeString,
 													Optional: true,
 													Computed: true,
 												},
@@ -263,18 +268,23 @@ func DatasciencePipelineResource() *schema.Resource {
 												// Required
 
 												// Optional
-												"cpu_baseline": {
-													Type:     schema.TypeString,
-													Optional: true,
-													Computed: true,
-												},
 												"memory_in_gbs": {
 													Type:     schema.TypeFloat,
 													Optional: true,
 													Computed: true,
 												},
+												"memory_in_gbs_parameterized": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
 												"ocpus": {
 													Type:     schema.TypeFloat,
+													Optional: true,
+													Computed: true,
+												},
+												"ocpus_parameterized": {
+													Type:     schema.TypeString,
 													Optional: true,
 													Computed: true,
 												},
@@ -319,6 +329,11 @@ func DatasciencePipelineResource() *schema.Resource {
 										Required: true,
 										ForceNew: true,
 									},
+									"block_storage_size_in_gbs_parameterized": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 									"shape_config_details": {
 										Type:     schema.TypeList,
 										Optional: true,
@@ -340,8 +355,18 @@ func DatasciencePipelineResource() *schema.Resource {
 													Optional: true,
 													Computed: true,
 												},
+												"memory_in_gbs_parameterized": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
 												"ocpus": {
 													Type:     schema.TypeFloat,
+													Optional: true,
+													Computed: true,
+												},
+												"ocpus_parameterized": {
+													Type:     schema.TypeString,
 													Optional: true,
 													Computed: true,
 												},
@@ -364,6 +389,68 @@ func DatasciencePipelineResource() *schema.Resource {
 									// Computed
 								},
 							},
+						},
+						"step_parameters": {
+							Type:     schema.TypeList,
+							Optional: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"output": {
+										Type:     schema.TypeList,
+										Required: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"output_file": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+												"output_parameter_type": {
+													Type:             schema.TypeString,
+													Required:         true,
+													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+													ValidateFunc: validation.StringInSlice([]string{
+														"JSON",
+													}, true),
+												},
+												"parameter_names": {
+													Type:     schema.TypeList,
+													Required: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+
+												// Optional
+
+												// Computed
+											},
+										},
+									},
+									"parameter_type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"DEFAULT",
+										}, true),
+									},
+
+									// Optional
+
+									// Computed
+								},
+							},
+						},
+						"step_run_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
 						},
 						"step_storage_mount_configuration_details_list": {
 							Type:     schema.TypeList,
@@ -560,6 +647,11 @@ func DatasciencePipelineResource() *schema.Resource {
 						},
 
 						// Optional
+						"block_storage_size_in_gbs_parameterized": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"shape_config_details": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -581,8 +673,18 @@ func DatasciencePipelineResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
+									"memory_in_gbs_parameterized": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 									"ocpus": {
 										Type:     schema.TypeFloat,
+										Optional: true,
+										Computed: true,
+									},
+									"ocpus_parameterized": {
+										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
@@ -635,6 +737,12 @@ func DatasciencePipelineResource() *schema.Resource {
 						// Computed
 					},
 				},
+			},
+			"parameters": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"storage_mount_configuration_details_list": {
 				Type:     schema.TypeList,
@@ -931,6 +1039,10 @@ func (s *DatasciencePipelineResourceCrud) Create() error {
 		}
 	}
 
+	if parameters, ok := s.D.GetOkExists("parameters"); ok {
+		request.Parameters = tfresource.ObjectMapToStringMap(parameters.(map[string]interface{}))
+	}
+
 	if projectId, ok := s.D.GetOkExists("project_id"); ok {
 		tmp := projectId.(string)
 		request.ProjectId = &tmp
@@ -1201,6 +1313,10 @@ func (s *DatasciencePipelineResourceCrud) Update() error {
 		}
 	}
 
+	if parameters, ok := s.D.GetOkExists("parameters"); ok {
+		request.Parameters = tfresource.ObjectMapToStringMap(parameters.(map[string]interface{}))
+	}
+
 	tmp := s.D.Id()
 	request.PipelineId = &tmp
 
@@ -1327,6 +1443,8 @@ func (s *DatasciencePipelineResourceCrud) SetData() error {
 	} else {
 		s.D.Set("log_configuration_details", nil)
 	}
+
+	s.D.Set("parameters", s.Res.Parameters)
 
 	if s.Res.ProjectId != nil {
 		s.D.Set("project_id", *s.Res.ProjectId)
@@ -1622,6 +1740,11 @@ func (s *DatasciencePipelineResourceCrud) mapToPipelineInfrastructureConfigurati
 		result.BlockStorageSizeInGBs = &tmp
 	}
 
+	if blockStorageSizeInGBsParameterized, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "block_storage_size_in_gbs_parameterized")); ok {
+		tmp := blockStorageSizeInGBsParameterized.(string)
+		result.BlockStorageSizeInGBsParameterized = &tmp
+	}
+
 	if shapeConfigDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shape_config_details")); ok {
 		if tmpList := shapeConfigDetails.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "shape_config_details"), 0)
@@ -1651,6 +1774,10 @@ func PipelineInfrastructureConfigurationDetailsToMap(obj *oci_datascience.Pipeli
 
 	if obj.BlockStorageSizeInGBs != nil {
 		result["block_storage_size_in_gbs"] = int(*obj.BlockStorageSizeInGBs)
+	}
+
+	if obj.BlockStorageSizeInGBsParameterized != nil {
+		result["block_storage_size_in_gbs_parameterized"] = string(*obj.BlockStorageSizeInGBsParameterized)
 	}
 
 	if obj.ShapeConfigDetails != nil {
@@ -1728,9 +1855,19 @@ func (s *DatasciencePipelineResourceCrud) mapToPipelineShapeConfigDetails(fieldK
 		result.MemoryInGBs = &tmp
 	}
 
+	if memoryInGBsParameterized, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs_parameterized")); ok {
+		tmp := memoryInGBsParameterized.(string)
+		result.MemoryInGBsParameterized = &tmp
+	}
+
 	if ocpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus")); ok {
 		tmp := float32(ocpus.(float64))
 		result.Ocpus = &tmp
+	}
+
+	if ocpusParameterized, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus_parameterized")); ok {
+		tmp := ocpusParameterized.(string)
+		result.OcpusParameterized = &tmp
 	}
 
 	return result, nil
@@ -1799,6 +1936,16 @@ func (s *DatasciencePipelineResourceCrud) mapToPipelineStepDetails(fieldKeyForma
 			}
 			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "depends_on")) {
 				details.DependsOn = tmp
+			}
+		}
+		if stepParameters, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_parameters")); ok {
+			if tmpList := stepParameters.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "step_parameters"), 0)
+				tmp, err := s.mapToPipelineStepParameterDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert step_parameters, encountered error: %v", err)
+				}
+				details.StepParameters = tmp
 			}
 		}
 		if stepStorageMountConfigurationDetailsList, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_storage_mount_configuration_details_list")); ok {
@@ -1918,6 +2065,16 @@ func (s *DatasciencePipelineResourceCrud) mapToPipelineStepDetails(fieldKeyForma
 				details.DependsOn = tmp
 			}
 		}
+		if stepParameters, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_parameters")); ok {
+			if tmpList := stepParameters.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "step_parameters"), 0)
+				tmp, err := s.mapToPipelineStepParameterDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert step_parameters, encountered error: %v", err)
+				}
+				details.StepParameters = tmp
+			}
+		}
 		if stepStorageMountConfigurationDetailsList, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_storage_mount_configuration_details_list")); ok {
 			interfaces := stepStorageMountConfigurationDetailsList.([]interface{})
 			tmp := make([]oci_datascience.StorageMountConfigurationDetails, len(interfaces))
@@ -1995,6 +2152,16 @@ func (s *DatasciencePipelineResourceCrud) mapToPipelineStepDetails(fieldKeyForma
 				details.StepConfigurationDetails = &tmp
 			}
 		}
+		if stepParameters, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_parameters")); ok {
+			if tmpList := stepParameters.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "step_parameters"), 0)
+				tmp, err := s.mapToPipelineStepParameterDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert step_parameters, encountered error: %v", err)
+				}
+				details.StepParameters = tmp
+			}
+		}
 		if stepName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_name")); ok {
 			tmp := stepName.(string)
 			details.StepName = &tmp
@@ -2066,6 +2233,16 @@ func (s *DatasciencePipelineResourceCrud) mapToPipelineStepUpdateDetails(fieldKe
 					return details, fmt.Errorf("unable to convert step_infrastructure_configuration_details, encountered error: %v", err)
 				}
 				details.StepInfrastructureConfigurationDetails = &tmp
+			}
+		}
+		if stepParameters, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_parameters")); ok {
+			if tmpList := stepParameters.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "step_parameters"), 0)
+				tmp, err := s.mapToPipelineStepParameterDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert step_parameters, encountered error: %v", err)
+				}
+				details.StepParameters = tmp
 			}
 		}
 		if stepStorageMountConfigurationDetailsList, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_storage_mount_configuration_details_list")); ok {
@@ -2171,6 +2348,16 @@ func (s *DatasciencePipelineResourceCrud) mapToPipelineStepUpdateDetails(fieldKe
 				details.StepInfrastructureConfigurationDetails = &tmp
 			}
 		}
+		if stepParameters, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_parameters")); ok {
+			if tmpList := stepParameters.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "step_parameters"), 0)
+				tmp, err := s.mapToPipelineStepParameterDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert step_parameters, encountered error: %v", err)
+				}
+				details.StepParameters = tmp
+			}
+		}
 		if stepName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_name")); ok {
 			tmp := stepName.(string)
 			details.StepName = &tmp
@@ -2194,6 +2381,20 @@ func (s *DatasciencePipelineResourceCrud) mapToPipelineStepUpdateDetails(fieldKe
 		baseObject = details
 	case strings.ToLower("ML_JOB"):
 		details := oci_datascience.PipelineMlJobStepUpdateDetails{}
+		if stepParameters, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_parameters")); ok {
+			if tmpList := stepParameters.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "step_parameters"), 0)
+				tmp, err := s.mapToPipelineStepParameterDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert step_parameters, encountered error: %v", err)
+				}
+				details.StepParameters = tmp
+			}
+		}
+		if stepRunName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_run_name")); ok {
+			tmp := stepRunName.(string)
+			details.StepRunName = &tmp
+		}
 		if dependsOn, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "depends_on")); ok {
 			interfaces := dependsOn.([]interface{})
 			tmp := make([]string, len(interfaces))
@@ -2261,6 +2462,14 @@ func PipelineStepDetailsToMap(obj oci_datascience.PipelineStepDetails) map[strin
 			result["step_infrastructure_configuration_details"] = []interface{}{PipelineInfrastructureConfigurationDetailsToMap(v.StepInfrastructureConfigurationDetails)}
 		}
 
+		if v.StepParameters != nil {
+			stepParametersArray := []interface{}{}
+			if stepParametersMap := PipelineStepParameterDetailsToMap(&v.StepParameters); stepParametersMap != nil {
+				stepParametersArray = append(stepParametersArray, stepParametersMap)
+			}
+			result["step_parameters"] = stepParametersArray
+		}
+
 		stepStorageMountConfigurationDetailsList := []interface{}{}
 		for _, item := range v.StepStorageMountConfigurationDetailsList {
 			stepStorageMountConfigurationDetailsList = append(stepStorageMountConfigurationDetailsList, StorageMountConfigurationDetailsToMap(item))
@@ -2289,6 +2498,14 @@ func PipelineStepDetailsToMap(obj oci_datascience.PipelineStepDetails) map[strin
 
 		if v.StepInfrastructureConfigurationDetails != nil {
 			result["step_infrastructure_configuration_details"] = []interface{}{PipelineInfrastructureConfigurationDetailsToMap(v.StepInfrastructureConfigurationDetails)}
+		}
+
+		if v.StepParameters != nil {
+			stepParametersArray := []interface{}{}
+			if stepParametersMap := PipelineStepParameterDetailsToMap(&v.StepParameters); stepParametersMap != nil {
+				stepParametersArray = append(stepParametersArray, stepParametersMap)
+			}
+			result["step_parameters"] = stepParametersArray
 		}
 
 		stepStorageMountConfigurationDetailsList := []interface{}{}
@@ -2338,6 +2555,18 @@ func PipelineStepDetailsToMap(obj oci_datascience.PipelineStepDetails) map[strin
 	case oci_datascience.PipelineMlJobStepDetails:
 		result["step_type"] = "ML_JOB"
 
+		if v.StepParameters != nil {
+			stepParametersArray := []interface{}{}
+			if stepParametersMap := PipelineStepParameterDetailsToMap(&v.StepParameters); stepParametersMap != nil {
+				stepParametersArray = append(stepParametersArray, stepParametersMap)
+			}
+			result["step_parameters"] = stepParametersArray
+		}
+
+		if v.StepRunName != nil {
+			result["step_run_name"] = string(*v.StepRunName)
+		}
+
 		result["depends_on"] = v.DependsOn
 
 		if v.Description != nil {
@@ -2357,6 +2586,112 @@ func PipelineStepDetailsToMap(obj oci_datascience.PipelineStepDetails) map[strin
 		}
 	default:
 		log.Printf("[WARN] Received 'step_type' of unknown type %v", obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *DatasciencePipelineResourceCrud) mapToPipelineStepOutputParameterDetails(fieldKeyFormat string) (oci_datascience.PipelineStepOutputParameterDetails, error) {
+	var baseObject oci_datascience.PipelineStepOutputParameterDetails
+	//discriminator
+	outputParameterTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "output_parameter_type"))
+	var outputParameterType string
+	if ok {
+		outputParameterType = outputParameterTypeRaw.(string)
+	} else {
+		outputParameterType = "" // default value
+	}
+	switch strings.ToLower(outputParameterType) {
+	case strings.ToLower("JSON"):
+		details := oci_datascience.PipelineJsonStepOutputParameterDetails{}
+		if outputFile, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "output_file")); ok {
+			tmp := outputFile.(string)
+			details.OutputFile = &tmp
+		}
+		if parameterNames, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "parameter_names")); ok {
+			interfaces := parameterNames.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "parameter_names")) {
+				details.ParameterNames = tmp
+			}
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown output_parameter_type '%v' was specified", outputParameterType)
+	}
+	return baseObject, nil
+}
+
+func PipelineStepOutputParameterDetailsToMap(obj *oci_datascience.PipelineStepOutputParameterDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_datascience.PipelineJsonStepOutputParameterDetails:
+		result["output_parameter_type"] = "JSON"
+
+		if v.OutputFile != nil {
+			result["output_file"] = string(*v.OutputFile)
+		}
+
+		result["parameter_names"] = v.ParameterNames
+	default:
+		log.Printf("[WARN] Received 'output_parameter_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *DatasciencePipelineResourceCrud) mapToPipelineStepParameterDetails(fieldKeyFormat string) (oci_datascience.PipelineStepParameterDetails, error) {
+	var baseObject oci_datascience.PipelineStepParameterDetails
+	//discriminator
+	parameterTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "parameter_type"))
+	var parameterType string
+	if ok {
+		parameterType = parameterTypeRaw.(string)
+	} else {
+		parameterType = "" // default value
+	}
+	switch strings.ToLower(parameterType) {
+	case strings.ToLower("DEFAULT"):
+		details := oci_datascience.PipelineDefaultStepParameterDetails{}
+		if output, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "output")); ok {
+			if tmpList := output.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "output"), 0)
+				tmp, err := s.mapToPipelineStepOutputParameterDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert output, encountered error: %v", err)
+				}
+				details.Output = tmp
+			}
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown parameter_type '%v' was specified", parameterType)
+	}
+	return baseObject, nil
+}
+
+func PipelineStepParameterDetailsToMap(obj *oci_datascience.PipelineStepParameterDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_datascience.PipelineDefaultStepParameterDetails:
+		result["parameter_type"] = "DEFAULT"
+
+		if v.Output != nil {
+			outputArray := []interface{}{}
+			if outputMap := PipelineStepOutputParameterDetailsToMap(&v.Output); outputMap != nil {
+				outputArray = append(outputArray, outputMap)
+			}
+			result["output"] = outputArray
+		}
+	default:
+		log.Printf("[WARN] Received 'parameter_type' of unknown type %v", *obj)
 		return nil
 	}
 

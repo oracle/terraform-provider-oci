@@ -59,9 +59,10 @@ var (
 		"display_name":                       acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":                      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"job_configuration_override_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobRunJobConfigurationOverrideDetailsRepresentation},
-		"job_environment_configuration_override_details":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobRunJobEnvironmentConfigurationOverrideDetailsRepresentation},
-		"job_infrastructure_configuration_override_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobRunEmptyJobInfrastructureConfigurationOverrideDetailsRepresentation},
-		"job_node_configuration_override_details":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobRunJobNodeConfigurationOverrideDetailsRepresentation},
+		"job_environment_configuration_override_details":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobRunJobEnvironmentConfigurationOverrideDetailsRepresentation},
+		"job_infrastructure_configuration_override_details":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobRunEmptyJobInfrastructureConfigurationOverrideDetailsRepresentation},
+		"job_node_configuration_override_details":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobRunJobNodeConfigurationOverrideDetailsRepresentation},
+		"job_storage_mount_configuration_override_details_list": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobRunJobStorageMountConfigurationOverrideDetailsListRepresentation},
 		"lifecycle": acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreJobRunDefinedTagsChangesRepresentation},
 	}
 	DatascienceJobRunJobConfigurationOverrideDetailsRepresentation = map[string]interface{}{
@@ -105,6 +106,13 @@ var (
 		"maximum_runtime_in_minutes":                acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"startup_order":                             acctest.Representation{RepType: acctest.Optional, Create: `IN_ORDER`},
 	}
+	DatascienceJobRunJobStorageMountConfigurationOverrideDetailsListRepresentation = map[string]interface{}{
+		"destination_directory_name": acctest.Representation{RepType: acctest.Required, Create: `fss`, Update: `fss1`},
+		"storage_type":               acctest.Representation{RepType: acctest.Required, Create: `FILE_STORAGE`},
+		"destination_path":           acctest.Representation{RepType: acctest.Optional, Create: `/mnt`, Update: `/mnt`},
+		"export_id":                  acctest.Representation{RepType: acctest.Optional, Create: `export_id`},
+		"mount_target_id":            acctest.Representation{RepType: acctest.Optional, Create: `mount_id`},
+	}
 	DatascienceJobRunJobConfigurationOverrideDetailsStartupProbeDetailsRepresentation = map[string]interface{}{
 		"command":                  acctest.Representation{RepType: acctest.Required, Create: []string{`command`}},
 		"job_probe_check_type":     acctest.Representation{RepType: acctest.Required, Create: `EXEC`},
@@ -121,7 +129,7 @@ var (
 		"subnet_id":        acctest.Representation{RepType: acctest.Required, Create: `subnet_id`},
 	}
 	DatascienceJobRunJobNodeConfigurationDetailsRepresentation = map[string]interface{}{
-		"name":                      acctest.Representation{RepType: acctest.Required, Create: `name`},
+		"name":                      acctest.Representation{RepType: acctest.Required, Create: `replica1`},
 		"job_configuration_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobRunJobNodeConfigurationOverrideDetailsJobNodeGroupConfigurationDetailsListJobConfigurationDetailsRepresentation},
 		// "job_environment_configuration_details":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobRunJobNodeConfigurationOverrideDetailsJobNodeGroupConfigurationDetailsListJobEnvironmentConfigurationDetailsRepresentation},
 		"job_infrastructure_configuration_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobRunJobNodeConfigurationOverrideDetailsJobNodeGroupConfigurationDetailsListJobInfrastructureConfigurationDetailsRepresentation},
@@ -144,11 +152,10 @@ var (
 		"image_signature_id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_datascience_image_signature.test_image_signature.id}`},
 	}
 	DatascienceJobRunJobNodeConfigurationOverrideDetailsJobNodeGroupConfigurationDetailsListJobInfrastructureConfigurationDetailsRepresentation = map[string]interface{}{
-		"job_infrastructure_type":   acctest.Representation{RepType: acctest.Required, Create: `STANDALONE`},
+		"job_infrastructure_type":   acctest.Representation{RepType: acctest.Required, Create: `MULTI_NODE`},
 		"block_storage_size_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `50`},
 		"job_shape_config_details":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobRunJobNodeConfigurationOverrideDetailsJobNodeGroupConfigurationDetailsListJobInfrastructureConfigurationDetailsJobShapeConfigDetailsRepresentation},
 		"shape_name":                acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard.E4.Flex`},
-		// "subnet_id":                 acctest.Representation{RepType: acctest.Optional, Create: ``},
 	}
 	DatascienceJobRunJobNodeConfigurationOverrideDetailsJobNodeGroupConfigurationDetailsListJobConfigurationDetailsStartupProbeDetailsRepresentation = map[string]interface{}{
 		"command":                  acctest.Representation{RepType: acctest.Required, Create: []string{`command`}},
@@ -160,6 +167,7 @@ var (
 	DatascienceJobRunJobNodeConfigurationOverrideDetailsJobNodeGroupConfigurationDetailsListJobInfrastructureConfigurationDetailsJobShapeConfigDetailsRepresentation = map[string]interface{}{
 		"memory_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `16.0`},
 		"ocpus":         acctest.Representation{RepType: acctest.Optional, Create: `3.0`},
+		"cpu_baseline":  acctest.Representation{RepType: acctest.Optional, Create: `BASELINE_1_8`, Update: `BASELINE_1_2`},
 	}
 
 	DatascienceJobRunResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_datascience_job", "test_job", acctest.Required, acctest.Create, DatascienceJobRepresentation) +
@@ -243,6 +251,12 @@ func TestDatascienceJobRunResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_override_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_infrastructure_type", "MULTI_NODE"),
 					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_override_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_shape_config_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_override_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_shape_config_details.0.memory_in_gbs", "16"),
+					resource.TestCheckResourceAttr(resourceName, "job_storage_mount_configuration_override_details_list.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "job_storage_mount_configuration_override_details_list.0.destination_directory_name", "fss"),
+					resource.TestCheckResourceAttr(resourceName, "job_storage_mount_configuration_override_details_list.0.destination_path", "/mnt"),
+					resource.TestCheckResourceAttrSet(resourceName, "job_storage_mount_configuration_override_details_list.0.export_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "job_storage_mount_configuration_override_details_list.0.mount_target_id"),
+					resource.TestCheckResourceAttr(resourceName, "job_storage_mount_configuration_override_details_list.0.storage_type", "FILE_STORAGE"),
 					resource.TestCheckResourceAttrSet(resourceName, "job_id"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_log_configuration_override_details.#", "0"),
@@ -283,6 +297,12 @@ func TestDatascienceJobRunResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "job_id"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_log_configuration_override_details.#", "0"),
+					resource.TestCheckResourceAttr(resourceName, "job_storage_mount_configuration_override_details_list.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "job_storage_mount_configuration_override_details_list.0.destination_directory_name", "fss"),
+					resource.TestCheckResourceAttr(resourceName, "job_storage_mount_configuration_override_details_list.0.destination_path", "/mnt"),
+					resource.TestCheckResourceAttrSet(resourceName, "job_storage_mount_configuration_override_details_list.0.export_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "job_storage_mount_configuration_override_details_list.0.mount_target_id"),
+					resource.TestCheckResourceAttr(resourceName, "job_storage_mount_configuration_override_details_list.0.storage_type", "FILE_STORAGE"),
 					resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_accepted"),
