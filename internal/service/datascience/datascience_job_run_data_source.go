@@ -150,6 +150,12 @@ func (s *DatascienceJobRunDataSourceCrud) SetData() error {
 	}
 	s.D.Set("job_storage_mount_configuration_details_list", jobStorageMountConfigurationDetailsList)
 
+	jobStorageMountConfigurationOverrideDetailsList := []interface{}{}
+	for _, item := range s.Res.JobStorageMountConfigurationOverrideDetailsList {
+		jobStorageMountConfigurationOverrideDetailsList = append(jobStorageMountConfigurationOverrideDetailsList, StorageMountConfigurationDetailsToMap(item))
+	}
+	s.D.Set("job_storage_mount_configuration_override_details_list", jobStorageMountConfigurationOverrideDetailsList)
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}

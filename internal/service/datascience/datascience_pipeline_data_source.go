@@ -113,6 +113,8 @@ func (s *DatasciencePipelineDataSourceCrud) SetData() error {
 		s.D.Set("log_configuration_details", nil)
 	}
 
+	s.D.Set("parameters", s.Res.Parameters)
+
 	if s.Res.ProjectId != nil {
 		s.D.Set("project_id", *s.Res.ProjectId)
 	}

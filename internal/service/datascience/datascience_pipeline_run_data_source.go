@@ -125,6 +125,8 @@ func (s *DatasciencePipelineRunDataSourceCrud) SetData() error {
 		s.D.Set("log_details", nil)
 	}
 
+	s.D.Set("parameters_override", s.Res.ParametersOverride)
+
 	if s.Res.PipelineId != nil {
 		s.D.Set("pipeline_id", *s.Res.PipelineId)
 	}
@@ -146,6 +148,12 @@ func (s *DatasciencePipelineRunDataSourceCrud) SetData() error {
 		stepRuns = append(stepRuns, PipelineStepRunToMap(item))
 	}
 	s.D.Set("step_runs", stepRuns)
+
+	storageMountConfigurationOverrideDetailsList := []interface{}{}
+	for _, item := range s.Res.StorageMountConfigurationOverrideDetailsList {
+		storageMountConfigurationOverrideDetailsList = append(storageMountConfigurationOverrideDetailsList, StorageMountConfigurationDetailsToMap(item))
+	}
+	s.D.Set("storage_mount_configuration_override_details_list", storageMountConfigurationOverrideDetailsList)
 
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
