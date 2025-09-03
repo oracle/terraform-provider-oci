@@ -59,6 +59,22 @@ var (
 		"nsg_ids":             acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
 		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
 	}
+
+	FileStorageMountTargetBisRepresentation = map[string]interface{}{
+		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"subnet_id":           acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `mount-target-5`, Update: `displayName2`},
+		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"hostname_label":      acctest.Representation{RepType: acctest.Optional, Create: `hostnamelabel`},
+		"idmap_type":          acctest.Representation{RepType: acctest.Optional, Create: `LDAP`, Update: `LDAP`},
+		"ip_address":          acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.5`},
+		"kerberos":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: FileStorageMountTargetKerberosRepresentation},
+		"ldap_idmap":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: FileStorageMountTargetLdapIdmapBisRepresentation},
+		"nsg_ids":             acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
+		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
+	}
 	FileStorageMountTargetRepresentationWithFullLock = map[string]interface{}{
 		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
@@ -130,8 +146,20 @@ var (
 		"negative_cache_lifetime_seconds": acctest.Representation{RepType: acctest.Optional, Create: `300`, Update: `400`},
 		"outbound_connector1id":           acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_outbound_connector.test_outbound_connector1.id}`},
 		"outbound_connector2id":           acctest.Representation{RepType: acctest.Optional, Update: `${oci_file_storage_outbound_connector.test_outbound_connector2.id}`},
-		"schema_type":                     acctest.Representation{RepType: acctest.Optional, Create: `RFC2307`},
+		"schema_type":                     acctest.Representation{RepType: acctest.Optional, Create: `RFC2307`, Update: `RFC2307BIS`},
 	}
+
+	FileStorageMountTargetLdapIdmapBisRepresentation = map[string]interface{}{
+		"group_search_base":               acctest.Representation{RepType: acctest.Required, Create: `groupSearchBase`, Update: `groupSearchBase2`},
+		"user_search_base":                acctest.Representation{RepType: acctest.Required, Create: `userSearchBase`, Update: `userSearchBase2`},
+		"cache_lifetime_seconds":          acctest.Representation{RepType: acctest.Optional, Create: `300`, Update: `400`},
+		"cache_refresh_interval_seconds":  acctest.Representation{RepType: acctest.Optional, Create: `300`, Update: `400`},
+		"negative_cache_lifetime_seconds": acctest.Representation{RepType: acctest.Optional, Create: `300`, Update: `400`},
+		"outbound_connector1id":           acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_outbound_connector.test_outbound_connector1.id}`},
+		"outbound_connector2id":           acctest.Representation{RepType: acctest.Optional, Update: `${oci_file_storage_outbound_connector.test_outbound_connector2.id}`},
+		"schema_type":                     acctest.Representation{RepType: acctest.Optional, Create: `RFC2307BIS`, Update: `RFC2307`},
+	}
+
 	FileStorageMountTargetFullLocksRepresentation = map[string]interface{}{
 		"type":    acctest.Representation{RepType: acctest.Required, Create: `FULL`},
 		"message": acctest.Representation{RepType: acctest.Optional, Create: `message`},
@@ -213,14 +241,12 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "export_set_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
-
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
-
 		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + FileStorageMountTargetResourceDependencies + FileStorageMountTargetResourceKerberosDependencies,
@@ -354,7 +380,7 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.negative_cache_lifetime_seconds", "400"),
 				resource.TestCheckResourceAttrSet(resourceName, "ldap_idmap.0.outbound_connector1id"),
 				resource.TestCheckResourceAttrSet(resourceName, "ldap_idmap.0.outbound_connector2id"),
-				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.schema_type", "RFC2307"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.schema_type", "RFC2307BIS"),
 				resource.TestCheckResourceAttr(resourceName, "requested_throughput", "1"),
 
 				func(s *terraform.State) (err error) {
@@ -468,6 +494,104 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{"is_lock_override"},
 			ResourceName:            resourceName,
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + FileStorageMountTargetResourceDependencies + FileStorageMountTargetResourceKerberosDependencies,
+		},
+		// verify Create with optionals for schema_type RFC2307BIS
+		{
+			Config: config + compartmentIdVariableStr + FileStorageMountTargetResourceDependencies + FileStorageMountTargetResourceKerberosDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", acctest.Optional, acctest.Create, FileStorageMountTargetBisRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "mount-target-5"),
+				resource.TestCheckResourceAttrSet(resourceName, "export_set_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnamelabel"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "idmap_type", "LDAP"),
+				resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
+				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "private_ip_ids.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "private_ip_ids.0"),
+				resource.TestCheckResourceAttr(resourceName, "state", string(oci_file_storage.MountTargetLifecycleStateActive)),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos.0.backup_key_tab_secret_version", "0"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos.0.current_key_tab_secret_version", "1"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos.0.is_kerberos_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos.0.kerberos_realm", "kerberosRealm"),
+				resource.TestCheckResourceAttrSet(resourceName, "kerberos.0.key_tab_secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.cache_lifetime_seconds", "300"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.cache_refresh_interval_seconds", "300"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.group_search_base", "groupSearchBase"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.user_search_base", "userSearchBase"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.negative_cache_lifetime_seconds", "300"),
+				resource.TestCheckResourceAttrSet(resourceName, "ldap_idmap.0.outbound_connector1id"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.schema_type", "RFC2307BIS"),
+				resource.TestCheckResourceAttr(resourceName, "requested_throughput", "1"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters for schema_type RFC2307
+		{
+			Config: config + compartmentIdVariableStr + vaultIdVariableStr + keyIdVariableStr + FileStorageMountTargetResourceDependencies + FileStorageMountTargetResourceKerberosDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", acctest.Optional, acctest.Update, FileStorageMountTargetBisRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(resourceName, "export_set_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnamelabel"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "idmap_type", "LDAP"),
+				resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
+				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "private_ip_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "state", string(oci_file_storage.MountTargetLifecycleStateActive)),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos.0.backup_key_tab_secret_version", "0"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos.0.current_key_tab_secret_version", "1"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos.0.is_kerberos_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos.0.kerberos_realm", "kerberosRealm2"),
+				resource.TestCheckResourceAttrSet(resourceName, "kerberos.0.key_tab_secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.cache_lifetime_seconds", "400"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.cache_refresh_interval_seconds", "400"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.group_search_base", "groupSearchBase2"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.user_search_base", "userSearchBase2"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.negative_cache_lifetime_seconds", "400"),
+				resource.TestCheckResourceAttrSet(resourceName, "ldap_idmap.0.outbound_connector1id"),
+				resource.TestCheckResourceAttrSet(resourceName, "ldap_idmap.0.outbound_connector2id"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.schema_type", "RFC2307"),
+				resource.TestCheckResourceAttr(resourceName, "requested_throughput", "1"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
 		},
 	})
 }

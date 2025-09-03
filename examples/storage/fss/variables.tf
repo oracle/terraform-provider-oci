@@ -347,3 +347,11 @@ variable "my_simple_quota_rule_quota_limit_in_gigabytes" {
 variable "my_simple_quota_rule_display_name" {
   default = "my_simple_quota_rule"
 }
+
+variable "ldap_mount_target_display_name" {
+  default = "my_ldap_mount_target"
+}
+
+variable "ldap_mount_target_hostname_label" {
+default = "ldaphostnamelabel"
+}
