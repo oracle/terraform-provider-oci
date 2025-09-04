@@ -1,3 +1,15 @@
+## 7.17.0 (September 3, 2025)
+
+### Added
+- Support for AutoScale-DB-Vault | ExaDB-XS
+- Support for Backup Validation (V2)- Terraform HeatWave Service: Backup Validation
+- Support for ADB-S: Provide Available Capacity When Joining an Elastic Pool
+- Support for Container Governance Service
+- Support for dbmulticloud GCP and azure fixes
+- Prod Endpoint for AI Vision Service Stream Video Processing
+- Support for AI Vision Service Stream Video Processing
+
+
 ## 7.16.0 (August 27, 2025)
 
 ### Added
