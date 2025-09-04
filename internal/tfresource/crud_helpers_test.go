@@ -46,6 +46,10 @@ type ResourceCrud struct {
 	extraWaitPostCreateDelete
 }
 
+func (b ResourceCrud) CreateWithContext(ctx context.Context) error {
+	return nil
+}
+
 func (b ResourceCrud) Create() error {
 	if b.id == "4" {
 		return errors.New("")
@@ -108,6 +112,10 @@ type readResourceCrud struct {
 	statefullyDeletedResource
 }
 
+func (b readResourceCrud) GetWithContext(ctx context.Context) error {
+	return nil
+}
+
 func (b readResourceCrud) Create() error {
 	return nil
 }
@@ -148,6 +156,10 @@ type updateResourceCrud struct {
 	statefullyUpdatedResource
 }
 
+func (b updateResourceCrud) UpdateWithContext(ctx context.Context) error {
+	return nil
+}
+
 func (b updateResourceCrud) Update() error {
 	return nil
 }
@@ -185,6 +197,10 @@ type deleteResourceCrud struct {
 	statefullyDeletedResource
 	extraWaitPostCreateDelete
 	extraWaitPostDelete
+}
+
+func (b deleteResourceCrud) DeleteWithContext(ctx context.Context) error {
+	return nil
 }
 
 func (b deleteResourceCrud) Delete() error {
@@ -316,6 +332,10 @@ type TestResource struct {
 	GetError          error
 	GetAttempts       int
 	ActualGetAttempts int
+}
+
+func (t *TestResource) GetWithContext(ctx context.Context) error {
+	return nil
 }
 
 func (t *TestResource) Get() error {
@@ -2481,5 +2501,218 @@ func TestUnitValidateNotEmptyString(t *testing.T) {
 	for _, test := range tests {
 		t.Logf("Running %s", test.name)
 		ValidateNotEmptyString()(test.args.i, test.args.k)
+	}
+}
+
+func TestUnitWaitForUpdatedStateWithContext(t *testing.T) {
+	s := &updateResourceCrud{}
+	reqResourceData := &mockResourceData{}
+	s.D = reqResourceData
+
+	type args struct {
+		d    *mockResourceData
+		sync ResourceUpdaterWithContext
+	}
+	type testFormat struct {
+		name     string
+		args     args
+		gotError bool
+		mockFunc func()
+	}
+	tests := []testFormat{
+		{
+			name:     "Test error is returned",
+			args:     args{sync: s, d: reqResourceData},
+			gotError: true,
+			mockFunc: func() {
+				waitForStateRefreshVar = func(sr StatefulResource, timeout time.Duration, operationName string, pending []string, target []string) error {
+					return errors.New("default")
+				}
+			},
+		},
+		{
+			name:     "Test no error is returned",
+			args:     args{sync: s, d: reqResourceData},
+			gotError: false,
+			mockFunc: func() {
+				waitForStateRefreshVar = func(sr StatefulResource, timeout time.Duration, operationName string, pending []string, target []string) error {
+					return nil
+				}
+			},
+		},
+	}
+	for _, test := range tests {
+		t.Logf("Running %s", test.name)
+		test.mockFunc()
+		if res := WaitForUpdatedStateWithContext(test.args.d, test.args.sync); (res != nil) != test.gotError {
+			t.Errorf("Output error - %q which is not equal to expected error - %t", res, test.gotError)
+		}
+	}
+}
+
+func TestUnitUpdateResourceWithContext(t *testing.T) {
+	s := &updateResourceCrud{}
+	reqResourceData := &mockResourceData{}
+	s.D = reqResourceData
+
+	type args struct {
+		d    *mockResourceData
+		sync ResourceUpdaterWithContext
+	}
+	type testFormat struct {
+		name     string
+		args     args
+		gotError bool
+		mockFunc func()
+	}
+	tests := []testFormat{
+		{
+			name:     "Test",
+			args:     args{sync: s, d: reqResourceData},
+			gotError: true,
+			mockFunc: func() {
+				waitForStateRefreshVar = func(sr StatefulResource, timeout time.Duration, operationName string, pending []string, target []string) error {
+					return errors.New("default")
+				}
+			},
+		},
+		{
+			name:     "Test",
+			args:     args{sync: s, d: reqResourceData},
+			gotError: false,
+			mockFunc: func() {
+				waitForStateRefreshVar = func(sr StatefulResource, timeout time.Duration, operationName string, pending []string, target []string) error {
+					return nil
+				}
+			},
+		},
+	}
+	for _, test := range tests {
+		t.Logf("Running %s", test.name)
+		test.mockFunc()
+		if res := UpdateResourceWithContext(context.Background(), test.args.d, test.args.sync); (res != nil) != test.gotError {
+			t.Errorf("Output error - %q which is not equal to expected error - %t", res, test.gotError)
+		}
+	}
+}
+
+func TestUnitDeleteResourceWithContext(t *testing.T) {
+	s := &deleteResourceCrud{}
+	reqResourceData := &mockResourceData{}
+	s.D = reqResourceData
+
+	type args struct {
+		d    *mockResourceData
+		sync ResourceDeleterWithContext
+	}
+	type testFormat struct {
+		name     string
+		args     args
+		gotError bool
+		mockFunc func()
+	}
+	tests := []testFormat{
+		{
+			name:     "Test",
+			args:     args{sync: s, d: reqResourceData},
+			gotError: true,
+			mockFunc: func() {
+				waitForStateRefreshVar = func(sr StatefulResource, timeout time.Duration, operationName string, pending []string, target []string) error {
+					return errors.New("default")
+				}
+			},
+		},
+		{
+			name:     "Test",
+			args:     args{sync: s, d: reqResourceData},
+			gotError: false,
+			mockFunc: func() {
+				waitForStateRefreshVar = func(sr StatefulResource, timeout time.Duration, operationName string, pending []string, target []string) error {
+					return nil
+				}
+			},
+		},
+	}
+	for _, test := range tests {
+		t.Logf("Running %s", test.name)
+		test.mockFunc()
+		if res := DeleteResourceWithContext(context.Background(), test.args.d, test.args.sync); (res != nil) != test.gotError {
+			t.Errorf("Output error - %q which is not equal to expected error - %t", res, test.gotError)
+		}
+	}
+}
+
+func TestUnitCreateResourceWithContext(t *testing.T) {
+	s := &ResourceCrud{}
+	reqResourceData := &mockResourceData{}
+	s.D = reqResourceData
+
+	type args struct {
+		d    *mockResourceData
+		sync ResourceCreatorWithContext
+	}
+	type testFormat struct {
+		name     string
+		args     args
+		gotError bool
+		mockFunc func()
+	}
+	tests := []testFormat{
+		{
+			name:     "Test error is returned",
+			args:     args{sync: s, d: reqResourceData},
+			gotError: true,
+			mockFunc: func() {
+				waitForStateRefreshVar = func(sr StatefulResource, timeout time.Duration, operationName string, pending []string, target []string) error {
+					return errors.New("default")
+					//return nil
+				}
+			},
+		},
+		{
+			name:     "Test no error is returned",
+			args:     args{sync: s, d: reqResourceData},
+			gotError: false,
+			mockFunc: func() {
+				waitForStateRefreshVar = func(sr StatefulResource, timeout time.Duration, operationName string, pending []string, target []string) error {
+					//return errors.New("default")
+					return nil
+				}
+			},
+		},
+	}
+	for _, test := range tests {
+		test.mockFunc()
+		if res := CreateResourceWithContext(context.Background(), test.args.d, test.args.sync); (res != nil) != test.gotError {
+			t.Errorf("Output error - %q which is not equal to expected error - %t", res, test.gotError)
+		}
+	}
+}
+
+func TestUnitReadResourceWithContext(t *testing.T) {
+	s := &readResourceCrud{}
+	reqResourceData := &mockResourceData{}
+	s.D = reqResourceData
+
+	type args struct {
+		sync ResourceReaderWithContext
+	}
+	type testFormat struct {
+		name     string
+		args     args
+		gotError bool
+	}
+	tests := []testFormat{
+		{
+			name:     "Test",
+			args:     args{sync: s},
+			gotError: false,
+		},
+	}
+	for _, test := range tests {
+		t.Logf("Running %s", test.name)
+		if res := ReadResourceWithContext(context.Background(), test.args.sync); (res != nil) != test.gotError {
+			t.Errorf("Output error - %q which is not equal to expected error - %t", res, test.gotError)
+		}
 	}
 }
