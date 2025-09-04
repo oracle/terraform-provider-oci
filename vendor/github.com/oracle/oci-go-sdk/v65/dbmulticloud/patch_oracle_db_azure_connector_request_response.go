@@ -18,10 +18,10 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dbmulticloud/PatchOracleDbAzureConnector.go.html to see an example of how to use PatchOracleDbAzureConnectorRequest.
 type PatchOracleDbAzureConnectorRequest struct {
 
-	// The ID of the Oracle DB Azure Connector Resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB Azure Connector resource.
 	OracleDbAzureConnectorId *string `mandatory:"true" contributesTo:"path" name:"oracleDbAzureConnectorId"`
 
-	// Patch Azure Arc Agent on VM Cluster with new version.
+	// Patch Azure Arc Agent on Oracle Cloud VM Cluster with new version.
 	PatchOracleDbAzureConnectorDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

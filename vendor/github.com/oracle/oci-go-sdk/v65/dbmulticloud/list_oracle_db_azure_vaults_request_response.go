@@ -21,20 +21,19 @@ type ListOracleDbAzureVaultsRequest struct {
 	// The ID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// A filter to return Azure Vaults.
+	// A filter to return Oracle DB Azure Vault resources that match the specified display name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// A filter to return Oracle DB Azure Vault Resources.
+	// A filter to return Oracle DB Azure Vault resources that match the specified OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB Azure Vault resource.
 	OracleDbAzureVaultId *string `mandatory:"false" contributesTo:"query" name:"oracleDbAzureVaultId"`
 
-	// A filter to return only resources that match the given lifecycle state. The
-	// state value is case-insensitive.
+	// A filter to return only resources that match the given lifecycle state. The state value is case-insensitive.
 	LifecycleState OracleDbAzureVaultLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// A filter to return Azure Vaults.
+	// A filter to return Oracle DB Azure Vault resources that match the specified Oracle DB Azure resource group name.
 	OracleDbAzureResourceGroup *string `mandatory:"false" contributesTo:"query" name:"oracleDbAzureResourceGroup"`
 
-	// A filter to return Oracle DB Azure Blob Mount Resources.
+	// A filter to return Oracle DB Azure Azure Identity Connector resources.
 	OracleDbAzureConnectorId *string `mandatory:"false" contributesTo:"query" name:"oracleDbAzureConnectorId"`
 
 	// The maximum number of items to return.

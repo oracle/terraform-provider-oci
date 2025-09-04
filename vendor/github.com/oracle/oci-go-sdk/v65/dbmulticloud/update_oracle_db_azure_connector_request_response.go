@@ -18,10 +18,10 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dbmulticloud/UpdateOracleDbAzureConnector.go.html to see an example of how to use UpdateOracleDbAzureConnectorRequest.
 type UpdateOracleDbAzureConnectorRequest struct {
 
-	// The ID of the Oracle DB Azure Connector Resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB Azure Connector resource.
 	OracleDbAzureConnectorId *string `mandatory:"true" contributesTo:"path" name:"oracleDbAzureConnectorId"`
 
-	// Details for to update Oracle DB Azure Connector Resource.
+	// Details for to update Oracle DB Azure Connector resource.
 	UpdateOracleDbAzureConnectorDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

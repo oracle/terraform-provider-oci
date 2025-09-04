@@ -39,6 +39,9 @@ type DetectorConfiguration struct {
 
 	// Map of possible values for configuration
 	AllowedValues []PropertyTuple `mandatory:"false" json:"allowedValues"`
+
+	// Map of additional property values for configuration
+	AdditionalProperties []AdditionalConfigPropertyDefinition `mandatory:"false" json:"additionalProperties"`
 }
 
 func (m DetectorConfiguration) String() string {
