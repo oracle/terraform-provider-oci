@@ -66,6 +66,8 @@ The following attributes are exported:
 * `app_name` - The name of the application associated with the sensitive column. It's useful when the application name is different from the schema name. Otherwise, it can be ignored. 
 * `column_groups` - The composite key groups to which the sensitive column belongs. If the column is part of a composite key, it's assigned a column group. It helps identify and manage referential relationships that involve composite keys. 
 * `column_name` - The name of the sensitive column.
+* `confidence_level` - The confidence level of the sensitive column associated with the sensitive type. The confidence level of the discovered sensitive columns can be either HIGH, MEDIUM or LOW. The confidence level will be NONE for manually added sensitive columns. 
+* `confidence_level_details` - List containing maps as values. Example: `{"Operations": [ {"CostCenter": "42"} ] }` 
 * `data_type` - The data type of the sensitive column.
 * `db_defined_child_column_keys` - Unique keys identifying the columns that are database-level (dictionary-defined) children of the sensitive column.
 * `estimated_data_value_count` - The estimated number of data values the column has in the associated database.

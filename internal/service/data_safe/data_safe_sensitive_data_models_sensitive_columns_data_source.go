@@ -20,11 +20,22 @@ func DataSafeSensitiveDataModelsSensitiveColumnsDataSource() *schema.Resource {
 		Read: readDataSafeSensitiveDataModelsSensitiveColumns,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
+			"column_data_count_filter": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"column_group": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
 			"column_name": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"confidence_level": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Schema{
@@ -154,6 +165,10 @@ func (s *DataSafeSensitiveDataModelsSensitiveColumnsDataSourceCrud) VoidState() 
 func (s *DataSafeSensitiveDataModelsSensitiveColumnsDataSourceCrud) Get() error {
 	request := oci_data_safe.ListSensitiveColumnsRequest{}
 
+	if columnDataCountFilter, ok := s.D.GetOkExists("column_data_count_filter"); ok {
+		request.ColumnDataCountFilter = oci_data_safe.ListSensitiveColumnsColumnDataCountFilterEnum(columnDataCountFilter.(string))
+	}
+
 	if columnGroup, ok := s.D.GetOkExists("column_group"); ok {
 		tmp := columnGroup.(string)
 		request.ColumnGroup = &tmp
@@ -168,6 +183,17 @@ func (s *DataSafeSensitiveDataModelsSensitiveColumnsDataSourceCrud) Get() error 
 			}
 		}
 		request.ColumnName = tmp
+	}
+
+	if confidenceLevel, ok := s.D.GetOkExists("confidence_level"); ok {
+		interfaces := confidenceLevel.([]interface{})
+		tmp := make([]oci_data_safe.ConfidenceLevelEnumEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_data_safe.ConfidenceLevelEnumEnum(interfaces[i].(string))
+			}
+		}
+		request.ConfidenceLevel = tmp
 	}
 
 	if dataType, ok := s.D.GetOkExists("data_type"); ok {

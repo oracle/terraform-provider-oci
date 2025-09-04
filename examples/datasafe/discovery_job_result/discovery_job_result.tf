@@ -27,6 +27,10 @@ variable "discovery_jobs_result_planned_action" {
   default = "NONE"
 }
 
+variable "discovery_jobs_result_confidence_level" {
+  default = ["HIGH"]
+}
+
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -42,5 +46,6 @@ data "oci_data_safe_discovery_jobs_results" "test_discovery_jobs_results" {
   #Optional
   discovery_type    = var.discovery_jobs_result_discovery_type
   is_result_applied = var.discovery_jobs_result_is_result_applied
+  confidence_level  = var.discovery_jobs_result_confidence_level
 }
 
