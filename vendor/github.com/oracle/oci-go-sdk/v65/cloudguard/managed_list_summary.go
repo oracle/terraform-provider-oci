@@ -43,6 +43,9 @@ type ManagedListSummary struct {
 	// OCID of the source managed list
 	SourceManagedListId *string `mandatory:"false" json:"sourceManagedListId"`
 
+	// Managed list type group
+	Group *string `mandatory:"false" json:"group"`
+
 	// Is this list editable?
 	IsEditable *bool `mandatory:"false" json:"isEditable"`
 

@@ -488,16 +488,19 @@ type CloudVmClusterSummaryTdeKeyStoreTypeEnum string
 const (
 	CloudVmClusterSummaryTdeKeyStoreTypeAzure CloudVmClusterSummaryTdeKeyStoreTypeEnum = "AZURE"
 	CloudVmClusterSummaryTdeKeyStoreTypeOci   CloudVmClusterSummaryTdeKeyStoreTypeEnum = "OCI"
+	CloudVmClusterSummaryTdeKeyStoreTypeGcp   CloudVmClusterSummaryTdeKeyStoreTypeEnum = "GCP"
 )
 
 var mappingCloudVmClusterSummaryTdeKeyStoreTypeEnum = map[string]CloudVmClusterSummaryTdeKeyStoreTypeEnum{
 	"AZURE": CloudVmClusterSummaryTdeKeyStoreTypeAzure,
 	"OCI":   CloudVmClusterSummaryTdeKeyStoreTypeOci,
+	"GCP":   CloudVmClusterSummaryTdeKeyStoreTypeGcp,
 }
 
 var mappingCloudVmClusterSummaryTdeKeyStoreTypeEnumLowerCase = map[string]CloudVmClusterSummaryTdeKeyStoreTypeEnum{
 	"azure": CloudVmClusterSummaryTdeKeyStoreTypeAzure,
 	"oci":   CloudVmClusterSummaryTdeKeyStoreTypeOci,
+	"gcp":   CloudVmClusterSummaryTdeKeyStoreTypeGcp,
 }
 
 // GetCloudVmClusterSummaryTdeKeyStoreTypeEnumValues Enumerates the set of values for CloudVmClusterSummaryTdeKeyStoreTypeEnum
@@ -514,6 +517,7 @@ func GetCloudVmClusterSummaryTdeKeyStoreTypeEnumStringValues() []string {
 	return []string{
 		"AZURE",
 		"OCI",
+		"GCP",
 	}
 }
 

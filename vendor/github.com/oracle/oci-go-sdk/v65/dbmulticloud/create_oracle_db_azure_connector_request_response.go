@@ -18,15 +18,13 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dbmulticloud/CreateOracleDbAzureConnector.go.html to see an example of how to use CreateOracleDbAzureConnectorRequest.
 type CreateOracleDbAzureConnectorRequest struct {
 
-	// Details for to Create Oracle DB Azure Connector Resource
-	// and configured Azure Identity in OCI Database Resource.
+	// Details for to Create Oracle DB Azure Connector resource
+	// and configured Azure Identity in Oracle Database resource.
 	CreateOracleDbAzureConnectorDetails `contributesTo:"body"`
 
-	// A token that uniquely identifies a request so it can be retried in case of a timeout or
-	// server error without risk of executing that same action again. Retry tokens expire after 24
-	// hours, but can be invalidated before then due to conflicting operations. For example, if a resource
-	// has been deleted and purged from the system, then a retry of the original creation request
-	// might be rejected.
+	// A token that uniquely identifies a request, allowing it to be safely retried in the event of a timeout or server error without the risk of the action being executed more than once.
+	// Retry tokens expire after 24 hours but can be invalidated sooner if conflicting operations occur.
+	// For example, if a resource has been deleted and permanently purged from the system, a retry of the original creation request may be rejected.
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
 	// The client request ID for tracing.

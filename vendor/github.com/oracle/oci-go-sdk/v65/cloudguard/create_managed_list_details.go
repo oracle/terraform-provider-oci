@@ -39,6 +39,9 @@ type CreateManagedListDetails struct {
 	// List of items in the managed list
 	ListItems []string `mandatory:"false" json:"listItems"`
 
+	// Managed list type group
+	Group *string `mandatory:"false" json:"group"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	// Avoid entering confidential information.

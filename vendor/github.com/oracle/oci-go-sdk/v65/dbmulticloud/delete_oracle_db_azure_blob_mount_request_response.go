@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dbmulticloud/DeleteOracleDbAzureBlobMount.go.html to see an example of how to use DeleteOracleDbAzureBlobMountRequest.
 type DeleteOracleDbAzureBlobMountRequest struct {
 
-	// The ID of the Azure Container Resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB Azure Blob Mount resource.
 	OracleDbAzureBlobMountId *string `mandatory:"true" contributesTo:"path" name:"oracleDbAzureBlobMountId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call
