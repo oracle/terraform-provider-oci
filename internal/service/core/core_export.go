@@ -464,6 +464,9 @@ var exportCoreComputeImageCapabilitySchemaHints = &tf_export.TerraformResourceHi
 	DatasourceItemsAttr:    "compute_image_capability_schemas",
 	ResourceAbbreviation:   "compute_image_capability_schema",
 	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_core.ComputeImageCapabilitySchemaLifecycleStateActive),
+	},
 }
 
 var exportCoreComputeCapacityReservationHints = &tf_export.TerraformResourceHints{

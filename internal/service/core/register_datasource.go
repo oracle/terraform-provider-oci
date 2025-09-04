@@ -85,6 +85,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_core_fast_connect_provider_service", CoreFastConnectProviderServiceDataSource())
 	tfresource.RegisterDatasource("oci_core_fast_connect_provider_service_key", CoreFastConnectProviderServiceKeyDataSource())
 	tfresource.RegisterDatasource("oci_core_fast_connect_provider_services", CoreFastConnectProviderServicesDataSource())
+	tfresource.RegisterDatasource("oci_core_firmware_bundle", CoreFirmwareBundleDataSource())
+	tfresource.RegisterDatasource("oci_core_firmware_bundles", CoreFirmwareBundlesDataSource())
 	tfresource.RegisterDatasource("oci_core_image", CoreImageDataSource())
 	tfresource.RegisterDatasource("oci_core_image_shape", CoreImageShapeDataSource())
 	tfresource.RegisterDatasource("oci_core_image_shapes", CoreImageShapesDataSource())

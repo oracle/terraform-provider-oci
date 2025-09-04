@@ -24,6 +24,7 @@ data "oci_core_shapes" "test_shapes" {
 	#Optional
 	availability_domain = var.shape_availability_domain
 	image_id = oci_core_image.test_image.id
+	shape = var.shape_shape
 }
 ```
 
@@ -34,6 +35,7 @@ The following arguments are supported:
 * `availability_domain` - (Optional) The name of the availability domain.  Example: `Uocm:PHX-AD-1` 
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `image_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of an image.
+* `shape` - (Optional) Shape name.
 
 
 ## Attributes Reference
@@ -130,8 +132,8 @@ The following attributes are exported:
 	* `type` - The type of platform being configured. 
 	* `virtual_instructions_options` - Configuration options for the virtualization instructions. 
 		* `allowed_values` - Whether virtualization instructions can be enabled. 
-		* `is_default_enabled` - Whether virtualization instructions are enabled by default. 
-
+		* `is_default_enabled` - Whether virtualization instructions are enabled by default.
+* `platform_names` - The list of platform names that can be used for this shape
 * `platform_config_options` - The list of supported platform configuration options for this shape.
 	* `access_control_service_options` - Configuration options for the Access Control Service.
 		* `allowed_values` - Whether the Access Control Service can be enabled.
@@ -162,9 +164,8 @@ The following attributes are exported:
 	* `virtual_instructions_options` - Configuration options for the virtualization instructions.
 		* `allowed_values` - Whether virtualization instructions can be enabled.
 		* `is_default_enabled` - Whether virtualization instructions are enabled by default.
-
 * `processor_description` - A short description of the shape's processor (CPU). 
-* `quota_names` - The list of of compartment quotas for the shape. 
+* `quota_names` - The list of compartment quotas for the shape. 
 * `rdma_bandwidth_in_gbps` - The networking bandwidth available for the remote direct memory access (RDMA) network for this shape, in gigabits per second. 
 * `rdma_ports` - The number of networking ports available for the remote direct memory access (RDMA) network between nodes in a high performance computing (HPC) cluster network. If the shape does not support cluster networks, this value is `0`. 
 * `recommended_alternatives` - The list of shapes and shape details (if applicable) that Oracle recommends that you use as an alternative to the current shape. 

@@ -31,6 +31,7 @@ resource "oci_core_compute_host_group" "test_compute_host_group" {
 		#Optional
 		firmware_bundle_id = oci_core_firmware_bundle.test_firmware_bundle.id
 		recycle_level = var.compute_host_group_configurations_recycle_level
+		state = var.compute_host_group_configurations_state
 		target = var.compute_host_group_configurations_target
 	}
 	defined_tags = {"Operations.CostCenter"= "42"}
@@ -49,6 +50,7 @@ The following arguments are supported:
 	* `recycle_level` - (Optional) (Updatable) Preferred recycle level for hosts associated with the reservation config.
 		* `SKIP_RECYCLE` - Skips host wipe.
 		* `FULL_RECYCLE` - Does not skip host wipe. This is the default behavior. 
+	* `state` - (Optional) (Updatable) The state of the host group configuration.
 	* `target` - (Optional) (Updatable) Either the platform name or compute shape that the configuration is targeting
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Required) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
@@ -70,6 +72,7 @@ The following attributes are exported:
 	* `recycle_level` - Preferred recycle level for hosts associated with the reservation config.
 		* `SKIP_RECYCLE` - Skips host wipe.
 		* `FULL_RECYCLE` - Does not skip host wipe. This is the default behavior. 
+	* `state` - The state of the host group configuration.
 	* `target` - Either the platform name or compute shape that the configuration is targeting
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
