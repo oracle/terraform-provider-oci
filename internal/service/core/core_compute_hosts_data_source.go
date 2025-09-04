@@ -93,6 +93,10 @@ func ComputeHostSummary() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"firmware_bundle_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"hpc_island_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -102,6 +106,10 @@ func ComputeHostSummary() *schema.Resource {
 				Computed: true,
 			},
 			"network_block_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"platform": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
