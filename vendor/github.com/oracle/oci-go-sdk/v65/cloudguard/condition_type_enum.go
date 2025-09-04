@@ -24,6 +24,7 @@ const (
 	ConditionTypeEnumCloudGuardCondition       ConditionTypeEnumEnum = "CloudGuardCondition"
 	ConditionTypeEnumInstanceSecurityCondition ConditionTypeEnumEnum = "InstanceSecurityCondition"
 	ConditionTypeEnumThreatCondition           ConditionTypeEnumEnum = "ThreatCondition"
+	ConditionTypeEnumContainerCondition        ConditionTypeEnumEnum = "ContainerCondition"
 )
 
 var mappingConditionTypeEnumEnum = map[string]ConditionTypeEnumEnum{
@@ -32,6 +33,7 @@ var mappingConditionTypeEnumEnum = map[string]ConditionTypeEnumEnum{
 	"CloudGuardCondition":       ConditionTypeEnumCloudGuardCondition,
 	"InstanceSecurityCondition": ConditionTypeEnumInstanceSecurityCondition,
 	"ThreatCondition":           ConditionTypeEnumThreatCondition,
+	"ContainerCondition":        ConditionTypeEnumContainerCondition,
 }
 
 var mappingConditionTypeEnumEnumLowerCase = map[string]ConditionTypeEnumEnum{
@@ -40,6 +42,7 @@ var mappingConditionTypeEnumEnumLowerCase = map[string]ConditionTypeEnumEnum{
 	"cloudguardcondition":       ConditionTypeEnumCloudGuardCondition,
 	"instancesecuritycondition": ConditionTypeEnumInstanceSecurityCondition,
 	"threatcondition":           ConditionTypeEnumThreatCondition,
+	"containercondition":        ConditionTypeEnumContainerCondition,
 }
 
 // GetConditionTypeEnumEnumValues Enumerates the set of values for ConditionTypeEnumEnum
@@ -59,6 +62,7 @@ func GetConditionTypeEnumEnumStringValues() []string {
 		"CloudGuardCondition",
 		"InstanceSecurityCondition",
 		"ThreatCondition",
+		"ContainerCondition",
 	}
 }
 

@@ -75,6 +75,12 @@ type ExascaleDbStorageVaultSummary struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
 	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
 
+	// Indicates if autoscale feature is enabled for the Database Storage Vault. The default value is `FALSE`.
+	IsAutoscaleEnabled *bool `mandatory:"false" json:"isAutoscaleEnabled"`
+
+	// Maximum limit storage size in gigabytes, that is applicable for the Database Storage Vault.
+	AutoscaleLimitInGBs *int `mandatory:"false" json:"autoscaleLimitInGBs"`
+
 	// The shapeAttribute of the Exadata VM cluster(s) associated with the Exadata Database Storage Vault.
 	AttachedShapeAttributes []ExascaleDbStorageVaultSummaryAttachedShapeAttributesEnum `mandatory:"false" json:"attachedShapeAttributes,omitempty"`
 }

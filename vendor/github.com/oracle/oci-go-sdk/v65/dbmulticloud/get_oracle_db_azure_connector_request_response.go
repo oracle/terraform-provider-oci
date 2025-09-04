@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dbmulticloud/GetOracleDbAzureConnector.go.html to see an example of how to use GetOracleDbAzureConnectorRequest.
 type GetOracleDbAzureConnectorRequest struct {
 
-	// The ID of the Oracle DB Azure Connector Resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB Azure Connector resource.
 	OracleDbAzureConnectorId *string `mandatory:"true" contributesTo:"path" name:"oracleDbAzureConnectorId"`
 
 	// The maximum number of items to return.

@@ -21,20 +21,19 @@ type ListOracleDbAzureBlobContainersRequest struct {
 	// The ID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// A filter to return Azure Containers.
+	// A filter to return Oracle DB Azure Blob Container resources that match the specified display name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// A filter to return Oracle DB Azure Blob Mount Resources.
+	// A filter to return Oracle DB Azure Blob Container resource.
 	OracleDbAzureBlobContainerId *string `mandatory:"false" contributesTo:"query" name:"oracleDbAzureBlobContainerId"`
 
-	// A filter to return only resources that match the given lifecycle state. The
-	// state value is case-insensitive.
+	// A filter to return only resources that match the given lifecycle state. The state value is case-insensitive.
 	LifecycleState OracleDbAzureBlobContainerLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// A filter to return Azure Blob Containers.
+	// A filter to return Oracle DB Azure Blob Container resources that match the specified Azure Account name.
 	AzureStorageAccountName *string `mandatory:"false" contributesTo:"query" name:"azureStorageAccountName"`
 
-	// A filter to return Azure Blob containers.
+	// A filter to return Oracle DB Azure Blob Container resources that match the specified Azure Storage name.
 	AzureStorageContainerName *string `mandatory:"false" contributesTo:"query" name:"azureStorageContainerName"`
 
 	// The maximum number of items to return.
