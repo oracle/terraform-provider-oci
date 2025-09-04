@@ -1661,3 +1661,50 @@ func ReadResourceWithContext(ctx context.Context, sync ResourceReaderWithContext
 
 	return nil
 }
+
+func WaitForUpdatedStateWithContext(d schemaResourceData, sync ResourceUpdaterWithContext) error {
+	if stateful, ok := sync.(StatefullyUpdatedResource); ok {
+		if e := waitForStateRefreshVar(stateful, d.Timeout(schema.TimeoutUpdate), "update", stateful.UpdatedPending(), stateful.UpdatedTarget()); e != nil {
+			return e
+		}
+	}
+
+	return nil
+}
+
+func WaitForResourceConditionWithContext(ctx context.Context, s ResourceFetcherWithContext, resourceChangedFunc func() bool, timeout time.Duration) error {
+	backoffTime := time.Second
+	startTime := time.Now()
+	endTime := startTime.Add(timeout)
+	lastAttempt := false
+	for {
+		if err := s.GetWithContext(ctx); err != nil {
+			return err
+		}
+
+		if resourceChangedFunc() {
+			break
+		}
+
+		if lastAttempt || time.Now().After(endTime) {
+			return fmt.Errorf("Timed out waiting for configuration to reach specified condition.")
+		}
+
+		backoffTime = backoffTime * 2
+
+		// If next attempt occurs after timeout, then retry earlier
+		nextAttemptTime := time.Now().Add(backoffTime)
+		if nextAttemptTime.After(endTime) {
+			backoffTime = endTime.Sub(time.Now())
+			lastAttempt = true
+		}
+
+		if httpreplay.ShouldRetryImmediately() {
+			backoffTime = 10 * time.Millisecond
+		}
+
+		time.Sleep(backoffTime)
+	}
+
+	return nil
+}
