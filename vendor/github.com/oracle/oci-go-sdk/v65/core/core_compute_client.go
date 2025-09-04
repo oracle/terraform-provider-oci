@@ -226,6 +226,72 @@ func (client ComputeClient) addImageShapeCompatibilityEntry(ctx context.Context,
 	return response, err
 }
 
+// ApplyHostConfiguration Triggers the asynchronous process that applies the host's target configuration
+// A default retry strategy applies to this operation ApplyHostConfiguration()
+func (client ComputeClient) ApplyHostConfiguration(ctx context.Context, request ApplyHostConfigurationRequest) (response ApplyHostConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.applyHostConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ApplyHostConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ApplyHostConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ApplyHostConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ApplyHostConfigurationResponse")
+	}
+	return
+}
+
+// applyHostConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) applyHostConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/computeHosts/{computeHostId}/actions/applyConfiguration", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ApplyHostConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeHost/ApplyHostConfiguration"
+		err = common.PostProcessServiceError(err, "Compute", "ApplyHostConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // AttachBootVolume Attaches the specified boot volume to the specified instance.
 func (client ComputeClient) AttachBootVolume(ctx context.Context, request AttachBootVolumeRequest) (response AttachBootVolumeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1303,6 +1369,72 @@ func (client ComputeClient) changeInstanceCompartment(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Instance/ChangeInstanceCompartment"
 		err = common.PostProcessServiceError(err, "Compute", "ChangeInstanceCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CheckHostConfiguration Marks the host to be checked for conformance to its target configuration
+// A default retry strategy applies to this operation CheckHostConfiguration()
+func (client ComputeClient) CheckHostConfiguration(ctx context.Context, request CheckHostConfigurationRequest) (response CheckHostConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.checkHostConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CheckHostConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CheckHostConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CheckHostConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CheckHostConfigurationResponse")
+	}
+	return
+}
+
+// checkHostConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) checkHostConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/computeHosts/{computeHostId}/actions/checkConfiguration", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response CheckHostConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeHost/CheckHostConfiguration"
+		err = common.PostProcessServiceError(err, "Compute", "CheckHostConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -4433,6 +4565,66 @@ func (client ComputeClient) getDedicatedVmHost(ctx context.Context, request comm
 	return response, err
 }
 
+// GetFirmwareBundle Returns the Firmware Bundle matching the provided firmwareBundleId.
+func (client ComputeClient) GetFirmwareBundle(ctx context.Context, request GetFirmwareBundleRequest) (response GetFirmwareBundleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getFirmwareBundle, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetFirmwareBundleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetFirmwareBundleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetFirmwareBundleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetFirmwareBundleResponse")
+	}
+	return
+}
+
+// getFirmwareBundle implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) getFirmwareBundle(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/firmwareBundles/{firmwareBundleId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response GetFirmwareBundleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/FirmwareBundle/GetFirmwareBundle"
+		err = common.PostProcessServiceError(err, "Compute", "GetFirmwareBundle", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetFirmwareReport Gets information about the specified FirmwareReport.
 // A default retry strategy applies to this operation GetFirmwareReport()
 func (client ComputeClient) GetFirmwareReport(ctx context.Context, request GetFirmwareReportRequest) (response GetFirmwareReportResponse, err error) {
@@ -7005,6 +7197,67 @@ func (client ComputeClient) listDedicatedVmHosts(ctx context.Context, request co
 	return response, err
 }
 
+// ListFirmwareBundles Gets a list of all Firmware Bundles in a compartment for specified platform. Can filter results to include
+// only the default (recommended) Firmware Bundle for the given platform.
+func (client ComputeClient) ListFirmwareBundles(ctx context.Context, request ListFirmwareBundlesRequest) (response ListFirmwareBundlesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listFirmwareBundles, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListFirmwareBundlesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListFirmwareBundlesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListFirmwareBundlesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListFirmwareBundlesResponse")
+	}
+	return
+}
+
+// listFirmwareBundles implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) listFirmwareBundles(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/firmwareBundles", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ListFirmwareBundlesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/FirmwareBundlesCollection/ListFirmwareBundles"
+		err = common.PostProcessServiceError(err, "Compute", "ListFirmwareBundles", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListFirmwareReports Returns a list of FirmwareReport.
 // A default retry strategy applies to this operation ListFirmwareReports()
 func (client ComputeClient) ListFirmwareReports(ctx context.Context, request ListFirmwareReportsRequest) (response ListFirmwareReportsResponse, err error) {
@@ -8344,7 +8597,8 @@ func (client ComputeClient) updateComputeGpuMemoryCluster(ctx context.Context, r
 	return response, err
 }
 
-// UpdateComputeGpuMemoryFabric Customer can update displayName, tags and for compute GPU memory fabric record
+// UpdateComputeGpuMemoryFabric Customer can update displayName, tags and  desired firmware bundle, recycle level for
+// compute GPU memory fabric record
 // A default retry strategy applies to this operation UpdateComputeGpuMemoryFabric()
 func (client ComputeClient) UpdateComputeGpuMemoryFabric(ctx context.Context, request UpdateComputeGpuMemoryFabricRequest) (response UpdateComputeGpuMemoryFabricResponse, err error) {
 	var ociResponse common.OCIResponse

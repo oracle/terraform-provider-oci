@@ -76,6 +76,9 @@ type CreateGatewayDetails struct {
 	Ipv6AddressConfiguration *Ipv6AddressConfiguration `mandatory:"false" json:"ipv6AddressConfiguration"`
 
 	Ipv4AddressConfiguration *Ipv4AddressConfiguration `mandatory:"false" json:"ipv4AddressConfiguration"`
+
+	// Type of environment that this gateway is used for.
+	Environment GatewayEnvironmentEnum `mandatory:"false" json:"environment,omitempty"`
 }
 
 func (m CreateGatewayDetails) String() string {
@@ -93,6 +96,9 @@ func (m CreateGatewayDetails) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingGatewayIpModeEnum(string(m.IpMode)); !ok && m.IpMode != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IpMode: %s. Supported values are: %s.", m.IpMode, strings.Join(GetGatewayIpModeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingGatewayEnvironmentEnum(string(m.Environment)); !ok && m.Environment != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Environment: %s. Supported values are: %s.", m.Environment, strings.Join(GetGatewayEnvironmentEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -114,6 +120,7 @@ func (m *CreateGatewayDetails) UnmarshalJSON(data []byte) (e error) {
 		IpMode                   GatewayIpModeEnum                 `json:"ipMode"`
 		Ipv6AddressConfiguration *Ipv6AddressConfiguration         `json:"ipv6AddressConfiguration"`
 		Ipv4AddressConfiguration *Ipv4AddressConfiguration         `json:"ipv4AddressConfiguration"`
+		Environment              GatewayEnvironmentEnum            `json:"environment"`
 		CompartmentId            *string                           `json:"compartmentId"`
 		EndpointType             GatewayEndpointTypeEnum           `json:"endpointType"`
 		SubnetId                 *string                           `json:"subnetId"`
@@ -163,6 +170,8 @@ func (m *CreateGatewayDetails) UnmarshalJSON(data []byte) (e error) {
 	m.Ipv6AddressConfiguration = model.Ipv6AddressConfiguration
 
 	m.Ipv4AddressConfiguration = model.Ipv4AddressConfiguration
+
+	m.Environment = model.Environment
 
 	m.CompartmentId = model.CompartmentId
 

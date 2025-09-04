@@ -4,8 +4,8 @@
 
 // Oracle Delegate Access Control API
 //
-// Oracle Delegate Access Control allows ExaCC and ExaCS customers to delegate management of their Exadata resources operators outside their tenancies.
-// With Delegate Access Control, Support Providers can deliver managed services using comprehensive and robust tooling built on the OCI platform.
+// Oracle Delegate Access Control allows customers of Oracle Exadata Database Service on Cloud@Customer (ExaDB-C@C), Oracle Exadata Database Service on Dedicated Infrastructure (ExaDB-D), and Oracle Exadata Database Service on Exascale Infrastructure (ExaDB-XS) to delegate management of their Exadata resources operators outside their tenancies.
+// With Delegate Access Control, Service Providers can deliver managed services using comprehensive and robust tooling built on the OCI platform.
 // Customers maintain control over who has access to the delegated resources in their tenancy and what actions can be taken.
 // Enterprises managing resources across multiple tenants can use Delegate Access Control to streamline management tasks.
 // Using logging service, customers can view a near real-time audit report of all actions performed by a Service Provider operator.
@@ -29,6 +29,9 @@ type ServiceProviderAction struct {
 	// Unique name of the Service Provider Action.
 	Name *string `mandatory:"true" json:"name"`
 
+	// The OCID of the compartment that contains the Service Provider Action.
+	CompartmentId *string `mandatory:"false" json:"compartmentId"`
+
 	// Display Name of the Service Provider Action.
 	CustomerDisplayName *string `mandatory:"false" json:"customerDisplayName"`
 
@@ -37,6 +40,9 @@ type ServiceProviderAction struct {
 
 	// resourceType for which the ServiceProviderAction is applicable
 	ResourceType DelegationControlResourceTypeEnum `mandatory:"false" json:"resourceType,omitempty"`
+
+	// Indicates whether the service provider action allows SSH access.
+	IsSshAccessAllowed *bool `mandatory:"false" json:"isSshAccessAllowed"`
 
 	// List of Service Provider Service Types that this Service Provider Action is applicable to.
 	ServiceProviderServiceTypes []ServiceProviderServiceTypeEnum `mandatory:"false" json:"serviceProviderServiceTypes,omitempty"`

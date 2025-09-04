@@ -4,8 +4,8 @@
 
 // Oracle Delegate Access Control API
 //
-// Oracle Delegate Access Control allows ExaCC and ExaCS customers to delegate management of their Exadata resources operators outside their tenancies.
-// With Delegate Access Control, Support Providers can deliver managed services using comprehensive and robust tooling built on the OCI platform.
+// Oracle Delegate Access Control allows customers of Oracle Exadata Database Service on Cloud@Customer (ExaDB-C@C), Oracle Exadata Database Service on Dedicated Infrastructure (ExaDB-D), and Oracle Exadata Database Service on Exascale Infrastructure (ExaDB-XS) to delegate management of their Exadata resources operators outside their tenancies.
+// With Delegate Access Control, Service Providers can deliver managed services using comprehensive and robust tooling built on the OCI platform.
 // Customers maintain control over who has access to the delegated resources in their tenancy and what actions can be taken.
 // Enterprises managing resources across multiple tenants can use Delegate Access Control to streamline management tasks.
 // Using logging service, customers can view a near real-time audit report of all actions performed by a Service Provider operator.
@@ -22,18 +22,21 @@ type ServiceProviderServiceTypeEnum string
 
 // Set of constants representing the allowable values for ServiceProviderServiceTypeEnum
 const (
-	ServiceProviderServiceTypeTroubleshooting  ServiceProviderServiceTypeEnum = "TROUBLESHOOTING"
-	ServiceProviderServiceTypeAssistedPatching ServiceProviderServiceTypeEnum = "ASSISTED_PATCHING"
+	ServiceProviderServiceTypeTroubleshooting        ServiceProviderServiceTypeEnum = "TROUBLESHOOTING"
+	ServiceProviderServiceTypeAssistedPatching       ServiceProviderServiceTypeEnum = "ASSISTED_PATCHING"
+	ServiceProviderServiceTypeManagedSoftwareUpdates ServiceProviderServiceTypeEnum = "MANAGED_SOFTWARE_UPDATES"
 )
 
 var mappingServiceProviderServiceTypeEnum = map[string]ServiceProviderServiceTypeEnum{
-	"TROUBLESHOOTING":   ServiceProviderServiceTypeTroubleshooting,
-	"ASSISTED_PATCHING": ServiceProviderServiceTypeAssistedPatching,
+	"TROUBLESHOOTING":          ServiceProviderServiceTypeTroubleshooting,
+	"ASSISTED_PATCHING":        ServiceProviderServiceTypeAssistedPatching,
+	"MANAGED_SOFTWARE_UPDATES": ServiceProviderServiceTypeManagedSoftwareUpdates,
 }
 
 var mappingServiceProviderServiceTypeEnumLowerCase = map[string]ServiceProviderServiceTypeEnum{
-	"troubleshooting":   ServiceProviderServiceTypeTroubleshooting,
-	"assisted_patching": ServiceProviderServiceTypeAssistedPatching,
+	"troubleshooting":          ServiceProviderServiceTypeTroubleshooting,
+	"assisted_patching":        ServiceProviderServiceTypeAssistedPatching,
+	"managed_software_updates": ServiceProviderServiceTypeManagedSoftwareUpdates,
 }
 
 // GetServiceProviderServiceTypeEnumValues Enumerates the set of values for ServiceProviderServiceTypeEnum
@@ -50,6 +53,7 @@ func GetServiceProviderServiceTypeEnumStringValues() []string {
 	return []string{
 		"TROUBLESHOOTING",
 		"ASSISTED_PATCHING",
+		"MANAGED_SOFTWARE_UPDATES",
 	}
 }
 

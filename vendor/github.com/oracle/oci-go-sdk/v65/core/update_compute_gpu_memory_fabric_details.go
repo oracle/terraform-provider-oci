@@ -37,6 +37,8 @@ type UpdateComputeGpuMemoryFabricDetails struct {
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	MemoryFabricPreferences *MemoryFabricPreferencesDescriptor `mandatory:"false" json:"memoryFabricPreferences"`
 }
 
 func (m UpdateComputeGpuMemoryFabricDetails) String() string {

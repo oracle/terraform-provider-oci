@@ -49,6 +49,9 @@ type UpdateGatewayDetails struct {
 
 	// An array of CA bundles that should be used on the Gateway for TLS validation.
 	CaBundles []CaBundle `mandatory:"false" json:"caBundles"`
+
+	// Type of environment that this gateway is used for.
+	Environment GatewayEnvironmentEnum `mandatory:"false" json:"environment,omitempty"`
 }
 
 func (m UpdateGatewayDetails) String() string {
@@ -61,6 +64,9 @@ func (m UpdateGatewayDetails) String() string {
 func (m UpdateGatewayDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingGatewayEnvironmentEnum(string(m.Environment)); !ok && m.Environment != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Environment: %s. Supported values are: %s.", m.Environment, strings.Join(GetGatewayEnvironmentEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -77,6 +83,7 @@ func (m *UpdateGatewayDetails) UnmarshalJSON(data []byte) (e error) {
 		FreeformTags            map[string]string                 `json:"freeformTags"`
 		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
 		CaBundles               []cabundle                        `json:"caBundles"`
+		Environment             GatewayEnvironmentEnum            `json:"environment"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -116,5 +123,7 @@ func (m *UpdateGatewayDetails) UnmarshalJSON(data []byte) (e error) {
 			m.CaBundles[i] = nil
 		}
 	}
+	m.Environment = model.Environment
+
 	return
 }

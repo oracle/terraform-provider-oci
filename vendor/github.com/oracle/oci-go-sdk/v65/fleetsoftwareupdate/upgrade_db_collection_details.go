@@ -25,6 +25,9 @@ type UpgradeDbCollectionDetails struct {
 
 	// Enables or disables the recompilation of invalid objects.
 	IsRecompileInvalidObjects *bool `mandatory:"false" json:"isRecompileInvalidObjects"`
+
+	// Service drain timeout specified in seconds.
+	MaxDrainTimeoutInSeconds *int `mandatory:"false" json:"maxDrainTimeoutInSeconds"`
 }
 
 func (m UpgradeDbCollectionDetails) String() string {

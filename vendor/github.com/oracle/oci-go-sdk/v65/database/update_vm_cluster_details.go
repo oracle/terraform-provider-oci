@@ -37,6 +37,21 @@ type UpdateVmClusterDetails struct {
 	// The data disk group size to be allocated in GBs.
 	DataStorageSizeInGBs *float64 `mandatory:"false" json:"dataStorageSizeInGBs"`
 
+	// The percentage assigned to DATA storage (user data and database files). See Storage Configuration (https://docs.oracle.com/iaas/Content/Database/Concepts/exaoverview.htm#Exadata) in the Exadata documentation for details on the impact of the configuration settings on storage.
+	DataStoragePercentage *int `mandatory:"false" json:"dataStoragePercentage"`
+
+	// The percentage assigned to RECO storage (database redo logs, archive logs, and recovery manager backups). See Storage Configuration (https://docs.oracle.com/iaas/Content/Database/Concepts/exaoverview.htm#Exadata) in the Exadata documentation for details on the impact of the configuration settings on storage.
+	RecoStoragePercentage *int `mandatory:"false" json:"recoStoragePercentage"`
+
+	// The percentage assigned to SPARSE storage (Exadata snapshots). See Storage Configuration (https://docs.oracle.com/iaas/Content/Database/Concepts/exaoverview.htm#Exadata) in the Exadata documentation for details on the impact of the configuration settings on storage.
+	SparseStoragePercentage *int `mandatory:"false" json:"sparseStoragePercentage"`
+
+	// If true, database backup on local Exadata storage is configured for the VM cluster. If false, database backup on local Exadata storage is not available in the VM cluster.
+	IsLocalBackupEnabled *bool `mandatory:"false" json:"isLocalBackupEnabled"`
+
+	// If true, sparse disk group is configured for the VM cluster. If false, sparse disk group is not created.
+	IsSparseDiskgroupEnabled *bool `mandatory:"false" json:"isSparseDiskgroupEnabled"`
+
 	// The Oracle license model that applies to the VM cluster. The default is BRING_YOUR_OWN_LICENSE.
 	LicenseModel UpdateVmClusterDetailsLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 

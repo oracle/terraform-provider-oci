@@ -68,6 +68,10 @@ func (m *fsugoalversiondetails) UnmarshalPolymorphicJSON(data []byte) (interface
 
 	var err error
 	switch m.Type {
+	case "EXADB_STACK":
+		mm := ExadbStackFsuGoalVersionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "VERSION":
 		mm := VersionFsuTargetDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -158,18 +162,21 @@ type FsuGoalVersionDetailsTypeEnum string
 
 // Set of constants representing the allowable values for FsuGoalVersionDetailsTypeEnum
 const (
-	FsuGoalVersionDetailsTypeVersion FsuGoalVersionDetailsTypeEnum = "VERSION"
-	FsuGoalVersionDetailsTypeImageId FsuGoalVersionDetailsTypeEnum = "IMAGE_ID"
+	FsuGoalVersionDetailsTypeVersion    FsuGoalVersionDetailsTypeEnum = "VERSION"
+	FsuGoalVersionDetailsTypeImageId    FsuGoalVersionDetailsTypeEnum = "IMAGE_ID"
+	FsuGoalVersionDetailsTypeExadbStack FsuGoalVersionDetailsTypeEnum = "EXADB_STACK"
 )
 
 var mappingFsuGoalVersionDetailsTypeEnum = map[string]FsuGoalVersionDetailsTypeEnum{
-	"VERSION":  FsuGoalVersionDetailsTypeVersion,
-	"IMAGE_ID": FsuGoalVersionDetailsTypeImageId,
+	"VERSION":     FsuGoalVersionDetailsTypeVersion,
+	"IMAGE_ID":    FsuGoalVersionDetailsTypeImageId,
+	"EXADB_STACK": FsuGoalVersionDetailsTypeExadbStack,
 }
 
 var mappingFsuGoalVersionDetailsTypeEnumLowerCase = map[string]FsuGoalVersionDetailsTypeEnum{
-	"version":  FsuGoalVersionDetailsTypeVersion,
-	"image_id": FsuGoalVersionDetailsTypeImageId,
+	"version":     FsuGoalVersionDetailsTypeVersion,
+	"image_id":    FsuGoalVersionDetailsTypeImageId,
+	"exadb_stack": FsuGoalVersionDetailsTypeExadbStack,
 }
 
 // GetFsuGoalVersionDetailsTypeEnumValues Enumerates the set of values for FsuGoalVersionDetailsTypeEnum
@@ -186,6 +193,7 @@ func GetFsuGoalVersionDetailsTypeEnumStringValues() []string {
 	return []string{
 		"VERSION",
 		"IMAGE_ID",
+		"EXADB_STACK",
 	}
 }
 

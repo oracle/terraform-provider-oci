@@ -17064,7 +17064,7 @@ func (client VirtualNetworkClient) GetDrgCustomerInternal(ctx context.Context, r
 // getDrgCustomerInternal implements the OCIOperation interface (enables retrying operations)
 func (client VirtualNetworkClient) getDrgCustomerInternal(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internal/drgs/{drgId}/actions/customers", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/drgs/{drgId}/actions/internal/customers", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -17250,7 +17250,7 @@ func (client VirtualNetworkClient) GetDrgPromotionStatusInternal(ctx context.Con
 // getDrgPromotionStatusInternal implements the OCIOperation interface (enables retrying operations)
 func (client VirtualNetworkClient) getDrgPromotionStatusInternal(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internal/drgs/{drgId}/actions/promotionStatus", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/drgs/{drgId}/actions/internal/promotionStatus", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -29397,7 +29397,7 @@ func (client VirtualNetworkClient) ManageRouteUnificationInternal(ctx context.Co
 // manageRouteUnificationInternal implements the OCIOperation interface (enables retrying operations)
 func (client VirtualNetworkClient) manageRouteUnificationInternal(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/internal/drgAttachments/{drgAttachmentId}/actions/manageRouteUnification", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/drgAttachments/{drgAttachmentId}/actions/internal/manageRouteUnification", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -30048,7 +30048,7 @@ func (client VirtualNetworkClient) PromoteDrgInternal(ctx context.Context, reque
 // promoteDrgInternal implements the OCIOperation interface (enables retrying operations)
 func (client VirtualNetworkClient) promoteDrgInternal(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internal/drgs/{drgId}/actions/promote", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/drgs/{drgId}/actions/internal/promote", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -32521,7 +32521,7 @@ func (client VirtualNetworkClient) UnpromoteDrgInternal(ctx context.Context, req
 // unpromoteDrgInternal implements the OCIOperation interface (enables retrying operations)
 func (client VirtualNetworkClient) unpromoteDrgInternal(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internal/drgs/{drgId}/actions/unpromote", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/drgs/{drgId}/actions/internal/unpromote", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

@@ -43,9 +43,6 @@ type AutonomousDatabaseConnectionUrls struct {
 	// The URL of the Database Transforms for the Autonomous Database.
 	DatabaseTransformsUrl *string `mandatory:"false" json:"databaseTransformsUrl"`
 
-	// The URL of the Vector Studio for the Autonomous Database.
-	VectorStudioUrl *string `mandatory:"false" json:"vectorStudioUrl"`
-
 	// The URL of the Spatial Studio for the Autonomous Database.
 	SpatialStudioUrl *string `mandatory:"false" json:"spatialStudioUrl"`
 }

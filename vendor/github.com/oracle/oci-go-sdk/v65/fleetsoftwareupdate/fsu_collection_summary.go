@@ -128,6 +128,10 @@ func (m *fsucollectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{
 		mm := GiFsuCollectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "EXADB_STACK":
+		mm := ExadbStackFsuCollectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "DB":
 		mm := DbFsuCollectionSummary{}
 		err = json.Unmarshal(data, &mm)

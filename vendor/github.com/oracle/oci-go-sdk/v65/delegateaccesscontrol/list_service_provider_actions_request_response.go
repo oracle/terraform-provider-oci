@@ -138,16 +138,19 @@ type ListServiceProviderActionsResourceTypeEnum string
 const (
 	ListServiceProviderActionsResourceTypeVmcluster      ListServiceProviderActionsResourceTypeEnum = "VMCLUSTER"
 	ListServiceProviderActionsResourceTypeCloudvmcluster ListServiceProviderActionsResourceTypeEnum = "CLOUDVMCLUSTER"
+	ListServiceProviderActionsResourceTypeExadbvmcluster ListServiceProviderActionsResourceTypeEnum = "EXADBVMCLUSTER"
 )
 
 var mappingListServiceProviderActionsResourceTypeEnum = map[string]ListServiceProviderActionsResourceTypeEnum{
 	"VMCLUSTER":      ListServiceProviderActionsResourceTypeVmcluster,
 	"CLOUDVMCLUSTER": ListServiceProviderActionsResourceTypeCloudvmcluster,
+	"EXADBVMCLUSTER": ListServiceProviderActionsResourceTypeExadbvmcluster,
 }
 
 var mappingListServiceProviderActionsResourceTypeEnumLowerCase = map[string]ListServiceProviderActionsResourceTypeEnum{
 	"vmcluster":      ListServiceProviderActionsResourceTypeVmcluster,
 	"cloudvmcluster": ListServiceProviderActionsResourceTypeCloudvmcluster,
+	"exadbvmcluster": ListServiceProviderActionsResourceTypeExadbvmcluster,
 }
 
 // GetListServiceProviderActionsResourceTypeEnumValues Enumerates the set of values for ListServiceProviderActionsResourceTypeEnum
@@ -164,6 +167,7 @@ func GetListServiceProviderActionsResourceTypeEnumStringValues() []string {
 	return []string{
 		"VMCLUSTER",
 		"CLOUDVMCLUSTER",
+		"EXADBVMCLUSTER",
 	}
 }
 

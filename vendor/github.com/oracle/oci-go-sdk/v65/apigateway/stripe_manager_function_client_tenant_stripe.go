@@ -24,15 +24,15 @@ type StripeManagerFunctionClientTenantStripe struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Functions function resource.
 	FunctionId *string `mandatory:"true" json:"functionId"`
 
-	// The duration for which parameters should be cached before it is fetched again.
-	MaxCacheDurationInHours *int `mandatory:"true" json:"maxCacheDurationInHours"`
-
 	// A map where key is a user defined string and value is a context expressions whose values will be sent to the custom auth function. Values should contain an expression.
 	// Example: `{"foo": "request.header[abc]"}`
 	Parameters map[string]string `mandatory:"false" json:"parameters"`
 
 	// A list of keys from "parameters" attribute value whose values will be added to the cache key.
 	CacheKey []string `mandatory:"false" json:"cacheKey"`
+
+	// The duration for which parameters should be cached before it is fetched again.
+	MaxCacheDurationInHours *int `mandatory:"false" json:"maxCacheDurationInHours"`
 }
 
 func (m StripeManagerFunctionClientTenantStripe) String() string {

@@ -86,6 +86,9 @@ type ComputeHostSummary struct {
 	// The public OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Virtual Machine or Bare Metal instance
 	InstanceId *string `mandatory:"false" json:"instanceId"`
 
+	// The platform of the host
+	Platform *string `mandatory:"false" json:"platform"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Capacity Reserver that is currently on host
 	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
 

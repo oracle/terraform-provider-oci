@@ -91,6 +91,10 @@ func (m *createfsucollectiondetails) UnmarshalPolymorphicJSON(data []byte) (inte
 		mm := CreateGuestOsFsuCollectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "EXADB_STACK":
+		mm := CreateExadbStackFsuCollectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Received unsupported enum value for CreateFsuCollectionDetails: %s.", m.Type)
 		return *m, nil

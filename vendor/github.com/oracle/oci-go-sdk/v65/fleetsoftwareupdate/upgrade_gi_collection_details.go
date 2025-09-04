@@ -19,6 +19,12 @@ import (
 
 // UpgradeGiCollectionDetails Details of supported upgrade options for GI collection.
 type UpgradeGiCollectionDetails struct {
+
+	// Ignore the Cluster Verification Utility (CVU) prerequisite checks.
+	IsIgnorePrerequisites *bool `mandatory:"false" json:"isIgnorePrerequisites"`
+
+	// Ignore errors during post Oracle Grid Infrastructure upgrade Cluster Verification Utility (CVU) check.
+	IsIgnorePostUpgradeErrors *bool `mandatory:"false" json:"isIgnorePostUpgradeErrors"`
 }
 
 func (m UpgradeGiCollectionDetails) String() string {

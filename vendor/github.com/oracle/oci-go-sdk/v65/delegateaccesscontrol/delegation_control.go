@@ -4,8 +4,8 @@
 
 // Oracle Delegate Access Control API
 //
-// Oracle Delegate Access Control allows ExaCC and ExaCS customers to delegate management of their Exadata resources operators outside their tenancies.
-// With Delegate Access Control, Support Providers can deliver managed services using comprehensive and robust tooling built on the OCI platform.
+// Oracle Delegate Access Control allows customers of Oracle Exadata Database Service on Cloud@Customer (ExaDB-C@C), Oracle Exadata Database Service on Dedicated Infrastructure (ExaDB-D), and Oracle Exadata Database Service on Exascale Infrastructure (ExaDB-XS) to delegate management of their Exadata resources operators outside their tenancies.
+// With Delegate Access Control, Service Providers can deliver managed services using comprehensive and robust tooling built on the OCI platform.
 // Customers maintain control over who has access to the delegated resources in their tenancy and what actions can be taken.
 // Enterprises managing resources across multiple tenants can use Delegate Access Control to streamline management tasks.
 // Using logging service, customers can view a near real-time audit report of all actions performed by a Service Provider operator.
@@ -59,10 +59,10 @@ type DelegationControl struct {
 	// The format of the OCI Notification messages for this Delegation Control.
 	NotificationMessageFormat DelegationControlNotificationMessageFormatEnum `mandatory:"false" json:"notificationMessageFormat,omitempty"`
 
-	// The OCID of the OCI Vault that will store the secrets containing the SSH keys to access the resource governed by this Delegation Control by Delegate Access Control Service. This property is required when resourceType is CLOUDVMCLUSTER. Delegate Access Control Service will generate the SSH keys and store them as secrets in the OCI Vault.
+	// The OCID of the OCI Vault that will store the secrets containing the SSH keys to access the resource governed by this Delegation Control by Delegate Access Control Service. Delegate Access Control Service will generate the SSH keys and store them as secrets in the OCI Vault. This property is optional when the Delegation Control is created for Oracle Managed Software Updates. Otherwise, it is required when resourceType is CLOUDVMCLUSTER or EXADBVMCLUSTER.
 	VaultId *string `mandatory:"false" json:"vaultId"`
 
-	// The OCID of the Master Encryption Key in the OCI Vault specified by vaultId. This key will be used to encrypt the SSH keys to access the resource governed by this Delegation Control by Delegate Access Control Service. This property is required when resourceType is CLOUDVMCLUSTER.
+	// The OCID of the Master Encryption Key in the OCI Vault specified by vaultId. This key will be used to encrypt the SSH keys to access the resource governed by this Delegation Control by Delegate Access Control Service. This property is optional when the Delegation Control is created for Oracle Managed Software Updates. Otherwise, it is required when resourceType is CLOUDVMCLUSTER or EXADBVMCLUSTER.
 	VaultKeyId *string `mandatory:"false" json:"vaultKeyId"`
 
 	// The current lifecycle state of the Delegation Control.

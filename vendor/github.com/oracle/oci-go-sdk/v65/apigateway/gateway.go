@@ -93,6 +93,9 @@ type Gateway struct {
 	// An array of CA bundles that should be used on the Gateway for TLS validation.
 	CaBundles []CaBundle `mandatory:"false" json:"caBundles"`
 
+	// Type of environment that this gateway is used for.
+	Environment GatewayEnvironmentEnum `mandatory:"false" json:"environment,omitempty"`
+
 	// Determines whether the gateway has an IPv4 or IPv6 address assigned to it, or both.
 	// `IPV4` means the gateway will only have an IPv4 address assigned to it, and `IPV6` means the gateway will
 	// only have an `IPv6` address assigned to it. `DUAL_STACK` means the gateway will have both an IPv4 and IPv6
@@ -120,6 +123,9 @@ func (m Gateway) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingGatewayLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetGatewayLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingGatewayEnvironmentEnum(string(m.Environment)); !ok && m.Environment != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Environment: %s. Supported values are: %s.", m.Environment, strings.Join(GetGatewayEnvironmentEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingGatewayIpModeEnum(string(m.IpMode)); !ok && m.IpMode != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IpMode: %s. Supported values are: %s.", m.IpMode, strings.Join(GetGatewayIpModeEnumStringValues(), ",")))
@@ -149,6 +155,7 @@ func (m *Gateway) UnmarshalJSON(data []byte) (e error) {
 		DefinedTags              map[string]map[string]interface{} `json:"definedTags"`
 		SystemTags               map[string]map[string]interface{} `json:"systemTags"`
 		CaBundles                []cabundle                        `json:"caBundles"`
+		Environment              GatewayEnvironmentEnum            `json:"environment"`
 		IpMode                   GatewayIpModeEnum                 `json:"ipMode"`
 		Ipv6AddressConfiguration *Ipv6AddressConfiguration         `json:"ipv6AddressConfiguration"`
 		Ipv4AddressConfiguration *Ipv4AddressConfiguration         `json:"ipv4AddressConfiguration"`
@@ -212,6 +219,8 @@ func (m *Gateway) UnmarshalJSON(data []byte) (e error) {
 			m.CaBundles[i] = nil
 		}
 	}
+	m.Environment = model.Environment
+
 	m.IpMode = model.IpMode
 
 	m.Ipv6AddressConfiguration = model.Ipv6AddressConfiguration
@@ -324,6 +333,48 @@ func GetGatewayLifecycleStateEnumStringValues() []string {
 // GetMappingGatewayLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingGatewayLifecycleStateEnum(val string) (GatewayLifecycleStateEnum, bool) {
 	enum, ok := mappingGatewayLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// GatewayEnvironmentEnum Enum with underlying type: string
+type GatewayEnvironmentEnum string
+
+// Set of constants representing the allowable values for GatewayEnvironmentEnum
+const (
+	GatewayEnvironmentProduction    GatewayEnvironmentEnum = "PRODUCTION"
+	GatewayEnvironmentNonProduction GatewayEnvironmentEnum = "NON_PRODUCTION"
+)
+
+var mappingGatewayEnvironmentEnum = map[string]GatewayEnvironmentEnum{
+	"PRODUCTION":     GatewayEnvironmentProduction,
+	"NON_PRODUCTION": GatewayEnvironmentNonProduction,
+}
+
+var mappingGatewayEnvironmentEnumLowerCase = map[string]GatewayEnvironmentEnum{
+	"production":     GatewayEnvironmentProduction,
+	"non_production": GatewayEnvironmentNonProduction,
+}
+
+// GetGatewayEnvironmentEnumValues Enumerates the set of values for GatewayEnvironmentEnum
+func GetGatewayEnvironmentEnumValues() []GatewayEnvironmentEnum {
+	values := make([]GatewayEnvironmentEnum, 0)
+	for _, v := range mappingGatewayEnvironmentEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetGatewayEnvironmentEnumStringValues Enumerates the set of values in String for GatewayEnvironmentEnum
+func GetGatewayEnvironmentEnumStringValues() []string {
+	return []string{
+		"PRODUCTION",
+		"NON_PRODUCTION",
+	}
+}
+
+// GetMappingGatewayEnvironmentEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingGatewayEnvironmentEnum(val string) (GatewayEnvironmentEnum, bool) {
+	enum, ok := mappingGatewayEnvironmentEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

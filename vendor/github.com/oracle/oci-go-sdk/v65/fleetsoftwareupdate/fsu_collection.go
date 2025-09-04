@@ -128,6 +128,10 @@ func (m *fsucollection) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 		mm := GuestOsCollection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "EXADB_STACK":
+		mm := ExadbStackCollection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GI":
 		mm := GiCollection{}
 		err = json.Unmarshal(data, &mm)
