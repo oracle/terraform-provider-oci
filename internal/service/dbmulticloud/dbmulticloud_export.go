@@ -86,6 +86,30 @@ var exportDbmulticloudOracleDbAzureVaultHints = &tf_export.TerraformResourceHint
 	},
 }
 
+var exportDbmulticloudOracleDbGcpIdentityConnectorHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_dbmulticloud_oracle_db_gcp_identity_connector",
+	DatasourceClass:        "oci_dbmulticloud_oracle_db_gcp_identity_connectors",
+	DatasourceItemsAttr:    "oracle_db_gcp_identity_connector_summary_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "oracle_db_gcp_identity_connector",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_dbmulticloud.OracleDbGcpIdentityConnectorLifecycleStateActive),
+	},
+}
+
+var exportDbmulticloudOracleDbGcpKeyRingHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_dbmulticloud_oracle_db_gcp_key_ring",
+	DatasourceClass:        "oci_dbmulticloud_oracle_db_gcp_key_rings",
+	DatasourceItemsAttr:    "oracle_db_gcp_key_ring_summary_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "oracle_db_gcp_key_ring",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_dbmulticloud.OracleDbGcpKeyRingLifecycleStateActive),
+	},
+}
+
 var dbmulticloudResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDbmulticloudOracleDbAzureVaultAssociationHints},
@@ -94,5 +118,7 @@ var dbmulticloudResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportDbmulticloudOracleDbAzureBlobMountHints},
 		{TerraformResourceHints: exportDbmulticloudOracleDbAzureConnectorHints},
 		{TerraformResourceHints: exportDbmulticloudOracleDbAzureVaultHints},
+		{TerraformResourceHints: exportDbmulticloudOracleDbGcpIdentityConnectorHints},
+		{TerraformResourceHints: exportDbmulticloudOracleDbGcpKeyRingHints},
 	},
 }

@@ -169,27 +169,30 @@ type ListResourcesDetectorTypeEnum string
 
 // Set of constants representing the allowable values for ListResourcesDetectorTypeEnum
 const (
-	ListResourcesDetectorTypeActivityDetector         ListResourcesDetectorTypeEnum = "IAAS_ACTIVITY_DETECTOR"
-	ListResourcesDetectorTypeConfigurationDetector    ListResourcesDetectorTypeEnum = "IAAS_CONFIGURATION_DETECTOR"
-	ListResourcesDetectorTypeThreatDetector           ListResourcesDetectorTypeEnum = "IAAS_THREAT_DETECTOR"
-	ListResourcesDetectorTypeLogInsightDetector       ListResourcesDetectorTypeEnum = "IAAS_LOG_INSIGHT_DETECTOR"
-	ListResourcesDetectorTypeInstanceSecurityDetector ListResourcesDetectorTypeEnum = "IAAS_INSTANCE_SECURITY_DETECTOR"
+	ListResourcesDetectorTypeActivityDetector          ListResourcesDetectorTypeEnum = "IAAS_ACTIVITY_DETECTOR"
+	ListResourcesDetectorTypeConfigurationDetector     ListResourcesDetectorTypeEnum = "IAAS_CONFIGURATION_DETECTOR"
+	ListResourcesDetectorTypeThreatDetector            ListResourcesDetectorTypeEnum = "IAAS_THREAT_DETECTOR"
+	ListResourcesDetectorTypeLogInsightDetector        ListResourcesDetectorTypeEnum = "IAAS_LOG_INSIGHT_DETECTOR"
+	ListResourcesDetectorTypeInstanceSecurityDetector  ListResourcesDetectorTypeEnum = "IAAS_INSTANCE_SECURITY_DETECTOR"
+	ListResourcesDetectorTypeContainerSecurityDetector ListResourcesDetectorTypeEnum = "IAAS_CONTAINER_SECURITY_DETECTOR"
 )
 
 var mappingListResourcesDetectorTypeEnum = map[string]ListResourcesDetectorTypeEnum{
-	"IAAS_ACTIVITY_DETECTOR":          ListResourcesDetectorTypeActivityDetector,
-	"IAAS_CONFIGURATION_DETECTOR":     ListResourcesDetectorTypeConfigurationDetector,
-	"IAAS_THREAT_DETECTOR":            ListResourcesDetectorTypeThreatDetector,
-	"IAAS_LOG_INSIGHT_DETECTOR":       ListResourcesDetectorTypeLogInsightDetector,
-	"IAAS_INSTANCE_SECURITY_DETECTOR": ListResourcesDetectorTypeInstanceSecurityDetector,
+	"IAAS_ACTIVITY_DETECTOR":           ListResourcesDetectorTypeActivityDetector,
+	"IAAS_CONFIGURATION_DETECTOR":      ListResourcesDetectorTypeConfigurationDetector,
+	"IAAS_THREAT_DETECTOR":             ListResourcesDetectorTypeThreatDetector,
+	"IAAS_LOG_INSIGHT_DETECTOR":        ListResourcesDetectorTypeLogInsightDetector,
+	"IAAS_INSTANCE_SECURITY_DETECTOR":  ListResourcesDetectorTypeInstanceSecurityDetector,
+	"IAAS_CONTAINER_SECURITY_DETECTOR": ListResourcesDetectorTypeContainerSecurityDetector,
 }
 
 var mappingListResourcesDetectorTypeEnumLowerCase = map[string]ListResourcesDetectorTypeEnum{
-	"iaas_activity_detector":          ListResourcesDetectorTypeActivityDetector,
-	"iaas_configuration_detector":     ListResourcesDetectorTypeConfigurationDetector,
-	"iaas_threat_detector":            ListResourcesDetectorTypeThreatDetector,
-	"iaas_log_insight_detector":       ListResourcesDetectorTypeLogInsightDetector,
-	"iaas_instance_security_detector": ListResourcesDetectorTypeInstanceSecurityDetector,
+	"iaas_activity_detector":           ListResourcesDetectorTypeActivityDetector,
+	"iaas_configuration_detector":      ListResourcesDetectorTypeConfigurationDetector,
+	"iaas_threat_detector":             ListResourcesDetectorTypeThreatDetector,
+	"iaas_log_insight_detector":        ListResourcesDetectorTypeLogInsightDetector,
+	"iaas_instance_security_detector":  ListResourcesDetectorTypeInstanceSecurityDetector,
+	"iaas_container_security_detector": ListResourcesDetectorTypeContainerSecurityDetector,
 }
 
 // GetListResourcesDetectorTypeEnumValues Enumerates the set of values for ListResourcesDetectorTypeEnum
@@ -209,6 +212,7 @@ func GetListResourcesDetectorTypeEnumStringValues() []string {
 		"IAAS_THREAT_DETECTOR",
 		"IAAS_LOG_INSIGHT_DETECTOR",
 		"IAAS_INSTANCE_SECURITY_DETECTOR",
+		"IAAS_CONTAINER_SECURITY_DETECTOR",
 	}
 }
 

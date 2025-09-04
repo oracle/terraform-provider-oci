@@ -27,9 +27,10 @@ provider "oci" {
 }
 
 data "oci_dbmulticloud_oracle_db_azure_keys" "test_oracle_db_azure_keys" {
-compartment_id  = var.compartment_ocid
-display_name = "MockResourceName"
-oracle_db_azure_key_id =var.oracle_db_azure_key_id
-oracle_db_azure_vault_id = var.oracle_db_azure_vault_id
+  compartment_id  = var.compartment_ocid
+  display_name = "MockResourceName"
+  oracle_db_azure_vault_id = var.oracle_db_azure_vault_id
+  #optional
+  #oracle_db_azure_key_id =var.oracle_db_azure_key_id
 }
 

@@ -44,6 +44,10 @@ func DbmulticloudOracleDbAzureKeyDataSource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"key_properties": {
+				Type:     schema.TypeMap,
+				Computed: true,
+			},
 			"last_modification": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -53,6 +57,10 @@ func DbmulticloudOracleDbAzureKeyDataSource() *schema.Resource {
 				Computed: true,
 			},
 			"oracle_db_azure_vault_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"resource_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -139,6 +147,22 @@ func (s *DbmulticloudOracleDbAzureKeyDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.KeyProperties != nil {
+		// Dereference
+		keyPropsInterface := *s.Res.KeyProperties
+
+		// Assert it to a map[string]interface{}
+		keyPropsMap, _ := keyPropsInterface.(map[string]interface{})
+
+		props := map[string]interface{}{}
+		for k, v := range keyPropsMap {
+			props[k] = v
+		}
+		s.D.Set("key_properties", props)
+	} else {
+		s.D.Set("key_properties", nil)
+	}
+
 	if s.Res.LastModification != nil {
 		s.D.Set("last_modification", *s.Res.LastModification)
 	}
@@ -149,6 +173,10 @@ func (s *DbmulticloudOracleDbAzureKeyDataSourceCrud) SetData() error {
 
 	if s.Res.OracleDbAzureVaultId != nil {
 		s.D.Set("oracle_db_azure_vault_id", *s.Res.OracleDbAzureVaultId)
+	}
+
+	if s.Res.ResourceType != nil {
+		s.D.Set("resource_type", *s.Res.ResourceType)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

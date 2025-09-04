@@ -49,6 +49,9 @@ type CreateDedicatedAiClusterDetails struct {
 	// - LARGE_GENERIC_2
 	// - LARGE_COHERE_V3
 	// - RERANK_COHERE
+	// - SMALL_GENERIC_V1
+	// - MEDIUM_GENERIC_V1
+	// - LARGE_GENERIC_V1
 	UnitShape DedicatedAiClusterUnitShapeEnum `mandatory:"true" json:"unitShape"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.

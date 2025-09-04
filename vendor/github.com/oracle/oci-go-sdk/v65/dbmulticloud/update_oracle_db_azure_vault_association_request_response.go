@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dbmulticloud/UpdateOracleDbAzureVaultAssociation.go.html to see an example of how to use UpdateOracleDbAzureVaultAssociationRequest.
 type UpdateOracleDbAzureVaultAssociationRequest struct {
 
-	// The ID of the Oracle DB Azure Vault Association Resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB Azure Vault Association resource.
 	OracleDbAzureVaultAssociationId *string `mandatory:"true" contributesTo:"path" name:"oracleDbAzureVaultAssociationId"`
 
 	// Details for to update OracleDbAzureVaultAssociation.

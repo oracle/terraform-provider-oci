@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dbmulticloud/GetOracleDbAzureKey.go.html to see an example of how to use GetOracleDbAzureKeyRequest.
 type GetOracleDbAzureKeyRequest struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB Azure Vault Key Resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB Azure Vault Key resource.
 	OracleDbAzureKeyId *string `mandatory:"true" contributesTo:"path" name:"oracleDbAzureKeyId"`
 
 	// The maximum number of items to return.

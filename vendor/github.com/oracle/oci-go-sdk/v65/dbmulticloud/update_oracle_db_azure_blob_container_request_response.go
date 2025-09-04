@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dbmulticloud/UpdateOracleDbAzureBlobContainer.go.html to see an example of how to use UpdateOracleDbAzureBlobContainerRequest.
 type UpdateOracleDbAzureBlobContainerRequest struct {
 
-	// The ID of the Oracle DB Azure Blob Container Resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB Azure Blob Container resource.
 	OracleDbAzureBlobContainerId *string `mandatory:"true" contributesTo:"path" name:"oracleDbAzureBlobContainerId"`
 
 	// Details for to update OracleDbAzureBlobContainer.

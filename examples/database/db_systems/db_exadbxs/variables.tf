@@ -28,3 +28,11 @@ variable "cpg_id" {
 variable "subscription_id" {
   default = null
 }
+
+variable "autoscale_limit_in_gbs" {
+  default = null
+}
+
+variable "is_autoscale_enabled" {
+  default = null
+}

@@ -2,11 +2,8 @@
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {}
-variable "user_ocid" {}
-variable "fingerprint" {}
-variable "private_key_path" {}
 variable "region" {}
-variable "compartment_id" {}
+variable "compartment_ocid" {}
 
 variable "detector_recipe_access_level" {
   default = "ACCESSIBLE"
@@ -83,12 +80,7 @@ provider "oci" {
   auth                = "SecurityToken"
   config_file_profile = "terraform-federation-test"
   region              = var.region
-  //version             = "5.39.0"
-  /*tenancy_ocid     = "${var.tenancy_ocid}"
-  user_ocid        = "${var.user_ocid}"
-  fingerprint      = "${var.fingerprint}"
-  private_key_path = "${var.private_key_path}"
-  region           = "${var.region}"*/
+#  version             = "6.34.0"
 }
 
 data "oci_cloud_guard_detector_recipes" "test_detector_recipes" {
@@ -103,8 +95,8 @@ data "oci_cloud_guard_detector_recipes" "test_detector_recipes" {
 
 resource "oci_cloud_guard_detector_recipe" "test_detector_recipe" {
   #Required
-  compartment_id            = "${var.compartment_id}"
-  display_name              = "${var.detector_recipe_display_name}"
+  compartment_id = "${var.compartment_ocid}"
+  display_name   = "${var.detector_recipe_display_name}"
   /*
  When CloudGuard is Enabled, an Oracle Managed Detector Recipe is made available having all the default rules in their default state.
  If an user needs to make its own recipe with customizations to the rules, it needs to clone an `ORACLE MANAGED DETECTOR RECIPE`.
@@ -120,7 +112,7 @@ resource "oci_cloud_guard_detector_recipe" "test_detector_recipe" {
   source_detector_recipe_id = "${data.oci_cloud_guard_detector_recipes.test_detector_recipes.detector_recipe_collection.0.items.0.id}"
 
   #Optional
-  description  = "${var.detector_recipe_description}"
+  description = "${var.detector_recipe_description}"
 
   detector_rules {
     #Required

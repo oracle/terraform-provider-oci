@@ -101,6 +101,10 @@ func DbmulticloudOracleDbAzureConnectorResource() *schema.Resource {
 					},
 				},
 			},
+			"azure_identity_connectivity_status": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"last_modification": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -492,7 +496,7 @@ func (s *DbmulticloudOracleDbAzureConnectorResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getOracleDbAzureConnectorFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud"), oci_dbmulticloud.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getOracleDbAzureConnectorFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud"), oci_dbmulticloud.ActionTypeCreated, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
@@ -526,6 +530,13 @@ func (s *DbmulticloudOracleDbAzureConnectorResourceCrud) SetData() error {
 		s.D.Set("access_token", *s.Res.AccessToken)
 	}
 
+	arcAgentNodes := []interface{}{}
+	for _, item := range s.Res.ArcAgentNodes {
+		arcAgentNodes = append(arcAgentNodes, ArcAgentNodesToMap(item))
+	}
+	s.D.Set("arc_agent_nodes", arcAgentNodes)
+
+	s.D.Set("azure_identity_connectivity_status", s.Res.AzureIdentityConnectivityStatus)
 	s.D.Set("azure_identity_mechanism", s.Res.AzureIdentityMechanism)
 
 	if s.Res.AzureResourceGroup != nil {
@@ -610,6 +621,8 @@ func OracleDbAzureConnectorSummaryToMap(obj oci_dbmulticloud.OracleDbAzureConnec
 	arcAgentNodes := []interface{}{}
 
 	result["arc_agent_nodes"] = arcAgentNodes
+
+	result["azure_identity_connectivity_status"] = string(obj.AzureIdentityConnectivityStatus)
 
 	result["azure_identity_mechanism"] = string(obj.AzureIdentityMechanism)
 

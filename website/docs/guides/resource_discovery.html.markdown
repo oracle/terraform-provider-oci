@@ -108,9 +108,9 @@ Make sure the `output_path` is empty before running resource discovery
 **Parameter Description**
 
 * `command` - Command to run. Supported commands include:
-  * `export` - Discovers Oracle Cloud Infrastructure resources within your compartment and generates Terraform configuration files for them
-  * `list_export_resources` - Lists the Terraform Oracle Cloud Infrastructure resources types that can be discovered by the `export` command
-  * `list_export_services` - Lists the allowed values for services arguments along with scope in json format
+    * `export` - Discovers Oracle Cloud Infrastructure resources within your compartment and generates Terraform configuration files for them
+    * `list_export_resources` - Lists the Terraform Oracle Cloud Infrastructure resources types that can be discovered by the `export` command
+    * `list_export_services` - Lists the allowed values for services arguments along with scope in json format
 * `compartment_id` - OCID of a compartment to export. If `compartment_id`  or `compartment_name` is not specified, the root compartment will be used
 * `compartment_name` - The name of a compartment to export. Use this instead of `compartment_id` to provide a compartment name
 * `exclude_services` - Comma-separated list of service resources to exclude from export. If a service is present in both 'services' and 'exclude_services' argument, it will be excluded
@@ -235,8 +235,8 @@ Make sure the `output_path` is empty before running resource discovery
     * `waf` - Discovers waf resources within the specified compartment
     * `zpr` - Discovers Zero Trust Packet Routing resources across the entire tenancy
 * `tf_version` - The version of terraform syntax to generate for configurations. Default is v0.12. The state file will be written in v0.12 only. The allowed values are:
-  * 0.11
-  * 0.12
+    * 0.11
+    * 0.12
 
 | Arguments | Resources discovered |
 | ----------| -------------------- |
@@ -339,37 +339,39 @@ terraform-provider-oci -command=list_export_resources
 ```
 
 adm
-
+    
 * oci\_adm\_vulnerability\_audit
 * oci\_adm\_knowledge\_base
 * oci\_adm\_remediation\_recipe
 * oci\_adm\_remediation\_run
 
-
-
 ai_document
-
+    
 * oci\_ai\_document\_processor\_job
 * oci\_ai\_document\_project
 * oci\_ai\_document\_model
 
 ai_language
-
+    
 * oci\_ai\_language\_project
 * oci\_ai\_language\_model
 * oci\_ai\_language\_endpoint
 
 ai_vision
-
+    
 * oci\_ai\_vision\_project
 * oci\_ai\_vision\_model
+* oci\_ai\_vision\_vision\_private\_endpoint
+* oci\_ai\_vision\_stream\_source
+* oci\_ai\_vision\_stream\_group
+* oci\_ai\_vision\_stream\_job
 
 analytics
-
+    
 * oci\_analytics\_analytics\_instance
 
 announcements_service
-
+    
 * oci\_announcements\_service\_announcement\_subscription
 * oci\_announcements\_service\_announcement\_subscriptions\_actions\_change\_compartment
 * oci\_announcements\_service\_announcement\_subscriptions\_filter\_group
@@ -384,7 +386,7 @@ apiaccesscontrol
 * oci\_apiaccesscontrol\_privileged\_api\_request
 
 apigateway
-
+    
 * oci\_apigateway\_api
 * oci\_apigateway\_gateway
 * oci\_apigateway\_deployment
@@ -393,15 +395,15 @@ apigateway
 * oci\_apigateway\_usage\_plan
 
 apm
-
+    
 * oci\_apm\_apm\_domain
 
 apm_config
-    
+
 * oci\_apm\_config\_config
 
 apm_synthetics
-
+    
 * oci\_apm\_synthetics\_script
 * oci\_apm\_synthetics\_monitor
 * oci\_apm\_synthetics\_dedicated\_vantage\_point
@@ -413,7 +415,7 @@ apm_traces
 * oci\_apm\_traces\_scheduled\_query
 
 artifacts
-
+    
 * oci\_artifacts\_container\_configuration
 * oci\_artifacts\_container\_repository
 * oci\_artifacts\_container\_image\_signature
@@ -421,38 +423,39 @@ artifacts
 * oci\_artifacts\_generic\_artifact
 
 auto_scaling
-
+    
 * oci\_autoscaling\_auto\_scaling\_configuration
 
 bastion
-
+    
 * oci\_bastion\_bastion
 * oci\_bastion\_session
 
 bds
-
+    
 * oci\_bds\_bds\_instance
 * oci\_bds\_auto\_scaling\_configuration
 * oci\_bds\_bds\_instance\_api\_key
 * oci\_bds\_bds\_instance\_metastore\_config
 * oci\_bds\_bds\_instance\_resource\_principal\_configuration
-* oci\_bds\_bds\_instance\_identity\_configuration
 * oci\_bds\_bds\_instance\_node\_replace\_configuration
 * oci\_bds\_bds\_instance\_node\_backup\_configuration
+* oci\_bds\_bds\_capacity\_report
+* oci\_bds\_bds\_instance\_identity\_configuration
 
 blockchain
-
+    
 * oci\_blockchain\_blockchain\_platform
 * oci\_blockchain\_peer
 * oci\_blockchain\_osn
 
 budget
-
+    
 * oci\_budget\_budget
 * oci\_budget\_alert\_rule
 
 capacity_management
-
+    
 * oci\_capacity\_management\_occ\_customer\_group
 * oci\_capacity\_management\_occ\_availability\_catalog
 * oci\_capacity\_management\_occ\_capacity\_request
@@ -463,13 +466,13 @@ capacity_management
 * oci\_capacity\_management\_occm\_demand\_signal
 
 certificates_management
-
+    
 * oci\_certificates\_management\_ca\_bundle
 * oci\_certificates\_management\_certificate\_authority
 * oci\_certificates\_management\_certificate
 
 cloud_bridge
-
+    
 * oci\_cloud\_bridge\_agent\_plugin
 * oci\_cloud\_bridge\_agent\_dependency
 * oci\_cloud\_bridge\_environment
@@ -480,7 +483,7 @@ cloud_bridge
 * oci\_cloud\_bridge\_inventory
 
 cloud_guard
-
+    
 * oci\_cloud\_guard\_target
 * oci\_cloud\_guard\_managed\_list
 * oci\_cloud\_guard\_responder\_recipe
@@ -494,7 +497,7 @@ cloud_guard
 * oci\_cloud\_guard\_saved\_query
 
 cloud_migrations
-
+    
 * oci\_cloud\_migrations\_migration\_asset
 * oci\_cloud\_migrations\_migration\_plan
 * oci\_cloud\_migrations\_target\_asset
@@ -502,20 +505,20 @@ cloud_migrations
 * oci\_cloud\_migrations\_replication\_schedule
 
 cluster_placement_groups
-
+    
 * oci\_cluster\_placement\_groups\_cluster\_placement\_group
 
 compute_cloud_at_customer
-
+    
 * oci\_compute\_cloud\_at\_customer\_ccc\_upgrade\_schedule
 * oci\_compute\_cloud\_at\_customer\_ccc\_infrastructure
 
 container_instances
-
+    
 * oci\_container\_instances\_container\_instance
 
 containerengine
-
+    
 * oci\_containerengine\_cluster
 * oci\_containerengine\_node\_pool
 * oci\_containerengine\_virtual\_node\_pool
@@ -523,7 +526,7 @@ containerengine
 * oci\_containerengine\_cluster\_workload\_mapping
 
 core
-
+    
 * oci\_core\_boot\_volume\_backup
 * oci\_core\_boot\_volume
 * oci\_core\_console\_history
@@ -580,13 +583,15 @@ core
 * oci\_core\_byoasn
 * oci\_core\_compute\_gpu\_memory\_cluster
 * oci\_core\_compute\_gpu\_memory\_fabric
+* oci\_core\_compute\_host
+* oci\_core\_compute\_host\_group
 
 data_labeling_service
-
+    
 * oci\_data\_labeling\_service\_dataset
 
 data_safe
-
+    
 * oci\_data\_safe\_data\_safe\_private\_endpoint
 * oci\_data\_safe\_on\_prem\_connector
 * oci\_data\_safe\_target\_database
@@ -635,7 +640,7 @@ data_safe
 * oci\_data\_safe\_unified\_audit\_policy
 
 database
-
+    
 * oci\_database\_autonomous\_container\_database
 * oci\_database\_autonomous\_container\_database\_dataguard\_association
 * oci\_database\_autonomous\_database
@@ -674,17 +679,17 @@ database
 * oci\_database\_pluggable\_database\_snapshot
 
 database_migration
-
+    
 * oci\_database\_migration\_connection
 * oci\_database\_migration\_migration
 
 database_tools
-
+    
 * oci\_database\_tools\_database\_tools\_private\_endpoint
 * oci\_database\_tools\_database\_tools\_connection
 
 datacatalog
-
+    
 * oci\_datacatalog\_catalog
 * oci\_datacatalog\_data\_asset
 * oci\_datacatalog\_connection
@@ -692,7 +697,7 @@ datacatalog
 * oci\_datacatalog\_metastore
 
 dataflow
-
+    
 * oci\_dataflow\_application
 * oci\_dataflow\_private\_endpoint
 * oci\_dataflow\_run\_statement
@@ -700,7 +705,7 @@ dataflow
 * oci\_dataflow\_sql\_endpoint
 
 dataintegration
-
+    
 * oci\_dataintegration\_workspace
 * oci\_dataintegration\_workspace\_project
 * oci\_dataintegration\_workspace\_folder
@@ -713,7 +718,7 @@ dataintegration
 * oci\_dataintegration\_workspace\_task
 
 datascience
-
+    
 * oci\_datascience\_project
 * oci\_datascience\_notebook\_session
 * oci\_datascience\_model
@@ -725,9 +730,6 @@ datascience
 * oci\_datascience\_pipeline\_run
 * oci\_datascience\_pipeline
 * oci\_datascience\_data\_science\_private\_endpoint
-* oci\_datascience\_schedule
-* oci\_datascience\_model\_defined\_metadata\_artifact
-* oci\_datascience\_model\_custom\_metadata\_artifact
 * oci\_datascience\_ml\_application\_implementation
 * oci\_datascience\_ml\_application\_instance
 * oci\_datascience\_ml\_application
@@ -736,26 +738,19 @@ datascience
 * oci\_datascience\_model\_group
 
 dblm
-
-* oci\_dblm\_vulnerability\_scan
-
-delegate_access_control
-
-* oci\_delegate\_access\_control\_delegation\_subscription
-* oci\_delegate\_access\_control\_delegation\_control
-
-dblm
     
 * oci\_dblm\_vulnerability\_scan
 
 dbmulticloud
     
-* oci\_dbmulticloud\_oracle\_db\_azure\_blob\_mount
-* oci\_dbmulticloud\_oracle\_db\_azure\_connector
-* oci\_dbmulticloud\_oracle\_db\_azure\_vault
 * oci\_dbmulticloud\_oracle\_db\_azure\_vault\_association
 * oci\_dbmulticloud\_multi\_cloud\_resource\_discovery
 * oci\_dbmulticloud\_oracle\_db\_azure\_blob\_container
+* oci\_dbmulticloud\_oracle\_db\_azure\_blob\_mount
+* oci\_dbmulticloud\_oracle\_db\_azure\_connector
+* oci\_dbmulticloud\_oracle\_db\_azure\_vault
+* oci\_dbmulticloud\_oracle\_db\_gcp\_identity\_connector
+* oci\_dbmulticloud\_oracle\_db\_gcp\_key\_ring
 
 delegate_access_control
     
@@ -763,15 +758,15 @@ delegate_access_control
 * oci\_delegate\_access\_control\_delegation\_control
 
 demand_signal
-
+    
 * oci\_demand\_signal\_occ\_demand\_signal
 
 desktops
-
+    
 * oci\_desktops\_desktop\_pool
 
 devops
-
+    
 * oci\_devops\_project
 * oci\_devops\_deploy\_environment
 * oci\_devops\_deploy\_artifact
@@ -790,28 +785,21 @@ devops
 * oci\_devops\_project\_repository\_setting
 
 disaster_recovery
-
+    
 * oci\_disaster\_recovery\_dr\_protection\_group
 * oci\_disaster\_recovery\_dr\_plan\_execution
 * oci\_disaster\_recovery\_dr\_plan
 
 dns
-
+    
 * oci\_dns\_zone
 * oci\_dns\_steering\_policy
 * oci\_dns\_steering\_policy\_attachment
 * oci\_dns\_tsig\_key
 * oci\_dns\_rrset
-* oci\_dns\_resolver
-* oci\_dns\_resolver\_endpoint
-* oci\_dns\_view
-
-em_warehouse
-
-* oci\_em\_warehouse\_em\_warehouse
 
 email
-
+    
 * oci\_email\_suppression
 * oci\_email\_sender
 * oci\_email\_email\_domain
@@ -819,11 +807,11 @@ email
 * oci\_email\_email\_return\_path
 
 events
-
+    
 * oci\_events\_rule
 
 file_storage
-
+    
 * oci\_file\_storage\_file\_system
 * oci\_file\_storage\_mount\_target
 * oci\_file\_storage\_export
@@ -834,30 +822,34 @@ file_storage
 * oci\_file\_storage\_file\_system\_quota\_rule
 
 fleet_apps_management
-
+    
 * oci\_fleet\_apps\_management\_task\_record
 * oci\_fleet\_apps\_management\_maintenance\_window
 * oci\_fleet\_apps\_management\_fleet
+* oci\_fleet\_apps\_management\_onboarding
 * oci\_fleet\_apps\_management\_scheduler\_definition
 * oci\_fleet\_apps\_management\_property
 * oci\_fleet\_apps\_management\_runbook
 * oci\_fleet\_apps\_management\_platform\_configuration
 * oci\_fleet\_apps\_management\_compliance\_policy\_rule
 * oci\_fleet\_apps\_management\_patch
+* oci\_fleet\_apps\_management\_runbook\_version
+* oci\_fleet\_apps\_management\_catalog\_item
+* oci\_fleet\_apps\_management\_provision
 
 fleet_software_update
-
+    
 * oci\_fleet\_software\_update\_fsu\_cycle
 * oci\_fleet\_software\_update\_fsu\_collection
 
 functions
-
+    
 * oci\_functions\_application
 * oci\_functions\_function
 * oci\_functions\_invoke\_function
 
 fusion_apps
-
+    
 * oci\_fusion\_apps\_fusion\_environment\_refresh\_activity
 * oci\_fusion\_apps\_fusion\_environment\_admin\_user
 * oci\_fusion\_apps\_fusion\_environment\_service\_attachment
@@ -866,13 +858,13 @@ fusion_apps
 * oci\_fusion\_apps\_fusion\_environment\_data\_masking\_activity
 
 generative_ai
-
+    
 * oci\_generative\_ai\_dedicated\_ai\_cluster
 * oci\_generative\_ai\_endpoint
 * oci\_generative\_ai\_model
 
 generative_ai_agent
-
+    
 * oci\_generative\_ai\_agent\_data\_source
 * oci\_generative\_ai\_agent\_agent
 * oci\_generative\_ai\_agent\_data\_ingestion\_job
@@ -881,12 +873,12 @@ generative_ai_agent
 * oci\_generative\_ai\_agent\_tool
 
 globally_distributed_database
-
+    
 * oci\_globally\_distributed\_database\_private\_endpoint
 * oci\_globally\_distributed\_database\_sharded\_database
 
 golden_gate
-
+    
 * oci\_golden\_gate\_database\_registration
 * oci\_golden\_gate\_deployment
 * oci\_golden\_gate\_deployment\_backup
@@ -896,12 +888,12 @@ golden_gate
 * oci\_golden\_gate\_pipeline
 
 health_checks
-
+    
 * oci\_health\_checks\_http\_monitor
 * oci\_health\_checks\_ping\_monitor
 
 identity
-
+    
 * oci\_identity\_api\_key
 * oci\_identity\_authentication\_policy
 * oci\_identity\_auth\_token
@@ -925,11 +917,11 @@ identity
 * oci\_identity\_import\_standard\_tags\_management
 
 identity_data_plane
-
+    
 * oci\_identity\_data\_plane\_generate\_scoped\_access\_token
 
 identity_domains
-
+    
 * oci\_identity\_domains\_user
 * oci\_identity\_domains\_group
 * oci\_identity\_domains\_dynamic\_resource\_group
@@ -976,17 +968,17 @@ identity_domains
 * oci\_identity\_domains\_social\_identity\_provider
 
 integration
-
+    
 * oci\_integration\_integration\_instance
 
 jms
-
+    
 * oci\_jms\_fleet
 * oci\_jms\_fleet\_advanced\_feature\_configuration
 * oci\_jms\_jms\_plugin
 
 kms
-
+    
 * oci\_kms\_key
 * oci\_kms\_key\_version
 * oci\_kms\_vault
@@ -995,17 +987,17 @@ kms
 * oci\_kms\_ekms\_private\_endpoint
 
 license_manager
-
+    
 * oci\_license\_manager\_configuration
 * oci\_license\_manager\_product\_license
 * oci\_license\_manager\_license\_record
 
 limits
-
+    
 * oci\_limits\_quota
 
 load_balancer
-
+    
 * oci\_load\_balancer\_backend
 * oci\_load\_balancer\_backend\_set
 * oci\_load\_balancer\_certificate
@@ -1018,7 +1010,7 @@ load_balancer
 * oci\_load\_balancer\_ssl\_cipher\_suite
 
 log_analytics
-
+    
 * oci\_log\_analytics\_log\_analytics\_object\_collection\_rule
 * oci\_log\_analytics\_log\_analytics\_import\_custom\_content
 * oci\_log\_analytics\_namespace\_scheduled\_task
@@ -1030,32 +1022,34 @@ log_analytics
 * oci\_log\_analytics\_namespace\_lookups\_update\_data\_management
 * oci\_log\_analytics\_namespace\_lookups\_append\_data\_management
 * oci\_log\_analytics\_namespace\_storage\_archival\_config
+* oci\_log\_analytics\_log\_analytics\_entity\_type
+* oci\_log\_analytics\_log\_analytics\_entity\_type
 
 logging
-
+    
 * oci\_logging\_log\_group
 * oci\_logging\_log
 * oci\_logging\_log\_saved\_search
 * oci\_logging\_unified\_agent\_configuration
 
 lustre_file_storage
-
+    
 * oci\_lustre\_file\_storage\_lustre\_file\_system
 
 management_agent
-
+    
 * oci\_management\_agent\_management\_agent
 * oci\_management\_agent\_management\_agent\_install\_key
 * oci\_management\_agent\_management\_agent\_data\_source
 * oci\_management\_agent\_named\_credential
 
 marketplace
-
+    
 * oci\_marketplace\_accepted\_agreement
 * oci\_marketplace\_publication
 
 media_services
-
+    
 * oci\_media\_services\_stream\_packaging\_config
 * oci\_media\_services\_media\_workflow
 * oci\_media\_services\_stream\_distribution\_channel
@@ -1065,7 +1059,7 @@ media_services
 * oci\_media\_services\_media\_workflow\_configuration
 
 metering_computation
-
+    
 * oci\_metering\_computation\_query
 * oci\_metering\_computation\_custom\_table
 * oci\_metering\_computation\_schedule
@@ -1074,12 +1068,12 @@ metering_computation
 * oci\_metering\_computation\_usage\_statement\_email\_recipients\_group
 
 monitoring
-
+    
 * oci\_monitoring\_alarm
 * oci\_monitoring\_alarm\_suppression
 
 mysql
-
+    
 * oci\_mysql\_mysql\_configuration
 * oci\_mysql\_mysql\_backup
 * oci\_mysql\_mysql\_db\_system
@@ -1087,7 +1081,7 @@ mysql
 * oci\_mysql\_replica
 
 network_firewall
-
+    
 * oci\_network\_firewall\_network\_firewall\_policy
 * oci\_network\_firewall\_network\_firewall
 * oci\_network\_firewall\_network\_firewall\_policy\_address\_list
@@ -1101,23 +1095,24 @@ network_firewall
 * oci\_network\_firewall\_network\_firewall\_policy\_service
 * oci\_network\_firewall\_network\_firewall\_policy\_decryption\_profile
 * oci\_network\_firewall\_network\_firewall\_policy\_tunnel\_inspection\_rule
+* oci\_network\_firewall\_network\_firewall\_policy\_nat\_rule
 
 network_load_balancer
-
+    
 * oci\_network\_load\_balancer\_network\_load\_balancer
 * oci\_network\_load\_balancer\_backend\_set
 * oci\_network\_load\_balancer\_backend
 * oci\_network\_load\_balancer\_listener
 
 nosql
-
+    
 * oci\_nosql\_table
 * oci\_nosql\_index
 * oci\_nosql\_table\_replica
 * oci\_nosql\_configuration
 
 object_storage
-
+    
 * oci\_objectstorage\_bucket
 * oci\_objectstorage\_object\_lifecycle\_policy
 * oci\_objectstorage\_object
@@ -1125,43 +1120,43 @@ object_storage
 * oci\_objectstorage\_replication\_policy
 
 oce
-
+    
 * oci\_oce\_oce\_instance
 
 ocvp
-
+    
 * oci\_ocvp\_sddc
 * oci\_ocvp\_esxi\_host
 * oci\_ocvp\_cluster
 
 oda
-
+    
 * oci\_oda\_oda\_instance
 * oci\_oda\_oda\_private\_endpoint\_attachment
 * oci\_oda\_oda\_private\_endpoint
 * oci\_oda\_oda\_private\_endpoint\_scan\_proxy
 
 ons
-
+    
 * oci\_ons\_notification\_topic
 * oci\_ons\_subscription
 
 opa
-
+    
 * oci\_opa\_opa\_instance
 
 opensearch
-
+    
 * oci\_opensearch\_opensearch\_cluster
 * oci\_opensearch\_opensearch\_cluster\_pipeline
 
 operator_access_control
-
+    
 * oci\_operator\_access\_control\_operator\_control
 * oci\_operator\_access\_control\_operator\_control\_assignment
 
 opsi
-
+    
 * oci\_opsi\_enterprise\_manager\_bridge
 * oci\_opsi\_database\_insight
 * oci\_opsi\_host\_insight
@@ -1177,11 +1172,11 @@ opsi
 * oci\_opsi\_awr\_hub\_source
 
 optimizer
-
+    
 * oci\_optimizer\_profile
 
 os_management_hub
-
+    
 * oci\_os\_management\_hub\_managed\_instance
 * oci\_os\_management\_hub\_managed\_instance\_update\_packages\_management
 * oci\_os\_management\_hub\_managed\_instance\_install\_windows\_updates\_management
@@ -1227,51 +1222,52 @@ os_management_hub
 * oci\_os\_management\_hub\_work\_request\_rerun\_management
 
 osp_gateway
-
+    
 * oci\_osp\_gateway\_subscription
 * oci\_osp\_gateway\_address\_action\_verification
 
 psql
-
+    
 * oci\_psql\_configuration
 * oci\_psql\_db\_system
 * oci\_psql\_backup
 
 queue
-
+    
 * oci\_queue\_queue
 
 recovery
-
+    
 * oci\_recovery\_recovery\_service\_subnet
 * oci\_recovery\_protected\_database
 * oci\_recovery\_protection\_policy
+* oci\_recovery\_long\_term\_backup
 
 redis
-
+    
 * oci\_redis\_redis\_cluster
 * oci\_redis\_oci\_cache\_user
 * oci\_redis\_oci\_cache\_config\_set
 
 resource_scheduler
-
+    
 * oci\_resource\_scheduler\_schedule
 
 resourcemanager
-
+    
 * oci\_resourcemanager\_private\_endpoint
 
 sch
-
+    
 * oci\_sch\_service\_connector
 
 security_attribute
-
+    
 * oci\_security\_attribute\_security\_attribute\_namespace
 * oci\_security\_attribute\_security\_attribute
 
 stack_monitoring
-
+    
 * oci\_stack\_monitoring\_monitored\_resource
 * oci\_stack\_monitoring\_discovery\_job
 * oci\_stack\_monitoring\_monitored\_resources\_list\_member
@@ -1291,62 +1287,62 @@ stack_monitoring
 * oci\_stack\_monitoring\_monitoring\_template
 
 streaming
-
+    
 * oci\_streaming\_connect\_harness
 * oci\_streaming\_stream\_pool
 * oci\_streaming\_stream
 
 tenantmanagercontrolplane
-
+    
 * oci\_tenantmanagercontrolplane\_subscription\_mapping
 
 usage_proxy
-
+    
 * oci\_usage\_proxy\_subscription\_redeemable\_user
 
 vault
-
+    
 * oci\_vault\_secret
 
 vbs_inst
-
+    
 * oci\_vbs\_inst\_vbs\_instance
 
 visual_builder
-
+    
 * oci\_visual\_builder\_vb\_instance
 
 vn_monitoring
-
+    
 * oci\_vn\_monitoring\_path\_analyzer\_test
 * oci\_vn\_monitoring\_path\_analysi
 
 vulnerability_scanning
-
+    
 * oci\_vulnerability\_scanning\_host\_scan\_recipe
 * oci\_vulnerability\_scanning\_host\_scan\_target
 * oci\_vulnerability\_scanning\_container\_scan\_recipe
 * oci\_vulnerability\_scanning\_container\_scan\_target
 
 waa
-
+    
 * oci\_waa\_web\_app\_acceleration\_policy
 * oci\_waa\_web\_app\_acceleration
 
 waas
-
+    
 * oci\_waas\_address\_list
 * oci\_waas\_custom\_protection\_rule
 * oci\_waas\_http\_redirect
 * oci\_waas\_waas\_policy
 
 waf
-
+    
 * oci\_waf\_web\_app\_firewall\_policy
 * oci\_waf\_web\_app\_firewall
 * oci\_waf\_network\_address\_list
 
 zpr
-
+    
 * oci\_zpr\_configuration
 * oci\_zpr\_zpr\_policy

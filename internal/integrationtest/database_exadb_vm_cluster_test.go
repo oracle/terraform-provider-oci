@@ -200,11 +200,11 @@ var (
 `
 
 	ExadbVmClusterVariables = `
-        variable "grid_image_id" {}
-`
+        variable "grid_image_id" {}`
 
 	DatabaseExadbVmClusterResourceDependencies = AvailabilityDomainConfig + ExadbVmClusterNetwork + ExadbVmClusterVariables +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_exascale_db_storage_vault", "test_exascale_db_storage_vault", acctest.Required, acctest.Create, DatabaseExascaleDbStorageVaultRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_database_exascale_db_storage_vault", "test_exascale_db_storage_vault", acctest.Required, acctest.Create,
+			DatabaseExascaleDbStorageVaultRepresentation)
 )
 
 // issue-routing-tag: database/ExaCS

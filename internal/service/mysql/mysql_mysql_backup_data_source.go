@@ -72,6 +72,12 @@ func (s *MysqlMysqlBackupDataSourceCrud) SetData() error {
 
 	s.D.Set("backup_type", s.Res.BackupType)
 
+	if s.Res.BackupValidationDetails != nil {
+		s.D.Set("backup_validation_details", []interface{}{BackupValidationDetailsToMap(s.Res.BackupValidationDetails)})
+	} else {
+		s.D.Set("backup_validation_details", nil)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

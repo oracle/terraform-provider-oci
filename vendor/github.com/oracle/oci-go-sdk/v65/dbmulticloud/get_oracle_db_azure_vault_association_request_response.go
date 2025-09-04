@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dbmulticloud/GetOracleDbAzureVaultAssociation.go.html to see an example of how to use GetOracleDbAzureVaultAssociationRequest.
 type GetOracleDbAzureVaultAssociationRequest struct {
 
-	// The ID of the Oracle DB Azure Vault Association Resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB Azure Vault Association resource.
 	OracleDbAzureVaultAssociationId *string `mandatory:"true" contributesTo:"path" name:"oracleDbAzureVaultAssociationId"`
 
 	// The maximum number of items to return.
