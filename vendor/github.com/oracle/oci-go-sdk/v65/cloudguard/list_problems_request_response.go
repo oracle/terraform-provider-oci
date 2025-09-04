@@ -291,27 +291,30 @@ type ListProblemsDetectorTypeEnum string
 
 // Set of constants representing the allowable values for ListProblemsDetectorTypeEnum
 const (
-	ListProblemsDetectorTypeActivityDetector         ListProblemsDetectorTypeEnum = "IAAS_ACTIVITY_DETECTOR"
-	ListProblemsDetectorTypeConfigurationDetector    ListProblemsDetectorTypeEnum = "IAAS_CONFIGURATION_DETECTOR"
-	ListProblemsDetectorTypeThreatDetector           ListProblemsDetectorTypeEnum = "IAAS_THREAT_DETECTOR"
-	ListProblemsDetectorTypeLogInsightDetector       ListProblemsDetectorTypeEnum = "IAAS_LOG_INSIGHT_DETECTOR"
-	ListProblemsDetectorTypeInstanceSecurityDetector ListProblemsDetectorTypeEnum = "IAAS_INSTANCE_SECURITY_DETECTOR"
+	ListProblemsDetectorTypeActivityDetector          ListProblemsDetectorTypeEnum = "IAAS_ACTIVITY_DETECTOR"
+	ListProblemsDetectorTypeConfigurationDetector     ListProblemsDetectorTypeEnum = "IAAS_CONFIGURATION_DETECTOR"
+	ListProblemsDetectorTypeThreatDetector            ListProblemsDetectorTypeEnum = "IAAS_THREAT_DETECTOR"
+	ListProblemsDetectorTypeLogInsightDetector        ListProblemsDetectorTypeEnum = "IAAS_LOG_INSIGHT_DETECTOR"
+	ListProblemsDetectorTypeInstanceSecurityDetector  ListProblemsDetectorTypeEnum = "IAAS_INSTANCE_SECURITY_DETECTOR"
+	ListProblemsDetectorTypeContainerSecurityDetector ListProblemsDetectorTypeEnum = "IAAS_CONTAINER_SECURITY_DETECTOR"
 )
 
 var mappingListProblemsDetectorTypeEnum = map[string]ListProblemsDetectorTypeEnum{
-	"IAAS_ACTIVITY_DETECTOR":          ListProblemsDetectorTypeActivityDetector,
-	"IAAS_CONFIGURATION_DETECTOR":     ListProblemsDetectorTypeConfigurationDetector,
-	"IAAS_THREAT_DETECTOR":            ListProblemsDetectorTypeThreatDetector,
-	"IAAS_LOG_INSIGHT_DETECTOR":       ListProblemsDetectorTypeLogInsightDetector,
-	"IAAS_INSTANCE_SECURITY_DETECTOR": ListProblemsDetectorTypeInstanceSecurityDetector,
+	"IAAS_ACTIVITY_DETECTOR":           ListProblemsDetectorTypeActivityDetector,
+	"IAAS_CONFIGURATION_DETECTOR":      ListProblemsDetectorTypeConfigurationDetector,
+	"IAAS_THREAT_DETECTOR":             ListProblemsDetectorTypeThreatDetector,
+	"IAAS_LOG_INSIGHT_DETECTOR":        ListProblemsDetectorTypeLogInsightDetector,
+	"IAAS_INSTANCE_SECURITY_DETECTOR":  ListProblemsDetectorTypeInstanceSecurityDetector,
+	"IAAS_CONTAINER_SECURITY_DETECTOR": ListProblemsDetectorTypeContainerSecurityDetector,
 }
 
 var mappingListProblemsDetectorTypeEnumLowerCase = map[string]ListProblemsDetectorTypeEnum{
-	"iaas_activity_detector":          ListProblemsDetectorTypeActivityDetector,
-	"iaas_configuration_detector":     ListProblemsDetectorTypeConfigurationDetector,
-	"iaas_threat_detector":            ListProblemsDetectorTypeThreatDetector,
-	"iaas_log_insight_detector":       ListProblemsDetectorTypeLogInsightDetector,
-	"iaas_instance_security_detector": ListProblemsDetectorTypeInstanceSecurityDetector,
+	"iaas_activity_detector":           ListProblemsDetectorTypeActivityDetector,
+	"iaas_configuration_detector":      ListProblemsDetectorTypeConfigurationDetector,
+	"iaas_threat_detector":             ListProblemsDetectorTypeThreatDetector,
+	"iaas_log_insight_detector":        ListProblemsDetectorTypeLogInsightDetector,
+	"iaas_instance_security_detector":  ListProblemsDetectorTypeInstanceSecurityDetector,
+	"iaas_container_security_detector": ListProblemsDetectorTypeContainerSecurityDetector,
 }
 
 // GetListProblemsDetectorTypeEnumValues Enumerates the set of values for ListProblemsDetectorTypeEnum
@@ -331,6 +334,7 @@ func GetListProblemsDetectorTypeEnumStringValues() []string {
 		"IAAS_THREAT_DETECTOR",
 		"IAAS_LOG_INSIGHT_DETECTOR",
 		"IAAS_INSTANCE_SECURITY_DETECTOR",
+		"IAAS_CONTAINER_SECURITY_DETECTOR",
 	}
 }
 

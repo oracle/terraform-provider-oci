@@ -19,6 +19,7 @@ variable "oracle_db_azure_blob_container_id" {
 }
 
 provider "oci" {
+  version          = "7.13.0"
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
   fingerprint      = var.fingerprint

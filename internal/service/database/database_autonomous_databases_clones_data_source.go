@@ -936,11 +936,19 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 									// Optional
 
 									// Computed
+									"available_compute_capacity": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
 									"is_disabled": {
 										Type:     schema.TypeBool,
 										Computed: true,
 									},
 									"pool_size": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"total_compute_capacity": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},

@@ -102,6 +102,8 @@ func (s *DbmulticloudMultiCloudResourceDiscoveryDataSourceCrud) SetData() error 
 	}
 	s.D.Set("resources", resources)
 
+	s.D.Set("resources_filter", s.Res.ResourcesFilter)
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SystemTags != nil {

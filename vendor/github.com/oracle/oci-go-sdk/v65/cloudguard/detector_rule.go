@@ -111,6 +111,8 @@ const (
 	DetectorRuleManagedListTypesGeneric              DetectorRuleManagedListTypesEnum = "GENERIC"
 	DetectorRuleManagedListTypesFusionAppsRole       DetectorRuleManagedListTypesEnum = "FUSION_APPS_ROLE"
 	DetectorRuleManagedListTypesFusionAppsPermission DetectorRuleManagedListTypesEnum = "FUSION_APPS_PERMISSION"
+	DetectorRuleManagedListTypesNamespaceSelector    DetectorRuleManagedListTypesEnum = "NAMESPACE_SELECTOR"
+	DetectorRuleManagedListTypesPodResourceSelector  DetectorRuleManagedListTypesEnum = "POD_RESOURCE_SELECTOR"
 )
 
 var mappingDetectorRuleManagedListTypesEnum = map[string]DetectorRuleManagedListTypesEnum{
@@ -128,6 +130,8 @@ var mappingDetectorRuleManagedListTypesEnum = map[string]DetectorRuleManagedList
 	"GENERIC":                DetectorRuleManagedListTypesGeneric,
 	"FUSION_APPS_ROLE":       DetectorRuleManagedListTypesFusionAppsRole,
 	"FUSION_APPS_PERMISSION": DetectorRuleManagedListTypesFusionAppsPermission,
+	"NAMESPACE_SELECTOR":     DetectorRuleManagedListTypesNamespaceSelector,
+	"POD_RESOURCE_SELECTOR":  DetectorRuleManagedListTypesPodResourceSelector,
 }
 
 var mappingDetectorRuleManagedListTypesEnumLowerCase = map[string]DetectorRuleManagedListTypesEnum{
@@ -145,6 +149,8 @@ var mappingDetectorRuleManagedListTypesEnumLowerCase = map[string]DetectorRuleMa
 	"generic":                DetectorRuleManagedListTypesGeneric,
 	"fusion_apps_role":       DetectorRuleManagedListTypesFusionAppsRole,
 	"fusion_apps_permission": DetectorRuleManagedListTypesFusionAppsPermission,
+	"namespace_selector":     DetectorRuleManagedListTypesNamespaceSelector,
+	"pod_resource_selector":  DetectorRuleManagedListTypesPodResourceSelector,
 }
 
 // GetDetectorRuleManagedListTypesEnumValues Enumerates the set of values for DetectorRuleManagedListTypesEnum
@@ -173,6 +179,8 @@ func GetDetectorRuleManagedListTypesEnumStringValues() []string {
 		"GENERIC",
 		"FUSION_APPS_ROLE",
 		"FUSION_APPS_PERMISSION",
+		"NAMESPACE_SELECTOR",
+		"POD_RESOURCE_SELECTOR",
 	}
 }
 

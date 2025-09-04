@@ -67,6 +67,13 @@ func DbmulticloudMultiCloudResourceDiscoveryResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"resources_filter": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem:     schema.TypeString,
+			},
 
 			// Computed
 			"last_modification": {
@@ -243,6 +250,10 @@ func (s *DbmulticloudMultiCloudResourceDiscoveryResourceCrud) Create() error {
 
 	if resourceType, ok := s.D.GetOkExists("resource_type"); ok {
 		request.ResourceType = oci_dbmulticloud.MultiCloudResourceDiscoveryResourceTypeEnum(resourceType.(string))
+	}
+
+	if resourcesFilter, ok := s.D.GetOkExists("resources_filter"); ok {
+		request.ResourcesFilter = tfresource.ObjectMapToStringMap(resourcesFilter.(map[string]interface{}))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud")
@@ -516,6 +527,8 @@ func (s *DbmulticloudMultiCloudResourceDiscoveryResourceCrud) SetData() error {
 		resources = append(resources, ResourcesToMap(item))
 	}
 	s.D.Set("resources", resources)
+
+	s.D.Set("resources_filter", s.Res.ResourcesFilter)
 
 	s.D.Set("state", s.Res.LifecycleState)
 

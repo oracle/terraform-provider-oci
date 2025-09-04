@@ -40,6 +40,7 @@ The following attributes are exported:
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}`
 
 	Avoid entering confidential information. 
+* `group` - Managed list type group
 * `id` - Unique identifier that can't be changed after creation
 * `is_editable` - Is this list editable?
 * `lifecyle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state. [DEPRECATE]

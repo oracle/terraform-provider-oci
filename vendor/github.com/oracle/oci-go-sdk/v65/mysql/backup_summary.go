@@ -53,6 +53,12 @@ type BackupSummary struct {
 	// state for 7 days before permanently deleting it.
 	SoftDelete SoftDeleteEnum `mandatory:"false" json:"softDelete,omitempty"`
 
+	// Indicates whether the backup has been prepared successfully.
+	BackupPreparationStatus BackupValidationDetailsBackupPreparationStatusEnum `mandatory:"false" json:"backupPreparationStatus,omitempty"`
+
+	// Status of the backup validation.
+	ValidationStatus BackupValidationDetailsValidationStatusEnum `mandatory:"false" json:"validationStatus,omitempty"`
+
 	// Additional information about the current lifecycleState.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
@@ -118,6 +124,12 @@ func (m BackupSummary) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingSoftDeleteEnum(string(m.SoftDelete)); !ok && m.SoftDelete != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SoftDelete: %s. Supported values are: %s.", m.SoftDelete, strings.Join(GetSoftDeleteEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingBackupValidationDetailsBackupPreparationStatusEnum(string(m.BackupPreparationStatus)); !ok && m.BackupPreparationStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BackupPreparationStatus: %s. Supported values are: %s.", m.BackupPreparationStatus, strings.Join(GetBackupValidationDetailsBackupPreparationStatusEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingBackupValidationDetailsValidationStatusEnum(string(m.ValidationStatus)); !ok && m.ValidationStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ValidationStatus: %s. Supported values are: %s.", m.ValidationStatus, strings.Join(GetBackupValidationDetailsValidationStatusEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))

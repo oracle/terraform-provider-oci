@@ -106,6 +106,62 @@ func CloudGuardDetectorRecipeResource() *schema.Resource {
 												},
 
 												// Optional
+												"additional_properties": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"key": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+															},
+															"property_type": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+															},
+															"value": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+															},
+
+															// Computed
+														},
+													},
+												},
+												"allowed_values": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+															"key": {
+																Type:     schema.TypeString,
+																Required: true,
+															},
+															"value": {
+																Type:     schema.TypeString,
+																Required: true,
+															},
+
+															// Optional
+
+															// Computed
+														},
+													},
+												},
+												"allowed_values_data_type": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
 												"data_type": {
 													Type:     schema.TypeString,
 													Optional: true,
@@ -281,6 +337,10 @@ func CloudGuardDetectorRecipeResource() *schema.Resource {
 								},
 							},
 						},
+						"is_cloneable": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"lifecycle_details": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -300,6 +360,30 @@ func CloudGuardDetectorRecipeResource() *schema.Resource {
 						"resource_type": {
 							Type:     schema.TypeString,
 							Computed: true,
+						},
+						"rule_type": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"key": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"value": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+								},
+							},
 						},
 						"service_type": {
 							Type:     schema.TypeString,
@@ -405,6 +489,56 @@ func CloudGuardDetectorRecipeResource() *schema.Resource {
 												// Optional
 
 												// Computed
+												"additional_properties": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+
+															// Computed
+															"key": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"property_type": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"value": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+														},
+													},
+												},
+												"allowed_values": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+
+															// Computed
+															"key": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"value": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+														},
+													},
+												},
+												"allowed_values_data_type": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"config_key": {
 													Type:     schema.TypeString,
 													Computed: true,
@@ -545,6 +679,10 @@ func CloudGuardDetectorRecipeResource() *schema.Resource {
 								},
 							},
 						},
+						"is_cloneable": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"lifecycle_details": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -564,6 +702,30 @@ func CloudGuardDetectorRecipeResource() *schema.Resource {
 						"resource_type": {
 							Type:     schema.TypeString,
 							Computed: true,
+						},
+						"rule_type": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"key": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"value": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+								},
+							},
 						},
 						"service_type": {
 							Type:     schema.TypeString,
@@ -906,6 +1068,22 @@ func (s *CloudGuardDetectorRecipeResourceCrud) SetData() error {
 	return nil
 }
 
+func AdditionalConfigPropertyDefinitionToMap(obj oci_cloud_guard.AdditionalConfigPropertyDefinition) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Key != nil {
+		result["key"] = string(*obj.Key)
+	}
+
+	result["property_type"] = string(obj.PropertyType)
+
+	if obj.Value != nil {
+		result["value"] = string(*obj.Value)
+	}
+
+	return result
+}
+
 func CandidateResponderRuleToMap(obj oci_cloud_guard.CandidateResponderRule) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -942,6 +1120,22 @@ func ConfigValueToMap(obj oci_cloud_guard.ConfigValue) map[string]interface{} {
 
 /*func DetectorConfigurationToMap(obj oci_cloud_guard.DetectorConfiguration) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	additionalProperties := []interface{}{}
+	for _, item := range obj.AdditionalProperties {
+		additionalProperties = append(additionalProperties, AdditionalConfigPropertyDefinitionToMap(item))
+	}
+	result["additional_properties"] = additionalProperties
+
+	allowedValues := []interface{}{}
+	for _, item := range obj.AllowedValues {
+		allowedValues = append(allowedValues, PropertyTupleToMap(item))
+	}
+	result["allowed_values"] = allowedValues
+
+	if obj.AllowedValuesDataType != nil {
+		result["allowed_values_data_type"] = string(*obj.AllowedValuesDataType)
+	}
 
 	if obj.ConfigKey != nil {
 		result["config_key"] = string(*obj.ConfigKey)
@@ -1052,6 +1246,10 @@ func DetectorRecipeDetectorRuleToMap(obj oci_cloud_guard.DetectorRecipeDetectorR
 	}
 	result["entities_mappings"] = entitiesMappings
 
+	if obj.IsCloneable != nil {
+		result["is_cloneable"] = bool(*obj.IsCloneable)
+	}
+
 	if obj.LifecycleDetails != nil {
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
@@ -1065,6 +1263,12 @@ func DetectorRecipeDetectorRuleToMap(obj oci_cloud_guard.DetectorRecipeDetectorR
 	if obj.ResourceType != nil {
 		result["resource_type"] = string(*obj.ResourceType)
 	}
+
+	ruleType := []interface{}{}
+	for _, item := range obj.RuleType {
+		ruleType = append(ruleType, RuleTypeToMap(item))
+	}
+	result["rule_type"] = ruleType
 
 	if obj.ServiceType != nil {
 		result["service_type"] = string(*obj.ServiceType)
@@ -1153,6 +1357,30 @@ func EntitiesMappingToMap(obj oci_cloud_guard.EntitiesMapping) map[string]interf
 	if obj.QueryField != nil {
 		result["query_field"] = string(*obj.QueryField)
 	}
+
+	return result
+}
+
+func PropertyTupleToMap(obj oci_cloud_guard.PropertyTuple) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Key != nil {
+		result["key"] = string(*obj.Key)
+	}
+
+	if obj.Value != nil {
+		result["value"] = string(*obj.Value)
+	}
+
+	return result
+}
+
+func RuleTypeToMap(obj oci_cloud_guard.RuleType) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["key"] = string(obj.Key)
+
+	result["value"] = obj.Value
 
 	return result
 }

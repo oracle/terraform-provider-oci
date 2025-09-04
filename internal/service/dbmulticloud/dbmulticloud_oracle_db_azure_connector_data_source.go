@@ -71,6 +71,13 @@ func (s *DbmulticloudOracleDbAzureConnectorDataSourceCrud) SetData() error {
 		s.D.Set("access_token", *s.Res.AccessToken)
 	}
 
+	arcAgentNodes := []interface{}{}
+	for _, item := range s.Res.ArcAgentNodes {
+		arcAgentNodes = append(arcAgentNodes, ArcAgentNodesToMap(item))
+	}
+	s.D.Set("arc_agent_nodes", arcAgentNodes)
+
+	s.D.Set("azure_identity_connectivity_status", s.Res.AzureIdentityConnectivityStatus)
 	s.D.Set("azure_identity_mechanism", s.Res.AzureIdentityMechanism)
 
 	if s.Res.AzureResourceGroup != nil {

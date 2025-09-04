@@ -21,20 +21,19 @@ type ListOracleDbAzureBlobMountsRequest struct {
 	// The ID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// A filter to return Oracle DB Azure Blob Mount Resources.
+	// A filter to return Oracle DB Azure Blob Mount resources that match the specified display name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// ID of Oracle DB Azure Blob Mount Resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB Azure Blob Mount resource.
 	OracleDbAzureBlobMountId *string `mandatory:"false" contributesTo:"query" name:"oracleDbAzureBlobMountId"`
 
-	// A filter to return only resources that match the given lifecycle state. The
-	// state value is case-insensitive.
+	// A filter to return only resources that match the given lifecycle state. The state value is case-insensitive.
 	LifecycleState OracleDbAzureBlobMountLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// A filter to return Oracle DB Azure Blob Mount Resources.
+	// A filter to return Oracle DB Azure Blob Container resource.
 	OracleDbAzureBlobContainerId *string `mandatory:"false" contributesTo:"query" name:"oracleDbAzureBlobContainerId"`
 
-	// A filter to return Oracle DB Azure Blob Mount Resources.
+	// A filter to return Oracle DB Azure Azure Identity Connector resources.
 	OracleDbAzureConnectorId *string `mandatory:"false" contributesTo:"query" name:"oracleDbAzureConnectorId"`
 
 	// The maximum number of items to return.

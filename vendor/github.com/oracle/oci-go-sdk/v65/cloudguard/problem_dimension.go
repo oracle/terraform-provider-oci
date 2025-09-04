@@ -23,6 +23,8 @@ const (
 	ProblemDimensionRegion        ProblemDimensionEnum = "REGION"
 	ProblemDimensionCompartmentId ProblemDimensionEnum = "COMPARTMENT_ID"
 	ProblemDimensionRiskLevel     ProblemDimensionEnum = "RISK_LEVEL"
+	ProblemDimensionDetectorId    ProblemDimensionEnum = "DETECTOR_ID"
+	ProblemDimensionTargetId      ProblemDimensionEnum = "TARGET_ID"
 )
 
 var mappingProblemDimensionEnum = map[string]ProblemDimensionEnum{
@@ -30,6 +32,8 @@ var mappingProblemDimensionEnum = map[string]ProblemDimensionEnum{
 	"REGION":         ProblemDimensionRegion,
 	"COMPARTMENT_ID": ProblemDimensionCompartmentId,
 	"RISK_LEVEL":     ProblemDimensionRiskLevel,
+	"DETECTOR_ID":    ProblemDimensionDetectorId,
+	"TARGET_ID":      ProblemDimensionTargetId,
 }
 
 var mappingProblemDimensionEnumLowerCase = map[string]ProblemDimensionEnum{
@@ -37,6 +41,8 @@ var mappingProblemDimensionEnumLowerCase = map[string]ProblemDimensionEnum{
 	"region":         ProblemDimensionRegion,
 	"compartment_id": ProblemDimensionCompartmentId,
 	"risk_level":     ProblemDimensionRiskLevel,
+	"detector_id":    ProblemDimensionDetectorId,
+	"target_id":      ProblemDimensionTargetId,
 }
 
 // GetProblemDimensionEnumValues Enumerates the set of values for ProblemDimensionEnum
@@ -55,6 +61,8 @@ func GetProblemDimensionEnumStringValues() []string {
 		"REGION",
 		"COMPARTMENT_ID",
 		"RISK_LEVEL",
+		"DETECTOR_ID",
+		"TARGET_ID",
 	}
 }
 

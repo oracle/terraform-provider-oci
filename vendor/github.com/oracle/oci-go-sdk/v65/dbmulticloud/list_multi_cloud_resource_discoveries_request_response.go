@@ -21,21 +21,23 @@ type ListMultiCloudResourceDiscoveriesRequest struct {
 	// The ID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// Display Name of the Multi Cloud Discovery Resource.
+	// A filter to return Oracle DB Multicloud Discovery resources that match the specified display name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multi Cloud Discovery Resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud Discovery resource.
 	MultiCloudResourceDiscoveryId *string `mandatory:"false" contributesTo:"query" name:"multiCloudResourceDiscoveryId"`
 
-	// A filter to return only resources that match the given lifecycle state. The
-	// state value is case-insensitive.
+	// A filter to return only resources that match the specified lifecycle state. The state value is case-insensitive.
 	LifecycleState MultiCloudResourceDiscoveryLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// A filter to return Oracle DB Azure Blob Mount Resources.
+	// A filter to return Oracle DB Azure Azure Identity Connector resources.
 	OracleDbAzureConnectorId *string `mandatory:"false" contributesTo:"query" name:"oracleDbAzureConnectorId"`
 
-	// The type of Multi Cloud Resource.
+	// The type of Multicloud Resource.
 	ResourceType MultiCloudResourceDiscoveryResourceTypeEnum `mandatory:"false" contributesTo:"query" name:"resourceType" omitEmpty:"true"`
+
+	// Specifies the type(s) of resources to discover in the target cloud provider.
+	ResourcesFilter []string `contributesTo:"query" name:"resourcesFilter" collectionFormat:"multi"`
 
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`

@@ -28,11 +28,13 @@ resource "oci_database_exascale_db_storage_vault" "test_exascale_db_storage_vaul
 
 	#Optional
 	additional_flash_cache_in_percent = var.exascale_db_storage_vault_additional_flash_cache_in_percent
+	autoscale_limit_in_gbs = var.exascale_db_storage_vault_autoscale_limit_in_gbs
 	cluster_placement_group_id = oci_cluster_placement_groups_cluster_placement_group.test_cluster_placement_group.id
 	defined_tags = var.exascale_db_storage_vault_defined_tags
 	description = var.exascale_db_storage_vault_description
 	exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
 	freeform_tags = {"Department"= "Finance"}
+	is_autoscale_enabled = var.exascale_db_storage_vault_is_autoscale_enabled
 	subscription_id = var.tenant_subscription_id
 	time_zone = var.exascale_db_storage_vault_time_zone
 }
@@ -43,6 +45,7 @@ resource "oci_database_exascale_db_storage_vault" "test_exascale_db_storage_vaul
 The following arguments are supported:
 
 * `additional_flash_cache_in_percent` - (Optional) (Updatable) The size of additional Flash Cache in percentage of High Capacity database storage. 
+* `autoscale_limit_in_gbs` - (Optional) (Updatable) Maximum limit storage size in gigabytes, that is applicable for the Database Storage Vault.
 * `availability_domain` - (Required) The name of the availability domain in which the Exadata Database Storage Vault is located.
 * `cluster_placement_group_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster placement group of the Exadata Infrastructure.
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
@@ -53,6 +56,7 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `high_capacity_database_storage` - (Required) (Updatable) Create exadata Database Storage Details 
 	* `total_size_in_gbs` - (Required) (Updatable) Total Capacity 
+* `is_autoscale_enabled` - (Optional) (Updatable) Indicates if autoscale feature is enabled for the Database Storage Vault. The default value is `FALSE`.
 * `subscription_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
 * `time_zone` - (Optional) The time zone that you want to use for the Exadata Database Storage Vault. For details, see [Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm). 
 
@@ -64,8 +68,9 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `additional_flash_cache_in_percent` - The size of additional Flash Cache in percentage of High Capacity database storage. 
-* `attached_shape_attributes` - The shapeAttribute of the Exadata VM cluster(s) associated with the Exadata Database Storage Vault. 
+* `additional_flash_cache_in_percent` - The size of additional Flash Cache in percentage of High Capacity database storage.
+* `attached_shape_attributes` - The shapeAttribute of the Exadata VM cluster(s) associated with the Exadata Database Storage Vault.
+* `autoscale_limit_in_gbs` - Maximum limit storage size in gigabytes, that is applicable for the Database Storage Vault.
 * `availability_domain` - The name of the availability domain in which the Exadata Database Storage Vault is located.
 * `cluster_placement_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster placement group of the Exadata Infrastructure.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
@@ -78,6 +83,7 @@ The following attributes are exported:
 	* `available_size_in_gbs` - Available Capacity 
 	* `total_size_in_gbs` - Total Capacity 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Database Storage Vault.
+* `is_autoscale_enabled` - Indicates if autoscale feature is enabled for the Database Storage Vault. The default value is `FALSE`.
 * `lifecycle_details` - Additional information about the current lifecycle state.
 * `state` - The current state of the Exadata Database Storage Vault.
 * `subscription_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.

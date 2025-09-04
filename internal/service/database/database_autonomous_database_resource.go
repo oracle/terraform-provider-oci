@@ -517,6 +517,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 						// Required
 
 						// Optional
+						"available_compute_capacity": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"is_disabled": {
 							Type:     schema.TypeBool,
 							Optional: true,
@@ -525,6 +529,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 						"pool_size": {
 							Type:     schema.TypeInt,
 							Optional: true,
+							Computed: true,
+						},
+						"total_compute_capacity": {
+							Type:     schema.TypeInt,
 							Computed: true,
 						},
 
@@ -3424,12 +3432,20 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) mapToResourcePoolSummary(fieldK
 func ResourcePoolSummaryToMap(obj *oci_database.ResourcePoolSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.AvailableComputeCapacity != nil {
+		result["available_compute_capacity"] = int(*obj.AvailableComputeCapacity)
+	}
+
 	if obj.IsDisabled != nil {
 		result["is_disabled"] = bool(*obj.IsDisabled)
 	}
 
 	if obj.PoolSize != nil {
 		result["pool_size"] = int(*obj.PoolSize)
+	}
+
+	if obj.TotalComputeCapacity != nil {
+		result["total_compute_capacity"] = int(*obj.TotalComputeCapacity)
 	}
 
 	return result
