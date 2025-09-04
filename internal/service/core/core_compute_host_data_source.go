@@ -112,6 +112,10 @@ func CoreComputeHostDataSource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"firmware_bundle_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"health": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -142,6 +146,10 @@ func CoreComputeHostDataSource() *schema.Resource {
 				Computed: true,
 			},
 			"network_block_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"platform": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -272,6 +280,10 @@ func (s *CoreComputeHostDataSourceCrud) SetData() error {
 		s.D.Set("fault_domain", *s.Res.FaultDomain)
 	}
 
+	if s.Res.FirmwareBundleId != nil {
+		s.D.Set("firmware_bundle_id", *s.Res.FirmwareBundleId)
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	s.D.Set("health", s.Res.Health)
@@ -298,6 +310,10 @@ func (s *CoreComputeHostDataSourceCrud) SetData() error {
 
 	if s.Res.NetworkBlockId != nil {
 		s.D.Set("network_block_id", *s.Res.NetworkBlockId)
+	}
+
+	if s.Res.Platform != nil {
+		s.D.Set("platform", *s.Res.Platform)
 	}
 
 	if s.Res.RecycleDetails != nil {

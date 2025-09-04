@@ -39,6 +39,7 @@ The following attributes are exported:
 	* `recycle_level` - Preferred recycle level for hosts associated with the reservation config.
 		* `SKIP_RECYCLE` - Skips host wipe.
 		* `FULL_RECYCLE` - Does not skip host wipe. This is the default behavior. 
+	* `state` - The state of the host group configuration.
 	* `target` - Either the platform name or compute shape that the configuration is targeting
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
