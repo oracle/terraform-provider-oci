@@ -23,6 +23,7 @@ data "oci_data_safe_masking_reports" "test_masking_reports" {
 	access_level = var.masking_report_access_level
 	compartment_id_in_subtree = var.masking_report_compartment_id_in_subtree
 	masking_policy_id = oci_data_safe_masking_policy.test_masking_policy.id
+	target_database_group_id = oci_data_safe_target_database_group.test_target_database_group.id
 	target_id = oci_cloud_guard_target.test_target.id
 }
 ```
@@ -35,6 +36,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) A filter to return only resources that match the specified compartment OCID.
 * `compartment_id_in_subtree` - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting. 
 * `masking_policy_id` - (Optional) A filter to return only the resources that match the specified masking policy OCID.
+* `target_database_group_id` - (Optional) A filter to return the target database group that matches the specified OCID.
 * `target_id` - (Optional) A filter to return only items related to a specific target OCID.
 
 

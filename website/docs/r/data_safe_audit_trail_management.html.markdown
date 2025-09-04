@@ -19,6 +19,7 @@ resource "oci_data_safe_audit_trail_management" "test_audit_trail_management" {
 	#Required
 	compartment_id = var.compartment_id
 	target_id = oci_data_safe_target_database.test_target_database.id
+	trail_location = var.audit_trail_management_trail_location
 
 	#Optional
 	can_update_last_archive_time_on_target = var.audit_trail_management_can_update_last_archive_time_on_target
@@ -34,11 +35,11 @@ resource "oci_data_safe_audit_trail_management" "test_audit_trail_management" {
 
 The following arguments are supported:
 
-* `audit_trail_id` - (Required) The OCID of the audit trail.
 * `can_update_last_archive_time_on_target` - (Optional) (Updatable) Indicates if the Datasafe updates last archive time on target database. If isAutoPurgeEnabled field is enabled, this field must be true. 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}` 
 * `target_id` - (Required) The OCID of the target.
 * `compartment_id` - (Required) The OCID of the compartment that contains the target.
+* `trail_location` - (Required) An audit trail location represents the source of audit records that provides documentary evidence of the sequence of activities in the target database.
 * `description` - (Optional) (Updatable) The description of the audit trail.
 * `display_name` - (Optional) (Updatable) The display name of the audit trail. The name does not have to be unique, and it's updatable.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}` 

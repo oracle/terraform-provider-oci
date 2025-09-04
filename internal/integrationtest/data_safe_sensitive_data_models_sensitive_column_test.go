@@ -39,12 +39,14 @@ var (
 
 	DataSafesensitiveDataModelsSensitiveColumnDataSourceRepresentation = map[string]interface{}{
 
-		"sensitive_data_model_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_sensitive_data_model.test_sensitive_data_model.id}`},
-		"column_name":             acctest.Representation{RepType: acctest.Optional, Create: []string{`FIRST_NAME`}},
-		"object":                  acctest.Representation{RepType: acctest.Optional, Create: []string{`EMPLOYEES`}},
-		"schema_name":             acctest.Representation{RepType: acctest.Optional, Create: []string{`ADMIN`}},
-		"time_created_less_than":  acctest.Representation{RepType: acctest.Optional, Create: `2038-01-01T00:00:00.000Z`},
-		"filter":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: sensitiveDataModelsSensitiveColumnDataSourceFilterRepresentation}}
+		"sensitive_data_model_id":  acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_sensitive_data_model.test_sensitive_data_model.id}`},
+		"column_name":              acctest.Representation{RepType: acctest.Optional, Create: []string{`FIRST_NAME`}},
+		"object":                   acctest.Representation{RepType: acctest.Optional, Create: []string{`EMPLOYEES`}},
+		"schema_name":              acctest.Representation{RepType: acctest.Optional, Create: []string{`HR`}},
+		"time_created_less_than":   acctest.Representation{RepType: acctest.Optional, Create: `2038-01-01T00:00:00.000Z`},
+		"column_data_count_filter": acctest.Representation{RepType: acctest.Optional, Create: `SHOW_ALL_COLUMNS`},
+		"confidence_level":         acctest.Representation{RepType: acctest.Optional, Create: []string{`NONE`}},
+		"filter":                   acctest.RepresentationGroup{RepType: acctest.Required, Group: sensitiveDataModelsSensitiveColumnDataSourceFilterRepresentation}}
 	sensitiveDataModelsSensitiveColumnDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `key`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_data_safe_sensitive_data_models_sensitive_column.test_sensitive_data_models_sensitive_column.key}`}},
@@ -53,9 +55,9 @@ var (
 	sensitiveDataModelsSensitiveColumnRepresentation = map[string]interface{}{
 		"column_name":             acctest.Representation{RepType: acctest.Required, Create: `FIRST_NAME`},
 		"object":                  acctest.Representation{RepType: acctest.Required, Create: `EMPLOYEES`},
-		"schema_name":             acctest.Representation{RepType: acctest.Required, Create: `ADMIN`},
+		"schema_name":             acctest.Representation{RepType: acctest.Required, Create: `HR`},
 		"sensitive_data_model_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_sensitive_data_model.test_sensitive_data_model.id}`},
-		"app_name":                acctest.Representation{RepType: acctest.Optional, Create: `ADMIN`},
+		"app_name":                acctest.Representation{RepType: acctest.Optional, Create: `HR`},
 		"data_type":               acctest.Representation{RepType: acctest.Optional, Create: `VARCHAR2`, Update: `VARCHAR2`},
 		"object_type":             acctest.Representation{RepType: acctest.Optional, Create: `TABLE`},
 		"relation_type":           acctest.Representation{RepType: acctest.Optional, Create: `NONE`, Update: `NONE`},
@@ -94,8 +96,9 @@ func TestDataSafeSensitiveDataModelsSensitiveColumnResource_basic(t *testing.T) 
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "column_name", "FIRST_NAME"),
 				resource.TestCheckResourceAttr(resourceName, "object", "EMPLOYEES"),
-				resource.TestCheckResourceAttr(resourceName, "schema_name", "ADMIN"),
+				resource.TestCheckResourceAttr(resourceName, "schema_name", "HR"),
 				resource.TestCheckResourceAttrSet(resourceName, "sensitive_data_model_id"),
+				resource.TestCheckResourceAttr(resourceName, "confidence_level", "NONE"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "key")
@@ -113,19 +116,20 @@ func TestDataSafeSensitiveDataModelsSensitiveColumnResource_basic(t *testing.T) 
 			Config: config + compartmentIdVariableStr + targetIdVariableStr + DataSafeSensitiveDataModelsSensitiveColumnResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_data_models_sensitive_column", "test_sensitive_data_models_sensitive_column", acctest.Optional, acctest.Create, sensitiveDataModelsSensitiveColumnRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "app_name", "ADMIN"),
+				resource.TestCheckResourceAttr(resourceName, "app_name", "HR"),
 				resource.TestCheckResourceAttr(resourceName, "column_name", "FIRST_NAME"),
 				resource.TestCheckResourceAttr(resourceName, "data_type", "VARCHAR2"),
 				resource.TestCheckResourceAttrSet(resourceName, "estimated_data_value_count"),
 				resource.TestCheckResourceAttrSet(resourceName, "key"),
 				resource.TestCheckResourceAttr(resourceName, "object", "EMPLOYEES"),
 				resource.TestCheckResourceAttr(resourceName, "object_type", "TABLE"),
-				resource.TestCheckResourceAttr(resourceName, "schema_name", "ADMIN"),
+				resource.TestCheckResourceAttr(resourceName, "schema_name", "HR"),
 				resource.TestCheckResourceAttrSet(resourceName, "sensitive_data_model_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "source"),
 				resource.TestCheckResourceAttr(resourceName, "status", "VALID"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "confidence_level", "NONE"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "key")
@@ -148,19 +152,20 @@ func TestDataSafeSensitiveDataModelsSensitiveColumnResource_basic(t *testing.T) 
 			Config: config + compartmentIdVariableStr + targetIdVariableStr + DataSafeSensitiveDataModelsSensitiveColumnResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_data_models_sensitive_column", "test_sensitive_data_models_sensitive_column", acctest.Optional, acctest.Update, sensitiveDataModelsSensitiveColumnRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "app_name", "ADMIN"),
+				resource.TestCheckResourceAttr(resourceName, "app_name", "HR"),
 				resource.TestCheckResourceAttr(resourceName, "column_name", "FIRST_NAME"),
 				resource.TestCheckResourceAttrSet(resourceName, "estimated_data_value_count"),
 				resource.TestCheckResourceAttrSet(resourceName, "key"),
 				resource.TestCheckResourceAttr(resourceName, "object", "EMPLOYEES"),
 				resource.TestCheckResourceAttr(resourceName, "object_type", "TABLE"),
 				resource.TestCheckResourceAttr(resourceName, "relation_type", "NONE"),
-				resource.TestCheckResourceAttr(resourceName, "schema_name", "ADMIN"),
+				resource.TestCheckResourceAttr(resourceName, "schema_name", "HR"),
 				resource.TestCheckResourceAttrSet(resourceName, "sensitive_data_model_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "source"),
 				resource.TestCheckResourceAttr(resourceName, "status", "INVALID"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "confidence_level", "NONE"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "key")
@@ -179,10 +184,12 @@ func TestDataSafeSensitiveDataModelsSensitiveColumnResource_basic(t *testing.T) 
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_data_models_sensitive_column", "test_sensitive_data_models_sensitive_column", acctest.Optional, acctest.Update, sensitiveDataModelsSensitiveColumnRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "column_name.#", "1"),
+
 				resource.TestCheckResourceAttr(datasourceName, "object.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "schema_name.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "sensitive_data_model_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "time_created_less_than"),
+				resource.TestCheckResourceAttr(datasourceName, "confidence_level.0", "NONE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "sensitive_column_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "sensitive_column_collection.0.items.#", "1"),
@@ -198,11 +205,13 @@ func TestDataSafeSensitiveDataModelsSensitiveColumnResource_basic(t *testing.T) 
 				resource.TestCheckResourceAttr(singularDatasourceName, "column_name", "FIRST_NAME"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "db_defined_child_column_keys.#", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "estimated_data_value_count"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "confidence_level", "NONE"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "confidence_level_details.#", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "key"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "object", "EMPLOYEES"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "object_type", "TABLE"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "parent_column_keys.#", "0"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "schema_name", "ADMIN"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "schema_name", "HR"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "source"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "status", "INVALID"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),

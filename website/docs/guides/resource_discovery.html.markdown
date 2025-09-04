@@ -723,6 +723,9 @@ datascience
 * oci\_datascience\_pipeline\_run
 * oci\_datascience\_pipeline
 * oci\_datascience\_data\_science\_private\_endpoint
+* oci\_datascience\_schedule
+* oci\_datascience\_model\_defined\_metadata\_artifact
+* oci\_datascience\_model\_custom\_metadata\_artifact
 * oci\_datascience\_ml\_application\_implementation
 * oci\_datascience\_ml\_application\_instance
 * oci\_datascience\_ml\_application
@@ -790,6 +793,13 @@ dns
 * oci\_dns\_steering\_policy\_attachment
 * oci\_dns\_tsig\_key
 * oci\_dns\_rrset
+* oci\_dns\_resolver
+* oci\_dns\_resolver\_endpoint
+* oci\_dns\_view
+
+em_warehouse
+
+* oci\_em\_warehouse\_em\_warehouse
 
 email
     
@@ -1344,3 +1354,4 @@ zpr
     
 * oci\_zpr\_configuration
 * oci\_zpr\_zpr\_policy
+

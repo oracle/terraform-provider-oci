@@ -35,6 +35,10 @@ func DataSafeMaskingReportsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"target_database_group_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"target_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -190,6 +194,11 @@ func (s *DataSafeMaskingReportsDataSourceCrud) Get() error {
 	if maskingPolicyId, ok := s.D.GetOkExists("masking_policy_id"); ok {
 		tmp := maskingPolicyId.(string)
 		request.MaskingPolicyId = &tmp
+	}
+
+	if targetDatabaseGroupId, ok := s.D.GetOkExists("target_database_group_id"); ok {
+		tmp := targetDatabaseGroupId.(string)
+		request.TargetDatabaseGroupId = &tmp
 	}
 
 	if targetId, ok := s.D.GetOkExists("target_id"); ok {
