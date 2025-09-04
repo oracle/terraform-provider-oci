@@ -89,6 +89,7 @@ import (
 	tf_media_services "github.com/oracle/terraform-provider-oci/internal/service/media_services"
 	tf_metering_computation "github.com/oracle/terraform-provider-oci/internal/service/metering_computation"
 	tf_monitoring "github.com/oracle/terraform-provider-oci/internal/service/monitoring"
+	tf_multicloud "github.com/oracle/terraform-provider-oci/internal/service/multicloud"
 	tf_mysql "github.com/oracle/terraform-provider-oci/internal/service/mysql"
 	tf_network_firewall "github.com/oracle/terraform-provider-oci/internal/service/network_firewall"
 	tf_network_load_balancer "github.com/oracle/terraform-provider-oci/internal/service/network_load_balancer"
@@ -392,6 +393,9 @@ func init() {
 	}
 	if common.CheckForEnabledServices("monitoring") {
 		tf_monitoring.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("multicloud") {
+		tf_multicloud.RegisterDatasource()
 	}
 	if common.CheckForEnabledServices("mysql") {
 		tf_mysql.RegisterDatasource()
