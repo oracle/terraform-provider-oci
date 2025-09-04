@@ -86,6 +86,14 @@ func (s *DataSafeDiscoveryJobsResultDataSourceCrud) SetData() error {
 		s.D.Set("column_name", *s.Res.ColumnName)
 	}
 
+	s.D.Set("confidence_level", s.Res.ConfidenceLevel)
+
+	confidenceLevelDetails := []interface{}{}
+	for _, item := range s.Res.ConfidenceLevelDetails {
+		confidenceLevelDetails = append(confidenceLevelDetails, ConfidenceLevelsDetailsToMap(item))
+	}
+	s.D.Set("confidence_level_details", confidenceLevelDetails)
+
 	if s.Res.DataType != nil {
 		s.D.Set("data_type", *s.Res.DataType)
 	}

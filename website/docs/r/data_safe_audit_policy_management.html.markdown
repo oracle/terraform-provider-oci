@@ -33,8 +33,8 @@ resource "oci_data_safe_audit_policy_management" "test_audit_policy_management" 
 
 The following arguments are supported:
 
-* `audit_policy_id` - (Required) Unique audit policy identifier.
-* `compartment_id` - (Optional) (Updatable) The OCID of the compartment containing the audit policy.
+* `target_id` - (Required) The OCID of the target.
+* `compartment_id` - (Required) (Updatable) The OCID of the compartment containing the audit policy.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}`
 * `description` - (Optional) (Updatable) The description of the audit policy.
 * `display_name` - (Optional) (Updatable) The display name of the audit policy. The name does not have to be unique, and it is changeable.

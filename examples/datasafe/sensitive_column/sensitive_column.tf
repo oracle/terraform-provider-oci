@@ -49,6 +49,10 @@ variable "sensitive_data_models_sensitive_column_status" {
   default = "VALID"
 }
 
+variable "sensitive_data_models_sensitive_column_confidence_level" {
+  default = ["NONE"]
+}
+
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -100,5 +104,6 @@ data "oci_data_safe_sensitive_data_models_sensitive_columns" "test_sensitive_dat
   column_name                           = var.sensitive_data_models_sensitive_column_column_name_list
   object                                = var.sensitive_data_models_sensitive_column_object_list
   schema_name                           = var.sensitive_data_models_sensitive_column_schema_name_list
+  confidence_level                      = var.sensitive_data_models_sensitive_column_confidence_level
 }
 

@@ -25,6 +25,13 @@ func DataSafeDiscoveryJobsResultsDataSource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"confidence_level": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"discovery_job_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -105,6 +112,17 @@ func (s *DataSafeDiscoveryJobsResultsDataSourceCrud) Get() error {
 		if len(tmp) != 0 || s.D.HasChange("column_name") {
 			request.ColumnName = tmp
 		}
+	}
+
+	if confidenceLevel, ok := s.D.GetOkExists("confidence_level"); ok {
+		interfaces := confidenceLevel.([]interface{})
+		tmp := make([]oci_data_safe.ConfidenceLevelEnumEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_data_safe.ConfidenceLevelEnumEnum(interfaces[i].(string))
+			}
+		}
+		request.ConfidenceLevel = tmp
 	}
 
 	if discoveryJobId, ok := s.D.GetOkExists("discovery_job_id"); ok {
@@ -200,4 +218,35 @@ func (s *DataSafeDiscoveryJobsResultsDataSourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func ConfidenceLevelsDetailsToMap(obj interface{}) interface{} {
+	result := map[string]interface{}{}
+	mobj, ok := obj.(map[string]interface{})
+	if !ok {
+		return nil
+	}
+	for k, v := range mobj {
+		// key match, return value
+		if k == "hasDataPatternMatched" {
+			result["has_data_pattern_matched"] = v
+		}
+		if k == "hasNamePatternMatched" {
+			result["has_name_pattern_matched"] = v
+		}
+		if k == "hasCommentPatternMatched" {
+			result["has_comment_pattern_matched"] = v
+		}
+		if k == "isSensitiveTypeFromSameContextFoundInSameOrRelatedTables" {
+			result["is_sensitive_type_from_same_context_found_in_same_or_related_tables"] = v
+		}
+		if k == "doesColumnLeadToPiiInSameOrRelatedTables" {
+			result["does_column_lead_to_pii_in_same_related_tables"] = v
+		}
+		if k == "doesColumnLeadToPiiInNonRelatedTables" {
+			result["does_column_lead_to_pii_in_non_tables"] = v
+		}
+
+	}
+	return result
 }

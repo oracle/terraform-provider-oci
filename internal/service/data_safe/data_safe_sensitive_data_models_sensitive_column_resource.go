@@ -122,6 +122,42 @@ func DataSafeSensitiveDataModelsSensitiveColumnResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"confidence_level": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"confidence_level_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"has_data_pattern_matched": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"has_name_pattern_matched": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"has_comment_pattern_matched": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"is_sensitive_type_from_same_context_found_in_same_or_related_tables": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"does_column_lead_to_pii_in_same_related_tables": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"does_column_lead_to_pii_in_non_tables": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"estimated_data_value_count": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -632,6 +668,14 @@ func (s *DataSafeSensitiveDataModelsSensitiveColumnResourceCrud) SetData() error
 		s.D.Set("column_name", *s.Res.ColumnName)
 	}
 
+	s.D.Set("confidence_level", s.Res.ConfidenceLevel)
+
+	confidenceLevelDetails := []interface{}{}
+	for _, item := range s.Res.ConfidenceLevelDetails {
+		confidenceLevelDetails = append(confidenceLevelDetails, item)
+	}
+	s.D.Set("confidence_level_details", confidenceLevelDetails)
+
 	if s.Res.DataType != nil {
 		s.D.Set("data_type", *s.Res.DataType)
 	}
@@ -736,6 +780,8 @@ func SensitiveColumnSummaryToMap(obj oci_data_safe.SensitiveColumnSummary) map[s
 	if obj.ColumnName != nil {
 		result["column_name"] = string(*obj.ColumnName)
 	}
+
+	result["confidence_level"] = string(obj.ConfidenceLevel)
 
 	if obj.DataType != nil {
 		result["data_type"] = string(*obj.DataType)

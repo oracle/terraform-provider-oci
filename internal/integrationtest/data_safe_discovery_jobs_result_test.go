@@ -30,6 +30,7 @@ var (
 
 	DataSafediscoveryJobsResultDataSourceRepresentation = map[string]interface{}{
 		"discovery_job_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.discovery_job_id}`},
+		"confidence_level":  acctest.Representation{RepType: acctest.Optional, Create: []string{`HIGH`}},
 		"discovery_type":    acctest.Representation{RepType: acctest.Optional, Create: `NEW`},
 		"is_result_applied": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"planned_action":    acctest.Representation{RepType: acctest.Optional, Create: `NONE`},
@@ -74,6 +75,7 @@ func TestDataSafeDiscoveryJobsResultResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "discovery_type", "NEW"),
 				resource.TestCheckResourceAttr(datasourceName, "is_result_applied", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "planned_action", "NONE"),
+				resource.TestCheckResourceAttr(datasourceName, "confidence_level.#", "1"),
 			),
 		},
 
@@ -84,6 +86,8 @@ func TestDataSafeDiscoveryJobsResultResource_basic(t *testing.T) {
 				compartmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "discovery_job_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "confidence_level", "HIGH"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "confidence_level_details.#", "6"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "discovery_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "estimated_data_value_count"),

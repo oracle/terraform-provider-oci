@@ -25,7 +25,8 @@ import (
 
 var (
 	DataSafemaskingReportSingularDataSourceRepresentation = map[string]interface{}{
-		"masking_report_id": acctest.Representation{RepType: acctest.Required, Create: `${var.masking_report_id}`},
+		"masking_report_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.masking_report_id}`},
+		"target_database_group_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.target_database_group_id}`},
 	}
 
 	DataSafemaskingReportDataSourceRepresentation = map[string]interface{}{
@@ -47,6 +48,9 @@ func TestDataSafeMaskingReportResource_basic(t *testing.T) {
 	maskingReportId := utils.GetEnvSettingWithBlankDefault("data_safe_masking_report_id")
 	maskingReportIdVariableStr := fmt.Sprintf("variable \"masking_report_id\" { default = \"%s\" }\n", maskingReportId)
 
+	targetGroupId := utils.GetEnvSettingWithBlankDefault("data_safe_target_group_ocid")
+	targetGroupIdVariableStr := fmt.Sprintf("variable \"target_database_group_id\" { default = \"%s\" }\n", targetGroupId)
+
 	datasourceName := "data.oci_data_safe_masking_reports.test_masking_reports"
 	singularDatasourceName := "data.oci_data_safe_masking_report.test_masking_report"
 
@@ -56,10 +60,11 @@ func TestDataSafeMaskingReportResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config + maskingReportIdVariableStr +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_masking_reports", "test_masking_reports", acctest.Required, acctest.Create, DataSafemaskingReportDataSourceRepresentation) +
-				compartmentIdVariableStr,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_masking_reports", "test_masking_reports", acctest.Optional, acctest.Create, DataSafemaskingReportDataSourceRepresentation) +
+				compartmentIdVariableStr + targetGroupIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+
 				resource.TestCheckResourceAttrSet(datasourceName, "masking_report_collection.#"),
 			),
 		},
