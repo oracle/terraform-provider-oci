@@ -530,6 +530,12 @@ func GoldenGateConnectionResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"security_attributes": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"security_protocol": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -1276,6 +1282,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -1375,6 +1385,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		s.D.Set("nsg_ids", nsgIds)
 
 		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -1479,6 +1493,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		s.D.Set("nsg_ids", nsgIds)
 
 		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -1602,6 +1620,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -1701,6 +1723,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		s.D.Set("nsg_ids", nsgIds)
 
 		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -1811,6 +1837,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		s.D.Set("nsg_ids", nsgIds)
 
 		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -1940,6 +1970,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -2048,6 +2082,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -2139,6 +2177,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		s.D.Set("nsg_ids", nsgIds)
 
 		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -2252,6 +2294,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -2343,6 +2389,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		s.D.Set("nsg_ids", nsgIds)
 
 		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -2436,6 +2486,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -2528,6 +2582,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -2619,6 +2677,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		s.D.Set("nsg_ids", nsgIds)
 
 		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -2727,6 +2789,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		s.D.Set("nsg_ids", nsgIds)
 
 		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -2884,6 +2950,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -3020,6 +3090,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -3146,6 +3220,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -3249,6 +3327,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		s.D.Set("nsg_ids", nsgIds)
 
 		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -3378,6 +3460,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -3495,6 +3581,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		s.D.Set("nsg_ids", nsgIds)
 
 		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -3638,6 +3728,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -3753,6 +3847,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		s.D.Set("nsg_ids", nsgIds)
 
 		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -3870,6 +3968,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -3985,6 +4087,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		s.D.Set("nsg_ids", nsgIds)
 
 		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -4126,6 +4232,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -4250,6 +4360,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -4360,6 +4474,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -4444,6 +4562,11 @@ func ConnectionSummaryToMap(obj oci_golden_gate.ConnectionSummary, datasource bo
 	if obj.GetVaultId() != nil {
 		result["vault_id"] = *obj.GetVaultId()
 	}
+
+	if obj.GetSecurityAttributes() != nil {
+		result["security_attributes"] = tfresource.SecurityAttributesToMap(obj.GetSecurityAttributes())
+	}
+
 	if obj.GetSubnetId() != nil {
 		result["subnet_id"] = *obj.GetSubnetId()
 	}
@@ -6543,6 +6666,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -6642,6 +6768,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		}
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
@@ -6746,6 +6875,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		}
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
@@ -6878,6 +7010,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -6977,6 +7112,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		}
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
@@ -7092,6 +7230,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		}
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
@@ -7240,6 +7381,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -7352,6 +7496,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -7439,6 +7586,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		}
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
@@ -7552,6 +7702,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -7643,6 +7796,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		}
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
@@ -7736,6 +7892,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -7828,6 +7987,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -7915,6 +8077,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		}
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
@@ -8019,6 +8184,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		}
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
@@ -8203,6 +8371,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -8370,6 +8541,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -8517,6 +8691,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -8620,6 +8797,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		}
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
@@ -8760,6 +8940,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -8886,6 +9069,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		}
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
@@ -9045,6 +9231,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -9164,6 +9353,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		}
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
@@ -9287,6 +9479,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -9406,6 +9601,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		}
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
@@ -9565,6 +9763,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -9708,6 +9909,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -9827,6 +10031,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -9926,6 +10133,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -10000,6 +10210,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		}
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
@@ -10079,6 +10292,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		}
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
@@ -10186,6 +10402,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -10260,6 +10479,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		}
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
@@ -10350,6 +10572,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		}
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
@@ -10473,6 +10698,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -10559,6 +10787,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -10621,6 +10852,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		}
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
@@ -10709,6 +10943,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -10775,6 +11012,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		}
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
@@ -10843,6 +11083,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -10910,6 +11153,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -10972,6 +11218,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		}
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
@@ -11051,6 +11300,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		}
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
@@ -11209,6 +11461,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -11351,6 +11606,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -11473,6 +11731,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -11551,6 +11812,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		}
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
@@ -11666,6 +11930,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -11767,6 +12034,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		}
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
@@ -11901,6 +12171,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -11995,6 +12268,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		}
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
@@ -12093,6 +12369,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -12187,6 +12466,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		}
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
@@ -12321,6 +12603,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -12438,6 +12723,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -12531,6 +12819,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		}
 		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
 			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
