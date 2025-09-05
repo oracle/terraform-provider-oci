@@ -144,6 +144,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -239,6 +243,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		s.D.Set("nsg_ids", nsgIds)
 
 		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -339,6 +347,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		s.D.Set("nsg_ids", nsgIds)
 
 		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -458,6 +470,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -555,6 +571,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		s.D.Set("nsg_ids", nsgIds)
 
 		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -661,6 +681,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		s.D.Set("nsg_ids", nsgIds)
 
 		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -786,6 +810,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -890,6 +918,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -977,6 +1009,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		s.D.Set("nsg_ids", nsgIds)
 
 		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -1086,6 +1122,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -1173,6 +1213,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		s.D.Set("nsg_ids", nsgIds)
 
 		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -1262,6 +1306,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -1350,6 +1398,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -1437,6 +1489,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		s.D.Set("nsg_ids", nsgIds)
 
 		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -1541,6 +1597,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		s.D.Set("nsg_ids", nsgIds)
 
 		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -1694,6 +1754,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -1826,6 +1890,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -1948,6 +2016,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -2047,6 +2119,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		s.D.Set("nsg_ids", nsgIds)
 
 		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -2172,6 +2248,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -2285,6 +2365,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		s.D.Set("nsg_ids", nsgIds)
 
 		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -2424,6 +2508,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -2536,6 +2624,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -2647,6 +2739,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		s.D.Set("nsg_ids", nsgIds)
 
 		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -2761,6 +2857,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		s.D.Set("nsg_ids", nsgIds)
 
 		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -2900,6 +3000,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -3020,6 +3124,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -3127,6 +3235,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		s.D.Set("nsg_ids", nsgIds)
 
 		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
 
 		s.D.Set("state", v.LifecycleState)
 

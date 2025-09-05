@@ -230,6 +230,10 @@ func (s *GoldenGateDeploymentDataSourceCrud) SetData() error {
 		s.D.Set("public_ip_address", *s.Res.PublicIpAddress)
 	}
 
+	if s.Res.SecurityAttributes != nil {
+		s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
+	}
+
 	if s.Res.SourceDeploymentId != nil {
 		s.D.Set("source_deployment_id", *s.Res.SourceDeploymentId)
 	}
