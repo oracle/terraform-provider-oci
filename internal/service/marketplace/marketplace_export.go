@@ -37,6 +37,11 @@ var exportMarketplacePublicationHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportMarketplaceMarketplaceExternalAttestedMetadataHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_marketplace_marketplace_external_attested_metadata",
+	ResourceAbbreviation: "marketplace_external_attested_metadata",
+}
+
 var marketplaceResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportMarketplaceAcceptedAgreementHints},
