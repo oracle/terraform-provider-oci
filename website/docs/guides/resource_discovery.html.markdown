@@ -1055,6 +1055,7 @@ marketplace
     
 * oci\_marketplace\_accepted\_agreement
 * oci\_marketplace\_publication
+* oci\_marketplace\_marketplace\_external\_attested\_metadata
 
 media_services
     
