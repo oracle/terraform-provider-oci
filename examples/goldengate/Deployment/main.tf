@@ -104,6 +104,13 @@ variable "deployment_peer_state" {
 }
 
 
+variable "security_attributes" {
+	default = {
+		"oracle-zpr.sensitivity.value" = "42"
+		"oracle-zpr.sensitivity.mode" = "enforce"
+	}
+}
+
 provider "oci" {
   	tenancy_ocid     = var.tenancy_ocid
   	user_ocid        = var.user_ocid
@@ -164,6 +171,7 @@ resource "oci_golden_gate_deployment" "test_deployment_GOLDENGATE" {
 	subnet_id               			 = var.test_subnet_id
 	byol_cpu_core_count_limit			 = var.byol_cpu_core_count_limit
 	is_byol_cpu_core_count_limit_enabled = var.is_byol_cpu_core_count_limit_enabled
+	security_attributes                  = var.security_attributes
 	ogg_data {
 		deployment_name 	= var.deployment_ogg_data_deployment_name
 		credential_store 	= var.deployment_ogg_data_credential_store

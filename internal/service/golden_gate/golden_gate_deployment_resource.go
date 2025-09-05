@@ -423,6 +423,12 @@ func GoldenGateDeploymentResource() *schema.Resource {
 					},
 				},
 			},
+			"security_attributes": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"source_deployment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -963,6 +969,10 @@ func (s *GoldenGateDeploymentResourceCrud) CreateWithContext(ctx context.Context
 		}
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
 	if sourceDeploymentId, ok := s.D.GetOkExists("source_deployment_id"); ok {
 		tmp := sourceDeploymentId.(string)
 		request.SourceDeploymentId = &tmp
@@ -1286,6 +1296,10 @@ func (s *GoldenGateDeploymentResourceCrud) UpdateWithContext(ctx context.Context
 		}
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
 	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 		tmp := subnetId.(string)
 		request.SubnetId = &tmp
@@ -1491,6 +1505,10 @@ func (s *GoldenGateDeploymentResourceCrud) SetData() error {
 
 	if s.Res.PublicIpAddress != nil {
 		s.D.Set("public_ip_address", *s.Res.PublicIpAddress)
+	}
+
+	if s.Res.SecurityAttributes != nil {
+		s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
 	}
 
 	if s.Res.SourceDeploymentId != nil {
@@ -2141,6 +2159,10 @@ func DeploymentSummaryToMap(obj oci_golden_gate.DeploymentSummary) map[string]in
 
 	if obj.PublicIpAddress != nil {
 		result["public_ip_address"] = string(*obj.PublicIpAddress)
+	}
+
+	if obj.SecurityAttributes != nil {
+		result["security_attributes"] = tfresource.SecurityAttributesToMap(obj.SecurityAttributes)
 	}
 
 	result["state"] = string(obj.LifecycleState)

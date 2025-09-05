@@ -100,6 +100,7 @@ resource "oci_golden_gate_deployment" "test_deployment" {
 		availability_domain = var.deployment_placements_availability_domain
 		fault_domain = var.deployment_placements_fault_domain
 	}
+	security_attributes = var.deployment_security_attributes
 	source_deployment_id = oci_golden_gate_deployment.test_deployment.id
 	subscription_id = oci_onesubscription_subscription.test_subscription.id
 	state = var.deployment_state
@@ -167,6 +168,7 @@ The following arguments are supported:
 * `placements` - (Optional) (Updatable) An array of local peers of deployment 
 	* `availability_domain` - (Optional) (Updatable) The availability domain of a placement.
 	* `fault_domain` - (Optional) (Updatable) The fault domain of a placement.
+* `security_attributes` - (Optional) (Updatable) Security attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}` 
 * `source_deployment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the deployment being referenced. 
 * `subnet_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet of the deployment's private endpoint. The subnet must be a private subnet. For backward compatibility, public subnets are allowed until May 31 2025, after which the private subnet will be enforced.
 * `subscription_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
@@ -261,6 +263,7 @@ The following attributes are exported:
 	* `fault_domain` - The fault domain of a placement.
 * `private_ip_address` - The private IP address in the customer's VCN representing the access point for the associated endpoint service in the GoldenGate service VCN. 
 * `public_ip_address` - The public IP address representing the access point for the Deployment. 
+* `security_attributes` - Security attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}` 
 * `source_deployment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the deployment being referenced. 
 * `state` - Possible lifecycle states. 
 * `storage_utilization_in_bytes` - The amount of storage being utilized (in bytes) 

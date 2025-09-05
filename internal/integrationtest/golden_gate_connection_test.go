@@ -36,6 +36,9 @@ Following environment variables are required:
  - TF_VAR_new_password - new password used for update connection, due to sec central issues, we must use environment variables instead of hardcoded passwords
  - TF_VAR_password_secret_id - secret which stores the password used for create connection
  - TF_VAR_new_password_secret_id - secret which stores new password used for update connection
+
+Following environment variables are optional:
+ - TF_VAR_create_security_attributes - by default the SAs are not created, set this to true if creation should happen
 "
 */
 import (
@@ -67,6 +70,26 @@ type ConnectionTestDescriptor struct {
 	technologyType              oci_golden_gate.TechnologyTypeEnum
 	representation              map[string]interface{}
 	excludedFieldsFromDataCheck []string
+}
+
+func isSecurityAttributesEnabled() bool {
+	return utils.GetEnvSettingWithBlankDefault("create_security_attributes") == "true"
+}
+
+func getExpectedSaSize() string {
+	if isSecurityAttributesEnabled() {
+		return "2"
+	} else {
+		return "0"
+	}
+}
+
+func getSecurityAttributes() map[string]string {
+	if isSecurityAttributesEnabled() {
+		return map[string]string{"oracle-zpr.sensitivity.value": "42", "oracle-zpr.sensitivity.mode": "enforce"}
+	} else {
+		return map[string]string{}
+	}
 }
 
 var (
@@ -165,6 +188,7 @@ var (
 				"lifecycle":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsAndLocks},
 				"subscription_id":            acctest.Representation{RepType: acctest.Optional, Create: `${var.subscription_id}`},
 				"cluster_placement_group_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.cluster_placement_group_id}`},
+				"security_attributes": 		  acctest.Representation{RepType: acctest.Optional, Create: getSecurityAttributes()},
 			},
 		},
 
@@ -647,6 +671,7 @@ func TestGoldenGateConnectionResource_basic(t *testing.T) {
 		NEW_PASSWORD_SECRET_ID     = "new_password_secret_id"
 		SUBSCRIPTION_ID            = "subscription_id"
 		CLUSTER_PLACEMENT_GROUP_ID = "cluster_placement_group_id"
+		SECURITY_ATTRIBUTES     = "security_attributes"
 	)
 
 	config := acctest.ProviderTestConfig() +
@@ -711,6 +736,12 @@ func TestGoldenGateConnectionResource_basic(t *testing.T) {
 			}
 			representation, ok := propertyRepresentation.(acctest.Representation)
 			if !ok {
+				continue
+			}
+
+			if propName == SECURITY_ATTRIBUTES {
+				securityAttributesCheck := resource.TestCheckResourceAttr(checkResourceName, "security_attributes.%", getExpectedSaSize())
+				resourceCheckFunctions = append(resourceCheckFunctions, securityAttributesCheck)
 				continue
 			}
 
