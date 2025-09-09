@@ -38,6 +38,7 @@ resource "oci_database_tools_database_tools_private_endpoint" "test_database_too
 	}
 	nsg_ids = var.database_tools_private_endpoint_nsg_ids
 	private_endpoint_ip = var.database_tools_private_endpoint_private_endpoint_ip
+	security_attributes = var.database_tools_private_endpoint_security_attributes
 }
 ```
 
@@ -58,6 +59,7 @@ The following arguments are supported:
 	* `type` - (Required) Type of the lock.
 * `nsg_ids` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security groups that the private endpoint's VNIC belongs to.  For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/). 
 * `private_endpoint_ip` - (Optional) The private IP address that represents the access point for the associated endpoint service.
+* `security_attributes` - (Optional) (Updatable) Zero trust Packet Routing (ZPR) Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [ZPR Artifacts](https://docs.oracle.com/en-us/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
 * `subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet that the private endpoint belongs to.
 
 
@@ -89,6 +91,7 @@ The following attributes are exported:
 * `reverse_connection_configuration` - Reverse connection configuration details of the private endpoint.
 	* `reverse_connections_source_ips` - A list of IP addresses in the customer VCN to be used as the source IPs for reverse connection packets traveling from the service's VCN to the customer's VCN. 
 		* `source_ip` - The IP address in the customer's VCN to be used as the source IP for reverse connection packets traveling from the customer's VCN to the service's VCN. 
+* `security_attributes` - Zero trust Packet Routing (ZPR) Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [ZPR Artifacts](https://docs.oracle.com/en-us/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
 * `state` - The current state of the Database Tools private endpoint.
 * `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet that the private endpoint belongs to.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 

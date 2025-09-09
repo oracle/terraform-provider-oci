@@ -59,6 +59,7 @@ var (
 		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"nsg_ids":             acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
 		"private_endpoint_ip": acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.4`},
+		"security_attributes": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"oracle-zpr.MaxEgressCount.value": "42", "oracle-zpr.MaxEgressCount.mode": "enforce"}, Update: map[string]string{"oracle-zpr.MaxEgressCount.value": "1", "oracle-zpr.MaxEgressCount.mode": "enforce"}}, // "{\"maxegresscount\": {\"value\": \"42\", \"mode\": \"audit\"}}"}},
 		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesDatabaseToolsPrivateEndpointRepresentation},
 	}
 
@@ -137,6 +138,7 @@ func TestDatabaseToolsDatabaseToolsPrivateEndpointResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "private_endpoint_ip", "10.0.0.4"),
+					resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "2"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -171,6 +173,7 @@ func TestDatabaseToolsDatabaseToolsPrivateEndpointResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "private_endpoint_ip", "10.0.0.4"),
+					resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "2"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -200,6 +203,7 @@ func TestDatabaseToolsDatabaseToolsPrivateEndpointResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "private_endpoint_ip", "10.0.0.4"),
+					resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "2"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -251,6 +255,7 @@ func TestDatabaseToolsDatabaseToolsPrivateEndpointResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "private_endpoint_ip", "10.0.0.4"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint_vnic_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "reverse_connection_configuration.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "security_attributes.%", "2"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
@@ -265,8 +270,7 @@ func TestDatabaseToolsDatabaseToolsPrivateEndpointResource_basic(t *testing.T) {
 				ImportStateVerifyIgnore: []string{},
 				ResourceName:            resourceName,
 			},
-		},
-	})
+		}})
 }
 
 func testAccCheckDatabaseToolsDatabaseToolsPrivateEndpointDestroy(s *terraform.State) error {
