@@ -6,6 +6,7 @@ package provider
 import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	tf_adm "github.com/oracle/terraform-provider-oci/internal/service/adm"
+	tf_ai_data_platform "github.com/oracle/terraform-provider-oci/internal/service/ai_data_platform"
 	tf_ai_document "github.com/oracle/terraform-provider-oci/internal/service/ai_document"
 	tf_ai_language "github.com/oracle/terraform-provider-oci/internal/service/ai_language"
 	tf_ai_vision "github.com/oracle/terraform-provider-oci/internal/service/ai_vision"
@@ -143,6 +144,9 @@ import (
 func init() {
 	if common.CheckForEnabledServices("adm") {
 		tf_adm.RegisterResource()
+	}
+	if common.CheckForEnabledServices("aidataplatform") {
+		tf_ai_data_platform.RegisterResource()
 	}
 	if common.CheckForEnabledServices("aidocument") {
 		tf_ai_document.RegisterResource()
