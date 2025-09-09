@@ -32,7 +32,7 @@ data "oci_database_tools_database_tools_private_endpoints" "test_database_tools_
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The ID of the compartment in which to list resources.
+* `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
 * `display_name` - (Optional) A filter to return only resources that match the entire specified display name.
 * `endpoint_service_id` - (Optional) A filter to return only resources their `endpointServiceId` matches the specified `endpointServiceId`.
 * `state` - (Optional) A filter to return only resources their `lifecycleState` matches the specified `lifecycleState`.
@@ -70,6 +70,7 @@ The following attributes are exported:
 * `reverse_connection_configuration` - Reverse connection configuration details of the private endpoint.
 	* `reverse_connections_source_ips` - A list of IP addresses in the customer VCN to be used as the source IPs for reverse connection packets traveling from the service's VCN to the customer's VCN. 
 		* `source_ip` - The IP address in the customer's VCN to be used as the source IP for reverse connection packets traveling from the customer's VCN to the service's VCN. 
+* `security_attributes` - Zero trust Packet Routing (ZPR) Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [ZPR Artifacts](https://docs.oracle.com/en-us/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
 * `state` - The current state of the Database Tools private endpoint.
 * `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet that the private endpoint belongs to.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 

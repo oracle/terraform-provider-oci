@@ -33,10 +33,10 @@ data "oci_database_tools_database_tools_connections" "test_database_tools_connec
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The ID of the compartment in which to list resources.
+* `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
 * `display_name` - (Optional) A filter to return only resources that match the entire specified display name.
-* `related_resource_identifier` - (Optional) A filter to return only resources associated to the related resource identifier OCID passed in the query string.
-* `runtime_support` - (Optional) A filter to return only resources with one of the specified runtimeSupport values.
+* `related_resource_identifier` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related resource.
+* `runtime_support` - (Optional) A filter to return only resources with one of the specified type values.
 * `state` - (Optional) A filter to return only resources their `lifecycleState` matches the specified `lifecycleState`.
 * `type` - (Optional) A filter to return only resources their type matches the specified type.
 
@@ -77,7 +77,7 @@ The following attributes are exported:
 	* `proxy_authentication_type` - The proxy authentication type.
 	* `roles` - A list of database roles for the client. These roles are enabled if the proxy is authorized to use the roles on behalf of the client.
 	* `user_name` - The user name.
-	* `user_password` - The user password.
+	* `user_password` - The database user password.
 		* `secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret containing the user password.
 		* `value_type` - The value type of the user password.
 * `related_resource` - A related resource
@@ -87,11 +87,11 @@ The following attributes are exported:
 * `state` - The current state of the Database Tools connection.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time the Database Tools connection was created. An RFC3339 formatted datetime string.
-* `time_updated` - The time the DatabaseToolsConnection was updated. An RFC3339 formatted datetime string.
+* `time_updated` - The time the Database Tools connection was updated. An RFC3339 formatted datetime string.
 * `type` - The Database Tools connection type.
 * `url` - The JDBC URL used to connect to the Generic JDBC database system.
 * `user_name` - The database user name.
-* `user_password` - The user password.
+* `user_password` - The database user password.
 	* `secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret containing the user password.
 	* `value_type` - The value type of the user password.
 
