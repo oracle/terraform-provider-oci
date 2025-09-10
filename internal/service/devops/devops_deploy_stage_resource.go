@@ -1136,9 +1136,12 @@ func deployStageWaitForWorkRequest(wId *string, entityType string, action oci_de
 		}
 	}
 
-	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
+	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled.
 	if identifier == nil || response.Status == oci_devops.OperationStatusFailed {
-		return nil, getErrorFromDevopsDeployStageWorkRequest(client, wId, retryPolicy, entityType, action)
+		err := getErrorFromDevopsDeployStageWorkRequest(client, wId, retryPolicy, entityType, action)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	return identifier, nil
@@ -1156,13 +1159,17 @@ func getErrorFromDevopsDeployStageWorkRequest(client *oci_devops.DevopsClient, w
 		return err
 	}
 
+	if len(response.Items) == 0 {
+		return nil
+	}
+
 	allErrs := make([]string, 0)
 	for _, wrkErr := range response.Items {
 		allErrs = append(allErrs, *wrkErr.Message)
 	}
 	errorMessage := strings.Join(allErrs, "\n")
 
-	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *workId, entityType, action, errorMessage)
+	workRequestErr := fmt.Errorf("Work Request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *workId, entityType, action, errorMessage)
 
 	return workRequestErr
 }
