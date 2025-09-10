@@ -1,3 +1,12 @@
+## 7.18.0 (September 10, 2025)
+
+### Added
+- Support for Support resource locking for Email Delivery
+- Support for OCI FSS IPv6 Support
+
+### Bug Fix
+- TERSI-7599: 08/11-NewDev - UDX fixes only to allow ENTERPRISE_EDITION_EXTREME_PERFORMANCE
+
 ## 7.17.0 (September 4, 2025)
 
 ### Added
