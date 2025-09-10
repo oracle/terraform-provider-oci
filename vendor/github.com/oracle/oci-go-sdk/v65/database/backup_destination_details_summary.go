@@ -36,6 +36,17 @@ type BackupDestinationDetailsSummary struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DBRS policy used for backup.
 	DbrsPolicyId *string `mandatory:"false" json:"dbrsPolicyId"`
 
+	// Indicates if backup retention is locked for all the database backups in the Autonomous Container Database (ACD). The retention window cannot be decreased if the backup retention lock is enabled.
+	// Once applied on the Autonomous Container Database, the retention lock cannot be removed, or the retention period cannot be decreased after a 14-day period.
+	// If the backup is a Long Term Backup and retention lock is enabled, the backup cannot be deleted and must expire.
+	// The retention lock set on the Autonomous Container Database is not applicable for cross region remote backups and backups hosted on recovery Appliance backup destination.
+	IsRetentionLockEnabled *bool `mandatory:"false" json:"isRetentionLockEnabled"`
+
+	// Defines the automatic and manual backup retention policy for the Autonomous Database termination.
+	// The retention policy set on the Autonomous Container Database is not applicable for cross region remote backups and backups hosted on recovery Appliance backup destination.
+	// Options are 'RETAIN_PER_RETENTION_WINDOW' or 'RETAIN_FOR_72_HOURS'.The default value is 'RETAIN_FOR_72_HOURS'.
+	BackupRetentionPolicyOnTerminate BackupDestinationDetailsSummaryBackupRetentionPolicyOnTerminateEnum `mandatory:"false" json:"backupRetentionPolicyOnTerminate,omitempty"`
+
 	// Indicates whether the backup destination is cross-region or local.
 	IsRemote *bool `mandatory:"false" json:"isRemote"`
 
@@ -67,6 +78,9 @@ func (m BackupDestinationDetailsSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetBackupDestinationDetailsSummaryTypeEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingBackupDestinationDetailsSummaryBackupRetentionPolicyOnTerminateEnum(string(m.BackupRetentionPolicyOnTerminate)); !ok && m.BackupRetentionPolicyOnTerminate != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BackupRetentionPolicyOnTerminate: %s. Supported values are: %s.", m.BackupRetentionPolicyOnTerminate, strings.Join(GetBackupDestinationDetailsSummaryBackupRetentionPolicyOnTerminateEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -128,5 +142,47 @@ func GetBackupDestinationDetailsSummaryTypeEnumStringValues() []string {
 // GetMappingBackupDestinationDetailsSummaryTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingBackupDestinationDetailsSummaryTypeEnum(val string) (BackupDestinationDetailsSummaryTypeEnum, bool) {
 	enum, ok := mappingBackupDestinationDetailsSummaryTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// BackupDestinationDetailsSummaryBackupRetentionPolicyOnTerminateEnum Enum with underlying type: string
+type BackupDestinationDetailsSummaryBackupRetentionPolicyOnTerminateEnum string
+
+// Set of constants representing the allowable values for BackupDestinationDetailsSummaryBackupRetentionPolicyOnTerminateEnum
+const (
+	BackupDestinationDetailsSummaryBackupRetentionPolicyOnTerminatePerRetentionWindow BackupDestinationDetailsSummaryBackupRetentionPolicyOnTerminateEnum = "RETAIN_PER_RETENTION_WINDOW"
+	BackupDestinationDetailsSummaryBackupRetentionPolicyOnTerminateFor72Hours         BackupDestinationDetailsSummaryBackupRetentionPolicyOnTerminateEnum = "RETAIN_FOR_72_HOURS"
+)
+
+var mappingBackupDestinationDetailsSummaryBackupRetentionPolicyOnTerminateEnum = map[string]BackupDestinationDetailsSummaryBackupRetentionPolicyOnTerminateEnum{
+	"RETAIN_PER_RETENTION_WINDOW": BackupDestinationDetailsSummaryBackupRetentionPolicyOnTerminatePerRetentionWindow,
+	"RETAIN_FOR_72_HOURS":         BackupDestinationDetailsSummaryBackupRetentionPolicyOnTerminateFor72Hours,
+}
+
+var mappingBackupDestinationDetailsSummaryBackupRetentionPolicyOnTerminateEnumLowerCase = map[string]BackupDestinationDetailsSummaryBackupRetentionPolicyOnTerminateEnum{
+	"retain_per_retention_window": BackupDestinationDetailsSummaryBackupRetentionPolicyOnTerminatePerRetentionWindow,
+	"retain_for_72_hours":         BackupDestinationDetailsSummaryBackupRetentionPolicyOnTerminateFor72Hours,
+}
+
+// GetBackupDestinationDetailsSummaryBackupRetentionPolicyOnTerminateEnumValues Enumerates the set of values for BackupDestinationDetailsSummaryBackupRetentionPolicyOnTerminateEnum
+func GetBackupDestinationDetailsSummaryBackupRetentionPolicyOnTerminateEnumValues() []BackupDestinationDetailsSummaryBackupRetentionPolicyOnTerminateEnum {
+	values := make([]BackupDestinationDetailsSummaryBackupRetentionPolicyOnTerminateEnum, 0)
+	for _, v := range mappingBackupDestinationDetailsSummaryBackupRetentionPolicyOnTerminateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetBackupDestinationDetailsSummaryBackupRetentionPolicyOnTerminateEnumStringValues Enumerates the set of values in String for BackupDestinationDetailsSummaryBackupRetentionPolicyOnTerminateEnum
+func GetBackupDestinationDetailsSummaryBackupRetentionPolicyOnTerminateEnumStringValues() []string {
+	return []string{
+		"RETAIN_PER_RETENTION_WINDOW",
+		"RETAIN_FOR_72_HOURS",
+	}
+}
+
+// GetMappingBackupDestinationDetailsSummaryBackupRetentionPolicyOnTerminateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingBackupDestinationDetailsSummaryBackupRetentionPolicyOnTerminateEnum(val string) (BackupDestinationDetailsSummaryBackupRetentionPolicyOnTerminateEnum, bool) {
+	enum, ok := mappingBackupDestinationDetailsSummaryBackupRetentionPolicyOnTerminateEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

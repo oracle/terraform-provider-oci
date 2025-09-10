@@ -24,7 +24,7 @@ import (
 type ClientOptions struct {
 
 	// Clients these options should apply to. Must be a either
-	// single IPv4 address or single IPv4 CIDR block.
+	// single IPv4/IPv6 address or single IPv4/IPv6 CIDR block.
 	// **Note:** Access will also be limited by any applicable VCN
 	// security rules and the ability to route IP packets to the
 	// mount target. Mount targets do not have Internet-routable IP addresses.

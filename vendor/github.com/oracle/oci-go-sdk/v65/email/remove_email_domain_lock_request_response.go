@@ -11,48 +11,38 @@ import (
 	"strings"
 )
 
-// ChangeEmailDomainCompartmentRequest wrapper for the ChangeEmailDomainCompartment operation
+// RemoveEmailDomainLockRequest wrapper for the RemoveEmailDomainLock operation
 //
 // # See also
 //
-// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/ChangeEmailDomainCompartment.go.html to see an example of how to use ChangeEmailDomainCompartmentRequest.
-type ChangeEmailDomainCompartmentRequest struct {
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/RemoveEmailDomainLock.go.html to see an example of how to use RemoveEmailDomainLockRequest.
+type RemoveEmailDomainLockRequest struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this email domain.
 	EmailDomainId *string `mandatory:"true" contributesTo:"path" name:"emailDomainId"`
 
-	// The configuration details for the move operation.
-	ChangeEmailDomainCompartmentDetails `contributesTo:"body"`
+	// Details for removing a lock from a resource.
+	RemoveLockDetails `contributesTo:"body"`
+
+	// The request ID for tracing from the system
+	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// Used for optimistic concurrency control. In the update or delete call for a resource, set the `if-match`
 	// parameter to the value of the etag from a previous get, create, or update response for that resource.  The resource
 	// will be updated or deleted only if the etag you provide matches the resource's current etag value.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
-	// The request ID for tracing from the system
-	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
-
-	// A token that uniquely identifies a request so it can be retried in case of a timeout or
-	// server error without risk of executing that same action again. Retry tokens expire after 24
-	// hours, but can be invalidated before then due to conflicting operations. For example, if a resource
-	// has been deleted and purged from the system, then a retry of the original creation request
-	// might be rejected.
-	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
-
-	// Whether to override locks (if any exist).
-	IsLockOverride *bool `mandatory:"false" contributesTo:"query" name:"isLockOverride"`
-
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
 }
 
-func (request ChangeEmailDomainCompartmentRequest) String() string {
+func (request RemoveEmailDomainLockRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request ChangeEmailDomainCompartmentRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request RemoveEmailDomainLockRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -62,21 +52,21 @@ func (request ChangeEmailDomainCompartmentRequest) HTTPRequest(method, path stri
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request ChangeEmailDomainCompartmentRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request RemoveEmailDomainLockRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ChangeEmailDomainCompartmentRequest) RetryPolicy() *common.RetryPolicy {
+func (request RemoveEmailDomainLockRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request ChangeEmailDomainCompartmentRequest) ValidateEnumValue() (bool, error) {
+func (request RemoveEmailDomainLockRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -84,25 +74,28 @@ func (request ChangeEmailDomainCompartmentRequest) ValidateEnumValue() (bool, er
 	return false, nil
 }
 
-// ChangeEmailDomainCompartmentResponse wrapper for the ChangeEmailDomainCompartment operation
-type ChangeEmailDomainCompartmentResponse struct {
+// RemoveEmailDomainLockResponse wrapper for the RemoveEmailDomainLock operation
+type RemoveEmailDomainLockResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// Unique Oracle-assigned identifier for the asynchronous request. You can use this to query status of the asynchronous operation.
-	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
+	// The EmailDomain instance
+	EmailDomain `presentIn:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
+
+	// For optimistic concurrency control. See `if-match`.
+	Etag *string `presentIn:"header" name:"etag"`
 }
 
-func (response ChangeEmailDomainCompartmentResponse) String() string {
+func (response RemoveEmailDomainLockResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response ChangeEmailDomainCompartmentResponse) HTTPResponse() *http.Response {
+func (response RemoveEmailDomainLockResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

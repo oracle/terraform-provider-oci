@@ -130,8 +130,11 @@ type AutonomousDwDatabase struct {
 	// An array of CPU values that an Autonomous Database can be scaled to.
 	ProvisionableCpus []float32 `mandatory:"false" json:"provisionableCpus"`
 
-	// The amount of memory (in GBs) to be enabled per OCPU or ECPU.
+	// The amount of memory (in GBs rounded off to nearest integer value) enabled per ECPU or OCPU. This is deprecated. Please refer to memoryPerComputeUnitInGBs for accurate value.
 	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
+
+	// The amount of memory (in GBs) to be enabled per OCPU or ECPU.
+	MemoryPerComputeUnitInGBs *float32 `mandatory:"false" json:"memoryPerComputeUnitInGBs"`
 
 	// The quantity of data in the database, in gigabytes.
 	// For Autonomous Transaction Processing databases using ECPUs on Serverless Infrastructure, this value is always populated. In all the other cases, this value will be null and `dataStorageSizeInTBs` will be populated instead.
@@ -590,6 +593,7 @@ func (m *AutonomousDwDatabase) UnmarshalJSON(data []byte) (e error) {
 		OcpuCount                               *float32                                                  `json:"ocpuCount"`
 		ProvisionableCpus                       []float32                                                 `json:"provisionableCpus"`
 		MemoryPerOracleComputeUnitInGBs         *int                                                      `json:"memoryPerOracleComputeUnitInGBs"`
+		MemoryPerComputeUnitInGBs               *float32                                                  `json:"memoryPerComputeUnitInGBs"`
 		DataStorageSizeInGBs                    *int                                                      `json:"dataStorageSizeInGBs"`
 		UsedDataStorageSizeInGBs                *int                                                      `json:"usedDataStorageSizeInGBs"`
 		InfrastructureType                      AutonomousDwDatabaseInfrastructureTypeEnum                `json:"infrastructureType"`
@@ -762,6 +766,8 @@ func (m *AutonomousDwDatabase) UnmarshalJSON(data []byte) (e error) {
 	m.ProvisionableCpus = make([]float32, len(model.ProvisionableCpus))
 	copy(m.ProvisionableCpus, model.ProvisionableCpus)
 	m.MemoryPerOracleComputeUnitInGBs = model.MemoryPerOracleComputeUnitInGBs
+
+	m.MemoryPerComputeUnitInGBs = model.MemoryPerComputeUnitInGBs
 
 	m.DataStorageSizeInGBs = model.DataStorageSizeInGBs
 
