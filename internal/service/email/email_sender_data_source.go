@@ -88,6 +88,12 @@ func (s *EmailSenderDataSourceCrud) SetData() error {
 		s.D.Set("is_spf", *s.Res.IsSpf)
 	}
 
+	locks := []interface{}{}
+	for _, item := range s.Res.Locks {
+		locks = append(locks, SenderResourceLockToMap(item))
+	}
+	s.D.Set("locks", locks)
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SystemTags != nil {

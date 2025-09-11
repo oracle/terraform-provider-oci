@@ -30,6 +30,23 @@ resource "oci_file_storage_mount_target" "my_mount_target_1" {
   is_lock_override = var.is_lock_override
 }
 
+resource "oci_file_storage_mount_target" "my_mount_target_3" {
+  #Required
+  availability_domain = data.oci_identity_availability_domain.ad.name
+  compartment_id      = var.compartment_ocid
+  subnet_id           = oci_core_subnet.my_subnet1.id
+
+  #Optional
+  display_name = var.mount_target_3_display_name
+  ip_address = cidrhost(oci_core_vcn.my_vcn.ipv6cidr_blocks[0], 21)
+  freeform_tags = {
+    "Department" = "FinanceTest"
+  }
+  requested_throughput = "1"
+
+  nsg_ids = [oci_core_network_security_group.test_network_security_group.id]
+}
+
 resource "oci_file_storage_mount_target" "my_mount_target_2" {
   #Required
   availability_domain = data.oci_identity_availability_domain.ad.name

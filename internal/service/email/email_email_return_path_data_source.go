@@ -92,6 +92,12 @@ func (s *EmailEmailReturnPathDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	locks := []interface{}{}
+	for _, item := range s.Res.Locks {
+		locks = append(locks, EmailReturnPathResourceLockToMap(item))
+	}
+	s.D.Set("locks", locks)
+
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}

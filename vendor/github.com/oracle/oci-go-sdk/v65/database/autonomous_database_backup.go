@@ -82,6 +82,14 @@ type AutonomousDatabaseBackup struct {
 	SizeInTBs *float64 `mandatory:"false" json:"sizeInTBs"`
 
 	BackupDestinationDetails *BackupDestinationDetails `mandatory:"false" json:"backupDestinationDetails"`
+
+	// The infrastructure type this resource belongs to.
+	InfrastructureType AutonomousDatabaseBackupInfrastructureTypeEnum `mandatory:"false" json:"infrastructureType,omitempty"`
+
+	// Name of the region in which backup is taken in.
+	Region *string `mandatory:"false" json:"region"`
+
+	SourceDatabaseDetails *SourceDatabaseDetails `mandatory:"false" json:"sourceDatabaseDetails"`
 }
 
 func (m AutonomousDatabaseBackup) String() string {
@@ -100,6 +108,9 @@ func (m AutonomousDatabaseBackup) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAutonomousDatabaseBackupLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingAutonomousDatabaseBackupInfrastructureTypeEnum(string(m.InfrastructureType)); !ok && m.InfrastructureType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InfrastructureType: %s. Supported values are: %s.", m.InfrastructureType, strings.Join(GetAutonomousDatabaseBackupInfrastructureTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -219,5 +230,47 @@ func GetAutonomousDatabaseBackupLifecycleStateEnumStringValues() []string {
 // GetMappingAutonomousDatabaseBackupLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingAutonomousDatabaseBackupLifecycleStateEnum(val string) (AutonomousDatabaseBackupLifecycleStateEnum, bool) {
 	enum, ok := mappingAutonomousDatabaseBackupLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// AutonomousDatabaseBackupInfrastructureTypeEnum Enum with underlying type: string
+type AutonomousDatabaseBackupInfrastructureTypeEnum string
+
+// Set of constants representing the allowable values for AutonomousDatabaseBackupInfrastructureTypeEnum
+const (
+	AutonomousDatabaseBackupInfrastructureTypeCloud           AutonomousDatabaseBackupInfrastructureTypeEnum = "CLOUD"
+	AutonomousDatabaseBackupInfrastructureTypeCloudAtCustomer AutonomousDatabaseBackupInfrastructureTypeEnum = "CLOUD_AT_CUSTOMER"
+)
+
+var mappingAutonomousDatabaseBackupInfrastructureTypeEnum = map[string]AutonomousDatabaseBackupInfrastructureTypeEnum{
+	"CLOUD":             AutonomousDatabaseBackupInfrastructureTypeCloud,
+	"CLOUD_AT_CUSTOMER": AutonomousDatabaseBackupInfrastructureTypeCloudAtCustomer,
+}
+
+var mappingAutonomousDatabaseBackupInfrastructureTypeEnumLowerCase = map[string]AutonomousDatabaseBackupInfrastructureTypeEnum{
+	"cloud":             AutonomousDatabaseBackupInfrastructureTypeCloud,
+	"cloud_at_customer": AutonomousDatabaseBackupInfrastructureTypeCloudAtCustomer,
+}
+
+// GetAutonomousDatabaseBackupInfrastructureTypeEnumValues Enumerates the set of values for AutonomousDatabaseBackupInfrastructureTypeEnum
+func GetAutonomousDatabaseBackupInfrastructureTypeEnumValues() []AutonomousDatabaseBackupInfrastructureTypeEnum {
+	values := make([]AutonomousDatabaseBackupInfrastructureTypeEnum, 0)
+	for _, v := range mappingAutonomousDatabaseBackupInfrastructureTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetAutonomousDatabaseBackupInfrastructureTypeEnumStringValues Enumerates the set of values in String for AutonomousDatabaseBackupInfrastructureTypeEnum
+func GetAutonomousDatabaseBackupInfrastructureTypeEnumStringValues() []string {
+	return []string{
+		"CLOUD",
+		"CLOUD_AT_CUSTOMER",
+	}
+}
+
+// GetMappingAutonomousDatabaseBackupInfrastructureTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingAutonomousDatabaseBackupInfrastructureTypeEnum(val string) (AutonomousDatabaseBackupInfrastructureTypeEnum, bool) {
+	enum, ok := mappingAutonomousDatabaseBackupInfrastructureTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
