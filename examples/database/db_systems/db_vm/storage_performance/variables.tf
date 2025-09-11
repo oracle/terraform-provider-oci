@@ -35,5 +35,5 @@ variable "shape_type" {
 }
 
 variable "database_edition" {
-  default = "ENTERPRISE_EDITION_DEVELOPER"
+  default = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
 }

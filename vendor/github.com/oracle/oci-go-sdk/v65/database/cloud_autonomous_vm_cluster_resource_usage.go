@@ -42,8 +42,11 @@ type CloudAutonomousVmClusterResourceUsage struct {
 	// The data disk group size used for Autonomous Databases, in TBs.
 	UsedAutonomousDataStorageSizeInTBs *float32 `mandatory:"false" json:"usedAutonomousDataStorageSizeInTBs"`
 
-	// The amount of memory (in GBs) to be enabled per each CPU core.
+	// The amount of memory (in GBs rounded off to nearest integer value) enabled per ECPU or OCPU. This is deprecated. Please refer to memoryPerComputeUnitInGBs for accurate value.
 	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
+
+	// The amount of memory (in GBs) to be enabled per OCPU or ECPU.
+	MemoryPerComputeUnitInGBs *float32 `mandatory:"false" json:"memoryPerComputeUnitInGBs"`
 
 	// Total exadata storage allocated for the Autonomous VM Cluster. DATA + RECOVERY + SPARSE + any overhead in TBs.
 	ExadataStorageInTBs *float64 `mandatory:"false" json:"exadataStorageInTBs"`
