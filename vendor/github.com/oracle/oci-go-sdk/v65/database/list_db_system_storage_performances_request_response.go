@@ -26,7 +26,7 @@ type ListDbSystemStoragePerformancesRequest struct {
 	// Optional. Filters the performance results by shape type.
 	ShapeType *string `mandatory:"false" contributesTo:"query" name:"shapeType"`
 
-	// The database edition of quota (STANDARD_EDITION/ENTERPRISE_EDITION/ENTERPRISE_EDITION_HIGH_PERFORMANCE/ENTERPRISE_EDITION_EXTREME/ENTERPRISE_EDITION_DEVELOPER)
+	// The database edition of quota (STANDARD_EDITION/ENTERPRISE_EDITION/ENTERPRISE_EDITION_HIGH_PERFORMANCE/ENTERPRISE_EDITION_EXTREME_PERFORMANCE/ENTERPRISE_EDITION_DEVELOPER)
 	DatabaseEdition ListDbSystemStoragePerformancesDatabaseEditionEnum `mandatory:"false" contributesTo:"query" name:"databaseEdition" omitEmpty:"true"`
 
 	// Unique identifier for the request.
@@ -117,27 +117,27 @@ type ListDbSystemStoragePerformancesDatabaseEditionEnum string
 
 // Set of constants representing the allowable values for ListDbSystemStoragePerformancesDatabaseEditionEnum
 const (
-	ListDbSystemStoragePerformancesDatabaseEditionStandardEdition                  ListDbSystemStoragePerformancesDatabaseEditionEnum = "STANDARD_EDITION"
-	ListDbSystemStoragePerformancesDatabaseEditionEnterpriseEdition                ListDbSystemStoragePerformancesDatabaseEditionEnum = "ENTERPRISE_EDITION"
-	ListDbSystemStoragePerformancesDatabaseEditionEnterpriseEditionHighPerformance ListDbSystemStoragePerformancesDatabaseEditionEnum = "ENTERPRISE_EDITION_HIGH_PERFORMANCE"
-	ListDbSystemStoragePerformancesDatabaseEditionEnterpriseEditionExtreme         ListDbSystemStoragePerformancesDatabaseEditionEnum = "ENTERPRISE_EDITION_EXTREME"
-	ListDbSystemStoragePerformancesDatabaseEditionEnterpriseEditionDeveloper       ListDbSystemStoragePerformancesDatabaseEditionEnum = "ENTERPRISE_EDITION_DEVELOPER"
+	ListDbSystemStoragePerformancesDatabaseEditionStandardEdition                     ListDbSystemStoragePerformancesDatabaseEditionEnum = "STANDARD_EDITION"
+	ListDbSystemStoragePerformancesDatabaseEditionEnterpriseEdition                   ListDbSystemStoragePerformancesDatabaseEditionEnum = "ENTERPRISE_EDITION"
+	ListDbSystemStoragePerformancesDatabaseEditionEnterpriseEditionHighPerformance    ListDbSystemStoragePerformancesDatabaseEditionEnum = "ENTERPRISE_EDITION_HIGH_PERFORMANCE"
+	ListDbSystemStoragePerformancesDatabaseEditionEnterpriseEditionExtremePerformance ListDbSystemStoragePerformancesDatabaseEditionEnum = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
+	ListDbSystemStoragePerformancesDatabaseEditionEnterpriseEditionDeveloper          ListDbSystemStoragePerformancesDatabaseEditionEnum = "ENTERPRISE_EDITION_DEVELOPER"
 )
 
 var mappingListDbSystemStoragePerformancesDatabaseEditionEnum = map[string]ListDbSystemStoragePerformancesDatabaseEditionEnum{
-	"STANDARD_EDITION":                    ListDbSystemStoragePerformancesDatabaseEditionStandardEdition,
-	"ENTERPRISE_EDITION":                  ListDbSystemStoragePerformancesDatabaseEditionEnterpriseEdition,
-	"ENTERPRISE_EDITION_HIGH_PERFORMANCE": ListDbSystemStoragePerformancesDatabaseEditionEnterpriseEditionHighPerformance,
-	"ENTERPRISE_EDITION_EXTREME":          ListDbSystemStoragePerformancesDatabaseEditionEnterpriseEditionExtreme,
-	"ENTERPRISE_EDITION_DEVELOPER":        ListDbSystemStoragePerformancesDatabaseEditionEnterpriseEditionDeveloper,
+	"STANDARD_EDITION":                       ListDbSystemStoragePerformancesDatabaseEditionStandardEdition,
+	"ENTERPRISE_EDITION":                     ListDbSystemStoragePerformancesDatabaseEditionEnterpriseEdition,
+	"ENTERPRISE_EDITION_HIGH_PERFORMANCE":    ListDbSystemStoragePerformancesDatabaseEditionEnterpriseEditionHighPerformance,
+	"ENTERPRISE_EDITION_EXTREME_PERFORMANCE": ListDbSystemStoragePerformancesDatabaseEditionEnterpriseEditionExtremePerformance,
+	"ENTERPRISE_EDITION_DEVELOPER":           ListDbSystemStoragePerformancesDatabaseEditionEnterpriseEditionDeveloper,
 }
 
 var mappingListDbSystemStoragePerformancesDatabaseEditionEnumLowerCase = map[string]ListDbSystemStoragePerformancesDatabaseEditionEnum{
-	"standard_edition":                    ListDbSystemStoragePerformancesDatabaseEditionStandardEdition,
-	"enterprise_edition":                  ListDbSystemStoragePerformancesDatabaseEditionEnterpriseEdition,
-	"enterprise_edition_high_performance": ListDbSystemStoragePerformancesDatabaseEditionEnterpriseEditionHighPerformance,
-	"enterprise_edition_extreme":          ListDbSystemStoragePerformancesDatabaseEditionEnterpriseEditionExtreme,
-	"enterprise_edition_developer":        ListDbSystemStoragePerformancesDatabaseEditionEnterpriseEditionDeveloper,
+	"standard_edition":                       ListDbSystemStoragePerformancesDatabaseEditionStandardEdition,
+	"enterprise_edition":                     ListDbSystemStoragePerformancesDatabaseEditionEnterpriseEdition,
+	"enterprise_edition_high_performance":    ListDbSystemStoragePerformancesDatabaseEditionEnterpriseEditionHighPerformance,
+	"enterprise_edition_extreme_performance": ListDbSystemStoragePerformancesDatabaseEditionEnterpriseEditionExtremePerformance,
+	"enterprise_edition_developer":           ListDbSystemStoragePerformancesDatabaseEditionEnterpriseEditionDeveloper,
 }
 
 // GetListDbSystemStoragePerformancesDatabaseEditionEnumValues Enumerates the set of values for ListDbSystemStoragePerformancesDatabaseEditionEnum
@@ -155,7 +155,7 @@ func GetListDbSystemStoragePerformancesDatabaseEditionEnumStringValues() []strin
 		"STANDARD_EDITION",
 		"ENTERPRISE_EDITION",
 		"ENTERPRISE_EDITION_HIGH_PERFORMANCE",
-		"ENTERPRISE_EDITION_EXTREME",
+		"ENTERPRISE_EDITION_EXTREME_PERFORMANCE",
 		"ENTERPRISE_EDITION_DEVELOPER",
 	}
 }

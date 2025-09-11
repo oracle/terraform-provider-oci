@@ -94,6 +94,12 @@ func (s *EmailEmailDomainDataSourceCrud) SetData() error {
 		s.D.Set("is_spf", *s.Res.IsSpf)
 	}
 
+	locks := []interface{}{}
+	for _, item := range s.Res.Locks {
+		locks = append(locks, ResourceLockToMap(item))
+	}
+	s.D.Set("locks", locks)
+
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}

@@ -133,6 +133,12 @@ func (s *EmailSendersDataSourceCrud) SetData() error {
 			sender["id"] = *r.Id
 		}
 
+		locks := []interface{}{}
+		for _, item := range r.Locks {
+			locks = append(locks, SenderResourceLockToMap(item))
+		}
+		sender["locks"] = locks
+
 		sender["state"] = r.LifecycleState
 
 		if r.SystemTags != nil {

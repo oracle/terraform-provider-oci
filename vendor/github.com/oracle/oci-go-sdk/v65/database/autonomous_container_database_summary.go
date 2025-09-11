@@ -143,8 +143,11 @@ type AutonomousContainerDatabaseSummary struct {
 	// The wallet name for Oracle Key Vault.
 	KeyStoreWalletName *string `mandatory:"false" json:"keyStoreWalletName"`
 
-	// The amount of memory (in GBs) enabled per ECPU or OCPU in the Autonomous VM Cluster.
+	// The amount of memory (in GBs rounded off to nearest integer value) enabled per ECPU or OCPU in the Autonomous VM Cluster. This is deprecated. Please refer to memoryPerComputeUnitInGBs for accurate value.
 	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
+
+	// The amount of memory (in GBs) to be enabled per OCPU or ECPU.
+	MemoryPerComputeUnitInGBs *float32 `mandatory:"false" json:"memoryPerComputeUnitInGBs"`
 
 	// Sum of CPUs available on the Autonomous VM Cluster + Sum of reclaimable CPUs available in the Autonomous Container Database.
 	AvailableCpus *float32 `mandatory:"false" json:"availableCpus"`

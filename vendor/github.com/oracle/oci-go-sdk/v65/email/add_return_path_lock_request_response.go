@@ -11,41 +11,38 @@ import (
 	"strings"
 )
 
-// UpdateSenderRequest wrapper for the UpdateSender operation
+// AddReturnPathLockRequest wrapper for the AddReturnPathLock operation
 //
 // # See also
 //
-// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/UpdateSender.go.html to see an example of how to use UpdateSenderRequest.
-type UpdateSenderRequest struct {
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/AddReturnPathLock.go.html to see an example of how to use AddReturnPathLockRequest.
+type AddReturnPathLockRequest struct {
 
-	// The unique OCID of the sender.
-	SenderId *string `mandatory:"true" contributesTo:"path" name:"senderId"`
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this email return path.
+	EmailReturnPathId *string `mandatory:"true" contributesTo:"path" name:"emailReturnPathId"`
 
-	// update details for sender.
-	UpdateSenderDetails `contributesTo:"body"`
+	// Details for adding a lock to a resource.
+	AddLockDetails `contributesTo:"body"`
+
+	// The request ID for tracing from the system
+	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// Used for optimistic concurrency control. In the update or delete call for a resource, set the `if-match`
 	// parameter to the value of the etag from a previous get, create, or update response for that resource.  The resource
 	// will be updated or deleted only if the etag you provide matches the resource's current etag value.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
-	// The request ID for tracing from the system
-	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
-
-	// Whether to override locks (if any exist).
-	IsLockOverride *bool `mandatory:"false" contributesTo:"query" name:"isLockOverride"`
-
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
 }
 
-func (request UpdateSenderRequest) String() string {
+func (request AddReturnPathLockRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request UpdateSenderRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request AddReturnPathLockRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -55,21 +52,21 @@ func (request UpdateSenderRequest) HTTPRequest(method, path string, binaryReques
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request UpdateSenderRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request AddReturnPathLockRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateSenderRequest) RetryPolicy() *common.RetryPolicy {
+func (request AddReturnPathLockRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request UpdateSenderRequest) ValidateEnumValue() (bool, error) {
+func (request AddReturnPathLockRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -77,14 +74,14 @@ func (request UpdateSenderRequest) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
-// UpdateSenderResponse wrapper for the UpdateSender operation
-type UpdateSenderResponse struct {
+// AddReturnPathLockResponse wrapper for the AddReturnPathLock operation
+type AddReturnPathLockResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The Sender instance
-	Sender `presentIn:"body"`
+	// The EmailReturnPath instance
+	EmailReturnPath `presentIn:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
@@ -94,11 +91,11 @@ type UpdateSenderResponse struct {
 	Etag *string `presentIn:"header" name:"etag"`
 }
 
-func (response UpdateSenderResponse) String() string {
+func (response AddReturnPathLockResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response UpdateSenderResponse) HTTPResponse() *http.Response {
+func (response AddReturnPathLockResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }
