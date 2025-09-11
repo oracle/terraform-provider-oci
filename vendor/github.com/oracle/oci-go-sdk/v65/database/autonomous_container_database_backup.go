@@ -109,16 +109,19 @@ type AutonomousContainerDatabaseBackupTypeEnum string
 const (
 	AutonomousContainerDatabaseBackupTypeIncremental AutonomousContainerDatabaseBackupTypeEnum = "INCREMENTAL"
 	AutonomousContainerDatabaseBackupTypeFull        AutonomousContainerDatabaseBackupTypeEnum = "FULL"
+	AutonomousContainerDatabaseBackupTypeVirtualFull AutonomousContainerDatabaseBackupTypeEnum = "VIRTUAL_FULL"
 )
 
 var mappingAutonomousContainerDatabaseBackupTypeEnum = map[string]AutonomousContainerDatabaseBackupTypeEnum{
-	"INCREMENTAL": AutonomousContainerDatabaseBackupTypeIncremental,
-	"FULL":        AutonomousContainerDatabaseBackupTypeFull,
+	"INCREMENTAL":  AutonomousContainerDatabaseBackupTypeIncremental,
+	"FULL":         AutonomousContainerDatabaseBackupTypeFull,
+	"VIRTUAL_FULL": AutonomousContainerDatabaseBackupTypeVirtualFull,
 }
 
 var mappingAutonomousContainerDatabaseBackupTypeEnumLowerCase = map[string]AutonomousContainerDatabaseBackupTypeEnum{
-	"incremental": AutonomousContainerDatabaseBackupTypeIncremental,
-	"full":        AutonomousContainerDatabaseBackupTypeFull,
+	"incremental":  AutonomousContainerDatabaseBackupTypeIncremental,
+	"full":         AutonomousContainerDatabaseBackupTypeFull,
+	"virtual_full": AutonomousContainerDatabaseBackupTypeVirtualFull,
 }
 
 // GetAutonomousContainerDatabaseBackupTypeEnumValues Enumerates the set of values for AutonomousContainerDatabaseBackupTypeEnum
@@ -135,6 +138,7 @@ func GetAutonomousContainerDatabaseBackupTypeEnumStringValues() []string {
 	return []string{
 		"INCREMENTAL",
 		"FULL",
+		"VIRTUAL_FULL",
 	}
 }
 

@@ -1,3 +1,12 @@
+## 7.18.0 (September 10, 2025)
+
+### Added
+- Support for Support resource locking for Email Delivery
+- Support for OCI FSS IPv6 Support
+
+### Bug Fix
+- TERSI-7599: 08/11-NewDev - UDX fixes only to allow ENTERPRISE_EDITION_EXTREME_PERFORMANCE
+
 ## 7.17.0 (September 4, 2025)
 
 ### Added
@@ -8,52 +17,6 @@
 - Support for dbmulticloud GCP and azure fixes
 - Prod Endpoint for AI Vision Service Stream Video Processing
 - Support for AI Vision Service Stream Video Processing
-- README.md of service examples with magic button
-- Support for Compute: GPU Memory Fabric API Update - availableHostCount
-- Support for Mixed License, Recovery Point Time, filter deployments by type
-- Support for E6 - Standard x86 shape for BaseDB on DRCC Butterfly | BaseDB
-- Support for OCI Generative AI Agent - CY25 Q2 Release
-- Support for New managed service leveraging full capabilities and performance potential of raw Apache Kafka
-- Support for Oracle 19C Database in Exadata Database Service on Exascale Infrastructure (ExaDB-XS)
-- MySQL database support for FSDR
-- Data Safe Support for Target Database Group
-- README.md of service examples with magic button
-- Support for APIGW Resource Locking
-- Support for IPv6-Prefix-for-Subnet & Flexible CIDR support for secondary IPs on VNIC Multi-Prefix-for-Subnet & Flexible CIDR support for secondary IP addresses on VNIC
-- Support for PDB Snapshots on ExaDB-XS
-- README.md of service examples with magic button
-- Description files for service examples
-- Support for scimQuery field for findingAnalytics API in data safe
-- Support for ODSC - Distributed Training V2 (DTv2)
-- Support for OCI Cache - Customer Managed Config Sets
-- Support for GoldenGate Connections Release 8
-- Support for OL8 migration for Devops Build runner
-- Support for fields computeClusterId and placementConstraintDetails in Instance Configuration Launch Details
-- Max Parallel Chunks configurable via env
-- Formatting changes in files
-- Support for ODSC - Enable Burstable for Data Science Notebooks, ML Jobs, and ML Pipeline
-- Support for APM - Scheduled Backend Queries - UI & API
-- Support for Ops Insights support for ADB@ExaCC
-- oprional parameters to import
-- Support for API Platform Cloud Service
-- Support for OCI Data Science Multi Model Deployment Experience
-- Support for Design/Implement CPU architecture agnostic configurations
-- Support for Secrets in Vault - Cross Region Replication Feature
-- Support for APM - Agent & Configurations Updates
-- README.md of service examples with magic button
-- Description files for service examples
-
-### Bug Fix
-- Fix using security_attributes in UpdateInstance and add tests
-- remove usages of freeformTags and definedTags from ApplianceImageSummary
-- EXACC update fix to send destionationDetails
-- Resolved errors with VCN update requests for IPv6 CIDRs
-- for Create route table when route rule contains route_type.
-- Api Gateway terraform correction to align with public sdk resource locking changes
-- Adbs switchover logic and secret Id bug
-- Fix for VCN is_ipv6enabled plan drift on apply.
-- ed - Pagination for resource discovery of private zones
-- Update domain override logic to get realm domain from oci-go-sdk instead of using regex to extract realmn domain
 
 ## 7.16.0 (August 27, 2025)
 

@@ -46,6 +46,15 @@ type ListAutonomousDatabaseBackupsRequest struct {
 	// A filter to return only backups that matches with the given type of Backup.
 	Type *string `mandatory:"false" contributesTo:"query" name:"type"`
 
+	// A filter to return only resources that have the given backup destination id.
+	BackupDestinationId *string `mandatory:"false" contributesTo:"query" name:"backupDestinationId"`
+
+	// A filter to return only resources that have the given key store id.
+	KeyStoreId *string `mandatory:"false" contributesTo:"query" name:"keyStoreId"`
+
+	// A filter to return only resources that match the given Infrastructure Type.
+	InfrastructureType AutonomousDatabaseBackupSummaryInfrastructureTypeEnum `mandatory:"false" contributesTo:"query" name:"infrastructureType" omitEmpty:"true"`
+
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
@@ -93,6 +102,9 @@ func (request ListAutonomousDatabaseBackupsRequest) ValidateEnumValue() (bool, e
 	}
 	if _, ok := GetMappingAutonomousDatabaseBackupSummaryLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetAutonomousDatabaseBackupSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingAutonomousDatabaseBackupSummaryInfrastructureTypeEnum(string(request.InfrastructureType)); !ok && request.InfrastructureType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InfrastructureType: %s. Supported values are: %s.", request.InfrastructureType, strings.Join(GetAutonomousDatabaseBackupSummaryInfrastructureTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
