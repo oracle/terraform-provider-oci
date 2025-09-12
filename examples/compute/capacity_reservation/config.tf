@@ -6,6 +6,19 @@ resource "oci_core_compute_capacity_reservation" "cr" {
   instance_reservation_configs {
     instance_shape = var.instance_shape
     reserved_count = var.instance_count
+    instance_shape_config {
+      ocpus = "2"
+      memory_in_gbs = "18"
+    }
+  }
+
+  instance_reservation_configs {
+    instance_shape = var.instance_shape
+    reserved_count = var.instance_count
+    instance_shape_config {
+      ocpus = "3"
+      memory_in_gbs = "22"
+    }
   }
 }
 
@@ -19,6 +32,10 @@ resource "oci_core_instance" "test_instance" {
   create_vnic_details {
     assign_public_ip = false
     subnet_id        = oci_core_subnet.test_subnet.id
+  }
+  shape_config {
+    ocpus = "2"
+    memory_in_gbs = "18"
   }
   source_details {
     source_type = "image"

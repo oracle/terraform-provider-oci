@@ -719,6 +719,21 @@ func instanceReservationConfigsHashCodeForSets(v interface{}) int {
 		}
 	}
 
+	if instanceShapeConfig, ok := m["instance_shape_config"]; ok && instanceShapeConfig != "" {
+		if instanceShapeConfigList, ok := instanceShapeConfig.([]interface{}); ok && len(instanceShapeConfigList) > 0 {
+			buf.WriteString("instance_shape_config-")
+			for _, instanceShapeConfigMapInterface := range instanceShapeConfigList {
+				instanceShapeConfigMap := instanceShapeConfigMapInterface.(map[string]interface{})
+				if memoryInGbs, ok := instanceShapeConfigMap["memory_in_gbs"]; ok {
+					buf.WriteString(fmt.Sprintf("%v-", memoryInGbs))
+				}
+				if ocpus, ok := instanceShapeConfigMap["ocpus"]; ok {
+					buf.WriteString(fmt.Sprintf("%v-", ocpus))
+				}
+			}
+		}
+	}
+
 	if clusterPlacementGroupId, ok := m["cluster_placement_group_id"]; ok && clusterPlacementGroupId != "" {
 		buf.WriteString(fmt.Sprintf("%v-", clusterPlacementGroupId))
 	}
