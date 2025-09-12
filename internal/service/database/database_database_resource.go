@@ -546,6 +546,10 @@ func DatabaseDatabaseResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"data_loss_exposure": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"database_id": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -554,11 +558,31 @@ func DatabaseDatabaseResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"failover_readiness": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"failover_readiness_message": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"is_active_data_guard_enabled": {
 										Type:     schema.TypeBool,
 										Computed: true,
 									},
 									"role": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"switchover_readiness": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"switchover_readiness_message": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_updated": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -1701,6 +1725,10 @@ func DataGuardGroupMemberToMap(obj oci_database.DataGuardGroupMember) map[string
 		result["apply_rate"] = string(*obj.ApplyRate)
 	}
 
+	if obj.DataLossExposure != nil {
+		result["data_loss_exposure"] = string(*obj.DataLossExposure)
+	}
+
 	if obj.DatabaseId != nil {
 		result["database_id"] = string(*obj.DatabaseId)
 	}
@@ -1709,11 +1737,27 @@ func DataGuardGroupMemberToMap(obj oci_database.DataGuardGroupMember) map[string
 		result["db_system_id"] = string(*obj.DbSystemId)
 	}
 
+	result["failover_readiness"] = string(obj.FailoverReadiness)
+
+	if obj.FailoverReadinessMessage != nil {
+		result["failover_readiness_message"] = string(*obj.FailoverReadinessMessage)
+	}
+
 	if obj.IsActiveDataGuardEnabled != nil {
 		result["is_active_data_guard_enabled"] = bool(*obj.IsActiveDataGuardEnabled)
 	}
 
 	result["role"] = string(obj.Role)
+
+	result["switchover_readiness"] = string(obj.SwitchoverReadiness)
+
+	if obj.SwitchoverReadinessMessage != nil {
+		result["switchover_readiness_message"] = string(*obj.SwitchoverReadinessMessage)
+	}
+
+	if obj.TimeUpdated != nil {
+		result["time_updated"] = obj.TimeUpdated.String()
+	}
 
 	if obj.TransportLag != nil {
 		result["transport_lag"] = string(*obj.TransportLag)
@@ -2021,6 +2065,12 @@ func (s *DatabaseDatabaseResourceCrud) Update() error {
 				}
 				if strings.EqualFold(action, "dgConfig") {
 					err := s.dataGuardConfigUpdate(tmp)
+					if err != nil {
+						return err
+					}
+				}
+				if strings.EqualFold(action, "refresh") {
+					err := s.refreshDataguardHealth(tmp)
 					if err != nil {
 						return err
 					}
@@ -2475,6 +2525,29 @@ func (s *DatabaseDatabaseResourceCrud) dataGuardConfigUpdate(databaseId string) 
 			return err
 		}
 	}
+	val := s.D.Get("action_trigger")
+	s.D.Set("action_trigger", val)
+	val2 := s.D.Get("data_guard_action")
+	s.D.Set("data_guard_action", val2)
+	return nil
+}
+
+func (s *DatabaseDatabaseResourceCrud) refreshDataguardHealth(databaseId string) error {
+	refreshDataguardHealthRequest := oci_database.RefreshDataGuardHealthStatusRequest{}
+	refreshDataguardHealthRequest.DatabaseId = &databaseId
+
+	response, err := s.Client.RefreshDataGuardHealthStatus(context.Background(), refreshDataguardHealthRequest)
+	if err != nil {
+		return err
+	}
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
+
 	val := s.D.Get("action_trigger")
 	s.D.Set("action_trigger", val)
 	val2 := s.D.Get("data_guard_action")
