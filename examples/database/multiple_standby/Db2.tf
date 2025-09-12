@@ -140,8 +140,7 @@ resource "oci_database_cloud_vm_cluster" "test_cloud_vm_cluster2" {
 
 resource "oci_database_db_home" "test_db_home2" {
   db_system_id = oci_database_cloud_vm_cluster.test_cloud_vm_cluster2.id
-
-  db_version   = "19.21.0.0"
+  db_version   = "19.27.0.0"
   source = "NONE"
   display_name = "createdDbHomeNone"
 }
