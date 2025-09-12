@@ -61,7 +61,7 @@ var (
 		"fault_domain":               acctest.Representation{RepType: acctest.Optional, Create: `FAULT-DOMAIN-1`},
 		"cluster_placement_group_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.cluster_placement_group_id}`},
 		"reserved_count":             acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `2`},
-		"instance_shape_config":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreComputeCapacityReservationInstanceReservationConfigsInstanceShapeConfigRepresentation},
+		"instance_shape_config":      acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreComputeCapacityReservationInstanceReservationConfigsInstanceShapeConfigRepresentation},
 	}
 
 	CoreComputeCapacityReservationInstanceReservationConfigsRepresentation2 = map[string]interface{}{
@@ -80,9 +80,17 @@ var (
 		"instance_shape_config":      acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreComputeCapacityReservationInstanceReservationConfigsInstanceShapeConfigRepresentation3},
 	}
 
+	CoreComputeCapacityReservationInstanceReservationConfigsRepresentation4 = map[string]interface{}{
+		"instance_shape":             acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.E5.Flex`},
+		"fault_domain":               acctest.Representation{RepType: acctest.Optional, Create: `FAULT-DOMAIN-1`},
+		"cluster_placement_group_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.cluster_placement_group_id2}`},
+		"reserved_count":             acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `2`},
+		"instance_shape_config":      acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreComputeCapacityReservationInstanceReservationConfigsInstanceShapeConfigRepresentation4},
+	}
+
 	CoreComputeCapacityReservationInstanceReservationConfigsInstanceShapeConfigRepresentation = map[string]interface{}{
-		"memory_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `15`},
-		"ocpus":         acctest.Representation{RepType: acctest.Optional, Create: `1`},
+		"memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `15`},
+		"ocpus":         acctest.Representation{RepType: acctest.Required, Create: `1`},
 	}
 
 	CoreComputeCapacityReservationInstanceReservationConfigsInstanceShapeConfigRepresentation2 = map[string]interface{}{
@@ -93,6 +101,11 @@ var (
 	CoreComputeCapacityReservationInstanceReservationConfigsInstanceShapeConfigRepresentation3 = map[string]interface{}{
 		"memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `36`},
 		"ocpus":         acctest.Representation{RepType: acctest.Required, Create: `3`},
+	}
+
+	CoreComputeCapacityReservationInstanceReservationConfigsInstanceShapeConfigRepresentation4 = map[string]interface{}{
+		"memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `23`},
+		"ocpus":         acctest.Representation{RepType: acctest.Required, Create: `4`},
 	}
 
 	CoreComputeCapacityReservationResourceDependencies = AvailabilityDomainConfig +
@@ -166,7 +179,22 @@ func TestCoreComputeCapacityReservationResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + clusterPlacementGroupIdStr + CoreComputeCapacityReservationResourceDependencies,
 		},
-		// Step 4: verify Create with optionals
+		// Step 4: Create a capacity reservation with 3 identical instance reservation configs,
+		// differing only in shape configs
+		{
+			Config: config + compartmentIdVariableStr + CoreComputeCapacityReservationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(CoreComputeCapacityReservationRepresentation, map[string]interface{}{
+					"instance_reservation_configs": []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: CoreComputeCapacityReservationInstanceReservationConfigsRepresentation2}, {RepType: acctest.Optional, Group: CoreComputeCapacityReservationInstanceReservationConfigsRepresentation3}, {RepType: acctest.Optional, Group: CoreComputeCapacityReservationInstanceReservationConfigsRepresentation4}},
+				})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.#", "3"),
+			),
+		},
+		// Step 5: delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + CoreComputeCapacityReservationResourceDependencies,
+		},
+		// Step 6: verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + clusterPlacementGroupIdStr + CoreComputeCapacityReservationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", acctest.Optional, acctest.Create, CoreComputeCapacityReservationRepresentation),
@@ -201,7 +229,7 @@ func TestCoreComputeCapacityReservationResource_basic(t *testing.T) {
 			),
 		},
 
-		// Step 5: verify Update to the compartment (the compartment will be switched back in the next step)
+		// Step 7: verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + clusterPlacementGroupIdStr + CoreComputeCapacityReservationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", acctest.Optional, acctest.Create,
@@ -237,7 +265,7 @@ func TestCoreComputeCapacityReservationResource_basic(t *testing.T) {
 			),
 		},
 
-		// Step 6: verify updates to updatable parameters
+		// Step 8: verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + CoreComputeCapacityReservationResourceDependencies + clusterPlacementGroupIdStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", acctest.Optional, acctest.Update, CoreComputeCapacityReservationRepresentation),
@@ -269,7 +297,7 @@ func TestCoreComputeCapacityReservationResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// Step 7: verify datasource
+		// Step 9: verify datasource
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_capacity_reservations", "test_compute_capacity_reservations", acctest.Optional, acctest.Update, CoreCoreComputeCapacityReservationDataSourceRepresentation) +
@@ -295,7 +323,7 @@ func TestCoreComputeCapacityReservationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "compute_capacity_reservations.0.used_instance_count"),
 			),
 		},
-		// Step 8: verify singular datasource
+		// Step 10: verify singular datasource
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", acctest.Required, acctest.Create, CoreCoreComputeCapacityReservationSingularDataSourceRepresentation) +
