@@ -149,6 +149,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 								Type: schema.TypeInt,
 							},
 						},
+						"clone_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"cluster_placement_group_id": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -1337,6 +1341,8 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 		}
 
 		autonomousDatabasesClone["clone_table_space_list"] = r.CloneTableSpaceList
+
+		autonomousDatabasesClone["clone_type"] = r.CloneType
 
 		if r.ClusterPlacementGroupId != nil {
 			autonomousDatabasesClone["cluster_placement_group_id"] = *r.ClusterPlacementGroupId
