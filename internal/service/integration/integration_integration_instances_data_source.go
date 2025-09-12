@@ -156,6 +156,8 @@ func (s *IntegrationIntegrationInstancesDataSourceCrud) SetData() error {
 
 		if r.IsDisasterRecoveryEnabled != nil {
 			integrationInstance["is_disaster_recovery_enabled"] = *r.IsDisasterRecoveryEnabled
+		} else {
+			integrationInstance["is_disaster_recovery_enabled"] = false
 		}
 
 		if r.IsFileServerEnabled != nil {
@@ -195,6 +197,8 @@ func (s *IntegrationIntegrationInstancesDataSourceCrud) SetData() error {
 		} else {
 			integrationInstance["private_endpoint_outbound_connection"] = nil
 		}
+
+		integrationInstance["security_attributes"] = tfresource.SecurityAttributesToMap(r.SecurityAttributes)
 
 		integrationInstance["shape"] = r.Shape
 
