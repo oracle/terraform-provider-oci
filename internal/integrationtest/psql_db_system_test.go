@@ -199,7 +199,7 @@ var (
 	}
 	PsqlDbSystemMonthlyManagementPolicyBackupPolicyRepresentation = map[string]interface{}{
 		"backup_start":      acctest.Representation{RepType: acctest.Optional, Create: `02:00`, Update: `03:00`},
-		"kind":              acctest.Representation{RepType: acctest.Optional, Create: `MONTHLY`},
+		"kind":              acctest.Representation{RepType: acctest.Optional, Create: `MONTHLY`, Update: `NONE`},
 		"retention_days":    acctest.Representation{RepType: acctest.Optional, Create: `1`, Update: `2`},
 		"days_of_the_month": acctest.Representation{RepType: acctest.Optional, Create: []string{`1`}, Update: []string{`2`}},
 	}
