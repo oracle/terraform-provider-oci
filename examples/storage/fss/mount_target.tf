@@ -30,7 +30,7 @@ resource "oci_file_storage_mount_target" "my_mount_target_1" {
   is_lock_override = var.is_lock_override
 }
 
-resource "oci_file_storage_mount_target" "my_mount_target_3" {
+/*resource "oci_file_storage_mount_target" "my_mount_target_3" {
   #Required
   availability_domain = data.oci_identity_availability_domain.ad.name
   compartment_id      = var.compartment_ocid
@@ -45,7 +45,7 @@ resource "oci_file_storage_mount_target" "my_mount_target_3" {
   requested_throughput = "1"
 
   nsg_ids = [oci_core_network_security_group.test_network_security_group.id]
-}
+}*/
 
 resource "oci_file_storage_mount_target" "my_mount_target_2" {
   #Required

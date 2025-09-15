@@ -34,9 +34,9 @@ variable "my_subnet_cidr" {
   default = "10.0.1.0/24"
 }
 
-variable "my_subnet1_cidr" {
+/*variable "my_subnet1_cidr" {
   default = "10.0.2.0/24"
-}
+}*/
 
 variable "file_system_1_display_name" {
   default = "my_fs_1"
@@ -82,9 +82,9 @@ variable "mount_target_2_display_name" {
   default = "my_mount_target_2"
 }
 
-variable "mount_target_3_display_name" {
+/*variable "mount_target_3_display_name" {
   default = "my_mount_target_3"
-}
+}*/
 
 variable "export_path_fs1_mt1" {
   default = "/myfsspaths/fs1/path1"
