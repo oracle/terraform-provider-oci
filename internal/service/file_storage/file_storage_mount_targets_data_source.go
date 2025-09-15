@@ -163,8 +163,6 @@ func (s *FileStorageMountTargetsDataSourceCrud) SetData() error {
 		}
 		mountTarget["locks"] = locks
 
-		mountTarget["mount_target_ipv6ids"] = r.MountTargetIpv6Ids
-
 		mountTarget["nsg_ids"] = r.NsgIds
 
 		if r.ObservedThroughput != nil {
