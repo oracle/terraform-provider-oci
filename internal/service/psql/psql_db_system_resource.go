@@ -300,6 +300,9 @@ func PsqlDbSystemResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
+										DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+											return isNoneManagementPolicy(old, new, d)
+										},
 									},
 									"copy_policy": {
 										Type:     schema.TypeList,
@@ -340,6 +343,9 @@ func PsqlDbSystemResource() *schema.Resource {
 										Elem: &schema.Schema{
 											Type: schema.TypeInt,
 										},
+										DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+											return isNoneManagementPolicy(old, new, d)
+										},
 									},
 									"days_of_the_week": {
 										Type:     schema.TypeList,
@@ -347,6 +353,9 @@ func PsqlDbSystemResource() *schema.Resource {
 										Computed: true,
 										Elem: &schema.Schema{
 											Type: schema.TypeString,
+										},
+										DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+											return isNoneManagementPolicy(old, new, d)
 										},
 									},
 									"kind": {
@@ -365,6 +374,9 @@ func PsqlDbSystemResource() *schema.Resource {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
+										DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+											return isNoneManagementPolicy(old, new, d)
+										},
 									},
 
 									// Computed
@@ -1399,10 +1411,6 @@ func (s *PsqlDbSystemResourceCrud) mapToBackupPolicy(fieldKeyFormat string) (oci
 				details.CopyPolicy = &tmp
 			}
 		}
-		if retentionDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "retention_days")); ok {
-			tmp := retentionDays.(int)
-			details.RetentionDays = &tmp
-		}
 		baseObject = details
 	case strings.ToLower("WEEKLY"):
 		details := oci_psql.WeeklyBackupPolicy{}
@@ -2127,6 +2135,18 @@ func (s *PsqlDbSystemResourceCrud) isFlexibleConfig(configId *string) bool {
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql")
 		response, err := s.Client.GetConfiguration(context.Background(), request)
 		if err == nil && response.IsFlexible != nil && *response.IsFlexible {
+			return true
+		}
+	}
+	return false
+}
+
+func isNoneManagementPolicy(old, new string, d *schema.ResourceData) bool {
+	fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "management_policy", 0)
+	fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "backup_policy"), 0)
+	kindRaw, ok := d.GetOkExists(fmt.Sprintf(fieldKeyFormatNextLevel, "kind"))
+	if ok {
+		if kindRaw.(string) == "NONE" {
 			return true
 		}
 	}
