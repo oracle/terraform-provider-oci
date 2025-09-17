@@ -13,6 +13,7 @@ const (
 	ResourcePrincipal                     = "ResourcePrincipal"
 	RequestHeaderOpcOboToken              = "opc-obo-token"
 	RequestHeaderOpcHostSerial            = "opc-host-serial"
+	RequestHeaderOpcDryRun                = "opc-dry-run"
 
 	//	HTTPRequestTimeout specifies the maximum duration for completing an HTTP request.
 	HTTPRequestTimeOut    = "HTTP_REQUEST_TIMEOUT"

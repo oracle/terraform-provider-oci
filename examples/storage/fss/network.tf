@@ -6,7 +6,7 @@ resource "oci_core_vcn" "my_vcn" {
   compartment_id = var.compartment_ocid
   display_name   = "myvcn"
   dns_label      = "myvcn"
-  is_ipv6enabled = true
+ // is_ipv6enabled = true
 }
 
 resource "oci_core_internet_gateway" "my_internet_gateway" {
@@ -39,7 +39,7 @@ resource "oci_core_subnet" "my_subnet" {
   route_table_id      = oci_core_route_table.my_route_table.id
 }
 
-resource "oci_core_subnet" "my_subnet1" {
+/*resource "oci_core_subnet" "my_subnet1" {
   depends_on          = [oci_core_network_security_group.test_network_security_group]
   availability_domain = data.oci_identity_availability_domain.ad.name
   cidr_block          = var.my_subnet1_cidr
@@ -50,7 +50,7 @@ resource "oci_core_subnet" "my_subnet1" {
   security_list_ids   = [oci_core_security_list.my_security_list.id]
   route_table_id      = oci_core_route_table.my_route_table.id
   ipv6cidr_blocks = ["${substr(oci_core_vcn.my_vcn.ipv6cidr_blocks[0], 0, length(oci_core_vcn.my_vcn.ipv6cidr_blocks[0]) - 2)}${64}"]
-}
+}*/
 
 resource "oci_core_network_security_group" "test_network_security_group" {
   #Required

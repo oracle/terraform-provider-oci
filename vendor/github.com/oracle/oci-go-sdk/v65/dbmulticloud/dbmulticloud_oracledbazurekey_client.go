@@ -158,7 +158,7 @@ func (client OracleDbAzureKeyClient) getOracleDbAzureKey(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureKey/GetOracleDbAzureKey"
 		err = common.PostProcessServiceError(err, "OracleDbAzureKey", "GetOracleDbAzureKey", apiReferenceLink)
 		return response, err
 	}
@@ -216,7 +216,7 @@ func (client OracleDbAzureKeyClient) listOracleDbAzureKeys(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureKey/ListOracleDbAzureKeys"
 		err = common.PostProcessServiceError(err, "OracleDbAzureKey", "ListOracleDbAzureKeys", apiReferenceLink)
 		return response, err
 	}

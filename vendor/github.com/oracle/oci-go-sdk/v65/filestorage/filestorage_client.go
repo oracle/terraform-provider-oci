@@ -68,7 +68,7 @@ func newFileStorageClientFromBaseClient(baseClient common.BaseClient, configProv
 
 // SetRegion overrides the region of this client.
 func (client *FileStorageClient) SetRegion(region string) {
-	client.Host, _ = common.StringToRegion(region).EndpointForTemplateDottedRegion("filestorage", "https://filestorage.{region}.{dualStack?ds.:}oci.{secondLevelDomain}", "filestorage")
+	client.Host, _ = common.StringToRegion(region).EndpointForTemplateDottedRegion("filestorage", "https://filestorage.{region}.{secondLevelDomain}", "filestorage")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid

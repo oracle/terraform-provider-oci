@@ -37,7 +37,7 @@ The following attributes are exported:
 * `additional_storage_count` - The requested number of additional storage servers for the Exadata infrastructure.
 * `availability_domain` - The name of the availability domain that the cloud Exadata infrastructure resource is located in.
 * `available_storage_size_in_gbs` - The available storage can be allocated to the cloud Exadata infrastructure resource, in gigabytes (GB).
-* `cluster_placement_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster placement group of the Exadata Infrastructure.
+* `cluster_placement_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster placement group of the Exadata Infrastructure or Db System.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `compute_count` - The number of compute servers for the cloud Exadata infrastructure.
 * `compute_model` - The compute model of the Exadata infrastructure.
