@@ -138,6 +138,12 @@ type CreateDataGuardAssociationWithNewDbSystemDetails struct {
 
 	DataCollectionOptions *DataCollectionOptions `mandatory:"false" json:"dataCollectionOptions"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster placement group of the Exadata Infrastructure or Db System.
+	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
+	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
+
 	// The block storage volume performance level. Valid values are `BALANCED` and `HIGH_PERFORMANCE`. See Block Volume Performance (https://docs.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm) for more information.
 	StorageVolumePerformanceMode CreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum `mandatory:"false" json:"storageVolumePerformanceMode,omitempty"`
 
@@ -281,6 +287,8 @@ func (m *CreateDataGuardAssociationWithNewDbSystemDetails) UnmarshalJSON(data []
 		DatabaseFreeformTags               map[string]string                                                                `json:"databaseFreeformTags"`
 		DatabaseDefinedTags                map[string]map[string]interface{}                                                `json:"databaseDefinedTags"`
 		DataCollectionOptions              *DataCollectionOptions                                                           `json:"dataCollectionOptions"`
+		ClusterPlacementGroupId            *string                                                                          `json:"clusterPlacementGroupId"`
+		SubscriptionId                     *string                                                                          `json:"subscriptionId"`
 		DatabaseAdminPassword              *string                                                                          `json:"databaseAdminPassword"`
 		ProtectionMode                     CreateDataGuardAssociationDetailsProtectionModeEnum                              `json:"protectionMode"`
 		TransportType                      CreateDataGuardAssociationDetailsTransportTypeEnum                               `json:"transportType"`
@@ -356,6 +364,10 @@ func (m *CreateDataGuardAssociationWithNewDbSystemDetails) UnmarshalJSON(data []
 	m.DatabaseDefinedTags = model.DatabaseDefinedTags
 
 	m.DataCollectionOptions = model.DataCollectionOptions
+
+	m.ClusterPlacementGroupId = model.ClusterPlacementGroupId
+
+	m.SubscriptionId = model.SubscriptionId
 
 	m.DatabaseAdminPassword = model.DatabaseAdminPassword
 
