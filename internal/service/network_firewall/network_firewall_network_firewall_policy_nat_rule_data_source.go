@@ -94,6 +94,7 @@ func (s *NetworkFirewallNetworkFirewallPolicyNatRuleDataSourceCrud) SetData() er
 
 		if v.Name != nil {
 			s.D.Set("name", *v.Name)
+			s.D.Set("nat_rule_name", *v.Name)
 		}
 
 		if v.ParentResourceId != nil {

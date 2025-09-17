@@ -486,6 +486,9 @@ type AutonomousDwDatabase struct {
 
 	// A list of the source Autonomous Database's table space number(s) used to create this partial clone from the backup.
 	CloneTableSpaceList []int `mandatory:"false" json:"cloneTableSpaceList"`
+
+	// The Autonomous Database clone type.
+	CloneType AutonomousDwDatabaseCloneTypeEnum `mandatory:"false" json:"cloneType,omitempty"`
 }
 
 func (m AutonomousDwDatabase) String() string {
@@ -554,6 +557,9 @@ func (m AutonomousDwDatabase) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingAutonomousDwDatabaseNetServicesArchitectureEnum(string(m.NetServicesArchitecture)); !ok && m.NetServicesArchitecture != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NetServicesArchitecture: %s. Supported values are: %s.", m.NetServicesArchitecture, strings.Join(GetAutonomousDwDatabaseNetServicesArchitectureEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingAutonomousDwDatabaseCloneTypeEnum(string(m.CloneType)); !ok && m.CloneType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CloneType: %s. Supported values are: %s.", m.CloneType, strings.Join(GetAutonomousDwDatabaseCloneTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -689,6 +695,7 @@ func (m *AutonomousDwDatabase) UnmarshalJSON(data []byte) (e error) {
 		AvailabilityDomain                      *string                                                   `json:"availabilityDomain"`
 		ClusterPlacementGroupId                 *string                                                   `json:"clusterPlacementGroupId"`
 		CloneTableSpaceList                     []int                                                     `json:"cloneTableSpaceList"`
+		CloneType                               AutonomousDwDatabaseCloneTypeEnum                         `json:"cloneType"`
 		Id                                      *string                                                   `json:"id"`
 		CompartmentId                           *string                                                   `json:"compartmentId"`
 		LifecycleState                          AutonomousDwDatabaseLifecycleStateEnum                    `json:"lifecycleState"`
@@ -959,6 +966,8 @@ func (m *AutonomousDwDatabase) UnmarshalJSON(data []byte) (e error) {
 
 	m.CloneTableSpaceList = make([]int, len(model.CloneTableSpaceList))
 	copy(m.CloneTableSpaceList, model.CloneTableSpaceList)
+	m.CloneType = model.CloneType
+
 	m.Id = model.Id
 
 	m.CompartmentId = model.CompartmentId
@@ -1865,5 +1874,51 @@ func GetAutonomousDwDatabaseNetServicesArchitectureEnumStringValues() []string {
 // GetMappingAutonomousDwDatabaseNetServicesArchitectureEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingAutonomousDwDatabaseNetServicesArchitectureEnum(val string) (AutonomousDwDatabaseNetServicesArchitectureEnum, bool) {
 	enum, ok := mappingAutonomousDwDatabaseNetServicesArchitectureEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// AutonomousDwDatabaseCloneTypeEnum Enum with underlying type: string
+type AutonomousDwDatabaseCloneTypeEnum string
+
+// Set of constants representing the allowable values for AutonomousDwDatabaseCloneTypeEnum
+const (
+	AutonomousDwDatabaseCloneTypeFull     AutonomousDwDatabaseCloneTypeEnum = "FULL"
+	AutonomousDwDatabaseCloneTypeMetadata AutonomousDwDatabaseCloneTypeEnum = "METADATA"
+	AutonomousDwDatabaseCloneTypePartial  AutonomousDwDatabaseCloneTypeEnum = "PARTIAL"
+)
+
+var mappingAutonomousDwDatabaseCloneTypeEnum = map[string]AutonomousDwDatabaseCloneTypeEnum{
+	"FULL":     AutonomousDwDatabaseCloneTypeFull,
+	"METADATA": AutonomousDwDatabaseCloneTypeMetadata,
+	"PARTIAL":  AutonomousDwDatabaseCloneTypePartial,
+}
+
+var mappingAutonomousDwDatabaseCloneTypeEnumLowerCase = map[string]AutonomousDwDatabaseCloneTypeEnum{
+	"full":     AutonomousDwDatabaseCloneTypeFull,
+	"metadata": AutonomousDwDatabaseCloneTypeMetadata,
+	"partial":  AutonomousDwDatabaseCloneTypePartial,
+}
+
+// GetAutonomousDwDatabaseCloneTypeEnumValues Enumerates the set of values for AutonomousDwDatabaseCloneTypeEnum
+func GetAutonomousDwDatabaseCloneTypeEnumValues() []AutonomousDwDatabaseCloneTypeEnum {
+	values := make([]AutonomousDwDatabaseCloneTypeEnum, 0)
+	for _, v := range mappingAutonomousDwDatabaseCloneTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetAutonomousDwDatabaseCloneTypeEnumStringValues Enumerates the set of values in String for AutonomousDwDatabaseCloneTypeEnum
+func GetAutonomousDwDatabaseCloneTypeEnumStringValues() []string {
+	return []string{
+		"FULL",
+		"METADATA",
+		"PARTIAL",
+	}
+}
+
+// GetMappingAutonomousDwDatabaseCloneTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingAutonomousDwDatabaseCloneTypeEnum(val string) (AutonomousDwDatabaseCloneTypeEnum, bool) {
+	enum, ok := mappingAutonomousDwDatabaseCloneTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

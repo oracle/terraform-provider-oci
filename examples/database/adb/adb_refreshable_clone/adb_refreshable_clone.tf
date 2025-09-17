@@ -40,6 +40,20 @@ resource "oci_database_autonomous_database" "test_autonomous_database_source" {
   license_model            = "LICENSE_INCLUDED"
 }
 
+resource "oci_database_autonomous_database" "test_autonomous_ecpu_database_source" {
+  admin_password           = "BEstrO0ng_#11"
+  compartment_id           = var.compartment_id
+  compute_count          = "4"
+  compute_model           = "ECPU"
+  data_storage_size_in_tbs = "1"
+  db_name                  = "rcB8w9HgKux1tty"
+  db_version               = "19c"
+  db_workload              = "OLTP"
+  display_name             = "regular_source"
+  is_dedicated             = "false"
+  license_model            = "LICENSE_INCLUDED"
+}
+
 resource "oci_database_autonomous_database" "test_autonomous_database_refreshable_clone_manual" {
   compartment_id           = var.compartment_id
   db_name                  = "bjfjkXw4ZutTt2"
@@ -69,6 +83,21 @@ resource "oci_database_autonomous_database" "test_autonomous_database_refreshabl
   source_id                                      = oci_database_autonomous_database.test_autonomous_database_source.id
 }
 
+resource "oci_database_autonomous_database" "test_autonomous_database_refreshable_clone_metadata" {
+  compartment_id           = var.compartment_id
+  db_name                  = "bjfjkXw4ZutTttry"
+  compute_count           = "4"
+  compute_model           = "ECPU"
+  data_storage_size_in_tbs = "1"
+  is_dedicated             = "false"
+  is_refreshable_clone     = "true"
+  license_model            = "LICENSE_INCLUDED"
+  refreshable_mode         = "MANUAL"
+  source                   = "CLONE_TO_REFRESHABLE"
+  clone_type               = "METADATA"
+  source_id                = oci_database_autonomous_database.test_autonomous_ecpu_database_source.id
+}
+
 data "oci_database_autonomous_database" "oci_database_autonomous_database_manual" {
   autonomous_database_id = oci_database_autonomous_database.test_autonomous_database_refreshable_clone_manual.id
 }
@@ -79,6 +108,15 @@ data "oci_database_autonomous_databases" "oci_database_autonomous_databases_manu
   filter {
     name   = "id"
     values = [oci_database_autonomous_database.test_autonomous_database_refreshable_clone_manual.id]
+  }
+}
+
+data "oci_database_autonomous_databases" "oci_database_autonomous_databases_metadata" {
+  compartment_id = var.compartment_id
+
+  filter {
+    name   = "id"
+    values = [oci_database_autonomous_database.test_autonomous_database_refreshable_clone_metadata.id]
   }
 }
 
@@ -101,4 +139,8 @@ data "oci_database_autonomous_databases" "oci_database_autonomous_databases_auto
 
 output "autonomous_database_refreshable_clone_automatic" {
   value = data.oci_database_autonomous_databases.oci_database_autonomous_databases_automatic.autonomous_databases
+}
+
+output "autonomous_database_refreshable_clone_metadata" {
+  value = data.oci_database_autonomous_databases.oci_database_autonomous_databases_metadata.autonomous_databases
 }

@@ -110,11 +110,7 @@ The following arguments are supported:
 
 	Note:
 
-	If the IP address is IPv4, this attribute value is stored in the [PrivateIp](https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/PrivateIp/) resource, not in the `mountTarget` resource. To update the `hostnameLabel`, use `GetMountTarget` to obtain the [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the mount target's private IPs (`privateIpIds`). Then, you can use [UpdatePrivateIp](https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/PrivateIp/UpdatePrivateIp) to update the `hostnameLabel` value.
-
-	If the IP address is IPv6, it is stored in the [Ipv6] (https://docs.oracle.com/en-us/iaas/api/#/en/iaas/20160918/Ipv6) resource To update the `hostnameLabel`, use `GetMountTarget` to obtain the [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the mount target's IPv6 address (`mountTargetIpv6Ids`). Then, you can use [UpdateIpv6](https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/Ipv6/UpdateIpv6) to update the `hostnameLabel` value.
-
-	For more information, see [DNS in Your Virtual Cloud Network](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm).
+	This attribute value is stored in the [PrivateIp](https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/PrivateIp/) resource, not in the `mountTarget` resource. To update the `hostnameLabel`, use `GetMountTarget` to obtain the [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the mount target's private IPs (`privateIpIds`). Then, you can use [UpdatePrivateIp](https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/PrivateIp/UpdatePrivateIp) to update the `hostnameLabel` value. For more information, see [DNS in Your Virtual Cloud Network](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm).
 
 	Example: `files-1` 
 * `idmap_type` - (Optional) (Updatable) The method used to map a Unix UID to secondary groups, if any.
@@ -181,7 +177,6 @@ The following attributes are exported:
 	* `related_resource_id` - The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 
 	* `time_created` - When the lock was created.
 	* `type` - Type of the lock.
-* `mount_target_ipv6ids` - The OCIDs of the IPv6 addresses associated with this mount target.
 * `nsg_ids` - A list of Network Security Group [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with this mount target. A maximum of 5 is allowed. Setting this to an empty array after the list is created removes the mount target from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). 
 * `observed_throughput` - Current billed throughput for mount target in Gbps. This corresponds to shape of mount target. Available shapes and corresponding throughput are listed at [Mount Target Performance](https://docs.oracle.com/iaas/Content/File/Tasks/managingmounttargets.htm#performance). 
 * `private_ip_ids` - The OCIDs of the private IP addresses associated with this mount target.
