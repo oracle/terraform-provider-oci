@@ -365,11 +365,11 @@ func init() {
 	if common.CheckForEnabledServices("logging") {
 		tf_logging.RegisterDatasource()
 	}
-	if common.CheckForEnabledServices("managedkafka") {
-		tf_managed_kafka.RegisterDatasource()
-	}
 	if common.CheckForEnabledServices("lustrefilestorage") {
 		tf_lustre_file_storage.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("managedkafka") {
+		tf_managed_kafka.RegisterDatasource()
 	}
 	if common.CheckForEnabledServices("managementagent") {
 		tf_management_agent.RegisterDatasource()

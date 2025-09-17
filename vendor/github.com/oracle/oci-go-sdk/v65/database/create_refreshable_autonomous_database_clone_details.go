@@ -253,6 +253,9 @@ type CreateRefreshableAutonomousDatabaseCloneDetails struct {
 	// This cannot be updated in parallel with any of the following: cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
 	OpenMode CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum `mandatory:"false" json:"openMode,omitempty"`
 
+	// The Autonomous Database clone type.
+	CloneType CreateRefreshableAutonomousDatabaseCloneDetailsCloneTypeEnum `mandatory:"false" json:"cloneType,omitempty"`
+
 	// The Oracle Database Edition that applies to the Autonomous databases. This parameter accepts options `STANDARD_EDITION` and `ENTERPRISE_EDITION`.
 	DatabaseEdition AutonomousDatabaseSummaryDatabaseEditionEnum `mandatory:"false" json:"databaseEdition,omitempty"`
 
@@ -559,6 +562,9 @@ func (m CreateRefreshableAutonomousDatabaseCloneDetails) ValidateEnumValue() (bo
 	if _, ok := GetMappingCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum(string(m.OpenMode)); !ok && m.OpenMode != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OpenMode: %s. Supported values are: %s.", m.OpenMode, strings.Join(GetCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingCreateRefreshableAutonomousDatabaseCloneDetailsCloneTypeEnum(string(m.CloneType)); !ok && m.CloneType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CloneType: %s. Supported values are: %s.", m.CloneType, strings.Join(GetCreateRefreshableAutonomousDatabaseCloneDetailsCloneTypeEnumStringValues(), ",")))
+	}
 
 	if _, ok := GetMappingAutonomousDatabaseSummaryDatabaseEditionEnum(string(m.DatabaseEdition)); !ok && m.DatabaseEdition != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseEdition: %s. Supported values are: %s.", m.DatabaseEdition, strings.Join(GetAutonomousDatabaseSummaryDatabaseEditionEnumStringValues(), ",")))
@@ -655,6 +661,7 @@ func (m *CreateRefreshableAutonomousDatabaseCloneDetails) UnmarshalJSON(data []b
 		AutoRefreshPointLagInSeconds             *int                                                               `json:"autoRefreshPointLagInSeconds"`
 		TimeOfAutoRefreshStart                   *common.SDKTime                                                    `json:"timeOfAutoRefreshStart"`
 		OpenMode                                 CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum        `json:"openMode"`
+		CloneType                                CreateRefreshableAutonomousDatabaseCloneDetailsCloneTypeEnum       `json:"cloneType"`
 		CompartmentId                            *string                                                            `json:"compartmentId"`
 		SourceId                                 *string                                                            `json:"sourceId"`
 	}{}
@@ -786,6 +793,8 @@ func (m *CreateRefreshableAutonomousDatabaseCloneDetails) UnmarshalJSON(data []b
 
 	m.OpenMode = model.OpenMode
 
+	m.CloneType = model.CloneType
+
 	m.CompartmentId = model.CompartmentId
 
 	m.SourceId = model.SourceId
@@ -874,5 +883,51 @@ func GetCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnumStringValues(
 // GetMappingCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum(val string) (CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum, bool) {
 	enum, ok := mappingCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// CreateRefreshableAutonomousDatabaseCloneDetailsCloneTypeEnum Enum with underlying type: string
+type CreateRefreshableAutonomousDatabaseCloneDetailsCloneTypeEnum string
+
+// Set of constants representing the allowable values for CreateRefreshableAutonomousDatabaseCloneDetailsCloneTypeEnum
+const (
+	CreateRefreshableAutonomousDatabaseCloneDetailsCloneTypeFull     CreateRefreshableAutonomousDatabaseCloneDetailsCloneTypeEnum = "FULL"
+	CreateRefreshableAutonomousDatabaseCloneDetailsCloneTypeMetadata CreateRefreshableAutonomousDatabaseCloneDetailsCloneTypeEnum = "METADATA"
+	CreateRefreshableAutonomousDatabaseCloneDetailsCloneTypePartial  CreateRefreshableAutonomousDatabaseCloneDetailsCloneTypeEnum = "PARTIAL"
+)
+
+var mappingCreateRefreshableAutonomousDatabaseCloneDetailsCloneTypeEnum = map[string]CreateRefreshableAutonomousDatabaseCloneDetailsCloneTypeEnum{
+	"FULL":     CreateRefreshableAutonomousDatabaseCloneDetailsCloneTypeFull,
+	"METADATA": CreateRefreshableAutonomousDatabaseCloneDetailsCloneTypeMetadata,
+	"PARTIAL":  CreateRefreshableAutonomousDatabaseCloneDetailsCloneTypePartial,
+}
+
+var mappingCreateRefreshableAutonomousDatabaseCloneDetailsCloneTypeEnumLowerCase = map[string]CreateRefreshableAutonomousDatabaseCloneDetailsCloneTypeEnum{
+	"full":     CreateRefreshableAutonomousDatabaseCloneDetailsCloneTypeFull,
+	"metadata": CreateRefreshableAutonomousDatabaseCloneDetailsCloneTypeMetadata,
+	"partial":  CreateRefreshableAutonomousDatabaseCloneDetailsCloneTypePartial,
+}
+
+// GetCreateRefreshableAutonomousDatabaseCloneDetailsCloneTypeEnumValues Enumerates the set of values for CreateRefreshableAutonomousDatabaseCloneDetailsCloneTypeEnum
+func GetCreateRefreshableAutonomousDatabaseCloneDetailsCloneTypeEnumValues() []CreateRefreshableAutonomousDatabaseCloneDetailsCloneTypeEnum {
+	values := make([]CreateRefreshableAutonomousDatabaseCloneDetailsCloneTypeEnum, 0)
+	for _, v := range mappingCreateRefreshableAutonomousDatabaseCloneDetailsCloneTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateRefreshableAutonomousDatabaseCloneDetailsCloneTypeEnumStringValues Enumerates the set of values in String for CreateRefreshableAutonomousDatabaseCloneDetailsCloneTypeEnum
+func GetCreateRefreshableAutonomousDatabaseCloneDetailsCloneTypeEnumStringValues() []string {
+	return []string{
+		"FULL",
+		"METADATA",
+		"PARTIAL",
+	}
+}
+
+// GetMappingCreateRefreshableAutonomousDatabaseCloneDetailsCloneTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateRefreshableAutonomousDatabaseCloneDetailsCloneTypeEnum(val string) (CreateRefreshableAutonomousDatabaseCloneDetailsCloneTypeEnum, bool) {
+	enum, ok := mappingCreateRefreshableAutonomousDatabaseCloneDetailsCloneTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

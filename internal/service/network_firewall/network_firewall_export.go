@@ -127,22 +127,35 @@ func getNetworkFirewallNetworkFirewallPolicyDecryptionProfileId(resource *tf_exp
 }
 
 func getNetworkFirewallNetworkFirewallPolicyTunnelInspectionRuleId(resource *tf_export.OCIResource) (string, error) {
-
 	networkFirewallPolicyId := resource.Parent.Id
-	tunnelInspectionRuleName, ok := resource.SourceAttributes["tunnel_inspection_rule_name"].(string)
-	if !ok {
+	// Try to get rule name from "name"
+	var tunnelInspectionRuleName string
+	if val, ok := resource.SourceAttributes["name"].(string); ok && val != "" {
+		tunnelInspectionRuleName = val
+	} else if val, ok := resource.SourceAttributes["tunnel_inspection_rule_name"].(string); ok && val != "" {
+		// Fallback for backward compatibility
+		tunnelInspectionRuleName = val
+	} else {
 		return "", fmt.Errorf("[ERROR] unable to find tunnelInspectionRuleName for NetworkFirewall NetworkFirewallPolicyTunnelInspectionRule")
 	}
+
 	return GetNetworkFirewallPolicyTunnelInspectionRuleCompositeId(networkFirewallPolicyId, tunnelInspectionRuleName), nil
 }
 
 func getNetworkFirewallNetworkFirewallPolicyNatRuleId(resource *tf_export.OCIResource) (string, error) {
+	networkFirewallPolicyId := resource.Parent.Id
 
-	natRuleName, ok := resource.SourceAttributes["nat_rule_name"].(string)
-	if !ok {
+	// Try to get NAT rule name
+	var natRuleName string
+	if val, ok := resource.SourceAttributes["name"].(string); ok && val != "" {
+		natRuleName = val
+	} else if val, ok := resource.SourceAttributes["nat_rule_name"].(string); ok && val != "" {
+		// Fallback for backward compatibility
+		natRuleName = val
+	} else {
 		return "", fmt.Errorf("[ERROR] unable to find natRuleName for NetworkFirewall NetworkFirewallPolicyNatRule")
 	}
-	networkFirewallPolicyId := resource.Parent.Id
+
 	return GetNetworkFirewallPolicyNatRuleCompositeId(natRuleName, networkFirewallPolicyId), nil
 }
 
