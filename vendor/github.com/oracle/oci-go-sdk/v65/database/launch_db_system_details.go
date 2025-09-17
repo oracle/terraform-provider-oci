@@ -152,6 +152,12 @@ type LaunchDbSystemDetails struct {
 	// If you don't specify a value and the subnet is dual stack, Oracle automatically assigns a private IPv6 address from the subnet.
 	PrivateIpV6 *string `mandatory:"false" json:"privateIpV6"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster placement group of the Exadata Infrastructure or Db System.
+	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
+	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
+
 	DataCollectionOptions *DataCollectionOptions `mandatory:"false" json:"dataCollectionOptions"`
 
 	// The number of compute servers for the DB system.
@@ -316,6 +322,16 @@ func (m LaunchDbSystemDetails) GetPrivateIp() *string {
 // GetPrivateIpV6 returns PrivateIpV6
 func (m LaunchDbSystemDetails) GetPrivateIpV6() *string {
 	return m.PrivateIpV6
+}
+
+// GetClusterPlacementGroupId returns ClusterPlacementGroupId
+func (m LaunchDbSystemDetails) GetClusterPlacementGroupId() *string {
+	return m.ClusterPlacementGroupId
+}
+
+// GetSubscriptionId returns SubscriptionId
+func (m LaunchDbSystemDetails) GetSubscriptionId() *string {
+	return m.SubscriptionId
 }
 
 // GetDataCollectionOptions returns DataCollectionOptions

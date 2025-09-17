@@ -11,17 +11,18 @@ import (
 	"strings"
 )
 
-// LaunchDbSystemRequest wrapper for the LaunchDbSystem operation
+// ChangeCloudDbSystemSubscriptionRequest wrapper for the ChangeCloudDbSystemSubscription operation
 //
 // # See also
 //
-// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/LaunchDbSystem.go.html to see an example of how to use LaunchDbSystemRequest.
-type LaunchDbSystemRequest struct {
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ChangeCloudDbSystemSubscription.go.html to see an example of how to use ChangeCloudDbSystemSubscriptionRequest.
+type ChangeCloudDbSystemSubscriptionRequest struct {
 
-	// Request to launch a DB system.
-	// **Note:** Deprecated for Exadata Cloud Service systems. Use the new resource model APIs (https://docs.oracle.com/iaas/Content/Database/Concepts/exaflexsystem.htm#exaflexsystem_topic-resource_model) instead.
-	// For Exadata Cloud Service instances, support for this API will end on May 15th, 2021. See Switching an Exadata DB System to the New Resource Model and APIs (https://docs.oracle.com/iaas/Content/Database/Concepts/exaflexsystem_topic-resource_model_conversion.htm) for details on converting existing Exadata DB systems to the new resource model.
-	LaunchDbSystemDetails LaunchDbSystemBase `contributesTo:"body"`
+	// Associate a cloud DB system with a different subscription.
+	ChangeCloudDbSystemSubscriptionDetails `contributesTo:"body"`
+
+	// The DB system OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	DbSystemId *string `mandatory:"true" contributesTo:"path" name:"dbSystemId"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
 	// server error without risk of executing that same action again. Retry tokens expire after 24
@@ -30,25 +31,25 @@ type LaunchDbSystemRequest struct {
 	// may be rejected).
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
-	// Indicates that the request is a dry run, if set to "true". A dry run request does not actually
-	// creating or updating a resource and is used only to perform validation on the submitted data.
-	OpcDryRun *bool `mandatory:"false" contributesTo:"header" name:"opc-dry-run"`
-
-	// Unique Oracle-assigned identifier for the request.
-	// If you need to contact Oracle about a particular request, please provide the request ID.
+	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+
+	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
+	// parameter to the value of the etag from a previous GET or POST response for that resource.  The resource
+	// will be updated or deleted only if the etag you provide matches the resource's current etag value.
+	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
 }
 
-func (request LaunchDbSystemRequest) String() string {
+func (request ChangeCloudDbSystemSubscriptionRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request LaunchDbSystemRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request ChangeCloudDbSystemSubscriptionRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -58,21 +59,21 @@ func (request LaunchDbSystemRequest) HTTPRequest(method, path string, binaryRequ
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request LaunchDbSystemRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request ChangeCloudDbSystemSubscriptionRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request LaunchDbSystemRequest) RetryPolicy() *common.RetryPolicy {
+func (request ChangeCloudDbSystemSubscriptionRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request LaunchDbSystemRequest) ValidateEnumValue() (bool, error) {
+func (request ChangeCloudDbSystemSubscriptionRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -80,31 +81,25 @@ func (request LaunchDbSystemRequest) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
-// LaunchDbSystemResponse wrapper for the LaunchDbSystem operation
-type LaunchDbSystemResponse struct {
+// ChangeCloudDbSystemSubscriptionResponse wrapper for the ChangeCloudDbSystemSubscription operation
+type ChangeCloudDbSystemSubscriptionResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The DbSystem instance
-	DbSystem `presentIn:"body"`
-
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
-
-	// For optimistic concurrency control. See `if-match`.
-	Etag *string `presentIn:"header" name:"etag"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
 	// a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
-func (response LaunchDbSystemResponse) String() string {
+func (response ChangeCloudDbSystemSubscriptionResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response LaunchDbSystemResponse) HTTPResponse() *http.Response {
+func (response ChangeCloudDbSystemSubscriptionResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }
