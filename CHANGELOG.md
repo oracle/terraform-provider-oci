@@ -1,3 +1,17 @@
+## 7.19.0 (September 17, 2025)
+
+### Added
+- Support for BaseDB@Partner Clouds- DBAAS Support
+- Ensure that WR does not error out if there are no work request errors
+- Support for ADB-S: Refreshable Metadata Clones
+
+### Deprecation
+- Support for IPv6 for OCI FSS
+
+### Bug Fix
+- Fixing tunnel inspection and nat rules names for herds reset export resources failure.
+- display name causing update issue
+
 ## 7.18.0 (September 10, 2025)
 
 ### Added

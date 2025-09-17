@@ -90,6 +90,12 @@ func DatabaseDataGuardAssociationResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"cluster_placement_group_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"compute_count": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -278,6 +284,12 @@ func DatabaseDataGuardAssociationResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"subnet_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"subscription_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -764,6 +776,10 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 			tmp := cpuCoreCount.(int)
 			details.CpuCoreCount = &tmp
 		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
 		if databaseDefinedTags, ok := s.D.GetOkExists("database_defined_tags"); ok {
 			convertedDefinedTags, err := tfresource.MapToDefinedTags(databaseDefinedTags.(map[string]interface{}))
 			if err != nil {
@@ -863,6 +879,10 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
 		}
 		if timeZone, ok := s.D.GetOkExists("time_zone"); ok {
 			tmp := timeZone.(string)
