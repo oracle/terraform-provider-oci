@@ -17,7 +17,7 @@ type ListAutonomousDatabaseCharacterSetsRequest struct {
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// Specifies if the request is for an Autonomous Database Dedicated instance. The default request is for an Autonomous Database Dedicated instance.
+	// Specifies if the request is for an Autonomous AI Database Dedicated instance. The default request is for an Autonomous AI Database Dedicated instance.
 	IsDedicated *bool `mandatory:"false" contributesTo:"query" name:"isDedicated"`
 
 	// Specifies whether this request pertains to database character sets or national character sets.

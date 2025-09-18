@@ -33,7 +33,7 @@ type ListUnifiedAgentConfigurationsRequest struct {
 	// Lifecycle state of the log object
 	LifecycleState ListUnifiedAgentConfigurationsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// The maximum number of items to return in a paginated "List" call.
+	// When setting the page limit, specifies the maximum number of unfiltered records that can be fetched from the data store in one request. Filtering happens after the records are retrieved. Subsequent pages might include results that match the query criteria.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// For list pagination. The value of the `opc-next-page` or `opc-previous-page` response header from the previous "List" call.

@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// ImportTransportableTablespaceDetails Details for importing transportable tablespace for an Autonomous Database.
+// ImportTransportableTablespaceDetails Details for importing transportable tablespace for an Autonomous AI Database.
 type ImportTransportableTablespaceDetails struct {
 
 	// URL for OCI Storage location for a Transportable Tablespace (TTS) bundle.

@@ -52,6 +52,10 @@ func (m *logpipelinefunction) UnmarshalPolymorphicJSON(data []byte) (interface{}
 
 	var err error
 	switch m.FunctionType {
+	case "UNROLL":
+		mm := LogPipelineFunctionUnroll{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "FILTER":
 		mm := LogPipelineFunctionFilter{}
 		err = json.Unmarshal(data, &mm)

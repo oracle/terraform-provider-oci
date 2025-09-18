@@ -92,6 +92,11 @@ type GoldenGateConnectionSummary struct {
 	// subscription id is provided. Otherwise the cluster placement group must not be provided.
 	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
 
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the deployment being referenced.
 	DeploymentId *string `mandatory:"false" json:"deploymentId"`
 
@@ -234,6 +239,11 @@ func (m GoldenGateConnectionSummary) GetSubscriptionId() *string {
 // GetClusterPlacementGroupId returns ClusterPlacementGroupId
 func (m GoldenGateConnectionSummary) GetClusterPlacementGroupId() *string {
 	return m.ClusterPlacementGroupId
+}
+
+// GetSecurityAttributes returns SecurityAttributes
+func (m GoldenGateConnectionSummary) GetSecurityAttributes() map[string]map[string]interface{} {
+	return m.SecurityAttributes
 }
 
 func (m GoldenGateConnectionSummary) String() string {

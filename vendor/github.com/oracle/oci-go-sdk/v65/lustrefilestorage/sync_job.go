@@ -58,17 +58,6 @@ type SyncJob struct {
 	// Count of files or objects that failed to export or import due to errors.
 	SkippedErrorCount *int64 `mandatory:"true" json:"skippedErrorCount"`
 
-	// Count of files or objects that failed to export or import due to being identical on both source and target.
-	// No action was needed for these objects.
-	SkippedNoActionCount *int64 `mandatory:"true" json:"skippedNoActionCount"`
-
-	// Count of files or objects skipped during transfer because `isOverwrite` was false.
-	// This value will be zero when `isOverwrite` is true.
-	SkippedOverwriteCount *int64 `mandatory:"true" json:"skippedOverwriteCount"`
-
-	// Count of files or objects overwritten during transfer because `isOverwrite` was true.
-	OverwriteObjectCount *int64 `mandatory:"true" json:"overwriteObjectCount"`
-
 	// The date and time the job was started, expressed in
 	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339) timestamp format.
 	// Example: `2020-07-25T21:10:29.600Z`

@@ -14,7 +14,7 @@ import (
 // ChangeAutonomousDatabaseSubscriptionRequest wrapper for the ChangeAutonomousDatabaseSubscription operation
 type ChangeAutonomousDatabaseSubscriptionRequest struct {
 
-	// Associate an Autonomous Database with a different subscription.
+	// Associate an Autonomous AI Database with a different subscription.
 	ChangeAutonomousDatabaseSubscriptionDetails `contributesTo:"body"`
 
 	// The database OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).

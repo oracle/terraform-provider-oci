@@ -2,38 +2,53 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// File Storage with Lustre API
+// Container Instance API
 //
-// Use the File Storage with Lustre API to manage Lustre file systems and related resources. For more information, see File Storage with Lustre (https://docs.oracle.com/iaas/Content/lustre/home.htm).
+// A description of the Container Instance API
 //
 
-package lustrefilestorage
+package containerinstances
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// StartExportToObjectDetails Details about starting an export to Object Storage.
-type StartExportToObjectDetails struct {
+// OciFssExportId The OCID of the OCI File Storage Service (FSS) Export. The user must have read permission for export-sets.
+type OciFssExportId struct {
 
-	// Whether or not overwriting existing files is allowed or not.
-	IsOverwrite *bool `mandatory:"true" json:"isOverwrite"`
+	// The OCID of the OCI File Storage Service (FSS) Export.
+	Id *string `mandatory:"true" json:"id"`
 }
 
-func (m StartExportToObjectDetails) String() string {
+func (m OciFssExportId) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m StartExportToObjectDetails) ValidateEnumValue() (bool, error) {
+func (m OciFssExportId) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// MarshalJSON marshals to json representation
+func (m OciFssExportId) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeOciFssExportId OciFssExportId
+	s := struct {
+		DiscriminatorParam string `json:"ociFssExportType"`
+		MarshalTypeOciFssExportId
+	}{
+		"OCID",
+		(MarshalTypeOciFssExportId)(m),
+	}
+
+	return json.Marshal(&s)
 }

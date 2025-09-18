@@ -28,7 +28,7 @@ type InternalDnsResolverConfig struct {
 	Id *string `mandatory:"true" json:"id"`
 
 	// The EcmpGroup's OCID Oracle ID (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) associated to the given DnsResovler.
-	EcmpGroupId *string `mandatory:"true" json:"ecmpGroupId"`
+	EcmpGroupId *string `mandatory:"false" json:"ecmpGroupId"`
 
 	// The EcmpGroup's OCID Oracle ID (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) associated to the given DnsResovler.
 	VcnId *string `mandatory:"false" json:"vcnId"`
@@ -46,6 +46,9 @@ type InternalDnsResolverConfig struct {
 
 	// Indicates whether the associated VCN is a Substrate Service VCN.
 	IsSubstrateServiceVcn *bool `mandatory:"false" json:"isSubstrateServiceVcn"`
+
+	// The overlayIp associated to the given DnsResovler.
+	DnsOverlayIp *string `mandatory:"false" json:"dnsOverlayIp"`
 }
 
 func (m InternalDnsResolverConfig) String() string {

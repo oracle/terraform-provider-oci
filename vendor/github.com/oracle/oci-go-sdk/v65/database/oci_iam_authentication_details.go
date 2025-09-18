@@ -19,7 +19,7 @@ import (
 // OciIamAuthenticationDetails OCI IAM authentication details.
 type OciIamAuthenticationDetails struct {
 
-	// The database schema of Oracle Autonomous Database.
+	// The database schema of Oracle Autonomous AI Database.
 	DatabaseSchema *string `mandatory:"true" json:"databaseSchema"`
 
 	// External authentication domain name.

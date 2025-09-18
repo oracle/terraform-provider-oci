@@ -57,21 +57,27 @@ type UpdateConnectionDetails interface {
 
 	// Indicates that sensitive attributes are provided via Secrets.
 	GetDoesUseSecretIds() *bool
+
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	GetSecurityAttributes() map[string]map[string]interface{}
 }
 
 type updateconnectiondetails struct {
-	JsonData         []byte
-	DisplayName      *string                           `mandatory:"false" json:"displayName"`
-	Description      *string                           `mandatory:"false" json:"description"`
-	FreeformTags     map[string]string                 `mandatory:"false" json:"freeformTags"`
-	DefinedTags      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-	VaultId          *string                           `mandatory:"false" json:"vaultId"`
-	KeyId            *string                           `mandatory:"false" json:"keyId"`
-	NsgIds           []string                          `mandatory:"false" json:"nsgIds"`
-	SubnetId         *string                           `mandatory:"false" json:"subnetId"`
-	RoutingMethod    RoutingMethodEnum                 `mandatory:"false" json:"routingMethod,omitempty"`
-	DoesUseSecretIds *bool                             `mandatory:"false" json:"doesUseSecretIds"`
-	ConnectionType   string                            `json:"connectionType"`
+	JsonData           []byte
+	DisplayName        *string                           `mandatory:"false" json:"displayName"`
+	Description        *string                           `mandatory:"false" json:"description"`
+	FreeformTags       map[string]string                 `mandatory:"false" json:"freeformTags"`
+	DefinedTags        map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	VaultId            *string                           `mandatory:"false" json:"vaultId"`
+	KeyId              *string                           `mandatory:"false" json:"keyId"`
+	NsgIds             []string                          `mandatory:"false" json:"nsgIds"`
+	SubnetId           *string                           `mandatory:"false" json:"subnetId"`
+	RoutingMethod      RoutingMethodEnum                 `mandatory:"false" json:"routingMethod,omitempty"`
+	DoesUseSecretIds   *bool                             `mandatory:"false" json:"doesUseSecretIds"`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+	ConnectionType     string                            `json:"connectionType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -95,6 +101,7 @@ func (m *updateconnectiondetails) UnmarshalJSON(data []byte) error {
 	m.SubnetId = s.Model.SubnetId
 	m.RoutingMethod = s.Model.RoutingMethod
 	m.DoesUseSecretIds = s.Model.DoesUseSecretIds
+	m.SecurityAttributes = s.Model.SecurityAttributes
 	m.ConnectionType = s.Model.ConnectionType
 
 	return err
@@ -139,6 +146,10 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		return mm, err
 	case "GOOGLE_CLOUD_STORAGE":
 		mm := UpdateGoogleCloudStorageConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ORACLE_AI_DATA_PLATFORM":
+		mm := UpdateOracleAiDataPlatformConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "MICROSOFT_FABRIC":
@@ -275,6 +286,11 @@ func (m updateconnectiondetails) GetRoutingMethod() RoutingMethodEnum {
 // GetDoesUseSecretIds returns DoesUseSecretIds
 func (m updateconnectiondetails) GetDoesUseSecretIds() *bool {
 	return m.DoesUseSecretIds
+}
+
+// GetSecurityAttributes returns SecurityAttributes
+func (m updateconnectiondetails) GetSecurityAttributes() map[string]map[string]interface{} {
+	return m.SecurityAttributes
 }
 
 func (m updateconnectiondetails) String() string {

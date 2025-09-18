@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// GenerateAutonomousDatabaseWalletDetails Details to create and download an Oracle Autonomous Database wallet.
+// GenerateAutonomousDatabaseWalletDetails Details to create and download an Oracle Autonomous AI Database wallet.
 type GenerateAutonomousDatabaseWalletDetails struct {
 
 	// The password to encrypt the keys inside the wallet. The password must be at least 8 characters long and must include at least 1 letter and either 1 numeric character or 1 special character.

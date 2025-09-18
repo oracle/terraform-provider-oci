@@ -632,6 +632,69 @@ func (client IdentityClient) assembleEffectiveTagSet(ctx context.Context, reques
 	return response, err
 }
 
+// AssessCompartmentMove API to assess will a compartment move result in breaching policy statements limit per compartment chain
+// A default retry strategy applies to this operation AssessCompartmentMove()
+func (client IdentityClient) AssessCompartmentMove(ctx context.Context, request AssessCompartmentMoveRequest) (response AssessCompartmentMoveResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.assessCompartmentMove, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AssessCompartmentMoveResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AssessCompartmentMoveResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AssessCompartmentMoveResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AssessCompartmentMoveResponse")
+	}
+	return
+}
+
+// assessCompartmentMove implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) assessCompartmentMove(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/assessCompartmentMove", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(AssessCompartmentMoveRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response AssessCompartmentMoveResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/AssessCompartmentMoveDetails/AssessCompartmentMove"
+		err = common.PostProcessServiceError(err, "Identity", "AssessCompartmentMove", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // BulkDeleteResources Deletes multiple resources in the compartment. All resources must be in the same compartment. You must have the appropriate
 // permissions to delete the resources in the request. This API can only be invoked from the tenancy's
 // home region (https://docs.oracle.com/iaas/Content/Identity/regions/managingregions.htm#Home). This operation creates a

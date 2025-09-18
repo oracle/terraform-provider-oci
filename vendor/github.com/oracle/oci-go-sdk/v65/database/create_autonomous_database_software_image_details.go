@@ -15,16 +15,16 @@ import (
 	"strings"
 )
 
-// CreateAutonomousDatabaseSoftwareImageDetails Parameters for creating a Autonomous Database Software Image
+// CreateAutonomousDatabaseSoftwareImageDetails Parameters for creating a Autonomous AI Database Software Image
 type CreateAutonomousDatabaseSoftwareImageDetails struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The user-friendly name for the Autonomous Database Software Image. The name does not have to be unique.
+	// The user-friendly name for the Autonomous AI Database Software Image. The name does not have to be unique.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The source Autonomous Container Database OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) from which to create Autonomous Database Software Image.
+	// The source Autonomous Container Database OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) from which to create Autonomous AI Database Software Image.
 	SourceCdbId *string `mandatory:"true" json:"sourceCdbId"`
 
 	// To what shape the image is meant for.

@@ -14,10 +14,10 @@ import (
 // ChangeAutonomousDatabaseSoftwareImageCompartmentRequest wrapper for the ChangeAutonomousDatabaseSoftwareImageCompartment operation
 type ChangeAutonomousDatabaseSoftwareImageCompartmentRequest struct {
 
-	// Request to move Autonomous Database Software Image to a different compartment
+	// Request to move Autonomous AI Database Software Image to a different compartment
 	ChangeAutonomousDatabaseSoftwareImageCompartmentDetails `contributesTo:"body"`
 
-	// The Autonomous Database Software Image OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// The Autonomous AI Database Software Image OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	AutonomousDatabaseSoftwareImageId *string `mandatory:"true" contributesTo:"path" name:"autonomousDatabaseSoftwareImageId"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

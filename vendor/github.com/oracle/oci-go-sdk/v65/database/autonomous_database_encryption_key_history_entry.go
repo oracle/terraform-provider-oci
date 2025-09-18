@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// AutonomousDatabaseEncryptionKeyHistoryEntry The Autonomous Database encryption key history entry.
+// AutonomousDatabaseEncryptionKeyHistoryEntry The Autonomous AI Database encryption key history entry.
 type AutonomousDatabaseEncryptionKeyHistoryEntry struct {
 	EncryptionKey AutonomousDatabaseEncryptionKeyDetails `mandatory:"false" json:"encryptionKey"`
 

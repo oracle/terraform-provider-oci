@@ -21,6 +21,14 @@ type InstancePoolModelDeploymentSystemData struct {
 
 	// This value is the current count of the model deployment instances.
 	CurrentInstanceCount *int `mandatory:"false" json:"currentInstanceCount"`
+
+	// The type of the deployed model.
+	ModelType ModelDeploymentModelTypeEnum `mandatory:"false" json:"modelType,omitempty"`
+}
+
+// GetModelType returns ModelType
+func (m InstancePoolModelDeploymentSystemData) GetModelType() ModelDeploymentModelTypeEnum {
+	return m.ModelType
 }
 
 func (m InstancePoolModelDeploymentSystemData) String() string {
@@ -33,6 +41,9 @@ func (m InstancePoolModelDeploymentSystemData) String() string {
 func (m InstancePoolModelDeploymentSystemData) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingModelDeploymentModelTypeEnum(string(m.ModelType)); !ok && m.ModelType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ModelType: %s. Supported values are: %s.", m.ModelType, strings.Join(GetModelDeploymentModelTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

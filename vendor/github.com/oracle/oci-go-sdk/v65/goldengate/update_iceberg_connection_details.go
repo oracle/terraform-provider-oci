@@ -52,6 +52,11 @@ type UpdateIcebergConnectionDetails struct {
 	// Indicates that sensitive attributes are provided via Secrets.
 	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
 	Catalog UpdateIcebergCatalogDetails `mandatory:"false" json:"catalog"`
 
 	Storage UpdateIcebergStorageDetails `mandatory:"false" json:"storage"`
@@ -113,6 +118,11 @@ func (m UpdateIcebergConnectionDetails) GetDoesUseSecretIds() *bool {
 	return m.DoesUseSecretIds
 }
 
+// GetSecurityAttributes returns SecurityAttributes
+func (m UpdateIcebergConnectionDetails) GetSecurityAttributes() map[string]map[string]interface{} {
+	return m.SecurityAttributes
+}
+
 func (m UpdateIcebergConnectionDetails) String() string {
 	return common.PointerString(m)
 }
@@ -149,18 +159,19 @@ func (m UpdateIcebergConnectionDetails) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *UpdateIcebergConnectionDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName      *string                           `json:"displayName"`
-		Description      *string                           `json:"description"`
-		FreeformTags     map[string]string                 `json:"freeformTags"`
-		DefinedTags      map[string]map[string]interface{} `json:"definedTags"`
-		VaultId          *string                           `json:"vaultId"`
-		KeyId            *string                           `json:"keyId"`
-		NsgIds           []string                          `json:"nsgIds"`
-		SubnetId         *string                           `json:"subnetId"`
-		RoutingMethod    RoutingMethodEnum                 `json:"routingMethod"`
-		DoesUseSecretIds *bool                             `json:"doesUseSecretIds"`
-		Catalog          updateicebergcatalogdetails       `json:"catalog"`
-		Storage          updateicebergstoragedetails       `json:"storage"`
+		DisplayName        *string                           `json:"displayName"`
+		Description        *string                           `json:"description"`
+		FreeformTags       map[string]string                 `json:"freeformTags"`
+		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
+		VaultId            *string                           `json:"vaultId"`
+		KeyId              *string                           `json:"keyId"`
+		NsgIds             []string                          `json:"nsgIds"`
+		SubnetId           *string                           `json:"subnetId"`
+		RoutingMethod      RoutingMethodEnum                 `json:"routingMethod"`
+		DoesUseSecretIds   *bool                             `json:"doesUseSecretIds"`
+		SecurityAttributes map[string]map[string]interface{} `json:"securityAttributes"`
+		Catalog            updateicebergcatalogdetails       `json:"catalog"`
+		Storage            updateicebergstoragedetails       `json:"storage"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -187,6 +198,8 @@ func (m *UpdateIcebergConnectionDetails) UnmarshalJSON(data []byte) (e error) {
 	m.RoutingMethod = model.RoutingMethod
 
 	m.DoesUseSecretIds = model.DoesUseSecretIds
+
+	m.SecurityAttributes = model.SecurityAttributes
 
 	nn, e = model.Catalog.UnmarshalPolymorphicJSON(model.Catalog.JsonData)
 	if e != nil {

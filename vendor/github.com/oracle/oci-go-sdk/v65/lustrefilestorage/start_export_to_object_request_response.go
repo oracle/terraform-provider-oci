@@ -17,9 +17,6 @@ type StartExportToObjectRequest struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Object Storage link.
 	ObjectStorageLinkId *string `mandatory:"true" contributesTo:"path" name:"objectStorageLinkId"`
 
-	// The information needed to start the export to Object Storage.
-	StartExportToObjectDetails `contributesTo:"body"`
-
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the
 	// `if-match` parameter to the value of the etag from a previous GET or POST response for
 	// that resource. The resource will be updated or deleted only if the etag you provide

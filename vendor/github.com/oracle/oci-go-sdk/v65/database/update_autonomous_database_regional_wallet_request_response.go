@@ -14,7 +14,7 @@ import (
 // UpdateAutonomousDatabaseRegionalWalletRequest wrapper for the UpdateAutonomousDatabaseRegionalWallet operation
 type UpdateAutonomousDatabaseRegionalWalletRequest struct {
 
-	// Request to update the properties of Autonomous Database regional wallet.
+	// Request to update the properties of Autonomous AI Database regional wallet.
 	UpdateAutonomousDatabaseWalletDetails `contributesTo:"body"`
 
 	// Unique identifier for the request.

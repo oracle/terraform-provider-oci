@@ -64,6 +64,10 @@ func (m *containervolume) UnmarshalPolymorphicJSON(data []byte) (interface{}, er
 		mm := ContainerConfigFileVolume{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OCI_FSS_FILE_SYSTEM":
+		mm := ContainerOciFssVolume{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Received unsupported enum value for ContainerVolume: %s.", m.VolumeType)
 		return *m, nil

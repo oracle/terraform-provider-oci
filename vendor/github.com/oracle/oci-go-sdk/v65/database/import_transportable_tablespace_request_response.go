@@ -17,7 +17,7 @@ type ImportTransportableTablespaceRequest struct {
 	// The database OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	AutonomousDatabaseId *string `mandatory:"true" contributesTo:"path" name:"autonomousDatabaseId"`
 
-	// Details for importing transportable tablespace for the Autonomous Database.
+	// Details for importing transportable tablespace for the Autonomous AI Database.
 	ImportTransportableTablespaceDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

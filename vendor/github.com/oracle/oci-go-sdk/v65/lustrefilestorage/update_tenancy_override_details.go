@@ -18,8 +18,8 @@ import (
 // UpdateTenancyOverrideDetails The data required for updating a Tenancy Override.
 type UpdateTenancyOverrideDetails struct {
 
-	// The id associated with an override.
-	Id *string `mandatory:"true" json:"id"`
+	// The override for a tenant.
+	Override *interface{} `mandatory:"true" json:"override"`
 }
 
 func (m UpdateTenancyOverrideDetails) String() string {

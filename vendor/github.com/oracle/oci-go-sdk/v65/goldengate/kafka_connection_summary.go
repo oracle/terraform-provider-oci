@@ -92,8 +92,17 @@ type KafkaConnectionSummary struct {
 	// subscription id is provided. Otherwise the cluster placement group must not be provided.
 	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
 
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stream pool being referenced.
 	StreamPoolId *string `mandatory:"false" json:"streamPoolId"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Kafka cluster
+	// being referenced from OCI Streaming with Apache Kafka.
+	ClusterId *string `mandatory:"false" json:"clusterId"`
 
 	// Kafka bootstrap. Equivalent of bootstrap.servers configuration property in Kafka:
 	// list of KafkaBootstrapServer objects specified by host/port.
@@ -132,6 +141,13 @@ type KafkaConnectionSummary struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the kafka Ssl Key password is stored.
 	// Note: When provided, 'sslKeyPassword' field must not be provided.
 	SslKeyPasswordSecretId *string `mandatory:"false" json:"sslKeyPasswordSecretId"`
+
+	// Specifies that the user intends to authenticate to the instance using a resource principal.
+	// Applicable only for OCI Streaming connections.
+	// Only available from 23.9.0.0.0 GoldenGate versions.
+	// Note: When specified, 'username'/'password'/'passwordSecretId' fields must not be provided.
+	// Default: false
+	ShouldUseResourcePrincipal *bool `mandatory:"false" json:"shouldUseResourcePrincipal"`
 
 	// Possible lifecycle states for connection.
 	LifecycleState ConnectionLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
@@ -252,6 +268,11 @@ func (m KafkaConnectionSummary) GetSubscriptionId() *string {
 // GetClusterPlacementGroupId returns ClusterPlacementGroupId
 func (m KafkaConnectionSummary) GetClusterPlacementGroupId() *string {
 	return m.ClusterPlacementGroupId
+}
+
+// GetSecurityAttributes returns SecurityAttributes
+func (m KafkaConnectionSummary) GetSecurityAttributes() map[string]map[string]interface{} {
+	return m.SecurityAttributes
 }
 
 func (m KafkaConnectionSummary) String() string {

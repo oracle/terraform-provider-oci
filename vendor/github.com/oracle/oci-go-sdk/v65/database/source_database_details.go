@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// SourceDatabaseDetails Source Autonomous Database details.
+// SourceDatabaseDetails Source Autonomous AI Database details.
 type SourceDatabaseDetails struct {
 
 	// Autonomous VM cluster's user-friendly name.
@@ -33,18 +33,19 @@ type SourceDatabaseDetails struct {
 	// DST Time-Zone File version of the Autonomous Container Database.
 	AutonomousContainerDatabaseDstFileVersion *string `mandatory:"false" json:"autonomousContainerDatabaseDstFileVersion"`
 
-	// Autonomous Database's name.
+	// Autonomous AI Database's name.
 	AutonomousDatabaseName *string `mandatory:"false" json:"autonomousDatabaseName"`
 
-	// Customer Contacts for the Autonomous database.
+	// Customer Contacts for the Autonomous AI Database.
 	AutonomousDatabaseCustomerContacts []CustomerContact `mandatory:"false" json:"autonomousDatabaseCustomerContacts"`
 
-	// The Autonomous Database workload type. The following values are valid:
-	// - OLTP - indicates an Autonomous Transaction Processing database
-	// - DW - indicates an Autonomous Data Warehouse database
-	// - AJD - indicates an Autonomous JSON Database
-	// - APEX - indicates an Autonomous Database with the Oracle APEX Application Development workload type.
-	// - VEC - indicates an Autonomous Vector Database
+	// The Autonomous AI Database workload type. The following values are valid:
+	// - OLTP - indicates an Autonomous AI Transaction Processing database
+	// - DW - indicates an Autonomous AI Lakehouse database
+	// - AJD - indicates an Autonomous AI JSON Database
+	// - APEX - indicates an Autonomous AI Database with the Oracle APEX Application Development workload type.
+	// - LH - indicates an Oracle Autonomous AI Lakehouse database
+	// - VEC - indicates an Autonomous AI Vector Database
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	DbWorkload SourceDatabaseDetailsDbWorkloadEnum `mandatory:"false" json:"dbWorkload,omitempty"`
 }
@@ -77,6 +78,7 @@ const (
 	SourceDatabaseDetailsDbWorkloadDw   SourceDatabaseDetailsDbWorkloadEnum = "DW"
 	SourceDatabaseDetailsDbWorkloadAjd  SourceDatabaseDetailsDbWorkloadEnum = "AJD"
 	SourceDatabaseDetailsDbWorkloadApex SourceDatabaseDetailsDbWorkloadEnum = "APEX"
+	SourceDatabaseDetailsDbWorkloadLh   SourceDatabaseDetailsDbWorkloadEnum = "LH"
 	SourceDatabaseDetailsDbWorkloadVec  SourceDatabaseDetailsDbWorkloadEnum = "VEC"
 )
 
@@ -85,6 +87,7 @@ var mappingSourceDatabaseDetailsDbWorkloadEnum = map[string]SourceDatabaseDetail
 	"DW":   SourceDatabaseDetailsDbWorkloadDw,
 	"AJD":  SourceDatabaseDetailsDbWorkloadAjd,
 	"APEX": SourceDatabaseDetailsDbWorkloadApex,
+	"LH":   SourceDatabaseDetailsDbWorkloadLh,
 	"VEC":  SourceDatabaseDetailsDbWorkloadVec,
 }
 
@@ -93,6 +96,7 @@ var mappingSourceDatabaseDetailsDbWorkloadEnumLowerCase = map[string]SourceDatab
 	"dw":   SourceDatabaseDetailsDbWorkloadDw,
 	"ajd":  SourceDatabaseDetailsDbWorkloadAjd,
 	"apex": SourceDatabaseDetailsDbWorkloadApex,
+	"lh":   SourceDatabaseDetailsDbWorkloadLh,
 	"vec":  SourceDatabaseDetailsDbWorkloadVec,
 }
 
@@ -112,6 +116,7 @@ func GetSourceDatabaseDetailsDbWorkloadEnumStringValues() []string {
 		"DW",
 		"AJD",
 		"APEX",
+		"LH",
 		"VEC",
 	}
 }

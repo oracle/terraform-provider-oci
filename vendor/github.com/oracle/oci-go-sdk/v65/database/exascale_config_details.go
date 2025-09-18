@@ -23,6 +23,12 @@ type ExascaleConfigDetails struct {
 
 	// Available storage size for Exascale in GBs.
 	AvailableStorageInGBs *int `mandatory:"false" json:"availableStorageInGBs"`
+
+	// Storage size needed for VM storage on Exascale in GBs.
+	TotalVmStorageInGBs *int `mandatory:"false" json:"totalVmStorageInGBs"`
+
+	// Available storage size for VM storage on Exascale in GBs.
+	AvailableVmStorageInGBs *int `mandatory:"false" json:"availableVmStorageInGBs"`
 }
 
 func (m ExascaleConfigDetails) String() string {

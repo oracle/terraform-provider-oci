@@ -52,8 +52,17 @@ type UpdateKafkaConnectionDetails struct {
 	// Indicates that sensitive attributes are provided via Secrets.
 	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stream pool being referenced.
 	StreamPoolId *string `mandatory:"false" json:"streamPoolId"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Kafka cluster
+	// being referenced from OCI Streaming with Apache Kafka.
+	ClusterId *string `mandatory:"false" json:"clusterId"`
 
 	// Kafka bootstrap. Equivalent of bootstrap.servers configuration property in Kafka:
 	// list of KafkaBootstrapServer objects specified by host/port.
@@ -125,6 +134,13 @@ type UpdateKafkaConnectionDetails struct {
 	// The base64 encoded content of the producer.properties file.
 	ProducerProperties *string `mandatory:"false" json:"producerProperties"`
 
+	// Specifies that the user intends to authenticate to the instance using a resource principal.
+	// Applicable only for OCI Streaming connections.
+	// Only available from 23.9.0.0.0 GoldenGate versions.
+	// Note: When specified, 'username'/'password'/'passwordSecretId' fields must not be provided.
+	// Default: false
+	ShouldUseResourcePrincipal *bool `mandatory:"false" json:"shouldUseResourcePrincipal"`
+
 	// Controls the network traffic direction to the target:
 	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.
 	// SHARED_DEPLOYMENT_ENDPOINT: Network traffic flows from the assigned deployment's private endpoint through the deployment's subnet.
@@ -183,6 +199,11 @@ func (m UpdateKafkaConnectionDetails) GetRoutingMethod() RoutingMethodEnum {
 // GetDoesUseSecretIds returns DoesUseSecretIds
 func (m UpdateKafkaConnectionDetails) GetDoesUseSecretIds() *bool {
 	return m.DoesUseSecretIds
+}
+
+// GetSecurityAttributes returns SecurityAttributes
+func (m UpdateKafkaConnectionDetails) GetSecurityAttributes() map[string]map[string]interface{} {
+	return m.SecurityAttributes
 }
 
 func (m UpdateKafkaConnectionDetails) String() string {

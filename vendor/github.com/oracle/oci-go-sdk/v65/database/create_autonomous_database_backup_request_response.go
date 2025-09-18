@@ -14,7 +14,7 @@ import (
 // CreateAutonomousDatabaseBackupRequest wrapper for the CreateAutonomousDatabaseBackup operation
 type CreateAutonomousDatabaseBackupRequest struct {
 
-	// Request to create a new Autonomous Database backup.
+	// Request to create a new Autonomous AI Database backup.
 	CreateAutonomousDatabaseBackupDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

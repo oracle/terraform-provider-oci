@@ -23,6 +23,11 @@ type UpdateObjectStorageLinkDetails struct {
 	// Example: `My Object Storage Link`
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// The flag is an identifier to tell whether the job run has overwrite enabled.
+	// If `isOverwrite` is false, the file to be imported or exported will be skipped if it already exists.
+	// If `isOverwrite` is true, the file to be imported or exported will be overwritten if it already exists.
+	IsOverwrite *bool `mandatory:"false" json:"isOverwrite"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

@@ -52,6 +52,11 @@ type UpdateGenericConnectionDetails struct {
 	// Indicates that sensitive attributes are provided via Secrets.
 	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
 	// Host and port separated by colon.
 	// Example: `"server.example.com:1234"`
 	// For multiple hosts, provide a comma separated list.
@@ -113,6 +118,11 @@ func (m UpdateGenericConnectionDetails) GetRoutingMethod() RoutingMethodEnum {
 // GetDoesUseSecretIds returns DoesUseSecretIds
 func (m UpdateGenericConnectionDetails) GetDoesUseSecretIds() *bool {
 	return m.DoesUseSecretIds
+}
+
+// GetSecurityAttributes returns SecurityAttributes
+func (m UpdateGenericConnectionDetails) GetSecurityAttributes() map[string]map[string]interface{} {
+	return m.SecurityAttributes
 }
 
 func (m UpdateGenericConnectionDetails) String() string {

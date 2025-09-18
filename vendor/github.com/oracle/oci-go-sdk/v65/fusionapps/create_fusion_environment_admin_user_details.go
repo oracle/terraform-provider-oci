@@ -29,9 +29,6 @@ type CreateFusionEnvironmentAdminUserDetails struct {
 
 	// The administrator's last name.
 	LastName *string `mandatory:"true" json:"lastName"`
-
-	// The password for the administrator.
-	Password *string `mandatory:"false" json:"password"`
 }
 
 func (m CreateFusionEnvironmentAdminUserDetails) String() string {

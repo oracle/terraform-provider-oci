@@ -55,6 +55,8 @@ type ModelDeploymentSummary struct {
 	// The mode of model deployment.
 	DeploymentMode ModelDeploymentDeploymentModeEnum `mandatory:"false" json:"deploymentMode,omitempty"`
 
+	ModelDeploymentSystemData ModelDeploymentSystemData `mandatory:"false" json:"modelDeploymentSystemData"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -93,6 +95,7 @@ func (m *ModelDeploymentSummary) UnmarshalJSON(data []byte) (e error) {
 		ModelDeploymentConfigurationDetails modeldeploymentconfigurationdetails `json:"modelDeploymentConfigurationDetails"`
 		CategoryLogDetails                  *CategoryLogDetails                 `json:"categoryLogDetails"`
 		DeploymentMode                      ModelDeploymentDeploymentModeEnum   `json:"deploymentMode"`
+		ModelDeploymentSystemData           modeldeploymentsystemdata           `json:"modelDeploymentSystemData"`
 		FreeformTags                        map[string]string                   `json:"freeformTags"`
 		DefinedTags                         map[string]map[string]interface{}   `json:"definedTags"`
 		Id                                  *string                             `json:"id"`
@@ -125,6 +128,16 @@ func (m *ModelDeploymentSummary) UnmarshalJSON(data []byte) (e error) {
 	m.CategoryLogDetails = model.CategoryLogDetails
 
 	m.DeploymentMode = model.DeploymentMode
+
+	nn, e = model.ModelDeploymentSystemData.UnmarshalPolymorphicJSON(model.ModelDeploymentSystemData.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ModelDeploymentSystemData = nn.(ModelDeploymentSystemData)
+	} else {
+		m.ModelDeploymentSystemData = nil
+	}
 
 	m.FreeformTags = model.FreeformTags
 

@@ -42,20 +42,12 @@ type CreateMountTargetDetails struct {
 	// with RFC 952 (https://tools.ietf.org/html/rfc952)
 	// and RFC 1123 (https://tools.ietf.org/html/rfc1123).
 	// Note:
-	// If the IP address is IPv4, this attribute value is stored in the
-	// PrivateIp (https://docs.oracle.com/iaas/en-us/iaas/api/#/en/iaas/20160918/PrivateIp/) resource,
+	// This attribute value is stored in the PrivateIp (https://docs.oracle.com/iaas/en-us/iaas/api/#/en/iaas/20160918/PrivateIp/) resource,
 	// not in the `mountTarget` resource.
 	// To update the `hostnameLabel`, use `GetMountTarget` to obtain the
 	// OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the mount target's
 	// private IPs (`privateIpIds`). Then, you can use
 	// UpdatePrivateIp (https://docs.oracle.com/iaas/en-us/iaas/api/#/en/iaas/20160918/PrivateIp/UpdatePrivateIp)
-	// to update the `hostnameLabel` value.
-	// If the IP address is IPv6, it is stored in the
-	// Ipv6  (https://docs.oracle.com/en-us/iaas/api/#/en/iaas/20160918/Ipv6) resource
-	// To update the `hostnameLabel`, use `GetMountTarget` to obtain the
-	// OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the mount target's
-	// IPv6 address (`mountTargetIpv6Ids`). Then, you can use
-	// UpdateIpv6 (https://docs.oracle.com/iaas/en-us/iaas/api/#/en/iaas/20160918/Ipv6/UpdateIpv6)
 	// to update the `hostnameLabel` value.
 	// For more information, see
 	// DNS in Your Virtual Cloud Network (https://docs.oracle.com/iaas/Content/Network/Concepts/dns.htm).
@@ -105,8 +97,9 @@ type CreateMountTargetDetails struct {
 	// System tags are applied to resources by internal OCI services.
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
-	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Security attributes (https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes) are labels
+	// for a resource that can be referenced in a Zero Trust Packet Routing (https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm)
+	// (ZPR) policy to control access to ZPR-supported resources.
 	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
 	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 

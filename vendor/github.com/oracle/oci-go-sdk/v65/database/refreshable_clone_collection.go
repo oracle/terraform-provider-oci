@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// RefreshableCloneCollection A list of Autonomous Database RefreshableClone containing RefreshableCloneSummary items.
+// RefreshableCloneCollection A list of Autonomous AI Database RefreshableClone containing RefreshableCloneSummary items.
 type RefreshableCloneCollection struct {
 	Items []RefreshableCloneSummary `mandatory:"true" json:"items"`
 }

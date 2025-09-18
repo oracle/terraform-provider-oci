@@ -266,7 +266,7 @@ func (client DatabaseClient) addStandbyAutonomousContainerDatabase(ctx context.C
 	return response, err
 }
 
-// AddStorageCapacityCloudExadataInfrastructure Makes the storage capacity from additional storage servers available for Cloud VM Cluster consumption. Applies to Exadata Cloud Service instances and Autonomous Database on dedicated Exadata infrastructure only.
+// AddStorageCapacityCloudExadataInfrastructure Makes the storage capacity from additional storage servers available for Cloud VM Cluster consumption. Applies to Exadata Cloud Service instances and Autonomous AI Database on dedicated Exadata infrastructure only.
 func (client DatabaseClient) AddStorageCapacityCloudExadataInfrastructure(ctx context.Context, request AddStorageCapacityCloudExadataInfrastructureRequest) (response AddStorageCapacityCloudExadataInfrastructureResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -498,7 +498,7 @@ func (client DatabaseClient) addVirtualMachineToVmCluster(ctx context.Context, r
 	return response, err
 }
 
-// AutonomousDatabaseManualRefresh Initiates a data refresh for an Autonomous Database refreshable clone. Data is refreshed from the source database to the point of a specified timestamp.
+// AutonomousDatabaseManualRefresh Initiates a data refresh for an Autonomous AI Database refreshable clone. Data is refreshed from the source database to the point of a specified timestamp.
 func (client DatabaseClient) AutonomousDatabaseManualRefresh(ctx context.Context, request AutonomousDatabaseManualRefreshRequest) (response AutonomousDatabaseManualRefreshResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -556,7 +556,7 @@ func (client DatabaseClient) autonomousDatabaseManualRefresh(ctx context.Context
 	return response, err
 }
 
-// BackfillFawInstanceIdOnAdbDetails Backfills the specified Autonomous Database with FAW instance Id.
+// BackfillFawInstanceIdOnAdbDetails Backfills the specified Autonomous AI Database with FAW instance Id.
 func (client DatabaseClient) BackfillFawInstanceIdOnAdbDetails(ctx context.Context, request BackfillFawInstanceIdOnAdbDetailsRequest) (response BackfillFawInstanceIdOnAdbDetailsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -843,8 +843,8 @@ func (client DatabaseClient) changeAutonomousContainerDatabaseCompartment(ctx co
 	return response, err
 }
 
-// ChangeAutonomousDatabaseCompartment Move the Autonomous Database and its dependent resources to the specified compartment.
-// For more information about moving Autonomous Databases, see
+// ChangeAutonomousDatabaseCompartment Move the Autonomous AI Database and its dependent resources to the specified compartment.
+// For more information about moving Autonomous AI Databases, see
 // Moving Database Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm#moveRes).
 func (client DatabaseClient) ChangeAutonomousDatabaseCompartment(ctx context.Context, request ChangeAutonomousDatabaseCompartmentRequest) (response ChangeAutonomousDatabaseCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -903,7 +903,7 @@ func (client DatabaseClient) changeAutonomousDatabaseCompartment(ctx context.Con
 	return response, err
 }
 
-// ChangeAutonomousDatabaseSoftwareImageCompartment Move the Autonomous Database Software Image and its dependent resources to the specified compartment.
+// ChangeAutonomousDatabaseSoftwareImageCompartment Move the Autonomous AI Database Software Image and its dependent resources to the specified compartment.
 func (client DatabaseClient) ChangeAutonomousDatabaseSoftwareImageCompartment(ctx context.Context, request ChangeAutonomousDatabaseSoftwareImageCompartmentRequest) (response ChangeAutonomousDatabaseSoftwareImageCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -961,7 +961,7 @@ func (client DatabaseClient) changeAutonomousDatabaseSoftwareImageCompartment(ct
 	return response, err
 }
 
-// ChangeAutonomousDatabaseSubscription Associate an Autonomous Database with a different subscription.
+// ChangeAutonomousDatabaseSubscription Associate an Autonomous AI Database with a different subscription.
 func (client DatabaseClient) ChangeAutonomousDatabaseSubscription(ctx context.Context, request ChangeAutonomousDatabaseSubscriptionRequest) (response ChangeAutonomousDatabaseSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1429,7 +1429,7 @@ func (client DatabaseClient) changeCloudDbSystemSubscription(ctx context.Context
 	return response, err
 }
 
-// ChangeCloudExadataInfrastructureCompartment Moves a cloud Exadata infrastructure resource and its dependent resources to another compartment. Applies to Exadata Cloud Service instances and Autonomous Database on dedicated Exadata infrastructure only.For more information about moving resources to a different compartment, see Moving Database Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm#moveRes).
+// ChangeCloudExadataInfrastructureCompartment Moves a cloud Exadata infrastructure resource and its dependent resources to another compartment. Applies to Exadata Cloud Service instances and Autonomous AI Database on dedicated Exadata infrastructure only.For more information about moving resources to a different compartment, see Moving Database Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm#moveRes).
 func (client DatabaseClient) ChangeCloudExadataInfrastructureCompartment(ctx context.Context, request ChangeCloudExadataInfrastructureCompartmentRequest) (response ChangeCloudExadataInfrastructureCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1841,7 +1841,7 @@ func (client DatabaseClient) changeDbSystemCompartment(ctx context.Context, requ
 	return response, err
 }
 
-// ChangeDisasterRecoveryConfiguration This operation updates the cross-region disaster recovery (DR) details of the standby Autonomous Database Serverless database, and must be run on the standby side.
+// ChangeDisasterRecoveryConfiguration This operation updates the cross-region disaster recovery (DR) details of the standby Autonomous AI Database Serverless database, and must be run on the standby side.
 func (client DatabaseClient) ChangeDisasterRecoveryConfiguration(ctx context.Context, request ChangeDisasterRecoveryConfigurationRequest) (response ChangeDisasterRecoveryConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2952,7 +2952,7 @@ func (client DatabaseClient) completeExternalBackupJob(ctx context.Context, requ
 	return response, err
 }
 
-// ConfigureAutonomousDatabaseVaultKey Configures the Autonomous Database Vault service key (https://docs.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
+// ConfigureAutonomousDatabaseVaultKey Configures the Autonomous AI Database Vault service key (https://docs.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
 func (client DatabaseClient) ConfigureAutonomousDatabaseVaultKey(ctx context.Context, request ConfigureAutonomousDatabaseVaultKeyRequest) (response ConfigureAutonomousDatabaseVaultKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3126,7 +3126,7 @@ func (client DatabaseClient) configureExascaleExadataInfrastructure(ctx context.
 	return response, err
 }
 
-// ConfigureSaasAdminUser This operation updates SaaS administrative user configuration of the Autonomous Database.
+// ConfigureSaasAdminUser This operation updates SaaS administrative user configuration of the Autonomous AI Database.
 func (client DatabaseClient) ConfigureSaasAdminUser(ctx context.Context, request ConfigureSaasAdminUserRequest) (response ConfigureSaasAdminUserResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3584,6 +3584,64 @@ func (client DatabaseClient) convertToStandalone(ctx context.Context, request co
 	return response, err
 }
 
+// CreateAdvancedClusterFileSystem Creates an advanced cluster file system resource.
+func (client DatabaseClient) CreateAdvancedClusterFileSystem(ctx context.Context, request CreateAdvancedClusterFileSystemRequest) (response CreateAdvancedClusterFileSystemResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createAdvancedClusterFileSystem, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateAdvancedClusterFileSystemResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateAdvancedClusterFileSystemResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateAdvancedClusterFileSystemResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateAdvancedClusterFileSystemResponse")
+	}
+	return
+}
+
+// createAdvancedClusterFileSystem implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) createAdvancedClusterFileSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/advancedClusterFileSystems", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateAdvancedClusterFileSystemResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Database", "CreateAdvancedClusterFileSystem", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateApplicationVip Creates a new application virtual IP (VIP) address in the specified cloud VM cluster based on the request parameters you provide.
 func (client DatabaseClient) CreateApplicationVip(ctx context.Context, request CreateApplicationVipRequest) (response CreateApplicationVipResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3759,7 +3817,7 @@ func (client DatabaseClient) createAutonomousContainerDatabaseDataguardAssociati
 	return response, err
 }
 
-// CreateAutonomousDatabase Creates a new Autonomous Database.
+// CreateAutonomousDatabase Creates a new Autonomous AI Database.
 func (client DatabaseClient) CreateAutonomousDatabase(ctx context.Context, request CreateAutonomousDatabaseRequest) (response CreateAutonomousDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3817,7 +3875,7 @@ func (client DatabaseClient) createAutonomousDatabase(ctx context.Context, reque
 	return response, err
 }
 
-// CreateAutonomousDatabaseBackup Creates a new Autonomous Database backup for the specified database based on the provided request parameters.
+// CreateAutonomousDatabaseBackup Creates a new Autonomous AI Database backup for the specified database based on the provided request parameters.
 func (client DatabaseClient) CreateAutonomousDatabaseBackup(ctx context.Context, request CreateAutonomousDatabaseBackupRequest) (response CreateAutonomousDatabaseBackupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3875,7 +3933,7 @@ func (client DatabaseClient) createAutonomousDatabaseBackup(ctx context.Context,
 	return response, err
 }
 
-// CreateAutonomousDatabaseSoftwareImage create Autonomous Database Software Image in the specified compartment.
+// CreateAutonomousDatabaseSoftwareImage create Autonomous AI Database Software Image in the specified compartment.
 func (client DatabaseClient) CreateAutonomousDatabaseSoftwareImage(ctx context.Context, request CreateAutonomousDatabaseSoftwareImageRequest) (response CreateAutonomousDatabaseSoftwareImageResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4223,7 +4281,7 @@ func (client DatabaseClient) createCloudAutonomousVmCluster(ctx context.Context,
 	return response, err
 }
 
-// CreateCloudExadataInfrastructure Creates a cloud Exadata infrastructure resource. This resource is used to create either an Exadata Cloud Service (https://docs.oracle.com/iaas/Content/Database/Concepts/exaoverview.htm) instance or an Autonomous Database on dedicated Exadata infrastructure.
+// CreateCloudExadataInfrastructure Creates a cloud Exadata infrastructure resource. This resource is used to create either an Exadata Cloud Service (https://docs.oracle.com/iaas/Content/Database/Concepts/exaoverview.htm) instance or an Autonomous AI Database on dedicated Exadata infrastructure.
 func (client DatabaseClient) CreateCloudExadataInfrastructure(ctx context.Context, request CreateCloudExadataInfrastructureRequest) (response CreateCloudExadataInfrastructureResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6049,6 +6107,59 @@ func (client DatabaseClient) dbNodeAction(ctx context.Context, request common.OC
 	return response, err
 }
 
+// DeleteAdvancedClusterFileSystem Deletes the advanced cluster file system.
+func (client DatabaseClient) DeleteAdvancedClusterFileSystem(ctx context.Context, request DeleteAdvancedClusterFileSystemRequest) (response DeleteAdvancedClusterFileSystemResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteAdvancedClusterFileSystem, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteAdvancedClusterFileSystemResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteAdvancedClusterFileSystemResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteAdvancedClusterFileSystemResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteAdvancedClusterFileSystemResponse")
+	}
+	return
+}
+
+// deleteAdvancedClusterFileSystem implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) deleteAdvancedClusterFileSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/advancedClusterFileSystems/{advancedClusterFileSystemId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteAdvancedClusterFileSystemResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AdvancedClusterFileSystem/DeleteAdvancedClusterFileSystem"
+		err = common.PostProcessServiceError(err, "Database", "DeleteAdvancedClusterFileSystem", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteApplicationVip Deletes and deregisters the specified application virtual IP (VIP) address.
 func (client DatabaseClient) DeleteApplicationVip(ctx context.Context, request DeleteApplicationVipRequest) (response DeleteApplicationVipResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6102,7 +6213,7 @@ func (client DatabaseClient) deleteApplicationVip(ctx context.Context, request c
 	return response, err
 }
 
-// DeleteAutonomousDatabase Deletes the specified Autonomous Database.
+// DeleteAutonomousDatabase Deletes the specified Autonomous AI Database.
 func (client DatabaseClient) DeleteAutonomousDatabase(ctx context.Context, request DeleteAutonomousDatabaseRequest) (response DeleteAutonomousDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6208,7 +6319,7 @@ func (client DatabaseClient) deleteAutonomousDatabaseBackup(ctx context.Context,
 	return response, err
 }
 
-// DeleteAutonomousDatabaseSoftwareImage Delete an Autonomous Database Software Image
+// DeleteAutonomousDatabaseSoftwareImage Delete an Autonomous AI Database Software Image
 func (client DatabaseClient) DeleteAutonomousDatabaseSoftwareImage(ctx context.Context, request DeleteAutonomousDatabaseSoftwareImageRequest) (response DeleteAutonomousDatabaseSoftwareImageResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6526,7 +6637,7 @@ func (client DatabaseClient) deleteCloudAutonomousVmCluster(ctx context.Context,
 	return response, err
 }
 
-// DeleteCloudExadataInfrastructure Deletes the cloud Exadata infrastructure resource. Applies to Exadata Cloud Service instances and Autonomous Database on dedicated Exadata infrastructure only.
+// DeleteCloudExadataInfrastructure Deletes the cloud Exadata infrastructure resource. Applies to Exadata Cloud Service instances and Autonomous AI Database on dedicated Exadata infrastructure only.
 func (client DatabaseClient) DeleteCloudExadataInfrastructure(ctx context.Context, request DeleteCloudExadataInfrastructureRequest) (response DeleteCloudExadataInfrastructureResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8018,7 +8129,7 @@ func (client DatabaseClient) deleteVmClusterNetwork(ctx context.Context, request
 	return response, err
 }
 
-// DeregisterAutonomousDatabaseDataSafe Asynchronously deregisters this Autonomous Database with Data Safe.
+// DeregisterAutonomousDatabaseDataSafe Asynchronously deregisters this Autonomous AI Database with Data Safe.
 func (client DatabaseClient) DeregisterAutonomousDatabaseDataSafe(ctx context.Context, request DeregisterAutonomousDatabaseDataSafeRequest) (response DeregisterAutonomousDatabaseDataSafeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8071,7 +8182,7 @@ func (client DatabaseClient) deregisterAutonomousDatabaseDataSafe(ctx context.Co
 	return response, err
 }
 
-// DisableAutonomousDatabaseManagement Disables Database Management for the Autonomous Database resource.
+// DisableAutonomousDatabaseManagement Disables Database Management for the Autonomous AI Database resource.
 func (client DatabaseClient) DisableAutonomousDatabaseManagement(ctx context.Context, request DisableAutonomousDatabaseManagementRequest) (response DisableAutonomousDatabaseManagementResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8124,7 +8235,7 @@ func (client DatabaseClient) disableAutonomousDatabaseManagement(ctx context.Con
 	return response, err
 }
 
-// DisableAutonomousDatabaseOperationsInsights Disables Operations Insights for the Autonomous Database resource.
+// DisableAutonomousDatabaseOperationsInsights Disables Operations Insights for the Autonomous AI Database resource.
 func (client DatabaseClient) DisableAutonomousDatabaseOperationsInsights(ctx context.Context, request DisableAutonomousDatabaseOperationsInsightsRequest) (response DisableAutonomousDatabaseOperationsInsightsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9049,7 +9160,7 @@ func (client DatabaseClient) editAutonomousContainerDatabaseDataguard(ctx contex
 	return response, err
 }
 
-// EnableAutonomousDatabaseManagement Enables Database Management for Autonomous Database.
+// EnableAutonomousDatabaseManagement Enables Database Management for Autonomous AI Database.
 func (client DatabaseClient) EnableAutonomousDatabaseManagement(ctx context.Context, request EnableAutonomousDatabaseManagementRequest) (response EnableAutonomousDatabaseManagementResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9102,7 +9213,7 @@ func (client DatabaseClient) enableAutonomousDatabaseManagement(ctx context.Cont
 	return response, err
 }
 
-// EnableAutonomousDatabaseOperationsInsights Enables the specified Autonomous Database with Operations Insights.
+// EnableAutonomousDatabaseOperationsInsights Enables the specified Autonomous AI Database with Operations Insights.
 func (client DatabaseClient) EnableAutonomousDatabaseOperationsInsights(ctx context.Context, request EnableAutonomousDatabaseOperationsInsightsRequest) (response EnableAutonomousDatabaseOperationsInsightsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9741,7 +9852,7 @@ func (client DatabaseClient) enablePluggableDatabaseManagement(ctx context.Conte
 	return response, err
 }
 
-// FailOverAutonomousDatabase Initiates a failover of the specified Autonomous Database to the associated peer database. Applicable only to databases with Disaster Recovery enabled.
+// FailOverAutonomousDatabase Initiates a failover of the specified Autonomous AI Database to the associated peer database. Applicable only to databases with Disaster Recovery enabled.
 // This API should be called in the remote region where the peer database resides.
 // Below parameter is optional:
 //   - `peerDbId`
@@ -10030,7 +10141,7 @@ func (client DatabaseClient) failoverDataGuardAssociation(ctx context.Context, r
 	return response, err
 }
 
-// GenerateAutonomousDatabaseWallet Creates and downloads a wallet for the specified Autonomous Database.
+// GenerateAutonomousDatabaseWallet Creates and downloads a wallet for the specified Autonomous AI Database.
 func (client DatabaseClient) GenerateAutonomousDatabaseWallet(ctx context.Context, request GenerateAutonomousDatabaseWalletRequest) (response GenerateAutonomousDatabaseWalletResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10138,6 +10249,59 @@ func (client DatabaseClient) generateRecommendedVmClusterNetwork(ctx context.Con
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExadataInfrastructure/GenerateRecommendedVmClusterNetwork"
 		err = common.PostProcessServiceError(err, "Database", "GenerateRecommendedVmClusterNetwork", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetAdvancedClusterFileSystem Gets information about the specified advanced cluster file systems.
+func (client DatabaseClient) GetAdvancedClusterFileSystem(ctx context.Context, request GetAdvancedClusterFileSystemRequest) (response GetAdvancedClusterFileSystemResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getAdvancedClusterFileSystem, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetAdvancedClusterFileSystemResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetAdvancedClusterFileSystemResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetAdvancedClusterFileSystemResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetAdvancedClusterFileSystemResponse")
+	}
+	return
+}
+
+// getAdvancedClusterFileSystem implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) getAdvancedClusterFileSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/advancedClusterFileSystems/{advancedClusterFileSystemId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetAdvancedClusterFileSystemResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AdvancedClusterFileSystem/GetAdvancedClusterFileSystem"
+		err = common.PostProcessServiceError(err, "Database", "GetAdvancedClusterFileSystem", apiReferenceLink)
 		return response, err
 	}
 
@@ -10357,7 +10521,7 @@ func (client DatabaseClient) getAutonomousContainerDatabaseResourceUsage(ctx con
 	return response, err
 }
 
-// GetAutonomousDatabase Gets the details of the specified Autonomous Database.
+// GetAutonomousDatabase Gets the details of the specified Autonomous AI Database.
 func (client DatabaseClient) GetAutonomousDatabase(ctx context.Context, request GetAutonomousDatabaseRequest) (response GetAutonomousDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10410,7 +10574,7 @@ func (client DatabaseClient) getAutonomousDatabase(ctx context.Context, request 
 	return response, err
 }
 
-// GetAutonomousDatabaseBackup Gets information about the specified Autonomous Database backup.
+// GetAutonomousDatabaseBackup Gets information about the specified Autonomous AI Database backup.
 func (client DatabaseClient) GetAutonomousDatabaseBackup(ctx context.Context, request GetAutonomousDatabaseBackupRequest) (response GetAutonomousDatabaseBackupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10463,7 +10627,7 @@ func (client DatabaseClient) getAutonomousDatabaseBackup(ctx context.Context, re
 	return response, err
 }
 
-// GetAutonomousDatabaseDataguardAssociation *Deprecated.* Use the GetAutonomousContainerDatabase operation to gets an Autonomous Data Guard-enabled database associated with the specified Autonomous Database.
+// GetAutonomousDatabaseDataguardAssociation *Deprecated.* Use the GetAutonomousContainerDatabase operation to gets an Autonomous Data Guard-enabled database associated with the specified Autonomous AI Database.
 func (client DatabaseClient) GetAutonomousDatabaseDataguardAssociation(ctx context.Context, request GetAutonomousDatabaseDataguardAssociationRequest) (response GetAutonomousDatabaseDataguardAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10516,7 +10680,7 @@ func (client DatabaseClient) getAutonomousDatabaseDataguardAssociation(ctx conte
 	return response, err
 }
 
-// GetAutonomousDatabaseRegionalWallet Gets the Autonomous Database regional wallet details.
+// GetAutonomousDatabaseRegionalWallet Gets the Autonomous AI Database regional wallet details.
 func (client DatabaseClient) GetAutonomousDatabaseRegionalWallet(ctx context.Context, request GetAutonomousDatabaseRegionalWalletRequest) (response GetAutonomousDatabaseRegionalWalletResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10569,7 +10733,7 @@ func (client DatabaseClient) getAutonomousDatabaseRegionalWallet(ctx context.Con
 	return response, err
 }
 
-// GetAutonomousDatabaseSoftwareImage Gets information about the specified Autonomous Database Software Image.
+// GetAutonomousDatabaseSoftwareImage Gets information about the specified Autonomous AI Database Software Image.
 func (client DatabaseClient) GetAutonomousDatabaseSoftwareImage(ctx context.Context, request GetAutonomousDatabaseSoftwareImageRequest) (response GetAutonomousDatabaseSoftwareImageResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10622,7 +10786,7 @@ func (client DatabaseClient) getAutonomousDatabaseSoftwareImage(ctx context.Cont
 	return response, err
 }
 
-// GetAutonomousDatabaseUserRole Get user roles of the Autonomous Database.
+// GetAutonomousDatabaseUserRole Get user roles of the Autonomous AI Database.
 func (client DatabaseClient) GetAutonomousDatabaseUserRole(ctx context.Context, request GetAutonomousDatabaseUserRoleRequest) (response GetAutonomousDatabaseUserRoleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10675,7 +10839,7 @@ func (client DatabaseClient) getAutonomousDatabaseUserRole(ctx context.Context, 
 	return response, err
 }
 
-// GetAutonomousDatabaseWallet Gets the wallet details for the specified Autonomous Database.
+// GetAutonomousDatabaseWallet Gets the wallet details for the specified Autonomous AI Database.
 func (client DatabaseClient) GetAutonomousDatabaseWallet(ctx context.Context, request GetAutonomousDatabaseWalletRequest) (response GetAutonomousDatabaseWalletResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -11364,7 +11528,7 @@ func (client DatabaseClient) getCloudAutonomousVmClusterResourceUsage(ctx contex
 	return response, err
 }
 
-// GetCloudExadataInfrastructure Gets information about the specified cloud Exadata infrastructure resource. Applies to Exadata Cloud Service instances and Autonomous Database on dedicated Exadata infrastructure only.
+// GetCloudExadataInfrastructure Gets information about the specified cloud Exadata infrastructure resource. Applies to Exadata Cloud Service instances and Autonomous AI Database on dedicated Exadata infrastructure only.
 func (client DatabaseClient) GetCloudExadataInfrastructure(ctx context.Context, request GetCloudExadataInfrastructureRequest) (response GetCloudExadataInfrastructureResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -14455,7 +14619,7 @@ func (client DatabaseClient) getVmClusterUpdateHistoryEntry(ctx context.Context,
 	return response, err
 }
 
-// HeadAutonomousDatabase Identify if Autonomous Database exists.
+// HeadAutonomousDatabase Identify if Autonomous AI Database exists.
 func (client DatabaseClient) HeadAutonomousDatabase(ctx context.Context, request HeadAutonomousDatabaseRequest) (response HeadAutonomousDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -14508,7 +14672,7 @@ func (client DatabaseClient) headAutonomousDatabase(ctx context.Context, request
 	return response, err
 }
 
-// ImportTransportableTablespace Imports transportable tablespace for the specified Autonomous Database.
+// ImportTransportableTablespace Imports transportable tablespace for the specified Autonomous AI Database.
 func (client DatabaseClient) ImportTransportableTablespace(ctx context.Context, request ImportTransportableTablespaceRequest) (response ImportTransportableTablespaceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -14566,7 +14730,7 @@ func (client DatabaseClient) importTransportableTablespace(ctx context.Context, 
 	return response, err
 }
 
-// LaunchAutonomousExadataInfrastructure **Deprecated** To create a new Autonomous Database system on dedicated Exadata Infrastructure, use the CreateCloudExadataInfrastructure and CreateCloudAutonomousVmCluster operations instead. Note that to create an Autonomous VM cluster, you must have an existing Exadata Infrastructure resource to contain the VM cluster.
+// LaunchAutonomousExadataInfrastructure **Deprecated** To create a new Autonomous AI Database system on dedicated Exadata Infrastructure, use the CreateCloudExadataInfrastructure and CreateCloudAutonomousVmCluster operations instead. Note that to create an Autonomous VM cluster, you must have an existing Exadata Infrastructure resource to contain the VM cluster.
 func (client DatabaseClient) LaunchAutonomousExadataInfrastructure(ctx context.Context, request LaunchAutonomousExadataInfrastructureRequest) (response LaunchAutonomousExadataInfrastructureResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -14681,6 +14845,59 @@ func (client DatabaseClient) launchDbSystem(ctx context.Context, request common.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbSystem/LaunchDbSystem"
 		err = common.PostProcessServiceError(err, "Database", "LaunchDbSystem", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAdvancedClusterFileSystems Lists the advanced cluster file system resources in the specified compartment.
+func (client DatabaseClient) ListAdvancedClusterFileSystems(ctx context.Context, request ListAdvancedClusterFileSystemsRequest) (response ListAdvancedClusterFileSystemsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAdvancedClusterFileSystems, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAdvancedClusterFileSystemsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAdvancedClusterFileSystemsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAdvancedClusterFileSystemsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAdvancedClusterFileSystemsResponse")
+	}
+	return
+}
+
+// listAdvancedClusterFileSystems implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listAdvancedClusterFileSystems(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/advancedClusterFileSystems", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAdvancedClusterFileSystemsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AdvancedClusterFileSystem/ListAdvancedClusterFileSystems"
+		err = common.PostProcessServiceError(err, "Database", "ListAdvancedClusterFileSystems", apiReferenceLink)
 		return response, err
 	}
 
@@ -14953,7 +15170,7 @@ func (client DatabaseClient) listAutonomousContainerDatabases(ctx context.Contex
 	return response, err
 }
 
-// ListAutonomousDatabaseBackups Gets a list of Autonomous Database backups based on either the `autonomousDatabaseId` or `compartmentId` specified as a query parameter.
+// ListAutonomousDatabaseBackups Gets a list of Autonomous AI Database backups based on either the `autonomousDatabaseId` or `compartmentId` specified as a query parameter.
 func (client DatabaseClient) ListAutonomousDatabaseBackups(ctx context.Context, request ListAutonomousDatabaseBackupsRequest) (response ListAutonomousDatabaseBackupsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -15059,7 +15276,7 @@ func (client DatabaseClient) listAutonomousDatabaseCharacterSets(ctx context.Con
 	return response, err
 }
 
-// ListAutonomousDatabaseClones Lists the Autonomous Database clones for the specified Autonomous Database.
+// ListAutonomousDatabaseClones Lists the Autonomous AI Database clones for the specified Autonomous AI Database.
 func (client DatabaseClient) ListAutonomousDatabaseClones(ctx context.Context, request ListAutonomousDatabaseClonesRequest) (response ListAutonomousDatabaseClonesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -15112,7 +15329,7 @@ func (client DatabaseClient) listAutonomousDatabaseClones(ctx context.Context, r
 	return response, err
 }
 
-// ListAutonomousDatabaseDataguardAssociations *Deprecated.* Use the GetAutonomousContainerDatabase operation to get a list of the Autonomous Data Guard-enabled databases associated with the specified Autonomous Database.
+// ListAutonomousDatabaseDataguardAssociations *Deprecated.* Use the GetAutonomousContainerDatabase operation to get a list of the Autonomous Data Guard-enabled databases associated with the specified Autonomous AI Database.
 func (client DatabaseClient) ListAutonomousDatabaseDataguardAssociations(ctx context.Context, request ListAutonomousDatabaseDataguardAssociationsRequest) (response ListAutonomousDatabaseDataguardAssociationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -15165,7 +15382,7 @@ func (client DatabaseClient) listAutonomousDatabaseDataguardAssociations(ctx con
 	return response, err
 }
 
-// ListAutonomousDatabasePeers Lists the Autonomous Database peers for the specified Autonomous Database.
+// ListAutonomousDatabasePeers Lists the Autonomous AI Database peers for the specified Autonomous AI Database.
 func (client DatabaseClient) ListAutonomousDatabasePeers(ctx context.Context, request ListAutonomousDatabasePeersRequest) (response ListAutonomousDatabasePeersResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -15218,7 +15435,7 @@ func (client DatabaseClient) listAutonomousDatabasePeers(ctx context.Context, re
 	return response, err
 }
 
-// ListAutonomousDatabaseRefreshableClones Lists the OCIDs of the Autonomous Database local and connected remote refreshable clones with the region where they exist for the specified source database.
+// ListAutonomousDatabaseRefreshableClones Lists the OCIDs of the Autonomous AI Database local and connected remote refreshable clones with the region where they exist for the specified source database.
 func (client DatabaseClient) ListAutonomousDatabaseRefreshableClones(ctx context.Context, request ListAutonomousDatabaseRefreshableClonesRequest) (response ListAutonomousDatabaseRefreshableClonesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -15271,7 +15488,7 @@ func (client DatabaseClient) listAutonomousDatabaseRefreshableClones(ctx context
 	return response, err
 }
 
-// ListAutonomousDatabaseSoftwareImages Gets a list of the Autonomous Database Software Images in the specified compartment.
+// ListAutonomousDatabaseSoftwareImages Gets a list of the Autonomous AI Database Software Images in the specified compartment.
 func (client DatabaseClient) ListAutonomousDatabaseSoftwareImages(ctx context.Context, request ListAutonomousDatabaseSoftwareImagesRequest) (response ListAutonomousDatabaseSoftwareImagesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -15324,7 +15541,7 @@ func (client DatabaseClient) listAutonomousDatabaseSoftwareImages(ctx context.Co
 	return response, err
 }
 
-// ListAutonomousDatabases Gets a list of Autonomous Databases based on the query parameters specified.
+// ListAutonomousDatabases Gets a list of Autonomous AI Databases based on the query parameters specified.
 func (client DatabaseClient) ListAutonomousDatabases(ctx context.Context, request ListAutonomousDatabasesRequest) (response ListAutonomousDatabasesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -15377,8 +15594,8 @@ func (client DatabaseClient) listAutonomousDatabases(ctx context.Context, reques
 	return response, err
 }
 
-// ListAutonomousDbPreviewVersions Gets a list of supported Autonomous Database versions. Note that preview version software is only available for
-// Autonomous Database Serverless (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html) databases.
+// ListAutonomousDbPreviewVersions Gets a list of supported Autonomous AI Database versions. Note that preview version software is only available for
+// Autonomous AI Database Serverless (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html) databases.
 func (client DatabaseClient) ListAutonomousDbPreviewVersions(ctx context.Context, request ListAutonomousDbPreviewVersionsRequest) (response ListAutonomousDbPreviewVersionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -15431,7 +15648,7 @@ func (client DatabaseClient) listAutonomousDbPreviewVersions(ctx context.Context
 	return response, err
 }
 
-// ListAutonomousDbVersions Gets a list of supported Autonomous Database versions.
+// ListAutonomousDbVersions Gets a list of supported Autonomous AI Database versions.
 func (client DatabaseClient) ListAutonomousDbVersions(ctx context.Context, request ListAutonomousDbVersionsRequest) (response ListAutonomousDbVersionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -16121,7 +16338,7 @@ func (client DatabaseClient) listCloudAutonomousVmClusters(ctx context.Context, 
 	return response, err
 }
 
-// ListCloudExadataInfrastructures Gets a list of the cloud Exadata infrastructure resources in the specified compartment. Applies to Exadata Cloud Service instances and Autonomous Database on dedicated Exadata infrastructure only.
+// ListCloudExadataInfrastructures Gets a list of the cloud Exadata infrastructure resources in the specified compartment. Applies to Exadata Cloud Service instances and Autonomous AI Database on dedicated Exadata infrastructure only.
 func (client DatabaseClient) ListCloudExadataInfrastructures(ctx context.Context, request ListCloudExadataInfrastructuresRequest) (response ListCloudExadataInfrastructuresResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -17501,7 +17718,7 @@ func (client DatabaseClient) listDbnodeSnapshots(ctx context.Context, request co
 	return response, err
 }
 
-// ListEstimateCostSavings Gets the estimate cost savings of the Autonomous Database.
+// ListEstimateCostSavings Gets the estimate cost savings of the Autonomous AI Database.
 func (client DatabaseClient) ListEstimateCostSavings(ctx context.Context, request ListEstimateCostSavingsRequest) (response ListEstimateCostSavingsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -17534,7 +17751,7 @@ func (client DatabaseClient) ListEstimateCostSavings(ctx context.Context, reques
 // listEstimateCostSavings implements the OCIOperation interface (enables retrying operations)
 func (client DatabaseClient) listEstimateCostSavings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDatabases/{autonomousDatabaseId}/actions/estimateCostSavings", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDatabases/{autonomousDatabaseId}/estimateCostSavings", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -18844,7 +19061,7 @@ func (client DatabaseClient) listRecommendedScheduledActions(ctx context.Context
 	return response, err
 }
 
-// ListResourcePoolMembers Lists the OCIDs of the Autonomous Database resource pool members for the specified Autonomous Database leader.
+// ListResourcePoolMembers Lists the OCIDs of the Autonomous AI Database resource pool members for the specified Autonomous AI Database leader.
 func (client DatabaseClient) ListResourcePoolMembers(ctx context.Context, request ListResourcePoolMembersRequest) (response ListResourcePoolMembersResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -19938,6 +20155,64 @@ func (client DatabaseClient) modifyPluggableDatabaseManagement(ctx context.Conte
 	return response, err
 }
 
+// MountAdvancedClusterFileSystem Mounts the advanced cluster file system to all the virtual machines within a vmcluster.
+func (client DatabaseClient) MountAdvancedClusterFileSystem(ctx context.Context, request MountAdvancedClusterFileSystemRequest) (response MountAdvancedClusterFileSystemResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.mountAdvancedClusterFileSystem, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = MountAdvancedClusterFileSystemResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = MountAdvancedClusterFileSystemResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(MountAdvancedClusterFileSystemResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into MountAdvancedClusterFileSystemResponse")
+	}
+	return
+}
+
+// mountAdvancedClusterFileSystem implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) mountAdvancedClusterFileSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/advancedClusterFileSystems/{advancedClusterFileSystemId}/actions/mount", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response MountAdvancedClusterFileSystemResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AdvancedClusterFileSystem/MountAdvancedClusterFileSystem"
+		err = common.PostProcessServiceError(err, "Database", "MountAdvancedClusterFileSystem", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // MountDbnodeSnapshot Mounts the snapshot for the provided dbNode.
 func (client DatabaseClient) MountDbnodeSnapshot(ctx context.Context, request MountDbnodeSnapshotRequest) (response MountDbnodeSnapshotResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -20112,7 +20387,7 @@ func (client DatabaseClient) moveExecutionActionMember(ctx context.Context, requ
 	return response, err
 }
 
-// NotifyJobStart This operation should be called by broker team, broker team requests this operation to notify DBaaS CP that there's a job started for this Autonomous Database Serverless database.
+// NotifyJobStart This operation should be called by broker team, broker team requests this operation to notify DBaaS CP that there's a job started for this Autonomous AI Database Serverless database.
 func (client DatabaseClient) NotifyJobStart(ctx context.Context, request NotifyJobStartRequest) (response NotifyJobStartResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -20165,7 +20440,7 @@ func (client DatabaseClient) notifyJobStart(ctx context.Context, request common.
 	return response, err
 }
 
-// ReconcileAutonomousDatabase Reconciles the specified Autonomous Database.
+// ReconcileAutonomousDatabase Reconciles the specified Autonomous AI Database.
 func (client DatabaseClient) ReconcileAutonomousDatabase(ctx context.Context, request ReconcileAutonomousDatabaseRequest) (response ReconcileAutonomousDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -20334,7 +20609,7 @@ func (client DatabaseClient) refreshPluggableDatabase(ctx context.Context, reque
 	return response, err
 }
 
-// RegisterAutonomousDatabaseDataSafe Asynchronously registers this Autonomous Database with Data Safe.
+// RegisterAutonomousDatabaseDataSafe Asynchronously registers this Autonomous AI Database with Data Safe.
 func (client DatabaseClient) RegisterAutonomousDatabaseDataSafe(ctx context.Context, request RegisterAutonomousDatabaseDataSafeRequest) (response RegisterAutonomousDatabaseDataSafeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -21242,7 +21517,7 @@ func (client DatabaseClient) restartAutonomousContainerDatabase(ctx context.Cont
 	return response, err
 }
 
-// RestartAutonomousDatabase Restarts the specified Autonomous Database.
+// RestartAutonomousDatabase Restarts the specified Autonomous AI Database.
 func (client DatabaseClient) RestartAutonomousDatabase(ctx context.Context, request RestartAutonomousDatabaseRequest) (response RestartAutonomousDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -21295,7 +21570,7 @@ func (client DatabaseClient) restartAutonomousDatabase(ctx context.Context, requ
 	return response, err
 }
 
-// RestoreAutonomousDatabase Restores an Autonomous Database based on the provided request parameters.
+// RestoreAutonomousDatabase Restores an Autonomous AI Database based on the provided request parameters.
 func (client DatabaseClient) RestoreAutonomousDatabase(ctx context.Context, request RestoreAutonomousDatabaseRequest) (response RestoreAutonomousDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -22039,7 +22314,7 @@ func (client DatabaseClient) runDataPatch(ctx context.Context, request common.OC
 	return response, err
 }
 
-// SaasAdminUserStatus This operation gets SaaS administrative user status of the Autonomous Database.
+// SaasAdminUserStatus This operation gets SaaS administrative user status of the Autonomous AI Database.
 func (client DatabaseClient) SaasAdminUserStatus(ctx context.Context, request SaasAdminUserStatusRequest) (response SaasAdminUserStatusResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -22320,7 +22595,7 @@ func (client DatabaseClient) shrinkAutonomousDatabase(ctx context.Context, reque
 	return response, err
 }
 
-// StartAutonomousDatabase Starts the specified Autonomous Database.
+// StartAutonomousDatabase Starts the specified Autonomous AI Database.
 func (client DatabaseClient) StartAutonomousDatabase(ctx context.Context, request StartAutonomousDatabaseRequest) (response StartAutonomousDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -22431,7 +22706,7 @@ func (client DatabaseClient) startPluggableDatabase(ctx context.Context, request
 	return response, err
 }
 
-// StopAutonomousDatabase Stops the specified Autonomous Database.
+// StopAutonomousDatabase Stops the specified Autonomous AI Database.
 func (client DatabaseClient) StopAutonomousDatabase(ctx context.Context, request StopAutonomousDatabaseRequest) (response StopAutonomousDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -22711,7 +22986,7 @@ func (client DatabaseClient) switchoverAutonomousContainerDatabaseDataguardAssoc
 	return response, err
 }
 
-// SwitchoverAutonomousDatabase Initiates a switchover of the specified Autonomous Database to the associated peer database. Applicable only to databases with Disaster Recovery enabled.
+// SwitchoverAutonomousDatabase Initiates a switchover of the specified Autonomous AI Database to the associated peer database. Applicable only to databases with Disaster Recovery enabled.
 // This API should be called in the remote region where the peer database resides.
 // Below parameter is optional:
 //   - `peerDbId`
@@ -22990,6 +23265,64 @@ func (client DatabaseClient) terminateDbSystem(ctx context.Context, request comm
 	return response, err
 }
 
+// UnmountAdvancedClusterFileSystem Unmounts the advanced cluster file system from all the virtual machines within a vmcluster.
+func (client DatabaseClient) UnmountAdvancedClusterFileSystem(ctx context.Context, request UnmountAdvancedClusterFileSystemRequest) (response UnmountAdvancedClusterFileSystemResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.unmountAdvancedClusterFileSystem, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UnmountAdvancedClusterFileSystemResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UnmountAdvancedClusterFileSystemResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UnmountAdvancedClusterFileSystemResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UnmountAdvancedClusterFileSystemResponse")
+	}
+	return
+}
+
+// unmountAdvancedClusterFileSystem implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) unmountAdvancedClusterFileSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/advancedClusterFileSystems/{advancedClusterFileSystemId}/actions/unmount", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UnmountAdvancedClusterFileSystemResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AdvancedClusterFileSystem/UnmountAdvancedClusterFileSystem"
+		err = common.PostProcessServiceError(err, "Database", "UnmountAdvancedClusterFileSystem", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UnmountDbnodeSnapshot Unmounts the snapshot for the provided dbNode.
 func (client DatabaseClient) UnmountDbnodeSnapshot(ctx context.Context, request UnmountDbnodeSnapshotRequest) (response UnmountDbnodeSnapshotResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -23106,6 +23439,59 @@ func (client DatabaseClient) unregisterCloudVmClusterPkcs(ctx context.Context, r
 	return response, err
 }
 
+// UpdateAdvancedClusterFileSystem Updates the advanced cluster file system resource.
+func (client DatabaseClient) UpdateAdvancedClusterFileSystem(ctx context.Context, request UpdateAdvancedClusterFileSystemRequest) (response UpdateAdvancedClusterFileSystemResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateAdvancedClusterFileSystem, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateAdvancedClusterFileSystemResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateAdvancedClusterFileSystemResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateAdvancedClusterFileSystemResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateAdvancedClusterFileSystemResponse")
+	}
+	return
+}
+
+// updateAdvancedClusterFileSystem implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) updateAdvancedClusterFileSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/advancedClusterFileSystems/{advancedClusterFileSystemId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateAdvancedClusterFileSystemResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Database", "UpdateAdvancedClusterFileSystem", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateAutonomousContainerDatabase Updates the properties of an Autonomous Container Database, such as display name, maintenance preference, backup retention, and tags.
 func (client DatabaseClient) UpdateAutonomousContainerDatabase(ctx context.Context, request UpdateAutonomousContainerDatabaseRequest) (response UpdateAutonomousContainerDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -23212,7 +23598,7 @@ func (client DatabaseClient) updateAutonomousContainerDatabaseDataguardAssociati
 	return response, err
 }
 
-// UpdateAutonomousDatabase Updates one or more attributes of the specified Autonomous Database. See the UpdateAutonomousDatabaseDetails resource for a full list of attributes that can be updated.
+// UpdateAutonomousDatabase Updates one or more attributes of the specified Autonomous AI Database. See the UpdateAutonomousDatabaseDetails resource for a full list of attributes that can be updated.
 func (client DatabaseClient) UpdateAutonomousDatabase(ctx context.Context, request UpdateAutonomousDatabaseRequest) (response UpdateAutonomousDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -23265,7 +23651,7 @@ func (client DatabaseClient) updateAutonomousDatabase(ctx context.Context, reque
 	return response, err
 }
 
-// UpdateAutonomousDatabaseBackup Updates the Autonomous Database backup of the specified database based on the request parameters.
+// UpdateAutonomousDatabaseBackup Updates the Autonomous AI Database backup of the specified database based on the request parameters.
 func (client DatabaseClient) UpdateAutonomousDatabaseBackup(ctx context.Context, request UpdateAutonomousDatabaseBackupRequest) (response UpdateAutonomousDatabaseBackupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -23318,7 +23704,7 @@ func (client DatabaseClient) updateAutonomousDatabaseBackup(ctx context.Context,
 	return response, err
 }
 
-// UpdateAutonomousDatabaseRegionalWallet Updates the Autonomous Database regional wallet.
+// UpdateAutonomousDatabaseRegionalWallet Updates the Autonomous AI Database regional wallet.
 func (client DatabaseClient) UpdateAutonomousDatabaseRegionalWallet(ctx context.Context, request UpdateAutonomousDatabaseRegionalWalletRequest) (response UpdateAutonomousDatabaseRegionalWalletResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -23371,7 +23757,7 @@ func (client DatabaseClient) updateAutonomousDatabaseRegionalWallet(ctx context.
 	return response, err
 }
 
-// UpdateAutonomousDatabaseSoftwareImage Updates the properties of an Autonomous Database Software Image, like add tags
+// UpdateAutonomousDatabaseSoftwareImage Updates the properties of an Autonomous AI Database Software Image, like add tags
 func (client DatabaseClient) UpdateAutonomousDatabaseSoftwareImage(ctx context.Context, request UpdateAutonomousDatabaseSoftwareImageRequest) (response UpdateAutonomousDatabaseSoftwareImageResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -23424,7 +23810,7 @@ func (client DatabaseClient) updateAutonomousDatabaseSoftwareImage(ctx context.C
 	return response, err
 }
 
-// UpdateAutonomousDatabaseWallet Updates the wallet for the specified Autonomous Database.
+// UpdateAutonomousDatabaseWallet Updates the wallet for the specified Autonomous AI Database.
 func (client DatabaseClient) UpdateAutonomousDatabaseWallet(ctx context.Context, request UpdateAutonomousDatabaseWalletRequest) (response UpdateAutonomousDatabaseWalletResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -23797,7 +24183,7 @@ func (client DatabaseClient) updateCloudAutonomousVmCluster(ctx context.Context,
 	return response, err
 }
 
-// UpdateCloudExadataInfrastructure Updates the Cloud Exadata infrastructure resource. Applies to Exadata Cloud Service instances and Autonomous Database on dedicated Exadata infrastructure only.
+// UpdateCloudExadataInfrastructure Updates the Cloud Exadata infrastructure resource. Applies to Exadata Cloud Service instances and Autonomous AI Database on dedicated Exadata infrastructure only.
 func (client DatabaseClient) UpdateCloudExadataInfrastructure(ctx context.Context, request UpdateCloudExadataInfrastructureRequest) (response UpdateCloudExadataInfrastructureResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

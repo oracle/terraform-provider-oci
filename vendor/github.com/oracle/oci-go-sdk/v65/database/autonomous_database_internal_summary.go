@@ -15,13 +15,13 @@ import (
 	"strings"
 )
 
-// AutonomousDatabaseInternalSummary Details of Autonomous database for reconciliation.
+// AutonomousDatabaseInternalSummary Details of Autonomous AI Database for reconciliation.
 type AutonomousDatabaseInternalSummary struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous AI Database.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The current state of the Autonomous Database.
+	// The current state of the Autonomous AI Database.
 	LifecycleState AutonomousDatabaseInternalSummaryLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// The database name.

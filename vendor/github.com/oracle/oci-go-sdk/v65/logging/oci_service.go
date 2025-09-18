@@ -24,13 +24,13 @@ type OciService struct {
 	// Service generating log.
 	Service *string `mandatory:"true" json:"service"`
 
-	// The unique identifier of the resource emitting the log.
+	// The unique identifier of the resource emitting the log. The resource can be updated, and the resource value can vary depending on the OCI service to which the resource belongs to.
 	Resource *string `mandatory:"true" json:"resource"`
 
 	// Log object category.
 	Category *string `mandatory:"true" json:"category"`
 
-	// Log category parameters are stored here.
+	// Log category parameters are stored here. The resource for a service log can't be updated.
 	Parameters map[string]string `mandatory:"false" json:"parameters"`
 }
 

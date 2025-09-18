@@ -17,7 +17,7 @@ type BackfillFawInstanceIdOnAdbDetailsRequest struct {
 	// The database OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	AutonomousDatabaseId *string `mandatory:"true" contributesTo:"path" name:"autonomousDatabaseId"`
 
-	// Backfills the specified Autonomous Database with FAW instance Id.
+	// Backfills the specified Autonomous AI Database with FAW instance Id.
 	BackfillFawInstanceIdOnAdbDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

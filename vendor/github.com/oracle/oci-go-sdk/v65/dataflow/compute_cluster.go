@@ -147,6 +147,9 @@ type ComputeCluster struct {
 	// Compute Cluster Type.
 	ClusterType *string `mandatory:"false" json:"clusterType"`
 
+	// Tag slug from user tenancy passed from Datalake as Base64.getEncoder().encodeToString(data)
+	UserTenancyTagSlug *string `mandatory:"false" json:"userTenancyTagSlug"`
+
 	// The JDBC URL field. For example, jdbc:spark://{serviceFQDN}:443/default;SparkServerType=DFI
 	JdbcEndpointUrl *string `mandatory:"false" json:"jdbcEndpointUrl"`
 

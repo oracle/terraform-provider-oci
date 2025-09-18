@@ -17,7 +17,7 @@ type ReconcileAutonomousDatabaseRequest struct {
 	// The database OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	AutonomousDatabaseId *string `mandatory:"true" contributesTo:"path" name:"autonomousDatabaseId"`
 
-	// Reconciles the specified objects within the Autonomous Database.
+	// Reconciles the specified objects within the Autonomous AI Database.
 	ReconcileAutonomousDatabaseDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

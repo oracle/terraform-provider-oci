@@ -14,7 +14,7 @@ import (
 // DeleteAutonomousDatabaseBackupRequest wrapper for the DeleteAutonomousDatabaseBackup operation
 type DeleteAutonomousDatabaseBackupRequest struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database backup.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous AI Database backup.
 	AutonomousDatabaseBackupId *string `mandatory:"true" contributesTo:"path" name:"autonomousDatabaseBackupId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

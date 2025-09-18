@@ -18,18 +18,21 @@ type ContainerVolumeTypeEnum string
 
 // Set of constants representing the allowable values for ContainerVolumeTypeEnum
 const (
-	ContainerVolumeTypeEmptydir   ContainerVolumeTypeEnum = "EMPTYDIR"
-	ContainerVolumeTypeConfigfile ContainerVolumeTypeEnum = "CONFIGFILE"
+	ContainerVolumeTypeEmptydir         ContainerVolumeTypeEnum = "EMPTYDIR"
+	ContainerVolumeTypeConfigfile       ContainerVolumeTypeEnum = "CONFIGFILE"
+	ContainerVolumeTypeOciFssFileSystem ContainerVolumeTypeEnum = "OCI_FSS_FILE_SYSTEM"
 )
 
 var mappingContainerVolumeTypeEnum = map[string]ContainerVolumeTypeEnum{
-	"EMPTYDIR":   ContainerVolumeTypeEmptydir,
-	"CONFIGFILE": ContainerVolumeTypeConfigfile,
+	"EMPTYDIR":            ContainerVolumeTypeEmptydir,
+	"CONFIGFILE":          ContainerVolumeTypeConfigfile,
+	"OCI_FSS_FILE_SYSTEM": ContainerVolumeTypeOciFssFileSystem,
 }
 
 var mappingContainerVolumeTypeEnumLowerCase = map[string]ContainerVolumeTypeEnum{
-	"emptydir":   ContainerVolumeTypeEmptydir,
-	"configfile": ContainerVolumeTypeConfigfile,
+	"emptydir":            ContainerVolumeTypeEmptydir,
+	"configfile":          ContainerVolumeTypeConfigfile,
+	"oci_fss_file_system": ContainerVolumeTypeOciFssFileSystem,
 }
 
 // GetContainerVolumeTypeEnumValues Enumerates the set of values for ContainerVolumeTypeEnum
@@ -46,6 +49,7 @@ func GetContainerVolumeTypeEnumStringValues() []string {
 	return []string{
 		"EMPTYDIR",
 		"CONFIGFILE",
+		"OCI_FSS_FILE_SYSTEM",
 	}
 }
 

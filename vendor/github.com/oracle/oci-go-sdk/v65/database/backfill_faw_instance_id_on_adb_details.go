@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// BackfillFawInstanceIdOnAdbDetails Details for backfill to the Autonomous Database.
+// BackfillFawInstanceIdOnAdbDetails Details for backfill to the Autonomous AI Database.
 type BackfillFawInstanceIdOnAdbDetails struct {
 
 	// The Fusion Analytics Warehouse Instance Id.

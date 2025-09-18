@@ -5607,3 +5607,56 @@ func (client BdsClient) updateResourcePrincipalConfiguration(ctx context.Context
 	err = common.UnmarshalResponse(httpResponse, &response)
 	return response, err
 }
+
+// UpdateSoftwareUpdates Internal endpoint to update the specified software update to this cluster.
+func (client BdsClient) UpdateSoftwareUpdates(ctx context.Context, request UpdateSoftwareUpdatesRequest) (response UpdateSoftwareUpdatesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateSoftwareUpdates, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateSoftwareUpdatesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateSoftwareUpdatesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateSoftwareUpdatesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateSoftwareUpdatesResponse")
+	}
+	return
+}
+
+// updateSoftwareUpdates implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) updateSoftwareUpdates(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/bdsInstances/{bdsInstanceId}/actions/softwareUpdates", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateSoftwareUpdatesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/SoftwareUpdate/UpdateSoftwareUpdates"
+		err = common.PostProcessServiceError(err, "Bds", "UpdateSoftwareUpdates", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &softwareupdate{})
+	return response, err
+}

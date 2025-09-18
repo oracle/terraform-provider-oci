@@ -70,6 +70,11 @@ type CreateIcebergConnectionDetails struct {
 	// subscription id is provided. Otherwise the cluster placement group must not be provided.
 	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
 
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
 	// Controls the network traffic direction to the target:
 	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.
 	// SHARED_DEPLOYMENT_ENDPOINT: Network traffic flows from the assigned deployment's private endpoint through the deployment's subnet.
@@ -150,6 +155,11 @@ func (m CreateIcebergConnectionDetails) GetClusterPlacementGroupId() *string {
 	return m.ClusterPlacementGroupId
 }
 
+// GetSecurityAttributes returns SecurityAttributes
+func (m CreateIcebergConnectionDetails) GetSecurityAttributes() map[string]map[string]interface{} {
+	return m.SecurityAttributes
+}
+
 func (m CreateIcebergConnectionDetails) String() string {
 	return common.PointerString(m)
 }
@@ -201,6 +211,7 @@ func (m *CreateIcebergConnectionDetails) UnmarshalJSON(data []byte) (e error) {
 		DoesUseSecretIds        *bool                               `json:"doesUseSecretIds"`
 		SubscriptionId          *string                             `json:"subscriptionId"`
 		ClusterPlacementGroupId *string                             `json:"clusterPlacementGroupId"`
+		SecurityAttributes      map[string]map[string]interface{}   `json:"securityAttributes"`
 		DisplayName             *string                             `json:"displayName"`
 		CompartmentId           *string                             `json:"compartmentId"`
 		TechnologyType          IcebergConnectionTechnologyTypeEnum `json:"technologyType"`
@@ -236,6 +247,8 @@ func (m *CreateIcebergConnectionDetails) UnmarshalJSON(data []byte) (e error) {
 	m.SubscriptionId = model.SubscriptionId
 
 	m.ClusterPlacementGroupId = model.ClusterPlacementGroupId
+
+	m.SecurityAttributes = model.SecurityAttributes
 
 	m.DisplayName = model.DisplayName
 

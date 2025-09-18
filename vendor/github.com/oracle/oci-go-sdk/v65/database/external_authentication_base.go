@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ExternalAuthenticationBase The object holds external authentication details for Oracle Autonomous Databases.
+// ExternalAuthenticationBase The object holds external authentication details for Oracle Autonomous AI Databases.
 type ExternalAuthenticationBase interface {
 }
 

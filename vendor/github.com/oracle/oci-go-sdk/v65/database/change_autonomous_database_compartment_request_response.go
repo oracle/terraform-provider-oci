@@ -14,7 +14,7 @@ import (
 // ChangeAutonomousDatabaseCompartmentRequest wrapper for the ChangeAutonomousDatabaseCompartment operation
 type ChangeAutonomousDatabaseCompartmentRequest struct {
 
-	// Request to move Autonomous Database to a different compartment
+	// Request to move Autonomous AI Database to a different compartment
 	ChangeCompartmentDetails `contributesTo:"body"`
 
 	// The database OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).

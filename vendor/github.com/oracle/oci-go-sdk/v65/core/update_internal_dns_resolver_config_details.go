@@ -26,6 +26,9 @@ type UpdateInternalDnsResolverConfigDetails struct {
 
 	// The EcmpGroup's OCID Oracle ID (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) associated to the given DnsResolver.
 	EcmpGroupId *string `mandatory:"false" json:"ecmpGroupId"`
+
+	// The overlayIp associated to the given DnsResovler.
+	DnsOverlayIp *string `mandatory:"false" json:"dnsOverlayIp"`
 }
 
 func (m UpdateInternalDnsResolverConfigDetails) String() string {

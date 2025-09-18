@@ -2,12 +2,12 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// File Storage with Lustre API
+// Budgets API
 //
-// Use the File Storage with Lustre API to manage Lustre file systems and related resources. For more information, see File Storage with Lustre (https://docs.oracle.com/iaas/Content/lustre/home.htm).
+// Use the Budgets API to manage budgets and budget alerts. For more information, see Budgets Overview (https://docs.oracle.com/iaas/Content/Billing/Concepts/budgetsoverview.htm).
 //
 
-package lustrefilestorage
+package budget
 
 import (
 	"fmt"
@@ -15,21 +15,21 @@ import (
 	"strings"
 )
 
-// StopExportToObjectDetails Details about stopping an export to Object Storage.
-type StopExportToObjectDetails struct {
+// CostAlertSubscriptionCollection Results of a costAlertSubscription search. Contains both CostAlertSubscriptionSummary items and other data.
+type CostAlertSubscriptionCollection struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of currently running job.
-	SyncJobId *string `mandatory:"true" json:"syncJobId"`
+	// A page of CostAnomalyMonitorSummary objects.
+	Items []CostAlertSubscriptionSummary `mandatory:"true" json:"items"`
 }
 
-func (m StopExportToObjectDetails) String() string {
+func (m CostAlertSubscriptionCollection) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m StopExportToObjectDetails) ValidateEnumValue() (bool, error) {
+func (m CostAlertSubscriptionCollection) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

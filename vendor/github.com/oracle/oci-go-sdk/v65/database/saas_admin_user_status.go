@@ -18,13 +18,13 @@ import (
 // SaasAdminUserStatus SaaS administrative user status.
 type SaasAdminUserStatus struct {
 
-	// Indicates if the SaaS administrative user is enabled for the Autonomous Database.
+	// Indicates if the SaaS administrative user is enabled for the Autonomous AI Database.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
 	// The access type for the SaaS administrative user. If no access type is specified, the READ_ONLY access type is used.
 	AccessType SaasAdminUserStatusAccessTypeEnum `mandatory:"false" json:"accessType,omitempty"`
 
-	// The date and time the SaaS administrative user was enabled at, for the Autonomous Database.
+	// The date and time the SaaS administrative user was enabled at, for the Autonomous AI Database.
 	TimeSaasAdminUserEnabled *common.SDKTime `mandatory:"false" json:"timeSaasAdminUserEnabled"`
 }
 

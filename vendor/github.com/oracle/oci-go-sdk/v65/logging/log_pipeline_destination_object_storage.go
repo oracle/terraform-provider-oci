@@ -29,6 +29,9 @@ type LogPipelineDestinationObjectStorage struct {
 
 	// Name of Log Pipeline destination.
 	Name *string `mandatory:"false" json:"name"`
+
+	// Frequency of flushing the Object storage file by kraken in Minutes
+	FlushFrequencyInMin *int `mandatory:"false" json:"flushFrequencyInMin"`
 }
 
 // GetName returns Name

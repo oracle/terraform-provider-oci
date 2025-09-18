@@ -96,6 +96,11 @@ type IcebergConnection struct {
 	// subscription id is provided. Otherwise the cluster placement group must not be provided.
 	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
 
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
 	// The Iceberg technology type.
 	TechnologyType IcebergConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
 
@@ -214,6 +219,11 @@ func (m IcebergConnection) GetClusterPlacementGroupId() *string {
 	return m.ClusterPlacementGroupId
 }
 
+// GetSecurityAttributes returns SecurityAttributes
+func (m IcebergConnection) GetSecurityAttributes() map[string]map[string]interface{} {
+	return m.SecurityAttributes
+}
+
 func (m IcebergConnection) String() string {
 	return common.PointerString(m)
 }
@@ -271,6 +281,7 @@ func (m *IcebergConnection) UnmarshalJSON(data []byte) (e error) {
 		DoesUseSecretIds        *bool                               `json:"doesUseSecretIds"`
 		SubscriptionId          *string                             `json:"subscriptionId"`
 		ClusterPlacementGroupId *string                             `json:"clusterPlacementGroupId"`
+		SecurityAttributes      map[string]map[string]interface{}   `json:"securityAttributes"`
 		Id                      *string                             `json:"id"`
 		DisplayName             *string                             `json:"displayName"`
 		CompartmentId           *string                             `json:"compartmentId"`
@@ -316,6 +327,8 @@ func (m *IcebergConnection) UnmarshalJSON(data []byte) (e error) {
 	m.SubscriptionId = model.SubscriptionId
 
 	m.ClusterPlacementGroupId = model.ClusterPlacementGroupId
+
+	m.SecurityAttributes = model.SecurityAttributes
 
 	m.Id = model.Id
 

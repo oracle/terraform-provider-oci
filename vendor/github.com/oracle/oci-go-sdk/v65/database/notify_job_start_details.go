@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// NotifyJobStartDetails Details of broker job id and job type for this Autonomous Database Serverless database.
+// NotifyJobStartDetails Details of broker job id and job type for this Autonomous AI Database Serverless database.
 type NotifyJobStartDetails struct {
 
 	// The broker job id in the notification.

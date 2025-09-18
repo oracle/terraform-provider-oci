@@ -34,6 +34,12 @@ type InstallOdhPatchDetails struct {
 	// Cluster Admin Password
 	ClusterAdminPassword *string `mandatory:"true" json:"clusterAdminPassword"`
 
+	// The algorithm for the checkSum used for the ODH patch.
+	CheckSumAlgo InstallOdhPatchDetailsCheckSumAlgoEnum `mandatory:"false" json:"checkSumAlgo,omitempty"`
+
+	// The checkSum of the ODH patch to be installed.
+	CheckSum *string `mandatory:"false" json:"checkSum"`
+
 	// The flag to check if the ODH patch can be installed.
 	IsCompatibilityCheck *bool `mandatory:"false" json:"isCompatibilityCheck"`
 
@@ -50,6 +56,9 @@ func (m InstallOdhPatchDetails) String() string {
 func (m InstallOdhPatchDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingInstallOdhPatchDetailsCheckSumAlgoEnum(string(m.CheckSumAlgo)); !ok && m.CheckSumAlgo != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CheckSumAlgo: %s. Supported values are: %s.", m.CheckSumAlgo, strings.Join(GetInstallOdhPatchDetailsCheckSumAlgoEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -59,13 +68,15 @@ func (m InstallOdhPatchDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *InstallOdhPatchDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		IsCompatibilityCheck *bool             `json:"isCompatibilityCheck"`
-		PatchingConfig       odhpatchingconfig `json:"patchingConfig"`
-		Version              *string           `json:"version"`
-		OdhPatchName         *string           `json:"odhPatchName"`
-		PaUrl                *string           `json:"paUrl"`
-		Md5Hash              *string           `json:"md5Hash"`
-		ClusterAdminPassword *string           `json:"clusterAdminPassword"`
+		CheckSumAlgo         InstallOdhPatchDetailsCheckSumAlgoEnum `json:"checkSumAlgo"`
+		CheckSum             *string                                `json:"checkSum"`
+		IsCompatibilityCheck *bool                                  `json:"isCompatibilityCheck"`
+		PatchingConfig       odhpatchingconfig                      `json:"patchingConfig"`
+		Version              *string                                `json:"version"`
+		OdhPatchName         *string                                `json:"odhPatchName"`
+		PaUrl                *string                                `json:"paUrl"`
+		Md5Hash              *string                                `json:"md5Hash"`
+		ClusterAdminPassword *string                                `json:"clusterAdminPassword"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -73,6 +84,10 @@ func (m *InstallOdhPatchDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.CheckSumAlgo = model.CheckSumAlgo
+
+	m.CheckSum = model.CheckSum
+
 	m.IsCompatibilityCheck = model.IsCompatibilityCheck
 
 	nn, e = model.PatchingConfig.UnmarshalPolymorphicJSON(model.PatchingConfig.JsonData)
@@ -96,4 +111,42 @@ func (m *InstallOdhPatchDetails) UnmarshalJSON(data []byte) (e error) {
 	m.ClusterAdminPassword = model.ClusterAdminPassword
 
 	return
+}
+
+// InstallOdhPatchDetailsCheckSumAlgoEnum Enum with underlying type: string
+type InstallOdhPatchDetailsCheckSumAlgoEnum string
+
+// Set of constants representing the allowable values for InstallOdhPatchDetailsCheckSumAlgoEnum
+const (
+	InstallOdhPatchDetailsCheckSumAlgoSha256 InstallOdhPatchDetailsCheckSumAlgoEnum = "SHA256"
+)
+
+var mappingInstallOdhPatchDetailsCheckSumAlgoEnum = map[string]InstallOdhPatchDetailsCheckSumAlgoEnum{
+	"SHA256": InstallOdhPatchDetailsCheckSumAlgoSha256,
+}
+
+var mappingInstallOdhPatchDetailsCheckSumAlgoEnumLowerCase = map[string]InstallOdhPatchDetailsCheckSumAlgoEnum{
+	"sha256": InstallOdhPatchDetailsCheckSumAlgoSha256,
+}
+
+// GetInstallOdhPatchDetailsCheckSumAlgoEnumValues Enumerates the set of values for InstallOdhPatchDetailsCheckSumAlgoEnum
+func GetInstallOdhPatchDetailsCheckSumAlgoEnumValues() []InstallOdhPatchDetailsCheckSumAlgoEnum {
+	values := make([]InstallOdhPatchDetailsCheckSumAlgoEnum, 0)
+	for _, v := range mappingInstallOdhPatchDetailsCheckSumAlgoEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetInstallOdhPatchDetailsCheckSumAlgoEnumStringValues Enumerates the set of values in String for InstallOdhPatchDetailsCheckSumAlgoEnum
+func GetInstallOdhPatchDetailsCheckSumAlgoEnumStringValues() []string {
+	return []string{
+		"SHA256",
+	}
+}
+
+// GetMappingInstallOdhPatchDetailsCheckSumAlgoEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingInstallOdhPatchDetailsCheckSumAlgoEnum(val string) (InstallOdhPatchDetailsCheckSumAlgoEnum, bool) {
+	enum, ok := mappingInstallOdhPatchDetailsCheckSumAlgoEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

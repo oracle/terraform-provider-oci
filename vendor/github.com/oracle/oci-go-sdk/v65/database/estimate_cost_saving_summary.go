@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// EstimateCostSavingSummary Autonomous Database cost savings.
+// EstimateCostSavingSummary Autonomous AI Database cost savings.
 type EstimateCostSavingSummary struct {
 
 	// The epoch time at which cost aggregation starts.
@@ -28,13 +28,13 @@ type EstimateCostSavingSummary struct {
 	IsCpuAutoscale *bool `mandatory:"false" json:"isCpuAutoscale"`
 
 	// CPU cost for a given time period under regular billing plan, in ECPU hours.
-	RegularCpuCost *int64 `mandatory:"false" json:"regularCpuCost"`
+	EstimatedUsageWithoutElasticPool *int64 `mandatory:"false" json:"estimatedUsageWithoutElasticPool"`
 
 	// CPU cost for a given time period under elastic pool billing plan, in ECPU hours.
-	ElasticPoolCpuCost *int64 `mandatory:"false" json:"elasticPoolCpuCost"`
+	UsageWithElasticPool *int64 `mandatory:"false" json:"usageWithElasticPool"`
 
 	// Estimated cost savings in percentage with elastic pool utilization.
-	ElasticPoolCostSavings *float64 `mandatory:"false" json:"elasticPoolCostSavings"`
+	CostSavingsWithElasticPool *float64 `mandatory:"false" json:"costSavingsWithElasticPool"`
 }
 
 func (m EstimateCostSavingSummary) String() string {

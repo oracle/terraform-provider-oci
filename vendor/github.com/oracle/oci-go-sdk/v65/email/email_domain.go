@@ -64,6 +64,9 @@ type EmailDomain struct {
 	// resource in 'Failed' state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// Indicates if email list unsubscribe header addition is enabled.
+	IsListUnsubscribeEnabled *bool `mandatory:"false" json:"isListUnsubscribeEnabled"`
+
 	// The description of an email domain.
 	Description *string `mandatory:"false" json:"description"`
 

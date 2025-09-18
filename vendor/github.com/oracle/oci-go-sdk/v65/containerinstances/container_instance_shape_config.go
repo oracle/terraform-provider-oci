@@ -30,9 +30,6 @@ type ContainerInstanceShapeConfig struct {
 
 	// The networking bandwidth available to the container instance, in gigabits per second.
 	NetworkingBandwidthInGbps *float32 `mandatory:"true" json:"networkingBandwidthInGbps"`
-
-	// The baseline OCPU utilization for a subcore burstable VM instance.
-	BaselineOcpuUtilization *float32 `mandatory:"false" json:"baselineOcpuUtilization"`
 }
 
 func (m ContainerInstanceShapeConfig) String() string {

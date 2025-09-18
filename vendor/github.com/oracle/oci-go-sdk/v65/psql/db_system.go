@@ -100,6 +100,8 @@ type DbSystem struct {
 	Instances []DbInstance `mandatory:"false" json:"instances"`
 
 	Source SourceDetails `mandatory:"false" json:"source"`
+
+	KerberosAuthDetails KerberosAuthDetails `mandatory:"false" json:"kerberosAuthDetails"`
 }
 
 func (m DbSystem) String() string {
@@ -142,6 +144,7 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 		InstanceCount           *int                              `json:"instanceCount"`
 		Instances               []DbInstance                      `json:"instances"`
 		Source                  sourcedetails                     `json:"source"`
+		KerberosAuthDetails     kerberosauthdetails               `json:"kerberosAuthDetails"`
 		Id                      *string                           `json:"id"`
 		DisplayName             *string                           `json:"displayName"`
 		CompartmentId           *string                           `json:"compartmentId"`
@@ -193,6 +196,16 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 		m.Source = nn.(SourceDetails)
 	} else {
 		m.Source = nil
+	}
+
+	nn, e = model.KerberosAuthDetails.UnmarshalPolymorphicJSON(model.KerberosAuthDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.KerberosAuthDetails = nn.(KerberosAuthDetails)
+	} else {
+		m.KerberosAuthDetails = nil
 	}
 
 	m.Id = model.Id

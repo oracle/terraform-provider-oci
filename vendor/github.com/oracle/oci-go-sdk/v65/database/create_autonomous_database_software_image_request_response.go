@@ -14,7 +14,7 @@ import (
 // CreateAutonomousDatabaseSoftwareImageRequest wrapper for the CreateAutonomousDatabaseSoftwareImage operation
 type CreateAutonomousDatabaseSoftwareImageRequest struct {
 
-	// Request to create Autonomous Database Software Image.
+	// Request to create Autonomous AI Database Software Image.
 	CreateAutonomousDatabaseSoftwareImageDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

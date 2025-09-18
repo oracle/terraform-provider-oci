@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// RotateAutonomousDatabaseEncryptionKeyDetails Key details provided by the user for rotate key operation for Autonomous Database.
+// RotateAutonomousDatabaseEncryptionKeyDetails Key details provided by the user for rotate key operation for Autonomous AI Database.
 type RotateAutonomousDatabaseEncryptionKeyDetails struct {
 
 	// Key version ocid of the key provided by the user for rotate operation. OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).

@@ -47,6 +47,9 @@ type EmailDomainSummary struct {
 	// This can not be set to a value other than NONE unless emailPrivateEndpointId references an ACTIVE bi-directional submission email private endpoint.
 	RequirePrivatePath RequirePrivatePathTypeEnum `mandatory:"false" json:"requirePrivatePath,omitempty"`
 
+	// Indicates if email list unsubscribe header addition is enabled.
+	IsListUnsubscribeEnabled *bool `mandatory:"false" json:"isListUnsubscribeEnabled"`
+
 	// The description of an email domain.
 	Description *string `mandatory:"false" json:"description"`
 

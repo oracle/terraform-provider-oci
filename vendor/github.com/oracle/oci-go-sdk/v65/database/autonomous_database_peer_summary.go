@@ -15,13 +15,13 @@ import (
 	"strings"
 )
 
-// AutonomousDatabasePeerSummary The object holds details about a peer Autonomous Database for Oracle Autonomous Database.
+// AutonomousDatabasePeerSummary The object holds details about a peer Autonomous AI Database for Oracle Autonomous AI Database.
 type AutonomousDatabasePeerSummary struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous AI Database.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The name of the region where this peer Autonomous Database clone exists.
+	// The name of the region where this peer Autonomous AI Database clone exists.
 	Region *string `mandatory:"false" json:"region"`
 }
 

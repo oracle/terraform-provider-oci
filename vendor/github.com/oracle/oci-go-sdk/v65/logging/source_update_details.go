@@ -20,7 +20,7 @@ import (
 // SourceUpdateDetails Source updated configuration.
 type SourceUpdateDetails struct {
 
-	// Log category parameters are stored here.
+	// Log category parameters are stored here. The resource for a service log can't be updated.
 	Parameters map[string]string `mandatory:"false" json:"parameters"`
 }
 

@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// AutonomousDatabaseMaintenanceWindowSummary Autonomous Database maintenance window. The maintenance window can be configured during database creation. To change the maintenance window of an existing Autonomous Database Serverless instance, clone the database and specify the maintenance window for the new cloned instance.
+// AutonomousDatabaseMaintenanceWindowSummary Autonomous AI Database maintenance window. The maintenance window can be configured during database creation. To change the maintenance window of an existing Autonomous AI Database Serverless instance, clone the database and specify the maintenance window for the new cloned instance.
 type AutonomousDatabaseMaintenanceWindowSummary struct {
 	DayOfWeek *DayOfWeek `mandatory:"true" json:"dayOfWeek"`
 

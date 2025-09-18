@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// DatabaseConnectionString The Oracle Database connection string.
+// DatabaseConnectionString The Oracle AI Database connection string.
 type DatabaseConnectionString struct {
 
 	// The host name of the database.

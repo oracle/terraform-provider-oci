@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// AutonomousDatabaseBackupConfig Autonomous Database configuration details for storing manual backups (https://docs.oracle.com/en/cloud/paas/autonomous-database/adbsa/backup-restore.html#GUID-9035DFB8-4702-4CEB-8281-C2A303820809) in the Object Storage (https://docs.oracle.com/iaas/Content/Object/Concepts/objectstorageoverview.htm) service.
+// AutonomousDatabaseBackupConfig Autonomous AI Database configuration details for storing manual backups (https://docs.oracle.com/en/cloud/paas/autonomous-database/adbsa/backup-restore.html#GUID-9035DFB8-4702-4CEB-8281-C2A303820809) in the Object Storage (https://docs.oracle.com/iaas/Content/Object/Concepts/objectstorageoverview.htm) service.
 type AutonomousDatabaseBackupConfig struct {
 
 	// Name of Object Storage (https://docs.oracle.com/iaas/Content/Object/Concepts/objectstorageoverview.htm) bucket to use for storing manual backups.

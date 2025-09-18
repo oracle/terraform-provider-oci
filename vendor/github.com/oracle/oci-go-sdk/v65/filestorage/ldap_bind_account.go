@@ -71,6 +71,12 @@ type LdapBindAccount struct {
 	// Version of the password secret in the Vault to use.
 	PasswordSecretVersion *int `mandatory:"false" json:"passwordSecretVersion"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the trusted certificate for the LDAP server in the Vault .
+	TrustedCertificateSecretId *string `mandatory:"false" json:"trustedCertificateSecretId"`
+
+	// Version of the trusted certificate secret in the Vault to use.
+	TrustedCertificateSecretVersion *int `mandatory:"false" json:"trustedCertificateSecretVersion"`
+
 	// The current state of this outbound connector.
 	LifecycleState OutboundConnectorLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }

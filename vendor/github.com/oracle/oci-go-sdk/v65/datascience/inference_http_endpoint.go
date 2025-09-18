@@ -2,12 +2,12 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// File Storage with Lustre API
+// Data Science API
 //
-// Use the File Storage with Lustre API to manage Lustre file systems and related resources. For more information, see File Storage with Lustre (https://docs.oracle.com/iaas/Content/lustre/home.htm).
+// Use the Data Science API to organize your data science work, access data and computing resources, and build, train, deploy and manage models and model deployments. For more information, see Data Science (https://docs.oracle.com/iaas/data-science/using/data-science.htm).
 //
 
-package lustrefilestorage
+package datascience
 
 import (
 	"fmt"
@@ -15,21 +15,24 @@ import (
 	"strings"
 )
 
-// StartImportFromObjectDetails Details about starting an import from Object Storage.
-type StartImportFromObjectDetails struct {
+// InferenceHttpEndpoint Represents a custom HTTP endpoint detail for inferencing.
+type InferenceHttpEndpoint struct {
 
-	// Whether or not overwriting existing files is allowed or not.
-	IsOverwrite *bool `mandatory:"true" json:"isOverwrite"`
+	// The suffix part of the endpoint that will be allowed for invocation.
+	EndpointUriSuffix *string `mandatory:"true" json:"endpointUriSuffix"`
+
+	// List of HTTP methods acceptable by the URI.
+	HttpMethods []HttpMethodEnum `mandatory:"true" json:"httpMethods"`
 }
 
-func (m StartImportFromObjectDetails) String() string {
+func (m InferenceHttpEndpoint) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m StartImportFromObjectDetails) ValidateEnumValue() (bool, error) {
+func (m InferenceHttpEndpoint) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

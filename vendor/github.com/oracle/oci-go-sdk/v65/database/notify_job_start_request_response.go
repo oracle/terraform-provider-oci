@@ -17,7 +17,7 @@ type NotifyJobStartRequest struct {
 	// The database OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	AutonomousDatabaseId *string `mandatory:"true" contributesTo:"path" name:"autonomousDatabaseId"`
 
-	// Send broker job id and job type for this Autonomous Database Serverless database.
+	// Send broker job id and job type for this Autonomous AI Database Serverless database.
 	NotifyJobStartDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

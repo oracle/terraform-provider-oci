@@ -71,6 +71,11 @@ type ObjectStorageLinkSummary struct {
 	// Example: `objectStorageNamespace:/bucketName/optionalFolder/optionalPrefix`
 	ObjectStoragePrefix *string `mandatory:"true" json:"objectStoragePrefix"`
 
+	// The flag is an identifier to tell whether the job run has overwrite enabled.
+	// If `isOverwrite` is false, the file to be imported or exported will be skipped if it already exists.
+	// If `isOverwrite` is true, the file to be imported or exported will be overwritten if it already exists.
+	IsOverwrite *bool `mandatory:"true" json:"isOverwrite"`
+
 	// A message that describes the current state of the Object Storage link in more detail. For example,
 	// can be used to provide actionable information for a resource in the Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`

@@ -78,6 +78,8 @@ type AgentEndpoint struct {
 	// can be used to provide actionable information for a resource in the Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	ProvisionedCapacityConfig *ProvisionedCapacityConfig `mandatory:"false" json:"provisionedCapacityConfig"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

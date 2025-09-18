@@ -14,7 +14,7 @@ import (
 // DeleteAutonomousDatabaseSoftwareImageRequest wrapper for the DeleteAutonomousDatabaseSoftwareImage operation
 type DeleteAutonomousDatabaseSoftwareImageRequest struct {
 
-	// The Autonomous Database Software Image OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// The Autonomous AI Database Software Image OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	AutonomousDatabaseSoftwareImageId *string `mandatory:"true" contributesTo:"path" name:"autonomousDatabaseSoftwareImageId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

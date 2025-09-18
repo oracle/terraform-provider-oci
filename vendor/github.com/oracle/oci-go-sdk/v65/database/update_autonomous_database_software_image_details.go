@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// UpdateAutonomousDatabaseSoftwareImageDetails Describes the parameters for updating the Autonomous Database Software Image
+// UpdateAutonomousDatabaseSoftwareImageDetails Describes the parameters for updating the Autonomous AI Database Software Image
 type UpdateAutonomousDatabaseSoftwareImageDetails struct {
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

@@ -72,7 +72,7 @@ type Policy struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// Locks associated with this resource.
+	// Locks associated with this resource.This can be used only after your tenancy is whitelisted for this feature.
 	Locks []ResourceLockPolicy `mandatory:"false" json:"locks"`
 }
 

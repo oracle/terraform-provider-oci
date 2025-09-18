@@ -66,6 +66,10 @@ func (m *logpipelinedestination) UnmarshalPolymorphicJSON(data []byte) (interfac
 		mm := LogPipelineDestinationLogging{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "STREAMING_OSS":
+		mm := LogPipelineDestinationStreamingOss{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "LOGGING_SEARCH":
 		mm := LogPipelineDestinationLoggingSearch{}
 		err = json.Unmarshal(data, &mm)

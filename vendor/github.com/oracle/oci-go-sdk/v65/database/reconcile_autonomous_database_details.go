@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// ReconcileAutonomousDatabaseDetails Request payload for reconciling attributes in the Autonomous Database.
+// ReconcileAutonomousDatabaseDetails Request payload for reconciling attributes in the Autonomous AI Database.
 type ReconcileAutonomousDatabaseDetails struct {
 
-	// A list of objects to be reconciled in the Autonomous Database.
+	// A list of objects to be reconciled in the Autonomous AI Database.
 	ReconciliationObjects []ReconcileAutonomousDatabaseDetailsReconciliationObjectsEnum `mandatory:"false" json:"reconciliationObjects,omitempty"`
 }
 

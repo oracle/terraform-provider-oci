@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// ChangeAutonomousDatabaseSubscriptionDetails The configuration details for associating the Autonomous Database with a different subscription.
+// ChangeAutonomousDatabaseSubscriptionDetails The configuration details for associating the Autonomous AI Database with a different subscription.
 type ChangeAutonomousDatabaseSubscriptionDetails struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.

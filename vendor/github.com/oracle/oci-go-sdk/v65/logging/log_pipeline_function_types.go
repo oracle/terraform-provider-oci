@@ -25,6 +25,7 @@ const (
 	LogPipelineFunctionTypesDrop      LogPipelineFunctionTypesEnum = "DROP"
 	LogPipelineFunctionTypesRename    LogPipelineFunctionTypesEnum = "RENAME"
 	LogPipelineFunctionTypesRegexp    LogPipelineFunctionTypesEnum = "REGEXP"
+	LogPipelineFunctionTypesUnroll    LogPipelineFunctionTypesEnum = "UNROLL"
 )
 
 var mappingLogPipelineFunctionTypesEnum = map[string]LogPipelineFunctionTypesEnum{
@@ -33,6 +34,7 @@ var mappingLogPipelineFunctionTypesEnum = map[string]LogPipelineFunctionTypesEnu
 	"DROP":      LogPipelineFunctionTypesDrop,
 	"RENAME":    LogPipelineFunctionTypesRename,
 	"REGEXP":    LogPipelineFunctionTypesRegexp,
+	"UNROLL":    LogPipelineFunctionTypesUnroll,
 }
 
 var mappingLogPipelineFunctionTypesEnumLowerCase = map[string]LogPipelineFunctionTypesEnum{
@@ -41,6 +43,7 @@ var mappingLogPipelineFunctionTypesEnumLowerCase = map[string]LogPipelineFunctio
 	"drop":      LogPipelineFunctionTypesDrop,
 	"rename":    LogPipelineFunctionTypesRename,
 	"regexp":    LogPipelineFunctionTypesRegexp,
+	"unroll":    LogPipelineFunctionTypesUnroll,
 }
 
 // GetLogPipelineFunctionTypesEnumValues Enumerates the set of values for LogPipelineFunctionTypesEnum
@@ -60,6 +63,7 @@ func GetLogPipelineFunctionTypesEnumStringValues() []string {
 		"DROP",
 		"RENAME",
 		"REGEXP",
+		"UNROLL",
 	}
 }
 

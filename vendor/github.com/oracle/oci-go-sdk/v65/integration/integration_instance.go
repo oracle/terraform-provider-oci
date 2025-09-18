@@ -30,7 +30,7 @@ type IntegrationInstance struct {
 
 	// Standard or Enterprise type,
 	// Oracle Integration Generation 2 uses ENTERPRISE and STANDARD,
-	// Oracle Integration 3 uses ENTERPRISEX and STANDARDX
+	// Oracle Integration 3 uses ENTERPRISEX, STANDARDX and HEALTHCARE
 	IntegrationInstanceType IntegrationInstanceIntegrationInstanceTypeEnum `mandatory:"true" json:"integrationInstanceType"`
 
 	// Bring your own license.
@@ -70,6 +70,11 @@ type IntegrationInstance struct {
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 
 	// The Integration Instance Design Time URL
 	InstanceDesignTimeUrl *string `mandatory:"false" json:"instanceDesignTimeUrl"`
@@ -151,6 +156,7 @@ func (m *IntegrationInstance) UnmarshalJSON(data []byte) (e error) {
 		FreeformTags                      map[string]string                              `json:"freeformTags"`
 		DefinedTags                       map[string]map[string]interface{}              `json:"definedTags"`
 		SystemTags                        map[string]map[string]interface{}              `json:"systemTags"`
+		SecurityAttributes                map[string]map[string]interface{}              `json:"securityAttributes"`
 		InstanceDesignTimeUrl             *string                                        `json:"instanceDesignTimeUrl"`
 		IsFileServerEnabled               *bool                                          `json:"isFileServerEnabled"`
 		IsVisualBuilderEnabled            *bool                                          `json:"isVisualBuilderEnabled"`
@@ -194,6 +200,8 @@ func (m *IntegrationInstance) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 
 	m.SystemTags = model.SystemTags
+
+	m.SecurityAttributes = model.SecurityAttributes
 
 	m.InstanceDesignTimeUrl = model.InstanceDesignTimeUrl
 

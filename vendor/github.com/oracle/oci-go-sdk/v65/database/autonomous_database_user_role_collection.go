@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// AutonomousDatabaseUserRoleCollection Results of an Autonomous DatabaseUser Roles collection
+// AutonomousDatabaseUserRoleCollection Results of an Autonomous AI DatabaseUser Roles collection
 type AutonomousDatabaseUserRoleCollection struct {
 
 	// The list of user roles.
