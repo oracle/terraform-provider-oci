@@ -82,6 +82,36 @@ var (
 		"lifecycle":        acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTags},
 	}
 
+	CoreInstanceConfigurationRepresentationAie = map[string]interface{}{
+		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `TestInstanceConfiguration`},
+		"instance_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsRepresentationAie},
+	}
+
+	CoreInstanceConfigurationInstanceDetailsRepresentationAie = map[string]interface{}{
+		"instance_type":  acctest.Representation{RepType: acctest.Required, Create: `compute`},
+		"launch_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchDetailsAieRepresentation},
+	}
+
+	CoreInstanceConfigurationInstanceDetailsLaunchDetailsAieRepresentation = map[string]interface{}{
+		"compartment_id":           acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"shape":                    acctest.Representation{RepType: acctest.Optional, Create: `BM.GPU.A10.4`},
+		"is_ai_enterprise_enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"source_details":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsAieRepresentation},
+		"instance_options":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceOptionsRepresentation},
+		"create_vnic_details":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchDetailsCreateVnicDetailsAieRepresentation},
+	}
+
+	CoreInstanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsAieRepresentation = map[string]interface{}{
+		"source_type": acctest.Representation{RepType: acctest.Required, Create: `image`},
+		"image_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.image_ocid}`},
+	}
+
+	CoreInstanceConfigurationInstanceDetailsLaunchDetailsCreateVnicDetailsAieRepresentation = map[string]interface{}{
+		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `Primaryvnic`},
+		"subnet_id":    acctest.Representation{RepType: acctest.Optional, Create: `${var.subnet_ocid}`},
+	}
+
 	CoreInstanceConfigurationFromInstanceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -220,7 +250,7 @@ var (
 		[]string{"dedicated_vm_host_id", "preferred_maintenance_action"},
 	)
 	CoreInstanceConfigurationInstanceOptionsRepresentation = map[string]interface{}{
-		"are_legacy_imds_endpoints_disabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"are_legacy_imds_endpoints_disabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 	}
 	CoreInstanceConfigurationInstanceDetailsOptionsRepresentation = map[string]interface{}{
 		"launch_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchDetailsRepresentation},
@@ -1170,6 +1200,79 @@ func TestCoreInstanceConfigurationResourceOptions_basic(t *testing.T) {
 					}
 					return err
 				},
+			),
+		},
+	})
+}
+
+func TestCoreInstanceConfigurationResourceAie_basic(t *testing.T) {
+	httpreplay.SetScenario("TestCoreInstanceConfigurationResourceAie_basic")
+	defer httpreplay.SaveScenario()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	subnetId := utils.GetEnvSettingWithBlankDefault("subnet_ocid")
+	subnetIdVariableStr := fmt.Sprintf("variable \"subnet_ocid\" { default = \"%s\" }\n", subnetId)
+
+	imageId := utils.GetEnvSettingWithBlankDefault("image_ocid")
+	imageIdVariableStr := fmt.Sprintf("variable \"image_ocid\" { default = \"%s\" }\n", imageId)
+
+	managementEndpoint := utils.GetEnvSettingWithBlankDefault("management_endpoint")
+	managementEndpointStr := fmt.Sprintf("variable \"management_endpoint\" { default = \"%s\" }\n", managementEndpoint)
+
+	config := acctest.ProviderTestConfig() + compartmentIdVariableStr + AvailabilityDomainConfig + subnetIdVariableStr + imageIdVariableStr + managementEndpointStr
+
+	resourceName := "oci_core_instance_configuration.test_instance_configuration"
+	singularDatasourceName := "data.oci_core_instance_configuration.test_instance_configuration"
+
+	var resId string
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create" step in the test.
+	acctest.SaveConfigContent(config+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create, CoreInstanceConfigurationRepresentationAie), "core", "instanceConfiguration", t)
+	acctest.ResourceTest(t, testAccCheckCoreInstanceConfigurationDestroy, []resource.TestStep{
+		// verify Create with optionals secondary_vnics to test ipv6 support
+		{
+			Config: config +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create, CoreInstanceConfigurationRepresentationAie),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "TestInstanceConfiguration"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.instance_type", "compute"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.is_ai_enterprise_enabled", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify singular datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Required, acctest.Create, CoreCoreInstanceConfigurationSingularDataSourceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create, CoreInstanceConfigurationRepresentationAie),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_configuration_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "TestInstanceConfiguration"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.instance_type", "compute"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.launch_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.launch_details.0.is_ai_enterprise_enabled", "true"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 			),
 		},
 	})
