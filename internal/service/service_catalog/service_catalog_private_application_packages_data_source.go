@@ -239,6 +239,10 @@ func PrivateApplicationPackageSummaryToMap(obj oci_service_catalog.PrivateApplic
 		result["private_application_id"] = string(*obj.PrivateApplicationId)
 	}
 
+	if obj.SystemTags != nil {
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	}
+
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()
 	}

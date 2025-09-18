@@ -26,8 +26,6 @@ resource "oci_service_catalog_private_application" "test_private_application" {
 		#Required
 		package_type = var.private_application_package_details_package_type
 		version = var.private_application_package_details_version
-
-		#Optional
 		zip_file_base64encoded = var.private_application_package_details_zip_file_base64encoded
 	}
 	short_description = var.private_application_short_description
@@ -53,7 +51,7 @@ The following arguments are supported:
 * `package_details` - (Required) A base object for creating a private application package.
 	* `package_type` - (Required) The package's type.
 	* `version` - (Required) The package version.
-	* `zip_file_base64encoded` - (Optional) Base-64 payload of the Terraform zip package.
+	* `zip_file_base64encoded` - (Required) Base-64 payload of the Terraform zip package.
 * `short_description` - (Required) (Updatable) A short description of the private application.
 
 
@@ -77,6 +75,7 @@ The following attributes are exported:
 * `package_type` - Type of packages within this private application.
 * `short_description` - A short description of the private application.
 * `state` - The lifecycle state of the private application.
+* `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The date and time the private application was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: `2021-05-26T21:10:29.600Z` 
 * `time_updated` - The date and time the private application was last modified, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: `2021-12-10T05:10:29.721Z` 
 

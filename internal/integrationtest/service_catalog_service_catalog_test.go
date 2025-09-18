@@ -39,6 +39,7 @@ var (
 		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":       acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"service_catalog_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_service_catalog_service_catalog.test_service_catalog.id}`},
+		"status":             acctest.Representation{RepType: acctest.Optional, Create: `INACTIVE`, Update: `ACTIVE`},
 		"filter":             acctest.RepresentationGroup{RepType: acctest.Required, Group: ServiceCatalogServiceCatalogDataSourceFilterRepresentation}}
 	ServiceCatalogServiceCatalogDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
@@ -50,6 +51,7 @@ var (
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"status":         acctest.Representation{RepType: acctest.Optional, Create: `INACTIVE`, Update: `ACTIVE`},
 	}
 
 	ServiceCatalogServiceCatalogResourceDependencies = DefinedTagsDependencies
@@ -107,6 +109,7 @@ func TestServiceCatalogServiceCatalogResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "status", "INACTIVE"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
@@ -134,6 +137,7 @@ func TestServiceCatalogServiceCatalogResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "status", "INACTIVE"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
@@ -156,6 +160,7 @@ func TestServiceCatalogServiceCatalogResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "status", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
@@ -177,6 +182,7 @@ func TestServiceCatalogServiceCatalogResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "service_catalog_id"),
+				resource.TestCheckResourceAttr(datasourceName, "status", "ACTIVE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "service_catalog_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "service_catalog_collection.0.items.#", "1"),
@@ -195,6 +201,7 @@ func TestServiceCatalogServiceCatalogResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "status", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),
