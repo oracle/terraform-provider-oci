@@ -161,10 +161,10 @@ func (s *FusionAppsFusionEnvironmentAdminUserResourceCrud) Create() error {
 		request.LastName = &tmp
 	}
 
-	if password, ok := s.D.GetOkExists("password"); ok {
-		tmp := password.(string)
-		request.Password = &tmp
-	}
+	//if password, ok := s.D.GetOkExists("password"); ok {
+	//	tmp := password.(string)
+	//	request.Password = &tmp
+	//}
 
 	if username, ok := s.D.GetOkExists("username"); ok {
 		tmp := username.(string)

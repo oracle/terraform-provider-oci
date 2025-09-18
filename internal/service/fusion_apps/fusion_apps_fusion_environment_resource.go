@@ -927,10 +927,10 @@ func (s *FusionAppsFusionEnvironmentResourceCrud) mapToCreateFusionEnvironmentAd
 		result.LastName = &tmp
 	}
 
-	if password, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password")); ok {
-		tmp := password.(string)
-		result.Password = &tmp
-	}
+	//if password, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password")); ok {
+	//	tmp := password.(string)
+	//	result.Password = &tmp
+	//}
 
 	if username, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "username")); ok {
 		tmp := username.(string)
@@ -955,9 +955,9 @@ func CreateFusionEnvironmentAdminUserDetailsToMap(obj *oci_fusion_apps.CreateFus
 		result["last_name"] = string(*obj.LastName)
 	}
 
-	if obj.Password != nil {
-		result["password"] = string(*obj.Password)
-	}
+	//if obj.Password != nil {
+	//	result["password"] = string(*obj.Password)
+	//}
 
 	if obj.Username != nil {
 		result["username"] = string(*obj.Username)
