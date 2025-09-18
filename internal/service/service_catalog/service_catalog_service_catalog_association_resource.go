@@ -186,6 +186,10 @@ func ServiceCatalogAssociationSummaryToMap(obj oci_service_catalog.ServiceCatalo
 		result["service_catalog_id"] = string(*obj.ServiceCatalogId)
 	}
 
+	if obj.SystemTags != nil {
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	}
+
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()
 	}

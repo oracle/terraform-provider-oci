@@ -30,6 +30,10 @@ func ServiceCatalogServiceCatalogsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"status": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"service_catalog_collection": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -82,6 +86,10 @@ func (s *ServiceCatalogServiceCatalogsDataSourceCrud) Get() error {
 	if serviceCatalogId, ok := s.D.GetOkExists("id"); ok {
 		tmp := serviceCatalogId.(string)
 		request.ServiceCatalogId = &tmp
+	}
+
+	if status, ok := s.D.GetOkExists("status"); ok {
+		request.Status = oci_service_catalog.ListServiceCatalogsStatusEnum(status.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "service_catalog")
