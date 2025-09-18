@@ -371,6 +371,11 @@ func CoreInstanceResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"is_ai_enterprise_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"is_pv_encryption_in_transit_enabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -1321,6 +1326,11 @@ func (s *CoreInstanceResourceCrud) Create() error {
 		request.IpxeScript = &tmp
 	}
 
+	if isAIEnterpriseEnabled, ok := s.D.GetOkExists("is_ai_enterprise_enabled"); ok {
+		tmp := isAIEnterpriseEnabled.(bool)
+		request.IsAIEnterpriseEnabled = &tmp
+	}
+
 	if isPvEncryptionInTransitEnabled, ok := s.D.GetOkExists("is_pv_encryption_in_transit_enabled"); ok {
 		tmp := isPvEncryptionInTransitEnabled.(bool)
 		request.IsPvEncryptionInTransitEnabled = &tmp
@@ -1592,6 +1602,11 @@ func (s *CoreInstanceResourceCrud) Update() error {
 		}
 	}
 
+	if isAIEnterpriseEnabled, ok := s.D.GetOkExists("is_ai_enterprise_enabled"); ok {
+		tmp := isAIEnterpriseEnabled.(bool)
+		request.IsAIEnterpriseEnabled = &tmp
+	}
+
 	if licensingConfigs, ok := s.D.GetOkExists("licensing_configs"); ok {
 		interfaces := licensingConfigs.([]interface{})
 		tmp := make([]oci_core.UpdateInstanceLicensingConfig, len(interfaces))
@@ -1807,6 +1822,10 @@ func (s *CoreInstanceResourceCrud) SetData() error {
 
 	if s.Res.IpxeScript != nil {
 		s.D.Set("ipxe_script", *s.Res.IpxeScript)
+	}
+
+	if s.Res.IsAIEnterpriseEnabled != nil {
+		s.D.Set("is_ai_enterprise_enabled", *s.Res.IsAIEnterpriseEnabled)
 	}
 
 	if s.Res.IsCrossNumaNode != nil {

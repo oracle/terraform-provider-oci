@@ -140,6 +140,10 @@ func (s *CoreInstanceDataSourceCrud) SetData() error {
 		s.D.Set("ipxe_script", *s.Res.IpxeScript)
 	}
 
+	if s.Res.IsAIEnterpriseEnabled != nil {
+		s.D.Set("is_ai_enterprise_enabled", *s.Res.IsAIEnterpriseEnabled)
+	}
+
 	if s.Res.IsCrossNumaNode != nil {
 		s.D.Set("is_cross_numa_node", *s.Res.IsCrossNumaNode)
 	}

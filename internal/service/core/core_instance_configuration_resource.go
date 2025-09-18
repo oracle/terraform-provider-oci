@@ -679,6 +679,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 										Computed: true,
 										ForceNew: true,
 									},
+									"is_ai_enterprise_enabled": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
 									"is_pv_encryption_in_transit_enabled": {
 										Type:     schema.TypeBool,
 										Optional: true,
@@ -1741,6 +1747,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 												},
 												"ipxe_script": {
 													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"is_ai_enterprise_enabled": {
+													Type:     schema.TypeBool,
 													Optional: true,
 													Computed: true,
 													ForceNew: true,
@@ -3985,6 +3997,11 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 		result.IpxeScript = &tmp
 	}
 
+	if isAIEnterpriseEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_ai_enterprise_enabled")); ok {
+		tmp := isAIEnterpriseEnabled.(bool)
+		result.IsAIEnterpriseEnabled = &tmp
+	}
+
 	if isPvEncryptionInTransitEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_pv_encryption_in_transit_enabled")); ok {
 		tmp := isPvEncryptionInTransitEnabled.(bool)
 		result.IsPvEncryptionInTransitEnabled = &tmp
@@ -4158,6 +4175,10 @@ func InstanceConfigurationLaunchInstanceDetailsToMap(obj *oci_core.InstanceConfi
 
 	if obj.IpxeScript != nil {
 		result["ipxe_script"] = string(*obj.IpxeScript)
+	}
+
+	if obj.IsAIEnterpriseEnabled != nil {
+		result["is_ai_enterprise_enabled"] = bool(*obj.IsAIEnterpriseEnabled)
 	}
 
 	if obj.IsPvEncryptionInTransitEnabled != nil {
