@@ -44,8 +44,6 @@ resource "oci_service_catalog_private_application" "test_private_application" {
     #Required
     package_type = var.private_application_package_details_package_type
     version      = var.private_application_package_details_version
-
-    #Optional
     zip_file_base64encoded = var.private_application_package_details_zip_file_base64encoded
   }
   short_description = var.private_application_short_description
