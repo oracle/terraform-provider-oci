@@ -55,12 +55,80 @@ func FleetSoftwareUpdateFsuCycleResource() *schema.Resource {
 							Required:         true,
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
+								"EXADB_STACK",
 								"IMAGE_ID",
 								"VERSION",
 							}, true),
 						},
 
 						// Optional
+						"components": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"component_type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"GI",
+											"GUEST_OS",
+										}, true),
+									},
+									"goal_version_details": {
+										Type:     schema.TypeList,
+										Required: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"goal_software_image_id": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+												"goal_type": {
+													Type:             schema.TypeString,
+													Required:         true,
+													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+													ValidateFunc: validation.StringInSlice([]string{
+														"GI_CUSTOM_IMAGE",
+														"GI_ORACLE_IMAGE",
+														"GUEST_OS_ORACLE_IMAGE",
+													}, true),
+												},
+
+												// Optional
+												"goal_version": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+
+									// Optional
+									"home_policy": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"new_home_prefix": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
 						"home_policy": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -287,6 +355,16 @@ func FleetSoftwareUpdateFsuCycleResource() *schema.Resource {
 						},
 
 						// Optional
+						"is_ignore_post_upgrade_errors": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"is_ignore_prerequisites": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"is_recompile_invalid_objects": {
 							Type:     schema.TypeBool,
 							Optional: true,
@@ -294,6 +372,11 @@ func FleetSoftwareUpdateFsuCycleResource() *schema.Resource {
 						},
 						"is_time_zone_upgrade": {
 							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"max_drain_timeout_in_seconds": {
+							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
@@ -1219,6 +1302,32 @@ func (s *FleetSoftwareUpdateFsuCycleResourceCrud) mapToFsuGoalVersionDetails(fie
 		type_ = "" // default value
 	}
 	switch strings.ToLower(type_) {
+	case strings.ToLower("EXADB_STACK"):
+		details := oci_fleet_software_update.ExadbStackFsuGoalVersionDetails{}
+		if components, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "components")); ok {
+			interfaces := components.([]interface{})
+			tmp := make([]oci_fleet_software_update.GoalSoftwareComponentDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "components"), stateDataIndex)
+				converted, err := s.mapToGoalSoftwareComponentDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "components")) {
+				details.Components = tmp
+			}
+		}
+		if homePolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "home_policy")); ok {
+			details.HomePolicy = oci_fleet_software_update.FsuGoalVersionDetailsHomePolicyEnum(homePolicy.(string))
+		}
+		if newHomePrefix, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "new_home_prefix")); ok {
+			tmp := newHomePrefix.(string)
+			details.NewHomePrefix = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("IMAGE_ID"):
 		details := oci_fleet_software_update.ImageIdFsuTargetDetails{}
 		if softwareImageId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "software_image_id")); ok {
@@ -1244,7 +1353,9 @@ func (s *FleetSoftwareUpdateFsuCycleResourceCrud) mapToFsuGoalVersionDetails(fie
 		}
 		if newHomePrefix, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "new_home_prefix")); ok {
 			tmp := newHomePrefix.(string)
-			details.NewHomePrefix = &tmp
+			if tmp != "" {
+				details.NewHomePrefix = &tmp
+			}
 		}
 		baseObject = details
 	default:
@@ -1256,6 +1367,20 @@ func (s *FleetSoftwareUpdateFsuCycleResourceCrud) mapToFsuGoalVersionDetails(fie
 func FsuGoalVersionDetailsToMap(obj *oci_fleet_software_update.FsuGoalVersionDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
+	case oci_fleet_software_update.ExadbStackFsuGoalVersionDetails:
+		result["type"] = "EXADB_STACK"
+
+		components := []interface{}{}
+		for _, item := range v.Components {
+			components = append(components, GoalSoftwareComponentDetailsToMap(item))
+		}
+		result["components"] = components
+
+		result["home_policy"] = string(v.HomePolicy)
+
+		if v.NewHomePrefix != nil {
+			result["new_home_prefix"] = string(*v.NewHomePrefix)
+		}
 	case oci_fleet_software_update.ImageIdFsuTargetDetails:
 		result["type"] = "IMAGE_ID"
 
@@ -1284,6 +1409,188 @@ func FsuGoalVersionDetailsToMap(obj *oci_fleet_software_update.FsuGoalVersionDet
 		log.Printf("[WARN] Received 'type' of unknown type %T", v)
 		return nil
 	}
+	return result
+}
+
+func (s *FleetSoftwareUpdateFsuCycleResourceCrud) mapToGiGoalVersionDetails(fieldKeyFormat string) (oci_fleet_software_update.GiGoalVersionDetails, error) {
+	var baseObject oci_fleet_software_update.GiGoalVersionDetails
+	//discriminator
+	goalTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "goal_type"))
+	var goalType string
+	if ok {
+		goalType = goalTypeRaw.(string)
+	} else {
+		goalType = "" // default value
+	}
+	switch strings.ToLower(goalType) {
+	case strings.ToLower("GI_CUSTOM_IMAGE"):
+		details := oci_fleet_software_update.CustomGiGoalVersionDetails{}
+		if goalSoftwareImageId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "goal_software_image_id")); ok {
+			tmp := goalSoftwareImageId.(string)
+			details.GoalSoftwareImageId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("GI_ORACLE_IMAGE"):
+		details := oci_fleet_software_update.OracleGiGoalVersionDetails{}
+		if goalVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "goal_version")); ok {
+			tmp := goalVersion.(string)
+			details.GoalVersion = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown goal_type '%v' was specified", goalType)
+	}
+	return baseObject, nil
+}
+
+func GiGoalVersionDetailsToMap(obj *oci_fleet_software_update.GiGoalVersionDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_fleet_software_update.CustomGiGoalVersionDetails:
+		result["goal_type"] = "GI_CUSTOM_IMAGE"
+
+		if v.GoalSoftwareImageId != nil {
+			result["goal_software_image_id"] = string(*v.GoalSoftwareImageId)
+		}
+	case oci_fleet_software_update.OracleGiGoalVersionDetails:
+		result["goal_type"] = "GI_ORACLE_IMAGE"
+
+		if v.GoalVersion != nil {
+			result["goal_version"] = string(*v.GoalVersion)
+		}
+	default:
+		log.Printf("[WARN] Received 'goal_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *FleetSoftwareUpdateFsuCycleResourceCrud) mapToGoalSoftwareComponentDetails(fieldKeyFormat string) (oci_fleet_software_update.GoalSoftwareComponentDetails, error) {
+	var baseObject oci_fleet_software_update.GoalSoftwareComponentDetails
+	//discriminator
+	componentTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "component_type"))
+	var componentType string
+	if ok {
+		componentType = componentTypeRaw.(string)
+	} else {
+		componentType = "" // default value
+	}
+	switch strings.ToLower(componentType) {
+	case strings.ToLower("GI"):
+		details := oci_fleet_software_update.GiGoalSoftwareComponentDetails{}
+		if goalVersionDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "goal_version_details")); ok {
+			if tmpList := goalVersionDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "goal_version_details"), 0)
+				tmp, err := s.mapToGiGoalVersionDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert goal_version_details, encountered error: %v", err)
+				}
+				details.GoalVersionDetails = tmp
+			}
+		}
+		if homePolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "home_policy")); ok {
+			details.HomePolicy = oci_fleet_software_update.GiGoalSoftwareComponentDetailsHomePolicyEnum(homePolicy.(string))
+		}
+		if newHomePrefix, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "new_home_prefix")); ok {
+			tmp := newHomePrefix.(string)
+			details.NewHomePrefix = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("GUEST_OS"):
+		details := oci_fleet_software_update.GuestOsGoalSoftwareComponentDetails{}
+		if goalVersionDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "goal_version_details")); ok {
+			if tmpList := goalVersionDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "goal_version_details"), 0)
+				tmp, err := s.mapToGuestOsGoalVersionDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert goal_version_details, encountered error: %v", err)
+				}
+				details.GoalVersionDetails = tmp
+			}
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown component_type '%v' was specified", componentType)
+	}
+	return baseObject, nil
+}
+
+func GoalSoftwareComponentDetailsToMap(obj oci_fleet_software_update.GoalSoftwareComponentDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (obj).(type) {
+	case oci_fleet_software_update.GiGoalSoftwareComponentDetails:
+		result["component_type"] = "GI"
+
+		if v.GoalVersionDetails != nil {
+			goalVersionDetailsArray := []interface{}{}
+			if goalVersionDetailsMap := GiGoalVersionDetailsToMap(&v.GoalVersionDetails); goalVersionDetailsMap != nil {
+				goalVersionDetailsArray = append(goalVersionDetailsArray, goalVersionDetailsMap)
+			}
+			result["goal_version_details"] = goalVersionDetailsArray
+		}
+
+		result["home_policy"] = string(v.HomePolicy)
+
+		if v.NewHomePrefix != nil {
+			result["new_home_prefix"] = string(*v.NewHomePrefix)
+		}
+	case oci_fleet_software_update.GuestOsGoalSoftwareComponentDetails:
+		result["component_type"] = "GUEST_OS"
+
+		if v.GoalVersionDetails != nil {
+			goalVersionDetailsArray := []interface{}{}
+			if goalVersionDetailsMap := GuestOsGoalVersionDetailsToMap(&v.GoalVersionDetails); goalVersionDetailsMap != nil {
+				goalVersionDetailsArray = append(goalVersionDetailsArray, goalVersionDetailsMap)
+			}
+			result["goal_version_details"] = goalVersionDetailsArray
+		}
+	default:
+		log.Printf("[WARN] Received 'component_type' of unknown type %v", obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *FleetSoftwareUpdateFsuCycleResourceCrud) mapToGuestOsGoalVersionDetails(fieldKeyFormat string) (oci_fleet_software_update.GuestOsGoalVersionDetails, error) {
+	var baseObject oci_fleet_software_update.GuestOsGoalVersionDetails
+	//discriminator
+	goalTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "goal_type"))
+	var goalType string
+	if ok {
+		goalType = goalTypeRaw.(string)
+	} else {
+		goalType = "" // default value
+	}
+	switch strings.ToLower(goalType) {
+	case strings.ToLower("GUEST_OS_ORACLE_IMAGE"):
+		details := oci_fleet_software_update.OracleGuestOsGoalVersionDetails{}
+		if goalVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "goal_version")); ok {
+			tmp := goalVersion.(string)
+			details.GoalVersion = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown goal_type '%v' was specified", goalType)
+	}
+	return baseObject, nil
+}
+
+func GuestOsGoalVersionDetailsToMap(obj *oci_fleet_software_update.GuestOsGoalVersionDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_fleet_software_update.OracleGuestOsGoalVersionDetails:
+		result["goal_type"] = "GUEST_OS_ORACLE_IMAGE"
+
+		if v.GoalVersion != nil {
+			result["goal_version"] = string(*v.GoalVersion)
+		}
+	default:
+		log.Printf("[WARN] Received 'goal_type' of unknown type %v", *obj)
+		return nil
+	}
+
 	return result
 }
 
@@ -1320,9 +1627,21 @@ func (s *FleetSoftwareUpdateFsuCycleResourceCrud) mapToUpgradeDetails(fieldKeyFo
 			tmp := isTimeZoneUpgrade.(bool)
 			details.IsTimeZoneUpgrade = &tmp
 		}
+		if maxDrainTimeoutInSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_drain_timeout_in_seconds")); ok {
+			tmp := maxDrainTimeoutInSeconds.(int)
+			details.MaxDrainTimeoutInSeconds = &tmp
+		}
 		baseObject = details
 	case strings.ToLower("GI"):
 		details := oci_fleet_software_update.UpgradeGiCollectionDetails{}
+		if isIgnorePostUpgradeErrors, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_ignore_post_upgrade_errors")); ok {
+			tmp := isIgnorePostUpgradeErrors.(bool)
+			details.IsIgnorePostUpgradeErrors = &tmp
+		}
+		if isIgnorePrerequisites, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_ignore_prerequisites")); ok {
+			tmp := isIgnorePrerequisites.(bool)
+			details.IsIgnorePrerequisites = &tmp
+		}
 		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown collection_type '%v' was specified", collectionType)
@@ -1343,8 +1662,20 @@ func UpgradeDetailsToMap(obj *oci_fleet_software_update.UpgradeDetails) map[stri
 		if v.IsTimeZoneUpgrade != nil {
 			result["is_time_zone_upgrade"] = bool(*v.IsTimeZoneUpgrade)
 		}
+
+		if v.MaxDrainTimeoutInSeconds != nil {
+			result["max_drain_timeout_in_seconds"] = int(*v.MaxDrainTimeoutInSeconds)
+		}
 	case oci_fleet_software_update.UpgradeGiCollectionDetails:
 		result["collection_type"] = "GI"
+
+		if v.IsIgnorePostUpgradeErrors != nil {
+			result["is_ignore_post_upgrade_errors"] = bool(*v.IsIgnorePostUpgradeErrors)
+		}
+
+		if v.IsIgnorePrerequisites != nil {
+			result["is_ignore_prerequisites"] = bool(*v.IsIgnorePrerequisites)
+		}
 	default:
 		log.Printf("[WARN] Received 'collection_type' of unknown type %v", *obj)
 		return nil
