@@ -143,6 +143,13 @@ func (s *BastionBastionsDataSourceCrud) SetData() error {
 			bastion["name"] = *r.Name
 		}
 
+		if r.SecurityAttributes != nil {
+			flat := tfresource.SecurityAttributesToMap(r.SecurityAttributes) // -> map[string]string
+			bastion["security_attributes"] = flat
+		} else {
+			bastion["security_attributes"] = map[string]string{}
+		}
+
 		bastion["state"] = r.LifecycleState
 
 		if r.SystemTags != nil {

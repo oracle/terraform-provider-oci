@@ -108,6 +108,15 @@ func (s *BastionBastionDataSourceCrud) SetData() error {
 		s.D.Set("private_endpoint_ip_address", *s.Res.PrivateEndpointIpAddress)
 	}
 
+	if sa := s.Res.SecurityAttributes; sa != nil {
+		flat := tfresource.SecurityAttributesToMap(sa)
+		if err := s.D.Set("security_attributes", flat); err != nil {
+			return err
+		}
+	} else {
+		_ = s.D.Set("security_attributes", map[string]string{})
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	s.D.Set("static_jump_host_ip_addresses", s.Res.StaticJumpHostIpAddresses)
