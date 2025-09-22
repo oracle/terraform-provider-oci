@@ -176,6 +176,10 @@ func (s *DatabaseDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("ncharacter_set", *s.Res.NcharacterSet)
 	}
 
+	if s.Res.PatchVersion != nil {
+		s.D.Set("patch_version", *s.Res.PatchVersion)
+	}
+
 	if s.Res.PdbName != nil {
 		s.D.Set("pdb_name", *s.Res.PdbName)
 	}
