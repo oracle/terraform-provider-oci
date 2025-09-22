@@ -92,6 +92,12 @@ func BastionBastionResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"security_attributes": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"static_jump_host_ip_addresses": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -262,6 +268,10 @@ func (s *BastionBastionResourceCrud) Create() error {
 	if phoneBookEntry, ok := s.D.GetOkExists("phone_book_entry"); ok {
 		tmp := phoneBookEntry.(string)
 		request.PhoneBookEntry = &tmp
+	}
+
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 	}
 
 	if staticJumpHostIpAddresses, ok := s.D.GetOkExists("static_jump_host_ip_addresses"); ok {
@@ -475,6 +485,10 @@ func (s *BastionBastionResourceCrud) Update() error {
 		request.MaxSessionTtlInSeconds = &tmp
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
 	if staticJumpHostIpAddresses, ok := s.D.GetOkExists("static_jump_host_ip_addresses"); ok {
 		interfaces := staticJumpHostIpAddresses.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -559,6 +573,15 @@ func (s *BastionBastionResourceCrud) SetData() error {
 
 	if s.Res.PrivateEndpointIpAddress != nil {
 		s.D.Set("private_endpoint_ip_address", *s.Res.PrivateEndpointIpAddress)
+	}
+
+	if sa := s.Res.SecurityAttributes; sa != nil {
+		flat := tfresource.SecurityAttributesToMap(sa)
+		if err := s.D.Set("security_attributes", flat); err != nil {
+			return err
+		}
+	} else {
+		_ = s.D.Set("security_attributes", map[string]string{})
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

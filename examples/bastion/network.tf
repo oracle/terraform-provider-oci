@@ -5,12 +5,21 @@ resource "oci_core_vcn" "test_bastion_vcn" {
   dns_label      = "testvcn"
 }
 
+# Returns: “All <region> Services In Oracle Services Network”
+data "oci_core_services" "osn_all" {
+  filter {
+    name   = "name"
+    values = ["^All .* Services In Oracle Services Network$"]
+    regex  = true
+  }
+}
+
 resource "oci_core_service_gateway" "test_bastion_service_gateway" {
   compartment_id = var.compartment_ocid
   display_name   = "sgw"
 
   services {
-    service_id = data.oci_core_services.test_bastion_services.services[0]["id"]
+    service_id = data.oci_core_services.osn_all.services[0].id
   }
 
   vcn_id = oci_core_vcn.test_bastion_vcn.id
@@ -21,7 +30,7 @@ resource "oci_core_default_route_table" "bastion_default_route_table" {
   display_name               = "DefaultRouteTable"
 
   route_rules {
-    destination       = lookup(data.oci_core_services.test_bastion_services.services[0], "cidr_block")
+    destination       = data.oci_core_services.osn_all.services[0].cidr_block
     destination_type  = "SERVICE_CIDR_BLOCK"
     network_entity_id = oci_core_service_gateway.test_bastion_service_gateway.id
   }
