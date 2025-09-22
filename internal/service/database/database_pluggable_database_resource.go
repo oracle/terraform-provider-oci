@@ -242,6 +242,10 @@ func DatabasePluggableDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"patch_version": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"pdb_node_level_details": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -647,6 +651,10 @@ func (s *DatabasePluggableDatabaseResourceCrud) SetData() error {
 	}
 
 	s.D.Set("open_mode", s.Res.OpenMode)
+
+	if s.Res.PatchVersion != nil {
+		s.D.Set("patch_version", *s.Res.PatchVersion)
+	}
 
 	if s.Res.PdbName != nil {
 		s.D.Set("pdb_name", *s.Res.PdbName)

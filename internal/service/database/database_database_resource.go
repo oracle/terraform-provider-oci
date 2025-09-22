@@ -93,6 +93,24 @@ func DatabaseDatabaseResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
+						"patch_options": {
+							MaxItems: 1,
+							MinItems: 1,
+							Type:     schema.TypeList,
+							Optional: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"should_skip_data_patch": {
+										Type:     schema.TypeBool,
+										Optional: true,
+									},
+									"should_skip_closed_pdbs": {
+										Type:     schema.TypeBool,
+										Optional: true,
+									},
+								},
+							},
+						},
 						"db_backup_config": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -799,6 +817,10 @@ func DatabaseDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"patch_version": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"pdb_name": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -1115,6 +1137,10 @@ func (s *DatabaseDatabaseResourceCrud) SetData() error {
 
 	if s.Res.NcharacterSet != nil {
 		s.D.Set("ncharacter_set", *s.Res.NcharacterSet)
+	}
+
+	if s.Res.PatchVersion != nil {
+		s.D.Set("patch_version", *s.Res.PatchVersion)
 	}
 
 	if s.Res.PdbName != nil {
@@ -1548,6 +1574,10 @@ func (s *DatabaseDatabaseResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat
 	if databaseSoftwareImageId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_software_image_id")); ok {
 		tmp := databaseSoftwareImageId.(string)
 		result.DatabaseSoftwareImageId = &tmp
+	}
+
+	if _, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "patch_options")); ok {
+		return result, fmt.Errorf("the field 'patch_options' is only supported during update and must not be specified at create time")
 	}
 
 	if dbBackupConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_backup_config")); ok {
@@ -2420,7 +2450,41 @@ func (s *DatabaseDatabaseResourceCrud) mapToUpdateDatabaseDetails(fieldKeyFormat
 		result.OldTdeWalletPassword = &tmp1
 	}
 
+	if _, ok := s.D.GetOkExists("db_home_id"); ok && s.D.HasChange("db_home_id") {
+		if patchOpts, err := s.extractPatchOptionsFromConfig(fieldKeyFormat); err != nil {
+			return result, err
+		} else if patchOpts != nil {
+			result.PatchOptions = patchOpts
+		}
+	}
+
 	return result, nil
+}
+
+func (s *DatabaseDatabaseResourceCrud) extractPatchOptionsFromConfig(fieldKeyFormat string) (*oci_database.PatchOptions, error) {
+	if patchOptionsList, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "patch_options")); ok {
+		list := patchOptionsList.([]interface{})
+		if len(list) == 0 || list[0] == nil {
+			return nil, nil
+		}
+
+		patchOptsMap := list[0].(map[string]interface{})
+		opts := &oci_database.PatchOptions{}
+
+		if v, ok := patchOptsMap["should_skip_data_patch"]; ok {
+			b := v.(bool)
+			opts.ShouldSkipDataPatch = &b
+		}
+
+		if v, ok := patchOptsMap["should_skip_closed_pdbs"]; ok {
+			b := v.(bool)
+			opts.ShouldSkipClosedPdbs = &b
+		}
+
+		return opts, nil
+	} else {
+		return nil, nil
+	}
 }
 
 func (s *DatabaseDatabaseResourceCrud) DatabaseToMap(obj *oci_database.Database) map[string]interface{} {
@@ -2428,6 +2492,10 @@ func (s *DatabaseDatabaseResourceCrud) DatabaseToMap(obj *oci_database.Database)
 
 	if adminPassword, ok := s.D.GetOkExists("database.0.admin_password"); ok && adminPassword != nil {
 		result["admin_password"] = adminPassword.(string)
+	}
+
+	if patch_options, ok := s.D.GetOkExists("database.0.patch_options"); ok && patch_options != nil {
+		result["patch_options"] = patch_options
 	}
 
 	if tdeWalletPassword, ok := s.D.GetOkExists("database.0.tde_wallet_password"); ok && tdeWalletPassword != nil {
