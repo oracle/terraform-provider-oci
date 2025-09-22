@@ -96,6 +96,10 @@ func (s *DatabasePluggableDatabaseDataSourceCrud) SetData() error {
 
 	s.D.Set("open_mode", s.Res.OpenMode)
 
+	if s.Res.PatchVersion != nil {
+		s.D.Set("patch_version", *s.Res.PatchVersion)
+	}
+
 	if s.Res.PdbName != nil {
 		s.D.Set("pdb_name", *s.Res.PdbName)
 	}
