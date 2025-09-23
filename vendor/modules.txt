@@ -289,7 +289,7 @@ github.com/mitchellh/reflectwalk
 ## explicit; go 1.13
 github.com/oklog/run
 # github.com/oracle/oci-go-sdk/v65 v65.90.0 => ./vendor/github.com/oracle/oci-go-sdk
-## explicit; go 1.13
+## explicit; go 1.23.0
 github.com/oracle/oci-go-sdk/v65/adm
 github.com/oracle/oci-go-sdk/v65/aidocument
 github.com/oracle/oci-go-sdk/v65/ailanguage
@@ -403,6 +403,7 @@ github.com/oracle/oci-go-sdk/v65/psql
 github.com/oracle/oci-go-sdk/v65/queue
 github.com/oracle/oci-go-sdk/v65/recovery
 github.com/oracle/oci-go-sdk/v65/redis
+github.com/oracle/oci-go-sdk/v65/resourceanalytics
 github.com/oracle/oci-go-sdk/v65/resourcemanager
 github.com/oracle/oci-go-sdk/v65/resourcescheduler
 github.com/oracle/oci-go-sdk/v65/sch
@@ -429,8 +430,6 @@ github.com/oracle/oci-go-sdk/v65/zpr
 # github.com/pmezard/go-difflib v1.0.0
 ## explicit
 github.com/pmezard/go-difflib/difflib
-# github.com/rogpeppe/go-internal v1.14.1
-## explicit; go 1.23
 # github.com/sony/gobreaker v1.0.0
 ## explicit; go 1.12
 github.com/sony/gobreaker
