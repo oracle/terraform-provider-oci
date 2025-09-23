@@ -82,6 +82,15 @@ type SensitiveColumn struct {
 	// Unique keys identifying the columns that are parents of the sensitive column. At present, it tracks a single parent only.
 	ParentColumnKeys []string `mandatory:"false" json:"parentColumnKeys"`
 
+	// The confidence level of the sensitive column associated with the sensitive type.
+	// The confidence level of the discovered sensitive columns can be either HIGH, MEDIUM or LOW.
+	// The confidence level will be NONE for manually added sensitive columns.
+	ConfidenceLevel ConfidenceLevelEnumEnum `mandatory:"false" json:"confidenceLevel,omitempty"`
+
+	// List containing maps as values.
+	// Example: `{"Operations": [ {"CostCenter": "42"} ] }`
+	ConfidenceLevelDetails []interface{} `mandatory:"false" json:"confidenceLevelDetails"`
+
 	// Original data values collected for the sensitive column from the associated database. Sample data helps review
 	// the column and ensure that it actually contains sensitive data. Note that sample data is retrieved by a data
 	// discovery job only if the isSampleDataCollectionEnabled attribute is set to true. At present, only one data
@@ -124,6 +133,9 @@ func (m SensitiveColumn) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RelationType: %s. Supported values are: %s.", m.RelationType, strings.Join(GetSensitiveColumnRelationTypeEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingConfidenceLevelEnumEnum(string(m.ConfidenceLevel)); !ok && m.ConfidenceLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConfidenceLevel: %s. Supported values are: %s.", m.ConfidenceLevel, strings.Join(GetConfidenceLevelEnumEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

@@ -15,10 +15,11 @@ import (
 	"strings"
 )
 
-// JfrAttachmentTarget The target to collect JFR data. A target is a managed instance, with options to further limit to specific application and/or Java Runtime.
+// JfrAttachmentTarget The target to collect JFR data. A target is a managed instance, with options to further limit to specific container and/or application and/or Java Runtime.
 // When the applicationKey isn't specified, then all applications are selected.
 // When the jreKey isn't specified, then all supported Java Runtime versions are selected.
 // When the applicationInstallationKey isn't specified, then all application installations are selected.
+// When the containerKey isn't specified, then all containers are selected.
 // Keys applicationKey and applicationInstallationKey are mutually exclusive.
 type JfrAttachmentTarget struct {
 
@@ -33,6 +34,9 @@ type JfrAttachmentTarget struct {
 
 	// Unique key that identify the JVM for JFR data collection.
 	JreKey *string `mandatory:"false" json:"jreKey"`
+
+	// Unique key that identifies the container for JFR data collection.
+	ContainerKey *string `mandatory:"false" json:"containerKey"`
 }
 
 func (m JfrAttachmentTarget) String() string {

@@ -23,6 +23,9 @@ type GenerateAgentInstallerConfigurationDetails struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the fleet for which to generate the configuration file.
 	FleetId *string `mandatory:"true" json:"fleetId"`
+
+	// The JMS plugin type.
+	AgentType AgentTypeEnum `mandatory:"false" json:"agentType,omitempty"`
 }
 
 func (m GenerateAgentInstallerConfigurationDetails) String() string {
@@ -35,6 +38,9 @@ func (m GenerateAgentInstallerConfigurationDetails) String() string {
 func (m GenerateAgentInstallerConfigurationDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingAgentTypeEnum(string(m.AgentType)); !ok && m.AgentType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AgentType: %s. Supported values are: %s.", m.AgentType, strings.Join(GetAgentTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

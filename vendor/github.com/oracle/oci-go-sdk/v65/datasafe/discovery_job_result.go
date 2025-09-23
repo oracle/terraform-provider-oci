@@ -92,6 +92,14 @@ type DiscoveryJobResult struct {
 	DbDefinedChildColumnKeys []string `mandatory:"false" json:"dbDefinedChildColumnKeys"`
 
 	ModifiedAttributes *ModifiedAttributes `mandatory:"false" json:"modifiedAttributes"`
+
+	// The confidence level of the discovery job result associated with the sensitive type.
+	// The confidence level for discovery job results can be either HIGH, MEDIUM or LOW.
+	ConfidenceLevel ConfidenceLevelEnumEnum `mandatory:"false" json:"confidenceLevel,omitempty"`
+
+	// List containing maps as values.
+	// Example: `{"Operations": [ {"CostCenter": "42"} ] }`
+	ConfidenceLevelDetails []interface{} `mandatory:"false" json:"confidenceLevelDetails"`
 }
 
 func (m DiscoveryJobResult) String() string {
@@ -116,6 +124,9 @@ func (m DiscoveryJobResult) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PlannedAction: %s. Supported values are: %s.", m.PlannedAction, strings.Join(GetDiscoveryJobResultPlannedActionEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingConfidenceLevelEnumEnum(string(m.ConfidenceLevel)); !ok && m.ConfidenceLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConfidenceLevel: %s. Supported values are: %s.", m.ConfidenceLevel, strings.Join(GetConfidenceLevelEnumEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

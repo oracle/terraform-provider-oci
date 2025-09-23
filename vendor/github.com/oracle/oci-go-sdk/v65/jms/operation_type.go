@@ -32,6 +32,7 @@ const (
 	OperationTypeDeleteJmsReport                  OperationTypeEnum = "DELETE_JMS_REPORT"
 	OperationTypeScanJavaServerUsage              OperationTypeEnum = "SCAN_JAVA_SERVER_USAGE"
 	OperationTypeScanLibraryUsage                 OperationTypeEnum = "SCAN_LIBRARY_USAGE"
+	OperationTypeScanLibraryDynamicUsage          OperationTypeEnum = "SCAN_LIBRARY_DYNAMIC_USAGE"
 	OperationTypeExportDataCsv                    OperationTypeEnum = "EXPORT_DATA_CSV"
 	OperationTypeCreateDrsFile                    OperationTypeEnum = "CREATE_DRS_FILE"
 	OperationTypeUpdateDrsFile                    OperationTypeEnum = "UPDATE_DRS_FILE"
@@ -55,6 +56,7 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"DELETE_JMS_REPORT":                   OperationTypeDeleteJmsReport,
 	"SCAN_JAVA_SERVER_USAGE":              OperationTypeScanJavaServerUsage,
 	"SCAN_LIBRARY_USAGE":                  OperationTypeScanLibraryUsage,
+	"SCAN_LIBRARY_DYNAMIC_USAGE":          OperationTypeScanLibraryDynamicUsage,
 	"EXPORT_DATA_CSV":                     OperationTypeExportDataCsv,
 	"CREATE_DRS_FILE":                     OperationTypeCreateDrsFile,
 	"UPDATE_DRS_FILE":                     OperationTypeUpdateDrsFile,
@@ -78,6 +80,7 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"delete_jms_report":                   OperationTypeDeleteJmsReport,
 	"scan_java_server_usage":              OperationTypeScanJavaServerUsage,
 	"scan_library_usage":                  OperationTypeScanLibraryUsage,
+	"scan_library_dynamic_usage":          OperationTypeScanLibraryDynamicUsage,
 	"export_data_csv":                     OperationTypeExportDataCsv,
 	"create_drs_file":                     OperationTypeCreateDrsFile,
 	"update_drs_file":                     OperationTypeUpdateDrsFile,
@@ -112,6 +115,7 @@ func GetOperationTypeEnumStringValues() []string {
 		"DELETE_JMS_REPORT",
 		"SCAN_JAVA_SERVER_USAGE",
 		"SCAN_LIBRARY_USAGE",
+		"SCAN_LIBRARY_DYNAMIC_USAGE",
 		"EXPORT_DATA_CSV",
 		"CREATE_DRS_FILE",
 		"UPDATE_DRS_FILE",

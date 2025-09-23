@@ -44,6 +44,9 @@ type JavaFamily struct {
 	// The date on which the Java release family was first made available (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
 	ReleaseDate *common.SDKTime `mandatory:"false" json:"releaseDate"`
 
+	// The license type(s) associated with the Java family.
+	LicenseTypes []LicenseTypeEnum `mandatory:"false" json:"licenseTypes"`
+
 	// List of artifacts for the latest Java release version in this family.
 	// The script URLs in the response can be used from a command line, or in scripts and dockerfiles to always get the artifacts corresponding to the latest update release version.
 	LatestReleaseArtifacts []JavaArtifact `mandatory:"false" json:"latestReleaseArtifacts"`

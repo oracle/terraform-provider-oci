@@ -27,6 +27,7 @@ const (
 	InstallationSortByApproximateApplicationCount     InstallationSortByEnum = "approximateApplicationCount"
 	InstallationSortByApproximateManagedInstanceCount InstallationSortByEnum = "approximateManagedInstanceCount"
 	InstallationSortByOsName                          InstallationSortByEnum = "osName"
+	InstallationSortBySecurityStatus                  InstallationSortByEnum = "securityStatus"
 )
 
 var mappingInstallationSortByEnum = map[string]InstallationSortByEnum{
@@ -39,6 +40,7 @@ var mappingInstallationSortByEnum = map[string]InstallationSortByEnum{
 	"approximateApplicationCount":     InstallationSortByApproximateApplicationCount,
 	"approximateManagedInstanceCount": InstallationSortByApproximateManagedInstanceCount,
 	"osName":                          InstallationSortByOsName,
+	"securityStatus":                  InstallationSortBySecurityStatus,
 }
 
 var mappingInstallationSortByEnumLowerCase = map[string]InstallationSortByEnum{
@@ -51,6 +53,7 @@ var mappingInstallationSortByEnumLowerCase = map[string]InstallationSortByEnum{
 	"approximateapplicationcount":     InstallationSortByApproximateApplicationCount,
 	"approximatemanagedinstancecount": InstallationSortByApproximateManagedInstanceCount,
 	"osname":                          InstallationSortByOsName,
+	"securitystatus":                  InstallationSortBySecurityStatus,
 }
 
 // GetInstallationSortByEnumValues Enumerates the set of values for InstallationSortByEnum
@@ -74,6 +77,7 @@ func GetInstallationSortByEnumStringValues() []string {
 		"approximateApplicationCount",
 		"approximateManagedInstanceCount",
 		"osName",
+		"securityStatus",
 	}
 }
 

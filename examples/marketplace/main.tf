@@ -20,6 +20,9 @@ variable "compartment_ocid" {
 variable "region" {
 }
 
+variable "instance_ocid" {
+}
+
 provider "oci" {
   region           = var.region
   tenancy_ocid     = var.tenancy_ocid
@@ -45,6 +48,12 @@ resource "oci_marketplace_listing_package_agreement" "test_listing_package_agree
 
   #Optional
   compartment_id = var.compartment_ocid
+}
+
+resource "oci_marketplace_marketplace_external_attested_metadata" "test_marketplace_external_attested_metadata" {
+  #Required
+  compartment_id = var.compartment_ocid
+  instance_id = var.instance_ocid
 }
 
 data "oci_marketplace_listing_package_agreements" "test_listing_package_agreements" {
@@ -100,4 +109,7 @@ data "oci_marketplace_listing_taxes" "test_listing_taxes" {
 
   #Optional
   compartment_id = var.compartment_ocid
+}
+
+data "oci_marketplace_marketplace_metadata_public_keys" "test_marketplace_metadata_public_keys" {
 }

@@ -21,8 +21,10 @@ data "oci_data_safe_sensitive_data_models_sensitive_columns" "test_sensitive_dat
 	sensitive_data_model_id = oci_data_safe_sensitive_data_model.test_sensitive_data_model.id
 
 	#Optional
+	column_data_count_filter = var.sensitive_data_models_sensitive_column_column_data_count_filter
 	column_group = var.sensitive_data_models_sensitive_column_column_group
 	column_name = var.sensitive_data_models_sensitive_column_column_name
+	confidence_level = var.sensitive_data_models_sensitive_column_confidence_level
 	data_type = var.sensitive_data_models_sensitive_column_data_type
 	is_case_in_sensitive = var.sensitive_data_models_sensitive_column_is_case_in_sensitive
 	object = var.sensitive_data_models_sensitive_column_object
@@ -44,8 +46,10 @@ data "oci_data_safe_sensitive_data_models_sensitive_columns" "test_sensitive_dat
 
 The following arguments are supported:
 
+* `column_data_count_filter` - (Optional) Filters the sensitive columns with respect to the estimated row count. 
 * `column_group` - (Optional) A filter to return only the sensitive columns that belong to the specified column group.
 * `column_name` - (Optional) A filter to return only a specific column based on column name.
+* `confidence_level` - (Optional) A filter to return the sensitive columns with the specified confidence level.  Confidence level of sensitive column associated with a seeded sensitive type can either be HIGH or LOW. While the confidence level of sensitive column associated with a user defined sensitive will be NONE.  For sensitive columns added manually the confidence level will also be NONE. 
 * `data_type` - (Optional) A filter to return only the resources that match the specified data types.
 * `is_case_in_sensitive` - (Optional) A boolean flag indicating whether the search should be case-insensitive. The search is case-sensitive by default. Set this parameter to true to do case-insensitive search. 
 * `object` - (Optional) A filter to return only items related to a specific object name.
@@ -81,6 +85,8 @@ The following attributes are exported:
 * `app_name` - The name of the application associated with the sensitive column. It's useful when the application name is different from the schema name. Otherwise, it can be ignored. 
 * `column_groups` - The composite key groups to which the sensitive column belongs. If the column is part of a composite key, it's assigned a column group. It helps identify and manage referential relationships that involve composite keys. 
 * `column_name` - The name of the sensitive column.
+* `confidence_level` - The confidence level of the sensitive column associated with the sensitive type. The confidence level of the discovered sensitive columns can be either HIGH, MEDIUM or LOW. The confidence level will be NONE for manually added sensitive columns. 
+* `confidence_level_details` - List containing maps as values. Example: `{"Operations": [ {"CostCenter": "42"} ] }` 
 * `data_type` - The data type of the sensitive column.
 * `db_defined_child_column_keys` - Unique keys identifying the columns that are database-level (dictionary-defined) children of the sensitive column.
 * `estimated_data_value_count` - The estimated number of data values the column has in the associated database.

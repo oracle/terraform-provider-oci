@@ -38,6 +38,12 @@ func JmsJmsPluginResource() *schema.Resource {
 			},
 
 			// Optional
+			"agent_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -58,10 +64,6 @@ func JmsJmsPluginResource() *schema.Resource {
 			},
 
 			// Computed
-			"agent_type": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"availability_status": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -178,6 +180,10 @@ func (s *JmsJmsPluginResourceCrud) Create() error {
 	if agentId, ok := s.D.GetOkExists("agent_id"); ok {
 		tmp := agentId.(string)
 		request.AgentId = &tmp
+	}
+
+	if agentType, ok := s.D.GetOkExists("agent_type"); ok {
+		request.AgentType = oci_jms.AgentTypeEnum(agentType.(string))
 	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
