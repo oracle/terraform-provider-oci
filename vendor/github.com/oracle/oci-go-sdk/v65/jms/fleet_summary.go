@@ -51,6 +51,14 @@ type FleetSummary struct {
 	// This metric is provided on a best-effort manner, and isn't taken into account when computing the resource ETag.
 	ApproximateJavaServerCount *int `mandatory:"true" json:"approximateJavaServerCount"`
 
+	// The approximate count of all unique libraries in the Fleet in the past seven days.
+	// This metric is provided on a best-effort manner, and isn't taken into account when computing the resource ETag.
+	ApproximateLibraryCount *int `mandatory:"true" json:"approximateLibraryCount"`
+
+	// The approximate count of all unique library vulnerabilities in the Fleet in the past seven days.
+	// This metric is provided on a best-effort manner, and isn't taken into account when computing the resource ETag.
+	ApproximateLibraryVulnerabilityCount *int `mandatory:"true" json:"approximateLibraryVulnerabilityCount"`
+
 	// The creation date and time of the Fleet (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 

@@ -8,6 +8,6 @@ variable "plugin_error_analytic_compartment_id_in_subtree" {
 data "oci_jms_plugin_error_analytics" "test_plugin_error_analytics" {
 
 	#Optional
-	compartment_id = var.compartment_id
+	compartment_id = var.compartment_ocid
 	compartment_id_in_subtree = var.plugin_error_analytic_compartment_id_in_subtree
 }

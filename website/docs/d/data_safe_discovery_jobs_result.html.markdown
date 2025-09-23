@@ -37,6 +37,8 @@ The following attributes are exported:
 * `app_defined_child_column_keys` - Unique keys identifying the columns that are application-level (non-dictionary) children of the sensitive column.
 * `app_name` - The name of the application. An application is an entity that is identified by a schema and stores sensitive information for that schema. Its value will be same as schemaName, if no value is passed.
 * `column_name` - The name of the sensitive column.
+* `confidence_level` - The confidence level of the discovery job result associated with the sensitive type. The confidence level for discovery job results can be either HIGH, MEDIUM or LOW. 
+* `confidence_level_details` - List containing maps as values. Example: `{"Operations": [ {"CostCenter": "42"} ] }` 
 * `data_type` - The data type of the sensitive column.
 * `db_defined_child_column_keys` - Unique keys identifying the columns that are database-level (dictionary-defined) children of the sensitive column.
 * `discovery_job_id` - The OCID of the discovery job.

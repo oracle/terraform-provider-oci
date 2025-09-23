@@ -16,49 +16,13 @@ import (
 
 var (
 	// before running tests, ensure to set up environment variables used below
-	JmsFleetCryptoAnalysisResultCompartmentId  = utils.GetEnvSettingWithBlankDefault("compartment_ocid")
-	JmsFleetCryptoAnalysisResultLogGroupId     = utils.GetEnvSettingWithBlankDefault("fleet_log_group_ocid")
-	JmsFleetCryptoAnalysisResultInventoryLogId = utils.GetEnvSettingWithBlankDefault("fleet_inventory_log_ocid")
-	JmsFleetCryptoAnalysisResultOperationLogId = utils.GetEnvSettingWithBlankDefault("fleet_operation_log_ocid")
+	JmsFleetCryptoAnalysisResultFleetId       = utils.GetEnvSettingWithBlankDefault("fleet_ocid")
+	JmsFleetCryptoAnalysisResultCompartmentId = utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 
 	JmsFleetCryptoAnalysisResultDummyManagedInstanceId = utils.GetEnvSettingWithBlankDefault("managed_instance_ocid")
 
-	JmsFleetCryptoAnalysisResultResourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: JmsFleetCryptoAnalysisResultCompartmentId},
-		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `Created Fleet for Crypto Analysis Result`},
-		"description":    acctest.Representation{RepType: acctest.Optional, Create: `Created Fleet for Crypto Analysis Result`},
-		"inventory_log": acctest.RepresentationGroup{
-			RepType: acctest.Required,
-			Group: map[string]interface{}{
-				"log_group_id": acctest.Representation{
-					RepType: acctest.Required,
-					Create:  JmsFleetCryptoAnalysisResultLogGroupId,
-					Update:  JmsFleetCryptoAnalysisResultLogGroupId,
-				},
-				"log_id": acctest.Representation{
-					RepType: acctest.Required,
-					Create:  JmsFleetCryptoAnalysisResultInventoryLogId,
-					Update:  JmsFleetCryptoAnalysisResultInventoryLogId,
-				},
-			}},
-		"operation_log": acctest.RepresentationGroup{
-			RepType: acctest.Optional,
-			Group: map[string]interface{}{
-				"log_group_id": acctest.Representation{
-					RepType: acctest.Required,
-					Create:  JmsFleetCryptoAnalysisResultLogGroupId,
-					Update:  JmsFleetCryptoAnalysisResultLogGroupId,
-				},
-				"log_id": acctest.Representation{
-					RepType: acctest.Required,
-					Create:  JmsFleetCryptoAnalysisResultOperationLogId,
-					Update:  JmsFleetCryptoAnalysisResultOperationLogId,
-				},
-			}},
-	}
-
 	JmsFleetCryptoAnalysisResultDataSourceRepresentation = map[string]interface{}{
-		"fleet_id":                                 acctest.Representation{RepType: acctest.Required, Create: `${oci_jms_fleet.test_fleet.id}`},
+		"fleet_id":                                 acctest.Representation{RepType: acctest.Required, Create: JmsFleetCryptoAnalysisResultFleetId},
 		"aggregation_mode":                         acctest.Representation{RepType: acctest.Optional, Create: `JFR`},
 		"finding_count":                            acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"finding_count_greater_than":               acctest.Representation{RepType: acctest.Optional, Create: `10`},
@@ -85,13 +49,6 @@ func TestJmsFleetCryptoAnalysisResultResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateResourceFromRepresentationMap(
-					"oci_jms_fleet",
-					"test_fleet",
-					acctest.Optional,
-					acctest.Create,
-					JmsFleetCryptoAnalysisResultResourceRepresentation,
-				) +
 				acctest.GenerateDataSourceFromRepresentationMap(
 					"oci_jms_fleet_crypto_analysis_results",
 					"test_fleet_crypto_analysis_results",

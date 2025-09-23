@@ -26,7 +26,7 @@ data "oci_data_safe_data_safe_configuration" "test_data_safe_configuration" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Optional) A filter to return only resources that match the specified compartment OCID.
+* `compartment_id` - (Optional) A filter to return the Data Safe configuration for the specified tenancy OCID.
 
 
 ## Attributes Reference

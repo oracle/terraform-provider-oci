@@ -40,10 +40,10 @@ type SummarizeLibraryUsageRequest struct {
 	LibraryName *string `mandatory:"false" contributesTo:"query" name:"libraryName"`
 
 	// Total Common Vulnerability Scoring System (CVSS) Score reported by the analysis.
-	CvssScoreGreaterThan *int `mandatory:"false" contributesTo:"query" name:"cvssScoreGreaterThan"`
+	CvssScoreGreaterThan *float32 `mandatory:"false" contributesTo:"query" name:"cvssScoreGreaterThan"`
 
 	// Total Common Vulnerability Scoring System (CVSS) Score reported by the analysis.
-	CvssScoreLessThan *int `mandatory:"false" contributesTo:"query" name:"cvssScoreLessThan"`
+	CvssScoreLessThan *float32 `mandatory:"false" contributesTo:"query" name:"cvssScoreLessThan"`
 
 	// The start of the time period during which resources are searched (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
 	TimeStart *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeStart"`
@@ -190,39 +190,45 @@ type SummarizeLibraryUsageSortByEnum string
 
 // Set of constants representing the allowable values for SummarizeLibraryUsageSortByEnum
 const (
-	SummarizeLibraryUsageSortByApplicationcount         SummarizeLibraryUsageSortByEnum = "applicationCount"
-	SummarizeLibraryUsageSortByJavaserverinstancecount  SummarizeLibraryUsageSortByEnum = "javaServerInstanceCount"
-	SummarizeLibraryUsageSortByCvssscore                SummarizeLibraryUsageSortByEnum = "cvssScore"
-	SummarizeLibraryUsageSortByDeployedapplicationcount SummarizeLibraryUsageSortByEnum = "deployedApplicationCount"
-	SummarizeLibraryUsageSortByLibraryname              SummarizeLibraryUsageSortByEnum = "libraryName"
-	SummarizeLibraryUsageSortByLibraryversion           SummarizeLibraryUsageSortByEnum = "libraryVersion"
-	SummarizeLibraryUsageSortByManagedinstancecount     SummarizeLibraryUsageSortByEnum = "managedInstanceCount"
-	SummarizeLibraryUsageSortByTimefirstseen            SummarizeLibraryUsageSortByEnum = "timeFirstSeen"
-	SummarizeLibraryUsageSortByTimelastseen             SummarizeLibraryUsageSortByEnum = "timeLastSeen"
+	SummarizeLibraryUsageSortByApplicationcount          SummarizeLibraryUsageSortByEnum = "applicationCount"
+	SummarizeLibraryUsageSortByJavaserverinstancecount   SummarizeLibraryUsageSortByEnum = "javaServerInstanceCount"
+	SummarizeLibraryUsageSortByCvssscore                 SummarizeLibraryUsageSortByEnum = "cvssScore"
+	SummarizeLibraryUsageSortByDeployedapplicationcount  SummarizeLibraryUsageSortByEnum = "deployedApplicationCount"
+	SummarizeLibraryUsageSortByLibraryname               SummarizeLibraryUsageSortByEnum = "libraryName"
+	SummarizeLibraryUsageSortByLibraryversion            SummarizeLibraryUsageSortByEnum = "libraryVersion"
+	SummarizeLibraryUsageSortByManagedinstancecount      SummarizeLibraryUsageSortByEnum = "managedInstanceCount"
+	SummarizeLibraryUsageSortByTimefirstseen             SummarizeLibraryUsageSortByEnum = "timeFirstSeen"
+	SummarizeLibraryUsageSortByTimelastseen              SummarizeLibraryUsageSortByEnum = "timeLastSeen"
+	SummarizeLibraryUsageSortByHighestvulnerabilityscore SummarizeLibraryUsageSortByEnum = "highestVulnerabilityScore"
+	SummarizeLibraryUsageSortByConfidencelevel           SummarizeLibraryUsageSortByEnum = "confidenceLevel"
 )
 
 var mappingSummarizeLibraryUsageSortByEnum = map[string]SummarizeLibraryUsageSortByEnum{
-	"applicationCount":         SummarizeLibraryUsageSortByApplicationcount,
-	"javaServerInstanceCount":  SummarizeLibraryUsageSortByJavaserverinstancecount,
-	"cvssScore":                SummarizeLibraryUsageSortByCvssscore,
-	"deployedApplicationCount": SummarizeLibraryUsageSortByDeployedapplicationcount,
-	"libraryName":              SummarizeLibraryUsageSortByLibraryname,
-	"libraryVersion":           SummarizeLibraryUsageSortByLibraryversion,
-	"managedInstanceCount":     SummarizeLibraryUsageSortByManagedinstancecount,
-	"timeFirstSeen":            SummarizeLibraryUsageSortByTimefirstseen,
-	"timeLastSeen":             SummarizeLibraryUsageSortByTimelastseen,
+	"applicationCount":          SummarizeLibraryUsageSortByApplicationcount,
+	"javaServerInstanceCount":   SummarizeLibraryUsageSortByJavaserverinstancecount,
+	"cvssScore":                 SummarizeLibraryUsageSortByCvssscore,
+	"deployedApplicationCount":  SummarizeLibraryUsageSortByDeployedapplicationcount,
+	"libraryName":               SummarizeLibraryUsageSortByLibraryname,
+	"libraryVersion":            SummarizeLibraryUsageSortByLibraryversion,
+	"managedInstanceCount":      SummarizeLibraryUsageSortByManagedinstancecount,
+	"timeFirstSeen":             SummarizeLibraryUsageSortByTimefirstseen,
+	"timeLastSeen":              SummarizeLibraryUsageSortByTimelastseen,
+	"highestVulnerabilityScore": SummarizeLibraryUsageSortByHighestvulnerabilityscore,
+	"confidenceLevel":           SummarizeLibraryUsageSortByConfidencelevel,
 }
 
 var mappingSummarizeLibraryUsageSortByEnumLowerCase = map[string]SummarizeLibraryUsageSortByEnum{
-	"applicationcount":         SummarizeLibraryUsageSortByApplicationcount,
-	"javaserverinstancecount":  SummarizeLibraryUsageSortByJavaserverinstancecount,
-	"cvssscore":                SummarizeLibraryUsageSortByCvssscore,
-	"deployedapplicationcount": SummarizeLibraryUsageSortByDeployedapplicationcount,
-	"libraryname":              SummarizeLibraryUsageSortByLibraryname,
-	"libraryversion":           SummarizeLibraryUsageSortByLibraryversion,
-	"managedinstancecount":     SummarizeLibraryUsageSortByManagedinstancecount,
-	"timefirstseen":            SummarizeLibraryUsageSortByTimefirstseen,
-	"timelastseen":             SummarizeLibraryUsageSortByTimelastseen,
+	"applicationcount":          SummarizeLibraryUsageSortByApplicationcount,
+	"javaserverinstancecount":   SummarizeLibraryUsageSortByJavaserverinstancecount,
+	"cvssscore":                 SummarizeLibraryUsageSortByCvssscore,
+	"deployedapplicationcount":  SummarizeLibraryUsageSortByDeployedapplicationcount,
+	"libraryname":               SummarizeLibraryUsageSortByLibraryname,
+	"libraryversion":            SummarizeLibraryUsageSortByLibraryversion,
+	"managedinstancecount":      SummarizeLibraryUsageSortByManagedinstancecount,
+	"timefirstseen":             SummarizeLibraryUsageSortByTimefirstseen,
+	"timelastseen":              SummarizeLibraryUsageSortByTimelastseen,
+	"highestvulnerabilityscore": SummarizeLibraryUsageSortByHighestvulnerabilityscore,
+	"confidencelevel":           SummarizeLibraryUsageSortByConfidencelevel,
 }
 
 // GetSummarizeLibraryUsageSortByEnumValues Enumerates the set of values for SummarizeLibraryUsageSortByEnum
@@ -246,6 +252,8 @@ func GetSummarizeLibraryUsageSortByEnumStringValues() []string {
 		"managedInstanceCount",
 		"timeFirstSeen",
 		"timeLastSeen",
+		"highestVulnerabilityScore",
+		"confidenceLevel",
 	}
 }
 

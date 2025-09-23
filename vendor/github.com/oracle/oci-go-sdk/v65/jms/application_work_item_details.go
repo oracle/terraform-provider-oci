@@ -31,6 +31,17 @@ type ApplicationWorkItemDetails struct {
 	// The full path on which application installation was detected.
 	ApplicationInstallationPath *string `mandatory:"false" json:"applicationInstallationPath"`
 
+	// The Object Storage namespace of the JFR upload result.
+	Namespace *string `mandatory:"false" json:"namespace"`
+
+	// The Object Storage bucket name of the JFR upload result.
+	BucketName *string `mandatory:"false" json:"bucketName"`
+
+	// The Object Storage object name of the JFR upload result.
+	ObjectName *string `mandatory:"false" json:"objectName"`
+
+	ContainerInfo *ContainerSummary `mandatory:"false" json:"containerInfo"`
+
 	// The work item type.
 	WorkItemType WorkItemTypeEnum `mandatory:"false" json:"workItemType,omitempty"`
 }

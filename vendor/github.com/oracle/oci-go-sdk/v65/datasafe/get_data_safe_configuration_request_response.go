@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetDataSafeConfiguration.go.html to see an example of how to use GetDataSafeConfigurationRequest.
 type GetDataSafeConfigurationRequest struct {
 
-	// A filter to return only resources that match the specified compartment OCID.
+	// A filter to return the Data Safe configuration for the specified tenancy OCID.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// Unique identifier for the request.

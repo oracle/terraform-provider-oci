@@ -534,6 +534,69 @@ func (client JavaManagementServiceClient) createJmsPlugin(ctx context.Context, r
 	return response, err
 }
 
+// CreateTaskSchedule Create a task schedule using the information provided.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/CreateTaskSchedule.go.html to see an example of how to use CreateTaskSchedule API.
+// A default retry strategy applies to this operation CreateTaskSchedule()
+func (client JavaManagementServiceClient) CreateTaskSchedule(ctx context.Context, request CreateTaskScheduleRequest) (response CreateTaskScheduleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createTaskSchedule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateTaskScheduleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateTaskScheduleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateTaskScheduleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateTaskScheduleResponse")
+	}
+	return
+}
+
+// createTaskSchedule implements the OCIOperation interface (enables retrying operations)
+func (client JavaManagementServiceClient) createTaskSchedule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/taskSchedules", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateTaskScheduleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/TaskSchedule/CreateTaskSchedule"
+		err = common.PostProcessServiceError(err, "JavaManagementService", "CreateTaskSchedule", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteBlocklist Deletes the blocklist record specified by an identifier.
 //
 // # See also
@@ -934,6 +997,64 @@ func (client JavaManagementServiceClient) deletePerformanceTuningAnalysisResult(
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/PerformanceTuningAnalysisResult/DeletePerformanceTuningAnalysisResult"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "DeletePerformanceTuningAnalysisResult", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteTaskSchedule Deletes the task schedule record specified by an identifier.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/DeleteTaskSchedule.go.html to see an example of how to use DeleteTaskSchedule API.
+// A default retry strategy applies to this operation DeleteTaskSchedule()
+func (client JavaManagementServiceClient) DeleteTaskSchedule(ctx context.Context, request DeleteTaskScheduleRequest) (response DeleteTaskScheduleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteTaskSchedule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteTaskScheduleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteTaskScheduleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteTaskScheduleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteTaskScheduleResponse")
+	}
+	return
+}
+
+// deleteTaskSchedule implements the OCIOperation interface (enables retrying operations)
+func (client JavaManagementServiceClient) deleteTaskSchedule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/taskSchedules/{taskScheduleId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteTaskScheduleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/TaskSchedule/DeleteTaskSchedule"
+		err = common.PostProcessServiceError(err, "JavaManagementService", "DeleteTaskSchedule", apiReferenceLink)
 		return response, err
 	}
 
@@ -1934,6 +2055,64 @@ func (client JavaManagementServiceClient) getPerformanceTuningAnalysisResult(ctx
 	return response, err
 }
 
+// GetTaskSchedule Returns a task schedule.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/GetTaskSchedule.go.html to see an example of how to use GetTaskSchedule API.
+// A default retry strategy applies to this operation GetTaskSchedule()
+func (client JavaManagementServiceClient) GetTaskSchedule(ctx context.Context, request GetTaskScheduleRequest) (response GetTaskScheduleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getTaskSchedule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetTaskScheduleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetTaskScheduleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetTaskScheduleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetTaskScheduleResponse")
+	}
+	return
+}
+
+// getTaskSchedule implements the OCIOperation interface (enables retrying operations)
+func (client JavaManagementServiceClient) getTaskSchedule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/taskSchedules/{taskScheduleId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetTaskScheduleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/TaskSchedule/GetTaskSchedule"
+		err = common.PostProcessServiceError(err, "JavaManagementService", "GetTaskSchedule", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetWorkRequest Retrieve the details of a work request with the specified ID.
 //
 // # See also
@@ -2159,6 +2338,64 @@ func (client JavaManagementServiceClient) listBlocklists(ctx context.Context, re
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/Blocklist/ListBlocklists"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "ListBlocklists", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListContainers List containers in a fleet filtered by query parameters.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListContainers.go.html to see an example of how to use ListContainers API.
+// A default retry strategy applies to this operation ListContainers()
+func (client JavaManagementServiceClient) ListContainers(ctx context.Context, request ListContainersRequest) (response ListContainersResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listContainers, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListContainersResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListContainersResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListContainersResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListContainersResponse")
+	}
+	return
+}
+
+// listContainers implements the OCIOperation interface (enables retrying operations)
+func (client JavaManagementServiceClient) listContainers(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleets/{fleetId}/containers", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListContainersResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/ContainerSummary/ListContainers"
+		err = common.PostProcessServiceError(err, "JavaManagementService", "ListContainers", apiReferenceLink)
 		return response, err
 	}
 
@@ -2806,6 +3043,122 @@ func (client JavaManagementServiceClient) listJreUsage(ctx context.Context, requ
 	return response, err
 }
 
+// ListLibraryApplicationUsage List applications where a library has been detected filtered by query parameters.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListLibraryApplicationUsage.go.html to see an example of how to use ListLibraryApplicationUsage API.
+// A default retry strategy applies to this operation ListLibraryApplicationUsage()
+func (client JavaManagementServiceClient) ListLibraryApplicationUsage(ctx context.Context, request ListLibraryApplicationUsageRequest) (response ListLibraryApplicationUsageResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listLibraryApplicationUsage, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListLibraryApplicationUsageResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListLibraryApplicationUsageResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListLibraryApplicationUsageResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListLibraryApplicationUsageResponse")
+	}
+	return
+}
+
+// listLibraryApplicationUsage implements the OCIOperation interface (enables retrying operations)
+func (client JavaManagementServiceClient) listLibraryApplicationUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleets/{fleetId}/libraries/{libraryKey}/applications", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListLibraryApplicationUsageResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/LibraryApplicationUsageSummary/ListLibraryApplicationUsage"
+		err = common.PostProcessServiceError(err, "JavaManagementService", "ListLibraryApplicationUsage", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListLibraryManagedInstanceUsage List managed instances where a library has been detected, filtered by query parameters.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListLibraryManagedInstanceUsage.go.html to see an example of how to use ListLibraryManagedInstanceUsage API.
+// A default retry strategy applies to this operation ListLibraryManagedInstanceUsage()
+func (client JavaManagementServiceClient) ListLibraryManagedInstanceUsage(ctx context.Context, request ListLibraryManagedInstanceUsageRequest) (response ListLibraryManagedInstanceUsageResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listLibraryManagedInstanceUsage, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListLibraryManagedInstanceUsageResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListLibraryManagedInstanceUsageResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListLibraryManagedInstanceUsageResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListLibraryManagedInstanceUsageResponse")
+	}
+	return
+}
+
+// listLibraryManagedInstanceUsage implements the OCIOperation interface (enables retrying operations)
+func (client JavaManagementServiceClient) listLibraryManagedInstanceUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleets/{fleetId}/libraries/{libraryKey}/managedInstances", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListLibraryManagedInstanceUsageResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/LibraryManagedInstanceUsageSummary/ListLibraryManagedInstanceUsage"
+		err = common.PostProcessServiceError(err, "JavaManagementService", "ListLibraryManagedInstanceUsage", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListPerformanceTuningAnalysisResults List Performance Tuning Analysis results.
 //
 // # See also
@@ -2915,6 +3268,238 @@ func (client JavaManagementServiceClient) listPluginErrors(ctx context.Context, 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/PluginErrorSummary/ListPluginErrors"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "ListPluginErrors", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListTaskSchedules Returns a list of task schedules.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListTaskSchedules.go.html to see an example of how to use ListTaskSchedules API.
+// A default retry strategy applies to this operation ListTaskSchedules()
+func (client JavaManagementServiceClient) ListTaskSchedules(ctx context.Context, request ListTaskSchedulesRequest) (response ListTaskSchedulesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listTaskSchedules, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListTaskSchedulesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListTaskSchedulesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListTaskSchedulesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListTaskSchedulesResponse")
+	}
+	return
+}
+
+// listTaskSchedules implements the OCIOperation interface (enables retrying operations)
+func (client JavaManagementServiceClient) listTaskSchedules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/taskSchedules", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListTaskSchedulesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/TaskSchedule/ListTaskSchedules"
+		err = common.PostProcessServiceError(err, "JavaManagementService", "ListTaskSchedules", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListUncorrelatedPackageApplicationUsage List applications where an uncorrelated package has been detected, filtered by query parameters.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListUncorrelatedPackageApplicationUsage.go.html to see an example of how to use ListUncorrelatedPackageApplicationUsage API.
+// A default retry strategy applies to this operation ListUncorrelatedPackageApplicationUsage()
+func (client JavaManagementServiceClient) ListUncorrelatedPackageApplicationUsage(ctx context.Context, request ListUncorrelatedPackageApplicationUsageRequest) (response ListUncorrelatedPackageApplicationUsageResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listUncorrelatedPackageApplicationUsage, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListUncorrelatedPackageApplicationUsageResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListUncorrelatedPackageApplicationUsageResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListUncorrelatedPackageApplicationUsageResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListUncorrelatedPackageApplicationUsageResponse")
+	}
+	return
+}
+
+// listUncorrelatedPackageApplicationUsage implements the OCIOperation interface (enables retrying operations)
+func (client JavaManagementServiceClient) listUncorrelatedPackageApplicationUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleets/{fleetId}/uncorrelatedPackages/{packageName}/applications", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListUncorrelatedPackageApplicationUsageResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/UncorrelatedPackageApplicationUsageSummary/ListUncorrelatedPackageApplicationUsage"
+		err = common.PostProcessServiceError(err, "JavaManagementService", "ListUncorrelatedPackageApplicationUsage", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListUncorrelatedPackageManagedInstanceUsage List managed instances where an uncorrelated package has been detected, filtered by query parameters.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListUncorrelatedPackageManagedInstanceUsage.go.html to see an example of how to use ListUncorrelatedPackageManagedInstanceUsage API.
+// A default retry strategy applies to this operation ListUncorrelatedPackageManagedInstanceUsage()
+func (client JavaManagementServiceClient) ListUncorrelatedPackageManagedInstanceUsage(ctx context.Context, request ListUncorrelatedPackageManagedInstanceUsageRequest) (response ListUncorrelatedPackageManagedInstanceUsageResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listUncorrelatedPackageManagedInstanceUsage, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListUncorrelatedPackageManagedInstanceUsageResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListUncorrelatedPackageManagedInstanceUsageResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListUncorrelatedPackageManagedInstanceUsageResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListUncorrelatedPackageManagedInstanceUsageResponse")
+	}
+	return
+}
+
+// listUncorrelatedPackageManagedInstanceUsage implements the OCIOperation interface (enables retrying operations)
+func (client JavaManagementServiceClient) listUncorrelatedPackageManagedInstanceUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleets/{fleetId}/uncorrelatedPackages/{packageName}/managedInstances", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListUncorrelatedPackageManagedInstanceUsageResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/UncorrelatedPackageManagedInstanceUsageSummary/ListUncorrelatedPackageManagedInstanceUsage"
+		err = common.PostProcessServiceError(err, "JavaManagementService", "ListUncorrelatedPackageManagedInstanceUsage", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListUncorrelatedPackageUsage List uncorrelated package summaries in a fleet, filtered by query parameters. Uncorrelated packages are Java packages which can't be accurately correlated to a library during a library scan.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListUncorrelatedPackageUsage.go.html to see an example of how to use ListUncorrelatedPackageUsage API.
+// A default retry strategy applies to this operation ListUncorrelatedPackageUsage()
+func (client JavaManagementServiceClient) ListUncorrelatedPackageUsage(ctx context.Context, request ListUncorrelatedPackageUsageRequest) (response ListUncorrelatedPackageUsageResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listUncorrelatedPackageUsage, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListUncorrelatedPackageUsageResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListUncorrelatedPackageUsageResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListUncorrelatedPackageUsageResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListUncorrelatedPackageUsageResponse")
+	}
+	return
+}
+
+// listUncorrelatedPackageUsage implements the OCIOperation interface (enables retrying operations)
+func (client JavaManagementServiceClient) listUncorrelatedPackageUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleets/{fleetId}/uncorrelatedPackages", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListUncorrelatedPackageUsageResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/UncorrelatedPackageUsageSummary/ListUncorrelatedPackageUsage"
+		err = common.PostProcessServiceError(err, "JavaManagementService", "ListUncorrelatedPackageUsage", apiReferenceLink)
 		return response, err
 	}
 
@@ -4158,6 +4743,64 @@ func (client JavaManagementServiceClient) summarizeJreUsage(ctx context.Context,
 	return response, err
 }
 
+// SummarizeLibraryInventory Retrieve the inventory of libraries in the specified fleet: Statically detected library count, Dynamically detected library count, Uncorrelated package count, High, Medium and Low severity library count.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/SummarizeLibraryInventory.go.html to see an example of how to use SummarizeLibraryInventory API.
+// A default retry strategy applies to this operation SummarizeLibraryInventory()
+func (client JavaManagementServiceClient) SummarizeLibraryInventory(ctx context.Context, request SummarizeLibraryInventoryRequest) (response SummarizeLibraryInventoryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeLibraryInventory, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeLibraryInventoryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeLibraryInventoryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeLibraryInventoryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeLibraryInventoryResponse")
+	}
+	return
+}
+
+// summarizeLibraryInventory implements the OCIOperation interface (enables retrying operations)
+func (client JavaManagementServiceClient) summarizeLibraryInventory(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleets/{fleetId}/summarizeLibraryInventory", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeLibraryInventoryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/LibraryInventory/SummarizeLibraryInventory"
+		err = common.PostProcessServiceError(err, "JavaManagementService", "SummarizeLibraryInventory", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // SummarizeLibraryUsage List libraries in a fleet filtered by query parameters.
 //
 // # See also
@@ -4742,6 +5385,69 @@ func (client JavaManagementServiceClient) updateJmsPlugin(ctx context.Context, r
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/JmsPlugin/UpdateJmsPlugin"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "UpdateJmsPlugin", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateTaskSchedule Update the task schedule for the given task type.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/UpdateTaskSchedule.go.html to see an example of how to use UpdateTaskSchedule API.
+// A default retry strategy applies to this operation UpdateTaskSchedule()
+func (client JavaManagementServiceClient) UpdateTaskSchedule(ctx context.Context, request UpdateTaskScheduleRequest) (response UpdateTaskScheduleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateTaskSchedule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateTaskScheduleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateTaskScheduleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateTaskScheduleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateTaskScheduleResponse")
+	}
+	return
+}
+
+// updateTaskSchedule implements the OCIOperation interface (enables retrying operations)
+func (client JavaManagementServiceClient) updateTaskSchedule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/taskSchedules/{taskScheduleId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateTaskScheduleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/TaskSchedule/UpdateTaskSchedule"
+		err = common.PostProcessServiceError(err, "JavaManagementService", "UpdateTaskSchedule", apiReferenceLink)
 		return response, err
 	}
 

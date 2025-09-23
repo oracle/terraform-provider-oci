@@ -76,6 +76,7 @@ The following attributes are exported:
 	* `managed_instance_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related managed instance. 
 	* `operating_system` - Operating System of the platform on which the Java Runtime was reported. 
 		* `architecture` - The architecture of the operating system as provided by the Java system property os.arch.
+		* `container_count` - Number of containers running the operating system.
 		* `distribution` - The name of the Operating System distribution, such as Oracle Linux 9, Windows 10, or macOS X.
 		* `family` - The operating system type, such as Windows, Linux or macOS
 		* `managed_instance_count` - Number of instances running the operating system.
