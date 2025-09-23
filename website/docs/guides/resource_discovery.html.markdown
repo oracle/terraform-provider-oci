@@ -184,6 +184,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `identity_domains` - Discovers identity_domains resources within the specified compartment
     * `integration` - Discovers integration resources within the specified compartment
     * `jms` - Discovers jms resources within the specified compartment
+    * `jms_utils` - Discovers jms_utils resources within the specified compartment
     * `kms` - Discovers kms resources within the specified compartment
     * `license_manager` - Discovers license_manager resources within the specified compartment
     * `limits` - Discovers limits resources across the entire tenancy
@@ -667,6 +668,14 @@ database
 * oci\_database\_exascale\_db\_storage\_vault
 * oci\_database\_exadb\_vm\_cluster
 * oci\_database\_autonomous\_database\_software\_image
+* oci\_database\_cloud\_exadata\_infrastructure\_configure\_exascale\_management
+* oci\_database\_scheduling\_plan
+* oci\_database\_scheduling\_policy\_scheduling\_window
+* oci\_database\_scheduling\_policy
+* oci\_database\_execution\_action
+* oci\_database\_execution\_window
+* oci\_database\_scheduled\_action
+* oci\_database\_exadata\_infrastructure\_configure\_exascale\_management
 * oci\_database\_autonomous\_container\_database\_snapshot\_standby
 * oci\_database\_autonomous\_container\_database\_add\_standby
 * oci\_database\_pluggable\_database\_snapshot
@@ -723,6 +732,9 @@ datascience
 * oci\_datascience\_pipeline\_run
 * oci\_datascience\_pipeline
 * oci\_datascience\_data\_science\_private\_endpoint
+* oci\_datascience\_schedule
+* oci\_datascience\_model\_defined\_metadata\_artifact
+* oci\_datascience\_model\_custom\_metadata\_artifact
 * oci\_datascience\_ml\_application\_implementation
 * oci\_datascience\_ml\_application\_instance
 * oci\_datascience\_ml\_application
@@ -790,6 +802,13 @@ dns
 * oci\_dns\_steering\_policy\_attachment
 * oci\_dns\_tsig\_key
 * oci\_dns\_rrset
+* oci\_dns\_resolver
+* oci\_dns\_resolver\_endpoint
+* oci\_dns\_view
+
+em_warehouse
+
+* oci\_em\_warehouse\_em\_warehouse
 
 email
     
@@ -970,6 +989,11 @@ jms
 * oci\_jms\_fleet\_advanced\_feature\_configuration
 * oci\_jms\_jms\_plugin
 
+jms_utils
+    
+* oci\_jms\_utils\_subscription\_acknowledgment\_configuration
+* oci\_jms\_utils\_analyze\_applications\_configuration
+
 kms
     
 * oci\_kms\_key
@@ -1045,6 +1069,7 @@ marketplace
     
 * oci\_marketplace\_accepted\_agreement
 * oci\_marketplace\_publication
+* oci\_marketplace\_marketplace\_external\_attested\_metadata
 
 media_services
     
@@ -1344,3 +1369,4 @@ zpr
     
 * oci\_zpr\_configuration
 * oci\_zpr\_zpr\_policy
+

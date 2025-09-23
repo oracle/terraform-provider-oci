@@ -40,6 +40,9 @@ type InstallationUsage struct {
 	// The unique identifier for the installation of a Java Runtime at a specific path on a specific operating system.
 	InstallationKey *string `mandatory:"false" json:"installationKey"`
 
+	// The security status of the Java Runtime.
+	SecurityStatus JreSecurityStatusEnum `mandatory:"false" json:"securityStatus,omitempty"`
+
 	OperatingSystem *OperatingSystem `mandatory:"false" json:"operatingSystem"`
 
 	// The approximate count of applications running on this installation
@@ -77,6 +80,9 @@ func (m InstallationUsage) String() string {
 func (m InstallationUsage) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingJreSecurityStatusEnum(string(m.SecurityStatus)); !ok && m.SecurityStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SecurityStatus: %s. Supported values are: %s.", m.SecurityStatus, strings.Join(GetJreSecurityStatusEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

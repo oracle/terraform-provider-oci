@@ -252,6 +252,12 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"exascale_db_storage_vault_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"file_system_configuration_details": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -508,6 +514,10 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"storage_management_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"storage_size_in_gbs": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -757,6 +767,11 @@ func (s *DatabaseCloudVmClusterResourceCrud) Create() error {
 	if domain, ok := s.D.GetOkExists("domain"); ok {
 		tmp := domain.(string)
 		request.Domain = &tmp
+	}
+
+	if exascaleDbStorageVaultId, ok := s.D.GetOkExists("exascale_db_storage_vault_id"); ok {
+		tmp := exascaleDbStorageVaultId.(string)
+		request.ExascaleDbStorageVaultId = &tmp
 	}
 
 	if fileSystemConfigurationDetails, ok := s.D.GetOkExists("file_system_configuration_details"); ok {
@@ -1234,6 +1249,10 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
 		s.D.Set("domain", *s.Res.Domain)
 	}
 
+	if s.Res.ExascaleDbStorageVaultId != nil {
+		s.D.Set("exascale_db_storage_vault_id", *s.Res.ExascaleDbStorageVaultId)
+	}
+
 	fileSystemConfigurationDetails := []interface{}{}
 	for _, item := range s.Res.FileSystemConfigurationDetails {
 		fileSystemConfigurationDetails = append(fileSystemConfigurationDetails, FileSystemConfigurationDetailToMap(item))
@@ -1327,6 +1346,8 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
 	s.D.Set("ssh_public_keys", s.Res.SshPublicKeys)
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	s.D.Set("storage_management_type", s.Res.StorageManagementType)
 
 	if s.Res.StorageSizeInGBs != nil {
 		s.D.Set("storage_size_in_gbs", *s.Res.StorageSizeInGBs)

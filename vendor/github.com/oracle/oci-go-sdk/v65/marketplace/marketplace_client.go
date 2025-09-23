@@ -218,6 +218,69 @@ func (client MarketplaceClient) createAcceptedAgreement(ctx context.Context, req
 	return response, err
 }
 
+// CreateMarketplaceExternalAttestedMetadata Generates attested marketplace metadata
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/CreateMarketplaceExternalAttestedMetadata.go.html to see an example of how to use CreateMarketplaceExternalAttestedMetadata API.
+// A default retry strategy applies to this operation CreateMarketplaceExternalAttestedMetadata()
+func (client MarketplaceClient) CreateMarketplaceExternalAttestedMetadata(ctx context.Context, request CreateMarketplaceExternalAttestedMetadataRequest) (response CreateMarketplaceExternalAttestedMetadataResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createMarketplaceExternalAttestedMetadata, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateMarketplaceExternalAttestedMetadataResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateMarketplaceExternalAttestedMetadataResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateMarketplaceExternalAttestedMetadataResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateMarketplaceExternalAttestedMetadataResponse")
+	}
+	return
+}
+
+// createMarketplaceExternalAttestedMetadata implements the OCIOperation interface (enables retrying operations)
+func (client MarketplaceClient) createMarketplaceExternalAttestedMetadata(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/marketplaceExternalAttestedMetadata", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateMarketplaceExternalAttestedMetadataResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/marketplace/20181001/CreateMarketplaceExternalAttestedMetadataDetails/CreateMarketplaceExternalAttestedMetadata"
+		err = common.PostProcessServiceError(err, "Marketplace", "CreateMarketplaceExternalAttestedMetadata", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreatePublication Creates a publication of the specified listing type with an optional default package.
 //
 // # See also
@@ -1128,6 +1191,64 @@ func (client MarketplaceClient) listListings(ctx context.Context, request common
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/marketplace/20181001/ListingSummary/ListListings"
 		err = common.PostProcessServiceError(err, "Marketplace", "ListListings", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListMarketplaceMetadataPublicKeys Get public certificates used in JWT signing, in JSON Web Key Sets format
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/ListMarketplaceMetadataPublicKeys.go.html to see an example of how to use ListMarketplaceMetadataPublicKeys API.
+// A default retry strategy applies to this operation ListMarketplaceMetadataPublicKeys()
+func (client MarketplaceClient) ListMarketplaceMetadataPublicKeys(ctx context.Context, request ListMarketplaceMetadataPublicKeysRequest) (response ListMarketplaceMetadataPublicKeysResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listMarketplaceMetadataPublicKeys, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListMarketplaceMetadataPublicKeysResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListMarketplaceMetadataPublicKeysResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListMarketplaceMetadataPublicKeysResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListMarketplaceMetadataPublicKeysResponse")
+	}
+	return
+}
+
+// listMarketplaceMetadataPublicKeys implements the OCIOperation interface (enables retrying operations)
+func (client MarketplaceClient) listMarketplaceMetadataPublicKeys(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/marketplaceMetadataPublicKeys", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListMarketplaceMetadataPublicKeysResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/marketplace/20181001/MarketplaceMetadataPublicKeySummary/ListMarketplaceMetadataPublicKeys"
+		err = common.PostProcessServiceError(err, "Marketplace", "ListMarketplaceMetadataPublicKeys", apiReferenceLink)
 		return response, err
 	}
 

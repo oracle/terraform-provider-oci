@@ -9,4 +9,5 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_jms_fleet", JmsFleetResource())
 	tfresource.RegisterResource("oci_jms_fleet_advanced_feature_configuration", JmsFleetAdvancedFeatureConfigurationResource())
 	tfresource.RegisterResource("oci_jms_jms_plugin", JmsJmsPluginResource())
+	tfresource.RegisterResource("oci_jms_task_schedule", JmsTaskScheduleResource())
 }

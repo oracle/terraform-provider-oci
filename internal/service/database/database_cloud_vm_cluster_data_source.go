@@ -135,6 +135,10 @@ func (s *DatabaseCloudVmClusterDataSourceCrud) SetData() error {
 		s.D.Set("domain", *s.Res.Domain)
 	}
 
+	if s.Res.ExascaleDbStorageVaultId != nil {
+		s.D.Set("exascale_db_storage_vault_id", *s.Res.ExascaleDbStorageVaultId)
+	}
+
 	fileSystemConfigurationDetails := []interface{}{}
 	for _, item := range s.Res.FileSystemConfigurationDetails {
 		fileSystemConfigurationDetails = append(fileSystemConfigurationDetails, FileSystemConfigurationDetailToMap(item))
@@ -228,6 +232,8 @@ func (s *DatabaseCloudVmClusterDataSourceCrud) SetData() error {
 	s.D.Set("ssh_public_keys", s.Res.SshPublicKeys)
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	s.D.Set("storage_management_type", s.Res.StorageManagementType)
 
 	if s.Res.StorageSizeInGBs != nil {
 		s.D.Set("storage_size_in_gbs", *s.Res.StorageSizeInGBs)

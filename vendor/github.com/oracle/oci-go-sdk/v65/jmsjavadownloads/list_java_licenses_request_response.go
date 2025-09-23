@@ -125,18 +125,21 @@ type ListJavaLicensesLicenseTypeEnum string
 const (
 	ListJavaLicensesLicenseTypeOtn        ListJavaLicensesLicenseTypeEnum = "OTN"
 	ListJavaLicensesLicenseTypeNftc       ListJavaLicensesLicenseTypeEnum = "NFTC"
+	ListJavaLicensesLicenseTypeBcl        ListJavaLicensesLicenseTypeEnum = "BCL"
 	ListJavaLicensesLicenseTypeRestricted ListJavaLicensesLicenseTypeEnum = "RESTRICTED"
 )
 
 var mappingListJavaLicensesLicenseTypeEnum = map[string]ListJavaLicensesLicenseTypeEnum{
 	"OTN":        ListJavaLicensesLicenseTypeOtn,
 	"NFTC":       ListJavaLicensesLicenseTypeNftc,
+	"BCL":        ListJavaLicensesLicenseTypeBcl,
 	"RESTRICTED": ListJavaLicensesLicenseTypeRestricted,
 }
 
 var mappingListJavaLicensesLicenseTypeEnumLowerCase = map[string]ListJavaLicensesLicenseTypeEnum{
 	"otn":        ListJavaLicensesLicenseTypeOtn,
 	"nftc":       ListJavaLicensesLicenseTypeNftc,
+	"bcl":        ListJavaLicensesLicenseTypeBcl,
 	"restricted": ListJavaLicensesLicenseTypeRestricted,
 }
 
@@ -154,6 +157,7 @@ func GetListJavaLicensesLicenseTypeEnumStringValues() []string {
 	return []string{
 		"OTN",
 		"NFTC",
+		"BCL",
 		"RESTRICTED",
 	}
 }

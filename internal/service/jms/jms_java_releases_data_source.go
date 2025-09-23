@@ -229,6 +229,13 @@ func JmsJavaReleasesDataSource() *schema.Resource {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
+												"license_types": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
 												"release_date": {
 													Type:     schema.TypeString,
 													Computed: true,
@@ -510,6 +517,8 @@ func JavaFamilyToMap(obj *oci_jms.JavaFamily) map[string]interface{} {
 	if obj.LatestReleaseVersion != nil {
 		result["latest_release_version"] = string(*obj.LatestReleaseVersion)
 	}
+
+	result["license_types"] = obj.LicenseTypes
 
 	if obj.ReleaseDate != nil {
 		result["release_date"] = obj.ReleaseDate.String()

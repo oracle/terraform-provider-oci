@@ -64,14 +64,13 @@ func TestJmsPluginResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "jms_plugin_collection.#"),
 				resource.TestCheckResourceAttr(datasourceName, "jms_plugin_collection.0.items.#", "0"),
 			),
+			// verify singular datasource
+			// note: we cannot write test for this case because
+			// it requires setup of fleet -> compute instance -> management agent -> jms plugin.
+
+			// verify resource import
+			// note: we cannot write test for this case because
+			// it requires setup of fleet -> compute instance -> management agent -> jms plugin.
 		},
-
-		// verify singular datasource
-		// note: we cannot write test for this case because
-		// it requires setup of fleet -> compute instance -> management agent -> jms plugin.
-
-		// verify resource import
-		// note: we cannot write test for this case because
-		// it requires setup of fleet -> compute instance -> management agent -> jms plugin.
 	})
 }

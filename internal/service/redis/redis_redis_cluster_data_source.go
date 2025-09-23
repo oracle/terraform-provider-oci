@@ -76,6 +76,14 @@ func (s *RedisRedisClusterDataSourceCrud) SetData() error {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
 
+	if s.Res.DiscoveryEndpointIpAddress != nil {
+		s.D.Set("discovery_endpoint_ip_address", *s.Res.DiscoveryEndpointIpAddress)
+	}
+
+	if s.Res.DiscoveryFqdn != nil {
+		s.D.Set("discovery_fqdn", *s.Res.DiscoveryFqdn)
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}

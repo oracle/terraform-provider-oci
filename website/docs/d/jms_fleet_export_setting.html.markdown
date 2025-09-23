@@ -32,6 +32,13 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `export_data_filters` - Filters applied when exporting data 
+	* `application_name_contains` - List of application names to filter by partial match 
+	* `application_name_equal_to` - List of application names to filter by exact match 
+	* `java_major_versions` - List of Java major versions to filter by 
+	* `java_vendors` - List of Java vendors to filter by 
+	* `java_versions` - List of Java versions to filter by 
+	* `security_statuses` - The security statuses of the Java Runtime
 * `export_duration` - The duration of data to be exported for fleets. 
 * `export_frequency` - Schedule at which data will be exported. 
 * `export_resources` - Resource to export data associated from the fleets. 

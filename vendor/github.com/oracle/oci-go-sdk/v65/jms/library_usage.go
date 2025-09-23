@@ -27,14 +27,28 @@ type LibraryUsage struct {
 	// The name of the library.
 	LibraryName *string `mandatory:"true" json:"libraryName"`
 
+	// Indicates whether the library was dynamically detected.
+	IsDynamicallyDetected *bool `mandatory:"true" json:"isDynamicallyDetected"`
+
 	// The version of the library.
 	LibraryVersion *string `mandatory:"false" json:"libraryVersion"`
 
+	// Deprecated, use `vulnerabilities` instead.
 	// The Common Vulnerabilities and Exposures (CVE) ID.
 	CveId *string `mandatory:"false" json:"cveId"`
 
-	// The Common Vulnerability Scoring System (CVSS) score.
+	// Deprecated, use `highestVulnerabilityScore` instead.
+	// The Common Vulnerability Scoring System (CVSS) score. If `cvssScore` is not available, it will be set to -1.0. It is set to 0.0 when `cveId` is null.
 	CvssScore *float32 `mandatory:"false" json:"cvssScore"`
+
+	// Highest CVSS score among the all vulnerabilities. If highest CVSS score is not available, it will be set to -1.0. It is set to 0.0 when there is no associated vulnerabilities.
+	HighestVulnerabilityScore *float32 `mandatory:"false" json:"highestVulnerabilityScore"`
+
+	// The list of library vulnerabilities.
+	Vulnerabilities []LibraryVulnerability `mandatory:"false" json:"vulnerabilities"`
+
+	// Confidence level of the assessed library's vulnerabilities.
+	ConfidenceLevel ConfidenceLevelEnum `mandatory:"false" json:"confidenceLevel,omitempty"`
 
 	// The approximate count of applications using the library.
 	ApproximateApplicationCount *int `mandatory:"false" json:"approximateApplicationCount"`
@@ -66,6 +80,7 @@ type LibraryUsage struct {
 	// if it is also reported during the time period.
 	TimeLastSeen *common.SDKTime `mandatory:"false" json:"timeLastSeen"`
 
+	// Deprecated.
 	// The date and time of the last CVEs refresh was completed.
 	TimeLastCveRefreshed *common.SDKTime `mandatory:"false" json:"timeLastCveRefreshed"`
 }
@@ -80,6 +95,9 @@ func (m LibraryUsage) String() string {
 func (m LibraryUsage) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingConfidenceLevelEnum(string(m.ConfidenceLevel)); !ok && m.ConfidenceLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConfidenceLevel: %s. Supported values are: %s.", m.ConfidenceLevel, strings.Join(GetConfidenceLevelEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
