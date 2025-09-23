@@ -4,6 +4,8 @@
 variable "region" {}
 variable "compartment_ocid" {}
 
+variable "tenancy_ocid" {}
+
 variable "path_analyzer_test_defined_tags_value" {
   default = "value"
 }
@@ -211,4 +213,12 @@ data "oci_vn_monitoring_path_analyzer_tests" "test_path_analyzer_tests" {
   #Optional
   display_name = var.path_analyzer_test_display_name
   state        = var.path_analyzer_test_state
+}
+
+data "oci_identity_availability_domains" "test_availability_domains" {
+  compartment_id = var.tenancy_ocid
+}
+
+output "ads" {
+  value = data.oci_identity_availability_domains.test_availability_domains.availability_domains[0].name
 }
