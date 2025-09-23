@@ -18,18 +18,21 @@ type AgentTypeEnum string
 
 // Set of constants representing the allowable values for AgentTypeEnum
 const (
-	AgentTypeOma AgentTypeEnum = "OMA"
-	AgentTypeOca AgentTypeEnum = "OCA"
+	AgentTypeOma  AgentTypeEnum = "OMA"
+	AgentTypeOca  AgentTypeEnum = "OCA"
+	AgentTypeOcma AgentTypeEnum = "OCMA"
 )
 
 var mappingAgentTypeEnum = map[string]AgentTypeEnum{
-	"OMA": AgentTypeOma,
-	"OCA": AgentTypeOca,
+	"OMA":  AgentTypeOma,
+	"OCA":  AgentTypeOca,
+	"OCMA": AgentTypeOcma,
 }
 
 var mappingAgentTypeEnumLowerCase = map[string]AgentTypeEnum{
-	"oma": AgentTypeOma,
-	"oca": AgentTypeOca,
+	"oma":  AgentTypeOma,
+	"oca":  AgentTypeOca,
+	"ocma": AgentTypeOcma,
 }
 
 // GetAgentTypeEnumValues Enumerates the set of values for AgentTypeEnum
@@ -46,6 +49,7 @@ func GetAgentTypeEnumStringValues() []string {
 	return []string{
 		"OMA",
 		"OCA",
+		"OCMA",
 	}
 }
 

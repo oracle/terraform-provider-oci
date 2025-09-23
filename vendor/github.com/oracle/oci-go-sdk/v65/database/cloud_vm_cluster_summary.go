@@ -204,6 +204,12 @@ type CloudVmClusterSummary struct {
 
 	CloudAutomationUpdateDetails *CloudAutomationUpdateDetails `mandatory:"false" json:"cloudAutomationUpdateDetails"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Database Storage Vault.
+	ExascaleDbStorageVaultId *string `mandatory:"false" json:"exascaleDbStorageVaultId"`
+
+	// Specifies the type of storage management for the Cloud VM Cluster if its ASM or Exascale.
+	StorageManagementType CloudVmClusterSummaryStorageManagementTypeEnum `mandatory:"false" json:"storageManagementType,omitempty"`
+
 	// The vmcluster type for the VM cluster/Cloud VM cluster.
 	VmClusterType CloudVmClusterSummaryVmClusterTypeEnum `mandatory:"false" json:"vmClusterType,omitempty"`
 
@@ -235,6 +241,9 @@ func (m CloudVmClusterSummary) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingCloudVmClusterSummaryDiskRedundancyEnum(string(m.DiskRedundancy)); !ok && m.DiskRedundancy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DiskRedundancy: %s. Supported values are: %s.", m.DiskRedundancy, strings.Join(GetCloudVmClusterSummaryDiskRedundancyEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingCloudVmClusterSummaryStorageManagementTypeEnum(string(m.StorageManagementType)); !ok && m.StorageManagementType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for StorageManagementType: %s. Supported values are: %s.", m.StorageManagementType, strings.Join(GetCloudVmClusterSummaryStorageManagementTypeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingCloudVmClusterSummaryVmClusterTypeEnum(string(m.VmClusterType)); !ok && m.VmClusterType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VmClusterType: %s. Supported values are: %s.", m.VmClusterType, strings.Join(GetCloudVmClusterSummaryVmClusterTypeEnumStringValues(), ",")))
@@ -394,6 +403,48 @@ func GetCloudVmClusterSummaryDiskRedundancyEnumStringValues() []string {
 // GetMappingCloudVmClusterSummaryDiskRedundancyEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingCloudVmClusterSummaryDiskRedundancyEnum(val string) (CloudVmClusterSummaryDiskRedundancyEnum, bool) {
 	enum, ok := mappingCloudVmClusterSummaryDiskRedundancyEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// CloudVmClusterSummaryStorageManagementTypeEnum Enum with underlying type: string
+type CloudVmClusterSummaryStorageManagementTypeEnum string
+
+// Set of constants representing the allowable values for CloudVmClusterSummaryStorageManagementTypeEnum
+const (
+	CloudVmClusterSummaryStorageManagementTypeAsm      CloudVmClusterSummaryStorageManagementTypeEnum = "ASM"
+	CloudVmClusterSummaryStorageManagementTypeExascale CloudVmClusterSummaryStorageManagementTypeEnum = "EXASCALE"
+)
+
+var mappingCloudVmClusterSummaryStorageManagementTypeEnum = map[string]CloudVmClusterSummaryStorageManagementTypeEnum{
+	"ASM":      CloudVmClusterSummaryStorageManagementTypeAsm,
+	"EXASCALE": CloudVmClusterSummaryStorageManagementTypeExascale,
+}
+
+var mappingCloudVmClusterSummaryStorageManagementTypeEnumLowerCase = map[string]CloudVmClusterSummaryStorageManagementTypeEnum{
+	"asm":      CloudVmClusterSummaryStorageManagementTypeAsm,
+	"exascale": CloudVmClusterSummaryStorageManagementTypeExascale,
+}
+
+// GetCloudVmClusterSummaryStorageManagementTypeEnumValues Enumerates the set of values for CloudVmClusterSummaryStorageManagementTypeEnum
+func GetCloudVmClusterSummaryStorageManagementTypeEnumValues() []CloudVmClusterSummaryStorageManagementTypeEnum {
+	values := make([]CloudVmClusterSummaryStorageManagementTypeEnum, 0)
+	for _, v := range mappingCloudVmClusterSummaryStorageManagementTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCloudVmClusterSummaryStorageManagementTypeEnumStringValues Enumerates the set of values in String for CloudVmClusterSummaryStorageManagementTypeEnum
+func GetCloudVmClusterSummaryStorageManagementTypeEnumStringValues() []string {
+	return []string{
+		"ASM",
+		"EXASCALE",
+	}
+}
+
+// GetMappingCloudVmClusterSummaryStorageManagementTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCloudVmClusterSummaryStorageManagementTypeEnum(val string) (CloudVmClusterSummaryStorageManagementTypeEnum, bool) {
+	enum, ok := mappingCloudVmClusterSummaryStorageManagementTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

@@ -18,39 +18,45 @@ type LibrarySortByEnum string
 
 // Set of constants representing the allowable values for LibrarySortByEnum
 const (
-	LibrarySortByApplicationCount         LibrarySortByEnum = "applicationCount"
-	LibrarySortByJavaServerInstanceCount  LibrarySortByEnum = "javaServerInstanceCount"
-	LibrarySortByCvssScore                LibrarySortByEnum = "cvssScore"
-	LibrarySortByDeployedApplicationCount LibrarySortByEnum = "deployedApplicationCount"
-	LibrarySortByLibraryName              LibrarySortByEnum = "libraryName"
-	LibrarySortByLibraryVersion           LibrarySortByEnum = "libraryVersion"
-	LibrarySortByManagedInstanceCount     LibrarySortByEnum = "managedInstanceCount"
-	LibrarySortByTimeFirstSeen            LibrarySortByEnum = "timeFirstSeen"
-	LibrarySortByTimeLastSeen             LibrarySortByEnum = "timeLastSeen"
+	LibrarySortByApplicationCount          LibrarySortByEnum = "applicationCount"
+	LibrarySortByJavaServerInstanceCount   LibrarySortByEnum = "javaServerInstanceCount"
+	LibrarySortByCvssScore                 LibrarySortByEnum = "cvssScore"
+	LibrarySortByDeployedApplicationCount  LibrarySortByEnum = "deployedApplicationCount"
+	LibrarySortByLibraryName               LibrarySortByEnum = "libraryName"
+	LibrarySortByLibraryVersion            LibrarySortByEnum = "libraryVersion"
+	LibrarySortByManagedInstanceCount      LibrarySortByEnum = "managedInstanceCount"
+	LibrarySortByTimeFirstSeen             LibrarySortByEnum = "timeFirstSeen"
+	LibrarySortByTimeLastSeen              LibrarySortByEnum = "timeLastSeen"
+	LibrarySortByHighestVulnerabilityScore LibrarySortByEnum = "highestVulnerabilityScore"
+	LibrarySortByConfidenceLevel           LibrarySortByEnum = "confidenceLevel"
 )
 
 var mappingLibrarySortByEnum = map[string]LibrarySortByEnum{
-	"applicationCount":         LibrarySortByApplicationCount,
-	"javaServerInstanceCount":  LibrarySortByJavaServerInstanceCount,
-	"cvssScore":                LibrarySortByCvssScore,
-	"deployedApplicationCount": LibrarySortByDeployedApplicationCount,
-	"libraryName":              LibrarySortByLibraryName,
-	"libraryVersion":           LibrarySortByLibraryVersion,
-	"managedInstanceCount":     LibrarySortByManagedInstanceCount,
-	"timeFirstSeen":            LibrarySortByTimeFirstSeen,
-	"timeLastSeen":             LibrarySortByTimeLastSeen,
+	"applicationCount":          LibrarySortByApplicationCount,
+	"javaServerInstanceCount":   LibrarySortByJavaServerInstanceCount,
+	"cvssScore":                 LibrarySortByCvssScore,
+	"deployedApplicationCount":  LibrarySortByDeployedApplicationCount,
+	"libraryName":               LibrarySortByLibraryName,
+	"libraryVersion":            LibrarySortByLibraryVersion,
+	"managedInstanceCount":      LibrarySortByManagedInstanceCount,
+	"timeFirstSeen":             LibrarySortByTimeFirstSeen,
+	"timeLastSeen":              LibrarySortByTimeLastSeen,
+	"highestVulnerabilityScore": LibrarySortByHighestVulnerabilityScore,
+	"confidenceLevel":           LibrarySortByConfidenceLevel,
 }
 
 var mappingLibrarySortByEnumLowerCase = map[string]LibrarySortByEnum{
-	"applicationcount":         LibrarySortByApplicationCount,
-	"javaserverinstancecount":  LibrarySortByJavaServerInstanceCount,
-	"cvssscore":                LibrarySortByCvssScore,
-	"deployedapplicationcount": LibrarySortByDeployedApplicationCount,
-	"libraryname":              LibrarySortByLibraryName,
-	"libraryversion":           LibrarySortByLibraryVersion,
-	"managedinstancecount":     LibrarySortByManagedInstanceCount,
-	"timefirstseen":            LibrarySortByTimeFirstSeen,
-	"timelastseen":             LibrarySortByTimeLastSeen,
+	"applicationcount":          LibrarySortByApplicationCount,
+	"javaserverinstancecount":   LibrarySortByJavaServerInstanceCount,
+	"cvssscore":                 LibrarySortByCvssScore,
+	"deployedapplicationcount":  LibrarySortByDeployedApplicationCount,
+	"libraryname":               LibrarySortByLibraryName,
+	"libraryversion":            LibrarySortByLibraryVersion,
+	"managedinstancecount":      LibrarySortByManagedInstanceCount,
+	"timefirstseen":             LibrarySortByTimeFirstSeen,
+	"timelastseen":              LibrarySortByTimeLastSeen,
+	"highestvulnerabilityscore": LibrarySortByHighestVulnerabilityScore,
+	"confidencelevel":           LibrarySortByConfidenceLevel,
 }
 
 // GetLibrarySortByEnumValues Enumerates the set of values for LibrarySortByEnum
@@ -74,6 +80,8 @@ func GetLibrarySortByEnumStringValues() []string {
 		"managedInstanceCount",
 		"timeFirstSeen",
 		"timeLastSeen",
+		"highestVulnerabilityScore",
+		"confidenceLevel",
 	}
 }
 

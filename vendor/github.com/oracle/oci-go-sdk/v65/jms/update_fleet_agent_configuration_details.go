@@ -36,6 +36,12 @@ type UpdateFleetAgentConfigurationDetails struct {
 	// Collect username for application invocations for all managed instances in the fleet.
 	IsCollectingUsernamesEnabled *bool `mandatory:"false" json:"isCollectingUsernamesEnabled"`
 
+	// Collect network addresses of managed instances in the fleet.
+	IsCapturingIpAddressAndFqdnEnabled *bool `mandatory:"false" json:"isCapturingIpAddressAndFqdnEnabled"`
+
+	// Enable libraries scan on all managed instances in the fleet.
+	IsLibrariesScanEnabled *bool `mandatory:"false" json:"isLibrariesScanEnabled"`
+
 	LinuxConfiguration *FleetAgentOsConfiguration `mandatory:"false" json:"linuxConfiguration"`
 
 	WindowsConfiguration *FleetAgentOsConfiguration `mandatory:"false" json:"windowsConfiguration"`

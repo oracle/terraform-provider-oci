@@ -177,18 +177,21 @@ type SummarizeManagedInstanceUsageManagedInstanceTypeEnum string
 
 // Set of constants representing the allowable values for SummarizeManagedInstanceUsageManagedInstanceTypeEnum
 const (
-	SummarizeManagedInstanceUsageManagedInstanceTypeManagementAgent SummarizeManagedInstanceUsageManagedInstanceTypeEnum = "ORACLE_MANAGEMENT_AGENT"
-	SummarizeManagedInstanceUsageManagedInstanceTypeCloudAgent      SummarizeManagedInstanceUsageManagedInstanceTypeEnum = "ORACLE_CLOUD_AGENT"
+	SummarizeManagedInstanceUsageManagedInstanceTypeManagementAgent          SummarizeManagedInstanceUsageManagedInstanceTypeEnum = "ORACLE_MANAGEMENT_AGENT"
+	SummarizeManagedInstanceUsageManagedInstanceTypeCloudAgent               SummarizeManagedInstanceUsageManagedInstanceTypeEnum = "ORACLE_CLOUD_AGENT"
+	SummarizeManagedInstanceUsageManagedInstanceTypeContainerManagementAgent SummarizeManagedInstanceUsageManagedInstanceTypeEnum = "ORACLE_CONTAINER_MANAGEMENT_AGENT"
 )
 
 var mappingSummarizeManagedInstanceUsageManagedInstanceTypeEnum = map[string]SummarizeManagedInstanceUsageManagedInstanceTypeEnum{
-	"ORACLE_MANAGEMENT_AGENT": SummarizeManagedInstanceUsageManagedInstanceTypeManagementAgent,
-	"ORACLE_CLOUD_AGENT":      SummarizeManagedInstanceUsageManagedInstanceTypeCloudAgent,
+	"ORACLE_MANAGEMENT_AGENT":           SummarizeManagedInstanceUsageManagedInstanceTypeManagementAgent,
+	"ORACLE_CLOUD_AGENT":                SummarizeManagedInstanceUsageManagedInstanceTypeCloudAgent,
+	"ORACLE_CONTAINER_MANAGEMENT_AGENT": SummarizeManagedInstanceUsageManagedInstanceTypeContainerManagementAgent,
 }
 
 var mappingSummarizeManagedInstanceUsageManagedInstanceTypeEnumLowerCase = map[string]SummarizeManagedInstanceUsageManagedInstanceTypeEnum{
-	"oracle_management_agent": SummarizeManagedInstanceUsageManagedInstanceTypeManagementAgent,
-	"oracle_cloud_agent":      SummarizeManagedInstanceUsageManagedInstanceTypeCloudAgent,
+	"oracle_management_agent":           SummarizeManagedInstanceUsageManagedInstanceTypeManagementAgent,
+	"oracle_cloud_agent":                SummarizeManagedInstanceUsageManagedInstanceTypeCloudAgent,
+	"oracle_container_management_agent": SummarizeManagedInstanceUsageManagedInstanceTypeContainerManagementAgent,
 }
 
 // GetSummarizeManagedInstanceUsageManagedInstanceTypeEnumValues Enumerates the set of values for SummarizeManagedInstanceUsageManagedInstanceTypeEnum
@@ -205,6 +208,7 @@ func GetSummarizeManagedInstanceUsageManagedInstanceTypeEnumStringValues() []str
 	return []string{
 		"ORACLE_MANAGEMENT_AGENT",
 		"ORACLE_CLOUD_AGENT",
+		"ORACLE_CONTAINER_MANAGEMENT_AGENT",
 	}
 }
 

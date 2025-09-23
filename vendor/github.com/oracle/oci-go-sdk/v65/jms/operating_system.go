@@ -35,6 +35,9 @@ type OperatingSystem struct {
 
 	// Number of instances running the operating system.
 	ManagedInstanceCount *int `mandatory:"false" json:"managedInstanceCount"`
+
+	// Number of containers running the operating system.
+	ContainerCount *int `mandatory:"false" json:"containerCount"`
 }
 
 func (m OperatingSystem) String() string {

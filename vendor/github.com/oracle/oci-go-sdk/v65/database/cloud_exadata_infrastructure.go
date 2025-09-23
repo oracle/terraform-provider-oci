@@ -138,6 +138,8 @@ type CloudExadataInfrastructure struct {
 	// If true, the infrastructure is using granular maintenance scheduling preference.
 	IsSchedulingPolicyAssociated *bool `mandatory:"false" json:"isSchedulingPolicyAssociated"`
 
+	ExascaleConfig *ExascaleConfigDetails `mandatory:"false" json:"exascaleConfig"`
+
 	// The database server type of the Exadata infrastructure.
 	DatabaseServerType *string `mandatory:"false" json:"databaseServerType"`
 

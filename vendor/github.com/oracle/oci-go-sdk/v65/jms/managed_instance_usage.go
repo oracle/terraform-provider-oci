@@ -33,9 +33,20 @@ type ManagedInstanceUsage struct {
 	// The host OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related managed instance.
 	HostId *string `mandatory:"false" json:"hostId"`
 
+	// Captured IP addresses of the managed instance.
+	IpAddresses []string `mandatory:"false" json:"ipAddresses"`
+
+	// Captured hostnames of the managed instance.
+	Hostnames []string `mandatory:"false" json:"hostnames"`
+
+	// Captured fully qualify domain names of the managed instance.
+	Fqdns []string `mandatory:"false" json:"fqdns"`
+
 	OperatingSystem *OperatingSystem `mandatory:"false" json:"operatingSystem"`
 
 	Agent *Agent `mandatory:"false" json:"agent"`
+
+	ClusterDetails *ClusterDetails `mandatory:"false" json:"clusterDetails"`
 
 	// The approximate count of applications reported by this managed instance.
 	ApproximateApplicationCount *int `mandatory:"false" json:"approximateApplicationCount"`
