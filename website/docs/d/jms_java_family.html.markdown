@@ -53,6 +53,7 @@ The following attributes are exported:
 	* `script_download_url` - The endpoint for downloading this artifact from command line, automatically in scripts and dockerfiles. Depending on the context, this can point to the archive or latest update release version artifact in the specified family. 
 	* `sha256` - SHA256 checksum of the artifact.
 * `latest_release_version` - Latest Java release version in the family.
+* `license_types` - The license type(s) associated with the Java family.
 * `release_date` - The date on which the Java release family was first made available (formatted according to [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339)). 
 * `support_type` - This indicates the support category for the Java release family.
 

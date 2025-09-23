@@ -142,6 +142,7 @@ const (
 	ListBlocklistsOperationDeleteJmsReport                  ListBlocklistsOperationEnum = "DELETE_JMS_REPORT"
 	ListBlocklistsOperationScanJavaServerUsage              ListBlocklistsOperationEnum = "SCAN_JAVA_SERVER_USAGE"
 	ListBlocklistsOperationScanLibraryUsage                 ListBlocklistsOperationEnum = "SCAN_LIBRARY_USAGE"
+	ListBlocklistsOperationScanLibraryDynamicUsage          ListBlocklistsOperationEnum = "SCAN_LIBRARY_DYNAMIC_USAGE"
 	ListBlocklistsOperationExportDataCsv                    ListBlocklistsOperationEnum = "EXPORT_DATA_CSV"
 	ListBlocklistsOperationCreateDrsFile                    ListBlocklistsOperationEnum = "CREATE_DRS_FILE"
 	ListBlocklistsOperationUpdateDrsFile                    ListBlocklistsOperationEnum = "UPDATE_DRS_FILE"
@@ -165,6 +166,7 @@ var mappingListBlocklistsOperationEnum = map[string]ListBlocklistsOperationEnum{
 	"DELETE_JMS_REPORT":                   ListBlocklistsOperationDeleteJmsReport,
 	"SCAN_JAVA_SERVER_USAGE":              ListBlocklistsOperationScanJavaServerUsage,
 	"SCAN_LIBRARY_USAGE":                  ListBlocklistsOperationScanLibraryUsage,
+	"SCAN_LIBRARY_DYNAMIC_USAGE":          ListBlocklistsOperationScanLibraryDynamicUsage,
 	"EXPORT_DATA_CSV":                     ListBlocklistsOperationExportDataCsv,
 	"CREATE_DRS_FILE":                     ListBlocklistsOperationCreateDrsFile,
 	"UPDATE_DRS_FILE":                     ListBlocklistsOperationUpdateDrsFile,
@@ -188,6 +190,7 @@ var mappingListBlocklistsOperationEnumLowerCase = map[string]ListBlocklistsOpera
 	"delete_jms_report":                   ListBlocklistsOperationDeleteJmsReport,
 	"scan_java_server_usage":              ListBlocklistsOperationScanJavaServerUsage,
 	"scan_library_usage":                  ListBlocklistsOperationScanLibraryUsage,
+	"scan_library_dynamic_usage":          ListBlocklistsOperationScanLibraryDynamicUsage,
 	"export_data_csv":                     ListBlocklistsOperationExportDataCsv,
 	"create_drs_file":                     ListBlocklistsOperationCreateDrsFile,
 	"update_drs_file":                     ListBlocklistsOperationUpdateDrsFile,
@@ -222,6 +225,7 @@ func GetListBlocklistsOperationEnumStringValues() []string {
 		"DELETE_JMS_REPORT",
 		"SCAN_JAVA_SERVER_USAGE",
 		"SCAN_LIBRARY_USAGE",
+		"SCAN_LIBRARY_DYNAMIC_USAGE",
 		"EXPORT_DATA_CSV",
 		"CREATE_DRS_FILE",
 		"UPDATE_DRS_FILE",

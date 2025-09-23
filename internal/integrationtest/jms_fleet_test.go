@@ -173,6 +173,8 @@ func TestJmsFleetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "approximate_installation_count"),
 				resource.TestCheckResourceAttrSet(resourceName, "approximate_java_server_count"),
 				resource.TestCheckResourceAttrSet(resourceName, "approximate_jre_count"),
+				resource.TestCheckResourceAttrSet(resourceName, "approximate_library_count"),
+				resource.TestCheckResourceAttrSet(resourceName, "approximate_library_vulnerability_count"),
 				resource.TestCheckResourceAttrSet(resourceName, "approximate_managed_instance_count"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", JmsFleetCompartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "Created Fleet"),
@@ -306,6 +308,8 @@ func TestJmsFleetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_installation_count"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_java_server_count"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_jre_count"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_library_count"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_library_vulnerability_count"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_managed_instance_count"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", JmsFleetCompartmentId),

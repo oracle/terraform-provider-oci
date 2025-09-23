@@ -51,6 +51,15 @@ type ListSensitiveColumnsRequest struct {
 	// Filters the sensitive column resources with the given lifecycle state values.
 	SensitiveColumnLifecycleState ListSensitiveColumnsSensitiveColumnLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"sensitiveColumnLifecycleState" omitEmpty:"true"`
 
+	// Filters the sensitive columns with respect to the estimated row count.
+	ColumnDataCountFilter ListSensitiveColumnsColumnDataCountFilterEnum `mandatory:"false" contributesTo:"query" name:"columnDataCountFilter" omitEmpty:"true"`
+
+	// A filter to return the sensitive columns with the specified confidence level.
+	// Confidence level of sensitive column associated with a seeded sensitive type can either be HIGH or LOW.
+	// While the confidence level of sensitive column associated with a user defined sensitive will be NONE.
+	// For sensitive columns added manually the confidence level will also be NONE.
+	ConfidenceLevel []ConfidenceLevelEnumEnum `contributesTo:"query" name:"confidenceLevel" omitEmpty:"true" collectionFormat:"multi"`
+
 	// A filter to return only items related to specific schema name.
 	SchemaName []string `contributesTo:"query" name:"schemaName" collectionFormat:"multi"`
 
@@ -144,6 +153,15 @@ func (request ListSensitiveColumnsRequest) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingListSensitiveColumnsSensitiveColumnLifecycleStateEnum(string(request.SensitiveColumnLifecycleState)); !ok && request.SensitiveColumnLifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SensitiveColumnLifecycleState: %s. Supported values are: %s.", request.SensitiveColumnLifecycleState, strings.Join(GetListSensitiveColumnsSensitiveColumnLifecycleStateEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingListSensitiveColumnsColumnDataCountFilterEnum(string(request.ColumnDataCountFilter)); !ok && request.ColumnDataCountFilter != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ColumnDataCountFilter: %s. Supported values are: %s.", request.ColumnDataCountFilter, strings.Join(GetListSensitiveColumnsColumnDataCountFilterEnumStringValues(), ",")))
+	}
+	for _, val := range request.ConfidenceLevel {
+		if _, ok := GetMappingConfidenceLevelEnumEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConfidenceLevel: %s. Supported values are: %s.", val, strings.Join(GetConfidenceLevelEnumEnumStringValues(), ",")))
+		}
+	}
+
 	for _, val := range request.ObjectType {
 		if _, ok := GetMappingListSensitiveColumnsObjectTypeEnum(string(val)); !ok && val != "" {
 			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ObjectType: %s. Supported values are: %s.", val, strings.Join(GetListSensitiveColumnsObjectTypeEnumStringValues(), ",")))
@@ -255,6 +273,52 @@ func GetListSensitiveColumnsSensitiveColumnLifecycleStateEnumStringValues() []st
 // GetMappingListSensitiveColumnsSensitiveColumnLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListSensitiveColumnsSensitiveColumnLifecycleStateEnum(val string) (ListSensitiveColumnsSensitiveColumnLifecycleStateEnum, bool) {
 	enum, ok := mappingListSensitiveColumnsSensitiveColumnLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListSensitiveColumnsColumnDataCountFilterEnum Enum with underlying type: string
+type ListSensitiveColumnsColumnDataCountFilterEnum string
+
+// Set of constants representing the allowable values for ListSensitiveColumnsColumnDataCountFilterEnum
+const (
+	ListSensitiveColumnsColumnDataCountFilterAllColumns         ListSensitiveColumnsColumnDataCountFilterEnum = "SHOW_ALL_COLUMNS"
+	ListSensitiveColumnsColumnDataCountFilterColumnsWithData    ListSensitiveColumnsColumnDataCountFilterEnum = "SHOW_COLUMNS_WITH_DATA"
+	ListSensitiveColumnsColumnDataCountFilterColumnsWithoutData ListSensitiveColumnsColumnDataCountFilterEnum = "SHOW_COLUMNS_WITHOUT_DATA"
+)
+
+var mappingListSensitiveColumnsColumnDataCountFilterEnum = map[string]ListSensitiveColumnsColumnDataCountFilterEnum{
+	"SHOW_ALL_COLUMNS":          ListSensitiveColumnsColumnDataCountFilterAllColumns,
+	"SHOW_COLUMNS_WITH_DATA":    ListSensitiveColumnsColumnDataCountFilterColumnsWithData,
+	"SHOW_COLUMNS_WITHOUT_DATA": ListSensitiveColumnsColumnDataCountFilterColumnsWithoutData,
+}
+
+var mappingListSensitiveColumnsColumnDataCountFilterEnumLowerCase = map[string]ListSensitiveColumnsColumnDataCountFilterEnum{
+	"show_all_columns":          ListSensitiveColumnsColumnDataCountFilterAllColumns,
+	"show_columns_with_data":    ListSensitiveColumnsColumnDataCountFilterColumnsWithData,
+	"show_columns_without_data": ListSensitiveColumnsColumnDataCountFilterColumnsWithoutData,
+}
+
+// GetListSensitiveColumnsColumnDataCountFilterEnumValues Enumerates the set of values for ListSensitiveColumnsColumnDataCountFilterEnum
+func GetListSensitiveColumnsColumnDataCountFilterEnumValues() []ListSensitiveColumnsColumnDataCountFilterEnum {
+	values := make([]ListSensitiveColumnsColumnDataCountFilterEnum, 0)
+	for _, v := range mappingListSensitiveColumnsColumnDataCountFilterEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListSensitiveColumnsColumnDataCountFilterEnumStringValues Enumerates the set of values in String for ListSensitiveColumnsColumnDataCountFilterEnum
+func GetListSensitiveColumnsColumnDataCountFilterEnumStringValues() []string {
+	return []string{
+		"SHOW_ALL_COLUMNS",
+		"SHOW_COLUMNS_WITH_DATA",
+		"SHOW_COLUMNS_WITHOUT_DATA",
+	}
+}
+
+// GetMappingListSensitiveColumnsColumnDataCountFilterEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListSensitiveColumnsColumnDataCountFilterEnum(val string) (ListSensitiveColumnsColumnDataCountFilterEnum, bool) {
+	enum, ok := mappingListSensitiveColumnsColumnDataCountFilterEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 
@@ -439,27 +503,30 @@ type ListSensitiveColumnsSortByEnum string
 
 // Set of constants representing the allowable values for ListSensitiveColumnsSortByEnum
 const (
-	ListSensitiveColumnsSortByTimecreated ListSensitiveColumnsSortByEnum = "timeCreated"
-	ListSensitiveColumnsSortBySchemaname  ListSensitiveColumnsSortByEnum = "schemaName"
-	ListSensitiveColumnsSortByObjectname  ListSensitiveColumnsSortByEnum = "objectName"
-	ListSensitiveColumnsSortByColumnname  ListSensitiveColumnsSortByEnum = "columnName"
-	ListSensitiveColumnsSortByDatatype    ListSensitiveColumnsSortByEnum = "dataType"
+	ListSensitiveColumnsSortByTimecreated     ListSensitiveColumnsSortByEnum = "timeCreated"
+	ListSensitiveColumnsSortBySchemaname      ListSensitiveColumnsSortByEnum = "schemaName"
+	ListSensitiveColumnsSortByObjectname      ListSensitiveColumnsSortByEnum = "objectName"
+	ListSensitiveColumnsSortByColumnname      ListSensitiveColumnsSortByEnum = "columnName"
+	ListSensitiveColumnsSortByDatatype        ListSensitiveColumnsSortByEnum = "dataType"
+	ListSensitiveColumnsSortByConfidencelevel ListSensitiveColumnsSortByEnum = "confidenceLevel"
 )
 
 var mappingListSensitiveColumnsSortByEnum = map[string]ListSensitiveColumnsSortByEnum{
-	"timeCreated": ListSensitiveColumnsSortByTimecreated,
-	"schemaName":  ListSensitiveColumnsSortBySchemaname,
-	"objectName":  ListSensitiveColumnsSortByObjectname,
-	"columnName":  ListSensitiveColumnsSortByColumnname,
-	"dataType":    ListSensitiveColumnsSortByDatatype,
+	"timeCreated":     ListSensitiveColumnsSortByTimecreated,
+	"schemaName":      ListSensitiveColumnsSortBySchemaname,
+	"objectName":      ListSensitiveColumnsSortByObjectname,
+	"columnName":      ListSensitiveColumnsSortByColumnname,
+	"dataType":        ListSensitiveColumnsSortByDatatype,
+	"confidenceLevel": ListSensitiveColumnsSortByConfidencelevel,
 }
 
 var mappingListSensitiveColumnsSortByEnumLowerCase = map[string]ListSensitiveColumnsSortByEnum{
-	"timecreated": ListSensitiveColumnsSortByTimecreated,
-	"schemaname":  ListSensitiveColumnsSortBySchemaname,
-	"objectname":  ListSensitiveColumnsSortByObjectname,
-	"columnname":  ListSensitiveColumnsSortByColumnname,
-	"datatype":    ListSensitiveColumnsSortByDatatype,
+	"timecreated":     ListSensitiveColumnsSortByTimecreated,
+	"schemaname":      ListSensitiveColumnsSortBySchemaname,
+	"objectname":      ListSensitiveColumnsSortByObjectname,
+	"columnname":      ListSensitiveColumnsSortByColumnname,
+	"datatype":        ListSensitiveColumnsSortByDatatype,
+	"confidencelevel": ListSensitiveColumnsSortByConfidencelevel,
 }
 
 // GetListSensitiveColumnsSortByEnumValues Enumerates the set of values for ListSensitiveColumnsSortByEnum
@@ -479,6 +546,7 @@ func GetListSensitiveColumnsSortByEnumStringValues() []string {
 		"objectName",
 		"columnName",
 		"dataType",
+		"confidenceLevel",
 	}
 }
 

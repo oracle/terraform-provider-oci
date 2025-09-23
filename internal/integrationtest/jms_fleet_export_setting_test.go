@@ -16,47 +16,11 @@ import (
 
 var (
 	// before running tests, ensure to set up environment variables used below
-	JmsFleetExportSettingCompartmentId  = utils.GetEnvSettingWithBlankDefault("compartment_ocid")
-	JmsFleetExportSettingLogGroupId     = utils.GetEnvSettingWithBlankDefault("fleet_log_group_ocid")
-	JmsFleetExportSettingInventoryLogId = utils.GetEnvSettingWithBlankDefault("fleet_inventory_log_ocid")
-	JmsFleetExportSettingOperationLogId = utils.GetEnvSettingWithBlankDefault("fleet_operation_log_ocid")
-
-	JmsFleetExportSettingResourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: JmsFleetExportSettingCompartmentId},
-		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `Created Fleet for Export Setting`},
-		"description":    acctest.Representation{RepType: acctest.Optional, Create: `Created Fleet for Export Setting`},
-		"inventory_log": acctest.RepresentationGroup{
-			RepType: acctest.Required,
-			Group: map[string]interface{}{
-				"log_group_id": acctest.Representation{
-					RepType: acctest.Required,
-					Create:  JmsFleetExportSettingLogGroupId,
-					Update:  JmsFleetExportSettingLogGroupId,
-				},
-				"log_id": acctest.Representation{
-					RepType: acctest.Required,
-					Create:  JmsFleetExportSettingInventoryLogId,
-					Update:  JmsFleetExportSettingInventoryLogId,
-				},
-			}},
-		"operation_log": acctest.RepresentationGroup{
-			RepType: acctest.Optional,
-			Group: map[string]interface{}{
-				"log_group_id": acctest.Representation{
-					RepType: acctest.Required,
-					Create:  JmsFleetExportSettingLogGroupId,
-					Update:  JmsFleetExportSettingLogGroupId,
-				},
-				"log_id": acctest.Representation{
-					RepType: acctest.Required,
-					Create:  JmsFleetExportSettingOperationLogId,
-					Update:  JmsFleetExportSettingOperationLogId,
-				},
-			}},
-	}
+	JmsFleetExportSettingFleetId       = utils.GetEnvSettingWithBlankDefault("fleet_ocid")
+	JmsFleetExportSettingCompartmentId = utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 
 	JmsFleetExportSettingSingularDataSourceRepresentation = map[string]interface{}{
-		"fleet_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_jms_fleet.test_fleet.id}`},
+		"fleet_id": acctest.Representation{RepType: acctest.Required, Create: JmsFleetExportSettingFleetId},
 	}
 )
 
@@ -73,13 +37,6 @@ func TestJmsFleetExportSettingResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateResourceFromRepresentationMap(
-					"oci_jms_fleet",
-					"test_fleet",
-					acctest.Optional,
-					acctest.Create,
-					JmsFleetExportSettingResourceRepresentation,
-				) +
 				acctest.GenerateDataSourceFromRepresentationMap(
 					"oci_jms_fleet_export_setting",
 					"test_fleet_export_setting",

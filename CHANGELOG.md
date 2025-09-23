@@ -1,3 +1,14 @@
+## 7.20.0 (September 23, 2025)
+
+### Added
+- Support for Java Management Service 10.0 - Standalone Plane Component (SDKs & TERSI ONLY)
+- Support for Java Management Service 10.0
+- Support for ExaDB-D Exascale Integration
+- Support for OCI Cache Discovery Endpoint for Sharded Clusters
+- Support for Marketplace Metadata for Attribution and Attestation
+- Support for Data Safe - Confidence Level support in Data Discovery
+
+
 ## 7.19.0 (September 17, 2025)
 
 ### Added

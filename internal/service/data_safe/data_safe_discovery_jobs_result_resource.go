@@ -55,6 +55,42 @@ func DataSafeDiscoveryJobsResultResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"confidence_level": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"confidence_level_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"has_data_pattern_matched": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"has_name_pattern_matched": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"has_comment_pattern_matched": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"is_sensitive_type_from_same_context_found_in_same_or_related_tables": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"does_column_lead_to_pii_in_same_related_tables": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"does_column_lead_to_pii_in_non_tables": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"data_type": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -292,6 +328,14 @@ func (s *DataSafeDiscoveryJobsResultResourceCrud) SetData() error {
 		s.D.Set("data_type", *s.Res.DataType)
 	}
 
+	s.D.Set("confidence_level", s.Res.ConfidenceLevel)
+
+	confidenceLevelDetails := []interface{}{}
+	for _, item := range s.Res.ConfidenceLevelDetails {
+		confidenceLevelDetails = append(confidenceLevelDetails, item)
+	}
+	s.D.Set("confidence_level_details", confidenceLevelDetails)
+
 	s.D.Set("db_defined_child_column_keys", s.Res.DbDefinedChildColumnKeys)
 
 	if s.Res.DiscoveryJobId != nil {
@@ -383,6 +427,8 @@ func DiscoveryJobResultSummaryToMap(obj oci_data_safe.DiscoveryJobResultSummary)
 	}
 
 	result["discovery_type"] = string(obj.DiscoveryType)
+
+	result["confidence_level"] = string(obj.ConfidenceLevel)
 
 	if obj.EstimatedDataValueCount != nil {
 		result["estimated_data_value_count"] = strconv.FormatInt(*obj.EstimatedDataValueCount, 10)

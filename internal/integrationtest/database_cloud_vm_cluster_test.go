@@ -30,6 +30,9 @@ var (
 	DatabaseCloudVmClusterRequiredOnlyResource = DatabaseCloudVmClusterResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Required, acctest.Create, DatabaseCloudVmClusterRepresentation)
 
+	DatabaseExascaleCloudVmClusterRequiredOnlyResource = DatabaseExascaleCloudVmClusterResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Required, acctest.Create, DatabaseExascaleCloudVmClusterRepresentation)
+
 	DatabaseCloudVmClusterResourceConfig = DatabaseCloudVmClusterResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Update, DatabaseCloudVmClusterRepresentation)
 
@@ -96,6 +99,47 @@ var (
 		"security_attributes":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"oracle-zpr.maxegresscount.value": "42", "oracle-zpr.maxegresscount.mode": "enforce"}, Update: map[string]string{"oracle-zpr.maxegresscount.value": "updatedValue", "oracle-zpr.maxegresscount.mode": "enforce"}},
 		"time_zone":                       acctest.Representation{RepType: acctest.Optional, Create: `US/Pacific`},
 		"vm_cluster_type":                 acctest.Representation{RepType: acctest.Optional, Create: `DEVELOPER`},
+		"lifecycle":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: cloudVmClusterIgnoreDefinedTagsRepresentation},
+	}
+
+	DatabaseExascaleCloudVmClusterRepresentation = map[string]interface{}{
+		"depends_on": []string{"time_sleep.wait_180_seconds"},
+		"file_system_configuration_details": []acctest.RepresentationGroup{
+			{RepType: acctest.Optional, Group: DatabaseCloudVmClusterFileSystemConfigurationDetailsRepresentation0},
+			{RepType: acctest.Optional, Group: DatabaseCloudVmClusterFileSystemConfigurationDetailsRepresentation1},
+			{RepType: acctest.Optional, Group: DatabaseCloudVmClusterFileSystemConfigurationDetailsRepresentation2},
+			{RepType: acctest.Optional, Group: DatabaseCloudVmClusterFileSystemConfigurationDetailsRepresentation3},
+			{RepType: acctest.Optional, Group: DatabaseCloudVmClusterFileSystemConfigurationDetailsRepresentation4},
+			{RepType: acctest.Optional, Group: DatabaseCloudVmClusterFileSystemConfigurationDetailsRepresentation5},
+			{RepType: acctest.Optional, Group: DatabaseCloudVmClusterFileSystemConfigurationDetailsRepresentation6},
+			{RepType: acctest.Optional, Group: DatabaseCloudVmClusterFileSystemConfigurationDetailsRepresentation7},
+			{RepType: acctest.Optional, Group: DatabaseCloudVmClusterFileSystemConfigurationDetailsRepresentation8}},
+		"backup_subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.t2.id}`},
+		"cloud_exadata_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id}`},
+		"exascale_db_storage_vault_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_database_exascale_db_storage_vault.test_exascale_db_storage_vault.id}`},
+		"compartment_id":                  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"cpu_core_count":                  acctest.Representation{RepType: acctest.Required, Create: `4`, Update: `6`},
+		"display_name":                    acctest.Representation{RepType: acctest.Required, Create: `cloudVmCluster`, Update: `displayName2`},
+		"gi_version":                      acctest.Representation{RepType: acctest.Required, Create: `23.0.0.0`},
+		"hostname":                        acctest.Representation{RepType: acctest.Required, Create: `apollo`},
+		"ssh_public_keys":                 acctest.Representation{RepType: acctest.Required, Create: []string{`ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample`}},
+		"subnet_id":                       acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.t.id}`},
+		"domain":                          acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.t.subnet_domain_name}`},
+		"backup_network_nsg_ids":          acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group_backup.id}`}},
+		"cluster_name":                    acctest.Representation{RepType: acctest.Optional, Create: `clusterName`},
+		"cloud_automation_update_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseCloudVmClusterCloudAutomationUpdateDetailsRepresentation},
+		"data_collection_options":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: cloudVmClusterDataCollectionOptionsRepresentation},
+		"data_storage_percentage":         acctest.Representation{RepType: acctest.Optional, Create: `40`},
+		"freeform_tags":                   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_local_backup_enabled":         acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"is_sparse_diskgroup_enabled":     acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"license_model":                   acctest.Representation{RepType: acctest.Optional, Create: `LICENSE_INCLUDED`},
+		"nsg_ids":                         acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
+		"ocpu_count":                      acctest.Representation{RepType: acctest.Required, Create: `4.0`, Update: `6.0`},
+		"scan_listener_port_tcp":          acctest.Representation{RepType: acctest.Optional, Create: `1521`},
+		"scan_listener_port_tcp_ssl":      acctest.Representation{RepType: acctest.Optional, Create: `2484`},
+		"security_attributes":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"oracle-zpr.maxegresscount.value": "42", "oracle-zpr.maxegresscount.mode": "enforce"}, Update: map[string]string{"oracle-zpr.maxegresscount.value": "updatedValue", "oracle-zpr.maxegresscount.mode": "enforce"}},
+		"time_zone":                       acctest.Representation{RepType: acctest.Optional, Create: `US/Pacific`},
 		"lifecycle":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: cloudVmClusterIgnoreDefinedTagsRepresentation},
 	}
 
@@ -368,6 +412,9 @@ var (
 		acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", acctest.Optional, acctest.Create, CoreCoreVcnDnsResolverAssociationRepresentation) +
 		acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "test_db_servers", acctest.Optional, acctest.Create, DatabaseDbServerDataSourceRepresentation)
 
+	DatabaseExascaleCloudVmClusterResourceDependencies = ad_subnet_security + DatabaseExascaleDbStorageExacsVaultResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_exascale_db_storage_vault", "test_exascale_db_storage_vault", acctest.Required, acctest.Create, DatabaseExascaleDbStorageExacsVaultRepresentation)
+
 	DatabaseDatabaseCloudVmClusterResourceDependencies = DatabaseCloudVmClusterResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", acctest.Optional, acctest.Create, ResolverRepresentation) + Sleep30
 
 	Sleep30 = "resource \"time_sleep\" \"wait_30_seconds\" {\n  depends_on = [oci_dns_resolver.test_resolver] \n create_duration = \"30s\"\n}" +
@@ -438,6 +485,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "hostname"),
 				resource.TestCheckResourceAttr(resourceName, "ssh_public_keys.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "storage_management_type", "ASM"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -719,6 +767,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_vm_clusters.0.shape"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.ssh_public_keys.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_vm_clusters.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "cloud_vm_clusters.0.storage_management_type"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_vm_clusters.0.storage_size_in_gbs"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_vm_clusters.0.subnet_id"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.subscription_id", ""),
@@ -787,6 +836,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "shape"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "ssh_public_keys.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "storage_management_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "storage_size_in_gbs"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "time_zone", "US/Pacific"),
@@ -800,6 +850,60 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 		// verify resource import
 		{
 			Config:            config + DatabaseCloudVmClusterRequiredOnlyResource,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"private_zone_id",
+				"create_async",
+			},
+			ResourceName: resourceName,
+		},
+	})
+}
+
+func TestDatabaseExascaleCloudVmClusterResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseExascaleCloudVmClusterResource_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_database_cloud_vm_cluster.test_cloud_vm_cluster"
+	var _ string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseExascaleCloudVmClusterResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Create, DatabaseExascaleCloudVmClusterRepresentation), "database", "cloudVmCluster", t)
+
+	acctest.ResourceTest(t, testAccCheckDatabaseCloudVmClusterDestroy, []resource.TestStep{
+
+		// verify Create
+		{
+			Config: config + compartmentIdVariableStr + DatabaseExascaleCloudVmClusterResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Required, acctest.Create, DatabaseExascaleCloudVmClusterRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "backup_subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "cloud_exadata_infrastructure_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "exascale_db_storage_vault_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "4"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "cloudVmCluster"),
+				resource.TestCheckResourceAttr(resourceName, "gi_version", "23.0.0.0"),
+				resource.TestCheckResourceAttrSet(resourceName, "hostname"),
+				resource.TestCheckResourceAttr(resourceName, "ssh_public_keys.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "storage_management_type", "EXASCALE"),
+
+				func(s *terraform.State) (err error) {
+					_, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		{
+			Config:            config + DatabaseExascaleCloudVmClusterRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

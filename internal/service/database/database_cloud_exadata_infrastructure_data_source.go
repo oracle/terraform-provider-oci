@@ -136,6 +136,12 @@ func (s *DatabaseCloudExadataInfrastructureDataSourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	if s.Res.ExascaleConfig != nil {
+		s.D.Set("exascale_config", []interface{}{ExascaleConfigDetailsToMap(s.Res.ExascaleConfig)})
+	} else {
+		s.D.Set("exascale_config", nil)
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.IsSchedulingPolicyAssociated != nil {

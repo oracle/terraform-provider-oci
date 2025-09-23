@@ -82,6 +82,14 @@ func (s *JmsFleetDataSourceCrud) SetData() error {
 		s.D.Set("approximate_jre_count", *s.Res.ApproximateJreCount)
 	}
 
+	if s.Res.ApproximateLibraryCount != nil {
+		s.D.Set("approximate_library_count", *s.Res.ApproximateLibraryCount)
+	}
+
+	if s.Res.ApproximateLibraryVulnerabilityCount != nil {
+		s.D.Set("approximate_library_vulnerability_count", *s.Res.ApproximateLibraryVulnerabilityCount)
+	}
+
 	if s.Res.ApproximateManagedInstanceCount != nil {
 		s.D.Set("approximate_managed_instance_count", *s.Res.ApproximateManagedInstanceCount)
 	}
