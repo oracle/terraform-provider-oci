@@ -57,6 +57,12 @@ type RedisClusterSummary struct {
 	// A message describing the current state in more detail. For example, the message might provide actionable information for a resource in `FAILED` state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// The fully qualified domain name (FQDN) of the API endpoint for sharded cluster discovery.
+	DiscoveryFqdn *string `mandatory:"false" json:"discoveryFqdn"`
+
+	// The private IP address of the API endpoint for shareded cluster discovery.
+	DiscoveryEndpointIpAddress *string `mandatory:"false" json:"discoveryEndpointIpAddress"`
+
 	// The date and time the cluster was created. An RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339) formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 

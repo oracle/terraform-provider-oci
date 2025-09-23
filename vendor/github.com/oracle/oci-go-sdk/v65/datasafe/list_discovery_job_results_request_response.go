@@ -42,6 +42,11 @@ type ListDiscoveryJobResultsRequest struct {
 	// The sort order to use, either ascending (ASC) or descending (DESC).
 	SortOrder ListDiscoveryJobResultsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
+	// A filter to return the discovery job results with the specified confidence level.
+	// Confidence level of discovery job result associated with a seeded sensitive type can either be HIGH or LOW.
+	// While the confidence level of discovery job result associated with a user defined sensitive will be NONE.
+	ConfidenceLevel []ConfidenceLevelEnumEnum `contributesTo:"query" name:"confidenceLevel" omitEmpty:"true" collectionFormat:"multi"`
+
 	// The field to sort by. You can specify only one sorting parameter (sortOrder). The default order for timeFinished is descending.
 	// The default order for discoveryType, schemaName, objectName, columnName and plannedAction is ascending.
 	SortBy ListDiscoveryJobResultsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
@@ -100,6 +105,12 @@ func (request ListDiscoveryJobResultsRequest) ValidateEnumValue() (bool, error) 
 	if _, ok := GetMappingListDiscoveryJobResultsSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDiscoveryJobResultsSortOrderEnumStringValues(), ",")))
 	}
+	for _, val := range request.ConfidenceLevel {
+		if _, ok := GetMappingConfidenceLevelEnumEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConfidenceLevel: %s. Supported values are: %s.", val, strings.Join(GetConfidenceLevelEnumEnumStringValues(), ",")))
+		}
+	}
+
 	if _, ok := GetMappingListDiscoveryJobResultsSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDiscoveryJobResultsSortByEnumStringValues(), ",")))
 	}
@@ -186,30 +197,33 @@ type ListDiscoveryJobResultsSortByEnum string
 
 // Set of constants representing the allowable values for ListDiscoveryJobResultsSortByEnum
 const (
-	ListDiscoveryJobResultsSortByDiscoverytype ListDiscoveryJobResultsSortByEnum = "discoveryType"
-	ListDiscoveryJobResultsSortByTimefinished  ListDiscoveryJobResultsSortByEnum = "timeFinished"
-	ListDiscoveryJobResultsSortBySchemaname    ListDiscoveryJobResultsSortByEnum = "schemaName"
-	ListDiscoveryJobResultsSortByObjectname    ListDiscoveryJobResultsSortByEnum = "objectName"
-	ListDiscoveryJobResultsSortByColumnname    ListDiscoveryJobResultsSortByEnum = "columnName"
-	ListDiscoveryJobResultsSortByPlannedaction ListDiscoveryJobResultsSortByEnum = "plannedAction"
+	ListDiscoveryJobResultsSortByDiscoverytype   ListDiscoveryJobResultsSortByEnum = "discoveryType"
+	ListDiscoveryJobResultsSortByTimefinished    ListDiscoveryJobResultsSortByEnum = "timeFinished"
+	ListDiscoveryJobResultsSortBySchemaname      ListDiscoveryJobResultsSortByEnum = "schemaName"
+	ListDiscoveryJobResultsSortByObjectname      ListDiscoveryJobResultsSortByEnum = "objectName"
+	ListDiscoveryJobResultsSortByColumnname      ListDiscoveryJobResultsSortByEnum = "columnName"
+	ListDiscoveryJobResultsSortByPlannedaction   ListDiscoveryJobResultsSortByEnum = "plannedAction"
+	ListDiscoveryJobResultsSortByConfidencelevel ListDiscoveryJobResultsSortByEnum = "confidenceLevel"
 )
 
 var mappingListDiscoveryJobResultsSortByEnum = map[string]ListDiscoveryJobResultsSortByEnum{
-	"discoveryType": ListDiscoveryJobResultsSortByDiscoverytype,
-	"timeFinished":  ListDiscoveryJobResultsSortByTimefinished,
-	"schemaName":    ListDiscoveryJobResultsSortBySchemaname,
-	"objectName":    ListDiscoveryJobResultsSortByObjectname,
-	"columnName":    ListDiscoveryJobResultsSortByColumnname,
-	"plannedAction": ListDiscoveryJobResultsSortByPlannedaction,
+	"discoveryType":   ListDiscoveryJobResultsSortByDiscoverytype,
+	"timeFinished":    ListDiscoveryJobResultsSortByTimefinished,
+	"schemaName":      ListDiscoveryJobResultsSortBySchemaname,
+	"objectName":      ListDiscoveryJobResultsSortByObjectname,
+	"columnName":      ListDiscoveryJobResultsSortByColumnname,
+	"plannedAction":   ListDiscoveryJobResultsSortByPlannedaction,
+	"confidenceLevel": ListDiscoveryJobResultsSortByConfidencelevel,
 }
 
 var mappingListDiscoveryJobResultsSortByEnumLowerCase = map[string]ListDiscoveryJobResultsSortByEnum{
-	"discoverytype": ListDiscoveryJobResultsSortByDiscoverytype,
-	"timefinished":  ListDiscoveryJobResultsSortByTimefinished,
-	"schemaname":    ListDiscoveryJobResultsSortBySchemaname,
-	"objectname":    ListDiscoveryJobResultsSortByObjectname,
-	"columnname":    ListDiscoveryJobResultsSortByColumnname,
-	"plannedaction": ListDiscoveryJobResultsSortByPlannedaction,
+	"discoverytype":   ListDiscoveryJobResultsSortByDiscoverytype,
+	"timefinished":    ListDiscoveryJobResultsSortByTimefinished,
+	"schemaname":      ListDiscoveryJobResultsSortBySchemaname,
+	"objectname":      ListDiscoveryJobResultsSortByObjectname,
+	"columnname":      ListDiscoveryJobResultsSortByColumnname,
+	"plannedaction":   ListDiscoveryJobResultsSortByPlannedaction,
+	"confidencelevel": ListDiscoveryJobResultsSortByConfidencelevel,
 }
 
 // GetListDiscoveryJobResultsSortByEnumValues Enumerates the set of values for ListDiscoveryJobResultsSortByEnum
@@ -230,6 +244,7 @@ func GetListDiscoveryJobResultsSortByEnumStringValues() []string {
 		"objectName",
 		"columnName",
 		"plannedAction",
+		"confidenceLevel",
 	}
 }
 

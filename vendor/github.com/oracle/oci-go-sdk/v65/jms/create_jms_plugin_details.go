@@ -18,11 +18,15 @@ import (
 // CreateJmsPluginDetails The details for creating a JmsPlugin.
 type CreateJmsPluginDetails struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Management Agent (OMA) or the Oracle Cloud Agent (OCA) instance where the JMS plugin is deployed.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Management Agent (OMA), the Oracle Cloud Agent (OCA),
+	// or the Oracle Container Management Agent (OCMA) instance where the JMS plugin is deployed.
 	AgentId *string `mandatory:"true" json:"agentId"`
 
-	// The OMA/OCA agent's compartment OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// The OMA/OCA/OCMA agent's compartment OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+
+	// The agent type.
+	AgentType AgentTypeEnum `mandatory:"false" json:"agentType,omitempty"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the fleet.
 	FleetId *string `mandatory:"false" json:"fleetId"`
@@ -46,6 +50,9 @@ func (m CreateJmsPluginDetails) String() string {
 func (m CreateJmsPluginDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingAgentTypeEnum(string(m.AgentType)); !ok && m.AgentType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AgentType: %s. Supported values are: %s.", m.AgentType, strings.Join(GetAgentTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

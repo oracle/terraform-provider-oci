@@ -143,6 +143,7 @@ const (
 	ListWorkRequestsOperationTypeDeleteJmsReport                  ListWorkRequestsOperationTypeEnum = "DELETE_JMS_REPORT"
 	ListWorkRequestsOperationTypeScanJavaServerUsage              ListWorkRequestsOperationTypeEnum = "SCAN_JAVA_SERVER_USAGE"
 	ListWorkRequestsOperationTypeScanLibraryUsage                 ListWorkRequestsOperationTypeEnum = "SCAN_LIBRARY_USAGE"
+	ListWorkRequestsOperationTypeScanLibraryDynamicUsage          ListWorkRequestsOperationTypeEnum = "SCAN_LIBRARY_DYNAMIC_USAGE"
 	ListWorkRequestsOperationTypeExportDataCsv                    ListWorkRequestsOperationTypeEnum = "EXPORT_DATA_CSV"
 	ListWorkRequestsOperationTypeCreateDrsFile                    ListWorkRequestsOperationTypeEnum = "CREATE_DRS_FILE"
 	ListWorkRequestsOperationTypeUpdateDrsFile                    ListWorkRequestsOperationTypeEnum = "UPDATE_DRS_FILE"
@@ -166,6 +167,7 @@ var mappingListWorkRequestsOperationTypeEnum = map[string]ListWorkRequestsOperat
 	"DELETE_JMS_REPORT":                   ListWorkRequestsOperationTypeDeleteJmsReport,
 	"SCAN_JAVA_SERVER_USAGE":              ListWorkRequestsOperationTypeScanJavaServerUsage,
 	"SCAN_LIBRARY_USAGE":                  ListWorkRequestsOperationTypeScanLibraryUsage,
+	"SCAN_LIBRARY_DYNAMIC_USAGE":          ListWorkRequestsOperationTypeScanLibraryDynamicUsage,
 	"EXPORT_DATA_CSV":                     ListWorkRequestsOperationTypeExportDataCsv,
 	"CREATE_DRS_FILE":                     ListWorkRequestsOperationTypeCreateDrsFile,
 	"UPDATE_DRS_FILE":                     ListWorkRequestsOperationTypeUpdateDrsFile,
@@ -189,6 +191,7 @@ var mappingListWorkRequestsOperationTypeEnumLowerCase = map[string]ListWorkReque
 	"delete_jms_report":                   ListWorkRequestsOperationTypeDeleteJmsReport,
 	"scan_java_server_usage":              ListWorkRequestsOperationTypeScanJavaServerUsage,
 	"scan_library_usage":                  ListWorkRequestsOperationTypeScanLibraryUsage,
+	"scan_library_dynamic_usage":          ListWorkRequestsOperationTypeScanLibraryDynamicUsage,
 	"export_data_csv":                     ListWorkRequestsOperationTypeExportDataCsv,
 	"create_drs_file":                     ListWorkRequestsOperationTypeCreateDrsFile,
 	"update_drs_file":                     ListWorkRequestsOperationTypeUpdateDrsFile,
@@ -223,6 +226,7 @@ func GetListWorkRequestsOperationTypeEnumStringValues() []string {
 		"DELETE_JMS_REPORT",
 		"SCAN_JAVA_SERVER_USAGE",
 		"SCAN_LIBRARY_USAGE",
+		"SCAN_LIBRARY_DYNAMIC_USAGE",
 		"EXPORT_DATA_CSV",
 		"CREATE_DRS_FILE",
 		"UPDATE_DRS_FILE",

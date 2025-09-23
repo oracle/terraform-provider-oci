@@ -466,5 +466,11 @@
         "realmKey": "oc51",
         "regionIdentifier": "eu-budapest-1",
         "realmDomainComponent": "oraclecloud51.com"
+    },
+    {
+        "regionKey": "ibr",
+        "realmKey": "oc9",
+        "regionIdentifier": "me-ibri-1",
+        "realmDomainComponent": "oraclecloud9.com"
     }
 ]

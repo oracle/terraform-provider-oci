@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Java Management Service Download API
+// Java Management Service Java Download API
 //
-// The APIs for the <a href="https://docs.oracle.com/en-us/iaas/jms/doc/java-download.html">Java Download</a> feature of Java Management Service.
+// The APIs for the Java Download (https://docs.oracle.com/en-us/iaas/jms/doc/java-download.html) feature of Java Management Service.
 //
 
 package jmsjavadownloads
@@ -20,18 +20,21 @@ type LicenseTypeEnum string
 const (
 	LicenseTypeOtn        LicenseTypeEnum = "OTN"
 	LicenseTypeNftc       LicenseTypeEnum = "NFTC"
+	LicenseTypeBcl        LicenseTypeEnum = "BCL"
 	LicenseTypeRestricted LicenseTypeEnum = "RESTRICTED"
 )
 
 var mappingLicenseTypeEnum = map[string]LicenseTypeEnum{
 	"OTN":        LicenseTypeOtn,
 	"NFTC":       LicenseTypeNftc,
+	"BCL":        LicenseTypeBcl,
 	"RESTRICTED": LicenseTypeRestricted,
 }
 
 var mappingLicenseTypeEnumLowerCase = map[string]LicenseTypeEnum{
 	"otn":        LicenseTypeOtn,
 	"nftc":       LicenseTypeNftc,
+	"bcl":        LicenseTypeBcl,
 	"restricted": LicenseTypeRestricted,
 }
 
@@ -49,6 +52,7 @@ func GetLicenseTypeEnumStringValues() []string {
 	return []string{
 		"OTN",
 		"NFTC",
+		"BCL",
 		"RESTRICTED",
 	}
 }
