@@ -6,6 +6,7 @@ package vn_monitoring
 import (
 	"context"
 	"fmt"
+	"log"
 	"strings"
 	"time"
 
@@ -78,6 +79,7 @@ func VnMonitoringPathAnalysiResource() *schema.Resource {
 								"NETWORK_LOAD_BALANCER",
 								"NETWORK_LOAD_BALANCER_LISTENER",
 								"ON_PREM",
+								"PRIVATE_SERVICE_ACCESS",
 								"SUBNET",
 								"VLAN",
 								"VNIC",
@@ -110,6 +112,12 @@ func VnMonitoringPathAnalysiResource() *schema.Resource {
 							ForceNew: true,
 						},
 						"network_load_balancer_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"psa_id": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -253,6 +261,7 @@ func VnMonitoringPathAnalysiResource() *schema.Resource {
 								"NETWORK_LOAD_BALANCER",
 								"NETWORK_LOAD_BALANCER_LISTENER",
 								"ON_PREM",
+								"PRIVATE_SERVICE_ACCESS",
 								"SUBNET",
 								"VLAN",
 								"VNIC",
@@ -285,6 +294,12 @@ func VnMonitoringPathAnalysiResource() *schema.Resource {
 							ForceNew: true,
 						},
 						"network_load_balancer_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"psa_id": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -391,6 +406,7 @@ func (s *VnMonitoringPathAnalysiResourceCrud) getPathAnalysiFromWorkRequest(work
 	// Wait until it finishes
 	pathAnalysiId, err := pathAnalysiWaitForWorkRequest(workId, "vn_monitoring",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
+	log.Printf("[WARN] Received 'type' of unknown type %v", *pathAnalysiId)
 
 	if err != nil {
 		return err
@@ -576,6 +592,13 @@ func (s *VnMonitoringPathAnalysiResourceCrud) mapToEndpoint(fieldKeyFormat strin
 		if address, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "address")); ok {
 			tmp := address.(string)
 			details.Address = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("PRIVATE_SERVICE_ACCESS"):
+		details := oci_vn_monitoring.PrivateServiceAccessEndpoint{}
+		if psaId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "psa_id")); ok {
+			tmp := psaId.(string)
+			details.PsaId = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("SUBNET"):

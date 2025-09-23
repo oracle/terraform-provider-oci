@@ -4,6 +4,8 @@
 variable "region" {}
 variable "compartment_ocid" {}
 
+variable "tenancy_ocid" {}
+
 variable "path_analysi_destination_endpoint_type" {
   default = "SUBNET"
 }
@@ -121,7 +123,7 @@ variable "on_prem_path_analyzer_test_destination_endpoint_type" {
   default = "ON_PREM"
 }
 variable "on_prem_path_analyzer_test_destination_endpoint_address" {
-  default = "10.2.41.5"
+  default = "10.50.1.5"
 }
 variable "on_prem_path_analyzer_test_protocol" {
   default = 6
@@ -130,7 +132,7 @@ variable "on_prem_path_analyzer_test_source_endpoint_type" {
   default = "IP_ADDRESS"
 }
 variable "on_prem_path_analyzer_test_source_endpoint_address" {
-  default = "100.130.10.100"
+  default = "10.11.1.5"
 }
 variable "on_prem_path_analyzer_test_display_name" {
   default = "On Prem Path Analysis"
@@ -184,5 +186,13 @@ resource "oci_vn_monitoring_path_analysi" "on_prem_test_path_analysis" {
     #Optional
     is_bi_directional_analysis = var.on_prem_path_analyzer_test_query_options_is_bi_directional_analysis
   }
+}
+
+data "oci_identity_availability_domains" "test_availability_domains" {
+  compartment_id = var.tenancy_ocid
+}
+
+output "ads" {
+  value = data.oci_identity_availability_domains.test_availability_domains.availability_domains[0].name
 }
 

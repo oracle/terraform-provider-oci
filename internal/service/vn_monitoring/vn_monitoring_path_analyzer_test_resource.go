@@ -54,6 +54,7 @@ func VnMonitoringPathAnalyzerTestResource() *schema.Resource {
 								"NETWORK_LOAD_BALANCER",
 								"NETWORK_LOAD_BALANCER_LISTENER",
 								"ON_PREM",
+								"PRIVATE_SERVICE_ACCESS",
 								"SUBNET",
 								"VLAN",
 								"VNIC",
@@ -82,6 +83,11 @@ func VnMonitoringPathAnalyzerTestResource() *schema.Resource {
 							Computed: true,
 						},
 						"network_load_balancer_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"psa_id": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -135,6 +141,7 @@ func VnMonitoringPathAnalyzerTestResource() *schema.Resource {
 								"NETWORK_LOAD_BALANCER",
 								"NETWORK_LOAD_BALANCER_LISTENER",
 								"ON_PREM",
+								"PRIVATE_SERVICE_ACCESS",
 								"SUBNET",
 								"VLAN",
 								"VNIC",
@@ -163,6 +170,11 @@ func VnMonitoringPathAnalyzerTestResource() *schema.Resource {
 							Computed: true,
 						},
 						"network_load_balancer_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"psa_id": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -720,6 +732,13 @@ func (s *VnMonitoringPathAnalyzerTestResourceCrud) mapToEndpoint(fieldKeyFormat 
 			details.Address = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("PRIVATE_SERVICE_ACCESS"):
+		details := oci_vn_monitoring.PrivateServiceAccessEndpoint{}
+		if psaId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "psa_id")); ok {
+			tmp := psaId.(string)
+			details.PsaId = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("SUBNET"):
 		details := oci_vn_monitoring.SubnetEndpoint{}
 		if address, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "address")); ok {
@@ -819,6 +838,12 @@ func EndpointToMap(obj *oci_vn_monitoring.Endpoint) map[string]interface{} {
 
 		if v.Address != nil {
 			result["address"] = string(*v.Address)
+		}
+	case oci_vn_monitoring.PrivateServiceAccessEndpoint:
+		result["type"] = "PRIVATE_SERVICE_ACCESS"
+
+		if v.PsaId != nil {
+			result["psa_id"] = string(*v.PsaId)
 		}
 	case oci_vn_monitoring.SubnetEndpoint:
 		result["type"] = "SUBNET"
