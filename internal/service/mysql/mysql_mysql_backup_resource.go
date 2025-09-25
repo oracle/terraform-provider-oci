@@ -492,6 +492,26 @@ func MysqlMysqlBackupResource() *schema.Resource {
 									// Optional
 
 									// Computed
+									"maintenance_schedule_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"target_version": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_scheduled": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"version_preference": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"version_track_preference": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"window_start_time": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -1452,6 +1472,20 @@ func DbSystemSnapshotSummaryToMap(obj *oci_mysql.DbSystemSnapshotSummary) map[st
 
 func MaintenanceDetailsToMap(obj *oci_mysql.MaintenanceDetails) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	result["maintenance_schedule_type"] = string(obj.MaintenanceScheduleType)
+
+	if obj.TargetVersion != nil {
+		result["target_version"] = string(*obj.TargetVersion)
+	}
+
+	if obj.TimeScheduled != nil {
+		result["time_scheduled"] = obj.TimeScheduled.String()
+	}
+
+	result["version_preference"] = string(obj.VersionPreference)
+
+	result["version_track_preference"] = string(obj.VersionTrackPreference)
 
 	if obj.WindowStartTime != nil {
 		result["window_start_time"] = string(*obj.WindowStartTime)
