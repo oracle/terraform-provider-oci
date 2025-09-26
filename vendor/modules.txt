@@ -361,6 +361,7 @@ github.com/oracle/oci-go-sdk/v65/identity
 github.com/oracle/oci-go-sdk/v65/identitydataplane
 github.com/oracle/oci-go-sdk/v65/identitydomains
 github.com/oracle/oci-go-sdk/v65/integration
+github.com/oracle/oci-go-sdk/v65/iot
 github.com/oracle/oci-go-sdk/v65/jms
 github.com/oracle/oci-go-sdk/v65/jmsjavadownloads
 github.com/oracle/oci-go-sdk/v65/jmsutils
