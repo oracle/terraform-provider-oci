@@ -738,11 +738,11 @@ var (
 	deploymentRepresentationLocks = map[string]interface{}{
 		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"gateway_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_apigateway_gateway.test_gateway.id}`},
-		"path_prefix":      acctest.Representation{RepType: acctest.Required, Create: `/v1`},
+		"path_prefix":      acctest.Representation{RepType: acctest.Required, Create: `/lock`},
 		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `createLock`, Update: `updateLock`},
 		"specification":    acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentSpecificationWithOnlyRoutes},
 		"locks":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentLocksRepresentation},
-		"is_lock_override": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_lock_override": acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `true`},
 		"lifecycle":        acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentIgnoreChangesDeploymentRepresentation},
 	}
 )
