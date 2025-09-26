@@ -52,7 +52,7 @@ var (
 		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"locks":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayUsagePlanLocksRepresentation},
-		"is_lock_override": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_lock_override": acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `true`},
 		"lifecycle":        acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesUsagePlanRepresentation},
 	}
 	ignoreChangesUsagePlanRepresentation = map[string]interface{}{
