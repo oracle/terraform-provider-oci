@@ -55,10 +55,13 @@ var (
 		"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"ip_mode":                    acctest.Representation{RepType: acctest.Optional, Create: `DUAL_STACK`},
+		"ipv4address_configuration":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayGatewayIpv4AddressConfigurationRepresentation},
+		"ipv6address_configuration":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayGatewayIpv6AddressConfigurationRepresentation},
 		"network_security_group_ids": acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group1.id}`}, Update: []string{`${oci_core_network_security_group.test_network_security_group2.id}`}},
 		"response_cache_details":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayGatewayResponseCacheDetailsRepresentation},
 		"locks":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayGatewayLocksRepresentation},
-		"is_lock_override":           acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_lock_override":           acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `true`},
 		"lifecycle":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesGatewayRepresentation},
 	}
 	ignoreChangesGatewayRepresentation = map[string]interface{}{
@@ -72,6 +75,12 @@ var (
 	ApigatewayGatewayLocksRepresentation = map[string]interface{}{
 		"type":    acctest.Representation{RepType: acctest.Required, Create: `FULL`},
 		"message": acctest.Representation{RepType: acctest.Optional, Create: `message`},
+	}
+	ApigatewayGatewayIpv4AddressConfigurationRepresentation = map[string]interface{}{
+		"reserved_ip_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_public_ip.test_public_ip.id}`}},
+	}
+	ApigatewayGatewayIpv6AddressConfigurationRepresentation = map[string]interface{}{
+		"subnet_cidrs": acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_subnet.test_subnet.ipv6cidr_block}`}},
 	}
 	ApigatewayGatewayResponseCacheDetailsRepresentation = map[string]interface{}{
 		"type":                                 acctest.Representation{RepType: acctest.Required, Create: `EXTERNAL_RESP_CACHE`},
@@ -92,8 +101,13 @@ var (
 	ApigatewayResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", acctest.Required, acctest.Create, ApigatewayCertificateRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group1", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group2", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{
+			"ipv6cidr_blocks": acctest.Representation{RepType: acctest.Required, Create: []string{`${substr(oci_core_vcn.test_vcn.ipv6cidr_blocks[0], 0, length(oci_core_vcn.test_vcn.ipv6cidr_blocks[0]) - 2)}${64}`}},
+		})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
+			"is_ipv6enabled": acctest.Representation{RepType: acctest.Required, Create: `true`},
+		})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", acctest.Required, acctest.Create, CorePublicIpRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_certificates_management_ca_bundle", "test_ca_bundle", acctest.Required, acctest.Create, caBundleRepresentationRequired) +
 		acctest.GenerateResourceFromRepresentationMap("oci_certificates_management_certificate_authority", "test_certificate_authority", acctest.Required, acctest.Create, certificateAuthorityRepresentationRoot) +
 		DefinedTagsDependencies +
@@ -133,6 +147,7 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "endpoint_type", "PUBLIC"),
+				resource.TestCheckResourceAttr(resourceName, "ip_mode", "IPV4"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
 				func(s *terraform.State) (err error) {
@@ -169,6 +184,11 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "locks.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "locks.0.message", "message"),
 				resource.TestCheckResourceAttr(resourceName, "locks.0.type", "FULL"),
+				resource.TestCheckResourceAttr(resourceName, "ip_mode", "DUAL_STACK"),
+				resource.TestCheckResourceAttr(resourceName, "ipv4address_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ipv4address_configuration.0.reserved_ip_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ipv6address_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ipv6address_configuration.0.subnet_cidrs.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "response_cache_details.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "response_cache_details.0.authentication_secret_id"),
 				resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.authentication_secret_version_number", "1"),
@@ -212,6 +232,7 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "endpoint_type", "PUBLIC"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "ip_mode", "DUAL_STACK"),
 				resource.TestCheckResourceAttr(resourceName, "response_cache_details.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "response_cache_details.0.authentication_secret_id"),
 				resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.authentication_secret_version_number", "1"),
@@ -250,6 +271,7 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "endpoint_type", "PUBLIC"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "ip_mode", "DUAL_STACK"),
 				resource.TestCheckResourceAttr(resourceName, "response_cache_details.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "response_cache_details.0.authentication_secret_id"),
 				resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.authentication_secret_version_number", "2"),
@@ -288,6 +310,8 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "gateway_collection.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "gateway_collection.0.id"),
 				resource.TestCheckResourceAttr(datasourceName, "gateway_collection.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "gateway_collection.0.ip_mode", "DUAL_STACK"),
+				resource.TestCheckResourceAttr(datasourceName, "gateway_collection.0.endpoint_type", "PUBLIC"),
 			),
 		},
 		// verify singular datasource
@@ -306,11 +330,16 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "hostname"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "ip_addresses.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ip_addresses.#", "2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "locks.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "locks.0.message", "message"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "locks.0.time_created"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "locks.0.type", "FULL"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ip_mode", "DUAL_STACK"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ipv4address_configuration.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ipv4address_configuration.0.reserved_ip_ids.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ipv6address_configuration.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ipv6address_configuration.0.subnet_cidrs.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "response_cache_details.0.authentication_secret_id"),
