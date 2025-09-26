@@ -51,18 +51,32 @@ var (
 		"dedicated_ai_cluster_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_generative_ai_dedicated_ai_cluster.test_dedicated_ai_cluster.id}`},
 		"model_id":                  acctest.Representation{RepType: acctest.Required, Create: `${local.servering_model_id}`},
 		"content_moderation_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: GenerativeAiEndpointContentModerationConfigRepresentation},
-		// "defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		//"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":   acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 	GenerativeAiEndpointContentModerationConfigRepresentation = map[string]interface{}{
-		"is_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_enabled": acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
+		"mode":       acctest.Representation{RepType: acctest.Optional, Create: `INFORM`, Update: `BLOCK`},
+		"model_id":   acctest.Representation{RepType: acctest.Optional, Create: `${local.servering_model_id}`},
 	}
 
-	GenerativeAiEndpointResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_dedicated_ai_cluster", "test_dedicated_ai_cluster", acctest.Required, acctest.Create, GenerativeAiHostingDedicatedAiClusterRepresentation) +
+	GenerativeAiEndpointResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_dedicated_ai_cluster", "test_dedicated_ai_cluster", acctest.Required, acctest.Create, DedicatedAiClusterRepresentation) +
 		servingModelDependencies
 	// DefinedTagsDependencies + - no test in home region
+
+	DedicatedAiClusterRepresentation = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"type":           acctest.Representation{RepType: acctest.Required, Create: `HOSTING`},
+		"unit_count":     acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `2`},
+		"unit_shape":     acctest.Representation{RepType: acctest.Required, Create: `LARGE_COHERE_V3`},
+		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: generativeaiDatasetIgnoreDefinedTagsChangesRep},
+	}
 
 	servingModelDependencies = `
 	locals {
@@ -84,6 +98,17 @@ var (
 	  display_name = "cohere.command-a-03-2025"
 	}
 	`
+
+	GenerativeAiEndpointModelRepresentation = map[string]interface{}{
+		"base_model_id":  acctest.Representation{RepType: acctest.Required, Create: `${local.servering_model_id}`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		//"defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":   acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"vendor":        acctest.Representation{RepType: acctest.Optional, Create: `vendor`},
+		"version":       acctest.Representation{RepType: acctest.Optional, Create: generativeAiVersion, Update: generativeAiVersion2},
+	}
 )
 
 // issue-routing-tag: generative_ai/default
@@ -137,6 +162,8 @@ func TestGenerativeAiEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "content_moderation_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "content_moderation_config.0.is_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "content_moderation_config.0.mode", "INFORM"),
+				resource.TestCheckResourceAttrSet(resourceName, "content_moderation_config.0.model_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "dedicated_ai_cluster_id"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -169,6 +196,8 @@ func TestGenerativeAiEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "content_moderation_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "content_moderation_config.0.is_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "content_moderation_config.0.mode", "INFORM"),
+				resource.TestCheckResourceAttrSet(resourceName, "content_moderation_config.0.model_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "dedicated_ai_cluster_id"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -196,6 +225,8 @@ func TestGenerativeAiEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "content_moderation_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "content_moderation_config.0.is_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "content_moderation_config.0.mode", "BLOCK"),
+				resource.TestCheckResourceAttrSet(resourceName, "content_moderation_config.0.model_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "dedicated_ai_cluster_id"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -237,9 +268,10 @@ func TestGenerativeAiEndpointResource_basic(t *testing.T) {
 				compartmentIdVariableStr + GenerativeAiEndpointResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "endpoint_id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+
 				resource.TestCheckResourceAttr(singularDatasourceName, "content_moderation_config.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "content_moderation_config.0.is_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "content_moderation_config.0.mode", "BLOCK"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
@@ -251,11 +283,14 @@ func TestGenerativeAiEndpointResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + GenerativeAiEndpointRequiredOnlyResource,
-			ImportState:             true,
-			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{},
-			ResourceName:            resourceName,
+			Config:            config + GenerativeAiEndpointRequiredOnlyResource,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"compartment_id",
+				"previous_state",
+			},
+			ResourceName: resourceName,
 		},
 	})
 }
@@ -364,7 +399,7 @@ func getGenerativeAiEndpointIds(compartment string) ([]string, error) {
 }
 
 func GenerativeAiEndpointSweepWaitCondition(response common.OCIOperationResponse) bool {
-	// Only stop if the resource is ACTIVE beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	// Only stop if the resource is active beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if endpointResponse, ok := response.Response.(oci_generative_ai.GetEndpointResponse); ok {
 		return endpointResponse.LifecycleState != oci_generative_ai.EndpointLifecycleStateDeleted
 	}

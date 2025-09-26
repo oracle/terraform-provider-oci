@@ -1,4 +1,5 @@
 resource "oci_generative_ai_model" "llama3_test_model" {
+  depends_on = [oci_generative_ai_dedicated_ai_cluster.test_dedicated_ai_cluster_large_generic ]
   #Required
   compartment_id                 = var.compartment_ocid
   base_model_id                  = local.llama_base_model_id
