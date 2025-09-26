@@ -6,6 +6,7 @@ package golden_gate
 import (
 	"context"
 	"fmt"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"strings"
 	"time"
 
