@@ -72,6 +72,7 @@ import (
 	tf_identity_data_plane "github.com/oracle/terraform-provider-oci/internal/service/identity_data_plane"
 	tf_identity_domains "github.com/oracle/terraform-provider-oci/internal/service/identity_domains"
 	tf_integration "github.com/oracle/terraform-provider-oci/internal/service/integration"
+	tf_iot "github.com/oracle/terraform-provider-oci/internal/service/iot"
 	tf_jms "github.com/oracle/terraform-provider-oci/internal/service/jms"
 	tf_jms_java_downloads "github.com/oracle/terraform-provider-oci/internal/service/jms_java_downloads"
 	tf_jms_utils "github.com/oracle/terraform-provider-oci/internal/service/jms_utils"
@@ -343,6 +344,9 @@ func init() {
 	}
 	if common.CheckForEnabledServices("integration") {
 		tf_integration.RegisterResource()
+	}
+	if common.CheckForEnabledServices("iot") {
+		tf_iot.RegisterResource()
 	}
 	if common.CheckForEnabledServices("jms") {
 		tf_jms.RegisterResource()

@@ -183,6 +183,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `identity_data_plane` - Discovers identity_data_plane resources within the specified compartment
     * `identity_domains` - Discovers identity_domains resources within the specified compartment
     * `integration` - Discovers integration resources within the specified compartment
+    * `iot` - Discovers iot resources within the specified compartment
     * `jms` - Discovers jms resources within the specified compartment
     * `kms` - Discovers kms resources within the specified compartment
     * `license_manager` - Discovers license_manager resources within the specified compartment
@@ -966,6 +967,15 @@ identity_domains
 integration
     
 * oci\_integration\_integration\_instance
+
+iot
+    
+* oci\_iot\_digital\_twin\_model
+* oci\_iot\_iot\_domain\_group
+* oci\_iot\_iot\_domain
+* oci\_iot\_digital\_twin\_relationship
+* oci\_iot\_digital\_twin\_instance
+* oci\_iot\_digital\_twin\_adapter
 
 jms
     
