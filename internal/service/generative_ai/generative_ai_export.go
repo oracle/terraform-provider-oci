@@ -75,11 +75,23 @@ var exportGenerativeAiGenerativeAiPrivateEndpointHints = &tf_export.TerraformRes
 	},
 }
 
+var exportGenerativeAiImportedModelHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_generative_ai_imported_model",
+	DatasourceClass:        "oci_generative_ai_imported_models",
+	DatasourceItemsAttr:    "imported_model_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "imported_model",
+	DiscoverableLifecycleStates: []string{
+		string(oci_generative_ai.ImportedModelLifecycleStateActive),
+	},
+}
+
 var generativeAiResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportGenerativeAiDedicatedAiClusterHints},
 		{TerraformResourceHints: exportGenerativeAiEndpointHints},
 		{TerraformResourceHints: exportGenerativeAiModelHints},
 		{TerraformResourceHints: exportGenerativeAiGenerativeAiPrivateEndpointHints},
+		{TerraformResourceHints: exportGenerativeAiImportedModelHints},
 	},
 }

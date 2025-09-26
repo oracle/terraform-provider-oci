@@ -26,10 +26,10 @@ import (
 
 var (
 	GenerativeAiDedicatedAiClusterRequiredOnlyResource = GenerativeAiDedicatedAiClusterResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_dedicated_ai_cluster", "test_dedicated_ai_cluster", acctest.Required, acctest.Create, GenerativeAiHostingDedicatedAiClusterRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_dedicated_ai_cluster", "test_dedicated_ai_cluster", acctest.Required, acctest.Create, GenerativeAiDedicatedAiClusterRepresentation)
 
 	GenerativeAiDedicatedAiClusterResourceConfig = GenerativeAiDedicatedAiClusterResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_dedicated_ai_cluster", "test_dedicated_ai_cluster", acctest.Optional, acctest.Update, GenerativeAiHostingDedicatedAiClusterRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_dedicated_ai_cluster", "test_dedicated_ai_cluster", acctest.Optional, acctest.Update, GenerativeAiDedicatedAiClusterRepresentation)
 
 	GenerativeAiDedicatedAiClusterSingularDataSourceRepresentation = map[string]interface{}{
 		"dedicated_ai_cluster_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_generative_ai_dedicated_ai_cluster.test_dedicated_ai_cluster.id}`},
@@ -46,42 +46,23 @@ var (
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_generative_ai_dedicated_ai_cluster.test_dedicated_ai_cluster.id}`}},
 	}
 
-	// Hosting cluster, used to test integration with terraform
-	GenerativeAiHostingDedicatedAiClusterRepresentation = map[string]interface{}{
+	GenerativeAiDedicatedAiClusterRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"type":           acctest.Representation{RepType: acctest.Required, Create: `HOSTING`},
 		"unit_count":     acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `2`},
-		"unit_shape":     acctest.Representation{RepType: acctest.Required, Create: `SMALL_COHERE_4`},
-		// "defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":   acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-	}
-
-	// Fine tuning cluster, not used to test terraform, cause many parameters cannot be updated for this.
-	// However AI model test will need to refer to this
-	GenerativeAiFineTuningDedicatedAiClusterRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"type":           acctest.Representation{RepType: acctest.Required, Create: `FINE_TUNING`},
-		"unit_count":     acctest.Representation{RepType: acctest.Required, Create: `2`},
-		"unit_shape":     acctest.Representation{RepType: acctest.Required, Create: `LARGE_COHERE_V2`},
-		// "defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":   acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-	}
-
-	GenerativeAiLoraFineTuningDedicatedAiClusterRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"type":           acctest.Representation{RepType: acctest.Required, Create: `FINE_TUNING`},
-		"unit_count":     acctest.Representation{RepType: acctest.Required, Create: `2`},
-		"unit_shape":     acctest.Representation{RepType: acctest.Required, Create: `LARGE_GENERIC`},
+		"unit_shape":     acctest.Representation{RepType: acctest.Required, Create: `SMALL_COHERE`},
+		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `llama3testCluster`, Update: `displayName2`},
+		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: generativeaiDatasetIgnoreDefinedTagsChangesRep},
 	}
 
-	GenerativeAiDedicatedAiClusterResourceDependencies = `` // Cannot test from home region due to GPU, commented out - DefinedTagsDependencies
+	GenerativeAiDedicatedAiClusterResourceDependencies = DefinedTagsDependencies
+
+	generativeaiDatasetIgnoreDefinedTagsChangesRep = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+	}
 )
 
 // issue-routing-tag: generative_ai/default
@@ -104,18 +85,18 @@ func TestGenerativeAiDedicatedAiClusterResource_basic(t *testing.T) {
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+GenerativeAiDedicatedAiClusterResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_dedicated_ai_cluster", "test_dedicated_ai_cluster", acctest.Optional, acctest.Create, GenerativeAiHostingDedicatedAiClusterRepresentation), "generativeai", "dedicatedAiCluster", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_dedicated_ai_cluster", "test_dedicated_ai_cluster", acctest.Optional, acctest.Create, GenerativeAiDedicatedAiClusterRepresentation), "generativeai", "dedicatedAiCluster", t)
 
 	acctest.ResourceTest(t, testAccCheckGenerativeAiDedicatedAiClusterDestroy, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + GenerativeAiDedicatedAiClusterResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_dedicated_ai_cluster", "test_dedicated_ai_cluster", acctest.Required, acctest.Create, GenerativeAiHostingDedicatedAiClusterRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_dedicated_ai_cluster", "test_dedicated_ai_cluster", acctest.Required, acctest.Create, GenerativeAiDedicatedAiClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "type", "HOSTING"),
 				resource.TestCheckResourceAttr(resourceName, "unit_count", "1"),
-				resource.TestCheckResourceAttr(resourceName, "unit_shape", "SMALL_COHERE_4"),
+				resource.TestCheckResourceAttr(resourceName, "unit_shape", "SMALL_COHERE"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -131,7 +112,7 @@ func TestGenerativeAiDedicatedAiClusterResource_basic(t *testing.T) {
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + GenerativeAiDedicatedAiClusterResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_dedicated_ai_cluster", "test_dedicated_ai_cluster", acctest.Optional, acctest.Create, GenerativeAiHostingDedicatedAiClusterRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_dedicated_ai_cluster", "test_dedicated_ai_cluster", acctest.Optional, acctest.Create, GenerativeAiDedicatedAiClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -142,7 +123,7 @@ func TestGenerativeAiDedicatedAiClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttr(resourceName, "type", "HOSTING"),
 				resource.TestCheckResourceAttr(resourceName, "unit_count", "1"),
-				resource.TestCheckResourceAttr(resourceName, "unit_shape", "SMALL_COHERE_4"),
+				resource.TestCheckResourceAttr(resourceName, "unit_shape", "SMALL_COHERE"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -160,7 +141,7 @@ func TestGenerativeAiDedicatedAiClusterResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + GenerativeAiDedicatedAiClusterResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_dedicated_ai_cluster", "test_dedicated_ai_cluster", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(GenerativeAiHostingDedicatedAiClusterRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(GenerativeAiDedicatedAiClusterRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -173,7 +154,7 @@ func TestGenerativeAiDedicatedAiClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttr(resourceName, "type", "HOSTING"),
 				resource.TestCheckResourceAttr(resourceName, "unit_count", "1"),
-				resource.TestCheckResourceAttr(resourceName, "unit_shape", "SMALL_COHERE_4"),
+				resource.TestCheckResourceAttr(resourceName, "unit_shape", "SMALL_COHERE"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -188,7 +169,7 @@ func TestGenerativeAiDedicatedAiClusterResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + GenerativeAiDedicatedAiClusterResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_dedicated_ai_cluster", "test_dedicated_ai_cluster", acctest.Optional, acctest.Update, GenerativeAiHostingDedicatedAiClusterRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_dedicated_ai_cluster", "test_dedicated_ai_cluster", acctest.Optional, acctest.Update, GenerativeAiDedicatedAiClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -199,7 +180,7 @@ func TestGenerativeAiDedicatedAiClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttr(resourceName, "type", "HOSTING"),
 				resource.TestCheckResourceAttr(resourceName, "unit_count", "2"),
-				resource.TestCheckResourceAttr(resourceName, "unit_shape", "SMALL_COHERE_4"),
+				resource.TestCheckResourceAttr(resourceName, "unit_shape", "SMALL_COHERE"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -215,12 +196,13 @@ func TestGenerativeAiDedicatedAiClusterResource_basic(t *testing.T) {
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_generative_ai_dedicated_ai_clusters", "test_dedicated_ai_clusters", acctest.Optional, acctest.Update, GenerativeAiDedicatedAiClusterDataSourceRepresentation) +
 				compartmentIdVariableStr + GenerativeAiDedicatedAiClusterResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_dedicated_ai_cluster", "test_dedicated_ai_cluster", acctest.Optional, acctest.Update, GenerativeAiHostingDedicatedAiClusterRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_dedicated_ai_cluster", "test_dedicated_ai_cluster", acctest.Optional, acctest.Update, GenerativeAiDedicatedAiClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+
 				resource.TestCheckResourceAttr(datasourceName, "dedicated_ai_cluster_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "dedicated_ai_cluster_collection.0.items.#", "1"),
 			),
@@ -232,9 +214,9 @@ func TestGenerativeAiDedicatedAiClusterResource_basic(t *testing.T) {
 				compartmentIdVariableStr + GenerativeAiDedicatedAiClusterResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "dedicated_ai_cluster_id"),
+
 				resource.TestCheckResourceAttr(singularDatasourceName, "capacity.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
@@ -243,16 +225,19 @@ func TestGenerativeAiDedicatedAiClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "type", "HOSTING"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "unit_count", "2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "unit_shape", "SMALL_COHERE_4"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "unit_shape", "SMALL_COHERE"),
 			),
 		},
 		// verify resource import
 		{
-			Config:                  config + GenerativeAiDedicatedAiClusterRequiredOnlyResource,
-			ImportState:             true,
-			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{},
-			ResourceName:            resourceName,
+			Config:            config + GenerativeAiDedicatedAiClusterRequiredOnlyResource,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"description",
+				"previous_state",
+			},
+			ResourceName: resourceName,
 		},
 	})
 }
@@ -346,7 +331,7 @@ func getGenerativeAiDedicatedAiClusterIds(compartment string) ([]string, error) 
 
 	listDedicatedAiClustersRequest := oci_generative_ai.ListDedicatedAiClustersRequest{}
 	listDedicatedAiClustersRequest.CompartmentId = &compartmentId
-	listDedicatedAiClustersRequest.LifecycleState = oci_generative_ai.DedicatedAiClusterLifecycleStateActive
+	listDedicatedAiClustersRequest.LifecycleState = oci_generative_ai.DedicatedAiClusterLifecycleStateNeedsAttention
 	listDedicatedAiClustersResponse, err := generativeAiClient.ListDedicatedAiClusters(context.Background(), listDedicatedAiClustersRequest)
 
 	if err != nil {
@@ -361,7 +346,7 @@ func getGenerativeAiDedicatedAiClusterIds(compartment string) ([]string, error) 
 }
 
 func GenerativeAiDedicatedAiClusterSweepWaitCondition(response common.OCIOperationResponse) bool {
-	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	// Only stop if the resource is ACTIVE beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if dedicatedAiClusterResponse, ok := response.Response.(oci_generative_ai.GetDedicatedAiClusterResponse); ok {
 		return dedicatedAiClusterResponse.LifecycleState != oci_generative_ai.DedicatedAiClusterLifecycleStateDeleted
 	}

@@ -26,10 +26,10 @@ import (
 
 var (
 	GenerativeAiModelRequiredOnlyResource = GenerativeAiModelResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_model", "test_model", acctest.Required, acctest.Create, GenerativeAiModelTfewRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_model", "test_model", acctest.Required, acctest.Create, GenerativeAiModelRepresentation)
 
 	GenerativeAiModelResourceConfig = GenerativeAiModelResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_model", "test_model", acctest.Optional, acctest.Update, GenerativeAiModelTfewRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_model", "test_model", acctest.Optional, acctest.Update, GenerativeAiModelRepresentation)
 
 	GenerativeAiModelSingularDataSourceRepresentation = map[string]interface{}{
 		"model_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_generative_ai_model.test_model.id}`},
@@ -38,54 +38,31 @@ var (
 	GenerativeAiModelDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"capability":     acctest.Representation{RepType: acctest.Optional, Create: []string{`FINE_TUNE`}},
-		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: Name1, Update: Name2},
+		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_generative_ai_model.test_model.id}`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"vendor":         acctest.Representation{RepType: acctest.Optional, Create: `vendor`}, // Only base model vendor can be updated, not the case here
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: GenerativeAiModelDataSourceFilterRepresentation}}
+		"vendor":         acctest.Representation{RepType: acctest.Optional, Create: `vendor`},
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: GenerativeAiModelDataSourceFilterRepresentation},
+	}
+
 	GenerativeAiModelDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_generative_ai_model.test_model.id}`}},
 	}
 
-	GenerativeAiModelLoraRepresentation = map[string]interface{}{
-		"base_model_id":     acctest.Representation{RepType: acctest.Required, Create: `${local.llama_base_model_id}`},
-		"compartment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"fine_tune_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: GenerativeAiModelLoraFineTuneDetailsRepresentation},
-		"description":       acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"display_name":      acctest.Representation{RepType: acctest.Optional, Create: loraName1, Update: loraName2},
-		"freeform_tags":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"vendor":            acctest.Representation{RepType: acctest.Optional, Create: `meta`}, // Only base model vendor can be updated, not the case here
-		"version":           acctest.Representation{RepType: acctest.Optional, Create: Version1, Update: Version2},
-	}
-	GenerativeAiModelLoraFineTuneDetailsRepresentation = map[string]interface{}{
-		"dedicated_ai_cluster_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_generative_ai_dedicated_ai_cluster.test_dedicated_ai_cluster_large_v2.id}`},
-		"training_dataset":        acctest.RepresentationGroup{RepType: acctest.Required, Group: GenerativeAiModelFineTuneDetailsTrainingDatasetRepresentation},
-		"training_config":         acctest.RepresentationGroup{RepType: acctest.Required, Group: GenerativeAiModelLoraFineTuneDetailsTrainingConfigRepresentation},
-	}
-	GenerativeAiModelLoraFineTuneDetailsTrainingConfigRepresentation = map[string]interface{}{
-		"training_config_type":                acctest.Representation{RepType: acctest.Required, Create: `LORA_TRAINING_CONFIG`},
-		"early_stopping_patience":             acctest.Representation{RepType: acctest.Optional, Create: `10`},
-		"early_stopping_threshold":            acctest.Representation{RepType: acctest.Optional, Create: `1`},
-		"learning_rate":                       acctest.Representation{RepType: acctest.Optional, Create: `1`},
-		"log_model_metrics_interval_in_steps": acctest.Representation{RepType: acctest.Optional, Create: `10`},
-		"total_training_epochs":               acctest.Representation{RepType: acctest.Optional, Create: `10`},
-		"training_batch_size":                 acctest.Representation{RepType: acctest.Optional, Create: `10`},
-		"lora_r":                              acctest.Representation{RepType: acctest.Optional, Create: `10`},
-		"lora_alpha":                          acctest.Representation{RepType: acctest.Optional, Create: `10`},
-		"lora_dropout":                        acctest.Representation{RepType: acctest.Optional, Create: `1.0`},
-	}
+	generativeAiVersion  = fmt.Sprintf("version-%d", time.Now().UnixNano())
+	generativeAiVersion2 = fmt.Sprintf("version2-%d", time.Now().UnixNano())
 
-	GenerativeAiModelTfewRepresentation = map[string]interface{}{
-		"base_model_id":     acctest.Representation{RepType: acctest.Required, Create: `${local.cohere_base_model_id}`},
+	GenerativeAiModelRepresentation = map[string]interface{}{
+		"base_model_id":     acctest.Representation{RepType: acctest.Required, Create: `${local.base_model_id}`},
 		"compartment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"fine_tune_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: GenerativeAiModelFineTuneDetailsRepresentation},
 		//"defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":   acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: Name1, Update: Name2},
+		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"vendor":        acctest.Representation{RepType: acctest.Optional, Create: `vendor`}, // Only base model vendor can be updated, not the case here
-		"version":       acctest.Representation{RepType: acctest.Optional, Create: Version1, Update: Version2},
+		"vendor":        acctest.Representation{RepType: acctest.Optional, Create: `vendor`},
+		"version":       acctest.Representation{RepType: acctest.Optional, Create: generativeAiVersion, Update: generativeAiVersion2},
 	}
 	GenerativeAiModelFineTuneDetailsRepresentation = map[string]interface{}{
 		"dedicated_ai_cluster_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_generative_ai_dedicated_ai_cluster.test_dedicated_ai_cluster.id}`},
@@ -93,99 +70,94 @@ var (
 		"training_config":         acctest.RepresentationGroup{RepType: acctest.Required, Group: GenerativeAiModelFineTuneDetailsTrainingConfigRepresentation},
 	}
 	GenerativeAiModelFineTuneDetailsTrainingDatasetRepresentation = map[string]interface{}{
-		"bucket":       acctest.Representation{RepType: acctest.Required, Create: `${oci_objectstorage_bucket.fine_tune_bucket.name}`},
+		"bucket":       acctest.Representation{RepType: acctest.Required, Create: `${oci_objectstorage_bucket.test_bucket.name}`},
 		"dataset_type": acctest.Representation{RepType: acctest.Required, Create: `OBJECT_STORAGE`},
 		"namespace":    acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
-		"object":       acctest.Representation{RepType: acctest.Required, Create: FineTuneDataObjectName},
+		"object":       acctest.Representation{RepType: acctest.Required, Create: `object.jsonl`},
 	}
 	GenerativeAiModelFineTuneDetailsTrainingConfigRepresentation = map[string]interface{}{
 		"training_config_type":                acctest.Representation{RepType: acctest.Required, Create: `TFEW_TRAINING_CONFIG`},
-		"early_stopping_patience":             acctest.Representation{RepType: acctest.Optional, Create: `10`},
-		"early_stopping_threshold":            acctest.Representation{RepType: acctest.Optional, Create: `1`},
-		"learning_rate":                       acctest.Representation{RepType: acctest.Optional, Create: `1`},
-		"log_model_metrics_interval_in_steps": acctest.Representation{RepType: acctest.Optional, Create: `10`},
-		"total_training_epochs":               acctest.Representation{RepType: acctest.Optional, Create: `10`},
-		"training_batch_size":                 acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"early_stopping_patience":             acctest.Representation{RepType: acctest.Optional, Create: `2`},
+		"early_stopping_threshold":            acctest.Representation{RepType: acctest.Optional, Create: `0.005`},
+		"learning_rate":                       acctest.Representation{RepType: acctest.Optional, Create: `0.001`},
+		"log_model_metrics_interval_in_steps": acctest.Representation{RepType: acctest.Optional, Create: `100`},
+		"total_training_epochs":               acctest.Representation{RepType: acctest.Optional, Create: `2`},
+		"training_batch_size":                 acctest.Representation{RepType: acctest.Optional, Create: `32`},
 	}
 
+	BaseModelDependencies = `
+							# Pulls available base models dynamically from your compartment
+							data "oci_generative_ai_models" "base_models" {
+							  compartment_id = var.compartment_id
+							}
+							
+							locals {
+							 
+							  filtered_base_models = [
+								for item in data.oci_generative_ai_models.base_models.model_collection[0].items : item
+								if (
+									contains(item.capabilities, "FINE_TUNE")
+									&& (item.display_name == "cohere.command-light")									
+								  )	
+							  ]
+							
+							  # Choose the first matching model
+							  base_model_id = (
+								length(local.filtered_base_models) > 0 ?
+								local.filtered_base_models[0].id :
+								""
+							  )
+							}
+							`
+
+	Prompts = `{\"prompt\": \"1\", \"completion\": \"one\"}\n{\"prompt\": \"2\", \"completion\": \"two\"}\n{\"prompt\": \"3\", \"completion\": \"three\"}\n{\"prompt\": \"4\", \"completion\": \"four\"}\n{\"prompt\": \"5\", \"completion\": \"five\"}\n{\"prompt\": \"6\", \"completion\": \"six\"}\n{\"prompt\": \"7\", \"completion\": \"seven\"}\n{\"prompt\": \"8\", \"completion\": \"eight\"}\n{\"prompt\": \"9\", \"completion\": \"nine\"}\n{\"prompt\": \"10\", \"completion\": \"ten\"}\n{\"prompt\": \"11\", \"completion\": \"eleven\"}\n{\"prompt\": \"12\", \"completion\": \"twelve\"}\n{\"prompt\": \"13\", \"completion\": \"thirteen\"}\n{\"prompt\": \"14\", \"completion\": \"fourteen\"}\n{\"prompt\": \"15\", \"completion\": \"fifteen\"}\n{\"prompt\": \"16\", \"completion\": \"sixteen\"}\n{\"prompt\": \"17\", \"completion\": \"seventeen\"}\n{\"prompt\": \"18\", \"completion\": \"eighteen\"}\n{\"prompt\": \"19\", \"completion\": \"nineteen\"}\n{\"prompt\": \"20\", \"completion\": \"twenty\"}\n{\"prompt\": \"21\", \"completion\": \"twenty-one\"}\n{\"prompt\": \"22\", \"completion\": \"twenty-two\"}\n{\"prompt\": \"23\", \"completion\": \"twenty-three\"}\n{\"prompt\": \"24\", \"completion\": \"twenty-four\"}\n{\"prompt\": \"25\", \"completion\": \"twenty-five\"}\n{\"prompt\": \"26\", \"completion\": \"twenty-six\"}\n{\"prompt\": \"27\", \"completion\": \"twenty-seven\"}\n{\"prompt\": \"28\", \"completion\": \"twenty-eight\"}\n{\"prompt\": \"29\", \"completion\": \"twenty-nine\"}\n{\"prompt\": \"30\", \"completion\": \"thirty\"}\n{\"prompt\": \"31\", \"completion\": \"thirty-one\"}\n{\"prompt\": \"32\", \"completion\": \"thirty-two\"}`
+
 	FineTuneDataObjectStorageBucketRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"name":           acctest.Representation{RepType: acctest.Required, Create: FineTuneDataBucketName},
-		"namespace":      acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
+		"compartment_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"name":                  acctest.Representation{RepType: acctest.Required, Create: FineTuneDataBucketName, Update: FineTuneDataBucketName2},
+		"namespace":             acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
+		"access_type":           acctest.Representation{RepType: acctest.Optional, Create: `NoPublicAccess`, Update: `ObjectRead`},
+		"auto_tiering":          acctest.Representation{RepType: acctest.Optional, Create: `Disabled`, Update: `InfrequentAccess`},
+		"defined_tags":          acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"kms_key_id":            acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"metadata":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"content-type": "text/plain"}, Update: map[string]string{"content-type": "text/xml"}},
+		"object_events_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"storage_tier":          acctest.Representation{RepType: acctest.Optional, Create: `Standard`},
+		"versioning":            acctest.Representation{RepType: acctest.Optional, Create: `Enabled`, Update: `Disabled`},
 	}
 
 	FineTuneDataObjectStorageObjectRepresentation = map[string]interface{}{
-		"bucket":    acctest.Representation{RepType: acctest.Required, Create: `${oci_objectstorage_bucket.fine_tune_bucket.name}`},
+		"bucket":    acctest.Representation{RepType: acctest.Required, Create: `${oci_objectstorage_bucket.test_bucket.name}`},
 		"namespace": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 		"object":    acctest.Representation{RepType: acctest.Required, Create: FineTuneDataObjectName},
 		"content":   acctest.Representation{RepType: acctest.Optional, Create: Prompts},
 	}
 
-	GenerativeAiLlamaModelResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_dedicated_ai_cluster", "test_dedicated_ai_cluster_large_v2", acctest.Required, acctest.Create, GenerativeAiLoraFineTuningDedicatedAiClusterRepresentation) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Optional, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "fine_tune_bucket", acctest.Required, acctest.Create, FineTuneDataObjectStorageBucketRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "fine_tune_data", acctest.Optional, acctest.Create, FineTuneDataObjectStorageObjectRepresentation) +
-		llamaBaseModelDependencies
+	GenerativeAINamespaceSingularDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+	}
 
-	llamaBaseModelDependencies = `
-locals {
-  llama_filtered_models = [
-	for item in data.oci_generative_ai_models.llama_base_models.model_collection[0].items : item
-	  if (
-        (item.version == "1.0.0")
-		&& contains(item.capabilities, "FINE_TUNE")
-		&& (item.display_name == "meta.llama-3-70b-instruct")
-	  )
-	]
+	FineTuneDataBucketName  = utils.RandomStringOrHttpReplayValue(32, utils.Charset, "bucket")
+	FineTuneDataBucketName2 = FineTuneDataBucketName + "2"
+	FineTuneDataObjectName  = "object.jsonl"
 
- llama_base_model_id = local.llama_filtered_models[0].id
-}
-data "oci_generative_ai_models" "llama_base_models" {
-  compartment_id = var.compartment_id 
-}
-`
+	GenerativeAiFineTuningDedicatedAiClusterRepresentation = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"type":           acctest.Representation{RepType: acctest.Required, Create: `FINE_TUNING`},
+		"unit_count":     acctest.Representation{RepType: acctest.Required, Create: `2`},
+		"unit_shape":     acctest.Representation{RepType: acctest.Required, Create: `SMALL_COHERE`},
+		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+	}
 
-	GenerativeAiModelResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_dedicated_ai_cluster", "test_dedicated_ai_cluster", acctest.Required, acctest.Create, GenerativeAiFineTuningDedicatedAiClusterRepresentation) +
-		// Avoid loop - acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_model", "test_model", acctest.Required, acctest.Create, GenerativeAiModelTfewRepresentation) +
-		// Cannot test in home region due to GPU - DefinedTagsDependencies +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Optional, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "fine_tune_bucket", acctest.Required, acctest.Create, FineTuneDataObjectStorageBucketRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "fine_tune_data", acctest.Optional, acctest.Create, FineTuneDataObjectStorageObjectRepresentation) +
-		baseModelDependencies
-
-	baseModelDependencies = `
-locals {
-
-  filtered_models = [
-	for item in data.oci_generative_ai_models.base_models.model_collection[0].items : item
-	  if (
-		(item.version == "14.2")
-		&& contains(item.capabilities, "FINE_TUNE")
-		&& (item.display_name == "cohere.command-light")
-	  )
-	]
-
-  cohere_base_model_id = local.filtered_models[0].id
-}
-
-data "oci_generative_ai_models" "base_models" {
-  compartment_id = var.compartment_id
-  display_name = "cohere.command-light"
-}
-`
-	FineTuneDataBucketName = "fineTuneData"
-	FineTuneDataObjectName = "uhc_data.jsonl"
-	// At least 32 prompts are needed to pass API validation
-	Prompts = `{\"prompt\": \"1\", \"completion\": \"one\"}\n{\"prompt\": \"2\", \"completion\": \"two\"}\n{\"prompt\": \"3\", \"completion\": \"three\"}\n{\"prompt\": \"4\", \"completion\": \"four\"}\n{\"prompt\": \"5\", \"completion\": \"five\"}\n{\"prompt\": \"6\", \"completion\": \"six\"}\n{\"prompt\": \"7\", \"completion\": \"seven\"}\n{\"prompt\": \"8\", \"completion\": \"eight\"}\n{\"prompt\": \"9\", \"completion\": \"nine\"}\n{\"prompt\": \"10\", \"completion\": \"ten\"}\n{\"prompt\": \"11\", \"completion\": \"eleven\"}\n{\"prompt\": \"12\", \"completion\": \"twelve\"}\n{\"prompt\": \"13\", \"completion\": \"thirteen\"}\n{\"prompt\": \"14\", \"completion\": \"fourteen\"}\n{\"prompt\": \"15\", \"completion\": \"fifteen\"}\n{\"prompt\": \"16\", \"completion\": \"sixteen\"}\n{\"prompt\": \"17\", \"completion\": \"seventeen\"}\n{\"prompt\": \"18\", \"completion\": \"eighteen\"}\n{\"prompt\": \"19\", \"completion\": \"nineteen\"}\n{\"prompt\": \"20\", \"completion\": \"twenty\"}\n{\"prompt\": \"21\", \"completion\": \"twenty-one\"}\n{\"prompt\": \"22\", \"completion\": \"twenty-two\"}\n{\"prompt\": \"23\", \"completion\": \"twenty-three\"}\n{\"prompt\": \"24\", \"completion\": \"twenty-four\"}\n{\"prompt\": \"25\", \"completion\": \"twenty-five\"}\n{\"prompt\": \"26\", \"completion\": \"twenty-six\"}\n{\"prompt\": \"27\", \"completion\": \"twenty-seven\"}\n{\"prompt\": \"28\", \"completion\": \"twenty-eight\"}\n{\"prompt\": \"29\", \"completion\": \"twenty-nine\"}\n{\"prompt\": \"30\", \"completion\": \"thirty\"}\n{\"prompt\": \"31\", \"completion\": \"thirty-one\"}\n{\"prompt\": \"32\", \"completion\": \"thirty-two\"}`
-
-	// (Name + version) need to be unique
-	StrFromTime = time.Now().UTC().Format("20060102150405")
-	Name1       = "OldName" + StrFromTime
-	Version1    = "v" + StrFromTime + ".1"
-	Name2       = "NewName" + StrFromTime
-	Version2    = "v" + StrFromTime + ".2"
-	loraName1   = "LoraModel" + StrFromTime
-	loraName2   = "LoraModelUpdated" + StrFromTime
+	GenerativeAiModelResourceDependencies = BaseModelDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_dedicated_ai_cluster", "test_dedicated_ai_cluster", acctest.Required, acctest.Create, GenerativeAiFineTuningDedicatedAiClusterRepresentation) +
+		DefinedTagsDependencies +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Optional, acctest.Create, GenerativeAINamespaceSingularDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, FineTuneDataObjectStorageBucketRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "fine_tune_data", acctest.Optional, acctest.Create, FineTuneDataObjectStorageObjectRepresentation)
 )
 
 // issue-routing-tag: generative_ai/default
@@ -208,13 +180,13 @@ func TestGenerativeAiModelResource_basic(t *testing.T) {
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+GenerativeAiModelResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_model", "test_model", acctest.Optional, acctest.Create, GenerativeAiModelTfewRepresentation), "generativeai", "model", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_model", "test_model", acctest.Optional, acctest.Create, GenerativeAiModelRepresentation), "generativeai", "model", t)
 
 	acctest.ResourceTest(t, testAccCheckGenerativeAiModelDestroy, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + GenerativeAiModelResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_model", "test_model", acctest.Required, acctest.Create, GenerativeAiModelTfewRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_model", "test_model", acctest.Required, acctest.Create, GenerativeAiModelRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "base_model_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -228,56 +200,6 @@ func TestGenerativeAiModelResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					return err
-				},
-			),
-		},
-		// delete before next Create
-		{
-			Config: config + compartmentIdVariableStr + GenerativeAiModelResourceDependencies,
-		},
-		// verify Create with optionals Lora
-		{
-			Config: config + compartmentIdVariableStr + GenerativeAiLlamaModelResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_model", "test_model", acctest.Optional, acctest.Create, GenerativeAiModelLoraRepresentation),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "base_model_id"),
-				// resource.TestCheckResourceAttrSet(resourceName, "capabilities"), - won't have it in state file
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "description", "description"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", loraName1),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "fine_tune_details.0.dedicated_ai_cluster_id"),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.early_stopping_patience", "10"),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.early_stopping_threshold", "1"),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.learning_rate", "1"),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.log_model_metrics_interval_in_steps", "10"),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.total_training_epochs", "10"),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.training_batch_size", "10"),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.lora_alpha", "10"),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.lora_dropout", "1"),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.lora_r", "10"),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.training_config_type", "LORA_TRAINING_CONFIG"),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_dataset.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_dataset.0.bucket", FineTuneDataBucketName),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_dataset.0.dataset_type", "OBJECT_STORAGE"),
-				resource.TestCheckResourceAttrSet(resourceName, "fine_tune_details.0.training_dataset.0.namespace"),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_dataset.0.object", FineTuneDataObjectName),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttrSet(resourceName, "type"),
-				resource.TestCheckResourceAttr(resourceName, "vendor", "meta"),
-				resource.TestCheckResourceAttr(resourceName, "version", Version1),
-
-				func(s *terraform.State) (err error) {
-					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-							return errExport
-						}
-					}
 					return err
 				},
 			),
@@ -285,39 +207,35 @@ func TestGenerativeAiModelResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + GenerativeAiLlamaModelResourceDependencies,
+			Config: config + compartmentIdVariableStr + GenerativeAiModelResourceDependencies,
 		},
-		// verify Create with optionals T-few
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + GenerativeAiModelResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_model", "test_model", acctest.Optional, acctest.Create, GenerativeAiModelTfewRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_model", "test_model", acctest.Optional, acctest.Create, GenerativeAiModelRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "base_model_id"),
-				// resource.TestCheckResourceAttrSet(resourceName, "capabilities"), - won't have it in state file
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", Name1),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "fine_tune_details.0.dedicated_ai_cluster_id"),
 				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.early_stopping_patience", "10"),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.early_stopping_threshold", "1"),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.learning_rate", "1"),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.log_model_metrics_interval_in_steps", "10"),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.total_training_epochs", "10"),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.training_batch_size", "10"),
+				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.early_stopping_patience", "2"),
+				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.early_stopping_threshold", "0.005"),
+				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.learning_rate", "0.001"),
+				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.log_model_metrics_interval_in_steps", "100"),
+				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.total_training_epochs", "2"),
+				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.training_batch_size", "32"),
 				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.training_config_type", "TFEW_TRAINING_CONFIG"),
 				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_dataset.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_dataset.0.bucket", FineTuneDataBucketName),
 				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_dataset.0.dataset_type", "OBJECT_STORAGE"),
 				resource.TestCheckResourceAttrSet(resourceName, "fine_tune_details.0.training_dataset.0.namespace"),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_dataset.0.object", FineTuneDataObjectName),
+				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_dataset.0.object", "object.jsonl"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttrSet(resourceName, "type"),
 				resource.TestCheckResourceAttr(resourceName, "vendor", "vendor"),
-				resource.TestCheckResourceAttr(resourceName, "version", Version1),
+				resource.TestCheckResourceAttr(resourceName, "version", generativeAiVersion),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -335,36 +253,32 @@ func TestGenerativeAiModelResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + GenerativeAiModelResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_model", "test_model", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(GenerativeAiModelTfewRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(GenerativeAiModelRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "base_model_id"),
-				// resource.TestCheckResourceAttrSet(resourceName, "capabilities"), - won't have it in state file
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", Name1),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "fine_tune_details.0.dedicated_ai_cluster_id"),
 				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.early_stopping_patience", "10"),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.early_stopping_threshold", "1"),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.learning_rate", "1"),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.log_model_metrics_interval_in_steps", "10"),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.total_training_epochs", "10"),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.training_batch_size", "10"),
+				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.early_stopping_patience", "2"),
+				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.early_stopping_threshold", "0.005"),
+				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.learning_rate", "0.001"),
+				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.log_model_metrics_interval_in_steps", "100"),
+				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.total_training_epochs", "2"),
+				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.training_batch_size", "32"),
 				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.training_config_type", "TFEW_TRAINING_CONFIG"),
 				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_dataset.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_dataset.0.bucket", FineTuneDataBucketName),
 				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_dataset.0.dataset_type", "OBJECT_STORAGE"),
 				resource.TestCheckResourceAttrSet(resourceName, "fine_tune_details.0.training_dataset.0.namespace"),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_dataset.0.object", FineTuneDataObjectName),
+				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_dataset.0.object", "object.jsonl"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttrSet(resourceName, "type"),
 				resource.TestCheckResourceAttr(resourceName, "vendor", "vendor"),
-				resource.TestCheckResourceAttr(resourceName, "version", Version1),
+				resource.TestCheckResourceAttr(resourceName, "version", generativeAiVersion),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -379,34 +293,30 @@ func TestGenerativeAiModelResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + GenerativeAiModelResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_model", "test_model", acctest.Optional, acctest.Update, GenerativeAiModelTfewRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_model", "test_model", acctest.Optional, acctest.Update, GenerativeAiModelRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "base_model_id"),
-				//resource.TestCheckResourceAttrSet(resourceName, "capabilities"), - won't have it in state file
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", Name2),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "fine_tune_details.0.dedicated_ai_cluster_id"),
 				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.early_stopping_patience", "10"),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.early_stopping_threshold", "1"),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.learning_rate", "1"),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.log_model_metrics_interval_in_steps", "10"),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.total_training_epochs", "10"),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.training_batch_size", "10"),
+				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.early_stopping_patience", "2"),
+				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.early_stopping_threshold", "0.005"),
+				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.learning_rate", "0.001"),
+				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.log_model_metrics_interval_in_steps", "100"),
+				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.total_training_epochs", "2"),
+				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.training_batch_size", "32"),
 				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_config.0.training_config_type", "TFEW_TRAINING_CONFIG"),
 				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_dataset.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_dataset.0.bucket", FineTuneDataBucketName),
 				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_dataset.0.dataset_type", "OBJECT_STORAGE"),
 				resource.TestCheckResourceAttrSet(resourceName, "fine_tune_details.0.training_dataset.0.namespace"),
-				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_dataset.0.object", FineTuneDataObjectName),
+				resource.TestCheckResourceAttr(resourceName, "fine_tune_details.0.training_dataset.0.object", "object.jsonl"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttrSet(resourceName, "type"),
-				resource.TestCheckResourceAttrSet(resourceName, "vendor"),
-				resource.TestCheckResourceAttr(resourceName, "version", Version2),
+				resource.TestCheckResourceAttr(resourceName, "vendor", "vendor"),
+				resource.TestCheckResourceAttr(resourceName, "version", generativeAiVersion2),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -422,11 +332,11 @@ func TestGenerativeAiModelResource_basic(t *testing.T) {
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_generative_ai_models", "test_models", acctest.Optional, acctest.Update, GenerativeAiModelDataSourceRepresentation) +
 				compartmentIdVariableStr + GenerativeAiModelResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_model", "test_model", acctest.Optional, acctest.Update, GenerativeAiModelTfewRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_model", "test_model", acctest.Optional, acctest.Update, GenerativeAiModelRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "capability.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "display_name", Name2),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttr(datasourceName, "vendor", "vendor"),
@@ -442,36 +352,6 @@ func TestGenerativeAiModelResource_basic(t *testing.T) {
 				compartmentIdVariableStr + GenerativeAiModelResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "model_id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "type"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "version", Version2),
-				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", Name2),
-				resource.TestCheckResourceAttr(singularDatasourceName, "fine_tune_details.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "fine_tune_details.0.training_config.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "fine_tune_details.0.training_config.0.early_stopping_patience", "10"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "fine_tune_details.0.training_config.0.early_stopping_threshold", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "fine_tune_details.0.training_config.0.learning_rate", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "fine_tune_details.0.training_config.0.log_model_metrics_interval_in_steps", "10"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "fine_tune_details.0.training_config.0.total_training_epochs", "10"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "fine_tune_details.0.training_config.0.training_batch_size", "10"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "fine_tune_details.0.training_config.0.training_config_type", "TFEW_TRAINING_CONFIG"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "fine_tune_details.0.training_dataset.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "fine_tune_details.0.training_dataset.0.bucket", FineTuneDataBucketName),
-				resource.TestCheckResourceAttr(singularDatasourceName, "fine_tune_details.0.training_dataset.0.dataset_type", "OBJECT_STORAGE"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "fine_tune_details.0.training_dataset.0.namespace"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "fine_tune_details.0.training_dataset.0.object", FineTuneDataObjectName),
-				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "model_metrics.#", "1"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "type"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "vendor"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "version", Version2),
 			),
 		},
 		// verify resource import
@@ -481,17 +361,26 @@ func TestGenerativeAiModelResource_basic(t *testing.T) {
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
 				"base_model_id",
+				"capabilities",
+				"compartment_id",
+				"defined_tags",
 				"description",
+				"display_name",
 				"fine_tune_details",
 				"freeform_tags",
+				"id",
 				"is_long_term_supported",
 				"lifecycle_details",
 				"model_metrics",
 				"previous_state",
+				"state",
 				"system_tags",
 				"time_created",
+				"time_deprecated",
 				"time_updated",
+				"type",
 				"vendor",
+				"version",
 			},
 			ResourceName: resourceName,
 		},
@@ -602,7 +491,7 @@ func getGenerativeAiModelIds(compartment string) ([]string, error) {
 }
 
 func GenerativeAiModelSweepWaitCondition(response common.OCIOperationResponse) bool {
-	// Only stop if the resource is ACTIVE beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if modelResponse, ok := response.Response.(oci_generative_ai.GetModelResponse); ok {
 		return modelResponse.LifecycleState != oci_generative_ai.ModelLifecycleStateDeleted
 	}
