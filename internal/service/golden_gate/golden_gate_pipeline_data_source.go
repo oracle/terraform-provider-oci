@@ -8,6 +8,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_golden_gate "github.com/oracle/oci-go-sdk/v65/goldengate"
 
@@ -21,15 +22,15 @@ func GoldenGatePipelineDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(GoldenGatePipelineResource(), fieldMap, readSingularGoldenGatePipeline)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(GoldenGatePipelineResource(), fieldMap, readSingularGoldenGatePipelineWithContext)
 }
 
-func readSingularGoldenGatePipeline(d *schema.ResourceData, m interface{}) error {
+func readSingularGoldenGatePipelineWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GoldenGatePipelineDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type GoldenGatePipelineDataSourceCrud struct {
@@ -42,7 +43,7 @@ func (s *GoldenGatePipelineDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GoldenGatePipelineDataSourceCrud) Get() error {
+func (s *GoldenGatePipelineDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_golden_gate.GetPipelineRequest{}
 
 	if pipelineId, ok := s.D.GetOkExists("pipeline_id"); ok {
@@ -52,7 +53,7 @@ func (s *GoldenGatePipelineDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "golden_gate")
 
-	response, err := s.Client.GetPipeline(context.Background(), request)
+	response, err := s.Client.GetPipeline(ctx, request)
 	if err != nil {
 		return err
 	}

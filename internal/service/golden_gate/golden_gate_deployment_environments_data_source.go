@@ -6,6 +6,7 @@ package golden_gate
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_golden_gate "github.com/oracle/oci-go-sdk/v65/goldengate"
 
@@ -15,7 +16,7 @@ import (
 
 func GoldenGateDeploymentEnvironmentsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readGoldenGateDeploymentEnvironments,
+		ReadContext: readGoldenGateDeploymentEnvironmentsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -92,12 +93,12 @@ func GoldenGateDeploymentEnvironmentsDataSource() *schema.Resource {
 	}
 }
 
-func readGoldenGateDeploymentEnvironments(d *schema.ResourceData, m interface{}) error {
+func readGoldenGateDeploymentEnvironmentsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GoldenGateDeploymentEnvironmentsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type GoldenGateDeploymentEnvironmentsDataSourceCrud struct {
@@ -110,7 +111,7 @@ func (s *GoldenGateDeploymentEnvironmentsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GoldenGateDeploymentEnvironmentsDataSourceCrud) Get() error {
+func (s *GoldenGateDeploymentEnvironmentsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_golden_gate.ListDeploymentEnvironmentsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -120,7 +121,7 @@ func (s *GoldenGateDeploymentEnvironmentsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "golden_gate")
 
-	response, err := s.Client.ListDeploymentEnvironments(context.Background(), request)
+	response, err := s.Client.ListDeploymentEnvironments(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -129,7 +130,7 @@ func (s *GoldenGateDeploymentEnvironmentsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDeploymentEnvironments(context.Background(), request)
+		listResponse, err := s.Client.ListDeploymentEnvironments(ctx, request)
 		if err != nil {
 			return err
 		}
