@@ -7,6 +7,7 @@ import (
 	"context"
 	"strconv"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_golden_gate "github.com/oracle/oci-go-sdk/v65/goldengate"
 
@@ -24,15 +25,15 @@ func GoldenGateDeploymentCertificateDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(GoldenGateDeploymentCertificateResource(), fieldMap, readSingularGoldenGateDeploymentCertificate)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(GoldenGateDeploymentCertificateResource(), fieldMap, readSingularGoldenGateDeploymentCertificateWithContext)
 }
 
-func readSingularGoldenGateDeploymentCertificate(d *schema.ResourceData, m interface{}) error {
+func readSingularGoldenGateDeploymentCertificateWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GoldenGateDeploymentCertificateDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type GoldenGateDeploymentCertificateDataSourceCrud struct {
@@ -45,7 +46,7 @@ func (s *GoldenGateDeploymentCertificateDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GoldenGateDeploymentCertificateDataSourceCrud) Get() error {
+func (s *GoldenGateDeploymentCertificateDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_golden_gate.GetCertificateRequest{}
 
 	if certificateKey, ok := s.D.GetOkExists("certificate_key"); ok {
@@ -60,7 +61,7 @@ func (s *GoldenGateDeploymentCertificateDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "golden_gate")
 
-	response, err := s.Client.GetCertificate(context.Background(), request)
+	response, err := s.Client.GetCertificate(ctx, request)
 	if err != nil {
 		return err
 	}

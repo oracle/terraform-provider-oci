@@ -6,6 +6,7 @@ package golden_gate
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_golden_gate "github.com/oracle/oci-go-sdk/v65/goldengate"
 
@@ -15,7 +16,7 @@ import (
 
 func GoldenGateDeploymentVersionsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readGoldenGateDeploymentVersions,
+		ReadContext: readGoldenGateDeploymentVersionsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -84,12 +85,12 @@ func GoldenGateDeploymentVersionsDataSource() *schema.Resource {
 	}
 }
 
-func readGoldenGateDeploymentVersions(d *schema.ResourceData, m interface{}) error {
+func readGoldenGateDeploymentVersionsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GoldenGateDeploymentVersionsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type GoldenGateDeploymentVersionsDataSourceCrud struct {
@@ -102,7 +103,7 @@ func (s *GoldenGateDeploymentVersionsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GoldenGateDeploymentVersionsDataSourceCrud) Get() error {
+func (s *GoldenGateDeploymentVersionsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_golden_gate.ListDeploymentVersionsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -121,7 +122,7 @@ func (s *GoldenGateDeploymentVersionsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "golden_gate")
 
-	response, err := s.Client.ListDeploymentVersions(context.Background(), request)
+	response, err := s.Client.ListDeploymentVersions(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -130,7 +131,7 @@ func (s *GoldenGateDeploymentVersionsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDeploymentVersions(context.Background(), request)
+		listResponse, err := s.Client.ListDeploymentVersions(ctx, request)
 		if err != nil {
 			return err
 		}
