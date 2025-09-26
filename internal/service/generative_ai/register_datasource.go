@@ -12,6 +12,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_generative_ai_endpoints", GenerativeAiEndpointsDataSource())
 	tfresource.RegisterDatasource("oci_generative_ai_generative_ai_private_endpoint", GenerativeAiGenerativeAiPrivateEndpointDataSource())
 	tfresource.RegisterDatasource("oci_generative_ai_generative_ai_private_endpoints", GenerativeAiGenerativeAiPrivateEndpointsDataSource())
+	tfresource.RegisterDatasource("oci_generative_ai_imported_model", GenerativeAiImportedModelDataSource())
+	tfresource.RegisterDatasource("oci_generative_ai_imported_models", GenerativeAiImportedModelsDataSource())
 	tfresource.RegisterDatasource("oci_generative_ai_model", GenerativeAiModelDataSource())
 	tfresource.RegisterDatasource("oci_generative_ai_models", GenerativeAiModelsDataSource())
 }

@@ -10,7 +10,7 @@ variable "hosting_cluster_description" {
 }
 
 variable "hosting_cluster_shape" {
-  default = "SMALL_COHERE"
+  default = "LARGE_COHERE_V3"
 }
 
 variable "hosting_cluster_unit_count" {
@@ -66,7 +66,7 @@ variable "test_model_vendor" {
 }
 
 variable "test_model_version" {
-  default = "1.1"
+  default = "1.3"
 }
 
 variable "test_freeform_tags" {
