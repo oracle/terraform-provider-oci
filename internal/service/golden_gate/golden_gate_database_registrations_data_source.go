@@ -6,6 +6,8 @@ package golden_gate
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -15,7 +17,7 @@ import (
 
 func GoldenGateDatabaseRegistrationsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readGoldenGateDatabaseRegistrations,
+		ReadContext: readGoldenGateDatabaseRegistrationsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -48,12 +50,12 @@ func GoldenGateDatabaseRegistrationsDataSource() *schema.Resource {
 	}
 }
 
-func readGoldenGateDatabaseRegistrations(d *schema.ResourceData, m interface{}) error {
+func readGoldenGateDatabaseRegistrationsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GoldenGateDatabaseRegistrationsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type GoldenGateDatabaseRegistrationsDataSourceCrud struct {
@@ -66,7 +68,7 @@ func (s *GoldenGateDatabaseRegistrationsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GoldenGateDatabaseRegistrationsDataSourceCrud) Get() error {
+func (s *GoldenGateDatabaseRegistrationsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_golden_gate.ListDatabaseRegistrationsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -85,7 +87,7 @@ func (s *GoldenGateDatabaseRegistrationsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "golden_gate")
 
-	response, err := s.Client.ListDatabaseRegistrations(context.Background(), request)
+	response, err := s.Client.ListDatabaseRegistrations(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -94,7 +96,7 @@ func (s *GoldenGateDatabaseRegistrationsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDatabaseRegistrations(context.Background(), request)
+		listResponse, err := s.Client.ListDatabaseRegistrations(ctx, request)
 		if err != nil {
 			return err
 		}
