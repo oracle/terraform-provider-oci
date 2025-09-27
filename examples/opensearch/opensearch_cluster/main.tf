@@ -175,3 +175,8 @@ data "oci_opensearch_opensearch_clusters" "test_opensearch_clusters" {
   #  id           = var.opensearch_cluster_id
   #  state        = var.opensearch_cluster_state
 }
+
+data "oci_certificates_management_certificates" "existing" {
+  compartment_id = var.compartment_id
+  name   = "Tersi-Certificate-DND"
+}
