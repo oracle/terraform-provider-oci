@@ -120,6 +120,43 @@ func OpensearchOpensearchClusterResource() *schema.Resource {
 				ForceNew: true,
 			},
 
+			"certificate_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"cluster_certificate_mode": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"dashboard_certificate_mode": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"open_search_api_certificate_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"open_search_dashboard_certificate_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
+
 			// Optional
 			"data_node_host_bare_metal_shape": {
 				Type:     schema.TypeString,
@@ -199,6 +236,12 @@ func OpensearchOpensearchClusterResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"nsg_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"opendashboard_node_host_shape": {
 				Type:     schema.TypeString,
@@ -299,6 +342,13 @@ func OpensearchOpensearchClusterResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
+			},
+			"security_attributes": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Default:  nil,
+				Elem:     schema.TypeString,
 			},
 			"security_master_user_name": {
 				Type:     schema.TypeString,
@@ -573,6 +623,17 @@ func (s *OpensearchOpensearchClusterResourceCrud) DeletedTarget() []string {
 func (s *OpensearchOpensearchClusterResourceCrud) Create() error {
 	request := oci_opensearch.CreateOpensearchClusterRequest{}
 
+	if certificateConfig, ok := s.D.GetOkExists("certificate_config"); ok {
+		if tmpList := certificateConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "certificate_config", 0)
+			tmp, err := s.mapToCertificateConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.CertificateConfig = &tmp
+		}
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -682,6 +743,11 @@ func (s *OpensearchOpensearchClusterResourceCrud) Create() error {
 		request.MasterNodeHostType = oci_opensearch.MasterNodeHostTypeEnum(masterNodeHostType.(string))
 	}
 
+	if nsgId, ok := s.D.GetOkExists("nsg_id"); ok {
+		tmp := nsgId.(string)
+		request.NsgId = &tmp
+	}
+
 	if opendashboardNodeCount, ok := s.D.GetOkExists("opendashboard_node_count"); ok {
 		tmp := opendashboardNodeCount.(int)
 		request.OpendashboardNodeCount = &tmp
@@ -753,6 +819,10 @@ func (s *OpensearchOpensearchClusterResourceCrud) Create() error {
 	if searchNodeStorageGB, ok := s.D.GetOkExists("search_node_storage_gb"); ok {
 		tmp := searchNodeStorageGB.(int)
 		request.SearchNodeStorageGB = &tmp
+	}
+
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 	}
 
 	if securityMasterUserName, ok := s.D.GetOkExists("security_master_user_name"); ok {
@@ -1038,6 +1108,19 @@ func (s *OpensearchOpensearchClusterResourceCrud) Update() error {
 
 	request := oci_opensearch.UpdateOpensearchClusterRequest{}
 
+	if certificateConfig, ok := s.D.GetOkExists("certificate_config"); ok {
+		if tmpList := certificateConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "certificate_config", 0)
+			tmp, err := s.mapToCertificateConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.CertificateConfig = &tmp
+		}
+	} else {
+		request.CertificateConfig = nil
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -1091,6 +1174,12 @@ func (s *OpensearchOpensearchClusterResourceCrud) Update() error {
 		if len(tmp) != 0 || s.D.HasChange("reverse_connection_endpoint_customer_ips") {
 			request.ReverseConnectionEndpointCustomerIps = tmp
 		}
+	}
+
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	} else {
+		request.SecurityAttributes = nil
 	}
 
 	if securityMasterUserName, ok := s.D.GetOkExists("security_master_user_name"); ok {
@@ -1156,6 +1245,12 @@ func (s *OpensearchOpensearchClusterResourceCrud) Delete() error {
 
 func (s *OpensearchOpensearchClusterResourceCrud) SetData() error {
 	s.D.Set("availability_domains", s.Res.AvailabilityDomains)
+
+	if s.Res.CertificateConfig != nil {
+		s.D.Set("certificate_config", []interface{}{CertificateConfigToMap(s.Res.CertificateConfig)})
+	} else {
+		s.D.Set("certificate_config", nil)
+	}
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
@@ -1235,6 +1330,10 @@ func (s *OpensearchOpensearchClusterResourceCrud) SetData() error {
 
 	s.D.Set("master_node_host_type", s.Res.MasterNodeHostType)
 
+	if s.Res.NsgId != nil {
+		s.D.Set("nsg_id", *s.Res.NsgId)
+	}
+
 	if s.Res.OpendashboardFqdn != nil {
 		s.D.Set("opendashboard_fqdn", *s.Res.OpendashboardFqdn)
 	}
@@ -1301,6 +1400,10 @@ func (s *OpensearchOpensearchClusterResourceCrud) SetData() error {
 
 	if s.Res.SearchNodeStorageGB != nil {
 		s.D.Set("search_node_storage_gb", *s.Res.SearchNodeStorageGB)
+	}
+
+	if s.Res.SecurityAttributes != nil {
+		s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
 	}
 
 	if s.Res.SecurityMasterUserName != nil {
@@ -1423,6 +1526,11 @@ func (s *OpensearchOpensearchClusterResourceCrud) UpgradeOpenSearchCluster() err
 		tmp := originalClusterDisplayName.(string)
 		request.OriginalClusterDisplayName = &tmp
 	}
+
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
 	if systemTags, ok := s.D.GetOkExists("system_tags"); ok {
 		convertedSystemTags, err := tfresource.MapToSystemTags(systemTags.(map[string]interface{}))
 		if err != nil {
@@ -1596,6 +1704,48 @@ func (s *OpensearchOpensearchClusterResourceCrud) mapToCreateMaintenanceDetails(
 	return result, nil
 }
 
+func (s *OpensearchOpensearchClusterResourceCrud) mapToCertificateConfig(fieldKeyFormat string) (oci_opensearch.CertificateConfig, error) {
+	result := oci_opensearch.CertificateConfig{}
+
+	if clusterCertificateMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cluster_certificate_mode")); ok {
+		result.ClusterCertificateMode = oci_opensearch.CertificateModeEnum(clusterCertificateMode.(string))
+	}
+
+	if dashboardCertificateMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dashboard_certificate_mode")); ok {
+		result.DashboardCertificateMode = oci_opensearch.CertificateModeEnum(dashboardCertificateMode.(string))
+	}
+
+	if openSearchApiCertificateId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "open_search_api_certificate_id")); ok {
+		tmp := openSearchApiCertificateId.(string)
+		result.OpenSearchApiCertificateId = &tmp
+	}
+
+	if openSearchDashboardCertificateId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "open_search_dashboard_certificate_id")); ok {
+		tmp := openSearchDashboardCertificateId.(string)
+		result.OpenSearchDashboardCertificateId = &tmp
+	}
+
+	return result, nil
+}
+
+func CertificateConfigToMap(obj *oci_opensearch.CertificateConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["cluster_certificate_mode"] = string(obj.ClusterCertificateMode)
+
+	result["dashboard_certificate_mode"] = string(obj.DashboardCertificateMode)
+
+	if obj.OpenSearchApiCertificateId != nil {
+		result["open_search_api_certificate_id"] = string(*obj.OpenSearchApiCertificateId)
+	}
+
+	if obj.OpenSearchDashboardCertificateId != nil {
+		result["open_search_dashboard_certificate_id"] = string(*obj.OpenSearchDashboardCertificateId)
+	}
+
+	return result
+}
+
 func (s *OpensearchOpensearchClusterResourceCrud) mapToUpdateMaintenanceDetails(fieldKeyFormat string) (oci_opensearch.UpdateMaintenanceDetails, error) {
 	result := oci_opensearch.UpdateMaintenanceDetails{}
 
@@ -1662,6 +1812,12 @@ func OpensearchClusterSummaryToMap(obj oci_opensearch.OpensearchClusterSummary) 
 
 	if obj.OutboundClusterConfig != nil {
 		result["outbound_cluster_config"] = []interface{}{OutboundClusterConfigToMap(obj.OutboundClusterConfig)}
+	}
+
+	if obj.SecurityAttributes != nil {
+		result["security_attributes"] = tfresource.SecurityAttributesToMap(obj.SecurityAttributes)
+	} else {
+		result["security_attributes"] = nil
 	}
 
 	result["security_mode"] = string(obj.SecurityMode)

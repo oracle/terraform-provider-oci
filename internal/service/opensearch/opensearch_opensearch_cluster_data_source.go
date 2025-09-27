@@ -69,6 +69,12 @@ func (s *OpensearchOpensearchClusterDataSourceCrud) SetData() error {
 
 	s.D.Set("availability_domains", s.Res.AvailabilityDomains)
 
+	if s.Res.CertificateConfig != nil {
+		s.D.Set("certificate_config", []interface{}{CertificateConfigToMap(s.Res.CertificateConfig)})
+	} else {
+		s.D.Set("certificate_config", nil)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -147,6 +153,10 @@ func (s *OpensearchOpensearchClusterDataSourceCrud) SetData() error {
 
 	s.D.Set("master_node_host_type", s.Res.MasterNodeHostType)
 
+	if s.Res.NsgId != nil {
+		s.D.Set("nsg_id", *s.Res.NsgId)
+	}
+
 	if s.Res.OpendashboardFqdn != nil {
 		s.D.Set("opendashboard_fqdn", *s.Res.OpendashboardFqdn)
 	}
@@ -213,6 +223,12 @@ func (s *OpensearchOpensearchClusterDataSourceCrud) SetData() error {
 
 	if s.Res.SearchNodeStorageGB != nil {
 		s.D.Set("search_node_storage_gb", *s.Res.SearchNodeStorageGB)
+	}
+
+	if s.Res.SecurityAttributes != nil {
+		s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
+	} else {
+		s.D.Set("security_attributes", nil)
 	}
 
 	if s.Res.SecurityMasterUserName != nil {

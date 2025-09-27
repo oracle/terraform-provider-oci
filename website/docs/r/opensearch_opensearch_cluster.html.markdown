@@ -52,6 +52,14 @@ resource "oci_opensearch_opensearch_cluster" "test_opensearch_cluster" {
 	vcn_id = oci_core_vcn.test_vcn.id
 
 	#Optional
+	certificate_config {
+
+		#Optional
+		cluster_certificate_mode = var.opensearch_cluster_certificate_config_cluster_certificate_mode
+		dashboard_certificate_mode = var.opensearch_cluster_certificate_config_dashboard_certificate_mode
+		open_search_api_certificate_id = oci_apigateway_certificate.test_certificate.id
+		open_search_dashboard_certificate_id = oci_apigateway_certificate.test_certificate.id
+	}
 	data_node_host_bare_metal_shape = var.opensearch_cluster_data_node_host_bare_metal_shape
 	data_node_host_shape = var.opensearch_cluster_data_node_host_shape
 	defined_tags = {"foo-namespace.bar-key"= "value"}
@@ -64,6 +72,7 @@ resource "oci_opensearch_opensearch_cluster" "test_opensearch_cluster" {
 	}
 	master_node_host_bare_metal_shape = var.opensearch_cluster_master_node_host_bare_metal_shape
 	master_node_host_shape = var.opensearch_cluster_master_node_host_shape
+	nsg_id = oci_opensearch_nsg.test_nsg.id
 	opendashboard_node_host_shape = var.opensearch_cluster_opendashboard_node_host_shape
 	outbound_cluster_config {
 		#Required
@@ -86,6 +95,7 @@ resource "oci_opensearch_opensearch_cluster" "test_opensearch_cluster" {
 	search_node_host_shape = var.opensearch_cluster_search_node_host_shape
 	search_node_host_type = var.opensearch_cluster_search_node_host_type
 	search_node_storage_gb = var.opensearch_cluster_search_node_storage_gb
+	security_attributes = var.opensearch_cluster_security_attributes
 	security_master_user_name = oci_identity_user.test_user.name
 	security_master_user_password_hash = var.opensearch_cluster_security_master_user_password_hash
 	security_mode = var.opensearch_cluster_security_mode
@@ -97,6 +107,11 @@ resource "oci_opensearch_opensearch_cluster" "test_opensearch_cluster" {
 
 The following arguments are supported:
 
+* `certificate_config` - (Optional) (Updatable) Custom certificate config for customer provided certs.
+	* `cluster_certificate_mode` - (Optional) (Updatable) Specifies whether the certificate to be used in cluster is managed by OpenSearch or Oracle Cloud Infrastructure Certificates service.
+	* `dashboard_certificate_mode` - (Optional) (Updatable) Specifies whether the certificate to be used in dashboard is managed by OpenSearch or Oracle Cloud Infrastructure Certificates service.
+	* `open_search_api_certificate_id` - (Optional) (Updatable) certificate to be used for OpenSearch cluster api communication
+	* `open_search_dashboard_certificate_id` - (Optional) (Updatable) certificate to be used for OpenSearch dashboard api communication
 * `compartment_id` - (Required) The OCID of the compartment to create the cluster in.
 * `data_node_count` - (Required) (Updatable) The number of data nodes to configure for the cluster.
 * `data_node_host_bare_metal_shape` - (Optional) The bare metal shape for the cluster's data nodes.
@@ -117,6 +132,7 @@ The following arguments are supported:
 * `master_node_host_ocpu_count` - (Required) (Updatable) The number of OCPUs to configure for the cluser's master nodes.
 * `master_node_host_shape` - (Optional) (Updatable) The node shape for the cluster's master nodes.
 * `master_node_host_type` - (Required) The instance type for the cluster's master nodes.
+* `nsg_id` - (Optional) The OCID of the NSG where the private endpoint vnic will be attached.
 * `opendashboard_node_count` - (Required) (Updatable) The number of OpenSearch Dashboard nodes to configure for the cluster.
 * `opendashboard_node_host_memory_gb` - (Required) (Updatable) The amount of memory in GB, to configure for the cluster's OpenSearch Dashboard nodes.
 * `opendashboard_node_host_ocpu_count` - (Required) (Updatable) The number of OCPUs to configure for the cluster's OpenSearch Dashboard nodes.
@@ -136,6 +152,7 @@ The following arguments are supported:
 * `search_node_host_shape` - (Optional) (Updatable) The node shape for the cluster's search nodes.
 * `search_node_host_type` - (Optional) The instance type for the cluster's search nodes.
 * `search_node_storage_gb` - (Optional) (Updatable) The amount of storage in GB, to configure per node for the cluster's search nodes.
+* `security_attributes` - (Optional) (Updatable) Security attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}` 
 * `security_master_user_name` - (Optional) (Updatable) The name of the master user that are used to manage security config
 * `security_master_user_password_hash` - (Optional) (Updatable) The password hash of the master user that are used to manage security config
 * `security_mode` - (Optional) (Updatable) The security mode of the cluster.
@@ -157,6 +174,11 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `availability_domains` - The availability domains to distribute the cluser nodes across.
+* `certificate_config` - Custom certificate config for customer provided certs.
+	* `cluster_certificate_mode` - Specifies whether the certificate to be used in cluster is managed by OpenSearch or Oracle Cloud Infrastructure Certificates service.
+	* `dashboard_certificate_mode` - Specifies whether the certificate to be used in dashboard is managed by OpenSearch or Oracle Cloud Infrastructure Certificates service.
+	* `open_search_api_certificate_id` - certificate to be used for OpenSearch cluster api communication
+	* `open_search_dashboard_certificate_id` - certificate to be used for OpenSearch dashboard api communication
 * `compartment_id` - The OCID of the compartment where the cluster is located.
 * `data_node_count` - The number of data nodes configured for the cluster.
 * `data_node_host_bare_metal_shape` - The bare metal shape for the cluster's data nodes.
@@ -183,6 +205,7 @@ The following attributes are exported:
 * `master_node_host_ocpu_count` - The number of OCPUs configured for cluster's master nodes.
 * `master_node_host_shape` - The node shape for the cluster's master nodes.
 * `master_node_host_type` - The instance type for the cluster's master nodes.
+* `nsg_id` - The OCID of the NSG where the private endpoint vnic will be attached.
 * `opendashboard_fqdn` - The fully qualified domain name (FQDN) for the cluster's OpenSearch Dashboard API endpoint.
 * `opendashboard_node_count` - The number of OpenSearch Dashboard nodes configured for the cluster.
 * `opendashboard_node_host_memory_gb` - The amount of memory in GB, for the cluster's OpenSearch Dashboard nodes.
@@ -209,6 +232,7 @@ The following attributes are exported:
 * `search_node_host_shape` - The node shape for the cluster's search nodes.
 * `search_node_host_type` - The instance type for the cluster's search nodes.
 * `search_node_storage_gb` - The amount of storage in GB, to configure per node for the cluster's search nodes.
+* `security_attributes` - Security attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}` 
 * `security_master_user_name` - The name of the master user that are used to manage security config
 * `security_master_user_password_hash` - The password hash of the master user that are used to manage security config
 * `security_saml_config` - SAML policy is optionally used for Opensearch cluster to config SAML authentication
