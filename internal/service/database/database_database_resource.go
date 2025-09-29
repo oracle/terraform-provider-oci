@@ -150,6 +150,11 @@ func DatabaseDatabaseResource() *schema.Resource {
 													Optional: true,
 													Computed: true,
 												},
+												"is_zero_data_loss_enabled": {
+													Type:     schema.TypeBool,
+													Computed: true,
+													Optional: true,
+												},
 												"id": {
 													Type:     schema.TypeString,
 													Optional: true,
@@ -633,7 +638,11 @@ func DatabaseDatabaseResource() *schema.Resource {
 									// Required
 
 									// Optional
-
+									"is_zero_data_loss_enabled": {
+										Type:     schema.TypeBool,
+										Computed: true,
+										Optional: true,
+									},
 									// Computed
 									"backup_retention_policy_on_terminate": {
 										Type:     schema.TypeString,
@@ -1190,6 +1199,11 @@ func (s *DatabaseDatabaseResourceCrud) mapToBackupDestinationDetails(fieldKeyFor
 		result.IsRetentionLockEnabled = &tmp
 	}
 
+	if IsZeroDataLossEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_zero_data_loss_enabled")); ok {
+		tmp := IsZeroDataLossEnabled.(bool)
+		result.IsZeroDataLossEnabled = &tmp
+	}
+
 	if remoteRegion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "remote_region")); ok {
 		tmp := remoteRegion.(string)
 		result.RemoteRegion = &tmp
@@ -1220,6 +1234,11 @@ func (s *DatabaseDatabaseResourceCrud) mapToUpdateBackupDestinationDetails(field
 		"type":           func(val string) { result.Type = oci_database.BackupDestinationDetailsTypeEnum(val) },
 		"vpc_password":   func(val string) { tmp := val; result.VpcPassword = &tmp },
 		"vpc_user":       func(val string) { tmp := val; result.VpcUser = &tmp },
+	}
+
+	if isZeroDataLossEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_zero_data_loss_enabled")); ok {
+		tmp := isZeroDataLossEnabled.(bool)
+		result.IsZeroDataLossEnabled = &tmp
 	}
 
 	for fieldName, setter := range fields {
@@ -1312,6 +1331,10 @@ func (s *DatabaseDatabaseResourceCrud) BackupDestinationDetailsToMap(obj oci_dat
 		result["is_retention_lock_enabled"] = bool(*obj.IsRetentionLockEnabled)
 	}
 
+	if obj.IsZeroDataLossEnabled != nil {
+		result["is_zero_data_loss_enabled"] = bool(*obj.IsZeroDataLossEnabled)
+	}
+
 	if obj.RemoteRegion != nil {
 		result["remote_region"] = string(*obj.RemoteRegion)
 	}
@@ -1352,6 +1375,10 @@ func BackupDestinationDetailsToMap(obj oci_database.BackupDestinationDetails) ma
 
 	if obj.IsRetentionLockEnabled != nil {
 		result["is_retention_lock_enabled"] = bool(*obj.IsRetentionLockEnabled)
+	}
+
+	if obj.IsZeroDataLossEnabled != nil {
+		result["is_zero_data_loss_enabled"] = bool(*obj.IsZeroDataLossEnabled)
 	}
 
 	if obj.RemoteRegion != nil {
