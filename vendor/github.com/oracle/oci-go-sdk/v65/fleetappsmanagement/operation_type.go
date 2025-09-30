@@ -47,6 +47,10 @@ const (
 	OperationTypeDeleteRunbookVersion        OperationTypeEnum = "DELETE_RUNBOOK_VERSION"
 	OperationTypePublishRunbookVersion       OperationTypeEnum = "PUBLISH_RUNBOOK_VERSION"
 	OperationTypeMoveTask                    OperationTypeEnum = "MOVE_TASK"
+	OperationTypeExportRunbook               OperationTypeEnum = "EXPORT_RUNBOOK"
+	OperationTypeImportRunbook               OperationTypeEnum = "IMPORT_RUNBOOK"
+	OperationTypeExportRunbookVersion        OperationTypeEnum = "EXPORT_RUNBOOK_VERSION"
+	OperationTypeImportRunbookVersion        OperationTypeEnum = "IMPORT_RUNBOOK_VERSION"
 	OperationTypeUpdateTask                  OperationTypeEnum = "UPDATE_TASK"
 	OperationTypeDeleteTask                  OperationTypeEnum = "DELETE_TASK"
 	OperationTypeUpdateFamsOnboarding        OperationTypeEnum = "UPDATE_FAMS_ONBOARDING"
@@ -104,6 +108,10 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"DELETE_RUNBOOK_VERSION":        OperationTypeDeleteRunbookVersion,
 	"PUBLISH_RUNBOOK_VERSION":       OperationTypePublishRunbookVersion,
 	"MOVE_TASK":                     OperationTypeMoveTask,
+	"EXPORT_RUNBOOK":                OperationTypeExportRunbook,
+	"IMPORT_RUNBOOK":                OperationTypeImportRunbook,
+	"EXPORT_RUNBOOK_VERSION":        OperationTypeExportRunbookVersion,
+	"IMPORT_RUNBOOK_VERSION":        OperationTypeImportRunbookVersion,
 	"UPDATE_TASK":                   OperationTypeUpdateTask,
 	"DELETE_TASK":                   OperationTypeDeleteTask,
 	"UPDATE_FAMS_ONBOARDING":        OperationTypeUpdateFamsOnboarding,
@@ -161,6 +169,10 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"delete_runbook_version":        OperationTypeDeleteRunbookVersion,
 	"publish_runbook_version":       OperationTypePublishRunbookVersion,
 	"move_task":                     OperationTypeMoveTask,
+	"export_runbook":                OperationTypeExportRunbook,
+	"import_runbook":                OperationTypeImportRunbook,
+	"export_runbook_version":        OperationTypeExportRunbookVersion,
+	"import_runbook_version":        OperationTypeImportRunbookVersion,
 	"update_task":                   OperationTypeUpdateTask,
 	"delete_task":                   OperationTypeDeleteTask,
 	"update_fams_onboarding":        OperationTypeUpdateFamsOnboarding,
@@ -229,6 +241,10 @@ func GetOperationTypeEnumStringValues() []string {
 		"DELETE_RUNBOOK_VERSION",
 		"PUBLISH_RUNBOOK_VERSION",
 		"MOVE_TASK",
+		"EXPORT_RUNBOOK",
+		"IMPORT_RUNBOOK",
+		"EXPORT_RUNBOOK_VERSION",
+		"IMPORT_RUNBOOK_VERSION",
 		"UPDATE_TASK",
 		"DELETE_TASK",
 		"UPDATE_FAMS_ONBOARDING",

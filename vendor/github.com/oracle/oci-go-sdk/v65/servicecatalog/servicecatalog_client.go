@@ -4,7 +4,8 @@
 
 // Service Catalog API
 //
-// Manage solutions in Oracle Cloud Infrastructure Service Catalog.
+// Use the Service Catalog API to manage solutions in Oracle Cloud Infrastructure Service Catalog.
+// For more information, see Overview of Service Catalog (https://docs.oracle.com/iaas/Content/service-catalog/overview_of_service_catalog.htm).
 //
 
 package servicecatalog
@@ -92,9 +93,10 @@ func (client *ServiceCatalogClient) ConfigurationProvider() *common.Configuratio
 }
 
 // BulkReplaceServiceCatalogAssociations Replace all associations of a given service catalog in one bulk transaction.
+// A default retry strategy applies to this operation BulkReplaceServiceCatalogAssociations()
 func (client ServiceCatalogClient) BulkReplaceServiceCatalogAssociations(ctx context.Context, request BulkReplaceServiceCatalogAssociationsRequest) (response BulkReplaceServiceCatalogAssociationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -145,9 +147,10 @@ func (client ServiceCatalogClient) bulkReplaceServiceCatalogAssociations(ctx con
 }
 
 // ChangePrivateApplicationCompartment Moves the specified private application from one compartment to another.
+// A default retry strategy applies to this operation ChangePrivateApplicationCompartment()
 func (client ServiceCatalogClient) ChangePrivateApplicationCompartment(ctx context.Context, request ChangePrivateApplicationCompartmentRequest) (response ChangePrivateApplicationCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -198,9 +201,10 @@ func (client ServiceCatalogClient) changePrivateApplicationCompartment(ctx conte
 }
 
 // ChangeServiceCatalogCompartment Moves the specified service catalog from one compartment to another.
+// A default retry strategy applies to this operation ChangeServiceCatalogCompartment()
 func (client ServiceCatalogClient) ChangeServiceCatalogCompartment(ctx context.Context, request ChangeServiceCatalogCompartmentRequest) (response ChangeServiceCatalogCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -251,9 +255,10 @@ func (client ServiceCatalogClient) changeServiceCatalogCompartment(ctx context.C
 }
 
 // CreatePrivateApplication Creates a private application along with a single package to be hosted.
+// A default retry strategy applies to this operation CreatePrivateApplication()
 func (client ServiceCatalogClient) CreatePrivateApplication(ctx context.Context, request CreatePrivateApplicationRequest) (response CreatePrivateApplicationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -309,9 +314,10 @@ func (client ServiceCatalogClient) createPrivateApplication(ctx context.Context,
 }
 
 // CreateServiceCatalog Creates a brand new service catalog in a given compartment.
+// A default retry strategy applies to this operation CreateServiceCatalog()
 func (client ServiceCatalogClient) CreateServiceCatalog(ctx context.Context, request CreateServiceCatalogRequest) (response CreateServiceCatalogResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -367,9 +373,10 @@ func (client ServiceCatalogClient) createServiceCatalog(ctx context.Context, req
 }
 
 // CreateServiceCatalogAssociation Creates an association between service catalog and a resource.
+// A default retry strategy applies to this operation CreateServiceCatalogAssociation()
 func (client ServiceCatalogClient) CreateServiceCatalogAssociation(ctx context.Context, request CreateServiceCatalogAssociationRequest) (response CreateServiceCatalogAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -425,9 +432,10 @@ func (client ServiceCatalogClient) createServiceCatalogAssociation(ctx context.C
 }
 
 // DeletePrivateApplication Deletes an existing private application.
+// A default retry strategy applies to this operation DeletePrivateApplication()
 func (client ServiceCatalogClient) DeletePrivateApplication(ctx context.Context, request DeletePrivateApplicationRequest) (response DeletePrivateApplicationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -478,9 +486,10 @@ func (client ServiceCatalogClient) deletePrivateApplication(ctx context.Context,
 }
 
 // DeleteServiceCatalog Deletes the specified service catalog from the compartment.
+// A default retry strategy applies to this operation DeleteServiceCatalog()
 func (client ServiceCatalogClient) DeleteServiceCatalog(ctx context.Context, request DeleteServiceCatalogRequest) (response DeleteServiceCatalogResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -531,9 +540,10 @@ func (client ServiceCatalogClient) deleteServiceCatalog(ctx context.Context, req
 }
 
 // DeleteServiceCatalogAssociation Removes an association between service catalog and a resource.
+// A default retry strategy applies to this operation DeleteServiceCatalogAssociation()
 func (client ServiceCatalogClient) DeleteServiceCatalogAssociation(ctx context.Context, request DeleteServiceCatalogAssociationRequest) (response DeleteServiceCatalogAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -583,10 +593,65 @@ func (client ServiceCatalogClient) deleteServiceCatalogAssociation(ctx context.C
 	return response, err
 }
 
+// GetConfiguration Get the detail of whether the tenancy is in service catalog mode or not.
+// A default retry strategy applies to this operation GetConfiguration()
+func (client ServiceCatalogClient) GetConfiguration(ctx context.Context, request GetConfigurationRequest) (response GetConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetConfigurationResponse")
+	}
+	return
+}
+
+// getConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client ServiceCatalogClient) getConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/configuration", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-catalog/20210527/Configuration/GetConfiguration"
+		err = common.PostProcessServiceError(err, "ServiceCatalog", "GetConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetPrivateApplication Gets the details of the specified private application.
+// A default retry strategy applies to this operation GetPrivateApplication()
 func (client ServiceCatalogClient) GetPrivateApplication(ctx context.Context, request GetPrivateApplicationRequest) (response GetPrivateApplicationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -637,9 +702,10 @@ func (client ServiceCatalogClient) getPrivateApplication(ctx context.Context, re
 }
 
 // GetPrivateApplicationActionDownloadLogo Downloads the binary payload of the logo image of the private application.
+// A default retry strategy applies to this operation GetPrivateApplicationActionDownloadLogo()
 func (client ServiceCatalogClient) GetPrivateApplicationActionDownloadLogo(ctx context.Context, request GetPrivateApplicationActionDownloadLogoRequest) (response GetPrivateApplicationActionDownloadLogoResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -689,9 +755,10 @@ func (client ServiceCatalogClient) getPrivateApplicationActionDownloadLogo(ctx c
 }
 
 // GetPrivateApplicationPackage Gets the details of a specific package within a given private application.
+// A default retry strategy applies to this operation GetPrivateApplicationPackage()
 func (client ServiceCatalogClient) GetPrivateApplicationPackage(ctx context.Context, request GetPrivateApplicationPackageRequest) (response GetPrivateApplicationPackageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -742,9 +809,10 @@ func (client ServiceCatalogClient) getPrivateApplicationPackage(ctx context.Cont
 }
 
 // GetPrivateApplicationPackageActionDownloadConfig Downloads the configuration that was used to create the private application package.
+// A default retry strategy applies to this operation GetPrivateApplicationPackageActionDownloadConfig()
 func (client ServiceCatalogClient) GetPrivateApplicationPackageActionDownloadConfig(ctx context.Context, request GetPrivateApplicationPackageActionDownloadConfigRequest) (response GetPrivateApplicationPackageActionDownloadConfigResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -794,9 +862,10 @@ func (client ServiceCatalogClient) getPrivateApplicationPackageActionDownloadCon
 }
 
 // GetServiceCatalog Gets detailed information about the service catalog including name, compartmentId
+// A default retry strategy applies to this operation GetServiceCatalog()
 func (client ServiceCatalogClient) GetServiceCatalog(ctx context.Context, request GetServiceCatalogRequest) (response GetServiceCatalogResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -847,9 +916,10 @@ func (client ServiceCatalogClient) getServiceCatalog(ctx context.Context, reques
 }
 
 // GetServiceCatalogAssociation Gets detailed information about specific service catalog association.
+// A default retry strategy applies to this operation GetServiceCatalogAssociation()
 func (client ServiceCatalogClient) GetServiceCatalogAssociation(ctx context.Context, request GetServiceCatalogAssociationRequest) (response GetServiceCatalogAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -900,9 +970,10 @@ func (client ServiceCatalogClient) getServiceCatalogAssociation(ctx context.Cont
 }
 
 // GetWorkRequest Gets the status of the work request with the given ID.
+// A default retry strategy applies to this operation GetWorkRequest()
 func (client ServiceCatalogClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -952,12 +1023,68 @@ func (client ServiceCatalogClient) getWorkRequest(ctx context.Context, request c
 	return response, err
 }
 
+// ListAllApplications Lists all the available listings and private applications in a compartment.
+// A new API for catalog manager use when creating/updating a service catalog.
+// A default retry strategy applies to this operation ListAllApplications()
+func (client ServiceCatalogClient) ListAllApplications(ctx context.Context, request ListAllApplicationsRequest) (response ListAllApplicationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAllApplications, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAllApplicationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAllApplicationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAllApplicationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAllApplicationsResponse")
+	}
+	return
+}
+
+// listAllApplications implements the OCIOperation interface (enables retrying operations)
+func (client ServiceCatalogClient) listAllApplications(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/allApplications", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAllApplicationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-catalog/20210527/ApplicationSummary/ListAllApplications"
+		err = common.PostProcessServiceError(err, "ServiceCatalog", "ListAllApplications", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListApplications Lists all the applications in a service catalog or a tenancy.
 // If no parameter is specified, all catalogs from all compartments in
 // the tenancy will be scanned for any type of content.
+// A default retry strategy applies to this operation ListApplications()
 func (client ServiceCatalogClient) ListApplications(ctx context.Context, request ListApplicationsRequest) (response ListApplicationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1008,9 +1135,10 @@ func (client ServiceCatalogClient) listApplications(ctx context.Context, request
 }
 
 // ListPrivateApplicationPackages Lists the packages in the specified private application.
+// A default retry strategy applies to this operation ListPrivateApplicationPackages()
 func (client ServiceCatalogClient) ListPrivateApplicationPackages(ctx context.Context, request ListPrivateApplicationPackagesRequest) (response ListPrivateApplicationPackagesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1061,9 +1189,10 @@ func (client ServiceCatalogClient) listPrivateApplicationPackages(ctx context.Co
 }
 
 // ListPrivateApplications Lists all the private applications in a given compartment.
+// A default retry strategy applies to this operation ListPrivateApplications()
 func (client ServiceCatalogClient) ListPrivateApplications(ctx context.Context, request ListPrivateApplicationsRequest) (response ListPrivateApplicationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1114,9 +1243,10 @@ func (client ServiceCatalogClient) listPrivateApplications(ctx context.Context, 
 }
 
 // ListServiceCatalogAssociations Lists all the resource associations for a specific service catalog.
+// A default retry strategy applies to this operation ListServiceCatalogAssociations()
 func (client ServiceCatalogClient) ListServiceCatalogAssociations(ctx context.Context, request ListServiceCatalogAssociationsRequest) (response ListServiceCatalogAssociationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1167,9 +1297,10 @@ func (client ServiceCatalogClient) listServiceCatalogAssociations(ctx context.Co
 }
 
 // ListServiceCatalogs Lists all the service catalogs in the given compartment.
+// A default retry strategy applies to this operation ListServiceCatalogs()
 func (client ServiceCatalogClient) ListServiceCatalogs(ctx context.Context, request ListServiceCatalogsRequest) (response ListServiceCatalogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1220,9 +1351,10 @@ func (client ServiceCatalogClient) listServiceCatalogs(ctx context.Context, requ
 }
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
+// A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client ServiceCatalogClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1273,9 +1405,10 @@ func (client ServiceCatalogClient) listWorkRequestErrors(ctx context.Context, re
 }
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
+// A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client ServiceCatalogClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1326,9 +1459,10 @@ func (client ServiceCatalogClient) listWorkRequestLogs(ctx context.Context, requ
 }
 
 // ListWorkRequests Lists the work requests in a compartment.
+// A default retry strategy applies to this operation ListWorkRequests()
 func (client ServiceCatalogClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1379,9 +1513,10 @@ func (client ServiceCatalogClient) listWorkRequests(ctx context.Context, request
 }
 
 // UpdatePrivateApplication Updates the details of an existing private application.
+// A default retry strategy applies to this operation UpdatePrivateApplication()
 func (client ServiceCatalogClient) UpdatePrivateApplication(ctx context.Context, request UpdatePrivateApplicationRequest) (response UpdatePrivateApplicationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1432,9 +1567,10 @@ func (client ServiceCatalogClient) updatePrivateApplication(ctx context.Context,
 }
 
 // UpdateServiceCatalog Updates the details of a previously created service catalog.
+// A default retry strategy applies to this operation UpdateServiceCatalog()
 func (client ServiceCatalogClient) UpdateServiceCatalog(ctx context.Context, request UpdateServiceCatalogRequest) (response UpdateServiceCatalogResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

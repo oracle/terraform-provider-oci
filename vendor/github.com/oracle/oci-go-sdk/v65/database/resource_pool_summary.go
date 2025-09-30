@@ -24,6 +24,9 @@ type ResourcePoolSummary struct {
 	// Resource pool storage size in TBs.
 	PoolStorageSizeInTBs *int `mandatory:"false" json:"poolStorageSizeInTBs"`
 
+	// Available storage capacity (in TB) that can be used for adding new members or scaling existing members in a dedicated elastic pool.
+	AvailableStorageCapacityInTBs *float64 `mandatory:"false" json:"availableStorageCapacityInTBs"`
+
 	// Resource Pool total capacity, it's currently 4x of pool size
 	TotalComputeCapacity *int `mandatory:"false" json:"totalComputeCapacity"`
 

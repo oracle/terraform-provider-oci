@@ -18,24 +18,27 @@ type OperationTypeEnum string
 
 // Set of constants representing the allowable values for OperationTypeEnum
 const (
-	OperationTypeCreateLustreFileSystem OperationTypeEnum = "CREATE_LUSTRE_FILE_SYSTEM"
-	OperationTypeUpdateLustreFileSystem OperationTypeEnum = "UPDATE_LUSTRE_FILE_SYSTEM"
-	OperationTypeDeleteLustreFileSystem OperationTypeEnum = "DELETE_LUSTRE_FILE_SYSTEM"
-	OperationTypeMoveLustreFileSystem   OperationTypeEnum = "MOVE_LUSTRE_FILE_SYSTEM"
+	OperationTypeCreateLustreFileSystem  OperationTypeEnum = "CREATE_LUSTRE_FILE_SYSTEM"
+	OperationTypeUpdateLustreFileSystem  OperationTypeEnum = "UPDATE_LUSTRE_FILE_SYSTEM"
+	OperationTypeDeleteLustreFileSystem  OperationTypeEnum = "DELETE_LUSTRE_FILE_SYSTEM"
+	OperationTypeMoveLustreFileSystem    OperationTypeEnum = "MOVE_LUSTRE_FILE_SYSTEM"
+	OperationTypeDeleteObjectStorageLink OperationTypeEnum = "DELETE_OBJECT_STORAGE_LINK"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
-	"CREATE_LUSTRE_FILE_SYSTEM": OperationTypeCreateLustreFileSystem,
-	"UPDATE_LUSTRE_FILE_SYSTEM": OperationTypeUpdateLustreFileSystem,
-	"DELETE_LUSTRE_FILE_SYSTEM": OperationTypeDeleteLustreFileSystem,
-	"MOVE_LUSTRE_FILE_SYSTEM":   OperationTypeMoveLustreFileSystem,
+	"CREATE_LUSTRE_FILE_SYSTEM":  OperationTypeCreateLustreFileSystem,
+	"UPDATE_LUSTRE_FILE_SYSTEM":  OperationTypeUpdateLustreFileSystem,
+	"DELETE_LUSTRE_FILE_SYSTEM":  OperationTypeDeleteLustreFileSystem,
+	"MOVE_LUSTRE_FILE_SYSTEM":    OperationTypeMoveLustreFileSystem,
+	"DELETE_OBJECT_STORAGE_LINK": OperationTypeDeleteObjectStorageLink,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
-	"create_lustre_file_system": OperationTypeCreateLustreFileSystem,
-	"update_lustre_file_system": OperationTypeUpdateLustreFileSystem,
-	"delete_lustre_file_system": OperationTypeDeleteLustreFileSystem,
-	"move_lustre_file_system":   OperationTypeMoveLustreFileSystem,
+	"create_lustre_file_system":  OperationTypeCreateLustreFileSystem,
+	"update_lustre_file_system":  OperationTypeUpdateLustreFileSystem,
+	"delete_lustre_file_system":  OperationTypeDeleteLustreFileSystem,
+	"move_lustre_file_system":    OperationTypeMoveLustreFileSystem,
+	"delete_object_storage_link": OperationTypeDeleteObjectStorageLink,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -54,6 +57,7 @@ func GetOperationTypeEnumStringValues() []string {
 		"UPDATE_LUSTRE_FILE_SYSTEM",
 		"DELETE_LUSTRE_FILE_SYSTEM",
 		"MOVE_LUSTRE_FILE_SYSTEM",
+		"DELETE_OBJECT_STORAGE_LINK",
 	}
 }
 

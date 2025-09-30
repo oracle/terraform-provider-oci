@@ -30,6 +30,9 @@ type TerraformBasedExecutionDetails struct {
 
 	// Is read output variable enabled
 	IsReadOutputVariableEnabled *bool `mandatory:"false" json:"isReadOutputVariableEnabled"`
+
+	// The list of system variables.
+	SystemVariables []string `mandatory:"false" json:"systemVariables"`
 }
 
 func (m TerraformBasedExecutionDetails) String() string {

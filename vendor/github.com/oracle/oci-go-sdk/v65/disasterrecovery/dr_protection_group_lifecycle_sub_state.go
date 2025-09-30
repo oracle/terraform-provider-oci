@@ -21,15 +21,21 @@ type DrProtectionGroupLifecycleSubStateEnum string
 
 // Set of constants representing the allowable values for DrProtectionGroupLifecycleSubStateEnum
 const (
-	DrProtectionGroupLifecycleSubStateDrDrillInProgress DrProtectionGroupLifecycleSubStateEnum = "DR_DRILL_IN_PROGRESS"
+	DrProtectionGroupLifecycleSubStateDrDrillInProgress                  DrProtectionGroupLifecycleSubStateEnum = "DR_DRILL_IN_PROGRESS"
+	DrProtectionGroupLifecycleSubStateDrPlanExecutionInProgress          DrProtectionGroupLifecycleSubStateEnum = "DR_PLAN_EXECUTION_IN_PROGRESS"
+	DrProtectionGroupLifecycleSubStateAutomaticDrPlanExecutionInProgress DrProtectionGroupLifecycleSubStateEnum = "AUTOMATIC_DR_PLAN_EXECUTION_IN_PROGRESS"
 )
 
 var mappingDrProtectionGroupLifecycleSubStateEnum = map[string]DrProtectionGroupLifecycleSubStateEnum{
-	"DR_DRILL_IN_PROGRESS": DrProtectionGroupLifecycleSubStateDrDrillInProgress,
+	"DR_DRILL_IN_PROGRESS":                    DrProtectionGroupLifecycleSubStateDrDrillInProgress,
+	"DR_PLAN_EXECUTION_IN_PROGRESS":           DrProtectionGroupLifecycleSubStateDrPlanExecutionInProgress,
+	"AUTOMATIC_DR_PLAN_EXECUTION_IN_PROGRESS": DrProtectionGroupLifecycleSubStateAutomaticDrPlanExecutionInProgress,
 }
 
 var mappingDrProtectionGroupLifecycleSubStateEnumLowerCase = map[string]DrProtectionGroupLifecycleSubStateEnum{
-	"dr_drill_in_progress": DrProtectionGroupLifecycleSubStateDrDrillInProgress,
+	"dr_drill_in_progress":                    DrProtectionGroupLifecycleSubStateDrDrillInProgress,
+	"dr_plan_execution_in_progress":           DrProtectionGroupLifecycleSubStateDrPlanExecutionInProgress,
+	"automatic_dr_plan_execution_in_progress": DrProtectionGroupLifecycleSubStateAutomaticDrPlanExecutionInProgress,
 }
 
 // GetDrProtectionGroupLifecycleSubStateEnumValues Enumerates the set of values for DrProtectionGroupLifecycleSubStateEnum
@@ -45,6 +51,8 @@ func GetDrProtectionGroupLifecycleSubStateEnumValues() []DrProtectionGroupLifecy
 func GetDrProtectionGroupLifecycleSubStateEnumStringValues() []string {
 	return []string{
 		"DR_DRILL_IN_PROGRESS",
+		"DR_PLAN_EXECUTION_IN_PROGRESS",
+		"AUTOMATIC_DR_PLAN_EXECUTION_IN_PROGRESS",
 	}
 }
 

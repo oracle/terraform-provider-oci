@@ -25,7 +25,7 @@ type CreateTemplateDetails struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing this template.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The template's display name. Avoid entering confidential information.
+	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// Description of the template. Avoid entering confidential information.

@@ -34,7 +34,7 @@ type CreateGitlabAccessTokenConfigurationSourceProviderDetails struct {
 	// you want to create the configuration source provider.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// Human-readable name of the configuration source provider. Avoid entering confidential information.
+	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Description of the configuration source provider. Avoid entering confidential information.

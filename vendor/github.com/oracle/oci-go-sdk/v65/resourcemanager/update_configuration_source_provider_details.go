@@ -22,7 +22,7 @@ import (
 // UpdateConfigurationSourceProviderDetails Update details for a configuration source provider.
 type UpdateConfigurationSourceProviderDetails interface {
 
-	// Human-readable name of the configuration source provider. Avoid entering confidential information.
+	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	GetDisplayName() *string
 
 	// Description of the configuration source provider. Avoid entering confidential information.

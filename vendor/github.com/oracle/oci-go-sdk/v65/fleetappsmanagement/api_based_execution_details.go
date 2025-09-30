@@ -21,6 +21,9 @@ type ApiBasedExecutionDetails struct {
 
 	// Endpoint to be invoked.
 	Endpoint *string `mandatory:"true" json:"endpoint"`
+
+	// The list of system variables.
+	SystemVariables []string `mandatory:"false" json:"systemVariables"`
 }
 
 func (m ApiBasedExecutionDetails) String() string {

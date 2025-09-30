@@ -29,11 +29,6 @@ type ExportBackupDetails struct {
 	// Network Security Group OCIDs used for the VNIC attachment.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
-	// Security Attributes for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see ZPR Artifacts (https://docs.oracle.com/en-us/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm).
-	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}`
-	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
-
 	// The OCID of the subnet which the temporary MySQL instance is associated with.
 	// If not specified, the subnet OCID of the DB system from which the backup is taken will be used by default.
 	// To export a backup copied from another region, it is mandatory to specify a valid subnet OCID in the current region.

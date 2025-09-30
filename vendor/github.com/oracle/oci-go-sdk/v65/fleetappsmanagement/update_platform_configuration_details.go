@@ -29,6 +29,14 @@ type UpdatePlatformConfigurationDetails struct {
 	Description *string `mandatory:"false" json:"description"`
 
 	ConfigCategoryDetails ConfigCategoryDetails `mandatory:"false" json:"configCategoryDetails"`
+
+	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
+	// Example: `{"bar-key": "value"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"foo-namespace": {"bar-key": "value"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
 func (m UpdatePlatformConfigurationDetails) String() string {
@@ -50,9 +58,11 @@ func (m UpdatePlatformConfigurationDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *UpdatePlatformConfigurationDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName           *string               `json:"displayName"`
-		Description           *string               `json:"description"`
-		ConfigCategoryDetails configcategorydetails `json:"configCategoryDetails"`
+		DisplayName           *string                           `json:"displayName"`
+		Description           *string                           `json:"description"`
+		ConfigCategoryDetails configcategorydetails             `json:"configCategoryDetails"`
+		FreeformTags          map[string]string                 `json:"freeformTags"`
+		DefinedTags           map[string]map[string]interface{} `json:"definedTags"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -73,6 +83,10 @@ func (m *UpdatePlatformConfigurationDetails) UnmarshalJSON(data []byte) (e error
 	} else {
 		m.ConfigCategoryDetails = nil
 	}
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
 
 	return
 }

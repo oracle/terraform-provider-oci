@@ -39,6 +39,7 @@ type UpdateFleetDetails struct {
 	ResourceSelection ResourceSelection `mandatory:"false" json:"resourceSelection"`
 
 	// Products associated with the Fleet.
+	// Provide PlatformConfiguration Ids corresponding to all the Products that need to be managed.
 	Products []string `mandatory:"false" json:"products"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
@@ -48,6 +49,10 @@ type UpdateFleetDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Environment Type associated with the Fleet.
+	// Applicable for ENVIRONMENT fleet types.
+	EnvironmentType *string `mandatory:"false" json:"environmentType"`
 }
 
 func (m UpdateFleetDetails) String() string {
@@ -77,6 +82,7 @@ func (m *UpdateFleetDetails) UnmarshalJSON(data []byte) (e error) {
 		Products                []string                          `json:"products"`
 		FreeformTags            map[string]string                 `json:"freeformTags"`
 		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
+		EnvironmentType         *string                           `json:"environmentType"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -107,6 +113,8 @@ func (m *UpdateFleetDetails) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
+
+	m.EnvironmentType = model.EnvironmentType
 
 	return
 }

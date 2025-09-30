@@ -4,7 +4,8 @@
 
 // Service Catalog API
 //
-// Manage solutions in Oracle Cloud Infrastructure Service Catalog.
+// Use the Service Catalog API to manage solutions in Oracle Cloud Infrastructure Service Catalog.
+// For more information, see Overview of Service Catalog (https://docs.oracle.com/iaas/Content/service-catalog/overview_of_service_catalog.htm).
 //
 
 package servicecatalog
@@ -19,14 +20,17 @@ type PackageTypeEnumEnum string
 // Set of constants representing the allowable values for PackageTypeEnumEnum
 const (
 	PackageTypeEnumStack PackageTypeEnumEnum = "STACK"
+	PackageTypeEnumImage PackageTypeEnumEnum = "IMAGE"
 )
 
 var mappingPackageTypeEnumEnum = map[string]PackageTypeEnumEnum{
 	"STACK": PackageTypeEnumStack,
+	"IMAGE": PackageTypeEnumImage,
 }
 
 var mappingPackageTypeEnumEnumLowerCase = map[string]PackageTypeEnumEnum{
 	"stack": PackageTypeEnumStack,
+	"image": PackageTypeEnumImage,
 }
 
 // GetPackageTypeEnumEnumValues Enumerates the set of values for PackageTypeEnumEnum
@@ -42,6 +46,7 @@ func GetPackageTypeEnumEnumValues() []PackageTypeEnumEnum {
 func GetPackageTypeEnumEnumStringValues() []string {
 	return []string{
 		"STACK",
+		"IMAGE",
 	}
 }
 

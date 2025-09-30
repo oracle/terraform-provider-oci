@@ -32,6 +32,12 @@ type InventoryRecordPatchDetails struct {
 
 	// OCID of the installed patch
 	PatchId *string `mandatory:"false" json:"patchId"`
+
+	// The date on which patch was released.
+	TimeReleased *common.SDKTime `mandatory:"false" json:"timeReleased"`
+
+	// Patch Level.
+	PatchLevel InstalledPatchSummaryPatchLevelEnum `mandatory:"false" json:"patchLevel,omitempty"`
 }
 
 func (m InventoryRecordPatchDetails) String() string {
@@ -44,6 +50,9 @@ func (m InventoryRecordPatchDetails) String() string {
 func (m InventoryRecordPatchDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingInstalledPatchSummaryPatchLevelEnum(string(m.PatchLevel)); !ok && m.PatchLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PatchLevel: %s. Supported values are: %s.", m.PatchLevel, strings.Join(GetInstalledPatchSummaryPatchLevelEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

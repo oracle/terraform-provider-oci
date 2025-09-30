@@ -4,7 +4,8 @@
 
 // Service Catalog API
 //
-// Manage solutions in Oracle Cloud Infrastructure Service Catalog.
+// Use the Service Catalog API to manage solutions in Oracle Cloud Infrastructure Service Catalog.
+// For more information, see Overview of Service Catalog (https://docs.oracle.com/iaas/Content/service-catalog/overview_of_service_catalog.htm).
 //
 
 package servicecatalog
@@ -35,6 +36,9 @@ type ServiceCatalog struct {
 	// Example: `2021-05-26T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
+	// The status of a service catalog.
+	Status ServiceCatalogStatusEnumEnum `mandatory:"false" json:"status,omitempty"`
+
 	// The date and time the service catalog was last modified, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339)
 	// timestamp format.
 	// Example: `2021-12-10T05:10:29.721Z`
@@ -47,6 +51,10 @@ type ServiceCatalog struct {
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m ServiceCatalog) String() string {
@@ -62,6 +70,9 @@ func (m ServiceCatalog) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetServiceCatalogLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingServiceCatalogStatusEnumEnum(string(m.Status)); !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetServiceCatalogStatusEnumEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

@@ -34,6 +34,9 @@ type ScriptBasedExecutionDetails struct {
 
 	// Is the Content an executable file?
 	IsExecutableContent *bool `mandatory:"false" json:"isExecutableContent"`
+
+	// The list of system variables.
+	SystemVariables []string `mandatory:"false" json:"systemVariables"`
 }
 
 func (m ScriptBasedExecutionDetails) String() string {
@@ -75,6 +78,7 @@ func (m *ScriptBasedExecutionDetails) UnmarshalJSON(data []byte) (e error) {
 		Credentials         []ConfigAssociationDetails `json:"credentials"`
 		IsLocked            *bool                      `json:"isLocked"`
 		IsExecutableContent *bool                      `json:"isExecutableContent"`
+		SystemVariables     []string                   `json:"systemVariables"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -102,5 +106,7 @@ func (m *ScriptBasedExecutionDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.IsExecutableContent = model.IsExecutableContent
 
+	m.SystemVariables = make([]string, len(model.SystemVariables))
+	copy(m.SystemVariables, model.SystemVariables)
 	return
 }

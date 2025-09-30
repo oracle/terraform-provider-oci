@@ -4,7 +4,8 @@
 
 // Service Catalog API
 //
-// Manage solutions in Oracle Cloud Infrastructure Service Catalog.
+// Use the Service Catalog API to manage solutions in Oracle Cloud Infrastructure Service Catalog.
+// For more information, see Overview of Service Catalog (https://docs.oracle.com/iaas/Content/service-catalog/overview_of_service_catalog.htm).
 //
 
 package servicecatalog
@@ -42,6 +43,13 @@ type ApplicationSummary struct {
 
 	// The type of the packages withing the application.
 	PackageType PackageTypeEnumEnum `mandatory:"false" json:"packageType,omitempty"`
+
+	// Product categories that the application belongs to.
+	Categories []string `mandatory:"false" json:"categories"`
+
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m ApplicationSummary) String() string {

@@ -4,7 +4,8 @@
 
 // Service Catalog API
 //
-// Manage solutions in Oracle Cloud Infrastructure Service Catalog.
+// Use the Service Catalog API to manage solutions in Oracle Cloud Infrastructure Service Catalog.
+// For more information, see Overview of Service Catalog (https://docs.oracle.com/iaas/Content/service-catalog/overview_of_service_catalog.htm).
 //
 
 package servicecatalog
@@ -23,6 +24,9 @@ type CreateServiceCatalogDetails struct {
 
 	// The display name of the service catalog.
 	DisplayName *string `mandatory:"true" json:"displayName"`
+
+	// The status of a service catalog.
+	Status ServiceCatalogStatusEnumEnum `mandatory:"false" json:"status,omitempty"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
@@ -43,6 +47,9 @@ func (m CreateServiceCatalogDetails) String() string {
 func (m CreateServiceCatalogDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingServiceCatalogStatusEnumEnum(string(m.Status)); !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetServiceCatalogStatusEnumEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

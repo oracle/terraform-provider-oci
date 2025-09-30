@@ -16,12 +16,13 @@ import (
 )
 
 // UpdateRunbookVersionDetails The information to be updated.
+// Versioning runbooks in Fleet Application Management involve assigning unique identifiers or version numbers to different iterations of the runbook to track changes, improvements, and updates over time.
 type UpdateRunbookVersionDetails struct {
 
 	// A set of tasks to execute in the runbook.
 	Tasks []Task `mandatory:"false" json:"tasks"`
 
-	// The groups of the runbook.
+	// The groups of the runbook version.
 	Groups []Group `mandatory:"false" json:"groups"`
 
 	ExecutionWorkflowDetails *ExecutionWorkflowDetails `mandatory:"false" json:"executionWorkflowDetails"`
