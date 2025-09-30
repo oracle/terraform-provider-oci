@@ -48,6 +48,23 @@ func CoreDedicatedVmHostInstanceShapesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"supported_capabilities": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"is_memory_encryption_supported": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+								},
+							},
+						},
 					},
 				},
 			},
@@ -133,6 +150,12 @@ func (s *CoreDedicatedVmHostInstanceShapesDataSourceCrud) SetData() error {
 			dedicatedVmHostInstanceShape["instance_shape_name"] = *r.InstanceShapeName
 		}
 
+		if r.SupportedCapabilities != nil {
+			dedicatedVmHostInstanceShape["supported_capabilities"] = []interface{}{SupportedCapabilitiesToMap(r.SupportedCapabilities)}
+		} else {
+			dedicatedVmHostInstanceShape["supported_capabilities"] = nil
+		}
+
 		resources = append(resources, dedicatedVmHostInstanceShape)
 	}
 
@@ -145,4 +168,16 @@ func (s *CoreDedicatedVmHostInstanceShapesDataSourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+// SupportedCapabilitiesToMap - Declaring this once but this function is called in
+// core_dedicated_vm_host_shapes_data_source.go as well
+func SupportedCapabilitiesToMap(obj *oci_core.SupportedCapabilities) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsMemoryEncryptionSupported != nil {
+		result["is_memory_encryption_supported"] = bool(*obj.IsMemoryEncryptionSupported)
+	}
+
+	return result
 }

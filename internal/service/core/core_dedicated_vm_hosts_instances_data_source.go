@@ -30,6 +30,10 @@ func CoreDedicatedVmHostsInstancesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"is_memory_encryption_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"dedicated_vm_host_instances": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -50,6 +54,10 @@ func CoreDedicatedVmHostsInstancesDataSource() *schema.Resource {
 						},
 						"instance_id": {
 							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"is_memory_encryption_enabled": {
+							Type:     schema.TypeBool,
 							Computed: true,
 						},
 						"shape": {
@@ -103,6 +111,11 @@ func (s *CoreDedicatedVmHostsInstancesDataSourceCrud) Get() error {
 		request.DedicatedVmHostId = &tmp
 	}
 
+	if isMemoryEncryptionEnabled, ok := s.D.GetOkExists("is_memory_encryption_enabled"); ok {
+		tmp := isMemoryEncryptionEnabled.(bool)
+		request.IsMemoryEncryptionEnabled = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListDedicatedVmHostInstances(context.Background(), request)
@@ -145,6 +158,10 @@ func (s *CoreDedicatedVmHostsInstancesDataSourceCrud) SetData() error {
 
 		if r.InstanceId != nil {
 			dedicatedVmHostsInstance["instance_id"] = *r.InstanceId
+		}
+
+		if r.IsMemoryEncryptionEnabled != nil {
+			dedicatedVmHostsInstance["is_memory_encryption_enabled"] = *r.IsMemoryEncryptionEnabled
 		}
 
 		if r.Shape != nil {

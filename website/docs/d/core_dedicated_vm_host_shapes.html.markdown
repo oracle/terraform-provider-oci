@@ -46,5 +46,15 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `availability_domain` - The shape's availability domain. 
-* `dedicated_vm_host_shape` - The name of the dedicated VM host shape. You can enumerate all available shapes by calling [ListDedicatedVmHostShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/dedicatedVmHostShapes). 
+* `capacity_configs` - A list of capacity configs that are supported by this dedicated VM host shape. 
+	* `capacity_bins` - A list of total CPU and memory per capacity bucket. 
+		* `capacity_index` - Zero-based index for the corresponding capacity bucket. 
+		* `supported_shapes` - List of VMI shapes supported on each capacity bucket. 
+		* `total_memory_in_gbs` - The total memory of the capacity bucket, in GBs. 
+		* `total_ocpus` - The total OCPUs of the capacity bucket. 
+	* `capacity_config_name` - The name of each capacity config. 
+	* `is_default` - Whether this capacity config is the default config. 
+	* `supported_capabilities` - Specifies the capabilities that the Dedicated Virtual Machine Host (DVMH) Shape or Virtual Machine Instance Shape could support. 
+		* `is_memory_encryption_supported` - Whether the DVMH shape could support confidential VMs or the VM instance shape could be confidential. 
+* `dedicated_vm_host_shape` - The name of the dedicated VM host shape. You can enumerate all available shapes by calling [ListDedicatedVmHostShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/DedicatedVmHostShapeSummary/ListDedicatedVmHostShapes). 
 
