@@ -69,6 +69,7 @@ func GoldenGateConnectionResource() *schema.Resource {
 					"MYSQL",
 					"OCI_OBJECT_STORAGE",
 					"ORACLE",
+					"ORACLE_AI_DATA_PLATFORM",
 					"ORACLE_NOSQL",
 					"POSTGRESQL",
 					"REDIS",
@@ -260,6 +261,11 @@ func GoldenGateConnectionResource() *schema.Resource {
 			"client_secret_secret_id": {
 				Type:     schema.TypeString,
 				Optional: true,
+			},
+			"cluster_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 			"cluster_placement_group_id": {
 				Type:     schema.TypeString,
@@ -2988,6 +2994,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		}
 		s.D.Set("bootstrap_servers", bootstrapServers)
 
+		if v.ClusterId != nil {
+			s.D.Set("cluster_id", *v.ClusterId)
+		}
+
 		if v.ConsumerProperties != nil {
 			s.D.Set("consumer_properties", *v.ConsumerProperties)
 		}
@@ -3009,6 +3019,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		}
 
 		s.D.Set("security_protocol", v.SecurityProtocol)
+
+		if v.ShouldUseResourcePrincipal != nil {
+			s.D.Set("should_use_resource_principal", *v.ShouldUseResourcePrincipal)
+		}
 
 		if v.SslKeyPasswordSecretId != nil {
 			s.D.Set("ssl_key_password_secret_id", *v.SslKeyPasswordSecretId)
@@ -3908,6 +3922,130 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		if v.WalletSecretId != nil {
 			s.D.Set("wallet_secret_id", *v.WalletSecretId)
+		}
+
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.Id != nil {
+			s.D.SetId(*v.Id)
+		}
+
+		ingressIps := []interface{}{}
+		for _, item := range v.IngressIps {
+			ingressIps = append(ingressIps, IngressIpDetailsToMap(item))
+		}
+		s.D.Set("ingress_ips", ingressIps)
+
+		if v.KeyId != nil {
+			s.D.Set("key_id", *v.KeyId)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
+		nsgIds := []interface{}{}
+		for _, item := range v.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SubnetId != nil {
+			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
+		}
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.VaultId != nil {
+			s.D.Set("vault_id", *v.VaultId)
+		}
+	case oci_golden_gate.OracleAiDataPlatformConnection:
+		s.D.Set("connection_type", "ORACLE_AI_DATA_PLATFORM")
+
+		if v.ConnectionUrl != nil {
+			s.D.Set("connection_url", *v.ConnectionUrl)
+		}
+
+		if v.PrivateKeyFileSecretId != nil {
+			s.D.Set("private_key_file_secret_id", *v.PrivateKeyFileSecretId)
+		}
+
+		if v.PrivateKeyPassphraseSecretId != nil {
+			s.D.Set("private_key_passphrase_secret_id", *v.PrivateKeyPassphraseSecretId)
+		}
+
+		if v.PublicKeyFingerprint != nil {
+			s.D.Set("public_key_fingerprint", *v.PublicKeyFingerprint)
+		}
+
+		if v.Region != nil {
+			s.D.Set("region", *v.Region)
+		}
+
+		if v.ShouldUseResourcePrincipal != nil {
+			s.D.Set("should_use_resource_principal", *v.ShouldUseResourcePrincipal)
+		}
+
+		s.D.Set("technology_type", v.TechnologyType)
+
+		if v.TenancyId != nil {
+			s.D.Set("tenancy_id", *v.TenancyId)
+		}
+
+		if v.UserId != nil {
+			s.D.Set("user_id", *v.UserId)
 		}
 
 		if v.ClusterPlacementGroupId != nil {
@@ -4945,6 +5083,10 @@ func ConnectionSummaryToMap(obj oci_golden_gate.ConnectionSummary, datasource bo
 		}
 		result["bootstrap_servers"] = bootstrapServers
 
+		if v.ClusterId != nil {
+			result["cluster_id"] = string(*v.ClusterId)
+		}
+
 		if v.KeyStorePasswordSecretId != nil {
 			result["key_store_password_secret_id"] = string(*v.KeyStorePasswordSecretId)
 		}
@@ -4958,6 +5100,10 @@ func ConnectionSummaryToMap(obj oci_golden_gate.ConnectionSummary, datasource bo
 		}
 
 		result["security_protocol"] = string(v.SecurityProtocol)
+
+		if v.ShouldUseResourcePrincipal != nil {
+			result["should_use_resource_principal"] = bool(*v.ShouldUseResourcePrincipal)
+		}
 
 		if v.SslKeyPasswordSecretId != nil {
 			result["ssl_key_password_secret_id"] = string(*v.SslKeyPasswordSecretId)
@@ -5225,6 +5371,42 @@ func ConnectionSummaryToMap(obj oci_golden_gate.ConnectionSummary, datasource bo
 
 		if v.WalletSecretId != nil {
 			result["wallet_secret_id"] = string(*v.WalletSecretId)
+		}
+	case oci_golden_gate.OracleAiDataPlatformConnectionSummary:
+		result["connection_type"] = "ORACLE_AI_DATA_PLATFORM"
+
+		if v.ConnectionUrl != nil {
+			result["connection_url"] = string(*v.ConnectionUrl)
+		}
+
+		if v.PrivateKeyFileSecretId != nil {
+			result["private_key_file_secret_id"] = string(*v.PrivateKeyFileSecretId)
+		}
+
+		if v.PrivateKeyPassphraseSecretId != nil {
+			result["private_key_passphrase_secret_id"] = string(*v.PrivateKeyPassphraseSecretId)
+		}
+
+		if v.PublicKeyFingerprint != nil {
+			result["public_key_fingerprint"] = string(*v.PublicKeyFingerprint)
+		}
+
+		if v.Region != nil {
+			result["region"] = string(*v.Region)
+		}
+
+		if v.ShouldUseResourcePrincipal != nil {
+			result["should_use_resource_principal"] = bool(*v.ShouldUseResourcePrincipal)
+		}
+
+		result["technology_type"] = string(v.TechnologyType)
+
+		if v.TenancyId != nil {
+			result["tenancy_id"] = string(*v.TenancyId)
+		}
+
+		if v.UserId != nil {
+			result["user_id"] = string(*v.UserId)
 		}
 	case oci_golden_gate.OracleNosqlConnectionSummary:
 		result["connection_type"] = "ORACLE_NOSQL"
@@ -8405,6 +8587,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 				details.BootstrapServers = tmp
 			}
 		}
+		if clusterId, ok := s.D.GetOkExists("cluster_id"); ok {
+			tmp := clusterId.(string)
+			details.ClusterId = &tmp
+		}
 		if consumerProperties, ok := s.D.GetOkExists("consumer_properties"); ok {
 			tmp := consumerProperties.(string)
 			details.ConsumerProperties = &tmp
@@ -8439,6 +8625,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		}
 		if securityProtocol, ok := s.D.GetOkExists("security_protocol"); ok {
 			details.SecurityProtocol = oci_golden_gate.KafkaConnectionSecurityProtocolEnum(securityProtocol.(string))
+		}
+		if shouldUseResourcePrincipal, ok := s.D.GetOkExists("should_use_resource_principal"); ok {
+			tmp := shouldUseResourcePrincipal.(bool)
+			details.ShouldUseResourcePrincipal = &tmp
 		}
 		if sslKeyPassword, ok := s.D.GetOkExists("ssl_key_password"); ok {
 			tmp := sslKeyPassword.(string)
@@ -9489,6 +9679,128 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
 			tmp := subscriptionId.(string)
 			details.SubscriptionId = &tmp
+		}
+		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
+			tmp := vaultId.(string)
+			details.VaultId = &tmp
+		}
+		request.CreateConnectionDetails = details
+	case strings.ToLower("ORACLE_AI_DATA_PLATFORM"):
+		details := oci_golden_gate.CreateOracleAiDataPlatformConnectionDetails{}
+		if connectionUrl, ok := s.D.GetOkExists("connection_url"); ok {
+			tmp := connectionUrl.(string)
+			details.ConnectionUrl = &tmp
+		}
+		if privateKeyFileSecretId, ok := s.D.GetOkExists("private_key_file_secret_id"); ok {
+			tmp := privateKeyFileSecretId.(string)
+			details.PrivateKeyFileSecretId = &tmp
+		}
+		if privateKeyPassphraseSecretId, ok := s.D.GetOkExists("private_key_passphrase_secret_id"); ok {
+			tmp := privateKeyPassphraseSecretId.(string)
+			details.PrivateKeyPassphraseSecretId = &tmp
+		}
+		if publicKeyFingerprint, ok := s.D.GetOkExists("public_key_fingerprint"); ok {
+			tmp := publicKeyFingerprint.(string)
+			details.PublicKeyFingerprint = &tmp
+		}
+		if region, ok := s.D.GetOkExists("region"); ok {
+			tmp := region.(string)
+			details.Region = &tmp
+		}
+		if shouldUseResourcePrincipal, ok := s.D.GetOkExists("should_use_resource_principal"); ok {
+			tmp := shouldUseResourcePrincipal.(bool)
+			details.ShouldUseResourcePrincipal = &tmp
+		}
+		if technologyType, ok := s.D.GetOkExists("technology_type"); ok {
+			details.TechnologyType = oci_golden_gate.OracleAiDataPlatformConnectionTechnologyTypeEnum(technologyType.(string))
+		}
+		if tenancyId, ok := s.D.GetOkExists("tenancy_id"); ok {
+			tmp := tenancyId.(string)
+			details.TenancyId = &tmp
+		}
+		if userId, ok := s.D.GetOkExists("user_id"); ok {
+			tmp := userId.(string)
+			details.UserId = &tmp
+		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if doesUseSecretIds, ok := s.D.GetOkExists("does_use_secret_ids"); ok {
+			tmp := doesUseSecretIds.(bool)
+			details.DoesUseSecretIds = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if keyId, ok := s.D.GetOkExists("key_id"); ok {
+			tmp := keyId.(string)
+			details.KeyId = &tmp
+		}
+		if locks, ok := s.D.GetOkExists("locks"); ok {
+			interfaces := locks.([]interface{})
+			tmp := make([]oci_golden_gate.AddResourceLockDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+				converted, err := s.mapToAddResourceLockDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("locks") {
+				details.Locks = tmp
+			}
+		}
+		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+			set := nsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+				details.NsgIds = tmp
+			}
+		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
+		}
+		if technologyType, ok := s.D.GetOkExists("technology_type"); ok {
+			details.TechnologyType = oci_golden_gate.OracleAiDataPlatformConnectionTechnologyTypeEnum(technologyType.(string))
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -11491,6 +11803,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 				details.BootstrapServers = tmp
 			}
 		}
+		if clusterId, ok := s.D.GetOkExists("cluster_id"); ok {
+			tmp := clusterId.(string)
+			details.ClusterId = &tmp
+		}
 		if consumerProperties, ok := s.D.GetOkExists("consumer_properties"); ok {
 			tmp := consumerProperties.(string)
 			details.ConsumerProperties = &tmp
@@ -11525,6 +11841,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		}
 		if securityProtocol, ok := s.D.GetOkExists("security_protocol"); ok {
 			details.SecurityProtocol = oci_golden_gate.KafkaConnectionSecurityProtocolEnum(securityProtocol.(string))
+		}
+		if shouldUseResourcePrincipal, ok := s.D.GetOkExists("should_use_resource_principal"); ok {
+			tmp := shouldUseResourcePrincipal.(bool)
+			details.ShouldUseResourcePrincipal = &tmp
 		}
 		if sslKeyPassword, ok := s.D.GetOkExists("ssl_key_password"); ok {
 			tmp := sslKeyPassword.(string)
@@ -12320,6 +12640,100 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		if walletSecretId, ok := s.D.GetOkExists("wallet_secret_id"); ok {
 			tmp := walletSecretId.(string)
 			details.WalletSecretId = &tmp
+		}
+		tmp := s.D.Id()
+		request.ConnectionId = &tmp
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if doesUseSecretIds, ok := s.D.GetOkExists("does_use_secret_ids"); ok {
+			tmp := doesUseSecretIds.(bool)
+			details.DoesUseSecretIds = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+			tmp := isLockOverride.(bool)
+			request.IsLockOverride = &tmp
+		}
+		if keyId, ok := s.D.GetOkExists("key_id"); ok {
+			tmp := keyId.(string)
+			details.KeyId = &tmp
+		}
+		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+			set := nsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+				details.NsgIds = tmp
+			}
+		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
+			tmp := vaultId.(string)
+			details.VaultId = &tmp
+		}
+		request.UpdateConnectionDetails = details
+	case strings.ToLower("ORACLE_AI_DATA_PLATFORM"):
+		details := oci_golden_gate.UpdateOracleAiDataPlatformConnectionDetails{}
+		if connectionUrl, ok := s.D.GetOkExists("connection_url"); ok {
+			tmp := connectionUrl.(string)
+			details.ConnectionUrl = &tmp
+		}
+		if privateKeyFileSecretId, ok := s.D.GetOkExists("private_key_file_secret_id"); ok {
+			tmp := privateKeyFileSecretId.(string)
+			details.PrivateKeyFileSecretId = &tmp
+		}
+		if privateKeyPassphraseSecretId, ok := s.D.GetOkExists("private_key_passphrase_secret_id"); ok {
+			tmp := privateKeyPassphraseSecretId.(string)
+			details.PrivateKeyPassphraseSecretId = &tmp
+		}
+		if publicKeyFingerprint, ok := s.D.GetOkExists("public_key_fingerprint"); ok {
+			tmp := publicKeyFingerprint.(string)
+			details.PublicKeyFingerprint = &tmp
+		}
+		if region, ok := s.D.GetOkExists("region"); ok {
+			tmp := region.(string)
+			details.Region = &tmp
+		}
+		if shouldUseResourcePrincipal, ok := s.D.GetOkExists("should_use_resource_principal"); ok {
+			tmp := shouldUseResourcePrincipal.(bool)
+			details.ShouldUseResourcePrincipal = &tmp
+		}
+		if tenancyId, ok := s.D.GetOkExists("tenancy_id"); ok {
+			tmp := tenancyId.(string)
+			details.TenancyId = &tmp
+		}
+		if userId, ok := s.D.GetOkExists("user_id"); ok {
+			tmp := userId.(string)
+			details.UserId = &tmp
 		}
 		tmp := s.D.Id()
 		request.ConnectionId = &tmp

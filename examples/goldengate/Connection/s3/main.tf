@@ -55,7 +55,6 @@ resource "oci_golden_gate_connection" "test_connection"{
   secret_access_key = var.secret_access_key
 
   description = var.description
-  freeform_tags = var.freeform_tags
 
   security_attributes = var.security_attributes
 
