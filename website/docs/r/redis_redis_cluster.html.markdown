@@ -31,6 +31,7 @@ resource "oci_redis_redis_cluster" "test_redis_cluster" {
 	freeform_tags = {"bar-key"= "value"}
 	nsg_ids = var.redis_cluster_nsg_ids
 	oci_cache_config_set_id = oci_redis_oci_cache_config_set.test_oci_cache_config_set.id
+	security_attributes = var.redis_cluster_security_attributes
 	shard_count = var.redis_cluster_shard_count
 }
 ```
@@ -48,6 +49,7 @@ The following arguments are supported:
 * `node_memory_in_gbs` - (Required) (Updatable) The amount of memory allocated to the cluster's nodes, in gigabytes.
 * `nsg_ids` - (Optional) (Updatable) A list of Network Security Group (NSG) [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with this cluster. For more information, see [Using an NSG for Clusters](https://docs.cloud.oracle.com/iaas/Content/ocicache/connecttocluster.htm#connecttocluster__networksecuritygroup). 
 * `oci_cache_config_set_id` - (Optional) (Updatable) The ID of the corresponding Oracle Cloud Infrastructure Cache Config Set for the cluster.
+* `security_attributes` - (Optional) (Updatable) Security attributes for redis cluster resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}` 
 * `shard_count` - (Optional) (Updatable) The number of shards in sharded cluster. Only applicable when clusterMode is SHARDED.
 * `software_version` - (Required) (Updatable) The Oracle Cloud Infrastructure Cache engine version that the cluster is running.
 * `subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the cluster's subnet.
@@ -82,6 +84,7 @@ The following attributes are exported:
 * `primary_fqdn` - The fully qualified domain name (FQDN) of the API endpoint for the cluster's primary node.
 * `replicas_endpoint_ip_address` - The private IP address of the API endpoint for the cluster's replica nodes.
 * `replicas_fqdn` - The fully qualified domain name (FQDN) of the API endpoint for the cluster's replica nodes.
+* `security_attributes` - Security attributes for redis cluster resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}` 
 * `shard_count` - The number of shards in a sharded cluster. Only applicable when clusterMode is SHARDED.
 * `software_version` - The Oracle Cloud Infrastructure Cache engine version that the cluster is running.
 * `state` - The current state of the cluster.

@@ -92,6 +92,12 @@ func RedisRedisClusterResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"security_attributes": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"shard_count": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -313,6 +319,10 @@ func (s *RedisRedisClusterResourceCrud) Create() error {
 	if ociCacheConfigSetId, ok := s.D.GetOkExists("oci_cache_config_set_id"); ok {
 		tmp := ociCacheConfigSetId.(string)
 		request.OciCacheConfigSetId = &tmp
+	}
+
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = securityAttributes.(map[string]map[string]interface{})
 	}
 
 	if shardCount, ok := s.D.GetOkExists("shard_count"); ok {
@@ -710,6 +720,12 @@ func (s *RedisRedisClusterResourceCrud) SetData() error {
 		s.D.Set("replicas_fqdn", *s.Res.ReplicasFqdn)
 	}
 
+	if s.Res.SecurityAttributes != nil {
+		s.D.Set("security_attributes", s.Res.SecurityAttributes)
+	} else {
+		s.D.Set("security_attributes", map[string]interface{}{})
+	}
+
 	if s.Res.ShardCount != nil {
 		s.D.Set("shard_count", *s.Res.ShardCount)
 	}
@@ -838,6 +854,12 @@ func RedisClusterSummaryToMap(obj oci_redis.RedisClusterSummary, datasource bool
 
 	if obj.ReplicasFqdn != nil {
 		result["replicas_fqdn"] = string(*obj.ReplicasFqdn)
+	}
+
+	if obj.SecurityAttributes != nil {
+		result["security_attributes"] = obj.SecurityAttributes
+	} else {
+		result["security_attributes"] = map[string]interface{}{}
 	}
 
 	if obj.ShardCount != nil {
