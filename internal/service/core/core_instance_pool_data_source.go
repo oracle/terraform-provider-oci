@@ -92,6 +92,12 @@ func (s *CoreInstancePoolDataSourceCrud) SetData() error {
 		s.D.Set("instance_hostname_formatter", *s.Res.InstanceHostnameFormatter)
 	}
 
+	if s.Res.LifecycleManagement != nil {
+		s.D.Set("lifecycle_management", []interface{}{InstancePoolLifecycleManagementDetailsToMap(s.Res.LifecycleManagement)})
+	} else {
+		s.D.Set("lifecycle_management", nil)
+	}
+
 	loadBalancers := []interface{}{}
 	for _, item := range s.Res.LoadBalancers {
 		if item.LifecycleState != oci_core.InstancePoolLoadBalancerAttachmentLifecycleStateDetached {

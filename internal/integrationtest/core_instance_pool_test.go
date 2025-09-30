@@ -55,6 +55,7 @@ var (
 		"defined_tags":                    acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":                    acctest.Representation{RepType: acctest.Optional, Create: `backend-servers-pool`, Update: `displayName2`},
 		"freeform_tags":                   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle_management":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolLifecycleManagementRepresentation},
 		"load_balancers":                  acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolLoadBalancersRepresentation},
 		"instance_display_name_formatter": acctest.Representation{RepType: acctest.Optional, Create: `host-$${launchCount}`, Update: `host2-$${launchCount}`},
 		"instance_hostname_formatter":     acctest.Representation{RepType: acctest.Optional, Create: `host-$${launchCount}`, Update: `host2-$${launchCount}`},
@@ -124,6 +125,11 @@ var (
 		"primary_subnet_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"secondary_vnic_subnets": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolPlacementConfigurationsSecondaryVnicSubnetsRepresentation},
 	}
+
+	CoreInstancePoolLifecycleManagementRepresentation = map[string]interface{}{
+		"lifecycle_actions": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstancePoolLifecycleManagementLifecycleActionsRepresentation},
+	}
+
 	CoreInstancePoolPlacementConfigurationsRepresentationIpv6 = map[string]interface{}{
 		"availability_domain":    acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"fault_domains":          acctest.Representation{RepType: acctest.Optional, Create: []string{`FAULT-DOMAIN-1`}, Update: []string{`FAULT-DOMAIN-2`}},
@@ -186,6 +192,11 @@ var (
 		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`, Update: `displayName2`},
 		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
+
+	CoreInstancePoolLifecycleManagementLifecycleActionsRepresentation = map[string]interface{}{
+		"pre_termination": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolLifecycleManagementLifecycleActionsPreTerminationRepresentation},
+	}
+
 	CoreInstancePoolInstanceConfigurationInstanceDetailsPoolRepresentation = map[string]interface{}{
 		"instance_type":   acctest.Representation{RepType: acctest.Required, Create: `compute`},
 		"secondary_vnics": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolInstanceConfigurationInstanceDetailsSecondaryVnicsPoolRepresentation},
@@ -196,6 +207,17 @@ var (
 		//the display_name should be the same as in the secondary_vnic_subnets
 		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `backend-servers-pool`},
 	}
+
+	CoreInstancePoolLifecycleManagementLifecycleActionsPreTerminationRepresentation = map[string]interface{}{
+		"is_enabled": acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
+		"on_timeout": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstancePoolLifecycleManagementLifecycleActionsPreTerminationOnTimeoutRepresentation},
+		"timeout":    acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
+	}
+	CoreInstancePoolLifecycleManagementLifecycleActionsPreTerminationOnTimeoutRepresentation = map[string]interface{}{
+		"preserve_block_volume_mode": acctest.Representation{RepType: acctest.Required, Create: `PRESERVE_ALWAYS`, Update: `PRESERVE_ON_TIMEOUT`},
+		"preserve_boot_volume_mode":  acctest.Representation{RepType: acctest.Required, Create: `PRESERVE_ALWAYS`, Update: `PRESERVE_ON_TIMEOUT`},
+	}
+
 	CoreInstancePoolInstanceConfigurationInstanceDetailsLaunchDetailsPoolRepresentation = map[string]interface{}{
 		"compartment_id":                      acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"create_vnic_details":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolInstanceConfigurationInstanceDetailsLaunchDetailsCreateVnicDetailsPoolRepresentation},
@@ -330,6 +352,14 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "lifecycle_management.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "lifecycle_management.0.lifecycle_actions.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "lifecycle_management.0.lifecycle_actions.0.pre_termination.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "lifecycle_management.0.lifecycle_actions.0.pre_termination.0.is_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "lifecycle_management.0.lifecycle_actions.0.pre_termination.0.on_timeout.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "lifecycle_management.0.lifecycle_actions.0.pre_termination.0.on_timeout.0.preserve_block_volume_mode", "PRESERVE_ALWAYS"),
+				resource.TestCheckResourceAttr(resourceName, "lifecycle_management.0.lifecycle_actions.0.pre_termination.0.on_timeout.0.preserve_boot_volume_mode", "PRESERVE_ALWAYS"),
+				resource.TestCheckResourceAttr(resourceName, "lifecycle_management.0.lifecycle_actions.0.pre_termination.0.timeout", "10"),
 				resource.TestCheckResourceAttr(resourceName, "instance_display_name_formatter", "host-${launchCount}"),
 				resource.TestCheckResourceAttr(resourceName, "instance_hostname_formatter", "host-${launchCount}"),
 				resource.TestCheckResourceAttr(resourceName, "load_balancers.#", "1"),
@@ -376,6 +406,14 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "lifecycle_management.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "lifecycle_management.0.lifecycle_actions.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "lifecycle_management.0.lifecycle_actions.0.pre_termination.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "lifecycle_management.0.lifecycle_actions.0.pre_termination.0.is_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "lifecycle_management.0.lifecycle_actions.0.pre_termination.0.on_timeout.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "lifecycle_management.0.lifecycle_actions.0.pre_termination.0.on_timeout.0.preserve_block_volume_mode", "PRESERVE_ALWAYS"),
+				resource.TestCheckResourceAttr(resourceName, "lifecycle_management.0.lifecycle_actions.0.pre_termination.0.on_timeout.0.preserve_boot_volume_mode", "PRESERVE_ALWAYS"),
+				resource.TestCheckResourceAttr(resourceName, "lifecycle_management.0.lifecycle_actions.0.pre_termination.0.timeout", "10"),
 				resource.TestCheckResourceAttr(resourceName, "instance_display_name_formatter", "host-${launchCount}"),
 				resource.TestCheckResourceAttr(resourceName, "instance_hostname_formatter", "host-${launchCount}"),
 				resource.TestCheckResourceAttr(resourceName, "load_balancers.#", "1"),
@@ -417,6 +455,14 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "lifecycle_management.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "lifecycle_management.0.lifecycle_actions.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "lifecycle_management.0.lifecycle_actions.0.pre_termination.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "lifecycle_management.0.lifecycle_actions.0.pre_termination.0.is_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "lifecycle_management.0.lifecycle_actions.0.pre_termination.0.on_timeout.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "lifecycle_management.0.lifecycle_actions.0.pre_termination.0.on_timeout.0.preserve_block_volume_mode", "PRESERVE_ON_TIMEOUT"),
+				resource.TestCheckResourceAttr(resourceName, "lifecycle_management.0.lifecycle_actions.0.pre_termination.0.on_timeout.0.preserve_boot_volume_mode", "PRESERVE_ON_TIMEOUT"),
+				resource.TestCheckResourceAttr(resourceName, "lifecycle_management.0.lifecycle_actions.0.pre_termination.0.timeout", "11"),
 				resource.TestCheckResourceAttr(resourceName, "instance_display_name_formatter", "host2-${launchCount}"),
 				resource.TestCheckResourceAttr(resourceName, "instance_hostname_formatter", "host2-${launchCount}"),
 				resource.TestCheckResourceAttr(resourceName, "load_balancers.#", "1"),
@@ -700,6 +746,14 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "lifecycle_management.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "lifecycle_management.0.lifecycle_actions.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "lifecycle_management.0.lifecycle_actions.0.pre_termination.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "lifecycle_management.0.lifecycle_actions.0.pre_termination.0.is_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "lifecycle_management.0.lifecycle_actions.0.pre_termination.0.on_timeout.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "lifecycle_management.0.lifecycle_actions.0.pre_termination.0.on_timeout.0.preserve_block_volume_mode", "PRESERVE_ON_TIMEOUT"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "lifecycle_management.0.lifecycle_actions.0.pre_termination.0.on_timeout.0.preserve_boot_volume_mode", "PRESERVE_ON_TIMEOUT"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "lifecycle_management.0.lifecycle_actions.0.pre_termination.0.timeout", "11"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "instance_display_name_formatter", "host2-${launchCount}"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "instance_hostname_formatter", "host2-${launchCount}"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "load_balancers.#", "1"),

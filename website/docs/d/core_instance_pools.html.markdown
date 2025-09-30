@@ -52,6 +52,14 @@ The following attributes are exported:
 * `instance_configuration_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance configuration associated with the instance pool. 
 * `instance_display_name_formatter` - A user-friendly formatter for the instance pool's instances. Instance displaynames follow the format. The formatter does not retroactively change instance's displaynames, only instance displaynames in the future follow the format 
 * `instance_hostname_formatter` - A user-friendly formatter for the instance pool's instances. Instance hostnames follow the format. The formatter does not retroactively change instance's hostnames, only instance hostnames in the future follow the format 
+* `lifecycle_management` - The lifecycle management options for the instance pool. 
+	* `lifecycle_actions` - The lifecycle actions for the instance pool. 
+		* `pre_termination` - The data for pre-termination action for an instance pool 
+			* `is_enabled` - Whether pre-termination action is enabled or not. 
+			* `on_timeout` - Options to handle timeout for pre-termination action. 
+				* `preserve_block_volume_mode` - Whether the block volume should be preserved after termination. 
+				* `preserve_boot_volume_mode` - Whether the boot volume should be preserved after termination. 
+			* `timeout` - The timeout in seconds for pre-termination action for an instance pool(min = 0 sec, max = 7200 secs). 
 * `load_balancers` - The load balancers attached to the instance pool. 
 	* `backend_set_name` - The name of the backend set on the load balancer.
 	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the load balancer attachment.
