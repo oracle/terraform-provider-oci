@@ -18,12 +18,13 @@ import (
 )
 
 // CreateGiFsuCollectionDetails Details to create a 'GI' type Exadata Fleet Update Collection.
+// Targets belonging to another 'GI' type Exadata Fleet Update Collection will be rejected.
 type CreateGiFsuCollectionDetails struct {
 
-	// Compartment Identifier
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Exadata Fleet Update Collection Identifier.
+	// The user-friendly name for the Exadata Fleet Update Collection.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

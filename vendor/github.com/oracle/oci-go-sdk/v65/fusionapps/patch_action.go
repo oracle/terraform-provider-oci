@@ -28,7 +28,7 @@ type PatchAction struct {
 	// patch bundle name
 	Artifact *string `mandatory:"false" json:"artifact"`
 
-	// A string that describeds whether the change is applied hot or cold
+	// A string that describes whether the change is applied hot or cold
 	Mode PatchActionModeEnum `mandatory:"false" json:"mode,omitempty"`
 
 	// patch artifact category

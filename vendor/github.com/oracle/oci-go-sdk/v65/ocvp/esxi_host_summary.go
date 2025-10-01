@@ -124,6 +124,9 @@ type EsxiHostSummary struct {
 	// Indicates whether this host is in the progress of swapping billing.
 	IsBillingSwappingInProgress *bool `mandatory:"false" json:"isBillingSwappingInProgress"`
 
+	// A list of datastore clusters.
+	DatastoreClusterIds []string `mandatory:"false" json:"datastoreClusterIds"`
+
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{orcl-cloud: {free-tier-retain: true}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`

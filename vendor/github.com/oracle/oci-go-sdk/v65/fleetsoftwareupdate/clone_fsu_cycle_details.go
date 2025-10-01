@@ -21,14 +21,14 @@ import (
 type CloneFsuCycleDetails struct {
 	GoalVersionDetails FsuGoalVersionDetails `mandatory:"true" json:"goalVersionDetails"`
 
-	// Exadata Fleet Update Cycle display name.
+	// The user-friendly name for the Exadata Fleet Update Cycle.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Compartment Identifier.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Compartment.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// OCID identifier for the Collection ID the Exadata Fleet Update Cycle will be assigned to.
-	// If not specified, it will be assigned to the same Collection as the source Exadata Fleet Update Cycle.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Fleet Update Collection which will be updated by the Exadata Fleet Update Cycle being created.
+	// If not specified, the cloned Exadata Fleet Update Cycle will be assigned to the same Exadata Fleet Update Collection as the source Exadata Fleet Update Cycle.
 	FsuCollectionId *string `mandatory:"false" json:"fsuCollectionId"`
 
 	BatchingStrategy CreateBatchingStrategyDetails `mandatory:"false" json:"batchingStrategy"`

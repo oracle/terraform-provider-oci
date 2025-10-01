@@ -20,26 +20,26 @@ import (
 // UpgradeFsuCycle Upgrade Exadata Fleet Update Cycle resource details.
 type UpgradeFsuCycle struct {
 
-	// OCID identifier for the Exadata Fleet Update Cycle.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Fleet Update Cycle.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Compartment Identifier.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// OCID identifier for the Collection ID the Exadata Fleet Update Cycle is assigned to.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Fleet Update Collection being updated by this Exadata Fleet Update Cycle.
 	FsuCollectionId *string `mandatory:"true" json:"fsuCollectionId"`
 
 	// The date and time the Exadata Fleet Update Cycle was created, as described in
 	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339), section 14.29.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// Exadata Fleet Update Cycle display name.
+	// The user-friendly name for the Exadata Fleet Update Cycle.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// OCID identifier for the Action that is currently in execution, if applicable.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Fleet Update Action that is currently in progress, if applicable.
 	ExecutingFsuActionId *string `mandatory:"false" json:"executingFsuActionId"`
 
-	// In this array all the possible actions will be listed. The first element is the suggested Action.
+	// All possible Exadata Fleet Update Actions will be listed. The first element is the suggested Exadata Fleet Update Action.
 	NextActionToExecute []NextActionToExecuteDetails `mandatory:"false" json:"nextActionToExecute"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the latest Action
@@ -83,7 +83,7 @@ type UpgradeFsuCycle struct {
 
 	UpgradeDetails UpgradeDetails `mandatory:"false" json:"upgradeDetails"`
 
-	// Type of Collection this Exadata Fleet Update Cycle belongs to.
+	// Type of the Exadata Fleet Update Collection being updated by this Exadata Fleet Update Cycle.
 	CollectionType CollectionTypesEnum `mandatory:"false" json:"collectionType,omitempty"`
 
 	// Current rollback cycle state if rollback maintenance cycle action has been attempted.
