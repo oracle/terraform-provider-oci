@@ -59,6 +59,9 @@ type FusionEnvironmentSummary struct {
 	// Language packs
 	AdditionalLanguagePacks []string `mandatory:"false" json:"additionalLanguagePacks"`
 
+	// Enable IPv4/IPv6 dual stack support for the environment.  Setting to true will assign an IPv6 address to the environment in addition to an IPv4 address.
+	IsIPv6DualStackEnabled *bool `mandatory:"false" json:"isIPv6DualStackEnabled"`
+
 	// The lockbox Id of this fusion environment. If there's no lockbox id, this field will be null
 	LockboxId *string `mandatory:"false" json:"lockboxId"`
 

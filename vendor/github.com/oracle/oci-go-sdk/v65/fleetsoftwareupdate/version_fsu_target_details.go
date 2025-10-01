@@ -17,10 +17,11 @@ import (
 	"strings"
 )
 
-// VersionFsuTargetDetails Exadata Fleet Update Cycle Target version string details.
+// VersionFsuTargetDetails Exadata Fleet Update Cycle goal version string details.
 type VersionFsuTargetDetails struct {
 
-	// Target DB or GI version string for the Exadata Fleet Update Cycle.
+	// Goal version string for the Exadata Fleet Update Cycle.
+	// Applicable to Database, Grid Infrastructure, or Exadata Image software updates.
 	Version *string `mandatory:"true" json:"version"`
 
 	// Prefix name used for new DB home resources created as part of the Stage Action.

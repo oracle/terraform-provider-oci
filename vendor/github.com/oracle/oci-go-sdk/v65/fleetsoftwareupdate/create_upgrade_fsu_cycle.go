@@ -21,15 +21,15 @@ import (
 // For GI upgrade case, Batching strategy may be NON_ROLLING or SEQUENTIAL(default).
 type CreateUpgradeFsuCycle struct {
 
-	// Compartment Identifier.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// OCID identifier for the Collection ID the Exadata Fleet Update Cycle will be assigned to.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Fleet Update Collection which will be updated by the Exadata Fleet Update Cycle being created.
 	FsuCollectionId *string `mandatory:"true" json:"fsuCollectionId"`
 
 	GoalVersionDetails FsuGoalVersionDetails `mandatory:"true" json:"goalVersionDetails"`
 
-	// Exadata Fleet Update Cycle display name.
+	// The user-friendly name for the Exadata Fleet Update Cycle.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	BatchingStrategy CreateBatchingStrategyDetails `mandatory:"false" json:"batchingStrategy"`

@@ -19,90 +19,108 @@ type OperationTypesEnum string
 
 // Set of constants representing the allowable values for OperationTypesEnum
 const (
-	OperationTypesCreateSddc                          OperationTypesEnum = "CREATE_SDDC"
-	OperationTypesDeleteSddc                          OperationTypesEnum = "DELETE_SDDC"
-	OperationTypesCreateCluster                       OperationTypesEnum = "CREATE_CLUSTER"
-	OperationTypesDeleteCluster                       OperationTypesEnum = "DELETE_CLUSTER"
-	OperationTypesCreateEsxiHost                      OperationTypesEnum = "CREATE_ESXI_HOST"
-	OperationTypesDeleteEsxiHost                      OperationTypesEnum = "DELETE_ESXI_HOST"
-	OperationTypesUpgradeHcx                          OperationTypesEnum = "UPGRADE_HCX"
-	OperationTypesDowngradeHcx                        OperationTypesEnum = "DOWNGRADE_HCX"
-	OperationTypesCancelDowngradeHcx                  OperationTypesEnum = "CANCEL_DOWNGRADE_HCX"
-	OperationTypesRefreshHcxLicenseStatus             OperationTypesEnum = "REFRESH_HCX_LICENSE_STATUS"
-	OperationTypesSwapBilling                         OperationTypesEnum = "SWAP_BILLING"
-	OperationTypesReplaceHost                         OperationTypesEnum = "REPLACE_HOST"
-	OperationTypesInPlaceUpgrade                      OperationTypesEnum = "IN_PLACE_UPGRADE"
-	OperationTypesCreateDatastore                     OperationTypesEnum = "CREATE_DATASTORE"
-	OperationTypesUpdateDatastore                     OperationTypesEnum = "UPDATE_DATASTORE"
-	OperationTypesAddBlockVolumeToDatastore           OperationTypesEnum = "ADD_BLOCK_VOLUME_TO_DATASTORE"
-	OperationTypesDeleteDatastore                     OperationTypesEnum = "DELETE_DATASTORE"
-	OperationTypesCreateDatastoreCluster              OperationTypesEnum = "CREATE_DATASTORE_CLUSTER"
-	OperationTypesUpdateDatastoreCluster              OperationTypesEnum = "UPDATE_DATASTORE_CLUSTER"
-	OperationTypesAttachDatastoreClusterToEsxiHost    OperationTypesEnum = "ATTACH_DATASTORE_CLUSTER_TO_ESXI_HOST"
-	OperationTypesAttachDatastoreClusterToCluster     OperationTypesEnum = "ATTACH_DATASTORE_CLUSTER_TO_CLUSTER"
-	OperationTypesDetachDatastoreClusterFromEsxiHost  OperationTypesEnum = "DETACH_DATASTORE_CLUSTER_FROM_ESXI_HOST"
-	OperationTypesDetachDatastoreClusterFromCluster   OperationTypesEnum = "DETACH_DATASTORE_CLUSTER_FROM_CLUSTER"
-	OperationTypesDeleteDatastoreCluster              OperationTypesEnum = "DELETE_DATASTORE_CLUSTER"
-	OperationTypesAddDatastoreToDatastoreCluster      OperationTypesEnum = "ADD_DATASTORE_TO_DATASTORE_CLUSTER"
-	OperationTypesRemoveDatastoreFromDatastoreCluster OperationTypesEnum = "REMOVE_DATASTORE_FROM_DATASTORE_CLUSTER"
+	OperationTypesCreateSddc                               OperationTypesEnum = "CREATE_SDDC"
+	OperationTypesDeleteSddc                               OperationTypesEnum = "DELETE_SDDC"
+	OperationTypesCreateCluster                            OperationTypesEnum = "CREATE_CLUSTER"
+	OperationTypesDeleteCluster                            OperationTypesEnum = "DELETE_CLUSTER"
+	OperationTypesCreateEsxiHost                           OperationTypesEnum = "CREATE_ESXI_HOST"
+	OperationTypesDeleteEsxiHost                           OperationTypesEnum = "DELETE_ESXI_HOST"
+	OperationTypesUpgradeHcx                               OperationTypesEnum = "UPGRADE_HCX"
+	OperationTypesDowngradeHcx                             OperationTypesEnum = "DOWNGRADE_HCX"
+	OperationTypesCancelDowngradeHcx                       OperationTypesEnum = "CANCEL_DOWNGRADE_HCX"
+	OperationTypesRefreshHcxLicenseStatus                  OperationTypesEnum = "REFRESH_HCX_LICENSE_STATUS"
+	OperationTypesSwapBilling                              OperationTypesEnum = "SWAP_BILLING"
+	OperationTypesReplaceHost                              OperationTypesEnum = "REPLACE_HOST"
+	OperationTypesInPlaceUpgrade                           OperationTypesEnum = "IN_PLACE_UPGRADE"
+	OperationTypesCreateDatastore                          OperationTypesEnum = "CREATE_DATASTORE"
+	OperationTypesUpdateDatastore                          OperationTypesEnum = "UPDATE_DATASTORE"
+	OperationTypesAddBlockVolumeToDatastore                OperationTypesEnum = "ADD_BLOCK_VOLUME_TO_DATASTORE"
+	OperationTypesDeleteDatastore                          OperationTypesEnum = "DELETE_DATASTORE"
+	OperationTypesCreateDatastoreCluster                   OperationTypesEnum = "CREATE_DATASTORE_CLUSTER"
+	OperationTypesUpdateDatastoreCluster                   OperationTypesEnum = "UPDATE_DATASTORE_CLUSTER"
+	OperationTypesAttachDatastoreClusterToEsxiHost         OperationTypesEnum = "ATTACH_DATASTORE_CLUSTER_TO_ESXI_HOST"
+	OperationTypesAttachDatastoreClusterToCluster          OperationTypesEnum = "ATTACH_DATASTORE_CLUSTER_TO_CLUSTER"
+	OperationTypesDetachDatastoreClusterFromEsxiHost       OperationTypesEnum = "DETACH_DATASTORE_CLUSTER_FROM_ESXI_HOST"
+	OperationTypesDetachDatastoreClusterFromCluster        OperationTypesEnum = "DETACH_DATASTORE_CLUSTER_FROM_CLUSTER"
+	OperationTypesDeleteDatastoreCluster                   OperationTypesEnum = "DELETE_DATASTORE_CLUSTER"
+	OperationTypesAddDatastoreToDatastoreCluster           OperationTypesEnum = "ADD_DATASTORE_TO_DATASTORE_CLUSTER"
+	OperationTypesRemoveDatastoreFromDatastoreCluster      OperationTypesEnum = "REMOVE_DATASTORE_FROM_DATASTORE_CLUSTER"
+	OperationTypesCreateManagementAppliance                OperationTypesEnum = "CREATE_MANAGEMENT_APPLIANCE"
+	OperationTypesUpdateManagementAppliance                OperationTypesEnum = "UPDATE_MANAGEMENT_APPLIANCE"
+	OperationTypesDeleteManagementAppliance                OperationTypesEnum = "DELETE_MANAGEMENT_APPLIANCE"
+	OperationTypesAbandonManagementApplianceJobs           OperationTypesEnum = "ABANDON_MANAGEMENT_APPLIANCE_JOBS"
+	OperationTypesManagementApplianceEsxiHostProvisioning  OperationTypesEnum = "MANAGEMENT_APPLIANCE_ESXI_HOST_PROVISIONING"
+	OperationTypesManagementApplianceDatastoreProvisioning OperationTypesEnum = "MANAGEMENT_APPLIANCE_DATASTORE_PROVISIONING"
 )
 
 var mappingOperationTypesEnum = map[string]OperationTypesEnum{
-	"CREATE_SDDC":                             OperationTypesCreateSddc,
-	"DELETE_SDDC":                             OperationTypesDeleteSddc,
-	"CREATE_CLUSTER":                          OperationTypesCreateCluster,
-	"DELETE_CLUSTER":                          OperationTypesDeleteCluster,
-	"CREATE_ESXI_HOST":                        OperationTypesCreateEsxiHost,
-	"DELETE_ESXI_HOST":                        OperationTypesDeleteEsxiHost,
-	"UPGRADE_HCX":                             OperationTypesUpgradeHcx,
-	"DOWNGRADE_HCX":                           OperationTypesDowngradeHcx,
-	"CANCEL_DOWNGRADE_HCX":                    OperationTypesCancelDowngradeHcx,
-	"REFRESH_HCX_LICENSE_STATUS":              OperationTypesRefreshHcxLicenseStatus,
-	"SWAP_BILLING":                            OperationTypesSwapBilling,
-	"REPLACE_HOST":                            OperationTypesReplaceHost,
-	"IN_PLACE_UPGRADE":                        OperationTypesInPlaceUpgrade,
-	"CREATE_DATASTORE":                        OperationTypesCreateDatastore,
-	"UPDATE_DATASTORE":                        OperationTypesUpdateDatastore,
-	"ADD_BLOCK_VOLUME_TO_DATASTORE":           OperationTypesAddBlockVolumeToDatastore,
-	"DELETE_DATASTORE":                        OperationTypesDeleteDatastore,
-	"CREATE_DATASTORE_CLUSTER":                OperationTypesCreateDatastoreCluster,
-	"UPDATE_DATASTORE_CLUSTER":                OperationTypesUpdateDatastoreCluster,
-	"ATTACH_DATASTORE_CLUSTER_TO_ESXI_HOST":   OperationTypesAttachDatastoreClusterToEsxiHost,
-	"ATTACH_DATASTORE_CLUSTER_TO_CLUSTER":     OperationTypesAttachDatastoreClusterToCluster,
-	"DETACH_DATASTORE_CLUSTER_FROM_ESXI_HOST": OperationTypesDetachDatastoreClusterFromEsxiHost,
-	"DETACH_DATASTORE_CLUSTER_FROM_CLUSTER":   OperationTypesDetachDatastoreClusterFromCluster,
-	"DELETE_DATASTORE_CLUSTER":                OperationTypesDeleteDatastoreCluster,
-	"ADD_DATASTORE_TO_DATASTORE_CLUSTER":      OperationTypesAddDatastoreToDatastoreCluster,
-	"REMOVE_DATASTORE_FROM_DATASTORE_CLUSTER": OperationTypesRemoveDatastoreFromDatastoreCluster,
+	"CREATE_SDDC":                                 OperationTypesCreateSddc,
+	"DELETE_SDDC":                                 OperationTypesDeleteSddc,
+	"CREATE_CLUSTER":                              OperationTypesCreateCluster,
+	"DELETE_CLUSTER":                              OperationTypesDeleteCluster,
+	"CREATE_ESXI_HOST":                            OperationTypesCreateEsxiHost,
+	"DELETE_ESXI_HOST":                            OperationTypesDeleteEsxiHost,
+	"UPGRADE_HCX":                                 OperationTypesUpgradeHcx,
+	"DOWNGRADE_HCX":                               OperationTypesDowngradeHcx,
+	"CANCEL_DOWNGRADE_HCX":                        OperationTypesCancelDowngradeHcx,
+	"REFRESH_HCX_LICENSE_STATUS":                  OperationTypesRefreshHcxLicenseStatus,
+	"SWAP_BILLING":                                OperationTypesSwapBilling,
+	"REPLACE_HOST":                                OperationTypesReplaceHost,
+	"IN_PLACE_UPGRADE":                            OperationTypesInPlaceUpgrade,
+	"CREATE_DATASTORE":                            OperationTypesCreateDatastore,
+	"UPDATE_DATASTORE":                            OperationTypesUpdateDatastore,
+	"ADD_BLOCK_VOLUME_TO_DATASTORE":               OperationTypesAddBlockVolumeToDatastore,
+	"DELETE_DATASTORE":                            OperationTypesDeleteDatastore,
+	"CREATE_DATASTORE_CLUSTER":                    OperationTypesCreateDatastoreCluster,
+	"UPDATE_DATASTORE_CLUSTER":                    OperationTypesUpdateDatastoreCluster,
+	"ATTACH_DATASTORE_CLUSTER_TO_ESXI_HOST":       OperationTypesAttachDatastoreClusterToEsxiHost,
+	"ATTACH_DATASTORE_CLUSTER_TO_CLUSTER":         OperationTypesAttachDatastoreClusterToCluster,
+	"DETACH_DATASTORE_CLUSTER_FROM_ESXI_HOST":     OperationTypesDetachDatastoreClusterFromEsxiHost,
+	"DETACH_DATASTORE_CLUSTER_FROM_CLUSTER":       OperationTypesDetachDatastoreClusterFromCluster,
+	"DELETE_DATASTORE_CLUSTER":                    OperationTypesDeleteDatastoreCluster,
+	"ADD_DATASTORE_TO_DATASTORE_CLUSTER":          OperationTypesAddDatastoreToDatastoreCluster,
+	"REMOVE_DATASTORE_FROM_DATASTORE_CLUSTER":     OperationTypesRemoveDatastoreFromDatastoreCluster,
+	"CREATE_MANAGEMENT_APPLIANCE":                 OperationTypesCreateManagementAppliance,
+	"UPDATE_MANAGEMENT_APPLIANCE":                 OperationTypesUpdateManagementAppliance,
+	"DELETE_MANAGEMENT_APPLIANCE":                 OperationTypesDeleteManagementAppliance,
+	"ABANDON_MANAGEMENT_APPLIANCE_JOBS":           OperationTypesAbandonManagementApplianceJobs,
+	"MANAGEMENT_APPLIANCE_ESXI_HOST_PROVISIONING": OperationTypesManagementApplianceEsxiHostProvisioning,
+	"MANAGEMENT_APPLIANCE_DATASTORE_PROVISIONING": OperationTypesManagementApplianceDatastoreProvisioning,
 }
 
 var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
-	"create_sddc":                             OperationTypesCreateSddc,
-	"delete_sddc":                             OperationTypesDeleteSddc,
-	"create_cluster":                          OperationTypesCreateCluster,
-	"delete_cluster":                          OperationTypesDeleteCluster,
-	"create_esxi_host":                        OperationTypesCreateEsxiHost,
-	"delete_esxi_host":                        OperationTypesDeleteEsxiHost,
-	"upgrade_hcx":                             OperationTypesUpgradeHcx,
-	"downgrade_hcx":                           OperationTypesDowngradeHcx,
-	"cancel_downgrade_hcx":                    OperationTypesCancelDowngradeHcx,
-	"refresh_hcx_license_status":              OperationTypesRefreshHcxLicenseStatus,
-	"swap_billing":                            OperationTypesSwapBilling,
-	"replace_host":                            OperationTypesReplaceHost,
-	"in_place_upgrade":                        OperationTypesInPlaceUpgrade,
-	"create_datastore":                        OperationTypesCreateDatastore,
-	"update_datastore":                        OperationTypesUpdateDatastore,
-	"add_block_volume_to_datastore":           OperationTypesAddBlockVolumeToDatastore,
-	"delete_datastore":                        OperationTypesDeleteDatastore,
-	"create_datastore_cluster":                OperationTypesCreateDatastoreCluster,
-	"update_datastore_cluster":                OperationTypesUpdateDatastoreCluster,
-	"attach_datastore_cluster_to_esxi_host":   OperationTypesAttachDatastoreClusterToEsxiHost,
-	"attach_datastore_cluster_to_cluster":     OperationTypesAttachDatastoreClusterToCluster,
-	"detach_datastore_cluster_from_esxi_host": OperationTypesDetachDatastoreClusterFromEsxiHost,
-	"detach_datastore_cluster_from_cluster":   OperationTypesDetachDatastoreClusterFromCluster,
-	"delete_datastore_cluster":                OperationTypesDeleteDatastoreCluster,
-	"add_datastore_to_datastore_cluster":      OperationTypesAddDatastoreToDatastoreCluster,
-	"remove_datastore_from_datastore_cluster": OperationTypesRemoveDatastoreFromDatastoreCluster,
+	"create_sddc":                                 OperationTypesCreateSddc,
+	"delete_sddc":                                 OperationTypesDeleteSddc,
+	"create_cluster":                              OperationTypesCreateCluster,
+	"delete_cluster":                              OperationTypesDeleteCluster,
+	"create_esxi_host":                            OperationTypesCreateEsxiHost,
+	"delete_esxi_host":                            OperationTypesDeleteEsxiHost,
+	"upgrade_hcx":                                 OperationTypesUpgradeHcx,
+	"downgrade_hcx":                               OperationTypesDowngradeHcx,
+	"cancel_downgrade_hcx":                        OperationTypesCancelDowngradeHcx,
+	"refresh_hcx_license_status":                  OperationTypesRefreshHcxLicenseStatus,
+	"swap_billing":                                OperationTypesSwapBilling,
+	"replace_host":                                OperationTypesReplaceHost,
+	"in_place_upgrade":                            OperationTypesInPlaceUpgrade,
+	"create_datastore":                            OperationTypesCreateDatastore,
+	"update_datastore":                            OperationTypesUpdateDatastore,
+	"add_block_volume_to_datastore":               OperationTypesAddBlockVolumeToDatastore,
+	"delete_datastore":                            OperationTypesDeleteDatastore,
+	"create_datastore_cluster":                    OperationTypesCreateDatastoreCluster,
+	"update_datastore_cluster":                    OperationTypesUpdateDatastoreCluster,
+	"attach_datastore_cluster_to_esxi_host":       OperationTypesAttachDatastoreClusterToEsxiHost,
+	"attach_datastore_cluster_to_cluster":         OperationTypesAttachDatastoreClusterToCluster,
+	"detach_datastore_cluster_from_esxi_host":     OperationTypesDetachDatastoreClusterFromEsxiHost,
+	"detach_datastore_cluster_from_cluster":       OperationTypesDetachDatastoreClusterFromCluster,
+	"delete_datastore_cluster":                    OperationTypesDeleteDatastoreCluster,
+	"add_datastore_to_datastore_cluster":          OperationTypesAddDatastoreToDatastoreCluster,
+	"remove_datastore_from_datastore_cluster":     OperationTypesRemoveDatastoreFromDatastoreCluster,
+	"create_management_appliance":                 OperationTypesCreateManagementAppliance,
+	"update_management_appliance":                 OperationTypesUpdateManagementAppliance,
+	"delete_management_appliance":                 OperationTypesDeleteManagementAppliance,
+	"abandon_management_appliance_jobs":           OperationTypesAbandonManagementApplianceJobs,
+	"management_appliance_esxi_host_provisioning": OperationTypesManagementApplianceEsxiHostProvisioning,
+	"management_appliance_datastore_provisioning": OperationTypesManagementApplianceDatastoreProvisioning,
 }
 
 // GetOperationTypesEnumValues Enumerates the set of values for OperationTypesEnum
@@ -143,6 +161,12 @@ func GetOperationTypesEnumStringValues() []string {
 		"DELETE_DATASTORE_CLUSTER",
 		"ADD_DATASTORE_TO_DATASTORE_CLUSTER",
 		"REMOVE_DATASTORE_FROM_DATASTORE_CLUSTER",
+		"CREATE_MANAGEMENT_APPLIANCE",
+		"UPDATE_MANAGEMENT_APPLIANCE",
+		"DELETE_MANAGEMENT_APPLIANCE",
+		"ABANDON_MANAGEMENT_APPLIANCE_JOBS",
+		"MANAGEMENT_APPLIANCE_ESXI_HOST_PROVISIONING",
+		"MANAGEMENT_APPLIANCE_DATASTORE_PROVISIONING",
 	}
 }
 

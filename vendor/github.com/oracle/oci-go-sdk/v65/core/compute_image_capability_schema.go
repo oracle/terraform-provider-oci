@@ -53,6 +53,9 @@ type ComputeImageCapabilitySchema struct {
 	// The OCID of the compartment that contains the resource.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
+	// The ComputeImageCapabilitySchema current lifecycle state.
+	LifecycleState ComputeImageCapabilitySchemaLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
 	// Defined tags for this resource. Each key is predefined and scoped to a
 	// namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
@@ -74,6 +77,9 @@ func (m ComputeImageCapabilitySchema) String() string {
 func (m ComputeImageCapabilitySchema) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingComputeImageCapabilitySchemaLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetComputeImageCapabilitySchemaLifecycleStateEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -83,16 +89,17 @@ func (m ComputeImageCapabilitySchema) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *ComputeImageCapabilitySchema) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		CompartmentId                                 *string                                    `json:"compartmentId"`
-		DefinedTags                                   map[string]map[string]interface{}          `json:"definedTags"`
-		FreeformTags                                  map[string]string                          `json:"freeformTags"`
-		Id                                            *string                                    `json:"id"`
-		ComputeGlobalImageCapabilitySchemaId          *string                                    `json:"computeGlobalImageCapabilitySchemaId"`
-		ComputeGlobalImageCapabilitySchemaVersionName *string                                    `json:"computeGlobalImageCapabilitySchemaVersionName"`
-		ImageId                                       *string                                    `json:"imageId"`
-		DisplayName                                   *string                                    `json:"displayName"`
-		SchemaData                                    map[string]imagecapabilityschemadescriptor `json:"schemaData"`
-		TimeCreated                                   *common.SDKTime                            `json:"timeCreated"`
+		CompartmentId                                 *string                                        `json:"compartmentId"`
+		LifecycleState                                ComputeImageCapabilitySchemaLifecycleStateEnum `json:"lifecycleState"`
+		DefinedTags                                   map[string]map[string]interface{}              `json:"definedTags"`
+		FreeformTags                                  map[string]string                              `json:"freeformTags"`
+		Id                                            *string                                        `json:"id"`
+		ComputeGlobalImageCapabilitySchemaId          *string                                        `json:"computeGlobalImageCapabilitySchemaId"`
+		ComputeGlobalImageCapabilitySchemaVersionName *string                                        `json:"computeGlobalImageCapabilitySchemaVersionName"`
+		ImageId                                       *string                                        `json:"imageId"`
+		DisplayName                                   *string                                        `json:"displayName"`
+		SchemaData                                    map[string]imagecapabilityschemadescriptor     `json:"schemaData"`
+		TimeCreated                                   *common.SDKTime                                `json:"timeCreated"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -101,6 +108,8 @@ func (m *ComputeImageCapabilitySchema) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.CompartmentId = model.CompartmentId
+
+	m.LifecycleState = model.LifecycleState
 
 	m.DefinedTags = model.DefinedTags
 
@@ -132,4 +141,50 @@ func (m *ComputeImageCapabilitySchema) UnmarshalJSON(data []byte) (e error) {
 	m.TimeCreated = model.TimeCreated
 
 	return
+}
+
+// ComputeImageCapabilitySchemaLifecycleStateEnum Enum with underlying type: string
+type ComputeImageCapabilitySchemaLifecycleStateEnum string
+
+// Set of constants representing the allowable values for ComputeImageCapabilitySchemaLifecycleStateEnum
+const (
+	ComputeImageCapabilitySchemaLifecycleStateCreating ComputeImageCapabilitySchemaLifecycleStateEnum = "CREATING"
+	ComputeImageCapabilitySchemaLifecycleStateActive   ComputeImageCapabilitySchemaLifecycleStateEnum = "ACTIVE"
+	ComputeImageCapabilitySchemaLifecycleStateDeleted  ComputeImageCapabilitySchemaLifecycleStateEnum = "DELETED"
+)
+
+var mappingComputeImageCapabilitySchemaLifecycleStateEnum = map[string]ComputeImageCapabilitySchemaLifecycleStateEnum{
+	"CREATING": ComputeImageCapabilitySchemaLifecycleStateCreating,
+	"ACTIVE":   ComputeImageCapabilitySchemaLifecycleStateActive,
+	"DELETED":  ComputeImageCapabilitySchemaLifecycleStateDeleted,
+}
+
+var mappingComputeImageCapabilitySchemaLifecycleStateEnumLowerCase = map[string]ComputeImageCapabilitySchemaLifecycleStateEnum{
+	"creating": ComputeImageCapabilitySchemaLifecycleStateCreating,
+	"active":   ComputeImageCapabilitySchemaLifecycleStateActive,
+	"deleted":  ComputeImageCapabilitySchemaLifecycleStateDeleted,
+}
+
+// GetComputeImageCapabilitySchemaLifecycleStateEnumValues Enumerates the set of values for ComputeImageCapabilitySchemaLifecycleStateEnum
+func GetComputeImageCapabilitySchemaLifecycleStateEnumValues() []ComputeImageCapabilitySchemaLifecycleStateEnum {
+	values := make([]ComputeImageCapabilitySchemaLifecycleStateEnum, 0)
+	for _, v := range mappingComputeImageCapabilitySchemaLifecycleStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetComputeImageCapabilitySchemaLifecycleStateEnumStringValues Enumerates the set of values in String for ComputeImageCapabilitySchemaLifecycleStateEnum
+func GetComputeImageCapabilitySchemaLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETED",
+	}
+}
+
+// GetMappingComputeImageCapabilitySchemaLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingComputeImageCapabilitySchemaLifecycleStateEnum(val string) (ComputeImageCapabilitySchemaLifecycleStateEnum, bool) {
+	enum, ok := mappingComputeImageCapabilitySchemaLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

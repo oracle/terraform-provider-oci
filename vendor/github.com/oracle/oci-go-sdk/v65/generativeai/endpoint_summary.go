@@ -52,6 +52,9 @@ type EndpointSummary struct {
 	// An optional description of the endpoint.
 	Description *string `mandatory:"false" json:"description"`
 
+	// The OCID of the Generative AI private endpoint to which this endpoint is attached to.
+	GenerativeAiPrivateEndpointId *string `mandatory:"false" json:"generativeAiPrivateEndpointId"`
+
 	// The date and time the endpoint was updated in the format of n RFC3339 datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 

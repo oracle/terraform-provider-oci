@@ -17,16 +17,17 @@ import (
 	"strings"
 )
 
-// CreateFsuCollectionDetails The information about new Exadata Fleet Update Collection.
+// CreateFsuCollectionDetails Details to create a new Exadata Fleet Update Collection.
+// Targets belonging to another Exadata Fleet Update Collection of the same type will be rejected.
 type CreateFsuCollectionDetails interface {
 
 	// Exadata service type for the target resource members.
 	GetServiceType() CollectionServiceTypesEnum
 
-	// Compartment Identifier
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Compartment.
 	GetCompartmentId() *string
 
-	// Exadata Fleet Update Collection Identifier.
+	// The user-friendly name for the Exadata Fleet Update Collection.
 	GetDisplayName() *string
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
@@ -84,6 +85,14 @@ func (m *createfsucollectiondetails) UnmarshalPolymorphicJSON(data []byte) (inte
 		return mm, err
 	case "GI":
 		mm := CreateGiFsuCollectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GUEST_OS":
+		mm := CreateGuestOsFsuCollectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "EXADB_STACK":
+		mm := CreateExadbStackFsuCollectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
