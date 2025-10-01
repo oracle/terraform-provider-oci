@@ -16,10 +16,11 @@ import (
 	"strings"
 )
 
-// UpdateFsuCollectionDetails The information to Update Exadata Fleet Update Collection.
+// UpdateFsuCollectionDetails Updates specified fields for the specified Exadata Fleet Update Collection.
+// Fields that are not specified in the request will not be updated.
 type UpdateFsuCollectionDetails struct {
 
-	// Exadata Fleet Update Collection display name.
+	// The user-friendly name for the Exadata Fleet Update Collection.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

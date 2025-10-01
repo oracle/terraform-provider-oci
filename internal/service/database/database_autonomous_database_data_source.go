@@ -71,6 +71,8 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("actual_used_data_storage_size_in_tbs", *s.Res.ActualUsedDataStorageSizeInTBs)
 	}
 
+	s.D.Set("additional_attributes", s.Res.AdditionalAttributes)
+
 	if s.Res.AllocatedStorageSizeInTBs != nil {
 		s.D.Set("allocated_storage_size_in_tbs", *s.Res.AllocatedStorageSizeInTBs)
 	}
@@ -235,14 +237,6 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("in_memory_percentage", *s.Res.InMemoryPercentage)
 	}
 
-	if s.Res.InMemoryAreaInGBs != nil {
-		s.D.Set("in_memory_area_in_gbs", *s.Res.InMemoryAreaInGBs)
-	}
-
-	if s.Res.InMemoryPercentage != nil {
-		s.D.Set("in_memory_percentage", *s.Res.InMemoryPercentage)
-	}
-
 	s.D.Set("infrastructure_type", s.Res.InfrastructureType)
 
 	if s.Res.IsAccessControlEnabled != nil {
@@ -349,6 +343,14 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("long_term_backup_schedule", []interface{}{LongTermBackUpScheduleDetailsToMap(s.Res.LongTermBackupSchedule)})
 	} else {
 		s.D.Set("long_term_backup_schedule", nil)
+	}
+
+	if s.Res.MaintenanceTargetComponent != nil {
+		s.D.Set("maintenance_target_component", *s.Res.MaintenanceTargetComponent)
+	}
+
+	if s.Res.MemoryPerComputeUnitInGBs != nil {
+		s.D.Set("memory_per_compute_unit_in_gbs", *s.Res.MemoryPerComputeUnitInGBs)
 	}
 
 	if s.Res.MemoryPerOracleComputeUnitInGBs != nil {
@@ -499,10 +501,6 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 
 	if s.Res.TimeMaintenanceEnd != nil {
 		s.D.Set("time_maintenance_end", s.Res.TimeMaintenanceEnd.String())
-	}
-
-	if s.Res.MaintenanceTargetComponent != nil {
-		s.D.Set("maintenance_target_component", *s.Res.MaintenanceTargetComponent)
 	}
 
 	if s.Res.TimeOfAutoRefreshStart != nil {

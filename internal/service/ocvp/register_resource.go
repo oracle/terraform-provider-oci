@@ -7,6 +7,8 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterResource() {
 	tfresource.RegisterResource("oci_ocvp_cluster", OcvpClusterResource())
+	tfresource.RegisterResource("oci_ocvp_datastore", OcvpDatastoreResource())
+	tfresource.RegisterResource("oci_ocvp_datastore_cluster", OcvpDatastoreClusterResource())
 	tfresource.RegisterResource("oci_ocvp_esxi_host", OcvpEsxiHostResource())
 	tfresource.RegisterResource("oci_ocvp_sddc", OcvpSddcResource())
 }

@@ -30,6 +30,9 @@ type UpdateFusionEnvironmentDetails struct {
 	// Language packs
 	AdditionalLanguagePacks []string `mandatory:"false" json:"additionalLanguagePacks"`
 
+	// Enable IPv4/IPv6 dual stack support for the environment.  Setting to true will assign an IPv6 address to the environment in addition to an IPv4 address.
+	IsIPv6DualStackEnabled *bool `mandatory:"false" json:"isIPv6DualStackEnabled"`
+
 	// Network access control rules to limit internet traffic that can access the environment. For more information, see AllowRule.
 	Rules []Rule `mandatory:"false" json:"rules"`
 
@@ -65,6 +68,7 @@ func (m *UpdateFusionEnvironmentDetails) UnmarshalJSON(data []byte) (e error) {
 		KmsKeyId                *string                           `json:"kmsKeyId"`
 		MaintenancePolicy       *MaintenancePolicy                `json:"maintenancePolicy"`
 		AdditionalLanguagePacks []string                          `json:"additionalLanguagePacks"`
+		IsIPv6DualStackEnabled  *bool                             `json:"isIPv6DualStackEnabled"`
 		Rules                   []rule                            `json:"rules"`
 		FreeformTags            map[string]string                 `json:"freeformTags"`
 		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
@@ -83,6 +87,8 @@ func (m *UpdateFusionEnvironmentDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.AdditionalLanguagePacks = make([]string, len(model.AdditionalLanguagePacks))
 	copy(m.AdditionalLanguagePacks, model.AdditionalLanguagePacks)
+	m.IsIPv6DualStackEnabled = model.IsIPv6DualStackEnabled
+
 	m.Rules = make([]Rule, len(model.Rules))
 	for i, n := range model.Rules {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)

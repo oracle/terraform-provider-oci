@@ -10,6 +10,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -26,11 +28,11 @@ func GoldenGateConnectionResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createGoldenGateConnection,
-		Read:     readGoldenGateConnection,
-		Update:   updateGoldenGateConnection,
-		Delete:   deleteGoldenGateConnection,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createGoldenGateConnectionWithContext,
+		ReadContext:   readGoldenGateConnectionWithContext,
+		UpdateContext: updateGoldenGateConnectionWithContext,
+		DeleteContext: deleteGoldenGateConnectionWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -850,26 +852,26 @@ func GoldenGateConnectionResource() *schema.Resource {
 	}
 }
 
-func createGoldenGateConnection(d *schema.ResourceData, m interface{}) error {
+func createGoldenGateConnectionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GoldenGateConnectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	err := tfresource.CreateResource(d, sync)
+	err := tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 	// always rewrite to false
 	sync.D.Set("trigger_refresh", false)
 	return err
 }
 
-func readGoldenGateConnection(d *schema.ResourceData, m interface{}) error {
+func readGoldenGateConnectionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GoldenGateConnectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateGoldenGateConnection(d *schema.ResourceData, m interface{}) error {
+func updateGoldenGateConnectionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GoldenGateConnectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
@@ -884,12 +886,12 @@ func updateGoldenGateConnection(d *schema.ResourceData, m interface{}) error {
 	if refreshOnly {
 		err = sync.refreshConnection()
 	} else {
-		err = tfresource.UpdateResource(d, sync)
+		err = tfresource.UpdateResourceWithContext(ctx, d, sync)
 	}
 
 	// always rewrite to false
 	sync.D.Set("trigger_refresh", false)
-	return err
+	return tfresource.HandleDiagError(m, err)
 }
 
 func (s *GoldenGateConnectionResourceCrud) refreshConnection() error {
@@ -918,7 +920,7 @@ func (s *GoldenGateConnectionResourceCrud) refreshConnection() error {
 		return refreshWorkRequestErr
 	}
 
-	if e := s.Get(); e != nil {
+	if e := s.GetWithContext(context.Background()); e != nil {
 		return e
 	}
 
@@ -929,13 +931,13 @@ func (s *GoldenGateConnectionResourceCrud) refreshConnection() error {
 	return nil
 }
 
-func deleteGoldenGateConnection(d *schema.ResourceData, m interface{}) error {
+func deleteGoldenGateConnectionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GoldenGateConnectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type GoldenGateConnectionResourceCrud struct {
@@ -974,7 +976,7 @@ func (s *GoldenGateConnectionResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *GoldenGateConnectionResourceCrud) Create() error {
+func (s *GoldenGateConnectionResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_golden_gate.CreateConnectionRequest{}
 	err := s.populateTopLevelPolymorphicCreateConnectionRequest(&request)
 	if err != nil {
@@ -1009,7 +1011,7 @@ func (s *GoldenGateConnectionResourceCrud) getConnectionFromWorkRequest(workId *
 	}
 	s.D.SetId(*connectionId)
 
-	return s.Get()
+	return s.GetWithContext(context.Background())
 }
 
 func connectionWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -1027,7 +1029,7 @@ func connectionWorkRequestShouldRetryFunc(timeout time.Duration) func(response o
 			return true
 		}
 
-		// Only stop if the time Finished is set
+		//  Only stop if the time Finished is set
 		if workRequestResponse, ok := response.Response.(oci_golden_gate.GetWorkRequestResponse); ok {
 			return workRequestResponse.TimeFinished == nil
 		}
@@ -1112,7 +1114,7 @@ func getErrorFromGoldenGateConnectionWorkRequest(client *oci_golden_gate.GoldenG
 	return workRequestErr
 }
 
-func (s *GoldenGateConnectionResourceCrud) Get() error {
+func (s *GoldenGateConnectionResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_golden_gate.GetConnectionRequest{}
 
 	tmp := s.D.Id()
@@ -1120,7 +1122,7 @@ func (s *GoldenGateConnectionResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
-	response, err := s.Client.GetConnection(context.Background(), request)
+	response, err := s.Client.GetConnection(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1129,7 +1131,7 @@ func (s *GoldenGateConnectionResourceCrud) Get() error {
 	return nil
 }
 
-func (s *GoldenGateConnectionResourceCrud) Update() error {
+func (s *GoldenGateConnectionResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -1147,7 +1149,7 @@ func (s *GoldenGateConnectionResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
-	response, err := s.Client.UpdateConnection(context.Background(), request)
+	response, err := s.Client.UpdateConnection(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1156,7 +1158,7 @@ func (s *GoldenGateConnectionResourceCrud) Update() error {
 	return s.getConnectionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *GoldenGateConnectionResourceCrud) Delete() error {
+func (s *GoldenGateConnectionResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_golden_gate.DeleteConnectionRequest{}
 
 	tmp := s.D.Id()
@@ -1169,7 +1171,7 @@ func (s *GoldenGateConnectionResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
-	response, err := s.Client.DeleteConnection(context.Background(), request)
+	response, err := s.Client.DeleteConnection(ctx, request)
 	if err != nil {
 		return err
 	}

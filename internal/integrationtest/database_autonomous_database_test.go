@@ -6,6 +6,7 @@ package integrationtest
 import (
 	"context"
 	"fmt"
+	"os"
 	"testing"
 	"time"
 
@@ -220,6 +221,14 @@ var (
 		"kms_key_id":                   acctest.Representation{RepType: acctest.Required, Update: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 		"vault_id":                     acctest.Representation{RepType: acctest.Required, Update: kmsVaultId},
 		"autonomous_database_provider": acctest.Representation{RepType: acctest.Required, Update: `OCI`},
+	}
+	DatabaseAutonomousDatabaseEncryptionKeyGCPRepresentation = map[string]interface{}{
+		"autonomous_database_provider": acctest.Representation{RepType: acctest.Required, Update: `GCP`},
+		"key_name":                     acctest.Representation{RepType: acctest.Required, Create: `keyName`},
+		"key_ring":                     acctest.Representation{RepType: acctest.Required, Update: `keyRing`},
+		"location":                     acctest.Representation{RepType: acctest.Required, Update: `location`},
+		"project":                      acctest.Representation{RepType: acctest.Required, Update: `project`},
+		"kms_rest_endpoint":            acctest.Representation{RepType: acctest.Optional, Update: `kmsRestEndpoint`},
 	}
 	DatabaseAutonomousDatabaseResourcePoolSummaryRepresentation = map[string]interface{}{
 		"is_disabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
@@ -1818,6 +1827,76 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "encryption_key.0.autonomous_database_provider", "OCI"),
 				resource.TestCheckResourceAttrSet(resourceName, "encryption_key.0.kms_key_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "encryption_key.0.vault_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					fmt.Println(resId)
+					return err
+				},
+			),
+		},
+	})
+}
+
+func TestDatabaseAutonomousDatabaseResourceEncryptionKey_basic(t *testing.T) {
+	shouldSkipADBStest := os.Getenv("TF_VAR_should_skip_adbs_test")
+
+	if shouldSkipADBStest == "true" {
+		t.Skip("Skipping TestDatabaseAutonomousDatabaseResourceEncryptionKey_basic test.\n" + "Current TF_VAR_should_skip_adbs_test=" + shouldSkipADBStest)
+	}
+
+	httpreplay.SetScenario("TestDatabaseAutonomousDatabaseResourceEncryptionKey_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_database_autonomous_database.test_autonomous_database_gcp_kms"
+	//datasourceName := "data.oci_database_autonomous_database_resource_pool_members.test_autonomous_database_resource_pool_members"
+
+	var resId string
+
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseAutonomousDatabaseResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_gcp_kms", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithRemovedProperties(DatabaseAutonomousDatabaseRepresentation, []string{"db_tools_details"})), "database", "autonomousDatabase", t)
+
+	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousDatabaseDestroy, []resource.TestStep{
+		//0. Create ADB using default Oracle Managed key
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_gcp_kms", acctest.Required, acctest.Create, acctest.RepresentationCopyWithRemovedProperties(DatabaseAutonomousDatabaseRepresentation, []string{"db_tools_details"})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "compute_model", "OCPU"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(resourceName, "encryption_key.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "encryption_key.0.autonomous_database_provider", "ORACLE_MANAGED"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		//1. Update ADB using GCP encryptionKey
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_gcp_kms", acctest.Required, acctest.Update,
+					acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentation, map[string]interface{}{
+						"encryption_key": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseAutonomousDatabaseEncryptionKeyGCPRepresentation},
+					}), []string{"admin_password", "db_tools_details"})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "encryption_key.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "encryption_key.0.autonomous_database_provider", "GCP"),
+				resource.TestCheckResourceAttr(resourceName, "encryption_key.0.key_name", "keyName"),
+				resource.TestCheckResourceAttr(resourceName, "encryption_key.0.key_ring", "keyRing"),
+				resource.TestCheckResourceAttr(resourceName, "encryption_key.0.location", "location"),
+				resource.TestCheckResourceAttr(resourceName, "encryption_key.0.project", "project"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")

@@ -20,13 +20,13 @@ import (
 // FsuCycle Exadata Fleet Update Cycle resource details.
 type FsuCycle interface {
 
-	// OCID identifier for the Exadata Fleet Update Cycle.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Fleet Update Cycle.
 	GetId() *string
 
-	// Compartment Identifier.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Compartment.
 	GetCompartmentId() *string
 
-	// OCID identifier for the Collection ID the Exadata Fleet Update Cycle is assigned to.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Fleet Update Collection being updated by this Exadata Fleet Update Cycle.
 	GetFsuCollectionId() *string
 
 	// The date and time the Exadata Fleet Update Cycle was created, as described in
@@ -36,16 +36,16 @@ type FsuCycle interface {
 	// The current state of the Exadata Fleet Update Cycle.
 	GetLifecycleState() CycleLifecycleStatesEnum
 
-	// Exadata Fleet Update Cycle display name.
+	// The user-friendly name for the Exadata Fleet Update Cycle.
 	GetDisplayName() *string
 
-	// Type of Collection this Exadata Fleet Update Cycle belongs to.
+	// Type of the Exadata Fleet Update Collection being updated by this Exadata Fleet Update Cycle.
 	GetCollectionType() CollectionTypesEnum
 
-	// OCID identifier for the Action that is currently in execution, if applicable.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Fleet Update Action that is currently in progress, if applicable.
 	GetExecutingFsuActionId() *string
 
-	// In this array all the possible actions will be listed. The first element is the suggested Action.
+	// All possible Exadata Fleet Update Actions will be listed. The first element is the suggested Exadata Fleet Update Action.
 	GetNextActionToExecute() []NextActionToExecuteDetails
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the latest Action

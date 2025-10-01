@@ -52,5 +52,5 @@ variable "instance_image_ocid" {
 }
 
 variable "instance_shape" {
-  default = "VM.Standard2.1"
+  default = "VM.Standard.E5.Flex"
 }

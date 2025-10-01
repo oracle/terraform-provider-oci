@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// RemoveFsuCollectionTargetsDetails Remove targets from a Exadata Fleet Update Collection.
+// RemoveFsuCollectionTargetsDetails Remove targets from an Exadata Fleet Update Collection.
 type RemoveFsuCollectionTargetsDetails interface {
 }
 

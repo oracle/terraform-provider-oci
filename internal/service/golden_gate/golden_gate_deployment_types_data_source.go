@@ -6,6 +6,7 @@ package golden_gate
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_golden_gate "github.com/oracle/oci-go-sdk/v65/goldengate"
 
@@ -15,7 +16,7 @@ import (
 
 func GoldenGateDeploymentTypesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readGoldenGateDeploymentTypes,
+		ReadContext: readGoldenGateDeploymentTypesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -111,12 +112,12 @@ func GoldenGateDeploymentTypesDataSource() *schema.Resource {
 	}
 }
 
-func readGoldenGateDeploymentTypes(d *schema.ResourceData, m interface{}) error {
+func readGoldenGateDeploymentTypesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GoldenGateDeploymentTypesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type GoldenGateDeploymentTypesDataSourceCrud struct {
@@ -129,7 +130,7 @@ func (s *GoldenGateDeploymentTypesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GoldenGateDeploymentTypesDataSourceCrud) Get() error {
+func (s *GoldenGateDeploymentTypesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_golden_gate.ListDeploymentTypesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -153,7 +154,7 @@ func (s *GoldenGateDeploymentTypesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "golden_gate")
 
-	response, err := s.Client.ListDeploymentTypes(context.Background(), request)
+	response, err := s.Client.ListDeploymentTypes(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -162,7 +163,7 @@ func (s *GoldenGateDeploymentTypesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDeploymentTypes(context.Background(), request)
+		listResponse, err := s.Client.ListDeploymentTypes(ctx, request)
 		if err != nil {
 			return err
 		}

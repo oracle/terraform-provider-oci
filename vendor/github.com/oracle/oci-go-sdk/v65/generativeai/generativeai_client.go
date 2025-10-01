@@ -220,6 +220,69 @@ func (client GenerativeAiClient) changeEndpointCompartment(ctx context.Context, 
 	return response, err
 }
 
+// ChangeGenerativeAiPrivateEndpointCompartment Moves a Generative AI private endpoint into a different compartment. When provided, If-Match is checked against ETag values of the resource.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/ChangeGenerativeAiPrivateEndpointCompartment.go.html to see an example of how to use ChangeGenerativeAiPrivateEndpointCompartment API.
+// A default retry strategy applies to this operation ChangeGenerativeAiPrivateEndpointCompartment()
+func (client GenerativeAiClient) ChangeGenerativeAiPrivateEndpointCompartment(ctx context.Context, request ChangeGenerativeAiPrivateEndpointCompartmentRequest) (response ChangeGenerativeAiPrivateEndpointCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeGenerativeAiPrivateEndpointCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeGenerativeAiPrivateEndpointCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeGenerativeAiPrivateEndpointCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeGenerativeAiPrivateEndpointCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeGenerativeAiPrivateEndpointCompartmentResponse")
+	}
+	return
+}
+
+// changeGenerativeAiPrivateEndpointCompartment implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) changeGenerativeAiPrivateEndpointCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/generativeAiPrivateEndpoints/{generativeAiPrivateEndpointId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeGenerativeAiPrivateEndpointCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/GenerativeAiPrivateEndpoint/ChangeGenerativeAiPrivateEndpointCompartment"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "ChangeGenerativeAiPrivateEndpointCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeModelCompartment Moves a custom model into a different compartment. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
 // # See also
@@ -410,6 +473,69 @@ func (client GenerativeAiClient) createEndpoint(ctx context.Context, request com
 	return response, err
 }
 
+// CreateGenerativeAiPrivateEndpoint Creates a Generative AI private endpoint.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/CreateGenerativeAiPrivateEndpoint.go.html to see an example of how to use CreateGenerativeAiPrivateEndpoint API.
+// A default retry strategy applies to this operation CreateGenerativeAiPrivateEndpoint()
+func (client GenerativeAiClient) CreateGenerativeAiPrivateEndpoint(ctx context.Context, request CreateGenerativeAiPrivateEndpointRequest) (response CreateGenerativeAiPrivateEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createGenerativeAiPrivateEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateGenerativeAiPrivateEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateGenerativeAiPrivateEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateGenerativeAiPrivateEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateGenerativeAiPrivateEndpointResponse")
+	}
+	return
+}
+
+// createGenerativeAiPrivateEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) createGenerativeAiPrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/generativeAiPrivateEndpoints", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateGenerativeAiPrivateEndpointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "GenerativeAi", "CreateGenerativeAiPrivateEndpoint", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateModel Creates a custom model by fine-tuning a base model with your own dataset. You can create a new custom models or create a new version of existing custom model..
 // The header contains an opc-work-request-id, which is the id for the WorkRequest that tracks the model creation progress.
 //
@@ -591,6 +717,64 @@ func (client GenerativeAiClient) deleteEndpoint(ctx context.Context, request com
 	return response, err
 }
 
+// DeleteGenerativeAiPrivateEndpoint Deletes a Generative AI  private endpoint using `privateEndpointId`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/DeleteGenerativeAiPrivateEndpoint.go.html to see an example of how to use DeleteGenerativeAiPrivateEndpoint API.
+// A default retry strategy applies to this operation DeleteGenerativeAiPrivateEndpoint()
+func (client GenerativeAiClient) DeleteGenerativeAiPrivateEndpoint(ctx context.Context, request DeleteGenerativeAiPrivateEndpointRequest) (response DeleteGenerativeAiPrivateEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteGenerativeAiPrivateEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteGenerativeAiPrivateEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteGenerativeAiPrivateEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteGenerativeAiPrivateEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteGenerativeAiPrivateEndpointResponse")
+	}
+	return
+}
+
+// deleteGenerativeAiPrivateEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) deleteGenerativeAiPrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/generativeAiPrivateEndpoints/{generativeAiPrivateEndpointId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteGenerativeAiPrivateEndpointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/GenerativeAiPrivateEndpoint/DeleteGenerativeAiPrivateEndpoint"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "DeleteGenerativeAiPrivateEndpoint", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteModel Deletes a custom model. A model shouldn't be deleted if there's one or more active endpoints associated with that model.
 //
 // # See also
@@ -758,6 +942,64 @@ func (client GenerativeAiClient) getEndpoint(ctx context.Context, request common
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/Endpoint/GetEndpoint"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "GetEndpoint", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetGenerativeAiPrivateEndpoint Retrieves an Generative AI private endpoint using a `privateEndpointId`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/GetGenerativeAiPrivateEndpoint.go.html to see an example of how to use GetGenerativeAiPrivateEndpoint API.
+// A default retry strategy applies to this operation GetGenerativeAiPrivateEndpoint()
+func (client GenerativeAiClient) GetGenerativeAiPrivateEndpoint(ctx context.Context, request GetGenerativeAiPrivateEndpointRequest) (response GetGenerativeAiPrivateEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getGenerativeAiPrivateEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetGenerativeAiPrivateEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetGenerativeAiPrivateEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetGenerativeAiPrivateEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetGenerativeAiPrivateEndpointResponse")
+	}
+	return
+}
+
+// getGenerativeAiPrivateEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) getGenerativeAiPrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/generativeAiPrivateEndpoints/{generativeAiPrivateEndpointId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetGenerativeAiPrivateEndpointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/GenerativeAiPrivateEndpoint/GetGenerativeAiPrivateEndpoint"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "GetGenerativeAiPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -990,6 +1232,64 @@ func (client GenerativeAiClient) listEndpoints(ctx context.Context, request comm
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/EndpointCollection/ListEndpoints"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "ListEndpoints", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListGenerativeAiPrivateEndpoints Lists all Generative AI private endpoints in the specified compartment.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/ListGenerativeAiPrivateEndpoints.go.html to see an example of how to use ListGenerativeAiPrivateEndpoints API.
+// A default retry strategy applies to this operation ListGenerativeAiPrivateEndpoints()
+func (client GenerativeAiClient) ListGenerativeAiPrivateEndpoints(ctx context.Context, request ListGenerativeAiPrivateEndpointsRequest) (response ListGenerativeAiPrivateEndpointsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listGenerativeAiPrivateEndpoints, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListGenerativeAiPrivateEndpointsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListGenerativeAiPrivateEndpointsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListGenerativeAiPrivateEndpointsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListGenerativeAiPrivateEndpointsResponse")
+	}
+	return
+}
+
+// listGenerativeAiPrivateEndpoints implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) listGenerativeAiPrivateEndpoints(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/generativeAiPrivateEndpoints", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListGenerativeAiPrivateEndpointsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/GenerativeAiPrivateEndpointCollection/ListGenerativeAiPrivateEndpoints"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "ListGenerativeAiPrivateEndpoints", apiReferenceLink)
 		return response, err
 	}
 
@@ -1338,6 +1638,64 @@ func (client GenerativeAiClient) updateEndpoint(ctx context.Context, request com
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/Endpoint/UpdateEndpoint"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "UpdateEndpoint", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateGenerativeAiPrivateEndpoint Updates a Generative AI private endpoint using a `privateEndpointId`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/UpdateGenerativeAiPrivateEndpoint.go.html to see an example of how to use UpdateGenerativeAiPrivateEndpoint API.
+// A default retry strategy applies to this operation UpdateGenerativeAiPrivateEndpoint()
+func (client GenerativeAiClient) UpdateGenerativeAiPrivateEndpoint(ctx context.Context, request UpdateGenerativeAiPrivateEndpointRequest) (response UpdateGenerativeAiPrivateEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateGenerativeAiPrivateEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateGenerativeAiPrivateEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateGenerativeAiPrivateEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateGenerativeAiPrivateEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateGenerativeAiPrivateEndpointResponse")
+	}
+	return
+}
+
+// updateGenerativeAiPrivateEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) updateGenerativeAiPrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/generativeAiPrivateEndpoints/{generativeAiPrivateEndpointId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateGenerativeAiPrivateEndpointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/GenerativeAiPrivateEndpoint/UpdateGenerativeAiPrivateEndpoint"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "UpdateGenerativeAiPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 

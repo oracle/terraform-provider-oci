@@ -58,7 +58,7 @@ variable "cloud_exadata_infrastructure_un_allocated_resource_db_servers" {
 }
 
 variable "acd_db_version" {
-  default = "19.26.0.1.0"
+  default = "19.28.0.1.0"
 }
 
 variable "tenant_subscription_id" {

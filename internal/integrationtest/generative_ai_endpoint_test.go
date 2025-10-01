@@ -70,9 +70,9 @@ var (
 	  filtered_models = [
 		for item in data.oci_generative_ai_models.serving_models.model_collection[0].items : item
 		  if (
-			(item.version == "14.2")
+			(item.version == "1.0")
 			&& length(item.capabilities) == 1
-			&& (item.display_name == "cohere.command-light")
+			&& (item.display_name == "cohere.command-a-03-2025")
 		  )
 		]
 	
@@ -81,7 +81,7 @@ var (
 	
 	data "oci_generative_ai_models" "serving_models" {
 	  compartment_id = var.compartment_id
-	  display_name = "cohere.command-light"
+	  display_name = "cohere.command-a-03-2025"
 	}
 	`
 )

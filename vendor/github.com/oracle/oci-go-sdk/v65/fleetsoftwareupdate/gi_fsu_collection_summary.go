@@ -20,13 +20,13 @@ import (
 // GiFsuCollectionSummary 'GI' type Exadata Fleet Update Collection summary.
 type GiFsuCollectionSummary struct {
 
-	// OCID identifier for the Exadata Fleet Update Collection.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Fleet Update Collection.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Exadata Fleet Update Collection resource display name.
+	// The user-friendly name for the Exadata Fleet Update Collection.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Compartment Identifier
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The time the Exadata Fleet Update Collection was created. An RFC3339 formatted datetime string.

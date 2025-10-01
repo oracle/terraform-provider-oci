@@ -32,6 +32,10 @@ const (
 	OperationTypeDeleteEndpoint           OperationTypeEnum = "DELETE_ENDPOINT"
 	OperationTypeUpdateEndpoint           OperationTypeEnum = "UPDATE_ENDPOINT"
 	OperationTypeMoveEndpoint             OperationTypeEnum = "MOVE_ENDPOINT"
+	OperationTypeCreatePrivateEndpoint    OperationTypeEnum = "CREATE_PRIVATE_ENDPOINT"
+	OperationTypeDeletePrivateEndpoint    OperationTypeEnum = "DELETE_PRIVATE_ENDPOINT"
+	OperationTypeUpdatePrivateEndpoint    OperationTypeEnum = "UPDATE_PRIVATE_ENDPOINT"
+	OperationTypeMovePrivateEndpoint      OperationTypeEnum = "MOVE_PRIVATE_ENDPOINT"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -46,6 +50,10 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"DELETE_ENDPOINT":             OperationTypeDeleteEndpoint,
 	"UPDATE_ENDPOINT":             OperationTypeUpdateEndpoint,
 	"MOVE_ENDPOINT":               OperationTypeMoveEndpoint,
+	"CREATE_PRIVATE_ENDPOINT":     OperationTypeCreatePrivateEndpoint,
+	"DELETE_PRIVATE_ENDPOINT":     OperationTypeDeletePrivateEndpoint,
+	"UPDATE_PRIVATE_ENDPOINT":     OperationTypeUpdatePrivateEndpoint,
+	"MOVE_PRIVATE_ENDPOINT":       OperationTypeMovePrivateEndpoint,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -60,6 +68,10 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"delete_endpoint":             OperationTypeDeleteEndpoint,
 	"update_endpoint":             OperationTypeUpdateEndpoint,
 	"move_endpoint":               OperationTypeMoveEndpoint,
+	"create_private_endpoint":     OperationTypeCreatePrivateEndpoint,
+	"delete_private_endpoint":     OperationTypeDeletePrivateEndpoint,
+	"update_private_endpoint":     OperationTypeUpdatePrivateEndpoint,
+	"move_private_endpoint":       OperationTypeMovePrivateEndpoint,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -85,6 +97,10 @@ func GetOperationTypeEnumStringValues() []string {
 		"DELETE_ENDPOINT",
 		"UPDATE_ENDPOINT",
 		"MOVE_ENDPOINT",
+		"CREATE_PRIVATE_ENDPOINT",
+		"DELETE_PRIVATE_ENDPOINT",
+		"UPDATE_PRIVATE_ENDPOINT",
+		"MOVE_PRIVATE_ENDPOINT",
 	}
 }
 

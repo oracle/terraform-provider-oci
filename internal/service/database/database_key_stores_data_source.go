@@ -99,6 +99,16 @@ func (s *DatabaseKeyStoresDataSourceCrud) SetData() error {
 		}
 		keyStore["associated_databases"] = associatedDatabases
 
+		if r.AssociatedLongTermBackupCount != nil {
+			keyStore["associated_long_term_backup_count"] = *r.AssociatedLongTermBackupCount
+		}
+
+		associatedLongTermBackups := []interface{}{}
+		for _, item := range r.AssociatedLongTermBackups {
+			associatedLongTermBackups = append(associatedLongTermBackups, AssociatedLongTermBackupToMap(item))
+		}
+		keyStore["associated_long_term_backups"] = associatedLongTermBackups
+
 		if r.DefinedTags != nil {
 			keyStore["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
 		}

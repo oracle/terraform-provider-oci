@@ -72,9 +72,13 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
 		external_id = oci_database_external.test_external.id
 		key_arn = var.autonomous_database_encryption_key_key_arn
 		key_name = oci_kms_key.test_key.name
+		key_ring = var.autonomous_database_encryption_key_key_ring
 		kms_key_id = oci_kms_key.test_key.id
+		kms_rest_endpoint = var.autonomous_database_encryption_key_kms_rest_endpoint
+		location = var.autonomous_database_encryption_key_location
 		okv_kms_key = var.autonomous_database_encryption_key_okv_kms_key
 		okv_uri = var.autonomous_database_encryption_key_okv_uri
+		project = var.autonomous_database_encryption_key_project
 		service_endpoint_uri = var.autonomous_database_encryption_key_service_endpoint_uri
 		vault_id = oci_kms_vault.test_vault.id
 		vault_uri = var.autonomous_database_encryption_key_vault_uri
@@ -205,10 +209,14 @@ The following arguments are supported:
 	* `directory_name` - (Required when provider=OKV) (Updatable) OKV wallet directory name
 	* `external_id` - (Applicable when provider=AWS) (Updatable) AWS external ID
 	* `key_arn` - (Required when provider=AWS) (Updatable) AWS key ARN
-	* `key_name` - (Required when provider=AZURE) (Updatable) Azure key name
+	* `key_name` - (Required when provider=AZURE | GCP) (Updatable) Azure key name
+	* `key_ring` - (Required when provider=GCP) (Updatable) GCP key ring
 	* `kms_key_id` - (Required when provider=OCI) (Updatable) The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
+	* `kms_rest_endpoint` - (Applicable when provider=GCP) (Updatable) GCP kms REST API endpoint
+	* `location` - (Required when provider=GCP) (Updatable) GCP key ring location
 	* `okv_kms_key` - (Required when provider=OKV) (Updatable) UUID of OKV KMS Key
 	* `okv_uri` - (Required when provider=OKV) (Updatable) URI of OKV server
+	* `project` - (Required when provider=GCP) (Updatable) GCP project name
 	* `service_endpoint_uri` - (Required when provider=AWS) (Updatable) AWS key service endpoint URI
 	* `vault_id` - (Required when provider=OCI) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
 	* `vault_uri` - (Required when provider=AZURE) (Updatable) Azure vault URI
@@ -320,6 +328,7 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `actual_used_data_storage_size_in_tbs` - The current amount of storage in use for user and system data, in terabytes (TB). 
+* `additional_attributes` - Additional attributes for this resource. Each attribute is a simple key-value pair with no predefined name, type, or namespace. Example: `{ "gcpAccountName": "gcpName" }` 
 * `allocated_storage_size_in_tbs` - The amount of storage currently allocated for the database tables and billed for, rounded up. When auto-scaling is not enabled, this value is equal to the `dataStorageSizeInTBs` value. You can compare this value to the `actualUsedDataStorageSizeInTBs` value to determine if a manual shrink operation is appropriate for your allocated storage.
 
 	**Note:** Auto-scaling does not automatically decrease allocated storage when data is deleted from the database. 
@@ -417,9 +426,13 @@ The following attributes are exported:
 	* `external_id` - AWS external ID
 	* `key_arn` - AWS key ARN
 	* `key_name` - Azure key name
+	* `key_ring` - GCP key ring
 	* `kms_key_id` - The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
+	* `kms_rest_endpoint` - GCP kms REST API endpoint
+	* `location` - GCP key ring location
 	* `okv_kms_key` - UUID of OKV KMS Key
 	* `okv_uri` - URI of OKV server
+	* `project` - GCP project name
 	* `service_endpoint_uri` - AWS key service endpoint URI
 	* `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
 	* `vault_uri` - Azure vault URI
@@ -433,9 +446,13 @@ The following attributes are exported:
 		* `external_id` - AWS external ID
 		* `key_arn` - AWS key ARN
 		* `key_name` - Azure key name
+		* `key_ring` - GCP key ring
 		* `kms_key_id` - The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
+		* `kms_rest_endpoint` - GCP kms REST API endpoint
+		* `location` - GCP key ring location
 		* `okv_kms_key` - UUID of OKV KMS Key
 		* `okv_uri` - URI of OKV server
+		* `project` - GCP project name
 		* `service_endpoint_uri` - AWS key service endpoint URI
 		* `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
 		* `vault_uri` - Azure vault URI
@@ -505,7 +522,8 @@ The following attributes are exported:
 	* `retention_period_in_days` - Retention period, in days, for long-term backups
 	* `time_of_backup` - The timestamp for the long-term backup schedule. For a MONTHLY cadence, months having fewer days than the provided date will have the backup taken on the last day of that month.
 * `maintenance_target_component` - The component chosen for maintenance.
-* `memory_per_oracle_compute_unit_in_gbs` - The amount of memory (in GBs) enabled per ECPU or OCPU. 
+* `memory_per_compute_unit_in_gbs` - The amount of memory (in GBs) to be enabled per OCPU or ECPU. 
+* `memory_per_oracle_compute_unit_in_gbs` - The amount of memory (in GBs, rounded off to nearest integer value) enabled per ECPU or OCPU. This is deprecated. Please refer to memoryPerComputeUnitInGBs for accurate value. 
 * `ncharacter_set` - The national character set for the autonomous database.  The default is AL16UTF16. Allowed values are: AL16UTF16 or UTF8. 
 * `net_services_architecture` - Enabling SHARED server architecture enables a database server to allow many client processes to share very few server processes, thereby increasing the number of supported users. 
 * `next_long_term_backup_time_stamp` - The date and time when the next long-term backup would be created.
@@ -613,7 +631,7 @@ The following attributes are exported:
 * `time_of_last_switchover` - The timestamp of the last switchover operation for the Autonomous Database.
 * `time_of_next_refresh` - The date and time of next refresh.
 * `time_reclamation_of_free_autonomous_database` - The date and time the Always Free database will be stopped because of inactivity. If this time is reached without any database activity, the database will automatically be put into the STOPPED state. 
-* `time_scheduled_db_version_upgrade` - The date and time the Autonomous Database scheduled to upgrade to 23ai. Send this value along with the target db_version value to schedule the database version upgrade. After the upgrade is scheduled and before the scheduled upgrade time arrives, please keep the db_version value the same as the backend's current db_version.
+* `time_scheduled_db_version_upgrade` - The date and time the Autonomous Database scheduled to upgrade to 23ai. 
 * `time_undeleted` - The date and time the Autonomous Database was most recently undeleted. 
 * `time_until_reconnect_clone_enabled` - The time and date as an RFC3339 formatted string, e.g., 2022-01-01T12:00:00.000Z, to set the limit for a refreshable clone to be reconnected to its source database.
 * `total_backup_storage_size_in_gbs` - The backup storage to the database.

@@ -17,18 +17,18 @@ import (
 	"strings"
 )
 
-// CreatePatchFsuCycle Patch Exadata Fleet Update Cycle resource creation details.
+// CreatePatchFsuCycle Details to create an Exadata Fleet Update Cycle for a single maintenance update for an Exadata Fleet Update Collection.
 type CreatePatchFsuCycle struct {
 
-	// Compartment Identifier.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// OCID identifier for the Collection ID the Exadata Fleet Update Cycle will be assigned to.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Fleet Update Collection which will be updated by the Exadata Fleet Update Cycle being created.
 	FsuCollectionId *string `mandatory:"true" json:"fsuCollectionId"`
 
 	GoalVersionDetails FsuGoalVersionDetails `mandatory:"true" json:"goalVersionDetails"`
 
-	// Exadata Fleet Update Cycle display name.
+	// The user-friendly name for the Exadata Fleet Update Cycle.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	BatchingStrategy CreateBatchingStrategyDetails `mandatory:"false" json:"batchingStrategy"`
@@ -47,17 +47,18 @@ type CreatePatchFsuCycle struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// Ignore all patches between the source and target homes during patching.
+	// Ignore patch conflicts or missing patches between the source and goal homes.
+	// This attribute will be ignored for Exadata Image (Guest OS) maintenance update.
 	IsIgnorePatches *bool `mandatory:"false" json:"isIgnorePatches"`
 
-	// List of patch IDs to ignore.
+	// List of identifiers of patches to ignore.
+	// This attribute will be ignored for Exadata Image (Guest OS) maintenance update.
 	IsIgnoreMissingPatches []string `mandatory:"false" json:"isIgnoreMissingPatches"`
 
-	// Service drain timeout specified in seconds.
+	// Timeout for session draining for database services specified in seconds.
 	MaxDrainTimeoutInSeconds *int `mandatory:"false" json:"maxDrainTimeoutInSeconds"`
 
-	// Ensure that services of administrator-managed Oracle RAC or Oracle RAC One databases are running on the same
-	// instances before and after the move operation.
+	// Ensure that database services are online on the same VMs before and after the maintenance update.
 	IsKeepPlacement *bool `mandatory:"false" json:"isKeepPlacement"`
 }
 

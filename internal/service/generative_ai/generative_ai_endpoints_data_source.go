@@ -26,6 +26,10 @@ func GenerativeAiEndpointsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"generative_ai_private_endpoint_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -81,6 +85,11 @@ func (s *GenerativeAiEndpointsDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if generativeAiPrivateEndpointId, ok := s.D.GetOkExists("generative_ai_private_endpoint_id"); ok {
+		tmp := generativeAiPrivateEndpointId.(string)
+		request.GenerativeAiPrivateEndpointId = &tmp
 	}
 
 	if id, ok := s.D.GetOkExists("id"); ok {

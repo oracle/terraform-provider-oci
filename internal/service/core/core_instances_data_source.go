@@ -206,6 +206,10 @@ func (s *CoreInstancesDataSourceCrud) SetData() error {
 			instance["ipxe_script"] = *r.IpxeScript
 		}
 
+		if r.IsAIEnterpriseEnabled != nil {
+			instance["is_ai_enterprise_enabled"] = *r.IsAIEnterpriseEnabled
+		}
+
 		if r.IsCrossNumaNode != nil {
 			instance["is_cross_numa_node"] = *r.IsCrossNumaNode
 		}

@@ -78,6 +78,8 @@ func (s *OcvpClusterDataSourceCrud) SetData() error {
 		s.D.Set("compute_availability_domain", *s.Res.ComputeAvailabilityDomain)
 	}
 
+	s.D.Set("datastore_cluster_ids", s.Res.DatastoreClusterIds)
+
 	datastores := []interface{}{}
 	for _, item := range s.Res.Datastores {
 		datastores = append(datastores, DatastoreDetailsToMap(item))

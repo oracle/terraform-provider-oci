@@ -132,6 +132,10 @@ func DatabaseAutonomousVmClusterResourceUsageDataSource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Computed: true,
 			},
+			"memory_per_compute_unit_in_gbs": {
+				Type:     schema.TypeFloat,
+				Computed: true,
+			},
 			"memory_per_oracle_compute_unit_in_gbs": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -260,6 +264,10 @@ func (s *DatabaseAutonomousVmClusterResourceUsageDataSourceCrud) SetData() error
 
 	if s.Res.IsLocalBackupEnabled != nil {
 		s.D.Set("is_local_backup_enabled", *s.Res.IsLocalBackupEnabled)
+	}
+
+	if s.Res.MemoryPerComputeUnitInGBs != nil {
+		s.D.Set("memory_per_compute_unit_in_gbs", *s.Res.MemoryPerComputeUnitInGBs)
 	}
 
 	if s.Res.MemoryPerOracleComputeUnitInGBs != nil {

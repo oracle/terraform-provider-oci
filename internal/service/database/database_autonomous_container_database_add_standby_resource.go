@@ -75,6 +75,12 @@ func DatabaseAutonomousContainerDatabaseAddStandbyResource() *schema.Resource {
 									},
 
 									// Optional
+									"backup_retention_policy_on_terminate": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
 									"dbrs_policy_id": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -83,6 +89,12 @@ func DatabaseAutonomousContainerDatabaseAddStandbyResource() *schema.Resource {
 									},
 									"id": {
 										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"is_retention_lock_enabled": {
+										Type:     schema.TypeBool,
 										Optional: true,
 										Computed: true,
 										ForceNew: true,
@@ -202,12 +214,20 @@ func DatabaseAutonomousContainerDatabaseAddStandbyResource() *schema.Resource {
 									// Optional
 
 									// Computed
+									"backup_retention_policy_on_terminate": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"dbrs_policy_id": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
 									"id": {
 										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"is_retention_lock_enabled": {
+										Type:     schema.TypeBool,
 										Computed: true,
 									},
 									"internet_proxy": {
@@ -619,6 +639,10 @@ func DatabaseAutonomousContainerDatabaseAddStandbyResource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"memory_per_compute_unit_in_gbs": {
+				Type:     schema.TypeFloat,
+				Computed: true,
 			},
 			"memory_per_oracle_compute_unit_in_gbs": {
 				Type:     schema.TypeInt,
@@ -1042,6 +1066,10 @@ func (s *DatabaseAutonomousContainerDatabaseAddStandbyResourceCrud) SetData() er
 		s.D.Set("maintenance_window", nil)
 	}
 
+	if s.Res.MemoryPerComputeUnitInGBs != nil {
+		s.D.Set("memory_per_compute_unit_in_gbs", *s.Res.MemoryPerComputeUnitInGBs)
+	}
+
 	if s.Res.MemoryPerOracleComputeUnitInGBs != nil {
 		s.D.Set("memory_per_oracle_compute_unit_in_gbs", *s.Res.MemoryPerOracleComputeUnitInGBs)
 	}
@@ -1224,6 +1252,10 @@ func (s *DatabaseAutonomousContainerDatabaseAddStandbyResourceCrud) AutonomousDa
 func (s *DatabaseAutonomousContainerDatabaseAddStandbyResourceCrud) mapToBackupDestinationDetails(fieldKeyFormat string) (oci_database.BackupDestinationDetails, error) {
 	result := oci_database.BackupDestinationDetails{}
 
+	if backupRetentionPolicyOnTerminate, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_retention_policy_on_terminate")); ok {
+		result.BackupRetentionPolicyOnTerminate = oci_database.BackupDestinationDetailsBackupRetentionPolicyOnTerminateEnum(backupRetentionPolicyOnTerminate.(string))
+	}
+
 	if dbrsPolicyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dbrs_policy_id")); ok {
 		tmp := dbrsPolicyId.(string)
 		result.DbrsPolicyId = &tmp
@@ -1237,6 +1269,11 @@ func (s *DatabaseAutonomousContainerDatabaseAddStandbyResourceCrud) mapToBackupD
 	if internetProxy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "internet_proxy")); ok {
 		tmp := internetProxy.(string)
 		result.InternetProxy = &tmp
+	}
+
+	if isRetentionLockEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_retention_lock_enabled")); ok {
+		tmp := isRetentionLockEnabled.(bool)
+		result.IsRetentionLockEnabled = &tmp
 	}
 
 	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
@@ -1259,6 +1296,8 @@ func (s *DatabaseAutonomousContainerDatabaseAddStandbyResourceCrud) mapToBackupD
 func (s *DatabaseAutonomousContainerDatabaseAddStandbyResourceCrud) BackupDestinationDetailsToMap(obj oci_database.BackupDestinationDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	result["backup_retention_policy_on_terminate"] = string(obj.BackupRetentionPolicyOnTerminate)
+
 	if obj.DbrsPolicyId != nil {
 		result["dbrs_policy_id"] = string(*obj.DbrsPolicyId)
 	}
@@ -1275,6 +1314,10 @@ func (s *DatabaseAutonomousContainerDatabaseAddStandbyResourceCrud) BackupDestin
 
 	if obj.VpcPassword != nil {
 		result["vpc_password"] = string(*obj.VpcPassword)
+	}
+
+	if obj.IsRetentionLockEnabled != nil {
+		result["is_retention_lock_enabled"] = bool(*obj.IsRetentionLockEnabled)
 	}
 
 	if obj.VpcUser != nil {

@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// TargetProgressSummary Progress details of the executing job for a Database target.
+// TargetProgressSummary Progress details of the executing job for a target.
 type TargetProgressSummary struct {
 
 	// Type of operations being executed.

@@ -50,10 +50,38 @@ var exportOcvpClusterHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportOcvpDatastoreClusterHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_ocvp_datastore_cluster",
+	DatasourceClass:        "oci_ocvp_datastore_clusters",
+	DatasourceItemsAttr:    "datastore_cluster_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "datastore_cluster",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_ocvp.LifecycleStatesActive),
+		string(oci_ocvp.LifecycleStatesFailed),
+	},
+}
+
+var exportOcvpDatastoreHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_ocvp_datastore",
+	DatasourceClass:        "oci_ocvp_datastores",
+	DatasourceItemsAttr:    "datastore_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "datastore",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_ocvp.LifecycleStatesActive),
+		string(oci_ocvp.LifecycleStatesFailed),
+	},
+}
+
 var ocvpResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportOcvpSddcHints},
 		{TerraformResourceHints: exportOcvpClusterHints},
+		{TerraformResourceHints: exportOcvpDatastoreClusterHints},
+		{TerraformResourceHints: exportOcvpDatastoreHints},
 	},
 	"oci_ocvp_sddc": {
 		{

@@ -88,6 +88,11 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 									},
 
 									// Optional
+									"backup_retention_policy_on_terminate": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 									"id": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -99,6 +104,11 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 										Computed: true,
 									},
 									"is_remote": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
+									"is_retention_lock_enabled": {
 										Type:     schema.TypeBool,
 										Optional: true,
 										Computed: true,
@@ -405,6 +415,18 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 									},
 
 									// Optional
+									"backup_retention_policy_on_terminate": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"is_retention_lock_enabled": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
 									"id": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -573,6 +595,14 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
+						},
+						"backup_retention_policy_on_terminate": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"is_retention_lock_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
 						},
 						"dbrs_policy_id": {
 							Type:     schema.TypeString,
@@ -974,6 +1004,10 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"memory_per_compute_unit_in_gbs": {
+				Type:     schema.TypeFloat,
+				Computed: true,
 			},
 			"memory_per_oracle_compute_unit_in_gbs": {
 				Type:     schema.TypeInt,
@@ -1602,6 +1636,10 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 		s.D.Set("maintenance_window", nil)
 	}
 
+	if s.Res.MemoryPerComputeUnitInGBs != nil {
+		s.D.Set("memory_per_compute_unit_in_gbs", *s.Res.MemoryPerComputeUnitInGBs)
+	}
+
 	if s.Res.MemoryPerOracleComputeUnitInGBs != nil {
 		s.D.Set("memory_per_oracle_compute_unit_in_gbs", *s.Res.MemoryPerOracleComputeUnitInGBs)
 	}
@@ -1882,7 +1920,10 @@ func BackupDestinationConfigurationSummaryToMap(obj oci_database.BackupDestinati
 	for i, attachTime := range obj.BackupDestinationAttachHistory {
 		stringHistory[i] = attachTime.String()
 	}
+
 	result["backup_destination_attach_history"] = stringHistory
+
+	result["backup_retention_policy_on_terminate"] = string(obj.BackupRetentionPolicyOnTerminate)
 
 	if obj.DbrsPolicyId != nil {
 		result["dbrs_policy_id"] = string(*obj.DbrsPolicyId)
@@ -1890,6 +1931,10 @@ func BackupDestinationConfigurationSummaryToMap(obj oci_database.BackupDestinati
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
+	}
+
+	if obj.IsRetentionLockEnabled != nil {
+		result["is_retention_lock_enabled"] = bool(*obj.IsRetentionLockEnabled)
 	}
 
 	if obj.InternetProxy != nil {
@@ -2014,6 +2059,10 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) AutonomousDatabaseKeyH
 func (s *DatabaseAutonomousContainerDatabaseResourceCrud) mapToBackupDestinationDetails(fieldKeyFormat string) (oci_database.BackupDestinationDetails, error) {
 	result := oci_database.BackupDestinationDetails{}
 
+	if backupRetentionPolicyOnTerminate, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_retention_policy_on_terminate")); ok {
+		result.BackupRetentionPolicyOnTerminate = oci_database.BackupDestinationDetailsBackupRetentionPolicyOnTerminateEnum(backupRetentionPolicyOnTerminate.(string))
+	}
+
 	if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
 		tmp := id.(string)
 		result.Id = &tmp
@@ -2027,6 +2076,11 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) mapToBackupDestination
 	if isRemote, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_remote")); ok {
 		tmp := isRemote.(bool)
 		result.IsRemote = &tmp
+	}
+
+	if isRetentionLockEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_retention_lock_enabled")); ok {
+		tmp := isRetentionLockEnabled.(bool)
+		result.IsRetentionLockEnabled = &tmp
 	}
 
 	if remoteRegion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "remote_region")); ok {
@@ -2054,6 +2108,8 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) mapToBackupDestination
 func AutonomousContainerDatabaseBackupDestinationDetailsToMap(obj oci_database.BackupDestinationDetails, s *DatabaseAutonomousContainerDatabaseResourceCrud, dataSource bool, fieldKeyFormat string) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	result["backup_retention_policy_on_terminate"] = string(obj.BackupRetentionPolicyOnTerminate)
+
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
 	}
@@ -2064,6 +2120,10 @@ func AutonomousContainerDatabaseBackupDestinationDetailsToMap(obj oci_database.B
 
 	if obj.IsRemote != nil {
 		result["is_remote"] = bool(*obj.IsRemote)
+	}
+
+	if obj.IsRetentionLockEnabled != nil {
+		result["is_retention_lock_enabled"] = bool(*obj.IsRetentionLockEnabled)
 	}
 
 	if obj.RemoteRegion != nil {

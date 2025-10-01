@@ -6,6 +6,7 @@ package ocvp
 import (
 	"context"
 	"fmt"
+	"log"
 	"strings"
 	"time"
 
@@ -146,6 +147,20 @@ func OcvpEsxiHostResource() *schema.Resource {
 				DiffSuppressFunc: suppressEsxiHostDeprecatedFieldRemoval,
 				Deprecated:       "This 'non_upgraded_esxi_host_id' argument has been deprecated and will be computed only.",
 			},
+			"attach_datastore_cluster_ids": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"detach_datastore_cluster_ids": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 
 			// Computed
 			"billing_contract_end_date": {
@@ -159,6 +174,46 @@ func OcvpEsxiHostResource() *schema.Resource {
 			"compute_instance_id": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"datastore_attachments": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"block_volume_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"datastore_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"ip_address": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"port": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"volume_iqn": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"datastore_cluster_ids": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 			"current_commitment": {
 				Type:     schema.TypeString,
@@ -227,6 +282,7 @@ func createOcvpEsxiHost(d *schema.ResourceData, m interface{}) error {
 	sync.ClusterClient = m.(*client.OracleClients).ClusterClient()
 	sync.SddcClient = m.(*client.OracleClients).SddcClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).OcvpWorkRequestClient()
+	sync.DatastoreClusterClient = m.(*client.OracleClients).DatastoreClusterClient()
 
 	if e := tfresource.CreateResource(d, sync); e != nil {
 		return e
@@ -249,6 +305,7 @@ func updateOcvpEsxiHost(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).EsxiHostClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).OcvpWorkRequestClient()
+	sync.DatastoreClusterClient = m.(*client.OracleClients).DatastoreClusterClient()
 
 	if err := tfresource.UpdateResource(d, sync); err != nil {
 		return err
@@ -275,6 +332,7 @@ type OcvpEsxiHostResourceCrud struct {
 	WorkRequestClient      *oci_ocvp.WorkRequestClient
 	ClusterClient          *oci_ocvp.ClusterClient
 	SddcClient             *oci_ocvp.SddcClient
+	DatastoreClusterClient *oci_ocvp.DatastoreClusterClient
 }
 
 func (s *OcvpEsxiHostResourceCrud) ID() string {
@@ -429,7 +487,17 @@ func (s *OcvpEsxiHostResourceCrud) Create() error {
 
 	workId := response.OpcWorkRequestId
 	s.setEsxiHostIdFromWorkRequest(workId)
-	return s.getEsxiHostFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
+	_, err = esxiHostWaitForWorkRequest(workId, "esxihost",
+		oci_ocvp.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries, s.WorkRequestClient)
+	if err != nil {
+		return nil
+	}
+
+	if err := s.executeAttachDetachDatastoreClusters(); err != nil {
+		return err
+	}
+
+	return s.Get()
 }
 
 func (s *OcvpEsxiHostResourceCrud) setEsxiHostIdFromWorkRequest(workId *string) {
@@ -618,13 +686,16 @@ func (s *OcvpEsxiHostResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
-	response, err := s.Client.UpdateEsxiHost(context.Background(), request)
+	_, err := s.Client.UpdateEsxiHost(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
-	s.Res = &response.EsxiHost
-	return nil
+	if err := s.executeAttachDetachDatastoreClusters(); err != nil {
+		return err
+	}
+
+	return s.Get()
 }
 
 func (s *OcvpEsxiHostResourceCrud) Delete() error {
@@ -692,6 +763,17 @@ func (s *OcvpEsxiHostResourceCrud) SetData() error {
 	if s.Res.ComputeInstanceId != nil {
 		s.D.Set("compute_instance_id", *s.Res.ComputeInstanceId)
 	}
+
+	datastoreAttachments := []interface{}{}
+	for _, item := range s.Res.DatastoreAttachments {
+		datastoreAttachments = append(datastoreAttachments, DatastoreAttachmentToMap(item))
+	}
+	s.D.Set("datastore_attachments", datastoreAttachments)
+
+	s.D.Set("datastore_cluster_ids", s.Res.DatastoreClusterIds)
+
+	//s.D.Set("attach_datastore_cluster_ids", s.D.Get("attach_datastore_cluster_ids"))
+	//s.D.Set("detach_datastore_cluster_ids", s.D.Get("detach_datastore_cluster_ids"))
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
@@ -871,6 +953,32 @@ func validateReplacementHostDetails(oldHost oci_ocvp.EsxiHost, s *OcvpEsxiHostRe
 	return nil
 }
 
+func DatastoreAttachmentToMap(obj oci_ocvp.DatastoreAttachment) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.BlockVolumeId != nil {
+		result["block_volume_id"] = string(*obj.BlockVolumeId)
+	}
+
+	if obj.DatastoreId != nil {
+		result["datastore_id"] = string(*obj.DatastoreId)
+	}
+
+	if obj.IpAddress != nil {
+		result["ip_address"] = string(*obj.IpAddress)
+	}
+
+	if obj.Port != nil {
+		result["port"] = int(*obj.Port)
+	}
+
+	if obj.VolumeIqn != nil {
+		result["volume_iqn"] = string(*obj.VolumeIqn)
+	}
+
+	return result
+}
+
 func EsxiHostSummaryToMap(obj oci_ocvp.EsxiHostSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -900,6 +1008,10 @@ func EsxiHostSummaryToMap(obj oci_ocvp.EsxiHostSummary) map[string]interface{} {
 
 	result["current_commitment"] = string(obj.CurrentCommitment)
 	result["current_sku"] = string(obj.CurrentCommitment)
+
+	if obj.DatastoreClusterIds != nil {
+		result["datastore_cluster_ids"] = obj.DatastoreClusterIds
+	}
 
 	if obj.DefinedTags != nil {
 		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
@@ -977,4 +1089,66 @@ func EsxiHostSummaryToMap(obj oci_ocvp.EsxiHostSummary) map[string]interface{} {
 	}
 
 	return result
+}
+
+func (s *OcvpEsxiHostResourceCrud) executeAttachDetachDatastoreClusters() error {
+	var datastoreClusterIdsToDetach []string
+	var datastoreClusterIdsToAttach []string
+	if tmp, ok := s.D.GetOk("detach_datastore_cluster_ids"); ok && s.D.HasChange("detach_datastore_cluster_ids") {
+		datastoreClusterIdsToDetach = castToSliceOfStrings(tmp)
+		log.Printf("[DEBUG] datastore_cluster_ids requested to be detached: %v", datastoreClusterIdsToDetach)
+	}
+	if tmp, ok := s.D.GetOk("attach_datastore_cluster_ids"); ok && s.D.HasChange("attach_datastore_cluster_ids") {
+		datastoreClusterIdsToAttach = castToSliceOfStrings(tmp)
+		log.Printf("[DEBUG] datastore_cluster_ids requested to be attached: %v", datastoreClusterIdsToAttach)
+	}
+	for _, datastoreClusterId := range datastoreClusterIdsToDetach {
+		log.Printf("[DEBUG] detaching datastore cluster %v", datastoreClusterId)
+		if err := s.detachDatastoreClusterFromEsxiHost(datastoreClusterId); err != nil {
+			return err
+		}
+	}
+	for _, datastoreClusterId := range datastoreClusterIdsToAttach {
+		log.Printf("[DEBUG] attaching datastore cluster %v", datastoreClusterId)
+		if err := s.attachDatastoreClusterToEsxiHost(datastoreClusterId); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (s *OcvpEsxiHostResourceCrud) attachDatastoreClusterToEsxiHost(datastoreClusterId string) error {
+	esxiHostId := s.D.Id()
+	request := oci_ocvp.AttachDatastoreClusterToEsxiHostRequest{
+		DatastoreClusterId: &datastoreClusterId,
+		AttachDatastoreClusterToEsxiHostDetails: oci_ocvp.AttachDatastoreClusterToEsxiHostDetails{
+			EsxiHostId: &esxiHostId,
+		},
+	}
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
+	response, err := s.DatastoreClusterClient.AttachDatastoreClusterToEsxiHost(context.Background(), request)
+	if err != nil {
+		return err
+	}
+	_, err = datastoreClusterWaitForWorkRequest(response.OpcWorkRequestId, "sddc-datastore-cluster", oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate),
+		s.DisableNotFoundRetries, s.WorkRequestClient)
+	return err
+}
+
+func (s *OcvpEsxiHostResourceCrud) detachDatastoreClusterFromEsxiHost(datastoreClusterId string) error {
+	esxiHostId := s.D.Id()
+	request := oci_ocvp.DetachDatastoreClusterFromEsxiHostRequest{
+		DatastoreClusterId: &datastoreClusterId,
+		DetachDatastoreClusterFromEsxiHostDetails: oci_ocvp.DetachDatastoreClusterFromEsxiHostDetails{
+			EsxiHostId: &esxiHostId,
+		},
+	}
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
+	response, err := s.DatastoreClusterClient.DetachDatastoreClusterFromEsxiHost(context.Background(), request)
+	if err != nil {
+		return err
+	}
+	_, err = datastoreClusterWaitForWorkRequest(response.OpcWorkRequestId, "sddc-datastore-cluster", oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate),
+		s.DisableNotFoundRetries, s.WorkRequestClient)
+	return err
 }

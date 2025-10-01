@@ -6,6 +6,7 @@ package golden_gate
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -19,15 +20,15 @@ func GoldenGateDatabaseRegistrationDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(GoldenGateDatabaseRegistrationResource(), fieldMap, readSingularGoldenGateDatabaseRegistration)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(GoldenGateDatabaseRegistrationResource(), fieldMap, readSingularGoldenGateDatabaseRegistrationWithContext)
 }
 
-func readSingularGoldenGateDatabaseRegistration(d *schema.ResourceData, m interface{}) error {
+func readSingularGoldenGateDatabaseRegistrationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GoldenGateDatabaseRegistrationDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type GoldenGateDatabaseRegistrationDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *GoldenGateDatabaseRegistrationDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GoldenGateDatabaseRegistrationDataSourceCrud) Get() error {
+func (s *GoldenGateDatabaseRegistrationDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_golden_gate.GetDatabaseRegistrationRequest{}
 
 	if databaseRegistrationId, ok := s.D.GetOkExists("database_registration_id"); ok {
@@ -50,7 +51,7 @@ func (s *GoldenGateDatabaseRegistrationDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "golden_gate")
 
-	response, err := s.Client.GetDatabaseRegistration(context.Background(), request)
+	response, err := s.Client.GetDatabaseRegistration(ctx, request)
 	if err != nil {
 		return err
 	}

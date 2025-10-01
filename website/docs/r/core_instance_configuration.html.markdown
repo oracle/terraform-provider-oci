@@ -146,6 +146,7 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 				are_legacy_imds_endpoints_disabled = var.instance_configuration_instance_details_launch_details_instance_options_are_legacy_imds_endpoints_disabled
 			}
 			ipxe_script = var.instance_configuration_instance_details_launch_details_ipxe_script
+			is_ai_enterprise_enabled = var.instance_configuration_instance_details_launch_details_is_ai_enterprise_enabled
 			is_pv_encryption_in_transit_enabled = var.instance_configuration_instance_details_launch_details_is_pv_encryption_in_transit_enabled
 			launch_mode = var.instance_configuration_instance_details_launch_details_launch_mode
 			launch_options {
@@ -342,6 +343,7 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 					are_legacy_imds_endpoints_disabled = var.instance_configuration_instance_details_options_launch_details_instance_options_are_legacy_imds_endpoints_disabled
 				}
 				ipxe_script = var.instance_configuration_instance_details_options_launch_details_ipxe_script
+				is_ai_enterprise_enabled = var.instance_configuration_instance_details_options_launch_details_is_ai_enterprise_enabled
 				is_pv_encryption_in_transit_enabled = var.instance_configuration_instance_details_options_launch_details_is_pv_encryption_in_transit_enabled
 				launch_mode = var.instance_configuration_instance_details_options_launch_details_launch_mode
 				launch_options {
@@ -614,6 +616,7 @@ The following arguments are supported:
 			For more information about the Bring Your Own Image feature of Oracle Cloud Infrastructure, see [Bring Your Own Image](https://docs.cloud.oracle.com/iaas/Content/Compute/References/bringyourownimage.htm).
 
 			For more information about iPXE, see http://ipxe.org. 
+		* `is_ai_enterprise_enabled` - (Applicable when instance_type=compute) Whether to enable AI enterprise on the instance. 
 		* `is_pv_encryption_in_transit_enabled` - (Applicable when instance_type=compute) Whether to enable in-transit encryption for the data volume's paravirtualized attachment. The default value is false.
 		* `launch_mode` - (Applicable when instance_type=compute) Specifies the configuration mode for launching virtual machine (VM) instances. The configuration modes are:
 			* `NATIVE` - VM instances launch with iSCSI boot and VFIO devices. The default value for platform images.
@@ -854,6 +857,7 @@ The following arguments are supported:
 			  For more information about the Bring Your Own Image feature of Oracle Cloud Infrastructure, see [Bring Your Own Image](https://docs.cloud.oracle.com/iaas/Content/Compute/References/bringyourownimage.htm).
 
 			  For more information about iPXE, see http://ipxe.org.
+			* `is_ai_enterprise_enabled` - (Applicable when instance_type=instance_options) Whether to enable AI enterprise on the instance.
 			* `is_pv_encryption_in_transit_enabled` - (Applicable when instance_type=instance_options) Whether to enable in-transit encryption for the data volume's paravirtualized attachment. The default value is false.
 			* `launch_mode` - (Applicable when instance_type=instance_options) Specifies the configuration mode for launching virtual machine (VM) instances. The configuration modes are:
 				* `NATIVE` - VM instances launch with iSCSI boot and VFIO devices. The default value for platform images.
@@ -1155,6 +1159,7 @@ The following attributes are exported:
 			For more information about the Bring Your Own Image feature of Oracle Cloud Infrastructure, see [Bring Your Own Image](https://docs.cloud.oracle.com/iaas/Content/Compute/References/bringyourownimage.htm).
 
 			For more information about iPXE, see http://ipxe.org. 
+		* `is_ai_enterprise_enabled` - Whether to enable AI enterprise on the instance. 
 		* `is_pv_encryption_in_transit_enabled` - Whether to enable in-transit encryption for the data volume's paravirtualized attachment. The default value is false.
 		* `launch_mode` - Specifies the configuration mode for launching virtual machine (VM) instances. The configuration modes are:
 			* `NATIVE` - VM instances launch with iSCSI boot and VFIO devices. The default value for platform images.
@@ -1387,8 +1392,9 @@ The following attributes are exported:
 			  The default iPXE script connects to the instance's local boot volume over iSCSI and performs a network boot. If you use a custom iPXE script and want to network-boot from the instance's local boot volume over iSCSI the same way as the default iPXE script, you should use the following iSCSI IP address: 169.254.0.2, and boot volume IQN: iqn.2015-02.oracle.boot.
 
 			  For more information about the Bring Your Own Image feature of Oracle Cloud Infrastructure, see [Bring Your Own Image](https://docs.cloud.oracle.com/iaas/Content/Compute/References/bringyourownimage.htm).
-
+          
 			  For more information about iPXE, see http://ipxe.org.
+			* `is_ai_enterprise_enabled` - Whether to enable AI enterprise on the instance.
 			* `is_pv_encryption_in_transit_enabled` - Whether to enable in-transit encryption for the data volume's paravirtualized attachment. The default value is false.
 			* `launch_mode` - Specifies the configuration mode for launching virtual machine (VM) instances. The configuration modes are:
 				* `NATIVE` - VM instances launch with iSCSI boot and VFIO devices. The default value for platform images.

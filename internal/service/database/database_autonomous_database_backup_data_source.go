@@ -92,6 +92,8 @@ func (s *DatabaseAutonomousDatabaseBackupDataSourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	s.D.Set("infrastructure_type", s.Res.InfrastructureType)
+
 	if s.Res.IsAutomatic != nil {
 		s.D.Set("is_automatic", *s.Res.IsAutomatic)
 	}
@@ -120,12 +122,22 @@ func (s *DatabaseAutonomousDatabaseBackupDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	if s.Res.Region != nil {
+		s.D.Set("region", *s.Res.Region)
+	}
+
 	if s.Res.RetentionPeriodInDays != nil {
 		s.D.Set("retention_period_in_days", *s.Res.RetentionPeriodInDays)
 	}
 
 	if s.Res.SizeInTBs != nil {
 		s.D.Set("size_in_tbs", *s.Res.SizeInTBs)
+	}
+
+	if s.Res.SourceDatabaseDetails != nil {
+		s.D.Set("source_database_details", []interface{}{SourceDatabaseDetailsToMap(s.Res.SourceDatabaseDetails)})
+	} else {
+		s.D.Set("source_database_details", nil)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

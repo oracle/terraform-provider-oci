@@ -6,10 +6,11 @@ package managed_kafka
 import (
 	"context"
 	"fmt"
-	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"log"
 	"strings"
 	"time"
+
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 

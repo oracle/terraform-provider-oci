@@ -127,6 +127,7 @@ resource "oci_core_instance" "test_instance" {
 		are_legacy_imds_endpoints_disabled = var.instance_instance_options_are_legacy_imds_endpoints_disabled
 	}
 	ipxe_script = var.instance_ipxe_script
+	is_ai_enterprise_enabled = var.instance_is_ai_enterprise_enabled
 	is_pv_encryption_in_transit_enabled = var.instance_is_pv_encryption_in_transit_enabled
 	launch_options {
 
@@ -369,6 +370,7 @@ The following arguments are supported:
 	For more information about the Bring Your Own Image feature of Oracle Cloud Infrastructure, see [Bring Your Own Image](https://docs.cloud.oracle.com/iaas/Content/Compute/References/bringyourownimage.htm).
 
 	For more information about iPXE, see http://ipxe.org. 
+* `is_ai_enterprise_enabled` - (Optional) (Updatable) Whether to enable AI enterprise on the instance. 
 * `is_pv_encryption_in_transit_enabled` - (Optional) Whether to enable in-transit encryption for the data volume's paravirtualized attachment. The default value is false. Use this field only during create. To update use `is_pv_encryption_in_transit_enabled` under `launch_options` instead.
 * `launch_options` - (Optional) (Updatable) Options for tuning the compatibility and performance of VM shapes. The values that you specify override any default values. 
 	* `boot_volume_type` - (Optional) (Updatable) Emulation type for the boot volume.
@@ -605,6 +607,7 @@ The following attributes are exported:
 	For more information about the Bring Your Own Image feature of Oracle Cloud Infrastructure, see [Bring Your Own Image](https://docs.cloud.oracle.com/iaas/Content/Compute/References/bringyourownimage.htm).
 
 	For more information about iPXE, see http://ipxe.org. 
+* `is_ai_enterprise_enabled` - Whether AI enterprise is enabled on the instance. 
 * `is_cross_numa_node` - Whether the instance’s OCPUs and memory are distributed across multiple NUMA nodes. 
 * `launch_mode` - Specifies the configuration mode for launching virtual machine (VM) instances. The configuration modes are:
 	* `NATIVE` - VM instances launch with iSCSI boot and VFIO devices. The default value for platform images.
