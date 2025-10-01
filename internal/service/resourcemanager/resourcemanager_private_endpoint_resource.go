@@ -5,9 +5,14 @@ package resourcemanager
 
 import (
 	"context"
+	"fmt"
+	"strings"
+	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_resourcemanager "github.com/oracle/oci-go-sdk/v65/resourcemanager"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -83,6 +88,12 @@ func ResourcemanagerPrivateEndpointResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"security_attributes": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 
 			// Computed
 			"source_ips": {
@@ -95,6 +106,11 @@ func ResourcemanagerPrivateEndpointResource() *schema.Resource {
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -233,6 +249,10 @@ func (s *ResourcemanagerPrivateEndpointResourceCrud) Create() error {
 		}
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
 	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 		tmp := subnetId.(string)
 		request.SubnetId = &tmp
@@ -250,8 +270,127 @@ func (s *ResourcemanagerPrivateEndpointResourceCrud) Create() error {
 		return err
 	}
 
-	s.Res = &response.PrivateEndpoint
-	return nil
+	workId := response.OpcWorkRequestId
+	var identifier *string
+	identifier = response.Id
+	if identifier != nil {
+		s.D.SetId(*identifier)
+	}
+
+	return s.getPrivateEndpointFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resourcemanager"), oci_resourcemanager.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+}
+
+func (s *ResourcemanagerPrivateEndpointResourceCrud) getPrivateEndpointFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+	actionTypeEnum oci_resourcemanager.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
+
+	// Wait until it finishes
+	privateEndpointId, err := privateEndpointWaitForWorkRequest(workId, "ormprivateendpoint",
+		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
+
+	if err != nil {
+		return err
+	}
+	s.D.SetId(*privateEndpointId)
+
+	return s.Get()
+}
+
+func privateEndpointWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
+	startTime := time.Now()
+	stopTime := startTime.Add(timeout)
+	return func(response oci_common.OCIOperationResponse) bool {
+
+		// Stop after timeout has elapsed
+		if time.Now().After(stopTime) {
+			return false
+		}
+
+		// Make sure we stop on default rules
+		if tfresource.ShouldRetry(response, false, "resourcemanager", startTime) {
+			return true
+		}
+
+		// Only stop if the time Finished is set
+		if workRequestResponse, ok := response.Response.(oci_resourcemanager.GetWorkRequestResponse); ok {
+			return workRequestResponse.TimeFinished == nil
+		}
+		return false
+	}
+}
+
+func privateEndpointWaitForWorkRequest(wId *string, entityType string, action oci_resourcemanager.WorkRequestResourceActionTypeEnum,
+	timeout time.Duration, disableFoundRetries bool, client *oci_resourcemanager.ResourceManagerClient) (*string, error) {
+	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "resourcemanager")
+	retryPolicy.ShouldRetryOperation = privateEndpointWorkRequestShouldRetryFunc(timeout)
+
+	response := oci_resourcemanager.GetWorkRequestResponse{}
+	stateConf := &retry.StateChangeConf{
+		Pending: []string{
+			string(oci_resourcemanager.WorkRequestStatusInProgress),
+			string(oci_resourcemanager.WorkRequestStatusAccepted),
+		},
+		Target: []string{
+			string(oci_resourcemanager.WorkRequestStatusSucceeded),
+			string(oci_resourcemanager.WorkRequestStatusFailed),
+		},
+		Refresh: func() (interface{}, string, error) {
+			var err error
+			response, err = client.GetWorkRequest(context.Background(),
+				oci_resourcemanager.GetWorkRequestRequest{
+					WorkRequestId: wId,
+					RequestMetadata: oci_common.RequestMetadata{
+						RetryPolicy: retryPolicy,
+					},
+				})
+			wr := &response.WorkRequest
+			return wr, string(wr.Status), err
+		},
+		Timeout: timeout,
+	}
+	if _, e := stateConf.WaitForState(); e != nil {
+		return nil, e
+	}
+
+	var identifier *string
+	// The work request response contains an array of objects that finished the operation
+	for _, res := range response.Resources {
+		if strings.Contains(strings.ToLower(*res.EntityType), entityType) {
+			if res.ActionType == action {
+				identifier = res.Identifier
+				break
+			}
+		}
+	}
+
+	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
+	if identifier == nil || response.Status == oci_resourcemanager.WorkRequestStatusFailed {
+		return nil, getErrorFromResourcemanagerPrivateEndpointWorkRequest(client, wId, retryPolicy, entityType, action)
+	}
+
+	return identifier, nil
+}
+
+func getErrorFromResourcemanagerPrivateEndpointWorkRequest(client *oci_resourcemanager.ResourceManagerClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_resourcemanager.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
+		oci_resourcemanager.ListWorkRequestErrorsRequest{
+			WorkRequestId: workId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: retryPolicy,
+			},
+		})
+	if err != nil {
+		return err
+	}
+
+	allErrs := make([]string, 0)
+	for _, wrkErr := range response.Items {
+		allErrs = append(allErrs, *wrkErr.Message)
+	}
+	errorMessage := strings.Join(allErrs, "\n")
+
+	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *workId, entityType, action, errorMessage)
+
+	return workRequestErr
 }
 
 func (s *ResourcemanagerPrivateEndpointResourceCrud) Get() error {
@@ -339,6 +478,10 @@ func (s *ResourcemanagerPrivateEndpointResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.PrivateEndpointId = &tmp
 
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
 	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 		tmp := subnetId.(string)
 		request.SubnetId = &tmp
@@ -356,8 +499,8 @@ func (s *ResourcemanagerPrivateEndpointResourceCrud) Update() error {
 		return err
 	}
 
-	s.Res = &response.PrivateEndpoint
-	return nil
+	workId := response.OpcWorkRequestId
+	return s.getPrivateEndpointFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resourcemanager"), oci_resourcemanager.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *ResourcemanagerPrivateEndpointResourceCrud) Delete() error {
@@ -368,8 +511,16 @@ func (s *ResourcemanagerPrivateEndpointResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resourcemanager")
 
-	_, err := s.Client.DeletePrivateEndpoint(context.Background(), request)
-	return err
+	response, err := s.Client.DeletePrivateEndpoint(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	// Wait until it finishes
+	_, delWorkRequestErr := privateEndpointWaitForWorkRequest(workId, "ormprivateendpoint",
+		oci_resourcemanager.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
+	return delWorkRequestErr
 }
 
 func (s *ResourcemanagerPrivateEndpointResourceCrud) SetData() error {
@@ -399,12 +550,18 @@ func (s *ResourcemanagerPrivateEndpointResourceCrud) SetData() error {
 
 	s.D.Set("nsg_id_list", s.Res.NsgIdList)
 
+	s.D.Set("security_attributes", s.Res.SecurityAttributes)
+
 	s.D.Set("source_ips", s.Res.SourceIps)
 
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SubnetId != nil {
 		s.D.Set("subnet_id", *s.Res.SubnetId)
+	}
+
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}
 
 	if s.Res.TimeCreated != nil {
@@ -449,7 +606,13 @@ func PrivateEndpointSummaryToMap(obj oci_resourcemanager.PrivateEndpointSummary)
 		result["is_used_with_configuration_source_provider"] = bool(*obj.IsUsedWithConfigurationSourceProvider)
 	}
 
+	result["security_attributes"] = obj.SecurityAttributes
+
 	result["state"] = string(obj.LifecycleState)
+
+	if obj.SystemTags != nil {
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	}
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()
