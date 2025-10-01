@@ -60,6 +60,7 @@ The following attributes are exported:
 * `id` - Unique identifier that is immutable on creation
 * `idcs_domain_url` - The IDCS Domain URL
 * `is_break_glass_enabled` - If it's true, then the Break Glass feature is enabled
+* `is_ipv6dual_stack_enabled` - Enable IPv4/IPv6 dual stack support for the environment.  Setting to true will assign an IPv6 address to the environment in addition to an IPv4 address.
 * `kms_key_id` - BYOK key id
 * `kms_key_info` - BYOK key info
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.

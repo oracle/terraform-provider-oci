@@ -127,6 +127,12 @@ func FusionAppsFusionEnvironmentResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"is_ipv6dual_stack_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+
 			"kms_key_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -498,6 +504,11 @@ func (s *FusionAppsFusionEnvironmentResourceCrud) Create() error {
 		request.FusionEnvironmentType = oci_fusion_apps.FusionEnvironmentFusionEnvironmentTypeEnum(fusionEnvironmentType.(string))
 	}
 
+	if isIPv6DualStackEnabled, ok := s.D.GetOkExists("is_ipv6dual_stack_enabled"); ok {
+		tmp := isIPv6DualStackEnabled.(bool)
+		request.IsIPv6DualStackEnabled = &tmp
+	}
+
 	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
 		tmp := kmsKeyId.(string)
 		request.KmsKeyId = &tmp
@@ -737,6 +748,11 @@ func (s *FusionAppsFusionEnvironmentResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.FusionEnvironmentId = &tmp
 
+	if isIPv6DualStackEnabled, ok := s.D.GetOkExists("is_ipv6dual_stack_enabled"); ok {
+		tmp := isIPv6DualStackEnabled.(bool)
+		request.IsIPv6DualStackEnabled = &tmp
+	}
+
 	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
 		tmp := kmsKeyId.(string)
 		request.KmsKeyId = &tmp
@@ -840,6 +856,10 @@ func (s *FusionAppsFusionEnvironmentResourceCrud) SetData() error {
 
 	if s.Res.IsBreakGlassEnabled != nil {
 		s.D.Set("is_break_glass_enabled", *s.Res.IsBreakGlassEnabled)
+	}
+
+	if s.Res.IsIPv6DualStackEnabled != nil {
+		s.D.Set("is_ipv6dual_stack_enabled", *s.Res.IsIPv6DualStackEnabled)
 	}
 
 	if s.Res.KmsKeyId != nil {
@@ -1008,6 +1028,9 @@ func FusionEnvironmentSummaryToMap(obj oci_fusion_apps.FusionEnvironmentSummary)
 		result["is_break_glass_enabled"] = bool(*obj.IsBreakGlassEnabled)
 	}
 
+	if obj.IsIPv6DualStackEnabled != nil {
+		result["is_ipv6dual_stack_enabled"] = bool(*obj.IsIPv6DualStackEnabled)
+	}
 	if obj.LifecycleDetails != nil {
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
