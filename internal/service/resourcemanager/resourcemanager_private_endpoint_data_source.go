@@ -92,12 +92,18 @@ func (s *ResourcemanagerPrivateEndpointDataSourceCrud) SetData() error {
 
 	s.D.Set("nsg_id_list", s.Res.NsgIdList)
 
+	s.D.Set("security_attributes", s.Res.SecurityAttributes)
+
 	s.D.Set("source_ips", s.Res.SourceIps)
 
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SubnetId != nil {
 		s.D.Set("subnet_id", *s.Res.SubnetId)
+	}
+
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}
 
 	if s.Res.TimeCreated != nil {

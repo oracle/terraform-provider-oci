@@ -76,6 +76,7 @@ func TestResourcemanagerStackResource_basic(t *testing.T) {
 		Providers: map[string]*schema.Provider{
 			"oci": provider,
 		},
+		// verify singular datasource
 		Steps: []resource.TestStep{
 			// verify datasource
 			{

@@ -11,6 +11,9 @@ description: |-
 This data source provides details about a specific Stack Tf State resource in Oracle Cloud Infrastructure Resource Manager service.
 
 Returns the Terraform state for the specified stack.
+For more information, see
+[Getting a Stack State File](https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/get-stack-tf-state.htm).
+
 
 ## Example Usage
 
