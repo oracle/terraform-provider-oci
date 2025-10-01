@@ -31,6 +31,7 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_database_autonomous_database_wallet", DatabaseAutonomousDatabaseWalletDataSource())
 	tfresource.RegisterDatasource("oci_database_autonomous_databases", DatabaseAutonomousDatabasesDataSource())
 	tfresource.RegisterDatasource("oci_database_autonomous_databases_clones", DatabaseAutonomousDatabasesClonesDataSource())
+	tfresource.RegisterDatasource("oci_database_autonomous_databases_estimate_cost_savings", DatabaseAutonomousDatabasesEstimateCostSavingsDataSource())
 	tfresource.RegisterDatasource("oci_database_autonomous_db_preview_versions", DatabaseAutonomousDbPreviewVersionsDataSource())
 	tfresource.RegisterDatasource("oci_database_autonomous_db_versions", DatabaseAutonomousDbVersionsDataSource())
 	tfresource.RegisterDatasource("oci_database_autonomous_exadata_infrastructure", DatabaseAutonomousExadataInfrastructureDataSource())
