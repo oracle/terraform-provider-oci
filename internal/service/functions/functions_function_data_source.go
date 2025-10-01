@@ -81,8 +81,22 @@ func (s *FunctionsFunctionDataSourceCrud) SetData() error {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
 
+	if s.Res.DetachedModeTimeoutInSeconds != nil {
+		s.D.Set("detached_mode_timeout_in_seconds", *s.Res.DetachedModeTimeoutInSeconds)
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
+	}
+
+	if s.Res.FailureDestination != nil {
+		failureDestinationArray := []interface{}{}
+		if failureDestinationMap := FailureDestinationDetailsToMap(&s.Res.FailureDestination); failureDestinationMap != nil {
+			failureDestinationArray = append(failureDestinationArray, failureDestinationMap)
+		}
+		s.D.Set("failure_destination", failureDestinationArray)
+	} else {
+		s.D.Set("failure_destination", nil)
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
@@ -126,6 +140,16 @@ func (s *FunctionsFunctionDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SuccessDestination != nil {
+		successDestinationArray := []interface{}{}
+		if successDestinationMap := SuccessDestinationDetailsToMap(&s.Res.SuccessDestination); successDestinationMap != nil {
+			successDestinationArray = append(successDestinationArray, successDestinationMap)
+		}
+		s.D.Set("success_destination", successDestinationArray)
+	} else {
+		s.D.Set("success_destination", nil)
+	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())

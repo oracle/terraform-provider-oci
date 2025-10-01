@@ -15,6 +15,17 @@ variable "region" {
 #}
 
 variable "config_file_profile" {}
+variable "instance_shape" {
+  default = "BM.Standard2.52"
+}
+
+variable "instance_ocpu_count" {
+  default = "12"
+}
+
+variable "vmware_software_version" {
+  default = "7.0 update 3"
+}
 
 provider "oci" {
   region              = var.region
@@ -32,18 +43,6 @@ data "oci_identity_availability_domains" "ADs" {
 
 data "oci_ocvp_supported_vmware_software_versions" "test_supported_vmware_software_versions" {
   compartment_id = "${var.compartment_ocid}"
-}
-
-data "oci_ocvp_supported_skus" "test_supported_skus" {
-  compartment_id = "${var.compartment_ocid}"
-}
-
-data "oci_ocvp_supported_host_shapes" "test_supported_host_shapes" {
-  // Required
-  compartment_id = "${var.compartment_ocid}"
-  // Optional
-  name = "BM.Standard2.52"
-  sddc_type = "PRODUCTION"
 }
 
 resource "oci_core_vcn" "test_vcn_ocvp" {
@@ -367,70 +366,29 @@ resource "oci_core_compute_capacity_reservation" "test_compute_capacity_reservat
 
   instance_reservation_configs {
     #Required
-    instance_shape = "BM.Standard2.52"
+    instance_shape = var.instance_shape
     reserved_count = 2
     fault_domain = "FAULT-DOMAIN-1"
   }
   instance_reservation_configs {
     #Required
-    instance_shape = "BM.Standard2.52"
+    instance_shape = var.instance_shape
     reserved_count = 1
     fault_domain = "FAULT-DOMAIN-2"
   }
   instance_reservation_configs {
     #Required
-    instance_shape = "BM.Standard2.52"
+    instance_shape = var.instance_shape
     reserved_count = 1
     fault_domain = "FAULT-DOMAIN-3"
   }
-}
-
-// SDDC resource with deprecated fields
-resource "oci_ocvp_sddc" "test_sddc_deprecated" {
-  // Required
-  compartment_id              = var.compartment_ocid
-  compute_availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[1]["name"]
-  esxi_hosts_count            = "3"
-  nsx_edge_uplink1vlan_id     = oci_core_vlan.test_nsx_edge_uplink1_vlan.id
-  nsx_edge_uplink2vlan_id     = oci_core_vlan.test_nsx_edge_uplink2_vlan.id
-  nsx_edge_vtep_vlan_id       = oci_core_vlan.test_nsx_edge_vtep_vlan.id
-  nsx_vtep_vlan_id            = oci_core_vlan.test_nsx_vtep_vlan.id
-  provisioning_subnet_id      = oci_core_subnet.test_provisioning_subnet.id
-  ssh_authorized_keys         = "ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"
-  vmotion_vlan_id             = oci_core_vlan.test_vmotion_net_vlan.id
-  vmware_software_version     = "7.0 update 3"
-  vsan_vlan_id                = oci_core_vlan.test_vsan_net_vlan.id
-  vsphere_vlan_id             = oci_core_vlan.test_vsphere_net_vlan.id
-  // Optional
-  provisioning_vlan_id        = oci_core_vlan.test_provisioning_vlan.id
-  replication_vlan_id         = oci_core_vlan.test_replication_vlan.id
-  hcx_vlan_id                 = oci_core_vlan.test_hcx_vlan.id
-  is_hcx_enabled              = true
-  initial_sku                 = "HOUR"
-  initial_host_ocpu_count     = "12.0"
-  initial_host_shape_name     = "BM.Standard2.52"
-  capacity_reservation_id     = oci_core_compute_capacity_reservation.test_compute_capacity_reservation.id
-  datastores {
-    #Required
-    block_volume_ids = ["${oci_core_volume.test_block_volume.id}"]
-    datastore_type   = "MANAGEMENT"
-  }
-  is_shielded_instance_enabled = false
-  hcx_action                   = "upgrade"
-  refresh_hcx_license_status   = true
-  #reserving_hcx_on_premise_license_keys = var.reserving_hcx_on_premise_license_keys
-  #defined_tags  = {"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.sddc_defined_tags_value}"}
-  #display_name  = var.sddc_display_name
-  #freeform_tags = var.sddc_freeform_tags
-  #instance_display_name_prefix = "prefix"
-  #workload_network_cidr = "172.20.0.0/24"
 }
 
 resource "oci_ocvp_sddc" "test_sddc" {
   // Required
   compartment_id          = var.compartment_ocid
   ssh_authorized_keys     = "ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"
-  vmware_software_version = "7.0 update 3"
+  vmware_software_version = var.vmware_software_version
   initial_configuration {
     initial_cluster_configurations {
       // required
@@ -453,8 +411,8 @@ resource "oci_ocvp_sddc" "test_sddc" {
       }
 
       // optional
-      initial_host_ocpu_count      = "12.0"
-      initial_host_shape_name      = "BM.Standard2.52"
+      initial_host_ocpu_count      = var.instance_ocpu_count
+      initial_host_shape_name      = var.instance_shape
       instance_display_name_prefix = "prefix"
       is_shielded_instance_enabled = true
       datastores {
@@ -481,7 +439,7 @@ resource "oci_ocvp_cluster" "test_cluster" {
   sddc_id                     = oci_ocvp_sddc.test_sddc.id
   compute_availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[1]["name"]
   esxi_hosts_count            = "3"
-  vmware_software_version     = "7.0 update 3"
+  vmware_software_version     = var.vmware_software_version
   network_configuration {
     nsx_edge_uplink1vlan_id = oci_core_vlan.test_nsx_edge_uplink1_vlan.id
     nsx_edge_uplink2vlan_id = oci_core_vlan.test_nsx_edge_uplink2_vlan.id
@@ -498,8 +456,8 @@ resource "oci_ocvp_cluster" "test_cluster" {
 
   // optional
   initial_commitment          = "HOUR"
-  initial_host_ocpu_count     = "12.0"
-  initial_host_shape_name     = "BM.Standard2.52"
+  initial_host_ocpu_count     = var.instance_ocpu_count
+  initial_host_shape_name     = var.instance_shape
   capacity_reservation_id     = oci_core_compute_capacity_reservation.test_compute_capacity_reservation.id
   is_shielded_instance_enabled = true
   #defined_tags  = {"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.sddc_defined_tags_value}"}
@@ -509,31 +467,14 @@ resource "oci_ocvp_cluster" "test_cluster" {
   #workload_network_cidr = "172.20.0.0/24"
 }
 
-// ESXi host resource with deprecated fields
-resource "oci_ocvp_esxi_host" "test_esxi_host_deprecated" {
-  #Required
-  sddc_id = oci_ocvp_sddc.test_sddc.id
-  #Optional
-  compute_availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[1]["name"]
-  current_sku = "HOUR"
-  host_ocpu_count             = "12.0"
-  host_shape_name             = "BM.Standard2.52"
-  next_sku    = "HOUR"
-  #non_upgraded_esxi_host_id = data.oci_ocvp_esxi_hosts.non_upgraded_esxi_hosts.esxi_host_collection[0].id
-  #defined_tags  = {"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.esxihost_defined_tags_value}"}
-  #display_name  = var.esxihost_display_name
-  #freeform_tags = var.esxihost_freeform_tags
-  #failed_esxi_host_id = var.failed_esxi_host_ocid
-  #billing_donor_host_id = var.billing_donor_host_id
-}
 
 resource "oci_ocvp_esxi_host" "test_esxi_host" {
   #Required
   cluster_id = oci_ocvp_cluster.test_cluster.id
   #Optional
   compute_availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[1]["name"]
-  host_ocpu_count             = "12.0"
-  host_shape_name             = "BM.Standard2.52"
+  host_ocpu_count             = var.instance_ocpu_count
+  host_shape_name             = var.instance_shape
   #defined_tags  = {"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.esxihost_defined_tags_value}"}
   #display_name  = var.esxihost_display_name
   #freeform_tags = var.esxihost_freeform_tags

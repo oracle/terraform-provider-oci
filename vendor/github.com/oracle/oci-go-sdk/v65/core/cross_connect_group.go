@@ -54,6 +54,10 @@ type CrossConnectGroup struct {
 	// The cross-connect group's Oracle ID (OCID).
 	Id *string `mandatory:"false" json:"id"`
 
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{ "orcl-cloud": { "free-tier-retained": "true" } }`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// The cross-connect group's current state.
 	LifecycleState CrossConnectGroupLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 

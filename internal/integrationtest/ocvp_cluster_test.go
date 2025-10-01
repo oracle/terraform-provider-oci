@@ -46,6 +46,12 @@ var (
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_ocvp_cluster.test_cluster.id}`}},
 	}
 
+	// clusterInitialHostShapeName = "BM.Standard3.64"
+	// clusterInitialHostOcpuCount = "16"
+
+	clusterInitialHostShapeName = "BM.Standard2.52"
+	clusterInitialHostOcpuCount = "12"
+
 	OcvpClusterRepresentation = map[string]interface{}{
 		"compute_availability_domain":  acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_identity_availability_domains.ADs.availability_domains[1],"name")}`},
 		"esxi_hosts_count":             acctest.Representation{RepType: acctest.Required, Create: `1`},
@@ -58,14 +64,20 @@ var (
 		"esxi_software_version":        acctest.Representation{RepType: acctest.Optional, Create: `esxi7u3k-21313628-1`},
 		"freeform_tags":                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"initial_commitment":           acctest.Representation{RepType: acctest.Optional, Create: `HOUR`},
-		"initial_host_ocpu_count":      acctest.Representation{RepType: acctest.Optional, Create: `12`},
-		"initial_host_shape_name":      acctest.Representation{RepType: acctest.Optional, Create: `BM.Standard2.52`},
+		"initial_host_ocpu_count":      acctest.Representation{RepType: acctest.Optional, Create: clusterInitialHostOcpuCount},
+		"initial_host_shape_name":      acctest.Representation{RepType: acctest.Required, Create: clusterInitialHostShapeName},
 		"instance_display_name_prefix": acctest.Representation{RepType: acctest.Optional, Create: `tf-test-`},
 		"is_shielded_instance_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"vmware_software_version":      acctest.Representation{RepType: acctest.Optional, Create: noInstanceVmwareVersionV7},
 		"workload_network_cidr":        acctest.Representation{RepType: acctest.Optional, Create: `172.20.0.0/24`},
 		"lifecycle":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRepresentation},
 	}
+
+	OcvpClusterWithDatastoreClustersRepresentation = acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(OcvpClusterRepresentation, []string{"datastores"}), map[string]interface{}{
+		"attach_datastore_cluster_ids": acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_ocvp_datastore_cluster.test_datastore_clusters[0].id}`}, Update: []string{`${oci_ocvp_datastore_cluster.test_datastore_clusters[1].id}`}},
+		"detach_datastore_cluster_ids": acctest.Representation{RepType: acctest.Optional, Create: nil, Update: []string{`${oci_ocvp_datastore_cluster.test_datastore_clusters[0].id}`}},
+	})
+
 	OcvpClusterNetworkConfigurationRepresentation = map[string]interface{}{
 		"nsx_edge_vtep_vlan_id":   acctest.Representation{RepType: acctest.Required, Create: `${data.oci_ocvp_cluster.v7_sddc_management_cluster.network_configuration.0.nsx_edge_vtep_vlan_id}`},
 		"nsx_vtep_vlan_id":        acctest.Representation{RepType: acctest.Required, Create: `${data.oci_ocvp_cluster.v7_sddc_management_cluster.network_configuration.0.nsx_vtep_vlan_id}`},
@@ -95,17 +107,17 @@ var (
 		availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[1],"name")}"
 		display_name   = "tf-esxi-host-test-capacity-reservation"
 		instance_reservation_configs {
-			instance_shape = "BM.Standard2.52"
+			instance_shape = "` + clusterInitialHostShapeName + `"
 			reserved_count = 1
 			fault_domain = "FAULT-DOMAIN-1"
 		}
 		instance_reservation_configs {
-			instance_shape = "BM.Standard2.52"
+			instance_shape = "` + clusterInitialHostShapeName + `"
 			reserved_count = 1
 			fault_domain = "FAULT-DOMAIN-2"
 		}
 		instance_reservation_configs {
-			instance_shape = "BM.Standard2.52"
+			instance_shape = "` + clusterInitialHostShapeName + `"
 			reserved_count = 1
 			fault_domain = "FAULT-DOMAIN-3"
 		}
@@ -167,6 +179,7 @@ func TestOcvpClusterResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + OcvpClusterResourceDependencies,
 		},
+
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + OcvpClusterOptionalResourceDependencies +
@@ -175,6 +188,7 @@ func TestOcvpClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "capacity_reservation_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "datastore_cluster_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "datastores.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "datastores.0.block_volume_ids.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "datastores.0.capacity"),
@@ -185,7 +199,7 @@ func TestOcvpClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "initial_commitment", "HOUR"),
-				resource.TestCheckResourceAttr(resourceName, "initial_host_ocpu_count", "12"),
+				resource.TestCheckResourceAttr(resourceName, "initial_host_ocpu_count", clusterInitialHostOcpuCount),
 				resource.TestCheckResourceAttrSet(resourceName, "initial_host_shape_name"),
 				resource.TestCheckResourceAttr(resourceName, "instance_display_name_prefix", "tf-test-"),
 				resource.TestCheckResourceAttr(resourceName, "is_shielded_instance_enabled", "false"),
@@ -227,6 +241,7 @@ func TestOcvpClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "capacity_reservation_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "datastore_cluster_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "datastores.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "datastores.0.block_volume_ids.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "datastores.0.capacity"),
@@ -236,7 +251,113 @@ func TestOcvpClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "initial_commitment", "HOUR"),
-				resource.TestCheckResourceAttr(resourceName, "initial_host_ocpu_count", "12"),
+				resource.TestCheckResourceAttr(resourceName, "initial_host_ocpu_count", clusterInitialHostOcpuCount),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_host_shape_name"),
+				resource.TestCheckResourceAttr(resourceName, "instance_display_name_prefix", "tf-test-"),
+				resource.TestCheckResourceAttr(resourceName, "is_shielded_instance_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "network_configuration.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_configuration.0.hcx_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_configuration.0.nsx_edge_uplink1vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_configuration.0.nsx_edge_uplink2vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_configuration.0.nsx_edge_vtep_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_configuration.0.nsx_vtep_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_configuration.0.provisioning_subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_configuration.0.provisioning_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_configuration.0.replication_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_configuration.0.vmotion_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_configuration.0.vsan_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_configuration.0.vsphere_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "sddc_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", noInstanceVmwareVersionV7),
+				resource.TestCheckResourceAttrSet(resourceName, "vsphere_type"),
+				resource.TestCheckResourceAttr(resourceName, "workload_network_cidr", "172.20.0.0/24"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + OcvpClusterOptionalResourceDependencies,
+		},
+
+		// verify Create with optionals with datastore clusters
+		{
+			Config: config + compartmentIdVariableStr + OcvpClusterOptionalResourceDependencies + ocvpEsxiHostDatastoreClusterResources +
+				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_cluster", "test_cluster", acctest.Optional, acctest.Create, OcvpClusterWithDatastoreClustersRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "capacity_reservation_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "datastore_cluster_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "attach_datastore_cluster_ids.#", "1"),
+				resource.TestCheckNoResourceAttr(resourceName, "detach_datastore_cluster_ids"),
+				resource.TestCheckResourceAttr(resourceName, "datastores.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "esxi_hosts_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "esxi_software_version", "esxi7u3k-21313628-1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "initial_commitment", "HOUR"),
+				resource.TestCheckResourceAttr(resourceName, "initial_host_ocpu_count", clusterInitialHostOcpuCount),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_host_shape_name"),
+				resource.TestCheckResourceAttr(resourceName, "instance_display_name_prefix", "tf-test-"),
+				resource.TestCheckResourceAttr(resourceName, "is_shielded_instance_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "network_configuration.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_configuration.0.hcx_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_configuration.0.nsx_edge_uplink1vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_configuration.0.nsx_edge_uplink2vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_configuration.0.nsx_edge_vtep_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_configuration.0.nsx_vtep_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_configuration.0.provisioning_subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_configuration.0.provisioning_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_configuration.0.replication_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_configuration.0.vmotion_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_configuration.0.vsan_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_configuration.0.vsphere_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "sddc_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", noInstanceVmwareVersionV7),
+				resource.TestCheckResourceAttrSet(resourceName, "vsphere_type"),
+				resource.TestCheckResourceAttr(resourceName, "workload_network_cidr", "172.20.0.0/24"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters with datastore clusters
+		{
+			Config: config + compartmentIdVariableStr + OcvpClusterOptionalResourceDependencies + ocvpEsxiHostDatastoreClusterResources +
+				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_cluster", "test_cluster", acctest.Optional, acctest.Update, OcvpClusterWithDatastoreClustersRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "capacity_reservation_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "datastore_cluster_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "attach_datastore_cluster_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "detach_datastore_cluster_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "datastores.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "esxi_hosts_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "initial_commitment", "HOUR"),
+				resource.TestCheckResourceAttr(resourceName, "initial_host_ocpu_count", clusterInitialHostOcpuCount),
 				resource.TestCheckResourceAttrSet(resourceName, "initial_host_shape_name"),
 				resource.TestCheckResourceAttr(resourceName, "instance_display_name_prefix", "tf-test-"),
 				resource.TestCheckResourceAttr(resourceName, "is_shielded_instance_enabled", "false"),
@@ -269,9 +390,9 @@ func TestOcvpClusterResource_basic(t *testing.T) {
 		},
 		// verify datasource
 		{
-			Config: config + compartmentIdVariableStr + OcvpClusterOptionalResourceDependencies +
+			Config: config + compartmentIdVariableStr + OcvpClusterOptionalResourceDependencies + ocvpEsxiHostDatastoreClusterResources +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_clusters", "test_clusters", acctest.Optional, acctest.Update, OcvpClusterDataSourceRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_cluster", "test_cluster", acctest.Optional, acctest.Update, OcvpClusterRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_cluster", "test_cluster", acctest.Optional, acctest.Update, OcvpClusterWithDatastoreClustersRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -284,25 +405,23 @@ func TestOcvpClusterResource_basic(t *testing.T) {
 		},
 		// verify singular datasource
 		{
-			Config: config + compartmentIdVariableStr + OcvpClusterOptionalResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_cluster", "test_cluster", acctest.Optional, acctest.Update, OcvpClusterRepresentation) +
+			Config: config + compartmentIdVariableStr + OcvpClusterOptionalResourceDependencies + ocvpEsxiHostDatastoreClusterResources +
+				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_cluster", "test_cluster", acctest.Optional, acctest.Update, OcvpClusterWithDatastoreClustersRepresentation) +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_cluster", "test_cluster", acctest.Required, acctest.Create, OcvpClusterSingularDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_id"),
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_availability_domain"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "datastore_cluster_ids.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "datastores.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "datastores.0.block_volume_ids.#", "1"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "datastores.0.capacity"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "datastores.0.datastore_type", "WORKLOAD"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "esxi_hosts_count", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "esxi_software_version", "esxi7u3k-21313628-1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "initial_commitment", "HOUR"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "initial_host_ocpu_count", "12"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_host_ocpu_count", clusterInitialHostOcpuCount),
 				resource.TestCheckResourceAttr(singularDatasourceName, "instance_display_name_prefix", "tf-test-"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_shielded_instance_enabled", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "network_configuration.#", "1"),
@@ -323,7 +442,7 @@ func TestOcvpClusterResource_basic(t *testing.T) {
 			Config:                  config + OcvpClusterRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{},
+			ImportStateVerifyIgnore: []string{"attach_datastore_cluster_ids", "detach_datastore_cluster_ids"},
 			ResourceName:            resourceName,
 		},
 	})

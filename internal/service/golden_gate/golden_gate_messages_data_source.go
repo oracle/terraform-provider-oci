@@ -6,6 +6,7 @@ package golden_gate
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_golden_gate "github.com/oracle/oci-go-sdk/v65/goldengate"
 
@@ -15,7 +16,7 @@ import (
 
 func GoldenGateMessagesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readGoldenGateMessages,
+		ReadContext: readGoldenGateMessagesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"deployment_id": {
@@ -59,12 +60,12 @@ func GoldenGateMessagesDataSource() *schema.Resource {
 	}
 }
 
-func readGoldenGateMessages(d *schema.ResourceData, m interface{}) error {
+func readGoldenGateMessagesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GoldenGateMessagesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type GoldenGateMessagesDataSourceCrud struct {
@@ -77,7 +78,7 @@ func (s *GoldenGateMessagesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GoldenGateMessagesDataSourceCrud) Get() error {
+func (s *GoldenGateMessagesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_golden_gate.ListMessagesRequest{}
 
 	if deploymentId, ok := s.D.GetOkExists("deployment_id"); ok {
@@ -87,7 +88,7 @@ func (s *GoldenGateMessagesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "golden_gate")
 
-	response, err := s.Client.ListMessages(context.Background(), request)
+	response, err := s.Client.ListMessages(ctx, request)
 	if err != nil {
 		return err
 	}

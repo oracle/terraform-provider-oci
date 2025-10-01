@@ -8,6 +8,10 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_ocvp_cluster", OcvpClusterDataSource())
 	tfresource.RegisterDatasource("oci_ocvp_clusters", OcvpClustersDataSource())
+	tfresource.RegisterDatasource("oci_ocvp_datastore", OcvpDatastoreDataSource())
+	tfresource.RegisterDatasource("oci_ocvp_datastore_cluster", OcvpDatastoreClusterDataSource())
+	tfresource.RegisterDatasource("oci_ocvp_datastore_clusters", OcvpDatastoreClustersDataSource())
+	tfresource.RegisterDatasource("oci_ocvp_datastores", OcvpDatastoresDataSource())
 	tfresource.RegisterDatasource("oci_ocvp_esxi_host", OcvpEsxiHostDataSource())
 	tfresource.RegisterDatasource("oci_ocvp_esxi_hosts", OcvpEsxiHostsDataSource())
 	tfresource.RegisterDatasource("oci_ocvp_retrieve_password", OcvpRetrievePasswordDataSource())

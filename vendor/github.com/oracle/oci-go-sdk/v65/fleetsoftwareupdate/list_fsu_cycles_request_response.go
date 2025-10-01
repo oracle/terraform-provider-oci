@@ -209,18 +209,24 @@ type ListFsuCyclesCollectionTypeEnum string
 
 // Set of constants representing the allowable values for ListFsuCyclesCollectionTypeEnum
 const (
-	ListFsuCyclesCollectionTypeDb ListFsuCyclesCollectionTypeEnum = "DB"
-	ListFsuCyclesCollectionTypeGi ListFsuCyclesCollectionTypeEnum = "GI"
+	ListFsuCyclesCollectionTypeDb         ListFsuCyclesCollectionTypeEnum = "DB"
+	ListFsuCyclesCollectionTypeGi         ListFsuCyclesCollectionTypeEnum = "GI"
+	ListFsuCyclesCollectionTypeGuestOs    ListFsuCyclesCollectionTypeEnum = "GUEST_OS"
+	ListFsuCyclesCollectionTypeExadbStack ListFsuCyclesCollectionTypeEnum = "EXADB_STACK"
 )
 
 var mappingListFsuCyclesCollectionTypeEnum = map[string]ListFsuCyclesCollectionTypeEnum{
-	"DB": ListFsuCyclesCollectionTypeDb,
-	"GI": ListFsuCyclesCollectionTypeGi,
+	"DB":          ListFsuCyclesCollectionTypeDb,
+	"GI":          ListFsuCyclesCollectionTypeGi,
+	"GUEST_OS":    ListFsuCyclesCollectionTypeGuestOs,
+	"EXADB_STACK": ListFsuCyclesCollectionTypeExadbStack,
 }
 
 var mappingListFsuCyclesCollectionTypeEnumLowerCase = map[string]ListFsuCyclesCollectionTypeEnum{
-	"db": ListFsuCyclesCollectionTypeDb,
-	"gi": ListFsuCyclesCollectionTypeGi,
+	"db":          ListFsuCyclesCollectionTypeDb,
+	"gi":          ListFsuCyclesCollectionTypeGi,
+	"guest_os":    ListFsuCyclesCollectionTypeGuestOs,
+	"exadb_stack": ListFsuCyclesCollectionTypeExadbStack,
 }
 
 // GetListFsuCyclesCollectionTypeEnumValues Enumerates the set of values for ListFsuCyclesCollectionTypeEnum
@@ -237,6 +243,8 @@ func GetListFsuCyclesCollectionTypeEnumStringValues() []string {
 	return []string{
 		"DB",
 		"GI",
+		"GUEST_OS",
+		"EXADB_STACK",
 	}
 }
 

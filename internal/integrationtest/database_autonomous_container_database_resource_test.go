@@ -27,6 +27,10 @@ var (
 	ExaccACDResourceConfig = ACDECPUatabaseResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update, ACDatabaseRepresentation)
 
+	// This is to be able to delete the LTB after the test run
+	ExaccACDResourceConfigWithoutRetentionLock = ACDECPUatabaseResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Create, ACDatabaseRepresentation)
+
 	ExaccACDRequiredOnlyResource = ExaccDatabaseAutonomousContainerDatabaseResourceFromAdsiDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database_from_adsi", acctest.Required, acctest.Create, ExaccACDatabaseFromAdsiRepresentation)
 
@@ -62,8 +66,9 @@ var (
 		"maintenance_window_details":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsRepresentation},
 		"service_level_agreement_type": acctest.Representation{RepType: acctest.Optional, Create: `STANDARD`},
 		"db_name":                      acctest.Representation{RepType: acctest.Optional, Create: `DBNAME`},
-		"db_version":                   acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithDefault("exacc_acd_db_version", "19.26.0.1.0")},
+		"db_version":                   acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithDefault("exacc_acd_db_version", "19.27.0.1.0")},
 		"is_dst_file_update_enabled":   acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"lifecycle":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: DbaasIgnoreDefinedTagsRepresentation},
 	}
 	ACDatabaseWithRABkpDesRepresentation = map[string]interface{}{
 		"db_split_threshold":           acctest.Representation{RepType: acctest.Optional, Create: `8`},
@@ -83,7 +88,7 @@ var (
 		"maintenance_window_details":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsRepresentation},
 		"service_level_agreement_type": acctest.Representation{RepType: acctest.Optional, Create: `STANDARD`},
 		"db_name":                      acctest.Representation{RepType: acctest.Optional, Create: `DBNAME`},
-		"db_version":                   acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithDefault("exacc_acd_db_version", "19.26.0.1.0")},
+		"db_version":                   acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithDefault("exacc_acd_db_version", "19.27.0.1.0")},
 		"is_dst_file_update_enabled":   acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 
@@ -102,7 +107,7 @@ var (
 		"maintenance_window_details":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsRepresentation},
 		"service_level_agreement_type": acctest.Representation{RepType: acctest.Optional, Create: `STANDARD`},
 		"db_name":                      acctest.Representation{RepType: acctest.Optional, Create: `DBNAME`},
-		"db_version":                   acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithDefault("exacc_acd_db_version", "19.26.0.1.0")},
+		"db_version":                   acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithDefault("exacc_acd_db_version", "19.27.0.1.0")},
 		"is_dst_file_update_enabled":   acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 
@@ -139,16 +144,36 @@ var (
 		map[string]interface{}{"database_software_image_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_database_software_image.test_autonomous_database_software_image.id}`}})
 
 	ACDatabaseBackupConfigRepresentation = map[string]interface{}{
-		"recovery_window_in_days": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"backup_destination_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ACDatabaseBackupConfigRepresentationWithImmutable},
+		"recovery_window_in_days":    acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+	}
+
+	ACDatabaseBackupConfigRepresentationWithImmutable = map[string]interface{}{
+		"type":                                 acctest.Representation{RepType: acctest.Required, Create: `OBJECT_STORE`},
+		"backup_retention_policy_on_terminate": acctest.Representation{RepType: acctest.Optional, Create: `RETAIN_FOR_72_HOURS`, Update: `RETAIN_PER_RETENTION_WINDOW`},
+		"is_retention_lock_enabled":            acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 
 	autonomousContainerDatabaseBackupConfigBackupDestinationDetailsRepresentation = map[string]interface{}{
-		"type":           acctest.Representation{RepType: acctest.Required, Create: `NFS`},
-		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_backup_destination.test_backup_destination.id}`},
-		"internet_proxy": acctest.Representation{RepType: acctest.Optional, Create: `internetProxy`},
-		"vpc_password":   acctest.Representation{RepType: acctest.Optional, Create: `vpcPassword`, Update: `vpcPassword2`},
-		"vpc_user":       acctest.Representation{RepType: acctest.Optional, Create: `bkupUser1`},
+		"type":                                 acctest.Representation{RepType: acctest.Required, Create: `NFS`},
+		"id":                                   acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_backup_destination.test_backup_destination.id}`},
+		"internet_proxy":                       acctest.Representation{RepType: acctest.Optional, Create: `internetProxy`},
+		"vpc_password":                         acctest.Representation{RepType: acctest.Optional, Create: `vpcPassword`, Update: `vpcPassword2`},
+		"vpc_user":                             acctest.Representation{RepType: acctest.Optional, Create: `bkupUser1`},
+		"backup_retention_policy_on_terminate": acctest.Representation{RepType: acctest.Optional, Create: `RETAIN_FOR_72_HOURS`, Update: `RETAIN_PER_RETENTION_WINDOW`},
+		"is_retention_lock_enabled":            acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
+
+	autonomousContainerDatabaseBackupConfigBackupDestinationDetailsRepresentation1 = map[string]interface{}{
+		"type":                                 acctest.Representation{RepType: acctest.Required, Create: `NFS`},
+		"id":                                   acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_backup_destination.test_backup_destination.id}`},
+		"internet_proxy":                       acctest.Representation{RepType: acctest.Optional, Create: `internetProxy`},
+		"vpc_password":                         acctest.Representation{RepType: acctest.Optional, Create: `vpcPassword`, Update: `vpcPassword2`},
+		"vpc_user":                             acctest.Representation{RepType: acctest.Optional, Create: `bkupUser1`},
+		"backup_retention_policy_on_terminate": acctest.Representation{RepType: acctest.Optional, Create: `RETAIN_PER_RETENTION_WINDOW`, Update: `RETAIN_FOR_72_HOURS`},
+		"is_retention_lock_enabled":            acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
+	}
+
 	autonomousContainerDatabaseBackupConfigBackupDestinationDetailsRepresentationWithNoUpdate = map[string]interface{}{
 		"type":           acctest.Representation{RepType: acctest.Required, Create: `NFS`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_backup_destination.test_backup_destination.id}`},
@@ -157,18 +182,22 @@ var (
 		"vpc_user":       acctest.Representation{RepType: acctest.Optional, Create: `bkupUser1`},
 	}
 	autonomousContainerDatabaseBackupConfigBackupDestinationDetailsWithRAUpdateRepresentation = map[string]interface{}{
-		"type":           acctest.Representation{RepType: acctest.Required, Create: `NFS`, Update: `RECOVERY_APPLIANCE`},
-		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_backup_destination.test_backup_destination.id}`, Update: `${oci_database_backup_destination.ra_backup_destination.id}`},
-		"internet_proxy": acctest.Representation{RepType: acctest.Optional, Create: `internetProxy`},
-		"vpc_password":   acctest.Representation{RepType: acctest.Optional, Create: `vpcPassword`, Update: `vpcPassword2`},
-		"vpc_user":       acctest.Representation{RepType: acctest.Optional, Create: `bkupUser1`},
+		"type":                                 acctest.Representation{RepType: acctest.Required, Create: `NFS`, Update: `RECOVERY_APPLIANCE`},
+		"id":                                   acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_backup_destination.test_backup_destination.id}`, Update: `${oci_database_backup_destination.ra_backup_destination.id}`},
+		"internet_proxy":                       acctest.Representation{RepType: acctest.Optional, Create: `internetProxy`},
+		"vpc_password":                         acctest.Representation{RepType: acctest.Optional, Create: `vpcPassword`, Update: `vpcPassword2`},
+		"backup_retention_policy_on_terminate": acctest.Representation{RepType: acctest.Optional, Create: `RETAIN_PER_RETENTION_WINDOW`},
+		"is_retention_lock_enabled":            acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"vpc_user":                             acctest.Representation{RepType: acctest.Optional, Create: `bkupUser1`},
 	}
 	autonomousContainerDatabaseBackupConfigBackupDestinationDetailsWithRARepresentation = map[string]interface{}{
-		"type":           acctest.Representation{RepType: acctest.Required, Create: `RECOVERY_APPLIANCE`},
-		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_backup_destination.ra_backup_destination.id}`},
-		"internet_proxy": acctest.Representation{RepType: acctest.Optional, Create: `internetProxy`},
-		"vpc_password":   acctest.Representation{RepType: acctest.Optional, Create: `vpcPassword`},
-		"vpc_user":       acctest.Representation{RepType: acctest.Optional, Create: `bkupUser1`},
+		"type":                                 acctest.Representation{RepType: acctest.Required, Create: `RECOVERY_APPLIANCE`},
+		"id":                                   acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_backup_destination.ra_backup_destination.id}`},
+		"internet_proxy":                       acctest.Representation{RepType: acctest.Optional, Create: `internetProxy`},
+		"vpc_password":                         acctest.Representation{RepType: acctest.Optional, Create: `vpcPassword`},
+		"vpc_user":                             acctest.Representation{RepType: acctest.Optional, Create: `bkupUser1`},
+		"backup_retention_policy_on_terminate": acctest.Representation{RepType: acctest.Optional, Create: `RETAIN_PER_RETENTION_WINDOW`},
+		"is_retention_lock_enabled":            acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 	acdBackupConfigLocalRepresentation = map[string]interface{}{
 		"backup_destination_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: map[string]interface{}{
@@ -184,7 +213,7 @@ var (
 	ACDECPUatabaseResourceDependencies = DatabaseAVMClusterWithSingleNetworkResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Optional, acctest.Create, backupDestinationNFSRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "test_autonomous_vm_cluster", acctest.Required, acctest.Create, DatabaseECPUAutonomousVmClusterRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", acctest.Optional, acctest.Create, DatabaseKeyStoreRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", acctest.Optional, acctest.Create, DatabaseKeyStoreRepresentationWithIgnoreTagsChanges) +
 		KmsVaultIdVariableStr + OkvSecretVariableStr
 
 	dgDbUniqueName = utils.RandomString(10, utils.CharsetWithoutDigits)
@@ -205,7 +234,7 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "ra_backup_destination", acctest.Optional, acctest.Create, DatabaseBackupDestinationRepresentation)
 
 	ExaccACDWithDGUpdateBkpDesRepresentation = map[string]interface{}{
-		"db_version":                   acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithDefault("acd_db_version", "19.26.0.1.0")},
+		"db_version":                   acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithDefault("acd_db_version", "19.28.0.1.0")},
 		"display_name":                 acctest.Representation{RepType: acctest.Required, Create: `ACD-DG-TF-TEST`},
 		"patch_model":                  acctest.Representation{RepType: acctest.Required, Create: `RELEASE_UPDATES`, Update: `RELEASE_UPDATE_REVISIONS`},
 		"autonomous_vm_cluster_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster.id}`},
@@ -293,6 +322,8 @@ func TestDatabaseExaccAutonomousContainerDatabaseFromAdsi_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.type", "NFS"),
 				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.vpc_user", "bkupUser1"),
 				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.vpc_password", "vpcPassword"),
+				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.is_retention_lock_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.backup_retention_policy_on_terminate", "RETAIN_FOR_72_HOURS"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "db_unique_name", acbDBName2),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "containerdatabases3"),
@@ -343,6 +374,8 @@ func TestDatabaseExaccAutonomousContainerDatabaseFromAdsi_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.internet_proxy", "internetProxy"),
 				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.type", "NFS"),
 				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.vpc_user", "bkupUser1"),
+				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.is_retention_lock_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.backup_retention_policy_on_terminate", "RETAIN_PER_RETENTION_WINDOW"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "db_unique_name", acbDBName2),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "containerdatabases3"),
@@ -506,6 +539,7 @@ func TestDatabaseAutonomousContainerDatabaseFromAdsi_basic(t *testing.T) {
 				"backup_config.0.backup_destination_details.0.vpc_password",
 				"is_automatic_failover_enabled",
 				"state",
+				"time_of_last_backup",
 			},
 			ResourceName: resourceName,
 		},
@@ -761,6 +795,8 @@ func TestDatabaseExaccAutonomousContainerDatabase_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.type", "NFS"),
 				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.vpc_user", "bkupUser1"),
 				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.vpc_password", "vpcPassword"),
+				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.is_retention_lock_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.backup_retention_policy_on_terminate", "RETAIN_FOR_72_HOURS"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "db_split_threshold", "8"),
 				resource.TestCheckResourceAttr(resourceName, "db_unique_name", acbDBName),
@@ -817,6 +853,8 @@ func TestDatabaseExaccAutonomousContainerDatabase_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.internet_proxy", "internetProxy"),
 				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.type", "NFS"),
 				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.vpc_user", "bkupUser1"),
+				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.is_retention_lock_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.backup_retention_policy_on_terminate", "RETAIN_PER_RETENTION_WINDOW"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "okv_end_point_group_name", "DUMMY_OKV_EPG_GROUP_2"),
 				resource.TestCheckResourceAttr(resourceName, "db_split_threshold", "8"),
@@ -875,6 +913,8 @@ func TestDatabaseExaccAutonomousContainerDatabase_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.backup_config.0.backup_destination_details.0.internet_proxy", "internetProxy"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.backup_config.0.backup_destination_details.0.type", "NFS"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.backup_config.0.backup_destination_details.0.vpc_user", "bkupUser1"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.backup_config.0.backup_destination_details.0.is_retention_lock_enabled", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.backup_config.0.backup_destination_details.0.backup_retention_policy_on_terminate", "RETAIN_PER_RETENTION_WINDOW"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.db_split_threshold", "8"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.display_name", "containerdatabases2"),
@@ -918,6 +958,8 @@ func TestDatabaseExaccAutonomousContainerDatabase_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "backup_config.0.backup_destination_details.0.internet_proxy", "internetProxy"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "backup_config.0.backup_destination_details.0.type", "NFS"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "backup_config.0.backup_destination_details.0.vpc_user", "bkupUser1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "backup_config.0.backup_destination_details.0.is_retention_lock_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "backup_config.0.backup_destination_details.0.backup_retention_policy_on_terminate", "RETAIN_PER_RETENTION_WINDOW"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "db_split_threshold", "8"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "containerdatabases2"),

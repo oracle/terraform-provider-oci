@@ -17,18 +17,18 @@ import (
 	"strings"
 )
 
-// CreateFsuCycleDetails Exadata Fleet Update Cycle resource creation details.
+// CreateFsuCycleDetails Details to create an Exadata Fleet Update Cycle.
 type CreateFsuCycleDetails interface {
 
-	// Compartment Identifier.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Compartment.
 	GetCompartmentId() *string
 
-	// OCID identifier for the Collection ID the Exadata Fleet Update Cycle will be assigned to.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Fleet Update Collection which will be updated by the Exadata Fleet Update Cycle being created.
 	GetFsuCollectionId() *string
 
 	GetGoalVersionDetails() FsuGoalVersionDetails
 
-	// Exadata Fleet Update Cycle display name.
+	// The user-friendly name for the Exadata Fleet Update Cycle.
 	GetDisplayName() *string
 
 	GetBatchingStrategy() CreateBatchingStrategyDetails

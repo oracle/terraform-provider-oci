@@ -1,3 +1,22 @@
+## 7.21.0 (October 1, 2025)
+
+### Added
+- Support for Immutable Backup and Undelete DB | ADB-D and ADB on ExaC@C
+- Support for sigint context to go sdk for GoldenGate
+- support for distinct instance_shape_config in capacity reservations
+- Support for Generative AI - Private Endpoint support for DAC
+- Support for Vertical Stack Update for Guest OS and GI using generic scheduling mechanism or point operations
+- Support for ADB-S: ADB@GCP (Oasis) Google Key Management Support (GCP CMEK) R3
+- Support for Datastore Management for Standard Shapes
+- Support for Reselling NVAIE License from NVidia
+- Support for Long Running Functions With Guaranteed Response Delivery
+- Support for Resource Analytics service
+- Support for Multicloud service
+
+### Bug Fix
+- for MongoDB API support | ADB-D & ADB-C@C
+- Issue updating management policies with type set to None.
+
 ## 7.20.0 (September 23, 2025)
 
 ### Added

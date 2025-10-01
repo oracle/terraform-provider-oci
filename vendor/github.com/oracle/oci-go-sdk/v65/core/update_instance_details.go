@@ -25,6 +25,9 @@ import (
 // UpdateInstanceDetails The representation of UpdateInstanceDetails
 type UpdateInstanceDetails struct {
 
+	// Whether to enable AI enterprise on the instance.
+	IsAIEnterpriseEnabled *bool `mandatory:"false" json:"isAIEnterpriseEnabled"`
+
 	// The OCID of the compute capacity reservation this instance is launched under.
 	// You can remove the instance from a reservation by specifying an empty string as input for this field.
 	// For more information, see Capacity Reservations (https://docs.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm#default).
@@ -168,6 +171,7 @@ func (m UpdateInstanceDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *UpdateInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		IsAIEnterpriseEnabled     *bool                                              `json:"isAIEnterpriseEnabled"`
 		CapacityReservationId     *string                                            `json:"capacityReservationId"`
 		DefinedTags               map[string]map[string]interface{}                  `json:"definedTags"`
 		SecurityAttributes        map[string]map[string]interface{}                  `json:"securityAttributes"`
@@ -195,6 +199,8 @@ func (m *UpdateInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.IsAIEnterpriseEnabled = model.IsAIEnterpriseEnabled
+
 	m.CapacityReservationId = model.CapacityReservationId
 
 	m.DefinedTags = model.DefinedTags

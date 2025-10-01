@@ -232,6 +232,10 @@ func DatabaseDatabaseUpgradeResource() *schema.Resource {
 									// Optional
 
 									// Computed
+									"backup_retention_policy_on_terminate": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"dbrs_policy_id": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -245,6 +249,10 @@ func DatabaseDatabaseUpgradeResource() *schema.Resource {
 										Computed: true,
 									},
 									"is_remote": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"is_retention_lock_enabled": {
 										Type:     schema.TypeBool,
 										Computed: true,
 									},

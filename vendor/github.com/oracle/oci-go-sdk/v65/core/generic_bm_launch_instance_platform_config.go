@@ -133,6 +133,7 @@ const (
 	GenericBmLaunchInstancePlatformConfigNumaNodesPerSocketNps1 GenericBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum = "NPS1"
 	GenericBmLaunchInstancePlatformConfigNumaNodesPerSocketNps2 GenericBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum = "NPS2"
 	GenericBmLaunchInstancePlatformConfigNumaNodesPerSocketNps4 GenericBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum = "NPS4"
+	GenericBmLaunchInstancePlatformConfigNumaNodesPerSocketNps6 GenericBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum = "NPS6"
 )
 
 var mappingGenericBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum = map[string]GenericBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum{
@@ -140,6 +141,7 @@ var mappingGenericBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum = map[str
 	"NPS1": GenericBmLaunchInstancePlatformConfigNumaNodesPerSocketNps1,
 	"NPS2": GenericBmLaunchInstancePlatformConfigNumaNodesPerSocketNps2,
 	"NPS4": GenericBmLaunchInstancePlatformConfigNumaNodesPerSocketNps4,
+	"NPS6": GenericBmLaunchInstancePlatformConfigNumaNodesPerSocketNps6,
 }
 
 var mappingGenericBmLaunchInstancePlatformConfigNumaNodesPerSocketEnumLowerCase = map[string]GenericBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum{
@@ -147,6 +149,7 @@ var mappingGenericBmLaunchInstancePlatformConfigNumaNodesPerSocketEnumLowerCase 
 	"nps1": GenericBmLaunchInstancePlatformConfigNumaNodesPerSocketNps1,
 	"nps2": GenericBmLaunchInstancePlatformConfigNumaNodesPerSocketNps2,
 	"nps4": GenericBmLaunchInstancePlatformConfigNumaNodesPerSocketNps4,
+	"nps6": GenericBmLaunchInstancePlatformConfigNumaNodesPerSocketNps6,
 }
 
 // GetGenericBmLaunchInstancePlatformConfigNumaNodesPerSocketEnumValues Enumerates the set of values for GenericBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum
@@ -165,6 +168,7 @@ func GetGenericBmLaunchInstancePlatformConfigNumaNodesPerSocketEnumStringValues(
 		"NPS1",
 		"NPS2",
 		"NPS4",
+		"NPS6",
 	}
 }
 

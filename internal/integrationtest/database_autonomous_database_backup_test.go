@@ -50,6 +50,8 @@ var (
 	DatabaseDatabaseAutonomousDatabaseBackupDataSourceRepresentation = map[string]interface{}{
 		"autonomous_database_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_autonomous_database.test_autonomous_database.id}`},
 		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `Monthly Backup`},
+		"infrastructure_type":    acctest.Representation{RepType: acctest.Optional, Create: `CLOUD`},
+		"key_store_id":           acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_key_store.test_key_store.id}`},
 		"state":                  acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseAutonomousDatabaseBackupDataSourceFilterRepresentation}}
 	DatabaseAutonomousDatabaseBackupDataSourceFilterRepresentation = map[string]interface{}{
@@ -68,6 +70,7 @@ var (
 		"retention_period_in_days":   acctest.Representation{RepType: acctest.Optional, Create: `91`, Update: `94`},
 		"backup_destination_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ExaccAutonomousDatabaseBackupDestinationDetailsRepresentation},
 	}
+
 	DatabaseAutonomousDatabaseBackupRepresentation = map[string]interface{}{
 		"autonomous_database_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_database.test_autonomous_database.id}`},
 		"display_name":             acctest.Representation{RepType: acctest.Required, Create: `Monthly Backup`},
@@ -83,12 +86,12 @@ var (
 	}
 
 	DatabaseAutonomousDatabaseExaccRepresentation = map[string]interface{}{
-		"compartment_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"cpu_core_count":           acctest.Representation{RepType: acctest.Required, Create: `1`},
-		"data_storage_size_in_tbs": acctest.Representation{RepType: acctest.Required, Create: `1`},
-		"db_name":                  acctest.Representation{RepType: acctest.Required, Create: adbName},
-		"admin_password":           acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`, Update: `BEstrO0ng_#12`},
-		//"autonomous_database_id":           acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_database.test_autonomous_database.id}`},
+		"compartment_id":                   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"compute_count":                    acctest.Representation{RepType: acctest.Required, Create: `4.0`, Update: `6.0`},
+		"compute_model":                    acctest.Representation{RepType: acctest.Required, Create: `ECPU`},
+		"data_storage_size_in_tbs":         acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"db_name":                          acctest.Representation{RepType: acctest.Required, Create: adbName},
+		"admin_password":                   acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`, Update: `BEstrO0ng_#12`},
 		"autonomous_container_database_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_container_database.test_autonomous_container_database.id}`},
 		"is_dedicated":                     acctest.Representation{RepType: acctest.Required, Create: `true`},
 		"display_name":                     acctest.Representation{RepType: acctest.Optional, Create: adbExaccName},
@@ -106,7 +109,7 @@ var (
 		"display_name":       acctest.Representation{RepType: acctest.Required, Create: `nfs11`},
 		"type":               acctest.Representation{RepType: acctest.Required, Create: `NFS`},
 		"connection_string":  acctest.Representation{RepType: acctest.Optional, Create: `connectionString`, Update: `connectionString2`},
-		"defined_tags":       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":       acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"mount_type_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ExaccBackupDestinationMountTypeDetailsRepresentation},
 	}
@@ -134,18 +137,16 @@ var (
 		"key_store_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_key_store.test_key_store.id}`},
 		"compartment_id":               acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"db_unique_name":               acctest.Representation{RepType: acctest.Optional, Create: acbDBName},
-		"defined_tags":                 acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":                 acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags":                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"maintenance_window_details":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsRepresentation},
 		"service_level_agreement_type": acctest.Representation{RepType: acctest.Optional, Create: `STANDARD`},
 	}
-	ExaccACDatabaseResourceConfig = ExaccACDatabaseResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update, EXACCACDatabaseRepresentation)
 
 	DatabaseAutonomousDatabaseBackupResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create,
 		acctest.GetUpdatedRepresentationCopy("db_name", acctest.Representation{RepType: acctest.Required, Create: adbBackupDbName}, DatabaseAutonomousDatabaseRepresentation))
 
-	DatabaseAutonomousExaccDatabaseBackupResourceDependencies = ExaccACDatabaseResourceConfig +
+	DatabaseAutonomousExaccDatabaseBackupResourceDependencies = ExaccutonomousContainerDatabaseResourceDependenciesDbaasOnly +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create,
 			acctest.GetUpdatedRepresentationCopy("db_name", acctest.Representation{RepType: acctest.Required, Create: "testAdb"}, DatabaseAutonomousDatabaseExaccRepresentation))
 )
@@ -263,7 +264,7 @@ func TestDatabaseAutonomousDatabaseBackupResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + AutonomousDatabaseBackupRequiredOnlyResource,
+			Config:            config + compartmentIdVariableStr + AutonomousDatabaseBackupRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -316,6 +317,7 @@ func TestDatabaseAutonomousExaccBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "autonomousdatabasebackup"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "is_automatic"),
+				resource.TestCheckResourceAttrSet(resourceName, "infrastructure_type"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "type"),
 
@@ -342,6 +344,7 @@ func TestDatabaseAutonomousExaccBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "is_automatic"),
 				resource.TestCheckResourceAttr(resourceName, "retention_period_in_days", "94"),
 				resource.TestCheckResourceAttrSet(resourceName, "type"),
+				resource.TestCheckResourceAttrSet(resourceName, "infrastructure_type"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -359,11 +362,11 @@ func TestDatabaseAutonomousExaccBackupResource_basic(t *testing.T) {
 				compartmentIdVariableStr + DatabaseAutonomousExaccDatabaseBackupResourceConfigForLongTermBackup,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_backup_id"),
-
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "autonomousdatabasebackup"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "infrastructure_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_automatic"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_ended"),
@@ -373,7 +376,7 @@ func TestDatabaseAutonomousExaccBackupResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + DatabaseAutonomousDatabaseBackupRequiredOnlyResource,
+			Config:            config + compartmentIdVariableStr + DatabaseAutonomousDatabaseBackupRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

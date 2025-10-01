@@ -197,6 +197,9 @@ type LaunchInstanceDetails struct {
 
 	PlacementConstraintDetails PlacementConstraintDetails `mandatory:"false" json:"placementConstraintDetails"`
 
+	// Whether to enable AI enterprise on the instance.
+	IsAIEnterpriseEnabled *bool `mandatory:"false" json:"isAIEnterpriseEnabled"`
+
 	// The OCID of the Instance Configuration containing instance launch details. Any other fields supplied in this instance launch request will override the details stored in the Instance Configuration for this instance launch.
 	InstanceConfigurationId *string `mandatory:"false" json:"instanceConfigurationId"`
 
@@ -251,6 +254,7 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 		IsPvEncryptionInTransitEnabled *bool                                    `json:"isPvEncryptionInTransitEnabled"`
 		PlatformConfig                 launchinstanceplatformconfig             `json:"platformConfig"`
 		PlacementConstraintDetails     placementconstraintdetails               `json:"placementConstraintDetails"`
+		IsAIEnterpriseEnabled          *bool                                    `json:"isAIEnterpriseEnabled"`
 		InstanceConfigurationId        *string                                  `json:"instanceConfigurationId"`
 		LicensingConfigs               []launchinstancelicensingconfig          `json:"licensingConfigs"`
 		AvailabilityDomain             *string                                  `json:"availabilityDomain"`
@@ -351,6 +355,8 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.PlacementConstraintDetails = nil
 	}
+
+	m.IsAIEnterpriseEnabled = model.IsAIEnterpriseEnabled
 
 	m.InstanceConfigurationId = model.InstanceConfigurationId
 

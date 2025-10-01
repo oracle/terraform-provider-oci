@@ -195,18 +195,24 @@ type ListFsuCollectionsTypeEnum string
 
 // Set of constants representing the allowable values for ListFsuCollectionsTypeEnum
 const (
-	ListFsuCollectionsTypeDb ListFsuCollectionsTypeEnum = "DB"
-	ListFsuCollectionsTypeGi ListFsuCollectionsTypeEnum = "GI"
+	ListFsuCollectionsTypeDb         ListFsuCollectionsTypeEnum = "DB"
+	ListFsuCollectionsTypeGi         ListFsuCollectionsTypeEnum = "GI"
+	ListFsuCollectionsTypeGuestOs    ListFsuCollectionsTypeEnum = "GUEST_OS"
+	ListFsuCollectionsTypeExadbStack ListFsuCollectionsTypeEnum = "EXADB_STACK"
 )
 
 var mappingListFsuCollectionsTypeEnum = map[string]ListFsuCollectionsTypeEnum{
-	"DB": ListFsuCollectionsTypeDb,
-	"GI": ListFsuCollectionsTypeGi,
+	"DB":          ListFsuCollectionsTypeDb,
+	"GI":          ListFsuCollectionsTypeGi,
+	"GUEST_OS":    ListFsuCollectionsTypeGuestOs,
+	"EXADB_STACK": ListFsuCollectionsTypeExadbStack,
 }
 
 var mappingListFsuCollectionsTypeEnumLowerCase = map[string]ListFsuCollectionsTypeEnum{
-	"db": ListFsuCollectionsTypeDb,
-	"gi": ListFsuCollectionsTypeGi,
+	"db":          ListFsuCollectionsTypeDb,
+	"gi":          ListFsuCollectionsTypeGi,
+	"guest_os":    ListFsuCollectionsTypeGuestOs,
+	"exadb_stack": ListFsuCollectionsTypeExadbStack,
 }
 
 // GetListFsuCollectionsTypeEnumValues Enumerates the set of values for ListFsuCollectionsTypeEnum
@@ -223,6 +229,8 @@ func GetListFsuCollectionsTypeEnumStringValues() []string {
 	return []string{
 		"DB",
 		"GI",
+		"GUEST_OS",
+		"EXADB_STACK",
 	}
 }
 

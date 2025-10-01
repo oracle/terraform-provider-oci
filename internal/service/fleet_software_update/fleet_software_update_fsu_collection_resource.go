@@ -47,11 +47,6 @@ func FleetSoftwareUpdateFsuCollectionResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-			"source_major_version": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 			"type": {
 				Type:             schema.TypeString,
 				Required:         true,
@@ -59,11 +54,200 @@ func FleetSoftwareUpdateFsuCollectionResource() *schema.Resource {
 				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 				ValidateFunc: validation.StringInSlice([]string{
 					"DB",
+					"EXADB_STACK",
 					"GI",
+					"GUEST_OS",
 				}, true),
 			},
 
 			// Optional
+			"components": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"component_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"GI",
+								"GUEST_OS",
+							}, true),
+						},
+						"source_major_version": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+
+						// Optional
+						"fleet_discovery": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"strategy": {
+										Type:             schema.TypeString,
+										Required:         true,
+										ForceNew:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"DISCOVERY_RESULTS",
+											"FILTERS",
+											"SEARCH_QUERY",
+											"TARGET_LIST",
+										}, true),
+									},
+
+									// Optional
+									"filters": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"type": {
+													Type:             schema.TypeString,
+													Required:         true,
+													ForceNew:         true,
+													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+													ValidateFunc: validation.StringInSlice([]string{
+														"COMPARTMENT_ID",
+														"DEFINED_TAG",
+														"EXADATA_RELEASE_VERSION",
+														"FREEFORM_TAG",
+														"RESOURCE_ID",
+														"VERSION",
+													}, true),
+												},
+
+												// Optional
+												"entity_type": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"exadata_releases": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+												"identifiers": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+												"mode": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"operator": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"tags": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"key": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"namespace": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"value": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+
+															// Computed
+														},
+													},
+												},
+												"versions": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+
+												// Computed
+											},
+										},
+									},
+									"fsu_discovery_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"query": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"targets": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+
+									// Computed
+								},
+							},
+						},
+
+						// Computed
+					},
+				},
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -119,6 +303,7 @@ func FleetSoftwareUpdateFsuCollectionResource() *schema.Resource {
 											"DB_NAME",
 											"DB_UNIQUE_NAME",
 											"DEFINED_TAG",
+											"EXADATA_RELEASE_VERSION",
 											"FREEFORM_TAG",
 											"RESOURCE_ID",
 											"VERSION",
@@ -131,6 +316,15 @@ func FleetSoftwareUpdateFsuCollectionResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 										ForceNew: true,
+									},
+									"exadata_releases": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
 									},
 									"identifiers": {
 										Type:     schema.TypeList,
@@ -170,19 +364,21 @@ func FleetSoftwareUpdateFsuCollectionResource() *schema.Resource {
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
+
+												// Optional
 												"key": {
 													Type:     schema.TypeString,
-													Required: true,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"namespace": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
 													ForceNew: true,
 												},
 												"value": {
-													Type:     schema.TypeString,
-													Required: true,
-													ForceNew: true,
-												},
-
-												// Optional
-												"namespace": {
 													Type:     schema.TypeString,
 													Optional: true,
 													Computed: true,
@@ -238,6 +434,12 @@ func FleetSoftwareUpdateFsuCollectionResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"source_major_version": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 
 			// Computed
@@ -652,12 +854,138 @@ func (s *FleetSoftwareUpdateFsuCollectionResourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
+	case oci_fleet_software_update.ExadbStackCollection:
+		s.D.Set("type", "EXADB_STACK")
+
+		components := []interface{}{}
+		for _, item := range v.Components {
+			components = append(components, SoftwareComponentDetailsToMap(item))
+		}
+		s.D.Set("components", components)
+
+		if v.ActiveFsuCycle != nil {
+			s.D.Set("active_fsu_cycle", []interface{}{ActiveCycleDetailsToMap(v.ActiveFsuCycle)})
+		} else {
+			s.D.Set("active_fsu_cycle", nil)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.Id != nil {
+			s.D.Set("id", *v.Id)
+		}
+
+		if v.LastCompletedFsuCycleId != nil {
+			s.D.Set("last_completed_fsu_cycle_id", *v.LastCompletedFsuCycleId)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		s.D.Set("service_type", v.ServiceType)
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TargetCount != nil {
+			s.D.Set("target_count", *v.TargetCount)
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	case oci_fleet_software_update.GiCollection:
 		s.D.Set("type", "GI")
 
 		if v.FleetDiscovery != nil {
 			fleetDiscoveryArray := []interface{}{}
 			if fleetDiscoveryMap := GiFleetDiscoveryDetailsToMap(&v.FleetDiscovery); fleetDiscoveryMap != nil {
+				fleetDiscoveryArray = append(fleetDiscoveryArray, fleetDiscoveryMap)
+			}
+			s.D.Set("fleet_discovery", fleetDiscoveryArray)
+		} else {
+			s.D.Set("fleet_discovery", nil)
+		}
+
+		s.D.Set("source_major_version", v.SourceMajorVersion)
+
+		if v.ActiveFsuCycle != nil {
+			s.D.Set("active_fsu_cycle", []interface{}{ActiveCycleDetailsToMap(v.ActiveFsuCycle)})
+		} else {
+			s.D.Set("active_fsu_cycle", nil)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.Id != nil {
+			s.D.Set("id", *v.Id)
+		}
+
+		if v.LastCompletedFsuCycleId != nil {
+			s.D.Set("last_completed_fsu_cycle_id", *v.LastCompletedFsuCycleId)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		s.D.Set("service_type", v.ServiceType)
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TargetCount != nil {
+			s.D.Set("target_count", *v.TargetCount)
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+	case oci_fleet_software_update.GuestOsCollection:
+		s.D.Set("type", "GUEST_OS")
+
+		if v.FleetDiscovery != nil {
+			fleetDiscoveryArray := []interface{}{}
+			if fleetDiscoveryMap := GuestOsFleetDiscoveryDetailsToMap(&v.FleetDiscovery); fleetDiscoveryMap != nil {
 				fleetDiscoveryArray = append(fleetDiscoveryArray, fleetDiscoveryMap)
 			}
 			s.D.Set("fleet_discovery", fleetDiscoveryArray)
@@ -734,6 +1062,90 @@ func ActiveCycleDetailsToMap(obj *oci_fleet_software_update.ActiveCycleDetails) 
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
+	}
+
+	return result
+}
+
+func (s *FleetSoftwareUpdateFsuCollectionResourceCrud) mapToCreateSoftwareComponentDetails(fieldKeyFormat string) (oci_fleet_software_update.CreateSoftwareComponentDetails, error) {
+	var baseObject oci_fleet_software_update.CreateSoftwareComponentDetails
+	//discriminator
+	componentTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "component_type"))
+	var componentType string
+	if ok {
+		componentType = componentTypeRaw.(string)
+	} else {
+		componentType = "" // default value
+	}
+	switch strings.ToLower(componentType) {
+	case strings.ToLower("GI"):
+		details := oci_fleet_software_update.CreateGiSoftwareComponentDetails{}
+		if fleetDiscovery, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "fleet_discovery")); ok {
+			if tmpList := fleetDiscovery.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "fleet_discovery"), 0)
+				tmp, err := s.mapToGiFleetDiscoveryDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert fleet_discovery, encountered error: %v", err)
+				}
+				details.FleetDiscovery = tmp
+			}
+		}
+		if sourceMajorVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_major_version")); ok {
+			details.SourceMajorVersion = oci_fleet_software_update.GiSourceMajorVersionsEnum(sourceMajorVersion.(string))
+		}
+		baseObject = details
+	case strings.ToLower("GUEST_OS"):
+		details := oci_fleet_software_update.CreateGuestOsSoftwareComponentDetails{}
+		if fleetDiscovery, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "fleet_discovery")); ok {
+			if tmpList := fleetDiscovery.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "fleet_discovery"), 0)
+				tmp, err := s.mapToGuestOsFleetDiscoveryDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert fleet_discovery, encountered error: %v", err)
+				}
+				details.FleetDiscovery = tmp
+			}
+		}
+		if sourceMajorVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_major_version")); ok {
+			details.SourceMajorVersion = oci_fleet_software_update.GuestOsSourceMajorVersionsEnum(sourceMajorVersion.(string))
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown component_type '%v' was specified", componentType)
+	}
+	return baseObject, nil
+}
+
+func CreateSoftwareComponentDetailsToMap(obj oci_fleet_software_update.CreateSoftwareComponentDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (obj).(type) {
+	case oci_fleet_software_update.CreateGiSoftwareComponentDetails:
+		result["component_type"] = "GI"
+
+		if v.FleetDiscovery != nil {
+			fleetDiscoveryArray := []interface{}{}
+			if fleetDiscoveryMap := GiFleetDiscoveryDetailsToMap(&v.FleetDiscovery); fleetDiscoveryMap != nil {
+				fleetDiscoveryArray = append(fleetDiscoveryArray, fleetDiscoveryMap)
+			}
+			result["fleet_discovery"] = fleetDiscoveryArray
+		}
+
+		result["source_major_version"] = string(v.SourceMajorVersion)
+	case oci_fleet_software_update.CreateGuestOsSoftwareComponentDetails:
+		result["component_type"] = "GUEST_OS"
+
+		if v.FleetDiscovery != nil {
+			fleetDiscoveryArray := []interface{}{}
+			if fleetDiscoveryMap := GuestOsFleetDiscoveryDetailsToMap(&v.FleetDiscovery); fleetDiscoveryMap != nil {
+				fleetDiscoveryArray = append(fleetDiscoveryArray, fleetDiscoveryMap)
+			}
+			result["fleet_discovery"] = fleetDiscoveryArray
+		}
+
+		result["source_major_version"] = string(v.SourceMajorVersion)
+	default:
+		log.Printf("[WARN] Received 'component_type' of unknown type %v", obj)
+		return nil
 	}
 
 	return result
@@ -1189,9 +1601,89 @@ func FsuCollectionSummaryToMap(obj oci_fleet_software_update.FsuCollectionSummar
 		if v.TimeUpdated != nil {
 			result["time_updated"] = v.TimeUpdated.String()
 		}
+	case oci_fleet_software_update.ExadbStackFsuCollectionSummary:
+		result["type"] = "EXADB_STACK"
+
+		components := []interface{}{}
+		for _, item := range v.Components {
+			components = append(components, SoftwareComponentSummaryToMap(item))
+		}
+		result["components"] = components
+		result["id"] = string(*v.Id)
+
+		if v.ActiveFsuCycle != nil {
+			result["active_fsu_cycle"] = []interface{}{ActiveCycleDetailsToMap(v.ActiveFsuCycle)}
+		} else {
+			result["active_fsu_cycle"] = nil
+		}
+
+		result["compartment_id"] = string(*v.CompartmentId)
+		if v.DefinedTags != nil {
+			result["defined_tags"] = tfresource.DefinedTagsToMap(v.DefinedTags)
+		}
+
+		if v.DisplayName != nil {
+			result["display_name"] = string(*v.DisplayName)
+		}
+
+		result["freeform_tags"] = v.FreeformTags
+
+		if v.LifecycleDetails != nil {
+			result["lifecycle_details"] = string(*v.LifecycleDetails)
+		}
+		result["service_type"] = string(v.ServiceType)
+		result["state"] = string(v.LifecycleState)
+		if v.TargetCount != nil {
+			result["target_count"] = *v.TargetCount
+		}
+		if v.TimeCreated != nil {
+			result["time_created"] = v.TimeCreated.String()
+		}
+
+		if v.TimeUpdated != nil {
+			result["time_updated"] = v.TimeUpdated.String()
+		}
 
 	case oci_fleet_software_update.GiFsuCollectionSummary:
 		result["type"] = "GI"
+
+		result["source_major_version"] = string(v.SourceMajorVersion)
+		result["id"] = string(*v.Id)
+
+		if v.ActiveFsuCycle != nil {
+			result["active_fsu_cycle"] = []interface{}{ActiveCycleDetailsToMap(v.ActiveFsuCycle)}
+		} else {
+			result["active_fsu_cycle"] = nil
+		}
+
+		result["compartment_id"] = string(*v.CompartmentId)
+		if v.DefinedTags != nil {
+			result["defined_tags"] = tfresource.DefinedTagsToMap(v.DefinedTags)
+		}
+
+		if v.DisplayName != nil {
+			result["display_name"] = string(*v.DisplayName)
+		}
+
+		result["freeform_tags"] = v.FreeformTags
+
+		if v.LifecycleDetails != nil {
+			result["lifecycle_details"] = string(*v.LifecycleDetails)
+		}
+		result["service_type"] = string(v.ServiceType)
+		result["state"] = string(v.LifecycleState)
+		if v.TargetCount != nil {
+			result["target_count"] = *v.TargetCount
+		}
+		if v.TimeCreated != nil {
+			result["time_created"] = v.TimeCreated.String()
+		}
+
+		if v.TimeUpdated != nil {
+			result["time_updated"] = v.TimeUpdated.String()
+		}
+	case oci_fleet_software_update.GuestOsFsuCollectionSummary:
+		result["type"] = "GUEST_OS"
 
 		result["source_major_version"] = string(v.SourceMajorVersion)
 		result["id"] = string(*v.Id)
@@ -1511,6 +2003,448 @@ func GiFleetDiscoveryFilterToMap(obj oci_fleet_software_update.GiFleetDiscoveryF
 	return result
 }
 
+func (s *FleetSoftwareUpdateFsuCollectionResourceCrud) mapToGuestOsFleetDiscoveryDetails(fieldKeyFormat string) (oci_fleet_software_update.GuestOsFleetDiscoveryDetails, error) {
+	var baseObject oci_fleet_software_update.GuestOsFleetDiscoveryDetails
+	//discriminator
+	strategyRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "strategy"))
+	var strategy string
+	if ok {
+		strategy = strategyRaw.(string)
+	} else {
+		strategy = "" // default value
+	}
+	switch strings.ToLower(strategy) {
+	case strings.ToLower("DISCOVERY_RESULTS"):
+		details := oci_fleet_software_update.GuestOsDiscoveryResults{}
+		if fsuDiscoveryId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "fsu_discovery_id")); ok {
+			tmp := fsuDiscoveryId.(string)
+			details.FsuDiscoveryId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("FILTERS"):
+		details := oci_fleet_software_update.GuestOsFiltersDiscovery{}
+		if filters, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "filters")); ok {
+			interfaces := filters.([]interface{})
+			tmp := make([]oci_fleet_software_update.GuestOsFleetDiscoveryFilter, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "filters"), stateDataIndex)
+				converted, err := s.mapToGuestOsFleetDiscoveryFilter(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "filters")) {
+				details.Filters = tmp
+			}
+		}
+		baseObject = details
+	case strings.ToLower("SEARCH_QUERY"):
+		details := oci_fleet_software_update.GuestOsSearchQueryDiscovery{}
+		if query, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "query")); ok {
+			tmp := query.(string)
+			details.Query = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("TARGET_LIST"):
+		details := oci_fleet_software_update.GuestOsTargetListDiscovery{}
+		if targets, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "targets")); ok {
+			interfaces := targets.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "targets")) {
+				details.Targets = tmp
+			}
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown strategy '%v' was specified", strategy)
+	}
+	return baseObject, nil
+}
+
+func GuestOsFleetDiscoveryDetailsToMap(obj *oci_fleet_software_update.GuestOsFleetDiscoveryDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_fleet_software_update.GuestOsDiscoveryResults:
+		result["strategy"] = "DISCOVERY_RESULTS"
+
+		if v.FsuDiscoveryId != nil {
+			result["fsu_discovery_id"] = string(*v.FsuDiscoveryId)
+		}
+	case oci_fleet_software_update.GuestOsFiltersDiscovery:
+		result["strategy"] = "FILTERS"
+
+		filters := []interface{}{}
+		for _, item := range v.Filters {
+			filters = append(filters, GuestOsFleetDiscoveryFilterToMap(item))
+		}
+		result["filters"] = filters
+	case oci_fleet_software_update.GuestOsSearchQueryDiscovery:
+		result["strategy"] = "SEARCH_QUERY"
+
+		if v.Query != nil {
+			result["query"] = string(*v.Query)
+		}
+	case oci_fleet_software_update.GuestOsTargetListDiscovery:
+		result["strategy"] = "TARGET_LIST"
+
+		result["targets"] = v.Targets
+	default:
+		log.Printf("[WARN] Received 'strategy' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *FleetSoftwareUpdateFsuCollectionResourceCrud) mapToGuestOsFleetDiscoveryFilter(fieldKeyFormat string) (oci_fleet_software_update.GuestOsFleetDiscoveryFilter, error) {
+	var baseObject oci_fleet_software_update.GuestOsFleetDiscoveryFilter
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("COMPARTMENT_ID"):
+		details := oci_fleet_software_update.GuestOsCompartmentIdFilter{}
+		if identifiers, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "identifiers")); ok {
+			interfaces := identifiers.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "identifiers")) {
+				details.Identifiers = tmp
+			}
+		}
+		if mode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "mode")); ok {
+			details.Mode = oci_fleet_software_update.GuestOsFleetDiscoveryFilterModeEnum(mode.(string))
+		}
+		baseObject = details
+	case strings.ToLower("DEFINED_TAG"):
+		details := oci_fleet_software_update.GuestOsDefinedTagsFilter{}
+		if operator, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "operator")); ok {
+			details.Operator = oci_fleet_software_update.FleetDiscoveryOperatorsEnum(operator.(string))
+		}
+		if tags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tags")); ok {
+			interfaces := tags.([]interface{})
+			tmp := make([]oci_fleet_software_update.DefinedTagFilterEntry, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "tags"), stateDataIndex)
+				converted, err := s.mapToDefinedTagFilterEntry(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "tags")) {
+				details.Tags = tmp
+			}
+		}
+		if mode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "mode")); ok {
+			details.Mode = oci_fleet_software_update.GuestOsFleetDiscoveryFilterModeEnum(mode.(string))
+		}
+		baseObject = details
+	case strings.ToLower("EXADATA_RELEASE_VERSION"):
+		details := oci_fleet_software_update.GuestOsExadataReleaseVersionFilter{}
+		if exadataReleases, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "exadata_releases")); ok {
+			interfaces := exadataReleases.([]interface{})
+
+			// Create a new slice of the correct enum type
+			exadataEnums := make([]oci_fleet_software_update.ExadataReleaseVersionsEnum, 0, len(interfaces))
+
+			for _, item := range interfaces {
+				if item != nil {
+					// Convert the interface to a string
+					versionString := item.(string)
+
+					// Use the GetMappingExadataReleaseVersionsEnum function to get the enum
+					if enum, ok := oci_fleet_software_update.GetMappingExadataReleaseVersionsEnum(versionString); ok {
+						exadataEnums = append(exadataEnums, enum)
+					}
+					// You might want to handle the case where the mapping fails (ok is false)
+					// For example, log an error or skip the item
+				}
+			}
+
+			if len(exadataEnums) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "exadata_releases")) {
+				// Assign the new slice with the correct type
+				details.ExadataReleases = exadataEnums
+			}
+		}
+
+		if mode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "mode")); ok {
+			details.Mode = oci_fleet_software_update.GuestOsFleetDiscoveryFilterModeEnum(mode.(string))
+		}
+		baseObject = details
+	case strings.ToLower("FREEFORM_TAG"):
+		details := oci_fleet_software_update.GuestOsFreeformTagsFilter{}
+		if operator, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "operator")); ok {
+			details.Operator = oci_fleet_software_update.FleetDiscoveryOperatorsEnum(operator.(string))
+		}
+		if tags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tags")); ok {
+			interfaces := tags.([]interface{})
+			tmp := make([]oci_fleet_software_update.FreeformTagFilterEntry, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "tags"), stateDataIndex)
+				converted, err := s.mapToFreeformTagFilterEntry(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "tags")) {
+				details.Tags = tmp
+			}
+		}
+		if mode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "mode")); ok {
+			details.Mode = oci_fleet_software_update.GuestOsFleetDiscoveryFilterModeEnum(mode.(string))
+		}
+		baseObject = details
+	case strings.ToLower("RESOURCE_ID"):
+		details := oci_fleet_software_update.GuestOsResourceIdFilter{}
+		if entityType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "entity_type")); ok {
+			details.EntityType = oci_fleet_software_update.GuestOsResourceIdFilterEntityTypeEnum(entityType.(string))
+		}
+		if identifiers, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "identifiers")); ok {
+			interfaces := identifiers.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "identifiers")) {
+				details.Identifiers = tmp
+			}
+		}
+		if operator, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "operator")); ok {
+			details.Operator = oci_fleet_software_update.FleetDiscoveryOperatorsEnum(operator.(string))
+		}
+		if mode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "mode")); ok {
+			details.Mode = oci_fleet_software_update.GuestOsFleetDiscoveryFilterModeEnum(mode.(string))
+		}
+		baseObject = details
+	case strings.ToLower("VERSION"):
+		details := oci_fleet_software_update.GuestOsVersionFilter{}
+		if versions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "versions")); ok {
+			interfaces := versions.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "versions")) {
+				details.Versions = tmp
+			}
+		}
+		if mode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "mode")); ok {
+			details.Mode = oci_fleet_software_update.GuestOsFleetDiscoveryFilterModeEnum(mode.(string))
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
+	}
+	return baseObject, nil
+}
+
+func GuestOsFleetDiscoveryFilterToMap(obj oci_fleet_software_update.GuestOsFleetDiscoveryFilter) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (obj).(type) {
+	case oci_fleet_software_update.GuestOsCompartmentIdFilter:
+		result["type"] = "COMPARTMENT_ID"
+
+		result["identifiers"] = v.Identifiers
+	case oci_fleet_software_update.GuestOsDefinedTagsFilter:
+		result["type"] = "DEFINED_TAG"
+
+		result["operator"] = string(v.Operator)
+
+		tags := []interface{}{}
+		for _, item := range v.Tags {
+			tags = append(tags, DefinedTagFilterEntryToMap(item))
+		}
+		result["tags"] = tags
+	case oci_fleet_software_update.GuestOsExadataReleaseVersionFilter:
+		result["type"] = "EXADATA_RELEASE_VERSION"
+
+		result["exadata_releases"] = v.ExadataReleases
+	case oci_fleet_software_update.GuestOsFreeformTagsFilter:
+		result["type"] = "FREEFORM_TAG"
+
+		result["operator"] = string(v.Operator)
+
+		tags := []interface{}{}
+		for _, item := range v.Tags {
+			tags = append(tags, FreeformTagFilterEntryToMap(item))
+		}
+		result["tags"] = tags
+	case oci_fleet_software_update.GuestOsResourceIdFilter:
+		result["type"] = "RESOURCE_ID"
+
+		result["entity_type"] = string(v.EntityType)
+
+		result["identifiers"] = v.Identifiers
+
+		result["operator"] = string(v.Operator)
+	case oci_fleet_software_update.GuestOsVersionFilter:
+		result["type"] = "VERSION"
+
+		result["versions"] = v.Versions
+	default:
+		log.Printf("[WARN] Received 'type' of unknown type %v", obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *FleetSoftwareUpdateFsuCollectionResourceCrud) mapToSoftwareComponentDetails(fieldKeyFormat string) (oci_fleet_software_update.SoftwareComponentDetails, error) {
+	var baseObject oci_fleet_software_update.SoftwareComponentDetails
+	//discriminator
+	componentTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "component_type"))
+	var componentType string
+	if ok {
+		componentType = componentTypeRaw.(string)
+	} else {
+		componentType = "" // default value
+	}
+	switch strings.ToLower(componentType) {
+	case strings.ToLower("GI"):
+		details := oci_fleet_software_update.GiSoftwareComponentDetails{}
+		if fleetDiscovery, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "fleet_discovery")); ok {
+			if tmpList := fleetDiscovery.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "fleet_discovery"), 0)
+				tmp, err := s.mapToGiFleetDiscoveryDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert fleet_discovery, encountered error: %v", err)
+				}
+				details.FleetDiscovery = tmp
+			}
+		}
+		if sourceMajorVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_major_version")); ok {
+			details.SourceMajorVersion = oci_fleet_software_update.GiSourceMajorVersionsEnum(sourceMajorVersion.(string))
+		}
+		baseObject = details
+	case strings.ToLower("GUEST_OS"):
+		details := oci_fleet_software_update.GuestOsSoftwareComponentDetails{}
+		if fleetDiscovery, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "fleet_discovery")); ok {
+			if tmpList := fleetDiscovery.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "fleet_discovery"), 0)
+				tmp, err := s.mapToGuestOsFleetDiscoveryDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert fleet_discovery, encountered error: %v", err)
+				}
+				details.FleetDiscovery = tmp
+			}
+		}
+		if sourceMajorVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_major_version")); ok {
+			details.SourceMajorVersion = oci_fleet_software_update.GuestOsSourceMajorVersionsEnum(sourceMajorVersion.(string))
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown component_type '%v' was specified", componentType)
+	}
+	return baseObject, nil
+}
+
+func SoftwareComponentDetailsToMap(obj oci_fleet_software_update.SoftwareComponentDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (obj).(type) {
+	case oci_fleet_software_update.GiSoftwareComponentDetails:
+		result["component_type"] = "GI"
+
+		if v.FleetDiscovery != nil {
+			fleetDiscoveryArray := []interface{}{}
+			if fleetDiscoveryMap := GiFleetDiscoveryDetailsToMap(&v.FleetDiscovery); fleetDiscoveryMap != nil {
+				fleetDiscoveryArray = append(fleetDiscoveryArray, fleetDiscoveryMap)
+			}
+			result["fleet_discovery"] = fleetDiscoveryArray
+		}
+
+		result["source_major_version"] = string(v.SourceMajorVersion)
+	case oci_fleet_software_update.GuestOsSoftwareComponentDetails:
+		result["component_type"] = "GUEST_OS"
+
+		if v.FleetDiscovery != nil {
+			fleetDiscoveryArray := []interface{}{}
+			if fleetDiscoveryMap := GuestOsFleetDiscoveryDetailsToMap(&v.FleetDiscovery); fleetDiscoveryMap != nil {
+				fleetDiscoveryArray = append(fleetDiscoveryArray, fleetDiscoveryMap)
+			}
+			result["fleet_discovery"] = fleetDiscoveryArray
+		}
+
+		result["source_major_version"] = string(v.SourceMajorVersion)
+	default:
+		log.Printf("[WARN] Received 'component_type' of unknown type %v", obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *FleetSoftwareUpdateFsuCollectionResourceCrud) mapToSoftwareComponentSummary(fieldKeyFormat string) (oci_fleet_software_update.SoftwareComponentSummary, error) {
+	var baseObject oci_fleet_software_update.SoftwareComponentSummary
+	//discriminator
+	componentTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "component_type"))
+	var componentType string
+	if ok {
+		componentType = componentTypeRaw.(string)
+	} else {
+		componentType = "" // default value
+	}
+	switch strings.ToLower(componentType) {
+	case strings.ToLower("GI"):
+		details := oci_fleet_software_update.GiSoftwareComponentSummary{}
+		if sourceMajorVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_major_version")); ok {
+			details.SourceMajorVersion = oci_fleet_software_update.GiSourceMajorVersionsEnum(sourceMajorVersion.(string))
+		}
+		baseObject = details
+	case strings.ToLower("GUEST_OS"):
+		details := oci_fleet_software_update.GuestOsSoftwareComponentSummary{}
+		if sourceMajorVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_major_version")); ok {
+			details.SourceMajorVersion = oci_fleet_software_update.GuestOsSourceMajorVersionsEnum(sourceMajorVersion.(string))
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown component_type '%v' was specified", componentType)
+	}
+	return baseObject, nil
+}
+
+func SoftwareComponentSummaryToMap(obj oci_fleet_software_update.SoftwareComponentSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (obj).(type) {
+	case oci_fleet_software_update.GiSoftwareComponentSummary:
+		result["component_type"] = "GI"
+
+		result["source_major_version"] = string(v.SourceMajorVersion)
+	case oci_fleet_software_update.GuestOsSoftwareComponentSummary:
+		result["component_type"] = "GUEST_OS"
+
+		result["source_major_version"] = string(v.SourceMajorVersion)
+	default:
+		log.Printf("[WARN] Received 'component_type' of unknown type %v", obj)
+		return nil
+	}
+
+	return result
+}
+
 func (s *FleetSoftwareUpdateFsuCollectionResourceCrud) populateTopLevelPolymorphicCreateFsuCollectionRequest(request *oci_fleet_software_update.CreateFsuCollectionRequest) error {
 	//discriminator
 	typeRaw, ok := s.D.GetOkExists("type")
@@ -1558,6 +2492,46 @@ func (s *FleetSoftwareUpdateFsuCollectionResourceCrud) populateTopLevelPolymorph
 			details.ServiceType = oci_fleet_software_update.CollectionServiceTypesEnum(serviceType.(string))
 		}
 		request.CreateFsuCollectionDetails = details
+	case strings.ToLower("EXADB_STACK"):
+		details := oci_fleet_software_update.CreateExadbStackFsuCollectionDetails{}
+		if components, ok := s.D.GetOkExists("components"); ok {
+			interfaces := components.([]interface{})
+			tmp := make([]oci_fleet_software_update.CreateSoftwareComponentDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "components", stateDataIndex)
+				converted, err := s.mapToCreateSoftwareComponentDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("components") {
+				details.Components = tmp
+			}
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if serviceType, ok := s.D.GetOkExists("service_type"); ok {
+			details.ServiceType = oci_fleet_software_update.CollectionServiceTypesEnum(serviceType.(string))
+		}
+		request.CreateFsuCollectionDetails = details
 	case strings.ToLower("GI"):
 		details := oci_fleet_software_update.CreateGiFsuCollectionDetails{}
 		if fleetDiscovery, ok := s.D.GetOkExists("fleet_discovery"); ok {
@@ -1572,6 +2546,43 @@ func (s *FleetSoftwareUpdateFsuCollectionResourceCrud) populateTopLevelPolymorph
 		}
 		if sourceMajorVersion, ok := s.D.GetOkExists("source_major_version"); ok {
 			details.SourceMajorVersion = oci_fleet_software_update.GiSourceMajorVersionsEnum(sourceMajorVersion.(string))
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if serviceType, ok := s.D.GetOkExists("service_type"); ok {
+			details.ServiceType = oci_fleet_software_update.CollectionServiceTypesEnum(serviceType.(string))
+		}
+		request.CreateFsuCollectionDetails = details
+	case strings.ToLower("GUEST_OS"):
+		details := oci_fleet_software_update.CreateGuestOsFsuCollectionDetails{}
+		if fleetDiscovery, ok := s.D.GetOkExists("fleet_discovery"); ok {
+			if tmpList := fleetDiscovery.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "fleet_discovery", 0)
+				tmp, err := s.mapToGuestOsFleetDiscoveryDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.FleetDiscovery = tmp
+			}
+		}
+		if sourceMajorVersion, ok := s.D.GetOkExists("source_major_version"); ok {
+			details.SourceMajorVersion = oci_fleet_software_update.GuestOsSourceMajorVersionsEnum(sourceMajorVersion.(string))
 		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)

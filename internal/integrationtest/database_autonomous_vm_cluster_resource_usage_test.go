@@ -53,6 +53,7 @@ func TestDatabaseAutonomousVmClusterResourceUsageResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "exadata_storage_in_tbs"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_local_backup_enabled"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "memory_per_compute_unit_in_gbs"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "memory_per_oracle_compute_unit_in_gbs"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "memory_size_in_gbs"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "non_provisionable_autonomous_container_databases"),

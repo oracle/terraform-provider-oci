@@ -50,9 +50,8 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `base_model_id` - The OCID of the base model that's used for fine-tuning. For pretrained models, the value is null.
-* `capabilities` - Describes what this model can be used for.
 * `compartment_id` - The compartment OCID for fine-tuned models. For pretrained models, this value is null.
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `description` - An optional description of the model.
 * `display_name` - A user-friendly name.
 * `fine_tune_details` - Details about fine-tuning a custom model. 
@@ -89,8 +88,8 @@ The following attributes are exported:
 * `state` - The lifecycle state of the model.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The date and time that the model was created in the format of an RFC3339 datetime string.
-* `time_updated` - The date and time that the model was updated in the format of an RFC3339 datetime string.
 * `time_deprecated` - Corresponds to the time when the custom model and its associated foundation model will be deprecated.
+* `time_updated` - The date and time that the model was updated in the format of an RFC3339 datetime string.
 * `type` - The model type indicating whether this is a pretrained/base model or a custom/fine-tuned model.
 * `vendor` - The provider of the base model.
 * `version` - The version of the model.

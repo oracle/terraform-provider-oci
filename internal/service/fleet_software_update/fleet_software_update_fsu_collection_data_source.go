@@ -131,12 +131,130 @@ func (s *FleetSoftwareUpdateFsuCollectionDataSourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
+	case oci_fleet_software_update.ExadbStackCollection:
+		s.D.Set("type", "EXADB_STACK")
+
+		components := []interface{}{}
+		for _, item := range v.Components {
+			components = append(components, SoftwareComponentDetailsToMap(item))
+		}
+		s.D.Set("components", components)
+
+		if v.ActiveFsuCycle != nil {
+			s.D.Set("active_fsu_cycle", []interface{}{ActiveCycleDetailsToMap(v.ActiveFsuCycle)})
+		} else {
+			s.D.Set("active_fsu_cycle", nil)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LastCompletedFsuCycleId != nil {
+			s.D.Set("last_completed_fsu_cycle_id", *v.LastCompletedFsuCycleId)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		s.D.Set("service_type", v.ServiceType)
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TargetCount != nil {
+			s.D.Set("target_count", *v.TargetCount)
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	case oci_fleet_software_update.GiCollection:
 		s.D.Set("type", "GI")
 
 		if v.FleetDiscovery != nil {
 			fleetDiscoveryArray := []interface{}{}
 			if fleetDiscoveryMap := GiFleetDiscoveryDetailsToMap(&v.FleetDiscovery); fleetDiscoveryMap != nil {
+				fleetDiscoveryArray = append(fleetDiscoveryArray, fleetDiscoveryMap)
+			}
+			s.D.Set("fleet_discovery", fleetDiscoveryArray)
+		} else {
+			s.D.Set("fleet_discovery", nil)
+		}
+
+		s.D.Set("source_major_version", v.SourceMajorVersion)
+
+		if v.ActiveFsuCycle != nil {
+			s.D.Set("active_fsu_cycle", []interface{}{ActiveCycleDetailsToMap(v.ActiveFsuCycle)})
+		} else {
+			s.D.Set("active_fsu_cycle", nil)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LastCompletedFsuCycleId != nil {
+			s.D.Set("last_completed_fsu_cycle_id", *v.LastCompletedFsuCycleId)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		s.D.Set("service_type", v.ServiceType)
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TargetCount != nil {
+			s.D.Set("target_count", *v.TargetCount)
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+	case oci_fleet_software_update.GuestOsCollection:
+		s.D.Set("type", "GUEST_OS")
+
+		if v.FleetDiscovery != nil {
+			fleetDiscoveryArray := []interface{}{}
+			if fleetDiscoveryMap := GuestOsFleetDiscoveryDetailsToMap(&v.FleetDiscovery); fleetDiscoveryMap != nil {
 				fleetDiscoveryArray = append(fleetDiscoveryArray, fleetDiscoveryMap)
 			}
 			s.D.Set("fleet_discovery", fleetDiscoveryArray)

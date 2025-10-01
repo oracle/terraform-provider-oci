@@ -252,7 +252,7 @@ var (
 		"subnet_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 	}
 	CoreInstanceInstanceOptionsRepresentation = map[string]interface{}{
-		"are_legacy_imds_endpoints_disabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"are_legacy_imds_endpoints_disabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 	}
 	CoreInstanceLaunchOptionsRepresentation = map[string]interface{}{
 		"boot_volume_type":                    acctest.Representation{RepType: acctest.Optional, Create: `ISCSI`},
@@ -865,6 +865,17 @@ data "oci_kms_keys" "test_keys_dependency_RSA" {
 		"source_details":              acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceSourceDetailsRepresentationWindows},
 		"licensing_configs":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceLicensingConfigsRepresentation},
 		"subnet_id":                   acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+	}
+	// ---- Launch with AIE flag ----
+	InstanceRepresentationWithAieFlag = map[string]interface{}{
+		"availability_domain":      acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"shape":                    acctest.Representation{RepType: acctest.Required, Create: `BM.GPU.A10.4`},
+		"display_name":             acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_ocid}`},
+		"image":                    acctest.Representation{RepType: acctest.Required, Create: `${var.image_ocid}`},
+		"instance_options":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceInstanceOptionsRepresentation},
+		"is_ai_enterprise_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 	InstanceSourceDetailsRepresentationWithImageFilters = map[string]interface{}{
 		"source_type":                          acctest.Representation{RepType: acctest.Required, Create: `image`},
@@ -2257,6 +2268,119 @@ func TestAccResourceCoreInstance_UpdateLicensingConfig(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "licensing_configs.0.os_version"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "licensing_configs.0.license_type", "BRING_YOUR_OWN_LICENSE"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "licensing_configs.0.type", "WINDOWS"),
+				),
+			},
+		},
+	})
+}
+
+func TestAccResourceCoreInstance_WithAieFlag(t *testing.T) {
+	httpreplay.SetScenario("TestAccResourceCoreInstance_WithAieFlag")
+	defer httpreplay.SaveScenario()
+	provider := acctest.TestAccProvider
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	subnetId := utils.GetEnvSettingWithBlankDefault("subnet_ocid")
+	subnetIdVariableStr := fmt.Sprintf("variable \"subnet_ocid\" { default = \"%s\" }\n", subnetId)
+
+	imageId := utils.GetEnvSettingWithBlankDefault("image_ocid")
+	imageIdVariableStr := fmt.Sprintf("variable \"image_ocid\" { default = \"%s\" }\n", imageId)
+
+	managementEndpoint := utils.GetEnvSettingWithBlankDefault("management_endpoint")
+	managementEndpointStr := fmt.Sprintf("variable \"management_endpoint\" { default = \"%s\" }\n", managementEndpoint)
+
+	config := acctest.ProviderTestConfig() + compartmentIdVariableStr + subnetIdVariableStr + imageIdVariableStr + managementEndpointStr + AvailabilityDomainConfig + CoreKeyResourceDependencyConfig
+
+	resourceName := "oci_core_instance.test_instance"
+	datasourceName := "data.oci_core_instances.test_instances"
+	singularDatasourceName := "data.oci_core_instance.test_instance"
+
+	var resId, resId2 string
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { acctest.PreCheck(t) },
+		Providers: map[string]*schema.Provider{
+			"oci": provider,
+		},
+		CheckDestroy: testAccCheckCoreInstanceDestroy,
+		Steps: []resource.TestStep{
+
+			// Step 0 - verify create
+			{
+				Config: config +
+					acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Create, InstanceRepresentationWithAieFlag),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "shape", "BM.GPU.A10.4"),
+					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+					resource.TestCheckResourceAttr(resourceName, "is_ai_enterprise_enabled", "false"),
+					func(s *terraform.State) (err error) {
+						resId, err = acctest.FromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+							if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+						}
+						return err
+					},
+				),
+			},
+
+			// Step 1 - verify update
+			{
+				Config: config +
+					acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Update, InstanceRepresentationWithAieFlag),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "shape", "BM.GPU.A10.4"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+					resource.TestCheckResourceAttr(resourceName, "is_ai_enterprise_enabled", "true"),
+					func(s *terraform.State) (err error) {
+						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+
+			// Step 2 - verify datasource
+			{
+				Config: config +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", acctest.Optional, acctest.Update, CoreCoreInstanceDataSourceRepresentation) +
+					acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Update, InstanceRepresentationWithAieFlag),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(datasourceName, "state", "RUNNING"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.shape", "BM.GPU.A10.4"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.display_name", "displayName2"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.is_ai_enterprise_enabled", "true"),
+				),
+			},
+
+			// Step 3 - verify singular datasource
+			{
+				Config: config +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Create, CoreCoreInstanceSingularDataSourceRepresentation) +
+					acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Update, InstanceRepresentationWithAieFlag),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "image"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(singularDatasourceName, "shape", "BM.GPU.A10.4"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "is_ai_enterprise_enabled", "true"),
 				),
 			},
 		},

@@ -37,7 +37,7 @@ type InitialClusterConfiguration struct {
 	NetworkConfiguration *NetworkConfiguration `mandatory:"true" json:"networkConfiguration"`
 
 	// A descriptive name for the Cluster.
-	// Cluster name requirements are 1-16 character length limit, Must start with a letter, Must be English letters, numbers, - only, No repeating hyphens, Must be unique within the region.
+	// Cluster name requirements are 1-22 character length limit, Must start with a letter, Must be English letters, numbers, - only, No repeating hyphens, Must be unique within the region.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
@@ -71,6 +71,9 @@ type InitialClusterConfiguration struct {
 	// A list of datastore info for the Cluster.
 	// This value is required only when `initialHostShapeName` is a standard shape.
 	Datastores []DatastoreInfo `mandatory:"false" json:"datastores"`
+
+	// A list of datastore clusters.
+	DatastoreClusterIds []string `mandatory:"false" json:"datastoreClusterIds"`
 }
 
 func (m InitialClusterConfiguration) String() string {

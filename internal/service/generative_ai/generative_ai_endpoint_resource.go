@@ -66,6 +66,16 @@ func GenerativeAiEndpointResource() *schema.Resource {
 						},
 
 						// Optional
+						"mode": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"model_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 
 						// Computed
 					},
@@ -93,6 +103,11 @@ func GenerativeAiEndpointResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"generative_ai_private_endpoint_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 
 			// Computed
@@ -233,6 +248,11 @@ func (s *GenerativeAiEndpointResourceCrud) Create() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if generativeAiPrivateEndpointId, ok := s.D.GetOkExists("generative_ai_private_endpoint_id"); ok {
+		tmp := generativeAiPrivateEndpointId.(string)
+		request.GenerativeAiPrivateEndpointId = &tmp
 	}
 
 	if modelId, ok := s.D.GetOkExists("model_id"); ok {
@@ -436,6 +456,11 @@ func (s *GenerativeAiEndpointResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if generativeAiPrivateEndpointId, ok := s.D.GetOkExists("generative_ai_private_endpoint_id"); ok {
+		tmp := generativeAiPrivateEndpointId.(string)
+		request.GenerativeAiPrivateEndpointId = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai")
 
 	response, err := s.Client.UpdateEndpoint(context.Background(), request)
@@ -496,6 +521,10 @@ func (s *GenerativeAiEndpointResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.GenerativeAiPrivateEndpointId != nil {
+		s.D.Set("generative_ai_private_endpoint_id", *s.Res.GenerativeAiPrivateEndpointId)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
@@ -529,6 +558,15 @@ func (s *GenerativeAiEndpointResourceCrud) mapToContentModerationConfig(fieldKey
 		result.IsEnabled = &tmp
 	}
 
+	if mode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "mode")); ok {
+		result.Mode = oci_generative_ai.ContentModerationConfigModeEnum(mode.(string))
+	}
+
+	if modelId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "model_id")); ok {
+		tmp := modelId.(string)
+		result.ModelId = &tmp
+	}
+
 	return result, nil
 }
 
@@ -537,6 +575,12 @@ func ContentModerationConfigToMap(obj *oci_generative_ai.ContentModerationConfig
 
 	if obj.IsEnabled != nil {
 		result["is_enabled"] = bool(*obj.IsEnabled)
+	}
+
+	result["mode"] = string(obj.Mode)
+
+	if obj.ModelId != nil {
+		result["model_id"] = string(*obj.ModelId)
 	}
 
 	return result
@@ -570,6 +614,10 @@ func EndpointSummaryToMap(obj oci_generative_ai.EndpointSummary) map[string]inte
 	}
 
 	result["freeform_tags"] = obj.FreeformTags
+
+	if obj.GenerativeAiPrivateEndpointId != nil {
+		result["generative_ai_private_endpoint_id"] = string(*obj.GenerativeAiPrivateEndpointId)
+	}
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)

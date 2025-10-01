@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// TargetEntry Details to specify a target to add or remove from a Exadata Fleet Update Collection.
+// TargetEntry Details to specify a target to add or remove from an Exadata Fleet Update Collection.
 type TargetEntry struct {
 
 	// Resource entity type

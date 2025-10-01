@@ -202,6 +202,8 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["actual_used_data_storage_size_in_tbs"] = *r.ActualUsedDataStorageSizeInTBs
 		}
 
+		autonomousDatabase["additional_attributes"] = r.AdditionalAttributes
+
 		if r.AllocatedStorageSizeInTBs != nil {
 			autonomousDatabase["allocated_storage_size_in_tbs"] = *r.AllocatedStorageSizeInTBs
 		}

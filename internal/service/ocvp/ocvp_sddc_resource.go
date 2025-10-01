@@ -366,6 +366,11 @@ func OcvpSddcResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -569,6 +574,15 @@ func OcvpSddcResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 										ForceNew: true,
+									},
+									"datastore_cluster_ids": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
 									},
 									"datastores": {
 										Type:     schema.TypeList,
@@ -839,6 +853,31 @@ func (s *OcvpSddcResourceCrud) Create() error {
 		} else {
 			log.Printf("[DEBUG] failed to detect change data store %s", datastores)
 		}
+	}
+
+	initConf, ok := s.D.GetOk("initial_configuration.0.initial_cluster_configurations.0")
+	log.Printf("[DEBUG] OK: %v, InitialConfigurations: %+v", ok, initConf)
+	datastoreClusterIds, ok := s.getOkExistsClusterConfigurationProperty("datastore_cluster_ids")
+	log.Printf("[DEBUG] datastoreClusterIds: %+v, ok: %v", datastoreClusterIds, ok)
+
+	if ok {
+		interfaces := datastoreClusterIds.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i, datastoreClusterId := range interfaces {
+			tmp[i] = datastoreClusterId.(string)
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf("%s.%d.%s.%d.%s", "initial_configuration", 0, "initial_cluster_configurations", 0, "datastore_cluster_ids")) {
+			initialClusterConfiguration.DatastoreClusterIds = tmp
+			log.Printf("[DEBUG] changing data store cluster ids %s", datastoreClusterIds)
+		} else {
+			log.Printf("[DEBUG] failed to detect change data store %s", datastoreClusterIds)
+		}
+
+	}
+
+	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+		tmp := displayName.(string)
+		request.DisplayName = &tmp
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -1958,9 +1997,11 @@ func InitialClusterConfigurationToMap(obj oci_ocvp.InitialClusterConfiguration,
 		result["compute_availability_domain"] = string(*obj.ComputeAvailabilityDomain)
 	}
 
+	result["datastore_cluster_ids"] = obj.DatastoreClusterIds
+
 	datastores := []interface{}{}
 	for _, item := range obj.Datastores {
-		datastores = append(datastores, DatastoreSummaryToMap(item))
+		datastores = append(datastores, DatastoreInfoToMap(item))
 	}
 	result["datastores"] = datastores
 
@@ -2044,7 +2085,7 @@ func (s *OcvpSddcResourceCrud) mapToDatastoreInfo(fieldKeyFormat string) (oci_oc
 	return result, nil
 }
 
-func DatastoreSummaryToMap(obj oci_ocvp.DatastoreInfo) map[string]interface{} {
+func DatastoreInfoToMap(obj oci_ocvp.DatastoreInfo) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	result["block_volume_ids"] = obj.BlockVolumeIds
