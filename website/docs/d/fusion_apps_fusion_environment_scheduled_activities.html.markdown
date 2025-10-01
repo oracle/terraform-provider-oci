@@ -56,7 +56,7 @@ The following attributes are exported:
 	* `artifact` - patch that delivered the vertex update prerequisite
 	* `category` - patch artifact category
 	* `description` - A string that describes the details of the action. It does not have to be unique, and you can change it. Avoid entering confidential information.
-	* `mode` - A string that describeds whether the change is applied hot or cold
+	* `mode` - A string that describes whether the change is applied hot or cold
 	* `qualifier` - month qualifier
 	* `reference_key` - Unique identifier of the object that represents the action
 	* `state` - A string that describes whether the change is applied hot or cold

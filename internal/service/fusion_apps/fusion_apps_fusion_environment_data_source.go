@@ -106,6 +106,10 @@ func (s *FusionAppsFusionEnvironmentDataSourceCrud) SetData() error {
 		s.D.Set("is_break_glass_enabled", *s.Res.IsBreakGlassEnabled)
 	}
 
+	if s.Res.IsIPv6DualStackEnabled != nil {
+		s.D.Set("is_ipv6dual_stack_enabled", *s.Res.IsIPv6DualStackEnabled)
+	}
+
 	if s.Res.KmsKeyId != nil {
 		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
 	}
