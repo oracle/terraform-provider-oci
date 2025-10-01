@@ -425,3 +425,10 @@ data "oci_database_autonomous_databases_clones" "test_autonomous_databases_clone
   #Optional
   clone_type = "REFRESHABLE_CLONE"
 }
+
+
+data "oci_database_autonomous_databases_estimate_cost_savings" "test_autonomous_databases_estimate_cost_savings" {
+  #Required
+  autonomous_database_id = oci_database_autonomous_database.test_autonomous_database.id
+  is_cpu_autoscale       = false
+}
