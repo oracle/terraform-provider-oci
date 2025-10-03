@@ -34,6 +34,16 @@ var (
 		"key_store_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_key_store.test_key_store.id}`},
 	}
 
+	DatabaseExaccDatabaseRepresentationPdb2 = map[string]interface{}{
+		"database": acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(databaseDatabaseRepresentation, []string{"db_name"}), map[string]interface{}{
+			"db_name": acctest.Representation{RepType: acctest.Required, Create: `myTstDb2`},
+		})},
+		"db_home_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_database_db_home.test_db_home_vm_cluster.id}`},
+		"source":       acctest.Representation{RepType: acctest.Required, Create: `NONE`},
+		"db_version":   acctest.Representation{RepType: acctest.Optional, Create: `19.0.0.0`},
+		"key_store_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_key_store.test_key_store.id}`},
+	}
+
 	DatabaseExaccPluggableDatabaseRepresentation = map[string]interface{}{
 		"container_database_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_database_database.test_database.id}`},
 		"pdb_admin_password":                 acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
@@ -43,7 +53,7 @@ var (
 		"freeform_tags":                      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"should_pdb_admin_account_be_locked": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"lifecycle":                          acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesLBRepresentation},
-		"rotate_key_trigger":                 acctest.Representation{RepType: acctest.Required, Create: `0`, Update: `1`},
+		"rotate_key_trigger":                 acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `1`},
 	}
 
 	DatabaseExaccPluggableDatabaseResourceDependencies = DatabaseVmClusterResourceDependencies +
