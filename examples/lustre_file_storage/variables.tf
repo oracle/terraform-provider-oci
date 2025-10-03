@@ -26,9 +26,18 @@ variable "lustre_file_system_display_name" {
   default = "testDisplayName"
 }
 
+variable "lustre_file_system_display_name_import_job" {
+  default = "testDisplayName-import-job"
+}
+
 variable "lustre_file_system_file_system_description" {
   default = "testFileSystemDescription"
 }
+
+variable "lustre_file_system_import_job_file_system_description" {
+  default = "Lustre file system for starting and stopping an import job"
+}
+
 
 variable "lustre_file_system_freeform_tags" {
   default = { "Department" = "Finance" }
@@ -80,4 +89,36 @@ variable "my_vcn-cidr" {
 
 variable "my_subnet_cidr" {
   default = "10.0.0.0/24"
+}
+
+variable "object_storage_link_display_name" {
+  default = "link1"
+}
+
+variable "object_storage_link_display_name_export_job" {
+  default = "link-export-job"
+}
+
+variable "object_storage_link_display_name_import_job" {
+  default = "link-import-job"
+}
+
+variable "file_system_path" {
+  default = "/test"
+}
+
+variable "object_storage_prefix" {
+  default = "example/tf-test"
+}
+
+variable "object_storage_prefix_export_job" {
+  default = "example/tf-test/export"
+}
+
+variable "object_storage_prefix_import_job" {
+  default = "example/tf-test/import"
+}
+
+variable "sync_job_id" {
+  default = "syncJobId"
 }

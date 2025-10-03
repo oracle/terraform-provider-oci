@@ -1057,6 +1057,7 @@ logging
 lustre_file_storage
     
 * oci\_lustre\_file\_storage\_lustre\_file\_system
+* oci\_lustre\_file\_storage\_object\_storage\_link
 
 managed_kafka
     
