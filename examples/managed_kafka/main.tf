@@ -17,16 +17,13 @@ variable "project_description" {
   default = "description"
 }
 
-variable "vault_id" { 
-    
+variable "vault_id" {
 }
 
-variable "key_id" { 
-
+variable "key_id" {
 }
 
 variable "subnet" {
-
 }
 
 provider "oci" {
@@ -93,7 +90,7 @@ resource "oci_managed_kafka_kafka_cluster_config" "test_kafka_cluster_config_2" 
         properties = {
             "properties2" = "properties2"
         }
-        version_number = "11"
+        version_number = "1"
       }
 
       lifecycle {

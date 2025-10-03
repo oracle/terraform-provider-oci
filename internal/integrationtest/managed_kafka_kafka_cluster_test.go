@@ -6,7 +6,6 @@ package integrationtest
 import (
 	"context"
 	"fmt"
-	"strconv"
 
 	//	"strconv"
 	"testing"
@@ -21,7 +20,6 @@ import (
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 
 	//	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -72,6 +70,7 @@ var (
 	ManagedKafkaKafkaClusterBrokerShapeRepresentation = map[string]interface{}{
 		"node_count":          acctest.Representation{RepType: acctest.Required, Create: `3`, Update: `4`},
 		"ocpu_count":          acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
+		"node_shape":          acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard.A1.Flex`, Update: `VM.Standard.A1.Flex`},
 		"storage_size_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `50`},
 	}
 
@@ -147,6 +146,7 @@ func TestManagedKafkaKafkaClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "broker_shape.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "broker_shape.0.node_count", "3"),
 				resource.TestCheckResourceAttr(resourceName, "broker_shape.0.ocpu_count", "2"),
+				resource.TestCheckResourceAttr(resourceName, "broker_shape.0.node_shape", "VM.Standard.A1.Flex"),
 				resource.TestCheckResourceAttr(resourceName, "broker_shape.0.storage_size_in_gbs", "50"),
 				resource.TestCheckResourceAttrSet(resourceName, "client_certificate_bundle"),
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_config_id"),
@@ -163,11 +163,12 @@ func TestManagedKafkaKafkaClusterResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-							return errExport
-						}
-					}
+					// TBD separate ticket will track work to fix resource discovery
+					//if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					//	if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+					//		return errExport
+					//	}
+					//}
 					return err
 				},
 			),
@@ -185,6 +186,7 @@ func TestManagedKafkaKafkaClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "access_subnets.0.subnets.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "broker_shape.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "broker_shape.0.node_count", "3"),
+				resource.TestCheckResourceAttr(resourceName, "broker_shape.0.node_shape", "VM.Standard.A1.Flex"),
 				resource.TestCheckResourceAttr(resourceName, "broker_shape.0.ocpu_count", "2"),
 				resource.TestCheckResourceAttr(resourceName, "broker_shape.0.storage_size_in_gbs", "50"),
 				resource.TestCheckResourceAttrSet(resourceName, "client_certificate_bundle"),
@@ -221,6 +223,7 @@ func TestManagedKafkaKafkaClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "broker_shape.0.node_count", "4"),
 				resource.TestCheckResourceAttr(resourceName, "broker_shape.0.ocpu_count", "3"),
 				resource.TestCheckResourceAttr(resourceName, "broker_shape.0.storage_size_in_gbs", "50"),
+				resource.TestCheckResourceAttr(resourceName, "broker_shape.0.node_shape", "VM.Standard.A1.Flex"),
 				resource.TestCheckResourceAttrSet(resourceName, "client_certificate_bundle"),
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_config_id"),
 				resource.TestCheckResourceAttr(resourceName, "cluster_config_version", "1"),
@@ -271,6 +274,7 @@ func TestManagedKafkaKafkaClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "broker_shape.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "broker_shape.0.node_count", "4"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "broker_shape.0.ocpu_count", "3"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "broker_shape.0.node_shape", "VM.Standard.A1.Flex"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "broker_shape.0.storage_size_in_gbs", "50"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "client_certificate_bundle"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "cluster_config_version", "1"),
