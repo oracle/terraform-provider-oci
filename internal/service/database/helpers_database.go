@@ -10,6 +10,10 @@ func fileSystemConfigDiffFunc(ctx context.Context, diff *schema.ResourceDiff, me
 	// Access the current and proposed values
 	oldVal, newVal := diff.GetChange("file_system_configuration_details")
 
+	if diff.Id() == "" {
+		return nil
+	}
+
 	if oldVal == nil || newVal == nil {
 		return nil
 	}
