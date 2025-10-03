@@ -283,7 +283,8 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_sparse_diskgroup_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttr(resourceName, "memory_size_in_gbs", "60"),
-				resource.TestCheckResourceAttr(resourceName, "system_version", "19.2.12.0.0.200317"),
+				//resource.TestCheckResourceAttr(resourceName, "system_version", "19.2.12.0.0.200317"),
+				resource.TestCheckResourceAttrSet(resourceName, "system_version"), // when system version is not provided, service sets a value for this field
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
 				resource.TestCheckResourceAttrSet(resourceName, "vm_cluster_network_id"),
 				resource.TestCheckResourceAttr(resourceName, "vm_cluster_type", "REGULAR"),
@@ -336,7 +337,8 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_sparse_diskgroup_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttr(resourceName, "memory_size_in_gbs", "60"),
-				resource.TestCheckResourceAttr(resourceName, "system_version", "19.2.12.0.0.200317"),
+				//resource.TestCheckResourceAttr(resourceName, "system_version", "19.2.12.0.0.200317"),
+				resource.TestCheckResourceAttrSet(resourceName, "system_version"), // when system version is not provided, service sets a value for this field
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
 				resource.TestCheckResourceAttrSet(resourceName, "vm_cluster_network_id"),
 				resource.TestCheckResourceAttr(resourceName, "vm_cluster_type", "REGULAR"),
@@ -384,7 +386,8 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_sparse_diskgroup_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttr(resourceName, "memory_size_in_gbs", "90"),
-				resource.TestCheckResourceAttr(resourceName, "system_version", "19.2.12.0.0.200317"),
+				//resource.TestCheckResourceAttr(resourceName, "system_version", "19.2.12.0.0.200317"),
+				resource.TestCheckResourceAttrSet(resourceName, "system_version"), // when system version is not provided, service sets a value for this field
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
 				resource.TestCheckResourceAttrSet(resourceName, "vm_cluster_network_id"),
 				resource.TestCheckResourceAttr(resourceName, "vm_cluster_type", "REGULAR"),
@@ -446,7 +449,8 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.shape"),
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.storage_management_type"),
-				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.system_version", "19.2.12.0.0.200317"),
+				//resource.TestCheckResourceAttr(resourceName, "system_version", "19.2.12.0.0.200317"),
+				resource.TestCheckResourceAttrSet(resourceName, "system_version"), // when system version is not provided, service sets a value for this field
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.time_created"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.time_zone", "US/Pacific"),
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.vm_cluster_network_id"),
@@ -492,7 +496,8 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_sparse_diskgroup_enabled", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "memory_size_in_gbs", "90"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "system_version", "19.2.12.0.0.200317"),
+				//resource.TestCheckResourceAttr(resourceName, "system_version", "19.2.12.0.0.200317"),
+				resource.TestCheckResourceAttrSet(resourceName, "system_version"), // when system version is not provided, service sets a value for this field
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "shape"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "storage_management_type"),

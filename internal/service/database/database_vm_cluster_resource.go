@@ -22,9 +22,9 @@ func DatabaseVmClusterResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: tfresource.GetTimeoutDuration("30m"),
-			Update: tfresource.GetTimeoutDuration("30m"),
-			Delete: tfresource.GetTimeoutDuration("30m"),
+			Create: tfresource.GetTimeoutDuration("12h"),
+			Update: tfresource.GetTimeoutDuration("12h"),
+			Delete: tfresource.GetTimeoutDuration("12h"),
 		},
 		Create: createDatabaseVmCluster,
 		Read:   readDatabaseVmCluster,
