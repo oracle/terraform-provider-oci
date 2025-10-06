@@ -14,41 +14,15 @@ import (
 )
 
 func JmsUtilsSubscriptionAcknowledgmentConfigurationDataSource() *schema.Resource {
-	return &schema.Resource{
-		Importer: &schema.ResourceImporter{
-			State: schema.ImportStatePassthrough,
-		},
-		Timeouts: tfresource.DefaultTimeout,
-		Read:     readJmsUtilsSubscriptionAcknowledgmentConfiguration,
-		Schema: map[string]*schema.Schema{
-			// Required
-
-			// Optional
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"is_acknowledged": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Computed: true,
-			},
-
-			// Computed
-			"acknowledged_by": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_acknowledged": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["compartment_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return tfresource.GetSingularDataSourceItemSchema(JmsUtilsSubscriptionAcknowledgmentConfigurationResource(), fieldMap, readSingularJmsUtilsSubscriptionAcknowledgmentConfiguration)
 }
 
-func readJmsUtilsSubscriptionAcknowledgmentConfiguration(d *schema.ResourceData, m interface{}) error {
+func readSingularJmsUtilsSubscriptionAcknowledgmentConfiguration(d *schema.ResourceData, m interface{}) error {
 	sync := &JmsUtilsSubscriptionAcknowledgmentConfigurationDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).JmsUtilsClient()
