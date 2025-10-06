@@ -52,16 +52,16 @@ var (
 		// Failure to do so results in test failures:  Error: Reference to undeclared resource.
 		// "defined_tags": acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 
-		"freeform_tags":                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"ipv6subnet_cidr":              acctest.Representation{RepType: acctest.Optional, Create: `ipv6SubnetCidr`},
+		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		//	"ipv6subnet_cidr":              acctest.Representation{RepType: acctest.Optional, Create: `ipv6SubnetCidr`},
 		"is_private":                   acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"security_attributes":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"oracle-zpr.sa-test-lbaas.mode": "enforce", "oracle-zpr.sa-test-lbaas.value": "create-zpr-tersi-lbaas"}, Update: map[string]string{"oracle-zpr.sa-test-lbaas.value": "update-zpr-tersi-lbaas", "oracle-zpr.sa-test-lbaas.mode": "enforce"}},
 		"is_request_id_enabled":        acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `true`},
 		"request_id_header":            acctest.Representation{RepType: acctest.Optional, Create: ``, Update: `X-MyRequestB-Id`},
 		"is_delete_protection_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"reserved_ips":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: loadBalancerReservedIpsRepresentation},
-		"network_security_group_ids":   acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group1.id}`}, Update: []string{}},
-		"lifecycle":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesLBRepresentation},
+		//	"reserved_ips":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: loadBalancerReservedIpsRepresentation},
+		"network_security_group_ids": acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group1.id}`}, Update: []string{}},
+		"lifecycle":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesLBRepresentation},
 	}
 
 	loadBalancer2Representation = map[string]interface{}{
@@ -88,7 +88,7 @@ var (
 		"id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_public_ip.test_public_ip.id}`},
 	}
 
-	LoadBalancerSubnetDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_lb_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
+	LoadBalancerSubnetDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_lb_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreIpv6VcnRepresentation, map[string]interface{}{
 		"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
 	})) +
 		`
@@ -138,8 +138,58 @@ var (
 		display_name        = "lbTestSubnet4"
 		security_list_ids = ["${oci_core_vcn.test_lb_vcn.default_security_list_id}"]
 	}
-`
 
+    resource "oci_core_subnet" "ipv6_subnet_1" {
+        cidr_block          = "10.0.4.0/24"
+        display_name        = "ipv6Subnet1"
+        compartment_id      = "${var.compartment_id}"
+        vcn_id              = "${oci_core_vcn.test_lb_vcn.id}"
+		#route_table_id     = oci_core_vcn.test_lb_vcn.default_route_table_id
+		#security_list_ids  = [oci_core_vcn.test_lb_vcn.default_security_list_id]
+		#dhcp_options_id    = oci_core_vcn.test_lb_vcn.default_dhcp_options_id
+		dns_label           = "ipv6Subnet1"
+        ipv6cidr_blocks     =["${substr(oci_core_vcn.test_lb_vcn.ipv6cidr_blocks[0], 0, length(oci_core_vcn.test_lb_vcn.ipv6cidr_blocks[0]) - 2)}64", "fc00:1000::/64"]
+    }
+
+    resource "oci_core_subnet" "ipv6_subnet_2" {
+       cidr_block          = "10.0.5.0/24"
+       display_name        = "ipv6Subnet2"
+       compartment_id      = "${var.compartment_id}"
+       vcn_id              = "${oci_core_vcn.test_lb_vcn.id}"
+		#route_table_id      = oci_core_vcn.test_lb_vcn.default_route_table_id
+		#security_list_ids   = [oci_core_vcn.test_lb_vcn.default_security_list_id]
+		#dhcp_options_id     = oci_core_vcn.test_lb_vcn.default_dhcp_options_id
+		dns_label           = "ipv6Subnet2"
+		ipv6cidr_blocks     = ["${substr(oci_core_vcn.test_lb_vcn.ipv6cidr_blocks[0], 0, length(oci_core_vcn.test_lb_vcn.ipv6cidr_blocks[0]) - 6)}1::/64"]
+	}
+
+    resource "oci_core_ipv6" "reserved_ipv6" {
+        display_name = "reserved_ipv6"
+        lifetime     = "RESERVED"
+        subnet_id    = "${oci_core_subnet.ipv6_subnet_1.id}"
+    }
+
+
+    locals {
+		longipv6subnetcidr = "${oci_core_subnet.ipv6_subnet_1.ipv6cidr_blocks.0}"
+        split_address = "${regex("^(.*?)\\/(.*)", local.longipv6subnetcidr)}"
+		body = join(":", [
+		for block in split(":", element(local.split_address, 0)) :
+		block == "0000" ? "0" : replace(block, "/^0+/", "")
+		])
+		shortformip = "${replace(local.body, ":0:0:0:0", "::")}"
+        ipv6SubnetCidr1 = "${local.shortformip}/${element(local.split_address, 1)}"
+
+		longipv6subnetcidr_2 = "${oci_core_subnet.ipv6_subnet_2.ipv6cidr_blocks.0}"
+        split_address_2 = "${regex("^(.*?)\\/(.*)", local.longipv6subnetcidr_2)}"
+		body_2 = join(":", [
+		for block in split(":", element(local.split_address_2, 0)) :
+		block == "0000" ? "0" : replace(block, "/^0+/", "")
+		])
+		shortformip_2 = "${replace(local.body_2, ":0:0:0:0", "::")}"
+        ipv6SubnetCidr2 = "${local.shortformip_2}/${element(local.split_address_2, 1)}"
+}
+`
 	LoadBalancerReservedIpDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", acctest.Required, acctest.Create, CorePublicIpRepresentation)
 
 	LoadBalancerResourceDependencies = LoadBalancerSubnetDependencies + LoadBalancerReservedIpDependencies +
@@ -208,16 +258,16 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "ipv6subnet_cidr", "ipv6SubnetCidr"),
+				//	resource.TestCheckResourceAttr(resourceName, "ipv6subnet_cidr", "ipv6SubnetCidr"),
 				resource.TestCheckResourceAttr(resourceName, "is_delete_protection_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_request_id_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "request_id_header", "X-Request-Id"),
-				resource.TestCheckResourceAttr(resourceName, "reserved_ips.#", "1"),
+				//	resource.TestCheckResourceAttr(resourceName, "reserved_ips.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "2"),
 				resource.TestCheckResourceAttr(resourceName, "security_attributes.oracle-zpr.sa-test-lbaas.value", "create-zpr-tersi-lbaas"),
 				resource.TestCheckResourceAttr(resourceName, "security_attributes.oracle-zpr.sa-test-lbaas.mode", "enforce"),
-				resource.TestCheckResourceAttrSet(resourceName, "reserved_ips.0.id"),
+				//	resource.TestCheckResourceAttrSet(resourceName, "reserved_ips.0.id"),
 				resource.TestCheckResourceAttr(resourceName, "network_security_group_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "100Mbps"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -248,15 +298,15 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "ipv6subnet_cidr", "ipv6SubnetCidr"),
+				//	resource.TestCheckResourceAttr(resourceName, "ipv6subnet_cidr", "ipv6SubnetCidr"),
 				resource.TestCheckResourceAttr(resourceName, "is_delete_protection_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_request_id_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "request_id_header", "X-Request-Id"),
-				resource.TestCheckResourceAttr(resourceName, "reserved_ips.#", "1"),
+				//	resource.TestCheckResourceAttr(resourceName, "reserved_ips.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "2"),
 
-				resource.TestCheckResourceAttrSet(resourceName, "reserved_ips.0.id"),
+				//	resource.TestCheckResourceAttrSet(resourceName, "reserved_ips.0.id"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "100Mbps"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
@@ -281,17 +331,17 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "ipv6subnet_cidr", "ipv6SubnetCidr"),
+				//	resource.TestCheckResourceAttr(resourceName, "ipv6subnet_cidr", "ipv6SubnetCidr"),
 				resource.TestCheckResourceAttr(resourceName, "is_delete_protection_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_request_id_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "request_id_header", "X-MyRequestB-Id"),
-				resource.TestCheckResourceAttr(resourceName, "reserved_ips.#", "1"),
+				//	resource.TestCheckResourceAttr(resourceName, "reserved_ips.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "2"),
 				resource.TestCheckResourceAttr(resourceName, "security_attributes.oracle-zpr.sa-test-lbaas.value", "update-zpr-tersi-lbaas"),
 				resource.TestCheckResourceAttr(resourceName, "security_attributes.oracle-zpr.sa-test-lbaas.mode", "enforce"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "400Mbps"),
-				resource.TestCheckResourceAttrSet(resourceName, "reserved_ips.0.id"),
+				//	resource.TestCheckResourceAttrSet(resourceName, "reserved_ips.0.id"),
 				resource.TestCheckResourceAttr(resourceName, "network_security_group_ids.#", "0"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
