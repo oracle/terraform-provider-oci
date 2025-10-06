@@ -77,13 +77,20 @@ type DedicatedVmHost struct {
 
 	PlacementConstraintDetails PlacementConstraintDetails `mandatory:"false" json:"placementConstraintDetails"`
 
+	// The capacity configuration selected to be configured for the Dedicated Virtual Machine host.
+	// Run ListDedicatedVmHostShapes API to see details of this capacity configuration.
+	CapacityConfig *string `mandatory:"false" json:"capacityConfig"`
+
+	// Specifies if the Dedicated Virtual Machine Host (DVMH) is restricted to running only Confidential VMs. If `true`, only Confidential VMs can be launched. If `false`, Confidential VMs cannot be launched.
+	IsMemoryEncryptionEnabled *bool `mandatory:"false" json:"isMemoryEncryptionEnabled"`
+
 	// The total memory of the dedicated VM host, in GBs.
 	TotalMemoryInGBs *float32 `mandatory:"false" json:"totalMemoryInGBs"`
 
 	// The remaining memory of the dedicated VM host, in GBs.
 	RemainingMemoryInGBs *float32 `mandatory:"false" json:"remainingMemoryInGBs"`
 
-	// A list of total and remaining CPU & memory per capacity bucket.
+	// A list of total and remaining CPU and memory per capacity bucket.
 	CapacityBins []CapacityBin `mandatory:"false" json:"capacityBins"`
 
 	// The compute bare metal host OCID of the dedicated virtual machine host.
@@ -116,6 +123,8 @@ func (m *DedicatedVmHost) UnmarshalJSON(data []byte) (e error) {
 		FaultDomain                *string                           `json:"faultDomain"`
 		FreeformTags               map[string]string                 `json:"freeformTags"`
 		PlacementConstraintDetails placementconstraintdetails        `json:"placementConstraintDetails"`
+		CapacityConfig             *string                           `json:"capacityConfig"`
+		IsMemoryEncryptionEnabled  *bool                             `json:"isMemoryEncryptionEnabled"`
 		TotalMemoryInGBs           *float32                          `json:"totalMemoryInGBs"`
 		RemainingMemoryInGBs       *float32                          `json:"remainingMemoryInGBs"`
 		CapacityBins               []CapacityBin                     `json:"capacityBins"`
@@ -151,6 +160,10 @@ func (m *DedicatedVmHost) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.PlacementConstraintDetails = nil
 	}
+
+	m.CapacityConfig = model.CapacityConfig
+
+	m.IsMemoryEncryptionEnabled = model.IsMemoryEncryptionEnabled
 
 	m.TotalMemoryInGBs = model.TotalMemoryInGBs
 

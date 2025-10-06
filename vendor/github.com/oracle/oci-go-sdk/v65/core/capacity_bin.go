@@ -21,7 +21,7 @@ import (
 	"strings"
 )
 
-// CapacityBin Total and remaining CPU & memory capacity for each capacity bucket.
+// CapacityBin Total and remaining CPU and memory capacity for each capacity bucket.
 type CapacityBin struct {
 
 	// Zero-based index for the corresponding capacity bucket.

@@ -29,6 +29,8 @@ type DedicatedVmHostInstanceShapeSummary struct {
 
 	// The shape's availability domain.
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
+
+	SupportedCapabilities *SupportedCapabilities `mandatory:"false" json:"supportedCapabilities"`
 }
 
 func (m DedicatedVmHostInstanceShapeSummary) String() string {

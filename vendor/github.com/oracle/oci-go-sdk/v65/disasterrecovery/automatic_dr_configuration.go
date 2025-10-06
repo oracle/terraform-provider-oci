@@ -65,10 +65,10 @@ type AutomaticDrConfiguration struct {
 	// The status of most recent attempt to submit Automatic DR plan execution.
 	LastAutomaticDrExecutionSubmitStatus AutomaticDrPlanExecutionSubmissionStatusEnum `mandatory:"false" json:"lastAutomaticDrExecutionSubmitStatus,omitempty"`
 
-	// A message describing the most recent attempt to submit Automatic DR plan execution.
+	// A message describing the result of the most recent attempt made to submit an Automatic DR plan execution.
 	LastAutomaticDrExecutionSubmitDetails *string `mandatory:"false" json:"lastAutomaticDrExecutionSubmitDetails"`
 
-	// The date and time of the most recent attempt to submit Automatic DR plan execution. An RFC3339 formatted datetime string.
+	// The date and time of the most recent attempt made to submit an Automatic DR plan execution. An RFC3339 formatted datetime string.
 	// Example: `2025-06-30T09:36:42Z`
 	TimeLastAutomaticDrExecutionSubmitAttempt *common.SDKTime `mandatory:"false" json:"timeLastAutomaticDrExecutionSubmitAttempt"`
 

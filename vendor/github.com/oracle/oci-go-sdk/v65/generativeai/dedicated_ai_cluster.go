@@ -297,6 +297,25 @@ const (
 	DedicatedAiClusterUnitShapeSmallGenericV1  DedicatedAiClusterUnitShapeEnum = "SMALL_GENERIC_V1"
 	DedicatedAiClusterUnitShapeMediumGenericV1 DedicatedAiClusterUnitShapeEnum = "MEDIUM_GENERIC_V1"
 	DedicatedAiClusterUnitShapeLargeGenericV1  DedicatedAiClusterUnitShapeEnum = "LARGE_GENERIC_V1"
+	DedicatedAiClusterUnitShapeA10X1           DedicatedAiClusterUnitShapeEnum = "A10_X1"
+	DedicatedAiClusterUnitShapeA10X2           DedicatedAiClusterUnitShapeEnum = "A10_X2"
+	DedicatedAiClusterUnitShapeA10X4           DedicatedAiClusterUnitShapeEnum = "A10_X4"
+	DedicatedAiClusterUnitShapeA10040gX1       DedicatedAiClusterUnitShapeEnum = "A100_40G_X1"
+	DedicatedAiClusterUnitShapeA10040gX2       DedicatedAiClusterUnitShapeEnum = "A100_40G_X2"
+	DedicatedAiClusterUnitShapeA10040gX4       DedicatedAiClusterUnitShapeEnum = "A100_40G_X4"
+	DedicatedAiClusterUnitShapeA10040gX8       DedicatedAiClusterUnitShapeEnum = "A100_40G_X8"
+	DedicatedAiClusterUnitShapeA10080gX1       DedicatedAiClusterUnitShapeEnum = "A100_80G_X1"
+	DedicatedAiClusterUnitShapeA10080gX2       DedicatedAiClusterUnitShapeEnum = "A100_80G_X2"
+	DedicatedAiClusterUnitShapeA10080gX4       DedicatedAiClusterUnitShapeEnum = "A100_80G_X4"
+	DedicatedAiClusterUnitShapeA10080gX8       DedicatedAiClusterUnitShapeEnum = "A100_80G_X8"
+	DedicatedAiClusterUnitShapeH100X1          DedicatedAiClusterUnitShapeEnum = "H100_X1"
+	DedicatedAiClusterUnitShapeH100X2          DedicatedAiClusterUnitShapeEnum = "H100_X2"
+	DedicatedAiClusterUnitShapeH100X4          DedicatedAiClusterUnitShapeEnum = "H100_X4"
+	DedicatedAiClusterUnitShapeH100X8          DedicatedAiClusterUnitShapeEnum = "H100_X8"
+	DedicatedAiClusterUnitShapeH200X1          DedicatedAiClusterUnitShapeEnum = "H200_X1"
+	DedicatedAiClusterUnitShapeH200X2          DedicatedAiClusterUnitShapeEnum = "H200_X2"
+	DedicatedAiClusterUnitShapeH200X4          DedicatedAiClusterUnitShapeEnum = "H200_X4"
+	DedicatedAiClusterUnitShapeH200X8          DedicatedAiClusterUnitShapeEnum = "H200_X8"
 )
 
 var mappingDedicatedAiClusterUnitShapeEnum = map[string]DedicatedAiClusterUnitShapeEnum{
@@ -318,6 +337,25 @@ var mappingDedicatedAiClusterUnitShapeEnum = map[string]DedicatedAiClusterUnitSh
 	"SMALL_GENERIC_V1":  DedicatedAiClusterUnitShapeSmallGenericV1,
 	"MEDIUM_GENERIC_V1": DedicatedAiClusterUnitShapeMediumGenericV1,
 	"LARGE_GENERIC_V1":  DedicatedAiClusterUnitShapeLargeGenericV1,
+	"A10_X1":            DedicatedAiClusterUnitShapeA10X1,
+	"A10_X2":            DedicatedAiClusterUnitShapeA10X2,
+	"A10_X4":            DedicatedAiClusterUnitShapeA10X4,
+	"A100_40G_X1":       DedicatedAiClusterUnitShapeA10040gX1,
+	"A100_40G_X2":       DedicatedAiClusterUnitShapeA10040gX2,
+	"A100_40G_X4":       DedicatedAiClusterUnitShapeA10040gX4,
+	"A100_40G_X8":       DedicatedAiClusterUnitShapeA10040gX8,
+	"A100_80G_X1":       DedicatedAiClusterUnitShapeA10080gX1,
+	"A100_80G_X2":       DedicatedAiClusterUnitShapeA10080gX2,
+	"A100_80G_X4":       DedicatedAiClusterUnitShapeA10080gX4,
+	"A100_80G_X8":       DedicatedAiClusterUnitShapeA10080gX8,
+	"H100_X1":           DedicatedAiClusterUnitShapeH100X1,
+	"H100_X2":           DedicatedAiClusterUnitShapeH100X2,
+	"H100_X4":           DedicatedAiClusterUnitShapeH100X4,
+	"H100_X8":           DedicatedAiClusterUnitShapeH100X8,
+	"H200_X1":           DedicatedAiClusterUnitShapeH200X1,
+	"H200_X2":           DedicatedAiClusterUnitShapeH200X2,
+	"H200_X4":           DedicatedAiClusterUnitShapeH200X4,
+	"H200_X8":           DedicatedAiClusterUnitShapeH200X8,
 }
 
 var mappingDedicatedAiClusterUnitShapeEnumLowerCase = map[string]DedicatedAiClusterUnitShapeEnum{
@@ -339,6 +377,25 @@ var mappingDedicatedAiClusterUnitShapeEnumLowerCase = map[string]DedicatedAiClus
 	"small_generic_v1":  DedicatedAiClusterUnitShapeSmallGenericV1,
 	"medium_generic_v1": DedicatedAiClusterUnitShapeMediumGenericV1,
 	"large_generic_v1":  DedicatedAiClusterUnitShapeLargeGenericV1,
+	"a10_x1":            DedicatedAiClusterUnitShapeA10X1,
+	"a10_x2":            DedicatedAiClusterUnitShapeA10X2,
+	"a10_x4":            DedicatedAiClusterUnitShapeA10X4,
+	"a100_40g_x1":       DedicatedAiClusterUnitShapeA10040gX1,
+	"a100_40g_x2":       DedicatedAiClusterUnitShapeA10040gX2,
+	"a100_40g_x4":       DedicatedAiClusterUnitShapeA10040gX4,
+	"a100_40g_x8":       DedicatedAiClusterUnitShapeA10040gX8,
+	"a100_80g_x1":       DedicatedAiClusterUnitShapeA10080gX1,
+	"a100_80g_x2":       DedicatedAiClusterUnitShapeA10080gX2,
+	"a100_80g_x4":       DedicatedAiClusterUnitShapeA10080gX4,
+	"a100_80g_x8":       DedicatedAiClusterUnitShapeA10080gX8,
+	"h100_x1":           DedicatedAiClusterUnitShapeH100X1,
+	"h100_x2":           DedicatedAiClusterUnitShapeH100X2,
+	"h100_x4":           DedicatedAiClusterUnitShapeH100X4,
+	"h100_x8":           DedicatedAiClusterUnitShapeH100X8,
+	"h200_x1":           DedicatedAiClusterUnitShapeH200X1,
+	"h200_x2":           DedicatedAiClusterUnitShapeH200X2,
+	"h200_x4":           DedicatedAiClusterUnitShapeH200X4,
+	"h200_x8":           DedicatedAiClusterUnitShapeH200X8,
 }
 
 // GetDedicatedAiClusterUnitShapeEnumValues Enumerates the set of values for DedicatedAiClusterUnitShapeEnum
@@ -371,6 +428,25 @@ func GetDedicatedAiClusterUnitShapeEnumStringValues() []string {
 		"SMALL_GENERIC_V1",
 		"MEDIUM_GENERIC_V1",
 		"LARGE_GENERIC_V1",
+		"A10_X1",
+		"A10_X2",
+		"A10_X4",
+		"A100_40G_X1",
+		"A100_40G_X2",
+		"A100_40G_X4",
+		"A100_40G_X8",
+		"A100_80G_X1",
+		"A100_80G_X2",
+		"A100_80G_X4",
+		"A100_80G_X8",
+		"H100_X1",
+		"H100_X2",
+		"H100_X4",
+		"H100_X8",
+		"H200_X1",
+		"H200_X2",
+		"H200_X4",
+		"H200_X8",
 	}
 }
 
