@@ -3,5 +3,9 @@
 
 package jms_utils
 
+import "github.com/oracle/terraform-provider-oci/internal/tfresource"
+
 func RegisterResource() {
+	tfresource.RegisterResource("oci_jms_utils_analyze_applications_configuration", JmsUtilsAnalyzeApplicationsConfigurationResource())
+	tfresource.RegisterResource("oci_jms_utils_subscription_acknowledgment_configuration", JmsUtilsSubscriptionAcknowledgmentConfigurationResource())
 }
