@@ -133,6 +133,7 @@ resource "oci_database_db_home" "test_dbrs_db_home_vm_cluster" {
       backup_destination_details {
         dbrs_policy_id = "dbrsPolicyOcid"
         type           = "DBRS"
+        is_zero_data_loss_enabled = "true"
       }
     }
     freeform_tags = {
