@@ -92,7 +92,7 @@ The following arguments are supported:
 	If "IPV6", the service assigns an IPv6 address and the load balancer supports IPv6 traffic.
 
 	Example: "ipMode":"IPV6" 
-* `ipv6subnet_cidr` - (Optional) Applies to IPV6 LB creation only. 
+* `ipv6subnet_cidr` - (Optional) (Updatable) Applies to IPV6 LB creation only. 
 
 	Used to disambiguate which subnet prefix should be used to create an IPv6 LB. 
 
@@ -142,8 +142,8 @@ The following arguments are supported:
 	**Notes:**
 	* Unless the header name is "" it must start with "X-" prefix.
 	* Setting the header name to "" will set it to the default: X-Request-Id. 
-* `reserved_ips` - (Optional) An array of reserved Ips. Pre-created public IP that will be used as the IP of this load balancer. This reserved IP will not be deleted when load balancer is deleted. This ip should not be already mapped to any other resource.
-	* `id` - (Optional) Ocid of the Reserved IP/Public Ip created with VCN.
+* `reserved_ips` - (Optional) (Updatable) An array of reserved Ips. Pre-created public IP that will be used as the IP of this load balancer. This reserved IP will not be deleted when load balancer is deleted. This ip should not be already mapped to any other resource.
+	* `id` - (Optional) (Updatable) Ocid of the Reserved IP/Public Ip created with VCN.
 
 		Reserved IPs are IPs which already registered using VCN API.
 
