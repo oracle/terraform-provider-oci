@@ -743,7 +743,6 @@ func DevopsDeployStageResource() *schema.Resource {
 						"items": {
 							Type:     schema.TypeList,
 							Optional: true,
-							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -783,7 +782,6 @@ func DevopsDeployStageResource() *schema.Resource {
 						"items": {
 							Type:     schema.TypeList,
 							Optional: true,
-							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
