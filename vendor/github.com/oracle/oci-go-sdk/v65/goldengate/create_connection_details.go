@@ -63,23 +63,39 @@ type CreateConnectionDetails interface {
 
 	// Indicates that sensitive attributes are provided via Secrets.
 	GetDoesUseSecretIds() *bool
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
+	GetSubscriptionId() *string
+
+	// The OCID(/Content/General/Concepts/identifiers.htm) of the cluster placement group for the resource.
+	// Only applicable for multicloud subscriptions. The cluster placement group id must be provided when a multicloud
+	// subscription id is provided. Otherwise the cluster placement group must not be provided.
+	GetClusterPlacementGroupId() *string
+
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	GetSecurityAttributes() map[string]map[string]interface{}
 }
 
 type createconnectiondetails struct {
-	JsonData         []byte
-	Description      *string                           `mandatory:"false" json:"description"`
-	FreeformTags     map[string]string                 `mandatory:"false" json:"freeformTags"`
-	DefinedTags      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-	Locks            []AddResourceLockDetails          `mandatory:"false" json:"locks"`
-	VaultId          *string                           `mandatory:"false" json:"vaultId"`
-	KeyId            *string                           `mandatory:"false" json:"keyId"`
-	NsgIds           []string                          `mandatory:"false" json:"nsgIds"`
-	SubnetId         *string                           `mandatory:"false" json:"subnetId"`
-	RoutingMethod    RoutingMethodEnum                 `mandatory:"false" json:"routingMethod,omitempty"`
-	DoesUseSecretIds *bool                             `mandatory:"false" json:"doesUseSecretIds"`
-	DisplayName      *string                           `mandatory:"true" json:"displayName"`
-	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
-	ConnectionType   string                            `json:"connectionType"`
+	JsonData                []byte
+	Description             *string                           `mandatory:"false" json:"description"`
+	FreeformTags            map[string]string                 `mandatory:"false" json:"freeformTags"`
+	DefinedTags             map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	Locks                   []AddResourceLockDetails          `mandatory:"false" json:"locks"`
+	VaultId                 *string                           `mandatory:"false" json:"vaultId"`
+	KeyId                   *string                           `mandatory:"false" json:"keyId"`
+	NsgIds                  []string                          `mandatory:"false" json:"nsgIds"`
+	SubnetId                *string                           `mandatory:"false" json:"subnetId"`
+	RoutingMethod           RoutingMethodEnum                 `mandatory:"false" json:"routingMethod,omitempty"`
+	DoesUseSecretIds        *bool                             `mandatory:"false" json:"doesUseSecretIds"`
+	SubscriptionId          *string                           `mandatory:"false" json:"subscriptionId"`
+	ClusterPlacementGroupId *string                           `mandatory:"false" json:"clusterPlacementGroupId"`
+	SecurityAttributes      map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+	DisplayName             *string                           `mandatory:"true" json:"displayName"`
+	CompartmentId           *string                           `mandatory:"true" json:"compartmentId"`
+	ConnectionType          string                            `json:"connectionType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -105,6 +121,9 @@ func (m *createconnectiondetails) UnmarshalJSON(data []byte) error {
 	m.SubnetId = s.Model.SubnetId
 	m.RoutingMethod = s.Model.RoutingMethod
 	m.DoesUseSecretIds = s.Model.DoesUseSecretIds
+	m.SubscriptionId = s.Model.SubscriptionId
+	m.ClusterPlacementGroupId = s.Model.ClusterPlacementGroupId
+	m.SecurityAttributes = s.Model.SecurityAttributes
 	m.ConnectionType = s.Model.ConnectionType
 
 	return err
@@ -185,6 +204,10 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		return mm, err
 	case "MONGODB":
 		mm := CreateMongoDbConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ORACLE_AI_DATA_PLATFORM":
+		mm := CreateOracleAiDataPlatformConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "AMAZON_S3":
@@ -285,6 +308,21 @@ func (m createconnectiondetails) GetRoutingMethod() RoutingMethodEnum {
 // GetDoesUseSecretIds returns DoesUseSecretIds
 func (m createconnectiondetails) GetDoesUseSecretIds() *bool {
 	return m.DoesUseSecretIds
+}
+
+// GetSubscriptionId returns SubscriptionId
+func (m createconnectiondetails) GetSubscriptionId() *string {
+	return m.SubscriptionId
+}
+
+// GetClusterPlacementGroupId returns ClusterPlacementGroupId
+func (m createconnectiondetails) GetClusterPlacementGroupId() *string {
+	return m.ClusterPlacementGroupId
+}
+
+// GetSecurityAttributes returns SecurityAttributes
+func (m createconnectiondetails) GetSecurityAttributes() map[string]map[string]interface{} {
+	return m.SecurityAttributes
 }
 
 // GetDisplayName returns DisplayName

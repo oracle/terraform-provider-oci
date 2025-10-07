@@ -33,13 +33,6 @@ type ListJobsRequest struct {
 
 	// A filter that returns all resources that match the specified lifecycle state.
 	// The state value is case-insensitive.
-	// Allowable values:
-	// - ACCEPTED
-	// - IN_PROGRESS
-	// - FAILED
-	// - SUCCEEDED
-	// - CANCELING
-	// - CANCELED
 	LifecycleState JobLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// A filter to return only resources that match the given display name exactly.

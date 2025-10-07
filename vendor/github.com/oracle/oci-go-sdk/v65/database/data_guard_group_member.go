@@ -87,18 +87,21 @@ const (
 	DataGuardGroupMemberRolePrimary         DataGuardGroupMemberRoleEnum = "PRIMARY"
 	DataGuardGroupMemberRoleStandby         DataGuardGroupMemberRoleEnum = "STANDBY"
 	DataGuardGroupMemberRoleDisabledStandby DataGuardGroupMemberRoleEnum = "DISABLED_STANDBY"
+	DataGuardGroupMemberRoleSnapshotStandby DataGuardGroupMemberRoleEnum = "SNAPSHOT_STANDBY"
 )
 
 var mappingDataGuardGroupMemberRoleEnum = map[string]DataGuardGroupMemberRoleEnum{
 	"PRIMARY":          DataGuardGroupMemberRolePrimary,
 	"STANDBY":          DataGuardGroupMemberRoleStandby,
 	"DISABLED_STANDBY": DataGuardGroupMemberRoleDisabledStandby,
+	"SNAPSHOT_STANDBY": DataGuardGroupMemberRoleSnapshotStandby,
 }
 
 var mappingDataGuardGroupMemberRoleEnumLowerCase = map[string]DataGuardGroupMemberRoleEnum{
 	"primary":          DataGuardGroupMemberRolePrimary,
 	"standby":          DataGuardGroupMemberRoleStandby,
 	"disabled_standby": DataGuardGroupMemberRoleDisabledStandby,
+	"snapshot_standby": DataGuardGroupMemberRoleSnapshotStandby,
 }
 
 // GetDataGuardGroupMemberRoleEnumValues Enumerates the set of values for DataGuardGroupMemberRoleEnum
@@ -116,6 +119,7 @@ func GetDataGuardGroupMemberRoleEnumStringValues() []string {
 		"PRIMARY",
 		"STANDBY",
 		"DISABLED_STANDBY",
+		"SNAPSHOT_STANDBY",
 	}
 }
 

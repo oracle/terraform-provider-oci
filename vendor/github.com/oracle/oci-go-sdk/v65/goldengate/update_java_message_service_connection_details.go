@@ -52,6 +52,11 @@ type UpdateJavaMessageServiceConnectionDetails struct {
 	// Indicates that sensitive attributes are provided via Secrets.
 	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
 	// If set to true, Java Naming and Directory Interface (JNDI) properties should be provided.
 	ShouldUseJndi *bool `mandatory:"false" json:"shouldUseJndi"`
 
@@ -216,6 +221,11 @@ func (m UpdateJavaMessageServiceConnectionDetails) GetRoutingMethod() RoutingMet
 // GetDoesUseSecretIds returns DoesUseSecretIds
 func (m UpdateJavaMessageServiceConnectionDetails) GetDoesUseSecretIds() *bool {
 	return m.DoesUseSecretIds
+}
+
+// GetSecurityAttributes returns SecurityAttributes
+func (m UpdateJavaMessageServiceConnectionDetails) GetSecurityAttributes() map[string]map[string]interface{} {
+	return m.SecurityAttributes
 }
 
 func (m UpdateJavaMessageServiceConnectionDetails) String() string {

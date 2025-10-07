@@ -52,6 +52,11 @@ type UpdateMicrosoftFabricConnectionDetails struct {
 	// Indicates that sensitive attributes are provided via Secrets.
 	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
 	// Azure tenant ID of the application.
 	// e.g.: 14593954-d337-4a61-a364-9f758c64f97f
 	TenantId *string `mandatory:"false" json:"tenantId"`
@@ -127,6 +132,11 @@ func (m UpdateMicrosoftFabricConnectionDetails) GetRoutingMethod() RoutingMethod
 // GetDoesUseSecretIds returns DoesUseSecretIds
 func (m UpdateMicrosoftFabricConnectionDetails) GetDoesUseSecretIds() *bool {
 	return m.DoesUseSecretIds
+}
+
+// GetSecurityAttributes returns SecurityAttributes
+func (m UpdateMicrosoftFabricConnectionDetails) GetSecurityAttributes() map[string]map[string]interface{} {
+	return m.SecurityAttributes
 }
 
 func (m UpdateMicrosoftFabricConnectionDetails) String() string {

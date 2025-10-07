@@ -21,7 +21,7 @@ import (
 // TerraformVersionSummary A Terraform version supported for use with stacks.
 type TerraformVersionSummary struct {
 
-	// A supported Terraform version. Example: `0.12.x`
+	// A supported Terraform version. Example: `1.5.x`
 	Name *string `mandatory:"false" json:"name"`
 
 	// Indicates whether this Terraform version is used by default in CreateStack.

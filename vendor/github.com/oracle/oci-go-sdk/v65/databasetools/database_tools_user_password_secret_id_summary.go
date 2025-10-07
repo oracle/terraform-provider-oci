@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// DatabaseToolsUserPasswordSecretIdSummary The user password.
+// DatabaseToolsUserPasswordSecretIdSummary The database user password.
 type DatabaseToolsUserPasswordSecretIdSummary struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret containing the user password.

@@ -47,7 +47,7 @@ type UpdateDatabaseToolsConnectionOracleDatabaseDetails struct {
 	// the client private key and associated certificates required for client authentication.
 	KeyStores []DatabaseToolsKeyStoreDetails `mandatory:"false" json:"keyStores"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DatabaseToolsPrivateEndpoint used to access the database in the Customer VCN.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Tools private endpoint used to access the database in the Customer VCN.
 	PrivateEndpointId *string `mandatory:"false" json:"privateEndpointId"`
 
 	ProxyClient DatabaseToolsConnectionOracleDatabaseProxyClientDetails `mandatory:"false" json:"proxyClient"`

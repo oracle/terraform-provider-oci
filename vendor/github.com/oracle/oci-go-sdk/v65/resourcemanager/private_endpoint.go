@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// PrivateEndpoint A private endpoint allowing Resource Manager to access nonpublic cloud resources. For more information about private endpoints, see Private Endpoint Management (https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/private-endpoints.htm).
+// PrivateEndpoint A private endpoint allowing Resource Manager to access nonpublic cloud resources. For more information about private endpoints, see Managing Private Endpoints (https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/private-endpoints.htm).
 type PrivateEndpoint struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private endpoint.
@@ -76,6 +76,15 @@ type PrivateEndpoint struct {
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The system tags associated with this resource, if any. The system tags are set by Oracle cloud infrastructure services. Each key is predefined and scoped to namespaces.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{orcl-cloud: {free-tier-retain: true}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	// Security attributes (https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm) are labels for a resource that can be referenced in a Zero Trust Packet Routing (https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm) (ZPR) policy to control access to ZPR-supported resources.
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 }
 
 func (m PrivateEndpoint) String() string {

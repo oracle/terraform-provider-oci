@@ -28,7 +28,7 @@ type CreateDatabaseToolsConnectionPostgresqlDetails struct {
 	// The connection string used to connect to the PostgreSQL Server.
 	ConnectionString *string `mandatory:"true" json:"connectionString"`
 
-	// The user name.
+	// The database user name.
 	UserName *string `mandatory:"true" json:"userName"`
 
 	UserPassword DatabaseToolsUserPasswordDetails `mandatory:"true" json:"userPassword"`

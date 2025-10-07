@@ -32,6 +32,7 @@ const (
 	ConnectionTypeSnowflake             ConnectionTypeEnum = "SNOWFLAKE"
 	ConnectionTypeAmazonS3              ConnectionTypeEnum = "AMAZON_S3"
 	ConnectionTypeHdfs                  ConnectionTypeEnum = "HDFS"
+	ConnectionTypeOracleAiDataPlatform  ConnectionTypeEnum = "ORACLE_AI_DATA_PLATFORM"
 	ConnectionTypeOracleNosql           ConnectionTypeEnum = "ORACLE_NOSQL"
 	ConnectionTypeMongodb               ConnectionTypeEnum = "MONGODB"
 	ConnectionTypeAmazonKinesis         ConnectionTypeEnum = "AMAZON_KINESIS"
@@ -63,6 +64,7 @@ var mappingConnectionTypeEnum = map[string]ConnectionTypeEnum{
 	"SNOWFLAKE":               ConnectionTypeSnowflake,
 	"AMAZON_S3":               ConnectionTypeAmazonS3,
 	"HDFS":                    ConnectionTypeHdfs,
+	"ORACLE_AI_DATA_PLATFORM": ConnectionTypeOracleAiDataPlatform,
 	"ORACLE_NOSQL":            ConnectionTypeOracleNosql,
 	"MONGODB":                 ConnectionTypeMongodb,
 	"AMAZON_KINESIS":          ConnectionTypeAmazonKinesis,
@@ -94,6 +96,7 @@ var mappingConnectionTypeEnumLowerCase = map[string]ConnectionTypeEnum{
 	"snowflake":               ConnectionTypeSnowflake,
 	"amazon_s3":               ConnectionTypeAmazonS3,
 	"hdfs":                    ConnectionTypeHdfs,
+	"oracle_ai_data_platform": ConnectionTypeOracleAiDataPlatform,
 	"oracle_nosql":            ConnectionTypeOracleNosql,
 	"mongodb":                 ConnectionTypeMongodb,
 	"amazon_kinesis":          ConnectionTypeAmazonKinesis,
@@ -136,6 +139,7 @@ func GetConnectionTypeEnumStringValues() []string {
 		"SNOWFLAKE",
 		"AMAZON_S3",
 		"HDFS",
+		"ORACLE_AI_DATA_PLATFORM",
 		"ORACLE_NOSQL",
 		"MONGODB",
 		"AMAZON_KINESIS",

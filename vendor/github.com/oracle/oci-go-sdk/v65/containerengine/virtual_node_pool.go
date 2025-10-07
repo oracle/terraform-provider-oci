@@ -35,6 +35,9 @@ type VirtualNodePool struct {
 	// The version of Kubernetes running on the nodes in the node pool.
 	KubernetesVersion *string `mandatory:"true" json:"kubernetesVersion"`
 
+	// The number of Virtual Nodes that should be in the Virtual Node Pool. The placement configurations determine where these virtual nodes are placed.
+	Size *int `mandatory:"true" json:"size"`
+
 	// The list of placement configurations which determines where Virtual Nodes will be provisioned across as it relates to the subnet and availability domains. The size attribute determines how many we evenly spread across these placement configurations
 	PlacementConfigurations []PlacementConfiguration `mandatory:"true" json:"placementConfigurations"`
 
@@ -43,9 +46,6 @@ type VirtualNodePool struct {
 
 	// A taint is a collection of <key, value, effect>. These taints will be applied to the Virtual Nodes of this Virtual Node Pool for Kubernetes scheduling.
 	Taints []Taint `mandatory:"false" json:"taints"`
-
-	// The number of Virtual Nodes that should be in the Virtual Node Pool. The placement configurations determine where these virtual nodes are placed.
-	Size *int `mandatory:"false" json:"size"`
 
 	// List of network security group id's applied to the Virtual Node VNIC.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
