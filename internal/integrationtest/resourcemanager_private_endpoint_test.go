@@ -27,7 +27,7 @@ import (
 
 var (
 	ResourcemanagerPrivateEndpointRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_resourcemanager_private_endpoint", "test_rms_private_endpoint", acctest.Required, acctest.Create, ResourceManagerprivateEndpointRepresentation)
-
+	// dummy change
 	ResourcemanagerPrivateEndpointResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_resourcemanager_private_endpoint", "test_rms_private_endpoint", acctest.Optional, acctest.Update, ResourceManagerprivateEndpointRepresentation)
 
 	ResourcemanagerResourcemanagerPrivateEndpointSingularDataSourceRepresentation = map[string]interface{}{
@@ -55,7 +55,8 @@ var (
 		"dns_zones":      acctest.Representation{RepType: acctest.Optional, Create: []string{`dnsZones`}, Update: []string{`dnsZones2`}},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_used_with_configuration_source_provider": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"nsg_id_list": acctest.Representation{RepType: acctest.Optional, Create: []string{`nsgIdList`}, Update: []string{`nsgIdList2`}},
+		"nsg_id_list":         acctest.Representation{RepType: acctest.Optional, Create: []string{`nsgIdList`}, Update: []string{`nsgIdList2`}},
+		"security_attributes": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"oracle-zpr.maxegresscount.value": "42", "oracle-zpr.maxegresscount.mode": "enforce"}, Update: map[string]string{"oracle-zpr.maxegresscount.value": "updatedValue", "oracle-zpr.maxegresscount.mode": "enforce"}},
 	}
 
 	ResourcemanagerPrivateEndpointResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
@@ -121,6 +122,7 @@ func TestResourcemanagerPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_used_with_configuration_source_provider", "false"),
 				resource.TestCheckResourceAttr(resourceName, "nsg_id_list.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
@@ -152,6 +154,7 @@ func TestResourcemanagerPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_used_with_configuration_source_provider", "false"),
 				resource.TestCheckResourceAttr(resourceName, "nsg_id_list.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
@@ -178,6 +181,7 @@ func TestResourcemanagerPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_used_with_configuration_source_provider", "true"),
 				resource.TestCheckResourceAttr(resourceName, "nsg_id_list.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
@@ -222,6 +226,7 @@ func TestResourcemanagerPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_used_with_configuration_source_provider", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "nsg_id_list.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "security_attributes.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "source_ips.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),

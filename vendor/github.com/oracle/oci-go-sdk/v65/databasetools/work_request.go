@@ -46,6 +46,10 @@ type WorkRequest struct {
 	// The date and time the work request reached a terminal state, either `FAILED` or `SUCCEEDED`.
 	// Format is defined by RFC3339.
 	TimeFinished *common.SDKTime `mandatory:"false" json:"timeFinished"`
+
+	// The date and time the work request was last updated,
+	// in the format defined by RFC3339.
+	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 }
 
 func (m WorkRequest) String() string {

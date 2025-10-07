@@ -36,6 +36,9 @@ type ValidateDatabaseToolsConnectionOracleDatabaseResult struct {
 
 	// The database name.
 	DatabaseName *string `mandatory:"false" json:"databaseName"`
+
+	// The DBMS_CLOUD package installation status.
+	DbmsCloudStatus DbmsCloudStatusEnum `mandatory:"true" json:"dbmsCloudStatus"`
 }
 
 // GetCode returns Code
@@ -68,6 +71,9 @@ func (m ValidateDatabaseToolsConnectionOracleDatabaseResult) String() string {
 func (m ValidateDatabaseToolsConnectionOracleDatabaseResult) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingDbmsCloudStatusEnum(string(m.DbmsCloudStatus)); !ok && m.DbmsCloudStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DbmsCloudStatus: %s. Supported values are: %s.", m.DbmsCloudStatus, strings.Join(GetDbmsCloudStatusEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

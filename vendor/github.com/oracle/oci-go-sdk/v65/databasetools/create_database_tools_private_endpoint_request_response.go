@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/CreateDatabaseToolsPrivateEndpoint.go.html to see an example of how to use CreateDatabaseToolsPrivateEndpointRequest.
 type CreateDatabaseToolsPrivateEndpointRequest struct {
 
-	// Details for the new DatabaseToolsPrivateEndpoint.
+	// Details for the new Database Tools private endpoint.
 	CreateDatabaseToolsPrivateEndpointDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

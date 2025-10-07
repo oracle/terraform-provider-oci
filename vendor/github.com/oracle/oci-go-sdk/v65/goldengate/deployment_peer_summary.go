@@ -58,6 +58,14 @@ type DeploymentPeerSummary struct {
 	// The time of the last data synchronization from the primary to the standby peer.
 	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
 	TimeLastSynced *common.SDKTime `mandatory:"false" json:"timeLastSynced"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
+	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
+
+	// The OCID(/Content/General/Concepts/identifiers.htm) of the cluster placement group for the resource.
+	// Only applicable for multicloud subscriptions. The cluster placement group id must be provided when a multicloud
+	// subscription id is provided. Otherwise the cluster placement group must not be provided.
+	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
 }
 
 func (m DeploymentPeerSummary) String() string {

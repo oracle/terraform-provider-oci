@@ -21,7 +21,7 @@ type ChangeDatabaseToolsPrivateEndpointCompartmentRequest struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a Database Tools private endpoint.
 	DatabaseToolsPrivateEndpointId *string `mandatory:"true" contributesTo:"path" name:"databaseToolsPrivateEndpointId"`
 
-	// Request to change the compartment of the DatabaseToolsPrivateEndpoint.
+	// Request to change the compartment of the Database Tools private endpoint.
 	ChangeDatabaseToolsPrivateEndpointCompartmentDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

@@ -28,7 +28,7 @@ type TemplateCategorySummary struct {
 	// Each private template (category 3) is available in the compartment where it was created.
 	Id *string `mandatory:"false" json:"id"`
 
-	// The name of the template category.
+	// The name of the template category. Not changeable.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 }
 

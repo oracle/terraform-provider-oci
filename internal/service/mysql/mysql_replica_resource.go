@@ -96,6 +96,12 @@ func MysqlReplicaResource() *schema.Resource {
 								Type: schema.TypeString,
 							},
 						},
+						"security_attributes": {
+							Type:     schema.TypeMap,
+							Optional: true,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
 						"shape_name": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -193,6 +199,11 @@ func MysqlReplicaResource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"security_attributes": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"shape_name": {
 				Type:     schema.TypeString,
@@ -521,6 +532,8 @@ func (s *MysqlReplicaResourceCrud) SetData() error {
 		s.D.Set("secure_connections", nil)
 	}
 
+	s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
+
 	if s.Res.ShapeName != nil {
 		s.D.Set("shape_name", *s.Res.ShapeName)
 	}
@@ -567,6 +580,11 @@ func (s *MysqlReplicaResourceCrud) mapToReplicaOverrides(fieldKeyFormat string) 
 		}
 	}
 
+	securityAttributesField := fmt.Sprintf(fieldKeyFormat, "security_attributes")
+	if securityAttributes, ok := s.D.GetOkExists(securityAttributesField); ok && s.D.HasChange(securityAttributesField) {
+		result.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
 	shapeNameField := fmt.Sprintf(fieldKeyFormat, "shape_name")
 	if shapeName, ok := s.D.GetOkExists(shapeNameField); ok && s.D.HasChange(shapeNameField) {
 		tmp := shapeName.(string)
@@ -595,6 +613,10 @@ func ReplicaOverridesToMap(obj *oci_mysql.ReplicaOverrides, datasource bool) map
 		result["nsg_ids"] = nsgIds
 	} else {
 		result["nsg_ids"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds)
+	}
+
+	if obj.SecurityAttributes != nil {
+		result["security_attributes"] = tfresource.SecurityAttributesToMap(obj.SecurityAttributes)
 	}
 
 	if obj.ShapeName != nil {

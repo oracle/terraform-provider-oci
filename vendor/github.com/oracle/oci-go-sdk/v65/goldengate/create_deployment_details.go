@@ -98,6 +98,19 @@ type CreateDeploymentDetails struct {
 	//     Its use is discouraged in favor of 'DATABASE_ORACLE'.
 	DeploymentType DeploymentTypeEnum `mandatory:"false" json:"deploymentType,omitempty"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
+	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
+
+	// The OCID(/Content/General/Concepts/identifiers.htm) of the cluster placement group for the resource.
+	// Only applicable for multicloud subscriptions. The cluster placement group id must be provided when a multicloud
+	// subscription id is provided. Otherwise the cluster placement group must not be provided.
+	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
+
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
 	OggData *CreateOggDeploymentDetails `mandatory:"false" json:"oggData"`
 
 	MaintenanceWindow *CreateMaintenanceWindowDetails `mandatory:"false" json:"maintenanceWindow"`

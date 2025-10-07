@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// DatabaseToolsConnectionOracleDatabaseSummary DatabaseToolsConnectionSummary of an Oracle Database.
+// DatabaseToolsConnectionOracleDatabaseSummary Database Tools connection summary of an Oracle Database.
 type DatabaseToolsConnectionOracleDatabaseSummary struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `DatabaseToolsConnection`.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Tools connection.
 	Id *string `mandatory:"true" json:"id"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
@@ -69,7 +69,7 @@ type DatabaseToolsConnectionOracleDatabaseSummary struct {
 	// the client private key and associated certificates required for client authentication.
 	KeyStores []DatabaseToolsKeyStoreSummary `mandatory:"false" json:"keyStores"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `DatabaseToolsPrivateEndpoint` used to access the database in the customer VCN.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Tools private endpoint used to access the database in the customer VCN.
 	PrivateEndpointId *string `mandatory:"false" json:"privateEndpointId"`
 
 	ProxyClient DatabaseToolsConnectionOracleDatabaseProxyClientSummary `mandatory:"false" json:"proxyClient"`

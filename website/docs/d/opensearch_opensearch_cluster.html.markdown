@@ -47,6 +47,12 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `availability_domains` - The availability domains to distribute the cluser nodes across.
+	* `retention_in_days` - Specifies how long backup copy should remain on Storage in days
+* `certificate_config` - Custom certificate config for customer provided certs.
+	* `cluster_certificate_mode` - Specifies whether the certificate to be used in cluster is managed by OpenSearch or Oracle Cloud Infrastructure Certificates service.
+	* `dashboard_certificate_mode` - Specifies whether the certificate to be used in dashboard is managed by OpenSearch or Oracle Cloud Infrastructure Certificates service.
+	* `open_search_api_certificate_id` - certificate to be used for OpenSearch cluster api communication
+	* `open_search_dashboard_certificate_id` - certificate to be used for OpenSearch dashboard api communication
 * `compartment_id` - The OCID of the compartment where the cluster is located.
 * `data_node_count` - The number of data nodes configured for the cluster.
 * `data_node_host_bare_metal_shape` - The bare metal shape for the cluster's data nodes.
@@ -73,6 +79,7 @@ The following attributes are exported:
 * `master_node_host_ocpu_count` - The number of OCPUs configured for cluster's master nodes.
 * `master_node_host_shape` - The node shape for the cluster's master nodes.
 * `master_node_host_type` - The instance type for the cluster's master nodes.
+* `nsg_id` - The OCID of the NSG where the private endpoint vnic will be attached.
 * `opendashboard_fqdn` - The fully qualified domain name (FQDN) for the cluster's OpenSearch Dashboard API endpoint.
 * `opendashboard_node_count` - The number of OpenSearch Dashboard nodes configured for the cluster.
 * `opendashboard_node_host_memory_gb` - The amount of memory in GB, for the cluster's OpenSearch Dashboard nodes.
@@ -99,6 +106,7 @@ The following attributes are exported:
 * `search_node_host_shape` - The node shape for the cluster's search nodes.
 * `search_node_host_type` - The instance type for the cluster's search nodes.
 * `search_node_storage_gb` - The amount of storage in GB, to configure per node for the cluster's search nodes.
+* `security_attributes` - Security attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}` 
 * `security_master_user_name` - The name of the master user that are used to manage security config
 * `security_master_user_password_hash` - The password hash of the master user that are used to manage security config
 * `security_mode` - The security mode of the cluster.

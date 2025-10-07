@@ -29,7 +29,7 @@ type BitbucketServerAccessTokenConfigurationSourceProvider struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where the configuration source provider is located.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// Human-readable display name for the configuration source provider.
+	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Description of the configuration source provider.
@@ -48,7 +48,7 @@ type BitbucketServerAccessTokenConfigurationSourceProvider struct {
 	// Secret ocid which is used to authorize the user.
 	SecretId *string `mandatory:"false" json:"secretId"`
 
-	// Free-form tags associated with this resource. Each tag is a key-value pair with no predefined name, type, or namespace.
+	// Free-form tags associated with the resource. Each tag is a key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -57,6 +57,11 @@ type BitbucketServerAccessTokenConfigurationSourceProvider struct {
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The system tags associated with this resource, if any. The system tags are set by Oracle cloud infrastructure services. Each key is predefined and scoped to namespaces.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{orcl-cloud: {free-tier-retain: true}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
 	// The Bitbucket server service endpoint.
 	// Example: `https://bitbucket.org/`
@@ -121,6 +126,11 @@ func (m BitbucketServerAccessTokenConfigurationSourceProvider) GetFreeformTags()
 // GetDefinedTags returns DefinedTags
 func (m BitbucketServerAccessTokenConfigurationSourceProvider) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetSystemTags returns SystemTags
+func (m BitbucketServerAccessTokenConfigurationSourceProvider) GetSystemTags() map[string]map[string]interface{} {
+	return m.SystemTags
 }
 
 func (m BitbucketServerAccessTokenConfigurationSourceProvider) String() string {

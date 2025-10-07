@@ -52,6 +52,11 @@ type UpdateOracleNosqlConnectionDetails struct {
 	// Indicates that sensitive attributes are provided via Secrets.
 	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related OCI tenancy.
 	TenancyId *string `mandatory:"false" json:"tenancyId"`
 
@@ -145,6 +150,11 @@ func (m UpdateOracleNosqlConnectionDetails) GetRoutingMethod() RoutingMethodEnum
 // GetDoesUseSecretIds returns DoesUseSecretIds
 func (m UpdateOracleNosqlConnectionDetails) GetDoesUseSecretIds() *bool {
 	return m.DoesUseSecretIds
+}
+
+// GetSecurityAttributes returns SecurityAttributes
+func (m UpdateOracleNosqlConnectionDetails) GetSecurityAttributes() map[string]map[string]interface{} {
+	return m.SecurityAttributes
 }
 
 func (m UpdateOracleNosqlConnectionDetails) String() string {

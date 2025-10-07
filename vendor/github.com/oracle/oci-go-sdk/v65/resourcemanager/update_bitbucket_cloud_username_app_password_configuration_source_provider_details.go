@@ -23,7 +23,7 @@ import (
 // This type corresponds to a configuration source provider in Bitbucket that is authenticated with a username and app password.
 type UpdateBitbucketCloudUsernameAppPasswordConfigurationSourceProviderDetails struct {
 
-	// Human-readable name of the configuration source provider. Avoid entering confidential information.
+	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Description of the configuration source provider. Avoid entering confidential information.

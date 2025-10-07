@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/ListWorkRequests.go.html to see an example of how to use ListWorkRequestsRequest.
 type ListWorkRequestsRequest struct {
 
-	// The ID of the compartment in which to list resources.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource.
@@ -163,14 +163,17 @@ type ListWorkRequestsSortByEnum string
 // Set of constants representing the allowable values for ListWorkRequestsSortByEnum
 const (
 	ListWorkRequestsSortByTimeaccepted ListWorkRequestsSortByEnum = "timeAccepted"
+	ListWorkRequestsSortByTimeupdated  ListWorkRequestsSortByEnum = "timeUpdated"
 )
 
 var mappingListWorkRequestsSortByEnum = map[string]ListWorkRequestsSortByEnum{
 	"timeAccepted": ListWorkRequestsSortByTimeaccepted,
+	"timeUpdated":  ListWorkRequestsSortByTimeupdated,
 }
 
 var mappingListWorkRequestsSortByEnumLowerCase = map[string]ListWorkRequestsSortByEnum{
 	"timeaccepted": ListWorkRequestsSortByTimeaccepted,
+	"timeupdated":  ListWorkRequestsSortByTimeupdated,
 }
 
 // GetListWorkRequestsSortByEnumValues Enumerates the set of values for ListWorkRequestsSortByEnum
@@ -186,6 +189,7 @@ func GetListWorkRequestsSortByEnumValues() []ListWorkRequestsSortByEnum {
 func GetListWorkRequestsSortByEnumStringValues() []string {
 	return []string{
 		"timeAccepted",
+		"timeUpdated",
 	}
 }
 

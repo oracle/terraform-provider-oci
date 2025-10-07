@@ -270,6 +270,14 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 					},
 				},
 			},
+			"security_attributes": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"shape": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -794,6 +802,10 @@ func (s *IntegrationIntegrationInstanceResourceCrud) Create() error {
 		}
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
 	if shape, ok := s.D.GetOkExists("shape"); ok {
 		request.Shape = oci_integration.CreateIntegrationInstanceDetailsShapeEnum(shape.(string))
 	}
@@ -1050,6 +1062,10 @@ func (s *IntegrationIntegrationInstanceResourceCrud) Update() error {
 		request.MessagePacks = &tmp
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "integration")
 
 	response, err := s.Client.UpdateIntegrationInstance(context.Background(), request)
@@ -1191,6 +1207,10 @@ func (s *IntegrationIntegrationInstanceResourceCrud) SetData() error {
 	} else {
 		s.D.Set("private_endpoint_outbound_connection", nil)
 	}
+
+	s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
+
+	s.D.Set("shape", s.Res.Shape)
 
 	s.D.Set("state", s.Res.LifecycleState)
 

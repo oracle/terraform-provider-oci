@@ -52,6 +52,11 @@ type UpdateElasticsearchConnectionDetails struct {
 	// Indicates that sensitive attributes are provided via Secrets.
 	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
 	// Comma separated list of Elasticsearch server addresses, specified as host:port entries, where :port is optional.
 	// If port is not specified, it defaults to 9200.
 	// Used for establishing the initial connection to the Elasticsearch cluster.
@@ -140,6 +145,11 @@ func (m UpdateElasticsearchConnectionDetails) GetRoutingMethod() RoutingMethodEn
 // GetDoesUseSecretIds returns DoesUseSecretIds
 func (m UpdateElasticsearchConnectionDetails) GetDoesUseSecretIds() *bool {
 	return m.DoesUseSecretIds
+}
+
+// GetSecurityAttributes returns SecurityAttributes
+func (m UpdateElasticsearchConnectionDetails) GetSecurityAttributes() map[string]map[string]interface{} {
+	return m.SecurityAttributes
 }
 
 func (m UpdateElasticsearchConnectionDetails) String() string {

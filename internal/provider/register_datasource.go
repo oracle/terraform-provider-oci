@@ -6,6 +6,7 @@ package provider
 import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	tf_adm "github.com/oracle/terraform-provider-oci/internal/service/adm"
+	tf_ai_data_platform "github.com/oracle/terraform-provider-oci/internal/service/ai_data_platform"
 	tf_ai_document "github.com/oracle/terraform-provider-oci/internal/service/ai_document"
 	tf_ai_language "github.com/oracle/terraform-provider-oci/internal/service/ai_language"
 	tf_ai_vision "github.com/oracle/terraform-provider-oci/internal/service/ai_vision"
@@ -72,6 +73,7 @@ import (
 	tf_identity_data_plane "github.com/oracle/terraform-provider-oci/internal/service/identity_data_plane"
 	tf_identity_domains "github.com/oracle/terraform-provider-oci/internal/service/identity_domains"
 	tf_integration "github.com/oracle/terraform-provider-oci/internal/service/integration"
+	tf_iot "github.com/oracle/terraform-provider-oci/internal/service/iot"
 	tf_jms "github.com/oracle/terraform-provider-oci/internal/service/jms"
 	tf_jms_java_downloads "github.com/oracle/terraform-provider-oci/internal/service/jms_java_downloads"
 	tf_jms_utils "github.com/oracle/terraform-provider-oci/internal/service/jms_utils"
@@ -142,6 +144,9 @@ import (
 func init() {
 	if common.CheckForEnabledServices("adm") {
 		tf_adm.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("aidataplatform") {
+		tf_ai_data_platform.RegisterDatasource()
 	}
 	if common.CheckForEnabledServices("aidocument") {
 		tf_ai_document.RegisterDatasource()
@@ -343,6 +348,9 @@ func init() {
 	}
 	if common.CheckForEnabledServices("integration") {
 		tf_integration.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("iot") {
+		tf_iot.RegisterDatasource()
 	}
 	if common.CheckForEnabledServices("jms") {
 		tf_jms.RegisterDatasource()

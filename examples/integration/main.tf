@@ -72,6 +72,12 @@ resource "oci_integration_integration_instance" "test_integration_instance" {
   #Required
   compartment_id            = var.compartment_id
   integration_instance_type = var.instance_type
+
+  security_attributes = {
+    "oracle-zpr.sensitivity.value" = "low"
+    "oracle-zpr.sensitivity.mode" = "enforce"
+  }
+
   shape                     = "DEVELOPMENT"
   display_name              = "instance-created-via-tf-${random_integer.seq.result}"
   is_byol                   = "false"
@@ -183,6 +189,8 @@ resource "oci_integration_private_endpoint_outbound_connection" "integration_pri
   depends_on = [
     oci_integration_oracle_managed_custom_endpoint.integretion_custom_endpoint
   ]
+}
+
 # resource "oci_integration_integration_instance" "test_integration_instance_idcs" {
 #   #Required
 #   compartment_id            = var.compartment_id
@@ -195,23 +203,19 @@ resource "oci_integration_private_endpoint_outbound_connection" "integration_pri
 #   idcs_at                   = var.integration_instance_idcs_access_token
 # }
 
-resource "oci_integration_private_endpoint_outbound_connection" "integration_private_endpoint" {
-  integration_instance_id = oci_integration_integration_instance.test_integration_instance.id
-  nsg_ids = [var.nsg_id]
-  subnet_id = var.subnet_id
-}
-
-resource "oci_integration_integration_instance" "test_integration_instance_with_dr" {
-  #Required
-  compartment_id            = var.compartment_id
-  integration_instance_type = "STANDARDX"
-  shape                     = "DEVELOPMENT"
-  display_name              = "DR"
-  is_byol                   = "false"
-  message_packs             = "1"
-  domain_id                 = var.domain_id
-  is_disaster_recovery_enabled = "true"
-  lifecycle {
-    ignore_changes = ["system_tags"]
-  }
-}
+# resource "oci_integration_integration_instance" "test_integration_instance_with_dr" {
+#   #Required
+#   compartment_id            = var.compartment_id
+#   integration_instance_type = var.instance_type
+#   shape                     = "DEVELOPMENT"
+#   display_name              = "DR"
+#   is_byol                   = "false"
+#   message_packs             = "1"
+#   domain_id                 = var.domain_id
+#
+#   is_disaster_recovery_enabled = "true"
+#
+#   lifecycle {
+#     ignore_changes = ["system_tags"]
+#   }
+# }

@@ -52,6 +52,11 @@ type UpdateAmazonRedshiftConnectionDetails struct {
 	// Indicates that sensitive attributes are provided via Secrets.
 	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
 	// Connection URL.
 	// e.g.: 'jdbc:redshift://aws-redshift-instance.aaaaaaaaaaaa.us-east-2.redshift.amazonaws.com:5439/mydb'
 	ConnectionUrl *string `mandatory:"false" json:"connectionUrl"`
@@ -128,6 +133,11 @@ func (m UpdateAmazonRedshiftConnectionDetails) GetRoutingMethod() RoutingMethodE
 // GetDoesUseSecretIds returns DoesUseSecretIds
 func (m UpdateAmazonRedshiftConnectionDetails) GetDoesUseSecretIds() *bool {
 	return m.DoesUseSecretIds
+}
+
+// GetSecurityAttributes returns SecurityAttributes
+func (m UpdateAmazonRedshiftConnectionDetails) GetSecurityAttributes() map[string]map[string]interface{} {
+	return m.SecurityAttributes
 }
 
 func (m UpdateAmazonRedshiftConnectionDetails) String() string {
