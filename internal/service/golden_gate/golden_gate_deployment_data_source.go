@@ -84,6 +84,10 @@ func (s *GoldenGateDeploymentDataSourceCrud) SetData() error {
 
 	s.D.Set("category", s.Res.Category)
 
+	if s.Res.ClusterPlacementGroupId != nil {
+		s.D.Set("cluster_placement_group_id", *s.Res.ClusterPlacementGroupId)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -226,6 +230,10 @@ func (s *GoldenGateDeploymentDataSourceCrud) SetData() error {
 		s.D.Set("public_ip_address", *s.Res.PublicIpAddress)
 	}
 
+	if s.Res.SecurityAttributes != nil {
+		s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
+	}
+
 	if s.Res.SourceDeploymentId != nil {
 		s.D.Set("source_deployment_id", *s.Res.SourceDeploymentId)
 	}
@@ -238,6 +246,10 @@ func (s *GoldenGateDeploymentDataSourceCrud) SetData() error {
 
 	if s.Res.SubnetId != nil {
 		s.D.Set("subnet_id", *s.Res.SubnetId)
+	}
+
+	if s.Res.SubscriptionId != nil {
+		s.D.Set("subscription_id", *s.Res.SubscriptionId)
 	}
 
 	if s.Res.SystemTags != nil {

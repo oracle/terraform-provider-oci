@@ -121,6 +121,9 @@ type CreateOpensearchClusterDetails struct {
 
 	BackupPolicy *BackupPolicy `mandatory:"false" json:"backupPolicy"`
 
+	// The OCID of the NSG where the private endpoint vnic will be attached.
+	NsgId *string `mandatory:"false" json:"nsgId"`
+
 	// The customer IP addresses of the endpoint in customer VCN
 	ReverseConnectionEndpointCustomerIps []string `mandatory:"false" json:"reverseConnectionEndpointCustomerIps"`
 
@@ -130,6 +133,8 @@ type CreateOpensearchClusterDetails struct {
 	OutboundClusterConfig *OutboundClusterConfig `mandatory:"false" json:"outboundClusterConfig"`
 
 	MaintenanceDetails *CreateMaintenanceDetails `mandatory:"false" json:"maintenanceDetails"`
+
+	CertificateConfig *CertificateConfig `mandatory:"false" json:"certificateConfig"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
@@ -142,6 +147,11 @@ type CreateOpensearchClusterDetails struct {
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 }
 
 func (m CreateOpensearchClusterDetails) String() string {

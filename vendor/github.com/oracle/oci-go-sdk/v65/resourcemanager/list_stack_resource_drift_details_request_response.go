@@ -29,11 +29,6 @@ type ListStackResourceDriftDetailsRequest struct {
 	WorkRequestId *string `mandatory:"false" contributesTo:"query" name:"workRequestId"`
 
 	// A filter that returns only resources that match the given drift status. The value is case-insensitive.
-	// Allowable values -
-	//   - NOT_CHECKED
-	//   - MODIFIED
-	//   - IN_SYNC
-	//   - DELETED
 	ResourceDriftStatus []StackResourceDriftSummaryResourceDriftStatusEnum `contributesTo:"query" name:"resourceDriftStatus" omitEmpty:"true" collectionFormat:"multi"`
 
 	// The number of items returned in a paginated `List` call. For information about pagination, see

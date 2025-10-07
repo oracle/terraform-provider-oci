@@ -57,7 +57,6 @@ var (
 		// for multi node this will be empty
 		// "job_configuration_details":                acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceJobEmptyJobConfigurationDetailsRepresentation},
 		// "job_infrastructure_configuration_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceJobEmptyJobInfrastructureConfigurationDetailsRepresentation},
-		"job_storage_mount_configuration_details_list": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobStorageMountConfigurationDetailsListRepresentation},
 		"project_id":                                   acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_project.test_project.id}`},
 		"job_artifact":                                 acctest.Representation{RepType: acctest.Required, Create: `../../examples/datascience/job-artifact.py`},
 		"artifact_content_length":                      acctest.Representation{RepType: acctest.Required, Create: `1380`}, // wc -c job-artifact.py
@@ -69,9 +68,9 @@ var (
 		"freeform_tags":                                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}},
 		"delete_related_job_runs":                      acctest.Representation{RepType: acctest.Required, Create: `true`},
 	}
-	ignoreMlJobDefinedTagsChangesRepresentation = map[string]interface{}{
+	/*ignoreMlJobDefinedTagsChangesRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `job_infrastructure_configuration_details`}},
-	}
+	}*/
 	DatascienceJobEmptyJobConfigurationDetailsRepresentation = map[string]interface{}{
 		"job_type": acctest.Representation{RepType: acctest.Required, Create: `EMPTY`},
 	}
@@ -82,13 +81,13 @@ var (
 		"maximum_runtime_in_minutes": acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"startup_probe_details":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobJobConfigurationDetailsStartupProbeDetailsRepresentation},
 	}
-	DatascienceJobJobInfrastructureConfigurationDetailsRepresentation = map[string]interface{}{
+	/*DatascienceJobJobInfrastructureConfigurationDetailsRepresentation = map[string]interface{}{
 		"block_storage_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `50`, Update: `100`},
 		"job_infrastructure_type":   acctest.Representation{RepType: acctest.Required, Create: `STANDALONE`},
 		"shape_name":                acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.E4.Flex`},
 		"subnet_id":                 acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"job_shape_config_details":  acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceJobJobInfrastructureConfigurationDetailsJobShapeConfigDetailsRepresentation},
-	}
+	}*/
 	DatascienceJobJobEnvironmentConfigurationDetailsRepresentation = map[string]interface{}{
 		"image":                acctest.Representation{RepType: acctest.Required, Create: `iad.ocir.io/ociodscdev/byod_hello_wrld:1.0`},
 		"job_environment_type": acctest.Representation{RepType: acctest.Required, Create: `OCIR_CONTAINER`},
@@ -123,29 +122,36 @@ var (
 		"log_group_id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_logging_log_group.test_log_group.id}`},
 		"log_id":                   acctest.Representation{RepType: acctest.Optional, Create: `${oci_logging_log.test_log.id}`},
 	}
-	DatascienceJobStorageMountConfigurationDetailsListRepresentation = map[string]interface{}{
+	/*DatascienceJobStorageMountConfigurationDetailsListRepresentation = map[string]interface{}{
 		"destination_directory_name": acctest.Representation{RepType: acctest.Required, Create: `oss`, Update: `oss1`},
 		"storage_type":               acctest.Representation{RepType: acctest.Required, Create: `OBJECT_STORAGE`},
 		"bucket":                     acctest.Representation{RepType: acctest.Optional, Create: `storage-mount-test`},
 		"destination_path":           acctest.Representation{RepType: acctest.Optional, Create: `/mnt`, Update: `/mnt`},
 		"namespace":                  acctest.Representation{RepType: acctest.Optional, Create: `idtlxnfdweil`},
 		"prefix":                     acctest.Representation{RepType: acctest.Optional, Create: `prod`},
-	}
+	}*/
 	ignoreMlJobDefinedTagsChangesRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 
-	DatascienceJobJobInfrastructureConfigurationDetailsJobShapeConfigDetailsRepresentation = map[string]interface{}{
+	/*DatascienceJobJobInfrastructureConfigurationDetailsJobShapeConfigDetailsRepresentation = map[string]interface{}{
 		"cpu_baseline":  acctest.Representation{RepType: acctest.Optional, Create: `BASELINE_1_8`, Update: `BASELINE_1_2`},
 		"ocpus":         acctest.Representation{RepType: acctest.Required, Create: `2.0`, Update: `4.0`},
 		"memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `14.0`, Update: `28.0`},
-	}
+	}*/
 	DatascienceJobJobNodeConfigurationDetailsRepresentation = map[string]interface{}{
 		"job_node_type":                             acctest.Representation{RepType: acctest.Required, Create: `MULTI_NODE`},
 		"job_network_configuration":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceJobJobNodeConfigurationDetailsJobNetworkConfigurationRepresentation},
 		"job_node_group_configuration_details_list": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceJobJobNodeConfigurationDetailsJobNodeGroupConfigurationDetailsListRepresentation},
 		"maximum_runtime_in_minutes":                acctest.Representation{RepType: acctest.Required, Create: `10`},
 		"startup_order":                             acctest.Representation{RepType: acctest.Required, Create: `IN_ORDER`},
+	}
+	DatascienceJobStorageMountConfigurationDetailsListRepresentation = map[string]interface{}{
+		"destination_directory_name": acctest.Representation{RepType: acctest.Required, Create: `fss`, Update: `fss1`},
+		"storage_type":               acctest.Representation{RepType: acctest.Required, Create: `FILE_STORAGE`},
+		"destination_path":           acctest.Representation{RepType: acctest.Optional, Create: `/mnt`, Update: `/mnt1`},
+		"export_id":                  acctest.Representation{RepType: acctest.Optional, Create: `export_id`},
+		"mount_target_id":            acctest.Representation{RepType: acctest.Optional, Create: `mount_id`},
 	}
 	DatascienceJobJobConfigurationDetailsStartupProbeDetailsRepresentation = map[string]interface{}{
 		"command":                  acctest.Representation{RepType: acctest.Required, Create: []string{`command`}},

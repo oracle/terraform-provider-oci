@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// DatabaseToolsPrivateEndpointCollection List of `DatabaseToolsPrivateEndpointSummary` items.
+// DatabaseToolsPrivateEndpointCollection List of Database Tools private endpoint summary items.
 type DatabaseToolsPrivateEndpointCollection struct {
 
-	// Array of `DatabaseToolsPrivateEndpointSummary` items.
+	// Array of Database Tools private endpoint summary items.
 	Items []DatabaseToolsPrivateEndpointSummary `mandatory:"true" json:"items"`
 }
 

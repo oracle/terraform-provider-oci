@@ -84,8 +84,25 @@ type KafkaConnection struct {
 	// Indicates that sensitive attributes are provided via Secrets.
 	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
+	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
+
+	// The OCID(/Content/General/Concepts/identifiers.htm) of the cluster placement group for the resource.
+	// Only applicable for multicloud subscriptions. The cluster placement group id must be provided when a multicloud
+	// subscription id is provided. Otherwise the cluster placement group must not be provided.
+	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
+
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stream pool being referenced.
 	StreamPoolId *string `mandatory:"false" json:"streamPoolId"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Kafka cluster
+	// being referenced from OCI Streaming with Apache Kafka.
+	ClusterId *string `mandatory:"false" json:"clusterId"`
 
 	// Kafka bootstrap. Equivalent of bootstrap.servers configuration property in Kafka:
 	// list of KafkaBootstrapServer objects specified by host/port.
@@ -130,6 +147,13 @@ type KafkaConnection struct {
 
 	// The base64 encoded content of the producer.properties file.
 	ProducerProperties *string `mandatory:"false" json:"producerProperties"`
+
+	// Specifies that the user intends to authenticate to the instance using a resource principal.
+	// Applicable only for OCI Streaming connections.
+	// Only available from 23.9.0.0.0 GoldenGate versions.
+	// Note: When specified, 'username'/'password'/'passwordSecretId' fields must not be provided.
+	// Default: false
+	ShouldUseResourcePrincipal *bool `mandatory:"false" json:"shouldUseResourcePrincipal"`
 
 	// The Kafka technology type.
 	TechnologyType KafkaConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
@@ -242,6 +266,21 @@ func (m KafkaConnection) GetDoesUseSecretIds() *bool {
 	return m.DoesUseSecretIds
 }
 
+// GetSubscriptionId returns SubscriptionId
+func (m KafkaConnection) GetSubscriptionId() *string {
+	return m.SubscriptionId
+}
+
+// GetClusterPlacementGroupId returns ClusterPlacementGroupId
+func (m KafkaConnection) GetClusterPlacementGroupId() *string {
+	return m.ClusterPlacementGroupId
+}
+
+// GetSecurityAttributes returns SecurityAttributes
+func (m KafkaConnection) GetSecurityAttributes() map[string]map[string]interface{} {
+	return m.SecurityAttributes
+}
+
 func (m KafkaConnection) String() string {
 	return common.PointerString(m)
 }
@@ -289,24 +328,27 @@ type KafkaConnectionTechnologyTypeEnum string
 
 // Set of constants representing the allowable values for KafkaConnectionTechnologyTypeEnum
 const (
-	KafkaConnectionTechnologyTypeApacheKafka    KafkaConnectionTechnologyTypeEnum = "APACHE_KAFKA"
-	KafkaConnectionTechnologyTypeAzureEventHubs KafkaConnectionTechnologyTypeEnum = "AZURE_EVENT_HUBS"
-	KafkaConnectionTechnologyTypeConfluentKafka KafkaConnectionTechnologyTypeEnum = "CONFLUENT_KAFKA"
-	KafkaConnectionTechnologyTypeOciStreaming   KafkaConnectionTechnologyTypeEnum = "OCI_STREAMING"
+	KafkaConnectionTechnologyTypeApacheKafka                 KafkaConnectionTechnologyTypeEnum = "APACHE_KAFKA"
+	KafkaConnectionTechnologyTypeAzureEventHubs              KafkaConnectionTechnologyTypeEnum = "AZURE_EVENT_HUBS"
+	KafkaConnectionTechnologyTypeConfluentKafka              KafkaConnectionTechnologyTypeEnum = "CONFLUENT_KAFKA"
+	KafkaConnectionTechnologyTypeOciStreaming                KafkaConnectionTechnologyTypeEnum = "OCI_STREAMING"
+	KafkaConnectionTechnologyTypeOciStreamingWithApacheKafka KafkaConnectionTechnologyTypeEnum = "OCI_STREAMING_WITH_APACHE_KAFKA"
 )
 
 var mappingKafkaConnectionTechnologyTypeEnum = map[string]KafkaConnectionTechnologyTypeEnum{
-	"APACHE_KAFKA":     KafkaConnectionTechnologyTypeApacheKafka,
-	"AZURE_EVENT_HUBS": KafkaConnectionTechnologyTypeAzureEventHubs,
-	"CONFLUENT_KAFKA":  KafkaConnectionTechnologyTypeConfluentKafka,
-	"OCI_STREAMING":    KafkaConnectionTechnologyTypeOciStreaming,
+	"APACHE_KAFKA":                    KafkaConnectionTechnologyTypeApacheKafka,
+	"AZURE_EVENT_HUBS":                KafkaConnectionTechnologyTypeAzureEventHubs,
+	"CONFLUENT_KAFKA":                 KafkaConnectionTechnologyTypeConfluentKafka,
+	"OCI_STREAMING":                   KafkaConnectionTechnologyTypeOciStreaming,
+	"OCI_STREAMING_WITH_APACHE_KAFKA": KafkaConnectionTechnologyTypeOciStreamingWithApacheKafka,
 }
 
 var mappingKafkaConnectionTechnologyTypeEnumLowerCase = map[string]KafkaConnectionTechnologyTypeEnum{
-	"apache_kafka":     KafkaConnectionTechnologyTypeApacheKafka,
-	"azure_event_hubs": KafkaConnectionTechnologyTypeAzureEventHubs,
-	"confluent_kafka":  KafkaConnectionTechnologyTypeConfluentKafka,
-	"oci_streaming":    KafkaConnectionTechnologyTypeOciStreaming,
+	"apache_kafka":                    KafkaConnectionTechnologyTypeApacheKafka,
+	"azure_event_hubs":                KafkaConnectionTechnologyTypeAzureEventHubs,
+	"confluent_kafka":                 KafkaConnectionTechnologyTypeConfluentKafka,
+	"oci_streaming":                   KafkaConnectionTechnologyTypeOciStreaming,
+	"oci_streaming_with_apache_kafka": KafkaConnectionTechnologyTypeOciStreamingWithApacheKafka,
 }
 
 // GetKafkaConnectionTechnologyTypeEnumValues Enumerates the set of values for KafkaConnectionTechnologyTypeEnum
@@ -325,6 +367,7 @@ func GetKafkaConnectionTechnologyTypeEnumStringValues() []string {
 		"AZURE_EVENT_HUBS",
 		"CONFLUENT_KAFKA",
 		"OCI_STREAMING",
+		"OCI_STREAMING_WITH_APACHE_KAFKA",
 	}
 }
 

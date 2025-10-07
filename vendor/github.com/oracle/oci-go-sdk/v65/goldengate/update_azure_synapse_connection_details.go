@@ -52,6 +52,11 @@ type UpdateAzureSynapseConnectionDetails struct {
 	// Indicates that sensitive attributes are provided via Secrets.
 	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
 	// JDBC connection string.
 	// e.g.: 'jdbc:sqlserver://<synapse-workspace>.sql.azuresynapse.net:1433;database=<db-name>;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.sql.azuresynapse.net;loginTimeout=300;'
 	ConnectionString *string `mandatory:"false" json:"connectionString"`
@@ -128,6 +133,11 @@ func (m UpdateAzureSynapseConnectionDetails) GetRoutingMethod() RoutingMethodEnu
 // GetDoesUseSecretIds returns DoesUseSecretIds
 func (m UpdateAzureSynapseConnectionDetails) GetDoesUseSecretIds() *bool {
 	return m.DoesUseSecretIds
+}
+
+// GetSecurityAttributes returns SecurityAttributes
+func (m UpdateAzureSynapseConnectionDetails) GetSecurityAttributes() map[string]map[string]interface{} {
+	return m.SecurityAttributes
 }
 
 func (m UpdateAzureSynapseConnectionDetails) String() string {

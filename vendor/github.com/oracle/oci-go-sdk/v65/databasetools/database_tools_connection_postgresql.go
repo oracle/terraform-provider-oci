@@ -31,7 +31,7 @@ type DatabaseToolsConnectionPostgresql struct {
 	// The time the Database Tools connection was created. An RFC3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The time the DatabaseToolsConnection was updated. An RFC3339 formatted datetime string.
+	// The time the Database Tools connection was updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
 	// The connection string used to connect to the PostgreSQL Server.
@@ -57,7 +57,7 @@ type DatabaseToolsConnectionPostgresql struct {
 
 	RelatedResource *DatabaseToolsRelatedResourcePostgresql `mandatory:"false" json:"relatedResource"`
 
-	// The user name.
+	// The database user name.
 	UserName *string `mandatory:"false" json:"userName"`
 
 	UserPassword DatabaseToolsUserPassword `mandatory:"false" json:"userPassword"`

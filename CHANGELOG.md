@@ -1,3 +1,24 @@
+## 7.22.0 (October 7, 2025)
+
+### Added
+- Support for sigint context to go sdk for GoldenGate
+- Support for AI Data Platform
+- Support for Data Guard support to convert Physical Standby to Snapshot Standby and vice versa|ExaCS|ExaCC
+- Support for Dynamic Resource VM
+- Support for Oracle Cloud Infrastructure (OCI) Internet of Things (IoT) Service
+- Support for RMS - ZPR security attribute support for PE
+- Support for ZPR Security Attributes
+- Support for ZPR security attribute for Functions
+- Support for OIC: ZPR security attribute support for private endpoint
+- Support for HeatWave Service: Zerotrust Packet Routing (ZPR)
+- Support for Opensearch - ZPR security attribute support
+- Support for [OCI Cache] - ZPR Security Attributes
+- OKE Add-ons option list API update, add should_show_all_versions flag
+- Support for GGS Release 9 Connections
+- Support for GGS ZPR security attribute support
+- Support for GGS API for Multi-cloud
+
+
 ## 7.21.0 (October 1, 2025)
 
 ### Added

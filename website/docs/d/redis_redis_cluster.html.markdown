@@ -54,6 +54,7 @@ The following attributes are exported:
 * `primary_fqdn` - The fully qualified domain name (FQDN) of the API endpoint for the cluster's primary node.
 * `replicas_endpoint_ip_address` - The private IP address of the API endpoint for the cluster's replica nodes.
 * `replicas_fqdn` - The fully qualified domain name (FQDN) of the API endpoint for the cluster's replica nodes.
+* `security_attributes` - Security attributes for redis cluster resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}` 
 * `shard_count` - The number of shards in a sharded cluster. Only applicable when clusterMode is SHARDED.
 * `software_version` - The Oracle Cloud Infrastructure Cache engine version that the cluster is running.
 * `state` - The current state of the cluster.

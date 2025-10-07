@@ -52,6 +52,11 @@ type UpdateAmazonS3ConnectionDetails struct {
 	// Indicates that sensitive attributes are provided via Secrets.
 	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
 	// Access key ID to access the Amazon S3 bucket.
 	// e.g.: "this-is-not-the-secret"
 	AccessKeyId *string `mandatory:"false" json:"accessKeyId"`
@@ -130,6 +135,11 @@ func (m UpdateAmazonS3ConnectionDetails) GetRoutingMethod() RoutingMethodEnum {
 // GetDoesUseSecretIds returns DoesUseSecretIds
 func (m UpdateAmazonS3ConnectionDetails) GetDoesUseSecretIds() *bool {
 	return m.DoesUseSecretIds
+}
+
+// GetSecurityAttributes returns SecurityAttributes
+func (m UpdateAmazonS3ConnectionDetails) GetSecurityAttributes() map[string]map[string]interface{} {
+	return m.SecurityAttributes
 }
 
 func (m UpdateAmazonS3ConnectionDetails) String() string {

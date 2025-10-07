@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/ListDatabaseToolsConnections.go.html to see an example of how to use ListDatabaseToolsConnectionsRequest.
 type ListDatabaseToolsConnectionsRequest struct {
 
-	// The ID of the compartment in which to list resources.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// A filter to return only resources their `lifecycleState` matches the specified `lifecycleState`.
@@ -30,10 +30,10 @@ type ListDatabaseToolsConnectionsRequest struct {
 	// A filter to return only resources their type matches the specified type.
 	Type []ConnectionTypeEnum `contributesTo:"query" name:"type" omitEmpty:"true" collectionFormat:"multi"`
 
-	// A filter to return only resources with one of the specified runtimeSupport values.
+	// A filter to return only resources with one of the specified type values.
 	RuntimeSupport []RuntimeSupportEnum `contributesTo:"query" name:"runtimeSupport" omitEmpty:"true" collectionFormat:"multi"`
 
-	// A filter to return only resources associated to the related resource identifier OCID passed in the query string.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related resource.
 	RelatedResourceIdentifier *string `mandatory:"false" contributesTo:"query" name:"relatedResourceIdentifier"`
 
 	// The maximum number of items to return.

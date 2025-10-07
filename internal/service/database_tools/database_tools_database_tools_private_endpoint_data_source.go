@@ -120,6 +120,10 @@ func (s *DatabaseToolsDatabaseToolsPrivateEndpointDataSourceCrud) SetData() erro
 		s.D.Set("reverse_connection_configuration", nil)
 	}
 
+	if s.Res.SecurityAttributes != nil {
+		s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SubnetId != nil {

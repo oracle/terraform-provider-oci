@@ -18,6 +18,9 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opensearch/ListOpensearchClusterShapes.go.html to see an example of how to use ListOpensearchClusterShapesRequest.
 type ListOpensearchClusterShapesRequest struct {
 
+	// The ID of the compartment in which to list resources.
+	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

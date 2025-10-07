@@ -19,7 +19,7 @@ import (
 // DatabaseToolsConnectionSummary Summary of the Database Tools connection.
 type DatabaseToolsConnectionSummary interface {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `DatabaseToolsConnection`.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Tools connection.
 	GetId() *string
 
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.

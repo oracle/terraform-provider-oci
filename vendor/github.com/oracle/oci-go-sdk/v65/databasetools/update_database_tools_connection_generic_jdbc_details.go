@@ -33,7 +33,7 @@ type UpdateDatabaseToolsConnectionGenericJdbcDetails struct {
 	// The JDBC URL used to connect to the Generic JDBC database system.
 	Url *string `mandatory:"false" json:"url"`
 
-	// The user name.
+	// The database user name.
 	UserName *string `mandatory:"false" json:"userName"`
 
 	UserPassword DatabaseToolsUserPasswordDetails `mandatory:"false" json:"userPassword"`
