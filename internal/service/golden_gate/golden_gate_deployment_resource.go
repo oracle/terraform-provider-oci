@@ -6,8 +6,6 @@ package golden_gate
 import (
 	"context"
 	"fmt"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-	oci_golden_gate "github.com/oracle/oci-go-sdk/v65/goldengate"
 	"strconv"
 	"strings"
 	"time"

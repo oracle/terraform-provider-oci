@@ -193,7 +193,7 @@ var (
 				"lifecycle":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsAndLocks},
 				"subscription_id":            acctest.Representation{RepType: acctest.Optional, Create: `${var.subscription_id}`},
 				"cluster_placement_group_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.cluster_placement_group_id}`},
-				"security_attributes": 		  acctest.Representation{RepType: acctest.Optional, Create: getSecurityAttributes()},
+				"security_attributes":        acctest.Representation{RepType: acctest.Optional, Create: getSecurityAttributes()},
 			},
 		},
 
