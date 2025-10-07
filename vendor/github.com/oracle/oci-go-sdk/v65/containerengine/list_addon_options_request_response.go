@@ -43,6 +43,9 @@ type ListAddonOptionsRequest struct {
 	// The optional field to sort the results by.
 	SortBy ListAddonOptionsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
+	// Whether to show all add-on versions
+	ShouldShowAllVersions *bool `mandatory:"false" contributesTo:"query" name:"shouldShowAllVersions"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

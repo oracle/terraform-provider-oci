@@ -31,7 +31,7 @@ type DatabaseToolsConnectionGenericJdbc struct {
 	// The time the Database Tools connection was created. An RFC3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The time the DatabaseToolsConnection was updated. An RFC3339 formatted datetime string.
+	// The time the Database Tools connection was updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
 	// The JDBC URL used to connect to the Generic JDBC database system.
@@ -55,7 +55,7 @@ type DatabaseToolsConnectionGenericJdbc struct {
 	// Locks associated with this resource.
 	Locks []ResourceLock `mandatory:"false" json:"locks"`
 
-	// The user name.
+	// The database user name.
 	UserName *string `mandatory:"false" json:"userName"`
 
 	UserPassword DatabaseToolsUserPassword `mandatory:"false" json:"userPassword"`

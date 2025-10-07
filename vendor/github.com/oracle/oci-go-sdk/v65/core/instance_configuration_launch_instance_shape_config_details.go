@@ -51,6 +51,9 @@ type InstanceConfigurationLaunchInstanceShapeConfigDetails struct {
 
 	// The number of NVMe drives to be used for storage. A single drive has 6.8 TB available.
 	Nvmes *int `mandatory:"false" json:"nvmes"`
+
+	// This field is reserved for internal use.
+	ResourceManagement InstanceConfigurationLaunchInstanceShapeConfigDetailsResourceManagementEnum `mandatory:"false" json:"resourceManagement,omitempty"`
 }
 
 func (m InstanceConfigurationLaunchInstanceShapeConfigDetails) String() string {
@@ -65,6 +68,9 @@ func (m InstanceConfigurationLaunchInstanceShapeConfigDetails) ValidateEnumValue
 
 	if _, ok := GetMappingInstanceConfigurationLaunchInstanceShapeConfigDetailsBaselineOcpuUtilizationEnum(string(m.BaselineOcpuUtilization)); !ok && m.BaselineOcpuUtilization != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BaselineOcpuUtilization: %s. Supported values are: %s.", m.BaselineOcpuUtilization, strings.Join(GetInstanceConfigurationLaunchInstanceShapeConfigDetailsBaselineOcpuUtilizationEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingInstanceConfigurationLaunchInstanceShapeConfigDetailsResourceManagementEnum(string(m.ResourceManagement)); !ok && m.ResourceManagement != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceManagement: %s. Supported values are: %s.", m.ResourceManagement, strings.Join(GetInstanceConfigurationLaunchInstanceShapeConfigDetailsResourceManagementEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -115,5 +121,47 @@ func GetInstanceConfigurationLaunchInstanceShapeConfigDetailsBaselineOcpuUtiliza
 // GetMappingInstanceConfigurationLaunchInstanceShapeConfigDetailsBaselineOcpuUtilizationEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingInstanceConfigurationLaunchInstanceShapeConfigDetailsBaselineOcpuUtilizationEnum(val string) (InstanceConfigurationLaunchInstanceShapeConfigDetailsBaselineOcpuUtilizationEnum, bool) {
 	enum, ok := mappingInstanceConfigurationLaunchInstanceShapeConfigDetailsBaselineOcpuUtilizationEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// InstanceConfigurationLaunchInstanceShapeConfigDetailsResourceManagementEnum Enum with underlying type: string
+type InstanceConfigurationLaunchInstanceShapeConfigDetailsResourceManagementEnum string
+
+// Set of constants representing the allowable values for InstanceConfigurationLaunchInstanceShapeConfigDetailsResourceManagementEnum
+const (
+	InstanceConfigurationLaunchInstanceShapeConfigDetailsResourceManagementDynamic InstanceConfigurationLaunchInstanceShapeConfigDetailsResourceManagementEnum = "DYNAMIC"
+	InstanceConfigurationLaunchInstanceShapeConfigDetailsResourceManagementStatic  InstanceConfigurationLaunchInstanceShapeConfigDetailsResourceManagementEnum = "STATIC"
+)
+
+var mappingInstanceConfigurationLaunchInstanceShapeConfigDetailsResourceManagementEnum = map[string]InstanceConfigurationLaunchInstanceShapeConfigDetailsResourceManagementEnum{
+	"DYNAMIC": InstanceConfigurationLaunchInstanceShapeConfigDetailsResourceManagementDynamic,
+	"STATIC":  InstanceConfigurationLaunchInstanceShapeConfigDetailsResourceManagementStatic,
+}
+
+var mappingInstanceConfigurationLaunchInstanceShapeConfigDetailsResourceManagementEnumLowerCase = map[string]InstanceConfigurationLaunchInstanceShapeConfigDetailsResourceManagementEnum{
+	"dynamic": InstanceConfigurationLaunchInstanceShapeConfigDetailsResourceManagementDynamic,
+	"static":  InstanceConfigurationLaunchInstanceShapeConfigDetailsResourceManagementStatic,
+}
+
+// GetInstanceConfigurationLaunchInstanceShapeConfigDetailsResourceManagementEnumValues Enumerates the set of values for InstanceConfigurationLaunchInstanceShapeConfigDetailsResourceManagementEnum
+func GetInstanceConfigurationLaunchInstanceShapeConfigDetailsResourceManagementEnumValues() []InstanceConfigurationLaunchInstanceShapeConfigDetailsResourceManagementEnum {
+	values := make([]InstanceConfigurationLaunchInstanceShapeConfigDetailsResourceManagementEnum, 0)
+	for _, v := range mappingInstanceConfigurationLaunchInstanceShapeConfigDetailsResourceManagementEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetInstanceConfigurationLaunchInstanceShapeConfigDetailsResourceManagementEnumStringValues Enumerates the set of values in String for InstanceConfigurationLaunchInstanceShapeConfigDetailsResourceManagementEnum
+func GetInstanceConfigurationLaunchInstanceShapeConfigDetailsResourceManagementEnumStringValues() []string {
+	return []string{
+		"DYNAMIC",
+		"STATIC",
+	}
+}
+
+// GetMappingInstanceConfigurationLaunchInstanceShapeConfigDetailsResourceManagementEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingInstanceConfigurationLaunchInstanceShapeConfigDetailsResourceManagementEnum(val string) (InstanceConfigurationLaunchInstanceShapeConfigDetailsResourceManagementEnum, bool) {
+	enum, ok := mappingInstanceConfigurationLaunchInstanceShapeConfigDetailsResourceManagementEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

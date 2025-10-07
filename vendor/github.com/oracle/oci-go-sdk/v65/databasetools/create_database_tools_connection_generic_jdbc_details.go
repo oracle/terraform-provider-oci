@@ -28,7 +28,7 @@ type CreateDatabaseToolsConnectionGenericJdbcDetails struct {
 	// The JDBC URL used to connect to the Generic JDBC database system.
 	Url *string `mandatory:"true" json:"url"`
 
-	// The user name.
+	// The database user name.
 	UserName *string `mandatory:"true" json:"userName"`
 
 	UserPassword DatabaseToolsUserPasswordDetails `mandatory:"true" json:"userPassword"`

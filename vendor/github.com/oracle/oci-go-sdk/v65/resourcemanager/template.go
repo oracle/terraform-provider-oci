@@ -32,7 +32,7 @@ type Template struct {
 	// Possible values are `0` (Quick Starts), `1` (Service), `2` (Architecture), and `3` (Private).
 	CategoryId *string `mandatory:"false" json:"categoryId"`
 
-	// Human-readable name of the template.
+	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Brief description of the template.
@@ -63,6 +63,11 @@ type Template struct {
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The system tags associated with this resource, if any. The system tags are set by Oracle cloud infrastructure services. Each key is predefined and scoped to namespaces.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{orcl-cloud: {free-tier-retain: true}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m Template) String() string {
@@ -98,6 +103,7 @@ func (m *Template) UnmarshalJSON(data []byte) (e error) {
 		LifecycleState       TemplateLifecycleStateEnum        `json:"lifecycleState"`
 		FreeformTags         map[string]string                 `json:"freeformTags"`
 		DefinedTags          map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags           map[string]map[string]interface{} `json:"systemTags"`
 		Id                   *string                           `json:"id"`
 	}{}
 
@@ -135,6 +141,8 @@ func (m *Template) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
+
+	m.SystemTags = model.SystemTags
 
 	m.Id = model.Id
 

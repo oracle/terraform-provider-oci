@@ -35,7 +35,7 @@ type UpdateDatabaseToolsConnectionPostgresqlDetails struct {
 	// The connection string used to connect to the PostgreSQL Server.
 	ConnectionString *string `mandatory:"false" json:"connectionString"`
 
-	// The user name.
+	// The database user name.
 	UserName *string `mandatory:"false" json:"userName"`
 
 	UserPassword DatabaseToolsUserPasswordDetails `mandatory:"false" json:"userPassword"`
@@ -47,7 +47,7 @@ type UpdateDatabaseToolsConnectionPostgresqlDetails struct {
 	// the client private key and associated certificate required for client authentication.
 	KeyStores []DatabaseToolsKeyStorePostgresqlDetails `mandatory:"false" json:"keyStores"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DatabaseToolsPrivateEndpoint used to access the database in the Customer VCN.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Tools private endpoint used to access the database in the Customer VCN.
 	PrivateEndpointId *string `mandatory:"false" json:"privateEndpointId"`
 }
 
