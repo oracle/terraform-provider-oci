@@ -25,7 +25,7 @@ type CreateJobDetails struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stack that is associated with the current job.
 	StackId *string `mandatory:"true" json:"stackId"`
 
-	// Description of the job.
+	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Terraform-specific operation to execute.

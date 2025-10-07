@@ -1,0 +1,123 @@
+// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
+
+package iot
+
+import (
+	"context"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_iot "github.com/oracle/oci-go-sdk/v65/iot"
+
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+)
+
+func IotIotDomainDataSource() *schema.Resource {
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["iot_domain_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
+	}
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(IotIotDomainResource(), fieldMap, readSingularIotIotDomainWithContext)
+}
+
+func readSingularIotIotDomainWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	sync := &IotIotDomainDataSourceCrud{}
+	sync.D = d
+	sync.Client = m.(*client.OracleClients).IotClient()
+
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+}
+
+type IotIotDomainDataSourceCrud struct {
+	D      *schema.ResourceData
+	Client *oci_iot.IotClient
+	Res    *oci_iot.GetIotDomainResponse
+}
+
+func (s *IotIotDomainDataSourceCrud) VoidState() {
+	s.D.SetId("")
+}
+
+func (s *IotIotDomainDataSourceCrud) GetWithContext(ctx context.Context) error {
+	request := oci_iot.GetIotDomainRequest{}
+
+	if iotDomainId, ok := s.D.GetOkExists("iot_domain_id"); ok {
+		tmp := iotDomainId.(string)
+		request.IotDomainId = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "iot")
+
+	response, err := s.Client.GetIotDomain(ctx, request)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response
+	return nil
+}
+
+func (s *IotIotDomainDataSourceCrud) SetData() error {
+	if s.Res == nil {
+		return nil
+	}
+
+	s.D.SetId(*s.Res.Id)
+
+	if s.Res.CompartmentId != nil {
+		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.DataRetentionPeriodsInDays != nil {
+		s.D.Set("data_retention_periods_in_days", []interface{}{DataRetentionPeriodsInDaysToMap(s.Res.DataRetentionPeriodsInDays)})
+	} else {
+		s.D.Set("data_retention_periods_in_days", nil)
+	}
+
+	s.D.Set("db_allow_listed_identity_group_names", s.Res.DbAllowListedIdentityGroupNames)
+
+	if s.Res.DbAllowedIdentityDomainHost != nil {
+		s.D.Set("db_allowed_identity_domain_host", *s.Res.DbAllowedIdentityDomainHost)
+	}
+
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
+	if s.Res.Description != nil {
+		s.D.Set("description", *s.Res.Description)
+	}
+
+	if s.Res.DeviceHost != nil {
+		s.D.Set("device_host", *s.Res.DeviceHost)
+	}
+
+	if s.Res.DisplayName != nil {
+		s.D.Set("display_name", *s.Res.DisplayName)
+	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.IotDomainGroupId != nil {
+		s.D.Set("iot_domain_group_id", *s.Res.IotDomainGroupId)
+	}
+
+	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
+
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeUpdated != nil {
+		s.D.Set("time_updated", s.Res.TimeUpdated.String())
+	}
+
+	return nil
+}

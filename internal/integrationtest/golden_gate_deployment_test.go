@@ -49,6 +49,8 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		OBJECTSTORAGE_UPDATE_BUCKET_NAME = "objectstorage_update_bucket_name"
 		AVAILABILITY_DOMAIN              = "availability_domain"
 		FAULT_DOMAIN                     = "fault_domain"
+		SUBSCRIPTION_ID                  = "subscription_id"
+		CLUSTER_PLACEMENT_GROUP_ID       = "cluster_placement_group_id"
 	)
 
 	var (
@@ -82,6 +84,8 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		groupId                      = utils.GetEnvSettingWithBlankDefault(GROUP_ID)
 		timeBackupScheduledForCreate = time.Now().UTC().Add(time.Hour * 3).Truncate(time.Millisecond).Format(time.RFC3339Nano)
 		timeBackupScheduledForUpdate = time.Now().UTC().Add(time.Hour * 6).Truncate(time.Millisecond).Format(time.RFC3339Nano)
+		subscriptionId               = utils.GetEnvSettingWithBlankDefault(SUBSCRIPTION_ID)
+		clusterPlacementGroupId      = utils.GetEnvSettingWithBlankDefault(CLUSTER_PLACEMENT_GROUP_ID)
 
 		resId  string
 		resId2 string
@@ -165,8 +169,8 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			"display_name":                         acctest.Representation{RepType: acctest.Required, Create: `Terraform_integration_test`, Update: `Terraform_integration_test2`},
 			"is_auto_scaling_enabled":              acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 			"subnet_id":                            acctest.Representation{RepType: acctest.Required, Create: `${var.test_subnet_id}`},
-			"license_model":                        acctest.Representation{RepType: acctest.Optional, Create: `LICENSE_INCLUDED`},
-			"byol_cpu_core_count_limit":            acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+			"license_model":                        acctest.Representation{RepType: acctest.Optional, Create: `BRING_YOUR_OWN_LICENSE`},
+			"byol_cpu_core_count_limit":            acctest.Representation{RepType: acctest.Optional, Create: nil, Update: `11`},
 			"is_byol_cpu_core_count_limit_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 			"description":                          acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 			"fqdn":                                 acctest.Representation{RepType: acctest.Optional, Update: `fqdn1.oggdevops.us`},
@@ -181,6 +185,8 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			"fault_domain":                         acctest.Representation{RepType: acctest.Optional, Create: `${var.fault_domain}`},
 			"placements":                           []acctest.RepresentationGroup{}, // start with empty peer list
 			"source_deployment_id":                 acctest.Representation{RepType: acctest.Optional, Create: nil},
+			"environment_type":                     acctest.Representation{RepType: acctest.Required, Create: `DEVELOPMENT_OR_TESTING`},
+			"security_attributes":                  acctest.Representation{RepType: acctest.Optional, Create: getSecurityAttributes()},
 		}
 
 		deploymentLocksRepresentation = map[string]interface{}{
@@ -227,6 +233,8 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		makeVariableStr(OBJECTSTORAGE_NAMESPACE, t) +
 		makeVariableStr(AVAILABILITY_DOMAIN, t) +
 		makeVariableStr(FAULT_DOMAIN, t) +
+		makeVariableStr(SUBSCRIPTION_ID, t) +
+		makeVariableStr(CLUSTER_PLACEMENT_GROUP_ID, t) +
 		GoldenGateDeploymentResourceDependencies
 
 	if identityDomainId != "" {
@@ -244,7 +252,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Required, acctest.Create, goldenGateDeploymentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "4"),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 				resource.TestCheckResourceAttr(resourceName, "deployment_type", "OGG"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "Terraform_integration_test"),
 				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
@@ -379,7 +387,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "Terraform_integration_test"),
 				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "subnet_id", subnetId),
-				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "BRING_YOUR_OWN_LICENSE"),
 				resource.TestCheckResourceAttr(resourceName, "ogg_data.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.credential_store", "GOLDENGATE"),
 				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.admin_username", "adminUsername"),
@@ -408,7 +416,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "Terraform_integration_test2"),
 				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "subnet_id", subnetId),
-				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "BRING_YOUR_OWN_LICENSE"),
 				resource.TestCheckResourceAttr(resourceName, "ogg_data.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.credential_store", "GOLDENGATE"),
 				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.admin_username", "adminUsername2"),
@@ -454,10 +462,9 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
-				resource.TestCheckResourceAttr(resourceName, "byol_cpu_core_count_limit", "10"),
 				resource.TestCheckResourceAttr(resourceName, "is_byol_cpu_core_count_limit_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_public", "false"),
-				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "BRING_YOUR_OWN_LICENSE"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_configuration.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_configuration.0.bundle_release_upgrade_period_in_days", "10"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_configuration.0.interim_release_upgrade_period_in_days", "5"),
@@ -476,6 +483,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "placements.0.fault_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "ogg_data.0.ogg_version"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", getExpectedSaSize()),
 
 				func(s *terraform.State) (err error) {
 					time.Sleep(1 * time.Minute)
@@ -516,10 +524,9 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
-				resource.TestCheckResourceAttr(resourceName, "byol_cpu_core_count_limit", "10"),
 				resource.TestCheckResourceAttr(resourceName, "is_byol_cpu_core_count_limit_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_public", "false"),
-				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "BRING_YOUR_OWN_LICENSE"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_configuration.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_configuration.0.bundle_release_upgrade_period_in_days", "10"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_configuration.0.interim_release_upgrade_period_in_days", "5"),
@@ -574,7 +581,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "byol_cpu_core_count_limit", "11"),
 				resource.TestCheckResourceAttr(resourceName, "is_byol_cpu_core_count_limit_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_public", "false"),
-				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "BRING_YOUR_OWN_LICENSE"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_configuration.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_configuration.0.bundle_release_upgrade_period_in_days", "11"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_configuration.0.interim_release_upgrade_period_in_days", "6"),
@@ -821,9 +828,31 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		{
 			Config: config,
 		},
+		// check multicloud attribute. It must be included in test only if multicloud is available in the environment.
+		{
+			Config: config + testDeploymentIdVariableStr + acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Required, acctest.Create,
+				acctest.RepresentationCopyWithNewProperties(goldenGateDeploymentRepresentation, map[string]interface{}{
+					"subscription_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.subscription_id}`},
+					"cluster_placement_group_id": acctest.Representation{RepType: acctest.Required, Create: `${var.cluster_placement_group_id}`},
+				})),
+
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "subscription_id", subscriptionId),
+				resource.TestCheckResourceAttr(resourceName, "cluster_placement_group_id", clusterPlacementGroupId),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		//delete before next Create
+		{
+			Config: config,
+		},
 	}
 	//acctest.ResourceTest(t, testAccCheckGoldenGateDeploymentDestroy, []resource.TestStep{steps[0], steps[len(steps)-1]})
-	acctest.ResourceTest(t, testAccCheckGoldenGateDeploymentDestroy, steps)
+	acctest.ResourceTest(t, testAccCheckGoldenGateDeploymentDestroy, steps[len(steps)-2:]) // execute the last two added tests
 }
 
 func testAccCheckGoldenGateDeploymentDestroy(s *terraform.State) error {

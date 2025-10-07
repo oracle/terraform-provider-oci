@@ -96,6 +96,21 @@ variable "is_byol_cpu_core_count_limit_enabled" {
 	default = true
 }
 
+variable "deployment_peer_display_name" {
+	default = "a_peer"
+}
+variable "deployment_peer_state" {
+	default = "ACTIVE"
+}
+
+
+variable "security_attributes" {
+	default = {
+		"oracle-zpr.sensitivity.value" = "42"
+		"oracle-zpr.sensitivity.mode" = "enforce"
+	}
+}
+
 provider "oci" {
   	tenancy_ocid     = var.tenancy_ocid
   	user_ocid        = var.user_ocid
@@ -156,6 +171,7 @@ resource "oci_golden_gate_deployment" "test_deployment_GOLDENGATE" {
 	subnet_id               			 = var.test_subnet_id
 	byol_cpu_core_count_limit			 = var.byol_cpu_core_count_limit
 	is_byol_cpu_core_count_limit_enabled = var.is_byol_cpu_core_count_limit_enabled
+	security_attributes                  = var.security_attributes
 	ogg_data {
 		deployment_name 	= var.deployment_ogg_data_deployment_name
 		credential_store 	= var.deployment_ogg_data_credential_store
@@ -204,4 +220,13 @@ data "oci_golden_gate_deployments" "test_deployments" {
   #Optional
   display_name = var.deployment_display_name
   state        = var.deployment_state
+}
+
+data "oci_golden_gate_deployment_peers" "test_deployment_peers" {
+	#Required
+	deployment_id = oci_golden_gate_deployment.test_deployment_GOLDENGATE.id
+
+	#Optional
+	display_name = var.deployment_peer_display_name
+	state        = var.deployment_peer_state
 }

@@ -31,7 +31,7 @@ type DatabaseToolsConnectionOracleDatabase struct {
 	// The time the Database Tools connection was created. An RFC3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The time the DatabaseToolsConnection was updated. An RFC3339 formatted datetime string.
+	// The time the Database Tools connection was updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
 	// The connect descriptor or Easy Connect Naming method used to connect to the database.

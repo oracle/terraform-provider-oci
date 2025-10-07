@@ -51,6 +51,9 @@ type UpdateInstanceShapeConfigDetails struct {
 
 	// The number of NVMe drives to be used for storage. A single drive has 6.8 TB available.
 	Nvmes *int `mandatory:"false" json:"nvmes"`
+
+	// This field is reserved for internal use.
+	ResourceManagement UpdateInstanceShapeConfigDetailsResourceManagementEnum `mandatory:"false" json:"resourceManagement,omitempty"`
 }
 
 func (m UpdateInstanceShapeConfigDetails) String() string {
@@ -65,6 +68,9 @@ func (m UpdateInstanceShapeConfigDetails) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingUpdateInstanceShapeConfigDetailsBaselineOcpuUtilizationEnum(string(m.BaselineOcpuUtilization)); !ok && m.BaselineOcpuUtilization != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BaselineOcpuUtilization: %s. Supported values are: %s.", m.BaselineOcpuUtilization, strings.Join(GetUpdateInstanceShapeConfigDetailsBaselineOcpuUtilizationEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingUpdateInstanceShapeConfigDetailsResourceManagementEnum(string(m.ResourceManagement)); !ok && m.ResourceManagement != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceManagement: %s. Supported values are: %s.", m.ResourceManagement, strings.Join(GetUpdateInstanceShapeConfigDetailsResourceManagementEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -115,5 +121,47 @@ func GetUpdateInstanceShapeConfigDetailsBaselineOcpuUtilizationEnumStringValues(
 // GetMappingUpdateInstanceShapeConfigDetailsBaselineOcpuUtilizationEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingUpdateInstanceShapeConfigDetailsBaselineOcpuUtilizationEnum(val string) (UpdateInstanceShapeConfigDetailsBaselineOcpuUtilizationEnum, bool) {
 	enum, ok := mappingUpdateInstanceShapeConfigDetailsBaselineOcpuUtilizationEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// UpdateInstanceShapeConfigDetailsResourceManagementEnum Enum with underlying type: string
+type UpdateInstanceShapeConfigDetailsResourceManagementEnum string
+
+// Set of constants representing the allowable values for UpdateInstanceShapeConfigDetailsResourceManagementEnum
+const (
+	UpdateInstanceShapeConfigDetailsResourceManagementDynamic UpdateInstanceShapeConfigDetailsResourceManagementEnum = "DYNAMIC"
+	UpdateInstanceShapeConfigDetailsResourceManagementStatic  UpdateInstanceShapeConfigDetailsResourceManagementEnum = "STATIC"
+)
+
+var mappingUpdateInstanceShapeConfigDetailsResourceManagementEnum = map[string]UpdateInstanceShapeConfigDetailsResourceManagementEnum{
+	"DYNAMIC": UpdateInstanceShapeConfigDetailsResourceManagementDynamic,
+	"STATIC":  UpdateInstanceShapeConfigDetailsResourceManagementStatic,
+}
+
+var mappingUpdateInstanceShapeConfigDetailsResourceManagementEnumLowerCase = map[string]UpdateInstanceShapeConfigDetailsResourceManagementEnum{
+	"dynamic": UpdateInstanceShapeConfigDetailsResourceManagementDynamic,
+	"static":  UpdateInstanceShapeConfigDetailsResourceManagementStatic,
+}
+
+// GetUpdateInstanceShapeConfigDetailsResourceManagementEnumValues Enumerates the set of values for UpdateInstanceShapeConfigDetailsResourceManagementEnum
+func GetUpdateInstanceShapeConfigDetailsResourceManagementEnumValues() []UpdateInstanceShapeConfigDetailsResourceManagementEnum {
+	values := make([]UpdateInstanceShapeConfigDetailsResourceManagementEnum, 0)
+	for _, v := range mappingUpdateInstanceShapeConfigDetailsResourceManagementEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetUpdateInstanceShapeConfigDetailsResourceManagementEnumStringValues Enumerates the set of values in String for UpdateInstanceShapeConfigDetailsResourceManagementEnum
+func GetUpdateInstanceShapeConfigDetailsResourceManagementEnumStringValues() []string {
+	return []string{
+		"DYNAMIC",
+		"STATIC",
+	}
+}
+
+// GetMappingUpdateInstanceShapeConfigDetailsResourceManagementEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingUpdateInstanceShapeConfigDetailsResourceManagementEnum(val string) (UpdateInstanceShapeConfigDetailsResourceManagementEnum, bool) {
+	enum, ok := mappingUpdateInstanceShapeConfigDetailsResourceManagementEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

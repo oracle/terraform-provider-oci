@@ -10,12 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
-
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
@@ -46,6 +45,43 @@ var (
 	OpensearchOpensearchClusterDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_opensearch_opensearch_cluster.test_opensearch_cluster.id}`}},
+	}
+
+	OpensearchOpensearchClusterCertificatesRepresentation = map[string]interface{}{
+		"certificate_config":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: OpensearchOpensearchClusterCertificateConfigRepresentation},
+		"opendashboard_node_host_shape":      acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard.E3.Flex`},
+		"master_node_host_shape":             acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard.E3.Flex`},
+		"data_node_host_shape":               acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard.E3.Flex`},
+		"search_node_host_shape":             acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard.E3.Flex`},
+		"search_node_count":                  acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"search_node_host_memory_gb":         acctest.Representation{RepType: acctest.Required, Create: `20`},
+		"search_node_host_ocpu_count":        acctest.Representation{RepType: acctest.Required, Create: `2`},
+		"search_node_host_type":              acctest.Representation{RepType: acctest.Required, Create: `FLEX`},
+		"search_node_storage_gb":             acctest.Representation{RepType: acctest.Required, Create: `50`},
+		"maintenance_details":                acctest.RepresentationGroup{RepType: acctest.Optional, Group: OpensearchOpensearchClusterMaintenanceDetailsRepresentation},
+		"compartment_id":                     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"data_node_count":                    acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"data_node_host_memory_gb":           acctest.Representation{RepType: acctest.Required, Create: `20`},
+		"data_node_host_ocpu_count":          acctest.Representation{RepType: acctest.Required, Create: `2`},
+		"data_node_host_type":                acctest.Representation{RepType: acctest.Required, Create: `FLEX`},
+		"data_node_storage_gb":               acctest.Representation{RepType: acctest.Required, Create: `50`},
+		"display_name":                       acctest.Representation{RepType: acctest.Required, Create: `tf_provider_cluster_updated`, Update: `tf_provider_cluster_updated`},
+		"master_node_count":                  acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"master_node_host_memory_gb":         acctest.Representation{RepType: acctest.Required, Create: `20`},
+		"master_node_host_ocpu_count":        acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"master_node_host_type":              acctest.Representation{RepType: acctest.Required, Create: `FLEX`},
+		"opendashboard_node_count":           acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"opendashboard_node_host_memory_gb":  acctest.Representation{RepType: acctest.Required, Create: `10`},
+		"opendashboard_node_host_ocpu_count": acctest.Representation{RepType: acctest.Required, Create: `2`},
+		"software_version":                   acctest.Representation{RepType: acctest.Required, Create: `2.11.0`, Update: `2.11.0`},
+		"subnet_compartment_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"subnet_id":                          acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"vcn_compartment_id":                 acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"vcn_id":                             acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
+		"security_mode":                      acctest.Representation{RepType: acctest.Optional, Create: `ENFORCING`},
+		"security_master_user_name":          acctest.Representation{RepType: acctest.Optional, Create: `${oci_identity_user.test_user.name}`},
+		"security_master_user_password_hash": acctest.Representation{RepType: acctest.Optional, Create: `securityMasterUserPasswordHash2`},
+		"lifecycle":                          acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreOpenSearchSystemTagsChangesRep},
 	}
 
 	OpensearchOpensearchClusterRepresentation = map[string]interface{}{
@@ -80,6 +116,39 @@ var (
 		"vcn_id":                             acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
 		"security_mode":                      acctest.Representation{RepType: acctest.Optional, Create: `DISABLED`, Update: `ENFORCING`},
 		"security_master_user_name":          acctest.Representation{RepType: acctest.Optional, Update: `${oci_identity_user.test_user.name}`},
+		"security_master_user_password_hash": acctest.Representation{RepType: acctest.Optional, Update: `securityMasterUserPasswordHash2`},
+		"lifecycle":                          acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreOpenSearchSystemTagsChangesRep},
+	}
+
+	OpensearchOpensearchClusterRepresentationSAUpdate = map[string]interface{}{
+		"security_attributes":                acctest.Representation{RepType: acctest.Required, Create: map[string]string{"jai-test.test.mode": "enforce", "jai-test.test.value": "oldVal1"}},
+		"search_node_count":                  acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"search_node_host_memory_gb":         acctest.Representation{RepType: acctest.Required, Create: `20`},
+		"search_node_host_ocpu_count":        acctest.Representation{RepType: acctest.Required, Create: `2`},
+		"search_node_host_type":              acctest.Representation{RepType: acctest.Required, Create: `FLEX`},
+		"search_node_storage_gb":             acctest.Representation{RepType: acctest.Required, Create: `50`},
+		"maintenance_details":                acctest.RepresentationGroup{RepType: acctest.Required, Group: OpensearchOpensearchClusterMaintenanceDetailsRepresentation},
+		"compartment_id":                     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"data_node_count":                    acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"data_node_host_memory_gb":           acctest.Representation{RepType: acctest.Required, Create: `20`},
+		"data_node_host_ocpu_count":          acctest.Representation{RepType: acctest.Required, Create: `2`},
+		"data_node_host_type":                acctest.Representation{RepType: acctest.Required, Create: `FLEX`},
+		"data_node_storage_gb":               acctest.Representation{RepType: acctest.Required, Create: `50`},
+		"display_name":                       acctest.Representation{RepType: acctest.Required, Create: `tf_provider_cluster_updated`, Update: `tf_provider_cluster_updated`},
+		"master_node_count":                  acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"master_node_host_memory_gb":         acctest.Representation{RepType: acctest.Required, Create: `20`},
+		"master_node_host_ocpu_count":        acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"master_node_host_type":              acctest.Representation{RepType: acctest.Required, Create: `FLEX`},
+		"opendashboard_node_count":           acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"opendashboard_node_host_memory_gb":  acctest.Representation{RepType: acctest.Required, Create: `10`},
+		"opendashboard_node_host_ocpu_count": acctest.Representation{RepType: acctest.Required, Create: `2`},
+		"software_version":                   acctest.Representation{RepType: acctest.Required, Create: `2.11.0`, Update: `2.11.0`},
+		"subnet_compartment_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"subnet_id":                          acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"vcn_compartment_id":                 acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"vcn_id":                             acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
+		"security_mode":                      acctest.Representation{RepType: acctest.Optional, Create: `DISABLED`, Update: `ENFORCING`},
+		"security_master_user_name":          acctest.Representation{RepType: acctest.Optional, Update: `testuser`},
 		"security_master_user_password_hash": acctest.Representation{RepType: acctest.Optional, Update: `securityMasterUserPasswordHash2`},
 		"lifecycle":                          acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreOpenSearchSystemTagsChangesRep},
 	}
@@ -196,6 +265,12 @@ var (
 		"security_master_user_name":          acctest.Representation{RepType: acctest.Optional, Update: `${oci_identity_user.test_user.name}`},
 		"security_master_user_password_hash": acctest.Representation{RepType: acctest.Optional, Update: `securityMasterUserPasswordHash2`},
 		"lifecycle":                          acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreOpenSearchSystemTagsChangesRep},
+	}
+	OpensearchOpensearchClusterCertificateConfigRepresentation = map[string]interface{}{
+		"cluster_certificate_mode":             acctest.Representation{RepType: acctest.Optional, Update: `OCI_CERTIFICATES_SERVICE`},
+		"dashboard_certificate_mode":           acctest.Representation{RepType: acctest.Optional, Update: `OCI_CERTIFICATES_SERVICE`},
+		"open_search_api_certificate_id":       acctest.Representation{RepType: acctest.Optional, Update: `${data.oci_certificates_management_certificates.existing.certificate_collection[0].items[0].id}`},
+		"open_search_dashboard_certificate_id": acctest.Representation{RepType: acctest.Optional, Update: `${data.oci_certificates_management_certificates.existing.certificate_collection[0].items[0].id}`},
 	}
 	OpensearchOpensearchClusterMaintenanceDetailsRepresentation = map[string]interface{}{
 		"notification_email_ids": acctest.Representation{RepType: acctest.Optional, Create: []string{`test@example.com`}, Update: []string{`test@example.com`}},
@@ -377,6 +452,18 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, IdentityUserRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_opensearch_opensearch_cluster", "test_opensearch_cluster_inbound", acctest.Optional, acctest.Create, OpensearchOpensearchClusterRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_opensearch_opensearch_cluster", "test_opensearch_cluster_outbound", acctest.Optional, acctest.Create, OpensearchOpensearchClusterRepresentation)
+
+	OpensearchOpensearchClusterResourceDependenciesForByoc = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, IdentityUserRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap(
+			"oci_certificates_management_certificates", "existing",
+			acctest.Required, acctest.Create,
+			map[string]interface{}{
+				"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+				"name":           acctest.Representation{RepType: acctest.Required, Create: `Tersi-Certificate-DND`},
+			},
+		)
 
 	OpensearchOpensearchClusterResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
@@ -644,6 +731,246 @@ func TestOpensearchOpensearchClusterResource_upgrade(t *testing.T) {
 }
 
 // issue-routing-tag: opensearch/default
+func TestOpensearchOpensearchClusterResource_securityAttributesUpdate_1(t *testing.T) {
+	httpreplay.SetScenario("TestOpensearchOpensearchClusterResource_sa")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	resourceName := "oci_opensearch_opensearch_cluster.test_opensearch_cluster"
+
+	var resId, resId2 string
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+OpensearchOpensearchClusterResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_opensearch_opensearch_cluster", "test_opensearch_cluster", acctest.Optional, acctest.Create, OpensearchOpensearchClusterRepresentationSAUpdate), "opensearch", "opensearchCluster", t)
+
+	acctest.ResourceTest(t, testAccCheckOpensearchOpensearchClusterDestroy, []resource.TestStep{
+		//verify Create
+		{
+			Config: config + compartmentIdVariableStr + OpensearchOpensearchClusterResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_opensearch_opensearch_cluster", "test_opensearch_cluster", acctest.Optional, acctest.Create, OpensearchOpensearchClusterRepresentationSAUpdate),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "data_node_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_node_host_memory_gb", "20"),
+				resource.TestCheckResourceAttr(resourceName, "data_node_host_ocpu_count", "2"),
+				resource.TestCheckResourceAttr(resourceName, "data_node_host_type", "FLEX"),
+				resource.TestCheckResourceAttr(resourceName, "data_node_storage_gb", "50"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_host_memory_gb", "20"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_host_ocpu_count", "2"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_host_type", "FLEX"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_storage_gb", "50"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "tf_provider_cluster_updated"),
+				resource.TestCheckResourceAttr(resourceName, "master_node_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "master_node_host_memory_gb", "20"),
+				resource.TestCheckResourceAttr(resourceName, "master_node_host_ocpu_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "master_node_host_type", "FLEX"),
+				resource.TestCheckResourceAttrSet(resourceName, "opendashboard_fqdn"),
+				resource.TestCheckResourceAttr(resourceName, "opendashboard_node_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "opendashboard_node_host_memory_gb", "10"),
+				resource.TestCheckResourceAttr(resourceName, "opendashboard_node_host_ocpu_count", "2"),
+				resource.TestCheckResourceAttrSet(resourceName, "opendashboard_private_ip"),
+				resource.TestCheckResourceAttrSet(resourceName, "opensearch_fqdn"),
+				resource.TestCheckResourceAttrSet(resourceName, "opensearch_private_ip"),
+				resource.TestCheckResourceAttr(resourceName, "software_version", "2.11.0"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "2"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "total_storage_gb"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+
+				func(s *terraform.State) (err error) {
+					_, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		//try update
+		{
+			Config: func() string {
+				configStr := config + compartmentIdVariableStr + OpensearchOpensearchClusterResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_opensearch_opensearch_cluster", "test_opensearch_cluster", acctest.Optional, acctest.Update, OpensearchOpensearchClusterRepresentationSAUpdate)
+				return configStr
+			}(),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "data_node_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_node_host_memory_gb", "20"),
+				resource.TestCheckResourceAttr(resourceName, "data_node_host_ocpu_count", "2"),
+				resource.TestCheckResourceAttr(resourceName, "data_node_host_type", "FLEX"),
+				resource.TestCheckResourceAttr(resourceName, "data_node_storage_gb", "50"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_host_memory_gb", "20"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_host_ocpu_count", "2"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_host_type", "FLEX"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_storage_gb", "50"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "tf_provider_cluster_updated_sa"),
+				resource.TestCheckResourceAttr(resourceName, "master_node_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "master_node_host_memory_gb", "20"),
+				resource.TestCheckResourceAttr(resourceName, "master_node_host_ocpu_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "master_node_host_type", "FLEX"),
+				resource.TestCheckResourceAttrSet(resourceName, "opendashboard_fqdn"),
+				resource.TestCheckResourceAttr(resourceName, "opendashboard_node_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "opendashboard_node_host_memory_gb", "10"),
+				resource.TestCheckResourceAttr(resourceName, "opendashboard_node_host_ocpu_count", "2"),
+				resource.TestCheckResourceAttrSet(resourceName, "opendashboard_private_ip"),
+				resource.TestCheckResourceAttrSet(resourceName, "opensearch_fqdn"),
+				resource.TestCheckResourceAttrSet(resourceName, "opensearch_private_ip"),
+				resource.TestCheckResourceAttr(resourceName, "software_version", "2.11.0"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "0"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "total_storage_gb"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+	})
+}
+
+// issue-routing-tag: opensearch/default
+func TestOpensearchOpensearchClusterResource_custom_certificate(t *testing.T) {
+	httpreplay.SetScenario("TestOpensearchOpensearchClusterResource_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	resourceName := "oci_opensearch_opensearch_cluster.test_opensearch_cluster"
+
+	var resId, resId2 string
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+OpensearchOpensearchClusterResourceDependenciesForByoc+
+		acctest.GenerateResourceFromRepresentationMap("oci_opensearch_opensearch_cluster", "test_opensearch_cluster", acctest.Optional, acctest.Create, OpensearchOpensearchClusterCertificatesRepresentation), "opensearch", "opensearchCluster", t)
+
+	acctest.ResourceTest(t, testAccCheckOpensearchOpensearchClusterDestroy, []resource.TestStep{
+		// verify Create
+		{
+			Config: config + compartmentIdVariableStr + OpensearchOpensearchClusterResourceDependenciesForByoc +
+				acctest.GenerateResourceFromRepresentationMap("oci_opensearch_opensearch_cluster", "test_opensearch_cluster", acctest.Optional, acctest.Create, OpensearchOpensearchClusterCertificatesRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "data_node_host_shape", "VM.Standard.E3.Flex"),
+				resource.TestCheckResourceAttr(resourceName, "master_node_host_shape", "VM.Standard.E3.Flex"),
+				resource.TestCheckResourceAttr(resourceName, "opendashboard_node_host_shape", "VM.Standard.E3.Flex"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_host_shape", "VM.Standard.E3.Flex"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "data_node_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_node_host_memory_gb", "20"),
+				resource.TestCheckResourceAttr(resourceName, "data_node_host_ocpu_count", "2"),
+				resource.TestCheckResourceAttr(resourceName, "data_node_host_type", "FLEX"),
+				resource.TestCheckResourceAttr(resourceName, "data_node_storage_gb", "50"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_host_memory_gb", "20"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_host_ocpu_count", "2"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_host_type", "FLEX"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_storage_gb", "50"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "tf_provider_cluster_updated"),
+				resource.TestCheckResourceAttr(resourceName, "master_node_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "master_node_host_memory_gb", "20"),
+				resource.TestCheckResourceAttr(resourceName, "master_node_host_ocpu_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "master_node_host_type", "FLEX"),
+				resource.TestCheckResourceAttrSet(resourceName, "opendashboard_fqdn"),
+				resource.TestCheckResourceAttr(resourceName, "opendashboard_node_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "opendashboard_node_host_memory_gb", "10"),
+				resource.TestCheckResourceAttr(resourceName, "opendashboard_node_host_ocpu_count", "2"),
+				resource.TestCheckResourceAttrSet(resourceName, "opendashboard_private_ip"),
+				resource.TestCheckResourceAttrSet(resourceName, "opensearch_fqdn"),
+				resource.TestCheckResourceAttrSet(resourceName, "opensearch_private_ip"),
+				resource.TestCheckResourceAttr(resourceName, "software_version", "2.11.0"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "total_storage_gb"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// verify updates to certificates parameters
+		{
+			Config: config + compartmentIdVariableStr + OpensearchOpensearchClusterResourceDependenciesForByoc +
+				acctest.GenerateResourceFromRepresentationMap("oci_opensearch_opensearch_cluster", "test_opensearch_cluster", acctest.Optional, acctest.Update, OpensearchOpensearchClusterCertificatesRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "certificate_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "certificate_config.0.cluster_certificate_mode", "OCI_CERTIFICATES_SERVICE"),
+				resource.TestCheckResourceAttr(resourceName, "certificate_config.0.dashboard_certificate_mode", "OCI_CERTIFICATES_SERVICE"),
+				resource.TestCheckResourceAttrSet(resourceName, "certificate_config.0.open_search_api_certificate_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "certificate_config.0.open_search_dashboard_certificate_id"),
+				resource.TestCheckResourceAttr(resourceName, "data_node_host_shape", "VM.Standard.E3.Flex"),
+				resource.TestCheckResourceAttr(resourceName, "master_node_host_shape", "VM.Standard.E3.Flex"),
+				resource.TestCheckResourceAttr(resourceName, "opendashboard_node_host_shape", "VM.Standard.E3.Flex"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_host_shape", "VM.Standard.E3.Flex"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "data_node_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_node_host_memory_gb", "20"),
+				resource.TestCheckResourceAttr(resourceName, "data_node_host_ocpu_count", "2"),
+				resource.TestCheckResourceAttr(resourceName, "data_node_host_type", "FLEX"),
+				resource.TestCheckResourceAttr(resourceName, "data_node_storage_gb", "50"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_host_memory_gb", "20"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_host_ocpu_count", "2"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_host_type", "FLEX"),
+				resource.TestCheckResourceAttr(resourceName, "search_node_storage_gb", "50"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "tf_provider_cluster_updated"),
+				resource.TestCheckResourceAttr(resourceName, "master_node_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "master_node_host_memory_gb", "20"),
+				resource.TestCheckResourceAttr(resourceName, "master_node_host_ocpu_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "master_node_host_type", "FLEX"),
+				resource.TestCheckResourceAttrSet(resourceName, "opendashboard_fqdn"),
+				resource.TestCheckResourceAttr(resourceName, "opendashboard_node_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "opendashboard_node_host_memory_gb", "10"),
+				resource.TestCheckResourceAttr(resourceName, "opendashboard_node_host_ocpu_count", "2"),
+				resource.TestCheckResourceAttrSet(resourceName, "opendashboard_private_ip"),
+				resource.TestCheckResourceAttrSet(resourceName, "opensearch_fqdn"),
+				resource.TestCheckResourceAttrSet(resourceName, "opensearch_private_ip"),
+				resource.TestCheckResourceAttr(resourceName, "software_version", "2.11.0"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "total_storage_gb"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("updatable parameters error %w", err)
+					}
+					return err
+				},
+			),
+		},
+	})
+}
+
+// issue-routing-tag: opensearch/default
 func TestOpensearchOpensearchClusterResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOpensearchOpensearchClusterResource_basic")
 	defer httpreplay.SaveScenario()
@@ -710,6 +1037,7 @@ func TestOpensearchOpensearchClusterResource_basic(t *testing.T) {
 				},
 			),
 		},
+
 		// verify horizontal resize
 		{
 
@@ -720,10 +1048,6 @@ func TestOpensearchOpensearchClusterResource_basic(t *testing.T) {
 				return configStr
 			}(),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "data_node_host_shape", "VM.Standard.E3.Flex"),
-				resource.TestCheckResourceAttr(resourceName, "master_node_host_shape", "VM.Standard.E3.Flex"),
-				resource.TestCheckResourceAttr(resourceName, "opendashboard_node_host_shape", "VM.Standard.E3.Flex"),
-				resource.TestCheckResourceAttr(resourceName, "search_node_host_shape", "VM.Standard.E3.Flex"),
 				resource.TestCheckResourceAttr(resourceName, "search_node_count", "2"),
 				resource.TestCheckResourceAttr(resourceName, "search_node_host_memory_gb", "20"),
 				resource.TestCheckResourceAttr(resourceName, "search_node_host_ocpu_count", "2"),
@@ -885,7 +1209,6 @@ func TestOpensearchOpensearchClusterResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + OpensearchOpensearchClusterResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_opensearch_opensearch_cluster", "test_opensearch_cluster", acctest.Optional, acctest.Update, OpensearchOpensearchClusterRepresentationWithEnforcingSecurityMode),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "data_node_count", "1"),
 				resource.TestCheckResourceAttr(resourceName, "data_node_host_memory_gb", "20"),

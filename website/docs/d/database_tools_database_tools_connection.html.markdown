@@ -58,7 +58,7 @@ The following attributes are exported:
 	* `proxy_authentication_type` - The proxy authentication type.
 	* `roles` - A list of database roles for the client. These roles are enabled if the proxy is authorized to use the roles on behalf of the client.
 	* `user_name` - The user name.
-	* `user_password` - The user password.
+	* `user_password` - The database user password.
 		* `secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret containing the user password.
 		* `value_type` - The value type of the user password.
 * `related_resource` - A related resource
@@ -68,11 +68,11 @@ The following attributes are exported:
 * `state` - The current state of the Database Tools connection.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time the Database Tools connection was created. An RFC3339 formatted datetime string.
-* `time_updated` - The time the DatabaseToolsConnection was updated. An RFC3339 formatted datetime string.
+* `time_updated` - The time the Database Tools connection was updated. An RFC3339 formatted datetime string.
 * `type` - The Database Tools connection type.
 * `url` - The JDBC URL used to connect to the Generic JDBC database system.
 * `user_name` - The database user name.
-* `user_password` - The user password.
+* `user_password` - The database user password.
 	* `secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret containing the user password.
 	* `value_type` - The value type of the user password.
 

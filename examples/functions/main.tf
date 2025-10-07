@@ -90,6 +90,11 @@ resource "oci_functions_application" "test_application" {
     is_enabled = var.application_trace_config.is_enabled
   }
   shape = var.application_shape
+
+  security_attributes = {
+    "oracle-zpr.sensitivity.value" = "low"
+    "oracle-zpr.sensitivity.mode" = "enforce"
+  }
 }
 
 data "oci_functions_applications" "test_applications" {

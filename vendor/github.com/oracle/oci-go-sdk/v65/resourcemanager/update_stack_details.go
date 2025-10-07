@@ -22,7 +22,7 @@ import (
 // UpdateStackDetails Update  details for a stack.
 type UpdateStackDetails struct {
 
-	// The name of the stack.
+	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Description of the stack.
@@ -47,7 +47,7 @@ type UpdateStackDetails struct {
 	// Example: `{"CompartmentId": "compartment-id-value"}`
 	Variables map[string]string `mandatory:"false" json:"variables"`
 
-	// The version of Terraform to use with the stack. Example: `0.12.x`
+	// The version of Terraform to use with the stack. Example: `1.5.x`
 	TerraformVersion *string `mandatory:"false" json:"terraformVersion"`
 
 	// Free-form tags associated with this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

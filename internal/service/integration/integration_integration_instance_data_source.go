@@ -130,6 +130,8 @@ func (s *IntegrationIntegrationInstanceDataSourceCrud) SetData() error {
 
 	if s.Res.IsDisasterRecoveryEnabled != nil {
 		s.D.Set("is_disaster_recovery_enabled", *s.Res.IsDisasterRecoveryEnabled)
+	} else {
+		s.D.Set("is_disaster_recovery_enabled", false)
 	}
 
 	if s.Res.IsFileServerEnabled != nil {
@@ -169,6 +171,10 @@ func (s *IntegrationIntegrationInstanceDataSourceCrud) SetData() error {
 	} else {
 		s.D.Set("private_endpoint_outbound_connection", nil)
 	}
+
+	s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
+
+	s.D.Set("shape", s.Res.Shape)
 
 	s.D.Set("state", s.Res.LifecycleState)
 

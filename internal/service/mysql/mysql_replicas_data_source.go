@@ -213,6 +213,8 @@ func (s *MysqlReplicasDataSourceCrud) SetData() error {
 			replica["replica_overrides"] = nil
 		}
 
+		replica["security_attributes"] = tfresource.SecurityAttributesToMap(r.SecurityAttributes)
+
 		if r.ShapeName != nil {
 			replica["shape_name"] = *r.ShapeName
 		}

@@ -58,6 +58,19 @@ type CreateGooglePubSubConnectionDetails struct {
 	// Indicates that sensitive attributes are provided via Secrets.
 	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
+	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
+
+	// The OCID(/Content/General/Concepts/identifiers.htm) of the cluster placement group for the resource.
+	// Only applicable for multicloud subscriptions. The cluster placement group id must be provided when a multicloud
+	// subscription id is provided. Otherwise the cluster placement group must not be provided.
+	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
+
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
 	// The base64 encoded content of the service account key file containing
 	// the credentials required to use Google PubSub.
 	// Deprecated: This field is deprecated and replaced by "serviceAccountKeyFileSecretId". This field will be removed after February 15 2026.
@@ -136,6 +149,21 @@ func (m CreateGooglePubSubConnectionDetails) GetRoutingMethod() RoutingMethodEnu
 // GetDoesUseSecretIds returns DoesUseSecretIds
 func (m CreateGooglePubSubConnectionDetails) GetDoesUseSecretIds() *bool {
 	return m.DoesUseSecretIds
+}
+
+// GetSubscriptionId returns SubscriptionId
+func (m CreateGooglePubSubConnectionDetails) GetSubscriptionId() *string {
+	return m.SubscriptionId
+}
+
+// GetClusterPlacementGroupId returns ClusterPlacementGroupId
+func (m CreateGooglePubSubConnectionDetails) GetClusterPlacementGroupId() *string {
+	return m.ClusterPlacementGroupId
+}
+
+// GetSecurityAttributes returns SecurityAttributes
+func (m CreateGooglePubSubConnectionDetails) GetSecurityAttributes() map[string]map[string]interface{} {
+	return m.SecurityAttributes
 }
 
 func (m CreateGooglePubSubConnectionDetails) String() string {

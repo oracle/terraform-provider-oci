@@ -487,6 +487,12 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 					},
 				},
 			},
+			"security_attributes": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"source": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -1274,6 +1280,10 @@ func (s *MysqlMysqlDbSystemResourceCrud) Create() error {
 		}
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
 	if shapeName, ok := s.D.GetOkExists("shape_name"); ok {
 		tmp := shapeName.(string)
 		request.ShapeName = &tmp
@@ -1510,6 +1520,10 @@ func (s *MysqlMysqlDbSystemResourceCrud) Update() error {
 		}
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok && s.D.HasChange("security_attributes") {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
 	if shapeName, ok := s.D.GetOkExists("shape_name"); ok && s.D.HasChange("shape_name") {
 		tmp := shapeName.(string)
 		request.ShapeName = &tmp
@@ -1701,6 +1715,8 @@ func (s *MysqlMysqlDbSystemResourceCrud) SetData() error {
 	} else {
 		s.D.Set("secure_connections", nil)
 	}
+
+	s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
 
 	if s.Res.ShapeName != nil {
 		s.D.Set("shape_name", *s.Res.ShapeName)

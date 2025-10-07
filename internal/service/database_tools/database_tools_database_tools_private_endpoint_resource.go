@@ -123,6 +123,12 @@ func DatabaseToolsDatabaseToolsPrivateEndpointResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"security_attributes": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 
 			// Computed
 			"additional_fqdns": {
@@ -338,6 +344,10 @@ func (s *DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud) Create() error {
 		request.PrivateEndpointIp = &tmp
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
 	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 		tmp := subnetId.(string)
 		request.SubnetId = &tmp
@@ -547,6 +557,10 @@ func (s *DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud) Update() error {
 		}
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_tools")
 
 	response, err := s.Client.UpdateDatabaseToolsPrivateEndpoint(context.Background(), request)
@@ -642,6 +656,9 @@ func (s *DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud) SetData() error 
 		s.D.Set("reverse_connection_configuration", nil)
 	}
 
+	if s.Res.SecurityAttributes != nil {
+		s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
+	}
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SubnetId != nil {
@@ -754,6 +771,10 @@ func DatabaseToolsPrivateEndpointSummaryToMap(obj oci_database_tools.DatabaseToo
 
 	if obj.ReverseConnectionConfiguration != nil {
 		result["reverse_connection_configuration"] = []interface{}{DatabaseToolsPrivateEndpointReverseConnectionConfigurationToMap(obj.ReverseConnectionConfiguration)}
+	}
+
+	if obj.SecurityAttributes != nil {
+		result["security_attributes"] = tfresource.SecurityAttributesToMap(obj.SecurityAttributes)
 	}
 
 	result["state"] = string(obj.LifecycleState)

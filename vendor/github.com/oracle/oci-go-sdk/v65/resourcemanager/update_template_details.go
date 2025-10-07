@@ -22,7 +22,7 @@ import (
 // UpdateTemplateDetails Update details for a template.
 type UpdateTemplateDetails struct {
 
-	// The template's display name. Avoid entering confidential information.
+	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Description of the template. Avoid entering confidential information.

@@ -21,7 +21,7 @@ type ValidateDatabaseToolsConnectionRequest struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a Database Tools connection.
 	DatabaseToolsConnectionId *string `mandatory:"true" contributesTo:"path" name:"databaseToolsConnectionId"`
 
-	// Request to validate a DatabaseToolsConnection.
+	// Request to validate a Database Tools connection.
 	ValidateDatabaseToolsConnectionDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

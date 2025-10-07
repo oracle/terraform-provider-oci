@@ -31,6 +31,7 @@ resource "oci_mysql_replica" "test_replica" {
 		configuration_id = oci_mysql_mysql_configuration.test_mysql_configuration.id
 		mysql_version = var.replica_replica_overrides_mysql_version
 		nsg_ids = var.replica_replica_overrides_nsg_ids
+		security_attributes = var.replica_replica_overrides_security_attributes
 		shape_name = oci_mysql_shape.test_shape.name
 	}
 }
@@ -50,6 +51,7 @@ The following arguments are supported:
 	* `configuration_id` - (Optional) (Updatable) The OCID of the Configuration to be used by the read replica.
 	* `mysql_version` - (Optional) (Updatable) The MySQL version to be used by the read replica.
 	* `nsg_ids` - (Optional) (Updatable) Network Security Group OCIDs used for the VNIC attachment.
+	* `security_attributes` - (Optional) (Updatable) Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [ZPR Artifacts](https://docs.oracle.com/en-us/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
 	* `shape_name` - (Optional) (Updatable) The shape to be used by the read replica. The shape determines the resources allocated:  CPU cores and memory for VM shapes, CPU cores, memory and storage for non-VM (bare metal) shapes.  To get a list of shapes, use the [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/mysql/20190415/ShapeSummary/ListShapes) operation. 
 
 
@@ -84,10 +86,12 @@ The following attributes are exported:
 	* `configuration_id` - The OCID of the Configuration to be used by the read replica.
 	* `mysql_version` - The MySQL version to be used by the read replica.
 	* `nsg_ids` - Network Security Group OCIDs used for the VNIC attachment.
+	* `security_attributes` - Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [ZPR Artifacts](https://docs.oracle.com/en-us/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
 	* `shape_name` - The shape to be used by the read replica. The shape determines the resources allocated:  CPU cores and memory for VM shapes, CPU cores, memory and storage for non-VM (bare metal) shapes.  To get a list of shapes, use the [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/mysql/20190415/ShapeSummary/ListShapes) operation. 
 * `secure_connections` - Secure connection configuration details. 
 	* `certificate_generation_type` - Select whether to use MySQL Database Service-managed certificate (SYSTEM) or your own certificate (BYOC). 
 	* `certificate_id` - The OCID of the certificate to use.
+* `security_attributes` - Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [ZPR Artifacts](https://docs.oracle.com/en-us/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
 * `shape_name` - The shape currently in use by the read replica. The shape determines the resources allocated:  CPU cores and memory for VM shapes, CPU cores, memory and storage for non-VM (bare metal) shapes.  To get a list of shapes, use the [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/mysql/20190415/ShapeSummary/ListShapes) operation. 
 * `state` - The state of the read replica.
 * `time_created` - The date and time the read replica was created, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 

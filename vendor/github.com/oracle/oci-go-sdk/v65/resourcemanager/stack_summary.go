@@ -27,7 +27,7 @@ type StackSummary struct {
 	// Unique identifier of the compartment in which the stack resides.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// Human-readable display name for the stack.
+	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// General description of the stack.
@@ -41,18 +41,12 @@ type StackSummary struct {
 	// The current lifecycle state of the stack.
 	// For more information about stack lifecycle states in Resource Manager, see
 	// Key Concepts (https://docs.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm#concepts__StackStates).
-	// Allowable values:
-	// - CREATING
-	// - ACTIVE
-	// - DELETING
-	// - DELETED
-	// - FAILED
 	LifecycleState StackLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
-	// The version of Terraform specified for the stack. Example: `0.12.x`
+	// The version of Terraform specified for the stack. Example: `1.5.x`
 	TerraformVersion *string `mandatory:"false" json:"terraformVersion"`
 
-	// Free-form tags associated with this resource. Each tag is a key-value pair with no predefined name, type, or namespace.
+	// Free-form tags associated with the resource. Each tag is a key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -61,6 +55,11 @@ type StackSummary struct {
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The system tags associated with this resource, if any. The system tags are set by Oracle cloud infrastructure services. Each key is predefined and scoped to namespaces.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{orcl-cloud: {free-tier-retain: true}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m StackSummary) String() string {

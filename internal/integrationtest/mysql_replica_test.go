@@ -66,8 +66,9 @@ var (
 		"configuration_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_mysql_mysql_db_system.test_mysql_db_system.configuration_id}`},
 		// TODO: fix unsupported versions
 		//"mysql_version":    acctest.Representation{RepType: acctest.Optional, Create: `8.0.35`, Update: `8.1.0`},
-		"nsg_ids":    acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
-		"shape_name": acctest.Representation{RepType: acctest.Optional, Create: `${oci_mysql_mysql_db_system.test_mysql_db_system.shape_name}`},
+		"nsg_ids":             acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
+		"security_attributes": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"oracle-zpr.sensitivity.value": "low", "oracle-zpr.sensitivity.mode": "enforce"}},
+		"shape_name":          acctest.Representation{RepType: acctest.Optional, Create: `${oci_mysql_mysql_db_system.test_mysql_db_system.shape_name}`},
 	}
 
 	ignoreDefinedTagsChangesForMysqlReplica = map[string]interface{}{
@@ -166,6 +167,7 @@ func TestMysqlReplicaResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "replica_overrides.0.configuration_id"),
 				// TODO: fix unsupported versions
 				//resource.TestCheckResourceAttr(resourceName, "replica_overrides.0.mysql_version", "8.0.35"),
+				resource.TestCheckResourceAttr(resourceName, "replica_overrides.0.security_attributes.%", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "replica_overrides.0.shape_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -204,6 +206,7 @@ func TestMysqlReplicaResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "replica_overrides.0.configuration_id"),
 				// TODO: fix unsupported versions
 				//resource.TestCheckResourceAttr(resourceName, "replica_overrides.0.mysql_version", "8.1.0"),
+				resource.TestCheckResourceAttr(resourceName, "replica_overrides.0.security_attributes.%", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "replica_overrides.0.shape_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -251,6 +254,7 @@ func TestMysqlReplicaResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "replicas.0.replica_overrides.0.configuration_id"),
 				// TODO: fix unsupported versions
 				//resource.TestCheckResourceAttr(datasourceName, "replicas.0.replica_overrides.0.mysql_version", "8.1.0"),
+				resource.TestCheckResourceAttr(datasourceName, "replicas.0.replica_overrides.0.security_attributes.%", "2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "replicas.0.replica_overrides.0.shape_name"),
 				resource.TestCheckResourceAttrSet(datasourceName, "replicas.0.shape_name"),
 				resource.TestCheckResourceAttrSet(datasourceName, "replicas.0.state"),
@@ -282,6 +286,7 @@ func TestMysqlReplicaResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "replica_overrides.#", "1"),
 				// TODO: fix unsupported versions
 				//resource.TestCheckResourceAttr(singularDatasourceName, "replica_overrides.0.mysql_version", "8.1.0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "replica_overrides.0.security_attributes.%", "2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "secure_connections.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),

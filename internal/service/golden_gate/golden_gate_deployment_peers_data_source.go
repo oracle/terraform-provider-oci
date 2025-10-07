@@ -55,6 +55,10 @@ func GoldenGateDeploymentPeersDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"cluster_placement_group_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"deployment_id": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -80,6 +84,10 @@ func GoldenGateDeploymentPeersDataSource() *schema.Resource {
 										Computed: true,
 									},
 									"state": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"subscription_id": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -202,6 +210,10 @@ func DeploymentPeerSummaryToMap(obj oci_golden_gate.DeploymentPeerSummary) map[s
 		result["availability_domain"] = string(*obj.AvailabilityDomain)
 	}
 
+	if obj.ClusterPlacementGroupId != nil {
+		result["cluster_placement_group_id"] = string(*obj.ClusterPlacementGroupId)
+	}
+
 	if obj.DeploymentId != nil {
 		result["deployment_id"] = string(*obj.DeploymentId)
 	}
@@ -223,6 +235,10 @@ func DeploymentPeerSummaryToMap(obj oci_golden_gate.DeploymentPeerSummary) map[s
 	}
 
 	result["state"] = string(obj.LifecycleState)
+
+	if obj.SubscriptionId != nil {
+		result["subscription_id"] = string(*obj.SubscriptionId)
+	}
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()

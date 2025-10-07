@@ -90,6 +90,8 @@ func (s *FunctionsApplicationDataSourceCrud) SetData() error {
 		s.D.Set("image_policy_config", nil)
 	}
 
+	s.D.Set("security_attributes", s.Res.SecurityAttributes)
+
 	s.D.Set("shape", s.Res.Shape)
 
 	s.D.Set("state", s.Res.LifecycleState)

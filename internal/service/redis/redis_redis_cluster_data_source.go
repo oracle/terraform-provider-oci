@@ -130,6 +130,10 @@ func (s *RedisRedisClusterDataSourceCrud) SetData() error {
 		s.D.Set("replicas_fqdn", *s.Res.ReplicasFqdn)
 	}
 
+	if s.Res.SecurityAttributes != nil {
+		s.D.Set("security_attributes", s.Res.SecurityAttributes)
+	}
+
 	if s.Res.ShardCount != nil {
 		s.D.Set("shard_count", *s.Res.ShardCount)
 	}
