@@ -58,8 +58,8 @@ The following attributes are exported:
 	* `dns_zone_name` - DNS Zone name
 	* `hostname` - A custom hostname to be used for the integration instance URL, in FQDN format.
 * `defined_tags` - Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "value"}`
-* `disaster_recovery_details` - Disaster recovery details for the integration instance created in the region. 
-	* `cross_region_integration_instance_details` - Details of integration instance created in cross region for disaster recovery. 
+* `disaster_recovery_details` - Disaster recovery details for the integration instance created in the region.
+	* `cross_region_integration_instance_details` - Details of integration instance created in cross region for disaster recovery.
 		* `id` - Cross region integration instance identifier
 		* `region` - Cross region where integration instance is created
 		* `role` - Role of the integration instance in the region
@@ -79,7 +79,7 @@ The following attributes are exported:
 	* `idcs_app_name` - The IDCS application name associated with the instance
 	* `instance_primary_audience_url` - The URL used as the primary audience for integration flows in this instance type: string* `instance_design_time_url` - The Integration Instance Design Time URL
 * `instance_url` - The Integration Instance URL.
-* `integration_instance_type` - Standard or Enterprise type, Oracle Integration Generation 2 uses ENTERPRISE and STANDARD, Oracle Integration 3 uses ENTERPRISEX and STANDARDX
+* `integration_instance_type` - Standard or Enterprise type, Oracle Integration Generation 2 uses ENTERPRISE and STANDARD, Oracle Integration 3 uses ENTERPRISEX, STANDARDX and HEALTHCARE
 * `is_byol` - Bring your own license.
 * `is_disaster_recovery_enabled` - Is Disaster Recovery enabled for the integrationInstance
 * `is_file_server_enabled` - The file server is enabled or not.
@@ -98,6 +98,12 @@ The following attributes are exported:
 	* `nsg_ids` - One or more Network security group Ids. This is an optional argument.
 	* `outbound_connection_type` - The type of Outbound Connection.
 	* `subnet_id` - Customer Private Network VCN Subnet OCID. This is a required argument.
+* `security_attributes` - Security attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{
+    "oracle-zpr.sensitivity.value" = "low"
+    "oracle-zpr.sensitivity.mode" = "enforce"
+  }
+`
+* `shape` - Shape
 * `state` - The current state of the integration instance.
 * `state_message` - An message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}`

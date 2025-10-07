@@ -49,6 +49,11 @@ type CreateIntegrationInstanceDetails struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
 	// IDCS Authentication token. This is required for all realms with IDCS. Its optional as its not required for non IDCS realms.
 	IdcsAt *string `mandatory:"false" json:"idcsAt"`
 
@@ -112,6 +117,7 @@ func (m *CreateIntegrationInstanceDetails) UnmarshalJSON(data []byte) (e error) 
 	model := struct {
 		FreeformTags              map[string]string                                           `json:"freeformTags"`
 		DefinedTags               map[string]map[string]interface{}                           `json:"definedTags"`
+		SecurityAttributes        map[string]map[string]interface{}                           `json:"securityAttributes"`
 		IdcsAt                    *string                                                     `json:"idcsAt"`
 		IsVisualBuilderEnabled    *bool                                                       `json:"isVisualBuilderEnabled"`
 		CustomEndpoint            *CreateCustomEndpointDetails                                `json:"customEndpoint"`
@@ -137,6 +143,8 @@ func (m *CreateIntegrationInstanceDetails) UnmarshalJSON(data []byte) (e error) 
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
+
+	m.SecurityAttributes = model.SecurityAttributes
 
 	m.IdcsAt = model.IdcsAt
 

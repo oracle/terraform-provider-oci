@@ -1021,6 +1021,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Computed: true,
 													ForceNew: true,
 												},
+												"resource_management": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: false,
+												},
 												"vcpus": {
 													Type:     schema.TypeInt,
 													Optional: true,
@@ -2083,6 +2089,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 																Optional: true,
 																Computed: true,
 																ForceNew: true,
+															},
+															"resource_management": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: false,
 															},
 															"vcpus": {
 																Type:     schema.TypeInt,
@@ -4950,6 +4962,10 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 		result.Ocpus = &tmp
 	}
 
+	if resourceManagement, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "resource_management")); ok {
+		result.ResourceManagement = oci_core.InstanceConfigurationLaunchInstanceShapeConfigDetailsResourceManagementEnum(resourceManagement.(string))
+	}
+
 	if vcpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vcpus")); ok {
 		tmp := vcpus.(int)
 		result.Vcpus = &tmp
@@ -4974,6 +4990,8 @@ func InstanceConfigurationLaunchInstanceShapeConfigDetailsToMap(obj *oci_core.In
 	if obj.Ocpus != nil {
 		result["ocpus"] = float32(*obj.Ocpus)
 	}
+
+	result["resource_management"] = string(obj.ResourceManagement)
 
 	if obj.Vcpus != nil {
 		result["vcpus"] = int(*obj.Vcpus)

@@ -21,7 +21,7 @@ import (
 // UpdateJobDetails Update details for a job.
 type UpdateJobDetails struct {
 
-	// The new display name to set.
+	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Free-form tags associated with this resource. Each tag is a key-value pair with no predefined name, type, or namespace.

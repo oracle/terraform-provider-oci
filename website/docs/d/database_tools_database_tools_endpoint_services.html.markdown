@@ -31,7 +31,7 @@ data "oci_database_tools_database_tools_endpoint_services" "test_database_tools_
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The ID of the compartment in which to list resources.
+* `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
 * `display_name` - (Optional) A filter to return only resources that match the entire specified display name.
 * `name` - (Optional) A filter to return only resources that match the entire specified name.
 * `state` - (Optional) A filter to return only resources their `lifecycleState` matches the specified `lifecycleState`.

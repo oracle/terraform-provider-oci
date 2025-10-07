@@ -62,6 +62,12 @@ resource "oci_integration_integration_instance" "test_integration_instance" {
 		}
 		is_integration_vcn_allowlisted = var.integration_instance_network_endpoint_details_is_integration_vcn_allowlisted
 	}
+
+    security_attributes = {
+     "oracle-zpr.sensitivity.value" = "low"
+     "oracle-zpr.sensitivity.mode" = "enforce"
+    }
+
 	shape = var.integration_instance_shape
 	state = var.integration_instance_target_state
 }
@@ -88,7 +94,6 @@ The following arguments are supported:
 * `domain_id` - (Optional) The OCID of the identity domain, that will be used to determine the  corresponding Idcs Stripe and create an Idcs application within the stripe.  This parameter is mutually exclusive with parameter: idcsAt, i.e only one of  two parameters should be specified.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}`
 * `idcs_at` - (Optional) (Updatable) IDCS Authentication token. This is required for all realms with IDCS. Its optional as its not required for non IDCS realms.
-* `integration_instance_type` - (Required) (Updatable) Standard or Enterprise type,  Oracle Integration Generation 2 uses ENTERPRISE and STANDARD,  Oracle Integration 3 uses ENTERPRISEX and STANDARDX
 * `is_byol` - (Required) (Updatable) Bring your own license.
 * `is_disaster_recovery_enabled` - (Optional) Is Disaster Recovery enabled or not.
 * `is_file_server_enabled` - (Optional) (Updatable) The file server is enabled or not.
@@ -101,6 +106,10 @@ The following arguments are supported:
 		* `id` - (Required) The Virtual Cloud Network OCID.
 	* `is_integration_vcn_allowlisted` - (Optional) The Integration service's VCN is allow-listed to allow integrations to call back into other integrations
 	* `network_endpoint_type` - (Required) The type of network endpoint.
+* `security_attributes` - (Optional) (Updatable) Security attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{
+    "oracle-zpr.sensitivity.value" = "low"
+    "oracle-zpr.sensitivity.mode" = "enforce"
+  }`
 * `shape` - (Optional) Shape
 * `enable_process_automation_trigger` - (Optional) (Updatable) An optional property when incremented triggers Enable Process Automation. Could be set to any integer value.
 * `extend_data_retention_trigger` - (Optional) (Updatable) An optional property when incremented triggers Extend Data Retention. Could be set to any integer value.
@@ -130,8 +139,8 @@ The following attributes are exported:
 	* `dns_zone_name` - DNS Zone name
 	* `hostname` - A custom hostname to be used for the integration instance URL, in FQDN format.
 * `managed_type` - Indicates if custom endpoint is managed by oracle or customer.
-* `attachments` - A list of associated attachments to other services 
-	* `is_implicit` - 
+* `attachments` - A list of associated attachments to other services
+	* `is_implicit` -
 		* If role == `PARENT`, the attached instance was created by this service instance
 		* If role == `CHILD`, this instance was created from attached instance on behalf of a user
 	* `target_id` - The OCID of the target instance (which could be any other Oracle Cloud Infrastructure PaaS/SaaS resource), to which this instance is attached.
@@ -176,9 +185,9 @@ The following attributes are exported:
 * `instance_url` - The Integration Instance URL.
 * `integration_instance_type` - Standard or Enterprise type, Oracle Integration Generation 2 uses ENTERPRISE and STANDARD, Oracle Integration 3 uses ENTERPRISEX and STANDARDX
 * `instance_url` - The Integration Instance URL.
+* `integration_instance_type` - Standard or Enterprise type, Oracle Integration Generation 2 uses ENTERPRISE and STANDARD, Oracle Integration 3 uses ENTERPRISEX, STANDARDX and HEALTHCARE
 	* `instance_primary_audience_url` - The URL used as the primary audience for integration flows in this instance type: string
 * `instance_url` - The Integration Instance URL.
-* `integration_instance_type` - Standard or Enterprise type, Oracle Integration Generation 2 uses ENTERPRISE and STANDARD, Oracle Integration 3 uses ENTERPRISEX and STANDARDX
 * `is_byol` - Bring your own license.
 * `is_disaster_recovery_enabled` - Is Disaster Recovery enabled for the integrationInstance
 * `is_file_server_enabled` - The file server is enabled or not.
@@ -197,6 +206,10 @@ The following attributes are exported:
 	* `nsg_ids` - One or more Network security group Ids. This is an optional argument.
 	* `outbound_connection_type` - The type of Outbound Connection.
 	* `subnet_id` - Customer Private Network VCN Subnet OCID. This is a required argument.
+* `security_attributes` - Security attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{
+    "oracle-zpr.sensitivity.value" = "low"
+    "oracle-zpr.sensitivity.mode" = "enforce"
+  }`
 * `shape` - Shape
 * `state` - The current state of the integration instance.
 * `state_message` - An message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.

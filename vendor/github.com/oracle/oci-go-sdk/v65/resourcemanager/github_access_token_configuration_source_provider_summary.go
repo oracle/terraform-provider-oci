@@ -29,7 +29,7 @@ type GithubAccessTokenConfigurationSourceProviderSummary struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where the configuration source provider is located.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// Human-readable display name for the configuration source provider.
+	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// General description of the configuration source provider.
@@ -42,7 +42,7 @@ type GithubAccessTokenConfigurationSourceProviderSummary struct {
 
 	PrivateServerConfigDetails *PrivateServerConfigDetails `mandatory:"false" json:"privateServerConfigDetails"`
 
-	// Free-form tags associated with this resource. Each tag is a key-value pair with no predefined name, type, or namespace.
+	// Free-form tags associated with the resource. Each tag is a key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -52,6 +52,11 @@ type GithubAccessTokenConfigurationSourceProviderSummary struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// The system tags associated with this resource, if any. The system tags are set by Oracle cloud infrastructure services. Each key is predefined and scoped to namespaces.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{orcl-cloud: {free-tier-retain: true}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// The GitHub service endpoint.
 	// Example: `https://github.com/`
 	ApiEndpoint *string `mandatory:"false" json:"apiEndpoint"`
@@ -59,8 +64,6 @@ type GithubAccessTokenConfigurationSourceProviderSummary struct {
 	// Current state of the specified configuration source provider.
 	// For more information about configuration source provider lifecycle states in Resource Manager, see
 	// Key Concepts (https://docs.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm#concepts__CSPStates).
-	// Allowable values:
-	// - ACTIVE
 	LifecycleState ConfigurationSourceProviderLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
@@ -107,6 +110,11 @@ func (m GithubAccessTokenConfigurationSourceProviderSummary) GetFreeformTags() m
 // GetDefinedTags returns DefinedTags
 func (m GithubAccessTokenConfigurationSourceProviderSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetSystemTags returns SystemTags
+func (m GithubAccessTokenConfigurationSourceProviderSummary) GetSystemTags() map[string]map[string]interface{} {
+	return m.SystemTags
 }
 
 func (m GithubAccessTokenConfigurationSourceProviderSummary) String() string {

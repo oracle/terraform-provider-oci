@@ -88,6 +88,19 @@ type IcebergConnectionSummary struct {
 	// Indicates that sensitive attributes are provided via Secrets.
 	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
+	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
+
+	// The OCID(/Content/General/Concepts/identifiers.htm) of the cluster placement group for the resource.
+	// Only applicable for multicloud subscriptions. The cluster placement group id must be provided when a multicloud
+	// subscription id is provided. Otherwise the cluster placement group must not be provided.
+	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
+
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
 	// Possible lifecycle states for connection.
 	LifecycleState ConnectionLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
@@ -196,6 +209,21 @@ func (m IcebergConnectionSummary) GetDoesUseSecretIds() *bool {
 	return m.DoesUseSecretIds
 }
 
+// GetSubscriptionId returns SubscriptionId
+func (m IcebergConnectionSummary) GetSubscriptionId() *string {
+	return m.SubscriptionId
+}
+
+// GetClusterPlacementGroupId returns ClusterPlacementGroupId
+func (m IcebergConnectionSummary) GetClusterPlacementGroupId() *string {
+	return m.ClusterPlacementGroupId
+}
+
+// GetSecurityAttributes returns SecurityAttributes
+func (m IcebergConnectionSummary) GetSecurityAttributes() map[string]map[string]interface{} {
+	return m.SecurityAttributes
+}
+
 func (m IcebergConnectionSummary) String() string {
 	return common.PointerString(m)
 }
@@ -238,28 +266,31 @@ func (m IcebergConnectionSummary) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *IcebergConnectionSummary) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description      *string                             `json:"description"`
-		FreeformTags     map[string]string                   `json:"freeformTags"`
-		DefinedTags      map[string]map[string]interface{}   `json:"definedTags"`
-		SystemTags       map[string]map[string]interface{}   `json:"systemTags"`
-		LifecycleDetails *string                             `json:"lifecycleDetails"`
-		VaultId          *string                             `json:"vaultId"`
-		KeyId            *string                             `json:"keyId"`
-		IngressIps       []IngressIpDetails                  `json:"ingressIps"`
-		NsgIds           []string                            `json:"nsgIds"`
-		SubnetId         *string                             `json:"subnetId"`
-		RoutingMethod    RoutingMethodEnum                   `json:"routingMethod"`
-		Locks            []ResourceLock                      `json:"locks"`
-		DoesUseSecretIds *bool                               `json:"doesUseSecretIds"`
-		Id               *string                             `json:"id"`
-		DisplayName      *string                             `json:"displayName"`
-		CompartmentId    *string                             `json:"compartmentId"`
-		LifecycleState   ConnectionLifecycleStateEnum        `json:"lifecycleState"`
-		TimeCreated      *common.SDKTime                     `json:"timeCreated"`
-		TimeUpdated      *common.SDKTime                     `json:"timeUpdated"`
-		TechnologyType   IcebergConnectionTechnologyTypeEnum `json:"technologyType"`
-		Catalog          icebergcatalogsummary               `json:"catalog"`
-		Storage          icebergstoragesummary               `json:"storage"`
+		Description             *string                             `json:"description"`
+		FreeformTags            map[string]string                   `json:"freeformTags"`
+		DefinedTags             map[string]map[string]interface{}   `json:"definedTags"`
+		SystemTags              map[string]map[string]interface{}   `json:"systemTags"`
+		LifecycleDetails        *string                             `json:"lifecycleDetails"`
+		VaultId                 *string                             `json:"vaultId"`
+		KeyId                   *string                             `json:"keyId"`
+		IngressIps              []IngressIpDetails                  `json:"ingressIps"`
+		NsgIds                  []string                            `json:"nsgIds"`
+		SubnetId                *string                             `json:"subnetId"`
+		RoutingMethod           RoutingMethodEnum                   `json:"routingMethod"`
+		Locks                   []ResourceLock                      `json:"locks"`
+		DoesUseSecretIds        *bool                               `json:"doesUseSecretIds"`
+		SubscriptionId          *string                             `json:"subscriptionId"`
+		ClusterPlacementGroupId *string                             `json:"clusterPlacementGroupId"`
+		SecurityAttributes      map[string]map[string]interface{}   `json:"securityAttributes"`
+		Id                      *string                             `json:"id"`
+		DisplayName             *string                             `json:"displayName"`
+		CompartmentId           *string                             `json:"compartmentId"`
+		LifecycleState          ConnectionLifecycleStateEnum        `json:"lifecycleState"`
+		TimeCreated             *common.SDKTime                     `json:"timeCreated"`
+		TimeUpdated             *common.SDKTime                     `json:"timeUpdated"`
+		TechnologyType          IcebergConnectionTechnologyTypeEnum `json:"technologyType"`
+		Catalog                 icebergcatalogsummary               `json:"catalog"`
+		Storage                 icebergstoragesummary               `json:"storage"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -292,6 +323,12 @@ func (m *IcebergConnectionSummary) UnmarshalJSON(data []byte) (e error) {
 	m.Locks = make([]ResourceLock, len(model.Locks))
 	copy(m.Locks, model.Locks)
 	m.DoesUseSecretIds = model.DoesUseSecretIds
+
+	m.SubscriptionId = model.SubscriptionId
+
+	m.ClusterPlacementGroupId = model.ClusterPlacementGroupId
+
+	m.SecurityAttributes = model.SecurityAttributes
 
 	m.Id = model.Id
 

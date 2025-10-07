@@ -85,6 +85,13 @@ resource "oci_resourcemanager_private_endpoint" "rms_private_endpoint" {
   description    = "rms_private_endpoint_description"
   vcn_id         = oci_core_vcn.private_endpoint_integ_test_temp_vcn.id
   subnet_id      = oci_core_subnet.private_endpoint_integ_test_temp_subnet.id
+  security_attributes = {
+    "oracle-zpr.maxegresscount.mode" = "enforce"
+    "oracle-zpr.maxegresscount.value" = "42"
+  }
+  freeform_tags = {
+    "freeformkey" = "freeformvalue"
+  }
 }
 
 // Resolves the private IP of the customer's private endpoint to a NAT IP. Used as the host address in the "remote-exec" resource

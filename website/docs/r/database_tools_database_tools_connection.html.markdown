@@ -110,17 +110,17 @@ The following arguments are supported:
 	* `proxy_authentication_type` - (Required) (Updatable) The proxy authentication type.
 	* `roles` - (Applicable when proxy_authentication_type=USER_NAME) (Updatable) A list of database roles for the client. These roles are enabled if the proxy is authorized to use the roles on behalf of the client.
 	* `user_name` - (Required when proxy_authentication_type=USER_NAME) (Updatable) The user name.
-	* `user_password` - (Applicable when proxy_authentication_type=USER_NAME) (Updatable) The user password.
+	* `user_password` - (Applicable when proxy_authentication_type=USER_NAME) (Updatable) The database user password.
 		* `secret_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret containing the user password.
 		* `value_type` - (Required) (Updatable) The value type of the user password.
 * `related_resource` - (Applicable when type=MYSQL | ORACLE_DATABASE | POSTGRESQL) (Updatable) The related resource
 	* `entity_type` - (Required when type=MYSQL | ORACLE_DATABASE | POSTGRESQL) (Updatable) The resource entity type.
 	* `identifier` - (Required when type=MYSQL | ORACLE_DATABASE | POSTGRESQL) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related resource.
 * `runtime_support` - (Optional) Specifies whether this connection is supported by the Database Tools Runtime.
-* `type` - (Required) (Updatable) The DatabaseToolsConnection type.
+* `type` - (Required) (Updatable) The Database Tools connection type.
 * `url` - (Required when type=GENERIC_JDBC) (Updatable) The JDBC URL used to connect to the Generic JDBC database system.
 * `user_name` - (Required) (Updatable) The database user name.
-* `user_password` - (Required) (Updatable) The user password.
+* `user_password` - (Required) (Updatable) The database user password.
 	* `secret_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret containing the user password.
 	* `value_type` - (Required) (Updatable) The value type of the user password.
 
@@ -158,7 +158,7 @@ The following attributes are exported:
 	* `proxy_authentication_type` - The proxy authentication type.
 	* `roles` - A list of database roles for the client. These roles are enabled if the proxy is authorized to use the roles on behalf of the client.
 	* `user_name` - The user name.
-	* `user_password` - The user password.
+	* `user_password` - The database user password.
 		* `secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret containing the user password.
 		* `value_type` - The value type of the user password.
 * `related_resource` - A related resource
@@ -168,11 +168,11 @@ The following attributes are exported:
 * `state` - The current state of the Database Tools connection.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time the Database Tools connection was created. An RFC3339 formatted datetime string.
-* `time_updated` - The time the DatabaseToolsConnection was updated. An RFC3339 formatted datetime string.
+* `time_updated` - The time the Database Tools connection was updated. An RFC3339 formatted datetime string.
 * `type` - The Database Tools connection type.
 * `url` - The JDBC URL used to connect to the Generic JDBC database system.
 * `user_name` - The database user name.
-* `user_password` - The user password.
+* `user_password` - The database user password.
 	* `secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret containing the user password.
 	* `value_type` - The value type of the user password.
 

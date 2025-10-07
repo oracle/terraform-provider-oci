@@ -33,7 +33,7 @@ type Stack struct {
 	// Unique identifier (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) for the compartment where the stack is located.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// Human-readable name of the stack.
+	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Description of the stack.
@@ -66,7 +66,7 @@ type Stack struct {
 	// Example: `{"CompartmentId": "compartment-id-value"}`
 	Variables map[string]string `mandatory:"false" json:"variables"`
 
-	// The version of Terraform specified for the stack. Example: `0.12.x`
+	// The version of Terraform specified for the stack. Example: `1.5.x`
 	TerraformVersion *string `mandatory:"false" json:"terraformVersion"`
 
 	// Drift status of the stack.
@@ -87,6 +87,11 @@ type Stack struct {
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The system tags associated with this resource, if any. The system tags are set by Oracle cloud infrastructure services. Each key is predefined and scoped to namespaces.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{orcl-cloud: {free-tier-retain: true}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m Stack) String() string {
@@ -129,6 +134,7 @@ func (m *Stack) UnmarshalJSON(data []byte) (e error) {
 		TimeDriftLastChecked                  *common.SDKTime                   `json:"timeDriftLastChecked"`
 		FreeformTags                          map[string]string                 `json:"freeformTags"`
 		DefinedTags                           map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags                            map[string]map[string]interface{} `json:"systemTags"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -173,6 +179,8 @@ func (m *Stack) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
+
+	m.SystemTags = model.SystemTags
 
 	return
 }

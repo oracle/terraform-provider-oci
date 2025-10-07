@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// DatabaseToolsConnection Description of the Database Tools connection.
+// DatabaseToolsConnection Provides connectivity details required to establish a connection to a database.
 type DatabaseToolsConnection interface {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Tools connection.
@@ -34,7 +34,7 @@ type DatabaseToolsConnection interface {
 	// The time the Database Tools connection was created. An RFC3339 formatted datetime string.
 	GetTimeCreated() *common.SDKTime
 
-	// The time the DatabaseToolsConnection was updated. An RFC3339 formatted datetime string.
+	// The time the Database Tools connection was updated. An RFC3339 formatted datetime string.
 	GetTimeUpdated() *common.SDKTime
 
 	// Specifies whether this connection is supported by the Database Tools Runtime.

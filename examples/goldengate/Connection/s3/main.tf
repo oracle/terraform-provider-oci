@@ -29,6 +29,13 @@ variable "secret_access_key" {
   default = "mySecret"
 }
 
+variable "security_attributes" {
+  default = {
+    "oracle-zpr.sensitivity.value" = "42"
+    "oracle-zpr.sensitivity.mode" = "enforce"
+  }
+}
+
 
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
@@ -48,7 +55,8 @@ resource "oci_golden_gate_connection" "test_connection"{
   secret_access_key = var.secret_access_key
 
   description = var.description
-  freeform_tags = var.freeform_tags
+
+  security_attributes = var.security_attributes
 
 }
 

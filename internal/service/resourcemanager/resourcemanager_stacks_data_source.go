@@ -118,6 +118,11 @@ func ResourcemanagerStacksDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"system_tags": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
 						"time_created": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -226,6 +231,14 @@ func (s *ResourcemanagerStacksDataSourceCrud) SetData() error {
 		}
 
 		stack["state"] = r.LifecycleState
+
+		if r.SystemTags != nil {
+			stack["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
+
+		if r.TerraformVersion != nil {
+			stack["terraform_version"] = *r.TerraformVersion
+		}
 
 		if r.TimeCreated != nil {
 			stack["time_created"] = r.TimeCreated.String()

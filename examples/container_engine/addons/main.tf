@@ -101,6 +101,14 @@ data "oci_containerengine_cluster_option" "test_cluster_option" {
   cluster_option_id = "all"
 }
 
+data "oci_containerengine_addon_options" "test_addon_options" {
+  #Required
+  kubernetes_version = reverse(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)[0]
+
+  #Optional
+  addon_name = "KubernetesDashboard"
+}
+
 locals {
   addon_mappings = {
         mapping1 = {
