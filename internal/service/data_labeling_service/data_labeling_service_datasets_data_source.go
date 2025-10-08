@@ -6,6 +6,7 @@ package data_labeling_service
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -15,7 +16,7 @@ import (
 
 func DataLabelingServiceDatasetsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDataLabelingServiceDatasets,
+		ReadContext: readDataLabelingServiceDatasetsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"annotation_format": {
@@ -56,12 +57,12 @@ func DataLabelingServiceDatasetsDataSource() *schema.Resource {
 	}
 }
 
-func readDataLabelingServiceDatasets(d *schema.ResourceData, m interface{}) error {
+func readDataLabelingServiceDatasetsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataLabelingServiceDatasetsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataLabelingManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataLabelingServiceDatasetsDataSourceCrud struct {
@@ -74,7 +75,7 @@ func (s *DataLabelingServiceDatasetsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataLabelingServiceDatasetsDataSourceCrud) Get() error {
+func (s *DataLabelingServiceDatasetsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_labeling_service.ListDatasetsRequest{}
 
 	if annotationFormat, ok := s.D.GetOkExists("annotation_format"); ok {
@@ -103,7 +104,7 @@ func (s *DataLabelingServiceDatasetsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_labeling_service")
 
-	response, err := s.Client.ListDatasets(context.Background(), request)
+	response, err := s.Client.ListDatasets(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -112,7 +113,7 @@ func (s *DataLabelingServiceDatasetsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDatasets(context.Background(), request)
+		listResponse, err := s.Client.ListDatasets(ctx, request)
 		if err != nil {
 			return err
 		}

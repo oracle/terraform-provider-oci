@@ -6,18 +6,17 @@ package dataflow
 import (
 	"context"
 	"fmt"
-	"log"
 	"strings"
 	"time"
 
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_dataflow "github.com/oracle/oci-go-sdk/v65/dataflow"
+
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func DataflowPrivateEndpointResource() *schema.Resource {
@@ -25,11 +24,11 @@ func DataflowPrivateEndpointResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDataflowPrivateEndpoint,
-		Read:     readDataflowPrivateEndpoint,
-		Update:   updateDataflowPrivateEndpoint,
-		Delete:   deleteDataflowPrivateEndpoint,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDataflowPrivateEndpointWithContext,
+		ReadContext:   readDataflowPrivateEndpointWithContext,
+		UpdateContext: updateDataflowPrivateEndpointWithContext,
+		DeleteContext: deleteDataflowPrivateEndpointWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -141,37 +140,37 @@ func DataflowPrivateEndpointResource() *schema.Resource {
 	}
 }
 
-func createDataflowPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func createDataflowPrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataflowPrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataFlowClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDataflowPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func readDataflowPrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataflowPrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataFlowClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDataflowPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func updateDataflowPrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataflowPrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataFlowClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDataflowPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func deleteDataflowPrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataflowPrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataFlowClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DataflowPrivateEndpointResourceCrud struct {
@@ -209,7 +208,7 @@ func (s *DataflowPrivateEndpointResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DataflowPrivateEndpointResourceCrud) Create() error {
+func (s *DataflowPrivateEndpointResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_dataflow.CreatePrivateEndpointRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -295,7 +294,7 @@ func (s *DataflowPrivateEndpointResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataflow")
 
-	response, err := s.Client.CreatePrivateEndpoint(context.Background(), request)
+	response, err := s.Client.CreatePrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -306,24 +305,22 @@ func (s *DataflowPrivateEndpointResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getPrivateEndpointFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataflow"), oci_dataflow.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getPrivateEndpointFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataflow"), oci_dataflow.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DataflowPrivateEndpointResourceCrud) getPrivateEndpointFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DataflowPrivateEndpointResourceCrud) getPrivateEndpointFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_dataflow.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	privateEndpointId, err := privateEndpointWaitForWorkRequest(workId, "private_endpoint",
+	privateEndpointId, err := privateEndpointWaitForWorkRequest(ctx, workId, "private_endpoint",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
-		// Try to cancel the work request
-		log.Printf("[DEBUG] operation failed: %v for identifier: %v\n", workId, privateEndpointId)
 		return err
 	}
 	s.D.SetId(*privateEndpointId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func privateEndpointWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -349,7 +346,7 @@ func privateEndpointWorkRequestShouldRetryFunc(timeout time.Duration) func(respo
 	}
 }
 
-func privateEndpointWaitForWorkRequest(wId *string, entityType string, action oci_dataflow.WorkRequestResourceActionTypeEnum,
+func privateEndpointWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_dataflow.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_dataflow.DataFlowClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "dataflow")
 	retryPolicy.ShouldRetryOperation = privateEndpointWorkRequestShouldRetryFunc(timeout)
@@ -368,7 +365,7 @@ func privateEndpointWaitForWorkRequest(wId *string, entityType string, action oc
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_dataflow.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -397,14 +394,14 @@ func privateEndpointWaitForWorkRequest(wId *string, entityType string, action oc
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_dataflow.WorkRequestStatusFailed || response.Status == oci_dataflow.WorkRequestStatusCancelled {
-		return nil, getErrorFromDataflowPrivateEndpointWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDataflowPrivateEndpointWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDataflowPrivateEndpointWorkRequest(client *oci_dataflow.DataFlowClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_dataflow.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDataflowPrivateEndpointWorkRequest(ctx context.Context, client *oci_dataflow.DataFlowClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_dataflow.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_dataflow.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -426,7 +423,7 @@ func getErrorFromDataflowPrivateEndpointWorkRequest(client *oci_dataflow.DataFlo
 	return workRequestErr
 }
 
-func (s *DataflowPrivateEndpointResourceCrud) Get() error {
+func (s *DataflowPrivateEndpointResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_dataflow.GetPrivateEndpointRequest{}
 
 	tmp := s.D.Id()
@@ -434,7 +431,7 @@ func (s *DataflowPrivateEndpointResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataflow")
 
-	response, err := s.Client.GetPrivateEndpoint(context.Background(), request)
+	response, err := s.Client.GetPrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -443,11 +440,11 @@ func (s *DataflowPrivateEndpointResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DataflowPrivateEndpointResourceCrud) Update() error {
+func (s *DataflowPrivateEndpointResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -531,16 +528,16 @@ func (s *DataflowPrivateEndpointResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataflow")
 
-	response, err := s.Client.UpdatePrivateEndpoint(context.Background(), request)
+	response, err := s.Client.UpdatePrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getPrivateEndpointFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataflow"), oci_dataflow.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getPrivateEndpointFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataflow"), oci_dataflow.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DataflowPrivateEndpointResourceCrud) Delete() error {
+func (s *DataflowPrivateEndpointResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_dataflow.DeletePrivateEndpointRequest{}
 
 	tmp := s.D.Id()
@@ -548,14 +545,14 @@ func (s *DataflowPrivateEndpointResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataflow")
 
-	response, err := s.Client.DeletePrivateEndpoint(context.Background(), request)
+	response, err := s.Client.DeletePrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := privateEndpointWaitForWorkRequest(workId, "private_endpoint",
+	_, delWorkRequestErr := privateEndpointWaitForWorkRequest(ctx, workId, "private_endpoint",
 		oci_dataflow.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -724,7 +721,7 @@ func ScanToMap(obj oci_dataflow.Scan) map[string]interface{} {
 	return result
 }
 
-func (s *DataflowPrivateEndpointResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DataflowPrivateEndpointResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_dataflow.ChangePrivateEndpointCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -735,11 +732,11 @@ func (s *DataflowPrivateEndpointResourceCrud) updateCompartment(compartment inte
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataflow")
 
-	response, err := s.Client.ChangePrivateEndpointCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangePrivateEndpointCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getPrivateEndpointFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataflow"), oci_dataflow.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getPrivateEndpointFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataflow"), oci_dataflow.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

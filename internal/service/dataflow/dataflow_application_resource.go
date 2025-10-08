@@ -6,19 +6,18 @@ package dataflow
 import (
 	"context"
 	"fmt"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	"strconv"
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
-	oci_common "github.com/oracle/oci-go-sdk/v65/common"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_dataflow "github.com/oracle/oci-go-sdk/v65/dataflow"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
-	oci_dataflow "github.com/oracle/oci-go-sdk/v65/dataflow"
 )
 
 func DataflowApplicationResource() *schema.Resource {
@@ -26,11 +25,11 @@ func DataflowApplicationResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDataflowApplication,
-		Read:     readDataflowApplication,
-		Update:   updateDataflowApplication,
-		Delete:   deleteDataflowApplication,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDataflowApplicationWithContext,
+		ReadContext:   readDataflowApplicationWithContext,
+		UpdateContext: updateDataflowApplicationWithContext,
+		DeleteContext: deleteDataflowApplicationWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -287,37 +286,37 @@ func DataflowApplicationResource() *schema.Resource {
 	}
 }
 
-func createDataflowApplication(d *schema.ResourceData, m interface{}) error {
+func createDataflowApplicationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataflowApplicationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataFlowClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDataflowApplication(d *schema.ResourceData, m interface{}) error {
+func readDataflowApplicationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataflowApplicationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataFlowClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDataflowApplication(d *schema.ResourceData, m interface{}) error {
+func updateDataflowApplicationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataflowApplicationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataFlowClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDataflowApplication(d *schema.ResourceData, m interface{}) error {
+func deleteDataflowApplicationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataflowApplicationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataFlowClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DataflowApplicationResourceCrud struct {
@@ -353,7 +352,7 @@ func (s *DataflowApplicationResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DataflowApplicationResourceCrud) Create() error {
+func (s *DataflowApplicationResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_dataflow.CreateApplicationRequest{}
 
 	if applicationLogConfig, ok := s.D.GetOkExists("application_log_config"); ok {
@@ -543,7 +542,7 @@ func (s *DataflowApplicationResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataflow")
 
-	response, err := s.Client.CreateApplication(context.Background(), request)
+	response, err := s.Client.CreateApplication(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -552,7 +551,7 @@ func (s *DataflowApplicationResourceCrud) Create() error {
 	return nil
 }
 
-func (s *DataflowApplicationResourceCrud) Get() error {
+func (s *DataflowApplicationResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_dataflow.GetApplicationRequest{}
 
 	tmp := s.D.Id()
@@ -560,7 +559,7 @@ func (s *DataflowApplicationResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataflow")
 
-	response, err := s.Client.GetApplication(context.Background(), request)
+	response, err := s.Client.GetApplication(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -569,11 +568,11 @@ func (s *DataflowApplicationResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DataflowApplicationResourceCrud) Update() error {
+func (s *DataflowApplicationResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -762,7 +761,7 @@ func (s *DataflowApplicationResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataflow")
 
-	response, err := s.Client.UpdateApplication(context.Background(), request)
+	response, err := s.Client.UpdateApplication(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -771,7 +770,7 @@ func (s *DataflowApplicationResourceCrud) Update() error {
 	return nil
 }
 
-func (s *DataflowApplicationResourceCrud) Delete() error {
+func (s *DataflowApplicationResourceCrud) DeleteWithContext(ctx context.Context) error {
 	tmp := s.D.Id()
 
 	// Execute cascading deletion of application and related runs if terminate_runs_on_deletion flag is set to true
@@ -802,7 +801,7 @@ func (s *DataflowApplicationResourceCrud) Delete() error {
 	request.ApplicationId = &tmp
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataflow")
 
-	_, err := s.Client.DeleteApplication(context.Background(), request)
+	_, err := s.Client.DeleteApplication(ctx, request)
 	return err
 }
 
@@ -1134,7 +1133,7 @@ func ShapeConfigToMap(obj *oci_dataflow.ShapeConfig) map[string]interface{} {
 	return result
 }
 
-func (s *DataflowApplicationResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DataflowApplicationResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_dataflow.ChangeApplicationCompartmentRequest{}
 
 	idTmp := s.D.Id()
@@ -1145,12 +1144,12 @@ func (s *DataflowApplicationResourceCrud) updateCompartment(compartment interfac
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataflow")
 
-	_, err := s.Client.ChangeApplicationCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeApplicationCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
 		return waitErr
 	}
 

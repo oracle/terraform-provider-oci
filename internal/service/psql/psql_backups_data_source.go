@@ -7,6 +7,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_psql "github.com/oracle/oci-go-sdk/v65/psql"
@@ -17,7 +18,7 @@ import (
 
 func PsqlBackupsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readPsqlBackups,
+		ReadContext: readPsqlBackupsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"backup_id": {
@@ -66,12 +67,12 @@ func PsqlBackupsDataSource() *schema.Resource {
 	}
 }
 
-func readPsqlBackups(d *schema.ResourceData, m interface{}) error {
+func readPsqlBackupsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &PsqlBackupsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).PostgresqlClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type PsqlBackupsDataSourceCrud struct {
@@ -84,10 +85,10 @@ func (s *PsqlBackupsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *PsqlBackupsDataSourceCrud) Get() error {
+func (s *PsqlBackupsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_psql.ListBackupsRequest{}
 
-	if backupId, ok := s.D.GetOkExists("backup_id"); ok {
+	if backupId, ok := s.D.GetOkExists("id"); ok {
 		tmp := backupId.(string)
 		request.BackupId = &tmp
 	}
@@ -129,7 +130,7 @@ func (s *PsqlBackupsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "psql")
 
-	response, err := s.Client.ListBackups(context.Background(), request)
+	response, err := s.Client.ListBackups(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -138,7 +139,7 @@ func (s *PsqlBackupsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListBackups(context.Background(), request)
+		listResponse, err := s.Client.ListBackups(ctx, request)
 		if err != nil {
 			return err
 		}

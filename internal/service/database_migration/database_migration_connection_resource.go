@@ -9,10 +9,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_database_migration "github.com/oracle/oci-go-sdk/v65/databasemigration"
 
@@ -25,11 +25,11 @@ func DatabaseMigrationConnectionResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseMigrationConnection,
-		Read:     readDatabaseMigrationConnection,
-		Update:   updateDatabaseMigrationConnection,
-		Delete:   deleteDatabaseMigrationConnection,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseMigrationConnectionWithContext,
+		ReadContext:   readDatabaseMigrationConnectionWithContext,
+		UpdateContext: updateDatabaseMigrationConnectionWithContext,
+		DeleteContext: deleteDatabaseMigrationConnectionWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -277,37 +277,37 @@ func DatabaseMigrationConnectionResource() *schema.Resource {
 	}
 }
 
-func createDatabaseMigrationConnection(d *schema.ResourceData, m interface{}) error {
+func createDatabaseMigrationConnectionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseMigrationConnectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseMigrationClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseMigrationConnection(d *schema.ResourceData, m interface{}) error {
+func readDatabaseMigrationConnectionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseMigrationConnectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseMigrationClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseMigrationConnection(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseMigrationConnectionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseMigrationConnectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseMigrationClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseMigrationConnection(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseMigrationConnectionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseMigrationConnectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseMigrationClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseMigrationConnectionResourceCrud struct {
@@ -346,7 +346,7 @@ func (s *DatabaseMigrationConnectionResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DatabaseMigrationConnectionResourceCrud) Create() error {
+func (s *DatabaseMigrationConnectionResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database_migration.CreateConnectionRequest{}
 	err := s.populateTopLevelPolymorphicCreateConnectionRequest(&request)
 	if err != nil {
@@ -355,7 +355,7 @@ func (s *DatabaseMigrationConnectionResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_migration")
 
-	response, err := s.Client.CreateConnection(context.Background(), request)
+	response, err := s.Client.CreateConnection(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -366,14 +366,14 @@ func (s *DatabaseMigrationConnectionResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getConnectionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_migration"), oci_database_migration.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getConnectionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_migration"), oci_database_migration.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DatabaseMigrationConnectionResourceCrud) getConnectionFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DatabaseMigrationConnectionResourceCrud) getConnectionFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_database_migration.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	connectionId, err := connectionWaitForWorkRequest(workId, "connection",
+	connectionId, err := connectionWaitForWorkRequest(ctx, workId, "connection",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -381,7 +381,7 @@ func (s *DatabaseMigrationConnectionResourceCrud) getConnectionFromWorkRequest(w
 	}
 	s.D.SetId(*connectionId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func connectionWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -407,7 +407,7 @@ func connectionWorkRequestShouldRetryFunc(timeout time.Duration) func(response o
 	}
 }
 
-func connectionWaitForWorkRequest(wId *string, entityType string, action oci_database_migration.WorkRequestResourceActionTypeEnum,
+func connectionWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_database_migration.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_database_migration.DatabaseMigrationClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "database_migration")
 	retryPolicy.ShouldRetryOperation = connectionWorkRequestShouldRetryFunc(timeout)
@@ -426,7 +426,7 @@ func connectionWaitForWorkRequest(wId *string, entityType string, action oci_dat
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_database_migration.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -455,14 +455,14 @@ func connectionWaitForWorkRequest(wId *string, entityType string, action oci_dat
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_database_migration.OperationStatusFailed || response.Status == oci_database_migration.OperationStatusCanceled {
-		return nil, getErrorFromDatabaseMigrationConnectionWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDatabaseMigrationConnectionWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDatabaseMigrationConnectionWorkRequest(client *oci_database_migration.DatabaseMigrationClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_migration.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDatabaseMigrationConnectionWorkRequest(ctx context.Context, client *oci_database_migration.DatabaseMigrationClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_migration.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_database_migration.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -484,7 +484,7 @@ func getErrorFromDatabaseMigrationConnectionWorkRequest(client *oci_database_mig
 	return workRequestErr
 }
 
-func (s *DatabaseMigrationConnectionResourceCrud) Get() error {
+func (s *DatabaseMigrationConnectionResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_migration.GetConnectionRequest{}
 
 	tmp := s.D.Id()
@@ -492,7 +492,7 @@ func (s *DatabaseMigrationConnectionResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_migration")
 
-	response, err := s.Client.GetConnection(context.Background(), request)
+	response, err := s.Client.GetConnection(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -501,11 +501,11 @@ func (s *DatabaseMigrationConnectionResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseMigrationConnectionResourceCrud) Update() error {
+func (s *DatabaseMigrationConnectionResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -519,16 +519,16 @@ func (s *DatabaseMigrationConnectionResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_migration")
 
-	response, err := s.Client.UpdateConnection(context.Background(), request)
+	response, err := s.Client.UpdateConnection(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getConnectionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_migration"), oci_database_migration.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getConnectionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_migration"), oci_database_migration.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DatabaseMigrationConnectionResourceCrud) Delete() error {
+func (s *DatabaseMigrationConnectionResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database_migration.DeleteConnectionRequest{}
 
 	tmp := s.D.Id()
@@ -536,14 +536,14 @@ func (s *DatabaseMigrationConnectionResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_migration")
 
-	response, err := s.Client.DeleteConnection(context.Background(), request)
+	response, err := s.Client.DeleteConnection(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := connectionWaitForWorkRequest(workId, "connection",
+	_, delWorkRequestErr := connectionWaitForWorkRequest(ctx, workId, "connection",
 		oci_database_migration.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -1358,7 +1358,7 @@ func (s *DatabaseMigrationConnectionResourceCrud) populateTopLevelPolymorphicUpd
 	return nil
 }
 
-func (s *DatabaseMigrationConnectionResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DatabaseMigrationConnectionResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_database_migration.ChangeConnectionCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -1369,12 +1369,12 @@ func (s *DatabaseMigrationConnectionResourceCrud) updateCompartment(compartment 
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_migration")
 
-	_, err := s.Client.ChangeConnectionCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeConnectionCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
 		return waitErr
 	}
 

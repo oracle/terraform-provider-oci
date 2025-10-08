@@ -10,10 +10,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_fleet_software_update "github.com/oracle/oci-go-sdk/v65/fleetsoftwareupdate"
 
@@ -26,11 +26,11 @@ func FleetSoftwareUpdateFsuCollectionResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createFleetSoftwareUpdateFsuCollection,
-		Read:     readFleetSoftwareUpdateFsuCollection,
-		Update:   updateFleetSoftwareUpdateFsuCollection,
-		Delete:   deleteFleetSoftwareUpdateFsuCollection,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createFleetSoftwareUpdateFsuCollectionWithContext,
+		ReadContext:   readFleetSoftwareUpdateFsuCollectionWithContext,
+		UpdateContext: updateFleetSoftwareUpdateFsuCollectionWithContext,
+		DeleteContext: deleteFleetSoftwareUpdateFsuCollectionWithContext,
 		Schema: map[string]*schema.Schema{
 			"id": {
 				Type:     schema.TypeString,
@@ -497,37 +497,37 @@ func FleetSoftwareUpdateFsuCollectionResource() *schema.Resource {
 	}
 }
 
-func createFleetSoftwareUpdateFsuCollection(d *schema.ResourceData, m interface{}) error {
+func createFleetSoftwareUpdateFsuCollectionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetSoftwareUpdateFsuCollectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetSoftwareUpdateClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readFleetSoftwareUpdateFsuCollection(d *schema.ResourceData, m interface{}) error {
+func readFleetSoftwareUpdateFsuCollectionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetSoftwareUpdateFsuCollectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetSoftwareUpdateClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateFleetSoftwareUpdateFsuCollection(d *schema.ResourceData, m interface{}) error {
+func updateFleetSoftwareUpdateFsuCollectionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetSoftwareUpdateFsuCollectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetSoftwareUpdateClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteFleetSoftwareUpdateFsuCollection(d *schema.ResourceData, m interface{}) error {
+func deleteFleetSoftwareUpdateFsuCollectionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetSoftwareUpdateFsuCollectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetSoftwareUpdateClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type FleetSoftwareUpdateFsuCollectionResourceCrud struct {
@@ -567,7 +567,7 @@ func (s *FleetSoftwareUpdateFsuCollectionResourceCrud) DeletedTarget() []string 
 	}
 }
 
-func (s *FleetSoftwareUpdateFsuCollectionResourceCrud) Create() error {
+func (s *FleetSoftwareUpdateFsuCollectionResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_fleet_software_update.CreateFsuCollectionRequest{}
 	err := s.populateTopLevelPolymorphicCreateFsuCollectionRequest(&request)
 	if err != nil {
@@ -576,7 +576,7 @@ func (s *FleetSoftwareUpdateFsuCollectionResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_software_update")
 
-	response, err := s.Client.CreateFsuCollection(context.Background(), request)
+	response, err := s.Client.CreateFsuCollection(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -587,14 +587,14 @@ func (s *FleetSoftwareUpdateFsuCollectionResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getFsuCollectionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_software_update"), oci_fleet_software_update.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getFsuCollectionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_software_update"), oci_fleet_software_update.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *FleetSoftwareUpdateFsuCollectionResourceCrud) getFsuCollectionFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *FleetSoftwareUpdateFsuCollectionResourceCrud) getFsuCollectionFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_fleet_software_update.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	fsuCollectionId, err := fsuCollectionWaitForWorkRequest(workId, "collection",
+	fsuCollectionId, err := fsuCollectionWaitForWorkRequest(ctx, workId, "collection",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -602,7 +602,7 @@ func (s *FleetSoftwareUpdateFsuCollectionResourceCrud) getFsuCollectionFromWorkR
 	}
 	s.D.SetId(*fsuCollectionId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func fsuCollectionWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -628,7 +628,7 @@ func fsuCollectionWorkRequestShouldRetryFunc(timeout time.Duration) func(respons
 	}
 }
 
-func fsuCollectionWaitForWorkRequest(wId *string, entityType string, action oci_fleet_software_update.ActionTypeEnum,
+func fsuCollectionWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_fleet_software_update.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_fleet_software_update.FleetSoftwareUpdateClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "fleet_software_update")
 	retryPolicy.ShouldRetryOperation = fsuCollectionWorkRequestShouldRetryFunc(timeout)
@@ -647,7 +647,7 @@ func fsuCollectionWaitForWorkRequest(wId *string, entityType string, action oci_
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_fleet_software_update.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -676,14 +676,14 @@ func fsuCollectionWaitForWorkRequest(wId *string, entityType string, action oci_
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_fleet_software_update.OperationStatusFailed || response.Status == oci_fleet_software_update.OperationStatusCanceled {
-		return nil, getErrorFromFleetSoftwareUpdateFsuCollectionWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromFleetSoftwareUpdateFsuCollectionWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromFleetSoftwareUpdateFsuCollectionWorkRequest(client *oci_fleet_software_update.FleetSoftwareUpdateClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_fleet_software_update.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromFleetSoftwareUpdateFsuCollectionWorkRequest(ctx context.Context, client *oci_fleet_software_update.FleetSoftwareUpdateClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_fleet_software_update.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_fleet_software_update.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -705,7 +705,7 @@ func getErrorFromFleetSoftwareUpdateFsuCollectionWorkRequest(client *oci_fleet_s
 	return workRequestErr
 }
 
-func (s *FleetSoftwareUpdateFsuCollectionResourceCrud) Get() error {
+func (s *FleetSoftwareUpdateFsuCollectionResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fleet_software_update.GetFsuCollectionRequest{}
 
 	tmp := s.D.Id()
@@ -713,7 +713,7 @@ func (s *FleetSoftwareUpdateFsuCollectionResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_software_update")
 
-	response, err := s.Client.GetFsuCollection(context.Background(), request)
+	response, err := s.Client.GetFsuCollection(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -722,11 +722,11 @@ func (s *FleetSoftwareUpdateFsuCollectionResourceCrud) Get() error {
 	return nil
 }
 
-func (s *FleetSoftwareUpdateFsuCollectionResourceCrud) Update() error {
+func (s *FleetSoftwareUpdateFsuCollectionResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -756,16 +756,16 @@ func (s *FleetSoftwareUpdateFsuCollectionResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_software_update")
 
-	response, err := s.Client.UpdateFsuCollection(context.Background(), request)
+	response, err := s.Client.UpdateFsuCollection(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getFsuCollectionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_software_update"), oci_fleet_software_update.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getFsuCollectionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_software_update"), oci_fleet_software_update.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *FleetSoftwareUpdateFsuCollectionResourceCrud) Delete() error {
+func (s *FleetSoftwareUpdateFsuCollectionResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_fleet_software_update.DeleteFsuCollectionRequest{}
 
 	tmp := s.D.Id()
@@ -773,14 +773,14 @@ func (s *FleetSoftwareUpdateFsuCollectionResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_software_update")
 
-	response, err := s.Client.DeleteFsuCollection(context.Background(), request)
+	response, err := s.Client.DeleteFsuCollection(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := fsuCollectionWaitForWorkRequest(workId, "collection",
+	_, delWorkRequestErr := fsuCollectionWaitForWorkRequest(ctx, workId, "collection",
 		oci_fleet_software_update.ActionTypeRelated, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -2612,7 +2612,7 @@ func (s *FleetSoftwareUpdateFsuCollectionResourceCrud) populateTopLevelPolymorph
 	return nil
 }
 
-func (s *FleetSoftwareUpdateFsuCollectionResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *FleetSoftwareUpdateFsuCollectionResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_fleet_software_update.ChangeFsuCollectionCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -2623,11 +2623,11 @@ func (s *FleetSoftwareUpdateFsuCollectionResourceCrud) updateCompartment(compart
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_software_update")
 
-	response, err := s.Client.ChangeFsuCollectionCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeFsuCollectionCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getFsuCollectionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_software_update"), oci_fleet_software_update.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getFsuCollectionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_software_update"), oci_fleet_software_update.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_ocvp "github.com/oracle/oci-go-sdk/v65/ocvp"
 
@@ -25,11 +25,11 @@ func OcvpClusterResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createOcvpCluster,
-		Read:     readOcvpCluster,
-		Update:   updateOcvpCluster,
-		Delete:   deleteOcvpCluster,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createOcvpClusterWithContext,
+		ReadContext:   readOcvpClusterWithContext,
+		UpdateContext: updateOcvpClusterWithContext,
+		DeleteContext: deleteOcvpClusterWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compute_availability_domain": {
@@ -311,41 +311,41 @@ func OcvpClusterResource() *schema.Resource {
 	}
 }
 
-func createOcvpCluster(d *schema.ResourceData, m interface{}) error {
+func createOcvpClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OcvpClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ClusterClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).OcvpWorkRequestClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readOcvpCluster(d *schema.ResourceData, m interface{}) error {
+func readOcvpClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OcvpClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ClusterClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateOcvpCluster(d *schema.ResourceData, m interface{}) error {
+func updateOcvpClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OcvpClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ClusterClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).OcvpWorkRequestClient()
 	sync.DatastoreClusterClient = m.(*client.OracleClients).DatastoreClusterClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteOcvpCluster(d *schema.ResourceData, m interface{}) error {
+func deleteOcvpClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OcvpClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ClusterClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).OcvpWorkRequestClient()
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type OcvpClusterResourceCrud struct {
@@ -385,7 +385,7 @@ func (s *OcvpClusterResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *OcvpClusterResourceCrud) Create() error {
+func (s *OcvpClusterResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_ocvp.CreateClusterRequest{}
 
 	if capacityReservationId, ok := s.D.GetOkExists("capacity_reservation_id"); ok {
@@ -507,14 +507,14 @@ func (s *OcvpClusterResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
-	response, err := s.Client.CreateCluster(context.Background(), request)
+	response, err := s.Client.CreateCluster(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_ocvp.GetWorkRequestResponse{}
-	workRequestResponse, err = s.WorkRequestClient.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.WorkRequestClient.GetWorkRequest(ctx,
 		oci_ocvp.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -530,14 +530,14 @@ func (s *OcvpClusterResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getClusterFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getClusterFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *OcvpClusterResourceCrud) getClusterFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OcvpClusterResourceCrud) getClusterFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_ocvp.ActionTypesEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	clusterId, err := clusterWaitForWorkRequest(workId, "cluster",
+	clusterId, err := clusterWaitForWorkRequest(ctx, workId, "cluster",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
@@ -545,7 +545,7 @@ func (s *OcvpClusterResourceCrud) getClusterFromWorkRequest(workId *string, retr
 	}
 	s.D.SetId(*clusterId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func clusterWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -571,7 +571,7 @@ func clusterWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_
 	}
 }
 
-func clusterWaitForWorkRequest(wId *string, entityType string, action oci_ocvp.ActionTypesEnum,
+func clusterWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_ocvp.ActionTypesEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_ocvp.WorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "ocvp")
 	retryPolicy.ShouldRetryOperation = clusterWorkRequestShouldRetryFunc(timeout)
@@ -590,7 +590,7 @@ func clusterWaitForWorkRequest(wId *string, entityType string, action oci_ocvp.A
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_ocvp.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -619,14 +619,14 @@ func clusterWaitForWorkRequest(wId *string, entityType string, action oci_ocvp.A
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_ocvp.OperationStatusFailed || response.Status == oci_ocvp.OperationStatusCanceled {
-		return nil, getErrorFromOcvpClusterWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOcvpClusterWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOcvpClusterWorkRequest(client *oci_ocvp.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_ocvp.ActionTypesEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromOcvpClusterWorkRequest(ctx context.Context, client *oci_ocvp.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_ocvp.ActionTypesEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_ocvp.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -648,7 +648,7 @@ func getErrorFromOcvpClusterWorkRequest(client *oci_ocvp.WorkRequestClient, work
 	return workRequestErr
 }
 
-func (s *OcvpClusterResourceCrud) Get() error {
+func (s *OcvpClusterResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_ocvp.GetClusterRequest{}
 
 	tmp := s.D.Id()
@@ -656,7 +656,7 @@ func (s *OcvpClusterResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
-	response, err := s.Client.GetCluster(context.Background(), request)
+	response, err := s.Client.GetCluster(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -665,7 +665,7 @@ func (s *OcvpClusterResourceCrud) Get() error {
 	return nil
 }
 
-func (s *OcvpClusterResourceCrud) Update() error {
+func (s *OcvpClusterResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_ocvp.UpdateClusterRequest{}
 
 	tmp := s.D.Id()
@@ -719,10 +719,10 @@ func (s *OcvpClusterResourceCrud) Update() error {
 	if err = s.executeAttachDetachDatastoreClustersToCluster(); err != nil {
 		return err
 	}
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *OcvpClusterResourceCrud) Delete() error {
+func (s *OcvpClusterResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_ocvp.DeleteClusterRequest{}
 
 	tmp := s.D.Id()
@@ -730,14 +730,14 @@ func (s *OcvpClusterResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
-	response, err := s.Client.DeleteCluster(context.Background(), request)
+	response, err := s.Client.DeleteCluster(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := clusterWaitForWorkRequest(workId, "cluster",
+	_, delWorkRequestErr := clusterWaitForWorkRequest(ctx, workId, "cluster",
 		oci_ocvp.ActionTypesDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestClient)
 	return delWorkRequestErr
 }

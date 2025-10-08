@@ -6,6 +6,7 @@ package ocvp
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_ocvp "github.com/oracle/oci-go-sdk/v65/ocvp"
 
@@ -19,15 +20,15 @@ func OcvpClusterDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(OcvpClusterResource(), fieldMap, readSingularOcvpCluster)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(OcvpClusterResource(), fieldMap, readSingularOcvpClusterWithContext)
 }
 
-func readSingularOcvpCluster(d *schema.ResourceData, m interface{}) error {
+func readSingularOcvpClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OcvpClusterDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ClusterClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type OcvpClusterDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *OcvpClusterDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OcvpClusterDataSourceCrud) Get() error {
+func (s *OcvpClusterDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_ocvp.GetClusterRequest{}
 
 	if clusterId, ok := s.D.GetOkExists("cluster_id"); ok {
@@ -50,7 +51,7 @@ func (s *OcvpClusterDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "ocvp")
 
-	response, err := s.Client.GetCluster(context.Background(), request)
+	response, err := s.Client.GetCluster(ctx, request)
 	if err != nil {
 		return err
 	}

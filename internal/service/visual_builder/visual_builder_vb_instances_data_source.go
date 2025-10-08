@@ -6,6 +6,7 @@ package visual_builder
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -15,7 +16,7 @@ import (
 
 func VisualBuilderVbInstancesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readVisualBuilderVbInstances,
+		ReadContext: readVisualBuilderVbInstancesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -48,12 +49,12 @@ func VisualBuilderVbInstancesDataSource() *schema.Resource {
 	}
 }
 
-func readVisualBuilderVbInstances(d *schema.ResourceData, m interface{}) error {
+func readVisualBuilderVbInstancesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &VisualBuilderVbInstancesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).VbInstanceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type VisualBuilderVbInstancesDataSourceCrud struct {
@@ -66,7 +67,7 @@ func (s *VisualBuilderVbInstancesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *VisualBuilderVbInstancesDataSourceCrud) Get() error {
+func (s *VisualBuilderVbInstancesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_visual_builder.ListVbInstancesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -85,7 +86,7 @@ func (s *VisualBuilderVbInstancesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "visual_builder")
 
-	response, err := s.Client.ListVbInstances(context.Background(), request)
+	response, err := s.Client.ListVbInstances(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -94,7 +95,7 @@ func (s *VisualBuilderVbInstancesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListVbInstances(context.Background(), request)
+		listResponse, err := s.Client.ListVbInstances(ctx, request)
 		if err != nil {
 			return err
 		}

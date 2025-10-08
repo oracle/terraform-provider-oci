@@ -394,11 +394,9 @@ func NatRuleSummaryToMap(obj oci_network_firewall.NatRuleSummary) map[string]int
 		if v.Name != nil {
 			result["name"] = string(*v.Name)
 		}
-
 		result["type"] = "NATV4"
 
 		result["action"] = string(v.Action)
-
 		if v.ParentResourceId != nil {
 			result["parent_resource_id"] = string(*v.ParentResourceId)
 		}
@@ -406,11 +404,9 @@ func NatRuleSummaryToMap(obj oci_network_firewall.NatRuleSummary) map[string]int
 		if v.Condition != nil {
 			result["condition"] = []interface{}{NatRuleMatchCriteriaToMap(v.Condition)}
 		}
-
 		if v.PriorityOrder != nil {
 			result["priority_order"] = strconv.FormatInt(*v.PriorityOrder, 10)
 		}
-
 	default:
 		log.Printf("[WARN] Received 'type' of unknown type %v", obj)
 		return nil

@@ -7,6 +7,7 @@ import (
 	"context"
 	"log"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_fleet_software_update "github.com/oracle/oci-go-sdk/v65/fleetsoftwareupdate"
 
@@ -20,15 +21,15 @@ func FleetSoftwareUpdateFsuCycleDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(FleetSoftwareUpdateFsuCycleResource(), fieldMap, readSingularFleetSoftwareUpdateFsuCycle)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(FleetSoftwareUpdateFsuCycleResource(), fieldMap, readSingularFleetSoftwareUpdateFsuCycleWithContext)
 }
 
-func readSingularFleetSoftwareUpdateFsuCycle(d *schema.ResourceData, m interface{}) error {
+func readSingularFleetSoftwareUpdateFsuCycleWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetSoftwareUpdateFsuCycleDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetSoftwareUpdateClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type FleetSoftwareUpdateFsuCycleDataSourceCrud struct {
@@ -41,7 +42,7 @@ func (s *FleetSoftwareUpdateFsuCycleDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *FleetSoftwareUpdateFsuCycleDataSourceCrud) Get() error {
+func (s *FleetSoftwareUpdateFsuCycleDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fleet_software_update.GetFsuCycleRequest{}
 
 	if fsuCycleId, ok := s.D.GetOkExists("fsu_cycle_id"); ok {
@@ -51,7 +52,7 @@ func (s *FleetSoftwareUpdateFsuCycleDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fleet_software_update")
 
-	response, err := s.Client.GetFsuCycle(context.Background(), request)
+	response, err := s.Client.GetFsuCycle(ctx, request)
 	if err != nil {
 		return err
 	}

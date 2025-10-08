@@ -7,11 +7,12 @@ import (
 	"context"
 	"strconv"
 
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_dataflow "github.com/oracle/oci-go-sdk/v65/dataflow"
+
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func DataflowApplicationDataSource() *schema.Resource {
@@ -20,15 +21,15 @@ func DataflowApplicationDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DataflowApplicationResource(), fieldMap, readSingularDataflowApplication)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DataflowApplicationResource(), fieldMap, readSingularDataflowApplicationWithContext)
 }
 
-func readSingularDataflowApplication(d *schema.ResourceData, m interface{}) error {
+func readSingularDataflowApplicationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataflowApplicationDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataFlowClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataflowApplicationDataSourceCrud struct {
@@ -41,7 +42,7 @@ func (s *DataflowApplicationDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataflowApplicationDataSourceCrud) Get() error {
+func (s *DataflowApplicationDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_dataflow.GetApplicationRequest{}
 
 	if applicationId, ok := s.D.GetOkExists("application_id"); ok {
@@ -51,7 +52,7 @@ func (s *DataflowApplicationDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "dataflow")
 
-	response, err := s.Client.GetApplication(context.Background(), request)
+	response, err := s.Client.GetApplication(ctx, request)
 	if err != nil {
 		return err
 	}

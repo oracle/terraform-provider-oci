@@ -7,6 +7,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_desktops "github.com/oracle/oci-go-sdk/v65/desktops"
 
@@ -20,15 +21,15 @@ func DesktopsDesktopPoolDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DesktopsDesktopPoolResource(), fieldMap, readSingularDesktopsDesktopPool)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DesktopsDesktopPoolResource(), fieldMap, readSingularDesktopsDesktopPoolWithContext)
 }
 
-func readSingularDesktopsDesktopPool(d *schema.ResourceData, m interface{}) error {
+func readSingularDesktopsDesktopPoolWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DesktopsDesktopPoolDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DesktopServiceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DesktopsDesktopPoolDataSourceCrud struct {
@@ -41,7 +42,7 @@ func (s *DesktopsDesktopPoolDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DesktopsDesktopPoolDataSourceCrud) Get() error {
+func (s *DesktopsDesktopPoolDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_desktops.GetDesktopPoolRequest{}
 
 	if desktopPoolId, ok := s.D.GetOkExists("desktop_pool_id"); ok {
@@ -51,7 +52,7 @@ func (s *DesktopsDesktopPoolDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "desktops")
 
-	response, err := s.Client.GetDesktopPool(context.Background(), request)
+	response, err := s.Client.GetDesktopPool(ctx, request)
 	if err != nil {
 		return err
 	}

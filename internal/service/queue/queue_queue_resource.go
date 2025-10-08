@@ -9,9 +9,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_queue "github.com/oracle/oci-go-sdk/v65/queue"
 
@@ -24,11 +24,11 @@ func QueueQueueResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createQueueQueue,
-		Read:     readQueueQueue,
-		Update:   updateQueueQueue,
-		Delete:   deleteQueueQueue,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createQueueQueueWithContext,
+		ReadContext:   readQueueQueueWithContext,
+		UpdateContext: updateQueueQueueWithContext,
+		DeleteContext: deleteQueueQueueWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -125,36 +125,36 @@ func QueueQueueResource() *schema.Resource {
 	}
 }
 
-func createQueueQueue(d *schema.ResourceData, m interface{}) error {
+func createQueueQueueWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &QueueQueueResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).QueueAdminClient()
 
-	if e := tfresource.CreateResource(d, sync); e != nil {
-		return e
+	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
+		return tfresource.HandleDiagError(m, e)
 	}
 
 	// Purging the queue immediately after creating is optional and is done if purge_trigger is set
 	// Call purge_queue if "purge_trigger" exists
 	if _, ok := sync.D.GetOk("purge_trigger"); ok {
-		err := sync.PurgeQueue()
+		err := sync.PurgeQueue(ctx)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
 	return nil
 }
 
-func readQueueQueue(d *schema.ResourceData, m interface{}) error {
+func readQueueQueueWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &QueueQueueResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).QueueAdminClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateQueueQueue(d *schema.ResourceData, m interface{}) error {
+func updateQueueQueueWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &QueueQueueResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).QueueAdminClient()
@@ -165,31 +165,31 @@ func updateQueueQueue(d *schema.ResourceData, m interface{}) error {
 		oldValue := oldRaw.(int)
 		newValue := newRaw.(int)
 		if newValue > oldValue {
-			err := sync.PurgeQueue()
+			err := sync.PurgeQueue(ctx)
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		} else {
 			// Set the value back to the old value in Terraform state
 			sync.D.Set("purge_trigger", oldRaw)
-			return fmt.Errorf("new value of purge_trigger should be greater than the old value to trigger purge")
+			return tfresource.HandleDiagError(m, fmt.Errorf("new value of purge_trigger should be greater than the old value to trigger purge"))
 		}
 	}
 
-	if err := tfresource.UpdateResource(d, sync); err != nil {
-		return err
+	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
+		return tfresource.HandleDiagError(m, err)
 	}
 
 	return nil
 }
 
-func deleteQueueQueue(d *schema.ResourceData, m interface{}) error {
+func deleteQueueQueueWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &QueueQueueResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).QueueAdminClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type QueueQueueResourceCrud struct {
@@ -227,7 +227,7 @@ func (s *QueueQueueResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *QueueQueueResourceCrud) Create() error {
+func (s *QueueQueueResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_queue.CreateQueueRequest{}
 
 	if channelConsumptionLimit, ok := s.D.GetOkExists("channel_consumption_limit"); ok {
@@ -284,14 +284,14 @@ func (s *QueueQueueResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "queue")
 
-	response, err := s.Client.CreateQueue(context.Background(), request)
+	response, err := s.Client.CreateQueue(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_queue.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
 		oci_queue.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -307,14 +307,14 @@ func (s *QueueQueueResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getQueueFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "queue"), oci_queue.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getQueueFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "queue"), oci_queue.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *QueueQueueResourceCrud) getQueueFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *QueueQueueResourceCrud) getQueueFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_queue.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	queueId, err := queueWaitForWorkRequest(workId, "queue",
+	queueId, err := queueWaitForWorkRequest(ctx, workId, "queue",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -322,7 +322,7 @@ func (s *QueueQueueResourceCrud) getQueueFromWorkRequest(workId *string, retryPo
 	}
 	s.D.SetId(*queueId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func queueWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -348,7 +348,7 @@ func queueWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_co
 	}
 }
 
-func queueWaitForWorkRequest(wId *string, entityType string, action oci_queue.ActionTypeEnum,
+func queueWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_queue.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_queue.QueueAdminClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "queue")
 	retryPolicy.ShouldRetryOperation = queueWorkRequestShouldRetryFunc(timeout)
@@ -367,7 +367,7 @@ func queueWaitForWorkRequest(wId *string, entityType string, action oci_queue.Ac
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_queue.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -396,14 +396,14 @@ func queueWaitForWorkRequest(wId *string, entityType string, action oci_queue.Ac
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_queue.OperationStatusFailed || response.Status == oci_queue.OperationStatusCanceled {
-		return nil, getErrorFromQueueQueueWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromQueueQueueWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromQueueQueueWorkRequest(client *oci_queue.QueueAdminClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_queue.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromQueueQueueWorkRequest(ctx context.Context, client *oci_queue.QueueAdminClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_queue.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_queue.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -425,7 +425,7 @@ func getErrorFromQueueQueueWorkRequest(client *oci_queue.QueueAdminClient, workI
 	return workRequestErr
 }
 
-func (s *QueueQueueResourceCrud) Get() error {
+func (s *QueueQueueResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_queue.GetQueueRequest{}
 
 	tmp := s.D.Id()
@@ -433,7 +433,7 @@ func (s *QueueQueueResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "queue")
 
-	response, err := s.Client.GetQueue(context.Background(), request)
+	response, err := s.Client.GetQueue(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -442,11 +442,11 @@ func (s *QueueQueueResourceCrud) Get() error {
 	return nil
 }
 
-func (s *QueueQueueResourceCrud) Update() error {
+func (s *QueueQueueResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -501,16 +501,16 @@ func (s *QueueQueueResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "queue")
 
-	response, err := s.Client.UpdateQueue(context.Background(), request)
+	response, err := s.Client.UpdateQueue(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getQueueFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "queue"), oci_queue.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getQueueFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "queue"), oci_queue.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *QueueQueueResourceCrud) Delete() error {
+func (s *QueueQueueResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_queue.DeleteQueueRequest{}
 
 	tmp := s.D.Id()
@@ -518,14 +518,14 @@ func (s *QueueQueueResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "queue")
 
-	response, err := s.Client.DeleteQueue(context.Background(), request)
+	response, err := s.Client.DeleteQueue(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := queueWaitForWorkRequest(workId, "queue",
+	_, delWorkRequestErr := queueWaitForWorkRequest(ctx, workId, "queue",
 		oci_queue.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -594,7 +594,7 @@ func (s *QueueQueueResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *QueueQueueResourceCrud) PurgeQueue() error {
+func (s *QueueQueueResourceCrud) PurgeQueue(ctx context.Context) error {
 	request := oci_queue.PurgeQueueRequest{}
 
 	//This is an auto generated code for channelIds, may not be used since we wont be passing channel IDs in tests
@@ -627,17 +627,17 @@ func (s *QueueQueueResourceCrud) PurgeQueue() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "queue")
 
-	response, err := s.Client.PurgeQueue(context.Background(), request)
+	response, err := s.Client.PurgeQueue(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
 		return waitErr
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getQueueFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "queue"), oci_queue.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getQueueFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "queue"), oci_queue.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func QueueSummaryToMap(obj oci_queue.QueueSummary) map[string]interface{} {
@@ -686,7 +686,7 @@ func QueueSummaryToMap(obj oci_queue.QueueSummary) map[string]interface{} {
 	return result
 }
 
-func (s *QueueQueueResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *QueueQueueResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_queue.ChangeQueueCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -697,11 +697,11 @@ func (s *QueueQueueResourceCrud) updateCompartment(compartment interface{}) erro
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "queue")
 
-	response, err := s.Client.ChangeQueueCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeQueueCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getQueueFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "queue"), oci_queue.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getQueueFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "queue"), oci_queue.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

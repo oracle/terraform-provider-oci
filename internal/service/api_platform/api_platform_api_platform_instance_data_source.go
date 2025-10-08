@@ -6,6 +6,7 @@ package api_platform
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_api_platform "github.com/oracle/oci-go-sdk/v65/apiplatform"
 
@@ -19,15 +20,15 @@ func ApiPlatformApiPlatformInstanceDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(ApiPlatformApiPlatformInstanceResource(), fieldMap, readSingularApiPlatformApiPlatformInstance)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(ApiPlatformApiPlatformInstanceResource(), fieldMap, readSingularApiPlatformApiPlatformInstanceWithContext)
 }
 
-func readSingularApiPlatformApiPlatformInstance(d *schema.ResourceData, m interface{}) error {
+func readSingularApiPlatformApiPlatformInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ApiPlatformApiPlatformInstanceDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ApiPlatformClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type ApiPlatformApiPlatformInstanceDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *ApiPlatformApiPlatformInstanceDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ApiPlatformApiPlatformInstanceDataSourceCrud) Get() error {
+func (s *ApiPlatformApiPlatformInstanceDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_api_platform.GetApiPlatformInstanceRequest{}
 
 	if apiPlatformInstanceId, ok := s.D.GetOkExists("api_platform_instance_id"); ok {
@@ -50,7 +51,7 @@ func (s *ApiPlatformApiPlatformInstanceDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "api_platform")
 
-	response, err := s.Client.GetApiPlatformInstance(context.Background(), request)
+	response, err := s.Client.GetApiPlatformInstance(ctx, request)
 	if err != nil {
 		return err
 	}

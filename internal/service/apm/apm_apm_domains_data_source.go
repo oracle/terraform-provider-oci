@@ -6,6 +6,7 @@ package apm
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -15,7 +16,7 @@ import (
 
 func ApmApmDomainsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readApmApmDomains,
+		ReadContext: readApmApmDomainsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -39,12 +40,12 @@ func ApmApmDomainsDataSource() *schema.Resource {
 	}
 }
 
-func readApmApmDomains(d *schema.ResourceData, m interface{}) error {
+func readApmApmDomainsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ApmApmDomainsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ApmDomainClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type ApmApmDomainsDataSourceCrud struct {
@@ -57,7 +58,7 @@ func (s *ApmApmDomainsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ApmApmDomainsDataSourceCrud) Get() error {
+func (s *ApmApmDomainsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_apm.ListApmDomainsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -76,7 +77,7 @@ func (s *ApmApmDomainsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "apm")
 
-	response, err := s.Client.ListApmDomains(context.Background(), request)
+	response, err := s.Client.ListApmDomains(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -85,7 +86,7 @@ func (s *ApmApmDomainsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListApmDomains(context.Background(), request)
+		listResponse, err := s.Client.ListApmDomains(ctx, request)
 		if err != nil {
 			return err
 		}

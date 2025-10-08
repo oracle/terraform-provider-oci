@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_adm "github.com/oracle/oci-go-sdk/v65/adm"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
@@ -25,11 +25,11 @@ func AdmKnowledgeBaseResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createAdmKnowledgeBase,
-		Read:     readAdmKnowledgeBase,
-		Update:   updateAdmKnowledgeBase,
-		Delete:   deleteAdmKnowledgeBase,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createAdmKnowledgeBaseWithContext,
+		ReadContext:   readAdmKnowledgeBaseWithContext,
+		UpdateContext: updateAdmKnowledgeBaseWithContext,
+		DeleteContext: deleteAdmKnowledgeBaseWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -79,37 +79,37 @@ func AdmKnowledgeBaseResource() *schema.Resource {
 	}
 }
 
-func createAdmKnowledgeBase(d *schema.ResourceData, m interface{}) error {
+func createAdmKnowledgeBaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AdmKnowledgeBaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ApplicationDependencyManagementClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readAdmKnowledgeBase(d *schema.ResourceData, m interface{}) error {
+func readAdmKnowledgeBaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AdmKnowledgeBaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ApplicationDependencyManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateAdmKnowledgeBase(d *schema.ResourceData, m interface{}) error {
+func updateAdmKnowledgeBaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AdmKnowledgeBaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ApplicationDependencyManagementClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteAdmKnowledgeBase(d *schema.ResourceData, m interface{}) error {
+func deleteAdmKnowledgeBaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AdmKnowledgeBaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ApplicationDependencyManagementClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type AdmKnowledgeBaseResourceCrud struct {
@@ -147,7 +147,7 @@ func (s *AdmKnowledgeBaseResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *AdmKnowledgeBaseResourceCrud) Create() error {
+func (s *AdmKnowledgeBaseResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_adm.CreateKnowledgeBaseRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -174,14 +174,14 @@ func (s *AdmKnowledgeBaseResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "adm")
 
-	response, err := s.Client.CreateKnowledgeBase(context.Background(), request)
+	response, err := s.Client.CreateKnowledgeBase(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_adm.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
 		oci_adm.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -197,20 +197,20 @@ func (s *AdmKnowledgeBaseResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getKnowledgeBaseFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "adm"), oci_adm.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getKnowledgeBaseFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "adm"), oci_adm.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *AdmKnowledgeBaseResourceCrud) getKnowledgeBaseFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *AdmKnowledgeBaseResourceCrud) getKnowledgeBaseFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_adm.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	knowledgeBaseId, err := knowledgeBaseWaitForWorkRequest(workId, "knowledgebase",
+	knowledgeBaseId, err := knowledgeBaseWaitForWorkRequest(ctx, workId, "knowledgebase",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, knowledgeBaseId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_adm.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -224,7 +224,7 @@ func (s *AdmKnowledgeBaseResourceCrud) getKnowledgeBaseFromWorkRequest(workId *s
 	}
 	s.D.SetId(*knowledgeBaseId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func knowledgeBaseWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -250,7 +250,7 @@ func knowledgeBaseWorkRequestShouldRetryFunc(timeout time.Duration) func(respons
 	}
 }
 
-func knowledgeBaseWaitForWorkRequest(wId *string, entityType string, action oci_adm.ActionTypeEnum,
+func knowledgeBaseWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_adm.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_adm.ApplicationDependencyManagementClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "adm")
 	retryPolicy.ShouldRetryOperation = knowledgeBaseWorkRequestShouldRetryFunc(timeout)
@@ -269,7 +269,7 @@ func knowledgeBaseWaitForWorkRequest(wId *string, entityType string, action oci_
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_adm.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -298,14 +298,14 @@ func knowledgeBaseWaitForWorkRequest(wId *string, entityType string, action oci_
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_adm.OperationStatusFailed || response.Status == oci_adm.OperationStatusCanceled {
-		return nil, getErrorFromAdmKnowledgeBaseWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromAdmKnowledgeBaseWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromAdmKnowledgeBaseWorkRequest(client *oci_adm.ApplicationDependencyManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_adm.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromAdmKnowledgeBaseWorkRequest(ctx context.Context, client *oci_adm.ApplicationDependencyManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_adm.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_adm.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -327,7 +327,7 @@ func getErrorFromAdmKnowledgeBaseWorkRequest(client *oci_adm.ApplicationDependen
 	return workRequestErr
 }
 
-func (s *AdmKnowledgeBaseResourceCrud) Get() error {
+func (s *AdmKnowledgeBaseResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_adm.GetKnowledgeBaseRequest{}
 
 	tmp := s.D.Id()
@@ -335,7 +335,7 @@ func (s *AdmKnowledgeBaseResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "adm")
 
-	response, err := s.Client.GetKnowledgeBase(context.Background(), request)
+	response, err := s.Client.GetKnowledgeBase(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -344,11 +344,11 @@ func (s *AdmKnowledgeBaseResourceCrud) Get() error {
 	return nil
 }
 
-func (s *AdmKnowledgeBaseResourceCrud) Update() error {
+func (s *AdmKnowledgeBaseResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -378,16 +378,16 @@ func (s *AdmKnowledgeBaseResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "adm")
 
-	response, err := s.Client.UpdateKnowledgeBase(context.Background(), request)
+	response, err := s.Client.UpdateKnowledgeBase(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getKnowledgeBaseFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "adm"), oci_adm.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getKnowledgeBaseFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "adm"), oci_adm.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *AdmKnowledgeBaseResourceCrud) Delete() error {
+func (s *AdmKnowledgeBaseResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_adm.DeleteKnowledgeBaseRequest{}
 
 	tmp := s.D.Id()
@@ -395,14 +395,14 @@ func (s *AdmKnowledgeBaseResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "adm")
 
-	response, err := s.Client.DeleteKnowledgeBase(context.Background(), request)
+	response, err := s.Client.DeleteKnowledgeBase(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := knowledgeBaseWaitForWorkRequest(workId, "knowledgebase",
+	_, delWorkRequestErr := knowledgeBaseWaitForWorkRequest(ctx, workId, "knowledgebase",
 		oci_adm.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -477,7 +477,7 @@ func KnowledgeBaseSummaryToMap(obj oci_adm.KnowledgeBaseSummary) map[string]inte
 	return result
 }
 
-func (s *AdmKnowledgeBaseResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *AdmKnowledgeBaseResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_adm.ChangeKnowledgeBaseCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -488,11 +488,11 @@ func (s *AdmKnowledgeBaseResourceCrud) updateCompartment(compartment interface{}
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "adm")
 
-	response, err := s.Client.ChangeKnowledgeBaseCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeKnowledgeBaseCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getKnowledgeBaseFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "adm"), oci_adm.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getKnowledgeBaseFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "adm"), oci_adm.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

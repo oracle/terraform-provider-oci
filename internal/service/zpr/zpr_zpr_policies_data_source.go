@@ -6,6 +6,7 @@ package zpr
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_zpr "github.com/oracle/oci-go-sdk/v65/zpr"
 
@@ -15,7 +16,7 @@ import (
 
 func ZprZprPoliciesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readZprZprPolicies,
+		ReadContext: readZprZprPoliciesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -48,12 +49,12 @@ func ZprZprPoliciesDataSource() *schema.Resource {
 	}
 }
 
-func readZprZprPolicies(d *schema.ResourceData, m interface{}) error {
+func readZprZprPoliciesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ZprZprPoliciesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ZprClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type ZprZprPoliciesDataSourceCrud struct {
@@ -66,7 +67,7 @@ func (s *ZprZprPoliciesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ZprZprPoliciesDataSourceCrud) Get() error {
+func (s *ZprZprPoliciesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_zpr.ListZprPoliciesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -85,7 +86,7 @@ func (s *ZprZprPoliciesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "zpr")
 
-	response, err := s.Client.ListZprPolicies(context.Background(), request)
+	response, err := s.Client.ListZprPolicies(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -94,7 +95,7 @@ func (s *ZprZprPoliciesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListZprPolicies(context.Background(), request)
+		listResponse, err := s.Client.ListZprPolicies(ctx, request)
 		if err != nil {
 			return err
 		}

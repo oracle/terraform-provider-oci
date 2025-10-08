@@ -9,9 +9,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_jms_java_downloads "github.com/oracle/oci-go-sdk/v65/jmsjavadownloads"
 
@@ -21,11 +21,11 @@ import (
 
 func JmsJavaDownloadsJavaDownloadTokenResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createJmsJavaDownloadsJavaDownloadToken,
-		Read:     readJmsJavaDownloadsJavaDownloadToken,
-		Update:   updateJmsJavaDownloadsJavaDownloadToken,
-		Delete:   deleteJmsJavaDownloadsJavaDownloadToken,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createJmsJavaDownloadsJavaDownloadTokenWithContext,
+		ReadContext:   readJmsJavaDownloadsJavaDownloadTokenWithContext,
+		UpdateContext: updateJmsJavaDownloadsJavaDownloadTokenWithContext,
+		DeleteContext: deleteJmsJavaDownloadsJavaDownloadTokenWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -163,37 +163,37 @@ func JmsJavaDownloadsJavaDownloadTokenResource() *schema.Resource {
 	}
 }
 
-func createJmsJavaDownloadsJavaDownloadToken(d *schema.ResourceData, m interface{}) error {
+func createJmsJavaDownloadsJavaDownloadTokenWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &JmsJavaDownloadsJavaDownloadTokenResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).JavaDownloadClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readJmsJavaDownloadsJavaDownloadToken(d *schema.ResourceData, m interface{}) error {
+func readJmsJavaDownloadsJavaDownloadTokenWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &JmsJavaDownloadsJavaDownloadTokenResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).JavaDownloadClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateJmsJavaDownloadsJavaDownloadToken(d *schema.ResourceData, m interface{}) error {
+func updateJmsJavaDownloadsJavaDownloadTokenWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &JmsJavaDownloadsJavaDownloadTokenResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).JavaDownloadClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteJmsJavaDownloadsJavaDownloadToken(d *schema.ResourceData, m interface{}) error {
+func deleteJmsJavaDownloadsJavaDownloadTokenWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &JmsJavaDownloadsJavaDownloadTokenResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).JavaDownloadClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type JmsJavaDownloadsJavaDownloadTokenResourceCrud struct {
@@ -232,7 +232,7 @@ func (s *JmsJavaDownloadsJavaDownloadTokenResourceCrud) DeletedTarget() []string
 	}
 }
 
-func (s *JmsJavaDownloadsJavaDownloadTokenResourceCrud) Create() error {
+func (s *JmsJavaDownloadsJavaDownloadTokenResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_jms_java_downloads.CreateJavaDownloadTokenRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -298,14 +298,14 @@ func (s *JmsJavaDownloadsJavaDownloadTokenResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "jms_java_downloads")
 
-	response, err := s.Client.CreateJavaDownloadToken(context.Background(), request)
+	response, err := s.Client.CreateJavaDownloadToken(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_jms_java_downloads.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
 		oci_jms_java_downloads.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -321,14 +321,14 @@ func (s *JmsJavaDownloadsJavaDownloadTokenResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getJavaDownloadTokenFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "jms_java_downloads"), oci_jms_java_downloads.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getJavaDownloadTokenFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "jms_java_downloads"), oci_jms_java_downloads.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *JmsJavaDownloadsJavaDownloadTokenResourceCrud) getJavaDownloadTokenFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *JmsJavaDownloadsJavaDownloadTokenResourceCrud) getJavaDownloadTokenFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_jms_java_downloads.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	javaDownloadTokenId, err := javaDownloadTokenWaitForWorkRequest(workId, "jmsjavadownloadtoken",
+	javaDownloadTokenId, err := javaDownloadTokenWaitForWorkRequest(ctx, workId, "jmsjavadownloadtoken",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -336,7 +336,7 @@ func (s *JmsJavaDownloadsJavaDownloadTokenResourceCrud) getJavaDownloadTokenFrom
 	}
 	s.D.SetId(*javaDownloadTokenId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func javaDownloadTokenWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -362,7 +362,7 @@ func javaDownloadTokenWorkRequestShouldRetryFunc(timeout time.Duration) func(res
 	}
 }
 
-func javaDownloadTokenWaitForWorkRequest(wId *string, entityType string, action oci_jms_java_downloads.ActionTypeEnum,
+func javaDownloadTokenWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_jms_java_downloads.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_jms_java_downloads.JavaDownloadClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "jms_java_downloads")
 	retryPolicy.ShouldRetryOperation = javaDownloadTokenWorkRequestShouldRetryFunc(timeout)
@@ -410,14 +410,14 @@ func javaDownloadTokenWaitForWorkRequest(wId *string, entityType string, action 
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_jms_java_downloads.OperationStatusEnum(oci_jms_java_downloads.ListWorkRequestsStatusFailed) || response.Status == oci_jms_java_downloads.OperationStatusEnum(oci_jms_java_downloads.ListWorkRequestsStatusCanceled) {
-		return nil, getErrorFromJmsJavaDownloadsJavaDownloadTokenWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromJmsJavaDownloadsJavaDownloadTokenWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromJmsJavaDownloadsJavaDownloadTokenWorkRequest(client *oci_jms_java_downloads.JavaDownloadClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_jms_java_downloads.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromJmsJavaDownloadsJavaDownloadTokenWorkRequest(ctx context.Context, client *oci_jms_java_downloads.JavaDownloadClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_jms_java_downloads.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_jms_java_downloads.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -439,7 +439,7 @@ func getErrorFromJmsJavaDownloadsJavaDownloadTokenWorkRequest(client *oci_jms_ja
 	return workRequestErr
 }
 
-func (s *JmsJavaDownloadsJavaDownloadTokenResourceCrud) Get() error {
+func (s *JmsJavaDownloadsJavaDownloadTokenResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_jms_java_downloads.GetJavaDownloadTokenRequest{}
 
 	tmp := s.D.Id()
@@ -447,7 +447,7 @@ func (s *JmsJavaDownloadsJavaDownloadTokenResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "jms_java_downloads")
 
-	response, err := s.Client.GetJavaDownloadToken(context.Background(), request)
+	response, err := s.Client.GetJavaDownloadToken(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -456,7 +456,7 @@ func (s *JmsJavaDownloadsJavaDownloadTokenResourceCrud) Get() error {
 	return nil
 }
 
-func (s *JmsJavaDownloadsJavaDownloadTokenResourceCrud) Update() error {
+func (s *JmsJavaDownloadsJavaDownloadTokenResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_jms_java_downloads.UpdateJavaDownloadTokenRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -515,16 +515,16 @@ func (s *JmsJavaDownloadsJavaDownloadTokenResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "jms_java_downloads")
 
-	response, err := s.Client.UpdateJavaDownloadToken(context.Background(), request)
+	response, err := s.Client.UpdateJavaDownloadToken(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getJavaDownloadTokenFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "jms_java_downloads"), oci_jms_java_downloads.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getJavaDownloadTokenFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "jms_java_downloads"), oci_jms_java_downloads.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *JmsJavaDownloadsJavaDownloadTokenResourceCrud) Delete() error {
+func (s *JmsJavaDownloadsJavaDownloadTokenResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_jms_java_downloads.DeleteJavaDownloadTokenRequest{}
 
 	tmp := s.D.Id()
@@ -532,14 +532,14 @@ func (s *JmsJavaDownloadsJavaDownloadTokenResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "jms_java_downloads")
 
-	response, err := s.Client.DeleteJavaDownloadToken(context.Background(), request)
+	response, err := s.Client.DeleteJavaDownloadToken(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := javaDownloadTokenWaitForWorkRequest(workId, "jmsjavadownloadtoken",
+	_, delWorkRequestErr := javaDownloadTokenWaitForWorkRequest(ctx, workId, "jmsjavadownloadtoken",
 		oci_jms_java_downloads.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -567,7 +567,6 @@ func (s *JmsJavaDownloadsJavaDownloadTokenResourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.IsDefault != nil {
@@ -645,7 +644,6 @@ func JavaDownloadTokenSummaryToMap(obj oci_jms_java_downloads.JavaDownloadTokenS
 	}
 
 	result["freeform_tags"] = obj.FreeformTags
-	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
@@ -662,7 +660,6 @@ func JavaDownloadTokenSummaryToMap(obj oci_jms_java_downloads.JavaDownloadTokenS
 	if obj.LastUpdatedBy != nil {
 		result["last_updated_by"] = []interface{}{PrincipalToMap(obj.LastUpdatedBy)}
 	}
-
 	licenseType := []interface{}{}
 	for _, item := range obj.LicenseType {
 		licenseType = append(licenseType, item)

@@ -6,6 +6,7 @@ package ocvp
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_ocvp "github.com/oracle/oci-go-sdk/v65/ocvp"
 
@@ -15,7 +16,7 @@ import (
 
 func OcvpClustersDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readOcvpClusters,
+		ReadContext: readOcvpClustersWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -52,12 +53,12 @@ func OcvpClustersDataSource() *schema.Resource {
 	}
 }
 
-func readOcvpClusters(d *schema.ResourceData, m interface{}) error {
+func readOcvpClustersWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OcvpClustersDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ClusterClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type OcvpClustersDataSourceCrud struct {
@@ -70,7 +71,7 @@ func (s *OcvpClustersDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OcvpClustersDataSourceCrud) Get() error {
+func (s *OcvpClustersDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_ocvp.ListClustersRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -94,7 +95,7 @@ func (s *OcvpClustersDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "ocvp")
 
-	response, err := s.Client.ListClusters(context.Background(), request)
+	response, err := s.Client.ListClusters(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -103,7 +104,7 @@ func (s *OcvpClustersDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListClusters(context.Background(), request)
+		listResponse, err := s.Client.ListClusters(ctx, request)
 		if err != nil {
 			return err
 		}

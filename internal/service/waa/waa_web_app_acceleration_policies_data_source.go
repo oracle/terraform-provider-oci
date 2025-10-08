@@ -6,6 +6,7 @@ package waa
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_waa "github.com/oracle/oci-go-sdk/v65/waa"
 
@@ -15,7 +16,7 @@ import (
 
 func WaaWebAppAccelerationPoliciesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readWaaWebAppAccelerationPolicies,
+		ReadContext: readWaaWebAppAccelerationPoliciesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -55,12 +56,12 @@ func WaaWebAppAccelerationPoliciesDataSource() *schema.Resource {
 	}
 }
 
-func readWaaWebAppAccelerationPolicies(d *schema.ResourceData, m interface{}) error {
+func readWaaWebAppAccelerationPoliciesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &WaaWebAppAccelerationPoliciesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).WaaClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type WaaWebAppAccelerationPoliciesDataSourceCrud struct {
@@ -73,7 +74,7 @@ func (s *WaaWebAppAccelerationPoliciesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *WaaWebAppAccelerationPoliciesDataSourceCrud) Get() error {
+func (s *WaaWebAppAccelerationPoliciesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_waa.ListWebAppAccelerationPoliciesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -109,7 +110,7 @@ func (s *WaaWebAppAccelerationPoliciesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "waa")
 
-	response, err := s.Client.ListWebAppAccelerationPolicies(context.Background(), request)
+	response, err := s.Client.ListWebAppAccelerationPolicies(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -118,7 +119,7 @@ func (s *WaaWebAppAccelerationPoliciesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListWebAppAccelerationPolicies(context.Background(), request)
+		listResponse, err := s.Client.ListWebAppAccelerationPolicies(ctx, request)
 		if err != nil {
 			return err
 		}

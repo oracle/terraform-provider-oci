@@ -6,6 +6,7 @@ package lustre_file_storage
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_lustre_file_storage "github.com/oracle/oci-go-sdk/v65/lustrefilestorage"
 
@@ -19,15 +20,15 @@ func LustreFileStorageLustreFileSystemDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(LustreFileStorageLustreFileSystemResource(), fieldMap, readSingularLustreFileStorageLustreFileSystem)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(LustreFileStorageLustreFileSystemResource(), fieldMap, readSingularLustreFileStorageLustreFileSystemWithContext)
 }
 
-func readSingularLustreFileStorageLustreFileSystem(d *schema.ResourceData, m interface{}) error {
+func readSingularLustreFileStorageLustreFileSystemWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LustreFileStorageLustreFileSystemDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LustreFileStorageClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type LustreFileStorageLustreFileSystemDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *LustreFileStorageLustreFileSystemDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *LustreFileStorageLustreFileSystemDataSourceCrud) Get() error {
+func (s *LustreFileStorageLustreFileSystemDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_lustre_file_storage.GetLustreFileSystemRequest{}
 
 	if lustreFileSystemId, ok := s.D.GetOkExists("lustre_file_system_id"); ok {
@@ -50,7 +51,7 @@ func (s *LustreFileStorageLustreFileSystemDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "lustre_file_storage")
 
-	response, err := s.Client.GetLustreFileSystem(context.Background(), request)
+	response, err := s.Client.GetLustreFileSystem(ctx, request)
 	if err != nil {
 		return err
 	}

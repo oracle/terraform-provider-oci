@@ -6,6 +6,7 @@ package psql
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_psql "github.com/oracle/oci-go-sdk/v65/psql"
 
@@ -15,7 +16,7 @@ import (
 
 func PsqlDbSystemsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readPsqlDbSystems,
+		ReadContext: readPsqlDbSystemsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -52,12 +53,12 @@ func PsqlDbSystemsDataSource() *schema.Resource {
 	}
 }
 
-func readPsqlDbSystems(d *schema.ResourceData, m interface{}) error {
+func readPsqlDbSystemsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &PsqlDbSystemsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).PostgresqlClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type PsqlDbSystemsDataSourceCrud struct {
@@ -70,7 +71,7 @@ func (s *PsqlDbSystemsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *PsqlDbSystemsDataSourceCrud) Get() error {
+func (s *PsqlDbSystemsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_psql.ListDbSystemsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -94,7 +95,7 @@ func (s *PsqlDbSystemsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "psql")
 
-	response, err := s.Client.ListDbSystems(context.Background(), request)
+	response, err := s.Client.ListDbSystems(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -103,7 +104,7 @@ func (s *PsqlDbSystemsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDbSystems(context.Background(), request)
+		listResponse, err := s.Client.ListDbSystems(ctx, request)
 		if err != nil {
 			return err
 		}

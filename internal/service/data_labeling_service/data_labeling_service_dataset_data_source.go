@@ -6,6 +6,7 @@ package data_labeling_service
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -19,15 +20,15 @@ func DataLabelingServiceDatasetDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DataLabelingServiceDatasetResource(), fieldMap, readSingularDataLabelingServiceDataset)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DataLabelingServiceDatasetResource(), fieldMap, readSingularDataLabelingServiceDatasetWithContext)
 }
 
-func readSingularDataLabelingServiceDataset(d *schema.ResourceData, m interface{}) error {
+func readSingularDataLabelingServiceDatasetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataLabelingServiceDatasetDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataLabelingManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataLabelingServiceDatasetDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DataLabelingServiceDatasetDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataLabelingServiceDatasetDataSourceCrud) Get() error {
+func (s *DataLabelingServiceDatasetDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_labeling_service.GetDatasetRequest{}
 
 	if datasetId, ok := s.D.GetOkExists("dataset_id"); ok {
@@ -50,7 +51,7 @@ func (s *DataLabelingServiceDatasetDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_labeling_service")
 
-	response, err := s.Client.GetDataset(context.Background(), request)
+	response, err := s.Client.GetDataset(ctx, request)
 	if err != nil {
 		return err
 	}

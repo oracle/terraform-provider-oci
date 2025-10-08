@@ -7,6 +7,7 @@ import (
 	"context"
 	"log"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_fleet_software_update "github.com/oracle/oci-go-sdk/v65/fleetsoftwareupdate"
 
@@ -20,15 +21,15 @@ func FleetSoftwareUpdateFsuCollectionDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(FleetSoftwareUpdateFsuCollectionResource(), fieldMap, readSingularFleetSoftwareUpdateFsuCollection)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(FleetSoftwareUpdateFsuCollectionResource(), fieldMap, readSingularFleetSoftwareUpdateFsuCollectionWithContext)
 }
 
-func readSingularFleetSoftwareUpdateFsuCollection(d *schema.ResourceData, m interface{}) error {
+func readSingularFleetSoftwareUpdateFsuCollectionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetSoftwareUpdateFsuCollectionDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetSoftwareUpdateClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type FleetSoftwareUpdateFsuCollectionDataSourceCrud struct {
@@ -41,7 +42,7 @@ func (s *FleetSoftwareUpdateFsuCollectionDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *FleetSoftwareUpdateFsuCollectionDataSourceCrud) Get() error {
+func (s *FleetSoftwareUpdateFsuCollectionDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fleet_software_update.GetFsuCollectionRequest{}
 
 	if fsuCollectionId, ok := s.D.GetOkExists("fsu_collection_id"); ok {
@@ -51,7 +52,7 @@ func (s *FleetSoftwareUpdateFsuCollectionDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fleet_software_update")
 
-	response, err := s.Client.GetFsuCollection(context.Background(), request)
+	response, err := s.Client.GetFsuCollection(ctx, request)
 	if err != nil {
 		return err
 	}

@@ -6,6 +6,7 @@ package bastion
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -19,15 +20,15 @@ func BastionBastionDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(BastionBastionResource(), fieldMap, readSingularBastionBastion)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(BastionBastionResource(), fieldMap, readSingularBastionBastionWithContext)
 }
 
-func readSingularBastionBastion(d *schema.ResourceData, m interface{}) error {
+func readSingularBastionBastionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BastionBastionDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BastionClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type BastionBastionDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *BastionBastionDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *BastionBastionDataSourceCrud) Get() error {
+func (s *BastionBastionDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_bastion.GetBastionRequest{}
 
 	if bastionId, ok := s.D.GetOkExists("bastion_id"); ok {
@@ -50,7 +51,7 @@ func (s *BastionBastionDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "bastion")
 
-	response, err := s.Client.GetBastion(context.Background(), request)
+	response, err := s.Client.GetBastion(ctx, request)
 	if err != nil {
 		return err
 	}

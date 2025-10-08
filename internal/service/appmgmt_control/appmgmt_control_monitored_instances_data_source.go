@@ -6,6 +6,7 @@ package appmgmt_control
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -15,7 +16,7 @@ import (
 
 func AppmgmtControlMonitoredInstancesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readAppmgmtControlMonitoredInstances,
+		ReadContext: readAppmgmtControlMonitoredInstancesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -87,12 +88,12 @@ func AppmgmtControlMonitoredInstancesDataSource() *schema.Resource {
 	}
 }
 
-func readAppmgmtControlMonitoredInstances(d *schema.ResourceData, m interface{}) error {
+func readAppmgmtControlMonitoredInstancesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AppmgmtControlMonitoredInstancesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AppmgmtControlClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type AppmgmtControlMonitoredInstancesDataSourceCrud struct {
@@ -105,7 +106,7 @@ func (s *AppmgmtControlMonitoredInstancesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AppmgmtControlMonitoredInstancesDataSourceCrud) Get() error {
+func (s *AppmgmtControlMonitoredInstancesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_appmgmt_control.ListMonitoredInstancesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -120,7 +121,7 @@ func (s *AppmgmtControlMonitoredInstancesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "appmgmt_control")
 
-	response, err := s.Client.ListMonitoredInstances(context.Background(), request)
+	response, err := s.Client.ListMonitoredInstances(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -129,7 +130,7 @@ func (s *AppmgmtControlMonitoredInstancesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListMonitoredInstances(context.Background(), request)
+		listResponse, err := s.Client.ListMonitoredInstances(ctx, request)
 		if err != nil {
 			return err
 		}

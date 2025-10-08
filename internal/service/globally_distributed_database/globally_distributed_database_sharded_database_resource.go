@@ -10,10 +10,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_globally_distributed_database "github.com/oracle/oci-go-sdk/v65/globallydistributeddatabase"
 
@@ -26,15 +26,15 @@ func GloballyDistributedDatabaseShardedDatabaseResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
+		CreateContext: createGloballyDistributedDatabaseShardedDatabaseWithContext,
+		ReadContext:   readGloballyDistributedDatabaseShardedDatabaseWithContext,
+		UpdateContext: updateGloballyDistributedDatabaseShardedDatabaseWithContext,
+		DeleteContext: deleteGloballyDistributedDatabaseShardedDatabaseWithContext,
 		Timeouts: &schema.ResourceTimeout{
 			Create: tfresource.GetTimeoutDuration("12h"),
 			Update: tfresource.GetTimeoutDuration("12h"),
 			Delete: tfresource.GetTimeoutDuration("12h"),
 		},
-		Create: createGloballyDistributedDatabaseShardedDatabase,
-		Read:   readGloballyDistributedDatabaseShardedDatabase,
-		Update: updateGloballyDistributedDatabaseShardedDatabase,
-		Delete: deleteGloballyDistributedDatabaseShardedDatabase,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"catalog_details": {
@@ -605,97 +605,97 @@ func GloballyDistributedDatabaseShardedDatabaseResource() *schema.Resource {
 	}
 }
 
-func createGloballyDistributedDatabaseShardedDatabase(d *schema.ResourceData, m interface{}) error {
+func createGloballyDistributedDatabaseShardedDatabaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GloballyDistributedDatabaseShardedDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ShardedDatabaseServiceClient()
 
-	if e := tfresource.CreateResource(d, sync); e != nil {
-		return e
+	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
+		return tfresource.HandleDiagError(m, e)
 	}
 
 	if _, ok := sync.D.GetOkExists("configure_gsms_trigger"); ok {
-		err := sync.ConfigureShardedDatabaseGsms()
+		err := sync.ConfigureShardedDatabaseGsms(ctx)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
 	if _, ok := sync.D.GetOkExists("configure_sharding_trigger"); ok {
-		err := sync.ConfigureSharding()
+		err := sync.ConfigureSharding(ctx)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
 	if _, ok := sync.D.GetOkExists("download_gsm_certificate_signing_request_trigger"); ok {
 		err := sync.DownloadGsmCertificateSigningRequest()
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
 	if _, ok := sync.D.GetOkExists("generate_gsm_certificate_signing_request_trigger"); ok {
-		err := sync.GenerateGsmCertificateSigningRequest()
+		err := sync.GenerateGsmCertificateSigningRequest(ctx)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
 	if _, ok := sync.D.GetOkExists("generate_wallet_trigger"); ok {
 		err := sync.GenerateWallet()
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
 	if _, ok := sync.D.GetOkExists("get_connection_string_trigger"); ok {
 		err := sync.FetchConnectionString()
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
 	if _, ok := sync.D.GetOkExists("start_database_trigger"); ok {
-		err := sync.StartShardedDatabase()
+		err := sync.StartShardedDatabase(ctx)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
 	if _, ok := sync.D.GetOkExists("stop_database_trigger"); ok {
-		err := sync.StopShardedDatabase()
+		err := sync.StopShardedDatabase(ctx)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
 	if _, ok := sync.D.GetOkExists("upload_signed_certificate_and_generate_wallet_trigger"); ok {
-		err := sync.UploadSignedCertificateAndGenerateWallet()
+		err := sync.UploadSignedCertificateAndGenerateWallet(ctx)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
 	if _, ok := sync.D.GetOkExists("validate_network_trigger"); ok {
-		err := sync.ValidateNetwork()
+		err := sync.ValidateNetwork(ctx)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 	return nil
 
 }
 
-func readGloballyDistributedDatabaseShardedDatabase(d *schema.ResourceData, m interface{}) error {
+func readGloballyDistributedDatabaseShardedDatabaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GloballyDistributedDatabaseShardedDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ShardedDatabaseServiceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateGloballyDistributedDatabaseShardedDatabase(d *schema.ResourceData, m interface{}) error {
+func updateGloballyDistributedDatabaseShardedDatabaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GloballyDistributedDatabaseShardedDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ShardedDatabaseServiceClient()
@@ -705,14 +705,14 @@ func updateGloballyDistributedDatabaseShardedDatabase(d *schema.ResourceData, m 
 		oldValue := oldRaw.(int)
 		newValue := newRaw.(int)
 		if oldValue < newValue {
-			err := sync.ConfigureShardedDatabaseGsms()
+			err := sync.ConfigureShardedDatabaseGsms(ctx)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		} else {
 			sync.D.Set("configure_gsms_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, fmt.Errorf("new value of trigger should be greater than the old value"))
 		}
 	}
 
@@ -721,14 +721,14 @@ func updateGloballyDistributedDatabaseShardedDatabase(d *schema.ResourceData, m 
 		oldValue := oldRaw.(int)
 		newValue := newRaw.(int)
 		if oldValue < newValue {
-			err := sync.ConfigureSharding()
+			err := sync.ConfigureSharding(ctx)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		} else {
 			sync.D.Set("configure_sharding_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, fmt.Errorf("new value of trigger should be greater than the old value"))
 		}
 	}
 
@@ -740,11 +740,11 @@ func updateGloballyDistributedDatabaseShardedDatabase(d *schema.ResourceData, m 
 			err := sync.DownloadGsmCertificateSigningRequest()
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		} else {
 			sync.D.Set("download_gsm_certificate_signing_request_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, fmt.Errorf("new value of trigger should be greater than the old value"))
 		}
 	}
 
@@ -753,14 +753,14 @@ func updateGloballyDistributedDatabaseShardedDatabase(d *schema.ResourceData, m 
 		oldValue := oldRaw.(int)
 		newValue := newRaw.(int)
 		if oldValue < newValue {
-			err := sync.GenerateGsmCertificateSigningRequest()
+			err := sync.GenerateGsmCertificateSigningRequest(ctx)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		} else {
 			sync.D.Set("generate_gsm_certificate_signing_request_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, fmt.Errorf("new value of trigger should be greater than the old value"))
 		}
 	}
 
@@ -772,11 +772,11 @@ func updateGloballyDistributedDatabaseShardedDatabase(d *schema.ResourceData, m 
 			err := sync.GenerateWallet()
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		} else {
 			sync.D.Set("generate_wallet_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, fmt.Errorf("new value of trigger should be greater than the old value"))
 		}
 	}
 
@@ -788,11 +788,11 @@ func updateGloballyDistributedDatabaseShardedDatabase(d *schema.ResourceData, m 
 			err := sync.FetchConnectionString()
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		} else {
 			sync.D.Set("get_connection_string_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, fmt.Errorf("new value of trigger should be greater than the old value"))
 		}
 	}
 
@@ -801,14 +801,14 @@ func updateGloballyDistributedDatabaseShardedDatabase(d *schema.ResourceData, m 
 		oldValue := oldRaw.(int)
 		newValue := newRaw.(int)
 		if oldValue < newValue {
-			err := sync.StartShardedDatabase()
+			err := sync.StartShardedDatabase(ctx)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		} else {
 			sync.D.Set("start_database_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, fmt.Errorf("new value of trigger should be greater than the old value"))
 		}
 	}
 
@@ -817,14 +817,14 @@ func updateGloballyDistributedDatabaseShardedDatabase(d *schema.ResourceData, m 
 		oldValue := oldRaw.(int)
 		newValue := newRaw.(int)
 		if oldValue < newValue {
-			err := sync.StopShardedDatabase()
+			err := sync.StopShardedDatabase(ctx)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		} else {
 			sync.D.Set("stop_database_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, fmt.Errorf("new value of trigger should be greater than the old value"))
 		}
 	}
 
@@ -833,14 +833,14 @@ func updateGloballyDistributedDatabaseShardedDatabase(d *schema.ResourceData, m 
 		oldValue := oldRaw.(int)
 		newValue := newRaw.(int)
 		if oldValue < newValue {
-			err := sync.UploadSignedCertificateAndGenerateWallet()
+			err := sync.UploadSignedCertificateAndGenerateWallet(ctx)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		} else {
 			sync.D.Set("upload_signed_certificate_and_generate_wallet_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, fmt.Errorf("new value of trigger should be greater than the old value"))
 		}
 	}
 
@@ -849,31 +849,31 @@ func updateGloballyDistributedDatabaseShardedDatabase(d *schema.ResourceData, m 
 		oldValue := oldRaw.(int)
 		newValue := newRaw.(int)
 		if oldValue < newValue {
-			err := sync.ValidateNetwork()
+			err := sync.ValidateNetwork(ctx)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		} else {
 			sync.D.Set("validate_network_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, fmt.Errorf("new value of trigger should be greater than the old value"))
 		}
 	}
 
-	if err := tfresource.UpdateResource(d, sync); err != nil {
-		return err
+	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
+		return tfresource.HandleDiagError(m, err)
 	}
 
 	return nil
 }
 
-func deleteGloballyDistributedDatabaseShardedDatabase(d *schema.ResourceData, m interface{}) error {
+func deleteGloballyDistributedDatabaseShardedDatabaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GloballyDistributedDatabaseShardedDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ShardedDatabaseServiceClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type GloballyDistributedDatabaseShardedDatabaseResourceCrud struct {
@@ -916,7 +916,7 @@ func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) DeletedTarget()
 	}
 }
 
-func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) Create() error {
+func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_globally_distributed_database.CreateShardedDatabaseRequest{}
 	err := s.populateTopLevelPolymorphicCreateShardedDatabaseRequest(&request)
 	if err != nil {
@@ -925,7 +925,7 @@ func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) Create() error 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "globally_distributed_database")
 
-	response, err := s.Client.CreateShardedDatabase(context.Background(), request)
+	response, err := s.Client.CreateShardedDatabase(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -938,19 +938,19 @@ func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) Create() error 
 		s.D.SetId(*identifier)
 	}
 
-	err = s.getShardedDatabaseFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "globally_distributed_database"), oci_globally_distributed_database.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	err = s.getShardedDatabaseFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "globally_distributed_database"), oci_globally_distributed_database.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 	if err != nil {
 		return err
 	}
 
-	err = s.Patch()
+	err = s.Patch(ctx)
 	if err != nil {
 		log.Printf("[ERROR] Failed to execute Patch operation: %v", err)
 		return err
 	}
 	return nil
 }
-func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) Patch() error {
+func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) Patch(ctx context.Context) error {
 	request := oci_globally_distributed_database.PatchShardedDatabaseRequest{}
 
 	if patchOperations, ok := s.D.GetOkExists("patch_operations"); ok {
@@ -979,24 +979,24 @@ func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) Patch() error {
 		}
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "globally_distributed_database")
-		response, err := s.Client.PatchShardedDatabase(context.Background(), request)
+		response, err := s.Client.PatchShardedDatabase(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
-		return s.getShardedDatabaseFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "globally_distributed_database"), oci_globally_distributed_database.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+		return s.getShardedDatabaseFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "globally_distributed_database"), oci_globally_distributed_database.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 	}
 
 	return nil
 
 }
 
-func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) getShardedDatabaseFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) getShardedDatabaseFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_globally_distributed_database.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	shardedDatabaseId, err := shardedDatabaseWaitForWorkRequest(workId, "shardeddatabase",
+	shardedDatabaseId, err := shardedDatabaseWaitForWorkRequest(ctx, workId, "shardeddatabase",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -1004,7 +1004,7 @@ func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) getShardedDatab
 	}
 	s.D.SetId(*shardedDatabaseId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func shardedDatabaseWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -1030,7 +1030,7 @@ func shardedDatabaseWorkRequestShouldRetryFunc(timeout time.Duration) func(respo
 	}
 }
 
-func shardedDatabaseWaitForWorkRequest(wId *string, entityType string, action oci_globally_distributed_database.ActionTypeEnum,
+func shardedDatabaseWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_globally_distributed_database.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_globally_distributed_database.ShardedDatabaseServiceClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "globally_distributed_database")
 	retryPolicy.ShouldRetryOperation = shardedDatabaseWorkRequestShouldRetryFunc(timeout)
@@ -1049,7 +1049,7 @@ func shardedDatabaseWaitForWorkRequest(wId *string, entityType string, action oc
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_globally_distributed_database.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -1078,14 +1078,14 @@ func shardedDatabaseWaitForWorkRequest(wId *string, entityType string, action oc
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_globally_distributed_database.OperationStatusFailed || response.Status == oci_globally_distributed_database.OperationStatusCanceled {
-		return nil, getErrorFromGloballyDistributedDatabaseShardedDatabaseWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromGloballyDistributedDatabaseShardedDatabaseWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromGloballyDistributedDatabaseShardedDatabaseWorkRequest(client *oci_globally_distributed_database.ShardedDatabaseServiceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_globally_distributed_database.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromGloballyDistributedDatabaseShardedDatabaseWorkRequest(ctx context.Context, client *oci_globally_distributed_database.ShardedDatabaseServiceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_globally_distributed_database.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_globally_distributed_database.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -1107,7 +1107,7 @@ func getErrorFromGloballyDistributedDatabaseShardedDatabaseWorkRequest(client *o
 	return workRequestErr
 }
 
-func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) Get() error {
+func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_globally_distributed_database.GetShardedDatabaseRequest{}
 
 	if metadata, ok := s.D.GetOkExists("metadata"); ok {
@@ -1120,7 +1120,7 @@ func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "globally_distributed_database")
 
-	response, err := s.Client.GetShardedDatabase(context.Background(), request)
+	response, err := s.Client.GetShardedDatabase(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1129,11 +1129,11 @@ func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) Get() error {
 	return nil
 }
 
-func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) Update() error {
+func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -1163,7 +1163,7 @@ func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) Update() error 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "globally_distributed_database")
 
-	response, err := s.Client.UpdateShardedDatabase(context.Background(), request)
+	response, err := s.Client.UpdateShardedDatabase(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1172,7 +1172,7 @@ func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) Update() error 
 
 	if patchOperations, ok := s.D.GetOkExists("patch_operations"); ok {
 		if tmpList := patchOperations.([]interface{}); len(tmpList) > 0 {
-			err = s.Patch()
+			err = s.Patch(ctx)
 			if err != nil {
 				log.Printf("[ERROR] Failed to execute Patch operation: %v", err)
 				return err
@@ -1182,7 +1182,7 @@ func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) Update() error 
 	return nil
 }
 
-func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) Delete() error {
+func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_globally_distributed_database.DeleteShardedDatabaseRequest{}
 
 	tmp := s.D.Id()
@@ -1190,14 +1190,14 @@ func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) Delete() error 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "globally_distributed_database")
 
-	response, err := s.Client.DeleteShardedDatabase(context.Background(), request)
+	response, err := s.Client.DeleteShardedDatabase(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := shardedDatabaseWaitForWorkRequest(workId, "shardeddatabase",
+	_, delWorkRequestErr := shardedDatabaseWaitForWorkRequest(ctx, workId, "shardeddatabase",
 		oci_globally_distributed_database.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -1390,7 +1390,7 @@ func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) SetData() error
 	return nil
 }
 
-func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) ConfigureShardedDatabaseGsms() error {
+func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) ConfigureShardedDatabaseGsms(ctx context.Context) error {
 	request := oci_globally_distributed_database.ConfigureShardedDatabaseGsmsRequest{}
 
 	if isLatestGsmImage, ok := s.D.GetOkExists("configure_gsms_trigger_is_latest_gsm_image"); ok {
@@ -1416,12 +1416,12 @@ func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) ConfigureSharde
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "globally_distributed_database")
 
-	response, err := s.Client.ConfigureShardedDatabaseGsms(context.Background(), request)
+	response, err := s.Client.ConfigureShardedDatabaseGsms(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -1430,14 +1430,14 @@ func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) ConfigureSharde
 
 	workId := response.OpcWorkRequestId
 
-	_, configureShardedDatabaseGsmsWorkRequestErr := shardedDatabaseWaitForWorkRequest(workId, "shardeddatabase",
+	_, configureShardedDatabaseGsmsWorkRequestErr := shardedDatabaseWaitForWorkRequest(ctx, workId, "shardeddatabase",
 		oci_globally_distributed_database.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 
 	//s.Res = &response.ShardedDatabase
 	return configureShardedDatabaseGsmsWorkRequestErr
 }
 
-func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) ConfigureSharding() error {
+func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) ConfigureSharding(ctx context.Context) error {
 	request := oci_globally_distributed_database.ConfigureShardingRequest{}
 
 	if isRebalanceRequired, ok := s.D.GetOkExists("is_rebalance_required"); ok {
@@ -1450,13 +1450,13 @@ func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) ConfigureShardi
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "globally_distributed_database")
 
-	response, err := s.Client.ConfigureSharding(context.Background(), request)
+	response, err := s.Client.ConfigureSharding(ctx, request)
 
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -1465,7 +1465,7 @@ func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) ConfigureShardi
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, configureShardingWorkRequestErr := shardedDatabaseWaitForWorkRequest(workId, "shardeddatabase",
+	_, configureShardingWorkRequestErr := shardedDatabaseWaitForWorkRequest(ctx, workId, "shardeddatabase",
 		oci_globally_distributed_database.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 
 	//s.Res = &response.ShardedDatabase
@@ -1485,7 +1485,7 @@ func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) DownloadGsmCert
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -1496,7 +1496,7 @@ func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) DownloadGsmCert
 	return nil
 }
 
-func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) GenerateGsmCertificateSigningRequest() error {
+func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) GenerateGsmCertificateSigningRequest(ctx context.Context) error {
 	request := oci_globally_distributed_database.GenerateGsmCertificateSigningRequestRequest{}
 
 	if caBundleId, ok := s.D.GetOkExists("ca_bundle_id"); ok {
@@ -1514,7 +1514,7 @@ func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) GenerateGsmCert
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -1523,7 +1523,7 @@ func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) GenerateGsmCert
 
 	workId := response.OpcWorkRequestId
 
-	_, generateGsmCertificateSigningRequesWorkRequestErr := shardedDatabaseWaitForWorkRequest(workId, "shardeddatabase",
+	_, generateGsmCertificateSigningRequesWorkRequestErr := shardedDatabaseWaitForWorkRequest(ctx, workId, "shardeddatabase",
 		oci_globally_distributed_database.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 
 	//s.Res = &response.ShardedDatabase
@@ -1553,7 +1553,7 @@ func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) GenerateWallet(
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -1577,7 +1577,7 @@ func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) FetchConnection
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -1588,7 +1588,7 @@ func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) FetchConnection
 	return nil
 }
 
-func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) StartShardedDatabase() error {
+func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) StartShardedDatabase(ctx context.Context) error {
 	request := oci_globally_distributed_database.StartShardedDatabaseRequest{}
 
 	idTmp := s.D.Id()
@@ -1601,7 +1601,7 @@ func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) StartShardedDat
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -1610,14 +1610,14 @@ func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) StartShardedDat
 
 	workId := response.OpcWorkRequestId
 
-	_, startShardedDatabaseWorkRequestErr := shardedDatabaseWaitForWorkRequest(workId, "shardeddatabase",
+	_, startShardedDatabaseWorkRequestErr := shardedDatabaseWaitForWorkRequest(ctx, workId, "shardeddatabase",
 		oci_globally_distributed_database.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 
 	//s.Res = &response.ShardedDatabase
 	return startShardedDatabaseWorkRequestErr
 }
 
-func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) StopShardedDatabase() error {
+func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) StopShardedDatabase(ctx context.Context) error {
 	request := oci_globally_distributed_database.StopShardedDatabaseRequest{}
 
 	idTmp := s.D.Id()
@@ -1630,7 +1630,7 @@ func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) StopShardedData
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -1639,14 +1639,14 @@ func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) StopShardedData
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, stopShardedDatabaseWorkRequestErr := shardedDatabaseWaitForWorkRequest(workId, "shardeddatabase",
+	_, stopShardedDatabaseWorkRequestErr := shardedDatabaseWaitForWorkRequest(ctx, workId, "shardeddatabase",
 		oci_globally_distributed_database.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 
 	//s.Res = &response.ShardedDatabase
 	return stopShardedDatabaseWorkRequestErr
 }
 
-func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) UploadSignedCertificateAndGenerateWallet() error {
+func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) UploadSignedCertificateAndGenerateWallet(ctx context.Context) error {
 	request := oci_globally_distributed_database.UploadSignedCertificateAndGenerateWalletRequest{}
 
 	if caSignedCertificate, ok := s.D.GetOkExists("ca_signed_certificate"); ok {
@@ -1664,7 +1664,7 @@ func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) UploadSignedCer
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -1673,14 +1673,14 @@ func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) UploadSignedCer
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, uploadSignedCertificateAndGenerateWalletWorkRequestErr := shardedDatabaseWaitForWorkRequest(workId, "shardeddatabase",
+	_, uploadSignedCertificateAndGenerateWalletWorkRequestErr := shardedDatabaseWaitForWorkRequest(ctx, workId, "shardeddatabase",
 		oci_globally_distributed_database.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 
 	//s.Res = &response.ShardedDatabase
 	return uploadSignedCertificateAndGenerateWalletWorkRequestErr
 }
 
-func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) ValidateNetwork() error {
+func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) ValidateNetwork(ctx context.Context) error {
 	request := oci_globally_distributed_database.ValidateNetworkRequest{}
 
 	if isPrimary, ok := s.D.GetOkExists("is_primary"); ok {
@@ -1708,7 +1708,7 @@ func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) ValidateNetwork
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -1717,7 +1717,7 @@ func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) ValidateNetwork
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, validateNetworkWorkRequestErr := shardedDatabaseWaitForWorkRequest(workId, "shardeddatabase",
+	_, validateNetworkWorkRequestErr := shardedDatabaseWaitForWorkRequest(ctx, workId, "shardeddatabase",
 		oci_globally_distributed_database.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 
 	//s.Res = &response.ShardedDatabase
@@ -2856,7 +2856,7 @@ func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) populateTopLeve
 	return nil
 }
 
-func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_globally_distributed_database.ChangeShardedDatabaseCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -2867,11 +2867,11 @@ func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) updateCompartme
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "globally_distributed_database")
 
-	response, err := s.Client.ChangeShardedDatabaseCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeShardedDatabaseCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getShardedDatabaseFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "globally_distributed_database"), oci_globally_distributed_database.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getShardedDatabaseFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "globally_distributed_database"), oci_globally_distributed_database.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

@@ -9,9 +9,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_opensearch "github.com/oracle/oci-go-sdk/v65/opensearch"
 
@@ -29,10 +29,10 @@ func OpensearchOpensearchClusterPipelineResource() *schema.Resource {
 			Update: tfresource.GetTimeoutDuration("45m"),
 			Delete: tfresource.GetTimeoutDuration("45m"),
 		},
-		Create: createOpensearchOpensearchClusterPipeline,
-		Read:   readOpensearchOpensearchClusterPipeline,
-		Update: updateOpensearchOpensearchClusterPipeline,
-		Delete: deleteOpensearchOpensearchClusterPipeline,
+		CreateContext: createOpensearchOpensearchClusterPipelineWithContext,
+		ReadContext:   readOpensearchOpensearchClusterPipelineWithContext,
+		UpdateContext: updateOpensearchOpensearchClusterPipelineWithContext,
+		DeleteContext: deleteOpensearchOpensearchClusterPipelineWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -171,41 +171,41 @@ func OpensearchOpensearchClusterPipelineResource() *schema.Resource {
 	}
 }
 
-func createOpensearchOpensearchClusterPipeline(d *schema.ResourceData, m interface{}) error {
+func createOpensearchOpensearchClusterPipelineWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpensearchOpensearchClusterPipelineResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OpensearchClusterPipelineClient()
 	sync.ClusterClient = m.(*client.OracleClients).OpensearchClusterClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readOpensearchOpensearchClusterPipeline(d *schema.ResourceData, m interface{}) error {
+func readOpensearchOpensearchClusterPipelineWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpensearchOpensearchClusterPipelineResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OpensearchClusterPipelineClient()
 	sync.ClusterClient = m.(*client.OracleClients).OpensearchClusterClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateOpensearchOpensearchClusterPipeline(d *schema.ResourceData, m interface{}) error {
+func updateOpensearchOpensearchClusterPipelineWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpensearchOpensearchClusterPipelineResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OpensearchClusterPipelineClient()
 	sync.ClusterClient = m.(*client.OracleClients).OpensearchClusterClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteOpensearchOpensearchClusterPipeline(d *schema.ResourceData, m interface{}) error {
+func deleteOpensearchOpensearchClusterPipelineWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpensearchOpensearchClusterPipelineResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OpensearchClusterPipelineClient()
 	sync.ClusterClient = m.(*client.OracleClients).OpensearchClusterClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type OpensearchOpensearchClusterPipelineResourceCrud struct {
@@ -244,7 +244,7 @@ func (s *OpensearchOpensearchClusterPipelineResourceCrud) DeletedTarget() []stri
 	}
 }
 
-func (s *OpensearchOpensearchClusterPipelineResourceCrud) Create() error {
+func (s *OpensearchOpensearchClusterPipelineResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_opensearch.CreateOpensearchClusterPipelineRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -348,7 +348,7 @@ func (s *OpensearchOpensearchClusterPipelineResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch")
 
-	response, err := s.Client.CreateOpensearchClusterPipeline(context.Background(), request)
+	response, err := s.Client.CreateOpensearchClusterPipeline(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -371,14 +371,14 @@ func (s *OpensearchOpensearchClusterPipelineResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getOpensearchClusterPipelineFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch"), oci_opensearch.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getOpensearchClusterPipelineFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch"), oci_opensearch.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *OpensearchOpensearchClusterPipelineResourceCrud) getOpensearchClusterPipelineFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OpensearchOpensearchClusterPipelineResourceCrud) getOpensearchClusterPipelineFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_opensearch.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	opensearchClusterPipelineId, err := opensearchClusterPipelineWaitForWorkRequest(workId, "opensearchpipeline",
+	opensearchClusterPipelineId, err := opensearchClusterPipelineWaitForWorkRequest(ctx, workId, "opensearchpipeline",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.ClusterClient)
 
 	if err != nil {
@@ -386,7 +386,7 @@ func (s *OpensearchOpensearchClusterPipelineResourceCrud) getOpensearchClusterPi
 	}
 	s.D.SetId(*opensearchClusterPipelineId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func opensearchClusterPipelineWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -412,7 +412,7 @@ func opensearchClusterPipelineWorkRequestShouldRetryFunc(timeout time.Duration) 
 	}
 }
 
-func opensearchClusterPipelineWaitForWorkRequest(wId *string, entityType string, action oci_opensearch.ActionTypeEnum,
+func opensearchClusterPipelineWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_opensearch.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_opensearch.OpensearchClusterClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "opensearch")
 	retryPolicy.ShouldRetryOperation = opensearchClusterPipelineWorkRequestShouldRetryFunc(timeout)
@@ -431,7 +431,7 @@ func opensearchClusterPipelineWaitForWorkRequest(wId *string, entityType string,
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_opensearch.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -460,13 +460,13 @@ func opensearchClusterPipelineWaitForWorkRequest(wId *string, entityType string,
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_opensearch.OperationStatusFailed || response.Status == oci_opensearch.OperationStatusCanceled {
-		return nil, getErrorFromOpensearchOpensearchClusterPipelineWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOpensearchOpensearchClusterPipelineWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOpensearchOpensearchClusterPipelineWorkRequest(client *oci_opensearch.OpensearchClusterClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_opensearch.ActionTypeEnum) error {
+func getErrorFromOpensearchOpensearchClusterPipelineWorkRequest(ctx context.Context, client *oci_opensearch.OpensearchClusterClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_opensearch.ActionTypeEnum) error {
 	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_opensearch.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
@@ -489,7 +489,7 @@ func getErrorFromOpensearchOpensearchClusterPipelineWorkRequest(client *oci_open
 	return workRequestErr
 }
 
-func (s *OpensearchOpensearchClusterPipelineResourceCrud) Get() error {
+func (s *OpensearchOpensearchClusterPipelineResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_opensearch.GetOpensearchClusterPipelineRequest{}
 
 	tmp := s.D.Id()
@@ -497,7 +497,7 @@ func (s *OpensearchOpensearchClusterPipelineResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch")
 
-	response, err := s.Client.GetOpensearchClusterPipeline(context.Background(), request)
+	response, err := s.Client.GetOpensearchClusterPipeline(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -506,7 +506,7 @@ func (s *OpensearchOpensearchClusterPipelineResourceCrud) Get() error {
 	return nil
 }
 
-func (s *OpensearchOpensearchClusterPipelineResourceCrud) Update() error {
+func (s *OpensearchOpensearchClusterPipelineResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_opensearch.UpdateOpensearchClusterPipelineRequest{}
 
 	if dataPrepperConfigurationBody, ok := s.D.GetOkExists("data_prepper_configuration_body"); ok {
@@ -608,16 +608,16 @@ func (s *OpensearchOpensearchClusterPipelineResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch")
 
-	response, err := s.Client.UpdateOpensearchClusterPipeline(context.Background(), request)
+	response, err := s.Client.UpdateOpensearchClusterPipeline(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getOpensearchClusterPipelineFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch"), oci_opensearch.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getOpensearchClusterPipelineFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch"), oci_opensearch.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *OpensearchOpensearchClusterPipelineResourceCrud) Delete() error {
+func (s *OpensearchOpensearchClusterPipelineResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_opensearch.DeleteOpensearchClusterPipelineRequest{}
 
 	tmp := s.D.Id()
@@ -625,14 +625,14 @@ func (s *OpensearchOpensearchClusterPipelineResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch")
 
-	response, err := s.Client.DeleteOpensearchClusterPipeline(context.Background(), request)
+	response, err := s.Client.DeleteOpensearchClusterPipeline(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := opensearchClusterPipelineWaitForWorkRequest(workId, "opensearchpipeline",
+	_, delWorkRequestErr := opensearchClusterPipelineWaitForWorkRequest(ctx, workId, "opensearchpipeline",
 		oci_opensearch.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.ClusterClient)
 	return delWorkRequestErr
 }

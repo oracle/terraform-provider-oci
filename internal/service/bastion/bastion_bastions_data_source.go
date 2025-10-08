@@ -6,6 +6,7 @@ package bastion
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -15,7 +16,7 @@ import (
 
 func BastionBastionsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readBastionBastions,
+		ReadContext: readBastionBastionsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"bastion_id": {
@@ -43,12 +44,12 @@ func BastionBastionsDataSource() *schema.Resource {
 	}
 }
 
-func readBastionBastions(d *schema.ResourceData, m interface{}) error {
+func readBastionBastionsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BastionBastionsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BastionClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type BastionBastionsDataSourceCrud struct {
@@ -61,7 +62,7 @@ func (s *BastionBastionsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *BastionBastionsDataSourceCrud) Get() error {
+func (s *BastionBastionsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_bastion.ListBastionsRequest{}
 
 	if bastionId, ok := s.D.GetOkExists("id"); ok {
@@ -85,7 +86,7 @@ func (s *BastionBastionsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "bastion")
 
-	response, err := s.Client.ListBastions(context.Background(), request)
+	response, err := s.Client.ListBastions(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -94,7 +95,7 @@ func (s *BastionBastionsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListBastions(context.Background(), request)
+		listResponse, err := s.Client.ListBastions(ctx, request)
 		if err != nil {
 			return err
 		}
