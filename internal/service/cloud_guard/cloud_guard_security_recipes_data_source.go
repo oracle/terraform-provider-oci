@@ -6,6 +6,7 @@ package cloud_guard
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
 
@@ -15,7 +16,7 @@ import (
 
 func CloudGuardSecurityRecipesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readCloudGuardSecurityRecipes,
+		ReadContext: readCloudGuardSecurityRecipesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -52,12 +53,12 @@ func CloudGuardSecurityRecipesDataSource() *schema.Resource {
 	}
 }
 
-func readCloudGuardSecurityRecipes(d *schema.ResourceData, m interface{}) error {
+func readCloudGuardSecurityRecipesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudGuardSecurityRecipesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type CloudGuardSecurityRecipesDataSourceCrud struct {
@@ -70,7 +71,7 @@ func (s *CloudGuardSecurityRecipesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CloudGuardSecurityRecipesDataSourceCrud) Get() error {
+func (s *CloudGuardSecurityRecipesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_cloud_guard.ListSecurityRecipesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -94,7 +95,7 @@ func (s *CloudGuardSecurityRecipesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "cloud_guard")
 
-	response, err := s.Client.ListSecurityRecipes(context.Background(), request)
+	response, err := s.Client.ListSecurityRecipes(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -103,7 +104,7 @@ func (s *CloudGuardSecurityRecipesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListSecurityRecipes(context.Background(), request)
+		listResponse, err := s.Client.ListSecurityRecipes(ctx, request)
 		if err != nil {
 			return err
 		}
