@@ -21,6 +21,7 @@ var (
 
 	subscriptionSupportedService                             = "limits-testing"
 	subscriptionSupportedLimit                               = "limits-multisub-dev-count"
+	externalLocation                                         = "us-west-3"
 	LimitsServiceDataSourceRepresentationForSubscriptionTest = map[string]interface{}{
 		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"subscription_id": acctest.Representation{RepType: acctest.Required, Create: `${var.subscription_ocid}`},
