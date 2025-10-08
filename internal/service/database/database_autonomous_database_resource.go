@@ -996,6 +996,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"spatial_studio_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"sql_dev_web_url": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -1413,6 +1417,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 							Computed: true,
 						},
 						"ords_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"spatial_studio_url": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -3351,6 +3359,10 @@ func AutonomousDatabaseConnectionUrlsToMap(obj *oci_database.AutonomousDatabaseC
 
 	if obj.OrdsUrl != nil {
 		result["ords_url"] = string(*obj.OrdsUrl)
+	}
+
+	if obj.SpatialStudioUrl != nil {
+		result["spatial_studio_url"] = string(*obj.SpatialStudioUrl)
 	}
 
 	if obj.SqlDevWebUrl != nil {

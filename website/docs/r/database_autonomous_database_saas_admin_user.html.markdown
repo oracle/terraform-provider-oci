@@ -106,6 +106,7 @@ The following attributes are exported:
 	* `machine_learning_user_management_url` - Oracle Machine Learning user management URL.
 	* `mongo_db_url` - The URL of the MongoDB API for the Autonomous AI Database.
 	* `ords_url` - The Oracle REST Data Services (ORDS) URL of the Web Access for the Autonomous AI Database.
+    * `spatial_studio_url` - The URL of the Spatial Studio for the Autonomous AI Database.
 	* `sql_dev_web_url` - Oracle SQL Developer Web URL.
 * `cpu_core_count` - The number of CPU cores to be made available to the database. When the ECPU is selected, the value for cpuCoreCount is 0. For Autonomous AI Database on Dedicated Exadata infrastructure, the maximum number of cores is determined by the infrastructure shape. See [Characteristics of Infrastructure Shapes](https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbde/) for shape details.
 
@@ -299,6 +300,7 @@ The following attributes are exported:
 	* `machine_learning_user_management_url` - Oracle Machine Learning user management URL.
 	* `mongo_db_url` - The URL of the MongoDB API for the Autonomous AI Database.
 	* `ords_url` - The Oracle REST Data Services (ORDS) URL of the Web Access for the Autonomous AI Database.
+    * `spatial_studio_url` - The URL of the Spatial Studio for the Autonomous AI Database.
 	* `sql_dev_web_url` - Oracle SQL Developer Web URL.
 * `public_endpoint` - The public endpoint for the private endpoint enabled resource.
 * `refreshable_mode` - The refresh mode of the clone. AUTOMATIC indicates that the clone is automatically being refreshed with data from the source Autonomous AI Database.

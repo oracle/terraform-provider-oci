@@ -333,6 +333,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"spatial_studio_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"sql_dev_web_url": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -987,6 +991,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 										Computed: true,
 									},
 									"ords_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"spatial_studio_url": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},

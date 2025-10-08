@@ -432,3 +432,68 @@ data "oci_database_autonomous_databases_estimate_cost_savings" "test_autonomous_
   autonomous_database_id = oci_database_autonomous_database.test_autonomous_database.id
   is_cpu_autoscale       = false
 }
+resource "oci_database_autonomous_database" "test_autonomous_database_db_tools_ecpu" {
+  admin_password                       = random_string.autonomous_database_admin_password.result
+  compartment_id                       = var.compartment_ocid
+  compute_count                        = "2.0"
+  compute_model                        = "ECPU"
+  data_storage_size_in_tbs             = "1"
+  backup_retention_period_in_days      = "15"
+  db_name                              = "adbdbtoolsEcpuax"
+  db_version                           = "19c"
+  db_workload                          = var.autonomous_database_db_workload
+  license_model                        = "LICENSE_INCLUDED"
+  is_free_tier                         = "false"
+  db_tools_details {
+                name = "APEX"
+                is_enabled = false
+                compute_count = 0
+                max_idle_time_in_minutes = 0
+              }
+              db_tools_details {
+                name = "DATA_TRANSFORMS"
+                is_enabled = false
+                compute_count = 0
+                max_idle_time_in_minutes = 0
+              }
+              db_tools_details {
+                name = "DATABASE_ACTIONS"
+                is_enabled = false
+                compute_count = 0
+                max_idle_time_in_minutes = 0
+              }
+              db_tools_details {
+                name = "GRAPH_STUDIO"
+                is_enabled = true
+                compute_count = 10
+                max_idle_time_in_minutes = 120
+              }
+              db_tools_details {
+                name = "MONGODB_API"
+                is_enabled = false
+                compute_count = 0
+                max_idle_time_in_minutes = 0
+              }
+              db_tools_details {
+                name = "OML"
+                is_enabled = false
+                compute_count = 0
+                max_idle_time_in_minutes = 0
+              }
+              db_tools_details {
+                name = "ORDS"
+                is_enabled = false
+                compute_count = 0
+                max_idle_time_in_minutes = 0
+              }
+              db_tools_details {
+                name = "SPATIAL_STUDIO"
+                is_enabled = true
+                compute_count = 12
+                max_idle_time_in_minutes = 120
+              }
+  }
+
+
+
+
