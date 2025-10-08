@@ -6,6 +6,7 @@ package datascience
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -15,7 +16,7 @@ import (
 
 func DatascienceJobShapesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatascienceJobShapes,
+		ReadContext: readDatascienceJobShapesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -55,12 +56,12 @@ func DatascienceJobShapesDataSource() *schema.Resource {
 	}
 }
 
-func readDatascienceJobShapes(d *schema.ResourceData, m interface{}) error {
+func readDatascienceJobShapesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceJobShapesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatascienceJobShapesDataSourceCrud struct {
@@ -73,7 +74,7 @@ func (s *DatascienceJobShapesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatascienceJobShapesDataSourceCrud) Get() error {
+func (s *DatascienceJobShapesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_datascience.ListJobShapesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -83,7 +84,7 @@ func (s *DatascienceJobShapesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datascience")
 
-	response, err := s.Client.ListJobShapes(context.Background(), request)
+	response, err := s.Client.ListJobShapes(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -92,7 +93,7 @@ func (s *DatascienceJobShapesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListJobShapes(context.Background(), request)
+		listResponse, err := s.Client.ListJobShapes(ctx, request)
 		if err != nil {
 			return err
 		}

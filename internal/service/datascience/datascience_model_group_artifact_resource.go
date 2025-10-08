@@ -10,8 +10,8 @@ import (
 	"io/ioutil"
 	"strconv"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -23,10 +23,10 @@ func DatascienceModelGroupArtifactResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatascienceModelGroupArtifact,
-		Read:     readDatascienceModelGroupArtifact,
-		Delete:   deleteDatascienceModelGroupArtifact,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatascienceModelGroupArtifactWithContext,
+		ReadContext:   readDatascienceModelGroupArtifactWithContext,
+		DeleteContext: deleteDatascienceModelGroupArtifactWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"model_group_artifact": {
@@ -60,19 +60,19 @@ func DatascienceModelGroupArtifactResource() *schema.Resource {
 	}
 }
 
-func createDatascienceModelGroupArtifact(d *schema.ResourceData, m interface{}) error {
+func createDatascienceModelGroupArtifactWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceModelGroupArtifactResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatascienceModelGroupArtifact(d *schema.ResourceData, m interface{}) error {
+func readDatascienceModelGroupArtifactWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteDatascienceModelGroupArtifact(d *schema.ResourceData, m interface{}) error {
+func deleteDatascienceModelGroupArtifactWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -86,7 +86,7 @@ func (s *DatascienceModelGroupArtifactResourceCrud) ID() string {
 	return "nil"
 }
 
-func (s *DatascienceModelGroupArtifactResourceCrud) Create() error {
+func (s *DatascienceModelGroupArtifactResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_datascience.CreateModelGroupArtifactRequest{}
 
 	if modelGroupArtifact, ok := s.D.GetOkExists("model_group_artifact"); ok {
@@ -115,7 +115,7 @@ func (s *DatascienceModelGroupArtifactResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	_, err := s.Client.CreateModelGroupArtifact(context.Background(), request)
+	_, err := s.Client.CreateModelGroupArtifact(ctx, request)
 	if err != nil {
 		return err
 	}

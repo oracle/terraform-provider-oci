@@ -17,6 +17,7 @@ import (
 
 	"github.com/oracle/oci-go-sdk/v65/common"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
@@ -28,11 +29,11 @@ func DatascienceModelResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatascienceModel,
-		Read:     readDatascienceModel,
-		Update:   updateDatascienceModel,
-		Delete:   deleteDatascienceModel,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatascienceModelWithContext,
+		ReadContext:   readDatascienceModelWithContext,
+		UpdateContext: updateDatascienceModelWithContext,
+		DeleteContext: deleteDatascienceModelWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"artifact_content_length": {
@@ -358,7 +359,7 @@ func DatascienceModelResource() *schema.Resource {
 	}
 }
 
-func createDatascienceModel(d *schema.ResourceData, m interface{}) error {
+func createDatascienceModelWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceModelResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
@@ -371,31 +372,31 @@ func createDatascienceModel(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	if e := tfresource.CreateResource(d, sync); e != nil {
-		return e
+	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
+		return tfresource.HandleDiagError(m, e)
 	}
 	if deactivateModel {
-		if e := sync.DeactivateModel(); e != nil {
-			return e
+		if e := sync.DeactivateModel(ctx); e != nil {
+			return tfresource.HandleDiagError(m, e)
 		}
 		sync.D.Set("state", oci_datascience.ModelLifecycleStateInactive)
 	}
 	if e := sync.CreateArtifact(); e != nil {
-		return e
+		return tfresource.HandleDiagError(m, e)
 	}
 	sync.D.Set("empty_model", false)
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func readDatascienceModel(d *schema.ResourceData, m interface{}) error {
+func readDatascienceModelWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceModelResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatascienceModel(d *schema.ResourceData, m interface{}) error {
+func updateDatascienceModelWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceModelResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
@@ -419,31 +420,31 @@ func updateDatascienceModel(d *schema.ResourceData, m interface{}) error {
 	}
 
 	if deactivate {
-		if err := sync.DeactivateModel(); err != nil {
-			return err
+		if err := sync.DeactivateModel(ctx); err != nil {
+			return tfresource.HandleDiagError(m, err)
 		}
 		sync.D.Set("state", oci_datascience.ModelLifecycleStateInactive)
 	}
-	if err := tfresource.UpdateResource(d, sync); err != nil {
-		return err
+	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
+		return tfresource.HandleDiagError(m, err)
 	}
 
 	if activate {
-		if err := sync.ActivateModel(); err != nil {
-			return err
+		if err := sync.ActivateModel(ctx); err != nil {
+			return tfresource.HandleDiagError(m, err)
 		}
 		sync.D.Set("state", oci_datascience.ModelLifecycleStateActive)
 	}
 	return nil
 }
 
-func deleteDatascienceModel(d *schema.ResourceData, m interface{}) error {
+func deleteDatascienceModelWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceModelResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type HeadModelArtifact struct {
@@ -485,7 +486,7 @@ func (s *DatascienceModelResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DatascienceModelResourceCrud) Create() error {
+func (s *DatascienceModelResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_datascience.CreateModelRequest{}
 
 	if backupSetting, ok := s.D.GetOkExists("backup_setting"); ok {
@@ -593,7 +594,7 @@ func (s *DatascienceModelResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.CreateModel(context.Background(), request)
+	response, err := s.Client.CreateModel(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -602,7 +603,7 @@ func (s *DatascienceModelResourceCrud) Create() error {
 	return nil
 }
 
-func (s *DatascienceModelResourceCrud) Get() error {
+func (s *DatascienceModelResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_datascience.GetModelRequest{}
 
 	tmp := s.D.Id()
@@ -610,7 +611,7 @@ func (s *DatascienceModelResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.GetModel(context.Background(), request)
+	response, err := s.Client.GetModel(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -629,7 +630,7 @@ func (s *DatascienceModelResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatascienceModelResourceCrud) Update() error {
+func (s *DatascienceModelResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -734,7 +735,7 @@ func (s *DatascienceModelResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.UpdateModel(context.Background(), request)
+	response, err := s.Client.UpdateModel(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -743,7 +744,7 @@ func (s *DatascienceModelResourceCrud) Update() error {
 	return nil
 }
 
-func (s *DatascienceModelResourceCrud) Delete() error {
+func (s *DatascienceModelResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_datascience.DeleteModelRequest{}
 
 	tmp := s.D.Id()
@@ -751,7 +752,7 @@ func (s *DatascienceModelResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	_, err := s.Client.DeleteModel(context.Background(), request)
+	_, err := s.Client.DeleteModel(ctx, request)
 	return err
 }
 
@@ -1078,14 +1079,14 @@ func (s *DatascienceModelResourceCrud) updateCompartment(compartment interface{}
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
 		return waitErr
 	}
 
 	return nil
 }
 
-func (s *DatascienceModelResourceCrud) ActivateModel() error {
+func (s *DatascienceModelResourceCrud) ActivateModel(ctx context.Context) error {
 	request := oci_datascience.ActivateModelRequest{}
 
 	tmp := s.D.Id()
@@ -1099,10 +1100,10 @@ func (s *DatascienceModelResourceCrud) ActivateModel() error {
 	}
 
 	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_datascience.ModelLifecycleStateActive }
-	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DatascienceModelResourceCrud) DeactivateModel() error {
+func (s *DatascienceModelResourceCrud) DeactivateModel(ctx context.Context) error {
 	request := oci_datascience.DeactivateModelRequest{}
 
 	tmp := s.D.Id()
@@ -1116,7 +1117,7 @@ func (s *DatascienceModelResourceCrud) DeactivateModel() error {
 	}
 
 	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_datascience.ModelLifecycleStateInactive }
-	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DatascienceModelResourceCrud) CreateArtifact() error {

@@ -6,6 +6,7 @@ package datascience
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 
@@ -19,15 +20,15 @@ func DatasciencePrivateEndpointDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatasciencePrivateEndpointResource(), fieldMap, readSingularDatascienceDataSciencePrivateEndpoint)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatasciencePrivateEndpointResource(), fieldMap, readSingularDatascienceDataSciencePrivateEndpointWithContext)
 }
 
-func readSingularDatascienceDataSciencePrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func readSingularDatascienceDataSciencePrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceDataSciencePrivateEndpointDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatascienceDataSciencePrivateEndpointDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DatascienceDataSciencePrivateEndpointDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatascienceDataSciencePrivateEndpointDataSourceCrud) Get() error {
+func (s *DatascienceDataSciencePrivateEndpointDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_datascience.GetDataSciencePrivateEndpointRequest{}
 
 	if dataSciencePrivateEndpointId, ok := s.D.GetOkExists("data_science_private_endpoint_id"); ok {
@@ -50,7 +51,7 @@ func (s *DatascienceDataSciencePrivateEndpointDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datascience")
 
-	response, err := s.Client.GetDataSciencePrivateEndpoint(context.Background(), request)
+	response, err := s.Client.GetDataSciencePrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
