@@ -6,6 +6,7 @@ package datascience
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -19,15 +20,15 @@ func DatascienceModelDeploymentDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatascienceModelDeploymentResource(), fieldMap, readSingularDatascienceModelDeployment)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatascienceModelDeploymentResource(), fieldMap, readSingularDatascienceModelDeploymentWithContext)
 }
 
-func readSingularDatascienceModelDeployment(d *schema.ResourceData, m interface{}) error {
+func readSingularDatascienceModelDeploymentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceModelDeploymentDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatascienceModelDeploymentDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DatascienceModelDeploymentDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatascienceModelDeploymentDataSourceCrud) Get() error {
+func (s *DatascienceModelDeploymentDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_datascience.GetModelDeploymentRequest{}
 
 	if modelDeploymentId, ok := s.D.GetOkExists("model_deployment_id"); ok {
@@ -50,7 +51,7 @@ func (s *DatascienceModelDeploymentDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datascience")
 
-	response, err := s.Client.GetModelDeployment(context.Background(), request)
+	response, err := s.Client.GetModelDeployment(ctx, request)
 	if err != nil {
 		return err
 	}

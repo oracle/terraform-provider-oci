@@ -6,6 +6,7 @@ package datascience
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -15,7 +16,7 @@ import (
 
 func DatascienceNotebookSessionsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatascienceNotebookSessions,
+		ReadContext: readDatascienceNotebookSessionsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -51,12 +52,12 @@ func DatascienceNotebookSessionsDataSource() *schema.Resource {
 	}
 }
 
-func readDatascienceNotebookSessions(d *schema.ResourceData, m interface{}) error {
+func readDatascienceNotebookSessionsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceNotebookSessionsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatascienceNotebookSessionsDataSourceCrud struct {
@@ -69,7 +70,7 @@ func (s *DatascienceNotebookSessionsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatascienceNotebookSessionsDataSourceCrud) Get() error {
+func (s *DatascienceNotebookSessionsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_datascience.ListNotebookSessionsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -103,7 +104,7 @@ func (s *DatascienceNotebookSessionsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datascience")
 
-	response, err := s.Client.ListNotebookSessions(context.Background(), request)
+	response, err := s.Client.ListNotebookSessions(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -112,7 +113,7 @@ func (s *DatascienceNotebookSessionsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListNotebookSessions(context.Background(), request)
+		listResponse, err := s.Client.ListNotebookSessions(ctx, request)
 		if err != nil {
 			return err
 		}

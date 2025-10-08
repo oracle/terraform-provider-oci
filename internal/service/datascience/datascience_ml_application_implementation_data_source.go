@@ -6,6 +6,7 @@ package datascience
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 
@@ -19,15 +20,15 @@ func DatascienceMlApplicationImplementationDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatascienceMlApplicationImplementationResource(), fieldMap, readSingularDatascienceMlApplicationImplementation)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatascienceMlApplicationImplementationResource(), fieldMap, readSingularDatascienceMlApplicationImplementationWithContext)
 }
 
-func readSingularDatascienceMlApplicationImplementation(d *schema.ResourceData, m interface{}) error {
+func readSingularDatascienceMlApplicationImplementationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceMlApplicationImplementationDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatascienceMlApplicationImplementationDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DatascienceMlApplicationImplementationDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatascienceMlApplicationImplementationDataSourceCrud) Get() error {
+func (s *DatascienceMlApplicationImplementationDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_datascience.GetMlApplicationImplementationRequest{}
 
 	if mlApplicationImplementationId, ok := s.D.GetOkExists("ml_application_implementation_id"); ok {
@@ -50,7 +51,7 @@ func (s *DatascienceMlApplicationImplementationDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datascience")
 
-	response, err := s.Client.GetMlApplicationImplementation(context.Background(), request)
+	response, err := s.Client.GetMlApplicationImplementation(ctx, request)
 	if err != nil {
 		return err
 	}
