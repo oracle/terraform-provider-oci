@@ -6,8 +6,8 @@ package cloud_guard
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -19,11 +19,11 @@ func CloudGuardSavedQueryResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createCloudGuardSavedQuery,
-		Read:     readCloudGuardSavedQuery,
-		Update:   updateCloudGuardSavedQuery,
-		Delete:   deleteCloudGuardSavedQuery,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createCloudGuardSavedQueryWithContext,
+		ReadContext:   readCloudGuardSavedQueryWithContext,
+		UpdateContext: updateCloudGuardSavedQueryWithContext,
+		DeleteContext: deleteCloudGuardSavedQueryWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -81,37 +81,37 @@ func CloudGuardSavedQueryResource() *schema.Resource {
 	}
 }
 
-func createCloudGuardSavedQuery(d *schema.ResourceData, m interface{}) error {
+func createCloudGuardSavedQueryWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudGuardSavedQueryResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readCloudGuardSavedQuery(d *schema.ResourceData, m interface{}) error {
+func readCloudGuardSavedQueryWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudGuardSavedQueryResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateCloudGuardSavedQuery(d *schema.ResourceData, m interface{}) error {
+func updateCloudGuardSavedQueryWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudGuardSavedQueryResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteCloudGuardSavedQuery(d *schema.ResourceData, m interface{}) error {
+func deleteCloudGuardSavedQueryWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudGuardSavedQueryResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type CloudGuardSavedQueryResourceCrud struct {
@@ -149,7 +149,7 @@ func (s *CloudGuardSavedQueryResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *CloudGuardSavedQueryResourceCrud) Create() error {
+func (s *CloudGuardSavedQueryResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_cloud_guard.CreateSavedQueryRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -186,7 +186,7 @@ func (s *CloudGuardSavedQueryResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	response, err := s.Client.CreateSavedQuery(context.Background(), request)
+	response, err := s.Client.CreateSavedQuery(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -195,7 +195,7 @@ func (s *CloudGuardSavedQueryResourceCrud) Create() error {
 	return nil
 }
 
-func (s *CloudGuardSavedQueryResourceCrud) Get() error {
+func (s *CloudGuardSavedQueryResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_cloud_guard.GetSavedQueryRequest{}
 
 	tmp := s.D.Id()
@@ -203,7 +203,7 @@ func (s *CloudGuardSavedQueryResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	response, err := s.Client.GetSavedQuery(context.Background(), request)
+	response, err := s.Client.GetSavedQuery(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -212,7 +212,7 @@ func (s *CloudGuardSavedQueryResourceCrud) Get() error {
 	return nil
 }
 
-func (s *CloudGuardSavedQueryResourceCrud) Update() error {
+func (s *CloudGuardSavedQueryResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -256,7 +256,7 @@ func (s *CloudGuardSavedQueryResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	response, err := s.Client.UpdateSavedQuery(context.Background(), request)
+	response, err := s.Client.UpdateSavedQuery(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -265,7 +265,7 @@ func (s *CloudGuardSavedQueryResourceCrud) Update() error {
 	return nil
 }
 
-func (s *CloudGuardSavedQueryResourceCrud) Delete() error {
+func (s *CloudGuardSavedQueryResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_cloud_guard.DeleteSavedQueryRequest{}
 
 	tmp := s.D.Id()
@@ -273,7 +273,7 @@ func (s *CloudGuardSavedQueryResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	_, err := s.Client.DeleteSavedQuery(context.Background(), request)
+	_, err := s.Client.DeleteSavedQuery(ctx, request)
 	return err
 }
 
@@ -383,7 +383,7 @@ func (s *CloudGuardSavedQueryResourceCrud) updateCompartment(compartment interfa
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
 		return waitErr
 	}
 

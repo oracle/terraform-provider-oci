@@ -80,23 +80,23 @@ provider "oci" {
   auth                = "SecurityToken"
   config_file_profile = "terraform-federation-test"
   region              = var.region
-#  version             = "6.34.0"
+#  version             = "7.19.0"
 }
 
 data "oci_cloud_guard_detector_recipes" "test_detector_recipes" {
   #Required
-  compartment_id = "${var.tenancy_ocid}"
+  compartment_id = var.tenancy_ocid
 
   #Optional
-  state        = "${var.detector_recipe_state}"
+  state        = var.detector_recipe_state
   # Adding this to make sure the detector_rule_id we use later on is valid against the returned recipes
   display_name = "OCI Configuration Detector Recipe"
 }
 
 resource "oci_cloud_guard_detector_recipe" "test_detector_recipe" {
   #Required
-  compartment_id = "${var.compartment_ocid}"
-  display_name   = "${var.detector_recipe_display_name}"
+  compartment_id = var.compartment_ocid
+  display_name   = var.detector_recipe_display_name
   /*
  When CloudGuard is Enabled, an Oracle Managed Detector Recipe is made available having all the default rules in their default state.
  If an user needs to make its own recipe with customizations to the rules, it needs to clone an `ORACLE MANAGED DETECTOR RECIPE`.
@@ -109,32 +109,32 @@ resource "oci_cloud_guard_detector_recipe" "test_detector_recipe" {
   If user chooses to create its own ORACLE Managed Entity, below value should have id of the ORACLE
   MANAGED Entity which is always available
  */
-  source_detector_recipe_id = "${data.oci_cloud_guard_detector_recipes.test_detector_recipes.detector_recipe_collection.0.items.0.id}"
+  source_detector_recipe_id = data.oci_cloud_guard_detector_recipes.test_detector_recipes.detector_recipe_collection.0.items.0.id
 
   #Optional
-  description = "${var.detector_recipe_description}"
+  description = var.detector_recipe_description
 
   detector_rules {
     #Required
     details {
       #Required
-      is_enabled = "${var.detector_recipe_detector_rules_details_is_enabled}"
-      risk_level = "${var.detector_recipe_detector_rules_details_risk_level}"
+      is_enabled = var.detector_recipe_detector_rules_details_is_enabled
+      risk_level = var.detector_recipe_detector_rules_details_risk_level
 
       #Optional
-      condition = "${var.detector_recipe_detector_rules_details_condition}"
+      condition = var.detector_recipe_detector_rules_details_condition
 
       configurations {
         #Required
-        config_key = "${var.detector_recipe_detector_rules_details_configurations_config_key}"
-        name       = "${var.detector_recipe_detector_rules_details_configurations_name}"
+        config_key = var.detector_recipe_detector_rules_details_configurations_config_key
+        name       = var.detector_recipe_detector_rules_details_configurations_name
 
         #Optional
-        data_type = "${var.detector_recipe_detector_rules_details_configurations_data_type}"
-        value     = "${var.detector_recipe_detector_rules_details_configurations_value}"
+        data_type = var.detector_recipe_detector_rules_details_configurations_data_type
+        value     = var.detector_recipe_detector_rules_details_configurations_value
       }
 
-      labels = "${var.detector_recipe_detector_rules_details_labels}"
+      labels = var.detector_recipe_detector_rules_details_labels
     }
     // Make sure the detector rule id is valid for the detector recipe being cloned.
     detector_rule_id = "LB_CERTIFICATE_EXPIRING_SOON"
