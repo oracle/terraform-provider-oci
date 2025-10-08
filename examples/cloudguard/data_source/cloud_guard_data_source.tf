@@ -2,9 +2,6 @@
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {}
-variable "user_ocid" {}
-variable "fingerprint" {}
-variable "private_key_path" {}
 variable "region" {}
 variable "compartment_id" {}
 
@@ -79,20 +76,14 @@ variable "data_source_data_source_details_query_start_time_start_policy_type" {
 }
 
 variable "data_source_data_source_details_query_start_time_query_start_time" {
-  default = "2024-05-02T12:52:59.817Z"
+  default = "2025-09-26T04:00:00Z"
 }
 
 provider "oci" {
   auth                = "SecurityToken"
   config_file_profile = "terraform-federation-test"
   region              = var.region
-  //version             = "5.39.0"
-  /*
-  tenancy_ocid     = var.tenancy_ocid
-  user_ocid        = var.user_ocid
-  fingerprint      = var.fingerprint
-  private_key_path = var.private_key_path
-  */
+#  version             = "7.19.0"
 }
 
 data "oci_cloud_guard_data_sources" "test_data_sources" {
@@ -136,4 +127,11 @@ resource "oci_cloud_guard_data_source" "test_data_source" {
   defined_tags  = { "example-tag-namespace-all.example-tag" = var.data_source_defined_tags_value }
   freeform_tags = var.data_source_freeform_tags
   status        = var.data_source_status
+
+  # To ignore diff during backward compat test
+  lifecycle {
+    ignore_changes = [
+      defined_tags
+    ]
+  }
 }

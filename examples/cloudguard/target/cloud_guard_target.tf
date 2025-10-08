@@ -81,7 +81,7 @@ provider "oci" {
   auth                = "SecurityToken"
   config_file_profile = "terraform-federation-test"
   region              = var.region
-#  version             = "6.34.0"
+#  version             = "7.19.0"
 }
 
 /*

@@ -2,9 +2,6 @@
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {}
-variable "user_ocid" {}
-variable "fingerprint" {}
-variable "private_key_path" {}
 variable "region" {}
 variable "compartment_id" {}
 
@@ -13,25 +10,18 @@ variable "wlp_agent_agent_version" {
 }
 
 variable "wlp_agent_certificate_signed_request" {
-  default = "-----BEGIN CERTIFICATE REQUEST-----\nMIID1DCCArwCAQAwggGNMQswCQYDVQQGEwJVUzEPMA0GA1UEChMGT3JhY2xlMYIB\nKDCCASQGA1UECxOCARtvcGMtaW5zdGFuY2U6b2NpZDEuaW5zdGFuY2Uub2MxLnBo\neC5hbnlocWxqdDd4bTQ1Y2ljeWkya2E1cHVtcWd5dWhkZXVhaHJjYXh6NHN3bGtv\nZmo2dXhjdmtubnhkaGEsb3BjLWNvbXBhcnRtZW50Om9jaWQxLnRlbmFuY3kub2Mx\nLi5hYWFhYWFhYXFvZ2d6c2p1dDJ1NjR3cWxpeWQ0ZXlkM2RsNGlwc3UyNmxncXg0\nYmlob2ZudmU1bGk1aHEsb3BjLXRlbmFudDpvY2lkMS50ZW5hbmN5Lm9jMS4uYWFh\nYWFhYWFxb2dnenNqdXQydTY0d3FsaXlkNGV5ZDNkbDRpcHN1MjZsZ3F4NGJpaG9m\nbnZlNWxpNWhxMQwwCgYDVQQDEwN3bHAxMzAxBgkqhkiG9w0BCQEWJHdvcmtsb2Fk\ncHJvdGVjdGlvbl91c19ncnBAb3JhY2xlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQAD\nggEPADCCAQoCggEBAMDLbqoECIIh02HvkusRyGGI/cqK9Wrg7xDn/Wwg1C9noOo+\nbHmU5sBervLUHKXuC3IUwM0GgytjLsOjMWI9ex0ZunQONwwAe/MDD+YQcnqbOnmb\naUrdp0gB231SRqCUST1xf9y8shlK3zXrav+qgtF1bDihsGh6O4DMLPYIsOZAXo6M\nrGPokj1nViLdvFaBBG4Q1sgximufh/eqFCaUawIUOeQ7XcDqeWM+G8IA3vIuWqbr\nSoI61/COgq6eDsUMu/ZcMNF0UYRV4bWwVM18Cx8Tlp0kH/mbnlHxBMxz1x/cbHmQ\nEwPrSKWo8Gn2B1HeXWhVGNPa4Xs0xn/kaW1QaS8CAwEAAaAAMA0GCSqGSIb3DQEB\nCwUAA4IBAQABiABQPOngTCA24KzY6GcyVi/4H6nhOu6smAgnPM2PoJEoog5yvnLR\nTvoyec0TTIIiRZtDIYejRMUyGZxR1o1Hgrkq80OmqfRZW57e2WPRgpHcp87Yfp0B\nRmkobQMRSAypZDGCdco2cuQ4F7GG0KFMb1Tf+b/XQnf6L3cd9PCHPECOVe1LFJV3\nqxhNkkxd+REI8iihLjzslqJFufYTkfmL2xamhS2nzGbG5XcfURdqx6S2ZDVoCkNy\nikohM9PlBrWAXWYALRqgcy1KFH9lQ9+tIqpnGbOHOyIqFPmoMKX2ugisTWMpgTp9\nxICh2HMz77KABXXf/t58HDODI4Wx8yJA\n-----END CERTIFICATE REQUEST-----\n"
+  default = "-----BEGIN CERTIFICATE REQUEST-----\nMIID2DCCAsACAQAwggGRMQwwCgYDVQQDDAN3bHAxCzAJBgNVBAYTAlVTMQ8wDQYD\nVQQKDAZPcmFjbGUxggEsMIIBKAYDVQQLDIIBH29wYy1pbnN0YW5jZTpvY2lkMS5p\nbnN0YW5jZS5vYzEucGh4LmFueWhxbGpyanNuZ2xucWM1am1wcjdwajR0dG5uZXgz\ndW91cWMzbGJveXZsdnpzeHFnZm43ZmNjdWd1YSxvcGMtY29tcGFydG1lbnQ6b2Np\nZDEuY29tcGFydG1lbnQub2MxLi5hYWFhYWFhYTJrNXJicDN1bDJ1Y2loMno2bWlx\na3lxaTV6Z3Z6Y3lxaWlmcWN2cnpnbTJ4Znh3eTJpd3Esb3BjLXRlbmFudDpvY2lk\nMS50ZW5hbmN5Lm9jMS4uYWFhYWFhYWEzNnkzeWlkdGUybzdqenlhNXBkdXRlY2Rx\nYjdiZDdxZjJyc3h1c3c0NW5mazNvbmg1dTRxMTMwMQYJKoZIhvcNAQkBFiR3b3Jr\nbG9hZHByb3RlY3Rpb25fdXNfZ3JwQG9yYWNsZS5jb20wggEiMA0GCSqGSIb3DQEB\nAQUAA4IBDwAwggEKAoIBAQCsEFP2pZr0jX7gMF6hh8CYkM4VZsjguKhQeYaRwORD\n0F+5iyIv6XhDLtOSoBlYDgcwxj9CXjT9KWCg3mJFe0viMocVZj2PUlX38MzZVvgC\nCx+5x4DOcyZo/C9QtAGUhUshYHxY6YTUV6ybVQFavf0R91UaObaTA7ZsOXYNTQZ5\nVXZJ+uPStv9m4YcLj/8C4BLiTaHEgsdIz9tcXyoB3LDMDLS7lGeuuR8f2lx+M1kF\n4PcDFH22nSlumiLS24HNfV6cHqN6yDQBDUoqaP4GLKd3CH8yMOFdJlKiHR44Az7G\niYeUT8l03xYB59cl0VTn4aho2evVUCKs076IteAIgerZAgMBAAGgADANBgkqhkiG\n9w0BAQsFAAOCAQEALpm6WwvEqowU8nXG2Pkb7luW/T/CA1+alFxdpRYssez3tTGq\n2HxfQcxpv9VCZT2RZE/34pUbPKfPvtW5Ve9QKHfz3uNxOtZQh5o/02+nHlKqX5wT\nWOYHDdGA+QmYXC+OeY1qCT697q7dwZOnd8MefZ8n+x4Pl7sU2+NqkuIOei0Tl6T+\ncDvYbWewAuZgTxfvTrEDntrsRpgTEagFfWEXftpLrSgXwZlUF+5bZVPHNv+aeXx5\n4R4gCaAvfRk4xBhVrXMkXL1xq5lzikfVq4C0g+cXiZqplq+1PcIdRZhJiap/vxhM\ntCxCsRac/0XmuPiNO01KwcWPDl14MPLpDTf2qQ==\n-----END CERTIFICATE REQUEST-----\n"
 }
 
 variable "wlp_agent_os_info" {
   default = "Oracle Linux Server_8.5_amd64"
 }
 
-
-
 provider "oci" {
   auth                = "SecurityToken"
   config_file_profile = "terraform-federation-test"
   region              = var.region
-  //version             = "5.39.0"
-  /*tenancy_ocid     = var.tenancy_ocid
-  user_ocid        = var.user_ocid
-  fingerprint      = var.fingerprint
-  private_key_path = var.private_key_path
-  region           = var.region*/
+  version             = "7.19.0"
 }
 
 resource "oci_cloud_guard_wlp_agent" "test_wlp_agent" {

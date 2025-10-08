@@ -6,6 +6,7 @@ package cloud_guard
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
 
@@ -19,15 +20,15 @@ func CloudGuardAdhocQueryDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(CloudGuardAdhocQueryResource(), fieldMap, readSingularCloudGuardAdhocQuery)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(CloudGuardAdhocQueryResource(), fieldMap, readSingularCloudGuardAdhocQueryWithContext)
 }
 
-func readSingularCloudGuardAdhocQuery(d *schema.ResourceData, m interface{}) error {
+func readSingularCloudGuardAdhocQueryWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudGuardAdhocQueryDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type CloudGuardAdhocQueryDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *CloudGuardAdhocQueryDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CloudGuardAdhocQueryDataSourceCrud) Get() error {
+func (s *CloudGuardAdhocQueryDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_cloud_guard.GetAdhocQueryRequest{}
 
 	if adhocQueryId, ok := s.D.GetOkExists("adhoc_query_id"); ok {
@@ -50,7 +51,7 @@ func (s *CloudGuardAdhocQueryDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "cloud_guard")
 
-	response, err := s.Client.GetAdhocQuery(context.Background(), request)
+	response, err := s.Client.GetAdhocQuery(ctx, request)
 	if err != nil {
 		return err
 	}

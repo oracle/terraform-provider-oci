@@ -6,6 +6,7 @@ package cloud_guard
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
 
@@ -15,7 +16,7 @@ import (
 
 func CloudGuardResponderRecipesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readCloudGuardResponderRecipes,
+		ReadContext: readCloudGuardResponderRecipesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"access_level": {
@@ -60,12 +61,12 @@ func CloudGuardResponderRecipesDataSource() *schema.Resource {
 	}
 }
 
-func readCloudGuardResponderRecipes(d *schema.ResourceData, m interface{}) error {
+func readCloudGuardResponderRecipesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudGuardResponderRecipesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type CloudGuardResponderRecipesDataSourceCrud struct {
@@ -78,7 +79,7 @@ func (s *CloudGuardResponderRecipesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CloudGuardResponderRecipesDataSourceCrud) Get() error {
+func (s *CloudGuardResponderRecipesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_cloud_guard.ListResponderRecipesRequest{}
 
 	if accessLevel, ok := s.D.GetOkExists("access_level"); ok {
@@ -111,7 +112,7 @@ func (s *CloudGuardResponderRecipesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "cloud_guard")
 
-	response, err := s.Client.ListResponderRecipes(context.Background(), request)
+	response, err := s.Client.ListResponderRecipes(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -120,7 +121,7 @@ func (s *CloudGuardResponderRecipesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListResponderRecipes(context.Background(), request)
+		listResponse, err := s.Client.ListResponderRecipes(ctx, request)
 		if err != nil {
 			return err
 		}

@@ -9,6 +9,7 @@ package cloud_guard
 /*import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
 
@@ -18,7 +19,7 @@ package cloud_guard
 
 func CloudGuardAdhocQueryResultContentDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularCloudGuardAdhocQueryResultContent,
+		ReadContext: readSingularCloudGuardAdhocQueryResultContentWithContext,
 		Schema: map[string]*schema.Schema{
 			"adhoc_query_id": {
 				Type:     schema.TypeString,
@@ -29,12 +30,12 @@ func CloudGuardAdhocQueryResultContentDataSource() *schema.Resource {
 	}
 }
 
-func readSingularCloudGuardAdhocQueryResultContent(d *schema.ResourceData, m interface{}) error {
+func readSingularCloudGuardAdhocQueryResultContentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudGuardAdhocQueryResultContentDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type CloudGuardAdhocQueryResultContentDataSourceCrud struct {
@@ -47,7 +48,7 @@ func (s *CloudGuardAdhocQueryResultContentDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CloudGuardAdhocQueryResultContentDataSourceCrud) Get() error {
+func (s *CloudGuardAdhocQueryResultContentDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_cloud_guard.GetAdhocQueryResultContentRequest{}
 
 	if adhocQueryId, ok := s.D.GetOkExists("adhoc_query_id"); ok {
@@ -57,7 +58,7 @@ func (s *CloudGuardAdhocQueryResultContentDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "cloud_guard")
 
-	response, err := s.Client.GetAdhocQueryResultContent(context.Background(), request)
+	response, err := s.Client.GetAdhocQueryResultContent(ctx, request)
 	if err != nil {
 		return err
 	}

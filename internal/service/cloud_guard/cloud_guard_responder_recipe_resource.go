@@ -7,8 +7,8 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -20,11 +20,11 @@ func CloudGuardResponderRecipeResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createCloudGuardResponderRecipe,
-		Read:     readCloudGuardResponderRecipe,
-		Update:   updateCloudGuardResponderRecipe,
-		Delete:   deleteCloudGuardResponderRecipe,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createCloudGuardResponderRecipeWithContext,
+		ReadContext:   readCloudGuardResponderRecipeWithContext,
+		UpdateContext: updateCloudGuardResponderRecipeWithContext,
+		DeleteContext: deleteCloudGuardResponderRecipeWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -322,37 +322,37 @@ func CloudGuardResponderRecipeResource() *schema.Resource {
 	}
 }
 
-func createCloudGuardResponderRecipe(d *schema.ResourceData, m interface{}) error {
+func createCloudGuardResponderRecipeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudGuardResponderRecipeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readCloudGuardResponderRecipe(d *schema.ResourceData, m interface{}) error {
+func readCloudGuardResponderRecipeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudGuardResponderRecipeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateCloudGuardResponderRecipe(d *schema.ResourceData, m interface{}) error {
+func updateCloudGuardResponderRecipeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudGuardResponderRecipeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteCloudGuardResponderRecipe(d *schema.ResourceData, m interface{}) error {
+func deleteCloudGuardResponderRecipeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudGuardResponderRecipeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type CloudGuardResponderRecipeResourceCrud struct {
@@ -390,7 +390,7 @@ func (s *CloudGuardResponderRecipeResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *CloudGuardResponderRecipeResourceCrud) Create() error {
+func (s *CloudGuardResponderRecipeResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_cloud_guard.CreateResponderRecipeRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -444,7 +444,7 @@ func (s *CloudGuardResponderRecipeResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	response, err := s.Client.CreateResponderRecipe(context.Background(), request)
+	response, err := s.Client.CreateResponderRecipe(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -453,7 +453,7 @@ func (s *CloudGuardResponderRecipeResourceCrud) Create() error {
 	return nil
 }
 
-func (s *CloudGuardResponderRecipeResourceCrud) Get() error {
+func (s *CloudGuardResponderRecipeResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_cloud_guard.GetResponderRecipeRequest{}
 
 	tmp := s.D.Id()
@@ -461,7 +461,7 @@ func (s *CloudGuardResponderRecipeResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	response, err := s.Client.GetResponderRecipe(context.Background(), request)
+	response, err := s.Client.GetResponderRecipe(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -470,7 +470,7 @@ func (s *CloudGuardResponderRecipeResourceCrud) Get() error {
 	return nil
 }
 
-func (s *CloudGuardResponderRecipeResourceCrud) Update() error {
+func (s *CloudGuardResponderRecipeResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -526,7 +526,7 @@ func (s *CloudGuardResponderRecipeResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	response, err := s.Client.UpdateResponderRecipe(context.Background(), request)
+	response, err := s.Client.UpdateResponderRecipe(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -535,7 +535,7 @@ func (s *CloudGuardResponderRecipeResourceCrud) Update() error {
 	return nil
 }
 
-func (s *CloudGuardResponderRecipeResourceCrud) Delete() error {
+func (s *CloudGuardResponderRecipeResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_cloud_guard.DeleteResponderRecipeRequest{}
 
 	tmp := s.D.Id()
@@ -543,7 +543,7 @@ func (s *CloudGuardResponderRecipeResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	_, err := s.Client.DeleteResponderRecipe(context.Background(), request)
+	_, err := s.Client.DeleteResponderRecipe(ctx, request)
 	return err
 }
 
@@ -801,7 +801,7 @@ func (s *CloudGuardResponderRecipeResourceCrud) updateCompartment(compartment in
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
 		return waitErr
 	}
 

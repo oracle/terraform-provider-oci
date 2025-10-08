@@ -6,6 +6,7 @@ package cloud_guard
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
 
@@ -19,15 +20,15 @@ func CloudGuardCloudGuardConfigurationDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(CloudGuardCloudGuardConfigurationResource(), fieldMap, readSingularCloudGuardCloudGuardConfiguration)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(CloudGuardCloudGuardConfigurationResource(), fieldMap, readSingularCloudGuardCloudGuardConfigurationWithContext)
 }
 
-func readSingularCloudGuardCloudGuardConfiguration(d *schema.ResourceData, m interface{}) error {
+func readSingularCloudGuardCloudGuardConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudGuardCloudGuardConfigurationDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type CloudGuardCloudGuardConfigurationDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *CloudGuardCloudGuardConfigurationDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CloudGuardCloudGuardConfigurationDataSourceCrud) Get() error {
+func (s *CloudGuardCloudGuardConfigurationDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_cloud_guard.GetConfigurationRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -50,7 +51,7 @@ func (s *CloudGuardCloudGuardConfigurationDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "cloud_guard")
 
-	response, err := s.Client.GetConfiguration(context.Background(), request)
+	response, err := s.Client.GetConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}
