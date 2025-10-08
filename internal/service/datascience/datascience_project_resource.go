@@ -6,11 +6,11 @@ package datascience
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 )
 
@@ -19,11 +19,11 @@ func DatascienceProjectResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatascienceProject,
-		Read:     readDatascienceProject,
-		Update:   updateDatascienceProject,
-		Delete:   deleteDatascienceProject,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatascienceProjectWithContext,
+		ReadContext:   readDatascienceProjectWithContext,
+		UpdateContext: updateDatascienceProjectWithContext,
+		DeleteContext: deleteDatascienceProjectWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -78,37 +78,37 @@ func DatascienceProjectResource() *schema.Resource {
 	}
 }
 
-func createDatascienceProject(d *schema.ResourceData, m interface{}) error {
+func createDatascienceProjectWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceProjectResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatascienceProject(d *schema.ResourceData, m interface{}) error {
+func readDatascienceProjectWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceProjectResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatascienceProject(d *schema.ResourceData, m interface{}) error {
+func updateDatascienceProjectWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceProjectResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatascienceProject(d *schema.ResourceData, m interface{}) error {
+func deleteDatascienceProjectWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceProjectResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatascienceProjectResourceCrud struct {
@@ -144,7 +144,7 @@ func (s *DatascienceProjectResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DatascienceProjectResourceCrud) Create() error {
+func (s *DatascienceProjectResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_datascience.CreateProjectRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -176,7 +176,7 @@ func (s *DatascienceProjectResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.CreateProject(context.Background(), request)
+	response, err := s.Client.CreateProject(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -185,7 +185,7 @@ func (s *DatascienceProjectResourceCrud) Create() error {
 	return nil
 }
 
-func (s *DatascienceProjectResourceCrud) Get() error {
+func (s *DatascienceProjectResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_datascience.GetProjectRequest{}
 
 	tmp := s.D.Id()
@@ -193,7 +193,7 @@ func (s *DatascienceProjectResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.GetProject(context.Background(), request)
+	response, err := s.Client.GetProject(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -202,7 +202,7 @@ func (s *DatascienceProjectResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatascienceProjectResourceCrud) Update() error {
+func (s *DatascienceProjectResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -241,7 +241,7 @@ func (s *DatascienceProjectResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.UpdateProject(context.Background(), request)
+	response, err := s.Client.UpdateProject(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -250,7 +250,7 @@ func (s *DatascienceProjectResourceCrud) Update() error {
 	return nil
 }
 
-func (s *DatascienceProjectResourceCrud) Delete() error {
+func (s *DatascienceProjectResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_datascience.DeleteProjectRequest{}
 
 	tmp := s.D.Id()
@@ -258,7 +258,7 @@ func (s *DatascienceProjectResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	_, err := s.Client.DeleteProject(context.Background(), request)
+	_, err := s.Client.DeleteProject(ctx, request)
 	return err
 }
 
@@ -314,7 +314,7 @@ func (s *DatascienceProjectResourceCrud) updateCompartment(compartment interface
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
 		return waitErr
 	}
 

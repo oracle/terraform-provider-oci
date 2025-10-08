@@ -13,6 +13,8 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -28,11 +30,11 @@ func DatascienceJobResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatascienceJob,
-		Read:     readDatascienceJob,
-		Update:   updateDatascienceJob,
-		Delete:   deleteDatascienceJob,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatascienceJobWithContext,
+		ReadContext:   readDatascienceJobWithContext,
+		UpdateContext: updateDatascienceJobWithContext,
+		DeleteContext: deleteDatascienceJobWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -796,47 +798,47 @@ func DatascienceJobResource() *schema.Resource {
 	}
 }
 
-func createDatascienceJob(d *schema.ResourceData, m interface{}) error {
+func createDatascienceJobWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceJobResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	if e := tfresource.CreateResource(d, sync); e != nil {
-		return e
+	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
+		return tfresource.HandleDiagError(m, e)
 	}
 
 	if _, ok := d.GetOkExists("job_artifact"); ok {
-		if e := sync.CreateArtifact(); e != nil {
-			return e
+		if e := sync.CreateArtifact(ctx); e != nil {
+			return tfresource.HandleDiagError(m, e)
 		}
 	}
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func readDatascienceJob(d *schema.ResourceData, m interface{}) error {
+func readDatascienceJobWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceJobResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatascienceJob(d *schema.ResourceData, m interface{}) error {
+func updateDatascienceJobWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceJobResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatascienceJob(d *schema.ResourceData, m interface{}) error {
+func deleteDatascienceJobWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceJobResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type HeadJobArtifact struct {
@@ -881,7 +883,7 @@ func (s *DatascienceJobResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DatascienceJobResourceCrud) Create() error {
+func (s *DatascienceJobResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_datascience.CreateJobRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -990,7 +992,7 @@ func (s *DatascienceJobResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.CreateJob(context.Background(), request)
+	response, err := s.Client.CreateJob(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -999,7 +1001,7 @@ func (s *DatascienceJobResourceCrud) Create() error {
 	return nil
 }
 
-func (s *DatascienceJobResourceCrud) Get() error {
+func (s *DatascienceJobResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_datascience.GetJobRequest{}
 
 	tmp := s.D.Id()
@@ -1007,7 +1009,7 @@ func (s *DatascienceJobResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.GetJob(context.Background(), request)
+	response, err := s.Client.GetJob(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1025,7 +1027,7 @@ func (s *DatascienceJobResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatascienceJobResourceCrud) Update() error {
+func (s *DatascienceJobResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -1100,7 +1102,7 @@ func (s *DatascienceJobResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.UpdateJob(context.Background(), request)
+	response, err := s.Client.UpdateJob(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1109,7 +1111,7 @@ func (s *DatascienceJobResourceCrud) Update() error {
 	return nil
 }
 
-func (s *DatascienceJobResourceCrud) Delete() error {
+func (s *DatascienceJobResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_datascience.DeleteJobRequest{}
 
 	if deleteRelatedJobRuns, ok := s.D.GetOkExists("delete_related_job_runs"); ok {
@@ -1122,7 +1124,7 @@ func (s *DatascienceJobResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	_, err := s.Client.DeleteJob(context.Background(), request)
+	_, err := s.Client.DeleteJob(ctx, request)
 	return err
 }
 
@@ -2047,7 +2049,7 @@ func (s *DatascienceJobResourceCrud) updateCompartment(compartment interface{}) 
 	return nil
 }
 
-func (s *DatascienceJobResourceCrud) CreateArtifact() error {
+func (s *DatascienceJobResourceCrud) CreateArtifact(ctx context.Context) error {
 	request := oci_datascience.CreateJobArtifactRequest{}
 
 	if contentDisposition, ok := s.D.GetOkExists("artifact_content_disposition"); ok {
@@ -2078,7 +2080,7 @@ func (s *DatascienceJobResourceCrud) CreateArtifact() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	_, err := s.Client.CreateJobArtifact(context.Background(), request)
+	_, err := s.Client.CreateJobArtifact(ctx, request)
 	if err != nil {
 		return err
 	}
