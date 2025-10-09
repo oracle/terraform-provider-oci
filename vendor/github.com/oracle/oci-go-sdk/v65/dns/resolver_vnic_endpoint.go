@@ -63,6 +63,14 @@ type ResolverVnicEndpoint struct {
 	// resolver endpoint is a part of.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private endpoint resource that this resolver endpoint corresponds to.
+	PeId *string `mandatory:"false" json:"peId"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC resource that this resolver endpoint corresponds to.
+	VnicId *string `mandatory:"false" json:"vnicId"`
+
 	// The current state of the resource.
 	LifecycleState ResolverEndpointLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }

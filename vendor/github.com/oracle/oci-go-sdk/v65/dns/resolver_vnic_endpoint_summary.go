@@ -51,6 +51,8 @@ type ResolverVnicEndpointSummary struct {
 	// The OCID of a subnet. Must be part of the VCN that the resolver is attached to.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"true" json:"securityAttributes"`
+
 	// An IP address from which forwarded queries may be sent. For VNIC endpoints, this IP address must be part
 	// of the subnet and will be assigned by the system if unspecified when isForwarding is true.
 	ForwardingAddress *string `mandatory:"false" json:"forwardingAddress"`
@@ -58,6 +60,12 @@ type ResolverVnicEndpointSummary struct {
 	// An IP address to listen to queries on. For VNIC endpoints this IP address must be part of the
 	// subnet and will be assigned by the system if unspecified when isListening is true.
 	ListeningAddress *string `mandatory:"false" json:"listeningAddress"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private endpoint resource that this resolver endpoint corresponds to.
+	PeId *string `mandatory:"false" json:"peId"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC resource that this resolver endpoint corresponds to.
+	VnicId *string `mandatory:"false" json:"vnicId"`
 
 	// The current state of the resource.
 	LifecycleState ResolverEndpointSummaryLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`

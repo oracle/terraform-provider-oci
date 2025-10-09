@@ -24,6 +24,8 @@ type UpdateResolverVnicEndpointDetails struct {
 	// An array of network security group OCIDs for the resolver endpoint. These must be part of the VCN that the
 	// resolver endpoint is a part of.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 }
 
 func (m UpdateResolverVnicEndpointDetails) String() string {

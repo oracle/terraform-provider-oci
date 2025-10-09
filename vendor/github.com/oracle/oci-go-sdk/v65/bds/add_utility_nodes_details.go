@@ -18,11 +18,14 @@ import (
 // AddUtilityNodesDetails The information about added utility nodes.
 type AddUtilityNodesDetails struct {
 
-	// Base-64 encoded Cluster Admin Password for cluster admin user.
-	ClusterAdminPassword *string `mandatory:"true" json:"clusterAdminPassword"`
-
 	// Number of additional utility nodes for the cluster.
 	NumberOfUtilityNodes *int `mandatory:"true" json:"numberOfUtilityNodes"`
+
+	// Base-64 encoded Cluster Admin Password for cluster admin user.
+	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword"`
+
+	// The secretId for the clusterAdminPassword.
+	SecretId *string `mandatory:"false" json:"secretId"`
 
 	// Shape of the node. It's a read-only property derived from existing Utility node.
 	Shape *string `mandatory:"false" json:"shape"`

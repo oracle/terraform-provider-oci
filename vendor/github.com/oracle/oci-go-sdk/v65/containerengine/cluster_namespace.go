@@ -70,6 +70,9 @@ type ClusterNamespace struct {
 	// List of Kubernetes annotations to apply to the resulting namespace.
 	NamespaceAnnotations []NamespaceAnnotation `mandatory:"false" json:"namespaceAnnotations"`
 
+	// Status of clusters that are part of the ClusterNamespace
+	ClusterNamespaceStatuses []ClusterNamespaceStatus `mandatory:"false" json:"clusterNamespaceStatuses"`
+
 	// A message describing the current state in more detail.
 	// For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`

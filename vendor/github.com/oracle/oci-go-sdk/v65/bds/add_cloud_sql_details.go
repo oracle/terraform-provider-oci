@@ -21,13 +21,13 @@ type AddCloudSqlDetails struct {
 	// Shape of the node.
 	Shape *string `mandatory:"true" json:"shape"`
 
-	// Base-64 encoded password for the cluster (and Cloudera Manager) admin user.
-	ClusterAdminPassword *string `mandatory:"true" json:"clusterAdminPassword"`
-
 	ShapeConfig *ShapeConfigDetails `mandatory:"false" json:"shapeConfig"`
 
 	// The size of block volume in GB to be attached to the given node. All details needed for attaching the block volume are managed by the service itself.
 	BlockVolumeSizeInGBs *int64 `mandatory:"false" json:"blockVolumeSizeInGBs"`
+
+	// Base-64 encoded password for the cluster (and Cloudera Manager) admin user.
+	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword"`
 }
 
 func (m AddCloudSqlDetails) String() string {

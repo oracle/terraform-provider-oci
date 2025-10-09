@@ -19,7 +19,10 @@ import (
 type ActivateIamUserSyncConfigurationDetails struct {
 
 	// Base-64 encoded password for the cluster admin user.
-	ClusterAdminPassword *string `mandatory:"true" json:"clusterAdminPassword"`
+	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword"`
+
+	// The secretId for the clusterAdminPassword.
+	SecretId *string `mandatory:"false" json:"secretId"`
 
 	// whether posix attribute needs to be appended to users
 	IsPosixAttributesAdditionRequired *bool `mandatory:"false" json:"isPosixAttributesAdditionRequired"`

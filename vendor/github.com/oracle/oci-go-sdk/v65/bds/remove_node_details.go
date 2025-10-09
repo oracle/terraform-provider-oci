@@ -18,11 +18,14 @@ import (
 // RemoveNodeDetails The information about node to be removed.
 type RemoveNodeDetails struct {
 
-	// Base-64 encoded password for the cluster (and Cloudera Manager) admin user.
-	ClusterAdminPassword *string `mandatory:"true" json:"clusterAdminPassword"`
-
 	// OCID of the node to be removed.
 	NodeId *string `mandatory:"true" json:"nodeId"`
+
+	// Base-64 encoded password for the cluster (and Cloudera Manager) admin user.
+	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword"`
+
+	// The secretId for the clusterAdminPassword.
+	SecretId *string `mandatory:"false" json:"secretId"`
 
 	// Boolean flag specifying whether or not to force remove node if graceful
 	// removal fails.

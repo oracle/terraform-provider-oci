@@ -18,11 +18,14 @@ import (
 // StopBdsInstanceDetails The request body for stopping a BDS cluster.
 type StopBdsInstanceDetails struct {
 
-	// Base-64 encoded password for the cluster admin user.
-	ClusterAdminPassword *string `mandatory:"true" json:"clusterAdminPassword"`
-
 	// Boolean indicating whether to force stop jobs while stopping cluster. Defaults to false.
 	IsForceStopJobs *bool `mandatory:"false" json:"isForceStopJobs"`
+
+	// Base-64 encoded password for the cluster admin user.
+	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword"`
+
+	// The secretId for the clusterAdminPassword.
+	SecretId *string `mandatory:"false" json:"secretId"`
 }
 
 func (m StopBdsInstanceDetails) String() string {

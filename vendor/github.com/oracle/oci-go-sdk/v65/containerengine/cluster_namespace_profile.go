@@ -12,6 +12,7 @@
 package containerengine
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -63,6 +64,8 @@ type ClusterNamespaceProfile struct {
 	// Suffix to append to the end of the namespaces generated from this Profile
 	NamespaceSuffix *string `mandatory:"false" json:"namespaceSuffix"`
 
+	ClusterNamespaceSchedulingPolicy ClusterNamespaceSchedulingPolicy `mandatory:"false" json:"clusterNamespaceSchedulingPolicy"`
+
 	// A message describing the current state in more detail.
 	// For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
@@ -85,6 +88,69 @@ func (m ClusterNamespaceProfile) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *ClusterNamespaceProfile) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Description                      *string                                   `json:"description"`
+		NamespaceSuffix                  *string                                   `json:"namespaceSuffix"`
+		ClusterNamespaceSchedulingPolicy clusternamespaceschedulingpolicy          `json:"clusterNamespaceSchedulingPolicy"`
+		LifecycleDetails                 *string                                   `json:"lifecycleDetails"`
+		Id                               *string                                   `json:"id"`
+		DisplayName                      *string                                   `json:"displayName"`
+		CompartmentId                    *string                                   `json:"compartmentId"`
+		KubernetesVersion                *string                                   `json:"kubernetesVersion"`
+		TimeCreated                      *common.SDKTime                           `json:"timeCreated"`
+		TimeUpdated                      *common.SDKTime                           `json:"timeUpdated"`
+		LifecycleState                   ClusterNamespaceProfileLifecycleStateEnum `json:"lifecycleState"`
+		FreeformTags                     map[string]string                         `json:"freeformTags"`
+		DefinedTags                      map[string]map[string]interface{}         `json:"definedTags"`
+		SystemTags                       map[string]map[string]interface{}         `json:"systemTags"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.Description = model.Description
+
+	m.NamespaceSuffix = model.NamespaceSuffix
+
+	nn, e = model.ClusterNamespaceSchedulingPolicy.UnmarshalPolymorphicJSON(model.ClusterNamespaceSchedulingPolicy.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ClusterNamespaceSchedulingPolicy = nn.(ClusterNamespaceSchedulingPolicy)
+	} else {
+		m.ClusterNamespaceSchedulingPolicy = nil
+	}
+
+	m.LifecycleDetails = model.LifecycleDetails
+
+	m.Id = model.Id
+
+	m.DisplayName = model.DisplayName
+
+	m.CompartmentId = model.CompartmentId
+
+	m.KubernetesVersion = model.KubernetesVersion
+
+	m.TimeCreated = model.TimeCreated
+
+	m.TimeUpdated = model.TimeUpdated
+
+	m.LifecycleState = model.LifecycleState
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.SystemTags = model.SystemTags
+
+	return
 }
 
 // ClusterNamespaceProfileLifecycleStateEnum Enum with underlying type: string

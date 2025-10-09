@@ -181,6 +181,9 @@ type ExadbVmCluster struct {
 	ShapeAttribute ExadbVmClusterShapeAttributeEnum `mandatory:"false" json:"shapeAttribute,omitempty"`
 
 	IormConfigCache *ExadataIormConfig `mandatory:"false" json:"iormConfigCache"`
+
+	// Details of the file system configurations of the Exadata VM cluster on Exascale Infrastructure.
+	FileSystemConfigurationDetails []FileSystemConfiguration `mandatory:"false" json:"fileSystemConfigurationDetails"`
 }
 
 func (m ExadbVmCluster) String() string {

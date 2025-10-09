@@ -31,14 +31,17 @@ type InstallOdhPatchDetails struct {
 	// The md5Hash of the ODH patch to be installed.
 	Md5Hash *string `mandatory:"true" json:"md5Hash"`
 
-	// Cluster Admin Password
-	ClusterAdminPassword *string `mandatory:"true" json:"clusterAdminPassword"`
-
 	// The algorithm for the checkSum used for the ODH patch.
 	CheckSumAlgo InstallOdhPatchDetailsCheckSumAlgoEnum `mandatory:"false" json:"checkSumAlgo,omitempty"`
 
 	// The checkSum of the ODH patch to be installed.
 	CheckSum *string `mandatory:"false" json:"checkSum"`
+
+	// Cluster Admin Password
+	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword"`
+
+	// The secretId for the clusterAdminPassword.
+	SecretId *string `mandatory:"false" json:"secretId"`
 
 	// The flag to check if the ODH patch can be installed.
 	IsCompatibilityCheck *bool `mandatory:"false" json:"isCompatibilityCheck"`
@@ -70,13 +73,14 @@ func (m *InstallOdhPatchDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		CheckSumAlgo         InstallOdhPatchDetailsCheckSumAlgoEnum `json:"checkSumAlgo"`
 		CheckSum             *string                                `json:"checkSum"`
+		ClusterAdminPassword *string                                `json:"clusterAdminPassword"`
+		SecretId             *string                                `json:"secretId"`
 		IsCompatibilityCheck *bool                                  `json:"isCompatibilityCheck"`
 		PatchingConfig       odhpatchingconfig                      `json:"patchingConfig"`
 		Version              *string                                `json:"version"`
 		OdhPatchName         *string                                `json:"odhPatchName"`
 		PaUrl                *string                                `json:"paUrl"`
 		Md5Hash              *string                                `json:"md5Hash"`
-		ClusterAdminPassword *string                                `json:"clusterAdminPassword"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -87,6 +91,10 @@ func (m *InstallOdhPatchDetails) UnmarshalJSON(data []byte) (e error) {
 	m.CheckSumAlgo = model.CheckSumAlgo
 
 	m.CheckSum = model.CheckSum
+
+	m.ClusterAdminPassword = model.ClusterAdminPassword
+
+	m.SecretId = model.SecretId
 
 	m.IsCompatibilityCheck = model.IsCompatibilityCheck
 
@@ -107,8 +115,6 @@ func (m *InstallOdhPatchDetails) UnmarshalJSON(data []byte) (e error) {
 	m.PaUrl = model.PaUrl
 
 	m.Md5Hash = model.Md5Hash
-
-	m.ClusterAdminPassword = model.ClusterAdminPassword
 
 	return
 }

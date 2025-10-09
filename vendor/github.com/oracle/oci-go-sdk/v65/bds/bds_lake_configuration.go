@@ -33,6 +33,9 @@ type BdsLakeConfiguration struct {
 	// The display name of the lake configuration
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// The secretId for the clusterAdminPassword.
+	SecretId *string `mandatory:"false" json:"secretId"`
+
 	// The OCID of the BDS API key used for the lake configuration.
 	BdsApiKeyId *string `mandatory:"false" json:"bdsApiKeyId"`
 

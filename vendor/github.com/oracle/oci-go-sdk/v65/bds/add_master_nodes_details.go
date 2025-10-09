@@ -18,11 +18,14 @@ import (
 // AddMasterNodesDetails The information about added master nodes.
 type AddMasterNodesDetails struct {
 
-	// Base-64 encoded Cluster Admin Password for cluster admin user.
-	ClusterAdminPassword *string `mandatory:"true" json:"clusterAdminPassword"`
-
 	// Number of additional master nodes for the cluster.
 	NumberOfMasterNodes *int `mandatory:"true" json:"numberOfMasterNodes"`
+
+	// Base-64 encoded Cluster Admin Password for cluster admin user.
+	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword"`
+
+	// The secretId for the clusterAdminPassword.
+	SecretId *string `mandatory:"false" json:"secretId"`
 
 	// Shape of the node. It's a read-only property derived from existing Master node.
 	Shape *string `mandatory:"false" json:"shape"`

@@ -12,6 +12,7 @@
 package containerengine
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -31,6 +32,8 @@ type CreateClusterNamespaceProfileDetails struct {
 
 	// Suffix to append to the end of the namespaces generated from this Profile
 	NamespaceSuffix *string `mandatory:"false" json:"namespaceSuffix"`
+
+	ClusterNamespaceSchedulingPolicy ClusterNamespaceSchedulingPolicy `mandatory:"false" json:"clusterNamespaceSchedulingPolicy"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -57,4 +60,46 @@ func (m CreateClusterNamespaceProfileDetails) ValidateEnumValue() (bool, error) 
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *CreateClusterNamespaceProfileDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Description                      *string                           `json:"description"`
+		NamespaceSuffix                  *string                           `json:"namespaceSuffix"`
+		ClusterNamespaceSchedulingPolicy clusternamespaceschedulingpolicy  `json:"clusterNamespaceSchedulingPolicy"`
+		FreeformTags                     map[string]string                 `json:"freeformTags"`
+		DefinedTags                      map[string]map[string]interface{} `json:"definedTags"`
+		DisplayName                      *string                           `json:"displayName"`
+		CompartmentId                    *string                           `json:"compartmentId"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.Description = model.Description
+
+	m.NamespaceSuffix = model.NamespaceSuffix
+
+	nn, e = model.ClusterNamespaceSchedulingPolicy.UnmarshalPolymorphicJSON(model.ClusterNamespaceSchedulingPolicy.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ClusterNamespaceSchedulingPolicy = nn.(ClusterNamespaceSchedulingPolicy)
+	} else {
+		m.ClusterNamespaceSchedulingPolicy = nil
+	}
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.DisplayName = model.DisplayName
+
+	m.CompartmentId = model.CompartmentId
+
+	return
 }

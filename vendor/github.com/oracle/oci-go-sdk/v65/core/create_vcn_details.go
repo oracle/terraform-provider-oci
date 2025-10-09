@@ -94,10 +94,10 @@ type CreateVcnDetails struct {
 	IsIpv6Enabled *bool `mandatory:"false" json:"isIpv6Enabled"`
 
 	// Indicates whether traffic within the VCN is encrypted.
-	// For more information, see VN Encryption (https://docs.oracle.com/iaas/Content/Network/Tasks/Overview_of_VCNs_and_Subnets.htm#encryption).
+	// For more information, see VN Encryption (https://docs.oracle.com/iaas/Content/gov-cloud/govinfo.htm#govinfo_topic_LAN-encryption).
 	IsEncrypted *bool `mandatory:"false" json:"isEncrypted"`
 
-	// Indicates whether Zpr Only Mode is enforced.
+	// Indicates whether ZPR Only mode is enforced.
 	IsZprOnly *bool `mandatory:"false" json:"isZprOnly"`
 }
 

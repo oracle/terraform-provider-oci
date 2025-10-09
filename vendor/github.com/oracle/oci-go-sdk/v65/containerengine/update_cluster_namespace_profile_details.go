@@ -12,6 +12,7 @@
 package containerengine
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -25,6 +26,8 @@ type UpdateClusterNamespaceProfileDetails struct {
 
 	// Description of the resource. It can be changed after creation.
 	Description *string `mandatory:"false" json:"description"`
+
+	ClusterNamespaceSchedulingPolicy ClusterNamespaceSchedulingPolicy `mandatory:"false" json:"clusterNamespaceSchedulingPolicy"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -51,4 +54,40 @@ func (m UpdateClusterNamespaceProfileDetails) ValidateEnumValue() (bool, error) 
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *UpdateClusterNamespaceProfileDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DisplayName                      *string                           `json:"displayName"`
+		Description                      *string                           `json:"description"`
+		ClusterNamespaceSchedulingPolicy clusternamespaceschedulingpolicy  `json:"clusterNamespaceSchedulingPolicy"`
+		FreeformTags                     map[string]string                 `json:"freeformTags"`
+		DefinedTags                      map[string]map[string]interface{} `json:"definedTags"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DisplayName = model.DisplayName
+
+	m.Description = model.Description
+
+	nn, e = model.ClusterNamespaceSchedulingPolicy.UnmarshalPolymorphicJSON(model.ClusterNamespaceSchedulingPolicy.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ClusterNamespaceSchedulingPolicy = nn.(ClusterNamespaceSchedulingPolicy)
+	} else {
+		m.ClusterNamespaceSchedulingPolicy = nil
+	}
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	return
 }

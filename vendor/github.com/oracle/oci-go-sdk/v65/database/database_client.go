@@ -8872,6 +8872,64 @@ func (client DatabaseClient) disablePluggableDatabaseManagement(ctx context.Cont
 	return response, err
 }
 
+// DownloadDbConnectionBundle Downloads the specified database connection bundle content.
+// The bundle is returned as a binary file containing the connection details.
+func (client DatabaseClient) DownloadDbConnectionBundle(ctx context.Context, request DownloadDbConnectionBundleRequest) (response DownloadDbConnectionBundleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.downloadDbConnectionBundle, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DownloadDbConnectionBundleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DownloadDbConnectionBundleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DownloadDbConnectionBundleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DownloadDbConnectionBundleResponse")
+	}
+	return
+}
+
+// downloadDbConnectionBundle implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) downloadDbConnectionBundle(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbConnectionBundles/{dbConnectionBundleId}/actions/download", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DownloadDbConnectionBundleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbConnectionBundle/DownloadDbConnectionBundle"
+		err = common.PostProcessServiceError(err, "Database", "DownloadDbConnectionBundle", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DownloadExadataInfrastructureConfigFile Downloads the configuration file for the specified Exadata Cloud@Customer infrastructure.
 func (client DatabaseClient) DownloadExadataInfrastructureConfigFile(ctx context.Context, request DownloadExadataInfrastructureConfigFileRequest) (response DownloadExadataInfrastructureConfigFileResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10134,6 +10192,64 @@ func (client DatabaseClient) failoverDataGuardAssociation(ctx context.Context, r
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DataGuardAssociation/FailoverDataGuardAssociation"
 		err = common.PostProcessServiceError(err, "Database", "FailoverDataGuardAssociation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// FileSystemDefinition Returns file system definitions.
+func (client DatabaseClient) FileSystemDefinition(ctx context.Context, request FileSystemDefinitionRequest) (response FileSystemDefinitionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.fileSystemDefinition, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = FileSystemDefinitionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = FileSystemDefinitionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(FileSystemDefinitionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into FileSystemDefinitionResponse")
+	}
+	return
+}
+
+// fileSystemDefinition implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) fileSystemDefinition(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fileSystem/actions/lookupFileSystemDefinitionDetails", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response FileSystemDefinitionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/FileSystemDefinition/FileSystemDefinition"
+		err = common.PostProcessServiceError(err, "Database", "FileSystemDefinition", apiReferenceLink)
 		return response, err
 	}
 
@@ -12210,6 +12326,59 @@ func (client DatabaseClient) getDatabaseUpgradeHistoryEntry(ctx context.Context,
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DatabaseUpgradeHistoryEntry/GetDatabaseUpgradeHistoryEntry"
 		err = common.PostProcessServiceError(err, "Database", "GetDatabaseUpgradeHistoryEntry", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetDbConnectionBundle Gets information about the specified database connection bundle.
+func (client DatabaseClient) GetDbConnectionBundle(ctx context.Context, request GetDbConnectionBundleRequest) (response GetDbConnectionBundleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getDbConnectionBundle, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDbConnectionBundleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDbConnectionBundleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDbConnectionBundleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDbConnectionBundleResponse")
+	}
+	return
+}
+
+// getDbConnectionBundle implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) getDbConnectionBundle(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbConnectionBundles/{dbConnectionBundleId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetDbConnectionBundleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbConnectionBundle/GetDbConnectionBundle"
+		err = common.PostProcessServiceError(err, "Database", "GetDbConnectionBundle", apiReferenceLink)
 		return response, err
 	}
 
@@ -16914,6 +17083,59 @@ func (client DatabaseClient) listDatabases(ctx context.Context, request common.O
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/ListDatabases"
 		err = common.PostProcessServiceError(err, "Database", "ListDatabases", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListDbConnectionBundles Lists all database connection bundles that match the query parameters.
+func (client DatabaseClient) ListDbConnectionBundles(ctx context.Context, request ListDbConnectionBundlesRequest) (response ListDbConnectionBundlesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDbConnectionBundles, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDbConnectionBundlesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDbConnectionBundlesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDbConnectionBundlesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDbConnectionBundlesResponse")
+	}
+	return
+}
+
+// listDbConnectionBundles implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listDbConnectionBundles(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbConnectionBundles", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDbConnectionBundlesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbConnectionBundle/ListDbConnectionBundles"
+		err = common.PostProcessServiceError(err, "Database", "ListDbConnectionBundles", apiReferenceLink)
 		return response, err
 	}
 

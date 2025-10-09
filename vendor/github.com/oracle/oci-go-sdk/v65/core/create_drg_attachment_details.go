@@ -76,6 +76,9 @@ type CreateDrgAttachmentDetails struct {
 	// This field is deprecated. Instead, use the `networkDetails` field to specify the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the attached resource.
 	VcnId *string `mandatory:"false" json:"vcnId"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG attachment's DRG NAT policy.
+	DrgNatPolicyId *string `mandatory:"false" json:"drgNatPolicyId"`
+
 	// Indicates if transitive traffic is enabled for this DRG attachment. This field is
 	// only supported for VirtualCircuit and IPSec DRG attachments.
 	TransitiveTrafficEnabled CreateDrgAttachmentDetailsTransitiveTrafficEnabledEnum `mandatory:"false" json:"transitiveTrafficEnabled,omitempty"`
@@ -116,6 +119,7 @@ func (m *CreateDrgAttachmentDetails) UnmarshalJSON(data []byte) (e error) {
 		SecurityAttributes       map[string]map[string]interface{}                      `json:"securityAttributes"`
 		RouteTableId             *string                                                `json:"routeTableId"`
 		VcnId                    *string                                                `json:"vcnId"`
+		DrgNatPolicyId           *string                                                `json:"drgNatPolicyId"`
 		TransitiveTrafficEnabled CreateDrgAttachmentDetailsTransitiveTrafficEnabledEnum `json:"transitiveTrafficEnabled"`
 		DrgId                    *string                                                `json:"drgId"`
 	}{}
@@ -152,6 +156,8 @@ func (m *CreateDrgAttachmentDetails) UnmarshalJSON(data []byte) (e error) {
 	m.RouteTableId = model.RouteTableId
 
 	m.VcnId = model.VcnId
+
+	m.DrgNatPolicyId = model.DrgNatPolicyId
 
 	m.TransitiveTrafficEnabled = model.TransitiveTrafficEnabled
 

@@ -695,9 +695,10 @@ func (client DnsClient) createView(ctx context.Context, request common.OCIReques
 // CreateZone Creates a new zone in the specified compartment.
 // Private zones must have a zone type of `PRIMARY`. Creating a private zone at or under `oraclevcn.com`
 // within the default protected view of a VCN-dedicated resolver is not permitted.
+// A default retry strategy applies to this operation CreateZone()
 func (client DnsClient) CreateZone(ctx context.Context, request CreateZoneRequest) (response CreateZoneResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -753,9 +754,10 @@ func (client DnsClient) createZone(ctx context.Context, request common.OCIReques
 }
 
 // CreateZoneFromZoneFile Creates a new zone from a zone file in the specified compartment. Not supported for private zones.
+// A default retry strategy applies to this operation CreateZoneFromZoneFile()
 func (client DnsClient) CreateZoneFromZoneFile(ctx context.Context, request CreateZoneFromZoneFileRequest) (response CreateZoneFromZoneFileResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

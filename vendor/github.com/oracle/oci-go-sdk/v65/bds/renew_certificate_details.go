@@ -19,7 +19,10 @@ import (
 type RenewCertificateDetails struct {
 
 	// Base-64 encoded password for the cluster admin user.
-	ClusterAdminPassword *string `mandatory:"true" json:"clusterAdminPassword"`
+	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword"`
+
+	// The secretId for the clusterAdminPassword.
+	SecretId *string `mandatory:"false" json:"secretId"`
 
 	// List of services for which certificate needs to be renewed. If no services provided renew will happen only for default services - AMBARI,RANGER,HUE,LIVY.
 	Services []ServiceEnum `mandatory:"false" json:"services"`

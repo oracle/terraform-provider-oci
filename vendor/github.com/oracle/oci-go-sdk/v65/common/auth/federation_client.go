@@ -189,7 +189,7 @@ func (c *oAuth2FederationClient) isTokenStale() bool {
 }
 
 func (c *oAuth2FederationClient) renewKeyAndSecurityTokenIfNotValid() (err error) {
-	panic("unimplemented")
+	return c.renewSecurityTokenIfNotValid()
 }
 
 func (c *oAuth2FederationClient) renewSecurityTokenIfNotValid() (err error) {

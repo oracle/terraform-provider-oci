@@ -18,9 +18,6 @@ import (
 // UpdateBdsLakeConfigurationDetails The request body while updating a BDS lake configuration.
 type UpdateBdsLakeConfigurationDetails struct {
 
-	// The base-64 encoded password for the cluster admin user.
-	ClusterAdminPassword *string `mandatory:"true" json:"clusterAdminPassword"`
-
 	// The display name of the lake configuration.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
@@ -29,6 +26,12 @@ type UpdateBdsLakeConfigurationDetails struct {
 
 	// The base-64 encoded passphrase of the BDS API key. Set only if bdsApiKeyId is updated.
 	BdsApiKeyPassphrase *string `mandatory:"false" json:"bdsApiKeyPassphrase"`
+
+	// The base-64 encoded password for the cluster admin user.
+	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword"`
+
+	// The secretId for the clusterAdminPassword.
+	SecretId *string `mandatory:"false" json:"secretId"`
 }
 
 func (m UpdateBdsLakeConfigurationDetails) String() string {

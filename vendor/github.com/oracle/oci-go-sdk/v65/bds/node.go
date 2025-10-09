@@ -92,6 +92,9 @@ type Node struct {
 
 	// The node back id that was used for replacing the node.
 	NodeBackupId *string `mandatory:"false" json:"nodeBackupId"`
+
+	// ID of the certificate configuration which is used to generate the certificate for the node.
+	CertificateConfigurationId *string `mandatory:"false" json:"certificateConfigurationId"`
 }
 
 func (m Node) String() string {

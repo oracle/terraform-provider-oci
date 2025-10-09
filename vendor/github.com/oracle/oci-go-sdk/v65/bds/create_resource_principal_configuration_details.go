@@ -22,7 +22,10 @@ type CreateResourcePrincipalConfigurationDetails struct {
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// Base-64 encoded Cluster Admin Password for cluster admin user.
-	ClusterAdminPassword *string `mandatory:"true" json:"clusterAdminPassword"`
+	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword"`
+
+	// The secretId for the clusterAdminPassword.
+	SecretId *string `mandatory:"false" json:"secretId"`
 
 	// Life span in hours for the resource principal session token.
 	SessionTokenLifeSpanDurationInHours *int `mandatory:"false" json:"sessionTokenLifeSpanDurationInHours"`

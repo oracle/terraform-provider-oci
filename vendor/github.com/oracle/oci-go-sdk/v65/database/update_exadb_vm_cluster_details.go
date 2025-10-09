@@ -72,6 +72,9 @@ type UpdateExadbVmClusterDetails struct {
 
 	// The update action.
 	UpdateAction UpdateExadbVmClusterDetailsUpdateActionEnum `mandatory:"false" json:"updateAction,omitempty"`
+
+	// Details of the file system configurations of the Exadata VM cluster on Exascale Infrastructure.
+	FileSystemConfigurationDetails []FileSystemConfiguration `mandatory:"false" json:"fileSystemConfigurationDetails"`
 }
 
 func (m UpdateExadbVmClusterDetails) String() string {

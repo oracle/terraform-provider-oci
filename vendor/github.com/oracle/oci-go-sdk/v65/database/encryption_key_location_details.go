@@ -62,6 +62,10 @@ func (m *encryptionkeylocationdetails) UnmarshalPolymorphicJSON(data []byte) (in
 		mm := AzureEncryptionKeyDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "AWS":
+		mm := AwsEncryptionKeyDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Received unsupported enum value for EncryptionKeyLocationDetails: %s.", m.ProviderType)
 		return *m, nil
@@ -92,18 +96,21 @@ const (
 	EncryptionKeyLocationDetailsProviderTypeExternal EncryptionKeyLocationDetailsProviderTypeEnum = "EXTERNAL"
 	EncryptionKeyLocationDetailsProviderTypeAzure    EncryptionKeyLocationDetailsProviderTypeEnum = "AZURE"
 	EncryptionKeyLocationDetailsProviderTypeGcp      EncryptionKeyLocationDetailsProviderTypeEnum = "GCP"
+	EncryptionKeyLocationDetailsProviderTypeAws      EncryptionKeyLocationDetailsProviderTypeEnum = "AWS"
 )
 
 var mappingEncryptionKeyLocationDetailsProviderTypeEnum = map[string]EncryptionKeyLocationDetailsProviderTypeEnum{
 	"EXTERNAL": EncryptionKeyLocationDetailsProviderTypeExternal,
 	"AZURE":    EncryptionKeyLocationDetailsProviderTypeAzure,
 	"GCP":      EncryptionKeyLocationDetailsProviderTypeGcp,
+	"AWS":      EncryptionKeyLocationDetailsProviderTypeAws,
 }
 
 var mappingEncryptionKeyLocationDetailsProviderTypeEnumLowerCase = map[string]EncryptionKeyLocationDetailsProviderTypeEnum{
 	"external": EncryptionKeyLocationDetailsProviderTypeExternal,
 	"azure":    EncryptionKeyLocationDetailsProviderTypeAzure,
 	"gcp":      EncryptionKeyLocationDetailsProviderTypeGcp,
+	"aws":      EncryptionKeyLocationDetailsProviderTypeAws,
 }
 
 // GetEncryptionKeyLocationDetailsProviderTypeEnumValues Enumerates the set of values for EncryptionKeyLocationDetailsProviderTypeEnum
@@ -121,6 +128,7 @@ func GetEncryptionKeyLocationDetailsProviderTypeEnumStringValues() []string {
 		"EXTERNAL",
 		"AZURE",
 		"GCP",
+		"AWS",
 	}
 }
 

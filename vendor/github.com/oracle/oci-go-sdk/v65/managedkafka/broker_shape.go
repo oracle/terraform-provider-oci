@@ -26,6 +26,9 @@ type BrokerShape struct {
 
 	// Size of the storage per nodes.
 	StorageSizeInGbs *int `mandatory:"false" json:"storageSizeInGbs"`
+
+	// Node shape for broker is passed as part of cluster creation, similar to VM.Standard.A1.Flex
+	NodeShape *string `mandatory:"false" json:"nodeShape"`
 }
 
 func (m BrokerShape) String() string {

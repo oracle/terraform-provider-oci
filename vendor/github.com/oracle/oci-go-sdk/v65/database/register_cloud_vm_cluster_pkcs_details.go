@@ -49,18 +49,21 @@ const (
 	RegisterCloudVmClusterPkcsDetailsTdeKeyStoreTypeAzure RegisterCloudVmClusterPkcsDetailsTdeKeyStoreTypeEnum = "AZURE"
 	RegisterCloudVmClusterPkcsDetailsTdeKeyStoreTypeOci   RegisterCloudVmClusterPkcsDetailsTdeKeyStoreTypeEnum = "OCI"
 	RegisterCloudVmClusterPkcsDetailsTdeKeyStoreTypeGcp   RegisterCloudVmClusterPkcsDetailsTdeKeyStoreTypeEnum = "GCP"
+	RegisterCloudVmClusterPkcsDetailsTdeKeyStoreTypeAws   RegisterCloudVmClusterPkcsDetailsTdeKeyStoreTypeEnum = "AWS"
 )
 
 var mappingRegisterCloudVmClusterPkcsDetailsTdeKeyStoreTypeEnum = map[string]RegisterCloudVmClusterPkcsDetailsTdeKeyStoreTypeEnum{
 	"AZURE": RegisterCloudVmClusterPkcsDetailsTdeKeyStoreTypeAzure,
 	"OCI":   RegisterCloudVmClusterPkcsDetailsTdeKeyStoreTypeOci,
 	"GCP":   RegisterCloudVmClusterPkcsDetailsTdeKeyStoreTypeGcp,
+	"AWS":   RegisterCloudVmClusterPkcsDetailsTdeKeyStoreTypeAws,
 }
 
 var mappingRegisterCloudVmClusterPkcsDetailsTdeKeyStoreTypeEnumLowerCase = map[string]RegisterCloudVmClusterPkcsDetailsTdeKeyStoreTypeEnum{
 	"azure": RegisterCloudVmClusterPkcsDetailsTdeKeyStoreTypeAzure,
 	"oci":   RegisterCloudVmClusterPkcsDetailsTdeKeyStoreTypeOci,
 	"gcp":   RegisterCloudVmClusterPkcsDetailsTdeKeyStoreTypeGcp,
+	"aws":   RegisterCloudVmClusterPkcsDetailsTdeKeyStoreTypeAws,
 }
 
 // GetRegisterCloudVmClusterPkcsDetailsTdeKeyStoreTypeEnumValues Enumerates the set of values for RegisterCloudVmClusterPkcsDetailsTdeKeyStoreTypeEnum
@@ -78,6 +81,7 @@ func GetRegisterCloudVmClusterPkcsDetailsTdeKeyStoreTypeEnumStringValues() []str
 		"AZURE",
 		"OCI",
 		"GCP",
+		"AWS",
 	}
 }
 
