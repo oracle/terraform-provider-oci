@@ -51,6 +51,7 @@ func TestOsManagementHubManagedInstanceUpdatablePackageResource_basic(t *testing
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "managed_instance_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "updatable_package_collection.#"),
+				resource.TestCheckResourceAttr(datasourceName, "updatable_package_collection.0.items.0.package_classification", "UPDATABLE"),
 			),
 		},
 	})
