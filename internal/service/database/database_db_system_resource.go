@@ -122,7 +122,7 @@ func DatabaseDbSystemResource() *schema.Resource {
 													Type:             schema.TypeString,
 													Optional:         true,
 													Computed:         true,
-													DiffSuppressFunc: disableAutoBackupDbSystemSuppressfunc,
+													DiffSuppressFunc: tfresource.DisableAutoBackupDbSystemSuppressfunc,
 												},
 												"auto_full_backup_day": {
 													Type:     schema.TypeString,
@@ -133,7 +133,7 @@ func DatabaseDbSystemResource() *schema.Resource {
 													Type:             schema.TypeString,
 													Optional:         true,
 													Computed:         true,
-													DiffSuppressFunc: disableAutoBackupDbSystemSuppressfunc,
+													DiffSuppressFunc: tfresource.DisableAutoBackupDbSystemSuppressfunc,
 												},
 												"backup_deletion_policy": {
 													Type:     schema.TypeString,
@@ -294,7 +294,6 @@ func DatabaseDbSystemResource() *schema.Resource {
 										Computed: true,
 										ForceNew: true,
 									},
-
 									// Computed
 									"connection_strings": {
 										Type:     schema.TypeList,
@@ -3941,14 +3940,4 @@ func createDBSystemResource(d *schema.ResourceData, sync tfresource.ResourceCrea
 	}
 
 	return nil
-}
-
-func disableAutoBackupDbSystemSuppressfunc(k string, old, new string, d *schema.ResourceData) bool {
-	// if autoBackupEnabled is false then ignore any field in the state and config backupWindow
-	if autoBackupEnabled, ok := d.GetOkExists("db_home.0.database.0.db_backup_config.0.auto_backup_enabled"); ok {
-		if !autoBackupEnabled.(bool) {
-			return true
-		}
-	}
-	return false
 }
