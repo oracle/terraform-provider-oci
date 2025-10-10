@@ -58,8 +58,7 @@ resource "oci_database_autonomous_database" "test_autonomous_database_from_backu
   is_dedicated                     = "true"
 
   db_name                       = "cloneadb"
-  clone_type                    = "PARTIAL"
-  clone_table_space_list        = ["1", "2", "3"]
+  clone_type                    = "FULL"
   source                        = "BACKUP_FROM_ID"
   autonomous_database_backup_id = oci_database_autonomous_database_backup.test_autonomous_database_backup.id
 }
