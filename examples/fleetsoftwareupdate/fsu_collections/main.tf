@@ -35,3 +35,17 @@ resource "oci_fleet_software_update_fsu_collection" "test_fsu_collection_db23" {
   type                 = "DB"
 }
 
+
+// Fsu Collection resource for database version 26
+resource "oci_fleet_software_update_fsu_collection" "test_fsu_collection_db26" {
+  display_name   = "tf-test-db23-collection"
+  compartment_id = var.compartment_id
+  fleet_discovery {
+    strategy = "TARGET_LIST"
+    targets  = [var.fsu_db_26_target_1]
+  }
+  service_type         = "EXACS"
+  source_major_version = "DB_26"
+  type                 = "DB"
+}
+
