@@ -9,6 +9,8 @@ import (
 	"log"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -160,6 +162,20 @@ func replicateBackupsStandby(clients *tf_client.OracleClients, region string, au
 	return *changeDrConfigResponse.Id, nil
 }
 
+func deleteAutonomousDatabase(autonomousDatabaseId string) error {
+	databaseClient := acctest.GetTestClients(&schema.ResourceData{}).DatabaseClient()
+	if autonomousDatabaseId != "" {
+		deleteAutonomousRequest := oci_database.DeleteAutonomousDatabaseRequest{}
+		deleteAutonomousRequest.AutonomousDatabaseId = &autonomousDatabaseId
+
+		_, err := databaseClient.DeleteAutonomousDatabase(context.Background(), deleteAutonomousRequest)
+		if err != nil {
+			return fmt.Errorf("failed to delete source autonomous database resource with error : %v", err)
+		}
+	}
+	return nil
+}
+
 func deleteAdbInRegion(clients *tf_client.OracleClients, region string, autonomousDatabaseId string) error {
 	databaseClient, err := createDatabaseClient(clients, region)
 	if err != nil {
@@ -251,11 +267,8 @@ func createDatabaseClient(clients *tf_client.OracleClients, region string) (clie
 	return databaseClient, nil
 }
 
-func triggerUndeleteAutonomousDatabase(clients *tf_client.OracleClients, region string, compartmentId string, autonomousDatabaseId string) error {
-	databaseClient, err := createDatabaseClient(clients, region)
-	if err != nil {
-		return err
-	}
+func triggerUndeleteAutonomousDatabase(compartmentId string, autonomousDatabaseId string) error {
+	databaseClient := acctest.GetTestClients(&schema.ResourceData{}).DatabaseClient()
 
 	if autonomousDatabaseId != "" {
 		CreateAutonomousDatabaseRequest := oci_database.CreateAutonomousDatabaseRequest{}
@@ -269,4 +282,14 @@ func triggerUndeleteAutonomousDatabase(clients *tf_client.OracleClients, region 
 		}
 	}
 	return nil
+}
+
+func getAutonomousDatabase(client *tf_client.OracleClients, resourceId *string, retryPolicy *oci_common.RetryPolicy) error {
+	_, err := client.DatabaseClient().GetAutonomousDatabase(context.Background(), oci_database.GetAutonomousDatabaseRequest{
+		AutonomousDatabaseId: resourceId,
+		RequestMetadata: oci_common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

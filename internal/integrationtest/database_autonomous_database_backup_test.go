@@ -37,9 +37,6 @@ var (
 	DatabaseAutonomousDatabaseBackupResourceConfigForLongTermBackup = DatabaseAutonomousDatabaseBackupResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", acctest.Optional, acctest.Update, DatabaseAutonomousDatabaseBackupRepresentationForLongTermBackup)
 
-	DatabaseAutonomousDatabaseBackupResourceConfig = DatabaseAutonomousDatabaseBackupResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", acctest.Optional, acctest.Update, DatabaseAutonomousDatabaseBackupRepresentation)
-
 	DatabaseDatabaseAutonomousDatabaseBackupSingularDataSourceRepresentation = map[string]interface{}{
 		"autonomous_database_backup_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_database_backup.test_autonomous_database_backup.id}`},
 	}
@@ -47,22 +44,16 @@ var (
 	DatabaseAutonomousExaccDatabaseBackupResourceConfigForLongTermBackup = DatabaseAutonomousExaccDatabaseBackupResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", acctest.Optional, acctest.Update, DatabaseExaccAutonomousDatabaseBackupRepresentationForLongTermBackup)
 
-	DatabaseDatabaseAutonomousDatabaseBackupDataSourceRepresentation = map[string]interface{}{
-		"autonomous_database_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_autonomous_database.test_autonomous_database.id}`},
-		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `Monthly Backup`},
-		"infrastructure_type":    acctest.Representation{RepType: acctest.Optional, Create: `CLOUD`},
-		"key_store_id":           acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_key_store.test_key_store.id}`},
-		"state":                  acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseAutonomousDatabaseBackupDataSourceFilterRepresentation}}
-	DatabaseAutonomousDatabaseBackupDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
-		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_database_autonomous_database_backup.test_autonomous_database_backup.id}`}},
-	}
-
 	ExaccAutonomousDatabaseBackupDestinationDetailsRepresentation = map[string]interface{}{
 		"type": acctest.Representation{RepType: acctest.Required, Create: `NFS`},
 		"id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_backup_destination.test_backup_destination.id}`},
 	}
+
+	ExaccAutonomousDatabaseBackupDestinationDetailsRealRepresentation = map[string]interface{}{
+		"type": acctest.Representation{RepType: acctest.Required, Create: `NFS`},
+		"id":   acctest.Representation{RepType: acctest.Optional, Create: `${var.backup_destination_id}`},
+	}
+
 	DatabaseExaccAutonomousDatabaseBackupRepresentationForLongTermBackup = map[string]interface{}{
 		"autonomous_database_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_database.test_autonomous_database.id}`},
 		"display_name":               acctest.Representation{RepType: acctest.Required, Create: `autonomousdatabasebackup`},
@@ -96,51 +87,6 @@ var (
 		"is_dedicated":                     acctest.Representation{RepType: acctest.Required, Create: `true`},
 		"display_name":                     acctest.Representation{RepType: acctest.Optional, Create: adbExaccName},
 		"is_access_control_enabled":        acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-	}
-
-	ExaccBackupDestinationMountTypeDetailsRepresentation = map[string]interface{}{
-		"mount_type": acctest.Representation{RepType: acctest.Required, Create: `AUTOMATED_MOUNT`},
-		//"local_mount_point_path": acctest.Representation{RepType: acctest.Optional, Create: `localMountPointPath`, Update: `localMountPointPath10`},
-		"nfs_server":        acctest.Representation{RepType: acctest.Optional, Create: []string{`198.56.65.88`, `101.67.98.66`}},
-		"nfs_server_export": acctest.Representation{RepType: acctest.Optional, Create: `/export/path`},
-	}
-	ExaccDatabaseBackupDestinationRepresentation = map[string]interface{}{
-		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":       acctest.Representation{RepType: acctest.Required, Create: `nfs11`},
-		"type":               acctest.Representation{RepType: acctest.Required, Create: `NFS`},
-		"connection_string":  acctest.Representation{RepType: acctest.Optional, Create: `connectionString`, Update: `connectionString2`},
-		"defined_tags":       acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
-		"freeform_tags":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"mount_type_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ExaccBackupDestinationMountTypeDetailsRepresentation},
-	}
-
-	ExaccACDatabaseResourceDependencies = DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Optional, acctest.Create, ExaccDatabaseBackupDestinationRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Required, acctest.Create,
-			acctest.RepresentationCopyWithNewProperties(exadataInfrastructureRepresentationWithContacts, map[string]interface{}{"activation_file": acctest.Representation{RepType: acctest.Required, Create: activationFilePath}})) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "test_autonomous_vm_cluster", acctest.Optional, acctest.Create, DatabaseAutonomousVmClusterRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Required, acctest.Create,
-			acctest.RepresentationCopyWithNewProperties(DatabaseVmClusterNetworkRepresentation, map[string]interface{}{"validate_vm_cluster_network": acctest.Representation{RepType: acctest.Required, Create: "true"}})) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "test_db_servers", acctest.Required, acctest.Create, DatabaseDatabaseDbServerDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", acctest.Optional, acctest.Create, DatabaseKeyStoreRepresentation) +
-		KmsVaultIdVariableStr + OkvSecretVariableStr
-
-	ExaccDatabaseAutonomousContainerDatabaseBackupConfigRepresentation = map[string]interface{}{
-		"backup_destination_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ExaccAutonomousDatabaseBackupDestinationDetailsRepresentation},
-		"recovery_window_in_days":    acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
-	}
-	EXACCACDatabaseRepresentation = map[string]interface{}{
-		"display_name":                 acctest.Representation{RepType: acctest.Required, Create: `autonomouscontainerdatabases2`},
-		"patch_model":                  acctest.Representation{RepType: acctest.Required, Create: `RELEASE_UPDATES`, Update: `RELEASE_UPDATE_REVISIONS`},
-		"autonomous_vm_cluster_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster.id}`},
-		"backup_config":                acctest.RepresentationGroup{RepType: acctest.Required, Group: ExaccDatabaseAutonomousContainerDatabaseBackupConfigRepresentation},
-		"key_store_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_key_store.test_key_store.id}`},
-		"compartment_id":               acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
-		"db_unique_name":               acctest.Representation{RepType: acctest.Optional, Create: acbDBName},
-		"defined_tags":                 acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
-		"freeform_tags":                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"maintenance_window_details":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsRepresentation},
-		"service_level_agreement_type": acctest.Representation{RepType: acctest.Optional, Create: `STANDARD`},
 	}
 
 	DatabaseAutonomousDatabaseBackupResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create,
