@@ -1708,3 +1708,39 @@ func WaitForResourceConditionWithContext(ctx context.Context, s ResourceFetcherW
 
 	return nil
 }
+
+func DisableAutoBackupSuppressfunc(k string, old, new string, d *schema.ResourceData) bool {
+	// if autoBackupEnabled is false then ignore any field in the state and config backupWindow
+	if autoBackupEnabled, ok := d.GetOkExists("database.0.db_backup_config.0.auto_backup_enabled"); ok {
+		if !autoBackupEnabled.(bool) {
+			return true
+		}
+	}
+	return false
+}
+
+func DisableAutoBackupDbSystemSuppressfunc(k string, old, new string, d *schema.ResourceData) bool {
+	// if autoBackupEnabled is false then ignore any field in the state and config backupWindow
+	if autoBackupEnabled, ok := d.GetOkExists("db_home.0.database.0.db_backup_config.0.auto_backup_enabled"); ok {
+		if !autoBackupEnabled.(bool) {
+			return true
+		}
+	}
+	return false
+}
+
+func DbHomeNestedDbSuppressfunc(k string, old, new string, d *schema.ResourceData) bool {
+	oldRaw, newRaw := d.GetChange("database")
+	oldList := oldRaw.([]interface{})
+	newList := newRaw.([]interface{})
+	enableDbDelete, ok := d.GetOkExists("enable_database_delete")
+	// if key is database and database exists in state but not config
+	// check if enable_database_delete is not set or enable_database_delete is set to false then skip diff
+	if k == "database" && len(oldList) > len(newList) {
+		if !ok || !enableDbDelete.(bool) {
+			log.Printf("[DEBUG] SKIPPING DELETE")
+			return true
+		}
+	}
+	return false
+}
