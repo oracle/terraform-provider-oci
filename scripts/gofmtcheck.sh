@@ -3,7 +3,7 @@
 
 # Check gofmt
 echo "==> Checking that code complies with gofmt requirements..."
-gofmt_files=$(find . -name '*.go' | grep -v vendor | xargs gofmt -l)
+gofmt_files=$(find . -name '*.go' | grep -v vendor | grep -v terraform-test-resources | xargs gofmt -l)
 if [[ -n ${gofmt_files} ]]; then
     echo 'gofmt needs running on the following files:'
     echo "${gofmt_files}"
@@ -26,13 +26,13 @@ while getopts "s" opt; do
 done
 
 # Check goimports
-#echo "==> Checking that code complies with goimports requirements..."
-#goimports_files=$(find . -name '*.go' | grep -v vendor | xargs goimports -l -local terraform-provider-oci)
-#if [[ -n ${goimports_files} ]]; then
-#    echo 'goimports needs running on the following files:'
-#    echo "${goimports_files}"
-#    echo "You can use the command: \`make fmt\` to reformat code."
-#    exit 2
-#fi
+echo "==> Checking that code complies with goimports requirements..."
+goimports_files=$(find . -name '*.go' | grep -v vendor | grep -v terraform-test-resources | xargs goimports -l -local terraform-provider-oci)
+if [[ -n ${goimports_files} ]]; then
+   echo 'goimports needs running on the following files:'
+   echo "${goimports_files}"
+   echo "You can use the command: \`make fmt\` to reformat code."
+   exit 2
+fi
 
 exit 0

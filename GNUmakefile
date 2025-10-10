@@ -22,6 +22,27 @@ gomodenv:
 
 default: build
 
+GOBIN = /usr/local/sbin
+
+install_go_ol9:
+	# Install Golang and required tool on build service instance
+	@echo "Installing Golang using command dnf install go-toolset"
+	dnf install go-toolset-1.23.*
+	go version
+	@if [ ! -d "$(GOBIN)" ]; then \
+		mkdir -p "$(GOBIN)"; \
+		echo "Created $(GOBIN)"; \
+	else \
+		echo "$(GOBIN) already exists"; \
+	fi
+	@export GOBIN="$(GOBIN)"; export PATH="$(GOBIN):$$PATH"; \
+	GOFLAGS= go install github.com/jstemmer/go-junit-report/v2@v2.1.0; \
+	GOFLAGS= go install github.com/kisielk/errcheck@v1.7.0; \
+	GOFLAGS= go install golang.org/x/tools/cmd/goimports@v0.24.0
+	@echo "goimports and errcheck installed in $(GOBIN)"
+
+checkall: install_go_ol9 fmtcheck errcheck
+
 ## IMPORTANT: Do not modify the following `build` target. The following steps are a requirement of the provider release process.
 build: fmtcheck errcheck gomodenv
 	go install
@@ -149,7 +170,7 @@ zip:
 	tar -czvf openbsd_amd64.tar.gz openbsd_amd64; \
 	tar -czvf solaris_amd64.tar.gz solaris_amd64
 
-.PHONY: build test testacc vet fmt fmtcheck errcheck test-compile website website-test test-docscheck
+.PHONY: build test testacc vet fmt fmtcheck errcheck test-compile website website-test test-docscheck install_go_ol9
 
 replace_sdk_version:
 ifdef version
