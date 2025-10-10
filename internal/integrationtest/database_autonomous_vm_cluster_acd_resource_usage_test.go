@@ -55,7 +55,7 @@ func TestDatabaseAutonomousVmClusterAcdResourceUsageResource_basic(t *testing.T)
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_resource_usages.0.display_name"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_resource_usages.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_resource_usages.0.largest_provisionable_autonomous_database_in_cpus"),
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_database_resource_usages.0.provisionable_cpus.#", "29"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_database_resource_usages.0.provisionable_cpus.#", "48"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_resource_usages.0.provisioned_cpus"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_resource_usages.0.reclaimable_cpus"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_resource_usages.0.reserved_cpus"),
