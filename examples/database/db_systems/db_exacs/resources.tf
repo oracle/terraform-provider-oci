@@ -201,6 +201,17 @@ resource "oci_database_database" "test_database" {
   source     = "NONE"
 }
 
+resource "oci_database_db_home" "test_pitr_database_db_home" {
+  database {
+    admin_password = "BEstrO0ng_#11"
+    backup_tde_password = "BEstrO0ng_#11"
+    db_name = "PITRdb"
+    database_id = "${oci_database_db_home.test_db_home_vm_cluster.database.0.id}"
+  }
+  source     = "DATABASE"
+  db_system_id = oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id
+}
+
 resource "oci_database_pluggable_database" "test_pluggable_database" {
         container_database_id = oci_database_database.test_database.id
         pdb_admin_password = "BEstrO0ng_#11"
