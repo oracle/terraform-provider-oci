@@ -71,6 +71,10 @@ func (s *AiLanguageEndpointDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.Alias != nil {
+		s.D.Set("alias", *s.Res.Alias)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
