@@ -8,6 +8,8 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_ai_language_endpoint", AiLanguageEndpointDataSource())
 	tfresource.RegisterDatasource("oci_ai_language_endpoints", AiLanguageEndpointsDataSource())
+	tfresource.RegisterDatasource("oci_ai_language_job", AiLanguageJobDataSource())
+	tfresource.RegisterDatasource("oci_ai_language_jobs", AiLanguageJobsDataSource())
 	tfresource.RegisterDatasource("oci_ai_language_model", AiLanguageModelDataSource())
 	tfresource.RegisterDatasource("oci_ai_language_model_evaluation_results", AiLanguageModelEvaluationResultsDataSource())
 	tfresource.RegisterDatasource("oci_ai_language_model_type", AiLanguageModelTypeDataSource())

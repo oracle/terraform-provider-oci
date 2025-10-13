@@ -49,10 +49,23 @@ var exportAiLanguageEndpointHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportAiLanguageJobHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_ai_language_job",
+	DatasourceClass:        "oci_ai_language_jobs",
+	DatasourceItemsAttr:    "job_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "job",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_ai_language.JobLifecycleStateSucceeded),
+	},
+}
+
 var aiLanguageResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportAiLanguageProjectHints},
 		{TerraformResourceHints: exportAiLanguageModelHints},
 		{TerraformResourceHints: exportAiLanguageEndpointHints},
+		{TerraformResourceHints: exportAiLanguageJobHints},
 	},
 }

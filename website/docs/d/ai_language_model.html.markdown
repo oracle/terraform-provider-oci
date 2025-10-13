@@ -104,5 +104,5 @@ The following attributes are exported:
 		* `location_type` - Possible object storage location types
 		* `namespace` - Object storage namespace
 		* `object_names` - Array of files which need to be processed in the bucket
-* `version` - For pre trained models this will identify model type version used for model creation For custom identifying the model by model id is difficult. This param provides ease of use for end customer. <<service>>::<<service-name>>_<<model-type-version>>::<<custom model on which this training has to be done>> ex: ai-lang::NER_V1::CUSTOM-V0 
+* `version` - For pre trained models this will identify model type version used for model creation For custom this will identify model type version used for model creation and custom model on which training has to be done <<service>>::<<service-name>>_<<model-type-version>>::<<custom model on which this training has to be done>> ex: ai-lang::NER_V1::CUSTOM-V0 
 
