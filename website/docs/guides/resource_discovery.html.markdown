@@ -357,6 +357,7 @@ ai_language
 * oci\_ai\_language\_project
 * oci\_ai\_language\_model
 * oci\_ai\_language\_endpoint
+* oci\_ai\_language\_job
 
 ai_vision
     
