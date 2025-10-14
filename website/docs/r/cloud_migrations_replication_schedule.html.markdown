@@ -9,6 +9,9 @@ description: |-
 
 # oci_cloud_migrations_replication_schedule
 This resource provides the Replication Schedule resource in Oracle Cloud Infrastructure Cloud Migrations service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/ocm/latest/ReplicationSchedule
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/cloudMigrations
 
 Creates a replication schedule.
 

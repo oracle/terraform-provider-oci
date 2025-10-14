@@ -9,6 +9,9 @@ description: |-
 
 # oci_objectstorage_replication_policy
 This resource provides the Replication Policy resource in Oracle Cloud Infrastructure Object Storage service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/objectstorage/latest/ReplicationPolicy
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Creates a replication policy for the specified bucket.
 

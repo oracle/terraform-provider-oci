@@ -9,6 +9,9 @@ description: |-
 
 # oci_core_internet_gateway
 This resource provides the Internet Gateway resource in Oracle Cloud Infrastructure Core service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/iaas/latest/InternetGateway
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Creates a new internet gateway for the specified VCN. For more information, see
 [Access to the Internet](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingIGs.htm).

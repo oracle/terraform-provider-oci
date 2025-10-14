@@ -9,6 +9,9 @@ description: |-
 
 # oci_waf_network_address_list
 This resource provides the Network Address List resource in Oracle Cloud Infrastructure Waf service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/waf/latest/NetworkAddressList
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/web_app_firewall
 
 Creates a new NetworkAddressList.
 

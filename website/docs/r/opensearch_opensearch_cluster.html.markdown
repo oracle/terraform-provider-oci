@@ -9,6 +9,9 @@ description: |-
 
 # oci_opensearch_opensearch_cluster
 This resource provides the Opensearch Cluster resource in Oracle Cloud Infrastructure Opensearch service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/opensearch/latest/OpensearchCluster
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/opensearch
 
 Creates a new OpensearchCluster.
 

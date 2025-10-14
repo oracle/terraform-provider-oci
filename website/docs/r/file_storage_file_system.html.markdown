@@ -9,6 +9,9 @@ description: |-
 
 # oci_file_storage_file_system
 This resource provides the File System resource in Oracle Cloud Infrastructure File Storage service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/filestorage/latest/FileSystem
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Creates a new file system in the specified compartment and
 availability domain. Instances can mount file systems in

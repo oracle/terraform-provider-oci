@@ -9,6 +9,9 @@ description: |-
 
 # oci_budget_alert_rule
 This resource provides the Alert Rule resource in Oracle Cloud Infrastructure Budget service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/budgets/latest/AlertRule
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/budget
 
 Creates a new Alert Rule.
 

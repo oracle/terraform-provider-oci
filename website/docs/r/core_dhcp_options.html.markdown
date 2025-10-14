@@ -9,6 +9,9 @@ description: |-
 
 # oci_core_dhcp_options
 This resource provides the Dhcp Options resource in Oracle Cloud Infrastructure Core service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/iaas/latest/DhcpOption
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Creates a new set of DHCP options for the specified VCN. For more information, see
 [DhcpOptions](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/DhcpOptions/).

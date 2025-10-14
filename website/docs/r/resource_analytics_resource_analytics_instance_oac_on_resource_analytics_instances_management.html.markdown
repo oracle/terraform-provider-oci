@@ -7,9 +7,16 @@ description: |-
   Provides the Resource Analytics Instance Oac Management resource in Oracle Cloud Infrastructure Resource Analytics service
 ---
 
+<<<<<<< ours
+# oci_resource_analytics_resource_analytics_instance_oac_on_resource_analytics_instances_management
+This resource provides the Resource Analytics Instance Oac On Resource Analytics Instances Management resource in Oracle Cloud Infrastructure Resource Analytics service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/resource-analytics/latest/ResourceAnalyticsInstanceOacOnResourceAnalyticsInstancesManagement
+=======
 # oci_resource_analytics_resource_analytics_instance_oac_management
 This resource provides the Resource Analytics Instance Oac Management resource in Oracle Cloud Infrastructure Resource Analytics service.
+>>>>>>> theirs
 
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 Attaches an OAC instance to a ResourceAnalyticsInstance.
 
 

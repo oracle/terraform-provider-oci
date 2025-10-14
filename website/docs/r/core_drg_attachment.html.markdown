@@ -9,6 +9,9 @@ description: |-
 
 # oci_core_drg_attachment
 This resource provides the Drg Attachment resource in Oracle Cloud Infrastructure Core service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/iaas/latest/DrgAttachment
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Attaches the specified DRG to the specified network resource. A VCN can be attached to only one DRG
 at a time, but a DRG can be attached to more than one VCN. The response includes a `DrgAttachment`

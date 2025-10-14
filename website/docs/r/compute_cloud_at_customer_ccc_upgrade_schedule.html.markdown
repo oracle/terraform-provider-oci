@@ -9,6 +9,9 @@ description: |-
 
 # oci_compute_cloud_at_customer_ccc_upgrade_schedule
 This resource provides the Ccc Upgrade Schedule resource in Oracle Cloud Infrastructure Compute Cloud At Customer service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/latest/CccUpgradeSchedule
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/computecloudatcustomer
 
 Creates a new Compute Cloud@Customer upgrade schedule.
 

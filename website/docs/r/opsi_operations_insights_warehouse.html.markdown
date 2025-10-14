@@ -9,6 +9,9 @@ description: |-
 
 # oci_opsi_operations_insights_warehouse
 This resource provides the Operations Insights Warehouse resource in Oracle Cloud Infrastructure Opsi service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/operations-insights/latest/OperationsInsightsWarehouse
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/osi
 
 Create a Ops Insights Warehouse resource for the tenant in Ops Insights. New ADW will be provisioned for this tenant.
 There is only expected to be 1 warehouse per tenant. The warehouse is expected to be in the root compartment. If the 'opsi-warehouse-type'

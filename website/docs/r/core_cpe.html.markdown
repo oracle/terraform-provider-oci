@@ -9,6 +9,9 @@ description: |-
 
 # oci_core_cpe
 This resource provides the Cpe resource in Oracle Cloud Infrastructure Core service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/iaas/latest/Cpe
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Creates a new virtual customer-premises equipment (CPE) object in the specified compartment. For
 more information, see [Site-to-Site VPN Overview](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/overviewIPsec.htm).

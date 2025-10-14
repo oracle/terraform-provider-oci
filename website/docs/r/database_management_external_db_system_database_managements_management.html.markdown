@@ -9,7 +9,9 @@ description: |-
 
 # oci_database_management_external_db_system_database_managements_management
 This resource provides the External Db System Database Managements Management resource in Oracle Cloud Infrastructure Database Management service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/database-management/latest/ExternalDbSystemDatabaseManagementsManagement
 
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/databasemanagement
 Enables Database Management service for all the components of the specified
 external DB system (except databases).
 

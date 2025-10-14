@@ -9,6 +9,9 @@ description: |-
 
 # oci_database_external_pluggable_database_operations_insights_management
 This resource provides the External Pluggable Database Operations Insights Management resource in Oracle Cloud Infrastructure Database service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/database/latest/ExternalPluggableDatabaseOperationsInsightsManagement
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/database
 
 Enable Operations Insights for the external pluggable database.
 When deleting this resource block , we call disable if it was in enabled state .

@@ -9,6 +9,9 @@ description: |-
 
 # oci_email_dkim
 This resource provides the Dkim resource in Oracle Cloud Infrastructure Email service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/email/latest/Dkim
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/email
 
 Creates a new DKIM for an email domain.
 This DKIM signs all approved senders in the tenancy that are in this email domain.

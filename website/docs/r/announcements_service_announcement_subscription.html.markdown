@@ -9,6 +9,9 @@ description: |-
 
 # oci_announcements_service_announcement_subscription
 This resource provides the Announcement Subscription resource in Oracle Cloud Infrastructure Announcements Service service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/announcements/latest/AnnouncementSubscription
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/announcements_service
 
 Creates a new announcement subscription.
 

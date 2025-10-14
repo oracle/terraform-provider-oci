@@ -9,6 +9,9 @@ description: |-
 
 # oci_network_load_balancer_network_load_balancer
 This resource provides the Network Load Balancer resource in Oracle Cloud Infrastructure Network Load Balancer service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/latest/NetworkLoadBalancer
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/network_load_balancer
 
 Creates a network load balancer.
 

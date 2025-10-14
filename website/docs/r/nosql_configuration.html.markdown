@@ -8,7 +8,10 @@ description: |-
 ---
 
 # oci_nosql_configuration
-This resource provides the Configuration in Oracle Cloud Infrastructure NoSQL Database service.
+This resource provides the Configuration resource in Oracle Cloud Infrastructure NoSQL Database service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/nosql-database/latest/Configuration
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/object_storage
 
 Updates the service-level configuration.  The discriminator value
 `UpdateConfigurationDetails.environment` must match the service's

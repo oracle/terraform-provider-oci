@@ -9,6 +9,9 @@ description: |-
 
 # oci_identity_data_plane_generate_scoped_access_token
 This resource provides the Generate Scoped Access Token resource in Oracle Cloud Infrastructure Identity Data Plane service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/identity_data_plane
 
 Based on the calling principal and the input payload, derive the claims and create a security token.
 

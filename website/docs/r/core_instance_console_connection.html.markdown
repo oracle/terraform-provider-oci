@@ -9,6 +9,9 @@ description: |-
 
 # oci_core_instance_console_connection
 This resource provides the Instance Console Connection resource in Oracle Cloud Infrastructure Core service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/iaas/latest/InstanceConsoleConnection
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Creates a new console connection to the specified instance.
 After the console connection has been created and is available,

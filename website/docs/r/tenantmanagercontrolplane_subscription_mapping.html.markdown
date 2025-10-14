@@ -9,6 +9,9 @@ description: |-
 
 # oci_tenantmanagercontrolplane_subscription_mapping
 This resource provides the Subscription Mapping resource in Oracle Cloud Infrastructure Tenantmanagercontrolplane service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/organizations/latest/SubscriptionMapping
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/tenantmanagercontrolplane
 
 Assign the tenancy record identified by the compartment ID to the given subscription ID.
 
