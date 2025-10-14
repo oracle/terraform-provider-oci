@@ -792,6 +792,7 @@ disaster_recovery
 * oci\_disaster\_recovery\_dr\_protection\_group
 * oci\_disaster\_recovery\_dr\_plan\_execution
 * oci\_disaster\_recovery\_dr\_plan
+* oci\_disaster\_recovery\_automatic\_dr\_configuration
 
 dns
     
