@@ -9,6 +9,9 @@ description: |-
 
 # oci_data_safe_alert_policy_rule
 This resource provides the Alert Policy Rule resource in Oracle Cloud Infrastructure Data Safe service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/data-safe/latest/AlertPolicyRule
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe
 
 Creates a new rule for the alert policy.
 

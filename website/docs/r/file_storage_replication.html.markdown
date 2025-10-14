@@ -9,6 +9,9 @@ description: |-
 
 # oci_file_storage_replication
 This resource provides the Replication resource in Oracle Cloud Infrastructure File Storage service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/filestorage/latest/Replication
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Creates a new replication in the specified compartment.
 Replications are the primary resource that governs the policy of cross-region replication between source

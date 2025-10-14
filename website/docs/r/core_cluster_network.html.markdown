@@ -9,6 +9,9 @@ description: |-
 
 # oci_core_cluster_network
 This resource provides the Cluster Network resource in Oracle Cloud Infrastructure Core service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/iaas/latest/ClusterNetwork
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Creates a [cluster network with instance pools](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingclusternetworks.htm).
 A cluster network is a group of high performance computing (HPC), GPU, or optimized bare metal

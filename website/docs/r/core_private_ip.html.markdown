@@ -9,6 +9,9 @@ description: |-
 
 # oci_core_private_ip
 This resource provides the Private Ip resource in Oracle Cloud Infrastructure Core service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/iaas/latest/PrivateIp
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Creates a secondary private IP for the specified VNIC.
 For more information about secondary private IPs, see

@@ -9,6 +9,9 @@ description: |-
 
 # oci_opsi_awr_hub_source
 This resource provides the Awr Hub Source resource in Oracle Cloud Infrastructure Opsi service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/operations-insights/latest/AwrHubSource
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/osi
 
 Register Awr Hub source
 

@@ -9,6 +9,9 @@ description: |-
 
 # oci_containerengine_cluster
 This resource provides the Cluster resource in Oracle Cloud Infrastructure Container Engine service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/containerengine/latest/Cluster
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/container_engine
 
 Create a new cluster.
 

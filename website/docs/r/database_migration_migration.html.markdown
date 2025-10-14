@@ -9,6 +9,9 @@ description: |-
 
 # oci_database_migration_migration
 This resource provides the Migration resource in Oracle Cloud Infrastructure Database Migration service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/database-migration/latest/Migration
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/databasemigration
 
 Create a Migration resource that contains all the details to perform the
 database migration operation, such as source and destination database

@@ -9,6 +9,9 @@ description: |-
 
 # oci_license_manager_license_record
 This resource provides the License Record resource in Oracle Cloud Infrastructure License Manager service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/licensemanager/latest/LicenseRecord
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/license_manager
 
 Creates a new license record for the given product license ID.
 

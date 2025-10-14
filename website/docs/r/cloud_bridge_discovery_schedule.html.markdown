@@ -9,6 +9,9 @@ description: |-
 
 # oci_cloud_bridge_discovery_schedule
 This resource provides the Discovery Schedule resource in Oracle Cloud Infrastructure Cloud Bridge service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/OCB/latest/DiscoverySchedule
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/cloudBridge
 
 Creates the discovery schedule.
 

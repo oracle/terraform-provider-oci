@@ -9,6 +9,9 @@ description: |-
 
 # oci_opsi_opsi_configuration
 This resource provides the Opsi Configuration resource in Oracle Cloud Infrastructure Opsi service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/operations-insights/latest/OpsiConfiguration
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/osi
 
 Create an OPSI configuration resource.
 

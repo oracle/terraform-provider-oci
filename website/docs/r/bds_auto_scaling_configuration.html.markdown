@@ -9,6 +9,9 @@ description: |-
 
 # oci_bds_auto_scaling_configuration
 This resource provides the Auto Scaling Configuration resource in Oracle Cloud Infrastructure Big Data Service service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/bigdata/latest/AutoScalingConfiguration
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/big_data_service
 
 Add an autoscale configuration to the cluster.
 

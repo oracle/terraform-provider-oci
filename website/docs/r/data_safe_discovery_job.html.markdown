@@ -9,6 +9,9 @@ description: |-
 
 # oci_data_safe_discovery_job
 This resource provides the Discovery Job resource in Oracle Cloud Infrastructure Data Safe service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/data-safe/latest/DiscoveryJob
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe
 
 Performs incremental data discovery for the specified sensitive data model. It uses the target database associated
 with the sensitive data model.

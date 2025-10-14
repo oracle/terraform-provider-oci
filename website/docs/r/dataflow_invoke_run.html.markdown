@@ -9,6 +9,9 @@ description: |-
 
 # oci_dataflow_invoke_run
 This resource provides the Invoke Run resource in Oracle Cloud Infrastructure Data Flow service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/data-flow/latest/InvokeRun
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/dataflow
 
 Creates a run for an application.
 

@@ -9,6 +9,9 @@ description: |-
 
 # oci_core_vcn
 This resource provides the Vcn resource in Oracle Cloud Infrastructure Core service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/iaas/latest/Vcn
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 The VCN automatically comes with a default route table, default security list, and default set of DHCP options.
 For managing these resources, see [Managing Default VCN Resources](/docs/providers/oci/guides/managing_default_resources.html)

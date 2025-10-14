@@ -9,6 +9,9 @@ description: |-
 
 # oci_identity_import_standard_tags_management
 This resource provides the Import Standard Tags Management resource in Oracle Cloud Infrastructure Identity service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/identity/latest/ImportStandardTagsManagement
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/identity
 
 OCI will release Tag Namespaces that our customers can import.
 These Tag Namespaces will provide Tags for our customers and Partners to provide consistency and enable data reporting.

@@ -9,6 +9,9 @@ description: |-
 
 # oci_data_safe_sensitive_type_group
 This resource provides the Sensitive Type Group resource in Oracle Cloud Infrastructure Data Safe service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/data-safe/latest/SensitiveTypeGroup
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe
 
 Creates a new sensitive type group.
 

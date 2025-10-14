@@ -9,6 +9,9 @@ description: |-
 
 # oci_database_oneoff_patch
 This resource provides the Oneoff Patch resource in Oracle Cloud Infrastructure Database service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/database/latest/OneoffPatch
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/database
 
 Creates one-off patch for specified database version to download.
 

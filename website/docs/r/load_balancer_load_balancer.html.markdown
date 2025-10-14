@@ -9,6 +9,9 @@ description: |-
 
 # oci_load_balancer_load_balancer
 This resource provides the Load Balancer resource in Oracle Cloud Infrastructure Load Balancer service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/loadbalancer/latest/LoadBalancer
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/load_balancer
 
 Creates a new load balancer in the specified compartment. For general information about load balancers,
 see [Overview of the Load Balancing Service](https://docs.cloud.oracle.com/iaas/Content/Balance/Concepts/balanceoverview.htm).

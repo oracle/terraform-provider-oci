@@ -9,6 +9,9 @@ description: |-
 
 # oci_dns_zone_promote_dnssec_key_version
 This resource provides the Zone Promote Dnssec Key Version resource in Oracle Cloud Infrastructure DNS service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/dns/latest/ZonePromoteDnssecKeyVersion
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/dns
 
 Promotes a specified `DnssecKeyVersion` on the zone.
 

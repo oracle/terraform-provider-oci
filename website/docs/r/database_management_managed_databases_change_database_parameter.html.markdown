@@ -9,6 +9,9 @@ description: |-
 
 # oci_database_management_managed_databases_change_database_parameter
 This resource provides the Managed Databases Change Database Parameter resource in Oracle Cloud Infrastructure Database Management service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/database-management/latest/ManagedDatabasesChangeDatabaseParameter
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/databasemanagement
 
 Changes database parameter values. There are two kinds of database
 parameters:

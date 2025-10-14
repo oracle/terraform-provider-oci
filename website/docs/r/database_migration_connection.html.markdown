@@ -9,6 +9,9 @@ description: |-
 
 # oci_database_migration_connection
 This resource provides the Connection resource in Oracle Cloud Infrastructure Database Migration service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/database-migration/latest/Connection
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/databasemigration
 
 Create a Database Connection resource that contains the details to connect to either a Source or Target Database
 in the migration.

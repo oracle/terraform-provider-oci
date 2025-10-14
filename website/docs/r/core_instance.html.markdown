@@ -9,6 +9,9 @@ description: |-
 
 # oci_core_instance
 This resource provides the Instance resource in Oracle Cloud Infrastructure Core service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/iaas/latest/Instance
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Creates a new instance in the specified compartment and the specified availability domain.
 For general information about instances, see

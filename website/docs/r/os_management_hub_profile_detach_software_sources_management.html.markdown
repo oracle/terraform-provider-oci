@@ -9,6 +9,9 @@ description: |-
 
 # oci_os_management_hub_profile_detach_software_sources_management
 This resource provides the Profile Detach Software Sources Management resource in Oracle Cloud Infrastructure Os Management Hub service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/os-management/latest/ProfileDetachSoftwareSourcesManagement
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/os_management_hub
 
 Detaches the specified software sources from a profile.
 

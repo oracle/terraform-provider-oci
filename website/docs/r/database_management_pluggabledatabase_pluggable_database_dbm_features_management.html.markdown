@@ -9,7 +9,9 @@ description: |-
 
 # oci_database_management_pluggabledatabase_pluggable_database_dbm_features_management
 This resource provides the Pluggabledatabase Pluggable Database Dbm Features Management resource in Oracle Cloud Infrastructure Database Management service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/database-management/latest/PluggabledatabasePluggableDatabaseDbmFeaturesManagement
 
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/databasemanagement
 Enables a Database Management feature for the specified Oracle cloud pluggable database.
 
 

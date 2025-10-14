@@ -9,6 +9,9 @@ description: |-
 
 # oci_data_safe_sensitive_type
 This resource provides the Sensitive Type resource in Oracle Cloud Infrastructure Data Safe service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/data-safe/latest/SensitiveType
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe
 
 Creates a new sensitive type, which can be a basic sensitive type with regular expressions or a sensitive category.
 While sensitive types are used for data discovery, sensitive categories are used for logically grouping the related

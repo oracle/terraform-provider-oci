@@ -9,6 +9,9 @@ description: |-
 
 # oci_management_dashboard_management_dashboards_import
 This resource provides the Management Dashboards Import resource in Oracle Cloud Infrastructure Management Dashboard service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/managementdashboard/latest/ManagementDashboardsImport
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/management_dashboard
 
 Imports an array of dashboards and their saved searches. 
 Here's an example of how you can use CLI to import a dashboard. For information on the details that must be passed to IMPORT, you can use the EXPORT API to obtain the Import.json file: 

@@ -9,6 +9,9 @@ description: |-
 
 # oci_load_balancer_hostname
 This resource provides the Hostname resource in Oracle Cloud Infrastructure Load Balancer service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/loadbalancer/latest/Hostname
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/load_balancer
 
 Adds a hostname resource to the specified load balancer. For more information, see
 [Managing Request Routing](https://docs.cloud.oracle.com/iaas/Content/Balance/Tasks/managingrequest.htm).
