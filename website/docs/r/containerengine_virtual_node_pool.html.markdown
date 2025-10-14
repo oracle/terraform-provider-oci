@@ -30,7 +30,7 @@ resource "oci_containerengine_virtual_node_pool" "test_virtual_node_pool" {
 		fault_domain = var.virtual_node_pool_placement_configurations_fault_domain
 		subnet_id = oci_core_subnet.test_subnet.id
 	}
-
+	
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
 	freeform_tags = {"Department"= "Finance"}
