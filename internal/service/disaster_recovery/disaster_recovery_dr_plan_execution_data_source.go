@@ -67,6 +67,12 @@ func (s *DisasterRecoveryDrPlanExecutionDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.AutomaticExecutionDetails != nil {
+		s.D.Set("automatic_execution_details", []interface{}{AutomaticExecutionDetailsToMap(s.Res.AutomaticExecutionDetails)})
+	} else {
+		s.D.Set("automatic_execution_details", nil)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -104,6 +110,10 @@ func (s *DisasterRecoveryDrPlanExecutionDataSourceCrud) SetData() error {
 		groupExecutions = append(groupExecutions, DrPlanGroupExecutionToMap(item))
 	}
 	s.D.Set("group_executions", groupExecutions)
+
+	if s.Res.IsAutomatic != nil {
+		s.D.Set("is_automatic", *s.Res.IsAutomatic)
+	}
 
 	if s.Res.LifeCycleDetails != nil {
 		s.D.Set("life_cycle_details", *s.Res.LifeCycleDetails)
