@@ -9,6 +9,9 @@ description: |-
 
 # oci_generative_ai_agent_data_source
 This resource provides the Data Source resource in Oracle Cloud Infrastructure Generative Ai Agent service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/latest/DataSource
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/generative_ai_agent
 
 Creates a data source.
 

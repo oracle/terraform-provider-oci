@@ -9,6 +9,9 @@ description: |-
 
 # oci_recovery_long_term_backup
 This resource provides the Long Term Backup resource in Oracle Cloud Infrastructure Recovery service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/recovery-service/latest/LongTermBackup
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/recovery
 
 Creates a long-term backup of a specified protected database.
 

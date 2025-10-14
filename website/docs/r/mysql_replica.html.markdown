@@ -9,6 +9,9 @@ description: |-
 
 # oci_mysql_replica
 This resource provides the Replica resource in Oracle Cloud Infrastructure MySQL Database service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/mysql/latest/Replica
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/mysql
 
 Creates a DB System read replica.
 

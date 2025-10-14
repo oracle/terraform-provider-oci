@@ -8,7 +8,10 @@ description: |-
 ---
 
 # oci_apm_synthetics_on_premise_vantage_point_worker
-This resource provides the On Premise Vantage Point Worker resource in Oracle Cloud Infrastructure APM Availability Monitoring service (aka APM Synthetics Service).
+This resource provides the On Premise Vantage Point Worker resource in Oracle Cloud Infrastructure Apm Synthetics service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/latest/OnPremiseVantagePointWorker
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/apm/apm_synthetics
 
 Registers a new worker.
 

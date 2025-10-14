@@ -9,6 +9,9 @@ description: |-
 
 # oci_sch_service_connector
 This resource provides the Service Connector resource in Oracle Cloud Infrastructure Service Connector Hub service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/serviceconnectors/latest/ServiceConnector
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/service_connector_hub
 
 Creates a new connector in the specified compartment.
 A connector is a logically defined flow for moving data from

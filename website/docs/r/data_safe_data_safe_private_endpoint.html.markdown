@@ -9,6 +9,9 @@ description: |-
 
 # oci_data_safe_data_safe_private_endpoint
 This resource provides the Data Safe Private Endpoint resource in Oracle Cloud Infrastructure Data Safe service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/data-safe/latest/DataSafePrivateEndpoint
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe
 
 Creates a new Data Safe private endpoint.
 

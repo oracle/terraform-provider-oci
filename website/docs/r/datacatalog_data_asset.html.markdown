@@ -9,6 +9,9 @@ description: |-
 
 # oci_datacatalog_data_asset
 This resource provides the Data Asset resource in Oracle Cloud Infrastructure Data Catalog service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/data-catalog/latest/DataAsset
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/datacatalog
 
 Create a new data asset.
 

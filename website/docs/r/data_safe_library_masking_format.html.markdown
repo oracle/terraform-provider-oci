@@ -9,6 +9,9 @@ description: |-
 
 # oci_data_safe_library_masking_format
 This resource provides the Library Masking Format resource in Oracle Cloud Infrastructure Data Safe service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/data-safe/latest/LibraryMaskingFormat
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe
 
 Creates a new library masking format. A masking format can have one or more
 format entries. The combined output of all the format entries is used for masking.

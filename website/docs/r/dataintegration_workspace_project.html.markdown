@@ -9,6 +9,9 @@ description: |-
 
 # oci_dataintegration_workspace_project
 This resource provides the Workspace Project resource in Oracle Cloud Infrastructure Data Integration service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/data-integration/latest/WorkspaceProject
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/dataintegration
 
 Creates a project. Projects are organizational constructs within a workspace that you use to organize your design-time resources, such as tasks or data flows. Projects can be organized into folders.
 

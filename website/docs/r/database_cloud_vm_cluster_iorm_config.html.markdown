@@ -9,6 +9,9 @@ description: |-
 
 # oci_database_cloud_vm_cluster_iorm_config
 This resource provides the Cloud Vm Cluster Iorm Config resource in Oracle Cloud Infrastructure Database service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/database/latest/CloudVmClusterIormConfig
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/database
 
 Updates IORM settings for the specified Cloud Vm Cluster.
 

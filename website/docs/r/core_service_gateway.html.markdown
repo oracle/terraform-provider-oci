@@ -9,6 +9,9 @@ description: |-
 
 # oci_core_service_gateway
 This resource provides the Service Gateway resource in Oracle Cloud Infrastructure Core service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/iaas/latest/ServiceGateway
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Creates a new service gateway in the specified compartment.
 

@@ -9,7 +9,9 @@ description: |-
 
 # oci_managed_kafka_kafka_cluster_superusers_management
 This resource provides the Kafka Cluster Superusers Management resource in Oracle Cloud Infrastructure Managed Kafka service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/kafka/latest/KafkaClusterSuperusersManagement
 
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/managed_kafka
 Adds a SASL superuser to the Kafka cluster. A generated password will be updated to the specified vault.
 
 

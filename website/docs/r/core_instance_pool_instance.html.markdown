@@ -9,6 +9,9 @@ description: |-
 
 # oci_core_instance_pool_instance
 This resource provides the Instance Pool Instance resource in Oracle Cloud Infrastructure Core service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/iaas/latest/InstancePoolInstance
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Attaches an instance to an instance pool. For information about the prerequisites
 that an instance must meet before you can attach it to a pool, see

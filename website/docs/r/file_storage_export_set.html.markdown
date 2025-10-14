@@ -9,6 +9,9 @@ description: |-
 
 # oci_file_storage_export_set
 This resource provides the Export Set resource in Oracle Cloud Infrastructure File Storage service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/filestorage/latest/ExportSet
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 The export_set resource cannot be directly created or destroyed. An export set is created by the service automatically when a mount target is created. 
 When a mount target is deleted, the export set associated with it is also deleted automatically.

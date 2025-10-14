@@ -9,6 +9,9 @@ description: |-
 
 # oci_stack_monitoring_config
 This resource provides the Config resource in Oracle Cloud Infrastructure Stack Monitoring service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/stack-monitoring/latest/Config
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/stack_monitoring
 
 Creates a configuration item, for example to define 
 whether resources of a specific type should be discovered automatically. 

@@ -9,6 +9,9 @@ description: |-
 
 # oci_dns_resolver_endpoint
 This resource provides the Resolver Endpoint resource in Oracle Cloud Infrastructure DNS service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/dns/latest/ResolverEndpoint
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/dns
 
 Creates a new resolver endpoint in the same compartment as the resolver.
 

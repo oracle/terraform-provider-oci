@@ -9,6 +9,9 @@ description: |-
 
 # oci_database_autonomous_database_backup
 This resource provides the Autonomous Database Backup resource in Oracle Cloud Infrastructure Database service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/database/latest/AutonomousDatabaseBackup
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/database
 
 Creates a new Autonomous Database backup for the specified database based on the provided request parameters.
 

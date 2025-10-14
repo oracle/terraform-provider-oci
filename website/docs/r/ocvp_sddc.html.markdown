@@ -9,6 +9,9 @@ description: |-
 
 # oci_ocvp_sddc
 This resource provides the Sddc resource in Oracle Cloud Infrastructure Oracle Cloud VMware Solution service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/vmware/latest/Sddc
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/ocvp
 
 Creates an Oracle Cloud VMware Solution software-defined data center (SDDC).
 

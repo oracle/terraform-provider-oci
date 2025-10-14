@@ -9,6 +9,9 @@ description: |-
 
 # oci_fleet_software_update_fsu_cycle
 This resource provides the Fsu Cycle resource in Oracle Cloud Infrastructure Fleet Software Update service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/edsfu/latest/FsuCycle
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/fleetsoftwareupdate
 
 Creates a new Exadata Fleet Update Cycle.
 

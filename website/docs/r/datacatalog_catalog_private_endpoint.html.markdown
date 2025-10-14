@@ -9,6 +9,9 @@ description: |-
 
 # oci_datacatalog_catalog_private_endpoint
 This resource provides the Catalog Private Endpoint resource in Oracle Cloud Infrastructure Data Catalog service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/data-catalog/latest/CatalogPrivateEndpoint
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/datacatalog
 
 Create a new private reverse connection endpoint.
 

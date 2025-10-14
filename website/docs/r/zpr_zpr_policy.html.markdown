@@ -9,6 +9,9 @@ description: |-
 
 # oci_zpr_zpr_policy
 This resource provides the Zpr Policy resource in Oracle Cloud Infrastructure Zpr service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/zero-trust-packet-routing/latest/ZprPolicy
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/zpr
 
 Creates a ZprPolicy.
 

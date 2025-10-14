@@ -9,6 +9,9 @@ description: |-
 
 # oci_database_maintenance_run
 This resource provides the Maintenance Run resource in Oracle Cloud Infrastructure Database service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/database/latest/MaintenanceRun
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/database
 
 Creates a maintenance run with one of the following:
 The latest available release update patch (RUP) for the Autonomous Container Database.

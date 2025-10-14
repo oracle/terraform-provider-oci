@@ -9,6 +9,9 @@ description: |-
 
 # oci_iot_digital_twin_instance
 This resource provides the Digital Twin Instance resource in Oracle Cloud Infrastructure Iot service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Creates a new digital twin instance.
 

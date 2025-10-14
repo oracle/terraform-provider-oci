@@ -9,6 +9,9 @@ description: |-
 
 # oci_core_compute_cluster
 This resource provides the Compute Cluster resource in Oracle Cloud Infrastructure Core service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/iaas/latest/ComputeCluster
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Creates an empty [compute cluster](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm). A compute cluster
 is a remote direct memory access (RDMA) network group.

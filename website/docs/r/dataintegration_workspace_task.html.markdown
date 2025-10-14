@@ -9,6 +9,9 @@ description: |-
 
 # oci_dataintegration_workspace_task
 This resource provides the Workspace Task resource in Oracle Cloud Infrastructure Data Integration service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/data-integration/latest/WorkspaceTask
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/dataintegration
 
 Creates a new task ready for performing data integrations. There are specialized types of tasks that include data loader and integration tasks.
 

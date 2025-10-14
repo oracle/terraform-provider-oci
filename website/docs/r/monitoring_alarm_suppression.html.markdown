@@ -9,6 +9,9 @@ description: |-
 
 # oci_monitoring_alarm_suppression
 This resource provides the Alarm Suppression resource in Oracle Cloud Infrastructure Monitoring service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/monitoring/latest/AlarmSuppression
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/monitoring
 
 Creates a new alarm suppression at the specified level (alarm-wide or dimension-specific).
 For more information, see

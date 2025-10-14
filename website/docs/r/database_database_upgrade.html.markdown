@@ -9,6 +9,9 @@ description: |-
 
 # oci_database_database_upgrade
 This resource provides the Database Upgrade resource in Oracle Cloud Infrastructure Database service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/database/latest/DatabaseUpgrade
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/database
 
 Upgrades the specified Oracle Database instance.
 

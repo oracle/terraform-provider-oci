@@ -9,6 +9,9 @@ description: |-
 
 # oci_identity_domains_kmsi_setting
 This resource provides the Kmsi Setting resource in Oracle Cloud Infrastructure Identity Domains service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/identity-domains/latest/KmsiSetting
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/identity_domains
 
 Replace KmsiSettings
 

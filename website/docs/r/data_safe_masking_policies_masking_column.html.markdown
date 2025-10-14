@@ -9,6 +9,9 @@ description: |-
 
 # oci_data_safe_masking_policies_masking_column
 This resource provides the Masking Policies Masking Column resource in Oracle Cloud Infrastructure Data Safe service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/data-safe/latest/MaskingPoliciesMaskingColumn
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe
 
 Creates a new masking column in the specified masking policy. Use this operation
 to add parent columns only. It automatically adds the child columns from the

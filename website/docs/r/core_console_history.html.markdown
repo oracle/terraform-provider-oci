@@ -9,6 +9,9 @@ description: |-
 
 # oci_core_console_history
 This resource provides the Console History resource in Oracle Cloud Infrastructure Core service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/iaas/latest/ConsoleHistory
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Captures the most recent serial console data (up to a megabyte) for the
 specified instance.

@@ -9,6 +9,9 @@ description: |-
 
 # oci_identity_domains_my_user_db_credential
 This resource provides the My User Db Credential resource in Oracle Cloud Infrastructure Identity Domains service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/identity-domains/latest/MyUserDbCredential
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/identity_domains
 
 Create a user's own database (DB) credential.
 

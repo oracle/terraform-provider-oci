@@ -9,6 +9,9 @@ description: |-
 
 # oci_golden_gate_pipeline
 This resource provides the Pipeline resource in Oracle Cloud Infrastructure Golden Gate service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/goldengate/latest/Pipeline
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/goldengate
 
 Creates a new Pipeline.
 

@@ -9,6 +9,9 @@ description: |-
 
 # oci_core_vnic_attachment
 This resource provides the Vnic Attachment resource in Oracle Cloud Infrastructure Core service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/iaas/latest/VnicAttachment
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Creates a secondary VNIC and attaches it to the specified instance.
 For more information about secondary VNICs, see

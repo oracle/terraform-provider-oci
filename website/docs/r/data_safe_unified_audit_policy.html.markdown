@@ -9,6 +9,9 @@ description: |-
 
 # oci_data_safe_unified_audit_policy
 This resource provides the Unified Audit Policy resource in Oracle Cloud Infrastructure Data Safe service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/data-safe/latest/UnifiedAuditPolicy
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe
 
 Creates the specified unified audit policy.
 

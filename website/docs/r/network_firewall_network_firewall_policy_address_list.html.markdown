@@ -9,6 +9,9 @@ description: |-
 
 # oci_network_firewall_network_firewall_policy_address_list
 This resource provides the Network Firewall Policy Address List resource in Oracle Cloud Infrastructure Network Firewall service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/network-firewall/latest/NetworkFirewallPolicyAddressList
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/network_firewall
 
 Creates a new Address List for the Network Firewall Policy.
 

@@ -9,6 +9,9 @@ description: |-
 
 # oci_announcements_service_announcement_subscriptions_actions_change_compartment
 This resource provides the Announcement Subscriptions Actions Change Compartment resource in Oracle Cloud Infrastructure Announcements Service service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/announcements/latest/AnnouncementSubscriptionsActionsChangeCompartment
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/announcements_service
 
 Moves the specified announcement subscription from one compartment to another compartment. When provided, If-Match is checked against ETag values of the resource.
 

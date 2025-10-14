@@ -8,7 +8,10 @@ description: |-
 ---
 
 # oci_mysql_heat_wave_cluster
-This resource provides the HeatWave cluster resource in Oracle Cloud Infrastructure MySQL Database service.
+This resource provides the Heat Wave Cluster resource in Oracle Cloud Infrastructure MySQL Database service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/mysql/latest/HeatWaveCluster
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/mysql
 
 Updates the HeatWave cluster.
 

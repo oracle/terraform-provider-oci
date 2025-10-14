@@ -9,6 +9,9 @@ description: |-
 
 # oci_database_db_home
 This resource provides the Db Home resource in Oracle Cloud Infrastructure Database service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/database/latest/DbHome
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/database
 
 Creates a new Database Home in the specified database system based on the request parameters you provide. Applies only to bare metal and Exadata systems.
 

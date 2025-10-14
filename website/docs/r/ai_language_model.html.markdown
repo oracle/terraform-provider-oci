@@ -9,6 +9,9 @@ description: |-
 
 # oci_ai_language_model
 This resource provides the Model resource in Oracle Cloud Infrastructure Ai Language service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/language/latest/Model
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/aiLanguage
 
 Creates a new model for training and train the model with date provided.
 

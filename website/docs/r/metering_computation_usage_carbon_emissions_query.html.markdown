@@ -9,6 +9,9 @@ description: |-
 
 # oci_metering_computation_usage_carbon_emissions_query
 This resource provides the Usage Carbon Emissions Query resource in Oracle Cloud Infrastructure Metering Computation service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/usage/latest/UsageCarbonEmissionsQuery
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/metering_computation
 
 Returns the created carbon emissions usage query.
 

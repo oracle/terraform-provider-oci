@@ -9,6 +9,9 @@ description: |-
 
 # oci_core_virtual_circuit
 This resource provides the Virtual Circuit resource in Oracle Cloud Infrastructure Core service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/iaas/latest/VirtualCircuit
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Creates a new virtual circuit to use with Oracle Cloud
 Infrastructure FastConnect. For more information, see

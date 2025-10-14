@@ -9,6 +9,9 @@ description: |-
 
 # oci_media_services_stream_packaging_config
 This resource provides the Stream Packaging Config resource in Oracle Cloud Infrastructure Media Services service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/dms/latest/StreamPackagingConfig
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/media_services
 
 Creates a new Packaging Configuration.
 

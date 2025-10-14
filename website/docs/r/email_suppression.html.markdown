@@ -9,6 +9,9 @@ description: |-
 
 # oci_email_suppression
 This resource provides the Suppression resource in Oracle Cloud Infrastructure Email service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/email/latest/Suppression
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/email
 
 Adds recipient email addresses to the suppression list for a tenancy.
 Addresses added to the suppression list via the API are denoted as

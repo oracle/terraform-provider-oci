@@ -9,6 +9,9 @@ description: |-
 
 # oci_stack_monitoring_monitored_resources_associate_monitored_resource
 This resource provides the Monitored Resources Associate Monitored Resource resource in Oracle Cloud Infrastructure Stack Monitoring service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/stack-monitoring/latest/MonitoredResourcesAssociateMonitoredResource
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/stack_monitoring
 
 Create an association between two monitored resources. Associations can be created 
 between resources from different compartments as long they are in same tenancy.

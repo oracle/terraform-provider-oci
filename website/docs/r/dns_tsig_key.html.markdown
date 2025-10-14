@@ -9,6 +9,9 @@ description: |-
 
 # oci_dns_tsig_key
 This resource provides the Tsig Key resource in Oracle Cloud Infrastructure DNS service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/dns/latest/TsigKey
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/dns
 
 Creates a new TSIG key in the specified compartment. There is no
 `opc-retry-token` header since TSIG key names must be globally unique.

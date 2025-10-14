@@ -9,6 +9,9 @@ description: |-
 
 # oci_load_balancer_certificate
 This resource provides the Certificate resource in Oracle Cloud Infrastructure Load Balancer service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/loadbalancer/latest/Certificate
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/load_balancer
 
 Creates an asynchronous request to add an SSL certificate bundle.
 

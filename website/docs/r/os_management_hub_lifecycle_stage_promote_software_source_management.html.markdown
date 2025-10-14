@@ -9,6 +9,9 @@ description: |-
 
 # oci_os_management_hub_lifecycle_stage_promote_software_source_management
 This resource provides the Lifecycle Stage Promote Software Source Management resource in Oracle Cloud Infrastructure Os Management Hub service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/os-management/latest/LifecycleStagePromoteSoftwareSourceManagement
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/os_management_hub
 
 Updates the versioned custom software source content to the specified lifecycle stage.
 A versioned custom software source OCID (softwareSourceId) is required when promoting content to the first lifecycle stage. You must promote content to the first stage before promoting to subsequent stages, otherwise the service returns an error.

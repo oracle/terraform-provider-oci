@@ -9,6 +9,9 @@ description: |-
 
 # oci_psql_configuration
 This resource provides the Configuration resource in Oracle Cloud Infrastructure Psql service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/postgresql/latest/Configuration
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/psql
 
 Creates a new configuration.
 

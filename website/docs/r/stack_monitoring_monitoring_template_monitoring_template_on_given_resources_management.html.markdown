@@ -9,7 +9,9 @@ description: |-
 
 # oci_stack_monitoring_monitoring_template_monitoring_template_on_given_resources_management
 This resource provides the Monitoring Template Monitoring Template On Given Resources Management resource in Oracle Cloud Infrastructure Stack Monitoring service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/stack-monitoring/latest/MonitoringTemplateMonitoringTemplateOnGivenResourcesManagement
 
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/stack_monitoring
 Apply the Monitoring Template identified by the id
 
 ## Example Usage

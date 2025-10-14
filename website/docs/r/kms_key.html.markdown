@@ -9,6 +9,9 @@ description: |-
 
 # oci_kms_key
 This resource provides the Key resource in Oracle Cloud Infrastructure Kms service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/key/latest/Key
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/kms
 
 Creates a new master encryption key.
 

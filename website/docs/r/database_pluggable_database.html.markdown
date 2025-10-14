@@ -9,6 +9,9 @@ Provides the Pluggable Database resource in Oracle Cloud Infrastructure Database
 
 # oci_database_pluggable_database
 This resource provides the Pluggable Database resource in Oracle Cloud Infrastructure Database service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/database/latest/PluggableDatabase
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/database
 
 Creates and starts a pluggable database in the specified container database.
 Pluggable Database can be created using different operations (e.g. LocalClone, RemoteClone, Relocate ) with this API.

@@ -9,6 +9,9 @@ description: |-
 
 # oci_recovery_protection_policy
 This resource provides the Protection Policy resource in Oracle Cloud Infrastructure Recovery service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/recovery-service/latest/ProtectionPolicy
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/recovery
 
 Creates a new Protection Policy.
 

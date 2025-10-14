@@ -9,6 +9,9 @@ description: |-
 
 # oci_dns_zone_stage_dnssec_key_version
 This resource provides the Zone Stage Dnssec Key Version resource in Oracle Cloud Infrastructure DNS service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/dns/latest/ZoneStageDnssecKeyVersion
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/dns
 
 Stages a new `DnssecKeyVersion` on the zone. Staging is a process that generates a new "successor" key version
 that replaces an existing "predecessor" key version.

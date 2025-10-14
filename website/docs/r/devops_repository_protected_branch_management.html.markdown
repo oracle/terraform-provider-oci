@@ -9,6 +9,9 @@ description: |-
 
 # oci_devops_repository_protected_branch_management
 This resource provides the Repository Protected Branch Management resource in Oracle Cloud Infrastructure Devops service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/devops/latest/RepositoryProtectedBranchManagement
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/devops
 
 Creates a restriction on a branch that prevents certain actions on it.
 

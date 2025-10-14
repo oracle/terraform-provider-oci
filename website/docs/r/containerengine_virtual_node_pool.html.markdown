@@ -9,6 +9,9 @@ description: |-
 
 # oci_containerengine_virtual_node_pool
 This resource provides the Virtual Node Pool resource in Oracle Cloud Infrastructure Container Engine service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/containerengine/latest/VirtualNodePool
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/container_engine
 
 Create a new virtual node pool.
 

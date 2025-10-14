@@ -9,6 +9,9 @@ description: |-
 
 # oci_identity_compartment
 This resource provides the Compartment resource in Oracle Cloud Infrastructure Identity service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/identity/latest/Compartment
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/identity
 
 Creates a new compartment in the specified compartment.
 

@@ -10,6 +10,9 @@ description: |-
 # oci_fleet_apps_management_onboarding
 
 This resource provides the Onboarding resource in Oracle Cloud Infrastructure Fleet Apps Management service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/fleet-management/latest/Onboarding
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/fleet_apps_management
 
 Onboard a tenant to Fleet Application Management.
 The onboarding process lets Fleet Application Management create a few required policies that you need to start using it

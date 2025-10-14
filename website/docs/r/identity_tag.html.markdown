@@ -9,6 +9,9 @@ description: |-
 
 # oci_identity_tag
 This resource provides the Tag resource in Oracle Cloud Infrastructure Identity service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/identity/latest/Tag
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/identity
 
 Creates a new tag in the specified tag namespace.
 

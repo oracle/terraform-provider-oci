@@ -9,6 +9,9 @@ description: |-
 
 # oci_ai_vision_stream_group
 This resource provides the Stream Group resource in Oracle Cloud Infrastructure Ai Vision service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/vision/latest/StreamGroup
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/aiVision
 
 Registration of new streamGroup
 

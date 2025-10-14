@@ -9,6 +9,9 @@ description: |-
 
 # oci_bds_bds_instance_identity_configuration
 This resource provides the Bds Instance Identity Configuration resource in Oracle Cloud Infrastructure Big Data Service service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/bigdata/latest/BdsInstanceIdentityConfiguration
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/big_data_service
 
 Create an identity configuration for the cluster
 

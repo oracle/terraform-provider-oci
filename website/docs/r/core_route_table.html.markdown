@@ -9,6 +9,9 @@ description: |-
 
 # oci_core_route_table
 This resource provides the Route Table resource in Oracle Cloud Infrastructure Core service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/iaas/latest/RouteTable
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Creates a new route table for the specified VCN. In the request you must also include at least one route
 rule for the new route table. For information on the number of rules you can have in a route table, see

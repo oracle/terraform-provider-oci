@@ -9,6 +9,9 @@ description: |-
 
 # oci_bds_bds_instance
 This resource provides the Bds Instance resource in Oracle Cloud Infrastructure Big Data Service service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/bigdata/latest/BdsInstance
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/big_data_service
 
 Creates a new BDS instance.
 

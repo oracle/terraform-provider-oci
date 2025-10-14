@@ -9,6 +9,9 @@ description: |-
 
 # oci_database_db_system
 This resource provides the Db System resource in Oracle Cloud Infrastructure Database service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/database/latest/DbSystem
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/database
 
 Creates a new DB system in the specified compartment and availability domain. The Oracle
 Database edition that you specify applies to all the databases on that DB system. The selected edition cannot be changed.

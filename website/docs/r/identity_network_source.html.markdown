@@ -9,6 +9,9 @@ description: |-
 
 # oci_identity_network_source
 This resource provides the Network Source resource in Oracle Cloud Infrastructure Identity service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/identity/latest/NetworkSource
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/identity
 
 Creates a new network source in your tenancy.
 

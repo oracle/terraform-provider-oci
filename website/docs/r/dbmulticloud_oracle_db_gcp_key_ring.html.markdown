@@ -9,6 +9,9 @@ description: |-
 
 # oci_dbmulticloud_oracle_db_gcp_key_ring
 This resource provides the Oracle Db Gcp Key Ring resource in Oracle Cloud Infrastructure Dbmulticloud service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/latest/OracleDbGcpKeyRing
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/dbmulticloud
 
 Creates DB GCP Key Rings based on the provided information and retrieves the associated keys.
 

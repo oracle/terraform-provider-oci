@@ -9,6 +9,9 @@ description: |-
 
 # oci_kms_sign
 This resource provides the Sign resource in Oracle Cloud Infrastructure Kms service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/key/latest/Sign
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/kms
 
 Creates a digital signature for a message or message digest by using the private key of a public-private key pair,
 also known as an asymmetric key. To verify the generated signature, you can use the [Verify](https://docs.cloud.oracle.com/iaas/api/#/en/key/latest/VerifiedData/Verify)

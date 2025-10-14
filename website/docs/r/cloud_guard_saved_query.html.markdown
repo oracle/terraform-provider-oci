@@ -9,6 +9,9 @@ description: |-
 
 # oci_cloud_guard_saved_query
 This resource provides the Saved Query resource in Oracle Cloud Infrastructure Cloud Guard service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/cloud-guard/latest/SavedQuery
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/certificatesguard
 
 Creates a SavedQuery resource.
 

@@ -9,6 +9,9 @@ description: |-
 
 # oci_opsi_database_insight
 This resource provides the Database Insight resource in Oracle Cloud Infrastructure Opsi service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/operations-insights/latest/DatabaseInsight
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/osi
 
 Create a Database Insight resource for a Enterprise Manager(EM) managed database in Operations Insights. The database will be enabled in Operations Insights. Database metric collection and analysis will be started. The Database Insight resource for Autonomous Database and Management Agent managed external Database needs to be created by Database service terraform provider.
 

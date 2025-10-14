@@ -9,6 +9,9 @@ description: |-
 
 # oci_ai_document_processor_job
 This resource provides the Processor Job resource in Oracle Cloud Infrastructure Ai Document service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/document-understanding/latest/ProcessorJob
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/aiDocument
 
 Create a processor job for document analysis.
 

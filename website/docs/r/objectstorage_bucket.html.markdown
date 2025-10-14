@@ -9,6 +9,9 @@ description: |-
 
 # oci_objectstorage_bucket
 This resource provides the Bucket resource in Oracle Cloud Infrastructure Object Storage service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/objectstorage/latest/Bucket
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Creates a bucket in the given namespace with a bucket name and optional user-defined metadata. Avoid entering
 confidential information in bucket names.

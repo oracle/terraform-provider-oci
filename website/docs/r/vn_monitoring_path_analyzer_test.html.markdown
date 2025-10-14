@@ -9,6 +9,9 @@ description: |-
 
 # oci_vn_monitoring_path_analyzer_test
 This resource provides the Path Analyzer Test resource in Oracle Cloud Infrastructure Vn Monitoring service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/NetMonitor/latest/PathAnalyzerTest
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/vn_monitoring
 
 Creates a new `PathAnalyzerTest` resource.
 

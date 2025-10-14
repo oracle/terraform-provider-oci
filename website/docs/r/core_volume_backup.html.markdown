@@ -9,6 +9,9 @@ description: |-
 
 # oci_core_volume_backup
 This resource provides the Volume Backup resource in Oracle Cloud Infrastructure Core service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/iaas/latest/VolumeBackup
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Creates a new backup of the specified volume. For general information about volume backups,
 see [Overview of Block Volume Service Backups](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumebackups.htm)
