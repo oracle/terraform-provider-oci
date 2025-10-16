@@ -40,10 +40,10 @@ var (
 	}
 
 	JmsJavaDownloadsJavaLicenseAcceptanceRecordDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: JmsTenancyId},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_jms_java_downloads_java_license_acceptance_record.test_java_license_acceptance_record.id}`},
 		"license_type":   acctest.Representation{RepType: acctest.Optional, Create: `OTN`},
-		"search_by_user": acctest.Representation{RepType: acctest.Optional, Create: JmsJdUserOcid},
+		"search_by_user": acctest.Representation{RepType: acctest.Optional, Create: JmsUserId},
 		"status":         acctest.Representation{RepType: acctest.Optional, Create: `REVOKED`},
 		"filter": acctest.RepresentationGroup{
 			RepType: acctest.Required,
@@ -55,7 +55,7 @@ var (
 	}
 
 	JmsJavaDownloadsJavaLicenseAcceptanceRecordRepresentation = map[string]interface{}{
-		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
+		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: JmsTenancyId},
 		"license_acceptance_status": acctest.Representation{RepType: acctest.Required, Create: `ACCEPTED`, Update: `REVOKED`},
 		"license_type":              acctest.Representation{RepType: acctest.Required, Create: `OTN`},
 		"defined_tags": acctest.Representation{
@@ -80,8 +80,6 @@ func TestJmsJavaDownloadsJavaLicenseAcceptanceRecordResource_basic(t *testing.T)
 	defer httpreplay.SaveScenario()
 
 	config := acctest.ProviderTestConfig()
-
-	tenancyId := utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
 
 	resourceName := "oci_jms_java_downloads_java_license_acceptance_record.test_java_license_acceptance_record"
 	datasourceName := "data.oci_jms_java_downloads_java_license_acceptance_records.test_java_license_acceptance_records"
@@ -114,7 +112,7 @@ func TestJmsJavaDownloadsJavaLicenseAcceptanceRecordResource_basic(t *testing.T)
 					acctest.Create,
 					JmsJavaDownloadsJavaLicenseAcceptanceRecordRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", JmsTenancyId),
 				resource.TestCheckResourceAttr(resourceName, "license_acceptance_status", "ACCEPTED"),
 				resource.TestCheckResourceAttr(resourceName, "license_type", "OTN"),
 
@@ -140,7 +138,7 @@ func TestJmsJavaDownloadsJavaLicenseAcceptanceRecordResource_basic(t *testing.T)
 					acctest.Create,
 					JmsJavaDownloadsJavaLicenseAcceptanceRecordRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", JmsTenancyId),
 				resource.TestCheckResourceAttr(resourceName, "created_by.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "license_acceptance_status", "ACCEPTED"),
@@ -150,7 +148,7 @@ func TestJmsJavaDownloadsJavaLicenseAcceptanceRecordResource_basic(t *testing.T)
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &JmsTenancyId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -170,7 +168,7 @@ func TestJmsJavaDownloadsJavaLicenseAcceptanceRecordResource_basic(t *testing.T)
 					acctest.Update,
 					JmsJavaDownloadsJavaLicenseAcceptanceRecordRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", JmsTenancyId),
 				resource.TestCheckResourceAttr(resourceName, "created_by.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "license_acceptance_status", "REVOKED"),
@@ -203,10 +201,10 @@ func TestJmsJavaDownloadsJavaLicenseAcceptanceRecordResource_basic(t *testing.T)
 					acctest.Update,
 					JmsJavaDownloadsJavaLicenseAcceptanceRecordRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", JmsTenancyId),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
 				resource.TestCheckResourceAttr(datasourceName, "license_type", "OTN"),
-				resource.TestCheckResourceAttr(datasourceName, "search_by_user", JmsJdUserOcid),
+				resource.TestCheckResourceAttr(datasourceName, "search_by_user", JmsUserId),
 				resource.TestCheckResourceAttr(datasourceName, "status", "REVOKED"),
 
 				resource.TestCheckResourceAttr(datasourceName, "java_license_acceptance_record_collection.#", "1"),
@@ -227,7 +225,7 @@ func TestJmsJavaDownloadsJavaLicenseAcceptanceRecordResource_basic(t *testing.T)
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "java_license_acceptance_record_id"),
 
-				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", JmsTenancyId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "created_by.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "last_updated_by.#", "1"),
@@ -297,7 +295,7 @@ func init() {
 func sweepJmsJavaDownloadsJavaLicenseAcceptanceRecordResource(compartment string) error {
 	javaDownloadClient := acctest.GetTestClients(&schema.ResourceData{}).JavaDownloadClient()
 	// JmsJavaDownloadsJavaLicenseAcceptanceRecordResource can only run on root compartment
-	compartment = utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
+	compartment = JmsTenancyId
 	javaLicenseAcceptanceRecordIds, err := getJmsJavaDownloadsJavaLicenseAcceptanceRecordIds(compartment)
 	if err != nil {
 		return err
