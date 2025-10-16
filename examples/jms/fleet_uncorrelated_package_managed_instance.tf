@@ -1,14 +1,10 @@
 // Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-variable "fleet_uncorrelated_package_managed_instance_package_name" {
-  default = "packageName"
-}
-
 data "oci_jms_fleet_uncorrelated_package_managed_instances" "test_fleet_uncorrelated_package_managed_instances" {
   #Required
   fleet_id     = var.fleet_ocid
-  package_name = var.fleet_uncorrelated_package_managed_instance_package_name
+  package_name = "example"
 
   #Optional
   application_id      = var.application_id

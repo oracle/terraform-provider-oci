@@ -10,24 +10,16 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
-
-	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	// before running tests, ensure to set up environment variables used below
-	JmsFleetCryptoAnalysisResultFleetId       = utils.GetEnvSettingWithBlankDefault("fleet_ocid")
-	JmsFleetCryptoAnalysisResultCompartmentId = utils.GetEnvSettingWithBlankDefault("compartment_ocid")
-
-	JmsFleetCryptoAnalysisResultDummyManagedInstanceId = utils.GetEnvSettingWithBlankDefault("managed_instance_ocid")
-
 	JmsFleetCryptoAnalysisResultDataSourceRepresentation = map[string]interface{}{
-		"fleet_id":                                 acctest.Representation{RepType: acctest.Required, Create: JmsFleetCryptoAnalysisResultFleetId},
+		"fleet_id":                                 acctest.Representation{RepType: acctest.Required, Create: JmsFleetId},
 		"aggregation_mode":                         acctest.Representation{RepType: acctest.Optional, Create: `JFR`},
 		"finding_count":                            acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"finding_count_greater_than":               acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"host_name":                                acctest.Representation{RepType: acctest.Optional, Create: `dummy-host-name`},
-		"managed_instance_id":                      acctest.Representation{RepType: acctest.Optional, Create: JmsFleetCryptoAnalysisResultDummyManagedInstanceId},
+		"managed_instance_id":                      acctest.Representation{RepType: acctest.Optional, Create: JmsManagedInstanceId},
 		"non_compliant_finding_count":              acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"non_compliant_finding_count_greater_than": acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"time_start":                               acctest.Representation{RepType: acctest.Optional, Create: `2024-01-20T15:15:15.000Z`},
@@ -62,7 +54,7 @@ func TestJmsFleetCryptoAnalysisResultResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "finding_count", `10`),
 				resource.TestCheckResourceAttr(datasourceName, "finding_count_greater_than", `10`),
 				resource.TestCheckResourceAttr(datasourceName, "host_name", `dummy-host-name`),
-				resource.TestCheckResourceAttr(datasourceName, "managed_instance_id", JmsFleetCryptoAnalysisResultDummyManagedInstanceId),
+				resource.TestCheckResourceAttr(datasourceName, "managed_instance_id", JmsManagedInstanceId),
 				resource.TestCheckResourceAttr(datasourceName, "non_compliant_finding_count", `10`),
 				resource.TestCheckResourceAttr(datasourceName, "non_compliant_finding_count_greater_than", `10`),
 				resource.TestCheckResourceAttr(datasourceName, "time_start", `2024-01-20T15:15:15.000Z`),
@@ -78,18 +70,4 @@ func TestJmsFleetCryptoAnalysisResultResource_basic(t *testing.T) {
 		// note: we cannot write test to verify singular data source because
 		// crypto analysis processing requires setup of fleet -> compute instance -> management agent -> jms plugin.
 	})
-}
-
-// clean up Fleet resource after test
-func init() {
-	if acctest.DependencyGraph == nil {
-		acctest.InitDependencyGraph()
-	}
-	if !acctest.InSweeperExcludeList("JmsFleetCryptoAnalysisResult") {
-		resource.AddTestSweepers("JmsFleetCryptoAnalysisResult", &resource.Sweeper{
-			Name:         "JmsFleetCryptoAnalysisResult",
-			Dependencies: acctest.DependencyGraph["fleet"],
-			F:            sweepJmsFleetResource,
-		})
-	}
 }

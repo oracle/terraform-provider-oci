@@ -29,15 +29,8 @@ import (
 var (
 	JmsFleetResourceDependencies = DefinedTagsDependencies
 
-	// before running tests, ensure to set up environment variables used below.
-	JmsFleetCompartmentId         = utils.GetEnvSettingWithBlankDefault("compartment_ocid")
-	JmsFleetCompartmentIdToUpdate = utils.GetEnvSettingWithBlankDefault("compartment_id_for_update")
-	JmsFleetLogGroupId            = utils.GetEnvSettingWithBlankDefault("fleet_log_group_ocid")
-	JmsFleetInventoryLogId        = utils.GetEnvSettingWithBlankDefault("fleet_inventory_log_ocid")
-	JmsFleetOperationLogId        = utils.GetEnvSettingWithBlankDefault("fleet_operation_log_ocid")
-
 	JmsFleetRepresentation = map[string]interface{}{
-		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: JmsFleetCompartmentId},
+		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: JmsCreateCompartmentId},
 		"display_name":                 acctest.Representation{RepType: acctest.Required, Create: `Created Fleet`, Update: `displayName2`},
 		"description":                  acctest.Representation{RepType: acctest.Optional, Create: `Created Fleet`, Update: `description2`},
 		"is_advanced_features_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
@@ -57,12 +50,12 @@ var (
 			Update:  map[string]string{"bar-key": "bar-value"},
 		},
 		"inventory_log": acctest.RepresentationGroup{RepType: acctest.Required, Group: map[string]interface{}{
-			"log_group_id": acctest.Representation{RepType: acctest.Required, Create: JmsFleetLogGroupId, Update: JmsFleetLogGroupId},
-			"log_id":       acctest.Representation{RepType: acctest.Required, Create: JmsFleetInventoryLogId, Update: JmsFleetInventoryLogId},
+			"log_group_id": acctest.Representation{RepType: acctest.Required, Create: JmsLogGroupId, Update: JmsLogGroupId},
+			"log_id":       acctest.Representation{RepType: acctest.Required, Create: JmsInventoryLogId, Update: JmsInventoryLogId},
 		}},
 		"operation_log": acctest.RepresentationGroup{RepType: acctest.Optional, Group: map[string]interface{}{
-			"log_group_id": acctest.Representation{RepType: acctest.Required, Create: JmsFleetLogGroupId, Update: JmsFleetLogGroupId},
-			"log_id":       acctest.Representation{RepType: acctest.Required, Create: JmsFleetOperationLogId, Update: JmsFleetOperationLogId},
+			"log_group_id": acctest.Representation{RepType: acctest.Required, Create: JmsLogGroupId, Update: JmsLogGroupId},
+			"log_id":       acctest.Representation{RepType: acctest.Required, Create: JmsOperationLogId, Update: JmsOperationLogId},
 		}},
 		"defined_tags": acctest.Representation{
 			RepType: acctest.Optional,
@@ -74,7 +67,7 @@ var (
 	JmsFeetRepresentationWithAnotherCompartment = acctest.RepresentationCopyWithNewProperties(
 		JmsFleetRepresentation,
 		map[string]interface{}{
-			"compartment_id": acctest.Representation{RepType: acctest.Required, Create: JmsFleetCompartmentIdToUpdate},
+			"compartment_id": acctest.Representation{RepType: acctest.Required, Create: JmsUpdateCompartmentId},
 		},
 	)
 
@@ -83,7 +76,7 @@ var (
 	}
 
 	JmsFleetDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":        acctest.Representation{RepType: acctest.Optional, Create: JmsFleetCompartmentId},
+		"compartment_id":        acctest.Representation{RepType: acctest.Optional, Create: JmsCreateCompartmentId},
 		"display_name":          acctest.Representation{RepType: acctest.Optional, Create: `Created Fleet`, Update: `displayName2`},
 		"display_name_contains": acctest.Representation{RepType: acctest.Optional, Create: `displayName2`},
 		"id":                    acctest.Representation{RepType: acctest.Optional, Create: `${oci_jms_fleet.test_fleet.id}`},
@@ -139,7 +132,7 @@ func TestJmsFleetResource_basic(t *testing.T) {
 					JmsFleetRepresentation,
 				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", JmsFleetCompartmentId),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", JmsCreateCompartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "Created Fleet"),
 				resource.TestCheckResourceAttr(resourceName, "inventory_log.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "inventory_log.0.log_group_id"),
@@ -176,7 +169,7 @@ func TestJmsFleetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "approximate_library_count"),
 				resource.TestCheckResourceAttrSet(resourceName, "approximate_library_vulnerability_count"),
 				resource.TestCheckResourceAttrSet(resourceName, "approximate_managed_instance_count"),
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", JmsFleetCompartmentId),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", JmsCreateCompartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "Created Fleet"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "Created Fleet"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -194,7 +187,7 @@ func TestJmsFleetResource_basic(t *testing.T) {
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &JmsFleetCompartmentId, resourceName); errExport != nil {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &JmsCreateCompartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -215,7 +208,7 @@ func TestJmsFleetResource_basic(t *testing.T) {
 					JmsFeetRepresentationWithAnotherCompartment,
 				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", JmsFleetCompartmentIdToUpdate),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", JmsUpdateCompartmentId),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -239,7 +232,7 @@ func TestJmsFleetResource_basic(t *testing.T) {
 					JmsFleetRepresentation,
 				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", JmsFleetCompartmentId),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", JmsCreateCompartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 
@@ -272,7 +265,7 @@ func TestJmsFleetResource_basic(t *testing.T) {
 					JmsFleetDataSourceRepresentation,
 				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(datasourceName, "compartment_id", JmsFleetCompartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", JmsCreateCompartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name_contains", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -312,7 +305,7 @@ func TestJmsFleetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_library_vulnerability_count"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_managed_instance_count"),
 
-				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", JmsFleetCompartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", JmsCreateCompartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
