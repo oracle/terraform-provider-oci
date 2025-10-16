@@ -474,6 +474,11 @@ func DatabaseDbHomeResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"home_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"is_desupported_version": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -1041,6 +1046,8 @@ func (s *DatabaseDbHomeResourceCrud) SetData() error {
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
+
+	s.D.Set("home_type", s.Res.HomeType)
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
