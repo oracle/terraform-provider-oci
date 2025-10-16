@@ -41,6 +41,8 @@ type SnapshotSummary struct {
 	// Locks associated with this resource.
 	Locks []ResourceLock `mandatory:"false" json:"locks"`
 
+	LockDurationDetails *LockDurationDetails `mandatory:"false" json:"lockDurationDetails"`
+
 	// Specifies the generation type of the snapshot.
 	SnapshotType SnapshotSummarySnapshotTypeEnum `mandatory:"false" json:"snapshotType,omitempty"`
 

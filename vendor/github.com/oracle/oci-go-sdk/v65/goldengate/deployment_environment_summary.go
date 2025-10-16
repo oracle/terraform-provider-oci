@@ -21,8 +21,8 @@ type DeploymentEnvironmentSummary struct {
 	// Specifies whether the deployment is used in a production or development/testing environment.
 	EnvironmentType EnvironmentTypeEnum `mandatory:"true" json:"environmentType"`
 
-	// The deployment category defines the broad separation of the deployment type into three categories.
-	// Currently the separation is 'DATA_REPLICATION', 'STREAM_ANALYTICS' and 'DATA_TRANSFORMS'.
+	// The deployment category defines the broad separation of the deployment type into four categories.
+	// Currently the separation is 'DATA_REPLICATION', 'STREAM_ANALYTICS', 'DATA_TRANSFORMS' and 'DATA_VERIFICATION'.
 	Category DeploymentCategoryEnum `mandatory:"true" json:"category"`
 
 	// The minimum CPU core count.

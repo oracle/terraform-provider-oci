@@ -27,6 +27,13 @@ type CreateDeploymentDetails struct {
 	// URL to give endpointuri
 	EndpointUri *string `mandatory:"false" json:"endpointUri"`
 
+	// id of the deployment
+	DeploymentId *string `mandatory:"false" json:"deploymentId"`
+
+	// Additional configuration passed to the running process.
+	// Example: { "agentFlowKey" : "AF1, "endpointKey" : "EK1" }
+	Configuration *string `mandatory:"false" json:"configuration"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

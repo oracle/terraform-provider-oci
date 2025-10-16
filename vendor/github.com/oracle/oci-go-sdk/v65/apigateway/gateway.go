@@ -86,6 +86,11 @@ type Gateway struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
@@ -153,6 +158,7 @@ func (m *Gateway) UnmarshalJSON(data []byte) (e error) {
 		ResponseCacheDetails     responsecachedetails              `json:"responseCacheDetails"`
 		FreeformTags             map[string]string                 `json:"freeformTags"`
 		DefinedTags              map[string]map[string]interface{} `json:"definedTags"`
+		SecurityAttributes       map[string]map[string]interface{} `json:"securityAttributes"`
 		SystemTags               map[string]map[string]interface{} `json:"systemTags"`
 		CaBundles                []cabundle                        `json:"caBundles"`
 		Environment              GatewayEnvironmentEnum            `json:"environment"`
@@ -204,6 +210,8 @@ func (m *Gateway) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
+
+	m.SecurityAttributes = model.SecurityAttributes
 
 	m.SystemTags = model.SystemTags
 

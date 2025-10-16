@@ -18,18 +18,18 @@ type DeploymentTypeEnum string
 
 // Set of constants representing the allowable values for DeploymentTypeEnum
 const (
-	DeploymentTypeTest DeploymentTypeEnum = "TEST"
-	DeploymentTypeProd DeploymentTypeEnum = "PROD"
+	DeploymentTypeDeploy  DeploymentTypeEnum = "DEPLOY"
+	DeploymentTypeExecute DeploymentTypeEnum = "EXECUTE"
 )
 
 var mappingDeploymentTypeEnum = map[string]DeploymentTypeEnum{
-	"TEST": DeploymentTypeTest,
-	"PROD": DeploymentTypeProd,
+	"DEPLOY":  DeploymentTypeDeploy,
+	"EXECUTE": DeploymentTypeExecute,
 }
 
 var mappingDeploymentTypeEnumLowerCase = map[string]DeploymentTypeEnum{
-	"test": DeploymentTypeTest,
-	"prod": DeploymentTypeProd,
+	"deploy":  DeploymentTypeDeploy,
+	"execute": DeploymentTypeExecute,
 }
 
 // GetDeploymentTypeEnumValues Enumerates the set of values for DeploymentTypeEnum
@@ -44,8 +44,8 @@ func GetDeploymentTypeEnumValues() []DeploymentTypeEnum {
 // GetDeploymentTypeEnumStringValues Enumerates the set of values in String for DeploymentTypeEnum
 func GetDeploymentTypeEnumStringValues() []string {
 	return []string{
-		"TEST",
-		"PROD",
+		"DEPLOY",
+		"EXECUTE",
 	}
 }
 

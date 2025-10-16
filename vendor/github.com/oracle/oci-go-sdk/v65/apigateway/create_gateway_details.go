@@ -63,6 +63,11 @@ type CreateGatewayDetails struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
 	// An array of CA bundles that should be used on the Gateway for TLS validation.
 	CaBundles []CaBundle `mandatory:"false" json:"caBundles"`
 
@@ -116,6 +121,7 @@ func (m *CreateGatewayDetails) UnmarshalJSON(data []byte) (e error) {
 		Locks                    []AddResourceLockDetails          `json:"locks"`
 		FreeformTags             map[string]string                 `json:"freeformTags"`
 		DefinedTags              map[string]map[string]interface{} `json:"definedTags"`
+		SecurityAttributes       map[string]map[string]interface{} `json:"securityAttributes"`
 		CaBundles                []cabundle                        `json:"caBundles"`
 		IpMode                   GatewayIpModeEnum                 `json:"ipMode"`
 		Ipv6AddressConfiguration *Ipv6AddressConfiguration         `json:"ipv6AddressConfiguration"`
@@ -152,6 +158,8 @@ func (m *CreateGatewayDetails) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
+
+	m.SecurityAttributes = model.SecurityAttributes
 
 	m.CaBundles = make([]CaBundle, len(model.CaBundles))
 	for i, n := range model.CaBundles {

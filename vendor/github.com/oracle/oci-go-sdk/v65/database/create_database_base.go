@@ -80,6 +80,10 @@ func (m *createdatabasebase) UnmarshalPolymorphicJSON(data []byte) (interface{},
 		mm := CreateStandByDatabaseDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "DATABASE":
+		mm := CreateDatabaseFromDatabase{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "DB_BACKUP":
 		mm := CreateDatabaseFromBackup{}
 		err = json.Unmarshal(data, &mm)
@@ -133,18 +137,21 @@ type CreateDatabaseBaseSourceEnum string
 const (
 	CreateDatabaseBaseSourceNone      CreateDatabaseBaseSourceEnum = "NONE"
 	CreateDatabaseBaseSourceDbBackup  CreateDatabaseBaseSourceEnum = "DB_BACKUP"
+	CreateDatabaseBaseSourceDatabase  CreateDatabaseBaseSourceEnum = "DATABASE"
 	CreateDatabaseBaseSourceDataguard CreateDatabaseBaseSourceEnum = "DATAGUARD"
 )
 
 var mappingCreateDatabaseBaseSourceEnum = map[string]CreateDatabaseBaseSourceEnum{
 	"NONE":      CreateDatabaseBaseSourceNone,
 	"DB_BACKUP": CreateDatabaseBaseSourceDbBackup,
+	"DATABASE":  CreateDatabaseBaseSourceDatabase,
 	"DATAGUARD": CreateDatabaseBaseSourceDataguard,
 }
 
 var mappingCreateDatabaseBaseSourceEnumLowerCase = map[string]CreateDatabaseBaseSourceEnum{
 	"none":      CreateDatabaseBaseSourceNone,
 	"db_backup": CreateDatabaseBaseSourceDbBackup,
+	"database":  CreateDatabaseBaseSourceDatabase,
 	"dataguard": CreateDatabaseBaseSourceDataguard,
 }
 
@@ -162,6 +169,7 @@ func GetCreateDatabaseBaseSourceEnumStringValues() []string {
 	return []string{
 		"NONE",
 		"DB_BACKUP",
+		"DATABASE",
 		"DATAGUARD",
 	}
 }

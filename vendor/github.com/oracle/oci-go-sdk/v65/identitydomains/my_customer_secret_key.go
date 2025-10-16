@@ -198,6 +198,15 @@ type MyCustomerSecretKey struct {
 	//  - returned: default
 	AccessKey *string `mandatory:"false" json:"accessKey"`
 
+	// The secret key.
+	// **SCIM++ Properties:**
+	//  - caseExact: true
+	//  - type: string
+	//  - mutability: readOnly
+	//  - required: false
+	//  - returned: default
+	SecretKey *string `mandatory:"false" json:"secretKey"`
+
 	User *MyCustomerSecretKeyUser `mandatory:"false" json:"user"`
 }
 

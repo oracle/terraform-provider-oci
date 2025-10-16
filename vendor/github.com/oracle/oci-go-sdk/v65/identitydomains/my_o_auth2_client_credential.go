@@ -214,6 +214,17 @@ type MyOAuth2ClientCredential struct {
 	//  - uniqueness: none
 	IsResetSecret *bool `mandatory:"false" json:"isResetSecret"`
 
+	// Secret
+	// **SCIM++ Properties:**
+	//  - caseExact: false
+	//  - type: string
+	//  - mutability: readOnly
+	//  - required: false
+	//  - returned: default
+	//  - idcsScimCompliant: false
+	//  - idcsSensitive: hash_sc
+	Secret *string `mandatory:"false" json:"secret"`
+
 	User *MyOAuth2ClientCredentialUser `mandatory:"false" json:"user"`
 }
 

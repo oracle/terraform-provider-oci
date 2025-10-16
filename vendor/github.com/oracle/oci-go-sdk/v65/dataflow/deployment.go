@@ -32,6 +32,19 @@ type Deployment struct {
 
 	// Status of deployment.
 	LifecycleState DeploymentLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+
+	// Deployment type
+	Type DeploymentTypeEnum `mandatory:"false" json:"type,omitempty"`
+
+	// Details about the deployment
+	LifecycleStateDetails *string `mandatory:"false" json:"lifecycleStateDetails"`
+
+	// The unique identifier of a async execution on this deployment
+	ExecutionId *string `mandatory:"false" json:"executionId"`
+
+	// Additional configuration passed to the running process.
+	// Example: { "agentFlowKey" : "AF1, "endpointKey" : "EK1" }
+	Configuration *string `mandatory:"false" json:"configuration"`
 }
 
 func (m Deployment) String() string {
@@ -47,6 +60,9 @@ func (m Deployment) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDeploymentLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingDeploymentTypeEnum(string(m.Type)); !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetDeploymentTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

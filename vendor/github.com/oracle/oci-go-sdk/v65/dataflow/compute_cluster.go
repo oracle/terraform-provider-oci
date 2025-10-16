@@ -63,6 +63,12 @@ type ComputeCluster struct {
 	// The username of the user who stopped the cluster.
 	StoppedByName *string `mandatory:"false" json:"stoppedByName"`
 
+	// The ocid of the user who updated the cluster.
+	UpdatedBy *string `mandatory:"false" json:"updatedBy"`
+
+	// The username of the user who updated the cluster.
+	UpdatedByName *string `mandatory:"false" json:"updatedByName"`
+
 	// Cluster node type encodes the node shape and associated resources.
 	NodeType *string `mandatory:"false" json:"nodeType"`
 

@@ -58,6 +58,8 @@ type SnapshotSchedule struct {
 	// Used only for YEARLY snapshot schedules.
 	// If not set, the system chooses a value at creation time.
 	Month SnapshotScheduleMonthEnum `mandatory:"false" json:"month,omitempty"`
+
+	LockDurationDetails *LockDurationDetails `mandatory:"false" json:"lockDurationDetails"`
 }
 
 func (m SnapshotSchedule) String() string {

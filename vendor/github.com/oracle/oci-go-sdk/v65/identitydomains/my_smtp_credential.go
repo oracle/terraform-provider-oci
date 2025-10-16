@@ -189,6 +189,16 @@ type MySmtpCredential struct {
 	//  - uniqueness: none
 	ExpiresOn *string `mandatory:"false" json:"expiresOn"`
 
+	// Password
+	// **SCIM++ Properties:**
+	//  - caseExact: true
+	//  - type: string
+	//  - mutability: readOnly
+	//  - required: false
+	//  - returned: default
+	//  - idcsSensitive: hash_sc
+	Password *string `mandatory:"false" json:"password"`
+
 	User *MySmtpCredentialUser `mandatory:"false" json:"user"`
 }
 

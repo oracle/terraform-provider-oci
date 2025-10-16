@@ -466,6 +466,8 @@ const (
 	ListDeploymentsDeploymentTypeDatabaseDb2i               ListDeploymentsDeploymentTypeEnum = "DATABASE_DB2I"
 	ListDeploymentsDeploymentTypeGgsa                       ListDeploymentsDeploymentTypeEnum = "GGSA"
 	ListDeploymentsDeploymentTypeDataTransforms             ListDeploymentsDeploymentTypeEnum = "DATA_TRANSFORMS"
+	ListDeploymentsDeploymentTypeVeridataServer             ListDeploymentsDeploymentTypeEnum = "VERIDATA_SERVER"
+	ListDeploymentsDeploymentTypeVeridataAgent              ListDeploymentsDeploymentTypeEnum = "VERIDATA_AGENT"
 )
 
 var mappingListDeploymentsDeploymentTypeEnum = map[string]ListDeploymentsDeploymentTypeEnum{
@@ -479,6 +481,8 @@ var mappingListDeploymentsDeploymentTypeEnum = map[string]ListDeploymentsDeploym
 	"DATABASE_DB2I":                ListDeploymentsDeploymentTypeDatabaseDb2i,
 	"GGSA":                         ListDeploymentsDeploymentTypeGgsa,
 	"DATA_TRANSFORMS":              ListDeploymentsDeploymentTypeDataTransforms,
+	"VERIDATA_SERVER":              ListDeploymentsDeploymentTypeVeridataServer,
+	"VERIDATA_AGENT":               ListDeploymentsDeploymentTypeVeridataAgent,
 }
 
 var mappingListDeploymentsDeploymentTypeEnumLowerCase = map[string]ListDeploymentsDeploymentTypeEnum{
@@ -492,6 +496,8 @@ var mappingListDeploymentsDeploymentTypeEnumLowerCase = map[string]ListDeploymen
 	"database_db2i":                ListDeploymentsDeploymentTypeDatabaseDb2i,
 	"ggsa":                         ListDeploymentsDeploymentTypeGgsa,
 	"data_transforms":              ListDeploymentsDeploymentTypeDataTransforms,
+	"veridata_server":              ListDeploymentsDeploymentTypeVeridataServer,
+	"veridata_agent":               ListDeploymentsDeploymentTypeVeridataAgent,
 }
 
 // GetListDeploymentsDeploymentTypeEnumValues Enumerates the set of values for ListDeploymentsDeploymentTypeEnum
@@ -516,6 +522,8 @@ func GetListDeploymentsDeploymentTypeEnumStringValues() []string {
 		"DATABASE_DB2I",
 		"GGSA",
 		"DATA_TRANSFORMS",
+		"VERIDATA_SERVER",
+		"VERIDATA_AGENT",
 	}
 }
 

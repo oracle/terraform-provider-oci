@@ -18,36 +18,57 @@ type SupportedCapabilitiesEnum string
 
 // Set of constants representing the allowable values for SupportedCapabilitiesEnum
 const (
-	SupportedCapabilitiesGroupToRole          SupportedCapabilitiesEnum = "GROUP_TO_ROLE"
-	SupportedCapabilitiesBackupRestore        SupportedCapabilitiesEnum = "BACKUP_RESTORE"
-	SupportedCapabilitiesCopyBackup           SupportedCapabilitiesEnum = "COPY_BACKUP"
-	SupportedCapabilitiesManualBackup         SupportedCapabilitiesEnum = "MANUAL_BACKUP"
-	SupportedCapabilitiesPlacement            SupportedCapabilitiesEnum = "PLACEMENT"
-	SupportedCapabilitiesDisasterRecovery     SupportedCapabilitiesEnum = "DISASTER_RECOVERY"
-	SupportedCapabilitiesScheduleManualBackup SupportedCapabilitiesEnum = "SCHEDULE_MANUAL_BACKUP"
-	SupportedCapabilitiesMulticloud           SupportedCapabilitiesEnum = "MULTICLOUD"
+	SupportedCapabilitiesGroupToRole            SupportedCapabilitiesEnum = "GROUP_TO_ROLE"
+	SupportedCapabilitiesBackupRestore          SupportedCapabilitiesEnum = "BACKUP_RESTORE"
+	SupportedCapabilitiesCopyBackup             SupportedCapabilitiesEnum = "COPY_BACKUP"
+	SupportedCapabilitiesManualBackup           SupportedCapabilitiesEnum = "MANUAL_BACKUP"
+	SupportedCapabilitiesPlacement              SupportedCapabilitiesEnum = "PLACEMENT"
+	SupportedCapabilitiesDisasterRecovery       SupportedCapabilitiesEnum = "DISASTER_RECOVERY"
+	SupportedCapabilitiesScheduleManualBackup   SupportedCapabilitiesEnum = "SCHEDULE_MANUAL_BACKUP"
+	SupportedCapabilitiesMulticloud             SupportedCapabilitiesEnum = "MULTICLOUD"
+	SupportedCapabilitiesTrailFiles             SupportedCapabilitiesEnum = "TRAIL_FILES"
+	SupportedCapabilitiesMasterKeyOperations    SupportedCapabilitiesEnum = "MASTER_KEY_OPERATIONS"
+	SupportedCapabilitiesTruststoreCertificates SupportedCapabilitiesEnum = "TRUSTSTORE_CERTIFICATES"
+	SupportedCapabilitiesDeploymentDiagnostics  SupportedCapabilitiesEnum = "DEPLOYMENT_DIAGNOSTICS"
+	SupportedCapabilitiesCredentials            SupportedCapabilitiesEnum = "CREDENTIALS"
+	SupportedCapabilitiesConsoleAccess          SupportedCapabilitiesEnum = "CONSOLE_ACCESS"
+	SupportedCapabilitiesNetworkConfiguration   SupportedCapabilitiesEnum = "NETWORK_CONFIGURATION"
 )
 
 var mappingSupportedCapabilitiesEnum = map[string]SupportedCapabilitiesEnum{
-	"GROUP_TO_ROLE":          SupportedCapabilitiesGroupToRole,
-	"BACKUP_RESTORE":         SupportedCapabilitiesBackupRestore,
-	"COPY_BACKUP":            SupportedCapabilitiesCopyBackup,
-	"MANUAL_BACKUP":          SupportedCapabilitiesManualBackup,
-	"PLACEMENT":              SupportedCapabilitiesPlacement,
-	"DISASTER_RECOVERY":      SupportedCapabilitiesDisasterRecovery,
-	"SCHEDULE_MANUAL_BACKUP": SupportedCapabilitiesScheduleManualBackup,
-	"MULTICLOUD":             SupportedCapabilitiesMulticloud,
+	"GROUP_TO_ROLE":           SupportedCapabilitiesGroupToRole,
+	"BACKUP_RESTORE":          SupportedCapabilitiesBackupRestore,
+	"COPY_BACKUP":             SupportedCapabilitiesCopyBackup,
+	"MANUAL_BACKUP":           SupportedCapabilitiesManualBackup,
+	"PLACEMENT":               SupportedCapabilitiesPlacement,
+	"DISASTER_RECOVERY":       SupportedCapabilitiesDisasterRecovery,
+	"SCHEDULE_MANUAL_BACKUP":  SupportedCapabilitiesScheduleManualBackup,
+	"MULTICLOUD":              SupportedCapabilitiesMulticloud,
+	"TRAIL_FILES":             SupportedCapabilitiesTrailFiles,
+	"MASTER_KEY_OPERATIONS":   SupportedCapabilitiesMasterKeyOperations,
+	"TRUSTSTORE_CERTIFICATES": SupportedCapabilitiesTruststoreCertificates,
+	"DEPLOYMENT_DIAGNOSTICS":  SupportedCapabilitiesDeploymentDiagnostics,
+	"CREDENTIALS":             SupportedCapabilitiesCredentials,
+	"CONSOLE_ACCESS":          SupportedCapabilitiesConsoleAccess,
+	"NETWORK_CONFIGURATION":   SupportedCapabilitiesNetworkConfiguration,
 }
 
 var mappingSupportedCapabilitiesEnumLowerCase = map[string]SupportedCapabilitiesEnum{
-	"group_to_role":          SupportedCapabilitiesGroupToRole,
-	"backup_restore":         SupportedCapabilitiesBackupRestore,
-	"copy_backup":            SupportedCapabilitiesCopyBackup,
-	"manual_backup":          SupportedCapabilitiesManualBackup,
-	"placement":              SupportedCapabilitiesPlacement,
-	"disaster_recovery":      SupportedCapabilitiesDisasterRecovery,
-	"schedule_manual_backup": SupportedCapabilitiesScheduleManualBackup,
-	"multicloud":             SupportedCapabilitiesMulticloud,
+	"group_to_role":           SupportedCapabilitiesGroupToRole,
+	"backup_restore":          SupportedCapabilitiesBackupRestore,
+	"copy_backup":             SupportedCapabilitiesCopyBackup,
+	"manual_backup":           SupportedCapabilitiesManualBackup,
+	"placement":               SupportedCapabilitiesPlacement,
+	"disaster_recovery":       SupportedCapabilitiesDisasterRecovery,
+	"schedule_manual_backup":  SupportedCapabilitiesScheduleManualBackup,
+	"multicloud":              SupportedCapabilitiesMulticloud,
+	"trail_files":             SupportedCapabilitiesTrailFiles,
+	"master_key_operations":   SupportedCapabilitiesMasterKeyOperations,
+	"truststore_certificates": SupportedCapabilitiesTruststoreCertificates,
+	"deployment_diagnostics":  SupportedCapabilitiesDeploymentDiagnostics,
+	"credentials":             SupportedCapabilitiesCredentials,
+	"console_access":          SupportedCapabilitiesConsoleAccess,
+	"network_configuration":   SupportedCapabilitiesNetworkConfiguration,
 }
 
 // GetSupportedCapabilitiesEnumValues Enumerates the set of values for SupportedCapabilitiesEnum
@@ -70,6 +91,13 @@ func GetSupportedCapabilitiesEnumStringValues() []string {
 		"DISASTER_RECOVERY",
 		"SCHEDULE_MANUAL_BACKUP",
 		"MULTICLOUD",
+		"TRAIL_FILES",
+		"MASTER_KEY_OPERATIONS",
+		"TRUSTSTORE_CERTIFICATES",
+		"DEPLOYMENT_DIAGNOSTICS",
+		"CREDENTIALS",
+		"CONSOLE_ACCESS",
+		"NETWORK_CONFIGURATION",
 	}
 }
 

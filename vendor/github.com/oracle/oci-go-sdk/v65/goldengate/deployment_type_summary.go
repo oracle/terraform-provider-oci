@@ -20,8 +20,8 @@ import (
 // The list of supported source and target technologies can be accessed using the url provided in `supportedTechnologiesUrl` property.
 type DeploymentTypeSummary struct {
 
-	// The deployment category defines the broad separation of the deployment type into three categories.
-	// Currently the separation is 'DATA_REPLICATION', 'STREAM_ANALYTICS' and 'DATA_TRANSFORMS'.
+	// The deployment category defines the broad separation of the deployment type into four categories.
+	// Currently the separation is 'DATA_REPLICATION', 'STREAM_ANALYTICS', 'DATA_TRANSFORMS' and 'DATA_VERIFICATION'.
 	Category DeploymentCategoryEnum `mandatory:"true" json:"category"`
 
 	// An object's Display Name.
