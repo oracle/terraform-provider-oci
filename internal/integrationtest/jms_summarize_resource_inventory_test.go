@@ -7,7 +7,6 @@ import (
 	"testing"
 
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
-	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 
@@ -15,11 +14,8 @@ import (
 )
 
 var (
-	// before running tests, ensure to set up environment variables used below
-	JmsSummarizeResourceInventoryCompartmentId = utils.GetEnvSettingWithBlankDefault("compartment_ocid")
-
 	JmsSummarizeResourceInventorySingularDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: JmsSummarizeResourceInventoryCompartmentId},
+		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: JmsCompartmentId},
 		"time_end":       acctest.Representation{RepType: acctest.Optional, Create: `2021-11-20T01:00:00Z`},
 		"time_start":     acctest.Representation{RepType: acctest.Optional, Create: `2021-11-01T01:00:00Z`},
 	}
@@ -46,7 +42,7 @@ func TestJmsSummarizeResourceInventoryResource_basic(t *testing.T) {
 					JmsSummarizeResourceInventorySingularDataSourceRepresentation,
 				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", JmsSummarizeResourceInventoryCompartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", JmsCompartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "time_end", "2021-11-20T01:00:00Z"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "time_start", "2021-11-01T01:00:00Z"),
 

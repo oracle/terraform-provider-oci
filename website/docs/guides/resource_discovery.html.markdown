@@ -990,6 +990,8 @@ jms
 * oci\_jms\_fleet\_advanced\_feature\_configuration
 * oci\_jms\_jms\_plugin
 * oci\_jms\_task\_schedule
+* oci\_jms\_fleet\_agent\_configuration
+
 
 jms_utils
     

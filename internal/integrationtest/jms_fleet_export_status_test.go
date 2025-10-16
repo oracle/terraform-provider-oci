@@ -10,17 +10,11 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
-
-	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	// before running tests, ensure to set up environment variables used below
-	JmsFleetExportStatusFleetId       = utils.GetEnvSettingWithBlankDefault("fleet_ocid")
-	JmsFleetExportStatusCompartmentId = utils.GetEnvSettingWithBlankDefault("compartment_ocid")
-
 	JmsFleetExportStatusSingularDataSourceRepresentation = map[string]interface{}{
-		"fleet_id": acctest.Representation{RepType: acctest.Required, Create: JmsFleetExportStatusFleetId},
+		"fleet_id": acctest.Representation{RepType: acctest.Required, Create: JmsFleetId},
 	}
 )
 
@@ -49,18 +43,4 @@ func TestJmsFleetExportStatusResource_basic(t *testing.T) {
 			),
 		},
 	})
-}
-
-// clean up Fleet resource after test
-func init() {
-	if acctest.DependencyGraph == nil {
-		acctest.InitDependencyGraph()
-	}
-	if !acctest.InSweeperExcludeList("JmsFleetExportStatus") {
-		resource.AddTestSweepers("JmsFleetExportStatus", &resource.Sweeper{
-			Name:         "JmsFleetExportStatus",
-			Dependencies: acctest.DependencyGraph["fleet"],
-			F:            sweepJmsFleetResource,
-		})
-	}
 }
