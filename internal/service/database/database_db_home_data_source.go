@@ -96,6 +96,8 @@ func (s *DatabaseDbHomeDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	s.D.Set("home_type", s.Res.HomeType)
+
 	if s.Res.IsUnifiedAuditingEnabled != nil {
 		s.D.Set("is_unified_auditing_enabled", *s.Res.IsUnifiedAuditingEnabled)
 	}

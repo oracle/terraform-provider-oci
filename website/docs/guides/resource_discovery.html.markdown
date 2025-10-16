@@ -707,6 +707,12 @@ database
 * oci\_database\_database\_snapshot\_standby
 * oci\_database\_db\_node\_snapshot\_management
 * oci\_database\_advanced\_cluster\_file\_system
+* oci\_database\_cloud\_exadata\_infrastructure\_configure\_exascale\_management
+* oci\_database\_autonomous\_container\_database\_snapshot\_standby
+* oci\_database\_autonomous\_container\_database\_add\_standby
+* oci\_database\_pluggable\_database\_snapshot
+* oci\_database\_database\_snapshot\_standby
+* oci\_database\_database\_software\_schedule\_management
 
 database_migration
 
@@ -727,7 +733,7 @@ database_tools
 * oci\_database\_tools\_database\_tools\_mcp\_server
 
 database_tools_runtime
-    
+
 * oci\_database\_tools\_runtime\_database\_tools\_connection\_credential\_public\_synonym
 * oci\_database\_tools\_runtime\_database\_tools\_database\_api\_gateway\_config\_global
 * oci\_database\_tools\_runtime\_database\_tools\_connection\_property\_set
@@ -843,7 +849,7 @@ disaster_recovery
 * oci\_disaster\_recovery\_dr\_plan
 
 distributed_database
-    
+
 * oci\_distributed\_database\_distributed\_database
 * oci\_distributed\_database\_distributed\_database\_private\_endpoint
 * oci\_distributed\_database\_distributed\_autonomous\_database
@@ -1378,7 +1384,7 @@ security_attribute
 * oci\_security\_attribute\_security\_attribute
 
 self
-    
+
 * oci\_self\_subscription
 
 stack_monitoring

@@ -337,6 +337,120 @@ func DatabaseDatabaseResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
+						"vm_cluster_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+							Optional: true,
+						},
+						"managed_software_update_details": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Optional: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"is_enrolled": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
+									"maintenance_details": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Optional: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												"time_of_last_readiness_check": {
+													Type:     schema.TypeString,
+													Computed: true,
+													Optional: true,
+												},
+												"time_of_status_update": {
+													Type:     schema.TypeString,
+													Computed: true,
+													Optional: true,
+												},
+												"time_scheduled": {
+													Type:     schema.TypeString,
+													Computed: true,
+													Optional: true,
+												},
+												"update_mode": {
+													Type:     schema.TypeString,
+													Computed: true,
+													Optional: true,
+												},
+												"update_readiness_status": {
+													Type:     schema.TypeString,
+													Computed: true,
+													Optional: true,
+												},
+												"update_readiness_status_details": {
+													Type:     schema.TypeString,
+													Computed: true,
+													Optional: true,
+												},
+												"version": {
+													Type:     schema.TypeString,
+													Computed: true,
+													Optional: true,
+												},
+											},
+										},
+									},
+									"preference_details": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Optional: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												"days_of_week": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Optional: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+												"hour_of_day": {
+													Type:     schema.TypeInt,
+													Computed: true,
+													Optional: true,
+												},
+												"update_mode": {
+													Type:     schema.TypeString,
+													Computed: true,
+													Optional: true,
+												},
+												"version_scheme_details": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Optional: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															"major_version": {
+																Type:     schema.TypeString,
+																Computed: true,
+																Optional: true,
+															},
+															"source": {
+																Type:     schema.TypeString,
+																Computed: true,
+																Optional: true,
+															},
+															"version_preference": {
+																Type:     schema.TypeString,
+																Computed: true,
+																Optional: true,
+															},
+														},
+													},
+												},
+											},
+										},
+									},
+								},
+							},
+						},
 						"pdb_name": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -461,12 +575,6 @@ func DatabaseDatabaseResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
-						"vm_cluster_id": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-							ForceNew: true,
-						},
 
 						// Computed
 					},
@@ -474,7 +582,8 @@ func DatabaseDatabaseResource() *schema.Resource {
 			},
 			"db_home_id": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
+				Computed: true,
 			},
 			"source": {
 				Type:             schema.TypeString,
@@ -887,6 +996,116 @@ func DatabaseDatabaseResource() *schema.Resource {
 			"vm_cluster_id": {
 				Type:     schema.TypeString,
 				Computed: true,
+				Optional: true,
+			},
+			"managed_software_update_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Optional: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"is_enrolled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"maintenance_details": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Optional: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"time_of_last_readiness_check": {
+										Type:     schema.TypeString,
+										Computed: true,
+										Optional: true,
+									},
+									"time_of_status_update": {
+										Type:     schema.TypeString,
+										Computed: true,
+										Optional: true,
+									},
+									"time_scheduled": {
+										Type:     schema.TypeString,
+										Computed: true,
+										Optional: true,
+									},
+									"update_mode": {
+										Type:     schema.TypeString,
+										Computed: true,
+										Optional: true,
+									},
+									"update_readiness_status": {
+										Type:     schema.TypeString,
+										Computed: true,
+										Optional: true,
+									},
+									"update_readiness_status_details": {
+										Type:     schema.TypeString,
+										Computed: true,
+										Optional: true,
+									},
+									"version": {
+										Type:     schema.TypeString,
+										Computed: true,
+										Optional: true,
+									},
+								},
+							},
+						},
+						"preference_details": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Optional: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"days_of_week": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Optional: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"hour_of_day": {
+										Type:     schema.TypeInt,
+										Computed: true,
+										Optional: true,
+									},
+									"update_mode": {
+										Type:     schema.TypeString,
+										Computed: true,
+										Optional: true,
+									},
+									"version_scheme_details": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Optional: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												"major_version": {
+													Type:     schema.TypeString,
+													Computed: true,
+													Optional: true,
+												},
+												"source": {
+													Type:     schema.TypeString,
+													Computed: true,
+													Optional: true,
+												},
+												"version_preference": {
+													Type:     schema.TypeString,
+													Computed: true,
+													Optional: true,
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 		},
 	}
@@ -1180,11 +1399,6 @@ func (s *DatabaseDatabaseResourceCrud) SetData() error {
 	if s.Res.VaultId != nil {
 		s.D.Set("vault_id", *s.Res.VaultId)
 	}
-
-	if s.Res.VmClusterId != nil {
-		s.D.Set("vm_cluster_id", *s.Res.VmClusterId)
-	}
-
 	return nil
 }
 
@@ -1701,12 +1915,231 @@ func (s *DatabaseDatabaseResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat
 		result.TdeWalletPassword = &tmp
 	}
 
+	if vmClusterId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vm_cluster_id")); ok {
+		tmp := vmClusterId.(string)
+		result.VmClusterId = &tmp
+	}
+
 	if vaultId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vault_id")); ok {
 		tmp := vaultId.(string)
 		result.VaultId = &tmp
 	}
 
+	if managedSoftwareUpdateDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "managed_software_update_details")); ok {
+		if tmpList := managedSoftwareUpdateDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "managed_software_update_details"), 0)
+			tmp, err := s.mapToManagedSoftwareUpdateInputDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert managed_software_update_details, encountered error: %v", err)
+			}
+			result.ManagedSoftwareUpdateDetails = &tmp
+		}
+	}
+
 	return result, nil
+}
+
+func (s *DatabaseDatabaseResourceCrud) mapToManagedSoftwareUpdateInputDetails(fieldKeyFormat string) (oci_database.ManagedSoftwareUpdateInputDetails, error) {
+	result := oci_database.ManagedSoftwareUpdateInputDetails{}
+
+	if isEnrolled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_enrolled")); ok {
+		tmp := isEnrolled.(bool)
+		result.IsEnrolled = &tmp
+	}
+
+	if preferenceDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preference_details")); ok {
+		if tmpList := preferenceDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "preference_details"), 0)
+			tmp, err := s.mapToManagedSoftwareUpdatePreferenceDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert preference_details, encountered error: %v", err)
+			}
+			result.PreferenceDetails = &tmp
+		}
+	}
+
+	return result, nil
+}
+
+func (s *DatabaseDatabaseResourceCrud) mapToManagedSoftwareUpdatePreferenceDetails(fieldKeyFormat string) (oci_database.ManagedSoftwareUpdatePreferenceDetails, error) {
+	result := oci_database.ManagedSoftwareUpdatePreferenceDetails{}
+
+	if daysOfWeek, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "days_of_week")); ok {
+		interfaces := daysOfWeek.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "days_of_week")) {
+			result.DaysOfWeek = s.mapToManagedSoftwareUpdateDayOfWeekSlice(daysOfWeek)
+		}
+	}
+
+	if hourOfDay, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hour_of_day")); ok {
+		tmp := hourOfDay.(int)
+		result.HourOfDay = &tmp
+	}
+
+	if updateMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "update_mode")); ok {
+		result.UpdateMode = oci_database.ManagedSoftwareUpdatePreferenceDetailsUpdateModeEnum(updateMode.(string))
+	}
+
+	if versionSchemeDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "version_scheme_details")); ok {
+		if tmpList := versionSchemeDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "version_scheme_details"), 0)
+			tmp, err := s.mapToVersionSchemeDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert version_scheme_details, encountered error: %v", err)
+			}
+			result.VersionSchemeDetails = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func (s *DatabaseDatabaseResourceCrud) mapToManagedSoftwareUpdateDayOfWeekSlice(interfaces interface{}) []oci_database.ManagedSoftwareUpdateDayOfWeek {
+	interfaceSlice := interfaces.([]interface{})
+	tmp := make([]oci_database.ManagedSoftwareUpdateDayOfWeek, len(interfaceSlice))
+	for i := range interfaceSlice {
+		if interfaceSlice[i] != nil {
+			tmp[i] = oci_database.ManagedSoftwareUpdateDayOfWeek{
+				DayOfWeek: oci_database.ManagedSoftwareUpdateDayOfWeekDayOfWeekEnum(interfaceSlice[i].(string)),
+			}
+		}
+	}
+	return tmp
+}
+
+func (s *DatabaseDatabaseResourceCrud) mapToVersionSchemeDetails(fieldKeyFormat string) (oci_database.VersionSchemeDetails, error) {
+	var baseObject oci_database.VersionSchemeDetails
+	//discriminator
+	sourceRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source"))
+	var source string
+	if ok {
+		source = sourceRaw.(string)
+	} else {
+		source = "" // default value
+	}
+	switch strings.ToLower(source) {
+	case strings.ToLower("VERSION_SERIES"):
+		details := oci_database.VersionSchemeFromVersionSeriesDetails{}
+		if majorVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "major_version")); ok {
+			tmp := majorVersion.(string)
+			details.MajorVersion = &tmp
+		}
+		if versionPreference, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "version_preference")); ok {
+			details.VersionPreference = oci_database.VersionSchemeFromVersionSeriesDetailsVersionPreferenceEnum(versionPreference.(string))
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown source '%v' was specified", source)
+	}
+	return baseObject, nil
+}
+
+func (s *DatabaseDatabaseResourceCrud) mapToManagedSoftwareUpdateInputUpdateDetails(fieldKeyFormat string) (oci_database.ManagedSoftwareUpdateInputDetails, error) {
+	result := oci_database.ManagedSoftwareUpdateInputDetails{}
+
+	if s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "is_enrolled")) {
+		if isEnrolled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_enrolled")); ok {
+			tmp := isEnrolled.(bool)
+			result.IsEnrolled = &tmp
+		}
+	}
+
+	if s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "preference_details")) {
+		if preferenceDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preference_details")); ok {
+			if tmpList := preferenceDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "preference_details"), 0)
+				tmp, err := s.mapToManagedSoftwareUpdatePreferenceDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return result, fmt.Errorf("unable to convert preference_details, encountered error: %v", err)
+				}
+				result.PreferenceDetails = &tmp
+			}
+		}
+	}
+
+	return result, nil
+}
+
+func (s *DatabaseDatabaseResourceCrud) mapToManagedSoftwareUpdatePreferenceUpdateDetails(fieldKeyFormat string) (oci_database.ManagedSoftwareUpdatePreferenceDetails, error) {
+	result := oci_database.ManagedSoftwareUpdatePreferenceDetails{}
+
+	if s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "days_of_week")) {
+		if daysOfWeek, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "days_of_week")); ok {
+			interfaces := daysOfWeek.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			result.DaysOfWeek = s.mapToManagedSoftwareUpdateDayOfWeekSlice(daysOfWeek)
+		}
+	}
+
+	if s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "hour_of_day")) {
+		if hourOfDay, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hour_of_day")); ok {
+			tmp := hourOfDay.(int)
+			result.HourOfDay = &tmp
+		}
+	}
+
+	if s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "update_mode")) {
+		if updateMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "update_mode")); ok {
+			result.UpdateMode = oci_database.ManagedSoftwareUpdatePreferenceDetailsUpdateModeEnum(updateMode.(string))
+		}
+	}
+
+	if s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "version_scheme_details")) {
+		if versionSchemeDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "version_scheme_details")); ok {
+			if tmpList := versionSchemeDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "version_scheme_details"), 0)
+				tmp, err := s.mapToVersionSchemeDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return result, fmt.Errorf("unable to convert version_scheme_details, encountered error: %v", err)
+				}
+				result.VersionSchemeDetails = tmp
+			}
+		}
+	}
+
+	return result, nil
+}
+
+func (s *DatabaseDatabaseResourceCrud) mapToVersionSchemeUpdateDetails(fieldKeyFormat string) (oci_database.VersionSchemeDetails, error) {
+	var baseObject oci_database.VersionSchemeDetails
+	//discriminator
+	sourceRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source"))
+	var source string
+	if ok {
+		source = sourceRaw.(string)
+	} else {
+		source = "" // default value
+	}
+	switch strings.ToLower(source) {
+	case strings.ToLower("VERSION_SERIES"):
+		details := oci_database.VersionSchemeFromVersionSeriesDetails{}
+		if s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "major_version")) {
+			if majorVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "major_version")); ok {
+				tmp := majorVersion.(string)
+				details.MajorVersion = &tmp
+			}
+		}
+		if s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "version_preference")) {
+			if versionPreference, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "version_preference")); ok {
+				details.VersionPreference = oci_database.VersionSchemeFromVersionSeriesDetailsVersionPreferenceEnum(versionPreference.(string))
+			}
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown source '%v' was specified", source)
+	}
+	return baseObject, nil
 }
 
 func (s *DatabaseDatabaseResourceCrud) mapToCreateDatabaseFromBackupDetails(fieldKeyFormat string) (oci_database.CreateDatabaseFromBackupDetails, error) {
@@ -2441,6 +2874,19 @@ func (s *DatabaseDatabaseResourceCrud) mapToUpdateDatabaseDetails(fieldKeyFormat
 		}
 	}
 
+	if s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "managed_software_update_details")) {
+		if managedSoftwareUpdateDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "managed_software_update_details")); ok {
+			if tmpList := managedSoftwareUpdateDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "managed_software_update_details"), 0)
+				tmp, err := s.mapToManagedSoftwareUpdateInputDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return result, err
+				}
+				result.ManagedSoftwareUpdateDetails = &tmp
+			}
+		}
+	}
+
 	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
 		tmp, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -2598,6 +3044,14 @@ func (s *DatabaseDatabaseResourceCrud) DatabaseToMap(obj *oci_database.Database)
 				result["source_encryption_key_location_details"] = []interface{}{EncryptionKeyLocationDetailsToMap(&s.Res.EncryptionKeyLocationDetails, "")}
 			}
 		}
+	}
+
+	if obj.VmClusterId != nil {
+		result["vm_cluster_id"] = obj.VmClusterId
+	}
+
+	if obj.ManagedSoftwareUpdateDetails != nil {
+		result["managed_software_update_details"] = []interface{}{ManagedSoftwareUpdateDetailsToMap(obj.ManagedSoftwareUpdateDetails)}
 	}
 
 	return result
@@ -3086,6 +3540,101 @@ func DatabaseStorageSizeResponseDetailsToMap(obj *oci_database.DatabaseStorageSi
 
 	if obj.RedoLogStorageSizeInGBs != nil {
 		result["redo_log_storage_size_in_gbs"] = int(*obj.RedoLogStorageSizeInGBs)
+	}
+
+	return result
+}
+
+func ManagedSoftwareUpdateDetailsToMap(obj *oci_database.ManagedSoftwareUpdateDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsEnrolled != nil {
+		result["is_enrolled"] = bool(*obj.IsEnrolled)
+	}
+
+	if obj.MaintenanceDetails != nil {
+		result["maintenance_details"] = []interface{}{ManagedSoftwareUpdateMaintenanceDetailsToMap(obj.MaintenanceDetails)}
+	}
+
+	if obj.PreferenceDetails != nil {
+		result["preference_details"] = []interface{}{ManagedSoftwareUpdatePreferenceDetailsToMap(obj.PreferenceDetails)}
+	}
+
+	return result
+}
+
+func ManagedSoftwareUpdateMaintenanceDetailsToMap(obj *oci_database.ManagedSoftwareUpdateMaintenanceDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.TimeOfLastReadinessCheck != nil {
+		result["time_of_last_readiness_check"] = obj.TimeOfLastReadinessCheck.String()
+	}
+
+	if obj.TimeOfStatusUpdate != nil {
+		result["time_of_status_update"] = obj.TimeOfStatusUpdate.String()
+	}
+
+	if obj.TimeScheduled != nil {
+		result["time_scheduled"] = obj.TimeScheduled.String()
+	}
+
+	result["update_mode"] = string(obj.UpdateMode)
+
+	result["update_readiness_status"] = string(obj.UpdateReadinessStatus)
+
+	if obj.UpdateReadinessStatusDetails != nil {
+		result["update_readiness_status_details"] = string(*obj.UpdateReadinessStatusDetails)
+	}
+
+	if obj.Version != nil {
+		result["version"] = string(*obj.Version)
+	}
+
+	return result
+}
+
+func ManagedSoftwareUpdatePreferenceDetailsToMap(obj *oci_database.ManagedSoftwareUpdatePreferenceDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DaysOfWeek != nil && len(obj.DaysOfWeek) > 0 {
+		days := make([]interface{}, len(obj.DaysOfWeek))
+		for i, dayObj := range obj.DaysOfWeek {
+			days[i] = string(dayObj.DayOfWeek)
+		}
+		result["days_of_week"] = days
+	}
+
+	if obj.HourOfDay != nil {
+		result["hour_of_day"] = int(*obj.HourOfDay)
+	}
+
+	result["update_mode"] = string(obj.UpdateMode)
+
+	if obj.VersionSchemeDetails != nil {
+		versionSchemeDetailsArray := []interface{}{}
+		if versionSchemeDetailsMap := VersionSchemeDetailsToMap(&obj.VersionSchemeDetails); versionSchemeDetailsMap != nil {
+			versionSchemeDetailsArray = append(versionSchemeDetailsArray, versionSchemeDetailsMap)
+		}
+		result["version_scheme_details"] = versionSchemeDetailsArray
+	}
+
+	return result
+}
+
+func VersionSchemeDetailsToMap(obj *oci_database.VersionSchemeDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_database.VersionSchemeFromVersionSeriesDetails:
+		result["source"] = "VERSION_SERIES"
+
+		if v.MajorVersion != nil {
+			result["major_version"] = string(*v.MajorVersion)
+		}
+
+		result["version_preference"] = string(v.VersionPreference)
+	default:
+		log.Printf("[WARN] Received 'source' of unknown type %v", *obj)
+		return nil
 	}
 
 	return result
