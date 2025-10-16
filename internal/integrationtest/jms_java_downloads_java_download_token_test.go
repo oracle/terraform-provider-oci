@@ -25,7 +25,6 @@ import (
 )
 
 var (
-	JmsJdUserOcid                                   = utils.GetEnvSettingWithBlankDefault("user_ocid")
 	jmsJdTokenName                                  = fmt.Sprintf("Terraform_Token_%d", time.Now().UnixMilli())
 	jmsJdTokenNameUpdate                            = fmt.Sprintf("Terraform_Token_%d", time.Now().AddDate(0, 0, 1).UnixMilli())
 	jmsJdTokenCreateExpiry                          = time.Now().AddDate(0, 0, 2).UTC().Format(time.RFC3339)
@@ -44,11 +43,11 @@ var (
 	}
 
 	JmsJavaDownloadsJavaDownloadTokenDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: JmsTenancyId},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: jmsJdTokenName, Update: jmsJdTokenNameUpdate},
 		"family_version": acctest.Representation{RepType: acctest.Optional, Create: `11`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_jms_java_downloads_java_download_token.test_java_download_token.id}`},
-		"search_by_user": acctest.Representation{RepType: acctest.Optional, Create: JmsJdUserOcid},
+		"search_by_user": acctest.Representation{RepType: acctest.Optional, Create: JmsUserId},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"value":          acctest.Representation{RepType: acctest.Optional, Create: `${oci_jms_java_downloads_java_download_token.test_java_download_token.value}`},
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: JmsJavaDownloadsJavaDownloadTokenDataSourceFilterRepresentation}}
@@ -58,7 +57,7 @@ var (
 	}
 
 	JmsJavaDownloadsJavaDownloadTokenRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: JmsTenancyId},
 		"description":    acctest.Representation{RepType: acctest.Required, Create: `Trial token for script friendly download`, Update: `description2`},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: jmsJdTokenName, Update: jmsJdTokenNameUpdate},
 		"java_version":   acctest.Representation{RepType: acctest.Required, Create: `11`},
@@ -73,7 +72,7 @@ var (
 	}
 	jmsJdTokenNameOptional                                  = "Optional" + jmsJdTokenName
 	JmsJavaDownloadsJavaDownloadTokenOptionalRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: JmsTenancyId},
 		"description":    acctest.Representation{RepType: acctest.Required, Create: `Trial token for script friendly download`, Update: `description2`},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: jmsJdTokenNameOptional, Update: jmsJdTokenNameUpdate},
 		"java_version":   acctest.Representation{RepType: acctest.Required, Create: `11`},
@@ -96,8 +95,6 @@ func TestJmsJavaDownloadsJavaDownloadTokenResource_basic(t *testing.T) {
 	defer httpreplay.SaveScenario()
 
 	config := acctest.ProviderTestConfig()
-
-	tenancyId := utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
 
 	resourceName := "oci_jms_java_downloads_java_download_token.test_java_download_token"
 	datasourceName := "data.oci_jms_java_downloads_java_download_tokens.test_java_download_tokens"
@@ -130,7 +127,7 @@ func TestJmsJavaDownloadsJavaDownloadTokenResource_basic(t *testing.T) {
 					JmsJavaDownloadsJavaDownloadTokenRepresentation,
 				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", JmsTenancyId),
 				resource.TestCheckResourceAttr(resourceName, "description", "Trial token for script friendly download"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", jmsJdTokenName),
 				resource.TestCheckResourceAttr(resourceName, "java_version", "11"),
@@ -159,7 +156,7 @@ func TestJmsJavaDownloadsJavaDownloadTokenResource_basic(t *testing.T) {
 					JmsJavaDownloadsJavaDownloadTokenOptionalRepresentation,
 				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", JmsTenancyId),
 				resource.TestCheckResourceAttr(resourceName, "created_by.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "Trial token for script friendly download"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", jmsJdTokenNameOptional),
@@ -175,7 +172,7 @@ func TestJmsJavaDownloadsJavaDownloadTokenResource_basic(t *testing.T) {
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &JmsTenancyId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -195,7 +192,7 @@ func TestJmsJavaDownloadsJavaDownloadTokenResource_basic(t *testing.T) {
 					JmsJavaDownloadsJavaDownloadTokenOptionalRepresentation,
 				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", JmsTenancyId),
 				resource.TestCheckResourceAttr(resourceName, "created_by.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", jmsJdTokenNameUpdate),
@@ -235,11 +232,11 @@ func TestJmsJavaDownloadsJavaDownloadTokenResource_basic(t *testing.T) {
 					JmsJavaDownloadsJavaDownloadTokenOptionalRepresentation,
 				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", JmsTenancyId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", jmsJdTokenNameUpdate),
 				resource.TestCheckResourceAttr(datasourceName, "family_version", "11"),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
-				resource.TestCheckResourceAttr(datasourceName, "search_by_user", JmsJdUserOcid),
+				resource.TestCheckResourceAttr(datasourceName, "search_by_user", JmsUserId),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(datasourceName, "value"),
 
@@ -261,7 +258,7 @@ func TestJmsJavaDownloadsJavaDownloadTokenResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "java_download_token_id"),
 
-				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", JmsTenancyId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "created_by.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", jmsJdTokenNameUpdate),
@@ -337,7 +334,7 @@ func init() {
 func sweepJmsJavaDownloadsJavaDownloadTokenResource(compartment string) error {
 	javaDownloadClient := acctest.GetTestClients(&schema.ResourceData{}).JavaDownloadClient()
 	// JmsJavaDownloadsJavaDownloadTokenResource can only run on root compartment
-	compartment = utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
+	compartment = JmsTenancyId
 	javaDownloadTokenIds, err := getJmsJavaDownloadsJavaDownloadTokenIds(compartment)
 	if err != nil {
 		return err
