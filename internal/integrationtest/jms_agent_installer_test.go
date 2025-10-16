@@ -10,18 +10,12 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
-
-	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	// before running tests, ensure to set up environment variables used below
-	JmsAgentInstallerFleetId       = utils.GetEnvSettingWithBlankDefault("fleet_ocid")
-	JmsAgentInstallerCompartmentId = utils.GetEnvSettingWithBlankDefault("compartment_ocid")
-
 	JmsAgentInstallerDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":        acctest.Representation{RepType: acctest.Optional, Create: JmsAgentInstallerCompartmentId},
-		"fleet_id":              acctest.Representation{RepType: acctest.Optional, Create: JmsAgentInstallerFleetId},
+		"compartment_id":        acctest.Representation{RepType: acctest.Optional, Create: JmsCompartmentId},
+		"fleet_id":              acctest.Representation{RepType: acctest.Optional, Create: JmsFleetId},
 		"os_family":             acctest.Representation{RepType: acctest.Optional, Create: `LINUX`},
 		"platform_architecture": acctest.Representation{RepType: acctest.Optional, Create: `X86_64`},
 	}
@@ -48,7 +42,7 @@ func TestJmsAgentInstallerResource_basic(t *testing.T) {
 					JmsAgentInstallerDataSourceRepresentation,
 				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(datasourceName, "compartment_id", JmsAgentInstallerCompartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", JmsCompartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "fleet_id"),
 				resource.TestCheckResourceAttr(datasourceName, "os_family", "LINUX"),
 				resource.TestCheckResourceAttr(datasourceName, "platform_architecture", "X86_64"),

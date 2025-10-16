@@ -20,98 +20,137 @@ import (
 )
 
 var (
-	JmsFleetAdvancedFeatureConfigurationRequiredOnlyResource = JmsFleetAdvancedFeatureConfigurationResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_jms_fleet_advanced_feature_configuration", "test_fleet_advanced_feature_configuration", acctest.Required, acctest.Create, JmsFleetAdvancedFeatureConfigurationRepresentation)
-
-	JmsFleetAdvancedFeatureConfigurationResourceConfig = JmsFleetAdvancedFeatureConfigurationResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_jms_fleet_advanced_feature_configuration", "test_fleet_advanced_feature_configuration", acctest.Optional, acctest.Update, JmsFleetAdvancedFeatureConfigurationRepresentation)
-
-	// before running tests, ensure to set up environment variables used below
-	JmsFleetAdvancedFeatureConfigurationCompartmentId  = utils.GetEnvSettingWithBlankDefault("compartment_ocid")
-	JmsFleetAdvancedFeatureConfigurationLogGroupId     = utils.GetEnvSettingWithBlankDefault("fleet_log_group_ocid")
-	JmsFleetAdvancedFeatureConfigurationInventoryLogId = utils.GetEnvSettingWithBlankDefault("fleet_inventory_log_ocid")
-	JmsFleetAdvancedFeatureConfigurationOperationLogId = utils.GetEnvSettingWithBlankDefault("fleet_operation_log_ocid")
-
 	JmsFleetAdvancedFeatureConfigurationSingularDataSourceRepresentation = map[string]interface{}{
-		"fleet_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_jms_fleet.test_fleet.id}`},
+		"fleet_id": acctest.Representation{RepType: acctest.Required, Create: JmsFleetId},
 	}
 
 	JmsFleetAdvancedFeatureConfigurationRepresentation = map[string]interface{}{
-		"fleet_id":                    acctest.Representation{RepType: acctest.Required, Create: `${oci_jms_fleet.test_fleet.id}`},
-		"advanced_usage_tracking":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: JmsFleetAdvancedFeatureConfigurationAdvancedUsageTrackingRepresentation},
-		"analytic_bucket_name":        acctest.Representation{RepType: acctest.Optional, Create: `${oci_objectstorage_bucket.test_bucket.name}`},
-		"analytic_namespace":          acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
-		"crypto_event_analysis":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: JmsFleetAdvancedFeatureConfigurationCryptoEventAnalysisRepresentation},
-		"java_migration_analysis":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: JmsFleetAdvancedFeatureConfigurationJavaMigrationAnalysisRepresentation},
-		"jfr_recording":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: JmsFleetAdvancedFeatureConfigurationJfrRecordingRepresentation},
-		"lcm":                         acctest.RepresentationGroup{RepType: acctest.Optional, Group: JmsFleetAdvancedFeatureConfigurationLcmRepresentation},
-		"performance_tuning_analysis": acctest.RepresentationGroup{RepType: acctest.Optional, Group: JmsFleetAdvancedFeatureConfigurationPerformanceTuningAnalysisRepresentation},
+		"fleet_id":                    acctest.Representation{RepType: acctest.Required, Create: JmsFleetId},
+		"advanced_usage_tracking":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: JmsAdvancedUsageTrackingRepresentation},
+		"analytic_bucket_name":        acctest.Representation{RepType: acctest.Optional, Create: JmsAnalyticBucketName},
+		"analytic_namespace":          acctest.Representation{RepType: acctest.Optional, Create: JmsAnalyticBucketNamespace},
+		"crypto_event_analysis":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: JmsCryptoEventAnalysisRepresentation},
+		"java_migration_analysis":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: JmsJavaMigrationAnalysisRepresentation},
+		"jfr_recording":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: JmsJfrRecordingRepresentation},
+		"lcm":                         acctest.RepresentationGroup{RepType: acctest.Optional, Group: JmsLcmRepresentation},
+		"performance_tuning_analysis": acctest.RepresentationGroup{RepType: acctest.Optional, Group: JmsPerformanceTuningAnalysisRepresentation},
 	}
-	JmsFleetAdvancedFeatureConfigurationAdvancedUsageTrackingRepresentation = map[string]interface{}{
+
+	JmsAdvancedUsageTrackingRepresentation = map[string]interface{}{
+		"is_enabled": acctest.Representation{
+			RepType: acctest.Optional,
+			Create:  `false`,
+			Update:  `true`,
+		},
+	}
+
+	JmsCryptoEventAnalysisRepresentation = map[string]interface{}{
+		"is_enabled": acctest.Representation{
+			RepType: acctest.Optional,
+			Create:  `false`,
+			Update:  `true`,
+		},
+		"summarized_events_log": acctest.RepresentationGroup{
+			RepType: acctest.Optional,
+			Group: map[string]interface{}{
+				"log_group_id": acctest.Representation{RepType: acctest.Required, Create: JmsLogGroupId},
+				"log_id":       acctest.Representation{RepType: acctest.Required, Create: JmsCryptoEventLogId},
+			},
+		},
+	}
+
+	JmsJavaMigrationAnalysisRepresentation = map[string]interface{}{
+		"is_enabled": acctest.Representation{
+			RepType: acctest.Optional,
+			Create:  `false`,
+			Update:  `true`,
+		},
+	}
+
+	JmsJfrRecordingRepresentation = map[string]interface{}{
+		"is_enabled": acctest.Representation{
+			RepType: acctest.Optional,
+			Create:  `false`,
+			Update:  `true`,
+		},
+	}
+
+	JmsLcmRepresentation = map[string]interface{}{
 		"is_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"post_installation_actions": acctest.RepresentationGroup{
+			RepType: acctest.Optional,
+			Group: map[string]interface{}{
+				"add_logging_handler": acctest.Representation{
+					RepType: acctest.Optional,
+					Create:  `false`,
+					Update:  `true`,
+				},
+				"disabled_tls_versions": acctest.Representation{
+					RepType: acctest.Optional,
+					Create:  []string{`TLS_1_0`},
+					Update:  []string{`TLS_1_1`},
+				},
+				"global_logging_level": acctest.Representation{
+					RepType: acctest.Optional,
+					Create:  `ALL`,
+					Update:  `SEVERE`,
+				},
+				"minimum_key_size_settings": acctest.RepresentationGroup{
+					RepType: acctest.Optional,
+					Group: map[string]interface{}{
+						"certpath": acctest.RepresentationGroup{
+							RepType: acctest.Optional,
+							Group: map[string]interface{}{
+								"key_size": acctest.Representation{RepType: acctest.Optional, Create: `2048`, Update: `2048`},
+								"name":     acctest.Representation{RepType: acctest.Optional, Create: `RSA`, Update: `DSA`},
+							},
+						},
+						"jar": acctest.RepresentationGroup{
+							RepType: acctest.Optional,
+							Group: map[string]interface{}{
+								"key_size": acctest.Representation{RepType: acctest.Optional, Create: `2048`, Update: `2048`},
+								"name":     acctest.Representation{RepType: acctest.Optional, Create: `RSA`, Update: `DSA`},
+							},
+						},
+						"tls": acctest.RepresentationGroup{
+							RepType: acctest.Optional,
+							Group: map[string]interface{}{
+								"key_size": acctest.Representation{RepType: acctest.Optional, Create: `2048`, Update: `2048`},
+								"name":     acctest.Representation{RepType: acctest.Optional, Create: `RSA`, Update: `DSA`},
+							},
+						},
+					},
+				},
+				"proxies": acctest.RepresentationGroup{
+					RepType: acctest.Optional,
+					Group: map[string]interface{}{
+						"ftp_proxy_host":     acctest.Representation{RepType: acctest.Optional, Create: `ftpProxyHost`, Update: `ftpProxyHost2`},
+						"ftp_proxy_port":     acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+						"http_proxy_host":    acctest.Representation{RepType: acctest.Optional, Create: `httpProxyHost`, Update: `httpProxyHost2`},
+						"http_proxy_port":    acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+						"https_proxy_host":   acctest.Representation{RepType: acctest.Optional, Create: `httpsProxyHost`, Update: `httpsProxyHost2`},
+						"https_proxy_port":   acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+						"socks_proxy_host":   acctest.Representation{RepType: acctest.Optional, Create: `socksProxyHost`, Update: `socksProxyHost2`},
+						"socks_proxy_port":   acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+						"use_system_proxies": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+					},
+				},
+				"should_replace_certificates_operating_system": acctest.Representation{
+					RepType: acctest.Optional,
+					Create:  `false`,
+					Update:  `true`,
+				},
+			},
+		},
 	}
-	JmsFleetAdvancedFeatureConfigurationCryptoEventAnalysisRepresentation = map[string]interface{}{
-		"is_enabled":            acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"summarized_events_log": acctest.RepresentationGroup{RepType: acctest.Optional, Group: JmsFleetAdvancedFeatureConfigurationCryptoEventAnalysisSummarizedEventsLogRepresentation},
+
+	JmsPerformanceTuningAnalysisRepresentation = map[string]interface{}{
+		"is_enabled": acctest.Representation{
+			RepType: acctest.Optional,
+			Create:  `false`,
+			Update:  `true`,
+		},
 	}
-	JmsFleetAdvancedFeatureConfigurationJavaMigrationAnalysisRepresentation = map[string]interface{}{
-		"is_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-	}
-	JmsFleetAdvancedFeatureConfigurationJfrRecordingRepresentation = map[string]interface{}{
-		"is_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-	}
-	JmsFleetAdvancedFeatureConfigurationLcmRepresentation = map[string]interface{}{
-		"is_enabled":                acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"post_installation_actions": acctest.RepresentationGroup{RepType: acctest.Optional, Group: JmsFleetAdvancedFeatureConfigurationLcmPostInstallationActionsRepresentation},
-	}
-	JmsFleetAdvancedFeatureConfigurationPerformanceTuningAnalysisRepresentation = map[string]interface{}{
-		"is_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-	}
-	JmsFleetAdvancedFeatureConfigurationCryptoEventAnalysisSummarizedEventsLogRepresentation = map[string]interface{}{
-		"log_group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_logging_log_group.test_log_group.id}`},
-		"log_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_logging_log.test_log.id}`},
-	}
-	JmsFleetAdvancedFeatureConfigurationLcmPostInstallationActionsRepresentation = map[string]interface{}{
-		"add_logging_handler":                          acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"disabled_tls_versions":                        acctest.Representation{RepType: acctest.Optional, Create: []string{`TLS_1_0`}, Update: []string{`TLS_1_1`}},
-		"global_logging_level":                         acctest.Representation{RepType: acctest.Optional, Create: `ALL`, Update: `SEVERE`},
-		"minimum_key_size_settings":                    acctest.RepresentationGroup{RepType: acctest.Optional, Group: JmsFleetAdvancedFeatureConfigurationLcmPostInstallationActionsMinimumKeySizeSettingsRepresentation},
-		"proxies":                                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: JmsFleetAdvancedFeatureConfigurationLcmPostInstallationActionsProxiesRepresentation},
-		"should_replace_certificates_operating_system": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-	}
-	JmsFleetAdvancedFeatureConfigurationLcmPostInstallationActionsMinimumKeySizeSettingsRepresentation = map[string]interface{}{
-		"certpath": acctest.RepresentationGroup{RepType: acctest.Optional, Group: JmsFleetAdvancedFeatureConfigurationLcmPostInstallationActionsMinimumKeySizeSettingsCertpathRepresentation},
-		"jar":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: JmsFleetAdvancedFeatureConfigurationLcmPostInstallationActionsMinimumKeySizeSettingsJarRepresentation},
-		"tls":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: JmsFleetAdvancedFeatureConfigurationLcmPostInstallationActionsMinimumKeySizeSettingsTlsRepresentation},
-	}
-	JmsFleetAdvancedFeatureConfigurationLcmPostInstallationActionsProxiesRepresentation = map[string]interface{}{
-		"ftp_proxy_host":     acctest.Representation{RepType: acctest.Optional, Create: `ftpProxyHost`, Update: `ftpProxyHost2`},
-		"ftp_proxy_port":     acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
-		"http_proxy_host":    acctest.Representation{RepType: acctest.Optional, Create: `httpProxyHost`, Update: `httpProxyHost2`},
-		"http_proxy_port":    acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
-		"https_proxy_host":   acctest.Representation{RepType: acctest.Optional, Create: `httpsProxyHost`, Update: `httpsProxyHost2`},
-		"https_proxy_port":   acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
-		"socks_proxy_host":   acctest.Representation{RepType: acctest.Optional, Create: `socksProxyHost`, Update: `socksProxyHost2`},
-		"socks_proxy_port":   acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
-		"use_system_proxies": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-	}
-	JmsFleetAdvancedFeatureConfigurationLcmPostInstallationActionsMinimumKeySizeSettingsCertpathRepresentation = map[string]interface{}{
-		"key_size": acctest.Representation{RepType: acctest.Optional, Create: `2048`, Update: `2048`},
-		"name":     acctest.Representation{RepType: acctest.Optional, Create: `RSA`, Update: `DSA`},
-	}
-	JmsFleetAdvancedFeatureConfigurationLcmPostInstallationActionsMinimumKeySizeSettingsJarRepresentation = map[string]interface{}{
-		"key_size": acctest.Representation{RepType: acctest.Optional, Create: `2048`, Update: `2048`},
-		"name":     acctest.Representation{RepType: acctest.Optional, Create: `RSA`, Update: `DSA`},
-	}
-	JmsFleetAdvancedFeatureConfigurationLcmPostInstallationActionsMinimumKeySizeSettingsTlsRepresentation = map[string]interface{}{
-		"key_size": acctest.Representation{RepType: acctest.Optional, Create: `2048`, Update: `2048`},
-		"name":     acctest.Representation{RepType: acctest.Optional, Create: `RSA`, Update: `DSA`},
-	}
-	JmsFleetAdvancedFeatureConfigurationResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", acctest.Required, acctest.Create, JmsFleetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", acctest.Required, acctest.Create, LoggingLogGroupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", acctest.Required, acctest.Create, LoggingLogRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, ObjectStorageBucketRepresentation) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Optional, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation)
 )
 
 // issue-routing-tag: jms/default
@@ -121,23 +160,34 @@ func TestJmsFleetAdvancedFeatureConfigurationResource_basic(t *testing.T) {
 
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
-	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-
 	resourceName := "oci_jms_fleet_advanced_feature_configuration.test_fleet_advanced_feature_configuration"
-
 	singularDatasourceName := "data.oci_jms_fleet_advanced_feature_configuration.test_fleet_advanced_feature_configuration"
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+JmsFleetAdvancedFeatureConfigurationResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_jms_fleet_advanced_feature_configuration", "test_fleet_advanced_feature_configuration", acctest.Optional, acctest.Create, JmsFleetAdvancedFeatureConfigurationRepresentation), "jms", "fleetAdvancedFeatureConfiguration", t)
+	acctest.SaveConfigContent(config+
+		acctest.GenerateResourceFromRepresentationMap(
+			"oci_jms_fleet_advanced_feature_configuration",
+			"test_fleet_advanced_feature_configuration",
+			acctest.Optional,
+			acctest.Create,
+			JmsFleetAdvancedFeatureConfigurationRepresentation,
+		),
+		"jms",
+		"fleetAdvancedFeatureConfiguration",
+		t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + JmsFleetAdvancedFeatureConfigurationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_jms_fleet_advanced_feature_configuration", "test_fleet_advanced_feature_configuration", acctest.Required, acctest.Create, JmsFleetAdvancedFeatureConfigurationRepresentation),
+			Config: config +
+				acctest.GenerateResourceFromRepresentationMap(
+					"oci_jms_fleet_advanced_feature_configuration",
+					"test_fleet_advanced_feature_configuration",
+					acctest.Required,
+					acctest.Create,
+					JmsFleetAdvancedFeatureConfigurationRepresentation,
+				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "fleet_id"),
 
@@ -147,14 +197,22 @@ func TestJmsFleetAdvancedFeatureConfigurationResource_basic(t *testing.T) {
 				},
 			),
 		},
+
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + JmsFleetAdvancedFeatureConfigurationResourceDependencies,
+			Config: config,
 		},
+
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + JmsFleetAdvancedFeatureConfigurationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_jms_fleet_advanced_feature_configuration", "test_fleet_advanced_feature_configuration", acctest.Optional, acctest.Create, JmsFleetAdvancedFeatureConfigurationRepresentation),
+			Config: config +
+				acctest.GenerateResourceFromRepresentationMap(
+					"oci_jms_fleet_advanced_feature_configuration",
+					"test_fleet_advanced_feature_configuration",
+					acctest.Optional,
+					acctest.Create,
+					JmsFleetAdvancedFeatureConfigurationRepresentation,
+				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "advanced_usage_tracking.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "advanced_usage_tracking.0.is_enabled", "false"),
@@ -204,7 +262,7 @@ func TestJmsFleetAdvancedFeatureConfigurationResource_basic(t *testing.T) {
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &JmsCompartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -212,10 +270,17 @@ func TestJmsFleetAdvancedFeatureConfigurationResource_basic(t *testing.T) {
 				},
 			),
 		},
+
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + JmsFleetAdvancedFeatureConfigurationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_jms_fleet_advanced_feature_configuration", "test_fleet_advanced_feature_configuration", acctest.Optional, acctest.Update, JmsFleetAdvancedFeatureConfigurationRepresentation),
+			Config: config +
+				acctest.GenerateResourceFromRepresentationMap(
+					"oci_jms_fleet_advanced_feature_configuration",
+					"test_fleet_advanced_feature_configuration",
+					acctest.Optional,
+					acctest.Update,
+					JmsFleetAdvancedFeatureConfigurationRepresentation,
+				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "advanced_usage_tracking.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "advanced_usage_tracking.0.is_enabled", "true"),
@@ -271,6 +336,7 @@ func TestJmsFleetAdvancedFeatureConfigurationResource_basic(t *testing.T) {
 				},
 			),
 		},
+
 		// verify singular datasource
 		{
 			Config: config +
@@ -281,8 +347,6 @@ func TestJmsFleetAdvancedFeatureConfigurationResource_basic(t *testing.T) {
 					acctest.Create,
 					JmsFleetAdvancedFeatureConfigurationRepresentation,
 				) +
-				compartmentIdVariableStr +
-				JmsFleetAdvancedFeatureConfigurationResourceDependencies +
 				acctest.GenerateDataSourceFromRepresentationMap(
 					"oci_jms_fleet_advanced_feature_configuration",
 					"test_fleet_advanced_feature_configuration",
@@ -333,27 +397,21 @@ func TestJmsFleetAdvancedFeatureConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_last_modified"),
 			),
 		},
+
 		// verify resource import
 		{
-			Config:                  config + JmsFleetAdvancedFeatureConfigurationRequiredOnlyResource,
+			Config: config +
+				acctest.GenerateResourceFromRepresentationMap(
+					"oci_jms_fleet_advanced_feature_configuration",
+					"test_fleet_advanced_feature_configuration",
+					acctest.Required,
+					acctest.Create,
+					JmsFleetAdvancedFeatureConfigurationRepresentation,
+				),
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
 			ResourceName:            resourceName,
 		},
 	})
-}
-
-// clean up Fleet resource after test
-func init() {
-	if acctest.DependencyGraph == nil {
-		acctest.InitDependencyGraph()
-	}
-	if !acctest.InSweeperExcludeList("JmsFleetAdvancedFeatureConfiguration") {
-		resource.AddTestSweepers("JmsFleetAdvancedFeatureConfiguration", &resource.Sweeper{
-			Name:         "JmsFleetAdvancedFeatureConfiguration",
-			Dependencies: acctest.DependencyGraph["fleet"],
-			F:            sweepJmsFleetResource,
-		})
-	}
 }

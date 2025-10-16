@@ -10,18 +10,13 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
-
-	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	JmsFleetUncorrelatedPackageFleetId           = utils.GetEnvSettingWithBlankDefault("fleet_ocid")
-	JmsFleetUncorrelatedPackageManagedInstanceId = utils.GetEnvSettingWithBlankDefault("managed_instance_ocid")
-
 	JmsFleetUncorrelatedPackageDataSourceRepresentation = map[string]interface{}{
-		"fleet_id":            acctest.Representation{RepType: acctest.Required, Create: JmsFleetUncorrelatedPackageFleetId},
+		"fleet_id":            acctest.Representation{RepType: acctest.Required, Create: JmsFleetId},
 		"application_id":      acctest.Representation{RepType: acctest.Optional, Create: `dummy-application-id`},
-		"managed_instance_id": acctest.Representation{RepType: acctest.Optional, Create: JmsFleetUncorrelatedPackageManagedInstanceId},
+		"managed_instance_id": acctest.Representation{RepType: acctest.Optional, Create: JmsManagedInstanceId},
 		"package_name":        acctest.Representation{RepType: acctest.Optional, Create: `packageName`},
 		"time_end":            acctest.Representation{RepType: acctest.Optional, Create: `2025-07-10T15:15:15.000Z`},
 		"time_start":          acctest.Representation{RepType: acctest.Optional, Create: `2025-07-10T15:15:15.000Z`},

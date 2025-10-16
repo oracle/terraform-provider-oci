@@ -421,7 +421,12 @@ func updateJmsFleetAdvancedFeatureConfiguration(d *schema.ResourceData, m interf
 }
 
 func deleteJmsFleetAdvancedFeatureConfiguration(d *schema.ResourceData, m interface{}) error {
-	return nil
+	sync := &JmsFleetAdvancedFeatureConfigurationResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*client.OracleClients).JavaManagementServiceClient()
+	sync.DisableNotFoundRetries = true
+
+	return tfresource.DeleteResource(d, sync)
 }
 
 type JmsFleetAdvancedFeatureConfigurationResourceCrud struct {
@@ -648,6 +653,10 @@ func (s *JmsFleetAdvancedFeatureConfigurationResourceCrud) Update() error {
 	}
 
 	s.Res = &response.FleetAdvancedFeatureConfiguration
+	return nil
+}
+
+func (s *JmsFleetAdvancedFeatureConfigurationResourceCrud) Delete() error {
 	return nil
 }
 

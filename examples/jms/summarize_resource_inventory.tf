@@ -3,8 +3,8 @@
 
 data "oci_jms_summarize_resource_inventory" "test_summarize_resource_inventories" {
 
-  #Optional
   compartment_id = var.compartment_ocid
+  #Optional
   time_end       = var.time_end
   time_start     = var.time_start
 }

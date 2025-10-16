@@ -10,14 +10,11 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
-
-	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	JmsPluginErrorAnalyticCompartmentId            = utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	JmsPluginErrorAnalyticDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":            acctest.Representation{RepType: acctest.Optional, Create: JmsPluginErrorAnalyticCompartmentId},
+		"compartment_id":            acctest.Representation{RepType: acctest.Optional, Create: JmsCompartmentId},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 
@@ -52,13 +49,10 @@ func TestJmsPluginErrorAnalyticResource_basic(t *testing.T) {
 					acctest.Create,
 					JmsPluginErrorAnalyticDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(datasourceName, "compartment_id", JmsPluginErrorAnalyticCompartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", JmsCompartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "plugin_error_aggregation_collection.#"),
-				// we can only verify that response contain zero items because we are using dummy test data values
-				// we cannot use actual values because it requires create API.
-				resource.TestCheckResourceAttr(datasourceName, "plugin_error_aggregation_collection.0.items.#", "0"),
 			),
 		},
 		// verify singular datasource

@@ -10,21 +10,16 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
-
-	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	JmsFleetContainerFleetId           = utils.GetEnvSettingWithBlankDefault("fleet_ocid")
-	JmsFleetContainerManagedInstanceId = utils.GetEnvSettingWithBlankDefault("managed_instance_ocid")
-
 	JmsFleetContainerDataSourceRepresentation = map[string]interface{}{
-		"fleet_id":                              acctest.Representation{RepType: acctest.Required, Create: JmsFleetContainerFleetId},
+		"fleet_id":                              acctest.Representation{RepType: acctest.Required, Create: JmsFleetId},
 		"application_name":                      acctest.Representation{RepType: acctest.Optional, Create: `dummy-application-name`},
 		"display_name":                          acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
 		"jre_security_status":                   acctest.Representation{RepType: acctest.Optional, Create: `EARLY_ACCESS`},
 		"jre_version":                           acctest.Representation{RepType: acctest.Optional, Create: `jreVersion`},
-		"managed_instance_id":                   acctest.Representation{RepType: acctest.Optional, Create: JmsFleetContainerManagedInstanceId},
+		"managed_instance_id":                   acctest.Representation{RepType: acctest.Optional, Create: JmsManagedInstanceId},
 		"time_started_greater_than_or_equal_to": acctest.Representation{RepType: acctest.Optional, Create: `2025-07-10T15:15:15.000Z`},
 		"time_started_less_than_or_equal_to":    acctest.Representation{RepType: acctest.Optional, Create: `2025-07-10T15:15:15.000Z`},
 	}
