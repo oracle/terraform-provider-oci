@@ -64,3 +64,25 @@ resource "oci_core_subnet" "ad_subnet" {
   dhcp_options_id     = oci_core_vcn.vcn1.default_dhcp_options_id
 }
 
+// A subnet with multiple Ipv4 cidr blocks
+resource "oci_core_subnet" "multiple_cidr_subnet" {
+  ipv4cidr_blocks   = ["10.0.3.0/24", "10.0.4.0/24"]
+  display_name      = "multipleCidrSubnet"
+  dns_label         = "multiplecidr"
+  compartment_id    = var.compartment_ocid
+  vcn_id            = oci_core_vcn.vcn1.id
+  security_list_ids = [oci_core_vcn.vcn1.default_security_list_id]
+  route_table_id    = oci_core_vcn.vcn1.default_route_table_id
+  dhcp_options_id   = oci_core_vcn.vcn1.default_dhcp_options_id
+}
+
+# List Private IPs
+data "oci_core_subnets" "subnet_datasource" {
+  vcn_id = oci_core_subnet.regional_subnet.vcn_id
+  compartment_id = oci_core_subnet.regional_subnet.compartment_id
+}
+
+output "subnets" {
+  value = [data.oci_core_subnets.subnet_datasource.subnets]
+}
+

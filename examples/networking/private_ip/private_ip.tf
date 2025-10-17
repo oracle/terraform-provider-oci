@@ -40,7 +40,7 @@ resource "oci_core_subnet" "example_subnet" {
 }
 
 variable "instance_shape" {
-  default = "VM.Standard.E4.Flex"
+  default = "VM.Standard.A1.Flex"
 }
 
 variable "instance_ocpus" { default = 1 }
@@ -54,6 +54,7 @@ data "oci_core_images" "test_images" {
   operating_system_version = "8"
   sort_by                  = "TIMECREATED"
   sort_order               = "DESC"
+  shape                    = "VM.Standard.A1.Flex"
 }
 
 # Create Instance
@@ -101,7 +102,6 @@ resource "oci_core_private_ip" "private_ip" {
 
 # List Private IPs
 data "oci_core_private_ips" "private_ip_datasource" {
-  depends_on = [oci_core_private_ip.private_ip]
   vnic_id    = oci_core_private_ip.private_ip.vnic_id
 }
 

@@ -598,6 +598,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Computed: true,
 													ForceNew: true,
 												},
+												"subnet_cidr": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
 												"subnet_id": {
 													Type:     schema.TypeString,
 													Optional: true,
@@ -1676,6 +1682,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 																Computed: true,
 																ForceNew: true,
 															},
+															"subnet_cidr": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
 															"subnet_id": {
 																Type:     schema.TypeString,
 																Optional: true,
@@ -2338,6 +2350,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 																Computed: true,
 																ForceNew: true,
 															},
+															"subnet_cidr": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
 															"subnet_id": {
 																Type:     schema.TypeString,
 																Optional: true,
@@ -2489,6 +2507,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 												},
 												"skip_source_dest_check": {
 													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"subnet_cidr": {
+													Type:     schema.TypeString,
 													Optional: true,
 													Computed: true,
 													ForceNew: true,
@@ -3241,6 +3265,11 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationCreate
 		result.SkipSourceDestCheck = &tmp
 	}
 
+	if subnetCidr, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_cidr")); ok {
+		tmp := subnetCidr.(string)
+		result.SubnetCidr = &tmp
+	}
+
 	if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
 		tmp := subnetId.(string)
 		result.SubnetId = &tmp
@@ -3304,6 +3333,10 @@ func InstanceConfigurationCreateVnicDetailsToMap(obj *oci_core.InstanceConfigura
 
 	if obj.SkipSourceDestCheck != nil {
 		result["skip_source_dest_check"] = bool(*obj.SkipSourceDestCheck)
+	}
+
+	if obj.SubnetCidr != nil {
+		result["subnet_cidr"] = string(*obj.SubnetCidr)
 	}
 
 	if obj.SubnetId != nil {
