@@ -128,6 +128,7 @@ resource "oci_core_instance" "test_instance" {
     assign_public_ip          = true
     assign_private_dns_record = true
     hostname_label            = "exampleinstance${count.index}"
+    //subnet_cidr          = "10.1.20.0/24"
   }
 
   source_details {
@@ -342,7 +343,8 @@ resource "oci_core_default_route_table" "default_route_table" {
 
 resource "oci_core_subnet" "test_subnet" {
   availability_domain = data.oci_identity_availability_domain.ad.name
-  cidr_block          = "10.1.20.0/24"
+ cidr_block          = "10.1.20.0/24"
+  //ipv4_cidr_blocks          = ["10.1.20.0/24", "10.1.21.0/24"]
   display_name        = "TestSubnet"
   dns_label           = "testsubnet"
   security_list_ids   = [oci_core_vcn.test_vcn.default_security_list_id]
@@ -354,6 +356,6 @@ resource "oci_core_subnet" "test_subnet" {
 
 data "oci_identity_availability_domain" "ad" {
   compartment_id = var.tenancy_ocid
-  ad_number      = 1
+  ad_number      = 2
 }
 

@@ -270,6 +270,13 @@ func CoreInstanceResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"subnet_cidr": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: suppressDiffIfOldIsEmptyString,
+						},
 						"subnet_id": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -2064,6 +2071,11 @@ func (s *CoreInstanceResourceCrud) mapToCreateVnicDetailsInstance(fieldKeyFormat
 	if skipSourceDestCheck, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "skip_source_dest_check")); ok {
 		tmp := skipSourceDestCheck.(bool)
 		result.SkipSourceDestCheck = &tmp
+	}
+
+	if subnetCidr, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_cidr")); ok {
+		tmp := subnetCidr.(string)
+		result.SubnetCidr = &tmp
 	}
 
 	if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
