@@ -6,6 +6,7 @@ package oda
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_oda "github.com/oracle/oci-go-sdk/v65/oda"
 
@@ -23,15 +24,15 @@ func OdaOdaPrivateEndpointScanProxyDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(OdaOdaPrivateEndpointScanProxyResource(), fieldMap, readSingularOdaOdaPrivateEndpointScanProxy)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(OdaOdaPrivateEndpointScanProxyResource(), fieldMap, readSingularOdaOdaPrivateEndpointScanProxyWithContext)
 }
 
-func readSingularOdaOdaPrivateEndpointScanProxy(d *schema.ResourceData, m interface{}) error {
+func readSingularOdaOdaPrivateEndpointScanProxyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OdaOdaPrivateEndpointScanProxyDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type OdaOdaPrivateEndpointScanProxyDataSourceCrud struct {
@@ -44,7 +45,7 @@ func (s *OdaOdaPrivateEndpointScanProxyDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OdaOdaPrivateEndpointScanProxyDataSourceCrud) Get() error {
+func (s *OdaOdaPrivateEndpointScanProxyDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_oda.GetOdaPrivateEndpointScanProxyRequest{}
 
 	if odaPrivateEndpointId, ok := s.D.GetOkExists("oda_private_endpoint_id"); ok {
@@ -59,7 +60,7 @@ func (s *OdaOdaPrivateEndpointScanProxyDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "oda")
 
-	response, err := s.Client.GetOdaPrivateEndpointScanProxy(context.Background(), request)
+	response, err := s.Client.GetOdaPrivateEndpointScanProxy(ctx, request)
 	if err != nil {
 		return err
 	}

@@ -6,10 +6,11 @@ package datacatalog
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_datacatalog "github.com/oracle/oci-go-sdk/v65/datacatalog"
-	"github.com/oracle/terraform-provider-oci/internal/client"
 
+	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
@@ -19,15 +20,15 @@ func DatacatalogCatalogDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatacatalogCatalogResource(), fieldMap, readSingularDatacatalogCatalog)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatacatalogCatalogResource(), fieldMap, readSingularDatacatalogCatalogWithContext)
 }
 
-func readSingularDatacatalogCatalog(d *schema.ResourceData, m interface{}) error {
+func readSingularDatacatalogCatalogWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatacatalogCatalogDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataCatalogClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatacatalogCatalogDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DatacatalogCatalogDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatacatalogCatalogDataSourceCrud) Get() error {
+func (s *DatacatalogCatalogDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_datacatalog.GetCatalogRequest{}
 
 	if catalogId, ok := s.D.GetOkExists("catalog_id"); ok {
@@ -50,7 +51,7 @@ func (s *DatacatalogCatalogDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datacatalog")
 
-	response, err := s.Client.GetCatalog(context.Background(), request)
+	response, err := s.Client.GetCatalog(ctx, request)
 	if err != nil {
 		return err
 	}

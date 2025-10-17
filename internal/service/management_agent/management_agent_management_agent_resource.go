@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_management_agent "github.com/oracle/oci-go-sdk/v65/managementagent"
 
@@ -25,11 +25,11 @@ func ManagementAgentManagementAgentResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createManagementAgentManagementAgent,
-		Read:     readManagementAgentManagementAgent,
-		Update:   updateManagementAgentManagementAgent,
-		Delete:   deleteManagementAgentManagementAgent,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createManagementAgentManagementAgentWithContext,
+		ReadContext:   readManagementAgentManagementAgentWithContext,
+		UpdateContext: updateManagementAgentManagementAgentWithContext,
+		DeleteContext: deleteManagementAgentManagementAgentWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"managed_agent_id": {
@@ -350,37 +350,33 @@ func ManagementAgentManagementAgentResource() *schema.Resource {
 	}
 }
 
-func createManagementAgentManagementAgent(d *schema.ResourceData, m interface{}) error {
+func createManagementAgentManagementAgentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	return nil
+}
+
+func readManagementAgentManagementAgentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ManagementAgentManagementAgentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagementAgentClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func readManagementAgentManagementAgent(d *schema.ResourceData, m interface{}) error {
+func updateManagementAgentManagementAgentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ManagementAgentManagementAgentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagementAgentClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func updateManagementAgentManagementAgent(d *schema.ResourceData, m interface{}) error {
-	sync := &ManagementAgentManagementAgentResourceCrud{}
-	sync.D = d
-	sync.Client = m.(*client.OracleClients).ManagementAgentClient()
-
-	return tfresource.UpdateResource(d, sync)
-}
-
-func deleteManagementAgentManagementAgent(d *schema.ResourceData, m interface{}) error {
+func deleteManagementAgentManagementAgentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ManagementAgentManagementAgentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagementAgentClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type ManagementAgentManagementAgentResourceCrud struct {
@@ -419,17 +415,17 @@ func (s *ManagementAgentManagementAgentResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *ManagementAgentManagementAgentResourceCrud) getManagementAgentFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *ManagementAgentManagementAgentResourceCrud) getManagementAgentFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_management_agent.ActionTypesEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	managementAgentId, err := managementAgentWaitForWorkRequest(workId, "managementagent",
+	managementAgentId, err := managementAgentWaitForWorkRequest(ctx, workId, "managementagent",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, managementAgentId)
-		_, cancelErr := s.Client.DeleteWorkRequest(context.Background(),
+		_, cancelErr := s.Client.DeleteWorkRequest(ctx,
 			oci_management_agent.DeleteWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -443,7 +439,7 @@ func (s *ManagementAgentManagementAgentResourceCrud) getManagementAgentFromWorkR
 	}
 	s.D.SetId(*managementAgentId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func managementAgentWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -469,7 +465,7 @@ func managementAgentWorkRequestShouldRetryFunc(timeout time.Duration) func(respo
 	}
 }
 
-func managementAgentWaitForWorkRequest(wId *string, entityType string, action oci_management_agent.ActionTypesEnum,
+func managementAgentWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_management_agent.ActionTypesEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_management_agent.ManagementAgentClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "management_agent")
 	retryPolicy.ShouldRetryOperation = managementAgentWorkRequestShouldRetryFunc(timeout)
@@ -488,7 +484,7 @@ func managementAgentWaitForWorkRequest(wId *string, entityType string, action oc
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_management_agent.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -517,7 +513,7 @@ func managementAgentWaitForWorkRequest(wId *string, entityType string, action oc
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_management_agent.OperationStatusFailed || response.Status == oci_management_agent.OperationStatusCanceled {
-		return nil, getErrorFromManagementAgentManagementAgentWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromManagementAgentManagementAgentWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
@@ -571,9 +567,8 @@ func managementAgentWaitForInstanceAgent(hostId *string, compartmentId *string,
 	}
 
 }
-
-func getErrorFromManagementAgentManagementAgentWorkRequest(client *oci_management_agent.ManagementAgentClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_management_agent.ActionTypesEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromManagementAgentManagementAgentWorkRequest(ctx context.Context, client *oci_management_agent.ManagementAgentClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_management_agent.ActionTypesEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_management_agent.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -595,7 +590,7 @@ func getErrorFromManagementAgentManagementAgentWorkRequest(client *oci_managemen
 	return workRequestErr
 }
 
-func (s *ManagementAgentManagementAgentResourceCrud) Get() error {
+func (s *ManagementAgentManagementAgentResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_management_agent.GetManagementAgentRequest{}
 
 	if managedInstanceId, ok := s.D.GetOkExists("managed_agent_id"); ok {
@@ -607,7 +602,7 @@ func (s *ManagementAgentManagementAgentResourceCrud) Get() error {
 	request.ManagementAgentId = &managedInstanceId
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "management_agent")
 
-	response, err := s.Client.GetManagementAgent(context.Background(), request)
+	response, err := s.Client.GetManagementAgent(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -616,7 +611,7 @@ func (s *ManagementAgentManagementAgentResourceCrud) Get() error {
 	return nil
 }
 
-func (s *ManagementAgentManagementAgentResourceCrud) Update() error {
+func (s *ManagementAgentManagementAgentResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_management_agent.UpdateManagementAgentRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -646,7 +641,7 @@ func (s *ManagementAgentManagementAgentResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "management_agent")
 
-	response, err := s.Client.UpdateManagementAgent(context.Background(), request)
+	response, err := s.Client.UpdateManagementAgent(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -668,14 +663,13 @@ func (s *ManagementAgentManagementAgentResourceCrud) Update() error {
 
 		if len(deployPluginsId) != 0 && s.D.HasChange("deploy_plugins_id") {
 			comparmtentId := response.CompartmentId
-			if err = s.deployPlugin(deployPluginsId, agentId, *comparmtentId); err != nil {
+			if err = s.deployPlugin(ctx, deployPluginsId, agentId, *comparmtentId); err != nil {
 				return err
 			}
 		}
 	}
 	return nil
 }
-
 func contains(s []oci_management_agent.ManagementAgentPluginDetails, str string) bool {
 	for _, v := range s {
 		if *v.PluginId == str {
@@ -684,7 +678,8 @@ func contains(s []oci_management_agent.ManagementAgentPluginDetails, str string)
 	}
 	return false
 }
-func (s *ManagementAgentManagementAgentResourceCrud) Delete() error {
+
+func (s *ManagementAgentManagementAgentResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_management_agent.DeleteManagementAgentRequest{}
 
 	tmp := s.D.Id()
@@ -692,7 +687,7 @@ func (s *ManagementAgentManagementAgentResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "management_agent")
 
-	_, err := s.Client.DeleteManagementAgent(context.Background(), request)
+	_, err := s.Client.DeleteManagementAgent(ctx, request)
 	return err
 }
 
@@ -1003,20 +998,17 @@ func (s *ManagementAgentManagementAgentResourceCrud) mapToMetricDimension(fieldK
 	return result, nil
 }
 
-func (s *ManagementAgentManagementAgentResourceCrud) Create() error {
-
+func (s *ManagementAgentManagementAgentResourceCrud) CreateWithContext(ctx context.Context) error {
 	// During create, the user can set new value for tags and or display_name
 	// During create, the s.D is updated with s.Get to the current values in MACS
 	// so we keep a copy of the required values locally, and then set them during the update if necessary
 	freeformtags, freeformtagsok := s.D.GetOkExists("freeform_tags")
 	definedtags, definedtagsok := s.D.GetOkExists("defined_tags")
 	displayname, displaynameok := s.D.GetOkExists("display_name")
-
-	e := s.Get()
+	e := s.GetWithContext(ctx)
 	if e != nil {
 		return e
 	}
-
 	if e := s.SetData(); e != nil {
 		return e
 	}
@@ -1033,10 +1025,10 @@ func (s *ManagementAgentManagementAgentResourceCrud) Create() error {
 		log.Printf("[DEBUG] Updating agent displayname to %v", displayname)
 		s.D.Set("display_name", displayname)
 	}
-	return s.Update()
+	return s.UpdateWithContext(ctx)
 }
 
-func (s *ManagementAgentManagementAgentResourceCrud) deployPlugin(pluginIds []string, agentId string, compartmentId string) error {
+func (s *ManagementAgentManagementAgentResourceCrud) deployPlugin(ctx context.Context, pluginIds []string, agentId string, compartmentId string) error {
 	request := oci_management_agent.DeployPluginsRequest{}
 	request.AgentIds = append(request.AgentIds, agentId)
 	request.AgentCompartmentId = &compartmentId
@@ -1050,7 +1042,7 @@ func (s *ManagementAgentManagementAgentResourceCrud) deployPlugin(pluginIds []st
 	}
 	workRequestId := response.OpcWorkRequestId
 
-	_, workRequestErr := managementAgentWaitForWorkRequest(workRequestId, "managementagent",
+	_, workRequestErr := managementAgentWaitForWorkRequest(ctx, workRequestId, "managementagent",
 		oci_management_agent.ActionTypesUpdated, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return workRequestErr
 }

@@ -10,12 +10,12 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_email "github.com/oracle/oci-go-sdk/v65/email"
 )
@@ -25,11 +25,11 @@ func EmailDkimResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createEmailDkim,
-		Read:     readEmailDkim,
-		Update:   updateEmailDkim,
-		Delete:   deleteEmailDkim,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createEmailDkimWithContext,
+		ReadContext:   readEmailDkimWithContext,
+		UpdateContext: updateEmailDkimWithContext,
+		DeleteContext: deleteEmailDkimWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"email_domain_id": {
@@ -121,37 +121,37 @@ func EmailDkimResource() *schema.Resource {
 	}
 }
 
-func createEmailDkim(d *schema.ResourceData, m interface{}) error {
+func createEmailDkimWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &EmailDkimResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).EmailClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readEmailDkim(d *schema.ResourceData, m interface{}) error {
+func readEmailDkimWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &EmailDkimResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).EmailClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateEmailDkim(d *schema.ResourceData, m interface{}) error {
+func updateEmailDkimWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &EmailDkimResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).EmailClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteEmailDkim(d *schema.ResourceData, m interface{}) error {
+func deleteEmailDkimWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &EmailDkimResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).EmailClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type EmailDkimResourceCrud struct {
@@ -190,7 +190,7 @@ func (s *EmailDkimResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *EmailDkimResourceCrud) Create() error {
+func (s *EmailDkimResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_email.CreateDkimRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -227,7 +227,7 @@ func (s *EmailDkimResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "email")
 
-	response, err := s.Client.CreateDkim(context.Background(), request)
+	response, err := s.Client.CreateDkim(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -238,14 +238,14 @@ func (s *EmailDkimResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getDkimFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "email"), oci_email.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDkimFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "email"), oci_email.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *EmailDkimResourceCrud) getDkimFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *EmailDkimResourceCrud) getDkimFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_email.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	dkimId, err := dkimWaitForWorkRequest(workId, "email",
+	dkimId, err := dkimWaitForWorkRequest(ctx, workId, "email",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -255,7 +255,7 @@ func (s *EmailDkimResourceCrud) getDkimFromWorkRequest(workId *string, retryPoli
 	}
 	s.D.SetId(*dkimId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func dkimWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -281,7 +281,7 @@ func dkimWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_com
 	}
 }
 
-func dkimWaitForWorkRequest(wId *string, entityType string, action oci_email.ActionTypeEnum,
+func dkimWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_email.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_email.EmailClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "email")
 	retryPolicy.ShouldRetryOperation = dkimWorkRequestShouldRetryFunc(timeout)
@@ -300,7 +300,7 @@ func dkimWaitForWorkRequest(wId *string, entityType string, action oci_email.Act
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_email.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -329,14 +329,14 @@ func dkimWaitForWorkRequest(wId *string, entityType string, action oci_email.Act
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_email.OperationStatusFailed || response.Status == oci_email.OperationStatusCanceled {
-		return nil, getErrorFromEmailDkimWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromEmailDkimWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromEmailDkimWorkRequest(client *oci_email.EmailClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_email.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromEmailDkimWorkRequest(ctx context.Context, client *oci_email.EmailClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_email.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_email.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -358,7 +358,7 @@ func getErrorFromEmailDkimWorkRequest(client *oci_email.EmailClient, workId *str
 	return workRequestErr
 }
 
-func (s *EmailDkimResourceCrud) Get() error {
+func (s *EmailDkimResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_email.GetDkimRequest{}
 
 	tmp := s.D.Id()
@@ -366,7 +366,7 @@ func (s *EmailDkimResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "email")
 
-	response, err := s.Client.GetDkim(context.Background(), request)
+	response, err := s.Client.GetDkim(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -375,7 +375,7 @@ func (s *EmailDkimResourceCrud) Get() error {
 	return nil
 }
 
-func (s *EmailDkimResourceCrud) Update() error {
+func (s *EmailDkimResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_email.UpdateDkimRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -400,16 +400,16 @@ func (s *EmailDkimResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "email")
 
-	response, err := s.Client.UpdateDkim(context.Background(), request)
+	response, err := s.Client.UpdateDkim(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDkimFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "email"), oci_email.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDkimFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "email"), oci_email.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *EmailDkimResourceCrud) Delete() error {
+func (s *EmailDkimResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_email.DeleteDkimRequest{}
 
 	tmp := s.D.Id()
@@ -417,14 +417,14 @@ func (s *EmailDkimResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "email")
 
-	response, err := s.Client.DeleteDkim(context.Background(), request)
+	response, err := s.Client.DeleteDkim(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := dkimWaitForWorkRequest(workId, "email",
+	_, delWorkRequestErr := dkimWaitForWorkRequest(ctx, workId, "email",
 		oci_email.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }

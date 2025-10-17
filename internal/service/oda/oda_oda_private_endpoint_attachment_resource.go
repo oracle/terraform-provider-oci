@@ -9,9 +9,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_oda "github.com/oracle/oci-go-sdk/v65/oda"
 
@@ -24,10 +24,10 @@ func OdaOdaPrivateEndpointAttachmentResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createOdaOdaPrivateEndpointAttachment,
-		Read:     readOdaOdaPrivateEndpointAttachment,
-		Delete:   deleteOdaOdaPrivateEndpointAttachment,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createOdaOdaPrivateEndpointAttachmentWithContext,
+		ReadContext:   readOdaOdaPrivateEndpointAttachmentWithContext,
+		DeleteContext: deleteOdaOdaPrivateEndpointAttachmentWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"oda_instance_id": {
@@ -64,32 +64,32 @@ func OdaOdaPrivateEndpointAttachmentResource() *schema.Resource {
 	}
 }
 
-func createOdaOdaPrivateEndpointAttachment(d *schema.ResourceData, m interface{}) error {
+func createOdaOdaPrivateEndpointAttachmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OdaOdaPrivateEndpointAttachmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagementClient()
 	sync.OdaClient = m.(*client.OracleClients).OdaClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readOdaOdaPrivateEndpointAttachment(d *schema.ResourceData, m interface{}) error {
+func readOdaOdaPrivateEndpointAttachmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OdaOdaPrivateEndpointAttachmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagementClient()
 	sync.OdaClient = m.(*client.OracleClients).OdaClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func deleteOdaOdaPrivateEndpointAttachment(d *schema.ResourceData, m interface{}) error {
+func deleteOdaOdaPrivateEndpointAttachmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OdaOdaPrivateEndpointAttachmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagementClient()
 	sync.OdaClient = m.(*client.OracleClients).OdaClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type OdaOdaPrivateEndpointAttachmentResourceCrud struct {
@@ -128,7 +128,7 @@ func (s *OdaOdaPrivateEndpointAttachmentResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *OdaOdaPrivateEndpointAttachmentResourceCrud) Create() error {
+func (s *OdaOdaPrivateEndpointAttachmentResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_oda.CreateOdaPrivateEndpointAttachmentRequest{}
 
 	if odaInstanceId, ok := s.D.GetOkExists("oda_instance_id"); ok {
@@ -143,7 +143,7 @@ func (s *OdaOdaPrivateEndpointAttachmentResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "oda")
 
-	response, err := s.Client.CreateOdaPrivateEndpointAttachment(context.Background(), request)
+	response, err := s.Client.CreateOdaPrivateEndpointAttachment(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -154,14 +154,14 @@ func (s *OdaOdaPrivateEndpointAttachmentResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getOdaPrivateEndpointAttachmentFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "oda"), oci_oda.WorkRequestResourceResourceActionCreate, s.D.Timeout(schema.TimeoutCreate))
+	return s.getOdaPrivateEndpointAttachmentFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "oda"), oci_oda.WorkRequestResourceResourceActionCreate, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *OdaOdaPrivateEndpointAttachmentResourceCrud) getOdaPrivateEndpointAttachmentFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OdaOdaPrivateEndpointAttachmentResourceCrud) getOdaPrivateEndpointAttachmentFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_oda.WorkRequestResourceResourceActionEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	odaPrivateEndpointAttachmentId, err := odaPrivateEndpointAttachmentWaitForWorkRequest(workId, "oda",
+	odaPrivateEndpointAttachmentId, err := odaPrivateEndpointAttachmentWaitForWorkRequest(ctx, workId, "oda",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.OdaClient)
 
 	if err != nil {
@@ -169,7 +169,7 @@ func (s *OdaOdaPrivateEndpointAttachmentResourceCrud) getOdaPrivateEndpointAttac
 	}
 	s.D.SetId(*odaPrivateEndpointAttachmentId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func odaPrivateEndpointAttachmentWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -195,7 +195,7 @@ func odaPrivateEndpointAttachmentWorkRequestShouldRetryFunc(timeout time.Duratio
 	}
 }
 
-func odaPrivateEndpointAttachmentWaitForWorkRequest(wId *string, entityType string, action oci_oda.WorkRequestResourceResourceActionEnum,
+func odaPrivateEndpointAttachmentWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_oda.WorkRequestResourceResourceActionEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_oda.OdaClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "oda")
 	retryPolicy.ShouldRetryOperation = odaPrivateEndpointAttachmentWorkRequestShouldRetryFunc(timeout)
@@ -214,7 +214,7 @@ func odaPrivateEndpointAttachmentWaitForWorkRequest(wId *string, entityType stri
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_oda.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -243,14 +243,14 @@ func odaPrivateEndpointAttachmentWaitForWorkRequest(wId *string, entityType stri
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_oda.WorkRequestStatusFailed || response.Status == oci_oda.WorkRequestStatusCanceled {
-		return nil, getErrorFromOdaOdaPrivateEndpointAttachmentWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOdaOdaPrivateEndpointAttachmentWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOdaOdaPrivateEndpointAttachmentWorkRequest(client *oci_oda.OdaClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_oda.WorkRequestResourceResourceActionEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromOdaOdaPrivateEndpointAttachmentWorkRequest(ctx context.Context, client *oci_oda.OdaClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_oda.WorkRequestResourceResourceActionEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_oda.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -272,7 +272,7 @@ func getErrorFromOdaOdaPrivateEndpointAttachmentWorkRequest(client *oci_oda.OdaC
 	return workRequestErr
 }
 
-func (s *OdaOdaPrivateEndpointAttachmentResourceCrud) Get() error {
+func (s *OdaOdaPrivateEndpointAttachmentResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_oda.GetOdaPrivateEndpointAttachmentRequest{}
 
 	tmp := s.D.Id()
@@ -280,7 +280,7 @@ func (s *OdaOdaPrivateEndpointAttachmentResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "oda")
 
-	response, err := s.Client.GetOdaPrivateEndpointAttachment(context.Background(), request)
+	response, err := s.Client.GetOdaPrivateEndpointAttachment(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -289,7 +289,7 @@ func (s *OdaOdaPrivateEndpointAttachmentResourceCrud) Get() error {
 	return nil
 }
 
-func (s *OdaOdaPrivateEndpointAttachmentResourceCrud) Delete() error {
+func (s *OdaOdaPrivateEndpointAttachmentResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_oda.DeleteOdaPrivateEndpointAttachmentRequest{}
 
 	tmp := s.D.Id()
@@ -297,14 +297,14 @@ func (s *OdaOdaPrivateEndpointAttachmentResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "oda")
 
-	response, err := s.Client.DeleteOdaPrivateEndpointAttachment(context.Background(), request)
+	response, err := s.Client.DeleteOdaPrivateEndpointAttachment(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := odaPrivateEndpointAttachmentWaitForWorkRequest(workId, "oda",
+	_, delWorkRequestErr := odaPrivateEndpointAttachmentWaitForWorkRequest(ctx, workId, "oda",
 		oci_oda.WorkRequestResourceResourceActionDelete, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.OdaClient)
 	return delWorkRequestErr
 }

@@ -7,6 +7,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_recovery "github.com/oracle/oci-go-sdk/v65/recovery"
 
@@ -20,15 +21,15 @@ func RecoveryLongTermBackupDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(RecoveryLongTermBackupResource(), fieldMap, readSingularRecoveryLongTermBackup)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(RecoveryLongTermBackupResource(), fieldMap, readSingularRecoveryLongTermBackupWithContext)
 }
 
-func readSingularRecoveryLongTermBackup(d *schema.ResourceData, m interface{}) error {
+func readSingularRecoveryLongTermBackupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &RecoveryLongTermBackupDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseRecoveryClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type RecoveryLongTermBackupDataSourceCrud struct {
@@ -41,7 +42,7 @@ func (s *RecoveryLongTermBackupDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *RecoveryLongTermBackupDataSourceCrud) Get() error {
+func (s *RecoveryLongTermBackupDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_recovery.GetLongTermBackupRequest{}
 
 	if longTermBackupId, ok := s.D.GetOkExists("long_term_backup_id"); ok {
@@ -51,7 +52,7 @@ func (s *RecoveryLongTermBackupDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "recovery")
 
-	response, err := s.Client.GetLongTermBackup(context.Background(), request)
+	response, err := s.Client.GetLongTermBackup(ctx, request)
 	if err != nil {
 		return err
 	}

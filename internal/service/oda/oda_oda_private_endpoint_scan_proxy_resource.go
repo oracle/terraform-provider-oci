@@ -12,9 +12,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_oda "github.com/oracle/oci-go-sdk/v65/oda"
 
@@ -32,9 +32,9 @@ func OdaOdaPrivateEndpointScanProxyResource() *schema.Resource {
 			Update: schema.DefaultTimeout(45 * time.Minute),
 			Delete: schema.DefaultTimeout(20 * time.Minute),
 		},
-		Create: createOdaOdaPrivateEndpointScanProxy,
-		Read:   readOdaOdaPrivateEndpointScanProxy,
-		Delete: deleteOdaOdaPrivateEndpointScanProxy,
+		CreateContext: createOdaOdaPrivateEndpointScanProxyWithContext,
+		ReadContext:   readOdaOdaPrivateEndpointScanProxyWithContext,
+		DeleteContext: deleteOdaOdaPrivateEndpointScanProxyWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"oda_private_endpoint_id": {
@@ -100,32 +100,32 @@ func OdaOdaPrivateEndpointScanProxyResource() *schema.Resource {
 	}
 }
 
-func createOdaOdaPrivateEndpointScanProxy(d *schema.ResourceData, m interface{}) error {
+func createOdaOdaPrivateEndpointScanProxyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OdaOdaPrivateEndpointScanProxyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagementClient()
 	sync.OdaClient = m.(*client.OracleClients).OdaClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readOdaOdaPrivateEndpointScanProxy(d *schema.ResourceData, m interface{}) error {
+func readOdaOdaPrivateEndpointScanProxyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OdaOdaPrivateEndpointScanProxyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagementClient()
 	sync.OdaClient = m.(*client.OracleClients).OdaClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func deleteOdaOdaPrivateEndpointScanProxy(d *schema.ResourceData, m interface{}) error {
+func deleteOdaOdaPrivateEndpointScanProxyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OdaOdaPrivateEndpointScanProxyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagementClient()
 	sync.OdaClient = m.(*client.OracleClients).OdaClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type OdaOdaPrivateEndpointScanProxyResourceCrud struct {
@@ -164,7 +164,7 @@ func (s *OdaOdaPrivateEndpointScanProxyResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *OdaOdaPrivateEndpointScanProxyResourceCrud) Create() error {
+func (s *OdaOdaPrivateEndpointScanProxyResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_oda.CreateOdaPrivateEndpointScanProxyRequest{}
 
 	if odaPrivateEndpointId, ok := s.D.GetOkExists("oda_private_endpoint_id"); ok {
@@ -199,14 +199,14 @@ func (s *OdaOdaPrivateEndpointScanProxyResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "oda")
 
-	response, err := s.Client.CreateOdaPrivateEndpointScanProxy(context.Background(), request)
+	response, err := s.Client.CreateOdaPrivateEndpointScanProxy(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	s.setIdFromWorkRequest(workId)
-	return s.getOdaPrivateEndpointScanProxyFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "oda"), oci_oda.WorkRequestResourceResourceActionCreate, s.D.Timeout(schema.TimeoutCreate))
+	return s.getOdaPrivateEndpointScanProxyFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "oda"), oci_oda.WorkRequestResourceResourceActionCreate, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *OdaOdaPrivateEndpointScanProxyResourceCrud) setIdFromWorkRequest(workId *string) {
@@ -235,11 +235,11 @@ func (s *OdaOdaPrivateEndpointScanProxyResourceCrud) setIdFromWorkRequest(workId
 	}
 }
 
-func (s *OdaOdaPrivateEndpointScanProxyResourceCrud) getOdaPrivateEndpointScanProxyFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OdaOdaPrivateEndpointScanProxyResourceCrud) getOdaPrivateEndpointScanProxyFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_oda.WorkRequestResourceResourceActionEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	odaPrivateEndpointScanProxyId, err := odaPrivateEndpointScanProxyWaitForWorkRequest(workId, "oda",
+	odaPrivateEndpointScanProxyId, err := odaPrivateEndpointScanProxyWaitForWorkRequest(ctx, workId, "oda",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.OdaClient)
 
 	if err != nil {
@@ -247,7 +247,7 @@ func (s *OdaOdaPrivateEndpointScanProxyResourceCrud) getOdaPrivateEndpointScanPr
 	}
 	s.D.SetId(*odaPrivateEndpointScanProxyId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func odaPrivateEndpointScanProxyWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -273,7 +273,7 @@ func odaPrivateEndpointScanProxyWorkRequestShouldRetryFunc(timeout time.Duration
 	}
 }
 
-func odaPrivateEndpointScanProxyWaitForWorkRequest(wId *string, entityType string, action oci_oda.WorkRequestResourceResourceActionEnum,
+func odaPrivateEndpointScanProxyWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_oda.WorkRequestResourceResourceActionEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_oda.OdaClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "oda")
 	retryPolicy.ShouldRetryOperation = odaPrivateEndpointScanProxyWorkRequestShouldRetryFunc(timeout)
@@ -321,14 +321,13 @@ func odaPrivateEndpointScanProxyWaitForWorkRequest(wId *string, entityType strin
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_oda.WorkRequestStatusFailed || response.Status == oci_oda.WorkRequestStatusCanceled {
-		return nil, getErrorFromOdaOdaPrivateEndpointScanProxyWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOdaOdaPrivateEndpointScanProxyWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
-
-func getErrorFromOdaOdaPrivateEndpointScanProxyWorkRequest(client *oci_oda.OdaClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_oda.WorkRequestResourceResourceActionEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromOdaOdaPrivateEndpointScanProxyWorkRequest(ctx context.Context, client *oci_oda.OdaClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_oda.WorkRequestResourceResourceActionEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_oda.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -350,7 +349,7 @@ func getErrorFromOdaOdaPrivateEndpointScanProxyWorkRequest(client *oci_oda.OdaCl
 	return workRequestErr
 }
 
-func (s *OdaOdaPrivateEndpointScanProxyResourceCrud) Get() error {
+func (s *OdaOdaPrivateEndpointScanProxyResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_oda.GetOdaPrivateEndpointScanProxyRequest{}
 
 	if odaPrivateEndpointId, ok := s.D.GetOkExists("oda_private_endpoint_id"); ok {
@@ -371,7 +370,7 @@ func (s *OdaOdaPrivateEndpointScanProxyResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "oda")
 
-	response, err := s.Client.GetOdaPrivateEndpointScanProxy(context.Background(), request)
+	response, err := s.Client.GetOdaPrivateEndpointScanProxy(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -380,7 +379,7 @@ func (s *OdaOdaPrivateEndpointScanProxyResourceCrud) Get() error {
 	return nil
 }
 
-func (s *OdaOdaPrivateEndpointScanProxyResourceCrud) Delete() error {
+func (s *OdaOdaPrivateEndpointScanProxyResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_oda.DeleteOdaPrivateEndpointScanProxyRequest{}
 
 	if odaPrivateEndpointId, ok := s.D.GetOkExists("oda_private_endpoint_id"); ok {
@@ -393,14 +392,14 @@ func (s *OdaOdaPrivateEndpointScanProxyResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "oda")
 
-	response, err := s.Client.DeleteOdaPrivateEndpointScanProxy(context.Background(), request)
+	response, err := s.Client.DeleteOdaPrivateEndpointScanProxy(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := odaPrivateEndpointScanProxyWaitForWorkRequest(workId, "oda",
+	_, delWorkRequestErr := odaPrivateEndpointScanProxyWaitForWorkRequest(ctx, workId, "oda",
 		oci_oda.WorkRequestResourceResourceActionDelete, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.OdaClient)
 	return delWorkRequestErr
 }

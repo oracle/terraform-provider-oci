@@ -6,16 +6,17 @@ package datacatalog
 import (
 	"context"
 
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_datacatalog "github.com/oracle/oci-go-sdk/v65/datacatalog"
+
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func DatacatalogCatalogsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatacatalogCatalogs,
+		ReadContext: readDatacatalogCatalogsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -39,12 +40,12 @@ func DatacatalogCatalogsDataSource() *schema.Resource {
 	}
 }
 
-func readDatacatalogCatalogs(d *schema.ResourceData, m interface{}) error {
+func readDatacatalogCatalogsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatacatalogCatalogsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataCatalogClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatacatalogCatalogsDataSourceCrud struct {
@@ -57,7 +58,7 @@ func (s *DatacatalogCatalogsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatacatalogCatalogsDataSourceCrud) Get() error {
+func (s *DatacatalogCatalogsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_datacatalog.ListCatalogsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -76,7 +77,7 @@ func (s *DatacatalogCatalogsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datacatalog")
 
-	response, err := s.Client.ListCatalogs(context.Background(), request)
+	response, err := s.Client.ListCatalogs(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -85,7 +86,7 @@ func (s *DatacatalogCatalogsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListCatalogs(context.Background(), request)
+		listResponse, err := s.Client.ListCatalogs(ctx, request)
 		if err != nil {
 			return err
 		}

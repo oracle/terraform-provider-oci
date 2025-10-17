@@ -6,6 +6,7 @@ package oda
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_oda "github.com/oracle/oci-go-sdk/v65/oda"
 
@@ -15,7 +16,7 @@ import (
 
 func OdaOdaInstancesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readOdaOdaInstances,
+		ReadContext: readOdaOdaInstancesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -39,12 +40,12 @@ func OdaOdaInstancesDataSource() *schema.Resource {
 	}
 }
 
-func readOdaOdaInstances(d *schema.ResourceData, m interface{}) error {
+func readOdaOdaInstancesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OdaOdaInstancesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OdaClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type OdaOdaInstancesDataSourceCrud struct {
@@ -57,7 +58,7 @@ func (s *OdaOdaInstancesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OdaOdaInstancesDataSourceCrud) Get() error {
+func (s *OdaOdaInstancesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_oda.ListOdaInstancesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -76,7 +77,7 @@ func (s *OdaOdaInstancesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "oda")
 
-	response, err := s.Client.ListOdaInstances(context.Background(), request)
+	response, err := s.Client.ListOdaInstances(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -85,7 +86,7 @@ func (s *OdaOdaInstancesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListOdaInstances(context.Background(), request)
+		listResponse, err := s.Client.ListOdaInstances(ctx, request)
 		if err != nil {
 			return err
 		}

@@ -9,10 +9,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_recovery "github.com/oracle/oci-go-sdk/v65/recovery"
 
@@ -25,11 +25,11 @@ func RecoveryProtectedDatabaseResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createRecoveryProtectedDatabase,
-		Read:     readRecoveryProtectedDatabase,
-		Update:   updateRecoveryProtectedDatabase,
-		Delete:   deleteRecoveryProtectedDatabase,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createRecoveryProtectedDatabaseWithContext,
+		ReadContext:   readRecoveryProtectedDatabaseWithContext,
+		UpdateContext: updateRecoveryProtectedDatabaseWithContext,
+		DeleteContext: deleteRecoveryProtectedDatabaseWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -216,37 +216,37 @@ func RecoveryProtectedDatabaseResource() *schema.Resource {
 	}
 }
 
-func createRecoveryProtectedDatabase(d *schema.ResourceData, m interface{}) error {
+func createRecoveryProtectedDatabaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &RecoveryProtectedDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseRecoveryClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readRecoveryProtectedDatabase(d *schema.ResourceData, m interface{}) error {
+func readRecoveryProtectedDatabaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &RecoveryProtectedDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseRecoveryClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateRecoveryProtectedDatabase(d *schema.ResourceData, m interface{}) error {
+func updateRecoveryProtectedDatabaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &RecoveryProtectedDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseRecoveryClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteRecoveryProtectedDatabase(d *schema.ResourceData, m interface{}) error {
+func deleteRecoveryProtectedDatabaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &RecoveryProtectedDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseRecoveryClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type RecoveryProtectedDatabaseResourceCrud struct {
@@ -285,7 +285,7 @@ func (s *RecoveryProtectedDatabaseResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *RecoveryProtectedDatabaseResourceCrud) Create() error {
+func (s *RecoveryProtectedDatabaseResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_recovery.CreateProtectedDatabaseRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -363,7 +363,7 @@ func (s *RecoveryProtectedDatabaseResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery")
 
-	response, err := s.Client.CreateProtectedDatabase(context.Background(), request)
+	response, err := s.Client.CreateProtectedDatabase(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -374,14 +374,14 @@ func (s *RecoveryProtectedDatabaseResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getProtectedDatabaseFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery"), oci_recovery.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getProtectedDatabaseFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery"), oci_recovery.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *RecoveryProtectedDatabaseResourceCrud) getProtectedDatabaseFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *RecoveryProtectedDatabaseResourceCrud) getProtectedDatabaseFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_recovery.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	protectedDatabaseId, err := protectedDatabaseWaitForWorkRequest(workId, "protecteddatabase",
+	protectedDatabaseId, err := protectedDatabaseWaitForWorkRequest(ctx, workId, "protecteddatabase",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -389,7 +389,7 @@ func (s *RecoveryProtectedDatabaseResourceCrud) getProtectedDatabaseFromWorkRequ
 	}
 	s.D.SetId(*protectedDatabaseId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func protectedDatabaseWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -415,7 +415,7 @@ func protectedDatabaseWorkRequestShouldRetryFunc(timeout time.Duration) func(res
 	}
 }
 
-func protectedDatabaseWaitForWorkRequest(wId *string, entityType string, action oci_recovery.ActionTypeEnum,
+func protectedDatabaseWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_recovery.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_recovery.DatabaseRecoveryClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "recovery")
 	retryPolicy.ShouldRetryOperation = protectedDatabaseWorkRequestShouldRetryFunc(timeout)
@@ -434,7 +434,7 @@ func protectedDatabaseWaitForWorkRequest(wId *string, entityType string, action 
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_recovery.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -463,14 +463,14 @@ func protectedDatabaseWaitForWorkRequest(wId *string, entityType string, action 
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_recovery.OperationStatusFailed || response.Status == oci_recovery.OperationStatusCanceled {
-		return nil, getErrorFromRecoveryProtectedDatabaseWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromRecoveryProtectedDatabaseWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromRecoveryProtectedDatabaseWorkRequest(client *oci_recovery.DatabaseRecoveryClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_recovery.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromRecoveryProtectedDatabaseWorkRequest(ctx context.Context, client *oci_recovery.DatabaseRecoveryClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_recovery.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_recovery.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -492,7 +492,7 @@ func getErrorFromRecoveryProtectedDatabaseWorkRequest(client *oci_recovery.Datab
 	return workRequestErr
 }
 
-func (s *RecoveryProtectedDatabaseResourceCrud) Get() error {
+func (s *RecoveryProtectedDatabaseResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_recovery.GetProtectedDatabaseRequest{}
 
 	tmp := s.D.Id()
@@ -500,7 +500,7 @@ func (s *RecoveryProtectedDatabaseResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery")
 
-	response, err := s.Client.GetProtectedDatabase(context.Background(), request)
+	response, err := s.Client.GetProtectedDatabase(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -509,11 +509,11 @@ func (s *RecoveryProtectedDatabaseResourceCrud) Get() error {
 	return nil
 }
 
-func (s *RecoveryProtectedDatabaseResourceCrud) Update() error {
+func (s *RecoveryProtectedDatabaseResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -521,7 +521,7 @@ func (s *RecoveryProtectedDatabaseResourceCrud) Update() error {
 	}
 
 	if subscription, ok := s.D.GetOkExists("subscription_id"); ok && s.D.HasChange("subscription_id") {
-		err := s.updateSubscription(subscription.(string))
+		err := s.updateSubscription(ctx, subscription.(string))
 		if err != nil {
 			return err
 		}
@@ -587,16 +587,16 @@ func (s *RecoveryProtectedDatabaseResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery")
 
-	response, err := s.Client.UpdateProtectedDatabase(context.Background(), request)
+	response, err := s.Client.UpdateProtectedDatabase(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getProtectedDatabaseFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery"), oci_recovery.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getProtectedDatabaseFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery"), oci_recovery.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *RecoveryProtectedDatabaseResourceCrud) Delete() error {
+func (s *RecoveryProtectedDatabaseResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_recovery.ScheduleProtectedDatabaseDeletionRequest{}
 
 	if deletionSchedule, ok := s.D.GetOkExists("deletion_schedule"); ok {
@@ -608,7 +608,7 @@ func (s *RecoveryProtectedDatabaseResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery")
 
-	_, err := s.Client.ScheduleProtectedDatabaseDeletion(context.Background(), request)
+	_, err := s.Client.ScheduleProtectedDatabaseDeletion(ctx, request)
 	return err
 }
 
@@ -893,7 +893,7 @@ func (s *RecoveryProtectedDatabaseResourceCrud) mapToRecoveryServiceSubnetInput(
 	return result, nil
 }
 
-func (s *RecoveryProtectedDatabaseResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *RecoveryProtectedDatabaseResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_recovery.ChangeProtectedDatabaseCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -904,16 +904,17 @@ func (s *RecoveryProtectedDatabaseResourceCrud) updateCompartment(compartment in
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery")
 
-	response, err := s.Client.ChangeProtectedDatabaseCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeProtectedDatabaseCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getProtectedDatabaseFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery"), oci_recovery.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getProtectedDatabaseFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery"), oci_recovery.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *RecoveryProtectedDatabaseResourceCrud) updateSubscription(subscriptionId string) error {
+func (s *RecoveryProtectedDatabaseResourceCrud) updateSubscription(ctx context.Context, subscriptionId string) error {
+
 	changeSubscriptionRequest := oci_recovery.ChangeProtectedDatabaseSubscriptionRequest{}
 
 	idTmp := s.D.Id()
@@ -927,11 +928,11 @@ func (s *RecoveryProtectedDatabaseResourceCrud) updateSubscription(subscriptionI
 
 	changeSubscriptionRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery")
 
-	response, err := s.Client.ChangeProtectedDatabaseSubscription(context.Background(), changeSubscriptionRequest)
+	response, err := s.Client.ChangeProtectedDatabaseSubscription(ctx, changeSubscriptionRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getProtectedDatabaseFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery"), oci_recovery.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getProtectedDatabaseFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery"), oci_recovery.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

@@ -6,16 +6,17 @@ package logging
 import (
 	"context"
 
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_logging "github.com/oracle/oci-go-sdk/v65/logging"
+
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func LoggingLogGroupsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readLoggingLogGroups,
+		ReadContext: readLoggingLogGroupsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -39,12 +40,12 @@ func LoggingLogGroupsDataSource() *schema.Resource {
 	}
 }
 
-func readLoggingLogGroups(d *schema.ResourceData, m interface{}) error {
+func readLoggingLogGroupsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LoggingLogGroupsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LoggingManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type LoggingLogGroupsDataSourceCrud struct {
@@ -57,7 +58,7 @@ func (s *LoggingLogGroupsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *LoggingLogGroupsDataSourceCrud) Get() error {
+func (s *LoggingLogGroupsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_logging.ListLogGroupsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -77,7 +78,7 @@ func (s *LoggingLogGroupsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "logging")
 
-	response, err := s.Client.ListLogGroups(context.Background(), request)
+	response, err := s.Client.ListLogGroups(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -86,7 +87,7 @@ func (s *LoggingLogGroupsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListLogGroups(context.Background(), request)
+		listResponse, err := s.Client.ListLogGroups(ctx, request)
 		if err != nil {
 			return err
 		}

@@ -6,11 +6,12 @@ package waf
 import (
 	"context"
 
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_waf "github.com/oracle/oci-go-sdk/v65/waf"
+
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func WafWebAppFirewallPolicyDataSource() *schema.Resource {
@@ -19,15 +20,15 @@ func WafWebAppFirewallPolicyDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(WafWebAppFirewallPolicyResource(), fieldMap, readSingularWafWebAppFirewallPolicy)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(WafWebAppFirewallPolicyResource(), fieldMap, readSingularWafWebAppFirewallPolicyWithContext)
 }
 
-func readSingularWafWebAppFirewallPolicy(d *schema.ResourceData, m interface{}) error {
+func readSingularWafWebAppFirewallPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &WafWebAppFirewallPolicyDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).WafClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type WafWebAppFirewallPolicyDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *WafWebAppFirewallPolicyDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *WafWebAppFirewallPolicyDataSourceCrud) Get() error {
+func (s *WafWebAppFirewallPolicyDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_waf.GetWebAppFirewallPolicyRequest{}
 
 	if webAppFirewallPolicyId, ok := s.D.GetOkExists("web_app_firewall_policy_id"); ok {
@@ -50,7 +51,7 @@ func (s *WafWebAppFirewallPolicyDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "waf")
 
-	response, err := s.Client.GetWebAppFirewallPolicy(context.Background(), request)
+	response, err := s.Client.GetWebAppFirewallPolicy(ctx, request)
 	if err != nil {
 		return err
 	}

@@ -9,9 +9,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_recovery "github.com/oracle/oci-go-sdk/v65/recovery"
 
@@ -24,11 +24,11 @@ func RecoveryRecoveryServiceSubnetResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createRecoveryRecoveryServiceSubnet,
-		Read:     readRecoveryRecoveryServiceSubnet,
-		Update:   updateRecoveryRecoveryServiceSubnet,
-		Delete:   deleteRecoveryRecoveryServiceSubnet,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createRecoveryRecoveryServiceSubnetWithContext,
+		ReadContext:   readRecoveryRecoveryServiceSubnetWithContext,
+		UpdateContext: updateRecoveryRecoveryServiceSubnetWithContext,
+		DeleteContext: deleteRecoveryRecoveryServiceSubnetWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -112,37 +112,37 @@ func RecoveryRecoveryServiceSubnetResource() *schema.Resource {
 	}
 }
 
-func createRecoveryRecoveryServiceSubnet(d *schema.ResourceData, m interface{}) error {
+func createRecoveryRecoveryServiceSubnetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &RecoveryRecoveryServiceSubnetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseRecoveryClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readRecoveryRecoveryServiceSubnet(d *schema.ResourceData, m interface{}) error {
+func readRecoveryRecoveryServiceSubnetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &RecoveryRecoveryServiceSubnetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseRecoveryClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateRecoveryRecoveryServiceSubnet(d *schema.ResourceData, m interface{}) error {
+func updateRecoveryRecoveryServiceSubnetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &RecoveryRecoveryServiceSubnetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseRecoveryClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteRecoveryRecoveryServiceSubnet(d *schema.ResourceData, m interface{}) error {
+func deleteRecoveryRecoveryServiceSubnetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &RecoveryRecoveryServiceSubnetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseRecoveryClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type RecoveryRecoveryServiceSubnetResourceCrud struct {
@@ -180,7 +180,7 @@ func (s *RecoveryRecoveryServiceSubnetResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *RecoveryRecoveryServiceSubnetResourceCrud) Create() error {
+func (s *RecoveryRecoveryServiceSubnetResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_recovery.CreateRecoveryServiceSubnetRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -245,7 +245,7 @@ func (s *RecoveryRecoveryServiceSubnetResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery")
 
-	response, err := s.Client.CreateRecoveryServiceSubnet(context.Background(), request)
+	response, err := s.Client.CreateRecoveryServiceSubnet(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -256,14 +256,14 @@ func (s *RecoveryRecoveryServiceSubnetResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getRecoveryServiceSubnetFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery"), oci_recovery.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getRecoveryServiceSubnetFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery"), oci_recovery.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *RecoveryRecoveryServiceSubnetResourceCrud) getRecoveryServiceSubnetFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *RecoveryRecoveryServiceSubnetResourceCrud) getRecoveryServiceSubnetFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_recovery.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	recoveryServiceSubnetId, err := recoveryServiceSubnetWaitForWorkRequest(workId, "recoveryservicesubnet",
+	recoveryServiceSubnetId, err := recoveryServiceSubnetWaitForWorkRequest(ctx, workId, "recoveryservicesubnet",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -271,7 +271,7 @@ func (s *RecoveryRecoveryServiceSubnetResourceCrud) getRecoveryServiceSubnetFrom
 	}
 	s.D.SetId(*recoveryServiceSubnetId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func recoveryServiceSubnetWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -297,7 +297,7 @@ func recoveryServiceSubnetWorkRequestShouldRetryFunc(timeout time.Duration) func
 	}
 }
 
-func recoveryServiceSubnetWaitForWorkRequest(wId *string, entityType string, action oci_recovery.ActionTypeEnum,
+func recoveryServiceSubnetWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_recovery.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_recovery.DatabaseRecoveryClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "recovery")
 	retryPolicy.ShouldRetryOperation = recoveryServiceSubnetWorkRequestShouldRetryFunc(timeout)
@@ -316,7 +316,7 @@ func recoveryServiceSubnetWaitForWorkRequest(wId *string, entityType string, act
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_recovery.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -345,14 +345,14 @@ func recoveryServiceSubnetWaitForWorkRequest(wId *string, entityType string, act
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_recovery.OperationStatusFailed || response.Status == oci_recovery.OperationStatusCanceled {
-		return nil, getErrorFromRecoveryRecoveryServiceSubnetWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromRecoveryRecoveryServiceSubnetWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromRecoveryRecoveryServiceSubnetWorkRequest(client *oci_recovery.DatabaseRecoveryClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_recovery.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromRecoveryRecoveryServiceSubnetWorkRequest(ctx context.Context, client *oci_recovery.DatabaseRecoveryClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_recovery.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_recovery.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -374,7 +374,7 @@ func getErrorFromRecoveryRecoveryServiceSubnetWorkRequest(client *oci_recovery.D
 	return workRequestErr
 }
 
-func (s *RecoveryRecoveryServiceSubnetResourceCrud) Get() error {
+func (s *RecoveryRecoveryServiceSubnetResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_recovery.GetRecoveryServiceSubnetRequest{}
 
 	tmp := s.D.Id()
@@ -382,7 +382,7 @@ func (s *RecoveryRecoveryServiceSubnetResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery")
 
-	response, err := s.Client.GetRecoveryServiceSubnet(context.Background(), request)
+	response, err := s.Client.GetRecoveryServiceSubnet(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -391,11 +391,11 @@ func (s *RecoveryRecoveryServiceSubnetResourceCrud) Get() error {
 	return nil
 }
 
-func (s *RecoveryRecoveryServiceSubnetResourceCrud) Update() error {
+func (s *RecoveryRecoveryServiceSubnetResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -453,16 +453,16 @@ func (s *RecoveryRecoveryServiceSubnetResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery")
 
-	response, err := s.Client.UpdateRecoveryServiceSubnet(context.Background(), request)
+	response, err := s.Client.UpdateRecoveryServiceSubnet(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getRecoveryServiceSubnetFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery"), oci_recovery.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getRecoveryServiceSubnetFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery"), oci_recovery.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *RecoveryRecoveryServiceSubnetResourceCrud) Delete() error {
+func (s *RecoveryRecoveryServiceSubnetResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_recovery.DeleteRecoveryServiceSubnetRequest{}
 
 	tmp := s.D.Id()
@@ -470,14 +470,14 @@ func (s *RecoveryRecoveryServiceSubnetResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery")
 
-	response, err := s.Client.DeleteRecoveryServiceSubnet(context.Background(), request)
+	response, err := s.Client.DeleteRecoveryServiceSubnet(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := recoveryServiceSubnetWaitForWorkRequest(workId, "recoveryservicesubnet",
+	_, delWorkRequestErr := recoveryServiceSubnetWaitForWorkRequest(ctx, workId, "recoveryservicesubnet",
 		oci_recovery.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -608,7 +608,7 @@ func RecoveryServiceSubnetSummaryToMap(obj oci_recovery.RecoveryServiceSubnetSum
 	return result
 }
 
-func (s *RecoveryRecoveryServiceSubnetResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *RecoveryRecoveryServiceSubnetResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_recovery.ChangeRecoveryServiceSubnetCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -619,11 +619,11 @@ func (s *RecoveryRecoveryServiceSubnetResourceCrud) updateCompartment(compartmen
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery")
 
-	response, err := s.Client.ChangeRecoveryServiceSubnetCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeRecoveryServiceSubnetCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getRecoveryServiceSubnetFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery"), oci_recovery.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getRecoveryServiceSubnetFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery"), oci_recovery.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

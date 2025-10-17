@@ -6,11 +6,12 @@ package datacatalog
 import (
 	"context"
 
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_datacatalog "github.com/oracle/oci-go-sdk/v65/datacatalog"
+
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func DatacatalogMetastoreDataSource() *schema.Resource {
@@ -19,15 +20,15 @@ func DatacatalogMetastoreDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatacatalogMetastoreResource(), fieldMap, readSingularDatacatalogMetastore)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatacatalogMetastoreResource(), fieldMap, readSingularDatacatalogMetastoreWithContext)
 }
 
-func readSingularDatacatalogMetastore(d *schema.ResourceData, m interface{}) error {
+func readSingularDatacatalogMetastoreWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatacatalogMetastoreDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataCatalogClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatacatalogMetastoreDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DatacatalogMetastoreDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatacatalogMetastoreDataSourceCrud) Get() error {
+func (s *DatacatalogMetastoreDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_datacatalog.GetMetastoreRequest{}
 
 	if metastoreId, ok := s.D.GetOkExists("metastore_id"); ok {
@@ -50,7 +51,7 @@ func (s *DatacatalogMetastoreDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datacatalog")
 
-	response, err := s.Client.GetMetastore(context.Background(), request)
+	response, err := s.Client.GetMetastore(ctx, request)
 	if err != nil {
 		return err
 	}

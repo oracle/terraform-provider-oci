@@ -6,6 +6,7 @@ package email
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -15,7 +16,7 @@ import (
 
 func EmailEmailDomainsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readEmailEmailDomains,
+		ReadContext: readEmailEmailDomainsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -52,12 +53,12 @@ func EmailEmailDomainsDataSource() *schema.Resource {
 	}
 }
 
-func readEmailEmailDomains(d *schema.ResourceData, m interface{}) error {
+func readEmailEmailDomainsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &EmailEmailDomainsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).EmailClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type EmailEmailDomainsDataSourceCrud struct {
@@ -70,7 +71,7 @@ func (s *EmailEmailDomainsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *EmailEmailDomainsDataSourceCrud) Get() error {
+func (s *EmailEmailDomainsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_email.ListEmailDomainsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -94,7 +95,7 @@ func (s *EmailEmailDomainsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "email")
 
-	response, err := s.Client.ListEmailDomains(context.Background(), request)
+	response, err := s.Client.ListEmailDomains(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -103,7 +104,7 @@ func (s *EmailEmailDomainsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListEmailDomains(context.Background(), request)
+		listResponse, err := s.Client.ListEmailDomains(ctx, request)
 		if err != nil {
 			return err
 		}
