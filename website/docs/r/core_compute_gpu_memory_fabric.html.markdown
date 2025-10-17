@@ -13,7 +13,7 @@ Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/iaas/latest
 
 Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
-Customer can update displayName and tags for compute GPU memory fabric record
+Customer can update displayName, tags and for compute GPU memory fabric record
 
 
 ## Example Usage

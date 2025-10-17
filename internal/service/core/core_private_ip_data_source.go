@@ -70,6 +70,10 @@ func (s *CorePrivateIpDataSourceCrud) SetData() error {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
 
+	if s.Res.CidrPrefixLength != nil {
+		s.D.Set("cidr_prefix_length", *s.Res.CidrPrefixLength)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -93,6 +97,10 @@ func (s *CorePrivateIpDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("ip_state", s.Res.IpState)
+
+	if s.Res.Ipv4SubnetCidrAtCreation != nil {
+		s.D.Set("ipv4subnet_cidr_at_creation", *s.Res.Ipv4SubnetCidrAtCreation)
+	}
 
 	if s.Res.IsPrimary != nil {
 		s.D.Set("is_primary", *s.Res.IsPrimary)

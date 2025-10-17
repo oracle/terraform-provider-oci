@@ -28,6 +28,12 @@ func CorePrivateIpResource() *schema.Resource {
 			// Required
 
 			// Optional
+			"cidr_prefix_length": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -53,6 +59,12 @@ func CorePrivateIpResource() *schema.Resource {
 				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 			},
 			"ip_address": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"ipv4subnet_cidr_at_creation": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -160,6 +172,11 @@ func (s *CorePrivateIpResourceCrud) ID() string {
 func (s *CorePrivateIpResourceCrud) Create() error {
 	request := oci_core.CreatePrivateIpRequest{}
 
+	if cidrPrefixLength, ok := s.D.GetOkExists("cidr_prefix_length"); ok {
+		tmp := cidrPrefixLength.(int)
+		request.CidrPrefixLength = &tmp
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -185,6 +202,11 @@ func (s *CorePrivateIpResourceCrud) Create() error {
 	if ipAddress, ok := s.D.GetOkExists("ip_address"); ok {
 		tmp := ipAddress.(string)
 		request.IpAddress = &tmp
+	}
+
+	if ipv4SubnetCidrAtCreation, ok := s.D.GetOkExists("ipv4subnet_cidr_at_creation"); ok {
+		tmp := ipv4SubnetCidrAtCreation.(string)
+		request.Ipv4SubnetCidrAtCreation = &tmp
 	}
 
 	if lifetime, ok := s.D.GetOkExists("lifetime"); ok {
@@ -353,6 +375,10 @@ func (s *CorePrivateIpResourceCrud) SetData() error {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
 
+	if s.Res.CidrPrefixLength != nil {
+		s.D.Set("cidr_prefix_length", *s.Res.CidrPrefixLength)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -376,6 +402,10 @@ func (s *CorePrivateIpResourceCrud) SetData() error {
 	}
 
 	s.D.Set("ip_state", s.Res.IpState)
+
+	if s.Res.Ipv4SubnetCidrAtCreation != nil {
+		s.D.Set("ipv4subnet_cidr_at_creation", *s.Res.Ipv4SubnetCidrAtCreation)
+	}
 
 	if s.Res.IsPrimary != nil {
 		s.D.Set("is_primary", *s.Res.IsPrimary)

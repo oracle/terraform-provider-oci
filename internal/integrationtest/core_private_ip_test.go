@@ -70,8 +70,21 @@ var (
 		"route_table_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_route_table.test_route_table.id}`},
 	}
 
+	CorePrivateIpRepresentation3 = map[string]interface{}{
+		"cidr_prefix_length":          acctest.Representation{RepType: acctest.Optional, Create: `28`},
+		"ipv4subnet_cidr_at_creation": acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.0/24`},
+		"vnic_id":                     acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}`},
+		"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":                acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifetime":                    acctest.Representation{RepType: acctest.Optional, Create: `RESERVED`},
+		"route_table_id":              acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_route_table.test_route_table.id}`},
+	}
+
 	CorePrivateIpResourceDependencies = utils.OciImageIdsVariable +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreInstanceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreInstanceRepresentation, map[string]interface{}{
+			"image": acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_core_images.supported_shape_images.images[0], "id")}`},
+		})) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, CoreRouteTableRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{
 			"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
@@ -192,6 +205,27 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+
+		// test auto-allocated
+		{
+			Config: config + compartmentIdVariableStr + CorePrivateIpResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", acctest.Optional, acctest.Update, CorePrivateIpRepresentation3),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ipv4subnet_cidr_at_creation", "10.0.0.0/24"),
+				resource.TestCheckResourceAttr(resourceName, "cidr_prefix_length", "28"),
+				resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId == resId2 {
+						return fmt.Errorf("resource updated when it was supposed to be recreated")
 					}
 					return err
 				},

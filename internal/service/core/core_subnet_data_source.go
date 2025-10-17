@@ -96,6 +96,8 @@ func (s *CoreSubnetDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	s.D.Set("ipv4cidr_blocks", s.Res.Ipv4CidrBlocks)
+
 	if s.Res.Ipv6CidrBlock != nil {
 		s.D.Set("ipv6cidr_block", *s.Res.Ipv6CidrBlock)
 	}

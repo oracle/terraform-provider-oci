@@ -149,6 +149,8 @@ func (s *CoreSubnetsDataSourceCrud) SetData() error {
 			subnet["id"] = *r.Id
 		}
 
+		subnet["ipv4cidr_blocks"] = r.Ipv4CidrBlocks
+
 		if r.Ipv6CidrBlock != nil {
 			subnet["ipv6cidr_block"] = *r.Ipv6CidrBlock
 		}
