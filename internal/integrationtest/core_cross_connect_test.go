@@ -44,6 +44,29 @@ var (
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_cross_connect.test_cross_connect.id}`}},
 	}
 
+	CoreCoreCrossConnectDeviceDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `ccWithDeviceInterface`, Update: `ccWithDeviceInterface2`},
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreCrossConnectDeviceDataSourceFilterRepresentation}}
+	CoreCrossConnectDeviceDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
+		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_cross_connect.test_cross_connect_device.id}`}},
+	}
+
+	// CrossConnect with device and interface
+	CoreCrossConnectRepresentationWithDevice = map[string]interface{}{
+		"compartment_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"location_name":            acctest.Representation{RepType: acctest.Required, Create: `Fake Location SGU1`},
+		"port_speed_shape_name":    acctest.Representation{RepType: acctest.Required, Create: `100 Gbps`},
+		"customer_reference_name":  acctest.Representation{RepType: acctest.Optional, Create: `customerReferenceName`, Update: `customerReferenceName2`},
+		"defined_tags":             acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":             acctest.Representation{RepType: acctest.Optional, Create: `ccWithDeviceInterface`, Update: `ccWithDeviceInterface2`},
+		"freeform_tags":            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"interface_name":           acctest.Representation{RepType: acctest.Optional, Create: `${var.interface_name}`},
+		"is_active":                acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"oci_physical_device_name": acctest.Representation{RepType: acctest.Optional, Create: `${var.oci_physical_device_name}`},
+	}
+
 	// for the required fields on create and update
 	CoreCrossConnectRepresentation = map[string]interface{}{
 		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
@@ -103,14 +126,74 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_cross_connects.test_cross_connects"
 	singularDatasourceName := "data.oci_core_cross_connect.test_cross_connect"
 
+	resourceNameDevice := "oci_core_cross_connect.test_cross_connect_device"
+	interfaceName := "Fake-xe-0/0/5006"
+	interfaceNameVariableStr := fmt.Sprintf("variable \"interface_name\" { default = \"%s\" }\n", interfaceName)
+	customerPortName := "Port Fake-xe-0/0/5007"
+
+	deviceName := "fake-vpn2"
+	deviceNameVariableStr := fmt.Sprintf("variable \"oci_physical_device_name\" { default = \"%s\" }\n", deviceName)
+
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreCrossConnectResourceDependencies+secretIdVariableStrCKN+secretIdVariableStrCAK+secretVersionStrCKN+secretVersionStrCAK+
 		acctest.GenerateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", acctest.Optional, acctest.Create, CoreCrossConnectRepresentation), "core", "crossConnect", t)
 
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+interfaceNameVariableStr+deviceNameVariableStr+CoreCrossConnectResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect_device", acctest.Optional, acctest.Create, CoreCrossConnectRepresentationWithDevice), "core", "crossConnect", t)
+
 	acctest.ResourceTest(t, testAccCheckCoreCrossConnectDestroy, []resource.TestStep{
-		// verify Create // Step:0
+		// verify create with device and interface // Step: 1
 		{
+			Config: config + compartmentIdVariableStr + interfaceNameVariableStr + deviceNameVariableStr + CoreCrossConnectResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect_device", acctest.Optional, acctest.Create, CoreCrossConnectRepresentationWithDevice),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceNameDevice, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceNameDevice, "location_name"),
+				resource.TestCheckResourceAttr(resourceNameDevice, "port_speed_shape_name", "100 Gbps"),
+				resource.TestCheckResourceAttr(resourceNameDevice, "state", "PROVISIONED"),
+				resource.TestCheckResourceAttr(resourceNameDevice, "oci_physical_device_name", deviceName),
+				resource.TestCheckResourceAttr(resourceNameDevice, "port_name", customerPortName),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceNameDevice, "id")
+					return err
+				},
+			),
+		},
+
+		// verify datasource // Step:2
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_cross_connects", "test_cross_connects", acctest.Optional, acctest.Update, CoreCoreCrossConnectDeviceDataSourceRepresentation) +
+				compartmentIdVariableStr + interfaceNameVariableStr + deviceNameVariableStr + CoreCrossConnectResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect_device", acctest.Optional, acctest.Update, CoreCrossConnectRepresentationWithDevice),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "ccWithDeviceInterface2"),
+
+				resource.TestCheckResourceAttr(datasourceName, "cross_connects.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.customer_reference_name", "customerReferenceName2"),
+				resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.display_name", "ccWithDeviceInterface2"),
+				resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "cross_connects.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.port_name", customerPortName),
+				resource.TestCheckResourceAttrSet(datasourceName, "cross_connects.0.location_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "cross_connects.0.oci_logical_device_name"),
+				resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.oci_physical_device_name", deviceName),
+				resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.port_speed_shape_name", "100 Gbps"),
+				resource.TestCheckResourceAttrSet(datasourceName, "cross_connects.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "cross_connects.0.time_created"),
+				resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.state", "PROVISIONED"),
+			),
+		},
+		// delete before next Create // Step:3
+		{
+			Config: config + compartmentIdVariableStr + CoreCrossConnectResourceDependencies,
+		},
+		{
+			// verify Create // Step:4
 			Config: config + compartmentIdVariableStr + CoreCrossConnectResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", acctest.Required, acctest.Create, CoreCrossConnectRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -126,7 +209,7 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify updates to macsec parameters // Step:1
+		// verify updates to macsec parameters // Step:5
 		{
 			Config: config + compartmentIdVariableStr + CoreCrossConnectResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCKN + secretVersionStrCAK +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", acctest.Optional, acctest.Update, CoreCrossConnectRepresentation),
@@ -152,12 +235,12 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// delete before next Create // Step:2
+		// delete before next Create // Step:6
 		{
 			Config: config + compartmentIdVariableStr + CoreCrossConnectResourceDependencies,
 		},
 
-		// verify Create with optionals // Step:3
+		// verify Create with optionals // Step:7
 		{
 			Config: config + compartmentIdVariableStr + CoreCrossConnectResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", acctest.Optional, acctest.Create, CoreCrossConnectRepresentation),
@@ -189,7 +272,7 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify Update to the compartment (the compartment will be switched back in the next step) // Step:4
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CoreCrossConnectResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", acctest.Optional, acctest.Create,
@@ -222,7 +305,7 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify updates to updatable parameters // Step:5
+		// verify updates to updatable parameters // Step:8
 		{
 			Config: config + compartmentIdVariableStr + CoreCrossConnectResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", acctest.Optional, acctest.Update, CoreCrossConnectRepresentation),
@@ -253,7 +336,7 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// verify datasource // Step:6
+		// verify datasource // Step:9
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_core_cross_connects", "test_cross_connects", acctest.Optional, acctest.Update, CoreCoreCrossConnectDataSourceRepresentation) +

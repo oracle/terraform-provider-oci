@@ -106,6 +106,10 @@ func (s *CoreCrossConnectDataSourceCrud) SetData() error {
 		s.D.Set("oci_physical_device_name", *s.Res.OciPhysicalDeviceName)
 	}
 
+	if s.Res.InterfaceName != nil {
+		s.D.Set("interface_name", *s.Res.InterfaceName)
+	}
+
 	if s.Res.PortName != nil {
 		s.D.Set("port_name", *s.Res.PortName)
 	}
