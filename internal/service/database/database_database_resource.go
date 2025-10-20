@@ -253,13 +253,25 @@ func DatabaseDatabaseResource() *schema.Resource {
 										Required:         true,
 										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 										ValidateFunc: validation.StringInSlice([]string{
+											"AWS",
 											"AZURE",
+											"GCP",
 											"EXTERNAL",
 										}, true),
 									},
 
 									// Optional
+									"aws_encryption_key_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 									"azure_encryption_key_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"google_cloud_provider_encryption_key_id": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -338,22 +350,24 @@ func DatabaseDatabaseResource() *schema.Resource {
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
-									"hsm_password": {
-										Type:      schema.TypeString,
-										Required:  true,
-										Sensitive: true,
-									},
 									"provider_type": {
 										Type:             schema.TypeString,
 										Required:         true,
 										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 										ValidateFunc: validation.StringInSlice([]string{
+											"AWS",
 											"AZURE",
+											"GCP",
 											"EXTERNAL",
 										}, true),
 									},
 
 									// Optional
+									"hsm_password": {
+										Type:      schema.TypeString,
+										Optional:  true,
+										Sensitive: true,
+									},
 
 									// Computed
 								},
@@ -1795,11 +1809,25 @@ func (s *DatabaseDatabaseResourceCrud) mapToEncryptionKeyLocationDetails(fieldKe
 		providerType = "" // default value
 	}
 	switch strings.ToLower(providerType) {
+	case strings.ToLower("AWS"):
+		details := oci_database.AwsEncryptionKeyDetails{}
+		if awsEncryptionKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "aws_encryption_key_id")); ok {
+			tmp := awsEncryptionKeyId.(string)
+			details.AwsEncryptionKeyId = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("AZURE"):
 		details := oci_database.AzureEncryptionKeyDetails{}
 		if azureEncryptionKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "azure_encryption_key_id")); ok {
 			tmp := azureEncryptionKeyId.(string)
 			details.AzureEncryptionKeyId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("GCP"):
+		details := oci_database.GoogleCloudProviderEncryptionKeyDetails{}
+		if googleCloudProviderEncryptionKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "google_cloud_provider_encryption_key_id")); ok {
+			tmp := googleCloudProviderEncryptionKeyId.(string)
+			details.GoogleCloudProviderEncryptionKeyId = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("EXTERNAL"):
@@ -1818,6 +1846,12 @@ func (s *DatabaseDatabaseResourceCrud) mapToEncryptionKeyLocationDetails(fieldKe
 func EncryptionKeyLocationDetailsToMap(obj *oci_database.EncryptionKeyLocationDetails, hsmPassword string) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
+	case oci_database.AwsEncryptionKeyDetails:
+		result["provider_type"] = "AWS"
+
+		if v.AwsEncryptionKeyId != nil {
+			result["aws_encryption_key_id"] = string(*v.AwsEncryptionKeyId)
+		}
 	case oci_database.AzureEncryptionKeyDetails:
 		result["provider_type"] = "AZURE"
 
@@ -1828,6 +1862,12 @@ func EncryptionKeyLocationDetailsToMap(obj *oci_database.EncryptionKeyLocationDe
 		result["provider_type"] = "EXTERNAL"
 		result["hsm_password"] = hsmPassword
 
+	case oci_database.GoogleCloudProviderEncryptionKeyDetails:
+		result["provider_type"] = "GCP"
+
+		if v.GoogleCloudProviderEncryptionKeyId != nil {
+			result["google_cloud_provider_encryption_key_id"] = string(*v.GoogleCloudProviderEncryptionKeyId)
+		}
 	default:
 		log.Printf("[WARN] Received 'provider_type' of unknown type %v", *obj)
 		return nil

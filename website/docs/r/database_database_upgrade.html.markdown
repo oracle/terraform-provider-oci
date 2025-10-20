@@ -126,9 +126,11 @@ The following attributes are exported:
 	The database workload type. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `encryption_key_location_details` - Types of providers supported for managing database encryption keys
+	* `aws_encryption_key_id` - Provide the key OCID of a registered AWS key.
 	* `azure_encryption_key_id` - Provide the key OCID of a registered Azure key.
+	* `google_cloud_provider_encryption_key_id` - Provide the key OCID of a registered GCP key.
 	* `hsm_password` - Provide the HSM password as you would in RDBMS for External HSM.
-	* `provider_type` - Use 'EXTERNAL' for creating a new database or migrating a database key to an External HSM. Use 'AZURE' for creating a new database or migrating a database key to Azure. 
+	* `provider_type` - Use 'EXTERNAL' for creating a new database or migrating a database key to an External HSM. Use 'AZURE' for creating a new database or migrating a database key to Azure. Use 'AWS' for creating a new database or migrating a database key to Aws. Use 'GCP' for creating a new database or migrating a database key to Gcp.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database.
 * `is_cdb` - True if the database is a container database.
