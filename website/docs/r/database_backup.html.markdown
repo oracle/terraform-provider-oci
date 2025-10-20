@@ -48,9 +48,11 @@ The following attributes are exported:
 * `database_size_in_gbs` - The size of the database in gigabytes at the time the backup was taken.
 * `display_name` - The user-friendly name for the backup. The name does not have to be unique.
 * `encryption_key_location_details` - Types of providers supported for managing database encryption keys
-	* `azure_encryption_key_id` - The key OCID of a registered Azure key.
+	* `aws_encryption_key_id` - Provide the key OCID of a registered AWS key.
+	* `azure_encryption_key_id` - Provide the key OCID of a registered Azure key.
+	* `google_cloud_provider_encryption_key_id` - Provide the key OCID of a registered GCP key.
 	* `hsm_password` - Provide the HSM password as you would in RDBMS for External HSM.
-	* `provider_type` - Use 'EXTERNAL' for creating a new database or migrating a database key to an External HSM. Use 'AZURE' for creating a new database or migrating a database key to Azure. 
+	* `provider_type` - Use 'EXTERNAL' for creating a new database or migrating a database key to an External HSM. Use 'AZURE' for creating a new database or migrating a database key to Azure. Use 'AWS' for creating a new database or migrating a database key to Aws. Use 'GCP' for creating a new database or migrating a database key to Gcp.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup.
 * `key_store_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
 * `key_store_wallet_name` - The wallet name for Oracle Key Vault.

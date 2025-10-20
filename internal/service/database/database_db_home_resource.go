@@ -240,13 +240,25 @@ func DatabaseDbHomeResource() *schema.Resource {
 										Required:         true,
 										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 										ValidateFunc: validation.StringInSlice([]string{
+											"AWS",
 											"AZURE",
 											"EXTERNAL",
+											"GCP",
 										}, true),
 									},
 
 									// Optional
+									"aws_encryption_key_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 									"azure_encryption_key_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"google_cloud_provider_encryption_key_id": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -1525,6 +1537,13 @@ func (s *DatabaseDbHomeResourceCrud) mapToEncryptionKeyLocationDetails(fieldKeyF
 		providerType = "" // default value
 	}
 	switch strings.ToLower(providerType) {
+	case strings.ToLower("AWS"):
+		details := oci_database.AwsEncryptionKeyDetails{}
+		if awsEncryptionKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "aws_encryption_key_id")); ok {
+			tmp := awsEncryptionKeyId.(string)
+			details.AwsEncryptionKeyId = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("AZURE"):
 		details := oci_database.AzureEncryptionKeyDetails{}
 		if azureEncryptionKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "azure_encryption_key_id")); ok {
@@ -1537,6 +1556,13 @@ func (s *DatabaseDbHomeResourceCrud) mapToEncryptionKeyLocationDetails(fieldKeyF
 		if hsmPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hsm_password")); ok {
 			tmp := hsmPassword.(string)
 			details.HsmPassword = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("GCP"):
+		details := oci_database.GoogleCloudProviderEncryptionKeyDetails{}
+		if googleCloudProviderEncryptionKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "google_cloud_provider_encryption_key_id")); ok {
+			tmp := googleCloudProviderEncryptionKeyId.(string)
+			details.GoogleCloudProviderEncryptionKeyId = &tmp
 		}
 		baseObject = details
 	default:
