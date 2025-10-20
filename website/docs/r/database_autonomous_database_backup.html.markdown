@@ -107,7 +107,7 @@ The following attributes are exported:
 	* `autonomous_container_database_display_name` - The user-provided name for the Autonomous Container Database.
 	* `autonomous_container_database_dst_file_version` - DST Time-Zone File version of the Autonomous Container Database.
 	* `autonomous_container_database_name` - Autonomous Container Database name.
-	* `autonomous_database_customer_contacts` - Customer Contacts for the Autonomous database.
+	* `autonomous_database_customer_contacts` - Customer Contacts for the Autonomous Database.
 		* `email` - The email address used by Oracle to send notifications regarding databases and infrastructure.
 	* `autonomous_database_name` - Autonomous Database's name.
 	* `autonomous_vm_cluster_display_name` - Autonomous VM cluster's user-friendly name.
@@ -117,7 +117,7 @@ The following attributes are exported:
 		* AJD - indicates an Autonomous JSON Database
 		* APEX - indicates an Autonomous Database with the Oracle APEX Application Development workload type.
 
-		This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier. 
+		 This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier. 
 * `state` - The current state of the backup.
 * `time_available_till` - Timestamp until when the backup will be available
 * `time_ended` - The date and time the backup completed.
