@@ -1,24 +1,10 @@
-variable "compartment_ocid" {}
-variable "region" {}
-variable "tenancy_ocid" {}
 
-provider "oci" {
-  region = var.region
-}
+
 
 data "oci_identity_availability_domains" "get_availability_domains" {
   compartment_id = var.tenancy_ocid
 }
 
-// Local variables defined to increase readability
-locals {
-  private_endpoint_integ_test_vcn_cidr_block   = "10.12.0.0/16"
-  private_endpoint_integ_test_vcn_subnet_count = 1
-  tcp_protocol                                 = 6
-  default_shape_name                           = "VM.Standard.E3.Flex"
-  operating_system                             = "Oracle Linux"
-  operating_system_version                     = "8"
-}
 
 // VCN holding the private subnet
 resource "oci_core_vcn" "private_endpoint_integ_test_temp_vcn" {
@@ -134,7 +120,7 @@ resource "tls_private_key" "public_private_key_pair" {
 }
 
 // Resource to establish the SSH connection. Must have the compute instance created first.
-resource "null_resource" "remote-exec" {
+/*resource "null_resource" "remote-exec" {
   depends_on = [oci_core_instance.private_endpoint_instance]
 
   provisioner "remote-exec" {
@@ -150,4 +136,4 @@ resource "null_resource" "remote-exec" {
       "echo 'remote exec showcase' > ~/remoteExecTest.txt"
     ]
   }
-}
+}*/

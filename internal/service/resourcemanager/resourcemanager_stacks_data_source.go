@@ -123,6 +123,10 @@ func ResourcemanagerStacksDataSource() *schema.Resource {
 							Computed: true,
 							Elem:     schema.TypeString,
 						},
+						"terraform_version": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"time_created": {
 							Type:     schema.TypeString,
 							Computed: true,

@@ -4,34 +4,10 @@
 // This example shows how to use Resource Manager data sources with the (local) `terraform_remote_state` data source
 // so that output values from a different Resource Manager Stack can be referenced in this config.
 
-variable "tenancy_ocid" {
-}
 
-variable "user_ocid" {
-}
-
-variable "fingerprint" {
-}
-
-variable "private_key_path" {
-}
-
-variable "region" {
-}
-
-variable "compartment_id" {
-}
-
-provider "oci" {
-  tenancy_ocid     = var.tenancy_ocid
-  user_ocid        = var.user_ocid
-  fingerprint      = var.fingerprint
-  private_key_path = var.private_key_path
-  region           = var.region
-}
 
 data "oci_resourcemanager_stacks" "stack_list" {
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
   state          = "ACTIVE"
 }
 
