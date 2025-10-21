@@ -33,7 +33,7 @@ data "oci_dns_resolver" "test_resolver" {
 The following arguments are supported:
 
 * `resolver_id` - (Required) The OCID of the target resolver.
-* `scope` - (Required) Value must be `PRIVATE` when listing private name resolvers.
+* `scope` - (Required) Value must be `PRIVATE` when listing private resolvers.
 
 
 ## Attributes Reference
@@ -71,12 +71,12 @@ The following attributes are exported:
 	 **Example:** `{"Department": "Finance"}` 
 * `id` - The OCID of the resolver.
 * `is_protected` - A Boolean flag indicating whether or not parts of the resource are unable to be explicitly managed. 
-* `rules` - Rules for the resolver. Rules are evaluated in order. 
+* `rules` - Rules for the resolver. Rules are evaluated in order, and only the first matching rule will have its action applied. 
 	* `action` - The action determines the behavior of the rule. If a query matches a supplied condition, the action will apply. If there are no conditions on the rule, all queries are subject to the specified action.
 		* `FORWARD` - Matching requests will be forwarded from the source interface to the destination address. 
-	* `client_address_conditions` - A list of CIDR blocks. The query must come from a client within one of the blocks in order for the rule action to apply. 
+	* `client_address_conditions` - A list of CIDR blocks. In order for the rule action to apply, the query must come from a client within one of the CIDR blocks. 
 	* `destination_addresses` - IP addresses to which queries should be forwarded. Currently limited to a single address. 
-	* `qname_cover_conditions` - A list of domain names. The query must be covered by one of the domains in order for the rule action to apply. 
+	* `qname_cover_conditions` - A list of domain names. In order for the rule action to apply, the query must either match or be a subdomain of one of the listed domains. 
 	* `source_endpoint_name` - Case-insensitive name of an endpoint, that is a sub-resource of the resolver, to use as the forwarding interface. The endpoint must have isForwarding set to true. 
 * `self` - The canonical absolute URL of the resource.
 * `state` - The current state of the resource.

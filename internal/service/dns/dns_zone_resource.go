@@ -37,7 +37,10 @@ func DnsZoneResource() *schema.Resource {
 				Required: true,
 			},
 			"name": {
-				Type:     schema.TypeString,
+				Type: schema.TypeString,
+				DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+					return strings.TrimSuffix(old, ".") == strings.TrimSuffix(new, ".")
+				},
 				Required: true,
 				ForceNew: true,
 				ValidateFunc: validation.StringMatch(
@@ -127,6 +130,11 @@ func DnsZoneResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"resolution_mode": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 			"scope": {
 				Type:     schema.TypeString,
@@ -532,6 +540,10 @@ func (s *DnsZoneResourceCrud) Create() error {
 		createZoneDetailsRequest.Name = &tmp
 	}
 
+	if resolutionMode, ok := s.D.GetOkExists("resolution_mode"); ok {
+		createZoneDetailsRequest.ResolutionMode = oci_dns.ZoneResolutionModeEnum(resolutionMode.(string))
+	}
+
 	if scope, ok := s.D.GetOkExists("scope"); ok {
 		request.Scope = oci_dns.CreateZoneScopeEnum(scope.(string))
 		createZoneDetailsRequest.Scope = oci_dns.ScopeEnum(scope.(string))
@@ -670,6 +682,10 @@ func (s *DnsZoneResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if resolutionMode, ok := s.D.GetOkExists("resolution_mode"); ok {
+		request.ResolutionMode = oci_dns.ZoneResolutionModeEnum(resolutionMode.(string))
+	}
+
 	if scope, ok := s.D.GetOkExists("scope"); ok {
 		request.Scope = oci_dns.UpdateZoneScopeEnum(scope.(string))
 	}
@@ -767,6 +783,8 @@ func (s *DnsZoneResourceCrud) SetData() error {
 		nameservers = append(nameservers, NameserverToMap(item))
 	}
 	s.D.Set("nameservers", nameservers)
+
+	s.D.Set("resolution_mode", s.Res.ResolutionMode)
 
 	if s.Res.Self != nil {
 		s.D.Set("self", *s.Res.Self)

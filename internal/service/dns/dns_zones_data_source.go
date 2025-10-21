@@ -259,6 +259,8 @@ func (s *DnsZonesDataSourceCrud) SetData() error {
 			zone["name"] = *r.Name
 		}
 
+		zone["resolution_mode"] = r.ResolutionMode
+
 		zone["scope"] = r.Scope
 
 		if r.Self != nil {

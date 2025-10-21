@@ -40,7 +40,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) The OCID of the compartment the resource belongs to.
 * `display_name` - (Optional) The displayName of a resource.
 * `id` - (Optional) The OCID of a resource.
-* `scope` - (Required) Value must be `PRIVATE` when listing private name resolvers.
+* `scope` - (Required) Value must be `PRIVATE` when listing private resolvers.
 * `state` - (Optional) The state of a resource.
 
 
@@ -65,7 +65,7 @@ The following attributes are exported:
 
 	 **Example:** `{"Department": "Finance"}` 
 * `id` - The OCID of the resolver.
-* `is_protected` - A Boolean flag indicating whether or not parts of the resource are unable to be explicitly managed. 
+* `is_protected` - A Boolean flag indicating whether or not parts of the resource are unable to be explicitly managed.
 * `self` - The canonical absolute URL of the resource.
 * `state` - The current state of the resource.
 * `time_created` - The date and time the resource was created in "YYYY-MM-ddThh:mm:ssZ" format with a Z offset, as defined by RFC 3339.

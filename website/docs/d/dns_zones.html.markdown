@@ -131,7 +131,7 @@ The following attributes are exported:
 		* `time_unpublished` - The date and time the key version was, or will be, unpublished, expressed in RFC 3339 timestamp format. This is when the corresponding DNSKEY will be removed from zone contents. For a key signing key (KSK) `DnssecKeyVersion`, this is populated after `PromoteZoneDnssecKeyVersion` has been called on its successor `DnssecKeyVersion`.
 
 			**Example:** `2016-07-22T17:23:59:00Z` 
-		* `uuid` - The UUID of the `DnssecKeyVersion`. 
+		* `uuid` - The UUID of the `DnssecKeyVersion`.  
 * `dnssec_state` - The state of DNSSEC on the zone.
 
 	For DNSSEC to function, every parent zone in the DNS tree up to the top-level domain (or an independent trust anchor) must also have DNSSEC correctly set up. After enabling DNSSEC, you must add a DS record to the zone's parent zone containing the `KskDnssecKeyVersion` data. You can find the DS data in the `dsData` attribute of the `KskDnssecKeyVersion`. Then, use the `PromoteZoneDnssecKeyVersion` operation to promote the `KskDnssecKeyVersion`.
@@ -144,23 +144,14 @@ The following attributes are exported:
 
 	Enabling DNSSEC results in additional records in DNS responses which increases their size and can cause higher response latency.
 
-	For more information, see [DNSSEC](https://docs.cloud.oracle.com/iaas/Content/DNS/Concepts/dnssec.htm). 
-* `external_downstreams` - External secondary servers for the zone. This field is currently not supported when `zoneType` is `SECONDARY` or `scope` is `PRIVATE`. 
-	* `address` - The server's IP address (IPv4 or IPv6).
-	* `port` - The server's port. Port value must be a value of 53, otherwise omit the port value. 
-	* `tsig_key_id` - The OCID of the TSIG key. A TSIG key is used to secure DNS messages (in this case, zone transfers) between two systems that both have the (shared) secret. 
-* `external_masters` - External master servers for the zone. `externalMasters` becomes a required parameter when the `zoneType` value is `SECONDARY`. 
-	* `address` - The server's IP address (IPv4 or IPv6).
-	* `port` - The server's port. Port value must be a value of 53, otherwise omit the port value. 
-	* `tsig_key_id` - The OCID of the TSIG key.
+	For more information, see [DNSSEC](https://docs.cloud.oracle.com/iaas/Content/DNS/Concepts/dnssec.htm)
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 
 	 **Example:** `{"Department": "Finance"}` 
 * `id` - The OCID of the zone.
 * `is_protected` - A Boolean flag indicating whether or not parts of the resource are unable to be explicitly managed. 
 * `name` - The name of the zone.
-* `nameservers` - The authoritative nameservers for the zone.
-	* `hostname` - The hostname of the nameserver.
+* `resolution_mode` - The resolution mode of a zone defines behavior related to how query responses can be handled. 
 * `scope` - The scope of the zone.
 * `self` - The canonical absolute URL of the resource.
 * `serial` - The current serial of the zone. As seen in the zone's SOA record. 
@@ -169,10 +160,6 @@ The following attributes are exported:
 
 	**Example:** `2016-07-22T17:23:59:60Z` 
 * `version` - Version is the never-repeating, totally-orderable, version of the zone, from which the serial field of the zone's SOA record is derived. 
-* `view_id` - The OCID of the private view containing the zone. This value will be null for zones in the global DNS, which are publicly resolvable and not part of a private view. 
-* `zone_transfer_servers` - The Oracle Cloud Infrastructure nameservers that transfer the zone data with external nameservers. 
-	* `address` - The server's IP address (IPv4 or IPv6).
-	* `is_transfer_destination` - A Boolean flag indicating whether or not the server is a zone data transfer destination. 
-	* `is_transfer_source` - A Boolean flag indicating whether or not the server is a zone data transfer source. 
-* `zone_type` - The type of the zone. Must be either `PRIMARY` or `SECONDARY`. `SECONDARY` is only supported for GLOBAL zones. 
+* `view_id` - The OCID of the private view containing the zone. This value will be null for zones in the global DNS, which are publicly resolvable and not part of a private view.
+* `zone_type` - The type of the zone. Must be either `PRIMARY` or `SECONDARY`. `SECONDARY` is only supported for GLOBAL zones.
 
