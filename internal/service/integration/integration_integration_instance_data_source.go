@@ -146,6 +146,10 @@ func (s *IntegrationIntegrationInstanceDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	if s.Res.LogGroupId != nil {
+		s.D.Set("log_group_id", *s.Res.LogGroupId)
+	}
+
 	if s.Res.MessagePacks != nil {
 		s.D.Set("message_packs", *s.Res.MessagePacks)
 	}
