@@ -201,7 +201,6 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 				Type:     schema.TypeList,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
@@ -210,7 +209,6 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 						"network_endpoint_type": {
 							Type:             schema.TypeString,
 							Required:         true,
-							ForceNew:         true,
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								"PUBLIC",
@@ -222,7 +220,6 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 							Type:     schema.TypeSet,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 							Set:      tfresource.LiteralTypeHashCodeForSets,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
@@ -232,7 +229,6 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 							Type:     schema.TypeSet,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 							Set:      allowlistedHttpVcnsHashCodeForSets,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
@@ -245,13 +241,69 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 
 									// Optional
 									"allowlisted_ips": {
+										//Type:     schema.TypeList,
 										Type:     schema.TypeSet,
 										Optional: true,
 										Computed: true,
-										ForceNew: true,
 										Set:      tfresource.LiteralTypeHashCodeForSets,
 										Elem: &schema.Schema{
 											Type: schema.TypeString,
+										},
+									},
+
+									// Computed
+								},
+							},
+						},
+						"design_time": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"allowlisted_http_ips": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"allowlisted_http_vcns": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"id": {
+													Type:     schema.TypeString,
+													Required: true,
+													ForceNew: true,
+												},
+
+												// Optional
+												"allowlisted_ips": {
+													//Type:     schema.TypeList,
+													Type:     schema.TypeSet,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+
+												// Computed
+											},
 										},
 									},
 
@@ -264,6 +316,62 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 							ForceNew: true,
+						},
+						"runtime": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"allowlisted_http_ips": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"allowlisted_http_vcns": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"id": {
+													Type:     schema.TypeString,
+													Required: true,
+													ForceNew: true,
+												},
+
+												// Optional
+												"allowlisted_ips": {
+													//Type:     schema.TypeList,
+													Type:     schema.TypeSet,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+
+												// Computed
+											},
+										},
+									},
+
+									// Computed
+								},
+							},
 						},
 
 						// Computed
@@ -284,6 +392,10 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"extend_data_retention_trigger": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
 			// "add_oracle_managed_custom_endpoint_trigger": {
 			// 	Type:     schema.TypeInt,
 			// 	Optional: true,
@@ -292,15 +404,10 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
-			"extend_data_retention_trigger": {
-				Type:     schema.TypeInt,
-				Optional: true,
-			},
 			// "remove_oracle_managed_custom_endpoint_trigger": {
 			// 	Type:     schema.TypeInt,
 			// 	Optional: true,
 			// },
-
 			"failover_trigger": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -392,7 +499,7 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 			},
 			"data_retention_period": {
 				Type:     schema.TypeString,
-				Computed: true,
+				Optional: true,
 			},
 			"idcs_info": {
 				Type:     schema.TypeList,
@@ -438,6 +545,10 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"log_group_id": {
+				Type:     schema.TypeString,
+				Optional: true,
 			},
 			"private_endpoint_outbound_connection": {
 				Type:     schema.TypeList,
@@ -504,15 +615,26 @@ func createIntegrationIntegrationInstance(d *schema.ResourceData, m interface{})
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).IntegrationInstanceClient()
 
-	if _, ok := sync.D.GetOkExists("enable_process_automation_trigger"); ok {
-		err := sync.EnableProcessAutomation()
+	if e := tfresource.CreateResource(d, sync); e != nil {
+		return e
+	}
+
+	if _, ok := sync.D.GetOkExists("log_group_id"); ok {
+		err := sync.AddLogAnalyticsLogGroup()
 		if err != nil {
 			return err
 		}
 	}
 
-	if _, ok := sync.D.GetOkExists("extend_data_retention_trigger"); ok {
+	if _, ok := sync.D.GetOkExists("data_retention_period"); ok {
 		err := sync.ExtendDataRetention()
+		if err != nil {
+			return err
+		}
+	}
+
+	if _, ok := sync.D.GetOkExists("enable_process_automation_trigger"); ok {
+		err := sync.EnableProcessAutomation()
 		if err != nil {
 			return err
 		}
@@ -531,10 +653,6 @@ func createIntegrationIntegrationInstance(d *schema.ResourceData, m interface{})
 		if wantedState == oci_integration.IntegrationInstanceLifecycleStateInactive {
 			powerOff = true
 		}
-	}
-
-	if error := tfresource.CreateResource(d, sync); error != nil {
-		return error
 	}
 
 	if powerOff {
@@ -563,6 +681,29 @@ func updateIntegrationIntegrationInstance(d *schema.ResourceData, m interface{})
 	sync := &IntegrationIntegrationInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).IntegrationInstanceClient()
+
+	if sync.D.HasChange("log_group_id") {
+		if logGroupId, ok := sync.D.GetOkExists("log_group_id"); ok && logGroupId != nil && logGroupId != "" {
+			err := sync.AddLogAnalyticsLogGroup()
+			if err != nil {
+				return err
+			}
+		} else {
+			err := sync.RemoveLogAnalyticsLogGroup()
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	if sync.D.HasChange("data_retention_period") {
+		if dataRetentionPeriod, ok := sync.D.GetOkExists("data_retention_period"); ok && dataRetentionPeriod != nil && dataRetentionPeriod != "" {
+			err := sync.ExtendDataRetention()
+			if err != nil {
+				return err
+			}
+		}
+	}
 
 	if _, ok := sync.D.GetOkExists("enable_process_automation_trigger"); ok && sync.D.HasChange("enable_process_automation_trigger") {
 		oldRaw, newRaw := sync.D.GetChange("enable_process_automation_trigger")
@@ -599,22 +740,6 @@ func updateIntegrationIntegrationInstance(d *schema.ResourceData, m interface{})
 		}
 		if err := sync.D.Set("state", oci_integration.IntegrationInstanceLifecycleStateActive); err != nil {
 			return err
-		}
-	}
-
-	if _, ok := sync.D.GetOkExists("extend_data_retention_trigger"); ok && sync.D.HasChange("extend_data_retention_trigger") {
-		oldRaw, newRaw := sync.D.GetChange("extend_data_retention_trigger")
-		oldValue := oldRaw.(int)
-		newValue := newRaw.(int)
-		if oldValue < newValue {
-			err := sync.ExtendDataRetention()
-
-			if err != nil {
-				return err
-			}
-		} else {
-			sync.D.Set("extend_data_retention_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
 		}
 	}
 
@@ -1128,7 +1253,7 @@ func (s *IntegrationIntegrationInstanceResourceCrud) SetData() error {
 		s.D.Set("custom_endpoint", nil)
 	}
 
-	s.D.Set("data_retention_period", s.Res.DataRetentionPeriod)
+	//s.D.Set("data_retention_period", s.Res.DataRetentionPeriod)
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
@@ -1274,6 +1399,31 @@ func (s *IntegrationIntegrationInstanceResourceCrud) AddOracleManagedCustomEndpo
 }
 */
 
+func (s *IntegrationIntegrationInstanceResourceCrud) AddLogAnalyticsLogGroup() error {
+	request := oci_integration.AddLogAnalyticsLogGroupRequest{}
+
+	idTmp := s.D.Id()
+	request.IntegrationInstanceId = &idTmp
+
+	if logGroupId, ok := s.D.GetOkExists("log_group_id"); ok {
+		tmp := logGroupId.(string)
+		request.LogGroupId = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "integration")
+
+	_, err := s.Client.AddLogAnalyticsLogGroup(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	return nil
+}
+
 func (s *IntegrationIntegrationInstanceResourceCrud) EnableProcessAutomation() error {
 	request := oci_integration.EnableProcessAutomationRequest{}
 
@@ -1299,9 +1449,17 @@ func (s *IntegrationIntegrationInstanceResourceCrud) EnableProcessAutomation() e
 
 func (s *IntegrationIntegrationInstanceResourceCrud) ExtendDataRetention() error {
 	request := oci_integration.ExtendDataRetentionRequest{}
+	//request.DataRetentionPeriod = oci_integration.ExtendDataRetentionDetailsDataRetentionPeriod6
 
 	if dataRetentionPeriod, ok := s.D.GetOkExists("data_retention_period"); ok {
-		request.DataRetentionPeriod = oci_integration.ExtendDataRetentionDetailsDataRetentionPeriodEnum(dataRetentionPeriod.(string))
+		enum, ok := oci_integration.GetMappingExtendDataRetentionDetailsDataRetentionPeriodEnum(dataRetentionPeriod.(string))
+		if !ok {
+			return fmt.Errorf("unsupported enum value for DataRetentionPeriod: %s. Supported values are: %s",
+				dataRetentionPeriod,
+				strings.Join(oci_integration.GetExtendDataRetentionDetailsDataRetentionPeriodEnumStringValues(), ","))
+
+		}
+		request.DataRetentionPeriod = enum
 	}
 
 	idTmp := s.D.Id()
@@ -1318,8 +1476,8 @@ func (s *IntegrationIntegrationInstanceResourceCrud) ExtendDataRetention() error
 		return waitErr
 	}
 
-	val := s.D.Get("extend_data_retention_trigger")
-	s.D.Set("extend_data_retention_trigger", val)
+	val := s.D.Get("data_retention_period")
+	s.D.Set("data_retention_period", val)
 
 	return nil
 }
@@ -1345,6 +1503,26 @@ func (s *IntegrationIntegrationInstanceResourceCrud) RemoveOracleManagedCustomEn
 
 	val := s.D.Get("remove_oracle_managed_custom_endpoint_trigger")
 	s.D.Set("remove_oracle_managed_custom_endpoint_trigger", val)
+
+	return nil
+}
+
+func (s *IntegrationIntegrationInstanceResourceCrud) RemoveLogAnalyticsLogGroup() error {
+	request := oci_integration.RemoveLogAnalyticsLogGroupRequest{}
+
+	idTmp := s.D.Id()
+	request.IntegrationInstanceId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "integration")
+
+	_, err := s.Client.RemoveLogAnalyticsLogGroup(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
 
 	return nil
 }
@@ -1392,6 +1570,56 @@ func AttachmentDetailsToMap(obj oci_integration.AttachmentDetails) map[string]in
 	if obj.TargetServiceType != nil {
 		result["target_service_type"] = string(*obj.TargetServiceType)
 	}
+
+	return result
+}
+
+func (s *IntegrationIntegrationInstanceResourceCrud) mapToComponentAllowListDetails(fieldKeyFormat string) (oci_integration.ComponentAllowListDetails, error) {
+	result := oci_integration.ComponentAllowListDetails{}
+
+	if allowlistedHttpIps, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "allowlisted_http_ips")); ok {
+		interfaces := allowlistedHttpIps.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "allowlisted_http_ips")) {
+			result.AllowlistedHttpIps = tmp
+		}
+	}
+
+	if allowlistedHttpVcns, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "allowlisted_http_vcns")); ok {
+		interfaces := allowlistedHttpVcns.([]interface{})
+		tmp := make([]oci_integration.VirtualCloudNetwork, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "allowlisted_http_vcns"), stateDataIndex)
+			converted, err := s.mapToVirtualCloudNetwork(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "allowlisted_http_vcns")) {
+			result.AllowlistedHttpVcns = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func ComponentAllowListDetailsToMap(obj *oci_integration.ComponentAllowListDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["allowlisted_http_ips"] = obj.AllowlistedHttpIps
+
+	allowlistedHttpVcns := []interface{}{}
+	for _, item := range obj.AllowlistedHttpVcns {
+		allowlistedHttpVcns = append(allowlistedHttpVcns, VirtualCloudNetworkToMap(item))
+	}
+	result["allowlisted_http_vcns"] = allowlistedHttpVcns
 
 	return result
 }
@@ -1585,9 +1813,29 @@ func (s *IntegrationIntegrationInstanceResourceCrud) mapToNetworkEndpointDetails
 				details.AllowlistedHttpVcns = tmp
 			}
 		}
+		if designTime, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "design_time")); ok {
+			if tmpList := designTime.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "design_time"), 0)
+				tmp, err := s.mapToComponentAllowListDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert design_time, encountered error: %v", err)
+				}
+				details.DesignTime = &tmp
+			}
+		}
 		if isIntegrationVcnAllowlisted, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_integration_vcn_allowlisted")); ok {
 			tmp := isIntegrationVcnAllowlisted.(bool)
 			details.IsIntegrationVcnAllowlisted = &tmp
+		}
+		if runtime, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "runtime")); ok {
+			if tmpList := runtime.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "runtime"), 0)
+				tmp, err := s.mapToComponentAllowListDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert runtime, encountered error: %v", err)
+				}
+				details.Runtime = &tmp
+			}
 		}
 		baseObject = details
 	default:
@@ -1623,8 +1871,16 @@ func IntegNetworkEndpointDetailsToMap(obj *oci_integration.NetworkEndpointDetail
 			result["allowlisted_http_vcns"] = schema.NewSet(allowlistedHttpVcnsHashCodeForSets, allowlistedHttpVcns)
 		}
 
+		if v.DesignTime != nil {
+			result["design_time"] = []interface{}{ComponentAllowListDetailsToMap(v.DesignTime)}
+		}
+
 		if v.IsIntegrationVcnAllowlisted != nil {
 			result["is_integration_vcn_allowlisted"] = bool(*v.IsIntegrationVcnAllowlisted)
+		}
+
+		if v.Runtime != nil {
+			result["runtime"] = []interface{}{ComponentAllowListDetailsToMap(v.Runtime)}
 		}
 	default:
 		log.Printf("[WARN] Received 'network_endpoint_type' of unknown type %v", *obj)
@@ -1686,6 +1942,18 @@ func (s *IntegrationIntegrationInstanceResourceCrud) mapToVirtualCloudNetwork(fi
 	}
 
 	return result, nil
+}
+
+func VirtualCloudNetworkToMap(obj oci_integration.VirtualCloudNetwork) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["allowlisted_ips"] = obj.AllowlistedIps
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	return result
 }
 
 func IntegVirtualCloudNetworkToMap(obj oci_integration.VirtualCloudNetwork, datasource bool) map[string]interface{} {
