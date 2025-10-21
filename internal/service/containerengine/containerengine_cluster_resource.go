@@ -416,6 +416,14 @@ func ContainerengineClusterResource() *schema.Resource {
 									// Required
 
 									// Optional
+									"backend_nsg_ids": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
 									"defined_tags": {
 										Type:             schema.TypeMap,
 										Optional:         true,
@@ -2034,6 +2042,19 @@ func PersistentVolumeConfigDetailsToMap(obj *oci_containerengine.PersistentVolum
 func (s *ContainerengineClusterResourceCrud) mapToServiceLbConfigDetails(fieldKeyFormat string) (oci_containerengine.ServiceLbConfigDetails, error) {
 	result := oci_containerengine.ServiceLbConfigDetails{}
 
+	if backendNsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backend_nsg_ids")); ok {
+		interfaces := backendNsgIds.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "backend_nsg_ids")) {
+			result.BackendNsgIds = tmp
+		}
+	}
+
 	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
 		tmp, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -2051,6 +2072,8 @@ func (s *ContainerengineClusterResourceCrud) mapToServiceLbConfigDetails(fieldKe
 
 func ServiceLbConfigDetailsToMap(obj *oci_containerengine.ServiceLbConfigDetails) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	result["backend_nsg_ids"] = obj.BackendNsgIds
 
 	if obj.DefinedTags != nil {
 		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)

@@ -129,8 +129,9 @@ var (
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 	ContainerengineClusterOptionsServiceLbConfigRepresentation = map[string]interface{}{
-		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"backend_nsg_ids": acctest.Representation{RepType: acctest.Optional, Create: []string{`backendNsgIds`}, Update: []string{`backendNsgIds2`}},
+		"defined_tags":    acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 	ContainerengineClusterOptionsOpenIdConnectTokenAuthenticationConfigRequiredClaimsRepresentation = map[string]interface{}{
 		"key":   acctest.Representation{RepType: acctest.Optional, Create: `key`, Update: `key2`},
@@ -237,6 +238,7 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "options.0.persistent_volume_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "options.0.persistent_volume_config.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "options.0.service_lb_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.service_lb_config.0.backend_nsg_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "options.0.service_lb_config.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "options.0.service_lb_subnet_ids.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "type", "ENHANCED_CLUSTER"),
@@ -304,6 +306,7 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "options.0.persistent_volume_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "options.0.persistent_volume_config.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "options.0.service_lb_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.service_lb_config.0.backend_nsg_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "options.0.service_lb_config.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "options.0.service_lb_subnet_ids.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "type", "ENHANCED_CLUSTER"),
@@ -373,6 +376,7 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.persistent_volume_config.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.persistent_volume_config.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.service_lb_config.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.service_lb_config.0.backend_nsg_ids.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.service_lb_config.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.service_lb_subnet_ids.#", "2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "clusters.0.state"),
@@ -432,6 +436,7 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "options.0.persistent_volume_config.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "options.0.persistent_volume_config.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "options.0.service_lb_config.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "options.0.service_lb_config.0.backend_nsg_ids.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "options.0.service_lb_config.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "options.0.service_lb_subnet_ids.#", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "open_id_connect_discovery_endpoint"),
