@@ -102,6 +102,7 @@ The following attributes are exported:
 * `is_file_server_enabled` - The file server is enabled or not.
 * `is_visual_builder_enabled` - Visual Builder is enabled or not.
 * `lifecycle_details` - Additional details of lifecycleState or substates
+* `log_group_id` - OCID of LogAnalytics LogGroup, enabled for given integration instance
 * `message_packs` - The number of configured message packs (if any)
 * `network_endpoint_details` - Base representation of a network endpoint.
 	* `allowlisted_http_ips` - Source IP addresses or IP address ranges ingress rules. (ex: "168.122.59.5", "10.20.30.0/26") An invalid IP or CIDR block will result in a 400 response.

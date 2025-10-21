@@ -156,11 +156,10 @@ The following arguments are supported:
     "oracle-zpr.sensitivity.mode" = "enforce"
   }`
 * `shape` - (Optional) Shape
+* `convert_instance_trigger` - (Optional) (Updatable) An optional property when incremented triggers Convert Instance. Could be set to any integer value.
+* `disable_process_automation_trigger` - (Optional) (Updatable) An optional property when incremented triggers Disable Process Automation. Could be set to any integer value.
 * `enable_process_automation_trigger` - (Optional) (Updatable) An optional property when incremented triggers Enable Process Automation. Could be set to any integer value.
-* `extend_data_retention_trigger` - (Optional) (Updatable) An optional property when incremented triggers Extend Data Retention. Could be set to any integer value.
-* `add_oracle_managed_custom_endpoint_trigger` - (Optional) (Updatable) An optional property when incremented triggers Add Oracle Managed Custom Endpoint. Could be set to any integer value.
-* `enable_process_automation_trigger` - (Optional) (Updatable) An optional property when incremented triggers Enable Process Automation. Could be set to any integer value.
-* `remove_oracle_managed_custom_endpoint_trigger` - (Optional) (Updatable) An optional property when incremented triggers Remove Oracle Managed Custom Endpoint. Could be set to any integer value.
+* `failover_trigger` - (Optional) (Updatable) An optional property when incremented triggers Failover. Could be set to any integer value.
 * `failover_trigger` - (Optional) (Updatable) An optional property when incremented triggers Failover. Could be set to any integer value.
   * `network_endpoint_type` - (Required) The type of network endpoint.
 * `failover_trigger` - (Optional) (Updatable) An optional property when incremented triggers Failover. Could be set to any integer value.
@@ -238,6 +237,7 @@ The following attributes are exported:
 * `is_file_server_enabled` - The file server is enabled or not.
 * `is_visual_builder_enabled` - Visual Builder is enabled or not.
 * `lifecycle_details` - Additional details of lifecycleState or substates
+* `log_group_id` - OCID of LogAnalytics LogGroup, enabled for given integration instance
 * `message_packs` - The number of configured message packs (if any)
 * `network_endpoint_details` - Base representation of a network endpoint.
 	* `allowlisted_http_ips` - Source IP addresses or IP address ranges ingress rules. (ex: "168.122.59.5", "10.20.30.0/26") An invalid IP or CIDR block will result in a 400 response.
