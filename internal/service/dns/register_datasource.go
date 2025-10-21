@@ -21,5 +21,6 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_dns_tsig_keys", DnsTsigKeysDataSource())
 	tfresource.RegisterDatasource("oci_dns_view", DnsViewDataSource())
 	tfresource.RegisterDatasource("oci_dns_views", DnsViewsDataSource())
+	tfresource.RegisterDatasource("oci_dns_zone", DnsZoneDataSource())
 	tfresource.RegisterDatasource("oci_dns_zones", DnsZonesDataSource())
 }

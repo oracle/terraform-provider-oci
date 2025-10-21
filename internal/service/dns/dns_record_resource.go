@@ -45,7 +45,6 @@ func DnsRecordResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
-				ForceNew: true,
 			},
 
 			// Optional
