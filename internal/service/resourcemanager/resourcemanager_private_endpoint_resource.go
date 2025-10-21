@@ -550,7 +550,7 @@ func (s *ResourcemanagerPrivateEndpointResourceCrud) SetData() error {
 
 	s.D.Set("nsg_id_list", s.Res.NsgIdList)
 
-	s.D.Set("security_attributes", s.Res.SecurityAttributes)
+	s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
 
 	s.D.Set("source_ips", s.Res.SourceIps)
 
@@ -606,7 +606,7 @@ func PrivateEndpointSummaryToMap(obj oci_resourcemanager.PrivateEndpointSummary)
 		result["is_used_with_configuration_source_provider"] = bool(*obj.IsUsedWithConfigurationSourceProvider)
 	}
 
-	result["security_attributes"] = obj.SecurityAttributes
+	result["security_attributes"] = tfresource.SecurityAttributesToMap(obj.SecurityAttributes)
 
 	result["state"] = string(obj.LifecycleState)
 
