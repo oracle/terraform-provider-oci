@@ -315,7 +315,6 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 							Type:     schema.TypeBool,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 						},
 						"runtime": {
 							Type:     schema.TypeList,
@@ -408,11 +407,18 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 			// 	Type:     schema.TypeInt,
 			// 	Optional: true,
 			// },
+			"convert_instance_trigger": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"disable_process_automation_trigger": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
 			"failover_trigger": {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
-
 			// Computed
 			"attachments": {
 				Type:     schema.TypeList,
@@ -560,6 +566,10 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"is_all_outbound_traffic_private": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"nsg_ids": {
 							Type:     schema.TypeSet,
 							Computed: true,
@@ -640,6 +650,27 @@ func createIntegrationIntegrationInstance(d *schema.ResourceData, m interface{})
 		}
 	}
 
+	if _, ok := sync.D.GetOkExists("convert_instance_trigger"); ok {
+		err := sync.ConvertInstance()
+		if err != nil {
+			return err
+		}
+	}
+
+	if _, ok := sync.D.GetOkExists("disable_process_automation_trigger"); ok {
+		err := sync.DisableProcessAutomation()
+		if err != nil {
+			return err
+		}
+	}
+
+	if _, ok := sync.D.GetOkExists("enable_process_automation_trigger"); ok {
+		err := sync.EnableProcessAutomation()
+		if err != nil {
+			return err
+		}
+	}
+
 	if _, ok := sync.D.GetOkExists("failover_trigger"); ok {
 		err := sync.DisasterRecoveryFailover()
 		if err != nil {
@@ -702,6 +733,38 @@ func updateIntegrationIntegrationInstance(d *schema.ResourceData, m interface{})
 			if err != nil {
 				return err
 			}
+		}
+	}
+
+	if _, ok := sync.D.GetOkExists("convert_instance_trigger"); ok && sync.D.HasChange("convert_instance_trigger") {
+		oldRaw, newRaw := sync.D.GetChange("convert_instance_trigger")
+		oldValue := oldRaw.(int)
+		newValue := newRaw.(int)
+		if oldValue < newValue {
+			err := sync.ConvertInstance()
+
+			if err != nil {
+				return err
+			}
+		} else {
+			sync.D.Set("convert_instance_trigger", oldRaw)
+			return fmt.Errorf("new value of trigger should be greater than the old value")
+		}
+	}
+
+	if _, ok := sync.D.GetOkExists("disable_process_automation_trigger"); ok && sync.D.HasChange("disable_process_automation_trigger") {
+		oldRaw, newRaw := sync.D.GetChange("disable_process_automation_trigger")
+		oldValue := oldRaw.(int)
+		newValue := newRaw.(int)
+		if oldValue < newValue {
+			err := sync.DisableProcessAutomation()
+
+			if err != nil {
+				return err
+			}
+		} else {
+			sync.D.Set("disable_process_automation_trigger", oldRaw)
+			return fmt.Errorf("new value of trigger should be greater than the old value")
 		}
 	}
 
@@ -1245,6 +1308,10 @@ func (s *IntegrationIntegrationInstanceResourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	//if s.Res.DataRetentionPeriod != nil {
+	//	s.D.Set("", s.Res.DataRetentionPeriod)
+	//}
+
 	s.D.Set("consumption_model", s.Res.ConsumptionModel)
 
 	if s.Res.CustomEndpoint != nil {
@@ -1253,7 +1320,7 @@ func (s *IntegrationIntegrationInstanceResourceCrud) SetData() error {
 		s.D.Set("custom_endpoint", nil)
 	}
 
-	//s.D.Set("data_retention_period", s.Res.DataRetentionPeriod)
+	s.D.Set("data_retention_period", s.Res.DataRetentionPeriod)
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
@@ -1307,6 +1374,10 @@ func (s *IntegrationIntegrationInstanceResourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	if s.Res.LogGroupId != nil {
+		s.D.Set("log_group_id", *s.Res.LogGroupId)
+	}
+
 	if s.Res.MessagePacks != nil {
 		s.D.Set("message_packs", *s.Res.MessagePacks)
 	}
@@ -1358,22 +1429,11 @@ func (s *IntegrationIntegrationInstanceResourceCrud) SetData() error {
 	return nil
 }
 
-/*
-func (s *IntegrationIntegrationInstanceResourceCrud) AddOracleManagedCustomEndpoint() error {
-	request := oci_integration.AddOracleManagedCustomEndpointRequest{}
+func (s *IntegrationIntegrationInstanceResourceCrud) ConvertInstance() error {
+	request := oci_integration.ConvertInstanceRequest{}
 
-	if customEndpoint, ok := s.D.GetOkExists("custom_endpoint"); ok {
-
-		if tmpList := customEndpoint.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "custom_endpoint", 0)
-			tmp, err := s.mapToAddOracleManagedCustomEndpointDetails(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			request.DnsType = tmp.DnsType
-			request.DnsZoneName = tmp.DnsZoneName
-			request.Hostname = tmp.Hostname
-		}
+	if conversionType, ok := s.D.GetOkExists("conversion_type"); ok {
+		request.ConversionType = oci_integration.ConvertInstanceDetailsConversionTypeEnum(conversionType.(string))
 	}
 
 	idTmp := s.D.Id()
@@ -1381,23 +1441,43 @@ func (s *IntegrationIntegrationInstanceResourceCrud) AddOracleManagedCustomEndpo
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "integration")
 
-	response, err := s.Client.AddOracleManagedCustomEndpoint(context.Background(), request)
+	_, err := s.Client.ConvertInstance(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
-	workId := response.OpcWorkRequestId
-
-	if waitErr := s.getIntegrationInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "integration"), oci_integration.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate)); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
 		return waitErr
 	}
 
-	val := s.D.Get("add_oracle_managed_custom_endpoint_trigger")
-	s.D.Set("add_oracle_managed_custom_endpoint_trigger", val)
+	val := s.D.Get("convert_instance_trigger")
+	s.D.Set("convert_instance_trigger", val)
 
 	return nil
 }
-*/
+
+func (s *IntegrationIntegrationInstanceResourceCrud) DisableProcessAutomation() error {
+	request := oci_integration.DisableProcessAutomationRequest{}
+
+	idTmp := s.D.Id()
+	request.IntegrationInstanceId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "integration")
+
+	_, err := s.Client.DisableProcessAutomation(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	val := s.D.Get("disable_process_automation_trigger")
+	s.D.Set("disable_process_automation_trigger", val)
+
+	return nil
+}
 
 func (s *IntegrationIntegrationInstanceResourceCrud) AddLogAnalyticsLogGroup() error {
 	request := oci_integration.AddLogAnalyticsLogGroupRequest{}
@@ -1529,7 +1609,6 @@ func (s *IntegrationIntegrationInstanceResourceCrud) RemoveLogAnalyticsLogGroup(
 
 func (s *IntegrationIntegrationInstanceResourceCrud) DisasterRecoveryFailover() error {
 	request := oci_integration.DisasterRecoveryFailoverRequest{}
-
 	idTmp := s.D.Id()
 	request.IntegrationInstanceId = &idTmp
 
@@ -1897,6 +1976,10 @@ func OutboundConnectionToMap(obj *oci_integration.OutboundConnection, datasource
 		result["outbound_connection_type"] = "NONE"
 	case oci_integration.PrivateEndpointOutboundConnection:
 		result["outbound_connection_type"] = "PRIVATE_ENDPOINT"
+
+		if v.IsAllOutboundTrafficPrivate != nil {
+			result["is_all_outbound_traffic_private"] = bool(*v.IsAllOutboundTrafficPrivate)
+		}
 
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
