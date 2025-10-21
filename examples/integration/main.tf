@@ -78,6 +78,29 @@ resource "oci_integration_integration_instance" "test_integration_instance" {
     "oracle-zpr.sensitivity.mode" = "enforce"
   }
 
+  network_endpoint_details {
+    allowlisted_http_ips = ["172.16.0.239/32"]
+    allowlisted_http_vcns {
+      allowlisted_ips = ["172.16.0.239/32"]
+      id = "${var.allow_listed_http_vcn}"
+    }
+    design_time {
+      allowlisted_http_ips = ["allowlistedHttpIps"]
+      allowlisted_http_vcns {
+        allowlisted_ips = ["allowlistedIps"]
+        id = "id"
+      }
+    }
+    is_integration_vcn_allowlisted = "false"
+    network_endpoint_type = "PUBLIC"
+    runtime {
+      allowlisted_http_ips = ["allowlistedHttpIps"]
+      allowlisted_http_vcns {
+        allowlisted_ips = ["allowlistedIps"]
+        id = "id"
+      }
+    }
+  }
   shape                     = "DEVELOPMENT"
   display_name              = "instance-created-via-tf-${random_integer.seq.result}"
   is_byol                   = "false"
