@@ -44,5 +44,5 @@ The following attributes are exported:
 * `time_created` - The date and time the resource was created, expressed in RFC 3339 timestamp format.
 
 	**Example:** `2016-07-22T17:23:59:60Z` 
-* `zone_id` - The OCID of the attached zone.
+* `zone_id` - The OCID of the attached zone. Must be a public zone.
 

@@ -58,7 +58,7 @@ func DnsViewResource() *schema.Resource {
 			"scope": {
 				Type:     schema.TypeString,
 				Optional: true,
-				ForceNew: true,
+				Computed: true,
 			},
 
 			// Computed
