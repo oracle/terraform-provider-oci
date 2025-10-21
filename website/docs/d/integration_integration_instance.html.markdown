@@ -91,6 +91,24 @@ The following attributes are exported:
 	* `allowlisted_http_vcns` - Virtual Cloud Networks allowed to access this network endpoint.
 		* `allowlisted_ips` - Source IP addresses or IP address ranges ingress rules. (ex: "168.122.59.5", "10.20.30.0/26") An invalid IP or CIDR block will result in a 400 response.
 		* `id` - The Virtual Cloud Network OCID.
+	* `design_time` - A collection of AllowListedIps and AllowListedVcns for a specific OIC component: global, RT, or DT
+		* `allowlisted_http_ips` - Source IP addresses or IP address ranges ingress rules. (ex: "168.122.59.5", "10.20.30.0/26") An invalid IP or CIDR block will result in a 400 response.
+		* `allowlisted_http_vcns` - Virtual Cloud Networks allowed to access this network endpoint.
+			* `allowlisted_ips` - Source IP addresses or IP address ranges ingress rules. (ex: "168.122.59.5", "10.20.30.0/26") An invalid IP or CIDR block will result in a 400 response.
+			* `id` - The Virtual Cloud Network OCID.
+	* `is_integration_vcn_allowlisted` - The Integration service's VCN is allow-listed to allow integrations to call back into other integrations
+	* `network_endpoint_type` - The type of network endpoint.
+	* `runtime` - A collection of AllowListedIps and AllowListedVcns for a specific OIC component: global, RT, or DT
+		* `allowlisted_http_ips` - Source IP addresses or IP address ranges ingress rules. (ex: "168.122.59.5", "10.20.30.0/26") An invalid IP or CIDR block will result in a 400 response.
+		* `allowlisted_http_vcns` - Virtual Cloud Networks allowed to access this network endpoint.
+			* `allowlisted_ips` - Source IP addresses or IP address ranges ingress rules. (ex: "168.122.59.5", "10.20.30.0/26") An invalid IP or CIDR block will result in a 400 response.
+			* `id` - The Virtual Cloud Network OCID.
+* `private_endpoint_outbound_connection` - Base representation for Outbound Connection (Reverse Connection).
+* `network_endpoint_details` - Base representation of a network endpoint.
+	* `allowlisted_http_ips` - Source IP addresses or IP address ranges ingress rules. (ex: "168.122.59.5", "10.20.30.0/26") An invalid IP or CIDR block will result in a 400 response.
+	* `allowlisted_http_vcns` - Virtual Cloud Networks allowed to access this network endpoint.
+		* `allowlisted_ips` - Source IP addresses or IP address ranges ingress rules. (ex: "168.122.59.5", "10.20.30.0/26") An invalid IP or CIDR block will result in a 400 response.
+		* `id` - The Virtual Cloud Network OCID.
 	* `is_integration_vcn_allowlisted` - The Integration service's VCN is allow-listed to allow integrations to call back into other integrations
 	* `network_endpoint_type` - The type of network endpoint.
 * `shape` - Shape
