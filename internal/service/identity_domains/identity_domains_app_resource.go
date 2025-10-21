@@ -11,7 +11,6 @@ import (
 	"net/url"
 	"regexp"
 	"strings"
-
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -4490,10 +4489,48 @@ func (s *IdentityDomainsAppResourceCrud) Delete() error {
 		tmp := resourceTypeSchemaVersion.(string)
 		request.ResourceTypeSchemaVersion = &tmp
 	}
+	// ALWAYS DEACTIVATE BEFORE DELETE
+	log.Printf("[INFO] Ensuring app %s is deactivated before deletion", *request.AppId)
 
+	// Get current app state
+	getRequest := oci_identity_domains.GetAppRequest{
+		AppId: request.AppId,
+	}
+	getRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity_domains")
+
+	getResponse, err := s.Client.GetApp(context.Background(), getRequest)
+	if err != nil {
+		log.Printf("[WARN] Could not retrieve app for deactivation check: %v", err)
+		// Continue with delete attempt anyway
+	} else if getResponse.App.Active != nil && *getResponse.App.Active {
+		// App is active, deactivate it using PUT
+		log.Printf("[INFO] App is active, deactivating now...")
+
+		appToUpdate := getResponse.App
+		activeFalse := false
+		appToUpdate.Active = &activeFalse
+
+		putRequest := oci_identity_domains.PutAppRequest{
+			AppId: request.AppId,
+			App:   appToUpdate,
+		}
+		putRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity_domains")
+
+		_, putErr := s.Client.PutApp(context.Background(), putRequest)
+		if putErr != nil {
+			log.Printf("[ERROR] Failed to deactivate app before deletion: %v", putErr)
+			return fmt.Errorf("failed to deactivate app before deletion: %w", putErr)
+		}
+
+		log.Printf("[INFO] App deactivated successfully")
+	} else {
+		log.Printf("[INFO] App is already inactive, proceeding with deletion")
+	}
+	// NOW DELETE THE APP
+	log.Printf("[INFO] Deleting app %s", *request.AppId)
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity_domains")
 
-	_, err := s.Client.DeleteApp(context.Background(), request)
+	_, err = s.Client.DeleteApp(context.Background(), request)
 	return err
 }
 
