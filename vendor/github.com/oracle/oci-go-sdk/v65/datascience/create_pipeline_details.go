@@ -43,6 +43,9 @@ type CreatePipelineDetails struct {
 	// The storage mount details to mount to the instance running the pipeline step.
 	StorageMountConfigurationDetailsList []StorageMountConfigurationDetails `mandatory:"false" json:"storageMountConfigurationDetailsList"`
 
+	// Parameters used in the pipeline.
+	Parameters map[string]string `mandatory:"false" json:"parameters"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -77,6 +80,7 @@ func (m *CreatePipelineDetails) UnmarshalJSON(data []byte) (e error) {
 		LogConfigurationDetails              *PipelineLogConfigurationDetails            `json:"logConfigurationDetails"`
 		InfrastructureConfigurationDetails   *PipelineInfrastructureConfigurationDetails `json:"infrastructureConfigurationDetails"`
 		StorageMountConfigurationDetailsList []storagemountconfigurationdetails          `json:"storageMountConfigurationDetailsList"`
+		Parameters                           map[string]string                           `json:"parameters"`
 		FreeformTags                         map[string]string                           `json:"freeformTags"`
 		DefinedTags                          map[string]map[string]interface{}           `json:"definedTags"`
 		ProjectId                            *string                                     `json:"projectId"`
@@ -119,6 +123,8 @@ func (m *CreatePipelineDetails) UnmarshalJSON(data []byte) (e error) {
 			m.StorageMountConfigurationDetailsList[i] = nil
 		}
 	}
+	m.Parameters = model.Parameters
+
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags

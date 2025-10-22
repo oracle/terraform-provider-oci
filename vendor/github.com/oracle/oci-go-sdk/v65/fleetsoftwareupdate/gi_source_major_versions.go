@@ -22,18 +22,21 @@ const (
 	GiSourceMajorVersionsGi18 GiSourceMajorVersionsEnum = "GI_18"
 	GiSourceMajorVersionsGi19 GiSourceMajorVersionsEnum = "GI_19"
 	GiSourceMajorVersionsGi23 GiSourceMajorVersionsEnum = "GI_23"
+	GiSourceMajorVersionsGi26 GiSourceMajorVersionsEnum = "GI_26"
 )
 
 var mappingGiSourceMajorVersionsEnum = map[string]GiSourceMajorVersionsEnum{
 	"GI_18": GiSourceMajorVersionsGi18,
 	"GI_19": GiSourceMajorVersionsGi19,
 	"GI_23": GiSourceMajorVersionsGi23,
+	"GI_26": GiSourceMajorVersionsGi26,
 }
 
 var mappingGiSourceMajorVersionsEnumLowerCase = map[string]GiSourceMajorVersionsEnum{
 	"gi_18": GiSourceMajorVersionsGi18,
 	"gi_19": GiSourceMajorVersionsGi19,
 	"gi_23": GiSourceMajorVersionsGi23,
+	"gi_26": GiSourceMajorVersionsGi26,
 }
 
 // GetGiSourceMajorVersionsEnumValues Enumerates the set of values for GiSourceMajorVersionsEnum
@@ -51,6 +54,7 @@ func GetGiSourceMajorVersionsEnumStringValues() []string {
 		"GI_18",
 		"GI_19",
 		"GI_23",
+		"GI_26",
 	}
 }
 
