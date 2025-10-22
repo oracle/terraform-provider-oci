@@ -353,5 +353,14 @@ variable "ldap_mount_target_display_name" {
 }
 
 variable "ldap_mount_target_hostname_label" {
-default = "ldaphostnamelabel"
+  default = "ldaphostnamelabel"
+}
+
+variable "mount_target_secret_attributes_display_name" {
+  default = "my_secret_attributes_mount_target"
+}
+
+variable "mount_target_secret_attributes_hostname_label" {
+default = "secretattributeshostnamelabel"
+
 }

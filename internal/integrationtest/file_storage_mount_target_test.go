@@ -9,13 +9,14 @@ import (
 	"regexp"
 	"strconv"
 
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+
 	//"strings"
 	"testing"
 	"time"
 
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
@@ -58,6 +59,7 @@ var (
 		"ldap_idmap":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: FileStorageMountTargetLdapIdmapRepresentation},
 		"nsg_ids":             acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
 		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
+		"security_attributes": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"oracle-zpr.sensitivity.mode": "enforce", "oracle-zpr.sensitivity.value": "42"}, Update: map[string]string{"oracle-zpr.sensitivity.mode": "enforce", "oracle-zpr.sensitivity.value": "48"}},
 	}
 
 	FileStorageMountTargetBisRepresentation = map[string]interface{}{
@@ -119,6 +121,7 @@ var (
 		"ip_address":           acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.5`},
 		"requested_throughput": acctest.Representation{RepType: acctest.Optional, Create: `1`},
 		"lifecycle":            acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
+		"security_attributes":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"oracle-zpr.sensitivity.mode": "enforce", "oracle-zpr.sensitivity.value": "42"}, Update: map[string]string{"oracle-zpr.sensitivity.mode": "enforce", "oracle-zpr.sensitivity.value": "48"}},
 	}
 	/*	FileStorageIPV6MountTargetRepresentation = map[string]interface{}{
 		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
@@ -208,6 +211,11 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_outbound_connector", "test_outbound_connector2", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(FileStorageOutboundConnectorRepresentation, map[string]interface{}{
 			"password_secret_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_vault_secret.test_obc_pwd_secret.id}`},
 		}))
+	DeletedSecurityAttributesConfig = acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target",
+		"test_mount_target", acctest.Optional, acctest.Update,
+		acctest.RepresentationCopyWithNewProperties(FileStorageMountTargetRepresentation, map[string]interface{}{
+			"security_attributes": acctest.Representation{RepType: acctest.Required, Create: map[string]string{}},
+		}))
 )
 
 // issue-routing-tag: file_storage/default
@@ -285,6 +293,9 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.negative_cache_lifetime_seconds", "300"),
 				resource.TestCheckResourceAttrSet(resourceName, "ldap_idmap.0.outbound_connector1id"),
 				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.schema_type", "RFC2307"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "2"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.oracle-zpr.sensitivity.mode", "enforce"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.oracle-zpr.sensitivity.value", "42"),
 				resource.TestCheckResourceAttr(resourceName, "requested_throughput", "1"),
 
 				func(s *terraform.State) (err error) {
@@ -335,6 +346,9 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "ldap_idmap.0.outbound_connector1id"),
 				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.schema_type", "RFC2307"),
 				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.user_search_base", "userSearchBase"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "2"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.oracle-zpr.sensitivity.mode", "enforce"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.oracle-zpr.sensitivity.value", "42"),
 				resource.TestCheckResourceAttr(resourceName, "requested_throughput", "1"),
 
 				func(s *terraform.State) (err error) {
@@ -381,12 +395,29 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "ldap_idmap.0.outbound_connector1id"),
 				resource.TestCheckResourceAttrSet(resourceName, "ldap_idmap.0.outbound_connector2id"),
 				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.schema_type", "RFC2307BIS"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "2"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.oracle-zpr.sensitivity.mode", "enforce"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.oracle-zpr.sensitivity.value", "48"),
 				resource.TestCheckResourceAttr(resourceName, "requested_throughput", "1"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		{
+			Config: config + compartmentIdVariableStr + FileStorageMountTargetResourceDependencies + FileStorageMountTargetResourceKerberosDependencies + DeletedSecurityAttributesConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "0"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("security_attributes is not deleted .")
 					}
 					return err
 				},
@@ -550,7 +581,7 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters for schema_type RFC2307
 		{
-			Config: config + compartmentIdVariableStr + vaultIdVariableStr + keyIdVariableStr + FileStorageMountTargetResourceDependencies + FileStorageMountTargetResourceKerberosDependencies +
+			Config: config + compartmentIdVariableStr + FileStorageMountTargetResourceDependencies + FileStorageMountTargetResourceKerberosDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", acctest.Optional, acctest.Update, FileStorageMountTargetBisRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
