@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_management_external_exadata_storage_server_open_alert_history</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_management_external_exadata_storage_server_open_alert_history</h1>
+
+<p>This data source provides details about a specific External Exadata Storage Server Open Alert History resource in Oracle Cloud Infrastructure Database Management service.</p>
+
+<p>Gets the open alerts from the specified Exadata storage server.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_management_external_exadata_storage_server_open_alert_history&quot; &quot;test_external_exadata_storage_server_open_alert_history&quot; {
+	#Required
+	external_exadata_storage_server_id = oci_database_management_external_exadata_storage_server.test_external_exadata_storage_server.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>external_exadata_storage_server_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Exadata storage server.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>alerts</code> - A list of open alerts.
+
+<ul>
+<li><code>message</code> - The alert message.</li>
+<li><code>severity</code> - The severity of the alert.</li>
+<li><code>time_start_at</code> - The start time of the alert.</li>
+<li><code>type</code> - The type of alert.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

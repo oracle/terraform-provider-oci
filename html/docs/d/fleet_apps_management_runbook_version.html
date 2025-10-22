@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_fleet_apps_management_runbook_version</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_fleet_apps_management_runbook_version</h1>
+
+<p>This data source provides details about a specific Runbook Version resource in Oracle Cloud Infrastructure Fleet Apps Management service.</p>
+
+<p>Gets a Runbook Version by identifier.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_fleet_apps_management_runbook_version&quot; &quot;test_runbook_version&quot; {
+	#Required
+	runbook_version_id = oci_fleet_apps_management_runbook_version.test_runbook_version.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>runbook_version_id</code> - (Required) Unique Runbook Version identifier</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> -</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>execution_workflow_details</code> - Execution Workflow details.
+
+<ul>
+<li><code>workflow</code> - Execution Workflow for the runbook.
+
+<ul>
+<li><code>group_name</code> - Name of the group.</li>
+<li><code>steps</code> - Steps within the Group.
+
+<ul>
+<li><code>group_name</code> - Name of the group.</li>
+<li><code>step_name</code> - Provide StepName for the Task.</li>
+<li><code>steps</code> - Tasks within the Group. Provide the stepName for all applicable tasks.</li>
+<li><code>type</code> - Content Source Details.</li>
+</ul></li>
+<li><code>type</code> - Workflow Group  Details.</li>
+</ul></li>
+</ul></li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>groups</code> - The groups of the runbook.
+
+<ul>
+<li><code>name</code> - The name of the group.</li>
+<li><code>properties</code> - The properties of the component.
+
+<ul>
+<li><code>action_on_failure</code> - The action to be taken in case of a failure.</li>
+<li><code>notification_preferences</code> - Preferences to send notifications on the task activities.
+
+<ul>
+<li><code>should_notify_on_pause</code> - Enables notification on pause.</li>
+<li><code>should_notify_on_task_failure</code> - Enables or disables notification on Task Failures.</li>
+<li><code>should_notify_on_task_success</code> - Enables or disables notification on Task Success.</li>
+</ul></li>
+<li><code>pause_details</code> - Pause Details
+
+<ul>
+<li><code>duration_in_minutes</code> - Time in minutes to apply Pause.</li>
+<li><code>kind</code> - Pause based On.</li>
+</ul></li>
+<li><code>pre_condition</code> - Build control flow conditions that determine the relevance of the task execution.</li>
+<li><code>run_on</code> - The runon conditions
+
+<ul>
+<li><code>condition</code> - Build control flow conditions that determine the relevance of the task execution.</li>
+<li><code>host</code> - OCID of the self hosted instance.</li>
+<li><code>kind</code> - Run on based On.</li>
+<li><code>previous_task_instance_details</code> - Previous Task Instance Details
+
+<ul>
+<li><code>output_variable_details</code> - The details of the output variable that will be used for mapping.
+
+<ul>
+<li><code>output_variable_name</code> - The name of the output variable whose value has to be mapped.</li>
+<li><code>step_name</code> - The name of the task step the output variable belongs to.</li>
+</ul></li>
+<li><code>resource_id</code> - Resource Ocid.</li>
+<li><code>resource_type</code> - Resource Type.</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><code>type</code> - The type of the group. PARALLEL_TASK_GROUP : Helps to execute tasks parallelly inside a resource. PARALLEL_RESOURCE_GROUP : Executes tasks across resources parallelly. ROLLING_RESOURCE_GROUP : Executes tasks across resources in a rolling order.</li>
+</ul></li>
+<li><code>id</code> - The OCID of the resource.</li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.</li>
+<li><code>name</code> - The version of the runbook.</li>
+<li><code>rollback_workflow_details</code> - Rollback Workflow details.
+
+<ul>
+<li><code>scope</code> - rollback Scope</li>
+<li><code>workflow</code> - Rollback Workflow for the runbook.
+
+<ul>
+<li><code>group_name</code> - Name of the group.</li>
+<li><code>steps</code> - Steps within the Group.
+
+<ul>
+<li><code>group_name</code> - Name of the group.</li>
+<li><code>step_name</code> - Provide StepName for the Task.</li>
+<li><code>steps</code> - Tasks within the Group. Provide the stepName for all applicable tasks.</li>
+<li><code>type</code> - Content Source Details.</li>
+</ul></li>
+<li><code>type</code> - Workflow Group  Details.</li>
+</ul></li>
+</ul></li>
+<li><code>runbook_id</code> - The OCID of the resource.</li>
+<li><code>state</code> - The current state of the FleetResource.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>tasks</code> - A set of tasks to execute in the runbook.
+
+<ul>
+<li><code>output_variable_mappings</code> - Mapping output variables of previous tasks to the input variables of the current task.
+
+<ul>
+<li><code>name</code> - The name of the input variable.</li>
+<li><code>output_variable_details</code> - The details of the output variable that will be used for mapping.
+
+<ul>
+<li><code>output_variable_name</code> - The name of the output variable whose value has to be mapped.</li>
+<li><code>step_name</code> - The name of the task step the output variable belongs to.</li>
+</ul></li>
+</ul></li>
+<li><code>step_name</code> - The name of the task step.</li>
+<li><code>step_properties</code> - The properties of the component.
+
+<ul>
+<li><code>action_on_failure</code> - The action to be taken in case of a failure.</li>
+<li><code>notification_preferences</code> - Preferences to send notifications on the task activities.
+
+<ul>
+<li><code>should_notify_on_pause</code> - Enables notification on pause.</li>
+<li><code>should_notify_on_task_failure</code> - Enables or disables notification on Task Failures.</li>
+<li><code>should_notify_on_task_success</code> - Enables or disables notification on Task Success.</li>
+</ul></li>
+<li><code>pause_details</code> - Pause Details
+
+<ul>
+<li><code>duration_in_minutes</code> - Time in minutes to apply Pause.</li>
+<li><code>kind</code> - Pause based On.</li>
+</ul></li>
+<li><code>pre_condition</code> - Build control flow conditions that determine the relevance of the task execution.</li>
+<li><code>run_on</code> - The runon conditions
+
+<ul>
+<li><code>condition</code> - Build control flow conditions that determine the relevance of the task execution.</li>
+<li><code>host</code> - OCID of the self hosted instance.</li>
+<li><code>kind</code> - Run on based On.</li>
+<li><code>previous_task_instance_details</code> - Previous Task Instance Details
+
+<ul>
+<li><code>output_variable_details</code> - The details of the output variable that will be used for mapping.
+
+<ul>
+<li><code>output_variable_name</code> - The name of the output variable whose value has to be mapped.</li>
+<li><code>step_name</code> - The name of the task step the output variable belongs to.</li>
+</ul></li>
+<li><code>resource_id</code> - Resource Ocid.</li>
+<li><code>resource_type</code> - Resource Type.</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><code>task_record_details</code> - The details of the task.
+
+<ul>
+<li><code>description</code> - The description of the task.</li>
+<li><code>execution_details</code> - Execution details.
+
+<ul>
+<li><code>catalog_id</code> - Catalog Id having terraform package.</li>
+<li><code>command</code> - Optional command to execute the content. You can provide any commands/arguments that can&rsquo;t be part of the script.</li>
+<li><code>config_file</code> - Catalog Id having config file.</li>
+<li><code>content</code> - Content Source details.
+
+<ul>
+<li><code>bucket</code> - Bucket Name.</li>
+<li><code>catalog_id</code> - Catalog Id having terraform package.</li>
+<li><code>checksum</code> - md5 checksum of the artifact.</li>
+<li><code>namespace</code> - Namespace.</li>
+<li><code>object</code> - Object Name.</li>
+<li><code>source_type</code> - Content Source type details.</li>
+</ul></li>
+<li><code>credentials</code> - Credentials required for executing the task.
+
+<ul>
+<li><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.  Example: <code>My new resource</code></li>
+<li><code>id</code> - The OCID of the resource.</li>
+</ul></li>
+<li><code>endpoint</code> - Endpoint to be invoked.</li>
+<li><code>execution_type</code> - The action type of the task</li>
+<li><code>is_executable_content</code> - Is the Content an executable file?</li>
+<li><code>is_locked</code> - Is the script locked to prevent changes directly in Object Storage?</li>
+<li><code>is_read_output_variable_enabled</code> - Is read output variable enabled</li>
+<li><code>target_compartment_id</code> - OCID of the compartment to which the resource belongs to.</li>
+<li><code>variables</code> - The variable of the task. At least one of the dynamicArguments or output needs to be provided.
+
+<ul>
+<li><code>input_variables</code> - The input variables for the task.
+
+<ul>
+<li><code>description</code> - The description of the argument.</li>
+<li><code>name</code> - The name of the argument.</li>
+<li><code>type</code> - Input argument Type.</li>
+</ul></li>
+<li><code>output_variables</code> - The list of output variables.</li>
+</ul></li>
+</ul></li>
+<li><code>is_apply_subject_task</code> - Is this an Apply Subject Task? Ex. Patch Execution Task</li>
+<li><code>is_copy_to_library_enabled</code> - Make a copy of this task in Library</li>
+<li><code>is_discovery_output_task</code> - Is this a discovery output task?</li>
+<li><code>name</code> - The name of the task</li>
+<li><code>os_type</code> - The OS for the task.</li>
+<li><code>platform</code> - The platform of the runbook.</li>
+<li><code>properties</code> - The properties of the task.
+
+<ul>
+<li><code>num_retries</code> - The number of retries allowed.</li>
+<li><code>timeout_in_seconds</code> - The timeout in seconds for the task.</li>
+</ul></li>
+<li><code>scope</code> - The scope of the task.</li>
+<li><code>task_record_id</code> - The ID of taskRecord.</li>
+</ul></li>
+</ul></li>
+<li><code>time_created</code> - The time this resource was created. An RFC3339 formatted datetime string.</li>
+<li><code>time_updated</code> - The time this resource was last updated. An RFC3339 formatted datetime string.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

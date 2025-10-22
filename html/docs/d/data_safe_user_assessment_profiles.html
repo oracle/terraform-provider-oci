@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_data_safe_user_assessment_profiles</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_data_safe_user_assessment_profiles</h1>
+
+<p>This data source provides the list of User Assessment Profiles in Oracle Cloud Infrastructure Data Safe service.</p>
+
+<p>Gets a list of user profiles containing the profile details along with the target id and user counts.</p>
+
+<p>The ListProfiles operation returns only the profiles belonging to a certain target. If compartment type user assessment
+id is provided, then profile information for all the targets belonging to the pertaining compartment is returned.
+The list does not include any subcompartments of the compartment under consideration.</p>
+
+<p>The parameter &lsquo;accessLevel&rsquo; specifies whether to return only those compartments for which the requestor has
+INSPECT permissions on at least one resource directly or indirectly (ACCESSIBLE) (the resource can be in a
+subcompartment) or to return Not Authorized if Principal doesn&rsquo;t have access to even one of the child compartments.
+This is valid only when &lsquo;compartmentIdInSubtree&rsquo; is set to &lsquo;true&rsquo;.</p>
+
+<p>The parameter &lsquo;compartmentIdInSubtree&rsquo; applies when you perform ListUserProfiles on the &lsquo;compartmentId&rsquo; belonging
+to the assessmentId passed and when it is set to true, the entire hierarchy of compartments can be returned.
+To get a full list of all compartments and subcompartments in the tenancy (root compartment), set the parameter
+&lsquo;compartmentIdInSubtree&rsquo; to true and &lsquo;accessLevel&rsquo; to ACCESSIBLE.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_data_safe_user_assessment_profiles&quot; &quot;test_user_assessment_profiles&quot; {
+  #Required
+  compartment_id = var.compartment_id
+  user_assessment_id = oci_data_safe_user_assessment.test_user_assessment.id
+
+  #Optional
+  access_level = var.user_assessment_profile_access_level
+  compartment_id_in_subtree = var.user_assessment_profile_compartment_id_in_subtree
+  failed_login_attempts_greater_than_or_equal = var.user_assessment_profile_failed_login_attempts_greater_than_or_equal
+  failed_login_attempts_less_than = var.user_assessment_profile_failed_login_attempts_less_than
+  inactive_account_time_greater_than_or_equal = var.user_assessment_profile_inactive_account_time_greater_than_or_equal
+  inactive_account_time_less_than = var.user_assessment_profile_inactive_account_time_less_than
+  is_user_created = var.user_assessment_profile_is_user_created
+  password_lock_time_greater_than_or_equal = var.user_assessment_profile_password_lock_time_greater_than_or_equal
+  password_lock_time_less_than = var.user_assessment_profile_password_lock_time_less_than
+  password_verification_function = var.user_assessment_profile_password_verification_function
+  profile_name = oci_optimizer_profile.test_profile.name
+  sessions_per_user_greater_than_or_equal = var.user_assessment_profile_sessions_per_user_greater_than_or_equal
+  sessions_per_user_less_than = var.user_assessment_profile_sessions_per_user_less_than
+  target_id = oci_cloud_guard_target.test_target.id
+  user_count_greater_than_or_equal = var.user_assessment_profile_user_count_greater_than_or_equal
+  user_count_less_than = var.user_assessment_profile_user_count_less_than
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>access_level</code> - (Optional) Valid values are RESTRICTED and ACCESSIBLE. Default is RESTRICTED. Setting this to ACCESSIBLE returns only those compartments for which the user has INSPECT permissions directly or indirectly (permissions can be on a resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed.</li>
+<li><code>compartment_id</code> - (Required) A filter to return only resources that match the specified compartment OCID.</li>
+<li><code>compartment_id_in_subtree</code> - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the &lsquo;accessLevel&rsquo; setting.</li>
+<li><code>failed_login_attempts_greater_than_or_equal</code> - (Optional) An optional filter to return the profiles having allow failed login attempts number greater than or equal to the provided value. String value is used for accommodating the &ldquo;UNLIMITED&rdquo; and &ldquo;DEFAULT&rdquo; values.</li>
+<li><code>failed_login_attempts_less_than</code> - (Optional) An optional filter to return the profiles having failed login attempts number less than the provided value. String value is used for accommodating the &ldquo;UNLIMITED&rdquo; and &ldquo;DEFAULT&rdquo; values.</li>
+<li><code>inactive_account_time_greater_than_or_equal</code> - (Optional) An optional filter to return the profiles allowing inactive account time in days greater than or equal to the provided value. String value is used for accommodating the &ldquo;UNLIMITED&rdquo; and &ldquo;DEFAULT&rdquo; values.</li>
+<li><code>inactive_account_time_less_than</code> - (Optional) An optional filter to return the profiles  allowing inactive account time in days less than the provided value. String value is used for accommodating the &ldquo;UNLIMITED&rdquo; and &ldquo;DEFAULT&rdquo; values.</li>
+<li><code>is_user_created</code> - (Optional) An optional filter to return the user created profiles.</li>
+<li><code>password_lock_time_greater_than_or_equal</code> - (Optional) An optional filter to return the profiles having password lock number greater than or equal to the provided value. String value is used for accommodating the &ldquo;UNLIMITED&rdquo; and &ldquo;DEFAULT&rdquo; values.</li>
+<li><code>password_lock_time_less_than</code> - (Optional) An optional filter to return the profiles having password lock number less than the provided value. String value is used for accommodating the &ldquo;UNLIMITED&rdquo; and &ldquo;DEFAULT&rdquo; values.</li>
+<li><code>password_verification_function</code> - (Optional) An optional filter to filter the profiles based on password verification function.</li>
+<li><code>profile_name</code> - (Optional) A filter to return only items that match the specified profile name.</li>
+<li><code>sessions_per_user_greater_than_or_equal</code> - (Optional) An optional filter to return the profiles permitting the user to spawn multiple sessions having count. greater than or equal to the provided value. String value is used for accommodating the &ldquo;UNLIMITED&rdquo; and &ldquo;DEFAULT&rdquo; values.</li>
+<li><code>sessions_per_user_less_than</code> - (Optional) An optional filter to return the profiles permitting the user to spawn multiple sessions having count less than the provided value. String value is used for accommodating the &ldquo;UNLIMITED&rdquo; and &ldquo;DEFAULT&rdquo; values.</li>
+<li><code>target_id</code> - (Optional) A filter to return only items related to a specific target OCID.</li>
+<li><code>user_assessment_id</code> - (Required) The OCID of the user assessment.</li>
+<li><code>user_count_greater_than_or_equal</code> - (Optional) An optional filter to return the profiles having user count greater than or equal to the provided value.</li>
+<li><code>user_count_less_than</code> - (Optional) An optional filter to return the profiles having user count less than the provided value.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>profiles</code> - The list of profiles.</li>
+</ul>
+
+<h3>UserAssessmentProfile Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The OCID of the compartment that contains the user assessment.</li>
+<li><code>composite_limit</code> - Specify the total resource cost for a session, expressed in service units. Oracle Database calculates the total service units as a weighted sum of CPU_PER_SESSION, CONNECT_TIME, LOGICAL_READS_PER_SESSION, and PRIVATE_SGA.</li>
+<li><code>connect_time</code> - Specify the total elapsed time limit for a session, expressed in minutes.</li>
+<li><code>cpu_per_call</code> - Specify the CPU time limit for a call (a parse, execute, or fetch), expressed in hundredths of seconds.</li>
+<li><code>cpu_per_session</code> - Specify the CPU time limit for a session, expressed in hundredth of seconds.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a> Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>failed_login_attempts</code> - Maximum times the user is allowed in fail login before the user account is locked.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>idle_time</code> - Specify the permitted periods of continuous inactive time during a  session, expressed in minutes.</li>
+<li><code>inactive_account_time</code> - The permitted periods of continuous inactive time during a session, expressed in minutes. Long-running queries and other operations are not subjected to this limit.</li>
+<li><code>is_user_created</code> - Represents if the profile is created by user.</li>
+<li><code>logical_reads_per_call</code> - Specify the permitted the number of data blocks read for a call to process a SQL statement (a parse, execute, or fetch).</li>
+<li><code>logical_reads_per_session</code> - Specify the permitted number of data blocks read in a session, including blocks read from memory and disk.</li>
+<li><code>password_grace_time</code> - Number of grace days for user to change password.</li>
+<li><code>password_life_time</code> - Number of days the password is valid before expiry.</li>
+<li><code>password_lock_time</code> - Number of days the user account remains locked after failed login.</li>
+<li><code>password_reuse_max</code> - Number of day after the user can use the already used password.</li>
+<li><code>password_reuse_time</code> - Number of days before which a password cannot be reused.</li>
+<li><code>password_rollover_time</code> - Number of days the password rollover is allowed. Minimum value can be <sup>1</sup>&frasl;<sub>24</sub> day (1 hour) to 60 days.</li>
+<li><code>password_verification_function</code> - Name of the PL/SQL that can be used for password verification.</li>
+<li><code>password_verification_function_details</code> - Details about the PL/SQL that can be used for password verification.</li>
+<li><code>private_sga</code> - Specify the amount of private space a session can allocate in the shared pool of the system global area (SGA), expressed in bytes.</li>
+<li><code>profile_name</code> - The name of the profile.</li>
+<li><code>sessions_per_user</code> - Specify the number of concurrent sessions to which you want to limit the user.</li>
+<li><code>target_id</code> - The OCID of the target database.</li>
+<li><code>user_assessment_id</code> - The OCID of the latest user assessment corresponding to the target under consideration. A compartment  type assessment can also be passed to profiles from all the targets from the corresponding compartment.</li>
+<li><code>user_count</code> - The number of users that have a given profile.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

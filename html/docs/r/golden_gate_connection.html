@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_golden_gate_connection</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_golden_gate_connection</h1>
+
+<p>This resource provides the Connection resource in Oracle Cloud Infrastructure Golden Gate service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/goldengate/latest/Connection">https://docs.oracle.com/iaas/api/#/en/goldengate/latest/Connection</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/goldengate">https://github.com/oracle/terraform-provider-oci/tree/master/examples/goldengate</a></p>
+
+<p>Creates a new Connection.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_golden_gate_connection&quot; &quot;test_connection&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	connection_type = var.connection_connection_type
+	display_name = var.connection_display_name
+	technology_type = var.connection_technology_type
+
+	#Optional
+	access_key_id = oci_kms_key.test_key.id
+	account_key = var.connection_account_key
+	account_key_secret_id = oci_vault_secret.test_secret.id
+	account_name = var.connection_account_name
+	additional_attributes {
+
+		#Optional
+		name = var.connection_additional_attributes_name
+		value = var.connection_additional_attributes_value
+	}
+	authentication_mode = var.connection_authentication_mode
+	authentication_type = var.connection_authentication_type
+	azure_authority_host = var.connection_azure_authority_host
+	azure_tenant_id = oci_golden_gate_azure_tenant.test_azure_tenant.id
+	bootstrap_servers {
+
+		#Optional
+		host = var.connection_bootstrap_servers_host
+		port = var.connection_bootstrap_servers_port
+		private_ip = var.connection_bootstrap_servers_private_ip
+	}
+	catalog {
+		#Required
+		catalog_type = var.connection_catalog_catalog_type
+
+		#Optional
+		branch = var.connection_catalog_branch
+		client_id = oci_golden_gate_client.test_client.id
+		client_secret_secret_id = oci_vault_secret.test_secret.id
+		glue_id = oci_golden_gate_glue.test_glue.id
+		name = var.connection_catalog_name
+		principal_role = var.connection_catalog_principal_role
+		properties_secret_id = oci_vault_secret.test_secret.id
+		uri = var.connection_catalog_uri
+	}
+	client_id = oci_golden_gate_client.test_client.id
+	client_secret = var.connection_client_secret
+	client_secret_secret_id = oci_vault_secret.test_secret.id
+	cluster_id = oci_containerengine_cluster.test_cluster.id
+	cluster_placement_group_id = oci_cluster_placement_groups_cluster_placement_group.test_cluster_placement_group.id
+	connection_factory = var.connection_connection_factory
+	connection_string = var.connection_connection_string
+	connection_url = var.connection_connection_url
+	consumer_properties = var.connection_consumer_properties
+	core_site_xml = var.connection_core_site_xml
+	database_id = oci_database_database.test_database.id
+	database_name = oci_database_database.test_database.name
+	db_system_id = oci_database_db_system.test_db_system.id
+	defined_tags = {&quot;foo-namespace.bar-key&quot;= &quot;value&quot;}
+	deployment_id = oci_golden_gate_deployment.test_deployment.id
+	description = var.connection_description
+	does_use_secret_ids = var.connection_does_use_secret_ids
+	endpoint = var.connection_endpoint
+	fingerprint = var.connection_fingerprint
+	freeform_tags = {&quot;bar-key&quot;= &quot;value&quot;}
+	host = var.connection_host
+	jndi_connection_factory = var.connection_jndi_connection_factory
+	jndi_initial_context_factory = var.connection_jndi_initial_context_factory
+	jndi_provider_url = var.connection_jndi_provider_url
+	jndi_security_credentials = var.connection_jndi_security_credentials
+	jndi_security_credentials_secret_id = oci_vault_secret.test_secret.id
+	jndi_security_principal = var.connection_jndi_security_principal
+	key_id = oci_kms_key.test_key.id
+	key_store = var.connection_key_store
+	key_store_password = var.connection_key_store_password
+	key_store_secret_id = oci_vault_secret.test_secret.id
+	key_store_password_secret_id = oci_vault_secret.test_secret.id
+	locks {
+		#Required
+		type = var.connection_locks_type
+
+		#Optional
+		message = var.connection_locks_message
+	}
+	nsg_ids = var.connection_nsg_ids
+	password = var.connection_password
+	password_secret_id = oci_vault_secret.test_secret.id
+	port = var.connection_port
+	private_ip = var.connection_private_ip
+	private_key_file = var.connection_private_key_file
+	private_key_file_secret_id = oci_vault_secret.test_secret.id
+	private_key_passphrase = var.connection_private_key_passphrase
+	private_key_passphrase_secret_id = oci_vault_secret.test_secret.id
+	producer_properties = var.connection_producer_properties
+	public_key_fingerprint = var.connection_public_key_fingerprint
+	redis_cluster_id = oci_redis_redis_cluster.test_redis_cluster.id
+	region = var.connection_region
+	routing_method = var.connection_routing_method
+	sas_token = var.connection_sas_token
+	sas_token_secret_id = oci_vault_secret.test_secret.id
+	secret_access_key = var.connection_secret_access_key
+	secret_access_key_secret_id = oci_vault_secret.test_secret.id
+	security_attributes = var.connection_security_attributes
+	security_protocol = var.connection_security_protocol
+	servers = var.connection_servers
+	service_account_key_file = var.connection_service_account_key_file
+	service_account_key_file_secret_id = oci_vault_secret.test_secret.id
+	session_mode = var.connection_session_mode
+	should_use_jndi = var.connection_should_use_jndi
+	should_use_resource_principal = var.connection_should_use_resource_principal
+	should_validate_server_certificate = var.connection_should_validate_server_certificate
+	ssl_ca = var.connection_ssl_ca
+	ssl_cert = var.connection_ssl_cert
+	ssl_client_keystash = var.connection_ssl_client_keystash
+	ssl_client_keystash_secret_id = oci_vault_secret.test_secret.id
+	ssl_client_keystoredb = var.connection_ssl_client_keystoredb
+	ssl_client_keystoredb_secret_id = oci_vault_secret.test_secret.id
+	ssl_crl = var.connection_ssl_crl
+	ssl_key = var.connection_ssl_key
+	ssl_key_password = var.connection_ssl_key_password
+	ssl_key_password_secret_id = oci_vault_secret.test_secret.id
+	ssl_key_secret_id = oci_vault_secret.test_secret.id
+	ssl_mode = var.connection_ssl_mode
+	ssl_server_certificate = var.connection_ssl_server_certificate
+	storage {
+		#Required
+		storage_type = var.connection_storage_storage_type
+
+		#Optional
+		access_key_id = oci_kms_key.test_key.id
+		account_key_secret_id = oci_vault_secret.test_secret.id
+		account_name = var.connection_storage_account_name
+		bucket = var.connection_storage_bucket
+		container = var.connection_storage_container
+		endpoint = var.connection_storage_endpoint
+		project_id = oci_ai_anomaly_detection_project.test_project.id
+		region = var.connection_storage_region
+		scheme_type = var.connection_storage_scheme_type
+		secret_access_key_secret_id = oci_vault_secret.test_secret.id
+		service_account_key_file_secret_id = oci_vault_secret.test_secret.id
+	}
+	storage_credential_name = var.connection_storage_credential_name
+	stream_pool_id = oci_streaming_stream_pool.test_stream_pool.id
+	subnet_id = oci_core_subnet.test_subnet.id
+	subscription_id = oci_onesubscription_subscription.test_subscription.id
+	tenancy_id = oci_identity_tenancy.test_tenancy.id
+	tenant_id = oci_golden_gate_tenant.test_tenant.id
+	tls_ca_file = var.connection_tls_ca_file
+	tls_certificate_key_file = var.connection_tls_certificate_key_file
+	tls_certificate_key_file_password = var.connection_tls_certificate_key_file_password
+	tls_certificate_key_file_password_secret_id = oci_vault_secret.test_secret.id
+	tls_certificate_key_file_secret_id = oci_vault_secret.test_secret.id
+	trust_store = var.connection_trust_store
+	trust_store_password = var.connection_trust_store_password
+	trust_store_password_secret_id = oci_vault_secret.test_secret.id
+	trust_store_secret_id = oci_vault_secret.test_secret.id
+	url = var.connection_url
+	user_id = oci_identity_user.test_user.id
+	username = var.connection_username
+	vault_id = oci_kms_vault.test_vault.id
+	wallet = var.connection_wallet
+	wallet_secret_id = oci_vault_secret.test_secret.id
+	trigger_refresh = true
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>access_key_id</code> - (Required when connection_type=AMAZON_KINESIS | AMAZON_S3) (Updatable) Access key ID to access the Amazon S3 bucket. e.g.: &ldquo;this-is-not-the-secret&rdquo;</p></li>
+
+<li><p><code>account_key</code> - (Applicable when connection_type=AZURE_DATA_LAKE_STORAGE) (Updatable) Azure storage account key. This property is required when &lsquo;authenticationType&rsquo; is set to &lsquo;SHARED_KEY&rsquo;. e.g.: pa3WbhVATzj56xD4DH1VjOUhApRGEGHvOo58eQJVWIzX+j8j4CUVFcTjpIqDSRaSa1Wo2LbWY5at+AStEgLOIQ== Deprecated: This field is deprecated and replaced by &ldquo;accountKeySecretId&rdquo;. This field will be removed after February 15 2026.</p></li>
+
+<li><p><code>account_key_secret_id</code> - (Applicable when connection_type=AZURE_DATA_LAKE_STORAGE) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the account key is stored. Note: When provided, &lsquo;accountKey&rsquo; field must not be provided.</p></li>
+
+<li><p><code>account_name</code> - (Required when connection_type=AZURE_DATA_LAKE_STORAGE) (Updatable) Sets the Azure storage account name.</p></li>
+
+<li><p><code>additional_attributes</code> - (Applicable when connection_type=DB2 | MICROSOFT_SQLSERVER | MYSQL | POSTGRESQL) (Updatable) An array of name-value pair attribute entries. Used as additional parameters in connection string.</p>
+
+<ul>
+<li><code>name</code> - (Required when connection_type=DB2 | MICROSOFT_SQLSERVER | MYSQL | POSTGRESQL) (Updatable) The name of the property entry.</li>
+<li><code>value</code> - (Required when connection_type=DB2 | MICROSOFT_SQLSERVER | MYSQL | POSTGRESQL) (Updatable) The value of the property entry.</li>
+</ul></li>
+
+<li><p><code>authentication_mode</code> - (Applicable when connection_type=ORACLE) (Updatable) Authentication mode. It can be provided at creation of Oracle Autonomous Database Serverless connections, when a databaseId is provided. The default value is MTLS.</p></li>
+
+<li><p><code>authentication_type</code> - (Required when connection_type=AZURE_DATA_LAKE_STORAGE | DATABRICKS | ELASTICSEARCH | JAVA_MESSAGE_SERVICE | KAFKA_SCHEMA_REGISTRY | REDIS | SNOWFLAKE) (Updatable) Authentication type for Java Message Service.  If not provided, default is NONE. Optional until 2024-06-27, in the release after it will be made required.</p></li>
+
+<li><p><code>azure_authority_host</code> - (Applicable when connection_type=AZURE_DATA_LAKE_STORAGE) (Updatable) The endpoint used for authentication with Microsoft Entra ID (formerly Azure Active Directory). Default value: <a href="https://login.microsoftonline.com">https://login.microsoftonline.com</a> When connecting to a non-public Azure Cloud, the endpoint must be provided, eg:</p>
+
+<ul>
+<li>Azure China: <a href="https://login.chinacloudapi.cn/">https://login.chinacloudapi.cn/</a></li>
+<li>Azure US Government: <a href="https://login.microsoftonline.us/">https://login.microsoftonline.us/</a></li>
+</ul></li>
+
+<li><p><code>azure_tenant_id</code> - (Applicable when connection_type=AZURE_DATA_LAKE_STORAGE) (Updatable) Azure tenant ID of the application. This property is required when &lsquo;authenticationType&rsquo; is set to &lsquo;AZURE_ACTIVE_DIRECTORY&rsquo;. e.g.: 14593954-d337-4a61-a364-9f758c64f97f</p></li>
+
+<li><p><code>bootstrap_servers</code> - (Applicable when connection_type=KAFKA) (Updatable) Kafka bootstrap. Equivalent of bootstrap.servers configuration property in Kafka: list of KafkaBootstrapServer objects specified by host/port. Used for establishing the initial connection to the Kafka cluster. Example: <code>&quot;server1.example.com:9092,server2.example.com:9092&quot;</code></p>
+
+<ul>
+<li><p><code>host</code> - (Required when connection_type=KAFKA) (Updatable) The name or address of a host.</p></li>
+
+<li><p><code>port</code> - (Applicable when connection_type=KAFKA) (Updatable) The port of an endpoint usually specified for a connection.</p></li>
+
+<li><p><code>private_ip</code> - (Applicable when connection_type=KAFKA) (Updatable) Deprecated: this field will be removed in future versions. Either specify the private IP in the connectionString or host  field, or make sure the host name is resolvable in the target VCN.</p>
+
+<p>The private IP address of the connection&rsquo;s endpoint in the customer&rsquo;s VCN, typically a database endpoint or a big data endpoint (e.g. Kafka bootstrap server). In case the privateIp is provided, the subnetId must also be provided. In case the privateIp (and the subnetId) is not provided it is assumed the datasource is publicly accessible. In case the connection is accessible only privately, the lack of privateIp will result in not being able to access the connection.</p></li>
+</ul></li>
+
+<li><p><code>catalog</code> - (Required when connection_type=ICEBERG) (Updatable) The information about a new catalog of given type used in an Iceberg connection.</p>
+
+<ul>
+<li><code>branch</code> - (Required when catalog_type=NESSIE) (Updatable) The active branch of the Nessie catalog from which Iceberg reads and writes table metadata.</li>
+<li><code>catalog_type</code> - (Required) (Updatable) The catalog type.</li>
+<li><code>client_id</code> - (Required when catalog_type=POLARIS) (Updatable) The OAuth client ID used for authentication.</li>
+<li><code>client_secret_secret_id</code> - (Required when catalog_type=POLARIS) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret that stores the password Oracle GoldenGate uses to connect to Snowflake platform.</li>
+<li><code>glue_id</code> - (Required when catalog_type=GLUE) (Updatable) The AWS Glue Catalog ID where Iceberg tables are registered.</li>
+<li><code>name</code> - (Required when catalog_type=POLARIS) (Updatable) The catalog name within Polaris where Iceberg tables are registered.</li>
+<li><code>principal_role</code> - (Required when catalog_type=POLARIS) (Updatable) The Snowflake role used to access Polaris.</li>
+<li><code>properties_secret_id</code> - (Required when catalog_type=REST) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret that stores the content of the configuration file containing additional properties for the REST catalog. See documentation: <a href="https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm">https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm</a></li>
+<li><code>uri</code> - (Required when catalog_type=NESSIE | POLARIS | REST) (Updatable) The URL endpoint for the Polaris API. e.g.: &lsquo;https://<your-snowflake-account>.snowflakecomputing.com/polaris/api/catalog&rsquo;</li>
+</ul></li>
+
+<li><p><code>client_id</code> - (Required when connection_type=AZURE_DATA_LAKE_STORAGE | DATABRICKS | MICROSOFT_FABRIC) (Updatable) Azure client ID of the application. This property is required when &lsquo;authenticationType&rsquo; is set to &lsquo;AZURE_ACTIVE_DIRECTORY&rsquo;. e.g.: 06ecaabf-8b80-4ec8-a0ec-20cbf463703d</p></li>
+
+<li><p><code>client_secret</code> - (Applicable when connection_type=AZURE_DATA_LAKE_STORAGE | DATABRICKS | MICROSOFT_FABRIC) (Updatable) Azure client secret (aka application password) for authentication. This property is required when &lsquo;authenticationType&rsquo; is set to &lsquo;AZURE_ACTIVE_DIRECTORY&rsquo;. e.g.: dO29Q~F5-VwnA.lZdd11xFF_t5NAXCaGwDl9NbT1 Deprecated: This field is deprecated and replaced by &ldquo;clientSecretSecretId&rdquo;. This field will be removed after February 15 2026.</p></li>
+
+<li><p><code>client_secret_secret_id</code> - (Applicable when connection_type=AZURE_DATA_LAKE_STORAGE | DATABRICKS | MICROSOFT_FABRIC) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the client secret is stored. Only applicable for authenticationType == OAUTH_M2M. Note: When provided, &lsquo;clientSecret&rsquo; field must not be provided.</p></li>
+
+<li><p><code>cluster_id</code> - (Applicable when connection_type=KAFKA) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Kafka cluster being referenced from Oracle Cloud Infrastructure Streaming with Apache Kafka.</p></li>
+
+<li><p><code>cluster_placement_group_id</code> - (Optional) The OCID(<a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm</a>) of the cluster placement group for the resource. Only applicable for multicloud subscriptions. The cluster placement group id must be provided when a multicloud subscription id is provided. Otherwise the cluster placement group must not be provided.</p></li>
+
+<li><p><code>compartment_id</code> - (Required) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment being referenced.</p></li>
+
+<li><p><code>connection_factory</code> - (Applicable when connection_type=JAVA_MESSAGE_SERVICE) (Updatable) The of Java class implementing javax.jms.ConnectionFactory interface supplied by the Java Message Service provider. e.g.: &lsquo;com.stc.jmsjca.core.JConnectionFactoryXA&rsquo;</p></li>
+
+<li><p><code>connection_string</code> - (Required when connection_type=AZURE_SYNAPSE_ANALYTICS | MONGODB | ORACLE) (Updatable) Connection string. AZURE_SYNAPSE_ANALYTICS e.g.: &lsquo;jdbc:sqlserver://<synapse-workspace>.sql.azuresynapse.net:1433;database=<db-name>;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.sql.azuresynapse.net;loginTimeout=300;&rsquo;, MONGODB e.g.: &lsquo;mongodb://mongodb0.example.com:27017/recordsrecords&rsquo;.</p></li>
+
+<li><p><code>connection_type</code> - (Required) (Updatable) The connection type.</p></li>
+
+<li><p><code>connection_url</code> - (Required when connection_type=AMAZON_REDSHIFT | DATABRICKS | JAVA_MESSAGE_SERVICE | ORACLE_AI_DATA_PLATFORM | SNOWFLAKE) (Updatable) Connection URL. e.g.: &lsquo;jdbc:databricks://adb-33934.4.azuredatabricks.net:443/default;transportMode=http;ssl=1;httpPath=sql/protocolv1/o/3393########<sup>44</sup>&frasl;<sub>0</sub>##3-7-hlrb&rsquo;</p></li>
+
+<li><p><code>consumer_properties</code> - (Applicable when connection_type=KAFKA) (Updatable) The base64 encoded content of the consumer.properties file.</p></li>
+
+<li><p><code>core_site_xml</code> - (Required when connection_type=HDFS) (Updatable) The base64 encoded content of the Hadoop Distributed File System configuration file (core-site.xml). It is not included in GET responses if the <code>view=COMPACT</code> query parameter is specified.</p></li>
+
+<li><p><code>database_id</code> - (Applicable when connection_type=MONGODB | ORACLE) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Oracle Autonomous Json Database.</p></li>
+
+<li><p><code>database_name</code> - (Required when connection_type=DB2 | MICROSOFT_SQLSERVER | MYSQL | POSTGRESQL) (Updatable) The name of the database.</p></li>
+
+<li><p><code>db_system_id</code> - (Applicable when connection_type=MYSQL | POSTGRESQL) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the database system being referenced.</p></li>
+
+<li><p><code>defined_tags</code> - (Optional) (Updatable) Tags defined for this resource. Each key is predefined and scoped to a namespace.  Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></p></li>
+
+<li><p><code>deployment_id</code> - (Applicable when connection_type=GOLDENGATE) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the deployment being referenced.</p></li>
+
+<li><p><code>description</code> - (Optional) (Updatable) Metadata about this specific object.</p></li>
+
+<li><p><code>display_name</code> - (Required) (Updatable) An object&rsquo;s Display Name.</p></li>
+
+<li><p><code>does_use_secret_ids</code> - (Optional) (Updatable) Indicates that sensitive attributes are provided via Secrets.</p></li>
+
+<li><p><code>endpoint</code> - (Applicable when connection_type=AMAZON_KINESIS | AMAZON_S3 | AZURE_DATA_LAKE_STORAGE | MICROSOFT_FABRIC) (Updatable) The endpoint URL of the 3rd party cloud service. e.g.: &lsquo;<a href="https://kinesis.us-east-1.amazonaws.com'">https://kinesis.us-east-1.amazonaws.com&rsquo;</a> If not provided, GoldenGate will default to the default endpoint in the <code>region</code>.</p></li>
+
+<li><p><code>fingerprint</code> - (Applicable when connection_type=ELASTICSEARCH) (Updatable) Fingerprint required by TLS security protocol. E.g.: &lsquo;6152b2dfbff200f973c5074a5b91d06ab3b472c07c09a1ea57bb7fd406cdce9c&rsquo;</p></li>
+
+<li><p><code>freeform_tags</code> - (Optional) (Updatable) A simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.  Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></p></li>
+
+<li><p><code>host</code> - (Required when connection_type=DB2 |GENERIC | GOLDENGATE | MICROSOFT_SQLSERVER | MYSQL | POSTGRESQL) (Updatable) The name or address of a host. In case of Generic connection type host and port separated by colon. Example: <code>&quot;server.example.com:1234&quot;</code>
+For multiple hosts, provide a comma separated list. Example: <code>&quot;server1.example.com:1000,server1.example.com:2000&quot;</code></p></li>
+
+<li><p><code>jndi_connection_factory</code> - (Applicable when connection_type=JAVA_MESSAGE_SERVICE) (Updatable) The Connection Factory can be looked up using this name. e.g.: &lsquo;ConnectionFactory&rsquo;</p></li>
+
+<li><p><code>jndi_initial_context_factory</code> - (Applicable when connection_type=JAVA_MESSAGE_SERVICE) (Updatable) The implementation of javax.naming.spi.InitialContextFactory interface that the client uses to obtain initial naming context. e.g.: &lsquo;org.apache.activemq.jndi.ActiveMQInitialContextFactory&rsquo;</p></li>
+
+<li><p><code>jndi_provider_url</code> - (Applicable when connection_type=JAVA_MESSAGE_SERVICE) (Updatable) The URL that Java Message Service will use to contact the JNDI provider. e.g.: &lsquo;tcp://myjms.host.domain:61616?jms.prefetchPolicy.all=1000&rsquo;</p></li>
+
+<li><p><code>jndi_security_credentials</code> - (Applicable when connection_type=JAVA_MESSAGE_SERVICE) (Updatable) The password associated to the principal. Deprecated: This field is deprecated and replaced by &ldquo;jndiSecurityCredentialsSecretId&rdquo;. This field will be removed after February 15 2026.</p></li>
+
+<li><p><code>jndi_security_credentials_secret_id</code> - (Applicable when connection_type=JAVA_MESSAGE_SERVICE) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the security credentials are stored associated to the principal. Note: When provided, &lsquo;jndiSecurityCredentials&rsquo; field must not be provided.</p></li>
+
+<li><p><code>jndi_security_principal</code> - (Applicable when connection_type=JAVA_MESSAGE_SERVICE) (Updatable) Specifies the identity of the principal (user) to be authenticated. e.g.: &lsquo;admin2&rsquo;</p></li>
+
+<li><p><code>key_id</code> - (Optional) (Updatable) Refers to the customer&rsquo;s master key OCID.  If provided, it references a key to manage secrets. Customers must add policies to permit GoldenGate to use this key.</p></li>
+
+<li><p><code>key_store</code> - (Applicable when connection_type=JAVA_MESSAGE_SERVICE | KAFKA | KAFKA_SCHEMA_REGISTRY | REDIS) (Updatable) The base64 encoded content of the KeyStore file. Deprecated: This field is deprecated and replaced by &ldquo;keyStoreSecretId&rdquo;. This field will be removed after February 15 2026.</p></li>
+
+<li><p><code>key_store_password</code> - (Applicable when connection_type=JAVA_MESSAGE_SERVICE | KAFKA | KAFKA_SCHEMA_REGISTRY | REDIS) (Updatable) The KeyStore password. Deprecated: This field is deprecated and replaced by &ldquo;keyStorePasswordSecretId&rdquo;. This field will be removed after February 15 2026.</p></li>
+
+<li><p><code>key_store_password_secret_id</code> - (Applicable when connection_type=JAVA_MESSAGE_SERVICE | KAFKA | KAFKA_SCHEMA_REGISTRY | REDIS) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the kafka Ssl KeyStore password is stored. Note: When provided, &lsquo;keyStorePassword&rsquo; field must not be provided.</p></li>
+
+<li><p><code>key_store_secret_id</code> - (Applicable when connection_type=JAVA_MESSAGE_SERVICE | KAFKA | KAFKA_SCHEMA_REGISTRY | REDIS) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the content of the KeyStore file is stored. Note: When provided, &lsquo;keyStore&rsquo; field must not be provided.</p></li>
+
+<li><p><code>locks</code> - (Optional) Locks associated with this resource.</p>
+
+<ul>
+<li><code>message</code> - (Optional) A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked.</li>
+<li><code>type</code> - (Required) Type of the lock.</li>
+</ul></li>
+
+<li><p><code>nsg_ids</code> - (Optional) (Updatable) An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.</p></li>
+
+<li><p><code>password</code> - (Applicable when connection_type=AMAZON_REDSHIFT | AZURE_SYNAPSE_ANALYTICS | DATABRICKS | DB2 | ELASTICSEARCH | GOLDENGATE | JAVA_MESSAGE_SERVICE | KAFKA | KAFKA_SCHEMA_REGISTRY | MICROSOFT_SQLSERVER | MONGODB | MYSQL | ORACLE | POSTGRESQL | REDIS | SNOWFLAKE) (Updatable) The password Oracle GoldenGate uses to connect the associated system of the given technology. It must conform to the specific security requirements including length, case sensitivity, and so on. Deprecated: This field is deprecated and replaced by &ldquo;passwordSecretId&rdquo;. This field will be removed after February 15 2026.</p></li>
+
+<li><p><code>password_secret_id</code> - (Applicable when connection_type=AMAZON_REDSHIFT | AZURE_SYNAPSE_ANALYTICS | DATABRICKS | DB2 | ELASTICSEARCH | GOLDENGATE | JAVA_MESSAGE_SERVICE | KAFKA | KAFKA_SCHEMA_REGISTRY | MICROSOFT_SQLSERVER | MONGODB | MYSQL | ORACLE | POSTGRESQL | REDIS | SNOWFLAKE) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the password is stored. The password Oracle GoldenGate uses to connect the associated system of the given technology. It must conform to the specific security requirements including length, case sensitivity, and so on. If secretId is used plaintext field must not be provided. Note: When provided, &lsquo;password&rsquo; field must not be provided.</p></li>
+
+<li><p><code>port</code> - (Required when connection_type=DB2 | GOLDENGATE | MICROSOFT_SQLSERVER | MYSQL | POSTGRESQL) (Updatable) The port of an endpoint usually specified for a connection.</p></li>
+
+<li><p><code>private_ip</code> - (Applicable when connection_type=GOLDENGATE | JAVA_MESSAGE_SERVICE | KAFKA_SCHEMA_REGISTRY | MICROSOFT_SQLSERVER | MYSQL | ORACLE | POSTGRESQL) (Updatable) Deprecated: this field will be removed in future versions. Either specify the private IP in the connectionString or host  field, or make sure the host name is resolvable in the target VCN.</p>
+
+<p>The private IP address of the connection&rsquo;s endpoint in the customer&rsquo;s VCN, typically a database endpoint or a big data endpoint (e.g. Kafka bootstrap server). In case the privateIp is provided, the subnetId must also be provided. In case the privateIp (and the subnetId) is not provided it is assumed the datasource is publicly accessible. In case the connection is accessible only privately, the lack of privateIp will result in not being able to access the connection.</p></li>
+
+<li><p><code>private_key_file</code> - (Applicable when connection_type=OCI_OBJECT_STORAGE | ORACLE_NOSQL | SNOWFLAKE) (Updatable) The base64 encoded content of the private key file (PEM file) corresponding to the API key of the fingerprint. See documentation: <a href="https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm">https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm</a> Deprecated: This field is deprecated and replaced by &ldquo;privateKeyFileSecretId&rdquo;. This field will be removed after February 15 2026.</p></li>
+
+<li><p><code>private_key_file_secret_id</code> - (Applicable when connection_type=OCI_OBJECT_STORAGE | ORACLE_AI_DATA_PLATFORM | ORACLE_NOSQL | SNOWFLAKE) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret that stores the content of the private key file (PEM file) corresponding to the API key of the fingerprint. See documentation: <a href="https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm">https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm</a> Note: When provided, &lsquo;privateKeyFile&rsquo; field must not be provided.</p></li>
+
+<li><p><code>private_key_passphrase</code> - (Applicable when connection_type=OCI_OBJECT_STORAGE | ORACLE_NOSQL | SNOWFLAKE) (Updatable) Password if the private key file is encrypted. Deprecated: This field is deprecated and replaced by &ldquo;privateKeyPassphraseSecretId&rdquo;. This field will be removed after February 15 2026.</p></li>
+
+<li><p><code>private_key_passphrase_secret_id</code> - (Applicable when connection_type=OCI_OBJECT_STORAGE | ORACLE_AI_DATA_PLATFORM | ORACLE_NOSQL | SNOWFLAKE) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret that stores the password for the private key file. Note: When provided, &lsquo;privateKeyPassphrase&rsquo; field must not be provided.</p></li>
+
+<li><p><code>producer_properties</code> - (Applicable when connection_type=KAFKA) (Updatable) The base64 encoded content of the producer.properties file.</p></li>
+
+<li><p><code>public_key_fingerprint</code> - (Applicable when connection_type=OCI_OBJECT_STORAGE | ORACLE_AI_DATA_PLATFORM | ORACLE_NOSQL) (Updatable) The fingerprint of the API Key of the user specified by the userId. See documentation: <a href="https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm">https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm</a></p></li>
+
+<li><p><code>redis_cluster_id</code> - (Applicable when connection_type=REDIS) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Redis cluster.</p></li>
+
+<li><p><code>region</code> - (Applicable when connection_type=AMAZON_KINESIS | AMAZON_S3 | OCI_OBJECT_STORAGE | ORACLE_AI_DATA_PLATFORM | ORACLE_NOSQL) (Updatable) The name of the AWS region where the bucket is created. If not provided, GoldenGate will default to &lsquo;us-west-2&rsquo;. Note: this property will become mandatory after May 20, 2026.</p></li>
+
+<li><p><code>routing_method</code> - (Optional) (Updatable) Controls the network traffic direction to the target: SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service&rsquo;s network to public hosts. Cannot be used for private targets.  SHARED_DEPLOYMENT_ENDPOINT: Network traffic flows from the assigned deployment&rsquo;s private endpoint through the deployment&rsquo;s subnet. DEDICATED_ENDPOINT: A dedicated private endpoint is created in the target VCN subnet for the connection. The subnetId is required when DEDICATED_ENDPOINT networking is selected.</p></li>
+
+<li><p><code>sas_token</code> - (Applicable when connection_type=AZURE_DATA_LAKE_STORAGE) (Updatable) Credential that uses a shared access signature (SAS) to authenticate to an Azure Service. This property is required when &lsquo;authenticationType&rsquo; is set to &lsquo;SHARED_ACCESS_SIGNATURE&rsquo;. e.g.: ?sv=2020-06-08&amp;ss=bfqt&amp;srt=sco&amp;sp=rwdlacupyx&amp;se=2020-09-10T20:27:28Z&amp;st=2022-08-05T12:27:28Z&amp;spr=https&amp;sig=C1IgHsiLBmTSStYkXXGLTP8it0xBrArcgCqOsZbXwIQ%3D Deprecated: This field is deprecated and replaced by &ldquo;sasTokenSecretId&rdquo;. This field will be removed after February 15 2026.</p></li>
+
+<li><p><code>sas_token_secret_id</code> - (Applicable when connection_type=AZURE_DATA_LAKE_STORAGE) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the sas token is stored. Note: When provided, &lsquo;sasToken&rsquo; field must not be provided.</p></li>
+
+<li><p><code>secret_access_key</code> - (Applicable when connection_type=AMAZON_KINESIS | AMAZON_S3) (Updatable) Secret access key to access the Amazon S3 bucket. e.g.: &ldquo;this-is-not-the-secret&rdquo; Deprecated: This field is deprecated and replaced by &ldquo;secretAccessKeySecretId&rdquo;. This field will be removed after February 15 2026.</p></li>
+
+<li><p><code>secret_access_key_secret_id</code> - (Applicable when connection_type=AMAZON_KINESIS | AMAZON_S3) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the secret access key is stored. Note: When provided, &lsquo;secretAccessKey&rsquo; field must not be provided.</p></li>
+
+<li><p><code>security_attributes</code> - (Optional) (Updatable) Security attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Oracle-ZPR&quot;: {&quot;MaxEgressCount&quot;: {&quot;value&quot;: &quot;42&quot;, &quot;mode&quot;: &quot;enforce&quot;}}}</code></p></li>
+
+<li><p><code>security_protocol</code> - (Required when connection_type=DB2 | ELASTICSEARCH | JAVA_MESSAGE_SERVICE | KAFKA | MICROSOFT_SQLSERVER | MONGODB | MYSQL | POSTGRESQL | REDIS) (Updatable) Security protocol for Java Message Service. If not provided, default is PLAIN. Optional until 2024-06-27, in the release after it will be made required.</p></li>
+
+<li><p><code>servers</code> - (Required when connection_type=ELASTICSEARCH | REDIS) (Updatable) Comma separated list of Elasticsearch server addresses, specified as host:port entries, where :port is optional.  If port is not specified, it defaults to 9200. Used for establishing the initial connection to the Elasticsearch cluster. Example: <code>&quot;server1.example.com:4000,server2.example.com:4000&quot;</code></p></li>
+
+<li><p><code>service_account_key_file</code> - (Applicable when connection_type=GOOGLE_BIGQUERY | GOOGLE_CLOUD_STORAGE | GOOGLE_PUBSUB) (Updatable) The base64 encoded content of the service account key file containing the credentials required to use Google Cloud Storage. Deprecated: This field is deprecated and replaced by &ldquo;serviceAccountKeyFileSecretId&rdquo;. This field will be removed after February 15 2026.</p></li>
+
+<li><p><code>service_account_key_file_secret_id</code> - (Applicable when connection_type=GOOGLE_BIGQUERY | GOOGLE_CLOUD_STORAGE | GOOGLE_PUBSUB) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the content of the service account key file is stored, which contains the credentials required to use Google Cloud Storage. Note: When provided, &lsquo;serviceAccountKeyFile&rsquo; field must not be provided.</p></li>
+
+<li><p><code>session_mode</code> - (Applicable when connection_type=ORACLE) (Updatable) The mode of the database connection session to be established by the data client. &lsquo;REDIRECT&rsquo; - for a RAC database, &lsquo;DIRECT&rsquo; - for a non-RAC database. Connection to a RAC database involves a redirection received from the SCAN listeners to the database node to connect to. By default the mode would be DIRECT.</p></li>
+
+<li><p><code>should_use_jndi</code> - (Required when connection_type=JAVA_MESSAGE_SERVICE) (Updatable) If set to true, Java Naming and Directory Interface (JNDI) properties should be provided.</p></li>
+
+<li><p><code>should_use_resource_principal</code> - (Applicable when connection_type=KAFKA | OCI_OBJECT_STORAGE | ORACLE_AI_DATA_PLATFORM | ORACLE_NOSQL) (Updatable) Specifies that the user intends to authenticate to the instance using a resource principal. Applicable only for Oracle Cloud Infrastructure Streaming connections. Only available from 23.9.0.0.0 GoldenGate versions. Note: When specified, &lsquo;username&rsquo;/&lsquo;password&rsquo;/&lsquo;passwordSecretId&rsquo; fields must not be provided. Default: false</p></li>
+
+<li><p><code>should_validate_server_certificate</code> - (Applicable when connection_type=MICROSOFT_SQLSERVER) (Updatable) If set to true, the driver validates the certificate that is sent by the database server.</p></li>
+
+<li><p><code>ssl_ca</code> - (Applicable when connection_type=MICROSOFT_SQLSERVER | MYSQL | POSTGRESQL) (Updatable) The base64 encoded certificate of the trusted certificate authorities (Trusted CA) for PostgreSQL.  The supported file formats are .pem and .crt. It is not included in GET responses if the <code>view=COMPACT</code> query parameter is specified.</p></li>
+
+<li><p><code>ssl_cert</code> - (Applicable when connection_type=MYSQL | POSTGRESQL) (Updatable) Client Certificate - The base64 encoded content of a .pem or .crt file containing the client public key (for 2-way SSL). It is not included in GET responses if the <code>view=COMPACT</code> query parameter is specified.</p></li>
+
+<li><p><code>ssl_client_keystash</code> - (Applicable when connection_type=DB2) (Updatable) The base64 encoded keystash file which contains the encrypted password to the key database file. This property is not supported for IBM Db2 for i, as client TLS mode is not available.</p>
+
+<p>Deprecated: This field is deprecated and replaced by &ldquo;sslClientKeystashSecretId&rdquo;. This field will be removed after February 15 2026.</p></li>
+
+<li><p><code>ssl_client_keystash_secret_id</code> - (Applicable when connection_type=DB2) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the keystash file is stored,  which contains the encrypted password to the key database file. This property is not supported for IBM Db2 for i, as client TLS mode is not available.</p>
+
+<p>Note: When provided, &lsquo;sslClientKeystash&rsquo; field must not be provided.</p></li>
+
+<li><p><code>ssl_client_keystoredb</code> - (Applicable when connection_type=DB2) (Updatable) The base64 encoded keystore file created at the client containing the server certificate / CA root certificate. This property is not supported for IBM Db2 for i, as client TLS mode is not available.</p>
+
+<p>Deprecated: This field is deprecated and replaced by &ldquo;sslClientKeystoredbSecretId&rdquo;. This field will be removed after February 15 2026.</p></li>
+
+<li><p><code>ssl_client_keystoredb_secret_id</code> - (Applicable when connection_type=DB2) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the keystore file stored,  which created at the client containing the server certificate / CA root certificate. This property is not supported for IBM Db2 for i, as client TLS mode is not available.</p>
+
+<p>Note: When provided, &lsquo;sslClientKeystoredb&rsquo; field must not be provided.</p></li>
+
+<li><p><code>ssl_crl</code> - (Applicable when connection_type=MYSQL | POSTGRESQL) (Updatable) The base64 encoded list of certificates revoked by the trusted certificate authorities (Trusted CA). Note: This is an optional property and only applicable if TLS/MTLS option is selected. It is not included in GET responses if the <code>view=COMPACT</code> query parameter is specified.</p></li>
+
+<li><p><code>ssl_key</code> - (Applicable when connection_type=MYSQL | POSTGRESQL) (Updatable) Client Key - The base64 encoded content of a .pem or .crt file containing the client private key (for 2-way SSL). Deprecated: This field is deprecated and replaced by &ldquo;sslKeySecretId&rdquo;. This field will be removed after February 15 2026.</p></li>
+
+<li><p><code>ssl_key_password</code> - (Applicable when connection_type=JAVA_MESSAGE_SERVICE | KAFKA | KAFKA_SCHEMA_REGISTRY) (Updatable) The password for the cert inside of the KeyStore. In case it differs from the KeyStore password, it should be provided. Deprecated: This field is deprecated and replaced by &ldquo;sslKeyPasswordSecretId&rdquo;. This field will be removed after February 15 2026.</p></li>
+
+<li><p><code>ssl_key_password_secret_id</code> - (Applicable when connection_type=JAVA_MESSAGE_SERVICE | KAFKA | KAFKA_SCHEMA_REGISTRY) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the password is stored for the cert inside of the Keystore. In case it differs from the KeyStore password, it should be provided. Note: When provided, &lsquo;sslKeyPassword&rsquo; field must not be provided.</p></li>
+
+<li><p><code>ssl_key_secret_id</code> - (Applicable when connection_type=MYSQL | POSTGRESQL) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret that stores the Client Key</p>
+
+<ul>
+<li>The content of a .pem or .crt file containing the client private key (for 2-way SSL). Note: When provided, &lsquo;sslKey&rsquo; field must not be provided.</li>
+</ul></li>
+
+<li><p><code>ssl_mode</code> - (Applicable when connection_type=MYSQL | POSTGRESQL) (Updatable) SSL modes for PostgreSQL.</p></li>
+
+<li><p><code>ssl_server_certificate</code> - (Applicable when connection_type=DB2) (Updatable) The base64 encoded file which contains the self-signed server certificate / Certificate Authority (CA) certificate. It is not included in GET responses if the <code>view=COMPACT</code> query parameter is specified.</p></li>
+
+<li><p><code>storage</code> - (Required when connection_type=ICEBERG) (Updatable) The information about a new storage of given type used in an Iceberg connection.</p>
+
+<ul>
+<li><code>access_key_id</code> - (Required when storage_type=AMAZON_S3) (Updatable) Access key ID to access the Amazon S3 bucket.</li>
+<li><code>account_key_secret_id</code> - (Required when storage_type=AZURE_DATA_LAKE_STORAGE) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the account key is stored.</li>
+<li><code>account_name</code> - (Required when storage_type=AZURE_DATA_LAKE_STORAGE) (Updatable) Sets the Azure storage account name.</li>
+<li><code>bucket</code> - (Required when storage_type=AMAZON_S3 | GOOGLE_CLOUD_STORAGE) (Updatable) Google Cloud Storage bucket where Iceberg stores metadata and data files.</li>
+<li><code>container</code> - (Required when storage_type=AZURE_DATA_LAKE_STORAGE) (Updatable) The Azure Blob Storage container where Iceberg tables are stored.</li>
+<li><code>endpoint</code> - (Applicable when storage_type=AMAZON_S3 | AZURE_DATA_LAKE_STORAGE) (Updatable) The Azure Blob Storage endpoint where Iceberg data is stored. e.g.: &lsquo;<a href="https://my-azure-storage-account.blob.core.windows.net'">https://my-azure-storage-account.blob.core.windows.net&rsquo;</a></li>
+<li><code>project_id</code> - (Required when storage_type=GOOGLE_CLOUD_STORAGE) (Updatable) The Google Cloud Project where the bucket exists.</li>
+<li><code>region</code> - (Required when storage_type=AMAZON_S3) (Updatable) The AMAZON region where the S3 bucket is hosted. e.g.: &lsquo;us-east-2&rsquo;</li>
+<li><code>scheme_type</code> - (Required when storage_type=AMAZON_S3) (Updatable) The scheme of the storage.</li>
+<li><code>secret_access_key_secret_id</code> - (Required when storage_type=AMAZON_S3) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the Secret Access Key is stored.</li>
+<li><code>service_account_key_file_secret_id</code> - (Required when storage_type=GOOGLE_CLOUD_STORAGE) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the content of the service account key file is stored, which contains the credentials required to use Google Cloud Storage.</li>
+<li><code>storage_type</code> - (Required) (Updatable) The storage type used in the Iceberg connection.</li>
+</ul></li>
+
+<li><p><code>storage_credential_name</code> - (Applicable when connection_type=DATABRICKS) (Updatable) Optional. External storage credential name to access files on object storage such as ADLS Gen2, S3 or GCS.</p></li>
+
+<li><p><code>stream_pool_id</code> - (Applicable when connection_type=KAFKA) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the stream pool being referenced.</p></li>
+
+<li><p><code>subnet_id</code> - (Optional) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the target subnet of the dedicated connection.</p></li>
+
+<li><p><code>subscription_id</code> - (Optional) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the subscription with which resource needs to be associated with.</p></li>
+
+<li><p><code>technology_type</code> - (Required) The Kafka (e.g. Confluent) Schema Registry technology type.</p></li>
+
+<li><p><code>tenancy_id</code> - (Applicable when connection_type=OCI_OBJECT_STORAGE | ORACLE_AI_DATA_PLATFORM | ORACLE_NOSQL) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the related Oracle Cloud Infrastructure tenancy.</p></li>
+
+<li><p><code>tenant_id</code> - (Required when connection_type=MICROSOFT_FABRIC) (Updatable) Azure tenant ID of the application. e.g.: 14593954-d337-4a61-a364-9f758c64f97f</p></li>
+
+<li><p><code>tls_ca_file</code> - (Applicable when connection_type=MONGODB) (Updatable) Database Certificate - The base64 encoded content of a .pem file, containing the server public key (for 1 and 2-way SSL). It is not included in GET responses if the <code>view=COMPACT</code> query parameter is specified.</p></li>
+
+<li><p><code>tls_certificate_key_file</code> - (Applicable when connection_type=MONGODB) (Updatable) Client Certificate - The base64 encoded content of a .pem file, containing the client public key (for 2-way SSL). Deprecated: This field is deprecated and replaced by &ldquo;tlsCertificateKeyFileSecretId&rdquo;. This field will be removed after February 15 2026.</p></li>
+
+<li><p><code>tls_certificate_key_file_password</code> - (Applicable when connection_type=MONGODB) (Updatable) Client Certificate key file password. Deprecated: This field is deprecated and replaced by &ldquo;tlsCertificateKeyFilePasswordSecretId&rdquo;. This field will be removed after February 15 2026.</p></li>
+
+<li><p><code>tls_certificate_key_file_password_secret_id</code> - (Applicable when connection_type=MONGODB) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret that stores the password of the tls certificate key file. Note: When provided, &lsquo;tlsCertificateKeyFilePassword&rsquo; field must not be provided.</p></li>
+
+<li><p><code>tls_certificate_key_file_secret_id</code> - (Applicable when connection_type=MONGODB) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret that stores the certificate key file of the mtls connection.</p>
+
+<ul>
+<li>The content of a .pem file containing the client private key (for 2-way SSL). Note: When provided, &lsquo;tlsCertificateKeyFile&rsquo; field must not be provided.</li>
+</ul></li>
+
+<li><p><code>trust_store</code> - (Applicable when connection_type=JAVA_MESSAGE_SERVICE | KAFKA | KAFKA_SCHEMA_REGISTRY | REDIS) (Updatable) The base64 encoded content of the TrustStore file. Deprecated: This field is deprecated and replaced by &ldquo;trustStoreSecretId&rdquo;. This field will be removed after February 15 2026.</p></li>
+
+<li><p><code>trust_store_password</code> - (Applicable when connection_type=JAVA_MESSAGE_SERVICE | KAFKA | KAFKA_SCHEMA_REGISTRY | REDIS) (Updatable) The TrustStore password. Deprecated: This field is deprecated and replaced by &ldquo;trustStorePasswordSecretId&rdquo;. This field will be removed after February 15 2026.</p></li>
+
+<li><p><code>trust_store_password_secret_id</code> - (Applicable when connection_type=JAVA_MESSAGE_SERVICE | KAFKA | KAFKA_SCHEMA_REGISTRY | REDIS) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the kafka Ssl TrustStore password is stored. Note: When provided, &lsquo;trustStorePassword&rsquo; field must not be provided.</p></li>
+
+<li><p><code>trust_store_secret_id</code> - (Applicable when connection_type=JAVA_MESSAGE_SERVICE | KAFKA | KAFKA_SCHEMA_REGISTRY | REDIS) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the content of the TrustStore file is stored. Note: When provided, &lsquo;trustStore&rsquo; field must not be provided.</p></li>
+
+<li><p><code>url</code> - (Required when connection_type=KAFKA_SCHEMA_REGISTRY) (Updatable) Kafka Schema Registry URL. e.g.: &lsquo;<a href="https://server1.us.oracle.com:8081'">https://server1.us.oracle.com:8081&rsquo;</a></p></li>
+
+<li><p><code>user_id</code> - (Applicable when connection_type=OCI_OBJECT_STORAGE | ORACLE_AI_DATA_PLATFORM | ORACLE_NOSQL) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Oracle Cloud Infrastructure user who will access the Oracle NoSQL database. The user must have write access to the table they want to connect to. If the user is not provided, backend will default to the user who is calling the API endpoint.</p></li>
+
+<li><p><code>username</code> - (Required when connection_type=AMAZON_REDSHIFT | AZURE_SYNAPSE_ANALYTICS | DB2 | ELASTICSEARCH | GOLDENGATE | JAVA_MESSAGE_SERVICE | KAFKA | KAFKA_SCHEMA_REGISTRY | MICROSOFT_SQLSERVER | MONGODB | MYSQL | ORACLE | POSTGRESQL | REDIS | SNOWFLAKE) (Updatable) The username Oracle GoldenGate uses to connect the associated system of the given technology. This username must already exist and be available by the system/application to be connected to and must conform to the case sensitivty requirments defined in it.</p></li>
+
+<li><p><code>vault_id</code> - (Optional) (Updatable) Refers to the customer&rsquo;s vault OCID.  If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate to manage secrets contained within this vault.</p></li>
+
+<li><p><code>wallet</code> - (Applicable when connection_type=ORACLE) (Updatable) The wallet contents Oracle GoldenGate uses to make connections to a database. This attribute is expected to be base64 encoded. Deprecated: This field is deprecated and replaced by &ldquo;walletSecretId&rdquo;. This field will be removed after February 15 2026.</p></li>
+
+<li><p><code>wallet_secret_id</code> - (Applicable when connection_type=ORACLE) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the wallet file is stored.  The wallet contents Oracle GoldenGate uses to make connections to a database. Note: When provided, &lsquo;wallet&rsquo; field must not be provided.</p></li>
+
+<li><p><code>trigger_refresh</code> - (Optional) (Updatable) If value is true, it triggers connection refresh action and this attribute change will always show up in the &ldquo;update&rdquo; plan and will apply steps in order to refresh secrets and dependent service properties (such as ADB connection strings, wallets, etc..).</p></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>access_key_id</code> - Access key ID to access the Amazon S3 bucket. e.g.: &ldquo;this-is-not-the-secret&rdquo;</p></li>
+
+<li><p><code>account_key_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the account key is stored. Note: When provided, &lsquo;accountKey&rsquo; field must not be provided.</p></li>
+
+<li><p><code>account_name</code> - Sets the Azure storage account name.</p></li>
+
+<li><p><code>additional_attributes</code> - An array of name-value pair attribute entries. Used as additional parameters in connection string.</p>
+
+<ul>
+<li><code>name</code> - The name of the property entry.</li>
+<li><code>value</code> - The value of the property entry.</li>
+</ul></li>
+
+<li><p><code>authentication_mode</code> - Authentication mode. It can be provided at creation of Oracle Autonomous Database Serverless connections, when a databaseId is provided. The default value is MTLS.</p></li>
+
+<li><p><code>authentication_type</code> - Used authentication mechanism to access Databricks. Required fields by authentication types:</p>
+
+<ul>
+<li>PERSONAL_ACCESS_TOKEN: username is always &lsquo;token&rsquo;, user must enter password</li>
+<li>OAUTH_M2M: user must enter clientId and clientSecret</li>
+</ul></li>
+
+<li><p><code>azure_authority_host</code> - The endpoint used for authentication with Microsoft Entra ID (formerly Azure Active Directory). Default value: <a href="https://login.microsoftonline.com">https://login.microsoftonline.com</a> When connecting to a non-public Azure Cloud, the endpoint must be provided, eg:</p>
+
+<ul>
+<li>Azure China: <a href="https://login.chinacloudapi.cn/">https://login.chinacloudapi.cn/</a></li>
+<li>Azure US Government: <a href="https://login.microsoftonline.us/">https://login.microsoftonline.us/</a></li>
+</ul></li>
+
+<li><p><code>azure_tenant_id</code> - Azure tenant ID of the application. This property is required when &lsquo;authenticationType&rsquo; is set to &lsquo;AZURE_ACTIVE_DIRECTORY&rsquo;. e.g.: 14593954-d337-4a61-a364-9f758c64f97f</p></li>
+
+<li><p><code>bootstrap_servers</code> - Kafka bootstrap. Equivalent of bootstrap.servers configuration property in Kafka: list of KafkaBootstrapServer objects specified by host/port. Used for establishing the initial connection to the Kafka cluster. Example: <code>&quot;server1.example.com:9092,server2.example.com:9092&quot;</code></p>
+
+<ul>
+<li><p><code>host</code> - The name or address of a host.</p></li>
+
+<li><p><code>port</code> - The port of an endpoint usually specified for a connection.</p></li>
+
+<li><p><code>private_ip</code> - Deprecated: this field will be removed in future versions. Either specify the private IP in the connectionString or host  field, or make sure the host name is resolvable in the target VCN.</p>
+
+<p>The private IP address of the connection&rsquo;s endpoint in the customer&rsquo;s VCN, typically a database endpoint or a big data endpoint (e.g. Kafka bootstrap server). In case the privateIp is provided, the subnetId must also be provided. In case the privateIp (and the subnetId) is not provided it is assumed the datasource is publicly accessible. In case the connection is accessible only privately, the lack of privateIp will result in not being able to access the connection.</p></li>
+</ul></li>
+
+<li><p><code>catalog</code> - Represents the catalog of given type used in an Iceberg connection.</p>
+
+<ul>
+<li><code>branch</code> - The active branch of the Nessie catalog from which Iceberg reads and writes table metadata.</li>
+<li><code>catalog_type</code> - The catalog type.</li>
+<li><code>client_id</code> - The OAuth client ID used for authentication.</li>
+<li><code>client_secret_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret that stores the password Oracle GoldenGate uses to connect to Snowflake platform.</li>
+<li><code>glue_id</code> - The AWS Glue Catalog ID where Iceberg tables are registered.</li>
+<li><code>name</code> - The catalog name within Polaris where Iceberg tables are registered.</li>
+<li><code>principal_role</code> - The Snowflake role used to access Polaris.</li>
+<li><code>properties_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret that stores the content of the configuration file containing additional properties for the REST catalog. See documentation: <a href="https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm">https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm</a></li>
+<li><code>uri</code> - The URL endpoint for the Polaris API. e.g.: &lsquo;https://<your-snowflake-account>.snowflakecomputing.com/polaris/api/catalog&rsquo;</li>
+</ul></li>
+
+<li><p><code>client_id</code> - Azure client ID of the application. This property is required when &lsquo;authenticationType&rsquo; is set to &lsquo;AZURE_ACTIVE_DIRECTORY&rsquo;. e.g.: 06ecaabf-8b80-4ec8-a0ec-20cbf463703d</p></li>
+
+<li><p><code>client_secret_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the client secret is stored. Only applicable for authenticationType == OAUTH_M2M. Note: When provided, &lsquo;clientSecret&rsquo; field must not be provided.</p></li>
+
+<li><p><code>cluster_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Kafka cluster being referenced from Oracle Cloud Infrastructure Streaming with Apache Kafka.</p></li>
+
+<li><p><code>cluster_placement_group_id</code> - The OCID(<a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm</a>) of the cluster placement group for the resource. Only applicable for multicloud subscriptions. The cluster placement group id must be provided when a multicloud subscription id is provided. Otherwise the cluster placement group must not be provided.</p></li>
+
+<li><p><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment being referenced.</p></li>
+
+<li><p><code>connection_factory</code> - The of Java class implementing javax.jms.ConnectionFactory interface supplied by the Java Message Service provider. e.g.: &lsquo;com.stc.jmsjca.core.JConnectionFactoryXA&rsquo;</p></li>
+
+<li><p><code>connection_string</code> - JDBC connection string. e.g.: &lsquo;jdbc:sqlserver://<synapse-workspace>.sql.azuresynapse.net:1433;database=<db-name>;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.sql.azuresynapse.net;loginTimeout=300;&rsquo;</p></li>
+
+<li><p><code>connection_type</code> - The connection type.</p></li>
+
+<li><p><code>connection_url</code> - JDBC connection URL. e.g.: &lsquo;jdbc:snowflake://<account_name>.snowflakecomputing.com/?warehouse=<warehouse-name>&amp;db=<db-name>&rsquo;</p></li>
+
+<li><p><code>consumer_properties</code> - The base64 encoded content of the consumer.properties file.</p></li>
+
+<li><p><code>core_site_xml</code> - The base64 encoded content of the Hadoop Distributed File System configuration file (core-site.xml). It is not included in GET responses if the <code>view=COMPACT</code> query parameter is specified.</p></li>
+
+<li><p><code>database_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Oracle Autonomous Json Database.</p></li>
+
+<li><p><code>database_name</code> - The name of the database.</p></li>
+
+<li><p><code>db_system_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the database system being referenced.</p></li>
+
+<li><p><code>defined_tags</code> - Tags defined for this resource. Each key is predefined and scoped to a namespace.  Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></p></li>
+
+<li><p><code>deployment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the deployment being referenced.</p></li>
+
+<li><p><code>description</code> - Metadata about this specific object.</p></li>
+
+<li><p><code>display_name</code> - An object&rsquo;s Display Name.</p></li>
+
+<li><p><code>does_use_secret_ids</code> - Indicates that sensitive attributes are provided via Secrets.</p></li>
+
+<li><p><code>endpoint</code> - Service endpoint. Optional for Microsoft Fabric, default value: <a href="https://onelake.dfs.fabric.microsoft.com">https://onelake.dfs.fabric.microsoft.com</a>, for Azure Storage e.g: <a href="https://test.blob.core.windows.net">https://test.blob.core.windows.net</a>, for Amazon S3 e.g.: &lsquo;<a href="https://s3.amazonaws.com'">https://s3.amazonaws.com&rsquo;</a>, for Amazon Kinesis e.g.: &lsquo;<a href="https://kinesis.us-east-1.amazonaws.com'">https://kinesis.us-east-1.amazonaws.com&rsquo;</a></p></li>
+
+<li><p><code>fingerprint</code> - Fingerprint required by TLS security protocol. E.g.: &lsquo;6152b2dfbff200f973c5074a5b91d06ab3b472c07c09a1ea57bb7fd406cdce9c&rsquo;</p></li>
+
+<li><p><code>freeform_tags</code> - A simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.  Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></p></li>
+
+<li><p><code>host</code> - Host and port separated by colon. Example: <code>&quot;server.example.com:1234&quot;</code></p>
+
+<p>For multiple hosts, provide a comma separated list. Example: <code>&quot;server1.example.com:1000,server1.example.com:2000&quot;</code></p></li>
+
+<li><p><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the connection being referenced.</p></li>
+
+<li><p><code>ingress_ips</code> - List of ingress IP addresses from where the GoldenGate deployment connects to this connection&rsquo;s privateIp.  Customers may optionally set up ingress security rules to restrict traffic from these IP addresses.</p>
+
+<ul>
+<li><code>ingress_ip</code> - A Private Endpoint IPv4 or IPv6 Address created in the customer&rsquo;s subnet.</li>
+</ul></li>
+
+<li><p><code>jndi_connection_factory</code> - The Connection Factory can be looked up using this name. e.g.: &lsquo;ConnectionFactory&rsquo;</p></li>
+
+<li><p><code>jndi_initial_context_factory</code> - The implementation of javax.naming.spi.InitialContextFactory interface that the client uses to obtain initial naming context. e.g.: &lsquo;org.apache.activemq.jndi.ActiveMQInitialContextFactory&rsquo;</p></li>
+
+<li><p><code>jndi_provider_url</code> - The URL that Java Message Service will use to contact the JNDI provider. e.g.: &lsquo;tcp://myjms.host.domain:61616?jms.prefetchPolicy.all=1000&rsquo;</p></li>
+
+<li><p><code>jndi_security_credentials_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the security credentials are stored associated to the principal. Note: When provided, &lsquo;jndiSecurityCredentials&rsquo; field must not be provided.</p></li>
+
+<li><p><code>jndi_security_principal</code> - Specifies the identity of the principal (user) to be authenticated. e.g.: &lsquo;admin2&rsquo;</p></li>
+
+<li><p><code>key_id</code> - Refers to the customer&rsquo;s master key OCID.  If provided, it references a key to manage secrets. Customers must add policies to permit GoldenGate to use this key.</p></li>
+
+<li><p><code>key_store_password_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the kafka Ssl KeyStore password is stored. Note: When provided, &lsquo;keyStorePassword&rsquo; field must not be provided.</p></li>
+
+<li><p><code>key_store_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the content of the KeyStore file is stored. Note: When provided, &lsquo;keyStore&rsquo; field must not be provided.</p></li>
+
+<li><p><code>lifecycle_details</code> - Describes the object&rsquo;s current state in detail. For example, it can be used to provide actionable information for a resource in a Failed state.</p></li>
+
+<li><p><code>locks</code> - Locks associated with this resource.</p>
+
+<ul>
+<li><code>message</code> - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked.</li>
+<li><code>related_resource_id</code> - The id of the resource that is locking this resource. Indicates that deleting this resource will remove the lock.</li>
+<li><code>time_created</code> - When the lock was created.</li>
+<li><code>type</code> - Type of the lock.</li>
+</ul></li>
+
+<li><p><code>nsg_ids</code> - An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.</p></li>
+
+<li><p><code>password_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the password is stored. The password Oracle GoldenGate uses to connect the associated system of the given technology. It must conform to the specific security requirements including length, case sensitivity, and so on. If secretId is used plaintext field must not be provided. Note: When provided, &lsquo;password&rsquo; field must not be provided.</p></li>
+
+<li><p><code>port</code> - The port of an endpoint usually specified for a connection.</p></li>
+
+<li><p><code>private_ip</code> - Deprecated: this field will be removed in future versions. Either specify the private IP in the connectionString or host  field, or make sure the host name is resolvable in the target VCN.</p>
+
+<p>The private IP address of the connection&rsquo;s endpoint in the customer&rsquo;s VCN, typically a database endpoint or a big data endpoint (e.g. Kafka bootstrap server). In case the privateIp is provided, the subnetId must also be provided. In case the privateIp (and the subnetId) is not provided it is assumed the datasource is publicly accessible. In case the connection is accessible only privately, the lack of privateIp will result in not being able to access the connection.</p></li>
+
+<li><p><code>private_key_file_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret that stores the content of the private key file (PEM file) corresponding to the API key of the fingerprint. See documentation: <a href="https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm">https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm</a> Note: When provided, &lsquo;privateKeyFile&rsquo; field must not be provided.</p></li>
+
+<li><p><code>private_key_passphrase_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret that stores the password for the private key file. Note: When provided, &lsquo;privateKeyPassphrase&rsquo; field must not be provided.</p></li>
+
+<li><p><code>producer_properties</code> - The base64 encoded content of the producer.properties file.</p></li>
+
+<li><p><code>public_key_fingerprint</code> - The fingerprint of the API Key of the user specified by the userId. See documentation: <a href="https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm">https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm</a></p></li>
+
+<li><p><code>redis_cluster_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Redis cluster.</p></li>
+
+<li><p><code>region</code> - The name of the AWS region where the bucket is created. If not provided, GoldenGate will default to &lsquo;us-west-2&rsquo;. Note: this property will become mandatory after May 20, 2026.</p></li>
+
+<li><p><code>routing_method</code> - Controls the network traffic direction to the target: SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service&rsquo;s network to public hosts. Cannot be used for private targets.  SHARED_DEPLOYMENT_ENDPOINT: Network traffic flows from the assigned deployment&rsquo;s private endpoint through the deployment&rsquo;s subnet. DEDICATED_ENDPOINT: A dedicated private endpoint is created in the target VCN subnet for the connection. The subnetId is required when DEDICATED_ENDPOINT networking is selected.</p></li>
+
+<li><p><code>sas_token_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the sas token is stored. Note: When provided, &lsquo;sasToken&rsquo; field must not be provided.</p></li>
+
+<li><p><code>secret_access_key_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the secret access key is stored. Note: When provided, &lsquo;secretAccessKey&rsquo; field must not be provided.</p></li>
+
+<li><p><code>security_attributes</code> - Security attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Oracle-ZPR&quot;: {&quot;MaxEgressCount&quot;: {&quot;value&quot;: &quot;42&quot;, &quot;mode&quot;: &quot;enforce&quot;}}}</code></p></li>
+
+<li><p><code>security_protocol</code> - Security protocol for Java Message Service. If not provided, default is PLAIN. Optional until 2024-06-27, in the release after it will be made required.</p></li>
+
+<li><p><code>servers</code> - Comma separated list of Elasticsearch server addresses, specified as host:port entries, where :port is optional.  If port is not specified, it defaults to 9200. Used for establishing the initial connection to the Elasticsearch cluster. Example: <code>&quot;server1.example.com:4000,server2.example.com:4000&quot;</code></p></li>
+
+<li><p><code>service_account_key_file_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the content of the service account key file is stored, which contains the credentials required to use Google Cloud Storage. Note: When provided, &lsquo;serviceAccountKeyFile&rsquo; field must not be provided.</p></li>
+
+<li><p><code>session_mode</code> - The mode of the database connection session to be established by the data client. &lsquo;REDIRECT&rsquo; - for a RAC database, &lsquo;DIRECT&rsquo; - for a non-RAC database. Connection to a RAC database involves a redirection received from the SCAN listeners to the database node to connect to. By default the mode would be DIRECT.</p></li>
+
+<li><p><code>should_use_jndi</code> - If set to true, Java Naming and Directory Interface (JNDI) properties should be provided.</p></li>
+
+<li><p><code>should_use_resource_principal</code> - Specifies that the user intends to authenticate to the instance using a resource principal. Applicable only for Oracle Cloud Infrastructure Streaming connections. Only available from 23.9.0.0.0 GoldenGate versions. Note: When specified, &lsquo;username&rsquo;/&lsquo;password&rsquo;/&lsquo;passwordSecretId&rsquo; fields must not be provided. Default: false</p></li>
+
+<li><p><code>should_validate_server_certificate</code> - If set to true, the driver validates the certificate that is sent by the database server.</p></li>
+
+<li><p><code>ssl_ca</code> - The base64 encoded certificate of the trusted certificate authorities (Trusted CA).  The supported file formats are .pem and .crt. In case of MYSQL and POSTGRESQL connections it is not included in GET responses if the <code>view=COMPACT</code> query parameter is specified.</p></li>
+
+<li><p><code>ssl_cert</code> - Client Certificate - The base64 encoded content of a .pem or .crt file containing the client public key (for 2-way SSL). It is not included in GET responses if the <code>view=COMPACT</code> query parameter is specified.</p></li>
+
+<li><p><code>ssl_client_keystash_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the keystash file is stored,  which contains the encrypted password to the key database file. This property is not supported for IBM Db2 for i, as client TLS mode is not available.</p>
+
+<p>Note: When provided, &lsquo;sslClientKeystash&rsquo; field must not be provided.</p></li>
+
+<li><p><code>ssl_client_keystoredb_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the keystore file stored,  which created at the client containing the server certificate / CA root certificate. This property is not supported for IBM Db2 for i, as client TLS mode is not available.</p>
+
+<p>Note: When provided, &lsquo;sslClientKeystoredb&rsquo; field must not be provided.</p></li>
+
+<li><p><code>ssl_crl</code> - The base64 encoded list of certificates revoked by the trusted certificate authorities (Trusted CA). Note: This is an optional property and only applicable if TLS/MTLS option is selected. It is not included in GET responses if the <code>view=COMPACT</code> query parameter is specified.</p></li>
+
+<li><p><code>ssl_key_password_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the password is stored for the cert inside of the Keystore. In case it differs from the KeyStore password, it should be provided. Note: When provided, &lsquo;sslKeyPassword&rsquo; field must not be provided.</p></li>
+
+<li><p><code>ssl_key_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret that stores the Client Key</p>
+
+<ul>
+<li>The content of a .pem or .crt file containing the client private key (for 2-way SSL). Note: When provided, &lsquo;sslKey&rsquo; field must not be provided.</li>
+</ul></li>
+
+<li><p><code>ssl_mode</code> - SSL mode for PostgreSQL.</p></li>
+
+<li><p><code>ssl_server_certificate</code> - The base64 encoded file which contains the self-signed server certificate / Certificate Authority (CA) certificate. It is not included in GET responses if the <code>view=COMPACT</code> query parameter is specified.</p></li>
+
+<li><p><code>state</code> - Possible lifecycle states for connection.</p></li>
+
+<li><p><code>storage</code> - Represents the storage of given type used in an Iceberg connection.</p>
+
+<ul>
+<li><code>access_key_id</code> - Access key ID to access the Amazon S3 bucket.</li>
+<li><code>account_key_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the account key is stored.</li>
+<li><code>account_name</code> - Sets the Azure storage account name.</li>
+<li><code>bucket</code> - Google Cloud Storage bucket where Iceberg stores metadata and data files.</li>
+<li><code>container</code> - The Azure Blob Storage container where Iceberg tables are stored.</li>
+<li><code>endpoint</code> - The Azure Blob Storage endpoint where Iceberg data is stored. e.g.: &lsquo;<a href="https://my-azure-storage-account.blob.core.windows.net'">https://my-azure-storage-account.blob.core.windows.net&rsquo;</a></li>
+<li><code>project_id</code> - The Google Cloud Project where the bucket exists.</li>
+<li><code>region</code> - The AMAZON region where the S3 bucket is hosted. e.g.: &lsquo;us-east-2&rsquo;</li>
+<li><code>scheme_type</code> - The scheme of the storage.</li>
+<li><code>secret_access_key_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the Secret Access Key is stored.</li>
+<li><code>service_account_key_file_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the content of the service account key file is stored, which contains the credentials required to use Google Cloud Storage.</li>
+<li><code>storage_type</code> - The storage type used in the Iceberg connection.</li>
+</ul></li>
+
+<li><p><code>storage_credential_name</code> - Optional. External storage credential name to access files on object storage such as ADLS Gen2, S3 or GCS.</p></li>
+
+<li><p><code>stream_pool_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the stream pool being referenced.</p></li>
+
+<li><p><code>subnet_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the target subnet of the dedicated connection.</p></li>
+
+<li><p><code>subscription_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the subscription with which resource needs to be associated with.</p></li>
+
+<li><p><code>system_tags</code> - The system tags associated with this resource, if any. The system tags are set by Oracle Cloud Infrastructure services. Each key is predefined and scoped to namespaces.  For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{orcl-cloud: {free-tier-retain: true}}</code></p></li>
+
+<li><p><code>technology_type</code> - The Kafka (e.g. Confluent) Schema Registry technology type.</p></li>
+
+<li><p><code>tenancy_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the related Oracle Cloud Infrastructure tenancy.</p></li>
+
+<li><p><code>tenant_id</code> - Azure tenant ID of the application. e.g.: 14593954-d337-4a61-a364-9f758c64f97f</p></li>
+
+<li><p><code>time_created</code> - The time the resource was created. The format is defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>, such as <code>2016-08-25T21:10:29.600Z</code>.</p></li>
+
+<li><p><code>time_updated</code> - The time the resource was last updated. The format is defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>, such as <code>2016-08-25T21:10:29.600Z</code>.</p></li>
+
+<li><p><code>tls_ca_file</code> - Database Certificate - The base64 encoded content of a .pem file, containing the server public key (for 1 and 2-way SSL). It is not included in GET responses if the <code>view=COMPACT</code> query parameter is specified.</p></li>
+
+<li><p><code>tls_certificate_key_file_password_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret that stores the password of the tls certificate key file. Note: When provided, &lsquo;tlsCertificateKeyFilePassword&rsquo; field must not be provided.</p></li>
+
+<li><p><code>tls_certificate_key_file_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret that stores the certificate key file of the mtls connection.</p>
+
+<ul>
+<li>The content of a .pem file containing the client private key (for 2-way SSL). Note: When provided, &lsquo;tlsCertificateKeyFile&rsquo; field must not be provided.</li>
+</ul></li>
+
+<li><p><code>trust_store_password_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the kafka Ssl TrustStore password is stored. Note: When provided, &lsquo;trustStorePassword&rsquo; field must not be provided.</p></li>
+
+<li><p><code>trust_store_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the content of the TrustStore file is stored. Note: When provided, &lsquo;trustStore&rsquo; field must not be provided.</p></li>
+
+<li><p><code>url</code> - Kafka Schema Registry URL. e.g.: &lsquo;<a href="https://server1.us.oracle.com:8081'">https://server1.us.oracle.com:8081&rsquo;</a></p></li>
+
+<li><p><code>user_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Oracle Cloud Infrastructure user who will access the Oracle NoSQL database. The user must have write access to the table they want to connect to. If the user is not provided, backend will default to the user who is calling the API endpoint.</p></li>
+
+<li><p><code>username</code> - The username Oracle GoldenGate uses to connect the associated system of the given technology. This username must already exist and be available by the system/application to be connected to and must conform to the case sensitivty requirments defined in it.</p></li>
+
+<li><p><code>vault_id</code> - Refers to the customer&rsquo;s vault OCID.  If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate to manage secrets contained within this vault.</p></li>
+
+<li><p><code>wallet_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the wallet file is stored.  The wallet contents Oracle GoldenGate uses to make connections to a database. Note: When provided, &lsquo;wallet&rsquo; field must not be provided.</p></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Connection
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Connection
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Connection</p>
+
+<h2>Import</h2>
+
+<p>Connections can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_golden_gate_connection.test_connection &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

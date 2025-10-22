@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_usage_proxy_resource_quotas</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_usage_proxy_resource_quotas</h1>
+
+<p>This data source provides the list of Resource Quotas in Oracle Cloud Infrastructure Usage Proxy service.</p>
+
+<p>Returns the resource quota details under a tenancy
+&gt; <strong>Important</strong>: Calls to this API will only succeed against the endpoint in the home region.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_usage_proxy_resource_quotas&quot; &quot;test_resource_quotas&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	service_name = oci_core_service.test_service.name
+
+	#Optional
+	service_entitlement = var.resource_quota_service_entitlement
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The OCID of the root compartment.</li>
+<li><code>service_entitlement</code> - (Optional) Service entitlement Id.</li>
+<li><code>service_name</code> - (Required) Service Name.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>resource_quotum_collection</code> - The list of resource_quotum_collection.</li>
+</ul>
+
+<h3>ResourceQuota Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>is_allowed</code> - Used to indicate if further quota consumption isAllowed.</li>
+<li><code>items</code> - The list of resource quota details.
+
+<ul>
+<li><code>affected_resource</code> - The affected resource name.</li>
+<li><code>balance</code> - The quota balance.</li>
+<li><code>is_allowed</code> - Used to indicate if further quota consumption isAllowed.</li>
+<li><code>is_dependency</code> - Used to indicate any resource dependencies.</li>
+<li><code>is_overage</code> - Used to indicate if overages are incurred.</li>
+<li><code>name</code> - The resource name.</li>
+<li><code>purchased_limit</code> - The purchased quota limit.</li>
+<li><code>service</code> - The service name.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

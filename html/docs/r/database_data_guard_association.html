@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_database_data_guard_association</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_database_data_guard_association</h1>
+
+<p>This resource provides the Data Guard Association resource in Oracle Cloud Infrastructure Database service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/database/latest/DataGuardAssociation">https://docs.oracle.com/iaas/api/#/en/database/latest/DataGuardAssociation</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/database">https://github.com/oracle/terraform-provider-oci/tree/master/examples/database</a></p>
+
+<p>Creates a new Data Guard association.  A Data Guard association represents the replication relationship between the
+specified database and a peer database. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/Database/Tasks/usingdataguard.htm">Using Oracle Data Guard</a>.</p>
+
+<p>All Oracle Cloud Infrastructure resources, including Data Guard associations, get an Oracle-assigned, unique ID
+called an Oracle Cloud Identifier (OCID). When you create a resource, you can find its OCID in the response.
+You can also retrieve a resource&rsquo;s OCID by using a List API operation on that resource type, or by viewing the
+resource in the Console. For more information, see
+<a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">Resource Identifiers</a>.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_database_data_guard_association&quot; &quot;test_data_guard_association&quot; {
+	#Required
+	creation_type = var.data_guard_association_creation_type
+	database_admin_password = var.data_guard_association_database_admin_password
+	database_id = oci_database_database.test_database.id
+	delete_standby_db_home_on_delete = var.data_guard_association_delete_standby_db_home_on_delete
+	protection_mode = var.data_guard_association_protection_mode
+	transport_type = var.data_guard_association_transport_type
+
+	#Optional
+	availability_domain = var.data_guard_association_availability_domain
+	backup_network_nsg_ids = var.data_guard_association_backup_network_nsg_ids
+	compute_count = var.data_guard_association_compute_count
+	compute_model = var.data_guard_association_compute_model
+	cpu_core_count = var.data_guard_association_cpu_core_count
+	database_defined_tags = var.data_guard_association_database_defined_tags
+	database_freeform_tags = var.data_guard_association_database_freeform_tags
+	data_collection_options {
+
+		#Optional
+		is_diagnostics_events_enabled = var.data_guard_association_data_collection_options_is_diagnostics_events_enabled
+		is_health_monitoring_enabled = var.data_guard_association_data_collection_options_is_health_monitoring_enabled
+		is_incident_logs_enabled = var.data_guard_association_data_collection_options_is_incident_logs_enabled
+	}
+	database_software_image_id = oci_database_database_software_image.test_database_software_image.id
+	db_system_defined_tags = var.data_guard_association_db_system_defined_tags
+	db_system_freeform_tags = var.data_guard_association_db_system_freeform_tags
+	db_system_security_attributes = var.data_guard_association_db_system_security_attributes
+	display_name = var.data_guard_association_display_name
+	domain = var.data_guard_association_domain
+	fault_domains = var.data_guard_association_fault_domains
+	hostname = var.data_guard_association_hostname
+	is_active_data_guard_enabled = var.data_guard_association_is_active_data_guard_enabled
+	license_model = var.data_guard_association_license_model
+	node_count = var.data_guard_association_node_count
+	nsg_ids = var.data_guard_association_nsg_ids
+	peer_db_home_id = oci_database_db_home.test_db_home.id
+	peer_db_system_id = oci_database_db_system.test_db_system.id
+	peer_db_unique_name = var.data_guard_association_peer_db_unique_name
+	peer_sid_prefix = var.data_guard_association_peer_sid_prefix
+	peer_vm_cluster_id = oci_database_vm_cluster.test_vm_cluster.id
+	private_ip = var.data_guard_association_private_ip
+	private_ip_v6 = var.data_guard_association_private_ip_v6
+	shape = var.data_guard_association_shape
+	storage_volume_performance_mode = var.data_guard_association_storage_volume_performance_mode
+	subnet_id = oci_core_subnet.test_subnet.id
+	time_zone = var.data_guard_association_time_zone
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>availability_domain</code> - (Applicable when creation_type=NewDbSystem) The name of the availability domain that the standby database DB system will be located in. For example- &ldquo;Uocm:PHX-AD-1&rdquo;.</p></li>
+
+<li><p><code>backup_network_nsg_ids</code> - (Applicable when creation_type=NewDbSystem) A list of the <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCIDs</a> of the network security groups (NSGs) that the backup network of this DB system belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see <a href="https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm">Security Rules</a>. Applicable only to Exadata systems.</p></li>
+
+<li><p><code>compute_count</code> - (Applicable when creation_type=NewDbSystem) The number of compute servers for the DB system.</p></li>
+
+<li><p><code>compute_model</code> - (Applicable when creation_type=NewDbSystem) The compute model for Base Database Service. This is required if using the <code>computeCount</code> parameter. If using <code>cpuCoreCount</code> then it is an error to specify <code>computeModel</code> to a non-null value. The ECPU compute model is the recommended model, and the OCPU compute model is legacy.</p></li>
+
+<li><p><code>cpu_core_count</code> - (Applicable when creation_type=NewDbSystem) The number of CPU cores available for AMD-based virtual machine DB systems.</p></li>
+
+<li><p><code>creation_type</code> - (Required) Specifies whether to create the peer database in an existing DB system or in a new DB system.</p></li>
+
+<li><p><code>data_collection_options</code> - (Applicable when creation_type=NewDbSystem) Indicates user preferences for the various diagnostic collection options for the VM cluster/Cloud VM cluster/VMBM DBCS.</p>
+
+<ul>
+<li><code>is_diagnostics_events_enabled</code> - (Applicable when creation_type=NewDbSystem) Indicates whether diagnostic collection is enabled for the VM cluster/Cloud VM cluster/VMBM DBCS. Enabling diagnostic collection allows you to receive Events service notifications for guest VM issues. Diagnostic collection also allows Oracle to provide enhanced service and proactive support for your Exadata system. You can enable diagnostic collection during VM cluster/Cloud VM cluster provisioning. You can also disable or enable it at any time using the <code>UpdateVmCluster</code> or <code>updateCloudVmCluster</code> API.</li>
+<li><code>is_health_monitoring_enabled</code> - (Applicable when creation_type=NewDbSystem) Indicates whether health monitoring is enabled for the VM cluster / Cloud VM cluster / VMBM DBCS. Enabling health monitoring allows Oracle to collect diagnostic data and share it with its operations and support personnel. You may also receive notifications for some events. Collecting health diagnostics enables Oracle to provide proactive support and enhanced service for your system. Optionally enable health monitoring while provisioning a system. You can also disable or enable health monitoring anytime using the <code>UpdateVmCluster</code>, <code>UpdateCloudVmCluster</code> or <code>updateDbsystem</code> API.</li>
+<li><code>is_incident_logs_enabled</code> - (Applicable when creation_type=NewDbSystem) Indicates whether incident logs and trace collection are enabled for the VM cluster / Cloud VM cluster / VMBM DBCS. Enabling incident logs collection allows Oracle to receive Events service notifications for guest VM issues, collect incident logs and traces, and use them to diagnose issues and resolve them. Optionally enable incident logs collection while provisioning a system. You can also disable or enable incident logs collection anytime using the <code>UpdateVmCluster</code>, <code>updateCloudVmCluster</code> or <code>updateDbsystem</code> API.</li>
+</ul></li>
+
+<li><p><code>database_admin_password</code> - (Required) (Updatable) A strong password for the <code>SYS</code>, <code>SYSTEM</code>, and <code>PDB Admin</code> users to apply during standby creation.</p>
+
+<p>The password must contain no fewer than nine characters and include:</p>
+
+<ul>
+<li>At least two uppercase characters.</li>
+<li>At least two lowercase characters.</li>
+<li>At least two numeric characters.</li>
+<li>At least two special characters. Valid special characters include &ldquo;_&rdquo;, &ldquo;#&rdquo;, and &ldquo;-&rdquo; only.</li>
+</ul>
+
+<p><strong>The password MUST be the same as the primary admin password.</strong></p></li>
+
+<li><p><code>database_defined_tags</code> - (Applicable when creation_type=NewDbSystem) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</p></li>
+
+<li><p><code>database_freeform_tags</code> - (Applicable when creation_type=NewDbSystem) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></p></li>
+
+<li><p><code>database_id</code> - (Required) The database <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</p></li>
+
+<li><p><code>database_software_image_id</code> - (Optional) The database software image <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>. Applicable only when creationType=<code>ExistingDbSystem</code> and when the existing database has Exadata shape.</p></li>
+
+<li><p><code>db_system_defined_tags</code> - (Applicable when creation_type=NewDbSystem) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</p></li>
+
+<li><p><code>db_system_freeform_tags</code> - (Applicable when creation_type=NewDbSystem) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></p></li>
+
+<li><p><code>db_system_security_attributes</code> - (Applicable when creation_type=NewDbSystem) Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Oracle-ZPR&quot;: {&quot;MaxEgressCount&quot;: {&quot;value&quot;: &quot;42&quot;, &quot;mode&quot;: &quot;audit&quot;}}}</code></p></li>
+
+<li><p><code>delete_standby_db_home_on_delete</code> - (Required) (Updatable) if set to true the destroy operation will destroy the standby dbHome/dbSystem that is referenced in the Data Guard Association. The Data Guard Association gets destroyed when standby dbHome/dbSystem is terminated. Only <code>true</code> is supported at this time. If you change an argument that is used during the delete operation you must run <code>terraform apply</code> first so that that the change in the value is registered in the statefile before running <code>terraform destroy</code>. <code>terraform destroy</code> only looks at what is currently on the statefile and ignores the terraform configuration files.</p></li>
+
+<li><p><code>display_name</code> - (Applicable when creation_type=NewDbSystem) The user-friendly name of the DB system that will contain the the standby database. The display name does not have to be unique.</p></li>
+
+<li><p><code>domain</code> - (Applicable when creation_type=NewDbSystem) A domain name used for the DB system. If the Oracle-provided Internet and VCN Resolver is enabled for the specified subnet, the domain name for the subnet is used (do not provide one). Otherwise, provide a valid DNS domain name. Hyphens (-) are not permitted.</p></li>
+
+<li><p><code>fault_domains</code> - (Applicable when creation_type=NewDbSystem) A Fault Domain is a grouping of hardware and infrastructure within an availability domain. Fault Domains let you distribute your instances so that they are not on the same physical hardware within a single availability domain. A hardware failure or maintenance that affects one Fault Domain does not affect DB systems in other Fault Domains.</p>
+
+<p>If you do not specify the Fault Domain, the system selects one for you. To change the Fault Domain for a DB system, terminate it and launch a new DB system in the preferred Fault Domain.</p>
+
+<p>If the node count is greater than 1, you can specify which Fault Domains these nodes will be distributed into. The system assigns your nodes automatically to the Fault Domains you specify so that no Fault Domain contains more than one node.</p>
+
+<p>To get a list of Fault Domains, use the <a href="https://docs.cloud.oracle.com/iaas/api/#/en/identity/latest/FaultDomain/ListFaultDomains">ListFaultDomains</a> operation in the Identity and Access Management Service API.</p>
+
+<p>Example: <code>FAULT-DOMAIN-1</code></p></li>
+
+<li><p><code>hostname</code> - (Applicable when creation_type=NewDbSystem) The hostname for the DB node.</p></li>
+
+<li><p><code>is_active_data_guard_enabled</code> - (Optional) (Updatable) True if active Data Guard is enabled.</p></li>
+
+<li><p><code>license_model</code> - (Applicable when creation_type=NewDbSystem) The Oracle license model that applies to all the databases on the dataguard standby DB system. The default is LICENSE_INCLUDED. Bring your own license (BYOL) allows you to select the DB edition using the optional parameter, for Autonomous Database Serverless.</p></li>
+
+<li><p><code>node_count</code> - (Applicable when creation_type=NewDbSystem) The number of nodes to launch for the DB system of the standby in the Data Guard association. For a 2-node RAC virtual machine DB system, specify either 1 or 2. If you do not supply this parameter, the default is the node count of the primary DB system.</p></li>
+
+<li><p><code>nsg_ids</code> - (Applicable when creation_type=NewDbSystem) The list of <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCIDs</a> for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see <a href="https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm">Security Rules</a>. <strong>NsgIds restrictions:</strong></p>
+
+<ul>
+<li>A network security group (NSG) is optional for Autonomous Databases with private access. The nsgIds list can be empty.</li>
+</ul></li>
+
+<li><p><code>peer_db_home_id</code> - (Applicable when creation_type=ExistingDbSystem | ExistingVmCluster) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the DB home in which to create the standby database. You must supply this value to create standby database with an existing DB home</p></li>
+
+<li><p><code>peer_db_system_id</code> - (Applicable when creation_type=ExistingDbSystem) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the DB system in which to create the standby database. You must supply this value if creationType is <code>ExistingDbSystem</code>.</p></li>
+
+<li><p><code>peer_db_unique_name</code> - (Optional) Specifies the <code>DB_UNIQUE_NAME</code> of the peer database to be created.</p></li>
+
+<li><p><code>peer_sid_prefix</code> - (Optional) Specifies a prefix for the <code>Oracle SID</code> of the database to be created.</p></li>
+
+<li><p><code>peer_vm_cluster_id</code> - (Applicable when creation_type=ExistingVmCluster) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VM Cluster in which to create the standby database. You must supply this value if creationType is <code>ExistingVmCluster</code>.</p></li>
+
+<li><p><code>private_ip</code> - (Applicable when creation_type=NewDbSystem) The IPv4 address from the provided Oracle Cloud Infrastructure subnet which needs to be assigned to the VNIC. If not provided, it will be auto-assigned with an available IPv4 address from the subnet.</p></li>
+
+<li><p><code>private_ip_v6</code> - (Applicable when creation_type=NewDbSystem) The IPv6 address from the provided Oracle Cloud Infrastructure subnet which needs to be assigned to the VNIC. If not provided, it will be auto-assigned with an available IPv6 address from the subnet.</p></li>
+
+<li><p><code>protection_mode</code> - (Required) (Updatable) The protection mode to set up between the primary and standby databases. For more information, see <a href="http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000">Oracle Data Guard Protection Modes</a> in the Oracle Data Guard documentation.</p>
+
+<p><strong>IMPORTANT</strong> - The only protection mode currently supported by the Database service is MAXIMUM_PERFORMANCE.</p></li>
+
+<li><p><code>shape</code> - (Applicable when creation_type=NewDbSystem) The virtual machine DB system shape to launch for the standby database in the Data Guard association. The shape determines the number of CPU cores and the amount of memory available for the DB system. Only virtual machine shapes are valid options. If you do not supply this parameter, the default shape is the shape of the primary DB system.</p>
+
+<p>To get a list of all shapes, use the <a href="https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/DbSystemShapeSummary/ListDbSystemShapes">ListDbSystemShapes</a> operation.</p></li>
+
+<li><p><code>storage_volume_performance_mode</code> - (Applicable when creation_type=NewDbSystem) The block storage volume performance level. Valid values are <code>BALANCED</code> and <code>HIGH_PERFORMANCE</code>. See <a href="https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm">Block Volume Performance</a> for more information.</p></li>
+
+<li><p><code>subnet_id</code> - (Applicable when creation_type=NewDbSystem) The OCID of the subnet the DB system is associated with. <strong>Subnet Restrictions:</strong></p>
+
+<ul>
+<li>For 1- and 2-node RAC DB systems, do not use a subnet that overlaps with 192.168.16.<sup>16</sup>&frasl;<sub>28</sub></li>
+</ul>
+
+<p>These subnets are used by the Oracle Clusterware private interconnect on the database instance. Specifying an overlapping subnet will cause the private interconnect to malfunction. This restriction applies to both the client subnet and backup subnet.</p></li>
+
+<li><p><code>time_zone</code> - (Applicable when creation_type=NewDbSystem) The time zone of the dataguard standby DB system. For details, see <a href="https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm">DB System Time Zones</a>.</p></li>
+
+<li><p><code>transport_type</code> - (Required) (Updatable) The redo transport type to use for this Data Guard association.  Valid values depend on the specified <code>protectionMode</code>:</p>
+
+<ul>
+<li>MAXIMUM_AVAILABILITY - SYNC or FASTSYNC</li>
+<li>MAXIMUM_PERFORMANCE - ASYNC</li>
+<li>MAXIMUM_PROTECTION - SYNC</li>
+</ul>
+
+<p>For more information, see <a href="http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-redo-transport-services.htm#SBYDB00400">Redo Transport Services</a> in the Oracle Data Guard documentation.</p>
+
+<p><strong>IMPORTANT</strong> - The only transport type currently supported by the Database service is ASYNC.</p></li>
+
+<li><p><code>migrate_trigger</code> - (Optional) (Updatable) An optional property when incremented triggers Migrate. Could be set to any integer value.</p></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>apply_lag</code> - The lag time between updates to the primary database and application of the redo data on the standby database, as computed by the reporting database.  Example: <code>9 seconds</code></li>
+<li><code>apply_rate</code> - The rate at which redo logs are synced between the associated databases.  Example: <code>180 Mb per second</code></li>
+<li><code>database_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the reporting database.</li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Data Guard association.</li>
+<li><code>is_active_data_guard_enabled</code> - True if active Data Guard is enabled.</li>
+<li><code>lifecycle_details</code> - Additional information about the current lifecycleState, if available.</li>
+<li><code>peer_data_guard_association_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the peer database&rsquo;s Data Guard association.</li>
+<li><code>peer_database_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the associated peer database.</li>
+<li><code>peer_db_home_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Database Home containing the associated peer database.</li>
+<li><code>peer_db_system_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the DB system containing the associated peer database.</li>
+<li><code>peer_role</code> - The role of the peer database in this Data Guard association.</li>
+<li><code>protection_mode</code> - The protection mode of this Data Guard association. For more information, see <a href="http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000">Oracle Data Guard Protection Modes</a> in the Oracle Data Guard documentation.</li>
+<li><code>role</code> - The role of the reporting database in this Data Guard association.</li>
+<li><code>state</code> - The current state of the Data Guard association.</li>
+<li><code>time_created</code> - The date and time the Data Guard association was created.</li>
+<li><code>transport_type</code> - The redo transport type used by this Data Guard association.  For more information, see <a href="http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-redo-transport-services.htm#SBYDB00400">Redo Transport Services</a> in the Oracle Data Guard documentation.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 2 hours), when creating the Data Guard Association
+	* <code>update</code> - (Defaults to 2 hours), when updating the Data Guard Association
+	* <code>delete</code> - (Defaults to 2 hours), when destroying the Data Guard Association</p>
+
+<h2>Import</h2>
+
+<p>Import is not supported for this resource.</p>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_ocvp_esxi_host</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_ocvp_esxi_host</h1>
+
+<p>This data source provides details about a specific Esxi Host resource in Oracle Cloud Infrastructure Oracle Cloud VMware Solution service.</p>
+
+<p>Gets the specified ESXi host&rsquo;s information.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_ocvp_esxi_host&quot; &quot;test_esxi_host&quot; {
+	#Required
+	esxi_host_id = oci_ocvp_esxi_host.test_esxi_host.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>esxi_host_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the ESXi host.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>billing_contract_end_date</code> - Current billing cycle end date. If the value in <code>currentCommitment</code> and <code>nextCommitment</code> are different, the value specified in <code>nextCommitment</code> becomes the new <code>currentCommitment</code> when the <code>contractEndDate</code> is reached. Example: <code>2016-08-25T21:10:29.600Z</code></li>
+<li><code>billing_donor_host_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the deleted ESXi Host with LeftOver billing cycle.</li>
+<li><code>capacity_reservation_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Capacity Reservation.</li>
+<li><code>cluster_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Cluster that the ESXi host belongs to.</li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment that contains the Cluster.</li>
+<li><code>compute_availability_domain</code> - The availability domain of the ESXi host.</li>
+<li><code>compute_instance_id</code> - In terms of implementation, an ESXi host is a Compute instance that is configured with the chosen bundle of VMware software. The <code>computeInstanceId</code> is the <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of that Compute instance.</li>
+<li><code>datastore_attachments</code> - List of DatastoreAttachment objects containing information about attachment details
+
+<ul>
+<li><code>block_volume_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Block Volume that belongs to the datastore.</li>
+<li><code>datastore_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCIDs</a> of the Datastore that ESXi host is attached to.</li>
+<li><code>ip_address</code> - The IP address of datastore attachment.</li>
+<li><code>port</code> - The port of datastore attachment.</li>
+<li><code>volume_iqn</code> - An IQN of the Block Storage Volume.</li>
+</ul></li>
+<li><code>datastore_cluster_ids</code> - A list of datastore clusters.</li>
+<li><code>current_sku</code> - (<strong>Deprecated</strong>) The billing option currently used by the ESXi host. <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedSkuSummary/ListSupportedSkus">ListSupportedSkus</a>.  <strong>Deprecated</strong>. Please use <code>current_commitment</code> instead.</li>
+<li><code>current_commitment</code> - The billing option currently used by the ESXi host. <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20230701/SupportedCommitmentSummary/ListSupportedCommitments">ListSupportedCommitments</a>.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>display_name</code> - A descriptive name for the ESXi host. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.</li>
+<li><code>esxi_software_version</code> - The version of ESXi software that Oracle Cloud VMware Solution installed on the ESXi hosts.</li>
+<li><code>failed_esxi_host_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the ESXi host that failed.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>grace_period_end_date</code> - The date and time when the new esxi host should start billing cycle. <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>. Example: <code>2021-07-25T21:10:29.600Z</code></li>
+<li><code>host_ocpu_count</code> - The OCPU count of the ESXi host.</li>
+<li><code>host_shape_name</code> - The compute shape name of the ESXi host. <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20230701/SupportedHostShapes/ListSupportedHostShapes">ListSupportedHostShapes</a>.</li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the ESXi host.</li>
+<li><code>is_billing_continuation_in_progress</code> - Indicates whether this host is in the progress of billing continuation.</li>
+<li><code>is_billing_swapping_in_progress</code> - Indicates whether this host is in the progress of swapping billing.</li>
+<li><code>next_commitment</code> - The billing option to switch to after the current billing cycle ends. If <code>nextCommitment</code> is null or empty, <code>currentCommitment</code> continues to the next billing cycle. <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20230701/SupportedCommitmentSummary/ListSupportedCommitments">ListSupportedCommitments</a>.</li>
+<li><code>next_sku</code> - (<strong>Deprecated</strong>) The billing option to switch to after the current billing cycle ends. If <code>nextSku</code> is null or empty, <code>currentSku</code> continues to the next billing cycle. <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedSkuSummary/ListSupportedSkus">ListSupportedSkus</a>.  <strong>Deprecated</strong>. Please use <code>next_commitment</code> instead.</li>
+<li><code>non_upgraded_esxi_host_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the ESXi host that will be upgraded.</li>
+<li><code>replacement_esxi_host_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the esxi host that is newly created to replace the failed node.</li>
+<li><code>sddc_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the SDDC that the ESXi host belongs to.</li>
+<li><code>state</code> - The current state of the ESXi host.</li>
+<li><code>swap_billing_host_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the active ESXi Host to swap billing with current host.</li>
+<li><code>time_created</code> - The date and time the ESXi host was created, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.  Example: <code>2016-08-25T21:10:29.600Z</code></li>
+<li><code>time_updated</code> - The date and time the ESXi host was updated, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>upgraded_replacement_esxi_host_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the ESXi host that is newly created to upgrade the original host.</li>
+<li><code>vmware_software_version</code> - The version of VMware software that Oracle Cloud VMware Solution installed on the ESXi hosts.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

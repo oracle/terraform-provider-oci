@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_autonomous_database_instance_wallet_management</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_autonomous_database_instance_wallet_management</h1>
+
+<p>This data source provides details about a specific Autonomous Database Instance Wallet Management resource in Oracle Cloud Infrastructure Database service.</p>
+
+<p>Gets the wallet details for the specified Autonomous Database.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_autonomous_database_instance_wallet_management&quot; &quot;test_autonomous_database_instance_wallet_management&quot; {
+	#Required
+	autonomous_database_id = oci_database_autonomous_database.test_autonomous_database.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>autonomous_database_id</code> - (Required) The database <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>autonomous_database_id</code> - The database <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>should_rotate</code> - Indicates whether to rotate the wallet or not. If <code>false</code>, the wallet will not be rotated. The default is <code>false</code>.</li>
+<li><code>state</code> - The current lifecycle state of the Autonomous Database wallet.</li>
+<li><code>time_rotated</code> - The date and time the wallet was last rotated.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_scheduling_policy</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_scheduling_policy</h1>
+
+<p>This data source provides details about a specific Scheduling Policy resource in Oracle Cloud Infrastructure Database service.</p>
+
+<p>Gets information about the specified Scheduling Policy.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_scheduling_policy&quot; &quot;test_scheduling_policy&quot; {
+	#Required
+	scheduling_policy_id = oci_database_scheduling_policy.test_scheduling_policy.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>scheduling_policy_id</code> - (Required) The Scheduling Policy <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>cadence</code> - The cadence period.</li>
+<li><code>cadence_start_month</code> - Start of the month to be followed during the cadence period.
+
+<ul>
+<li><code>name</code> - Name of the month of the year.</li>
+</ul></li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</li>
+<li><code>display_name</code> - The user-friendly name for the Scheduling Policy. The name does not need to be unique.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Scheduling Policy.</li>
+<li><code>lifecycle_details</code> - Additional information about the current lifecycle state.</li>
+<li><code>state</code> - The current state of the Scheduling Policy. Valid states are CREATING, NEEDS_ATTENTION, ACTIVE, UPDATING, FAILED, DELETING and DELETED.</li>
+<li><code>time_created</code> - The date and time the Scheduling Policy was created.</li>
+<li><code>time_next_window_starts</code> - The date and time of the next scheduling window associated with the schedulingPolicy is planned to start.</li>
+<li><code>time_updated</code> - The last date and time that the Scheduling Policy was updated.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

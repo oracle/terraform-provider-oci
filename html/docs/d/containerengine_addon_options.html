@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_containerengine_addon_options</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_containerengine_addon_options</h1>
+
+<p>This data source provides the list of Addon Options in Oracle Cloud Infrastructure Container Engine service.</p>
+
+<p>Get list of supported addons for a specific kubernetes version.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_containerengine_addon_options&quot; &quot;test_addon_options&quot; {
+	#Required
+	kubernetes_version = var.addon_option_kubernetes_version
+
+	#Optional
+	addon_name = oci_containerengine_addon.test_addon.name
+	should_show_all_versions = var.addon_option_should_show_all_versions
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>addon_name</code> - (Optional) The name of the addon.</li>
+<li><code>kubernetes_version</code> - (Required) The kubernetes version to fetch the addons.</li>
+<li><code>should_show_all_versions</code> - (Optional) Whether to show all add-on versions</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>addon_options</code> - The list of addon_options.</li>
+</ul>
+
+<h3>AddonOption Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>addon_group</code> - Addon group info, a namespace concept that groups addons with similar functionalities.</li>
+<li><code>addon_schema_version</code> - Addon definition schema version to validate addon.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - Description on the addon.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>is_essential</code> - Is it an essential addon for cluster operation or not.</li>
+<li><code>name</code> - Name of the addon and it would be unique.</li>
+<li><code>state</code> - The life cycle state of the addon.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time the work request was created.</li>
+<li><code>versions</code> - The resources this work request affects.
+
+<ul>
+<li><code>configurations</code> - Addon version configuration details.
+
+<ul>
+<li><code>description</code> - Information about the addon version configuration.</li>
+<li><code>display_name</code> - Display name of addon version.</li>
+<li><code>is_required</code> - If the the configuration is required or not.</li>
+<li><code>key</code> - Addon configuration key</li>
+<li><code>value</code> - Addon configuration value</li>
+</ul></li>
+<li><code>description</code> - Information about the addon version.</li>
+<li><code>kubernetes_version_filters</code> - The range of kubernetes versions an addon can be configured.
+
+<ul>
+<li><code>exact_kubernetes_versions</code> - The exact version of kubernetes that are compatible.</li>
+<li><code>maximum_version</code> - The latest kubernetes version.</li>
+<li><code>minimal_version</code> - The earliest kubernetes version.</li>
+</ul></li>
+<li><code>status</code> - Current state of the addon, only active will be visible to customer, visibility of versions in other status will be filtered  based on limits property.</li>
+<li><code>version_number</code> - Version number, need be comparable within an addon.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

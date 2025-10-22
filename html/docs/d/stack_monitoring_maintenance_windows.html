@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_stack_monitoring_maintenance_windows</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_stack_monitoring_maintenance_windows</h1>
+
+<p>This data source provides the list of Maintenance Windows in Oracle Cloud Infrastructure Stack Monitoring service.</p>
+
+<p>Returns a list of maintenance windows.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_stack_monitoring_maintenance_windows&quot; &quot;test_maintenance_windows&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	lifecycle_details = var.maintenance_window_lifecycle_details
+	name = var.maintenance_window_name
+	status = var.maintenance_window_status
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The ID of the compartment in which data is listed.</li>
+<li><code>lifecycle_details</code> - (Optional) A filter to return maintenance windows with matching lifecycleDetails.</li>
+<li><code>name</code> - (Optional) A filter to return maintenance windows that match exact resource name.</li>
+<li><code>status</code> - (Optional) A filter to return only maintenance windows with matching lifecycleState.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>maintenance_window_collection</code> - The list of maintenance_window_collection.</li>
+</ul>
+
+<h3>MaintenanceWindow Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - Compartment Identifier <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>description</code> - Maintenance Window description.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of maintenance window.</li>
+<li><code>lifecycle_details</code> - Lifecycle Details of the Maintenance Window.</li>
+<li><code>name</code> - Maintenance Window name.</li>
+<li><code>resources</code> - List of resource Ids which are part of the Maintenance Window
+
+<ul>
+<li><code>are_members_included</code> - Flag to indicate if the members of the resource has to be include in the Maintenance Window.</li>
+<li><code>resource_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of monitored resource part of the Maintenance window.</li>
+</ul></li>
+<li><code>resources_details</code> - List of resource details that are part of the Maintenance Window.
+
+<ul>
+<li><code>name</code> - Name of the monitored resource</li>
+<li><code>number_of_members</code> - Number of members of the resource</li>
+<li><code>resource_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of monitored resource part of the Maintenance window.</li>
+<li><code>type</code> - Type of the monitored resource</li>
+</ul></li>
+<li><code>schedule</code> - Schedule information of the Maintenance Window
+
+<ul>
+<li><code>maintenance_window_duration</code> - Duration time of each recurrence of each Maintenance Window. It must be specified as a string in ISO 8601 extended format.</li>
+<li><code>maintenance_window_recurrences</code> - A RFC5545 formatted recurrence string which represents the Maintenance Window Recurrence. Please refer this for details:<a href="https://datatracker.ietf.org/doc/html/rfc5545#section-3.3.10">https://datatracker.ietf.org/doc/html/rfc5545#section-3.3.10</a> FREQ: Frequency of the Maintenance Window. The supported values are: DAILY and WEEKLY. BYDAY: Comma separated days for Weekly Maintenance Window. BYHOUR: Specifies the start hour of each recurrence after <code>timeMaintenanceWindowStart</code> value. BYMINUTE: Specifies the start minute of each reccurrence after <code>timeMaintenanceWindowStart</code> value. The default value is 00 BYSECOND: Specifies the start second of each reccurrence after <code>timeMaintenanceWindowStart</code> value. The default value is 00 Other Rules are not supported.</li>
+<li><code>schedule_type</code> - Property to identify the type of the Maintenance Window.</li>
+<li><code>time_maintenance_window_end</code> - Start time of Maintenance window. A RFC3339 formatted datetime string</li>
+<li><code>time_maintenance_window_start</code> - Start time of Maintenance window. A RFC3339 formatted datetime string</li>
+</ul></li>
+<li><code>state</code> - Lifecycle state of the monitored resource.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time the the maintenance window was created. An RFC3339 formatted datetime string</li>
+<li><code>time_updated</code> - The time the the mainteance window was updated. An RFC3339 formatted datetime string</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

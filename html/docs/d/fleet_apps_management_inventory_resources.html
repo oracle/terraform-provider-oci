@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_fleet_apps_management_inventory_resources</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_fleet_apps_management_inventory_resources</h1>
+
+<p>This data source provides the list of Inventory Resources in Oracle Cloud Infrastructure Fleet Apps Management service.</p>
+
+<p>Returns a list of Inventory Resources based on the criteria provided.
+instance, dbsystem, cloudvmcluster resources are supported.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_fleet_apps_management_inventory_resources&quot; &quot;test_inventory_resources&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	resource_compartment_id = oci_identity_compartment.test_compartment.id
+
+	#Optional
+	defined_tag_equals = var.inventory_resource_defined_tag_equals
+	display_name = var.inventory_resource_display_name
+	freeform_tag_equals = var.inventory_resource_freeform_tag_equals
+	inventory_properties = var.inventory_resource_inventory_properties
+	matching_criteria = var.inventory_resource_matching_criteria
+	resource_region = var.inventory_resource_resource_region
+	state = var.inventory_resource_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) A filter to return only resources whose base Compartment ID(TenancyId) matches the given base Compartment ID.</li>
+<li><code>defined_tag_equals</code> - (Optional) A list of tag filters to apply.  Only resources with a defined tag matching the value will be returned. Each item in the list has the format &ldquo;{namespace}.{tagName}={value}&rdquo;.  All inputs are case-insensitive. Multiple values for the same key (i.e. same namespace and tag name) are interpreted as &ldquo;OR&rdquo;. Values for different keys (i.e. different namespaces, different tag names, or both) are interpreted as &ldquo;AND&rdquo;. Example: Identification.Development=Yes</li>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the entire display name given.</li>
+<li><code>freeform_tag_equals</code> - (Optional) A list of tag filters to apply.  Only resources with a freeform tag matching the value will be returned. The key for each tag is &ldquo;{tagName}.{value}&rdquo;.  All inputs are case-insensitive. Multiple values for the same tag name are interpreted as &ldquo;OR&rdquo;.  Values for different tag names are interpreted as &ldquo;AND&rdquo;.</li>
+<li><code>inventory_properties</code> - (Optional) A list of inventory properties filters to apply. The key for each inventory property and value for each resource type is &ldquo;{resourceType}.{inventoryProperty}={value}&rdquo;. Example: Instance.displayName=TEST_INSTANCE</li>
+<li><code>matching_criteria</code> - (Optional) Fetch resources matching ANY or ALL criteria passed as params in &ldquo;tags&rdquo; and &ldquo;inventoryProperties&rdquo;. Example: matchingCriteria=ANY</li>
+<li><code>resource_compartment_id</code> - (Required) A filter to return only resources whose resource Compartment ID matches the given resource Compartment ID.</li>
+<li><code>resource_region</code> - (Optional) Resource Region</li>
+<li><code>state</code> - (Optional) A filter to return only resources their lifecycleState matches the given lifecycleState.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>inventory_resource_collection</code> - The list of inventory_resource_collection.</li>
+</ul>
+
+<h3>InventoryResource Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - List of InventoryResources.
+
+<ul>
+<li><code>availability_domain</code> - Availability Domain of the resource.</li>
+<li><code>compartment_id</code> - OCID of the compartment to which the resource belongs to.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.  Example: <code>My new resource</code></li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - The OCID of the resource.</li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.</li>
+<li><code>resource_compartment_id</code> - Compartment Id of the resource.</li>
+<li><code>resource_region</code> - The region the resource belongs to.</li>
+<li><code>state</code> - The current state of the Resource.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>type</code> - Type of the Resource.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_dns_resolver_endpoints</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_dns_resolver_endpoints</h1>
+
+<p>This data source provides the list of Resolver Endpoints in Oracle Cloud Infrastructure DNS service.</p>
+
+<p>Gets a list of all endpoints within a resolver. The collection can be filtered by name or lifecycle state.
+It can be sorted on creation time or name both in ASC or DESC order. Note that when no lifecycleState
+query parameter is provided, the collection does not include resolver endpoints in the DELETED
+lifecycle state to be consistent with other operations of the API.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_dns_resolver_endpoints&quot; &quot;test_resolver_endpoints&quot; {
+	#Required
+	resolver_id = oci_dns_resolver.test_resolver.id
+	scope = &quot;PRIVATE&quot;
+
+	#Optional
+	name = var.resolver_endpoint_name
+	state = var.resolver_endpoint_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>name</code> - (Optional) The name of a resource.</li>
+<li><code>resolver_id</code> - (Required) The OCID of the target resolver.</li>
+<li><code>scope</code> - (Required) Value must be <code>PRIVATE</code> when listing private name resolver endpoints.</li>
+<li><code>state</code> - (Optional) The state of a resource.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>resolver_endpoints</code> - The list of resolver_endpoints.</li>
+</ul>
+
+<h3>ResolverEndpoint Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>compartment_id</code> - The OCID of the owning compartment. This will match the resolver that the resolver endpoint is under and will be updated if the resolver&rsquo;s compartment is changed.</p></li>
+
+<li><p><code>endpoint_type</code> - The type of resolver endpoint. VNIC is currently the only supported type.</p></li>
+
+<li><p><code>forwarding_address</code> - An IP address from which forwarded queries may be sent. For VNIC endpoints, this IP address must be part of the subnet and will be assigned by the system if unspecified when isForwarding is true.</p></li>
+
+<li><p><code>is_forwarding</code> - A Boolean flag indicating whether or not the resolver endpoint is for forwarding.</p></li>
+
+<li><p><code>is_listening</code> - A Boolean flag indicating whether or not the resolver endpoint is for listening.</p></li>
+
+<li><p><code>listening_address</code> - An IP address to listen to queries on. For VNIC endpoints this IP address must be part of the subnet and will be assigned by the system if unspecified when isListening is true.</p></li>
+
+<li><p><code>name</code> - The name of the resolver endpoint. Must be unique, case-insensitive, within the resolver.</p></li>
+
+<li><p><code>nsg_ids</code> - An array of network security group OCIDs for the resolver endpoint. These must be part of the VCN that the resolver endpoint is a part of.</p></li>
+
+<li><p><code>self</code> - The canonical absolute URL of the resource.</p></li>
+
+<li><p><code>state</code> - The current state of the resource.</p></li>
+
+<li><p><code>subnet_id</code> - The OCID of a subnet. Must be part of the VCN that the resolver is attached to.</p></li>
+
+<li><p><code>time_created</code> - The date and time the resource was created in &ldquo;YYYY-MM-ddThh:mm:ssZ&rdquo; format with a Z offset, as defined by RFC 3339.</p>
+
+<p><strong>Example:</strong> <code>2016-07-22T17:23:59:60Z</code></p></li>
+
+<li><p><code>time_updated</code> - The date and time the resource was last updated in &ldquo;YYYY-MM-ddThh:mm:ssZ&rdquo; format with a Z offset, as defined by RFC 3339.</p>
+
+<p><strong>Example:</strong> <code>2016-07-22T17:23:59:60Z</code></p></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_objectstorage_preauthrequests</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_objectstorage_preauthrequests</h1>
+
+<p>This data source provides the list of Preauthenticated Requests in Oracle Cloud Infrastructure Object Storage service.</p>
+
+<p>Lists pre-authenticated requests for the bucket.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_objectstorage_preauthrequests&quot; &quot;test_preauthenticated_requests&quot; {
+	#Required
+	bucket = var.preauthenticated_request_bucket
+	namespace = var.preauthenticated_request_namespace
+
+	#Optional
+	object_name_prefix = var.preauthenticated_request_object_name_prefix
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>bucket</code> - (Required) The name of the bucket. Avoid entering confidential information. Example: <code>my-new-bucket1</code></li>
+<li><code>namespace</code> - (Required) The Object Storage namespace used for the request.</li>
+<li><code>object_name_prefix</code> - (Optional) User-specified object name prefixes can be used to query and return a list of pre-authenticated requests.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>preauthenticated_requests</code> - The list of preauthenticated_requests.</li>
+</ul>
+
+<h3>PreauthenticatedRequest Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>access_type</code> - The operation that can be performed on this resource.</li>
+<li><code>bucket_listing_action</code> - Specifies whether a list operation is allowed on a PAR with accessType &ldquo;AnyObjectRead&rdquo; or &ldquo;AnyObjectReadWrite&rdquo;. Deny: Prevents the user from performing a list operation. ListObjects: Authorizes the user to perform a list operation.</li>
+<li><code>access_uri</code> - The URI to embed in the URL when using the pre-authenticated request.</li>
+<li><code>bucket</code> - The name of the bucket.  Example: <code>my-new-bucket1</code></li>
+<li><code>id</code> - The unique identifier to use when directly addressing the pre-authenticated request.</li>
+<li><code>name</code> - The user-provided name of the pre-authenticated request.</li>
+<li><code>namespace</code> - The Object Storage namespace used for the request.</li>
+<li><code>object</code> - Deprecated. Instead use <code>object_name</code>.The name of the object that is being granted access to by the pre-authenticated request. Avoid entering confidential information. The object name can be null and if so, the pre-authenticated request grants access to the entire bucket. Example: test/object1.log</li>
+<li><code>object_name</code> - The name of the object that is being granted access to by the pre-authenticated request. Avoid entering confidential information. The object name can be null and if so, the pre-authenticated request grants access to the entire bucket. Example: test/object1.log</li>
+<li><code>time_created</code> - The date when the pre-authenticated request was created as per specification <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a>.</li>
+<li><code>time_expires</code> - The expiration date for the pre-authenticated request as per <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a>. After this date the pre-authenticated request will no longer be valid.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

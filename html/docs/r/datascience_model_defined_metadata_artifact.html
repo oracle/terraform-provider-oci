@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_datascience_model_defined_metadata_artifact</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_datascience_model_defined_metadata_artifact</h1>
+
+<p>This resource provides the Model Defined Metadata Artifact resource in Oracle Cloud Infrastructure Data Science service.</p>
+
+<p>Creates model defined metadata artifact for specified model.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_datascience_model_defined_metadata_artifact&quot; &quot;test_model_defined_metadata_artifact&quot; {
+	#Required
+	model_defined_metadatum_artifact = var.model_defined_metadata_artifact_model_defined_metadatum_artifact
+	content_length = var.model_defined_metadata_artifact_content_length
+	metadatum_key_name = oci_kms_key.test_key.name
+	model_id = oci_datascience_model.test_model.id
+
+	#Optional
+	content_disposition = var.model_defined_metadata_artifact_content_disposition
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>model_defined_metadatum_artifact</code> - (Required) (Updatable) The model defined metadata artifact to upload.</li>
+<li><code>content_disposition</code> - (Optional) (Updatable) This header allows you to specify a filename during upload. This file name is used to dispose of the file contents while downloading the file. If this optional field is not populated in the request, then the OCID of the model is used for the file name when downloading. Example: <code>{&quot;Content-Disposition&quot;: &quot;attachment&quot; &quot;filename&quot;=&quot;model.tar.gz&quot; &quot;Content-Length&quot;: &quot;2347&quot; &quot;Content-Type&quot;: &quot;application/gzip&quot;}</code></li>
+<li><code>content_length</code> - (Required) (Updatable) The content length of the body.</li>
+<li><code>metadatum_key_name</code> - (Required) The name of the model metadatum in the metadata.</li>
+<li><code>model_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the model.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Model Defined Metadata Artifact
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Model Defined Metadata Artifact
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Model Defined Metadata Artifact</p>
+
+<h2>Import</h2>
+
+<p>ModelDefinedMetadataArtifacts can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_datascience_model_defined_metadata_artifact.test_model_defined_metadata_artifact &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

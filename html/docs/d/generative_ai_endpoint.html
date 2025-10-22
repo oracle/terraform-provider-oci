@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_generative_ai_endpoint</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_generative_ai_endpoint</h1>
+
+<p>This data source provides details about a specific Endpoint resource in Oracle Cloud Infrastructure Generative AI service.</p>
+
+<p>Gets information about an endpoint.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_generative_ai_endpoint&quot; &quot;test_endpoint&quot; {
+	#Required
+	endpoint_id = oci_generative_ai_endpoint.test_endpoint.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>endpoint_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the endpoint.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>content_moderation_config</code> - The configuration details, whether to add the content moderation feature to the model. Content moderation removes toxic and biased content from responses.
+
+<ul>
+<li><code>is_enabled</code> - Whether to enable the content moderation feature.</li>
+<li><code>mode</code> - Enum for the modes of operation for inference protection.</li>
+<li><code>model_id</code> - The OCID of the model used for the feature.</li>
+</ul></li>
+<li><code>dedicated_ai_cluster_id</code> - The OCID of the dedicated AI cluster on which the model will be deployed to.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>lifecycle_details</code> - A message describing the current state of the endpoint in more detail that can provide actionable information.</li>
+<li><code>state</code> - The current state of the endpoint.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace.  Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_migration_migration_object_types</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_migration_migration_object_types</h1>
+
+<p>This data source provides the list of Migration Object Types in Oracle Cloud Infrastructure Database Migration service.</p>
+
+<p>Display sample object types to exclude or include for a Migration.</p>
+
+<p>Note: If you wish to use the DMS deprecated API version /20210929 it is necessary to pin the Terraform Provider version to v5.47.0. Newer Terraform provider versions will not support the DMS deprecated API version /20210929</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_migration_migration_object_types&quot; &quot;test_migration_object_types&quot; {
+	#Required
+	connection_type = var.migration_object_type_connection_type
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>connection_type</code> - (Required) The connection type for migration objects.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>migration_object_type_summary_collection</code> - The list of migration_object_type_summary_collection.</li>
+</ul>
+
+<h3>MigrationObjectType Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - Items in collection.
+
+<ul>
+<li><code>name</code> - Object type name</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

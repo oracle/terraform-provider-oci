@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_devops_repository_authors</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_devops_repository_authors</h1>
+
+<p>This data source provides the list of Repository Authors in Oracle Cloud Infrastructure Devops service.</p>
+
+<p>Retrieve a list of all the authors.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_devops_repository_authors&quot; &quot;test_repository_authors&quot; {
+	#Required
+	repository_id = oci_devops_repository.test_repository.id
+
+	#Optional
+	ref_name = var.repository_author_ref_name
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>ref_name</code> - (Optional) A filter to return only resources that match the given reference name.</li>
+<li><code>repository_id</code> - (Required) Unique repository identifier.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>repository_author_collection</code> - The list of repository_author_collection.</li>
+</ul>
+
+<h3>RepositoryAuthor Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - List of author objects.
+
+<ul>
+<li><code>author_name</code> - Author name.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

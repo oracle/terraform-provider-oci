@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_core_cross_connect_status</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_core_cross_connect_status</h1>
+
+<p>This data source provides details about a specific Cross Connect Status resource in Oracle Cloud Infrastructure Core service.</p>
+
+<p>Gets the status of the specified cross-connect.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_core_cross_connect_status&quot; &quot;test_cross_connect_status&quot; {
+	#Required
+	cross_connect_id = oci_core_cross_connect.test_cross_connect.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>cross_connect_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the cross-connect.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>cross_connect_id</code> - The OCID of the cross-connect.</p></li>
+
+<li><p><code>encryption_status</code> - Encryption status of the CrossConnect</p>
+
+<p>Possible values:</p>
+
+<ul>
+<li><strong>UP</strong> - Traffic is encrypted over this CrossConnect</li>
+<li><strong>DOWN</strong> - Traffic is not encrypted over this CrossConnect</li>
+<li><strong>CIPHER_MISMATCH</strong> - The MACSEC encryption cipher doesn&rsquo;t match the cipher on the CPE</li>
+<li><strong>CKN_MISMATCH</strong> - The MACSEC Connectivity association Key Name (CKN) doesn&rsquo;t match the CKN on the CPE</li>
+<li><strong>CAK_MISMATCH</strong> - The MACSEC Connectivity Association Key (CAK) doesn&rsquo;t match the CAK on the CPE</li>
+</ul></li>
+
+<li><p><code>interface_state</code> - Whether Oracle&rsquo;s side of the interface is up or down.</p></li>
+
+<li><p><code>light_level_ind_bm</code> - The light level of the cross-connect (in dBm).  Example: <code>14.0</code></p></li>
+
+<li><p><code>light_level_indicator</code> - Status indicator corresponding to the light level.</p>
+
+<ul>
+<li><strong>NO_LIGHT:</strong> No measurable light</li>
+<li><strong>LOW_WARN:</strong> There&rsquo;s measurable light but it&rsquo;s too low</li>
+<li><strong>HIGH_WARN:</strong> Light level is too high</li>
+<li><strong>BAD:</strong> There&rsquo;s measurable light but the signal-to-noise ratio is bad</li>
+<li><strong>GOOD:</strong> Good light level</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

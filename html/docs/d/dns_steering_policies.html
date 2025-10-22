@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_dns_steering_policies</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_dns_steering_policies</h1>
+
+<p>This data source provides the list of Steering Policies in Oracle Cloud Infrastructure DNS service.</p>
+
+<p>Gets a list of all steering policies in the specified compartment.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_dns_steering_policies&quot; &quot;test_steering_policies&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	display_name = var.steering_policy_display_name
+	display_name_contains = var.steering_policy_display_name_contains
+	health_check_monitor_id = oci_health_checks_http_monitor.test_http_monitor.id
+	id = var.steering_policy_id
+	state = var.steering_policy_state
+	template = var.steering_policy_template
+	time_created_greater_than_or_equal_to = var.steering_policy_time_created_greater_than_or_equal_to
+	time_created_less_than = var.steering_policy_time_created_less_than
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The OCID of the compartment the resource belongs to.</li>
+<li><code>display_name</code> - (Optional) The displayName of a resource.</li>
+<li><code>display_name_contains</code> - (Optional) The partial displayName of a resource. Will match any resource whose name (case-insensitive) contains the provided value.</li>
+<li><code>health_check_monitor_id</code> - (Optional) Search by health check monitor OCID. Will match any resource whose health check monitor ID matches the provided value.</li>
+<li><code>id</code> - (Optional) The OCID of a resource.</li>
+<li><code>state</code> - (Optional) The state of a resource.</li>
+<li><code>template</code> - (Optional) Search by steering template type. Will match any resource whose template type matches the provided value.</li>
+<li><code>time_created_greater_than_or_equal_to</code> - (Optional) An <a href="https://www.ietf.org/rfc/rfc3339.txt">RFC 3339</a> timestamp that states all returned resources were created on or after the indicated time.</li>
+<li><code>time_created_less_than</code> - (Optional) An <a href="https://www.ietf.org/rfc/rfc3339.txt">RFC 3339</a> timestamp that states all returned resources were created before the indicated time.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>steering_policies</code> - The list of steering_policies.</li>
+</ul>
+
+<h3>SteeringPolicy Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>answers</code> - The set of all answers that can potentially issue from the steering policy.</p>
+
+<ul>
+<li><code>is_disabled</code> - Set this property to <code>true</code> to indicate that the answer is administratively disabled, such as when the corresponding server is down for maintenance. An answer&rsquo;s <code>isDisabled</code> property can be referenced in <code>answerCondition</code> properties in rules using <code>answer.isDisabled</code>.</li>
+<li><code>name</code> - A user-friendly name for the answer, unique within the steering policy. An answer&rsquo;s <code>name</code> property can be referenced in <code>answerCondition</code> properties of rules using <code>answer.name</code>.</li>
+<li><code>pool</code> - The freeform name of a group of one or more records in which this record is included, such as &ldquo;LAX data center&rdquo;. An answer&rsquo;s <code>pool</code> property can be referenced in <code>answerCondition</code> properties of rules using <code>answer.pool</code>.</li>
+<li><code>rdata</code> - The record&rsquo;s data, as whitespace-delimited tokens in type-specific presentation format. All RDATA is normalized and the returned presentation of your RDATA may differ from its initial input. For more information about RDATA, see <a href="https://docs.cloud.oracle.com/iaas/Content/DNS/Reference/supporteddnsresource.htm">Supported DNS Resource Record Types</a>.</li>
+<li><code>rtype</code> - The type of DNS record, such as A or CNAME. Only A, AAAA, and CNAME are supported. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/DNS/Reference/supporteddnsresource.htm">Supported DNS Resource Record Types</a>.</li>
+</ul></li>
+
+<li><p><code>compartment_id</code> - The OCID of the compartment containing the steering policy.</p></li>
+
+<li><p><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</p></li>
+
+<li><p><code>display_name</code> - A user-friendly name for the steering policy. Does not have to be unique and can be changed. Avoid entering confidential information.</p></li>
+
+<li><p><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</p></li>
+
+<li><p><code>health_check_monitor_id</code> - The OCID of the health check monitor providing health data about the answers of the steering policy. A steering policy answer with <code>rdata</code> matching a monitored endpoint will use the health data of that endpoint. A steering policy answer with <code>rdata</code> not matching any monitored endpoint will be assumed healthy.</p>
+
+<p><strong>Note:</strong> To use the Health Check monitoring feature in a steering policy, a monitor must be created using the Health Checks service first. For more information on how to create a monitor, please see <a href="https://docs.cloud.oracle.com/iaas/Content/HealthChecks/Tasks/managinghealthchecks.htm">Managing Health Checks</a>.</p></li>
+
+<li><p><code>id</code> - The OCID of the resource.</p></li>
+
+<li><p><code>rules</code> - The series of rules that will be processed in sequence to reduce the pool of answers to a response for any given request.</p>
+
+<p>The first rule receives a shuffled list of all answers, and every other rule receives the list of answers emitted by the one preceding it. The last rule populates the response.</p>
+
+<ul>
+<li><code>cases</code> - An array of <code>caseConditions</code>. A rule may optionally include a sequence of cases defining alternate configurations for how it should behave during processing for any given DNS query. When a rule has no sequence of <code>cases</code>, it is always evaluated with the same configuration during processing. When a rule has an empty sequence of <code>cases</code>, it is always ignored during processing. When a rule has a non-empty sequence of <code>cases</code>, its behavior during processing is configured by the first matching <code>case</code> in the sequence. When a rule has no matching cases the rule is ignored. A rule case with no <code>caseCondition</code> always matches. A rule case with a <code>caseCondition</code> matches only when that expression evaluates to true for the given query.
+
+<ul>
+<li><code>answer_data</code> - An array of <code>SteeringPolicyPriorityAnswerData</code> objects.
+
+<ul>
+<li><code>answer_condition</code> - An expression that is used to select a set of answers that match a condition. For example, answers with matching pool properties.</li>
+<li><code>should_keep</code> - Keeps the answer only if the value is <code>true</code>.</li>
+<li><code>value</code> - The rank assigned to the set of answers that match the expression in <code>answerCondition</code>. Answers with the lowest values move to the beginning of the list without changing the relative order of those with the same value. Answers can be given a value between <code>0</code> and <code>255</code>.</li>
+</ul></li>
+<li><code>case_condition</code> - An expression that uses conditions at the time of a DNS query to indicate whether a case matches. Conditions may include the geographical location, IP subnet, or ASN the DNS query originated. <strong>Example:</strong> If you have an office that uses the subnet <code>192.0.2.0/24</code> you could use a <code>caseCondition</code> expression <code>query.client.address in ('192.0.2.0/24')</code> to define a case that matches queries from that office.</li>
+<li><code>count</code> - The number of answers allowed to remain after the limit rule has been processed, keeping only the first of the remaining answers in the list. Example: If the <code>count</code> property is set to <code>2</code> and four answers remain before the limit rule is processed, only the first two answers in the list will remain after the limit rule has been processed.</li>
+</ul></li>
+<li><code>default_answer_data</code> - Defines a default set of answer conditions and values that are applied to an answer when <code>cases</code> is not defined for the rule, or a matching case does not have any matching <code>answerCondition</code>s in its <code>answerData</code>. <code>defaultAnswerData</code> is not applied if <code>cases</code> is defined and there are no matching cases. In this scenario, the next rule will be processed.
+
+<ul>
+<li><code>answer_condition</code> - An expression that is used to select a set of answers that match a condition. For example, answers with matching pool properties.</li>
+<li><code>should_keep</code> - Keeps the answer only if the value is <code>true</code>.</li>
+<li><code>value</code> - The rank assigned to the set of answers that match the expression in <code>answerCondition</code>. Answers with the lowest values move to the beginning of the list without changing the relative order of those with the same value. Answers can be given a value between <code>0</code> and <code>255</code>.</li>
+</ul></li>
+<li><code>default_count</code> - Defines a default count if <code>cases</code> is not defined for the rule or a matching case does not define <code>count</code>. <code>defaultCount</code> is <strong>not</strong> applied if <code>cases</code> is defined and there are no matching cases. In this scenario, the next rule will be processed. If no rules remain to be processed, the answer will be chosen from the remaining list of answers.</li>
+<li><code>description</code> - A user-defined description of the rule&rsquo;s purpose or behavior.</li>
+<li><code>rule_type</code> - The type of a rule determines its sorting/filtering behavior.
+
+<ul>
+<li><code>FILTER</code> - Filters the list of answers based on their defined boolean data. Answers remain only if their <code>shouldKeep</code> value is <code>true</code>.</li>
+<li><code>HEALTH</code> - Removes answers from the list if their <code>rdata</code> matches a target in the health check monitor referenced by the steering policy and the target is reported down.</li>
+<li><code>WEIGHTED</code> - Uses a number between 0 and 255 to determine how often an answer will be served in relation to other answers. Anwers with a higher weight will be served more frequently.</li>
+<li><code>PRIORITY</code> - Uses a defined rank value of answers to determine which answer to serve, moving those with the lowest values to the beginning of the list without changing the relative order of those with the same value. Answers can be given a value between <code>0</code> and <code>255</code>.</li>
+<li><code>LIMIT</code> - Filters answers that are too far down the list. Parameter <code>defaultCount</code> specifies how many answers to keep. <strong>Example:</strong> If <code>defaultCount</code> has a value of <code>2</code> and there are five answers left, when the <code>LIMIT</code> rule is processed, only the first two answers will remain in the list.</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>self</code> - The canonical absolute URL of the resource.</p></li>
+
+<li><p><code>state</code> - The current state of the resource.</p></li>
+
+<li><p><code>template</code> - A set of predefined rules based on the desired purpose of the steering policy. Each template utilizes Traffic Management&rsquo;s rules in a different order to produce the desired results when answering DNS queries.</p>
+
+<p><strong>Example:</strong> The <code>FAILOVER</code> template determines answers by filtering the policy&rsquo;s answers using the <code>FILTER</code> rule first, then the following rules in succession: <code>HEALTH</code>, <code>PRIORITY</code>, and <code>LIMIT</code>. This gives the domain dynamic failover capability.</p>
+
+<p>It is <strong>strongly recommended</strong> to use a template other than <code>CUSTOM</code> when creating a steering policy.</p>
+
+<p>All templates require the rule order to begin with an unconditional <code>FILTER</code> rule that keeps answers contingent upon <code>answer.isDisabled != true</code>, except for <code>CUSTOM</code>. A defined <code>HEALTH</code> rule must follow the <code>FILTER</code> rule if the policy references a <code>healthCheckMonitorId</code>. The last rule of a template must must be a <code>LIMIT</code> rule. For more information about templates and code examples, see <a href="https://docs.cloud.oracle.com/iaas/Content/TrafficManagement/Concepts/trafficmanagementapi.htm">Traffic Management API Guide</a>.</p>
+
+<p><strong>Template Types</strong></p>
+
+<ul>
+<li><code>FAILOVER</code> - Uses health check information on your endpoints to determine which DNS answers to serve. If an endpoint fails a health check, the answer for that endpoint will be removed from the list of available answers until the endpoint is detected as healthy.</li>
+<li><code>LOAD_BALANCE</code> - Distributes web traffic to specified endpoints based on defined weights.</li>
+<li><code>ROUTE_BY_GEO</code> - Answers DNS queries based on the query&rsquo;s geographic location. For a list of geographic locations to route by, see <a href="https://docs.cloud.oracle.com/iaas/Content/TrafficManagement/Reference/trafficmanagementgeo.htm">Traffic Management Geographic Locations</a>.</li>
+<li><code>ROUTE_BY_ASN</code> - Answers DNS queries based on the query&rsquo;s originating ASN.</li>
+<li><code>ROUTE_BY_IP</code> - Answers DNS queries based on the query&rsquo;s IP address.</li>
+<li><code>CUSTOM</code> - Allows a customized configuration of rules.</li>
+</ul></li>
+
+<li><p><code>time_created</code> - The date and time the resource was created, expressed in RFC 3339 timestamp format.</p>
+
+<p><strong>Example:</strong> <code>2016-07-22T17:23:59:60Z</code></p></li>
+
+<li><p><code>ttl</code> - The Time To Live (TTL) for responses from the steering policy, in seconds. If not specified during creation, a value of 30 seconds will be used.</p></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

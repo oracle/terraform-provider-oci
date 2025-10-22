@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_data_safe_security_policy_report_role_grant_paths</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_data_safe_security_policy_report_role_grant_paths</h1>
+
+<p>This data source provides the list of Security Policy Report Role Grant Paths in Oracle Cloud Infrastructure Data Safe service.</p>
+
+<p>Retrieves a list of all role grant paths for a particular user.</p>
+
+<p>The ListRoleGrantPaths operation returns only the role grant paths for the specified security policy report.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_data_safe_security_policy_report_role_grant_paths&quot; &quot;test_security_policy_report_role_grant_paths&quot; {
+	#Required
+	granted_role = var.security_policy_report_role_grant_path_granted_role
+	grantee = var.security_policy_report_role_grant_path_grantee
+	security_policy_report_id = oci_data_safe_security_policy_report.test_security_policy_report.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>granted_role</code> - (Required) A filter to return only items that match the specified role.</li>
+<li><code>grantee</code> - (Required) A filter to return only items that match the specified grantee.</li>
+<li><code>security_policy_report_id</code> - (Required) The OCID of the security policy report resource.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>role_grant_path_collection</code> - The list of role_grant_path_collection.</li>
+</ul>
+
+<h3>SecurityPolicyReportRoleGrantPath Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - An array of grant path summary objects.
+
+<ul>
+<li><code>depth_level</code> - The grant depth level of the indirect grant. An indirectly granted role/privilege is granted to the user through another role. The depth level indicates how deep a privilege is within the grant hierarchy.</li>
+<li><code>granted_role</code> - The name of the role.</li>
+<li><code>grantee</code> - Grantee is the user who can access the table.</li>
+<li><code>key</code> - The unique key of a role grant.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

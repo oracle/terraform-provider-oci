@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_bds_bds_instance_list_os_patches</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_bds_bds_instance_list_os_patches</h1>
+
+<p>This data source provides the list of Bds Instance List Os Patches in Oracle Cloud Infrastructure Big Data Service service.</p>
+
+<p>List all available os patches for a given cluster</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_bds_bds_instance_list_os_patches&quot; &quot;test_bds_instance_list_os_patches&quot; {
+	#Required
+	bds_instance_id = oci_bds_bds_instance.test_bds_instance.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>bds_instance_id</code> - (Required) The OCID of the cluster.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>os_patches</code> - The list of os_patches.</li>
+</ul>
+
+<h3>BdsInstanceListOsPatch Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>os_patch_version</code> - Patch version of the os patch.</li>
+<li><code>release_date</code> - The time when the OS patch was released.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

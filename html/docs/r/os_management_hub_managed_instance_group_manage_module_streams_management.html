@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_os_management_hub_managed_instance_group_manage_module_streams_management</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_os_management_hub_managed_instance_group_manage_module_streams_management</h1>
+
+<p>This resource provides the Managed Instance Group Manage Module Streams Management resource in Oracle Cloud Infrastructure Os Management Hub service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/os-management/latest/ManagedInstanceGroupManageModuleStreamsManagement">https://docs.oracle.com/iaas/api/#/en/os-management/latest/ManagedInstanceGroupManageModuleStreamsManagement</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/os_management_hub">https://github.com/oracle/terraform-provider-oci/tree/master/examples/os_management_hub</a></p>
+
+<p>Enables or disables module streams and installs or removes module stream profiles. Once complete, the state of the modules, streams, and profiles will match the state indicated in the operation. See <a href="https://docs.cloud.oracle.com/iaas/api/#/en/osmh/latest/datatypes/ManageModuleStreamsOnManagedInstanceGroupDetails">ManageModuleStreamsOnManagedInstanceGroupDetails</a> for more information.
+You can preform this operation as a dry run. For a dry run, the service evaluates the operation against the current module, stream, and profile state on the managed instance, but does not commit the changes. Instead, the service returns work request log or error entries indicating the impact of the operation.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_os_management_hub_managed_instance_group_manage_module_streams_management&quot; &quot;test_managed_instance_group_manage_module_streams_management&quot; {
+	#Required
+	managed_instance_group_id = oci_os_management_hub_managed_instance_group.test_managed_instance_group.id
+
+	#Optional
+	disable {
+		#Required
+		module_name = var.managed_instance_group_manage_module_streams_management_disable_module_name
+		stream_name = oci_streaming_stream.test_stream.name
+
+		#Optional
+		software_source_id = oci_os_management_hub_software_source.test_software_source.id
+	}
+	enable {
+		#Required
+		module_name = var.managed_instance_group_manage_module_streams_management_enable_module_name
+		stream_name = oci_streaming_stream.test_stream.name
+
+		#Optional
+		software_source_id = oci_os_management_hub_software_source.test_software_source.id
+	}
+	install {
+		#Required
+		module_name = var.managed_instance_group_manage_module_streams_management_install_module_name
+		profile_name = oci_os_management_hub_profile.test_profile.name
+		stream_name = oci_streaming_stream.test_stream.name
+
+		#Optional
+		software_source_id = oci_os_management_hub_software_source.test_software_source.id
+	}
+	is_dry_run = var.managed_instance_group_manage_module_streams_management_is_dry_run
+	remove {
+		#Required
+		module_name = var.managed_instance_group_manage_module_streams_management_remove_module_name
+		profile_name = oci_os_management_hub_profile.test_profile.name
+		stream_name = oci_streaming_stream.test_stream.name
+
+		#Optional
+		software_source_id = oci_os_management_hub_software_source.test_software_source.id
+	}
+	work_request_details {
+
+		#Optional
+		description = var.managed_instance_group_manage_module_streams_management_work_request_details_description
+		display_name = var.managed_instance_group_manage_module_streams_management_work_request_details_display_name
+	}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>disable</code> - (Optional) The set of module streams to disable.
+
+<ul>
+<li><code>module_name</code> - (Required) The name of a module.</li>
+<li><code>software_source_id</code> - (Optional) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the software source that contains the module stream.</li>
+<li><code>stream_name</code> - (Required) The name of a stream of the specified module.</li>
+</ul></li>
+<li><code>enable</code> - (Optional) The set of module streams to enable.
+
+<ul>
+<li><code>module_name</code> - (Required) The name of a module.</li>
+<li><code>software_source_id</code> - (Optional) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the software source that contains the module stream.</li>
+<li><code>stream_name</code> - (Required) The name of a stream of the specified module.</li>
+</ul></li>
+<li><code>install</code> - (Optional) The set of module stream profiles to install.
+
+<ul>
+<li><code>module_name</code> - (Required) The name of a module.</li>
+<li><code>profile_name</code> - (Required) The name of a profile of the specified module stream.</li>
+<li><code>software_source_id</code> - (Optional) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the software source that contains the module stream.</li>
+<li><code>stream_name</code> - (Required) The name of a stream of the specified module.</li>
+</ul></li>
+<li><code>is_dry_run</code> - (Optional) Indicates if this operation is a dry run or if the operation should be committed.  If set to true, the result of the operation will be evaluated but not committed.  If set to false, the operation is committed to the managed instance(s).  The default is false.</li>
+<li><code>managed_instance_group_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the managed instance group.</li>
+<li><code>remove</code> - (Optional) The set of module stream profiles to remove.
+
+<ul>
+<li><code>module_name</code> - (Required) The name of a module.</li>
+<li><code>profile_name</code> - (Required) The name of a profile of the specified module stream.</li>
+<li><code>software_source_id</code> - (Optional) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the software source that contains the module stream.</li>
+<li><code>stream_name</code> - (Required) The name of a stream of the specified module.</li>
+</ul></li>
+<li><code>work_request_details</code> - (Optional) Provides the name and description of the job.
+
+<ul>
+<li><code>description</code> - (Optional) User-specified information about the job. Avoid entering confidential information.</li>
+<li><code>display_name</code> - (Optional) A user-friendly name for the job. The name does not have to be unique. Avoid entering confidential information.</li>
+</ul></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Managed Instance Group Manage Module Streams Management
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Managed Instance Group Manage Module Streams Management
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Managed Instance Group Manage Module Streams Management</p>
+
+<h2>Import</h2>
+
+<p>ManagedInstanceGroupManageModuleStreamsManagement can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_os_management_hub_managed_instance_group_manage_module_streams_management.test_managed_instance_group_manage_module_streams_management &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

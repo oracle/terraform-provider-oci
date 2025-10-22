@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_fusion_apps_fusion_environment_family_limits_and_usage</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_fusion_apps_fusion_environment_family_limits_and_usage</h1>
+
+<p>This data source provides details about a specific Fusion Environment Family Limits And Usage resource in Oracle Cloud Infrastructure Fusion Apps service.</p>
+
+<p>Gets the number of environments (usage) of each type in the fusion environment family, as well as the limit that&rsquo;s allowed to be created based on the group&rsquo;s associated subscriptions.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_fusion_apps_fusion_environment_family_limits_and_usage&quot; &quot;test_fusion_environment_family_limits_and_usage&quot; {
+	#Required
+	fusion_environment_family_id = oci_fusion_apps_fusion_environment_family.test_fusion_environment_family.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>fusion_environment_family_id</code> - (Required) The unique identifier (OCID) of the FusionEnvironmentFamily.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>development_limit_and_usage</code> - The limit and usage for a specific environment type, for example, production, development, or test.
+
+<ul>
+<li><code>usage</code> - The usage of current environment.</li>
+</ul></li>
+<li><code>production_limit_and_usage</code> - The limit and usage for a specific environment type, for example, production, development, or test.
+
+<ul>
+<li><code>usage</code> - The usage of current environment.</li>
+</ul></li>
+<li><code>test_limit_and_usage</code> - The limit and usage for a specific environment type, for example, production, development, or test.
+
+<ul>
+<li><code>usage</code> - The usage of current environment.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

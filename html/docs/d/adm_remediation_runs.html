@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_adm_remediation_runs</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_adm_remediation_runs</h1>
+
+<p>This data source provides the list of Remediation Runs in Oracle Cloud Infrastructure Adm service.</p>
+
+<p>Returns a list of remediation runs contained by a compartment.
+The query parameter <code>compartmentId</code> is required unless the query parameter <code>id</code> is specified.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_adm_remediation_runs&quot; &quot;test_remediation_runs&quot; {
+
+	#Optional
+	compartment_id = var.compartment_id
+	display_name = var.remediation_run_display_name
+	id = var.remediation_run_id
+	remediation_recipe_id = oci_adm_remediation_recipe.test_remediation_recipe.id
+	state = var.remediation_run_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Optional) A filter to return only resources that belong to the specified compartment identifier. Required only if the id query param is not specified.</li>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the entire display name given.</li>
+<li><code>id</code> - (Optional) A filter to return only resources that match the specified identifier. Required only if the compartmentId query parameter is not specified.</li>
+<li><code>remediation_recipe_id</code> - (Optional) A filter to return only resources that match the specified Remediation Recipe identifier.</li>
+<li><code>state</code> - (Optional) A filter to return only Remediation Runs that match the specified lifecycleState.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>remediation_run_collection</code> - The list of remediation_run_collection.</li>
+</ul>
+
+<h3>RemediationRun Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The compartment Oracle Cloud Identifier (<a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>) of the remediation run.</li>
+<li><code>current_stage_type</code> - The type of the current stage of the remediation run.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>display_name</code> - The name of the remediation run.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - The Oracle Cloud Identifier (<a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>) of the remediation run.</li>
+<li><code>remediation_recipe_id</code> - The Oracle Cloud Identifier (<a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>) of the Remediation Recipe.</li>
+<li><code>remediation_run_source</code> - The source that triggered the Remediation Recipe.</li>
+<li><code>stages</code> - The list of remediation run stage summaries.
+
+<ul>
+<li><code>summary</code> - Information about the current step within the given stage.</li>
+<li><code>time_created</code> - The creation date and time of the stage (formatted according to <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>).</li>
+<li><code>time_finished</code> - The date and time of the finish of the stage (formatted according to <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>).</li>
+<li><code>time_started</code> - The date and time of the start of the stage (formatted according to <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>).</li>
+<li><code>type</code> - The type of stage.</li>
+</ul></li>
+<li><code>state</code> - The current lifecycle state of the remediation run.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The creation date and time of the remediation run (formatted according to <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>).</li>
+<li><code>time_finished</code> - The date and time of the finish of the remediation run (formatted according to <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>).</li>
+<li><code>time_started</code> - The date and time of the start of the remediation run (formatted according to <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>).</li>
+<li><code>time_updated</code> - The date and time the remediation run was last updated (formatted according to <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>).</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

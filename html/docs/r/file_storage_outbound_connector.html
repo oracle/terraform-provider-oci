@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_file_storage_outbound_connector</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_file_storage_outbound_connector</h1>
+
+<p>This resource provides the Outbound Connector resource in Oracle Cloud Infrastructure File Storage service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/filestorage/latest/OutboundConnector">https://docs.oracle.com/iaas/api/#/en/filestorage/latest/OutboundConnector</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/">https://github.com/oracle/terraform-provider-oci/tree/master/examples/</a></p>
+
+<p>Creates a new outbound connector in the specified compartment.
+You can associate an outbound connector with a mount target only when
+they exist in the same availability domain.</p>
+
+<p>For information about access control and compartments, see
+<a href="https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm">Overview of the IAM
+Service</a>.</p>
+
+<p>For information about availability domains, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm">Regions and
+Availability Domains</a>.
+To get a list of availability domains, use the
+<code>ListAvailabilityDomains</code> operation in the Identity and Access
+Management Service API.</p>
+
+<p>All Oracle Cloud Infrastructure Services resources, including
+outbound connectors, get an Oracle-assigned, unique ID called an
+Oracle Cloud Identifier (<a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>).
+When you create a resource, you can find its OCID in the response.
+You can also retrieve a resource&rsquo;s OCID by using a List API operation on that resource
+type, or by viewing the resource in the Console.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_file_storage_outbound_connector&quot; &quot;test_outbound_connector&quot; {
+	#Required
+	availability_domain = var.outbound_connector_availability_domain
+	bind_distinguished_name = var.outbound_connector_bind_distinguished_name
+	compartment_id = var.compartment_id
+	connector_type = var.outbound_connector_connector_type
+	endpoints {
+		#Required
+		hostname = var.outbound_connector_endpoints_hostname
+		port = var.outbound_connector_endpoints_port
+	}
+
+	#Optional
+	defined_tags = {&quot;Operations.CostCenter&quot;= &quot;42&quot;}
+	display_name = var.outbound_connector_display_name
+	freeform_tags = {&quot;Department&quot;= &quot;Finance&quot;}
+	locks {
+		#Required
+		type = var.outbound_connector_locks_type
+
+		#Optional
+		message = var.outbound_connector_locks_message
+		related_resource_id = oci_cloud_guard_resource.test_resource.id
+		time_created = var.outbound_connector_locks_time_created
+	}
+	password_secret_id = oci_vault_secret.test_secret.id
+	password_secret_version = var.outbound_connector_password_secret_version
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>availability_domain</code> - (Required) The availability domain the outbound connector is in. May be unset as a blank or NULL value.  Example: <code>Uocm:PHX-AD-1</code></li>
+<li><code>bind_distinguished_name</code> - (Required) The LDAP Distinguished Name of the bind account.</li>
+<li><code>compartment_id</code> - (Required) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment that contains the outbound connector.</li>
+<li><code>connector_type</code> - (Required) The account type of this outbound connector.</li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>display_name</code> - (Optional) (Updatable) A user-friendly name. It does not have to be unique, and it is changeable. Avoid entering confidential information.  Example: <code>My outbound connector</code></li>
+<li><code>endpoints</code> - (Required) Array of server endpoints to use when connecting with the LDAP bind account.
+
+<ul>
+<li><code>hostname</code> - (Required) Name of the DNS server.</li>
+<li><code>port</code> - (Required) Port of the DNS server.</li>
+</ul></li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>locks</code> - (Optional) Locks associated with this resource.
+
+<ul>
+<li><code>message</code> - (Optional) A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked.</li>
+<li><code>related_resource_id</code> - (Optional) The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock.</li>
+<li><code>time_created</code> - (Optional) When the lock was created.</li>
+<li><code>type</code> - (Required) Type of the lock.</li>
+</ul></li>
+<li><code>password_secret_id</code> - (Optional) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the password for the LDAP bind account in the Vault.</li>
+<li><code>password_secret_version</code> - (Optional) Version of the password secret in the Vault to use.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>availability_domain</code> - The availability domain the outbound connector is in. May be unset as a blank or NULL value.  Example: <code>Uocm:PHX-AD-1</code></li>
+<li><code>bind_distinguished_name</code> - The LDAP Distinguished Name of the account.</li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment that contains the outbound connector.</li>
+<li><code>connector_type</code> - The account type of this outbound connector.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>display_name</code> - A user-friendly name. It does not have to be unique, and it is changeable. Avoid entering confidential information.  Example: <code>My outbound connector</code></li>
+<li><code>endpoints</code> - Array of server endpoints to use when connecting with the LDAP bind account.
+
+<ul>
+<li><code>hostname</code> - Name of the DNS server.</li>
+<li><code>port</code> - Port of the DNS server.</li>
+</ul></li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the outbound connector.</li>
+<li><code>locks</code> - Locks associated with this resource.
+
+<ul>
+<li><code>message</code> - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked.</li>
+<li><code>related_resource_id</code> - The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock.</li>
+<li><code>time_created</code> - When the lock was created.</li>
+<li><code>type</code> - Type of the lock.</li>
+</ul></li>
+<li><code>password_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the password for the LDAP bind account in the Vault.</li>
+<li><code>password_secret_version</code> - Version of the password secret in the Vault to use.</li>
+<li><code>state</code> - The current state of this outbound connector.</li>
+<li><code>system_tags</code> - System tags for this resource. System tags are applied to resources by internal Oracle Cloud Infrastructure services.</li>
+<li><code>time_created</code> - The date and time the outbound connector was created in <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a> timestamp format.  Example: <code>2016-08-25T21:10:29.600Z</code></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Outbound Connector
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Outbound Connector
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Outbound Connector</p>
+
+<h2>Import</h2>
+
+<p>OutboundConnectors can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_file_storage_outbound_connector.test_outbound_connector &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

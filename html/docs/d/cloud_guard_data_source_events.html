@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_cloud_guard_data_source_events</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_cloud_guard_data_source_events</h1>
+
+<p>This data source provides the list of Data Source Events in Oracle Cloud Infrastructure Cloud Guard service.</p>
+
+<p>Returns a list of data source events
+(DataSourceEventCollection  resource) from the data source
+(DataSource resource) identified by dataSourceId.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_cloud_guard_data_source_events&quot; &quot;test_data_source_events&quot; {
+	#Required
+	data_source_id = oci_cloud_guard_data_source.test_data_source.id
+
+	#Optional
+	region = var.data_source_event_region
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>data_source_id</code> - (Required) Data source OCID.</li>
+<li><code>region</code> - (Optional) A filter to return only resource where their region matches the given region.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>data_source_event_collection</code> - The list of data_source_event_collection.</li>
+</ul>
+
+<h3>DataSourceEvent Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - List of events related to a data source
+
+<ul>
+<li><code>comments</code> - Data source event comments</li>
+<li><code>data_source_id</code> - Unique identifier of data source.</li>
+<li><code>event_date</code> - Data source event date and time</li>
+<li><code>event_info</code> - This resource can have multiple subtypes, depending on the dataSourceFeedProvider value. For example, if dataSourceFeedProvider is LOGGINGQUERY, this resource will be of type LoggingEventInfo.
+
+<ul>
+<li><code>data_source_feed_provider</code> - Possible type of dataSourceFeed Provider (LoggingQuery)</li>
+<li><code>log_result</code> - Log result details of DataSource for a Problem</li>
+<li><code>observed_value</code> - Observed value of DataSource for a Problem</li>
+<li><code>operator</code> - Operator details of DataSource for a Problem</li>
+<li><code>trigger_value</code> - Triggered value of DataSource for a Problem</li>
+</ul></li>
+<li><code>region</code> - Data source event region</li>
+<li><code>status</code> - Current data source event info status</li>
+<li><code>time_created</code> - Data source event creation date and time</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

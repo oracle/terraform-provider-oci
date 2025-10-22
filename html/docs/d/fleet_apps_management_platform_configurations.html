@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_fleet_apps_management_platform_configurations</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_fleet_apps_management_platform_configurations</h1>
+
+<p>This data source provides the list of Platform Configurations in Oracle Cloud Infrastructure Fleet Apps Management service.</p>
+
+<p>Returns a list of all the Platform Configurations in the specified compartment.
+The query parameter <code>compartmentId</code> is required unless the query parameter <code>id</code> is specified.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_fleet_apps_management_platform_configurations&quot; &quot;test_platform_configurations&quot; {
+
+	#Optional
+	compartment_id = var.compartment_id
+	compartment_id_in_subtree = var.platform_configuration_compartment_id_in_subtree
+	config_category = var.platform_configuration_config_category
+	display_name = var.platform_configuration_display_name
+	id = var.platform_configuration_id
+	state = var.platform_configuration_state
+	type = var.platform_configuration_type
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Optional) The ID of the compartment in which to list resources. Empty only if the resource OCID query param is not specified.</li>
+<li><code>compartment_id_in_subtree</code> - (Optional) If set to true, resources will be returned for not only the provided compartment, but all compartments which descend from it. Which resources are returned and their field contents depends on the value of accessLevel.</li>
+<li><code>config_category</code> - (Optional) Config Category</li>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the entire display name given.</li>
+<li><code>id</code> - (Optional) Unique identifier or OCID for listing a single Platform Configuration by id. Either compartmentId or id must be provided.</li>
+<li><code>state</code> - (Optional) A filter to return only resources their lifecycleState matches the given lifecycleState.</li>
+<li><code>type</code> - (Optional) A filter to return Platform Configurations whose type matches the given type.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>platform_configuration_collection</code> - The list of platform_configuration_collection.</li>
+</ul>
+
+<h3>PlatformConfiguration Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - Compartment OCID</li>
+<li><code>config_category_details</code> - Config Category Details.
+
+<ul>
+<li><code>compatible_products</code> - Products compatible with this Product. Provide products from the list of other products you have created that are compatible with the present one
+
+<ul>
+<li><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.  Example: <code>My new resource</code></li>
+<li><code>id</code> - The OCID of the resource.</li>
+</ul></li>
+<li><code>components</code> - Various components of the Product. For example:The administration server or node manager can be the components of the Oracle WebLogic Application server. Forms server or concurrent manager can be the components of the Oracle E-Business Suite.</li>
+<li><code>config_category</code> - Category of configuration</li>
+<li><code>credentials</code> - OCID for the Credential name to be associated with the Product. These are useful for target discovery or lifecycle management activities, for example, Oracle WebLogic admin credentials for Oracle WebLogic Application server.
+
+<ul>
+<li><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.  Example: <code>My new resource</code></li>
+<li><code>id</code> - The OCID of the resource.</li>
+</ul></li>
+<li><code>instance_id</code> - The OCID of the resource.</li>
+<li><code>instance_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.  Example: <code>My new resource</code></li>
+<li><code>patch_types</code> - Patch Types associated with this Product.
+
+<ul>
+<li><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.  Example: <code>My new resource</code></li>
+<li><code>id</code> - The OCID of the resource.</li>
+</ul></li>
+<li><code>products</code> - Products that belong to the stack. For example, Oracle WebLogic and Java for the Oracle Fusion Middleware product stack.
+
+<ul>
+<li><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.  Example: <code>My new resource</code></li>
+<li><code>id</code> - The OCID of the resource.</li>
+</ul></li>
+<li><code>sub_category_details</code> - ProductStack Config Category Details.
+
+<ul>
+<li><code>components</code> - Various components of the Product. For example:The administration server or node manager can be the components of the Oracle WebLogic Application server. Forms server or concurrent manager can be the components of the Oracle E-Business Suite.</li>
+<li><code>credentials</code> - OCID for the Credential name to be associated with the Product Stack. These are useful for target discovery or lifecycle management activities, for example, Oracle WebLogic admin credentials for Oracle WebLogic Application server.
+
+<ul>
+<li><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.  Example: <code>My new resource</code></li>
+<li><code>id</code> - The OCID of the resource.</li>
+</ul></li>
+<li><code>patch_types</code> - Patch Types associated with this Product Stack which will be considered as Product.
+
+<ul>
+<li><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.  Example: <code>My new resource</code></li>
+<li><code>id</code> - The OCID of the resource.</li>
+</ul></li>
+<li><code>sub_category</code> - SubCategory of Product Stack.</li>
+<li><code>versions</code> - Versions associated with the PRODUCT .<br>
+</li>
+</ul></li>
+<li><code>versions</code> - Versions associated with the PRODUCT .<br>
+</li>
+</ul></li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>description</code> - A user-friendly description. To provide some insight about the resource. Avoid entering confidential information.</li>
+<li><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.  Example: <code>My new resource</code></li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - The OCID of the resource.</li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.</li>
+<li><code>resource_region</code> - Associated region</li>
+<li><code>state</code> - The current state of the PlatformConfiguration.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time this resource was created. An RFC3339 formatted datetime string.</li>
+<li><code>time_updated</code> - The time this resource was last updated. An RFC3339 formatted datetime string.</li>
+<li><code>type</code> - The type of the configuration.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

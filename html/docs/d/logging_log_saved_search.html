@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_logging_log_saved_search</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_logging_log_saved_search</h1>
+
+<p>This data source provides details about a specific Log Saved Search resource in Oracle Cloud Infrastructure Logging service.</p>
+
+<p>Retrieves a LogSavedSearch.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_logging_log_saved_search&quot; &quot;test_log_saved_search&quot; {
+	#Required
+	log_saved_search_id = oci_logging_log_saved_search.test_log_saved_search.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>log_saved_search_id</code> - (Required) OCID of the logSavedSearch.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The OCID of the compartment that the resource belongs to.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - Description for this resource.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The OCID of the resource.</li>
+<li><code>name</code> - The user-friendly display name. This must be unique within the enclosing resource, and it&rsquo;s changeable. Avoid entering confidential information.</li>
+<li><code>query</code> - The search query that is saved.</li>
+<li><code>state</code> - The state of the LogSavedSearch</li>
+<li><code>time_created</code> - Time the resource was created.</li>
+<li><code>time_last_modified</code> - Time the resource was last modified.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

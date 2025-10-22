@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_log_analytics_log_analytics_resource_categories_management</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_log_analytics_log_analytics_resource_categories_management</h1>
+
+<p>This resource provides the Log Analytics Resource Categories Management resource in Oracle Cloud Infrastructure Log Analytics service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/logan-api-spec/latest/LogAnalyticsResourceCategoriesManagement">https://docs.oracle.com/iaas/api/#/en/logan-api-spec/latest/LogAnalyticsResourceCategoriesManagement</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/log_analytics">https://github.com/oracle/terraform-provider-oci/tree/master/examples/log_analytics</a></p>
+
+<p>Updates the category assignments of DASHBOARD and SAVEDSEARCH resources.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_log_analytics_log_analytics_resource_categories_management&quot; &quot;test_log_analytics_resource_categories_management&quot; {
+	#Required
+	namespace = var.log_analytics_resource_categories_management_namespace
+	resource_id = oci_log_analytics_resource_categories_management_resource_id
+	resource_type = var.log_analytics_resource_categories_management_resource_type
+	resource_categories = var.log_analytics_resource_categories_management_resource_categories
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>namespace</code> - (Required) The Logging Analytics namespace used for the request.</li>
+<li><code>resource_categories</code> - (Required) The list of categories to be assigned to the resource.</li>
+<li><code>resource_id</code> - (Required) The resource unique identifier for which catagories are managed.</li>
+<li><code>resource_type</code> - (Required) The resource type of the resource for which categories are managed.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Log Analytics Resource Categories Management
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Log Analytics Resource Categories Management
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Log Analytics Resource Categories Management</p>
+
+<h2>Import</h2>
+
+<p>LogAnalyticsResourceCategoriesManagement cannot be imported.</p>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_artifacts_container_image_signatures</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_artifacts_container_image_signatures</h1>
+
+<p>This data source provides the list of Container Image Signatures in Oracle Cloud Infrastructure Artifacts service.</p>
+
+<p>List container image signatures in an image.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_artifacts_container_image_signatures&quot; &quot;test_container_image_signatures&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	compartment_id_in_subtree = var.container_image_signature_compartment_id_in_subtree
+	display_name = var.container_image_signature_display_name
+	image_digest = var.container_image_signature_image_digest
+	image_id = oci_core_image.test_image.id
+	kms_key_id = oci_kms_key.test_key.id
+	kms_key_version_id = oci_kms_key_version.test_key_version.id
+	repository_id = oci_artifacts_repository.test_repository.id
+	repository_name = oci_artifacts_repository.test_repository.name
+	signing_algorithm = var.container_image_signature_signing_algorithm
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>compartment_id_in_subtree</code> - (Optional) When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are inspected depending on the the setting of <code>accessLevel</code>. Default is false. Can only be set to true when calling the API on the tenancy (root compartment).</li>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the given display name exactly.</li>
+<li><code>image_digest</code> - (Optional) The digest of the container image.  Example: <code>sha256:e7d38b3517548a1c71e41bffe9c8ae6d6d29546ce46bf62159837aad072c90aa</code></li>
+<li><code>image_id</code> - (Optional) A filter to return a container image summary only for the specified container image OCID.</li>
+<li><code>kms_key_id</code> - (Optional) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the kmsKeyVersionId used to sign the container image.  Example: <code>ocid1.keyversion.oc1..exampleuniqueID</code></li>
+<li><code>kms_key_version_id</code> - (Optional) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the kmsKeyVersionId used to sign the container image.  Example: <code>ocid1.keyversion.oc1..exampleuniqueID</code></li>
+<li><code>repository_id</code> - (Optional) A filter to return container images only for the specified container repository OCID.</li>
+<li><code>repository_name</code> - (Optional) A filter to return container images or container image signatures that match the repository name.  Example: <code>foo</code> or <code>foo*</code></li>
+<li><code>signing_algorithm</code> - (Optional) The algorithm to be used for signing. These are the only supported signing algorithms for container images.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>container_image_signature_collection</code> - The list of container_image_signature_collection.</li>
+</ul>
+
+<h3>ContainerImageSignature Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment in which the container repository exists.</li>
+<li><code>created_by</code> - The id of the user or principal that created the resource.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>display_name</code> - The last 10 characters of the kmsKeyId, the last 10 characters of the kmsKeyVersionId, the signingAlgorithm, and the last 10 characters of the signatureId.  Example: <code>wrmz22sixa::qdwyc2ptun::SHA_256_RSA_PKCS_PSS::2vwmobasva</code></li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the container image signature.  Example: <code>ocid1.containerimagesignature.oc1..exampleuniqueID</code></li>
+<li><code>image_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the container image.  Example: <code>ocid1.containerimage.oc1..exampleuniqueID</code></li>
+<li><code>kms_key_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the kmsKeyId used to sign the container image.  Example: <code>ocid1.key.oc1..exampleuniqueID</code></li>
+<li><code>kms_key_version_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the kmsKeyVersionId used to sign the container image.  Example: <code>ocid1.keyversion.oc1..exampleuniqueID</code></li>
+<li><code>message</code> - The base64 encoded signature payload that was signed.</li>
+<li><code>signature</code> - The signature of the message field using the kmsKeyId, the kmsKeyVersionId, and the signingAlgorithm.</li>
+<li><code>signing_algorithm</code> - The algorithm to be used for signing. These are the only supported signing algorithms for container images.</li>
+<li><code>state</code> - The current state of the container image signature.</li>
+<li><code>system_tags</code> - The system tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - An RFC 3339 timestamp indicating when the image was created.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

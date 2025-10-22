@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_file_storage_replication</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_file_storage_replication</h1>
+
+<p>This resource provides the Replication resource in Oracle Cloud Infrastructure File Storage service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/filestorage/latest/Replication">https://docs.oracle.com/iaas/api/#/en/filestorage/latest/Replication</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/">https://github.com/oracle/terraform-provider-oci/tree/master/examples/</a></p>
+
+<p>Creates a new replication in the specified compartment.
+Replications are the primary resource that governs the policy of cross-region replication between source
+and target file systems. Replications are associated with a secondary resource called a <a href="https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/ReplicationTarget"><code>ReplicationTarget</code></a>
+located in another availability domain.
+The associated replication target resource is automatically created along with the replication resource.
+The replication retrieves the delta of data between two snapshots of a source file system
+and sends it to the associated <code>ReplicationTarget</code>, which retrieves the delta and applies it to the target
+file system.
+Only unexported file systems can be used as target file systems.
+For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/File/Tasks/FSreplication.htm">Using Replication</a>.</p>
+
+<p>For information about access control and compartments, see
+<a href="https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm">Overview of the IAM
+Service</a>.</p>
+
+<p>For information about availability domains, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm">Regions and
+Availability Domains</a>.
+To get a list of availability domains, use the
+<code>ListAvailabilityDomains</code> operation in the Identity and Access
+Management Service API.</p>
+
+<p>All Oracle Cloud Infrastructure Services resources, including
+replications, get an Oracle-assigned, unique ID called an
+Oracle Cloud Identifier (<a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>).
+When you create a resource, you can find its OCID in the response.
+You can also retrieve a resource&rsquo;s OCID by using a List API operation on that resource
+type, or by viewing the resource in the Console.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_file_storage_replication&quot; &quot;test_replication&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	source_id = oci_file_storage_file_system.test_source.id
+	target_id = oci_file_storage_file_system.test_target.id
+
+	#Optional
+	defined_tags = {&quot;Operations.CostCenter&quot;= &quot;42&quot;}
+	display_name = var.replication_display_name
+	freeform_tags = {&quot;Department&quot;= &quot;Finance&quot;}
+	locks {
+		#Required
+		type = var.replication_locks_type
+
+		#Optional
+		message = var.replication_locks_message
+		related_resource_id = oci_cloud_guard_resource.test_resource.id
+		time_created = var.replication_locks_time_created
+	}
+	replication_interval = var.replication_replication_interval
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment that contains the replication.</li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>display_name</code> - (Optional) (Updatable) A user-friendly name. It does not have to be unique, and it is changeable. Avoid entering confidential information. An associated replication target will also created with the same <code>displayName</code>. Example: <code>My replication</code></li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>locks</code> - (Optional) Locks associated with this resource.
+
+<ul>
+<li><code>message</code> - (Optional) A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked.</li>
+<li><code>related_resource_id</code> - (Optional) The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock.</li>
+<li><code>time_created</code> - (Optional) When the lock was created.</li>
+<li><code>type</code> - (Required) Type of the lock.</li>
+</ul></li>
+<li><code>replication_interval</code> - (Optional) (Updatable) Duration in minutes between replication snapshots.</li>
+<li><code>source_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the source file system.</li>
+<li><code>target_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the target file system.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>availability_domain</code> - The availability domain the replication is in. The replication must be in the same availability domain as the source file system. Example: <code>Uocm:PHX-AD-1</code></li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment that contains the replication.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>delta_progress</code> - Percentage progress of the current replication cycle.</li>
+<li><code>delta_status</code> - The current state of the snapshot during replication operations.</li>
+<li><code>display_name</code> - A user-friendly name. It does not have to be unique, and it is changeable. Avoid entering confidential information.  Example: <code>My replication</code></li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the replication.</li>
+<li><code>last_snapshot_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the last snapshot that has been replicated completely. Empty if the copy of the initial snapshot is not complete.</li>
+<li><code>lifecycle_details</code> - Additional information about the current &lsquo;lifecycleState&rsquo;.</li>
+<li><code>locks</code> - Locks associated with this resource.
+
+<ul>
+<li><code>message</code> - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked.</li>
+<li><code>related_resource_id</code> - The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock.</li>
+<li><code>time_created</code> - When the lock was created.</li>
+<li><code>type</code> - Type of the lock.</li>
+</ul></li>
+<li><code>recovery_point_time</code> - The <a href="https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Snapshot/snapshotTime"><code>snapshotTime</code></a> of the most recent recoverable replication snapshot in <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a> timestamp format. Example: <code>2021-04-04T20:01:29.100Z</code></li>
+<li><code>replication_interval</code> - Duration in minutes between replication snapshots.</li>
+<li><code>replication_target_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the <a href="https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/ReplicationTarget"><code>ReplicationTarget</code></a>.</li>
+<li><code>source_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the source file system.</li>
+<li><code>state</code> - The current state of this replication. This resource can be in a <code>FAILED</code> state if replication target is deleted instead of the replication resource.</li>
+<li><code>system_tags</code> - System tags for this resource. System tags are applied to resources by internal Oracle Cloud Infrastructure services.</li>
+<li><code>target_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the target file system.</li>
+<li><code>time_created</code> - The date and time the replication was created in <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a> timestamp format.  Example: <code>2021-01-04T20:01:29.100Z</code></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Replication
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Replication
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Replication</p>
+
+<h2>Import</h2>
+
+<p>Replications can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_file_storage_replication.test_replication &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

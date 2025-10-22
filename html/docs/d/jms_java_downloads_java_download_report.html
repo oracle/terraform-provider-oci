@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_jms_java_downloads_java_download_report</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_jms_java_downloads_java_download_report</h1>
+
+<p>This data source provides details about a specific Java Download Report resource in Oracle Cloud Infrastructure Jms Java Downloads service.</p>
+
+<p>Gets a JavaDownloadReport by the specified identifier.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_jms_java_downloads_java_download_report&quot; &quot;test_java_download_report&quot; {
+	#Required
+	java_download_report_id = oci_jms_java_downloads_java_download_report.test_java_download_report.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>java_download_report_id</code> - (Required) Unique Java download report identifier.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>checksum_type</code> - The algorithm used for calculating the checksum.</li>
+<li><code>checksum_value</code> - The checksum value of the Java download report file.</li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the tenancy scoped to the Java download report.</li>
+<li><code>created_by</code> - An authorized principal.
+
+<ul>
+<li><code>display_name</code> - The name of the principal.</li>
+<li><code>email</code> - The email of the principal.</li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the principal.</li>
+</ul></li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code>. (See <a href="https://docs.cloud.oracle.com/iaas/Content/Tagging/Tasks/managingtagsandtagnamespaces.htm">Understanding Free-form Tags</a>).</li>
+<li><code>display_name</code> - Display name for the Java download report.</li>
+<li><code>file_size_in_bytes</code> - Approximate size of the Java download report file in bytes.</li>
+<li><code>format</code> - The file format of the Java download report.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code>. (See <a href="https://docs.cloud.oracle.com/iaas/Content/Tagging/Concepts/understandingfreeformtags.htm">Managing Tags and Tag Namespaces</a>.)</li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Java download report.</li>
+<li><code>state</code> - The current state of the Java download report.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. System tags can be viewed by users, but can only be created by the system.  Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time the Java download report was created, displayed as an <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a> formatted datetime string.</li>
+<li><code>time_end</code> - The end time until when the download records are included (formatted according to <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>).</li>
+<li><code>time_start</code> - The start time from when the download records are included (formatted according to <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>).</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_core_dedicated_vm_host_shapes</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_core_dedicated_vm_host_shapes</h1>
+
+<p>This data source provides the list of Dedicated Vm Host Shapes in Oracle Cloud Infrastructure Core service.</p>
+
+<p>Lists the shapes that can be used to launch a dedicated virtual machine host within the specified compartment.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_core_dedicated_vm_host_shapes&quot; &quot;test_dedicated_vm_host_shapes&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	availability_domain = var.dedicated_vm_host_shape_availability_domain
+	instance_shape_name = var.dedicated_vm_host_shape_instance_shape_name
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>availability_domain</code> - (Optional) The name of the availability domain.  Example: <code>Uocm:PHX-AD-1</code></li>
+<li><code>compartment_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>instance_shape_name</code> - (Optional) The name for the instance&rsquo;s shape.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>dedicated_vm_host_shapes</code> - The list of dedicated_vm_host_shapes.</li>
+</ul>
+
+<h3>DedicatedVmHostShape Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>availability_domain</code> - The shape&rsquo;s availability domain.</li>
+<li><code>dedicated_vm_host_shape</code> - The name of the dedicated VM host shape. You can enumerate all available shapes by calling <a href="https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/dedicatedVmHostShapes">ListDedicatedVmHostShapes</a>.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

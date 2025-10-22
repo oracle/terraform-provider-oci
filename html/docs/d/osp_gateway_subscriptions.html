@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_osp_gateway_subscriptions</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_osp_gateway_subscriptions</h1>
+
+<p>This data source provides the list of Subscriptions in Oracle Cloud Infrastructure Osp Gateway service.</p>
+
+<p>Get the subscription data for the compartment</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_osp_gateway_subscriptions&quot; &quot;test_subscriptions&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	osp_home_region = var.subscription_osp_home_region
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>osp_home_region</code> - (Required) The home region&rsquo;s public name of the logged in user.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>subscription_collection</code> - The list of subscription_collection.</li>
+</ul>
+
+<h3>Subscription Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>account_type</code> - Account type.</li>
+<li><code>bill_to_cust_account_id</code> - Bill to customer Account id.</li>
+<li><code>billing_address</code> - Address details model.
+
+<ul>
+<li><code>address_key</code> - Address identifier.</li>
+<li><code>city</code> - Name of the city.</li>
+<li><code>company_name</code> - Name of the customer company.</li>
+<li><code>contributor_class</code> - Contributor class of the customer company.</li>
+<li><code>country</code> - Country of the address.</li>
+<li><code>county</code> - County of the address.</li>
+<li><code>department_name</code> - Department name of the customer company.</li>
+<li><code>email_address</code> - Contact person email address.</li>
+<li><code>first_name</code> - First name of the contact person.</li>
+<li><code>internal_number</code> - Internal number of the customer company.</li>
+<li><code>job_title</code> - Job title of the contact person.</li>
+<li><code>last_name</code> - Last name of the contact person.</li>
+<li><code>line1</code> - Address line 1.</li>
+<li><code>line2</code> - Address line 2.</li>
+<li><code>line3</code> - Address line 3.</li>
+<li><code>line4</code> - Address line 4.</li>
+<li><code>middle_name</code> - Middle name of the contact person.</li>
+<li><code>municipal_inscription</code> - Municipal Inscription.</li>
+<li><code>phone_country_code</code> - Phone country code of the contact person.</li>
+<li><code>phone_number</code> - Phone number of the contact person.</li>
+<li><code>postal_code</code> - Post code of the address.</li>
+<li><code>province</code> - Province of the address.</li>
+<li><code>state</code> - State of the address.</li>
+<li><code>state_inscription</code> - State Inscription.</li>
+<li><code>street_name</code> - Street name of the address.</li>
+<li><code>street_number</code> - Street number of the address.</li>
+</ul></li>
+<li><code>currency_code</code> - Currency code</li>
+<li><code>gsi_org_code</code> - GSI Subscription external code.</li>
+<li><code>id</code> - Subscription id identifier (OCID).</li>
+<li><code>is_corporate_conversion_allowed</code> - Corporate conversion allowed status</li>
+<li><code>is_intent_to_pay</code> - Payment intension.</li>
+<li><code>language_code</code> - Language short code (en, de, hu, etc)</li>
+<li><code>organization_id</code> - GSI organization external identifier.</li>
+<li><code>payment_gateway</code> - Payment gateway details.
+
+<ul>
+<li><code>merchant_defined_data</code> - Merchant details.
+
+<ul>
+<li><code>cloud_account_name</code> - Cloud account name.</li>
+<li><code>promo_type</code> - Promotion type code.</li>
+</ul></li>
+</ul></li>
+<li><code>payment_options</code> - Payment option list of a subscription.
+
+<ul>
+<li><code>credit_card_type</code> - Credit card type.</li>
+<li><code>email_address</code> - The email address of the paypal user.</li>
+<li><code>ext_billing_agreement_id</code> - Agreement id for the paypal account.</li>
+<li><code>first_name</code> - First name of the paypal user.</li>
+<li><code>last_digits</code> - Last four digits of the card.</li>
+<li><code>last_name</code> - Last name of the paypal user.</li>
+<li><code>name_on_card</code> - Name on the credit card.</li>
+<li><code>payment_method</code> - Payment method</li>
+<li><code>time_expiration</code> - Expired date of the credit card.</li>
+<li><code>wallet_instrument_id</code> - Wallet instrument internal id.</li>
+<li><code>wallet_transaction_id</code> - Wallet transaction id.</li>
+</ul></li>
+<li><code>plan_type</code> - Subscription plan type.</li>
+<li><code>ship_to_cust_acct_role_id</code> - Ship to customer account role.</li>
+<li><code>ship_to_cust_acct_site_id</code> - Ship to customer account site address id.</li>
+<li><code>subscription_plan_number</code> - Subscription plan number.</li>
+<li><code>tax_info</code> - Tax details.
+
+<ul>
+<li><code>giro</code> - Companies&rsquo; GIRO code</li>
+<li><code>no_tax_reason_code</code> - Tax exemption reason code.</li>
+<li><code>no_tax_reason_code_details</code> - Tax exemption reason description.</li>
+<li><code>tax_cnpj</code> - Brazilian companies&rsquo; CNPJ number.</li>
+<li><code>tax_payer_id</code> - Tay payer identifier.</li>
+<li><code>tax_reg_number</code> - Tax registration number.</li>
+</ul></li>
+<li><code>time_personal_to_corporate_conv</code> - Date of upgrade/conversion when account type changed from PERSONAL to CORPORATE</li>
+<li><code>time_plan_upgrade</code> - Date of upgrade/conversion when planType changed from FREE_TIER to PAYG</li>
+<li><code>time_start</code> - Start date of the subscription.</li>
+<li><code>upgrade_state</code> - Status of the upgrade.</li>
+<li><code>upgrade_state_details</code> - This field is used to describe the Upgrade State in case of error (E.g. Upgrade failure caused by interfacing Tax details- TaxError)</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

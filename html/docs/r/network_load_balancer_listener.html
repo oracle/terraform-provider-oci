@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_network_load_balancer_listener</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_network_load_balancer_listener</h1>
+
+<p>This resource provides the Listener resource in Oracle Cloud Infrastructure Network Load Balancer service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/latest/Listener">https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/latest/Listener</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/network_load_balancer">https://github.com/oracle/terraform-provider-oci/tree/master/examples/network_load_balancer</a></p>
+
+<p>Adds a listener to a network load balancer.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_network_load_balancer_listener&quot; &quot;test_listener&quot; {
+	#Required
+	default_backend_set_name = oci_network_load_balancer_backend_set.test_backend_set.name
+	name = var.listener_name
+	network_load_balancer_id = oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id
+	port = var.listener_port
+	protocol = var.listener_protocol
+	
+	#Optional
+	ip_version = var.listener_ip_version
+	is_ppv2enabled = var.listener_is_ppv2enabled
+	l3ip_idle_timeout = var.listener_l3ip_idle_timeout
+	tcp_idle_timeout = var.listener_tcp_idle_timeout
+	udp_idle_timeout = var.listener_udp_idle_timeout
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>default_backend_set_name</code> - (Required) (Updatable) The name of the associated backend set.  Example: <code>example_backend_set</code></li>
+<li><code>ip_version</code> - (Optional) (Updatable) IP version associated with the listener.</li>
+<li><code>is_ppv2enabled</code> - (Optional) (Updatable) Property to enable/disable PPv2 feature for this listener.</li>
+<li><code>l3ip_idle_timeout</code> - (Optional) (Updatable) The duration for L3IP idle timeout in seconds. Example: <code>200</code></li>
+<li><code>name</code> - (Required) A friendly name for the listener. It must be unique and it cannot be changed.  Example: <code>example_listener</code></li>
+<li><code>network_load_balancer_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the network load balancer to update.</li>
+<li><code>port</code> - (Required) (Updatable) The communication port for the listener.  Example: <code>80</code></li>
+<li><code>protocol</code> - (Required) (Updatable) The protocol on which the listener accepts connection requests. For public network load balancers, ANY protocol refers to TCP/UDP with the wildcard port. For private network load balancers, ANY protocol refers to TCP/UDP/ICMP (note that ICMP requires isPreserveSourceDestination to be set to true). &ldquo;ListNetworkLoadBalancersProtocols&rdquo; API is deprecated and it will not return the updated values. Use the allowed values for the protocol instead.  Example: <code>TCP</code></li>
+<li><code>tcp_idle_timeout</code> - (Optional) (Updatable) The duration for TCP idle timeout in seconds. Example: <code>300</code></li>
+<li><code>udp_idle_timeout</code> - (Optional) (Updatable) The duration for UDP idle timeout in seconds. Example: <code>120</code></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>default_backend_set_name</code> - The name of the associated backend set.  Example: <code>example_backend_set</code></li>
+<li><code>ip_version</code> - IP version associated with the listener.</li>
+<li><code>is_ppv2enabled</code> - Property to enable/disable PPv2 feature for this listener.</li>
+<li><code>l3ip_idle_timeout</code> - The duration for L3IP idle timeout in seconds. Example: <code>200</code></li>
+<li><code>name</code> - A friendly name for the listener. It must be unique and it cannot be changed.  Example: <code>example_listener</code></li>
+<li><code>port</code> - The communication port for the listener.  Example: <code>80</code></li>
+<li><code>protocol</code> - The protocol on which the listener accepts connection requests. For public network load balancers, ANY protocol refers to TCP/UDP with the wildcard port. For private network load balancers, ANY protocol refers to TCP/UDP/ICMP (note that ICMP requires isPreserveSourceDestination to be set to true). &ldquo;ListNetworkLoadBalancersProtocols&rdquo; API is deprecated and it will not return the updated values. Use the allowed values for the protocol instead.  Example: <code>TCP</code></li>
+<li><code>tcp_idle_timeout</code> - The duration for TCP idle timeout in seconds. Example: <code>300</code></li>
+<li><code>udp_idle_timeout</code> - The duration for UDP idle timeout in seconds. Example: <code>120</code></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Listener
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Listener
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Listener</p>
+
+<h2>Import</h2>
+
+<p>Listeners can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_network_load_balancer_listener.test_listener &quot;networkLoadBalancers/{networkLoadBalancerId}/listeners/{listenerName}&quot; 
+</code></pre>
+
+	</div>
+
+</body>
+</html>

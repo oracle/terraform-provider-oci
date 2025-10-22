@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_core_boot_volumes</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_core_boot_volumes</h1>
+
+<p>This data source provides the list of Boot Volumes in Oracle Cloud Infrastructure Core service.</p>
+
+<p>Lists the boot volumes in the specified compartment and availability domain.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_core_boot_volumes&quot; &quot;test_boot_volumes&quot; {
+
+	#Optional
+	availability_domain = var.boot_volume_availability_domain
+	compartment_id = var.compartment_id
+	volume_group_id = oci_core_volume_group.test_volume_group.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>availability_domain</code> - (Optional) The name of the availability domain.  Example: <code>Uocm:PHX-AD-1</code></li>
+<li><code>compartment_id</code> - (Optional) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>volume_group_id</code> - (Optional) The OCID of the volume group.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>boot_volumes</code> - The list of boot_volumes.</li>
+</ul>
+
+<h3>BootVolume Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>auto_tuned_vpus_per_gb</code> - The number of Volume Performance Units per GB that this boot volume is effectively tuned to.</p></li>
+
+<li><p><code>autotune_policies</code> - The list of autotune policies enabled for this volume.</p>
+
+<ul>
+<li><code>autotune_type</code> - This specifies the type of autotunes supported by OCI.</li>
+<li><code>max_vpus_per_gb</code> - This will be the maximum VPUs/GB performance level that the volume will be auto-tuned temporarily based on performance monitoring.</li>
+</ul></li>
+
+<li><p><code>availability_domain</code> - The availability domain of the boot volume.  Example: <code>Uocm:PHX-AD-1</code></p></li>
+
+<li><p><code>boot_volume_replicas</code> - The list of boot volume replicas of this boot volume</p>
+
+<ul>
+<li><code>availability_domain</code> - The availability domain of the boot volume replica.  Example: <code>Uocm:PHX-AD-1</code></li>
+<li><code>boot_volume_replica_id</code> - The boot volume replica&rsquo;s Oracle ID (OCID).</li>
+<li><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.</li>
+<li><code>kms_key_id</code> - The OCID of the Vault service key to assign as the master encryption key for the block volume replica, see <a href="https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm">Overview of Vault service</a> and <a href="https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm">Using Keys</a>.</li>
+</ul></li>
+
+<li><p><code>cluster_placement_group_id</code> - The clusterPlacementGroup Id of the volume for volume placement.</p></li>
+
+<li><p><code>compartment_id</code> - The OCID of the compartment that contains the boot volume.</p></li>
+
+<li><p><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></p></li>
+
+<li><p><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.</p></li>
+
+<li><p><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></p></li>
+
+<li><p><code>id</code> - The boot volume&rsquo;s Oracle ID (OCID).</p></li>
+
+<li><p><code>image_id</code> - The image OCID used to create the boot volume.</p></li>
+
+<li><p><code>is_auto_tune_enabled</code> - Specifies whether the auto-tune performance is enabled for this boot volume. This field is deprecated. Use the <code>DetachedVolumeAutotunePolicy</code> instead to enable the volume for detached autotune.</p></li>
+
+<li><p><code>is_hydrated</code> - Specifies whether the boot volume&rsquo;s data has finished copying from the source boot volume or boot volume backup.</p></li>
+
+<li><p><code>kms_key_id</code> - The OCID of the Vault service master encryption key assigned to the boot volume.</p></li>
+
+<li><p><code>size_in_gbs</code> - The size of the boot volume in GBs.</p></li>
+
+<li><p><code>size_in_mbs</code> - The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Please use <code>size_in_gbs</code>.</p></li>
+
+<li><p><code>source_details</code> -</p>
+
+<ul>
+<li><code>id</code> - (Required when type=bootVolume | bootVolumeBackup | bootVolumeReplica) The OCID of the boot volume replica.</li>
+<li><code>type</code> - (Required) The type can be one of these values: <code>bootVolume</code>, <code>bootVolumeBackup</code>, <code>bootVolumeBackupDelta</code>, <code>bootVolumeReplica</code></li>
+<li><code>change_block_size_in_bytes</code> - (Applicable when type=bootVolumeBackupDelta) Block size in bytes to be considered while performing volume restore. The value must be a power of 2; ranging from 4KB (4096 bytes) to 1MB (1048576 bytes). If omitted, defaults to 4,096 bytes (4 KiB).</li>
+<li><code>first_backup_id</code> - (Required when type=bootVolumeBackupDelta) The OCID of the first boot volume backup.</li>
+<li><code>second_backup_id</code> - (Required when type=bootVolumeBackupDelta) The OCID of the second boot volume backup.</li>
+</ul></li>
+
+<li><p><code>state</code> - The current state of a boot volume.</p></li>
+
+<li><p><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></p></li>
+
+<li><p><code>time_created</code> - The date and time the boot volume was created. Format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</p></li>
+
+<li><p><code>volume_group_id</code> - The OCID of the source volume group.</p></li>
+
+<li><p><code>vpus_per_gb</code> - The number of volume performance units (VPUs) that will be applied to this boot volume per GB, representing the Block Volume service&rsquo;s elastic performance options. See <a href="https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm#perf_levels">Block Volume Performance Levels</a> for more information.</p>
+
+<p>Allowed values:</p>
+
+<ul>
+<li><code>10</code>: Represents Balanced option.</li>
+<li><code>20</code>: Represents Higher Performance option.</li>
+<li><code>30</code>-<code>120</code>: Represents the Ultra High Performance option.</li>
+</ul>
+
+<p>For performance autotune enabled volumes, it would be the Default(Minimum) VPUs/GB.</p></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

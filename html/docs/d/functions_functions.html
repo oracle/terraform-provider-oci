@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_functions_functions</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_functions_functions</h1>
+
+<p>This data source provides the list of Functions in Oracle Cloud Infrastructure Functions service.</p>
+
+<p>Lists functions for an application.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_functions_functions&quot; &quot;test_functions&quot; {
+	#Required
+	application_id = oci_functions_application.test_application.id
+
+	#Optional
+	display_name = var.function_display_name
+	id = var.function_id
+	state = var.function_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>application_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the application to which this function belongs.</li>
+<li><code>display_name</code> - (Optional) A filter to return only functions with display names that match the display name string. Matching is exact.</li>
+<li><code>id</code> - (Optional) A filter to return only functions with the specified OCID.</li>
+<li><code>state</code> - (Optional) A filter to return only functions that match the lifecycle state in this parameter. Example: <code>Creating</code></li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>functions</code> - The list of functions.</li>
+</ul>
+
+<h3>Function Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>application_id</code> - The OCID of the application the function belongs to.</p></li>
+
+<li><p><code>compartment_id</code> - The OCID of the compartment that contains the function.</p></li>
+
+<li><p><code>config</code> - Function configuration. Overrides application configuration. Keys must be ASCII strings consisting solely of letters, digits, and the &lsquo;_&rsquo; (underscore) character, and must not begin with a digit. Values should be limited to printable unicode characters.  Example: <code>{&quot;MY_FUNCTION_CONFIG&quot;: &quot;ConfVal&quot;}</code></p>
+
+<p>The maximum size for all configuration keys and values is limited to 4KB. This is measured as the sum of octets necessary to represent each key and value in UTF-8.</p></li>
+
+<li><p><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></p></li>
+
+<li><p><code>detached_mode_timeout_in_seconds</code> - Timeout for detached function invocations. Value in seconds.  Example: <code>{&quot;detachedModeTimeoutInSeconds&quot;: 900}</code></p></li>
+
+<li><p><code>display_name</code> - The display name of the function. The display name is unique within the application containing the function.</p></li>
+
+<li><p><code>failure_destination</code> - An object that represents the destination to which Oracle Functions will send an invocation record with the details of the error of the failed detached function invocation. A notification is an example of a failure destination.  Example: <code>{&quot;kind&quot;: &quot;NOTIFICATION&quot;, &quot;topicId&quot;: &quot;topic_OCID&quot;}</code></p>
+
+<ul>
+<li><code>channel_id</code> - The ID of the channel in the queue.</li>
+<li><code>kind</code> - The type of destination for the response to a failed detached function invocation.</li>
+<li><code>queue_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the queue.</li>
+<li><code>stream_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the stream.</li>
+<li><code>topic_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the topic.</li>
+</ul></li>
+
+<li><p><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></p></li>
+
+<li><p><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the function.</p></li>
+
+<li><p><code>image</code> - The qualified name of the Docker image to use in the function, including the image tag. The image should be in the Oracle Cloud Infrastructure Registry that is in the same region as the function itself. Example: <code>phx.ocir.io/ten/functions/function:0.0.1</code></p></li>
+
+<li><p><code>image_digest</code> - The image digest for the version of the image that will be pulled when invoking this function. If no value is specified, the digest currently associated with the image in the Oracle Cloud Infrastructure Registry will be used. Example: <code>sha256:ca0eeb6fb05351dfc8759c20733c91def84cb8007aa89a5bf606bc8b315b9fc7</code></p></li>
+
+<li><p><code>invoke_endpoint</code> - The base https invoke URL to set on a client in order to invoke a function. This URL will never change over the lifetime of the function and can be cached.</p></li>
+
+<li><p><code>memory_in_mbs</code> - Maximum usable memory for the function (MiB).</p></li>
+
+<li><p><code>provisioned_concurrency_config</code> - Define the strategy for provisioned concurrency for the function.</p>
+
+<ul>
+<li><code>count</code> - Configuration specifying a constant amount of provisioned concurrency.</li>
+<li><code>strategy</code> - The strategy for provisioned concurrency to be used.</li>
+</ul></li>
+
+<li><p><code>shape</code> - The processor shape (<code>GENERIC_X86</code>/<code>GENERIC_ARM</code>) on which to run functions in the application, extracted from the image manifest.</p></li>
+
+<li><p><code>source_details</code> - The source details for the Function. The function can be created from various sources.</p>
+
+<ul>
+<li><code>pbf_listing_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the PbfListing this function is sourced from.</li>
+<li><code>source_type</code> - Type of the Function Source. Possible values: PRE_BUILT_FUNCTIONS.</li>
+</ul></li>
+
+<li><p><code>state</code> - The current state of the function.</p></li>
+
+<li><p><code>success_destination</code> - An object that represents the destination to which Oracle Functions will send an invocation record with the details of the successful detached function invocation. A stream is an example of a success destination.  Example: <code>{&quot;kind&quot;: &quot;STREAM&quot;, &quot;streamId&quot;: &quot;stream_OCID&quot;}</code></p>
+
+<ul>
+<li><code>channel_id</code> - The ID of the channel in the queue.</li>
+<li><code>kind</code> - The type of destination for the response to a successful detached function invocation.</li>
+<li><code>queue_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the queue.</li>
+<li><code>stream_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the stream.</li>
+<li><code>topic_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the topic.</li>
+</ul></li>
+
+<li><p><code>time_created</code> - The time the function was created, expressed in <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a> timestamp format.  Example: <code>2018-09-12T22:47:12.613Z</code></p></li>
+
+<li><p><code>time_updated</code> - The time the function was updated, expressed in <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a> timestamp format.  Example: <code>2018-09-12T22:47:12.613Z</code></p></li>
+
+<li><p><code>timeout_in_seconds</code> - Timeout for executions of the function. Value in seconds.</p></li>
+
+<li><p><code>trace_config</code> - Define the tracing configuration for a function.</p>
+
+<ul>
+<li><code>is_enabled</code> - Define if tracing is enabled for the resource.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

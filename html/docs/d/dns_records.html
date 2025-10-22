@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_dns_records</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_dns_records</h1>
+
+<p><strong>Deprecated. Use <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/data-sources/dns_rrsets">oci_dns_rrsets</a> instead.</strong></p>
+
+<p>This data source provides the list of Records in Oracle Cloud Infrastructure DNS service.</p>
+
+<p>Gets all records in the specified zone.</p>
+
+<p>The results are sorted by <code>domain</code> in alphabetical order by default. For more information about records,
+see <a href="https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4">Resource Record (RR) TYPEs</a>.
+When the zone name is provided as a path parameter and <code>PRIVATE</code> is used for the scope query parameter
+then the viewId query parameter is required.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_dns_records&quot; &quot;test_records&quot; {
+	#Required
+	zone_name_or_id = oci_dns_zone_name_or.test_zone_name_or.id
+
+	#Optional
+	domain = var.record_domain
+	domain_contains = var.record_domain_contains
+	rtype = var.record_rtype
+	zone_version = var.record_zone_version
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>compartment_id</code> - (Optional) The OCID of the compartment the zone belongs to.</p>
+
+<p>This parameter is deprecated and should be omitted.</p></li>
+
+<li><p><code>domain</code> - (Optional) Search by domain. Will match any record whose domain (case-insensitive) equals the provided value.</p></li>
+
+<li><p><code>domain_contains</code> - (Optional) Search by domain. Will match any record whose domain (case-insensitive) contains the provided value.</p></li>
+
+<li><p><code>rtype</code> - (Optional) Search by record type. Will match any record whose <a href="https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4">type</a> (case-insensitive) equals the provided value.</p></li>
+
+<li><p><code>sort_by</code> - (Optional) The field by which to sort records. Allowed values are: domain|rtype|ttl</p></li>
+
+<li><p><code>sort_order</code> - The order to sort the resources. Allowed values are: ASC|DESC</p></li>
+
+<li><p><code>zone_name_or_id</code> - (Required) The name or OCID of the target zone.</p></li>
+
+<li><p><code>zone_version</code> - (Optional) The version of the zone for which data is requested.</p></li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>records</code> - The list of records.</li>
+</ul>
+
+<h3>Record Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>domain</code> - The fully qualified domain name where the record can be located.</li>
+<li><code>is_protected</code> - A Boolean flag indicating whether or not parts of the record are unable to be explicitly managed.</li>
+<li><code>rdata</code> - The record&rsquo;s data, as whitespace-delimited tokens in type-specific presentation format. All RDATA is normalized and the returned presentation of your RDATA may differ from its initial input. For more information about RDATA, see <a href="https://docs.cloud.oracle.com/iaas/Content/DNS/Reference/supporteddnsresource.htm">Supported DNS Resource Record Types</a></li>
+<li><code>record_hash</code> - A unique identifier for the record within its zone.</li>
+<li><code>rrset_version</code> - The latest version of the record&rsquo;s zone in which its RRSet differs from the preceding version.</li>
+<li><code>rtype</code> - The type of DNS record, such as A or CNAME. For more information, see <a href="https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4">Resource Record (RR) TYPEs</a>.</li>
+<li><code>ttl</code> - The Time To Live for the record, in seconds. Using a TTL lower than 30 seconds is not recommended.</li>
+<li><code>zone_name_or_id</code> - The name or OCID of the target zone.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

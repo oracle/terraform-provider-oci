@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_dns_steering_policy_attachment</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_dns_steering_policy_attachment</h1>
+
+<p>This resource provides the Steering Policy Attachment resource in Oracle Cloud Infrastructure DNS service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/dns/latest/SteeringPolicyAttachment">https://docs.oracle.com/iaas/api/#/en/dns/latest/SteeringPolicyAttachment</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/dns">https://github.com/oracle/terraform-provider-oci/tree/master/examples/dns</a></p>
+
+<p>Creates a new attachment between a steering policy and a domain, giving the
+policy permission to answer queries for the specified domain. A steering policy must
+be attached to a domain for the policy to answer DNS queries for that domain.</p>
+
+<p>For the purposes of access control, the attachment is automatically placed
+into the same compartment as the domain&rsquo;s zone.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_dns_steering_policy_attachment&quot; &quot;test_steering_policy_attachment&quot; {
+	#Required
+	domain_name = var.steering_policy_attachment_domain_name
+	steering_policy_id = oci_dns_steering_policy.test_steering_policy.id
+	zone_id = oci_dns_zone.test_zone.id
+
+	#Optional
+	display_name = var.steering_policy_attachment_display_name
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>display_name</code> - (Optional) (Updatable) A user-friendly name for the steering policy attachment. Does not have to be unique and can be changed. Avoid entering confidential information.</li>
+<li><code>domain_name</code> - (Required) The attached domain within the attached zone. <code>domain_name</code> is case insensitive.</li>
+<li><code>steering_policy_id</code> - (Required) The OCID of the attached steering policy.</li>
+<li><code>zone_id</code> - (Required) The OCID of the attached zone.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>compartment_id</code> - The OCID of the compartment containing the steering policy attachment.</p></li>
+
+<li><p><code>display_name</code> - A user-friendly name for the steering policy attachment. Does not have to be unique and can be changed. Avoid entering confidential information.</p></li>
+
+<li><p><code>domain_name</code> - The attached domain within the attached zone.</p></li>
+
+<li><p><code>id</code> - The OCID of the resource.</p></li>
+
+<li><p><code>rtypes</code> - The record types covered by the attachment at the domain. The set of record types is determined by aggregating the record types from the answers defined in the steering policy.</p></li>
+
+<li><p><code>self</code> - The canonical absolute URL of the resource.</p></li>
+
+<li><p><code>state</code> - The current state of the resource.</p></li>
+
+<li><p><code>steering_policy_id</code> - The OCID of the attached steering policy.</p></li>
+
+<li><p><code>time_created</code> - The date and time the resource was created, expressed in RFC 3339 timestamp format.</p>
+
+<p><strong>Example:</strong> <code>2016-07-22T17:23:59:60Z</code></p></li>
+
+<li><p><code>zone_id</code> - The OCID of the attached zone.</p></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Steering Policy Attachment
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Steering Policy Attachment
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Steering Policy Attachment</p>
+
+<h2>Import</h2>
+
+<p>SteeringPolicyAttachments can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_dns_steering_policy_attachment.test_steering_policy_attachment &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_globally_distributed_database_sharded_database</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_globally_distributed_database_sharded_database</h1>
+
+<p>This resource provides the Sharded Database resource in Oracle Cloud Infrastructure Globally Distributed Database service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/globally-distributed-autonomous-database/latest/ShardedDatabase">https://docs.oracle.com/iaas/api/#/en/globally-distributed-autonomous-database/latest/ShardedDatabase</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/globally_distributed_database">https://github.com/oracle/terraform-provider-oci/tree/master/examples/globally_distributed_database</a></p>
+
+<p>Creates a Sharded Database.</p>
+
+<p>Patch operation to add, remove or update shards to the sharded database topology. In single patch
+operation, multiple shards can be either added, or removed or updated. Combination of inserts, update
+and remove in single operation is not allowed.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_globally_distributed_database_sharded_database&quot; &quot;test_sharded_database&quot; {
+	#Required
+	catalog_details {
+		#Required
+		admin_password = var.sharded_database_catalog_details_admin_password
+		cloud_autonomous_vm_cluster_id = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id
+		compute_count = var.sharded_database_catalog_details_compute_count
+		data_storage_size_in_gbs = var.sharded_database_catalog_details_data_storage_size_in_gbs
+		is_auto_scaling_enabled = var.sharded_database_catalog_details_is_auto_scaling_enabled
+
+		#Optional
+		encryption_key_details {
+			#Required
+			kms_key_id = oci_kms_key.test_key.id
+			vault_id = oci_kms_vault.test_vault.id
+
+			#Optional
+			kms_key_version_id = oci_kms_key_version.test_key_version.id
+		}
+		peer_cloud_autonomous_vm_cluster_id = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id
+	}
+	character_set = var.sharded_database_character_set
+	compartment_id = var.compartment_id
+	db_deployment_type = var.sharded_database_db_deployment_type
+	db_version = var.sharded_database_db_version
+	db_workload = var.sharded_database_db_workload
+	display_name = var.sharded_database_display_name
+	listener_port = var.sharded_database_listener_port
+	listener_port_tls = var.sharded_database_listener_port_tls
+	ncharacter_set = var.sharded_database_ncharacter_set
+	ons_port_local = var.sharded_database_ons_port_local
+	ons_port_remote = var.sharded_database_ons_port_remote
+	prefix = var.sharded_database_prefix
+	shard_details {
+		#Required
+		admin_password = var.sharded_database_shard_details_admin_password
+		cloud_autonomous_vm_cluster_id = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id
+		compute_count = var.sharded_database_shard_details_compute_count
+		data_storage_size_in_gbs = var.sharded_database_shard_details_data_storage_size_in_gbs
+		is_auto_scaling_enabled = var.sharded_database_shard_details_is_auto_scaling_enabled
+
+		#Optional
+		encryption_key_details {
+			#Required
+			kms_key_id = oci_kms_key.test_key.id
+			vault_id = oci_kms_vault.test_vault.id
+
+			#Optional
+			kms_key_version_id = oci_kms_key_version.test_key_version.id
+		}
+		peer_cloud_autonomous_vm_cluster_id = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id
+		shard_space = var.sharded_database_shard_details_shard_space
+	}
+	sharded_database_id = var.sharded_database_sharded_database_id
+	sharding_method = var.sharded_database_sharding_method
+
+	#Optional
+	chunks = var.sharded_database_chunks
+	cluster_certificate_common_name = var.sharded_database_cluster_certificate_common_name
+	defined_tags = {&quot;foo-namespace.bar-key&quot;= &quot;value&quot;}
+	freeform_tags = {&quot;bar-key&quot;= &quot;value&quot;}
+	patch_operations {
+		#Required
+		operation = var.sharded_database_patch_operations_operation
+		selection = var.sharded_database_patch_operations_selection
+
+		#Optional
+		value = var.sharded_database_patch_operations_value
+	}
+	replication_factor = var.sharded_database_replication_factor
+	replication_method = var.sharded_database_replication_method
+	replication_unit = var.sharded_database_replication_unit
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>catalog_details</code> - (Required) Collection of ATP-Dedicated catalogs that needs to be created.
+
+<ul>
+<li><code>admin_password</code> - (Required) Admin password for the catalog database.</li>
+<li><code>cloud_autonomous_vm_cluster_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the cloud Autonomous Exadata VM Cluster.</li>
+<li><code>compute_count</code> - (Required) The compute count for the catalog database. It has to be in multiple of 2.</li>
+<li><code>data_storage_size_in_gbs</code> - (Required) The data disk group size to be allocated in GBs for the catalog database.</li>
+<li><code>encryption_key_details</code> - (Optional) Details of encryption key to be used to encrypt data for shards and catalog for sharded database. For system-defined sharding type, all shards have to use same encryptionKeyDetails. For system-defined sharding, if encryptionKeyDetails are not specified for catalog, then Oracle managed key will be used for catalog. For user-defined sharding type, if encryptionKeyDetails are not provided for any shard or catalog, then Oracle managed key will be used for such shard or catalog. For system-defined or user-defined sharding type, if the shard or catalog has a peer in region other than primary shard or catalog region, then make sure to provide virtual vault for such shard or catalog, which is also replicated to peer region (the region where peer or standby shard or catalog exists).
+
+<ul>
+<li><code>kms_key_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the KMS key in vault identified by vaultId in customer tenancy  that is used as the master encryption key.</li>
+<li><code>kms_key_version_id</code> - (Optional) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the KMS key version for key identified by kmsKeyId that is used in data encryption (TDE) operations.</li>
+<li><code>vault_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the vault in customer tenancy where KMS key is present. For shard or catalog with cross-region data guard enabled, user needs to make sure to provide virtual private vault only, which is also replicated in the region of standby shard.</li>
+</ul></li>
+<li><code>is_auto_scaling_enabled</code> - (Required) Determines the auto-scaling mode for the catalog database.</li>
+<li><code>peer_cloud_autonomous_vm_cluster_id</code> - (Optional) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the peer cloud Autonomous Exadata VM Cluster.</li>
+</ul></li>
+<li><code>character_set</code> - (Required) The character set for the new shard database being created. Use database api ListAutonomousDatabaseCharacterSets to get the list of allowed character set for autonomous dedicated database. See documentation: <a href="https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/AutonomousDatabaseCharacterSets/ListAutonomousDatabaseCharacterSets">https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/AutonomousDatabaseCharacterSets/ListAutonomousDatabaseCharacterSets</a></li>
+<li><code>chunks</code> - (Optional) The default number of unique chunks in a shardspace. The value of chunks must be greater than 2 times the size of the largest shardgroup in any shardspace.</li>
+<li><code>cluster_certificate_common_name</code> - (Optional) The certificate common name used in all cloudAutonomousVmClusters for the sharded database topology. Eg. Production. All the clusters used in one sharded database topology shall have same CABundle setup. Valid characterset for clusterCertificateCommonName include uppercase or lowercase letters, numbers, hyphens, underscores, and period.</li>
+<li><code>compartment_id</code> - (Required) (Updatable) Identifier of the compartment where sharded database is to be created.</li>
+<li><code>db_deployment_type</code> - (Required) The database deployment type.</li>
+<li><code>db_version</code> - (Required) Oracle Database version of the Autonomous Container Database.</li>
+<li><code>db_workload</code> - (Required) Possible workload types.</li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>display_name</code> - (Required) (Updatable) Oracle sharded database display name.</li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>listener_port</code> - (Required) The listener port number for sharded database.</li>
+<li><code>listener_port_tls</code> - (Required) The TLS listener port number for sharded database.</li>
+<li><code>ncharacter_set</code> - (Required) The national character set for the new shard database being created. Use database api ListAutonomousDatabaseCharacterSets to get the list of allowed national character set for autonomous dedicated database. See documentation: <a href="https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/AutonomousDatabaseCharacterSets/ListAutonomousDatabaseCharacterSets">https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/AutonomousDatabaseCharacterSets/ListAutonomousDatabaseCharacterSets</a></li>
+<li><code>ons_port_local</code> - (Required) Ons port local for sharded database.</li>
+<li><code>ons_port_remote</code> - (Required) Ons remote port for sharded database.</li>
+<li><code>patch_operations</code> - (Optional) (Updatable)
+
+<ul>
+<li><code>operation</code> - (Required) (Updatable) The operation can be one of these values: <code>INSERT</code>, <code>MERGE</code>, <code>REMOVE</code></li>
+<li><code>selection</code> - (Required) (Updatable)</li>
+<li><code>value</code> - (Required when operation=INSERT | MERGE) (Updatable)</li>
+</ul></li>
+<li><code>prefix</code> - (Required) Unique name prefix for the sharded databases. Only alpha-numeric values are allowed. First character has to be a letter followed by any combination of letter and number.</li>
+<li><code>replication_factor</code> - (Optional) The Replication factor for RAFT replication based sharded database. Currently supported values are 3, 5 and 7.</li>
+<li><code>replication_method</code> - (Optional) The Replication method for sharded database.</li>
+<li><code>replication_unit</code> - (Optional) For RAFT replication based sharded database, the value should be atleast twice the number of shards.</li>
+<li><code>shard_details</code> - (Required) Collection of ATP-Dedicated shards that needs to be created.
+
+<ul>
+<li><code>admin_password</code> - (Required) Admin password for shard database.</li>
+<li><code>cloud_autonomous_vm_cluster_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the cloud Autonomous Exadata VM Cluster.</li>
+<li><code>compute_count</code> - (Required) The compute count for the shard database. It has to be in multiples of 2.</li>
+<li><code>data_storage_size_in_gbs</code> - (Required) The data disk group size to be allocated in GBs for the shard database.</li>
+<li><code>encryption_key_details</code> - (Optional) Details of encryption key to be used to encrypt data for shards and catalog for sharded database. For system-defined sharding type, all shards have to use same encryptionKeyDetails. For system-defined sharding, if encryptionKeyDetails are not specified for catalog, then Oracle managed key will be used for catalog. For user-defined sharding type, if encryptionKeyDetails are not provided for any shard or catalog, then Oracle managed key will be used for such shard or catalog. For system-defined or user-defined sharding type, if the shard or catalog has a peer in region other than primary shard or catalog region, then make sure to provide virtual vault for such shard or catalog, which is also replicated to peer region (the region where peer or standby shard or catalog exists).
+
+<ul>
+<li><code>kms_key_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the KMS key in vault identified by vaultId in customer tenancy  that is used as the master encryption key.</li>
+<li><code>kms_key_version_id</code> - (Optional) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the KMS key version for key identified by kmsKeyId that is used in data encryption (TDE) operations.</li>
+<li><code>vault_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the vault in customer tenancy where KMS key is present. For shard or catalog with cross-region data guard enabled, user needs to make sure to provide virtual private vault only, which is also replicated in the region of standby shard.</li>
+</ul></li>
+<li><code>is_auto_scaling_enabled</code> - (Required) Determines the auto-scaling mode for the shard database.</li>
+<li><code>peer_cloud_autonomous_vm_cluster_id</code> - (Optional) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the peer cloud Autonomous Exadata VM Cluster.</li>
+<li><code>shard_space</code> - (Optional) The shard space name for the shard database. Shard space for existing shard cannot be changed, once shard is created. Shard space name shall be used while creation of new shards. For User defined sharding, every shard must have a unique shard space name. For system defined sharding, shard space name is not required.</li>
+</ul></li>
+<li><code>sharded_database_id</code> - (Required)</li>
+<li><code>sharding_method</code> - (Required) Sharding Method.</li>
+<li><code>configure_gsms_trigger</code> - (Optional) (Updatable) An optional property when incremented triggers Configure Gsms. Could be set to any integer value.</li>
+<li><code>configure_sharding_trigger</code> - (Optional) (Updatable) An optional property when incremented triggers Configure Sharding. Could be set to any integer value.</li>
+<li><code>download_gsm_certificate_signing_request_trigger</code> - (Optional) (Updatable) An optional property when incremented triggers Download Gsm Certificate Signing Request. Could be set to any integer value.</li>
+<li><code>generate_gsm_certificate_signing_request_trigger</code> - (Optional) (Updatable) An optional property when incremented triggers Generate Gsm Certificate Signing Request. Could be set to any integer value.</li>
+<li><code>generate_wallet_trigger</code> - (Optional) (Updatable) An optional property when incremented triggers Generate Wallet. Could be set to any integer value.</li>
+<li><code>get_connection_string_trigger</code> - (Optional) (Updatable) An optional property when incremented triggers Get Connection String. Could be set to any integer value.</li>
+<li><code>start_database_trigger</code> - (Optional) (Updatable) An optional property when incremented triggers Start Database. Could be set to any integer value.</li>
+<li><code>stop_database_trigger</code> - (Optional) (Updatable) An optional property when incremented triggers Stop Database. Could be set to any integer value.</li>
+<li><code>upload_signed_certificate_and_generate_wallet_trigger</code> - (Optional) (Updatable) An optional property when incremented triggers Upload Signed Certificate And Generate Wallet. Could be set to any integer value.</li>
+<li><code>validate_network_trigger</code> - (Optional) (Updatable) An optional property when incremented triggers Validate Network. Could be set to any integer value.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>catalog_details</code> - Details of ATP-D based catalogs.
+
+<ul>
+<li><code>cloud_autonomous_vm_cluster_id</code> - Identifier of the primary cloudAutonomousVmCluster for the catalog.</li>
+<li><code>compute_count</code> - The compute amount available to the underlying autonomous database associated with shard or catalog.</li>
+<li><code>container_database_id</code> - Identifier of the underlying container database.</li>
+<li><code>container_database_parent_id</code> - Identifier of the underlying container database parent.</li>
+<li><code>data_storage_size_in_gbs</code> - The data disk group size to be allocated in GBs.</li>
+<li><code>encryption_key_details</code> - Details of encryption key to be used to encrypt data for shards and catalog for sharded database. For system-defined sharding type, all shards have to use same encryptionKeyDetails. For system-defined sharding, if encryptionKeyDetails are not specified for catalog, then Oracle managed key will be used for catalog. For user-defined sharding type, if encryptionKeyDetails are not provided for any shard or catalog, then Oracle managed key will be used for such shard or catalog. For system-defined or user-defined sharding type, if the shard or catalog has a peer in region other than primary shard or catalog region, then make sure to provide virtual vault for such shard or catalog, which is also replicated to peer region (the region where peer or standby shard or catalog exists).
+
+<ul>
+<li><code>kms_key_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the KMS key in vault identified by vaultId in customer tenancy  that is used as the master encryption key.</li>
+<li><code>kms_key_version_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the KMS key version for key identified by kmsKeyId that is used in data encryption (TDE) operations.</li>
+<li><code>vault_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the vault in customer tenancy where KMS key is present. For shard or catalog with cross-region data guard enabled, user needs to make sure to provide virtual private vault only, which is also replicated in the region of standby shard.</li>
+</ul></li>
+<li><code>is_auto_scaling_enabled</code> - Determines the auto-scaling mode.</li>
+<li><code>metadata</code> - Additional metadata related to catalog&rsquo;s underlying supporting resource.</li>
+<li><code>name</code> - Catalog name</li>
+<li><code>peer_cloud_autonomous_vm_cluster_id</code> - Identifier of the peer cloudAutonomousVmCluster for the catalog.</li>
+<li><code>shard_group</code> - Name of the shard-group to which the catalog belongs.</li>
+<li><code>status</code> - Status of shard or catalog or gsm for the sharded database.</li>
+<li><code>supporting_resource_id</code> - Identifier of the underlying supporting resource.</li>
+<li><code>time_created</code> - The time the catalog was created. An RFC3339 formatted datetime string</li>
+<li><code>time_ssl_certificate_expires</code> - The time the ssl certificate associated with catalog expires. An RFC3339 formatted datetime string</li>
+<li><code>time_updated</code> - The time the catalog was last created. An RFC3339 formatted datetime string</li>
+</ul></li>
+<li><code>character_set</code> - The character set for the database.</li>
+<li><code>chunks</code> - The default number of unique chunks in a shardspace. The value of chunks must be greater than 2 times the size of the largest shardgroup in any shardspace.</li>
+<li><code>cluster_certificate_common_name</code> - The certificate common name used in all cloudAutonomousVmClusters for the sharded database topology. Eg. Production. All the clusters used in one sharded database topology shall have same CABundle setup. Valid characterset for clusterCertificateCommonName include uppercase or lowercase letters, numbers, hyphens, underscores, and period.</li>
+<li><code>compartment_id</code> - Identifier of the compartment in which sharded database exists.</li>
+<li><code>connection_strings</code> - Details of sharded database connection String.
+
+<ul>
+<li><code>all_connection_strings</code> - Collection of connection strings.</li>
+</ul></li>
+<li><code>db_deployment_type</code> - The database deployment type.</li>
+<li><code>db_version</code> - Oracle Database version number.</li>
+<li><code>db_workload</code> - Possible workload types.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>display_name</code> - Oracle sharded database display name.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>gsms</code> - Details of GSM instances for the sharded database.
+
+<ul>
+<li><code>compute_count</code> - The compute count for the GSM instance.</li>
+<li><code>data_storage_size_in_gbs</code> - The data disk group size to be allocated in GBs.</li>
+<li><code>metadata</code> - Additional metadata related to GSM&rsquo;s underlying supporting resource.</li>
+<li><code>name</code> - Name of the GSM instance</li>
+<li><code>status</code> - Status of shard or catalog or gsm for the sharded database.</li>
+<li><code>supporting_resource_id</code> - Identifier of the underlying supporting resource.</li>
+<li><code>time_created</code> - The time the GSM instance was created. An RFC3339 formatted datetime string</li>
+<li><code>time_ssl_certificate_expires</code> - The time the ssl certificate associated with GSM expires. An RFC3339 formatted datetime string</li>
+<li><code>time_updated</code> - The time the GSM instance was last updated. An RFC3339 formatted datetime string</li>
+</ul></li>
+<li><code>id</code> - Sharded Database identifier</li>
+<li><code>lifecycle_state_details</code> - Detailed message for the lifecycle state.</li>
+<li><code>listener_port</code> - The GSM listener port number.</li>
+<li><code>listener_port_tls</code> - The TLS listener port number for sharded database.</li>
+<li><code>ncharacter_set</code> - The national character set for the database.</li>
+<li><code>ons_port_local</code> - Ons local port number.</li>
+<li><code>ons_port_remote</code> - Ons remote port number.</li>
+<li><code>prefix</code> - Unique prefix for the sharded database.</li>
+<li><code>private_endpoint</code> - The OCID of private endpoint being used by the sharded database.</li>
+<li><code>replication_factor</code> - The Replication factor for RAFT replication based sharded database. Currently supported values are 3, 5 and 7.</li>
+<li><code>replication_method</code> - The Replication method for sharded database. Use RAFT for Raft replication, and DG for DataGuard. If replicationMethod is not provided, it defaults to DG.</li>
+<li><code>replication_unit</code> - For RAFT replication based sharded database, the value should be atleast twice the number of shards.</li>
+<li><code>shard_details</code> - Details of ATP-D based shards.
+
+<ul>
+<li><code>cloud_autonomous_vm_cluster_id</code> - Identifier of the primary cloudAutonomousVmCluster for the shard.</li>
+<li><code>compute_count</code> - The compute amount available to the underlying autonomous database associated with shard.</li>
+<li><code>container_database_id</code> - Identifier of the underlying container database.</li>
+<li><code>container_database_parent_id</code> - Identifier of the underlying container database parent.</li>
+<li><code>data_storage_size_in_gbs</code> - The data disk group size to be allocated in GBs.</li>
+<li><code>encryption_key_details</code> - Details of encryption key to be used to encrypt data for shards and catalog for sharded database. For system-defined sharding type, all shards have to use same encryptionKeyDetails. For system-defined sharding, if encryptionKeyDetails are not specified for catalog, then Oracle managed key will be used for catalog. For user-defined sharding type, if encryptionKeyDetails are not provided for any shard or catalog, then Oracle managed key will be used for such shard or catalog. For system-defined or user-defined sharding type, if the shard or catalog has a peer in region other than primary shard or catalog region, then make sure to provide virtual vault for such shard or catalog, which is also replicated to peer region (the region where peer or standby shard or catalog exists).
+
+<ul>
+<li><code>kms_key_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the KMS key in vault identified by vaultId in customer tenancy  that is used as the master encryption key.</li>
+<li><code>kms_key_version_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the KMS key version for key identified by kmsKeyId that is used in data encryption (TDE) operations.</li>
+<li><code>vault_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the vault in customer tenancy where KMS key is present. For shard or catalog with cross-region data guard enabled, user needs to make sure to provide virtual private vault only, which is also replicated in the region of standby shard.</li>
+</ul></li>
+<li><code>is_auto_scaling_enabled</code> - Determines the auto-scaling mode.</li>
+<li><code>metadata</code> - Additional metadata related to shard&rsquo;s underlying supporting resource.</li>
+<li><code>name</code> - Name of the shard.</li>
+<li><code>peer_cloud_autonomous_vm_cluster_id</code> - Identifier of the peer cloudAutonomousVmCluster for the shard.</li>
+<li><code>shard_group</code> - Name of the shard-group to which the shard belongs.</li>
+<li><code>shard_space</code> - Shard space name.</li>
+<li><code>status</code> - Status of shard or catalog or gsm for the sharded database.</li>
+<li><code>supporting_resource_id</code> - Identifier of the underlying supporting resource.</li>
+<li><code>time_created</code> - The time the the shard was created. An RFC3339 formatted datetime string</li>
+<li><code>time_ssl_certificate_expires</code> - The time the ssl certificate associated with shard expires. An RFC3339 formatted datetime string</li>
+<li><code>time_updated</code> - The time the shard was last updated. An RFC3339 formatted datetime string</li>
+</ul></li>
+<li><code>sharding_method</code> - Sharding Method.</li>
+<li><code>state</code> - Lifecycle states for sharded databases.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time the the Sharded Database was created. An RFC3339 formatted datetime string</li>
+<li><code>time_updated</code> - The time the Sharded Database was last updated. An RFC3339 formatted datetime string</li>
+<li><code>time_zone</code> - Timezone associated with the sharded database.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Sharded Database
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Sharded Database
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Sharded Database</p>
+
+<h2>Import</h2>
+
+<p>ShardedDatabases can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_globally_distributed_database_sharded_database.test_sharded_database &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

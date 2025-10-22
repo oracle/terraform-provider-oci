@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_identity_tenancy</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_identity_tenancy</h1>
+
+<p>This data source provides details about a specific Tenancy resource in Oracle Cloud Infrastructure Identity service.</p>
+
+<p>Get the specified tenancy&rsquo;s information.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_identity_tenancy&quot; &quot;test_tenancy&quot; {
+	#Required
+	tenancy_id = var.tenancy_ocid
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>tenancy_id</code> - (Required) The OCID of the tenancy.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - The description of the tenancy.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>home_region_key</code> - The region key for the tenancy&rsquo;s home region. For the full list of supported regions, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm">Regions and Availability Domains</a>.  Example: <code>PHX</code></li>
+<li><code>id</code> - The OCID of the tenancy.</li>
+<li><code>name</code> - The name of the tenancy.</li>
+<li><code>upi_idcs_compatibility_layer_endpoint</code> - Url which refers to the UPI IDCS compatibility layer endpoint configured for this Tenant&rsquo;s home region.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

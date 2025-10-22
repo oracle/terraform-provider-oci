@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_identity_compartment</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_identity_compartment</h1>
+
+<p>This resource provides the Compartment resource in Oracle Cloud Infrastructure Identity service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/identity/latest/Compartment">https://docs.oracle.com/iaas/api/#/en/identity/latest/Compartment</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/identity">https://github.com/oracle/terraform-provider-oci/tree/master/examples/identity</a></p>
+
+<p>Creates a new compartment in the specified compartment.</p>
+
+<p><strong>Important:</strong> Unless <code>enable_delete</code> is explicitly set to true:
+* Terraform will not delete compartments on destroy, and
+* For backwards compatibility, an existing compartment (not including root compartment) with the same name will be automatically imported into the state. Properties of the existing compartment will be updated to what is defined in the new configuration. This can cause a problem if multiple Terraform configurations are using the same compartment, but, for example, specify a different compartment description.</p>
+
+<p>Specify the parent compartment&rsquo;s OCID as the compartment ID in the request object. Remember that the tenancy
+is simply the root compartment. For information about OCIDs, see
+<a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">Resource Identifiers</a>.</p>
+
+<p>You must also specify a <em>name</em> for the compartment, which must be unique across all compartments in
+your tenancy. You can use this name or the OCID when writing policies that apply
+to the compartment. For more information about policies, see
+<a href="https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/policies.htm">How Policies Work</a>.</p>
+
+<p>You must also specify a <em>description</em> for the compartment (although it can be an empty string). It does
+not have to be unique, and you can change it anytime with
+<a href="https://docs.cloud.oracle.com/iaas/api/#/en/identity/20160918/Compartment/UpdateCompartment">UpdateCompartment</a>.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_identity_compartment&quot; &quot;test_compartment&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	description = var.compartment_description
+	name = var.compartment_name
+
+	#Optional
+	defined_tags = {&quot;Operations.CostCenter&quot;= &quot;42&quot;}
+	freeform_tags = {&quot;Department&quot;= &quot;Finance&quot;}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) (Updatable) The OCID of the parent compartment containing the compartment.</li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - (Required) (Updatable) The description you assign to the compartment during creation. Does not have to be unique, and it&rsquo;s changeable.</li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>name</code> - (Required) (Updatable) The name you assign to the compartment during creation. The name must be unique across all compartments in the parent compartment. Avoid entering confidential information.</li>
+<li><code>enable_delete</code> - (Optional) Defaults to false. If omitted or set to false the provider will implicitly import the compartment if there is a name collision, and will not actually delete the compartment on destroy or removal of the resource declaration. If set to true, the provider will throw an error on a name collision with another compartment, and will attempt to delete the compartment on destroy or removal of the resource declaration.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The OCID of the parent compartment containing the compartment.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - The description you assign to the compartment. Does not have to be unique, and it&rsquo;s changeable.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The OCID of the compartment.</li>
+<li><code>inactive_state</code> - The detailed status of INACTIVE lifecycleState.</li>
+<li><code>is_accessible</code> - Indicates whether or not the compartment is accessible for the user making the request. Returns true when the user has INSPECT permissions directly on a resource in the compartment or indirectly (permissions can be on a resource in a subcompartment).</li>
+<li><code>name</code> - The name you assign to the compartment during creation. The name must be unique across all compartments in the parent. Avoid entering confidential information.</li>
+<li><code>state</code> - The compartment&rsquo;s current state.</li>
+<li><code>time_created</code> - Date and time the compartment was created, in the format defined by RFC3339.  Example: <code>2016-08-25T21:10:29.600Z</code></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Compartment
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Compartment
+	* <code>delete</code> - (Defaults to 90 minutes), when destroying the Compartment</p>
+
+<h2>Import</h2>
+
+<p>Compartments can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_identity_compartment.test_compartment &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

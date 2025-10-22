@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_devops_repository_protected_branch_management</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_devops_repository_protected_branch_management</h1>
+
+<p>This resource provides the Repository Protected Branch Management resource in Oracle Cloud Infrastructure Devops service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/devops/latest/RepositoryProtectedBranchManagement">https://docs.oracle.com/iaas/api/#/en/devops/latest/RepositoryProtectedBranchManagement</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/devops">https://github.com/oracle/terraform-provider-oci/tree/master/examples/devops</a></p>
+
+<p>Creates a restriction on a branch that prevents certain actions on it.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_devops_repository_protected_branch_management&quot; &quot;test_repository_protected_branch_management&quot; {
+	#Required
+	branch_name = var.repository_protected_branch_management_branch_name
+	repository_id = oci_devops_repository.test_repository.id
+
+	#Optional
+	protection_levels = var.repository_protected_branch_management_protection_levels
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>branch_name</code> - (Required) Name of a branch to protect.</li>
+<li><code>protection_levels</code> - (Optional) Level of protection to add on a branch.</li>
+<li><code>repository_id</code> - (Required) Unique repository identifier.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>branch_name</code> - Branch name inside a repository.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>protection_levels</code> - Protection levels to be added on the branch.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Repository Protected Branch Management
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Repository Protected Branch Management
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Repository Protected Branch Management</p>
+
+<h2>Import</h2>
+
+<p>Import is not supported for this resource.</p>
+
+	</div>
+
+</body>
+</html>

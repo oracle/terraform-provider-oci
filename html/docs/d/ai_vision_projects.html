@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_ai_vision_projects</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_ai_vision_projects</h1>
+
+<p>This data source provides the list of Projects in Oracle Cloud Infrastructure Ai Vision service.</p>
+
+<p>Returns a list of projects.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_ai_vision_projects&quot; &quot;test_projects&quot; {
+
+	#Optional
+	compartment_id = var.compartment_id
+	display_name = var.project_display_name
+	id = var.project_id
+	state = var.project_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Optional) The ID of the compartment in which to list resources.</li>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the entire display name given.</li>
+<li><code>id</code> - (Optional) The filter to find the project with the given identifier.</li>
+<li><code>state</code> - (Optional) The filter to match projects with the given lifecycleState.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>project_collection</code> - The list of project_collection.</li>
+</ul>
+
+<h3>Project Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - A compartment identifier.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For example: <code>{&quot;foo-namespace&quot;: {&quot;bar-key&quot;: &quot;value&quot;}}</code></li>
+<li><code>description</code> - An optional description of the project.</li>
+<li><code>display_name</code> - A human-friendly name for the project, which can be changed.</li>
+<li><code>freeform_tags</code> - A simple key-value pair that is applied without any predefined name, type, or scope. It exists for cross-compatibility only. For example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - A unique identifier that is immutable after creation.</li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail, that can provide actionable information if creation failed.</li>
+<li><code>state</code> - The current state of the project.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. For example: <code>{&quot;orcl-cloud&quot;: {&quot;free-tier-retained&quot;: &quot;true&quot;}}</code></li>
+<li><code>time_created</code> - When the project was created, as an RFC3339 datetime string.</li>
+<li><code>time_updated</code> - When the project was updated, as an RFC3339 datetime string.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

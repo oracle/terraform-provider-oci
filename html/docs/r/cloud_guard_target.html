@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_cloud_guard_target</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_cloud_guard_target</h1>
+
+<p>This resource provides the Target resource in Oracle Cloud Infrastructure Cloud Guard service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/cloud-guard/latest/Target">https://docs.oracle.com/iaas/api/#/en/cloud-guard/latest/Target</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/certificatesguard">https://github.com/oracle/terraform-provider-oci/tree/master/examples/certificatesguard</a></p>
+
+<p>Creates a target (Target resource), using parameters passed in a CreateTargetDetails resource.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_cloud_guard_target&quot; &quot;test_target&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	display_name = var.target_display_name
+	target_resource_id = oci_cloud_guard_resource.test_resource.id
+	target_resource_type = var.target_target_resource_type
+
+	#Optional
+	defined_tags = {&quot;foo-namespace.bar-key&quot;= &quot;value&quot;}
+	description = var.target_description
+	freeform_tags = {&quot;bar-key&quot;= &quot;value&quot;}
+	state = var.target_state
+	target_detector_recipes {
+		#Required
+		detector_recipe_id = oci_cloud_guard_detector_recipe.test_detector_recipe.id
+
+		#Optional
+		detector_rules {
+			#Required
+			details {
+
+				#Optional
+				condition_groups {
+					#Required
+					compartment_id = var.compartment_id
+					condition = var.target_target_detector_recipes_detector_rules_details_condition_groups_condition
+				}
+			}
+			detector_rule_id = oci_events_rule.test_rule.id
+		}
+	}
+	target_responder_recipes {
+		#Required
+		responder_recipe_id = oci_cloud_guard_responder_recipe.test_responder_recipe.id
+
+		#Optional
+		responder_rules {
+			#Required
+			details {
+
+				#Optional
+				condition = var.target_target_responder_recipes_responder_rules_details_condition
+				configurations {
+					#Required
+					config_key = var.target_target_responder_recipes_responder_rules_details_configurations_config_key
+					name = var.target_target_responder_recipes_responder_rules_details_configurations_name
+					value = var.target_target_responder_recipes_responder_rules_details_configurations_value
+				}
+				mode = var.target_target_responder_recipes_responder_rules_details_mode
+			}
+			responder_rule_id = oci_events_rule.test_rule.id
+		}
+	}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>compartment_id</code> - (Required) Compartment OCID where the resource is created</p></li>
+
+<li><p><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></p></li>
+
+<li><p><code>description</code> - (Optional) The target description.</p>
+
+<p>Avoid entering confidential information.</p></li>
+
+<li><p><code>display_name</code> - (Required) (Updatable) Display name for the target.</p>
+
+<p>Avoid entering confidential information.</p></li>
+
+<li><p><code>freeform_tags</code> - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></p>
+
+<p>Avoid entering confidential information.</p></li>
+
+<li><p><code>state</code> - (Optional) (Updatable) The enablement state of the detector rule</p></li>
+
+<li><p><code>target_detector_recipes</code> - (Optional) (Updatable) List of detector recipes to attach to target</p>
+
+<ul>
+<li><code>detector_recipe_id</code> - (Required) Unique identifier for the target detector recipe</li>
+<li><code>detector_rules</code> - (Optional) (Updatable) List of overrides to be applied to detector rules associated with the target
+
+<ul>
+<li><code>details</code> - (Required) (Updatable) Parameters to update detector rule configuration details in a detector recipe attached to a target.
+
+<ul>
+<li><code>condition_groups</code> - (Optional) (Updatable) Condition group corresponding to each compartment
+
+<ul>
+<li><code>compartment_id</code> - (Required) (Updatable) Compartment OCID associated with condition</li>
+<li><code>condition</code> - (Required) (Updatable) The base condition resource.</li>
+</ul></li>
+</ul></li>
+<li><code>detector_rule_id</code> - (Required) (Updatable) Unique identifier for the detector rule</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>target_resource_id</code> - (Required) Resource ID which the target uses to monitor</p></li>
+
+<li><p><code>target_resource_type</code> - (Required) Type of resource that target support (COMPARTMENT/FACLOUD)</p></li>
+
+<li><p><code>target_responder_recipes</code> - (Optional) (Updatable) List of responder recipes to attach to target</p>
+
+<ul>
+<li><code>responder_recipe_id</code> - (Required) Unique identifier for responder recipe</li>
+<li><code>responder_rules</code> - (Optional) (Updatable) List of overrides to be applied to responder rules associated with the target
+
+<ul>
+<li><code>details</code> - (Required) (Updatable) Parameters to update details for a responder rule for a target responder recipe. TargetResponderRuleDetails contains all configurations associated with the ResponderRule, whereas UpdateTargetResponderRecipeResponderRuleDetails refers to the details that are to be updated for ResponderRule.
+
+<ul>
+<li><code>condition</code> - (Optional) (Updatable) The base condition resource.</li>
+<li><code>configurations</code> - (Optional) (Updatable) List of responder rule configurations
+
+<ul>
+<li><code>config_key</code> - (Required) (Updatable) Unique identifier of the configuration</li>
+<li><code>name</code> - (Required) (Updatable) Configuration name</li>
+<li><code>value</code> - (Required) (Updatable) Configuration value</li>
+</ul></li>
+<li><code>mode</code> - (Optional) (Updatable) Execution mode for the responder rule</li>
+</ul></li>
+<li><code>responder_rule_id</code> - (Required) (Updatable) Unique identifier for target detector recipe</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>compartment_id</code> - Compartment OCID where the resource is created</p></li>
+
+<li><p><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></p></li>
+
+<li><p><code>description</code> - The target description</p></li>
+
+<li><p><code>display_name</code> - Target display name</p></li>
+
+<li><p><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></p>
+
+<p>Avoid entering confidential information.</p></li>
+
+<li><p><code>id</code> - Unique identifier that can&rsquo;t be changed after creation</p></li>
+
+<li><p><code>inherited_by_compartments</code> - List of inherited compartments</p></li>
+
+<li><p><code>lifecyle_details</code> - A message describing the current lifecycle state in more detail. For example, can be used to provide actionable information for a resource in Failed state. [DEPRECATE]</p></li>
+
+<li><p><code>recipe_count</code> - Total number of recipes attached to target</p></li>
+
+<li><p><code>state</code> - The current lifecycle state of the target</p></li>
+
+<li><p><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. System tags can be viewed by users, but can only be created by the system.  Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></p></li>
+
+<li><p><code>target_details</code> - Details specific to the target type.</p>
+
+<ul>
+<li><p><code>security_zone_display_name</code> - The name of the security zone to associate with this compartment.</p></li>
+
+<li><p><code>security_zone_id</code> - The OCID of the security zone to associate with this compartment</p></li>
+
+<li><p><code>target_resource_type</code> - Target type, determined by the type of resource for which the target was created</p></li>
+
+<li><p><code>target_security_zone_recipes</code> - The list of security zone recipes to associate with this compartment</p>
+
+<ul>
+<li><p><code>compartment_id</code> - The OCID of the compartment that contains the recipe</p></li>
+
+<li><p><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></p></li>
+
+<li><p><code>description</code> - The recipe&rsquo;s description</p></li>
+
+<li><p><code>display_name</code> - The recipe&rsquo;s display name</p></li>
+
+<li><p><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></p>
+
+<p>Avoid entering confidential information.</p></li>
+
+<li><p><code>id</code> - Unique identifier that can’t be changed after creation</p></li>
+
+<li><p><code>lifecycle_details</code> - A message describing the current state in more detail. For example, this can be used to provide actionable information for a recipe in the <code>Failed</code> state.</p></li>
+
+<li><p><code>owner</code> - The owner of the recipe</p></li>
+
+<li><p><code>security_policies</code> - The list of security policy IDs that are included in the recipe</p></li>
+
+<li><p><code>state</code> - The current lifecycle state of the recipe</p></li>
+
+<li><p><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. System tags can be viewed by users, but can only be created by the system.  Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></p></li>
+
+<li><p><code>time_created</code> - The time the recipe was created. An RFC3339 formatted datetime string.</p></li>
+
+<li><p><code>time_updated</code> - The time the recipe was last updated. An RFC3339 formatted datetime string.</p></li>
+</ul></li>
+</ul></li>
+
+<li><p><code>target_detector_recipes</code> - List of detector recipes attached to target</p>
+
+<ul>
+<li><p><code>compartment_id</code> - Compartment OCID of the detector recipe</p></li>
+
+<li><p><code>description</code> - Detector recipe description.</p></li>
+
+<li><p><code>detector</code> - Type of detector</p></li>
+
+<li><p><code>detector_recipe_id</code> - Unique identifier for of original Oracle-managed detector recipe on which the TargetDetectorRecipe is based</p></li>
+
+<li><p><code>detector_recipe_type</code> - Recipe type ( STANDARD, ENTERPRISE )</p></li>
+
+<li><p><code>detector_rules</code> - List of detector rules for the detector recipe - user input</p>
+
+<ul>
+<li><p><code>data_source_id</code> - The ID of the attached data source</p></li>
+
+<li><p><code>description</code> - Description for TargetDetectorRecipeDetectorRule resource</p></li>
+
+<li><p><code>details</code> - Overriden settings of a detector rule in recipe attached to target.</p>
+
+<ul>
+<li><code>condition_groups</code> - Condition group corresponding to each compartment
+
+<ul>
+<li><code>compartment_id</code> - Compartment OCID associated with condition</li>
+<li><code>condition</code> - The base condition resource.</li>
+</ul></li>
+<li><code>configurations</code> - List of detector rule configurations
+
+<ul>
+<li><code>additional_properties</code> - Map of additional property values for configuration
+
+<ul>
+<li><code>key</code> - Name for Additional Property, for example, &ldquo;interpreter&rdquo;, &ldquo;router&rdquo;</li>
+<li><code>property_type</code> - Property Type</li>
+<li><code>value</code> - Value for Property Name, for example, &ldquo;generic&rdquo;, &ldquo;cloudguard&rdquo;</li>
+</ul></li>
+<li><code>allowed_values</code> - Map of possible values for configuration
+
+<ul>
+<li><code>key</code> - key</li>
+<li><code>value</code> - value</li>
+</ul></li>
+<li><code>allowed_values_data_type</code> - Map property Value data type</li>
+<li><code>config_key</code> - Unique identifier of the configuration</li>
+<li><code>data_type</code> - Configuration data type</li>
+<li><code>name</code> - Configuration name</li>
+<li><code>value</code> - Configuration value</li>
+<li><code>values</code> - List of configuration values
+
+<ul>
+<li><code>list_type</code> - Configuration list item type (CUSTOM or MANAGED)</li>
+<li><code>managed_list_type</code> - Type of content in the managed list</li>
+<li><code>value</code> - Configuration value</li>
+</ul></li>
+</ul></li>
+<li><code>is_configuration_allowed</code> - Configuration allowed or not</li>
+<li><code>is_enabled</code> - Enablement state of the detector rule</li>
+<li><code>labels</code> - User-defined labels for a detector rule</li>
+<li><code>risk_level</code> - The risk level of the detector rule</li>
+</ul></li>
+
+<li><p><code>detector</code> - Detector type for the rule</p></li>
+
+<li><p><code>detector_rule_id</code> - The unique identifier of the detector rule</p></li>
+
+<li><p><code>display_name</code> - Display name for TargetDetectorRecipeDetectorRule resource</p></li>
+
+<li><p><code>entities_mappings</code> - Data source entities mapping for a detector rule</p>
+
+<ul>
+<li><code>display_name</code> - Display name of the entity</li>
+<li><code>entity_type</code> - Type of entity</li>
+<li><code>query_field</code> - The entity value mapped to a data source query</li>
+</ul></li>
+
+<li><p><code>is_cloneable</code> - Is the rule cloneable?</p></li>
+
+<li><p><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.</p></li>
+
+<li><p><code>managed_list_types</code> - List of managed list types related to this rule</p></li>
+
+<li><p><code>recommendation</code> - Recommendation for TargetDetectorRecipeDetectorRule resource</p></li>
+
+<li><p><code>resource_type</code> - The type of resource which is monitored by the detector rule. For example, Instance, Database, VCN, Policy. To find the resource type for a particular rule, see <a href="/iaas/cloud-guard/using/detect-recipes.htm#detect-recipes-reference">Detector Recipe Reference</a>.</p>
+
+<p>Or try <a href="/cloud-guard/using/detect-recipes.htm#detect-recipes-reference">Detector Recipe Reference</a>.</p></li>
+
+<li><p><code>rule_type</code> - Rule category type</p>
+
+<ul>
+<li><code>key</code> - The unique identifier of the detector rule type</li>
+<li><code>value</code> - Detector rule type value</li>
+</ul></li>
+
+<li><p><code>service_type</code> - Service type of the configuration to which the rule is applied</p></li>
+
+<li><p><code>state</code> - The current lifecycle state of the detector rule</p></li>
+
+<li><p><code>time_created</code> - The date and time the target detector recipe rule was created. Format defined by RFC3339.</p></li>
+
+<li><p><code>time_updated</code> - The date and time the target detector recipe rule was last updated. Format defined by RFC3339.</p></li>
+</ul></li>
+
+<li><p><code>display_name</code> - Display name of the detector recipe</p></li>
+
+<li><p><code>effective_detector_rules</code> - List of currently enabled detector rules for the detector type for recipe after applying defaults</p>
+
+<ul>
+<li><p><code>data_source_id</code> - The ID of the attached data source</p></li>
+
+<li><p><code>description</code> - Description for TargetDetectorRecipeDetectorRule resource</p></li>
+
+<li><p><code>details</code> - Overriden settings of a detector rule in recipe attached to target.</p>
+
+<ul>
+<li><code>condition_groups</code> - Condition group corresponding to each compartment
+
+<ul>
+<li><code>compartment_id</code> - Compartment OCID associated with condition</li>
+<li><code>condition</code> - The base condition resource.</li>
+</ul></li>
+<li><code>configurations</code> - List of detector rule configurations
+
+<ul>
+<li><code>additional_properties</code> - Map of additional property values for configuration
+
+<ul>
+<li><code>key</code> - Name for Additional Property, for example, &ldquo;interpreter&rdquo;, &ldquo;router&rdquo;</li>
+<li><code>property_type</code> - Property Type</li>
+<li><code>value</code> - Value for Property Name, for example, &ldquo;generic&rdquo;, &ldquo;cloudguard&rdquo;</li>
+</ul></li>
+<li><code>allowed_values</code> - Map of possible values for configuration
+
+<ul>
+<li><code>key</code> - key</li>
+<li><code>value</code> - value</li>
+</ul></li>
+<li><code>allowed_values_data_type</code> - Map property Value data type</li>
+<li><code>config_key</code> - Unique identifier of the configuration</li>
+<li><code>data_type</code> - Configuration data type</li>
+<li><code>name</code> - Configuration name</li>
+<li><code>value</code> - Configuration value</li>
+<li><code>values</code> - List of configuration values
+
+<ul>
+<li><code>list_type</code> - Configuration list item type (CUSTOM or MANAGED)</li>
+<li><code>managed_list_type</code> - Type of content in the managed list</li>
+<li><code>value</code> - Configuration value</li>
+</ul></li>
+</ul></li>
+<li><code>is_configuration_allowed</code> - Configuration allowed or not</li>
+<li><code>is_enabled</code> - Enablement state of the detector rule</li>
+<li><code>labels</code> - User-defined labels for a detector rule</li>
+<li><code>risk_level</code> - The risk level of the detector rule</li>
+</ul></li>
+
+<li><p><code>detector</code> - Detector type for the rule</p></li>
+
+<li><p><code>detector_rule_id</code> - The unique identifier of the detector rule</p></li>
+
+<li><p><code>display_name</code> - Display name for TargetDetectorRecipeDetectorRule resource</p></li>
+
+<li><p><code>entities_mappings</code> - Data source entities mapping for a detector rule</p>
+
+<ul>
+<li><code>display_name</code> - Display name of the entity</li>
+<li><code>entity_type</code> - Type of entity</li>
+<li><code>query_field</code> - The entity value mapped to a data source query</li>
+</ul></li>
+
+<li><p><code>is_cloneable</code> - Is the rule cloneable?</p></li>
+
+<li><p><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.</p></li>
+
+<li><p><code>managed_list_types</code> - List of managed list types related to this rule</p></li>
+
+<li><p><code>recommendation</code> - Recommendation for TargetDetectorRecipeDetectorRule resource</p></li>
+
+<li><p><code>resource_type</code> - The type of resource which is monitored by the detector rule. For example, Instance, Database, VCN, Policy. To find the resource type for a particular rule, see <a href="/iaas/cloud-guard/using/detect-recipes.htm#detect-recipes-reference">Detector Recipe Reference</a>.</p>
+
+<p>Or try <a href="/cloud-guard/using/detect-recipes.htm#detect-recipes-reference">Detector Recipe Reference</a>.</p></li>
+
+<li><p><code>rule_type</code> - Rule category type</p>
+
+<ul>
+<li><code>key</code> - The unique identifier of the detector rule type</li>
+<li><code>value</code> - Detector rule type value</li>
+</ul></li>
+
+<li><p><code>service_type</code> - Service type of the configuration to which the rule is applied</p></li>
+
+<li><p><code>state</code> - The current lifecycle state of the detector rule</p></li>
+
+<li><p><code>time_created</code> - The date and time the target detector recipe rule was created. Format defined by RFC3339.</p></li>
+
+<li><p><code>time_updated</code> - The date and time the target detector recipe rule was last updated. Format defined by RFC3339.</p></li>
+</ul></li>
+
+<li><p><code>id</code> - OCID for the detector recipe</p></li>
+
+<li><p><code>owner</code> - Owner of the detector recipe</p></li>
+
+<li><p><code>state</code> - The current lifecycle state of the resource</p></li>
+
+<li><p><code>time_created</code> - The date and time the target detector recipe was created. Format defined by RFC3339.</p></li>
+
+<li><p><code>time_updated</code> - The date and time the target detector recipe was last updated. Format defined by RFC3339.</p></li>
+</ul></li>
+
+<li><p><code>target_resource_id</code> - Resource ID which the target uses to monitor</p></li>
+
+<li><p><code>target_resource_type</code> - Type of target</p></li>
+
+<li><p><code>target_responder_recipes</code> - List of responder recipes attached to target</p>
+
+<ul>
+<li><p><code>compartment_id</code> - Compartment OCID</p></li>
+
+<li><p><code>description</code> - Target responder description</p></li>
+
+<li><p><code>display_name</code> - Target responder recipe display name</p></li>
+
+<li><p><code>effective_responder_rules</code> - List of currently enabled responder rules for the responder type for recipe after applying defaults</p>
+
+<ul>
+<li><code>compartment_id</code> - Compartment OCID</li>
+<li><code>description</code> - Responder rule description</li>
+<li><code>details</code> - Detailed information for a responder rule
+
+<ul>
+<li><code>condition</code> - The base condition resource.</li>
+<li><code>configurations</code> - List of responder rule configurations
+
+<ul>
+<li><code>config_key</code> - Unique identifier of the configuration</li>
+<li><code>name</code> - Configuration name</li>
+<li><code>value</code> - Configuration value</li>
+</ul></li>
+<li><code>is_enabled</code> - Enabled state for the responder rule</li>
+<li><code>mode</code> - Execution mode for the responder rule</li>
+</ul></li>
+<li><code>display_name</code> - Responder rule display name</li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.</li>
+<li><code>policies</code> - List of policies</li>
+<li><code>responder_rule_id</code> - Unique identifier for the responder rule</li>
+<li><code>state</code> - The current lifecycle state of the responder rule</li>
+<li><code>supported_modes</code> - Supported execution modes for the responder rule</li>
+<li><code>time_created</code> - The date and time the target responder recipe rule was created. Format defined by RFC3339.</li>
+<li><code>time_updated</code> - The date and time the target responder recipe rule was last updated. Format defined by RFC3339.</li>
+<li><code>type</code> - Type of responder</li>
+</ul></li>
+
+<li><p><code>id</code> - Unique identifier of target responder recipe that can&rsquo;t be changed after creation</p></li>
+
+<li><p><code>owner</code> - Owner of target responder recipe</p></li>
+
+<li><p><code>responder_recipe_id</code> - Unique identifier for the Oracle-managed responder recipe from which this recipe was cloned</p></li>
+
+<li><p><code>responder_rules</code> - List of responder rules associated with the recipe - user input</p>
+
+<ul>
+<li><code>compartment_id</code> - Compartment OCID</li>
+<li><code>description</code> - Responder rule description</li>
+<li><code>details</code> - Detailed information for a responder rule
+
+<ul>
+<li><code>condition</code> - The base condition resource.</li>
+<li><code>configurations</code> - List of responder rule configurations
+
+<ul>
+<li><code>config_key</code> - Unique identifier of the configuration</li>
+<li><code>name</code> - Configuration name</li>
+<li><code>value</code> - Configuration value</li>
+</ul></li>
+<li><code>is_enabled</code> - Enabled state for the responder rule</li>
+<li><code>mode</code> - Execution mode for the responder rule</li>
+</ul></li>
+<li><code>display_name</code> - Responder rule display name</li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.</li>
+<li><code>policies</code> - List of policies</li>
+<li><code>responder_rule_id</code> - Unique identifier for the responder rule</li>
+<li><code>state</code> - The current lifecycle state of the responder rule</li>
+<li><code>supported_modes</code> - Supported execution modes for the responder rule</li>
+<li><code>time_created</code> - The date and time the target responder recipe rule was created. Format defined by RFC3339.</li>
+<li><code>time_updated</code> - The date and time the target responder recipe rule was last updated. Format defined by RFC3339.</li>
+<li><code>type</code> - Type of responder</li>
+</ul></li>
+
+<li><p><code>time_created</code> - The date and time the target responder recipe rule was created. Format defined by RFC3339.</p></li>
+
+<li><p><code>time_updated</code> - The date and time the target responder recipe rule was last updated. Format defined by RFC3339.</p></li>
+</ul></li>
+
+<li><p><code>time_created</code> - The date and time the target was created. Format defined by RFC3339.</p></li>
+
+<li><p><code>time_updated</code> - The date and time the target was last updated. Format defined by RFC3339.</p></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Target
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Target
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Target</p>
+
+<h2>Import</h2>
+
+<p>Targets can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_cloud_guard_target.test_target &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

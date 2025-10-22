@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_management_dashboard_management_dashboards_import</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_management_dashboard_management_dashboards_import</h1>
+
+<p>This resource provides the Management Dashboards Import resource in Oracle Cloud Infrastructure Management Dashboard service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/managementdashboard/latest/ManagementDashboardsImport">https://docs.oracle.com/iaas/api/#/en/managementdashboard/latest/ManagementDashboardsImport</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/management_dashboard">https://github.com/oracle/terraform-provider-oci/tree/master/examples/management_dashboard</a></p>
+
+<p>Imports an array of dashboards and their saved searches.
+Here&rsquo;s an example of how you can use CLI to import a dashboard. For information on the details that must be passed to IMPORT, you can use the EXPORT API to obtain the Import.json file:
+<code>oci management-dashboard dashboard export --query data --export-dashboard-id &quot;{\&quot;dashboardIds\&quot;:[\&quot;ocid1.managementdashboard.oc1..dashboardId1\&quot;]}&quot;  &gt; Import.json</code>.
+Note that import API updates the resource if it already exists, and creates a new resource if it does not exist. To import to a different compartment, edit and change the compartmentId to the desired compartment OCID.
+Here&rsquo;s an example of how you can use CLI to import:
+<code>oci management-dashboard dashboard import --from-json file://Import.json</code></p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_management_dashboard_management_dashboards_import&quot; &quot;test_management_dashboards_import&quot; {
+	#Optional
+	override_dashboard_compartment_ocid = var.management_dashboards_import_override_dashboard_compartment_ocid
+	override_same_name = var.management_dashboards_import_override_same_name
+	override_saved_search_compartment_ocid = var.management_dashboards_import_override_saved_search_compartment_ocid
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>override_dashboard_compartment_ocid</code> - (Optional) If this attribute is set, the dashboard resources are created or updated in the compartment specified by OCID. If this attribute is not set, the compartment specified in the JSON metadata is used.</li>
+<li><code>override_same_name</code> - (Optional) By default, if a resource with the same OCID exists in the target compartment, it is updated during the import process, otherwise, a new resource is created. However, if this attribute is set to true, then during the import process if a resource with the same displayName exists in the compartment, then it is updated even if the OCIDs are different. This is useful when importing the same resource multiple times. If the compartment and displayName remain the same, the resource is only updated and multiple copies of a resource are not created.</li>
+<li><code>override_saved_search_compartment_ocid</code> - (Optional) If this attribute is set, the saved search resources are created or updated in the compartment specified by OCID. If this attribute is not set, the compartment specified in the JSON metadata is used.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Management Dashboards Import
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Management Dashboards Import
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Management Dashboards Import</p>
+
+<h2>Import</h2>
+
+<p>ManagementDashboardsImport can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_management_dashboard_management_dashboards_import.test_management_dashboards_import &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

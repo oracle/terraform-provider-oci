@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_logging_log</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_logging_log</h1>
+
+<p>This data source provides details about a specific Log resource in Oracle Cloud Infrastructure Logging service.</p>
+
+<p>Gets the log object configuration for the log object OCID.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_logging_log&quot; &quot;test_log&quot; {
+	#Required
+	log_group_id = oci_logging_log_group.test_log_group.id
+	log_id = oci_logging_log.test_log.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>log_group_id</code> - (Required) OCID of a log group to work with.</li>
+<li><code>log_id</code> - (Required) OCID of a log to work with.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The OCID of the compartment that the resource belongs to.</li>
+<li><code>configuration</code> - Log object configuration.
+
+<ul>
+<li><code>compartment_id</code> - The OCID of the compartment that the resource belongs to.</li>
+<li><code>source</code> - The source the log object comes from.
+
+<ul>
+<li><code>category</code> - Log object category.</li>
+<li><code>parameters</code> - Log category parameters are stored here.</li>
+<li><code>resource</code> - The unique identifier of the resource emitting the log.</li>
+<li><code>service</code> - Service generating log.</li>
+<li><code>source_type</code> - The log source.
+
+<ul>
+<li><strong>OCISERVICE:</strong> Oracle Service.</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>display_name</code> - The user-friendly display name. This must be unique within the enclosing resource, and it&rsquo;s changeable. Avoid entering confidential information.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The OCID of the resource.</li>
+<li><code>is_enabled</code> - Whether or not this resource is currently enabled.</li>
+<li><code>log_group_id</code> - Log group OCID.</li>
+<li><code>log_type</code> - The logType that the log object is for, whether custom or service.</li>
+<li><code>retention_duration</code> - Log retention duration in 30-day increments (30, 60, 90 and so on until 180).</li>
+<li><code>state</code> - The pipeline state.</li>
+<li><code>tenancy_id</code> - The OCID of the tenancy.</li>
+<li><code>time_created</code> - Time the resource was created.</li>
+<li><code>time_last_modified</code> - Time the resource was last modified.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_data_safe_sensitive_data_models_sensitive_column</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_data_safe_sensitive_data_models_sensitive_column</h1>
+
+<p>This resource provides the Sensitive Data Models Sensitive Column resource in Oracle Cloud Infrastructure Data Safe service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/data-safe/latest/SensitiveDataModelsSensitiveColumn">https://docs.oracle.com/iaas/api/#/en/data-safe/latest/SensitiveDataModelsSensitiveColumn</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe">https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe</a></p>
+
+<p>Creates a new sensitive column in the specified sensitive data model.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_data_safe_sensitive_data_models_sensitive_column&quot; &quot;test_sensitive_data_models_sensitive_column&quot; {
+	#Required
+	column_name = var.sensitive_data_models_sensitive_column_column_name
+	object = var.sensitive_data_models_sensitive_column_object
+	schema_name = var.sensitive_data_models_sensitive_column_schema_name
+	sensitive_data_model_id = oci_data_safe_sensitive_data_model.test_sensitive_data_model.id
+
+	#Optional
+	app_defined_child_column_keys = var.sensitive_data_models_sensitive_column_app_defined_child_column_keys
+	app_name = var.sensitive_data_models_sensitive_column_app_name
+	data_type = var.sensitive_data_models_sensitive_column_data_type
+	db_defined_child_column_keys = var.sensitive_data_models_sensitive_column_db_defined_child_column_keys
+	object_type = var.sensitive_data_models_sensitive_column_object_type
+	parent_column_keys = var.sensitive_data_models_sensitive_column_parent_column_keys
+	relation_type = var.sensitive_data_models_sensitive_column_relation_type
+	sensitive_type_id = oci_data_safe_sensitive_type.test_sensitive_type.id
+	status = var.sensitive_data_models_sensitive_column_status
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>app_defined_child_column_keys</code> - (Optional) (Updatable) Unique keys identifying the columns that are application-level (non-dictionary) children of the sensitive column. This attribute can be used to establish relationship between columns in a sensitive data model. Note that the child columns must be added to the sensitive data model before their keys can be specified here. If this attribute is provided, the parentColumnKeys and relationType attributes of the child columns are automatically updated to reflect the relationship.</li>
+<li><code>app_name</code> - (Optional) The name of the application associated with the sensitive column. It&rsquo;s useful when the application name is different from the schema name. Otherwise, it can be ignored. If this attribute is not provided, it&rsquo;s automatically populated with the value provided for the schemaName attribute.</li>
+<li><code>column_name</code> - (Required) The name of the sensitive column.</li>
+<li><code>data_type</code> - (Optional) (Updatable) The data type of the sensitive column.</li>
+<li><code>db_defined_child_column_keys</code> - (Optional) (Updatable) Unique keys identifying the columns that are database-level (dictionary-defined) children of the sensitive column. This attribute can be used to establish relationship between columns in a sensitive data model. Note that the child columns must be added to the sensitive data model before their keys can be specified here. If this attribute is provided, the parentColumnKeys and relationType attributes of the child columns are automatically updated to reflect the relationship.</li>
+<li><code>object</code> - (Required) The database object that contains the sensitive column.</li>
+<li><code>object_type</code> - (Optional) The type of the database object that contains the sensitive column.</li>
+<li><code>parent_column_keys</code> - (Optional) (Updatable) Unique keys identifying the columns that are parents of the sensitive column. At present, it accepts only one parent column key. This attribute can be used to establish relationship between columns in a sensitive data model. Note that the parent column must be added to the sensitive data model before its key can be specified here. If this attribute is provided, the appDefinedChildColumnKeys or dbDefinedChildColumnKeys attribute of the parent column is automatically updated to reflect the relationship.</li>
+<li><code>relation_type</code> - (Optional) (Updatable) The type of referential relationship the sensitive column has with its parent. NONE indicates that the sensitive column does not have a parent. DB_DEFINED indicates that the relationship is defined in the database dictionary. APP_DEFINED indicates that the relationship is defined at the application level and not in the database dictionary.</li>
+<li><code>schema_name</code> - (Required) The database schema that contains the sensitive column.</li>
+<li><code>sensitive_data_model_id</code> - (Required) The OCID of the sensitive data model.</li>
+<li><code>sensitive_type_id</code> - (Optional) (Updatable) The OCID of the sensitive type to be associated with the sensitive column.</li>
+<li><code>status</code> - (Optional) (Updatable) The status of the sensitive column. VALID means the column is considered sensitive. INVALID means the column is not considered sensitive. Tracking invalid columns in a sensitive data model helps ensure that an incremental data discovery job does not identify these columns as sensitive.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>app_defined_child_column_keys</code> - Unique keys identifying the columns that are application-level (non-dictionary) children of the sensitive column.</li>
+<li><code>app_name</code> - The name of the application associated with the sensitive column. It&rsquo;s useful when the application name is different from the schema name. Otherwise, it can be ignored.</li>
+<li><code>column_groups</code> - The composite key groups to which the sensitive column belongs. If the column is part of a composite key, it&rsquo;s assigned a column group. It helps identify and manage referential relationships that involve composite keys.</li>
+<li><code>column_name</code> - The name of the sensitive column.</li>
+<li><code>confidence_level</code> - The confidence level of the sensitive column associated with the sensitive type. The confidence level of the discovered sensitive columns can be either HIGH, MEDIUM or LOW. The confidence level will be NONE for manually added sensitive columns.</li>
+<li><code>confidence_level_details</code> - List containing maps as values. Example: <code>{&quot;Operations&quot;: [ {&quot;CostCenter&quot;: &quot;42&quot;} ] }</code></li>
+<li><code>data_type</code> - The data type of the sensitive column.</li>
+<li><code>db_defined_child_column_keys</code> - Unique keys identifying the columns that are database-level (dictionary-defined) children of the sensitive column.</li>
+<li><code>estimated_data_value_count</code> - The estimated number of data values the column has in the associated database.</li>
+<li><code>key</code> - The unique key that identifies the sensitive column. It&rsquo;s numeric and unique within a sensitive data model.</li>
+<li><code>lifecycle_details</code> - Details about the current state of the sensitive column.</li>
+<li><code>object</code> - The database object that contains the sensitive column.</li>
+<li><code>object_type</code> - The type of the database object that contains the sensitive column.</li>
+<li><code>parent_column_keys</code> - Unique keys identifying the columns that are parents of the sensitive column. At present, it tracks a single parent only.</li>
+<li><code>relation_type</code> - The type of referential relationship the sensitive column has with its parent. NONE indicates that the sensitive column does not have a parent. DB_DEFINED indicates that the relationship is defined in the database dictionary. APP_DEFINED indicates that the relationship is defined at the application level and not in the database dictionary.</li>
+<li><code>sample_data_values</code> - Original data values collected for the sensitive column from the associated database. Sample data helps review the column and ensure that it actually contains sensitive data. Note that sample data is retrieved by a data discovery job only if the isSampleDataCollectionEnabled attribute is set to true. At present, only one data value is collected per sensitive column.</li>
+<li><code>schema_name</code> - The database schema that contains the sensitive column.</li>
+<li><code>sensitive_data_model_id</code> - The OCID of the sensitive data model that contains the sensitive column.</li>
+<li><code>sensitive_type_id</code> - The OCID of the sensitive type associated with the sensitive column.</li>
+<li><code>source</code> - The source of the sensitive column. DISCOVERY indicates that the column was added to the sensitive data model using a data discovery job. MANUAL indicates that the column was added manually.</li>
+<li><code>state</code> - The current state of the sensitive column.</li>
+<li><code>status</code> - The status of the sensitive column. VALID means the column is considered sensitive. INVALID means the column is not considered sensitive. Tracking invalid columns in a sensitive data model helps ensure that an incremental data discovery job does not identify these columns as sensitive again.</li>
+<li><code>time_created</code> - The date and time, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>, the sensitive column was created in the sensitive data model.</li>
+<li><code>time_updated</code> - The date and time, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>, the sensitive column was last updated in the sensitive data model.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Sensitive Data Models Sensitive Column
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Sensitive Data Models Sensitive Column
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Sensitive Data Models Sensitive Column</p>
+
+<h2>Import</h2>
+
+<p>SensitiveDataModelsSensitiveColumns can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_data_safe_sensitive_data_models_sensitive_column.test_sensitive_data_models_sensitive_column &quot;sensitiveDataModels/{sensitiveDataModelId}/sensitiveColumns/{sensitiveColumnKey}&quot; 
+</code></pre>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_database_management_cloud_db_node</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_database_management_cloud_db_node</h1>
+
+<p>This resource provides the Cloud Db Node resource in Oracle Cloud Infrastructure Database Management service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/database-management/latest/CloudDbNode">https://docs.oracle.com/iaas/api/#/en/database-management/latest/CloudDbNode</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/databasemanagement">https://github.com/oracle/terraform-provider-oci/tree/master/examples/databasemanagement</a></p>
+
+<p>Updates the cloud DB node specified by <code>cloudDbNodeId</code>.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_database_management_cloud_db_node&quot; &quot;test_cloud_db_node&quot; {
+	#Required
+	cloud_db_node_id = oci_database_management_cloud_db_node.test_cloud_db_node.id
+
+	#Optional
+	cloud_connector_id = oci_database_management_cloud_connector.test_cloud_connector.id
+	defined_tags = {&quot;Operations.CostCenter&quot;= &quot;42&quot;}
+	freeform_tags = {&quot;Department&quot;= &quot;Finance&quot;}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>cloud_connector_id</code> - (Optional) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the cloud connector.</li>
+<li><code>cloud_db_node_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the cloud database node.</li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>additional_details</code> - The additional details of the cloud DB node defined in <code>{&quot;key&quot;: &quot;value&quot;}</code> format. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>cloud_connector_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the cloud connector.</li>
+<li><code>cloud_db_system_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the cloud DB system that the DB node is a part of.</li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>component_name</code> - The name of the cloud DB node.</li>
+<li><code>cpu_core_count</code> - The number of CPU cores available on the DB node.</li>
+<li><code>dbaas_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the cloud DB node in DBaas service.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>display_name</code> - The user-friendly name for the cloud DB node. The name does not have to be unique.</li>
+<li><code>domain_name</code> - Name of the domain.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>host_name</code> - The host name for the DB node.</li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the cloud DB node.</li>
+<li><code>lifecycle_details</code> - Additional information about the current lifecycle state.</li>
+<li><code>memory_size_in_gbs</code> - The total memory in gigabytes (GB) on the DB node.</li>
+<li><code>state</code> - The current lifecycle state of the cloud DB node.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. System tags can be viewed by users, but can only be created by the system.  Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The date and time the cloud DB node was created.</li>
+<li><code>time_updated</code> - The date and time the cloud DB node was last updated.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Cloud Db Node
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Cloud Db Node
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Cloud Db Node</p>
+
+<h2>Import</h2>
+
+<p>CloudDbNodes can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_database_management_cloud_db_node.test_cloud_db_node &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

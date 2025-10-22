@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_os_management_hub_software_source</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_os_management_hub_software_source</h1>
+
+<p>This data source provides details about a specific Software Source resource in Oracle Cloud Infrastructure Os Management Hub service.</p>
+
+<p>Returns information about the specified software source.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_os_management_hub_software_source&quot; &quot;test_software_source&quot; {
+	#Required
+	software_source_id = oci_os_management_hub_software_source.test_software_source.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>software_source_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the software source.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>advanced_repo_options</code> - Advanced repository options for the software source</li>
+<li><code>arch_type</code> - The architecture type supported by the software source.</li>
+<li><code>availability</code> - Availability of the software source (for non-OCI environments).</li>
+<li><code>availability_at_oci</code> - Availability of the software source (for Oracle Cloud Infrastructure environments).</li>
+<li><code>checksum_type</code> - The yum repository checksum type used by this software source.</li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment that contains the software source.</li>
+<li><code>custom_software_source_filter</code> - Provides the information used to apply filters to a vendor software source to create or update a custom software source.
+
+<ul>
+<li><code>module_stream_profile_filters</code> - The list of module stream/profile filters.
+
+<ul>
+<li><code>filter_type</code> - The type of the filter.</li>
+<li><code>module_name</code> - Module name.</li>
+<li><code>profile_name</code> - Profile name.</li>
+<li><code>stream_name</code> - Stream name.</li>
+</ul></li>
+<li><code>package_filters</code> - The list of package filters.
+
+<ul>
+<li><code>filter_type</code> - The type of the filter.</li>
+<li><code>package_name</code> - The package name.</li>
+<li><code>package_name_pattern</code> - The package name pattern.</li>
+<li><code>package_version</code> - The package version, which is denoted by &lsquo;version-release&rsquo;, or &lsquo;epoch:version-release&rsquo;.</li>
+</ul></li>
+<li><code>package_group_filters</code> - The list of group filters.
+
+<ul>
+<li><code>filter_type</code> - The type of the filter.</li>
+<li><code>package_groups</code> - List of package group names.</li>
+</ul></li>
+</ul></li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - User-specified description for the software source.</li>
+<li><code>display_name</code> - User-friendly name for the software source.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>gpg_key_fingerprint</code> - Fingerprint of the GPG key for this software source.</li>
+<li><code>gpg_key_id</code> - ID of the GPG key for this software source.</li>
+<li><code>gpg_key_url</code> - URI of the GPG key for this software source.</li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the software source.</li>
+<li><code>is_auto_resolve_dependencies</code> - Indicates whether the service should automatically resolve package dependencies when including specific packages in the software source.</li>
+<li><code>is_automatically_updated</code> - Indicates whether the service should automatically update the custom software source to use the latest package versions available. The service reviews packages levels once a day.</li>
+<li><code>is_created_from_package_list</code> - Indicates whether the service should create the software source from a list of packages provided by the user.</li>
+<li><code>is_gpg_check_enabled</code> - Whether signature verification should be done for the software source</li>
+<li><code>is_latest_content_only</code> - Indicates whether the software source will include only the latest versions of content from vendor software sources, while accounting for other constraints set in the custom or versioned custom software source (such as a package list or filters).
+
+<ul>
+<li>For a module filter that does not specify a stream, this will include all available streams, and within each stream only the latest version of packages.</li>
+<li>For a module filter that does specify a stream, this will include only the latest version of packages for the specified stream.</li>
+<li>For a package filter that does not specify a version, this will include only the latest available version of the package.</li>
+<li>For a package filter that does specify a version, this will include only the specified version of the package (the isLatestContentOnly attribute is ignored).</li>
+<li>For a package list, this will include only the specified version of packages and modules in the list (the isLatestContentOnly attribute is ignored).</li>
+</ul></li>
+<li><code>is_mandatory_for_autonomous_linux</code> - Indicates whether the software source is required for the Autonomous Linux service.</li>
+<li><code>is_mirror_sync_allowed</code> - Indicates if this software source can be mirrored to a management station.</li>
+<li><code>is_ssl_verify_enabled</code> - Indicates if SSL validation is enabled for the software source.</li>
+<li><code>origin_software_source_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the vendor software source in the root compartment. This property applies only to replicated vendor software sources.</li>
+<li><code>os_family</code> - The OS family of the software source.</li>
+<li><code>package_count</code> - Number of packages the software source contains.</li>
+<li><code>packages</code> - The packages in the software source.</li>
+<li><code>repo_id</code> - The repository ID for the software source.</li>
+<li><code>size</code> - The size of the software source in bytes (B).</li>
+<li><code>software_source_sub_type</code> - Identifies how the versioned custom software source was created.</li>
+<li><code>software_source_type</code> - Type of software source.</li>
+<li><code>software_source_version</code> - The version to assign to this custom software source.</li>
+<li><code>state</code> - The current state of the software source.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The date and time the software source was created (in <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a> format).</li>
+<li><code>time_metadata_updated</code> - The date and time the metadata for this software source was last updated (in <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a> format).</li>
+<li><code>url</code> - URL for the repository. For vendor software sources, this is the URL to the regional yum server. For custom software sources, this is &lsquo;custom/<repoId>&rsquo;.</li>
+<li><code>vendor_name</code> - Name of the vendor providing the software source.</li>
+<li><code>vendor_software_sources</code> - List of vendor software sources that are used for the basis of the versioned custom software source.
+
+<ul>
+<li><code>display_name</code> - User-friendly name.</li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the resource that is immutable on creation.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

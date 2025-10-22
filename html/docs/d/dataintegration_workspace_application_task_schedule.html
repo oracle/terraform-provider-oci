@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_dataintegration_workspace_application_task_schedule</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_dataintegration_workspace_application_task_schedule</h1>
+
+<p>This data source provides details about a specific Workspace Application Task Schedule resource in Oracle Cloud Infrastructure Data Integration service.</p>
+
+<p>Endpoint used to get taskSchedule by its key</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_dataintegration_workspace_application_task_schedule&quot; &quot;test_workspace_application_task_schedule&quot; {
+	#Required
+	application_key = var.workspace_application_task_schedule_application_key
+	task_schedule_key = var.workspace_application_task_schedule_task_schedule_key
+	workspace_id = oci_dataintegration_workspace.test_workspace.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>application_key</code> - (Required) The application key.</li>
+<li><code>task_schedule_key</code> - (Required) TaskSchedule Key</li>
+<li><code>workspace_id</code> - (Required) The workspace ID.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>auth_mode</code> - The authorization mode for the task.</p></li>
+
+<li><p><code>config_provider_delegate</code> - The information about the configuration provider.First level keys to this delegate map should be in the order first &ldquo;bindings&rdquo; then &ldquo;childProviders&rdquo;.refer terraform Example.</p></li>
+
+<li><p><code>description</code> - Detailed description for the object.</p></li>
+
+<li><p><code>end_time_millis</code> - The end time in milliseconds.</p></li>
+
+<li><p><code>expected_duration</code> - The expected duration of the task execution.</p></li>
+
+<li><p><code>expected_duration_unit</code> - The expected duration unit of the task execution.</p></li>
+
+<li><p><code>identifier</code> - Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.</p></li>
+
+<li><p><code>is_backfill_enabled</code> - Whether the backfill is enabled</p></li>
+
+<li><p><code>is_concurrent_allowed</code> - Whether the same task can be executed concurrently.</p></li>
+
+<li><p><code>is_enabled</code> - Whether the schedule is enabled.</p></li>
+
+<li><p><code>key</code> - Generated key that can be used in API calls to identify taskSchedule. On scenarios where reference to the taskSchedule is needed, a value can be passed in create.</p></li>
+
+<li><p><code>last_run_details</code> - The last run details for the task run.</p>
+
+<ul>
+<li><code>description</code> - Detailed description for the object.</li>
+<li><code>identifier</code> - Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.</li>
+<li><code>key</code> - Generated key that can be used in API calls to identify Last run details of a task schedule. On scenarios where reference to the lastRunDetails is needed, a value can be passed in create.</li>
+<li><code>last_run_time_millis</code> - Time in milliseconds for the pervious schedule.</li>
+<li><code>model_type</code> - The type of the object.</li>
+<li><code>model_version</code> - This is a version number that is used by the service to upgrade objects if needed through releases of the service.</li>
+<li><code>name</code> - Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.</li>
+<li><code>object_status</code> - The status of an object that can be set to value 1 for shallow references across objects, other values reserved.</li>
+<li><code>object_version</code> - This is used by the service for optimistic locking of the object, to prevent multiple users from simultaneously updating the object.</li>
+<li><code>parent_ref</code> - A reference to the object&rsquo;s parent.
+
+<ul>
+<li><code>parent</code> - Key of the parent object.</li>
+<li><code>root_doc_id</code> - Key of the root document object.</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>metadata</code> - A summary type containing information about the object including its key, name and when/who created/updated it.</p>
+
+<ul>
+<li><code>aggregator</code> - A summary type containing information about the object&rsquo;s aggregator including its type, key, name and description.
+
+<ul>
+<li><code>description</code> - The description of the aggregator.</li>
+<li><code>identifier</code> - The identifier of the aggregator.</li>
+<li><code>key</code> - The key of the aggregator object.</li>
+<li><code>name</code> - The name of the aggregator.</li>
+<li><code>type</code> - The type of the aggregator.</li>
+</ul></li>
+<li><code>aggregator_key</code> - The owning object key for this object.</li>
+<li><code>count_statistics</code> - A count statistics.
+
+<ul>
+<li><code>object_type_count_list</code> - The array of statistics.
+
+<ul>
+<li><code>object_count</code> - The value for the count statistic object.</li>
+<li><code>object_type</code> - The type of object for the count statistic object.</li>
+</ul></li>
+</ul></li>
+<li><code>created_by</code> - The user that created the object.</li>
+<li><code>created_by_name</code> - The user that created the object.</li>
+<li><code>identifier_path</code> - The full path to identify this object.</li>
+<li><code>info_fields</code> - Information property fields.</li>
+<li><code>is_favorite</code> - Specifies whether this object is a favorite or not.</li>
+<li><code>labels</code> - Labels are keywords or tags that you can add to data assets, dataflows and so on. You can define your own labels and use them to categorize content.</li>
+<li><code>registry_version</code> - The registry version of the object.</li>
+<li><code>time_created</code> - The date and time that the object was created.</li>
+<li><code>time_updated</code> - The date and time that the object was updated.</li>
+<li><code>updated_by</code> - The user that updated the object.</li>
+<li><code>updated_by_name</code> - The user that updated the object.</li>
+</ul></li>
+
+<li><p><code>model_type</code> - The type of the object.</p></li>
+
+<li><p><code>model_version</code> - This is a version number that is used by the service to upgrade objects if needed through releases of the service.</p></li>
+
+<li><p><code>name</code> - Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.</p></li>
+
+<li><p><code>object_status</code> - The status of an object that can be set to value 1 for shallow references across objects, other values reserved.</p></li>
+
+<li><p><code>object_version</code> - This is used by the service for optimistic locking of the object, to prevent multiple users from simultaneously updating the object.</p></li>
+
+<li><p><code>parent_ref</code> - A reference to the object&rsquo;s parent.</p>
+
+<ul>
+<li><code>parent</code> - Key of the parent object.</li>
+<li><code>root_doc_id</code> - Key of the root document object.</li>
+</ul></li>
+
+<li><p><code>retry_attempts</code> - The number of retry attempts.</p></li>
+
+<li><p><code>retry_delay</code> - The retry delay, the unit for measurement is in the property retry delay unit.</p></li>
+
+<li><p><code>retry_delay_unit</code> - The unit for the retry delay.</p></li>
+
+<li><p><code>schedule_ref</code> - The schedule object</p>
+
+<ul>
+<li><p><code>description</code> - Detailed description for the object.</p></li>
+
+<li><p><code>identifier</code> - Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.</p></li>
+
+<li><p><code>frequency_details</code> - The model that holds the frequency details.</p>
+
+<ul>
+<li><code>custom_expression</code> - This holds the complete cron expression for this schedule, for example, 10 0/5 * * * ? that fires every 5 minutes, at 10 seconds after the minute (i.e. 10:00:10 am, 10:05:10 am, etc.)</li>
+<li><code>day_of_week</code> - This holds the day of the week on which the schedule should be triggered.</li>
+<li><code>days</code> - A list of days of the month to be scheduled. i.e. excute every 2nd,3rd, 10th of the month.</li>
+<li><code>frequency</code> - the frequency of the schedule.</li>
+<li><code>interval</code> - This hold the repeatability aspect of a schedule. i.e. in a monhtly frequency, a task can be scheduled for every month, once in two months, once in tree months etc.</li>
+<li><code>model_type</code> - The type of the model</li>
+<li><code>time</code> - A model to hold time in hour:minute:second format.
+
+<ul>
+<li><code>hour</code> - The hour value.</li>
+<li><code>minute</code> - The minute value.</li>
+<li><code>second</code> - The second value.</li>
+</ul></li>
+<li><code>week_of_month</code> - This holds the week of the month in which the schedule should be triggered.</li>
+</ul></li>
+
+<li><p><code>key</code> - Generated key that can be used in API calls to identify schedule. On scenarios where reference to the schedule is needed, a value can be passed in create.</p></li>
+
+<li><p><code>metadata</code> - A summary type containing information about the object including its key, name and when/who created/updated it.</p>
+
+<ul>
+<li><code>aggregator</code> - A summary type containing information about the object&rsquo;s aggregator including its type, key, name and description.
+
+<ul>
+<li><code>description</code> - The description of the aggregator.</li>
+<li><code>identifier</code> - The identifier of the aggregator.</li>
+<li><code>key</code> - The key of the aggregator object.</li>
+<li><code>name</code> - The name of the aggregator.</li>
+<li><code>type</code> - The type of the aggregator.</li>
+</ul></li>
+<li><code>aggregator_key</code> - The owning object key for this object.</li>
+<li><code>count_statistics</code> - A count statistics.
+
+<ul>
+<li><code>object_type_count_list</code> - The array of statistics.
+
+<ul>
+<li><code>object_count</code> - The value for the count statistic object.</li>
+<li><code>object_type</code> - The type of object for the count statistic object.</li>
+</ul></li>
+</ul></li>
+<li><code>created_by</code> - The user that created the object.</li>
+<li><code>created_by_name</code> - The user that created the object.</li>
+<li><code>identifier_path</code> - The full path to identify this object.</li>
+<li><code>info_fields</code> - Information property fields.</li>
+<li><code>is_favorite</code> - Specifies whether this object is a favorite or not.</li>
+<li><code>labels</code> - Labels are keywords or tags that you can add to data assets, dataflows and so on. You can define your own labels and use them to categorize content.</li>
+<li><code>registry_version</code> - The registry version of the object.</li>
+<li><code>time_created</code> - The date and time that the object was created.</li>
+<li><code>time_updated</code> - The date and time that the object was updated.</li>
+<li><code>updated_by</code> - The user that updated the object.</li>
+<li><code>updated_by_name</code> - The user that updated the object.</li>
+</ul></li>
+
+<li><p><code>model_type</code> - The type of the object.</p></li>
+
+<li><p><code>model_version</code> - This is a version number that is used by the service to upgrade objects if needed through releases of the service.</p></li>
+
+<li><p><code>name</code> - Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.</p></li>
+
+<li><p><code>object_status</code> - The status of an object that can be set to value 1 for shallow references across objects, other values reserved.</p></li>
+
+<li><p><code>object_version</code> - This is used by the service for optimistic locking of the object, to prevent multiple users from simultaneously updating the object.</p></li>
+
+<li><p><code>parent_ref</code> - A reference to the object&rsquo;s parent.</p>
+
+<ul>
+<li><code>parent</code> - Key of the parent object.</li>
+<li><code>root_doc_id</code> - Key of the root document object.</li>
+</ul></li>
+
+<li><p><code>timezone</code> - The timezone for the schedule.</p></li>
+</ul></li>
+
+<li><p><code>start_time_millis</code> - The start time in milliseconds.</p></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

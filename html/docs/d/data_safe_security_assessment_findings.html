@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_data_safe_security_assessment_findings</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_data_safe_security_assessment_findings</h1>
+
+<p>This data source provides the list of Security Assessment Findings in Oracle Cloud Infrastructure Data Safe service.</p>
+
+<p>Lists all the findings for the specified assessment except for type TEMPLATE. If the assessment is of type TEMPLATE_BASELINE, the findings returned are the security checks with the user-defined severity from the template.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_data_safe_security_assessment_findings&quot; &quot;test_security_assessment_findings&quot; {
+	#Required
+	security_assessment_id = oci_data_safe_security_assessment.test_security_assessment.id
+
+	#Optional
+	access_level = var.security_assessment_finding_access_level
+	category = var.security_assessment_finding_category
+	compartment_id = var.compartment_id
+	compartment_id_in_subtree = var.security_assessment_finding_compartment_id_in_subtree
+	contains_references = var.security_assessment_finding_contains_references
+	contains_severity = var.security_assessment_finding_contains_severity
+	field = var.security_assessment_finding_field
+	finding_key = var.security_assessment_finding_finding_key
+	is_top_finding = var.security_assessment_finding_is_top_finding
+	references {
+	}
+	scim_query = var.security_assessment_finding_scim_query
+	severity = var.security_assessment_finding_severity
+	state = var.security_assessment_finding_state
+	target_id = oci_cloud_guard_target.test_target.id
+	target_ids = var.security_assessment_finding_target_ids
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>access_level</code> - (Optional) Valid values are RESTRICTED and ACCESSIBLE. Default is RESTRICTED. Setting this to ACCESSIBLE returns only those compartments for which the user has INSPECT permissions directly or indirectly (permissions can be on a resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed.</p></li>
+
+<li><p><code>category</code> - (Optional) The category of the finding.</p></li>
+
+<li><p><code>compartment_id</code> - (Optional) A filter to return only resources that match the specified compartment OCID.</p></li>
+
+<li><p><code>compartment_id_in_subtree</code> - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the &lsquo;accessLevel&rsquo; setting.</p></li>
+
+<li><p><code>contains_references</code> - (Optional) An optional filter to return only findings that match the specified references. Use containsReferences param if need to filter by multiple references.</p></li>
+
+<li><p><code>contains_severity</code> - (Optional) A filter to return only findings that match the specified risk level(s). Use containsSeverity parameter if need to filter by multiple risk levels.</p></li>
+
+<li><p><code>field</code> - (Optional) Specifies a subset of fields to be returned in the response.</p></li>
+
+<li><p><code>finding_key</code> - (Optional) Each finding in security assessment has an associated key (think of key as a finding&rsquo;s name). For a given finding, the key will be the same across targets. The user can use these keys to filter the findings.</p></li>
+
+<li><p><code>is_top_finding</code> - (Optional) A filter to return only the findings that are marked as top findings.</p></li>
+
+<li><p><code>references</code> - (Optional) An optional filter to return only findings that match the specified reference.</p></li>
+
+<li><p><code>scim_query</code> - (Optional) The scimQuery query parameter accepts filter expressions that use the syntax described in Section 3.2.2.2 of the System for Cross-Domain Identity Management (SCIM) specification, which is available at <a href="https://tools.ietf.org/html/draft-ietf-scim-api-12">RFC3339</a>. In SCIM filtering expressions, text, date, and time values must be enclosed in quotation marks, with date and time values using ISO-8601 format. (Numeric and boolean values should not be quoted.)</p>
+
+<p><strong>Example:</strong> | scimQuery=(severity eq &lsquo;high&rsquo;) and (targetId eq &lsquo;target_1&rsquo;) scimQuery=(category eq &ldquo;Users&rdquo;) and (targetId eq &ldquo;target_1&rdquo;) scimQuery=(reference eq &lsquo;CIS&rsquo;) and (targetId eq &lsquo;target_1&rsquo;)</p>
+
+<p>Supported fields: severity findingKey reference targetId isTopFinding title category remarks details summary isRiskModified</p></li>
+
+<li><p><code>security_assessment_id</code> - (Required) The OCID of the security assessment.</p></li>
+
+<li><p><code>severity</code> - (Optional) A filter to return only findings of a particular risk level.</p></li>
+
+<li><p><code>state</code> - (Optional) A filter to return only the findings that match the specified lifecycle states.</p></li>
+
+<li><p><code>target_id</code> - (Optional) A filter to return only items related to a specific target OCID.</p></li>
+
+<li><p><code>target_ids</code> - (Optional) An optional filter to return only findings that match the specified target ids. Use this parameter to filter by multiple target ids.</p></li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>findings</code> - The list of findings.</li>
+</ul>
+
+<h3>SecurityAssessmentFinding Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>assessment_id</code> - The OCID of the assessment that generated this finding.</li>
+<li><code>category</code> - The category to which the finding belongs to.</li>
+<li><code>details</code> - The details of the finding. Provides detailed information to explain the finding summary, typically results from the assessed database, followed by any recommendations for changes.</li>
+<li><code>doclink</code> - Documentation link provided by Oracle that explains a specific security finding or check.</li>
+<li><code>has_target_db_risk_level_changed</code> - Determines if this risk level has changed on the target database since the last time &lsquo;severity&rsquo; was modified by user.</li>
+<li><code>is_risk_modified</code> - Determines if this risk level was modified by user.</li>
+<li><code>is_top_finding</code> - Indicates whether a given finding is marked as topFinding or not.</li>
+<li><code>justification</code> - User provided reason for accepting or modifying this finding if they choose to do so.</li>
+<li><code>key</code> - The unique finding key. This is a system-generated identifier. To get the finding key for a finding, use ListFindings.</li>
+<li><code>lifecycle_details</code> - Details about the current state of the finding.</li>
+<li><code>oneline</code> - Provides a recommended approach to take to remediate the finding reported.</li>
+<li><code>oracle_defined_severity</code> - The severity of the finding as determined by security assessment. This cannot be modified by user.</li>
+<li><code>references</code> - Provides information on whether the finding is related to a CIS Oracle Database Benchmark recommendation, a STIG rule, or a GDPR Article/Recital.
+
+<ul>
+<li><code>cis</code> - Relevant section from CIS.</li>
+<li><code>gdpr</code> - Relevant section from GDPR.</li>
+<li><code>obp</code> - Relevant section from OBP.</li>
+<li><code>orp</code> - Relevant section from ORP.</li>
+<li><code>stig</code> - Relevant section from STIG.</li>
+</ul></li>
+<li><code>remarks</code> - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.</li>
+<li><code>severity</code> - The severity of the finding as determined by security assessment and is same as oracleDefinedSeverity, unless modified by user.</li>
+<li><code>state</code> - The current state of the finding.</li>
+<li><code>summary</code> - The brief summary of the finding. When the finding is informational, the summary typically reports only the number of data elements that were examined.</li>
+<li><code>target_id</code> - The OCID of the target database.</li>
+<li><code>time_updated</code> - The date and time the risk level of finding was last updated, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>time_valid_until</code> - The time until which the change in severity(deferred / modified) of this finding is valid.</li>
+<li><code>title</code> - The short title for the finding.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_computeinstanceagent_instance_agent_plugins</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_computeinstanceagent_instance_agent_plugins</h1>
+
+<p>This data source provides the list of Instance Agent Plugins in Oracle Cloud Infrastructure Compute Instance Agent service.</p>
+
+<p>The API to get one or more plugin information.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_computeinstanceagent_instance_agent_plugins&quot; &quot;test_instance_agent_plugins&quot; {
+	#Required
+	instanceagent_id = oci_computeinstanceagent_instanceagent.test_instanceagent.id
+
+	#Optional
+	name = var.instance_agent_plugin_name
+	status = var.instance_agent_plugin_status
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>instanceagent_id</code> - (Required) The OCID of the instance.</li>
+<li><code>name</code> - (Optional) The plugin name</li>
+<li><code>status</code> - (Optional) The plugin status</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>instance_agent_plugins</code> - The list of instance_agent_plugins.</li>
+</ul>
+
+<h3>InstanceAgentPlugin Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>message</code> - The optional message from the agent plugin</li>
+<li><code>name</code> - The plugin name</li>
+<li><code>status</code> - The plugin status Specified the plugin state on the instance * <code>RUNNING</code> - The plugin is in running state * <code>STOPPED</code> - The plugin is in stopped state * <code>NOT_SUPPORTED</code> - The plugin is not supported on this platform * <code>INVALID</code> - The plugin state is not recognizable by the service</li>
+<li><code>time_last_updated_utc</code> - The last update time of the plugin in UTC</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

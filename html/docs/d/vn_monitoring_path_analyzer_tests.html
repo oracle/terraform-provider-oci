@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_vn_monitoring_path_analyzer_tests</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_vn_monitoring_path_analyzer_tests</h1>
+
+<p>This data source provides the list of Path Analyzer Tests in Oracle Cloud Infrastructure Vn Monitoring service.</p>
+
+<p>Returns a list of all <code>PathAnalyzerTests</code> in a compartment.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_vn_monitoring_path_analyzer_tests&quot; &quot;test_path_analyzer_tests&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	display_name = var.path_analyzer_test_display_name
+	state = var.path_analyzer_test_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>display_name</code> - (Optional) A filter that returns only resources that match the entire display name given.</li>
+<li><code>state</code> - (Optional) A filter that returns only resources whose <code>lifecycleState</code> matches the given <code>lifecycleState</code>.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>path_analyzer_test_collection</code> - The list of path_analyzer_test_collection.</li>
+</ul>
+
+<h3>PathAnalyzerTest Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the <code>PathAnalyzerTest</code> resource&rsquo;s compartment.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>destination_endpoint</code> - Information describing a source or destination in a <code>PathAnalyzerTest</code> resource.
+
+<ul>
+<li><code>address</code> - The IPv4 address of the COMPUTE_INSTANCE-type <code>Endpoint</code> object.</li>
+<li><code>instance_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compute instance.</li>
+<li><code>listener_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the network load balancer listener.</li>
+<li><code>load_balancer_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the listener&rsquo;s load balancer.</li>
+<li><code>network_load_balancer_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the listener&rsquo;s network load balancer.</li>
+<li><code>subnet_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the subnet containing the IP address. This can be used to disambiguate which subnet is intended, in case the IP address is used in more than one subnet (when there are subnets with overlapping IP ranges).</li>
+<li><code>type</code> - The type of the <code>Endpoint</code>.</li>
+<li><code>vlan_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VLAN containing the IP address. This can be used to disambiguate which VLAN is queried, in case the endpoint IP address belongs to more than one VLAN (when there are VLANs with overlapping IP ranges).</li>
+<li><code>vnic_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VNIC attached to the compute instance.</li>
+</ul></li>
+<li><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - A unique identifier established when the resource is created. The identifier can&rsquo;t be changed later.</li>
+<li><code>protocol</code> - The IP protocol to use for the <code>PathAnalyzerTest</code> resource.</li>
+<li><code>protocol_parameters</code> - Defines the IP protocol parameters for a <code>PathAnalyzerTest</code> resource.
+
+<ul>
+<li><code>destination_port</code> - The destination port to use in a <code>PathAnalyzerTest</code> resource.</li>
+<li><code>icmp_code</code> - The <a href="https://www.iana.org/assignments/icmp-parameters/icmp-parameters.xhtml">ICMP</a> code.</li>
+<li><code>icmp_type</code> - The <a href="https://www.iana.org/assignments/icmp-parameters/icmp-parameters.xhtml">ICMP</a> type.</li>
+<li><code>source_port</code> - The source port to use in a <code>PathAnalyzerTest</code> resource.</li>
+<li><code>type</code> - The type of the <code>ProtocolParameters</code> object.</li>
+</ul></li>
+<li><code>query_options</code> - Defines the query options required for a <code>PathAnalyzerTest</code> resource.
+
+<ul>
+<li><code>is_bi_directional_analysis</code> - If true, a path analysis is done for both the forward and reverse routes.</li>
+</ul></li>
+<li><code>source_endpoint</code> - Information describing a source or destination in a <code>PathAnalyzerTest</code> resource.
+
+<ul>
+<li><code>address</code> - The IPv4 address of the COMPUTE_INSTANCE-type <code>Endpoint</code> object.</li>
+<li><code>instance_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compute instance.</li>
+<li><code>listener_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the network load balancer listener.</li>
+<li><code>load_balancer_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the listener&rsquo;s load balancer.</li>
+<li><code>network_load_balancer_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the listener&rsquo;s network load balancer.</li>
+<li><code>subnet_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the subnet containing the IP address. This can be used to disambiguate which subnet is intended, in case the IP address is used in more than one subnet (when there are subnets with overlapping IP ranges).</li>
+<li><code>type</code> - The type of the <code>Endpoint</code>.</li>
+<li><code>vlan_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VLAN containing the IP address. This can be used to disambiguate which VLAN is queried, in case the endpoint IP address belongs to more than one VLAN (when there are VLANs with overlapping IP ranges).</li>
+<li><code>vnic_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VNIC attached to the compute instance.</li>
+</ul></li>
+<li><code>state</code> - The current state of the <code>PathAnalyzerTest</code> resource.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The date and time the <code>PathAnalyzerTest</code> resource was created, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>time_updated</code> - The date and time the <code>PathAnalyzerTest</code> resource was last updated, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

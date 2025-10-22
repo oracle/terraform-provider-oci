@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_exadata_infrastructure_download_config_file</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_exadata_infrastructure_download_config_file</h1>
+
+<p>This data source provides details about a specific Exadata Infrastructure Download Config File resource in Oracle Cloud Infrastructure Database service.</p>
+
+<p>Downloads the configuration file for the specified Exadata Cloud@Customer infrastructure.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_exadata_infrastructure_download_config_file&quot; &quot;test_exadata_infrastructure_download_config_file&quot; {
+	#Required
+	exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
+
+	#Optional
+	base64_encode_content = &quot;false&quot;
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>base64_encode_content</code> - (Optional) Encodes the downloaded zipped config in base64. It is recommended to set this to <code>true</code> to avoid corrupting the zip file in Terraform state. The default value is <code>false</code>.</li>
+<li><code>exadata_infrastructure_id</code> - (Required) The Exadata infrastructure <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>content</code> - content of the downloaded config file for exadata infrastructure. If <code>base64_encode_content</code> is set to <code>true</code>, then this content will be base64 encoded.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

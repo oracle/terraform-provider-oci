@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_onesubscription_subscribed_service</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_onesubscription_subscribed_service</h1>
+
+<p>This data source provides details about a specific Subscribed Service resource in Oracle Cloud Infrastructure Onesubscription service.</p>
+
+<p>This API returns the subscribed service details corresponding to the id provided</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_onesubscription_subscribed_service&quot; &quot;test_subscribed_service&quot; {
+	#Required
+	subscribed_service_id = oci_onesubscription_subscribed_service.test_subscribed_service.id
+
+	#Optional
+	fields = var.subscribed_service_fields
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>fields</code> - (Optional) Partial response refers to an optimization technique offered by the RESTful web APIs to return only the information  (fields) required by the client. In this mechanism, the client sends the required field names as the query parameters for an API to the server, and the server trims down the default response content by removing the fields that are not required by the client. The parameter used to control what fields to return should be a query string parameter called &ldquo;fields&rdquo; of type array, and usecollectionFormat</li>
+<li><code>subscribed_service_id</code> - (Required) The Subscribed Service Id</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>admin_email</code> - Subscribed service admin email id</li>
+<li><code>agreement_id</code> - Subscribed service agreement ID</li>
+<li><code>agreement_name</code> - Subscribed service agrrement name</li>
+<li><code>agreement_type</code> - Subscribed service agrrement type</li>
+<li><code>available_amount</code> - Subscribed sercice available or remaining amount</li>
+<li><code>bill_to_address</code> - Address.
+
+<ul>
+<li><code>bill_site_use_id</code> - Bill to site use Id.</li>
+<li><code>is_bill_to</code> - Identify as the customer shipping address.</li>
+<li><code>is_ship_to</code> - Identify as the customer invoicing address.</li>
+<li><code>location</code> - Address location.
+
+<ul>
+<li><code>address1</code> - Address first line.</li>
+<li><code>address2</code> - Address second line.</li>
+<li><code>city</code> - City.</li>
+<li><code>country</code> - Country.</li>
+<li><code>postal_code</code> - Postal code.</li>
+<li><code>region</code> - Region.</li>
+<li><code>tca_location_id</code> - Region.</li>
+</ul></li>
+<li><code>name</code> - Address name identifier.</li>
+<li><code>phone</code> - Phone.</li>
+<li><code>service2site_use_id</code> - Service to site use Id.</li>
+<li><code>tca_cust_acct_site_id</code> - TCA customer account site Id.</li>
+<li><code>tca_party_site_number</code> - Party site number.</li>
+</ul></li>
+<li><code>bill_to_contact</code> - User.
+
+<ul>
+<li><code>email</code> - Email.</li>
+<li><code>first_name</code> - First name.</li>
+<li><code>last_name</code> - Last name.</li>
+<li><code>name</code> - Name.</li>
+<li><code>tca_contact_id</code> - TCA contact ID.</li>
+<li><code>tca_cust_accnt_site_id</code> - TCA customer account site ID.</li>
+<li><code>tca_party_id</code> - TCA party ID.</li>
+<li><code>username</code> - Username.</li>
+</ul></li>
+<li><code>bill_to_customer</code> - Business partner.
+
+<ul>
+<li><code>customer_chain_type</code> - Customer chain type.</li>
+<li><code>is_chain_customer</code> - The business partner is chain customer or not.</li>
+<li><code>is_public_sector</code> - The business partner is part of the public sector or not.</li>
+<li><code>name</code> - Commercial name also called customer name.</li>
+<li><code>name_phonetic</code> - Phonetic name.</li>
+<li><code>tca_cust_account_number</code> - TCA customer account number.</li>
+<li><code>tca_customer_account_id</code> - TCA customer account ID.</li>
+<li><code>tca_party_id</code> - TCA party ID.</li>
+<li><code>tca_party_number</code> - TCA party number.</li>
+</ul></li>
+<li><code>billing_frequency</code> - Subscribed service invoice frequency</li>
+<li><code>booking_opty_number</code> - Booking Opportunity Number of Subscribed Service</li>
+<li><code>buyer_email</code> - Subscribed service buyer email id</li>
+<li><code>commitment_schedule_id</code> - Subscribed service commitment schedule Id</li>
+<li><code>commitment_services</code> - List of Commitment services of a line
+
+<ul>
+<li><code>available_amount</code> - Commitment available amount</li>
+<li><code>funded_allocation_value</code> - Funded Allocation line value</li>
+<li><code>line_net_amount</code> - Commitment line net amount</li>
+<li><code>quantity</code> - Commitment quantity</li>
+<li><code>time_end</code> - Commitment end date</li>
+<li><code>time_start</code> - Commitment start date</li>
+</ul></li>
+<li><code>created_by</code> - User that created the subscribed service</li>
+<li><code>credit_percentage</code> - Subscribed service credit percentage</li>
+<li><code>csi</code> - Subscribed service CSI number</li>
+<li><code>customer_transaction_reference</code> - Identifier for a customer&rsquo;s transactions for purchase of ay oracle services</li>
+<li><code>data_center</code> - Subscribed service data center</li>
+<li><code>data_center_region</code> - Subscribed service data center region</li>
+<li><code>eligible_to_renew</code> - Subscribed service eligible to renew field</li>
+<li><code>end_user_address</code> - Address.
+
+<ul>
+<li><code>bill_site_use_id</code> - Bill to site use Id.</li>
+<li><code>is_bill_to</code> - Identify as the customer shipping address.</li>
+<li><code>is_ship_to</code> - Identify as the customer invoicing address.</li>
+<li><code>location</code> - Address location.
+
+<ul>
+<li><code>address1</code> - Address first line.</li>
+<li><code>address2</code> - Address second line.</li>
+<li><code>city</code> - City.</li>
+<li><code>country</code> - Country.</li>
+<li><code>postal_code</code> - Postal code.</li>
+<li><code>region</code> - Region.</li>
+<li><code>tca_location_id</code> - Region.</li>
+</ul></li>
+<li><code>name</code> - Address name identifier.</li>
+<li><code>phone</code> - Phone.</li>
+<li><code>service2site_use_id</code> - Service to site use Id.</li>
+<li><code>tca_cust_acct_site_id</code> - TCA customer account site Id.</li>
+<li><code>tca_party_site_number</code> - Party site number.</li>
+</ul></li>
+<li><code>end_user_contact</code> - User.
+
+<ul>
+<li><code>email</code> - Email.</li>
+<li><code>first_name</code> - First name.</li>
+<li><code>last_name</code> - Last name.</li>
+<li><code>name</code> - Name.</li>
+<li><code>tca_contact_id</code> - TCA contact ID.</li>
+<li><code>tca_cust_accnt_site_id</code> - TCA customer account site ID.</li>
+<li><code>tca_party_id</code> - TCA party ID.</li>
+<li><code>username</code> - Username.</li>
+</ul></li>
+<li><code>end_user_customer</code> - Business partner.
+
+<ul>
+<li><code>customer_chain_type</code> - Customer chain type.</li>
+<li><code>is_chain_customer</code> - The business partner is chain customer or not.</li>
+<li><code>is_public_sector</code> - The business partner is part of the public sector or not.</li>
+<li><code>name</code> - Commercial name also called customer name.</li>
+<li><code>name_phonetic</code> - Phonetic name.</li>
+<li><code>tca_cust_account_number</code> - TCA customer account number.</li>
+<li><code>tca_customer_account_id</code> - TCA customer account ID.</li>
+<li><code>tca_party_id</code> - TCA party ID.</li>
+<li><code>tca_party_number</code> - TCA party number.</li>
+</ul></li>
+<li><code>fulfillment_set</code> - Subscribed service fulfillment set</li>
+<li><code>funded_allocation_value</code> - Funded Allocation line value example: 12000.00</li>
+<li><code>id</code> - SPM internal Subscribed Service ID</li>
+<li><code>is_allowance</code> - Indicates if a service can recieve usages and consequently have available amounts computed</li>
+<li><code>is_cap_to_price_list</code> - If true compares rate between ratecard and the active pricelist and minimum rate would be fetched</li>
+<li><code>is_credit_enabled</code> - Used in context of service credit lines</li>
+<li><code>is_having_usage</code> - Indicator on whether or not there has been usage for the subscribed service</li>
+<li><code>is_intent_to_pay</code> - Subscribed service intent to pay flag</li>
+<li><code>is_payg</code> - Subscribed service payg flag</li>
+<li><code>is_single_rate_card</code> - Indicates if the Subscribed service has a single ratecard</li>
+<li><code>is_variable_commitment</code> - Indicates if the commitment lines can have different quantities</li>
+<li><code>line_net_amount</code> - Subscribed service line net amount</li>
+<li><code>major_set</code> - Subscribed service Major Set</li>
+<li><code>net_unit_price</code> - Subscribed service net unit price</li>
+<li><code>operation_type</code> - Subscribed service operation type</li>
+<li><code>order_header_id</code> - Sales Order Header associated to the subscribed service</li>
+<li><code>order_line_id</code> - Sales Order Line Id associated to the subscribed service</li>
+<li><code>order_line_number</code> - Sales Order Line Number associated to the subscribed service</li>
+<li><code>order_number</code> - Sales Order Number associated to the subscribed service</li>
+<li><code>order_type</code> - Order Type of Subscribed Service</li>
+<li><code>original_promo_amount</code> - Subscribed service Promotion Amount</li>
+<li><code>overage_bill_to</code> - Overage Bill To of Subscribed Service</li>
+<li><code>overage_discount_percentage</code> - Subscribed service Overage Discount Percentage</li>
+<li><code>overage_policy</code> - Overage Policy of Subscribed Service</li>
+<li><code>partner_credit_amount</code> - Subscribed service partner credit amount</li>
+<li><code>partner_transaction_type</code> - This field contains the name of the partner to which the subscription belongs - depending on which the invoicing may differ</li>
+<li><code>payg_policy</code> - Pay As You Go policy of Subscribed Service (Can be null - indicating no payg policy)</li>
+<li><code>payment_method</code> - Payment Method of Subscribed Service</li>
+<li><code>payment_number</code> - Payment Number of Subscribed Service</li>
+<li><code>payment_term</code> - Payment Term details
+
+<ul>
+<li><code>created_by</code> - User that created the Payment term</li>
+<li><code>description</code> - Payment term Description</li>
+<li><code>is_active</code> - Payment term active flag</li>
+<li><code>name</code> - Payment Term name</li>
+<li><code>time_created</code> - Payment term last update date</li>
+<li><code>time_updated</code> - Payment term last update date</li>
+<li><code>updated_by</code> - User that updated the Payment term</li>
+<li><code>value</code> - Payment Term value</li>
+</ul></li>
+<li><code>price_period</code> - Indicates the period for which the commitment amount can be utilised exceeding which the amount lapses. Also used in calculation of total contract line value</li>
+<li><code>pricing_model</code> - Subscribed service pricing model</li>
+<li><code>product</code> - Product description
+
+<ul>
+<li><code>billing_category</code> - Metered service billing category</li>
+<li><code>name</code> - Product name</li>
+<li><code>part_number</code> - Product part numner</li>
+<li><code>product_category</code> - Product category</li>
+<li><code>ucm_rate_card_part_type</code> - Rate card part type of Product</li>
+<li><code>unit_of_measure</code> - Unit of measure</li>
+</ul></li>
+<li><code>program_type</code> - Subscribed service program type</li>
+<li><code>promo_order_line_id</code> - Not null if this service has an associated promotion line in SPM. Contains the line identifier from Order Management of  the associated promo line.</li>
+<li><code>promo_type</code> - Subscribed service promotion type</li>
+<li><code>promotion_pricing_type</code> - Promotion Pricing Type of Subscribed Service (Can be null - indicating no promotion pricing)</li>
+<li><code>provisioning_source</code> - Subscribed service provisioning source</li>
+<li><code>quantity</code> - Subscribed service quantity</li>
+<li><code>rate_card_discount_percentage</code> - Subscribed service Rate Card Discount Percentage</li>
+<li><code>rate_cards</code> - List of Rate Cards of a Subscribed Service
+
+<ul>
+<li><code>currency</code> - Currency details
+
+<ul>
+<li><code>iso_code</code> - Currency Code</li>
+<li><code>name</code> - Currency name</li>
+<li><code>std_precision</code> - Standard Precision of the Currency</li>
+</ul></li>
+<li><code>discretionary_discount_percentage</code> - Rate card discretionary discount percentage</li>
+<li><code>is_tier</code> - Rate card price tier flag</li>
+<li><code>net_unit_price</code> - Rate card net unit price</li>
+<li><code>overage_price</code> - Rate card overage price</li>
+<li><code>product</code> - Product description
+
+<ul>
+<li><code>billing_category</code> - Metered service billing category</li>
+<li><code>name</code> - Product name</li>
+<li><code>part_number</code> - Product part numner</li>
+<li><code>product_category</code> - Product category</li>
+<li><code>ucm_rate_card_part_type</code> - Rate card part type of Product</li>
+<li><code>unit_of_measure</code> - Unit of measure</li>
+</ul></li>
+<li><code>rate_card_tiers</code> - List of tiered rate card prices
+
+<ul>
+<li><code>net_unit_price</code> - Rate card tier net unit price</li>
+<li><code>overage_price</code> - Rate card tier overage price</li>
+<li><code>up_to_quantity</code> - Rate card tier quantity range</li>
+</ul></li>
+<li><code>subscribed_service_id</code> - SPM internal Subscribed Service ID</li>
+<li><code>time_end</code> - Rate card end date</li>
+<li><code>time_start</code> - Rate card start date</li>
+</ul></li>
+<li><code>ratecard_type</code> - SPM Ratecard Type</li>
+<li><code>renewal_opty_id</code> - Subscribed service Opportunity Id</li>
+<li><code>renewal_opty_number</code> - Renewal Opportunity Number of Subscribed Service</li>
+<li><code>renewal_opty_type</code> - Renewal Opportunity Type of Subscribed Service</li>
+<li><code>renewed_subscribed_service_id</code> - SPM renewed Subscription ID</li>
+<li><code>reseller_address</code> - Address.
+
+<ul>
+<li><code>bill_site_use_id</code> - Bill to site use Id.</li>
+<li><code>is_bill_to</code> - Identify as the customer shipping address.</li>
+<li><code>is_ship_to</code> - Identify as the customer invoicing address.</li>
+<li><code>location</code> - Address location.
+
+<ul>
+<li><code>address1</code> - Address first line.</li>
+<li><code>address2</code> - Address second line.</li>
+<li><code>city</code> - City.</li>
+<li><code>country</code> - Country.</li>
+<li><code>postal_code</code> - Postal code.</li>
+<li><code>region</code> - Region.</li>
+<li><code>tca_location_id</code> - Region.</li>
+</ul></li>
+<li><code>name</code> - Address name identifier.</li>
+<li><code>phone</code> - Phone.</li>
+<li><code>service2site_use_id</code> - Service to site use Id.</li>
+<li><code>tca_cust_acct_site_id</code> - TCA customer account site Id.</li>
+<li><code>tca_party_site_number</code> - Party site number.</li>
+</ul></li>
+<li><code>reseller_contact</code> - User.
+
+<ul>
+<li><code>email</code> - Email.</li>
+<li><code>first_name</code> - First name.</li>
+<li><code>last_name</code> - Last name.</li>
+<li><code>name</code> - Name.</li>
+<li><code>tca_contact_id</code> - TCA contact ID.</li>
+<li><code>tca_cust_accnt_site_id</code> - TCA customer account site ID.</li>
+<li><code>tca_party_id</code> - TCA party ID.</li>
+<li><code>username</code> - Username.</li>
+</ul></li>
+<li><code>reseller_customer</code> - Business partner.
+
+<ul>
+<li><code>customer_chain_type</code> - Customer chain type.</li>
+<li><code>is_chain_customer</code> - The business partner is chain customer or not.</li>
+<li><code>is_public_sector</code> - The business partner is part of the public sector or not.</li>
+<li><code>name</code> - Commercial name also called customer name.</li>
+<li><code>name_phonetic</code> - Phonetic name.</li>
+<li><code>tca_cust_account_number</code> - TCA customer account number.</li>
+<li><code>tca_customer_account_id</code> - TCA customer account ID.</li>
+<li><code>tca_party_id</code> - TCA party ID.</li>
+<li><code>tca_party_number</code> - TCA party number.</li>
+</ul></li>
+<li><code>revenue_line_id</code> - Subscribed service Revenue Line Id</li>
+<li><code>revenue_line_number</code> - Revenue Line NUmber of Subscribed Service</li>
+<li><code>revised_arr_in_lc</code> - Subscribed service Revised ARR</li>
+<li><code>revised_arr_in_sc</code> - Subscribed service Revised ARR in Standard Currency</li>
+<li><code>sales_account_party_id</code> - Subscribed service sales account party id</li>
+<li><code>sales_channel</code> - Sales Channel of Subscribed Service</li>
+<li><code>serial_number</code> - Subscribed service line number</li>
+<li><code>service_to_address</code> - Address.
+
+<ul>
+<li><code>bill_site_use_id</code> - Bill to site use Id.</li>
+<li><code>is_bill_to</code> - Identify as the customer shipping address.</li>
+<li><code>is_ship_to</code> - Identify as the customer invoicing address.</li>
+<li><code>location</code> - Address location.
+
+<ul>
+<li><code>address1</code> - Address first line.</li>
+<li><code>address2</code> - Address second line.</li>
+<li><code>city</code> - City.</li>
+<li><code>country</code> - Country.</li>
+<li><code>postal_code</code> - Postal code.</li>
+<li><code>region</code> - Region.</li>
+<li><code>tca_location_id</code> - Region.</li>
+</ul></li>
+<li><code>name</code> - Address name identifier.</li>
+<li><code>phone</code> - Phone.</li>
+<li><code>service2site_use_id</code> - Service to site use Id.</li>
+<li><code>tca_cust_acct_site_id</code> - TCA customer account site Id.</li>
+<li><code>tca_party_site_number</code> - Party site number.</li>
+</ul></li>
+<li><code>service_to_contact</code> - User.
+
+<ul>
+<li><code>email</code> - Email.</li>
+<li><code>first_name</code> - First name.</li>
+<li><code>last_name</code> - Last name.</li>
+<li><code>name</code> - Name.</li>
+<li><code>tca_contact_id</code> - TCA contact ID.</li>
+<li><code>tca_cust_accnt_site_id</code> - TCA customer account site ID.</li>
+<li><code>tca_party_id</code> - TCA party ID.</li>
+<li><code>username</code> - Username.</li>
+</ul></li>
+<li><code>service_to_customer</code> - Business partner.
+
+<ul>
+<li><code>customer_chain_type</code> - Customer chain type.</li>
+<li><code>is_chain_customer</code> - The business partner is chain customer or not.</li>
+<li><code>is_public_sector</code> - The business partner is part of the public sector or not.</li>
+<li><code>name</code> - Commercial name also called customer name.</li>
+<li><code>name_phonetic</code> - Phonetic name.</li>
+<li><code>tca_cust_account_number</code> - TCA customer account number.</li>
+<li><code>tca_customer_account_id</code> - TCA customer account ID.</li>
+<li><code>tca_party_id</code> - TCA party ID.</li>
+<li><code>tca_party_number</code> - TCA party number.</li>
+</ul></li>
+<li><code>sold_to_contact</code> - User.
+
+<ul>
+<li><code>email</code> - Email.</li>
+<li><code>first_name</code> - First name.</li>
+<li><code>last_name</code> - Last name.</li>
+<li><code>name</code> - Name.</li>
+<li><code>tca_contact_id</code> - TCA contact ID.</li>
+<li><code>tca_cust_accnt_site_id</code> - TCA customer account site ID.</li>
+<li><code>tca_party_id</code> - TCA party ID.</li>
+<li><code>username</code> - Username.</li>
+</ul></li>
+<li><code>sold_to_customer</code> - Business partner.
+
+<ul>
+<li><code>customer_chain_type</code> - Customer chain type.</li>
+<li><code>is_chain_customer</code> - The business partner is chain customer or not.</li>
+<li><code>is_public_sector</code> - The business partner is part of the public sector or not.</li>
+<li><code>name</code> - Commercial name also called customer name.</li>
+<li><code>name_phonetic</code> - Phonetic name.</li>
+<li><code>tca_cust_account_number</code> - TCA customer account number.</li>
+<li><code>tca_customer_account_id</code> - TCA customer account ID.</li>
+<li><code>tca_party_id</code> - TCA party ID.</li>
+<li><code>tca_party_number</code> - TCA party number.</li>
+</ul></li>
+<li><code>start_date_type</code> - Subscribed service start date type</li>
+<li><code>status</code> - Subscribed service status</li>
+<li><code>subscription_id</code> - Subscription ID associated to the subscribed service</li>
+<li><code>subscription_source</code> - Subscribed service source</li>
+<li><code>system_arr_in_lc</code> - Subscribed service System ARR</li>
+<li><code>system_arr_in_sc</code> - Subscribed service System ARR in Standard Currency</li>
+<li><code>system_atr_arr_in_lc</code> - Subscribed service System ATR-ARR</li>
+<li><code>system_atr_arr_in_sc</code> - Subscribed service System ATR-ARR in Standard Currency</li>
+<li><code>term_value</code> - Term value in Months</li>
+<li><code>term_value_uom</code> - Term value UOM</li>
+<li><code>time_agreement_end</code> - Subscribed service agrrement end date</li>
+<li><code>time_created</code> - Subscribed service creation date</li>
+<li><code>time_customer_config</code> - Subscribed service customer config date</li>
+<li><code>time_end</code> - Subscribed service end date</li>
+<li><code>time_majorset_end</code> - Subscribed service Major Set End date</li>
+<li><code>time_majorset_start</code> - Subscribed service Major Set Start date</li>
+<li><code>time_payment_expiry</code> - Subscribed service payment expiry date</li>
+<li><code>time_provisioned</code> - Subscribed service provisioning date</li>
+<li><code>time_service_configuration_email_sent</code> - Subscribed service service configuration email sent date</li>
+<li><code>time_start</code> - Subscribed service start date</li>
+<li><code>time_updated</code> - Subscribed service last update date</li>
+<li><code>time_welcome_email_sent</code> - Subscribed service welcome email sent date</li>
+<li><code>total_value</code> - Subscribed service total value</li>
+<li><code>transaction_extension_id</code> - Subscribed service Transaction Extension Id</li>
+<li><code>type</code> - Subscribed Service line type</li>
+<li><code>updated_by</code> - User that updated the subscribed service</li>
+<li><code>used_amount</code> - Subscribed service used amount</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

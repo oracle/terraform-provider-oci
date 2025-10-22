@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_capacity_management_namespace_occ_overviews</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_capacity_management_namespace_occ_overviews</h1>
+
+<p>This data source provides the list of Namespace Occ Overviews in Oracle Cloud Infrastructure Capacity Management service.</p>
+
+<p>Lists an overview of all resources in that namespace in a given time interval.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_capacity_management_namespace_occ_overviews&quot; &quot;test_namespace_occ_overviews&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	namespace = var.namespace_occ_overview_namespace
+
+	#Optional
+	from = var.namespace_occ_overview_from
+	to = var.namespace_occ_overview_to
+	workload_type = var.namespace_occ_overview_workload_type
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The ocid of the compartment or tenancy in which resources are to be listed. This will also be used for authorization purposes.</li>
+<li><code>from</code> - (Optional) The month corresponding to this date would be considered as the starting point of the time period against which we would like to perform an aggregation.</li>
+<li><code>namespace</code> - (Required) The namespace by which we would filter the list.</li>
+<li><code>to</code> - (Optional) The month corresponding to this date would be considered as the ending point of the time period against which we would like to perform an aggregation.</li>
+<li><code>workload_type</code> - (Optional) Workload type using the resources in an availability catalog can be filtered.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>occ_overview_collection</code> - The list of occ_overview_collection.</li>
+</ul>
+
+<h3>NamespaceOccOverview Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - An array of overview summary.
+
+<ul>
+<li><code>capacity_requests_blob</code> - A raw json blob containing all the capacity requests corresponding to the resource name</li>
+<li><code>compartment_id</code> - The OCID of the compartment from which the api call is made. This will be used for authorizing the request.</li>
+<li><code>period_value</code> - The name of the month along with year for which this summary corresponds to.</li>
+<li><code>resource_name</code> - The name of the resource for which we have aggregated the value.</li>
+<li><code>total_available</code> - The quantity of the resource which is available at the end of the period of aggregationDetails model in consideration.</li>
+<li><code>total_cancelled</code> - The quantity of the resource which is cancelled by the customer. Once the capacity request was submitted, the customer can still cancel it. This field sums up those values.</li>
+<li><code>total_demanded</code> - The quantity of the resource which is demanded by customers via capacity requests against the resource name at the end of the time period in consideration for overview.</li>
+<li><code>total_rejected</code> - The quantity of the resource which is rejected by Oracle.</li>
+<li><code>total_supplied</code> - The quantity of the resource which is supplied by Oracle to the customer against the resource name at the end of the time period in consideration.</li>
+<li><code>total_unfulfilled</code> - The quantity of the resource which Oracle was unable to supply. For a given capacity request, Oracle sometimes cannot supply the entire value demanded by the customer. In such cases a partial value is provided, thereby leaving behind a portion of unfulfilled values. This field sums that up.</li>
+<li><code>unit</code> - The unit e.g SERVER in which the above values like totalAvailable, totalSupplied etc is measured.</li>
+<li><code>workload_type_breakdown_blob</code> - A raw json blob containing breakdown of totalAvailable, totalDemanded, totalSupplied, totalRejected, totalCancelled and totalUnfulfilled by workload types</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

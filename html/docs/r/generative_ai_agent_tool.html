@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_generative_ai_agent_tool</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_generative_ai_agent_tool</h1>
+
+<p>This resource provides the Tool resource in Oracle Cloud Infrastructure Generative Ai Agent service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/latest/Tool">https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/latest/Tool</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/generative_ai_agent">https://github.com/oracle/terraform-provider-oci/tree/master/examples/generative_ai_agent</a></p>
+
+<p>Creates a tool.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_generative_ai_agent_tool&quot; &quot;test_tool&quot; {
+	#Required
+	agent_id = oci_generative_ai_agent_agent.test_agent.id
+	compartment_id = var.compartment_id
+	description = var.tool_description
+	tool_config {
+		#Required
+		tool_config_type = var.tool_tool_config_tool_config_type
+
+		#Optional
+		agent_endpoint_id = oci_generative_ai_agent_agent_endpoint.test_agent_endpoint.id
+		api_schema {
+			#Required
+			api_schema_input_location_type = var.tool_tool_config_api_schema_api_schema_input_location_type
+
+			#Optional
+			bucket = var.tool_tool_config_api_schema_bucket
+			content = var.tool_tool_config_api_schema_content
+			namespace = var.tool_tool_config_api_schema_namespace
+			object = var.tool_tool_config_api_schema_object
+		}
+		database_connection {
+			#Required
+			connection_id = oci_database_migration_connection.test_connection.id
+			connection_type = var.tool_tool_config_database_connection_connection_type
+		}
+		database_schema {
+			#Required
+			input_location_type = var.tool_tool_config_database_schema_input_location_type
+
+			#Optional
+			bucket = var.tool_tool_config_database_schema_bucket
+			content = var.tool_tool_config_database_schema_content
+			namespace = var.tool_tool_config_database_schema_namespace
+			prefix = var.tool_tool_config_database_schema_prefix
+		}
+		dialect = var.tool_tool_config_dialect
+		function {
+
+			#Optional
+			description = var.tool_tool_config_function_description
+			name = var.tool_tool_config_function_name
+			parameters = var.tool_tool_config_function_parameters
+		}
+		generation_llm_customization {
+
+			#Optional
+			instruction = var.tool_tool_config_generation_llm_customization_instruction
+		}
+		http_endpoint_auth_config {
+
+			#Optional
+			http_endpoint_auth_sources {
+
+				#Optional
+				http_endpoint_auth_scope = var.tool_tool_config_http_endpoint_auth_config_http_endpoint_auth_sources_http_endpoint_auth_scope
+				http_endpoint_auth_scope_config {
+					#Required
+					http_endpoint_auth_scope_config_type = var.tool_tool_config_http_endpoint_auth_config_http_endpoint_auth_sources_http_endpoint_auth_scope_config_http_endpoint_auth_scope_config_type
+
+					#Optional
+					client_id = oci_generative_ai_agent_client.test_client.id
+					idcs_url = var.tool_tool_config_http_endpoint_auth_config_http_endpoint_auth_sources_http_endpoint_auth_scope_config_idcs_url
+					key_location = var.tool_tool_config_http_endpoint_auth_config_http_endpoint_auth_sources_http_endpoint_auth_scope_config_key_location
+					key_name = oci_kms_key.test_key.name
+					scope_url = var.tool_tool_config_http_endpoint_auth_config_http_endpoint_auth_sources_http_endpoint_auth_scope_config_scope_url
+					vault_secret_id = oci_vault_secret.test_secret.id
+				}
+			}
+		}
+		icl_examples {
+			#Required
+			input_location_type = var.tool_tool_config_icl_examples_input_location_type
+
+			#Optional
+			bucket = var.tool_tool_config_icl_examples_bucket
+			content = var.tool_tool_config_icl_examples_content
+			namespace = var.tool_tool_config_icl_examples_namespace
+			prefix = var.tool_tool_config_icl_examples_prefix
+		}
+		knowledge_base_configs {
+
+			#Optional
+			knowledge_base_id = oci_generative_ai_agent_knowledge_base.test_knowledge_base.id
+		}
+		model_size = var.tool_tool_config_model_size
+		should_enable_self_correction = var.tool_tool_config_should_enable_self_correction
+		should_enable_sql_execution = var.tool_tool_config_should_enable_sql_execution
+		subnet_id = oci_core_subnet.test_subnet.id
+		table_and_column_description {
+			#Required
+			input_location_type = var.tool_tool_config_table_and_column_description_input_location_type
+
+			#Optional
+			bucket = var.tool_tool_config_table_and_column_description_bucket
+			content = var.tool_tool_config_table_and_column_description_content
+			namespace = var.tool_tool_config_table_and_column_description_namespace
+			prefix = var.tool_tool_config_table_and_column_description_prefix
+		}
+	}
+
+	#Optional
+	defined_tags = {&quot;Operations.CostCenter&quot;= &quot;42&quot;}
+	display_name = var.tool_display_name
+	freeform_tags = {&quot;Department&quot;= &quot;Finance&quot;}
+	metadata = var.tool_metadata
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>agent_id</code> - (Required) The OCID of the agent that this Tool is attached to.</li>
+<li><code>compartment_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - (Required) (Updatable) Description about the Tool.</li>
+<li><code>display_name</code> - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.</li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>metadata</code> - (Optional) (Updatable) Key-value pairs to allow additional configurations.</li>
+<li><code>tool_config</code> - (Required) (Updatable) The configuration and type of Tool.
+
+<ul>
+<li><code>agent_endpoint_id</code> - (Required when tool_config_type=AGENT_TOOL_CONFIG) (Updatable) The AgentEndpoint OCID to be used as a tool in this agent.</li>
+<li><code>api_schema</code> - (Required when tool_config_type=HTTP_ENDPOINT_TOOL_CONFIG) (Updatable) The input location definition for Api schema.
+
+<ul>
+<li><code>api_schema_input_location_type</code> - (Required) (Updatable) Type of Api Schema InputLocation. The allowed values are:
+
+<ul>
+<li><code>INLINE</code>: The Api schema input location is inline.</li>
+<li><code>OBJECT_STORAGE_LOCATION</code>: The Api schema input location is object storage.</li>
+</ul></li>
+<li><code>bucket</code> - (Required when api_schema_input_location_type=OBJECT_STORAGE_LOCATION) (Updatable) The bucket name of an object.</li>
+<li><code>content</code> - (Required when api_schema_input_location_type=INLINE) (Updatable) Inline content as input.</li>
+<li><code>namespace</code> - (Required when api_schema_input_location_type=OBJECT_STORAGE_LOCATION) (Updatable) The namespace name of an object.</li>
+<li><code>object</code> - (Required when api_schema_input_location_type=OBJECT_STORAGE_LOCATION) (Updatable) The location/name of object.</li>
+</ul></li>
+<li><code>database_connection</code> - (Applicable when tool_config_type=SQL_TOOL_CONFIG) (Updatable) The connection type for Databases.
+
+<ul>
+<li><code>connection_id</code> - (Required) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Database Tools Connection.</li>
+<li><code>connection_type</code> - (Required) (Updatable) The type of Database connection. The allowed values are:
+
+<ul>
+<li><code>DATABASE_TOOL_CONNECTION</code>: This allows the service to connect to a vector store via a Database Tools Connection.</li>
+</ul></li>
+</ul></li>
+<li><code>database_schema</code> - (Required when tool_config_type=SQL_TOOL_CONFIG) (Updatable) The input location definition.
+
+<ul>
+<li><code>bucket</code> - (Required when input_location_type=OBJECT_STORAGE_PREFIX) (Updatable) The bucket name of an object.</li>
+<li><code>content</code> - (Applicable when input_location_type=INLINE) (Updatable) Inline content as input.</li>
+<li><code>input_location_type</code> - (Required) (Updatable) Type of InputLocation. The allowed values are:
+
+<ul>
+<li><code>INLINE</code>: The input location is inline.</li>
+<li><code>OBJECT_STORAGE_PREFIX</code>: The input location is object storage.</li>
+</ul></li>
+<li><code>namespace</code> - (Required when input_location_type=OBJECT_STORAGE_PREFIX) (Updatable) The namespace name of an object.</li>
+<li><code>prefix</code> - (Applicable when input_location_type=OBJECT_STORAGE_PREFIX) (Updatable) The prefix of file object(s) or folder prefix.</li>
+</ul></li>
+<li><code>dialect</code> - (Required when tool_config_type=SQL_TOOL_CONFIG) (Updatable) Dialect to be used for SQL generation.</li>
+<li><code>function</code> - (Required when tool_config_type=FUNCTION_CALLING_TOOL_CONFIG) (Updatable) Details of Function for Function calling tool.
+
+<ul>
+<li><code>description</code> - (Applicable when tool_config_type=FUNCTION_CALLING_TOOL_CONFIG) (Updatable) A description of the function.</li>
+<li><code>name</code> - (Required when tool_config_type=FUNCTION_CALLING_TOOL_CONFIG) (Updatable) The name of the function to invoke.</li>
+<li><code>parameters</code> - (Applicable when tool_config_type=FUNCTION_CALLING_TOOL_CONFIG) (Updatable) The parameters the function accepts, defined using a JSON Schema object.  Refer to the guide for examples and the JSON Schema documentation for details on the format.</li>
+</ul></li>
+<li><code>generation_llm_customization</code> - (Applicable when tool_config_type=RAG_TOOL_CONFIG | SQL_TOOL_CONFIG) (Updatable) Configuration to customize LLM.
+
+<ul>
+<li><code>instruction</code> - (Applicable when tool_config_type=RAG_TOOL_CONFIG | SQL_TOOL_CONFIG) (Updatable) If specified, the default instruction is replaced with provided instruction.</li>
+</ul></li>
+<li><code>http_endpoint_auth_config</code> - (Required when tool_config_type=HTTP_ENDPOINT_TOOL_CONFIG) (Updatable) Authentication configuration used for HTTP Endpoint tools. Defines the type of authentication and the source of credentials.
+
+<ul>
+<li><code>http_endpoint_auth_sources</code> - (Required when tool_config_type=HTTP_ENDPOINT_TOOL_CONFIG) (Updatable) A list of credential sources from which authentication credentials can be resolved. Only AGENT is supported for HTTP Endpoint Tool.
+
+<ul>
+<li><code>http_endpoint_auth_scope</code> - (Required when tool_config_type=HTTP_ENDPOINT_TOOL_CONFIG) (Updatable) Specifies the level from which credentials should be resolved.</li>
+<li><code>http_endpoint_auth_scope_config</code> - (Required when tool_config_type=HTTP_ENDPOINT_TOOL_CONFIG) (Updatable) Subset of AuthScopeConfig allowed for HTTP Endpoint Tool.
+
+<ul>
+<li><code>client_id</code> - (Required when http_endpoint_auth_scope_config_type=HTTP_ENDPOINT_IDCS_AUTH_SCOPE_CONFIG) (Updatable) IDCS client ID.</li>
+<li><code>http_endpoint_auth_scope_config_type</code> - (Required) (Updatable) The type of authentication to be applied for this HTTP Endpoint.</li>
+<li><code>idcs_url</code> - (Required when http_endpoint_auth_scope_config_type=HTTP_ENDPOINT_IDCS_AUTH_SCOPE_CONFIG) (Updatable) IDCS OpenID discovery endpoint.</li>
+<li><code>key_location</code> - (Required when http_endpoint_auth_scope_config_type=HTTP_ENDPOINT_API_KEY_AUTH_SCOPE_CONFIG) (Updatable) The location of the API key in the request.</li>
+<li><code>key_name</code> - (Required when http_endpoint_auth_scope_config_type=HTTP_ENDPOINT_API_KEY_AUTH_SCOPE_CONFIG) (Updatable) The name of the key parameter in the location.</li>
+<li><code>scope_url</code> - (Required when http_endpoint_auth_scope_config_type=HTTP_ENDPOINT_IDCS_AUTH_SCOPE_CONFIG) (Updatable) OAuth2 scopes for token generation.</li>
+<li><code>vault_secret_id</code> - (Required when http_endpoint_auth_scope_config_type=HTTP_ENDPOINT_API_KEY_AUTH_SCOPE_CONFIG | HTTP_ENDPOINT_BASIC_AUTH_SCOPE_CONFIG | HTTP_ENDPOINT_BEARER_AUTH_SCOPE_CONFIG | HTTP_ENDPOINT_IDCS_AUTH_SCOPE_CONFIG) (Updatable) The OCID of the vault secret with username:password. Required when <code>authScope</code> is AGENT.</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><code>icl_examples</code> - (Applicable when tool_config_type=SQL_TOOL_CONFIG) (Updatable) The input location definition.
+
+<ul>
+<li><code>bucket</code> - (Required when input_location_type=OBJECT_STORAGE_PREFIX) (Updatable) The bucket name of an object.</li>
+<li><code>content</code> - (Applicable when input_location_type=INLINE) (Updatable) Inline content as input.</li>
+<li><code>input_location_type</code> - (Required) (Updatable) Type of InputLocation. The allowed values are:
+
+<ul>
+<li><code>INLINE</code>: The input location is inline.</li>
+<li><code>OBJECT_STORAGE_PREFIX</code>: The input location is object storage.</li>
+</ul></li>
+<li><code>namespace</code> - (Required when input_location_type=OBJECT_STORAGE_PREFIX) (Updatable) The namespace name of an object.</li>
+<li><code>prefix</code> - (Applicable when input_location_type=OBJECT_STORAGE_PREFIX) (Updatable) The prefix of file object(s) or folder prefix.</li>
+</ul></li>
+<li><code>knowledge_base_configs</code> - (Required when tool_config_type=RAG_TOOL_CONFIG) (Updatable) The KnowledgeBase configurations that this RAG Tool uses
+
+<ul>
+<li><code>knowledge_base_id</code> - (Required when tool_config_type=RAG_TOOL_CONFIG) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the knowledgeBase this RAG Tool uses</li>
+</ul></li>
+<li><code>model_size</code> - (Applicable when tool_config_type=SQL_TOOL_CONFIG) (Updatable) Size of the model.</li>
+<li><code>should_enable_self_correction</code> - (Applicable when tool_config_type=SQL_TOOL_CONFIG) (Updatable) To enable/disable self correction.</li>
+<li><code>should_enable_sql_execution</code> - (Applicable when tool_config_type=SQL_TOOL_CONFIG) (Updatable) To enable/disable SQL execution.</li>
+<li><code>subnet_id</code> - (Required when tool_config_type=HTTP_ENDPOINT_TOOL_CONFIG) (Updatable) The subnet ID from agent developer tenancy through which the egress is going to be routed.</li>
+<li><code>table_and_column_description</code> - (Applicable when tool_config_type=SQL_TOOL_CONFIG) (Updatable) The input location definition.
+
+<ul>
+<li><code>bucket</code> - (Required when input_location_type=OBJECT_STORAGE_PREFIX) (Updatable) The bucket name of an object.</li>
+<li><code>content</code> - (Applicable when input_location_type=INLINE) (Updatable) Inline content as input.</li>
+<li><code>input_location_type</code> - (Required) (Updatable) Type of InputLocation. The allowed values are:
+
+<ul>
+<li><code>INLINE</code>: The input location is inline.</li>
+<li><code>OBJECT_STORAGE_PREFIX</code>: The input location is object storage.</li>
+</ul></li>
+<li><code>namespace</code> - (Required when input_location_type=OBJECT_STORAGE_PREFIX) (Updatable) The namespace name of an object.</li>
+<li><code>prefix</code> - (Applicable when input_location_type=OBJECT_STORAGE_PREFIX) (Updatable) The prefix of file object(s) or folder prefix.</li>
+</ul></li>
+<li><code>tool_config_type</code> - (Required) (Updatable) The type of the Tool config. The allowed values are:
+
+<ul>
+<li><code>SQL_TOOL_CONFIG</code>: The config for sql Tool.</li>
+<li><code>RAG_TOOL_CONFIG</code>: The config for rag Tool.</li>
+<li>FUNCTION_CALLING_TOOL_CONFIG: The config for Function calling Tool.</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>agent_id</code> - The OCID of the agent that this Tool is attached to.</li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - Description of the Tool.</li>
+<li><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Tool.</li>
+<li><code>metadata</code> - Key-value pairs to allow additional configurations.</li>
+<li><code>state</code> - The current state of the Tool.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace.  Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The date and time the Tool was created, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a>.  Example: <code>2016-08-25T21:10:29.600Z</code></li>
+<li><code>time_updated</code> - The date and time the Tool was updated, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a>.  Example: <code>2016-08-25T21:10:29.600Z</code></li>
+<li><code>tool_config</code> - The configuration and type of Tool.
+
+<ul>
+<li><code>agent_endpoint_id</code> - The AgentEndpoint OCID to be used as a tool in this agent.</li>
+<li><code>api_schema</code> - The input location definition for Api schema.
+
+<ul>
+<li><code>api_schema_input_location_type</code> - Type of Api Schema InputLocation. The allowed values are:
+
+<ul>
+<li><code>INLINE</code>: The Api schema input location is inline.</li>
+<li><code>OBJECT_STORAGE_LOCATION</code>: The Api schema input location is object storage.</li>
+</ul></li>
+<li><code>bucket</code> - The bucket name of an object.</li>
+<li><code>content</code> - Inline content as input.</li>
+<li><code>namespace</code> - The namespace name of an object.</li>
+<li><code>object</code> - The location/name of object.</li>
+</ul></li>
+<li><code>database_connection</code> - The connection type for Databases.
+
+<ul>
+<li><code>connection_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Database Tools Connection.</li>
+<li><code>connection_type</code> - The type of Database connection. The allowed values are:
+
+<ul>
+<li><code>DATABASE_TOOL_CONNECTION</code>: This allows the service to connect to a vector store via a Database Tools Connection.</li>
+</ul></li>
+</ul></li>
+<li><code>database_schema</code> - The input location definition.
+
+<ul>
+<li><code>bucket</code> - The bucket name of an object.</li>
+<li><code>content</code> - Inline content as input.</li>
+<li><code>input_location_type</code> - Type of InputLocation. The allowed values are:
+
+<ul>
+<li><code>INLINE</code>: The input location is inline.</li>
+<li><code>OBJECT_STORAGE_PREFIX</code>: The input location is object storage.</li>
+</ul></li>
+<li><code>namespace</code> - The namespace name of an object.</li>
+<li><code>prefix</code> - The prefix of file object(s) or folder prefix.</li>
+</ul></li>
+<li><code>dialect</code> - Dialect to be used for SQL generation.</li>
+<li><code>function</code> - Details of Function for Function calling tool.
+
+<ul>
+<li><code>description</code> - A description of the function.</li>
+<li><code>name</code> - The name of the function to invoke.</li>
+<li><code>parameters</code> - The parameters the function accepts, defined using a JSON Schema object.  Refer to the guide for examples and the JSON Schema documentation for details on the format.</li>
+</ul></li>
+<li><code>generation_llm_customization</code> - Configuration to customize LLM.
+
+<ul>
+<li><code>instruction</code> - If specified, the default instruction is replaced with provided instruction.</li>
+</ul></li>
+<li><code>http_endpoint_auth_config</code> - Authentication configuration used for HTTP Endpoint tools. Defines the type of authentication and the source of credentials.
+
+<ul>
+<li><code>http_endpoint_auth_sources</code> - A list of credential sources from which authentication credentials can be resolved. Only AGENT is supported for HTTP Endpoint Tool.
+
+<ul>
+<li><code>http_endpoint_auth_scope</code> - Specifies the level from which credentials should be resolved.</li>
+<li><code>http_endpoint_auth_scope_config</code> - Subset of AuthScopeConfig allowed for HTTP Endpoint Tool.
+
+<ul>
+<li><code>client_id</code> - IDCS client ID.</li>
+<li><code>http_endpoint_auth_scope_config_type</code> - The type of authentication to be applied for this HTTP Endpoint.</li>
+<li><code>idcs_url</code> - IDCS OpenID discovery endpoint.</li>
+<li><code>key_location</code> - The location of the API key in the request.</li>
+<li><code>key_name</code> - The name of the key parameter in the location.</li>
+<li><code>scope_url</code> - OAuth2 scopes for token generation.</li>
+<li><code>vault_secret_id</code> - The OCID of the vault secret with username:password. Required when <code>authScope</code> is AGENT.</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><code>icl_examples</code> - The input location definition.
+
+<ul>
+<li><code>bucket</code> - The bucket name of an object.</li>
+<li><code>content</code> - Inline content as input.</li>
+<li><code>input_location_type</code> - Type of InputLocation. The allowed values are:
+
+<ul>
+<li><code>INLINE</code>: The input location is inline.</li>
+<li><code>OBJECT_STORAGE_PREFIX</code>: The input location is object storage.</li>
+</ul></li>
+<li><code>namespace</code> - The namespace name of an object.</li>
+<li><code>prefix</code> - The prefix of file object(s) or folder prefix.</li>
+</ul></li>
+<li><code>knowledge_base_configs</code> - The KnowledgeBase configurations that this RAG Tool uses
+
+<ul>
+<li><code>knowledge_base_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the knowledgeBase this RAG Tool uses</li>
+</ul></li>
+<li><code>model_size</code> - Size of the model.</li>
+<li><code>should_enable_self_correction</code> - To enable/disable self correction.</li>
+<li><code>should_enable_sql_execution</code> - To enable/disable SQL execution.</li>
+<li><code>subnet_id</code> - The subnet ID from agent developer tenancy through which the egress is going to be routed.</li>
+<li><code>table_and_column_description</code> - The input location definition.
+
+<ul>
+<li><code>bucket</code> - The bucket name of an object.</li>
+<li><code>content</code> - Inline content as input.</li>
+<li><code>input_location_type</code> - Type of InputLocation. The allowed values are:
+
+<ul>
+<li><code>INLINE</code>: The input location is inline.</li>
+<li><code>OBJECT_STORAGE_PREFIX</code>: The input location is object storage.</li>
+</ul></li>
+<li><code>namespace</code> - The namespace name of an object.</li>
+<li><code>prefix</code> - The prefix of file object(s) or folder prefix.</li>
+</ul></li>
+<li><code>tool_config_type</code> - The type of the Tool config. The allowed values are:
+
+<ul>
+<li><code>SQL_TOOL_CONFIG</code>: The config for sql Tool.</li>
+<li><code>RAG_TOOL_CONFIG</code>: The config for rag Tool.</li>
+<li>FUNCTION_CALLING_TOOL_CONFIG: The config for Function calling Tool.</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Tool
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Tool
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Tool</p>
+
+<h2>Import</h2>
+
+<p>Tools can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_generative_ai_agent_tool.test_tool &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

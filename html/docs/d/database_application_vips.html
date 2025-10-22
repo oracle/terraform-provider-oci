@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_application_vips</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_application_vips</h1>
+
+<p>This data source provides the list of Application Vips in Oracle Cloud Infrastructure Database service.</p>
+
+<p>Gets a list of application virtual IP (VIP) addresses on a cloud VM cluster.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_application_vips&quot; &quot;test_application_vips&quot; {
+	#Required
+	cloud_vm_cluster_id = oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id
+	compartment_id = var.compartment_id
+
+	#Optional
+	state = var.application_vip_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>cloud_vm_cluster_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the cloud VM cluster associated with the application virtual IP (VIP) address.</li>
+<li><code>compartment_id</code> - (Required) The compartment <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>state</code> - (Optional) A filter to return only resources that match the given lifecycle state exactly.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>application_vips</code> - The list of application_vips.</li>
+</ul>
+
+<h3>ApplicationVip Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>cloud_vm_cluster_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the cloud VM cluster associated with the application virtual IP (VIP) address.</li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>hostname_label</code> - The hostname of the application virtual IP (VIP) address.</li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the application virtual IP (VIP) address.</li>
+<li><code>ip_address</code> - The application virtual IP (VIP) IPv4 address.</li>
+<li><code>ipv6address</code> - The application virtual IP (VIP) IPv6 address.</li>
+<li><code>lifecycle_details</code> - Additional information about the current lifecycle state of the application virtual IP (VIP) address.</li>
+<li><code>state</code> - The current lifecycle state of the application virtual IP (VIP) address.</li>
+<li><code>subnet_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the subnet associated with the application virtual IP (VIP) address.</li>
+<li><code>time_assigned</code> - The date and time when the create operation for the application virtual IP (VIP) address completed.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

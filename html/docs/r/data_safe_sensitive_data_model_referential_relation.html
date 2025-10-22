@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_data_safe_sensitive_data_model_referential_relation</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_data_safe_sensitive_data_model_referential_relation</h1>
+
+<p>This resource provides the Sensitive Data Model Referential Relation resource in Oracle Cloud Infrastructure Data Safe service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/data-safe/latest/SensitiveDataModelReferentialRelation">https://docs.oracle.com/iaas/api/#/en/data-safe/latest/SensitiveDataModelReferentialRelation</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe">https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe</a></p>
+
+<p>Creates a new referential relation in the specified sensitive data model.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_data_safe_sensitive_data_model_referential_relation&quot; &quot;test_sensitive_data_model_referential_relation&quot; {
+	#Required
+	child {
+		#Required
+		app_name = var.sensitive_data_model_referential_relation_child_app_name
+		column_group = var.sensitive_data_model_referential_relation_child_column_group
+		object = var.sensitive_data_model_referential_relation_child_object
+		object_type = var.sensitive_data_model_referential_relation_child_object_type
+		schema_name = var.sensitive_data_model_referential_relation_child_schema_name
+
+		#Optional
+		sensitive_type_ids = var.sensitive_data_model_referential_relation_child_sensitive_type_ids
+	}
+	parent {
+		#Required
+		app_name = var.sensitive_data_model_referential_relation_parent_app_name
+		column_group = var.sensitive_data_model_referential_relation_parent_column_group
+		object = var.sensitive_data_model_referential_relation_parent_object
+		object_type = var.sensitive_data_model_referential_relation_parent_object_type
+		schema_name = var.sensitive_data_model_referential_relation_parent_schema_name
+
+		#Optional
+		sensitive_type_ids = var.sensitive_data_model_referential_relation_parent_sensitive_type_ids
+	}
+	relation_type = var.sensitive_data_model_referential_relation_relation_type
+	sensitive_data_model_id = oci_data_safe_sensitive_data_model.test_sensitive_data_model.id
+
+	#Optional
+	is_sensitive = var.sensitive_data_model_referential_relation_is_sensitive
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>child</code> - (Required) columnsInfo object has details of column group with schema details.
+
+<ul>
+<li><code>app_name</code> - (Required) The application name.</li>
+<li><code>column_group</code> - (Required) Group of columns in referential relation. Order needs to be maintained in the elements of the parent/child array listing.</li>
+<li><code>object</code> - (Required) The database object that contains the columns.</li>
+<li><code>object_type</code> - (Required) The type of the database object that contains the sensitive column.</li>
+<li><code>schema_name</code> - (Required) The schema name.</li>
+<li><code>sensitive_type_ids</code> - (Optional) Sensitive type ocids of each column groups. Order needs to be maintained with the parent column group. For the DB defined referential relations identified during SDM creation, we cannot add sensitive types.  Instead use the sensitiveColumn POST API to mark the columns sensitive.</li>
+</ul></li>
+<li><code>is_sensitive</code> - (Optional) Add to sensitive data model if passed true. If false is passed, then the columns will not be added in the sensitive data model as sensitive columns and  if sensitive type OCIDs are assigned to the columns, then the sensitive type OCIDs will not be retained.</li>
+<li><code>parent</code> - (Required) columnsInfo object has details of column group with schema details.
+
+<ul>
+<li><code>app_name</code> - (Required) The application name.</li>
+<li><code>column_group</code> - (Required) Group of columns in referential relation. Order needs to be maintained in the elements of the parent/child array listing.</li>
+<li><code>object</code> - (Required) The database object that contains the columns.</li>
+<li><code>object_type</code> - (Required) The type of the database object that contains the sensitive column.</li>
+<li><code>schema_name</code> - (Required) The schema name.</li>
+<li><code>sensitive_type_ids</code> - (Optional) Sensitive type ocids of each column groups. Order needs to be maintained with the parent column group. For the DB defined referential relations identified during SDM creation, we cannot add sensitive types.  Instead use the sensitiveColumn POST API to mark the columns sensitive.</li>
+</ul></li>
+<li><code>relation_type</code> - (Required) The type of referential relationship the sensitive column has with its parent.  DB_DEFINED indicates that the relationship is defined in the database dictionary.  APP_DEFINED indicates that the relationship is defined at the application level and not in the database dictionary.</li>
+<li><code>sensitive_data_model_id</code> - (Required) The OCID of the sensitive data model.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>child</code> - columnsInfo object has details of column group with schema details.
+
+<ul>
+<li><code>app_name</code> - The application name.</li>
+<li><code>column_group</code> - Group of columns in referential relation. Order needs to be maintained in the elements of the parent/child array listing.</li>
+<li><code>object</code> - The database object that contains the columns.</li>
+<li><code>object_type</code> - The type of the database object that contains the sensitive column.</li>
+<li><code>schema_name</code> - The schema name.</li>
+<li><code>sensitive_type_ids</code> - Sensitive type ocids of each column groups. Order needs to be maintained with the parent column group. For the DB defined referential relations identified during SDM creation, we cannot add sensitive types.  Instead use the sensitiveColumn POST API to mark the columns sensitive.</li>
+</ul></li>
+<li><code>is_sensitive</code> - Determines if the columns present in the referential relation is present in the sensitive data model</li>
+<li><code>key</code> - The unique key that identifies the referential relation. It&rsquo;s numeric and unique within a sensitive data model.</li>
+<li><code>parent</code> - columnsInfo object has details of column group with schema details.
+
+<ul>
+<li><code>app_name</code> - The application name.</li>
+<li><code>column_group</code> - Group of columns in referential relation. Order needs to be maintained in the elements of the parent/child array listing.</li>
+<li><code>object</code> - The database object that contains the columns.</li>
+<li><code>object_type</code> - The type of the database object that contains the sensitive column.</li>
+<li><code>schema_name</code> - The schema name.</li>
+<li><code>sensitive_type_ids</code> - Sensitive type ocids of each column groups. Order needs to be maintained with the parent column group. For the DB defined referential relations identified during SDM creation, we cannot add sensitive types.  Instead use the sensitiveColumn POST API to mark the columns sensitive.</li>
+</ul></li>
+<li><code>relation_type</code> - The type of referential relationship the sensitive column has with its parent. NONE indicates that the sensitive column does not have a parent. DB_DEFINED indicates that the relationship is defined in the database dictionary. APP_DEFINED indicates that the relationship is defined at the application level and not in the database dictionary.</li>
+<li><code>sensitive_data_model_id</code> - The OCID of the sensitive data model that contains the sensitive column.</li>
+<li><code>state</code> - The current state of the referential relation.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Sensitive Data Model Referential Relation
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Sensitive Data Model Referential Relation
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Sensitive Data Model Referential Relation</p>
+
+<h2>Import</h2>
+
+<p>SensitiveDataModelReferentialRelations can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_data_safe_sensitive_data_model_referential_relation.test_sensitive_data_model_referential_relation &quot;sensitiveDataModels/{sensitiveDataModelId}/referentialRelations/{referentialRelationKey}&quot; 
+</code></pre>
+
+	</div>
+
+</body>
+</html>

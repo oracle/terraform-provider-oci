@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_core_services</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_core_services</h1>
+
+<p>This data source provides the list of Services in Oracle Cloud Infrastructure Core service.</p>
+
+<p>Lists the available <a href="https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Service/">Service</a> objects that you can enable for a
+service gateway in this region.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_core_services&quot; &quot;test_services&quot; {
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>services</code> - The list of services.</li>
+</ul>
+
+<h3>Service Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>cidr_block</code> - A string that represents the regional public IP address ranges for the Oracle service or services covered by this <code>Service</code> object. Also known as the <code>Service</code> object&rsquo;s <em>service CIDR label</em>.</p>
+
+<p>When you set up a route rule to route traffic to the service gateway, use this value as the rule&rsquo;s destination. See <a href="https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/RouteTable/">Route Table</a>. Also, when you set up a security list rule to cover traffic with the service gateway, use the <code>cidrBlock</code> value as the rule&rsquo;s destination (for an egress rule) or the source (for an ingress rule). See <a href="https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/SecurityList/">Security List</a>.</p>
+
+<p>Example: <code>oci-phx-objectstorage</code></p></li>
+
+<li><p><code>description</code> - Description of the Oracle service or services covered by this <code>Service</code> object.  Example: <code>OCI PHX Object Storage</code></p></li>
+
+<li><p><code>id</code> - The <code>Service</code> object&rsquo;s <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</p></li>
+
+<li><p><code>name</code> - Name of the <code>Service</code> object. This name can change and is not guaranteed to be unique.  Example: <code>OCI PHX Object Storage</code></p></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

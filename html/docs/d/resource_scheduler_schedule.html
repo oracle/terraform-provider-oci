@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_resource_scheduler_schedule</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_resource_scheduler_schedule</h1>
+
+<p>This data source provides details about a specific Schedule resource in Oracle Cloud Infrastructure Resource Scheduler service.</p>
+
+<p>This API gets information about a schedule.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_resource_scheduler_schedule&quot; &quot;test_schedule&quot; {
+	#Required
+	schedule_id = oci_resource_scheduler_schedule.test_schedule.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>schedule_id</code> - (Required) This is the <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the schedule.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>action</code> - This is the action that will be executed by the schedule.</p></li>
+
+<li><p><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment in which the schedule is created</p></li>
+
+<li><p><code>defined_tags</code> - These are defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></p></li>
+
+<li><p><code>description</code> - This is the description of the schedule.</p></li>
+
+<li><p><code>display_name</code> - This is a user-friendly name for the schedule. It does not have to be unique, and it&rsquo;s changeable.</p></li>
+
+<li><p><code>freeform_tags</code> - These are free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></p></li>
+
+<li><p><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the schedule</p></li>
+
+<li><p><code>last_run_status</code> - This is the status of the last work request.</p></li>
+
+<li><p><code>recurrence_details</code> - This is the frequency of recurrence of a schedule. The frequency field can either conform to RFC-5545 formatting or UNIX cron formatting for recurrences, based on the value specified by the recurrenceType field.</p></li>
+
+<li><p><code>recurrence_type</code> - Type of recurrence of a schedule</p></li>
+
+<li><p><code>resource_filters</code> - This is a list of resources filters.  The schedule will be applied to resources matching all of them.</p>
+
+<ul>
+<li><code>attribute</code> - This is the resource attribute on which the threshold is defined.</li>
+<li><code>condition</code> - This is the condition for the filter in comparison to its creation time.</li>
+<li><code>should_include_child_compartments</code> - This sets whether to include child compartments.</li>
+<li><code>value</code> - This is a collection of resource lifecycle state values.
+
+<ul>
+<li><code>namespace</code> - This is the namespace of the defined tag.</li>
+<li><code>tag_key</code> - This is the key of the defined tag.</li>
+<li><code>value</code> - This is the value of the defined tag.</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>resources</code> - This is the list of resources to which the scheduled operation is applied.</p>
+
+<ul>
+<li><p><code>id</code> - This is the resource OCID.</p></li>
+
+<li><p><code>metadata</code> - This is additional information that helps to identity the resource for the schedule.</p>
+
+<p>{ &ldquo;id&rdquo;: &ldquo;<OCID_of_bucket>&rdquo; &ldquo;metadata&rdquo;: { &ldquo;namespaceName&rdquo;: &ldquo;sampleNamespace&rdquo;, &ldquo;bucketName&rdquo;: &ldquo;sampleBucket&rdquo; } }</p></li>
+
+<li><p><code>parameters</code> - This is the user input parameters to use when acting on the resource.</p>
+
+<p>{ &ldquo;parameters&rdquo;: [ { &ldquo;parameterType&rdquo;: &ldquo;BODY&rdquo;, &ldquo;value&rdquo;: { &ldquo;ip&rdquo;: &ldquo;192.168.44.44&rdquo;, &ldquo;memory&rdquo;: &ldquo;1024&rdquo;, &ldquo;synced_folders&rdquo;: [ { &ldquo;host_path&rdquo;: &ldquo;data/&rdquo;, &ldquo;guest_path&rdquo;: &ldquo;/var/www&rdquo;, &ldquo;type&rdquo;: &ldquo;default&rdquo; } ], &ldquo;forwarded_ports&rdquo;: [] } }, { &ldquo;parameterType&rdquo;: &ldquo;PATH&rdquo;, &ldquo;value&rdquo;: { &ldquo;compartmentId&rdquo;: &ldquo;ocid1.compartment.oc1..xxxxx&rdquo;, &ldquo;instanceId&rdquo;: &ldquo;ocid1.vcn.oc1..yyyy&rdquo; } }, { &ldquo;parameterType&rdquo;: &ldquo;QUERY&rdquo;, &ldquo;value&rdquo;: { &ldquo;limit&rdquo;: &ldquo;10&rdquo;, &ldquo;tenantId&rdquo;: &ldquo;ocid1.tenant.oc1..zzzz&rdquo; } }, { &ldquo;parameterType&rdquo;: &ldquo;HEADER&rdquo;, &ldquo;value&rdquo;: { &ldquo;token&rdquo;: &ldquo;xxxx&rdquo; } } ] }</p>
+
+<ul>
+<li><code>parameter_type</code> - This is the parameter type on which the input parameter is defined</li>
+<li><code>value</code> - This is the HTTP request header value.</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>state</code> - This is the current state of a schedule.</p></li>
+
+<li><p><code>system_tags</code> - These are system tags for this resource. Each key is predefined and scoped to a namespace.  Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></p></li>
+
+<li><p><code>time_created</code> - This is the date and time the schedule was created, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a>.  Example: <code>2016-08-25T21:10:29.600Z</code></p></li>
+
+<li><p><code>time_ends</code> - This is the date and time the schedule ends, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a>  Example: <code>2016-08-25T21:10:29.600Z</code></p></li>
+
+<li><p><code>time_last_run</code> - This is the date and time the schedule runs last time, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a>.  Example: <code>2016-08-25T21:10:29.600Z</code></p></li>
+
+<li><p><code>time_next_run</code> - This is the date and time the schedule run the next time, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a>.  Example: <code>2016-08-25T21:10:29.600Z</code></p></li>
+
+<li><p><code>time_starts</code> - This is the date and time the schedule starts, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a>  Example: <code>2016-08-25T21:10:29.600Z</code></p></li>
+
+<li><p><code>time_updated</code> - This is the date and time the schedule was updated, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a>.  Example: <code>2016-08-25T21:10:29.600Z</code></p></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

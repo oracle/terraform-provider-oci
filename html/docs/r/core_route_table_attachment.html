@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_core_route_table_attachment</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_core_route_table_attachment</h1>
+
+<p>This resource provides the ability to associate a route table for a subnet in Oracle Cloud Infrastructure Core service.</p>
+
+<p>Attaches the specified <code>route table</code> to the specified <code>subnet</code>.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_core_route_table_attachment&quot; &quot;test_route_table_attachment&quot; {
+  #Required	
+  subnet_id = oci_core_subnet.test_subnet.id
+  route_table_id =oci_core_route_table.test_route_table.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>subnet_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the subnet.</li>
+<li><code>route_table_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the route table.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>subnet_id</code> - (Required) The OCID of the subnet.</li>
+<li><code>route_table_id</code> - (Required) The OCID of the route table.</li>
+</ul>
+
+<h2>Import</h2>
+
+<p>Route Table Attachment can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_core_route_table_attachment.test_route_table_attachment &quot;{subnetId}/{routeTableId}&quot; 
+</code></pre>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_opsi_awr_hub</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_opsi_awr_hub</h1>
+
+<p>This data source provides details about a specific Awr Hub resource in Oracle Cloud Infrastructure Opsi service.</p>
+
+<p>Gets details of an AWR hub.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_opsi_awr_hub&quot; &quot;test_awr_hub&quot; {
+	#Required
+	awr_hub_id = oci_opsi_awr_hub.test_awr_hub.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>awr_hub_id</code> - (Required) Unique Awr Hub identifier</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>awr_mailbox_url</code> - Mailbox URL required for AWR hub and AWR source setup.</li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>display_name</code> - User-friedly name of AWR Hub that does not have to be unique.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>hub_dst_timezone_version</code> - Dst Time Zone Version of the AWR Hub</li>
+<li><code>id</code> - AWR Hub OCID</li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.</li>
+<li><code>object_storage_bucket_name</code> - Object Storage Bucket Name</li>
+<li><code>operations_insights_warehouse_id</code> - OPSI Warehouse OCID</li>
+<li><code>state</code> - Possible lifecycle states</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time at which the resource was first created. An RFC3339 formatted datetime string</li>
+<li><code>time_updated</code> - The time at which the resource was last updated. An RFC3339 formatted datetime string</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

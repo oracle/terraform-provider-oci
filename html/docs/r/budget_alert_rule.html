@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_budget_alert_rule</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_budget_alert_rule</h1>
+
+<p>This resource provides the Alert Rule resource in Oracle Cloud Infrastructure Budget service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/budgets/latest/AlertRule">https://docs.oracle.com/iaas/api/#/en/budgets/latest/AlertRule</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/budget">https://github.com/oracle/terraform-provider-oci/tree/master/examples/budget</a></p>
+
+<p>Creates a new Alert Rule.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_budget_alert_rule&quot; &quot;test_alert_rule&quot; {
+	#Required
+	budget_id = oci_budget_budget.test_budget.id
+	threshold = var.alert_rule_threshold
+	threshold_type = var.alert_rule_threshold_type
+	type = var.alert_rule_type
+
+	#Optional
+	defined_tags = {&quot;Operations.CostCenter&quot;= &quot;42&quot;}
+	description = var.alert_rule_description
+	display_name = var.alert_rule_display_name
+	freeform_tags = {&quot;Department&quot;= &quot;Finance&quot;}
+	message = var.alert_rule_message
+	recipients = var.alert_rule_recipients
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>budget_id</code> - (Required) The unique budget OCID.</li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - (Optional) (Updatable) The description of the alert rule.</li>
+<li><code>display_name</code> - (Optional) (Updatable) The name of the alert rule. Avoid entering confidential information.</li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>message</code> - (Optional) (Updatable) The message to be sent to the recipients when the alert rule is triggered.</li>
+<li><code>recipients</code> - (Optional) (Updatable) The audience that receives the alert when it triggers. An empty string is interpreted as null.</li>
+<li><code>threshold</code> - (Required) (Updatable) The threshold for triggering the alert, expressed as a whole number or decimal value. If the thresholdType is ABSOLUTE, the threshold can have at most 12 digits before the decimal point, and up to two digits after the decimal point. If the thresholdType is PERCENTAGE, the maximum value is 10000 and can have up to two digits after the decimal point.</li>
+<li><code>threshold_type</code> - (Required) (Updatable) The type of threshold.</li>
+<li><code>type</code> - (Required) (Updatable) The type of the alert. Valid values are ACTUAL (the alert triggers based on actual usage), or FORECAST (the alert triggers based on predicted usage).</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>budget_id</code> - The OCID of the budget.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - The description of the alert rule.</li>
+<li><code>display_name</code> - The name of the alert rule. Avoid entering confidential information.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The OCID of the alert rule.</li>
+<li><code>message</code> - The custom message that will be sent when the alert is triggered.</li>
+<li><code>recipients</code> - The delimited list of email addresses to receive the alert when it triggers. Delimiter characters can be a comma, space, TAB, or semicolon.</li>
+<li><code>state</code> - The current state of the alert rule.</li>
+<li><code>threshold</code> - The threshold for triggering the alert. If the thresholdType is PERCENTAGE, the maximum value is 10000.</li>
+<li><code>threshold_type</code> - The type of threshold.</li>
+<li><code>time_created</code> - The time when the budget was created.</li>
+<li><code>time_updated</code> - The time when the budget was updated.</li>
+<li><code>type</code> - The type of the alert. Valid values are ACTUAL (the alert triggers based on actual usage), or FORECAST (the alert triggers based on predicted usage).</li>
+<li><code>version</code> - The version of the alert rule. Starts from 1 and increments by 1.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Alert Rule
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Alert Rule
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Alert Rule</p>
+
+<h2>Import</h2>
+
+<p>AlertRules can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_budget_alert_rule.test_alert_rule &quot;budgets/{budgetId}/alertRules/{alertRuleId}&quot; 
+</code></pre>
+
+	</div>
+
+</body>
+</html>

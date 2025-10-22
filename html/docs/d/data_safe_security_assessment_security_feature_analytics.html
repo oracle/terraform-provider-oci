@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_data_safe_security_assessment_security_feature_analytics</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_data_safe_security_assessment_security_feature_analytics</h1>
+
+<p>This data source provides the list of Security Assessment Security Feature Analytics in Oracle Cloud Infrastructure Data Safe service.</p>
+
+<p>Gets a list of Database security feature usage aggregated details in the specified compartment. This provides information about the
+overall security controls, by returning the counting number of the target databases using the security features.</p>
+
+<p>When you perform the ListSecurityFeatureAnalytics operation, if the parameter compartmentIdInSubtree is set to &ldquo;true,&rdquo; and if the
+parameter accessLevel is set to ACCESSIBLE, then the operation returns statistics from the compartments in which the requestor has INSPECT
+permissions on at least one resource, directly or indirectly (in subcompartments). If the operation is performed at the
+root compartment and the requestor does not have access to at least one subcompartment of the compartment specified by
+compartmentId, then &ldquo;Not Authorized&rdquo; is returned.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_data_safe_security_assessment_security_feature_analytics&quot; &quot;test_security_assessment_security_feature_analytics&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	access_level = var.security_assessment_security_feature_analytic_access_level
+	compartment_id_in_subtree = var.security_assessment_security_feature_analytic_compartment_id_in_subtree
+	target_id = oci_cloud_guard_target.test_target.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>access_level</code> - (Optional) Valid values are RESTRICTED and ACCESSIBLE. Default is RESTRICTED. Setting this to ACCESSIBLE returns only those compartments for which the user has INSPECT permissions directly or indirectly (permissions can be on a resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed.</li>
+<li><code>compartment_id</code> - (Required) A filter to return only resources that match the specified compartment OCID.</li>
+<li><code>compartment_id_in_subtree</code> - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the &lsquo;accessLevel&rsquo; setting.</li>
+<li><code>target_id</code> - (Optional) A filter to return only items related to a specific target OCID.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>security_feature_analytics_collection</code> - The list of security_feature_analytics_collection.</li>
+</ul>
+
+<h3>SecurityAssessmentSecurityFeatureAnalytic Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - The array of database security feature analytics summary.
+
+<ul>
+<li><code>dimensions</code> - The scope of analytics data.
+
+<ul>
+<li><code>security_feature</code> - The name of the security feature.</li>
+</ul></li>
+<li><code>metric_name</code> - The name of the aggregation metric.</li>
+<li><code>security_assessment_security_feature_analytic_count</code> - The total count for the aggregation metric.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

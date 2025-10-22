@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_oneoff_patches</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_oneoff_patches</h1>
+
+<p>This data source provides the list of Oneoff Patches in Oracle Cloud Infrastructure Database service.</p>
+
+<p>Lists one-off patches in the specified compartment.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_oneoff_patches&quot; &quot;test_oneoff_patches&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	display_name = var.oneoff_patch_display_name
+	state = var.oneoff_patch_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) (Updatable) The compartment <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.</li>
+<li><code>state</code> - (Optional) A filter to return only resources that match the given lifecycle state exactly</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>oneoff_patches</code> - The list of oneoff_patches.</li>
+</ul>
+
+<h3>OneoffPatch Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>db_version</code> - A valid Oracle Database version. To get a list of supported versions, use the <a href="https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/DbVersionSummary/ListDbVersions">ListDbVersions</a> operation.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</li>
+<li><code>display_name</code> - One-off patch name.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the one-off patch.</li>
+<li><code>lifecycle_details</code> - Detailed message for the lifecycle state.</li>
+<li><code>one_off_patches</code> - List of one-off patches for Database Homes.</li>
+<li><code>release_update</code> - The PSU or PBP or Release Updates. To get a list of supported versions, use the <a href="https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/DbVersionSummary/ListDbVersions">ListDbVersions</a> operation.</li>
+<li><code>sha256sum</code> - SHA-256 checksum of the one-off patch.</li>
+<li><code>size_in_kbs</code> - The size of one-off patch in kilobytes.</li>
+<li><code>state</code> - The current state of the one-off patch.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</li>
+<li><code>time_created</code> - The date and time one-off patch was created.</li>
+<li><code>time_of_expiration</code> - The date and time until which the one-off patch will be available for download.</li>
+<li><code>time_updated</code> - The date and time one-off patch was updated.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

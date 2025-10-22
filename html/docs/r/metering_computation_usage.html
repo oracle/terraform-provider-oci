@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_metering_computation_usage</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_metering_computation_usage</h1>
+
+<p>This resource provides the Usage resource in Oracle Cloud Infrastructure Metering Computation service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/usage/latest/Usage">https://docs.oracle.com/iaas/api/#/en/usage/latest/Usage</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/metering_computation">https://github.com/oracle/terraform-provider-oci/tree/master/examples/metering_computation</a></p>
+
+<p>Returns usage for the given account.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_metering_computation_usage&quot; &quot;test_usage&quot; {
+	#Required
+	granularity = var.usage_granularity
+	tenant_id = oci_metering_computation_tenant.test_tenant.id
+	time_usage_ended = var.usage_time_usage_ended
+	time_usage_started = var.usage_time_usage_started
+
+	#Optional
+	compartment_depth = var.usage_compartment_depth
+	filter = var.usage_filter
+	forecast {
+		#Required
+		time_forecast_ended = var.usage_forecast_time_forecast_ended
+
+		#Optional
+		forecast_type = var.usage_forecast_forecast_type
+		time_forecast_started = var.usage_forecast_time_forecast_started
+	}
+	group_by = var.usage_group_by
+	group_by_tag {
+
+		#Optional
+		key = var.usage_group_by_tag_key
+		namespace = var.usage_group_by_tag_namespace
+		value = var.usage_group_by_tag_value
+	}
+	is_aggregate_by_time = var.usage_is_aggregate_by_time
+	query_type = var.usage_query_type
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_depth</code> - (Optional) The compartment depth level.</li>
+<li><code>filter</code> - (Optional) The filter object for query usage.</li>
+<li><code>forecast</code> - (Optional) Forecast configuration of usage/cost.
+
+<ul>
+<li><code>forecast_type</code> - (Optional) BASIC uses the exponential smoothing (ETS) model to project future usage/costs based on history data. The basis for projections is a periodic set of equivalent historical days for which the projection is being made.</li>
+<li><code>time_forecast_ended</code> - (Required) The forecast end time.</li>
+<li><code>time_forecast_started</code> - (Optional) The forecast start time. Defaults to UTC-1 if not specified.</li>
+</ul></li>
+<li><code>granularity</code> - (Required) The usage granularity. HOURLY - Hourly data aggregation. DAILY - Daily data aggregation. MONTHLY - Monthly data aggregation. TOTAL - Not yet supported.</li>
+<li><code>group_by</code> - (Optional) Aggregate the result by. For example: <code>[&quot;tagNamespace&quot;, &quot;tagKey&quot;, &quot;tagValue&quot;, &quot;service&quot;, &quot;skuName&quot;, &quot;skuPartNumber&quot;, &quot;unit&quot;, &quot;compartmentName&quot;, &quot;compartmentPath&quot;, &quot;compartmentId&quot;, &quot;platform&quot;, &quot;region&quot;, &quot;logicalAd&quot;, &quot;resourceId&quot;, &quot;tenantId&quot;, &quot;tenantName&quot;]</code></li>
+<li><code>group_by_tag</code> - (Optional) GroupBy a specific tagKey. Provide the tagNamespace and tagKey in the tag object. Only supports one tag in the list. For example: <code>[{&quot;namespace&quot;:&quot;oracle&quot;, &quot;key&quot;:&quot;createdBy&quot;]</code>
+
+<ul>
+<li><code>key</code> - (Optional) The tag key.</li>
+<li><code>namespace</code> - (Optional) The tag namespace.</li>
+<li><code>value</code> - (Optional) The tag value.</li>
+</ul></li>
+<li><code>is_aggregate_by_time</code> - (Optional) Specifies whether aggregated by time. If isAggregateByTime is true, all usage or cost over the query time period will be added up.</li>
+<li><code>query_type</code> - (Optional) The query usage type. COST by default if it is missing. Usage - Query the usage data. Cost - Query the cost/billing data. Credit - Query the credit adjustments data. ExpiredCredit - Query the expired credits data. AllCredit - Query the credit adjustments and expired credit.</li>
+<li><code>tenant_id</code> - (Required) Tenant ID.</li>
+<li><code>time_usage_ended</code> - (Required) The usage end time.</li>
+<li><code>time_usage_started</code> - (Required) The usage start time.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>group_by</code> - Aggregate the result by.</li>
+<li><code>items</code> - A list of usage items.
+
+<ul>
+<li><code>ad</code> - The availability domain of the usage.</li>
+<li><code>attributed_cost</code> - The attributed cost with a max value of 9999999999.999999999999 and a minimum value of 0.</li>
+<li><code>attributed_usage</code> - The attributed usage with a max value of 9999999999.999999999999 and a minimum value of 0.</li>
+<li><code>compartment_id</code> - The compartment OCID.</li>
+<li><code>compartment_name</code> - The compartment name.</li>
+<li><code>compartment_path</code> - The compartment path, starting from root.</li>
+<li><code>computed_amount</code> - The computed cost.</li>
+<li><code>computed_quantity</code> - The usage number.</li>
+<li><code>currency</code> - The price currency.</li>
+<li><code>discount</code> - The discretionary discount applied to the SKU.</li>
+<li><code>is_forecast</code> - The forecasted data.</li>
+<li><code>list_rate</code> - The SKU list rate (not discount).</li>
+<li><code>overage</code> - The overage usage.</li>
+<li><code>overages_flag</code> - The SPM OverageFlag.</li>
+<li><code>platform</code> - Platform for the cost.</li>
+<li><code>region</code> - The region of the usage.</li>
+<li><code>resource_id</code> - The resource OCID that is incurring the cost.</li>
+<li><code>resource_name</code> - The resource name that is incurring the cost.</li>
+<li><code>service</code> - The service name that is incurring the cost.</li>
+<li><code>shape</code> - The resource shape.</li>
+<li><code>sku_name</code> - The SKU friendly name.</li>
+<li><code>sku_part_number</code> - The SKU part number.</li>
+<li><code>subscription_id</code> - The subscription ID.</li>
+<li><code>tags</code> - For grouping, a tag definition. For filtering, a definition and key.
+
+<ul>
+<li><code>key</code> - The tag key.</li>
+<li><code>namespace</code> - The tag namespace.</li>
+<li><code>value</code> - The tag value.</li>
+</ul></li>
+<li><code>tenant_id</code> - The tenancy OCID.</li>
+<li><code>tenant_name</code> - The tenancy name.</li>
+<li><code>time_usage_ended</code> - The usage end time.</li>
+<li><code>time_usage_started</code> - The usage start time.</li>
+<li><code>unit</code> - The usage unit.</li>
+<li><code>unit_price</code> - The price per unit.</li>
+<li><code>weight</code> - The resource size being metered.</li>
+</ul></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Usage
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Usage
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Usage</p>
+
+<h2>Import</h2>
+
+<p>Import is not supported for this resource.</p>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_cloud_bridge_agent_dependency</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_cloud_bridge_agent_dependency</h1>
+
+<p>This data source provides details about a specific Agent Dependency resource in Oracle Cloud Infrastructure Cloud Bridge service.</p>
+
+<p>Gets an AgentDependency by identifier.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_cloud_bridge_agent_dependency&quot; &quot;test_agent_dependency&quot; {
+	#Required
+	agent_dependency_id = oci_cloud_bridge_agent_dependency.test_agent_dependency.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>agent_dependency_id</code> - (Required) A unique AgentDependency identifier.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>bucket</code> - Object storage bucket where the Agent dependency is uploaded.</li>
+<li><code>checksum</code> - The checksum associated with the dependency object returned by Object Storage.</li>
+<li><code>compartment_id</code> - Compartment identifier</li>
+<li><code>defined_tags</code> - The defined tags associated with this resource, if any. Each key is predefined and scoped to namespaces. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>dependency_name</code> - Name of the dependency type. This should match the whitelisted enum of dependency names.</li>
+<li><code>dependency_version</code> - Version of the Agent dependency.</li>
+<li><code>description</code> - Description about the Agent dependency.</li>
+<li><code>display_name</code> - Display name of the Agent dependency.</li>
+<li><code>e_tag</code> - The eTag associated with the dependency object returned by Object Storage.</li>
+<li><code>freeform_tags</code> - The freeform tags associated with this resource, if any. Each tag is a simple key-value pair with no predefined name, type, or namespace/scope. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - Unique identifier that is immutable on creation.</li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail. For example, it can be used to provide actionable information for a resource in Failed state.</li>
+<li><code>namespace</code> - Object storage namespace associated with the customer&rsquo;s tenancy.</li>
+<li><code>object</code> - Name of the dependency object uploaded by the customer.</li>
+<li><code>state</code> - The current state of AgentDependency.</li>
+<li><code>system_tags</code> - The system tags associated with this resource, if any. The system tags are set by Oracle cloud infrastructure services. Each key is predefined and scoped to namespaces. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{orcl-cloud: {free-tier-retain: true}}</code></li>
+<li><code>time_created</code> - The time when the AgentDependency was created. An RFC3339 formatted datetime string.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

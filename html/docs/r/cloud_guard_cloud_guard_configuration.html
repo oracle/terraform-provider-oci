@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_cloud_guard_cloud_guard_configuration</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_cloud_guard_cloud_guard_configuration</h1>
+
+<p>This resource provides the Cloud Guard Configuration resource in Oracle Cloud Infrastructure Cloud Guard service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/cloud-guard/latest/CloudGuardConfiguration">https://docs.oracle.com/iaas/api/#/en/cloud-guard/latest/CloudGuardConfiguration</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/certificatesguard">https://github.com/oracle/terraform-provider-oci/tree/master/examples/certificatesguard</a></p>
+
+<p>Updates configuration details for a Cloud Guard tenancy, identified by root compartment OCID.
+The reporting region cannot be updated once created.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_cloud_guard_cloud_guard_configuration&quot; &quot;test_cloud_guard_configuration&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	reporting_region = var.cloud_guard_configuration_reporting_region
+	status = var.cloud_guard_configuration_status
+
+	#Optional
+	self_manage_resources = var.cloud_guard_configuration_self_manage_resources
+	service_configurations {
+		#Required
+		service_configuration_type = var.cloud_guard_configuration_service_configurations_service_configuration_type
+
+		#Optional
+		status = var.cloud_guard_configuration_service_configurations_status
+	}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) (Updatable) The OCID of the compartment in which to list resources.</li>
+<li><code>reporting_region</code> - (Required) (Updatable) The reporting region</li>
+<li><code>self_manage_resources</code> - (Optional) (Updatable) Identifies if Oracle managed resources will be created by customers. If no value is specified false is the default.</li>
+<li><code>service_configurations</code> - (Optional) (Updatable) List of service configurations for tenant
+
+<ul>
+<li><code>service_configuration_type</code> - (Required) (Updatable) Type of service configuration</li>
+<li><code>status</code> - (Optional) (Updatable) Partner service status</li>
+</ul></li>
+<li><code>status</code> - (Required) (Updatable) Status of Cloud Guard tenant</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>reporting_region</code> - The reporting region</li>
+<li><code>self_manage_resources</code> - Were Oracle-managed resources created by customer?</li>
+<li><code>service_configurations</code> - List of service configurations for this tenant
+
+<ul>
+<li><code>service_configuration_type</code> - Type of service configuration</li>
+<li><code>status</code> - Partner service status</li>
+</ul></li>
+<li><code>status</code> - Status of the Cloud Guard tenant</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Cloud Guard Configuration
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Cloud Guard Configuration
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Cloud Guard Configuration</p>
+
+<h2>Import</h2>
+
+<p>Import is not supported for this resource.</p>
+
+	</div>
+
+</body>
+</html>

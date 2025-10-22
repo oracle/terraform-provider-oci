@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_capacity_management_occ_availability_catalog</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_capacity_management_occ_availability_catalog</h1>
+
+<p>This data source provides details about a specific Occ Availability Catalog resource in Oracle Cloud Infrastructure Capacity Management service.</p>
+
+<p>Get details about availability catalog.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_capacity_management_occ_availability_catalog&quot; &quot;test_occ_availability_catalog&quot; {
+	#Required
+	occ_availability_catalog_id = oci_capacity_management_occ_availability_catalog.test_occ_availability_catalog.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>occ_availability_catalog_id</code> - (Required) The OCID of the availability catalog.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>catalog_state</code> - The different states associated with the availability catalog.</li>
+<li><code>compartment_id</code> - The OCID of the tenancy where the availability catalog resides.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>description</code> - Text information about the availability catalog.</li>
+<li><code>details</code> - Details about capacity available for different resources in catalog.
+
+<ul>
+<li><code>available_quantity</code> - The quantity of resource currently available that the customer can request.</li>
+<li><code>catalog_id</code> - The OCID of the availability catalog.</li>
+<li><code>date_expected_capacity_handover</code> - The date by which the capacity requested by customers before dateFinalCustomerOrder needs to be fulfilled.</li>
+<li><code>date_final_customer_order</code> - The date by which the customer must place the order to have their capacity requirements met by the customer handover date.</li>
+<li><code>demanded_quantity</code> - The quantity of resource currently demanded by the customer.</li>
+<li><code>namespace</code> - The name of the Oracle Cloud Infrastructure service in consideration. For example, Compute, Exadata, and so on.</li>
+<li><code>resource_name</code> - The name of the resource that the customer can request.</li>
+<li><code>resource_type</code> - The different types of resources against which customers can place capacity requests.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>total_available_quantity</code> - The total quantity of resource that the customer can request.</li>
+<li><code>unit</code> - The unit in which the resource available is measured.</li>
+<li><code>workload_type</code> - The type of workload (Generic/ROW).</li>
+</ul></li>
+<li><code>display_name</code> - A user-friendly name for the availability catalog.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - The OCID of the availability catalog.</li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in a Failed State.</li>
+<li><code>metadata_details</code> - Used for representing the metadata of the catalog. This denotes the version and format of the CSV file for parsing.
+
+<ul>
+<li><code>format_version</code> - The version for the format of the catalog file being uploaded.</li>
+</ul></li>
+<li><code>namespace</code> - The name of the Oracle Cloud Infrastructure service in consideration. For example, Compute, Exadata, and so on.</li>
+<li><code>occ_customer_group_id</code> - The customer group OCID to which the availability catalog belongs.</li>
+<li><code>state</code> - The current lifecycle state of the resource.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time when the availability catalog was created.</li>
+<li><code>time_updated</code> - The time when the availability catalog was last updated.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

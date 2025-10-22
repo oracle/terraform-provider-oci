@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_fleet_apps_management_task_record</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_fleet_apps_management_task_record</h1>
+
+<p>This data source provides details about a specific Task Record resource in Oracle Cloud Infrastructure Fleet Apps Management service.</p>
+
+<p>Gets information for the specified task record.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_fleet_apps_management_task_record&quot; &quot;test_task_record&quot; {
+	#Required
+	task_record_id = oci_fleet_apps_management_task_record.test_task_record.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>task_record_id</code> - (Required) The OCID of the task record.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> -</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>description</code> - A user-friendly description. To provide some insight about the resource. Avoid entering confidential information.</li>
+<li><code>details</code> - The details of the task.
+
+<ul>
+<li><code>execution_details</code> - Execution details.
+
+<ul>
+<li><code>catalog_id</code> - Catalog Id having terraform package.</li>
+<li><code>command</code> - Optional command to execute the content. You can provide any commands/arguments that can&rsquo;t be part of the script.</li>
+<li><code>config_file</code> - Catalog Id having config file.</li>
+<li><code>content</code> - Content Source details.
+
+<ul>
+<li><code>bucket</code> - Bucket Name.</li>
+<li><code>catalog_id</code> - Catalog Id having terraform package.</li>
+<li><code>checksum</code> - md5 checksum of the artifact.</li>
+<li><code>namespace</code> - Namespace.</li>
+<li><code>object</code> - Object Name.</li>
+<li><code>source_type</code> - Content Source type details.</li>
+</ul></li>
+<li><code>credentials</code> - Credentials required for executing the task.
+
+<ul>
+<li><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.  Example: <code>My new resource</code></li>
+<li><code>id</code> - The OCID of the resource.</li>
+</ul></li>
+<li><code>endpoint</code> - Endpoint to be invoked.</li>
+<li><code>execution_type</code> - The action type of the task</li>
+<li><code>is_executable_content</code> - Is the Content an executable file?</li>
+<li><code>is_locked</code> - Is the script locked to prevent changes directly in Object Storage?</li>
+<li><code>is_read_output_variable_enabled</code> - Is read output variable enabled</li>
+<li><code>target_compartment_id</code> - OCID of the compartment to which the resource belongs to.</li>
+<li><code>variables</code> - The variable of the task. At least one of the dynamicArguments or output needs to be provided.
+
+<ul>
+<li><code>input_variables</code> - The input variables for the task.
+
+<ul>
+<li><code>description</code> - The description of the argument.</li>
+<li><code>name</code> - The name of the argument.</li>
+<li><code>type</code> - Input argument Type.</li>
+</ul></li>
+<li><code>output_variables</code> - The list of output variables.</li>
+</ul></li>
+</ul></li>
+<li><code>is_apply_subject_task</code> - Is this an Apply Subject Task?  Set this to true for a Patch Execution Task which applies patches(subjects) on a target.</li>
+<li><code>is_discovery_output_task</code> - Is this a discovery output task?</li>
+<li><code>operation</code> - The lifecycle operation performed by the runbook.</li>
+<li><code>os_type</code> - The OS for the task</li>
+<li><code>platform</code> - The platform of the runbook.</li>
+<li><code>properties</code> - The properties of the task.
+
+<ul>
+<li><code>num_retries</code> - The number of retries allowed.</li>
+<li><code>timeout_in_seconds</code> - The timeout in seconds for the task.</li>
+</ul></li>
+<li><code>scope</code> - The scope of the task</li>
+</ul></li>
+<li><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.  Example: <code>My new resource</code></li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - The OCID of the resource.</li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.</li>
+<li><code>resource_region</code> - Associated region</li>
+<li><code>state</code> - The current state of the task record.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time this resource was created. An RFC3339 formatted datetime string.</li>
+<li><code>time_updated</code> - The time this resource was last updated. An RFC3339 formatted datetime string.</li>
+<li><code>type</code> - Task type.</li>
+<li><code>version</code> - The version of the task record.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_redis_redis_cluster_nodes</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_redis_redis_cluster_nodes</h1>
+
+<p>This data source provides the list of Redis Cluster Nodes in Oracle Cloud Infrastructure Redis service.</p>
+
+<p>Gets the list of all nodes in a cluster.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_redis_redis_cluster_nodes&quot; &quot;test_redis_cluster_nodes&quot; {
+	#Required
+	redis_cluster_id = oci_redis_redis_cluster.test_redis_cluster.id
+
+	#Optional
+	display_name = var.redis_cluster_node_display_name
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the entire display name given.</li>
+<li><code>redis_cluster_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle">OCID</a> of the cluster.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>redis_node_collection</code> - The list of redis_node_collection.</li>
+</ul>
+
+<h3>RedisClusterNode Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - The list of nodes in a cluster.
+
+<ul>
+<li><code>display_name</code> - A user-friendly name of a cluster node.</li>
+<li><code>private_endpoint_fqdn</code> - The fully qualified domain name (FQDN) of the API endpoint to access a specific node.</li>
+<li><code>private_endpoint_ip_address</code> - The private IP address of the API endpoint to access a specific node.</li>
+<li><code>redis_cluster_id</code> - The OCID of the cluster</li>
+<li><code>shard_number</code> - The shard number to which the node belongs to.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_jms_jms_plugin</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_jms_jms_plugin</h1>
+
+<p>This data source provides details about a specific Jms Plugin resource in Oracle Cloud Infrastructure Jms service.</p>
+
+<p>Returns the JmsPlugin.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_jms_jms_plugin&quot; &quot;test_jms_plugin&quot; {
+	#Required
+	jms_plugin_id = oci_jms_jms_plugin.test_jms_plugin.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>jms_plugin_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the JmsPlugin.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>agent_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Management Agent (OMA), the Oracle Cloud Agent (OCA), or the Oracle Container Management Agent (OCMA) instance where the JMS plugin is deployed.</li>
+<li><code>agent_type</code> - The agent type.</li>
+<li><code>availability_status</code> - The availability status.</li>
+<li><code>compartment_id</code> - The OMA/OCA/OCMA agent&rsquo;s compartment <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code>. (See <a href="https://docs.cloud.oracle.com/iaas/Content/Tagging/Tasks/managingtagsandtagnamespaces.htm">Understanding Free-form Tags</a>).</li>
+<li><code>fleet_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the fleet.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code>. (See <a href="https://docs.cloud.oracle.com/iaas/Content/Tagging/Concepts/understandingfreeformtags.htm">Managing Tags and Tag Namespaces</a>.)</li>
+<li><code>hostname</code> - The hostname of the agent.</li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> to identify this JmsPlugin.</li>
+<li><code>os_architecture</code> - The architecture of the operating system of the plugin.</li>
+<li><code>os_distribution</code> - The distribution of the operating system of the plugin.</li>
+<li><code>os_family</code> - The operating system family for the plugin.</li>
+<li><code>plugin_version</code> - The version of the plugin.</li>
+<li><code>state</code> - The lifecycle state.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. System tags can be viewed by users, but can only be created by the system.  Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_last_seen</code> - The date and time the resource was <em>last</em> reported to JMS. This is potentially <em>after</em> the specified time period provided by the filters. For example, a resource can be last reported to JMS before the start of a specified time period, if it is also reported during the time period.</li>
+<li><code>time_registered</code> - The date and time the plugin was registered.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

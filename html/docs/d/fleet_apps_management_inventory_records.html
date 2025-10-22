@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_fleet_apps_management_inventory_records</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_fleet_apps_management_inventory_records</h1>
+
+<p>This data source provides the list of Inventory Records in Oracle Cloud Infrastructure Fleet Apps Management service.</p>
+
+<p>Gets a list of inventoryDetails.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_fleet_apps_management_inventory_records&quot; &quot;test_inventory_records&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	compartment_id_in_subtree = var.inventory_record_compartment_id_in_subtree
+	fleet_id = oci_fleet_apps_management_fleet.test_fleet.id
+	resource_id = oci_cloud_guard_resource.test_resource.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The ID of the compartment in which to list resources.</li>
+<li><code>compartment_id_in_subtree</code> - (Optional) If set to true, resources will be returned for not only the provided compartment, but all compartments which descend from it. Which resources are returned and their field contents depends on the value of accessLevel.</li>
+<li><code>fleet_id</code> - (Optional) unique Fleet identifier</li>
+<li><code>resource_id</code> - (Optional) Resource Identifier</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>inventory_record_collection</code> - The list of inventory_record_collection.</li>
+</ul>
+
+<h3>InventoryRecord Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - List of inventory targets
+
+<ul>
+<li><code>architecture</code> - Architecture of the resource associated with the target</li>
+<li><code>compartment_id</code> - OCID of the compartment to which the resource belongs to.</li>
+<li><code>components</code> - List of target components
+
+<ul>
+<li><code>component_name</code> - Name of the target component</li>
+<li><code>component_path</code> - Path of the component</li>
+<li><code>component_version</code> - Version of the target component</li>
+<li><code>properties</code> - List of component properties
+
+<ul>
+<li><code>name</code> - Name of the inventory target property.</li>
+<li><code>value</code> - Value of the inventory target property.</li>
+</ul></li>
+</ul></li>
+<li><code>installed_patches</code> - List of details on the patches currently installed on the target
+
+<ul>
+<li><code>patch_description</code> - Description for the installed patch</li>
+<li><code>patch_id</code> - OCID of the installed patch</li>
+<li><code>patch_name</code> - Name of the installed patch</li>
+<li><code>patch_type</code> - Type of patch applied</li>
+<li><code>time_applied</code> - Date on which the patch was applied to the target</li>
+</ul></li>
+<li><code>os_type</code> - OS installed on the resource associated with the target</li>
+<li><code>properties</code> - List of target properties
+
+<ul>
+<li><code>name</code> - Name of the inventory target property.</li>
+<li><code>value</code> - Value of the inventory target property.</li>
+</ul></li>
+<li><code>state</code> - The current state of the Inventory target.</li>
+<li><code>target_id</code> - The OCID of the Inventory target.</li>
+<li><code>target_name</code> - Name of the target</li>
+<li><code>target_product_id</code> - OCID of the product installed at the target path</li>
+<li><code>target_product_name</code> - Name of the product installed at the target path</li>
+<li><code>target_resource_id</code> - OCID of the resource associated with the target</li>
+<li><code>target_resource_name</code> - Name of the resource associated with the target</li>
+<li><code>time_created</code> - The time this resource was created. An RFC3339 formatted datetime string.</li>
+<li><code>time_updated</code> - The time this resource was last updated. An RFC3339 formatted datetime string.</li>
+<li><code>version</code> - Version of the product on the target</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

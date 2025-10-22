@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_data_safe_security_assessment_comparison</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_data_safe_security_assessment_comparison</h1>
+
+<p>This data source provides details about a specific Security Assessment Comparison resource in Oracle Cloud Infrastructure Data Safe service.</p>
+
+<p>Gets the details of the comparison report for the security assessments submitted for comparison.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_data_safe_security_assessment_comparison&quot; &quot;test_security_assessment_comparison&quot; {
+	#Required
+	comparison_security_assessment_id = oci_data_safe_security_assessment.test_security_assessment.id
+	security_assessment_id = oci_data_safe_security_assessment.test_security_assessment.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>comparison_security_assessment_id</code> - (Required) The OCID of the security assessment baseline.</li>
+<li><code>security_assessment_id</code> - (Required) The OCID of the security assessment.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>baseline_id</code> - The OCID of the security assessment that is set as a baseline.</li>
+<li><code>id</code> - The OCID of the security assessment that is being compared with a baseline security assessment.</li>
+<li><code>state</code> - The current state of the security assessment comparison.</li>
+<li><code>targets</code> - A target-based comparison between two security assessments.
+
+<ul>
+<li><code>auditing</code> - A comparison between findings belonging to Auditing category.
+
+<ul>
+<li><code>added_items</code> - This array identifies the items that are present in the current assessment, but are missing from the baseline.</li>
+<li><code>baseline</code> - The particular finding reported by the security assessment.
+
+<ul>
+<li><code>assessment_id</code> - The OCID of the assessment that generated this finding.</li>
+<li><code>details</code> - The details of the finding. Provides detailed information to explain the finding summary, typically results from the assessed database, followed by any recommendations for changes.</li>
+<li><code>has_target_db_risk_level_changed</code> - Determines if this risk level has changed on the target database since the last time &lsquo;severity&rsquo; was modified by user.</li>
+<li><code>is_risk_modified</code> - Determines if this risk level was modified by user.</li>
+<li><code>justification</code> - User provided reason for accepting or modifying this finding if they choose to do so.</li>
+<li><code>key</code> - A unique identifier for the finding. This is common for the finding across targets.</li>
+<li><code>lifecycle_details</code> - Details about the current state of the finding.</li>
+<li><code>oracle_defined_severity</code> - The severity of the finding as determined by security assessment. This cannot be modified by user.</li>
+<li><code>references</code> - Provides information on whether the finding is related to a CIS Oracle Database Benchmark recommendation, STIG rule, or related to a GDPR Article/Recital.
+
+<ul>
+<li><code>cis</code> - Relevant section from CIS.</li>
+<li><code>gdpr</code> - Relevant section from GDPR.</li>
+<li><code>obp</code> - Relevant section from OBP.</li>
+<li><code>orp</code> - Relevant section from ORP.</li>
+<li><code>stig</code> - Relevant section from STIG.</li>
+</ul></li>
+<li><code>remarks</code> - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.</li>
+<li><code>severity</code> - The severity of the finding.</li>
+<li><code>state</code> - The current state of the finding.</li>
+<li><code>summary</code> - The brief summary of the finding. When the finding is informational, the summary typically reports only the number of data elements that were examined.</li>
+<li><code>target_id</code> - The OCID of the target database.</li>
+<li><code>time_updated</code> - The date and time the risk level of finding was last updated, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>time_valid_until</code> - The time until which the change in severity(deferred/modified) of this finding is valid.</li>
+<li><code>title</code> - The short title for the finding.</li>
+</ul></li>
+<li><code>current</code> - The particular finding reported by the security assessment.
+
+<ul>
+<li><code>assessment_id</code> - The OCID of the assessment that generated this finding.</li>
+<li><code>details</code> - The details of the finding. Provides detailed information to explain the finding summary, typically results from the assessed database, followed by any recommendations for changes.</li>
+<li><code>has_target_db_risk_level_changed</code> - Determines if this risk level has changed on the target database since the last time &lsquo;severity&rsquo; was modified by user.</li>
+<li><code>is_risk_modified</code> - Determines if this risk level was modified by user.</li>
+<li><code>justification</code> - User provided reason for accepting or modifying this finding if they choose to do so.</li>
+<li><code>key</code> - A unique identifier for the finding. This is common for the finding across targets.</li>
+<li><code>lifecycle_details</code> - Details about the current state of the finding.</li>
+<li><code>oracle_defined_severity</code> - The severity of the finding as determined by security assessment. This cannot be modified by user.</li>
+<li><code>references</code> - Provides information on whether the finding is related to a CIS Oracle Database Benchmark recommendation, STIG rule, or related to a GDPR Article/Recital.
+
+<ul>
+<li><code>cis</code> - Relevant section from CIS.</li>
+<li><code>gdpr</code> - Relevant section from GDPR.</li>
+<li><code>obp</code> - Relevant section from OBP.</li>
+<li><code>orp</code> - Relevant section from ORP.</li>
+<li><code>stig</code> - Relevant section from STIG.</li>
+</ul></li>
+<li><code>remarks</code> - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.</li>
+<li><code>severity</code> - The severity of the finding.</li>
+<li><code>state</code> - The current state of the finding.</li>
+<li><code>summary</code> - The brief summary of the finding. When the finding is informational, the summary typically reports only the number of data elements that were examined.</li>
+<li><code>target_id</code> - The OCID of the target database.</li>
+<li><code>time_updated</code> - The date and time the risk level of finding was last updated, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>time_valid_until</code> - The time until which the change in severity(deferred/modified) of this finding is valid.</li>
+<li><code>title</code> - The short title for the finding.</li>
+</ul></li>
+<li><code>modified_items</code> - This array contains the items that are present in both the current assessment and the baseline, but are different in the two assessments.</li>
+<li><code>removed_items</code> - This array identifies the items that are present in the baseline, but are missing from the current assessment.</li>
+<li><code>severity</code> - The severity of this diff.</li>
+</ul></li>
+<li><code>authorization_control</code> - A comparison between findings belonging to Authorization Control category.
+
+<ul>
+<li><code>added_items</code> - This array identifies the items that are present in the current assessment, but are missing from the baseline.</li>
+<li><code>baseline</code> - The particular finding reported by the security assessment.
+
+<ul>
+<li><code>assessment_id</code> - The OCID of the assessment that generated this finding.</li>
+<li><code>details</code> - The details of the finding. Provides detailed information to explain the finding summary, typically results from the assessed database, followed by any recommendations for changes.</li>
+<li><code>has_target_db_risk_level_changed</code> - Determines if this risk level has changed on the target database since the last time &lsquo;severity&rsquo; was modified by user.</li>
+<li><code>is_risk_modified</code> - Determines if this risk level was modified by user.</li>
+<li><code>justification</code> - User provided reason for accepting or modifying this finding if they choose to do so.</li>
+<li><code>key</code> - A unique identifier for the finding. This is common for the finding across targets.</li>
+<li><code>lifecycle_details</code> - Details about the current state of the finding.</li>
+<li><code>oracle_defined_severity</code> - The severity of the finding as determined by security assessment. This cannot be modified by user.</li>
+<li><code>references</code> - Provides information on whether the finding is related to a CIS Oracle Database Benchmark recommendation, STIG rule, or related to a GDPR Article/Recital.
+
+<ul>
+<li><code>cis</code> - Relevant section from CIS.</li>
+<li><code>gdpr</code> - Relevant section from GDPR.</li>
+<li><code>obp</code> - Relevant section from OBP.</li>
+<li><code>orp</code> - Relevant section from ORP.</li>
+<li><code>stig</code> - Relevant section from STIG.</li>
+</ul></li>
+<li><code>remarks</code> - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.</li>
+<li><code>severity</code> - The severity of the finding.</li>
+<li><code>state</code> - The current state of the finding.</li>
+<li><code>summary</code> - The brief summary of the finding. When the finding is informational, the summary typically reports only the number of data elements that were examined.</li>
+<li><code>target_id</code> - The OCID of the target database.</li>
+<li><code>time_updated</code> - The date and time the risk level of finding was last updated, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>time_valid_until</code> - The time until which the change in severity(deferred/modified) of this finding is valid.</li>
+<li><code>title</code> - The short title for the finding.</li>
+</ul></li>
+<li><code>current</code> - The particular finding reported by the security assessment.
+
+<ul>
+<li><code>assessment_id</code> - The OCID of the assessment that generated this finding.</li>
+<li><code>details</code> - The details of the finding. Provides detailed information to explain the finding summary, typically results from the assessed database, followed by any recommendations for changes.</li>
+<li><code>has_target_db_risk_level_changed</code> - Determines if this risk level has changed on the target database since the last time &lsquo;severity&rsquo; was modified by user.</li>
+<li><code>is_risk_modified</code> - Determines if this risk level was modified by user.</li>
+<li><code>justification</code> - User provided reason for accepting or modifying this finding if they choose to do so.</li>
+<li><code>key</code> - A unique identifier for the finding. This is common for the finding across targets.</li>
+<li><code>lifecycle_details</code> - Details about the current state of the finding.</li>
+<li><code>oracle_defined_severity</code> - The severity of the finding as determined by security assessment. This cannot be modified by user.</li>
+<li><code>references</code> - Provides information on whether the finding is related to a CIS Oracle Database Benchmark recommendation, STIG rule, or related to a GDPR Article/Recital.
+
+<ul>
+<li><code>cis</code> - Relevant section from CIS.</li>
+<li><code>gdpr</code> - Relevant section from GDPR.</li>
+<li><code>obp</code> - Relevant section from OBP.</li>
+<li><code>orp</code> - Relevant section from ORP.</li>
+<li><code>stig</code> - Relevant section from STIG.</li>
+</ul></li>
+<li><code>remarks</code> - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.</li>
+<li><code>severity</code> - The severity of the finding.</li>
+<li><code>state</code> - The current state of the finding.</li>
+<li><code>summary</code> - The brief summary of the finding. When the finding is informational, the summary typically reports only the number of data elements that were examined.</li>
+<li><code>target_id</code> - The OCID of the target database.</li>
+<li><code>time_updated</code> - The date and time the risk level of finding was last updated, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>time_valid_until</code> - The time until which the change in severity(deferred/modified) of this finding is valid.</li>
+<li><code>title</code> - The short title for the finding.</li>
+</ul></li>
+<li><code>modified_items</code> - This array contains the items that are present in both the current assessment and the baseline, but are different in the two assessments.</li>
+<li><code>removed_items</code> - This array identifies the items that are present in the baseline, but are missing from the current assessment.</li>
+<li><code>severity</code> - The severity of this diff.</li>
+</ul></li>
+<li><code>baseline_target_id</code> - The OCID of the target that is used as a baseline in this comparison.</li>
+<li><code>current_target_id</code> - The OCID of the target to be compared against the baseline target.</li>
+<li><code>data_encryption</code> - Comparison between findings belonging to Data Encryption category.
+
+<ul>
+<li><code>added_items</code> - This array identifies the items that are present in the current assessment, but are missing from the baseline.</li>
+<li><code>baseline</code> - The particular finding reported by the security assessment.
+
+<ul>
+<li><code>assessment_id</code> - The OCID of the assessment that generated this finding.</li>
+<li><code>details</code> - The details of the finding. Provides detailed information to explain the finding summary, typically results from the assessed database, followed by any recommendations for changes.</li>
+<li><code>has_target_db_risk_level_changed</code> - Determines if this risk level has changed on the target database since the last time &lsquo;severity&rsquo; was modified by user.</li>
+<li><code>is_risk_modified</code> - Determines if this risk level was modified by user.</li>
+<li><code>justification</code> - User provided reason for accepting or modifying this finding if they choose to do so.</li>
+<li><code>key</code> - A unique identifier for the finding. This is common for the finding across targets.</li>
+<li><code>lifecycle_details</code> - Details about the current state of the finding.</li>
+<li><code>oracle_defined_severity</code> - The severity of the finding as determined by security assessment. This cannot be modified by user.</li>
+<li><code>references</code> - Provides information on whether the finding is related to a CIS Oracle Database Benchmark recommendation, STIG rule, or related to a GDPR Article/Recital.
+
+<ul>
+<li><code>cis</code> - Relevant section from CIS.</li>
+<li><code>gdpr</code> - Relevant section from GDPR.</li>
+<li><code>obp</code> - Relevant section from OBP.</li>
+<li><code>orp</code> - Relevant section from ORP.</li>
+<li><code>stig</code> - Relevant section from STIG.</li>
+</ul></li>
+<li><code>remarks</code> - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.</li>
+<li><code>severity</code> - The severity of the finding.</li>
+<li><code>state</code> - The current state of the finding.</li>
+<li><code>summary</code> - The brief summary of the finding. When the finding is informational, the summary typically reports only the number of data elements that were examined.</li>
+<li><code>target_id</code> - The OCID of the target database.</li>
+<li><code>time_updated</code> - The date and time the risk level of finding was last updated, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>time_valid_until</code> - The time until which the change in severity(deferred/modified) of this finding is valid.</li>
+<li><code>title</code> - The short title for the finding.</li>
+</ul></li>
+<li><code>current</code> - The particular finding reported by the security assessment.
+
+<ul>
+<li><code>assessment_id</code> - The OCID of the assessment that generated this finding.</li>
+<li><code>details</code> - The details of the finding. Provides detailed information to explain the finding summary, typically results from the assessed database, followed by any recommendations for changes.</li>
+<li><code>has_target_db_risk_level_changed</code> - Determines if this risk level has changed on the target database since the last time &lsquo;severity&rsquo; was modified by user.</li>
+<li><code>is_risk_modified</code> - Determines if this risk level was modified by user.</li>
+<li><code>justification</code> - User provided reason for accepting or modifying this finding if they choose to do so.</li>
+<li><code>key</code> - A unique identifier for the finding. This is common for the finding across targets.</li>
+<li><code>lifecycle_details</code> - Details about the current state of the finding.</li>
+<li><code>oracle_defined_severity</code> - The severity of the finding as determined by security assessment. This cannot be modified by user.</li>
+<li><code>references</code> - Provides information on whether the finding is related to a CIS Oracle Database Benchmark recommendation, STIG rule, or related to a GDPR Article/Recital.
+
+<ul>
+<li><code>cis</code> - Relevant section from CIS.</li>
+<li><code>gdpr</code> - Relevant section from GDPR.</li>
+<li><code>obp</code> - Relevant section from OBP.</li>
+<li><code>orp</code> - Relevant section from ORP.</li>
+<li><code>stig</code> - Relevant section from STIG.</li>
+</ul></li>
+<li><code>remarks</code> - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.</li>
+<li><code>severity</code> - The severity of the finding.</li>
+<li><code>state</code> - The current state of the finding.</li>
+<li><code>summary</code> - The brief summary of the finding. When the finding is informational, the summary typically reports only the number of data elements that were examined.</li>
+<li><code>target_id</code> - The OCID of the target database.</li>
+<li><code>time_updated</code> - The date and time the risk level of finding was last updated, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>time_valid_until</code> - The time until which the change in severity(deferred/modified) of this finding is valid.</li>
+<li><code>title</code> - The short title for the finding.</li>
+</ul></li>
+<li><code>modified_items</code> - This array contains the items that are present in both the current assessment and the baseline, but are different in the two assessments.</li>
+<li><code>removed_items</code> - This array identifies the items that are present in the baseline, but are missing from the current assessment.</li>
+<li><code>severity</code> - The severity of this diff.</li>
+</ul></li>
+<li><code>db_configuration</code> - Comparison between findings belonging to Database Configuration category.
+
+<ul>
+<li><code>added_items</code> - This array identifies the items that are present in the current assessment, but are missing from the baseline.</li>
+<li><code>baseline</code> - The particular finding reported by the security assessment.
+
+<ul>
+<li><code>assessment_id</code> - The OCID of the assessment that generated this finding.</li>
+<li><code>details</code> - The details of the finding. Provides detailed information to explain the finding summary, typically results from the assessed database, followed by any recommendations for changes.</li>
+<li><code>has_target_db_risk_level_changed</code> - Determines if this risk level has changed on the target database since the last time &lsquo;severity&rsquo; was modified by user.</li>
+<li><code>is_risk_modified</code> - Determines if this risk level was modified by user.</li>
+<li><code>justification</code> - User provided reason for accepting or modifying this finding if they choose to do so.</li>
+<li><code>key</code> - A unique identifier for the finding. This is common for the finding across targets.</li>
+<li><code>lifecycle_details</code> - Details about the current state of the finding.</li>
+<li><code>oracle_defined_severity</code> - The severity of the finding as determined by security assessment. This cannot be modified by user.</li>
+<li><code>references</code> - Provides information on whether the finding is related to a CIS Oracle Database Benchmark recommendation, STIG rule, or related to a GDPR Article/Recital.
+
+<ul>
+<li><code>cis</code> - Relevant section from CIS.</li>
+<li><code>gdpr</code> - Relevant section from GDPR.</li>
+<li><code>obp</code> - Relevant section from OBP.</li>
+<li><code>orp</code> - Relevant section from ORP.</li>
+<li><code>stig</code> - Relevant section from STIG.</li>
+</ul></li>
+<li><code>remarks</code> - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.</li>
+<li><code>severity</code> - The severity of the finding.</li>
+<li><code>state</code> - The current state of the finding.</li>
+<li><code>summary</code> - The brief summary of the finding. When the finding is informational, the summary typically reports only the number of data elements that were examined.</li>
+<li><code>target_id</code> - The OCID of the target database.</li>
+<li><code>time_updated</code> - The date and time the risk level of finding was last updated, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>time_valid_until</code> - The time until which the change in severity(deferred/modified) of this finding is valid.</li>
+<li><code>title</code> - The short title for the finding.</li>
+</ul></li>
+<li><code>current</code> - The particular finding reported by the security assessment.
+
+<ul>
+<li><code>assessment_id</code> - The OCID of the assessment that generated this finding.</li>
+<li><code>details</code> - The details of the finding. Provides detailed information to explain the finding summary, typically results from the assessed database, followed by any recommendations for changes.</li>
+<li><code>has_target_db_risk_level_changed</code> - Determines if this risk level has changed on the target database since the last time &lsquo;severity&rsquo; was modified by user.</li>
+<li><code>is_risk_modified</code> - Determines if this risk level was modified by user.</li>
+<li><code>justification</code> - User provided reason for accepting or modifying this finding if they choose to do so.</li>
+<li><code>key</code> - A unique identifier for the finding. This is common for the finding across targets.</li>
+<li><code>lifecycle_details</code> - Details about the current state of the finding.</li>
+<li><code>oracle_defined_severity</code> - The severity of the finding as determined by security assessment. This cannot be modified by user.</li>
+<li><code>references</code> - Provides information on whether the finding is related to a CIS Oracle Database Benchmark recommendation, STIG rule, or related to a GDPR Article/Recital.
+
+<ul>
+<li><code>cis</code> - Relevant section from CIS.</li>
+<li><code>gdpr</code> - Relevant section from GDPR.</li>
+<li><code>obp</code> - Relevant section from OBP.</li>
+<li><code>orp</code> - Relevant section from ORP.</li>
+<li><code>stig</code> - Relevant section from STIG.</li>
+</ul></li>
+<li><code>remarks</code> - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.</li>
+<li><code>severity</code> - The severity of the finding.</li>
+<li><code>state</code> - The current state of the finding.</li>
+<li><code>summary</code> - The brief summary of the finding. When the finding is informational, the summary typically reports only the number of data elements that were examined.</li>
+<li><code>target_id</code> - The OCID of the target database.</li>
+<li><code>time_updated</code> - The date and time the risk level of finding was last updated, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>time_valid_until</code> - The time until which the change in severity(deferred/modified) of this finding is valid.</li>
+<li><code>title</code> - The short title for the finding.</li>
+</ul></li>
+<li><code>modified_items</code> - This array contains the items that are present in both the current assessment and the baseline, but are different in the two assessments.</li>
+<li><code>removed_items</code> - This array identifies the items that are present in the baseline, but are missing from the current assessment.</li>
+<li><code>severity</code> - The severity of this diff.</li>
+</ul></li>
+<li><code>fine_grained_access_control</code> - Comparison between findings belonging to Fine-Grained Access Control category.
+
+<ul>
+<li><code>added_items</code> - This array identifies the items that are present in the current assessment, but are missing from the baseline.</li>
+<li><code>baseline</code> - The particular finding reported by the security assessment.
+
+<ul>
+<li><code>assessment_id</code> - The OCID of the assessment that generated this finding.</li>
+<li><code>details</code> - The details of the finding. Provides detailed information to explain the finding summary, typically results from the assessed database, followed by any recommendations for changes.</li>
+<li><code>has_target_db_risk_level_changed</code> - Determines if this risk level has changed on the target database since the last time &lsquo;severity&rsquo; was modified by user.</li>
+<li><code>is_risk_modified</code> - Determines if this risk level was modified by user.</li>
+<li><code>justification</code> - User provided reason for accepting or modifying this finding if they choose to do so.</li>
+<li><code>key</code> - A unique identifier for the finding. This is common for the finding across targets.</li>
+<li><code>lifecycle_details</code> - Details about the current state of the finding.</li>
+<li><code>oracle_defined_severity</code> - The severity of the finding as determined by security assessment. This cannot be modified by user.</li>
+<li><code>references</code> - Provides information on whether the finding is related to a CIS Oracle Database Benchmark recommendation, STIG rule, or related to a GDPR Article/Recital.
+
+<ul>
+<li><code>cis</code> - Relevant section from CIS.</li>
+<li><code>gdpr</code> - Relevant section from GDPR.</li>
+<li><code>obp</code> - Relevant section from OBP.</li>
+<li><code>orp</code> - Relevant section from ORP.</li>
+<li><code>stig</code> - Relevant section from STIG.</li>
+</ul></li>
+<li><code>remarks</code> - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.</li>
+<li><code>severity</code> - The severity of the finding.</li>
+<li><code>state</code> - The current state of the finding.</li>
+<li><code>summary</code> - The brief summary of the finding. When the finding is informational, the summary typically reports only the number of data elements that were examined.</li>
+<li><code>target_id</code> - The OCID of the target database.</li>
+<li><code>time_updated</code> - The date and time the risk level of finding was last updated, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>time_valid_until</code> - The time until which the change in severity(deferred/modified) of this finding is valid.</li>
+<li><code>title</code> - The short title for the finding.</li>
+</ul></li>
+<li><code>current</code> - The particular finding reported by the security assessment.
+
+<ul>
+<li><code>assessment_id</code> - The OCID of the assessment that generated this finding.</li>
+<li><code>details</code> - The details of the finding. Provides detailed information to explain the finding summary, typically results from the assessed database, followed by any recommendations for changes.</li>
+<li><code>has_target_db_risk_level_changed</code> - Determines if this risk level has changed on the target database since the last time &lsquo;severity&rsquo; was modified by user.</li>
+<li><code>is_risk_modified</code> - Determines if this risk level was modified by user.</li>
+<li><code>justification</code> - User provided reason for accepting or modifying this finding if they choose to do so.</li>
+<li><code>key</code> - A unique identifier for the finding. This is common for the finding across targets.</li>
+<li><code>lifecycle_details</code> - Details about the current state of the finding.</li>
+<li><code>oracle_defined_severity</code> - The severity of the finding as determined by security assessment. This cannot be modified by user.</li>
+<li><code>references</code> - Provides information on whether the finding is related to a CIS Oracle Database Benchmark recommendation, STIG rule, or related to a GDPR Article/Recital.
+
+<ul>
+<li><code>cis</code> - Relevant section from CIS.</li>
+<li><code>gdpr</code> - Relevant section from GDPR.</li>
+<li><code>obp</code> - Relevant section from OBP.</li>
+<li><code>orp</code> - Relevant section from ORP.</li>
+<li><code>stig</code> - Relevant section from STIG.</li>
+</ul></li>
+<li><code>remarks</code> - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.</li>
+<li><code>severity</code> - The severity of the finding.</li>
+<li><code>state</code> - The current state of the finding.</li>
+<li><code>summary</code> - The brief summary of the finding. When the finding is informational, the summary typically reports only the number of data elements that were examined.</li>
+<li><code>target_id</code> - The OCID of the target database.</li>
+<li><code>time_updated</code> - The date and time the risk level of finding was last updated, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>time_valid_until</code> - The time until which the change in severity(deferred/modified) of this finding is valid.</li>
+<li><code>title</code> - The short title for the finding.</li>
+</ul></li>
+<li><code>modified_items</code> - This array contains the items that are present in both the current assessment and the baseline, but are different in the two assessments.</li>
+<li><code>removed_items</code> - This array identifies the items that are present in the baseline, but are missing from the current assessment.</li>
+<li><code>severity</code> - The severity of this diff.</li>
+</ul></li>
+<li><code>privileges_and_roles</code> - Comparison between findings belonging to Privileges and Roles category.
+
+<ul>
+<li><code>added_items</code> - This array identifies the items that are present in the current assessment, but are missing from the baseline.</li>
+<li><code>baseline</code> - The particular finding reported by the security assessment.
+
+<ul>
+<li><code>assessment_id</code> - The OCID of the assessment that generated this finding.</li>
+<li><code>details</code> - The details of the finding. Provides detailed information to explain the finding summary, typically results from the assessed database, followed by any recommendations for changes.</li>
+<li><code>has_target_db_risk_level_changed</code> - Determines if this risk level has changed on the target database since the last time &lsquo;severity&rsquo; was modified by user.</li>
+<li><code>is_risk_modified</code> - Determines if this risk level was modified by user.</li>
+<li><code>justification</code> - User provided reason for accepting or modifying this finding if they choose to do so.</li>
+<li><code>key</code> - A unique identifier for the finding. This is common for the finding across targets.</li>
+<li><code>lifecycle_details</code> - Details about the current state of the finding.</li>
+<li><code>oracle_defined_severity</code> - The severity of the finding as determined by security assessment. This cannot be modified by user.</li>
+<li><code>references</code> - Provides information on whether the finding is related to a CIS Oracle Database Benchmark recommendation, STIG rule, or related to a GDPR Article/Recital.
+
+<ul>
+<li><code>cis</code> - Relevant section from CIS.</li>
+<li><code>gdpr</code> - Relevant section from GDPR.</li>
+<li><code>obp</code> - Relevant section from OBP.</li>
+<li><code>orp</code> - Relevant section from ORP.</li>
+<li><code>stig</code> - Relevant section from STIG.</li>
+</ul></li>
+<li><code>remarks</code> - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.</li>
+<li><code>severity</code> - The severity of the finding.</li>
+<li><code>state</code> - The current state of the finding.</li>
+<li><code>summary</code> - The brief summary of the finding. When the finding is informational, the summary typically reports only the number of data elements that were examined.</li>
+<li><code>target_id</code> - The OCID of the target database.</li>
+<li><code>time_updated</code> - The date and time the risk level of finding was last updated, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>time_valid_until</code> - The time until which the change in severity(deferred/modified) of this finding is valid.</li>
+<li><code>title</code> - The short title for the finding.</li>
+</ul></li>
+<li><code>current</code> - The particular finding reported by the security assessment.
+
+<ul>
+<li><code>assessment_id</code> - The OCID of the assessment that generated this finding.</li>
+<li><code>details</code> - The details of the finding. Provides detailed information to explain the finding summary, typically results from the assessed database, followed by any recommendations for changes.</li>
+<li><code>has_target_db_risk_level_changed</code> - Determines if this risk level has changed on the target database since the last time &lsquo;severity&rsquo; was modified by user.</li>
+<li><code>is_risk_modified</code> - Determines if this risk level was modified by user.</li>
+<li><code>justification</code> - User provided reason for accepting or modifying this finding if they choose to do so.</li>
+<li><code>key</code> - A unique identifier for the finding. This is common for the finding across targets.</li>
+<li><code>lifecycle_details</code> - Details about the current state of the finding.</li>
+<li><code>oracle_defined_severity</code> - The severity of the finding as determined by security assessment. This cannot be modified by user.</li>
+<li><code>references</code> - Provides information on whether the finding is related to a CIS Oracle Database Benchmark recommendation, STIG rule, or related to a GDPR Article/Recital.
+
+<ul>
+<li><code>cis</code> - Relevant section from CIS.</li>
+<li><code>gdpr</code> - Relevant section from GDPR.</li>
+<li><code>obp</code> - Relevant section from OBP.</li>
+<li><code>orp</code> - Relevant section from ORP.</li>
+<li><code>stig</code> - Relevant section from STIG.</li>
+</ul></li>
+<li><code>remarks</code> - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.</li>
+<li><code>severity</code> - The severity of the finding.</li>
+<li><code>state</code> - The current state of the finding.</li>
+<li><code>summary</code> - The brief summary of the finding. When the finding is informational, the summary typically reports only the number of data elements that were examined.</li>
+<li><code>target_id</code> - The OCID of the target database.</li>
+<li><code>time_updated</code> - The date and time the risk level of finding was last updated, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>time_valid_until</code> - The time until which the change in severity(deferred/modified) of this finding is valid.</li>
+<li><code>title</code> - The short title for the finding.</li>
+</ul></li>
+<li><code>modified_items</code> - This array contains the items that are present in both the current assessment and the baseline, but are different in the two assessments.</li>
+<li><code>removed_items</code> - This array identifies the items that are present in the baseline, but are missing from the current assessment.</li>
+<li><code>severity</code> - The severity of this diff.</li>
+</ul></li>
+<li><code>user_accounts</code> - Comparison between findings belonging to User Accounts category.
+
+<ul>
+<li><code>added_items</code> - This array identifies the items that are present in the current assessment, but are missing from the baseline.</li>
+<li><code>baseline</code> - The particular finding reported by the security assessment.
+
+<ul>
+<li><code>assessment_id</code> - The OCID of the assessment that generated this finding.</li>
+<li><code>details</code> - The details of the finding. Provides detailed information to explain the finding summary, typically results from the assessed database, followed by any recommendations for changes.</li>
+<li><code>has_target_db_risk_level_changed</code> - Determines if this risk level has changed on the target database since the last time &lsquo;severity&rsquo; was modified by user.</li>
+<li><code>is_risk_modified</code> - Determines if this risk level was modified by user.</li>
+<li><code>justification</code> - User provided reason for accepting or modifying this finding if they choose to do so.</li>
+<li><code>key</code> - A unique identifier for the finding. This is common for the finding across targets.</li>
+<li><code>lifecycle_details</code> - Details about the current state of the finding.</li>
+<li><code>oracle_defined_severity</code> - The severity of the finding as determined by security assessment. This cannot be modified by user.</li>
+<li><code>references</code> - Provides information on whether the finding is related to a CIS Oracle Database Benchmark recommendation, STIG rule, or related to a GDPR Article/Recital.
+
+<ul>
+<li><code>cis</code> - Relevant section from CIS.</li>
+<li><code>gdpr</code> - Relevant section from GDPR.</li>
+<li><code>obp</code> - Relevant section from OBP.</li>
+<li><code>orp</code> - Relevant section from ORP.</li>
+<li><code>stig</code> - Relevant section from STIG.</li>
+</ul></li>
+<li><code>remarks</code> - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.</li>
+<li><code>severity</code> - The severity of the finding.</li>
+<li><code>state</code> - The current state of the finding.</li>
+<li><code>summary</code> - The brief summary of the finding. When the finding is informational, the summary typically reports only the number of data elements that were examined.</li>
+<li><code>target_id</code> - The OCID of the target database.</li>
+<li><code>time_updated</code> - The date and time the risk level of finding was last updated, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>time_valid_until</code> - The time until which the change in severity(deferred/modified) of this finding is valid.</li>
+<li><code>title</code> - The short title for the finding.</li>
+</ul></li>
+<li><code>current</code> - The particular finding reported by the security assessment.
+
+<ul>
+<li><code>assessment_id</code> - The OCID of the assessment that generated this finding.</li>
+<li><code>details</code> - The details of the finding. Provides detailed information to explain the finding summary, typically results from the assessed database, followed by any recommendations for changes.</li>
+<li><code>has_target_db_risk_level_changed</code> - Determines if this risk level has changed on the target database since the last time &lsquo;severity&rsquo; was modified by user.</li>
+<li><code>is_risk_modified</code> - Determines if this risk level was modified by user.</li>
+<li><code>justification</code> - User provided reason for accepting or modifying this finding if they choose to do so.</li>
+<li><code>key</code> - A unique identifier for the finding. This is common for the finding across targets.</li>
+<li><code>lifecycle_details</code> - Details about the current state of the finding.</li>
+<li><code>oracle_defined_severity</code> - The severity of the finding as determined by security assessment. This cannot be modified by user.</li>
+<li><code>references</code> - Provides information on whether the finding is related to a CIS Oracle Database Benchmark recommendation, STIG rule, or related to a GDPR Article/Recital.
+
+<ul>
+<li><code>cis</code> - Relevant section from CIS.</li>
+<li><code>gdpr</code> - Relevant section from GDPR.</li>
+<li><code>obp</code> - Relevant section from OBP.</li>
+<li><code>orp</code> - Relevant section from ORP.</li>
+<li><code>stig</code> - Relevant section from STIG.</li>
+</ul></li>
+<li><code>remarks</code> - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.</li>
+<li><code>severity</code> - The severity of the finding.</li>
+<li><code>state</code> - The current state of the finding.</li>
+<li><code>summary</code> - The brief summary of the finding. When the finding is informational, the summary typically reports only the number of data elements that were examined.</li>
+<li><code>target_id</code> - The OCID of the target database.</li>
+<li><code>time_updated</code> - The date and time the risk level of finding was last updated, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>time_valid_until</code> - The time until which the change in severity(deferred/modified) of this finding is valid.</li>
+<li><code>title</code> - The short title for the finding.</li>
+</ul></li>
+<li><code>modified_items</code> - This array contains the items that are present in both the current assessment and the baseline, but are different in the two assessments.</li>
+<li><code>removed_items</code> - This array identifies the items that are present in the baseline, but are missing from the current assessment.</li>
+<li><code>severity</code> - The severity of this diff.</li>
+</ul></li>
+</ul></li>
+<li><code>time_created</code> - The date and time when the security assessment comparison was created. Conforms to the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

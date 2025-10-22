@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_optimizer_profile_levels</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_optimizer_profile_levels</h1>
+
+<p>This data source provides the list of Profile Levels in Oracle Cloud Infrastructure Optimizer service.</p>
+
+<p>Lists the existing profile levels.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_optimizer_profile_levels&quot; &quot;test_profile_levels&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	compartment_id_in_subtree = var.profile_level_compartment_id_in_subtree
+
+	#Optional
+	name = var.profile_level_name
+	recommendation_name = oci_optimizer_recommendation.test_recommendation.name
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>compartment_id</code> - (Required) The OCID of the compartment.</p></li>
+
+<li><p><code>compartment_id_in_subtree</code> - (Required) When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned depending on the the setting of <code>accessLevel</code>.</p>
+
+<p>Can only be set to true when performing ListCompartments on the tenancy (root compartment).</p></li>
+
+<li><p><code>name</code> - (Optional) Optional. A filter that returns results that match the name specified.</p></li>
+
+<li><p><code>recommendation_name</code> - (Optional) Optional. A filter that returns results that match the recommendation name specified.</p></li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>profile_level_collection</code> - The list of profile_level_collection.</li>
+</ul>
+
+<h3>ProfileLevel Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - A collection of profile levels.
+
+<ul>
+<li><code>default_interval</code> - The default aggregation interval (in days) for profiles using this profile level.</li>
+<li><code>metrics</code> - The metrics that will be evaluated by profiles using this profile level.
+
+<ul>
+<li><code>name</code> - The name of the metric (e.g., <code>CpuUtilization</code>).</li>
+<li><code>statistic</code> - The name of the statistic (e.g., <code>p95</code>).</li>
+<li><code>target</code> - Optional. The metric value that the recommendation will target.</li>
+<li><code>threshold</code> - The threshold that must be crossed for the recommendation to appear.</li>
+</ul></li>
+<li><code>name</code> - A unique name for the profile level.</li>
+<li><code>recommendation_name</code> - The name of the recommendation this profile level applies to.</li>
+<li><code>time_created</code> - The date and time the category details were created, in the format defined by RFC3339.</li>
+<li><code>time_updated</code> - The date and time the category details were last updated, in the format defined by RFC3339.</li>
+<li><code>valid_intervals</code> - An array of aggregation intervals (in days) allowed for profiles using this profile level.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_bds_auto_scaling_configuration</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_bds_auto_scaling_configuration</h1>
+
+<p>This resource provides the Auto Scaling Configuration resource in Oracle Cloud Infrastructure Big Data Service service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/bigdata/latest/AutoScalingConfiguration">https://docs.oracle.com/iaas/api/#/en/bigdata/latest/AutoScalingConfiguration</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/big_data_service">https://github.com/oracle/terraform-provider-oci/tree/master/examples/big_data_service</a></p>
+
+<p>Add an autoscale configuration to the cluster.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_bds_auto_scaling_configuration&quot; &quot;test_auto_scaling_configuration&quot; {
+	#Required
+	bds_instance_id = oci_bds_bds_instance.test_bds_instance.id
+	cluster_admin_password = var.auto_scaling_configuration_cluster_admin_password
+	is_enabled = var.auto_scaling_configuration_is_enabled
+	node_type = var.auto_scaling_configuration_node_type
+
+	#Optional
+	display_name = var.auto_scaling_configuration_display_name
+	policy_details {
+		#Required
+		policy_type = var.auto_scaling_configuration_policy_details_policy_type
+
+		#Optional
+		scale_down_config {
+
+			#Optional
+			memory_step_size = var.auto_scaling_configuration_policy_details_scale_down_config_memory_step_size
+			metric {
+
+				#Optional
+				metric_type = var.auto_scaling_configuration_policy_details_scale_down_config_metric_metric_type
+				threshold {
+
+					#Optional
+					duration_in_minutes = var.auto_scaling_configuration_policy_details_scale_down_config_metric_threshold_duration_in_minutes
+					operator = var.auto_scaling_configuration_policy_details_scale_down_config_metric_threshold_operator
+					value = var.auto_scaling_configuration_policy_details_scale_down_config_metric_threshold_value
+				}
+			}
+			min_memory_per_node = var.auto_scaling_configuration_policy_details_scale_down_config_min_memory_per_node
+			min_ocpus_per_node = var.auto_scaling_configuration_policy_details_scale_down_config_min_ocpus_per_node
+			ocpu_step_size = var.auto_scaling_configuration_policy_details_scale_down_config_ocpu_step_size
+		}
+		scale_up_config {
+
+			#Optional
+			max_memory_per_node = var.auto_scaling_configuration_policy_details_scale_up_config_max_memory_per_node
+			max_ocpus_per_node = var.auto_scaling_configuration_policy_details_scale_up_config_max_ocpus_per_node
+			memory_step_size = var.auto_scaling_configuration_policy_details_scale_up_config_memory_step_size
+			metric {
+
+				#Optional
+				metric_type = var.auto_scaling_configuration_policy_details_scale_up_config_metric_metric_type
+				threshold {
+
+					#Optional
+					duration_in_minutes = var.auto_scaling_configuration_policy_details_scale_up_config_metric_threshold_duration_in_minutes
+					operator = var.auto_scaling_configuration_policy_details_scale_up_config_metric_threshold_operator
+					value = var.auto_scaling_configuration_policy_details_scale_up_config_metric_threshold_value
+				}
+			}
+			ocpu_step_size = var.auto_scaling_configuration_policy_details_scale_up_config_ocpu_step_size
+		}
+	}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>bds_instance_id</code> - (Required) The OCID of the cluster.</p></li>
+
+<li><p><code>cluster_admin_password</code> - (Required) (Updatable) Base-64 encoded password for the cluster (and Cloudera Manager) admin user.</p></li>
+
+<li><p><code>display_name</code> - (Optional) (Updatable) A user-friendly name. The name does not have to be unique, and it may be changed. Avoid entering confidential information.</p></li>
+
+<li><p><code>is_enabled</code> - (Required) (Updatable) Whether the autoscale configuration is enabled.</p></li>
+
+<li><p><code>node_type</code> - (Required) A node type that is managed by an autoscale configuration. The only supported types are WORKER, COMPUTE_ONLY_WORKER and KAFKA_BROKER.</p></li>
+
+<li><p><code>policy</code> - (Optional) (Updatable) This model for autoscaling policy is deprecated and not supported for ODH clusters. Use the <code>AutoScalePolicyDetails</code> model to manage autoscale policy details for ODH clusters.</p>
+
+<ul>
+<li><code>policy_type</code> - (Required) (Updatable) Types of autoscale policies. Options are SCHEDULE-BASED or THRESHOLD-BASED. (Only THRESHOLD-BASED is supported in this release.)</li>
+<li><code>rules</code> - (Required) (Updatable) The list of rules for autoscaling. If an action has multiple rules, the last rule in the array will be applied.
+
+<ul>
+<li><code>action</code> - (Required) (Updatable) The valid value are CHANGE_SHAPE_SCALE_UP or CHANGE_SHAPE_SCALE_DOWN.</li>
+<li><code>metric</code> - (Required) (Updatable) Metric and threshold details for triggering an autoscale action.
+
+<ul>
+<li><code>metric_type</code> - (Required) (Updatable) Allowed values are CPU_UTILIZATION and MEMORY_UTILIZATION.</li>
+<li><code>threshold</code> - (Required) (Updatable) An autoscale action is triggered when a performance metric exceeds a threshold.
+
+<ul>
+<li><code>duration_in_minutes</code> - (Required) (Updatable) This value is the minimum period of time the metric value exceeds the threshold value before the action is triggered. The value is in minutes.</li>
+<li><code>operator</code> - (Required) (Updatable) The comparison operator to use. Options are greater than (GT) or less than (LT).</li>
+<li><code>value</code> - (Required) (Updatable) Integer non-negative value. 0 &lt; value &lt; 100</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+
+<li><p><code>policy_details</code> - (Optional) (Updatable) Policy definition for the autoscale configuration.</p>
+
+<p>An autoscaling policy is part of an autoscaling configuration. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-autoscale">Autoscaling</a></p>
+
+<p>You can create following type of autoscaling policies:</p>
+
+<ul>
+<li><strong>MetricBasedVerticalScalingPolicy:</strong> Vertical autoscaling action is triggered when a performance metric exceeds a threshold</li>
+<li><strong>MetricBasedHorizontalScalingPolicy:</strong> Horizontal autoscaling action is triggered when a performance metric exceeds a threshold</li>
+<li><strong>ScheduleBasedVerticalScalingPolicy:</strong> Vertical autoscaling action is triggered at the specific times that you schedule.</li>
+<li><strong>ScheduleBasedHorizontalScalingPolicy:</strong> Horizontal autoscaling action is triggered at the specific times that you schedule.</li>
+</ul>
+
+<p>An autoscaling configuration can have one of above supported policies.
+* <code>policy_type</code> - (Required) Type of autoscaling policy.
+* <code>scale_down_config</code> - (Applicable when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) Configration for a metric based vertical scale-down policy.
+	* <code>memory_step_size</code> - (Applicable when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) For nodes with <a href="https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape">flexible compute shapes</a>, this value is the size of memory in GBs to remove from each node during a scale-down event. This value is not used for nodes with fixed compute shapes.
+	* <code>metric</code> - (Applicable when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) Metric and threshold details for triggering an autoscale action.
+		* <code>metric_type</code> - (Required when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) Allowed values are CPU_UTILIZATION and MEMORY_UTILIZATION.
+		* <code>threshold</code> - (Required when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) An autoscale action is triggered when a performance metric exceeds a threshold.
+			* <code>duration_in_minutes</code> - (Required when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) This value is the minimum period of time the metric value exceeds the threshold value before the action is triggered. The value is in minutes.
+			* <code>operator</code> - (Required when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) The comparison operator to use. Options are greater than (GT) or less than (LT).
+			* <code>value</code> - (Required when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) Integer non-negative value. 0 &lt; value &lt; 100
+	* <code>min_memory_per_node</code> - (Applicable when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) For nodes with <a href="https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape">flexible compute shapes</a>, this value is the minimum memory in GBs each node can be scaled-down to. This value is not used for nodes with fixed compute shapes.
+	* <code>min_ocpus_per_node</code> - (Applicable when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) For nodes with <a href="https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape">flexible compute shapes</a>, this value is the minimum number of OCPUs each node can be scaled-down to. This value is not used for nodes with fixed compute shapes.
+	* <code>ocpu_step_size</code> - (Applicable when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) For nodes with <a href="https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape">flexible compute shapes</a>, this value is the number of OCPUs to remove from each node during a scale-down event. This value is not used for nodes with fixed compute shapes.
+* <code>scale_in_config</code> - (Applicable when policy_type=METRIC_BASED_HORIZONTAL_SCALING_POLICY) (Updatable) Configration for a metric based horizontal scale-in policy.
+	* <code>metric</code> - (Applicable when policy_type=METRIC_BASED_HORIZONTAL_SCALING_POLICY) (Updatable) Metric and threshold details for triggering an autoscale action.
+		* <code>metric_type</code> - (Required when policy_type=METRIC_BASED_HORIZONTAL_SCALING_POLICY) (Updatable) Allowed values are CPU_UTILIZATION and MEMORY_UTILIZATION.
+		* <code>threshold</code> - (Required when policy_type=METRIC_BASED_HORIZONTAL_SCALING_POLICY) (Updatable) An autoscale action is triggered when a performance metric exceeds a threshold.
+			* <code>duration_in_minutes</code> - (Required when policy_type=METRIC_BASED_HORIZONTAL_SCALING_POLICY) (Updatable) This value is the minimum period of time the metric value exceeds the threshold value before the action is triggered. The value is in minutes.
+			* <code>operator</code> - (Required when policy_type=METRIC_BASED_HORIZONTAL_SCALING_POLICY) (Updatable) The comparison operator to use. Options are greater than (GT) or less than (LT).
+			* <code>value</code> - (Required when policy_type=METRIC_BASED_HORIZONTAL_SCALING_POLICY) (Updatable) Integer non-negative value. 0 &lt; value &lt; 100
+	* <code>min_node_count</code> - (Applicable when policy_type=METRIC_BASED_HORIZONTAL_SCALING_POLICY) (Updatable) This value is the minimum number of nodes the cluster can be scaled-in to.
+	* <code>step_size</code> - (Applicable when policy_type=METRIC_BASED_HORIZONTAL_SCALING_POLICY) (Updatable) This value is the number of nodes to remove during a scale-in event.
+* <code>scale_out_config</code> - (Applicable when policy_type=METRIC_BASED_HORIZONTAL_SCALING_POLICY) (Updatable) Configration for a metric based horizontal scale-out policy.
+	* <code>max_node_count</code> - (Applicable when policy_type=METRIC_BASED_HORIZONTAL_SCALING_POLICY) (Updatable) This value is the maximum number of nodes the cluster can be scaled-out to.
+	* <code>metric</code> - (Applicable when policy_type=METRIC_BASED_HORIZONTAL_SCALING_POLICY) (Updatable) Metric and threshold details for triggering an autoscale action.
+		* <code>metric_type</code> - (Required when policy_type=METRIC_BASED_HORIZONTAL_SCALING_POLICY) (Updatable) Allowed values are CPU_UTILIZATION and MEMORY_UTILIZATION.
+		* <code>threshold</code> - (Required when policy_type=METRIC_BASED_HORIZONTAL_SCALING_POLICY) (Updatable) An autoscale action is triggered when a performance metric exceeds a threshold.
+			* <code>duration_in_minutes</code> - (Required when policy_type=METRIC_BASED_HORIZONTAL_SCALING_POLICY) (Updatable) This value is the minimum period of time the metric value exceeds the threshold value before the action is triggered. The value is in minutes.
+			* <code>operator</code> - (Required when policy_type=METRIC_BASED_HORIZONTAL_SCALING_POLICY) (Updatable) The comparison operator to use. Options are greater than (GT) or less than (LT).
+			* <code>value</code> - (Required when policy_type=METRIC_BASED_HORIZONTAL_SCALING_POLICY) (Updatable) Integer non-negative value. 0 &lt; value &lt; 100
+	* <code>step_size</code> - (Applicable when policy_type=METRIC_BASED_HORIZONTAL_SCALING_POLICY) (Updatable) This value is the number of nodes to add during a scale-out event.
+* <code>scale_up_config</code> - (Applicable when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) Configration for a metric based vertical scale-up policy.
+	* <code>max_memory_per_node</code> - (Applicable when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) For nodes with <a href="https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape">flexible compute shapes</a>, this value is the maximum memory in GBs each node can be scaled-up to. This value is not used for nodes with fixed compute shapes.
+	* <code>max_ocpus_per_node</code> - (Applicable when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) For nodes with <a href="https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape">flexible compute shapes</a>, this value is the maximum number of OCPUs each node can be scaled-up to. This value is not used for nodes with fixed compute shapes.
+	* <code>memory_step_size</code> - (Applicable when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) For nodes with <a href="https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape">flexible compute shapes</a>, this value is the size of memory in GBs to add to each node during a scale-up event. This value is not used for nodes with fixed compute shapes.
+	* <code>metric</code> - (Applicable when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) Metric and threshold details for triggering an autoscale action.
+		* <code>metric_type</code> - (Required when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) Allowed values are CPU_UTILIZATION and MEMORY_UTILIZATION.
+		* <code>threshold</code> - (Required when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) An autoscale action is triggered when a performance metric exceeds a threshold.
+			* <code>duration_in_minutes</code> - (Required when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) This value is the minimum period of time the metric value exceeds the threshold value before the action is triggered. The value is in minutes.
+			* <code>operator</code> - (Required when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) The comparison operator to use. Options are greater than (GT) or less than (LT).
+			* <code>value</code> - (Required when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) Integer non-negative value. 0 &lt; value &lt; 100
+	* <code>ocpu_step_size</code> - (Applicable when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) For nodes with <a href="https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape">flexible compute shapes</a>, this value is the number of OCPUs to add to each node during a scale-up event. This value is not used for nodes with fixed compute shapes.
+* <code>schedule_details</code> - (Applicable when policy_type=SCHEDULE_BASED_HORIZONTAL_SCALING_POLICY | SCHEDULE_BASED_VERTICAL_SCALING_POLICY) (Updatable) Details of a horizontal scaling schedule.
+	* <code>schedule_type</code> - (Optional) (Updatable) The type of schedule.
+	* <code>time_and_horizontal_scaling_config</code> - (Optional) (Updatable) Time of day and horizontal scaling configuration.
+		* <code>target_node_count</code> - (Optional) (Updatable) This value is the desired number of nodes in the cluster.
+		* <code>time_recurrence</code> - (Optional) (Updatable) Day/time recurrence (specified following RFC 5545) at which to trigger autoscaling action. Currently only WEEKLY frequency is supported. Days of the week are specified using BYDAY field. Time of the day is specified using BYHOUR and BYMINUTE fields. Other fields are not supported.
+	* <code>time_and_vertical_scaling_config</code> - (Optional) (Updatable) Time of day and vertical scaling configuration
+		* <code>target_memory_per_node</code> - (Optional) (Updatable) For nodes with <a href="https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape">flexible compute shapes</a>, this value is the desired memory in GBs on each node. This value is not used for nodes with fixed compute shapes.
+		* <code>target_ocpus_per_node</code> - (Optional) (Updatable) For nodes with <a href="https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape">flexible compute shapes</a>, this value is the desired OCPUs count on each node. This value is not used for nodes with fixed compute shapes.
+		* <code>target_shape</code> - (Optional) (Updatable) For nodes with <a href="https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape">fixed compute shapes</a>, this value is the desired shape of each node. This value is not used for nodes with flexible compute shapes.
+		* <code>time_recurrence</code> - (Optional) (Updatable) Day/time recurrence (specified following RFC 5545) at which to trigger autoscaling action. Currently only WEEKLY frequency is supported. Days of the week are specified using BYDAY field. Time of the day is specified using BYHOUR and BYMINUTE fields. Other fields are not supported.
+* <code>timezone</code> - (Applicable when policy_type=SCHEDULE_BASED_HORIZONTAL_SCALING_POLICY | SCHEDULE_BASED_VERTICAL_SCALING_POLICY) (Updatable) The time zone of the execution schedule, in IANA time zone database name format</p></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>display_name</code> - A user-friendly name. The name does not have to be unique, and it may be changed. Avoid entering confidential information.</p></li>
+
+<li><p><code>id</code> - The unique identifier for the autoscale configuration.</p></li>
+
+<li><p><code>node_type</code> - A node type that is managed by an autoscale configuration. The only supported types are WORKER and COMPUTE_ONLY_WORKER.</p></li>
+
+<li><p><code>policy</code> - This model for autoscaling policy is deprecated and not supported for ODH clusters. Use the <code>AutoScalePolicyDetails</code> model to manage autoscale policy details for ODH clusters.</p>
+
+<ul>
+<li><code>policy_type</code> - Types of autoscale policies. Options are SCHEDULE-BASED or THRESHOLD-BASED. (Only THRESHOLD-BASED is supported in this release.)</li>
+<li><code>rules</code> - The list of rules for autoscaling. If an action has multiple rules, the last rule in the array will be applied.
+
+<ul>
+<li><code>action</code> - The valid value are CHANGE_SHAPE_SCALE_UP or CHANGE_SHAPE_SCALE_DOWN.</li>
+<li><code>metric</code> - Metric and threshold details for triggering an autoscale action.
+
+<ul>
+<li><code>metric_type</code> - Allowed values are CPU_UTILIZATION and MEMORY_UTILIZATION.</li>
+<li><code>threshold</code> - An autoscale action is triggered when a performance metric exceeds a threshold.
+
+<ul>
+<li><code>duration_in_minutes</code> - This value is the minimum period of time the metric value exceeds the threshold value before the action is triggered. The value is in minutes.</li>
+<li><code>operator</code> - The comparison operator to use. Options are greater than (GT) or less than (LT).</li>
+<li><code>value</code> - Integer non-negative value. 0 &lt; value &lt; 100</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+
+<li><p><code>policy_details</code> - Details of an autoscale policy.</p>
+
+<p>You can create following types of autoscaling policies:</p>
+
+<ul>
+<li><strong>MetricBasedVerticalScalingPolicy:</strong> Vertical autoscaling action is triggered when a performance metric exceeds a threshold</li>
+<li><strong>MetricBasedHorizontalScalingPolicy:</strong> Horizontal autoscaling action is triggered when a performance metric exceeds a threshold</li>
+<li><strong>ScheduleBasedVerticalScalingPolicy:</strong> Vertical autoscaling action is triggered at the specific times that you schedule.</li>
+<li><strong>ScheduleBasedHorizontalScalingPolicy:</strong> Horizontal autoscaling action is triggered at the specific times that you schedule.</li>
+<li><code>action_type</code> - The type of autoscaling action to take.</li>
+<li><code>policy_type</code> - Type of autoscaling policy.</li>
+<li><code>scale_down_config</code> - Configration for a metric based vertical scale-down policy.
+
+<ul>
+<li><code>memory_step_size</code> - For nodes with <a href="https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape">flexible compute shapes</a>, this value is the size of memory in GBs to remove from each node during a scale-down event. This value is not used for nodes with fixed compute shapes.</li>
+<li><code>metric</code> - Metric and threshold details for triggering an autoscale action.
+
+<ul>
+<li><code>metric_type</code> - Allowed values are CPU_UTILIZATION and MEMORY_UTILIZATION.</li>
+<li><code>threshold</code> - An autoscale action is triggered when a performance metric exceeds a threshold.
+
+<ul>
+<li><code>duration_in_minutes</code> - This value is the minimum period of time the metric value exceeds the threshold value before the action is triggered. The value is in minutes.</li>
+<li><code>operator</code> - The comparison operator to use. Options are greater than (GT) or less than (LT).</li>
+<li><code>value</code> - Integer non-negative value. 0 &lt; value &lt; 100</li>
+</ul></li>
+</ul></li>
+<li><code>min_memory_per_node</code> - For nodes with <a href="https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape">flexible compute shapes</a>, this value is the minimum memory in GBs each node can be scaled-down to. This value is not used for nodes with fixed compute shapes.</li>
+<li><code>min_ocpus_per_node</code> - For nodes with <a href="https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape">flexible compute shapes</a>, this value is the minimum number of OCPUs each node can be scaled-down to. This value is not used for nodes with fixed compute shapes.</li>
+<li><code>ocpu_step_size</code> - For nodes with <a href="https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape">flexible compute shapes</a>, this value is the number of OCPUs to remove from each node during a scale-down event. This value is not used for nodes with fixed compute shapes.</li>
+</ul></li>
+<li><code>scale_in_config</code> - Configration for a metric based horizontal scale-in policy.
+
+<ul>
+<li><code>metric</code> - Metric and threshold details for triggering an autoscale action.
+
+<ul>
+<li><code>metric_type</code> - Allowed values are CPU_UTILIZATION and MEMORY_UTILIZATION.</li>
+<li><code>threshold</code> - An autoscale action is triggered when a performance metric exceeds a threshold.
+
+<ul>
+<li><code>duration_in_minutes</code> - This value is the minimum period of time the metric value exceeds the threshold value before the action is triggered. The value is in minutes.</li>
+<li><code>operator</code> - The comparison operator to use. Options are greater than (GT) or less than (LT).</li>
+<li><code>value</code> - Integer non-negative value. 0 &lt; value &lt; 100</li>
+</ul></li>
+</ul></li>
+<li><code>min_node_count</code> - This value is the minimum number of nodes the cluster can be scaled-in to.</li>
+<li><code>step_size</code> - This value is the number of nodes to remove during a scale-in event.</li>
+</ul></li>
+<li><code>scale_out_config</code> - Configration for a metric based horizontal scale-out policy.
+
+<ul>
+<li><code>max_node_count</code> - This value is the maximum number of nodes the cluster can be scaled-out to.</li>
+<li><code>metric</code> - Metric and threshold details for triggering an autoscale action.
+
+<ul>
+<li><code>metric_type</code> - Allowed values are CPU_UTILIZATION and MEMORY_UTILIZATION.</li>
+<li><code>threshold</code> - An autoscale action is triggered when a performance metric exceeds a threshold.
+
+<ul>
+<li><code>duration_in_minutes</code> - This value is the minimum period of time the metric value exceeds the threshold value before the action is triggered. The value is in minutes.</li>
+<li><code>operator</code> - The comparison operator to use. Options are greater than (GT) or less than (LT).</li>
+<li><code>value</code> - Integer non-negative value. 0 &lt; value &lt; 100</li>
+</ul></li>
+</ul></li>
+<li><code>step_size</code> - This value is the number of nodes to add during a scale-out event.</li>
+</ul></li>
+<li><code>scale_up_config</code> - Configration for a metric based vertical scale-up policy.
+
+<ul>
+<li><code>max_memory_per_node</code> - For nodes with <a href="https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape">flexible compute shapes</a>, this value is the maximum memory in GBs each node can be scaled-up to. This value is not used for nodes with fixed compute shapes.</li>
+<li><code>max_ocpus_per_node</code> - For nodes with <a href="https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape">flexible compute shapes</a>, this value is the maximum number of OCPUs each node can be scaled-up to. This value is not used for nodes with fixed compute shapes.</li>
+<li><code>memory_step_size</code> - For nodes with <a href="https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape">flexible compute shapes</a>, this value is the size of memory in GBs to add to each node during a scale-up event. This value is not used for nodes with fixed compute shapes.</li>
+<li><code>metric</code> - Metric and threshold details for triggering an autoscale action.
+
+<ul>
+<li><code>metric_type</code> - Allowed values are CPU_UTILIZATION and MEMORY_UTILIZATION.</li>
+<li><code>threshold</code> - An autoscale action is triggered when a performance metric exceeds a threshold.
+
+<ul>
+<li><code>duration_in_minutes</code> - This value is the minimum period of time the metric value exceeds the threshold value before the action is triggered. The value is in minutes.</li>
+<li><code>operator</code> - The comparison operator to use. Options are greater than (GT) or less than (LT).</li>
+<li><code>value</code> - Integer non-negative value. 0 &lt; value &lt; 100</li>
+</ul></li>
+</ul></li>
+<li><code>ocpu_step_size</code> - For nodes with <a href="https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape">flexible compute shapes</a>, this value is the number of OCPUs to add to each node during a scale-up event. This value is not used for nodes with fixed compute shapes.</li>
+</ul></li>
+<li><code>schedule_details</code> - Details of a horizontal scaling schedule.
+
+<ul>
+<li><code>schedule_type</code> - The type of schedule.</li>
+<li><code>time_and_horizontal_scaling_config</code> - Time of day and horizontal scaling configuration.
+
+<ul>
+<li><code>target_node_count</code> - This value is the desired number of nodes in the cluster.</li>
+<li><code>time_recurrence</code> - Day/time recurrence (specified following RFC 5545) at which to trigger autoscaling action. Currently only WEEKLY frequency is supported. Days of the week are specified using BYDAY field. Time of the day is specified using BYHOUR and BYMINUTE fields. Other fields are not supported.</li>
+</ul></li>
+<li><code>time_and_vertical_scaling_config</code> - Time of day and vertical scaling configuration
+
+<ul>
+<li><code>target_memory_per_node</code> - For nodes with <a href="https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape">flexible compute shapes</a>, this value is the desired memory in GBs on each node. This value is not used for nodes with fixed compute shapes.</li>
+<li><code>target_ocpus_per_node</code> - For nodes with <a href="https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape">flexible compute shapes</a>, this value is the desired OCPUs count on each node. This value is not used for nodes with fixed compute shapes.</li>
+<li><code>target_shape</code> - For nodes with <a href="https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape">fixed compute shapes</a>, this value is the desired shape of each node. This value is not used for nodes with flexible compute shapes.</li>
+<li><code>time_recurrence</code> - Day/time recurrence (specified following RFC 5545) at which to trigger autoscaling action. Currently only WEEKLY frequency is supported. Days of the week are specified using BYDAY field. Time of the day is specified using BYHOUR and BYMINUTE fields. Other fields are not supported.</li>
+</ul></li>
+</ul></li>
+<li><code>timezone</code> - The time zone of the execution schedule, in IANA time zone database name format</li>
+<li><code>trigger_type</code> - The type of autoscaling trigger.</li>
+</ul></li>
+
+<li><p><code>state</code> - The state of the autoscale configuration.</p></li>
+
+<li><p><code>time_created</code> - The time the cluster was created, shown as an RFC 3339 formatted datetime string.</p></li>
+
+<li><p><code>time_updated</code> - The time the autoscale configuration was updated, shown as an RFC 3339 formatted datetime string.</p></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Auto Scaling Configuration
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Auto Scaling Configuration
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Auto Scaling Configuration</p>
+
+<h2>Import</h2>
+
+<p>AutoScalingConfiguration can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_bds_auto_scaling_configuration.test_auto_scaling_configuration &quot;bdsInstances/{bdsInstanceId}/autoScalingConfiguration/{autoScalingConfigurationId}&quot; 
+</code></pre>
+
+	</div>
+
+</body>
+</html>

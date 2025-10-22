@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_data_safe_report_definitions</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_data_safe_report_definitions</h1>
+
+<p>This data source provides the list of Report Definitions in Oracle Cloud Infrastructure Data Safe service.</p>
+
+<p>Gets a list of report definitions.
+The ListReportDefinitions operation returns only the report definitions in the specified <code>compartmentId</code>.
+It also returns the seeded report definitions which are available to all the compartments.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_data_safe_report_definitions&quot; &quot;test_report_definitions&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	access_level = var.report_definition_access_level
+	category = var.report_definition_category
+	compartment_id_in_subtree = var.report_definition_compartment_id_in_subtree
+	data_source = var.report_definition_data_source
+	display_name = var.report_definition_display_name
+	is_seeded = var.report_definition_is_seeded
+	state = var.report_definition_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>access_level</code> - (Optional) Valid values are RESTRICTED and ACCESSIBLE. Default is RESTRICTED. Setting this to ACCESSIBLE returns only those compartments for which the user has INSPECT permissions directly or indirectly (permissions can be on a resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed.</li>
+<li><code>category</code> - (Optional) An optional filter to return only resources that match the specified category.</li>
+<li><code>compartment_id</code> - (Required) A filter to return only resources that match the specified compartment OCID.</li>
+<li><code>compartment_id_in_subtree</code> - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the &lsquo;accessLevel&rsquo; setting.</li>
+<li><code>data_source</code> - (Optional) Specifies the name of a resource that provides data for the report. For example  alerts, events.</li>
+<li><code>display_name</code> - (Optional) The name of the report definition to query.</li>
+<li><code>is_seeded</code> - (Optional) A boolean flag indicating to list seeded report definitions. Set this parameter to get list of seeded report definitions.</li>
+<li><code>state</code> - (Optional) An optional filter to return only resources that match the specified lifecycle state.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>report_definition_collection</code> - The list of report_definition_collection.</li>
+</ul>
+
+<h3>ReportDefinition Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>category</code> - Specifies the name of the category that this report belongs to.</p></li>
+
+<li><p><code>column_filters</code> - An array of columnFilter objects. A columnFilter object stores all information about a column filter including field name, an operator, one or more expressions, if the filter is enabled, or if the filter is hidden.</p>
+
+<ul>
+<li><code>expressions</code> - An array of expressions based on the operator type. A filter may have one or more expressions.</li>
+<li><code>field_name</code> - Name of the column on which the filter must be applied.</li>
+<li><code>is_enabled</code> - Indicates whether the filter is enabled. Values can either be &lsquo;true&rsquo; or &lsquo;false&rsquo;.</li>
+<li><code>is_hidden</code> - Indicates whether the filter is hidden. Values can either be &lsquo;true&rsquo; or &lsquo;false&rsquo;.</li>
+<li><code>operator</code> - Specifies the type of operator that must be applied for example in, eq etc.</li>
+</ul></li>
+
+<li><p><code>column_info</code> - An array of column objects in the order (left to right) displayed in the report. A column object stores all information about a column, including the name displayed on the UI, corresponding field name in the data source, data type of the column, and column visibility (if the column is visible to the user).</p>
+
+<ul>
+<li><code>applicable_operators</code> - An array of operators that can be supported by column fieldName.</li>
+<li><code>data_type</code> - Specifies the data type of the column.</li>
+<li><code>display_name</code> - Name of the column displayed on UI.</li>
+<li><code>display_order</code> - Specifies the display order of the column.</li>
+<li><code>field_name</code> - Specifies the corresponding field name in the data source.</li>
+<li><code>is_hidden</code> - Indicates if the column is hidden. Values can either be &lsquo;true&rsquo; or &lsquo;false&rsquo;.</li>
+<li><code>is_virtual</code> - Specifies if column is virtual and can only be used as column filter.</li>
+</ul></li>
+
+<li><p><code>column_sortings</code> - An array of column sorting objects. Each column sorting object stores the column name to be sorted and if the sorting is in ascending order; sorting is done by the first column in the array, then by the second column in the array, etc.</p>
+
+<ul>
+<li><code>field_name</code> - Name of the column that must be sorted.</li>
+<li><code>is_ascending</code> - Indicates if the column must be sorted in ascending order. Values can either be &lsquo;true&rsquo; or &lsquo;false&rsquo;.</li>
+<li><code>sorting_order</code> - Indicates the order at which column must be sorted.</li>
+</ul></li>
+
+<li><p><code>compartment_id</code> - The OCID of the compartment containing the report definition.</p></li>
+
+<li><p><code>compliance_standards</code> - The list of the data protection regulations/standards used in the report that will help demonstrate compliance.</p></li>
+
+<li><p><code>data_source</code> - Specifies the name of a resource that provides data for the report. For example alerts, events.</p></li>
+
+<li><p><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a> Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></p></li>
+
+<li><p><code>description</code> - A description of the report definition.</p></li>
+
+<li><p><code>display_name</code> - Name of the report definition.</p></li>
+
+<li><p><code>display_order</code> - Specifies how the report definitions are ordered in the display.</p></li>
+
+<li><p><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></p></li>
+
+<li><p><code>id</code> - The OCID of the report definition.</p></li>
+
+<li><p><code>is_seeded</code> - Signifies whether the definition is seeded or user defined. Values can either be &lsquo;true&rsquo; or &lsquo;false&rsquo;.</p></li>
+
+<li><p><code>lifecycle_details</code> - Details about the current state of the report definition in Data Safe.</p></li>
+
+<li><p><code>parent_id</code> - The OCID of the parent report definition. In the case of seeded report definition, this is same as definition OCID.</p></li>
+
+<li><p><code>record_time_span</code> - The time span for the records in the report to be scheduled. <period-value><period> Allowed period strings - &ldquo;H&rdquo;,&ldquo;D&rdquo;,&ldquo;M&rdquo;,&ldquo;Y&rdquo; Each of the above fields potentially introduce constraints. A workRequest is created only when period-value satisfies all the constraints. Constraints introduced: 1. period = H (The allowed range for period-value is [1, 23]) 2. period = D (The allowed range for period-value is [1, 30]) 3. period = M (The allowed range for period-value is [1, 11]) 4. period = Y (The minimum period-value is 1)</p></li>
+
+<li><p><code>schedule</code> - The schedule to generate the report periodically in the specified format: <version-string>;<version-specific-schedule></p>
+
+<p>Allowed version strings - &ldquo;v1&rdquo; v1&rsquo;s version specific schedule -<ss> <mm> <hh> <day-of-week> <day-of-month> Each of the above fields potentially introduce constraints. A workrequest is created only when clock time satisfies all the constraints. Constraints introduced: 1. seconds = <ss> (So, the allowed range for <ss> is [0, 59]) 2. minutes = <mm> (So, the allowed range for <mm> is [0, 59]) 3. hours = <hh> (So, the allowed range for <hh> is [0, 23]) 4. <day-of-week> can be either &lsquo;<em>&rsquo; (without quotes or a number between 1(Monday) and 7(Sunday)) No constraint introduced when it is &lsquo;</em>&rsquo;. When not, day of week must equal the given value 5. <day-of-month> can be either &lsquo;<em>&rsquo; (without quotes or a number between 1 and 28) No constraint introduced when it is &lsquo;</em>&rsquo;. When not, day of month must equal the given value</p></li>
+
+<li><p><code>scheduled_report_compartment_id</code> - The OCID of the compartment in which the scheduled resource will be created.</p></li>
+
+<li><p><code>scheduled_report_mime_type</code> - Specifies the format of the report ( either .xls or .pdf or .json)</p></li>
+
+<li><p><code>scheduled_report_name</code> - The name of the report to be scheduled.</p></li>
+
+<li><p><code>scheduled_report_row_limit</code> - Specifies the limit on the number of rows in the report.</p></li>
+
+<li><p><code>scim_filter</code> - Additional SCIM filters used to define the report.</p></li>
+
+<li><p><code>state</code> - The current state of the report.</p></li>
+
+<li><p><code>summary</code> - An array of report summary objects in the order (left to right)  displayed in the report.  A  report summary object stores all information about summary of report to be displayed, including the name displayed on UI, the display order, corresponding group by and count of values, summary visibility (if the summary is visible to user).</p>
+
+<ul>
+<li><code>count_of</code> - Name of the key or count of object.</li>
+<li><code>display_order</code> - Specifies the order in which the summary must be displayed.</li>
+<li><code>group_by_field_name</code> - A comma-delimited string that specifies the names of the fields by which the records must be aggregated to get the summary.</li>
+<li><code>is_hidden</code> - Indicates if the summary is hidden. Values can either be &lsquo;true&rsquo; or &lsquo;false&rsquo;.</li>
+<li><code>name</code> - Name of the report summary.</li>
+<li><code>scim_filter</code> - Additional scim filters used to get the specific summary.</li>
+</ul></li>
+
+<li><p><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></p></li>
+
+<li><p><code>time_created</code> - Specifies the date and time the report definition was created.</p></li>
+
+<li><p><code>time_updated</code> - The date and time the report definition was updated.</p></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

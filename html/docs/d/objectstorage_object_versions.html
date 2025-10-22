@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_objectstorage_object_versions</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_objectstorage_object_versions</h1>
+
+<p>This data source provides the list of Object Versions in Oracle Cloud Infrastructure Object Storage service.</p>
+
+<p>Lists the object versions in a bucket.</p>
+
+<p>ListObjectVersions returns an ObjectVersionCollection containing at most 1000 object versions. To paginate through
+more object versions, use the returned <code>opc-next-page</code> value with the <code>page</code> request parameter.</p>
+
+<p>To use this and other API operations, you must be authorized in an IAM policy. If you are not authorized,
+talk to an administrator. If you are an administrator who needs to write policies to give users access, see
+<a href="https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm">Getting Started with Policies</a>.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_objectstorage_object_versions&quot; &quot;test_object_versions&quot; {
+	#Required
+	bucket = var.object_version_bucket
+	namespace = var.object_version_namespace
+
+	#Optional
+	delimiter = var.object_version_delimiter
+	end = var.object_version_end
+	fields = var.object_version_fields
+	prefix = var.object_version_prefix
+	start = var.object_version_start
+	start_after = var.object_version_start_after
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>bucket</code> - (Required) The name of the bucket. Avoid entering confidential information. Example: <code>my-new-bucket1</code></li>
+<li><code>delimiter</code> - (Optional) When this parameter is set, only objects whose names do not contain the delimiter character (after an optionally specified prefix) are returned in the objects key of the response body. Scanned objects whose names contain the delimiter have the part of their name up to the first occurrence of the delimiter (including the optional prefix) returned as a set of prefixes. Note that only &lsquo;/&rsquo; is a supported delimiter character at this time.</li>
+<li><code>end</code> - (Optional) Returns object names which are lexicographically strictly less than this parameter.</li>
+<li><code>fields</code> - (Optional) Object summary by default includes only the &lsquo;name&rsquo; field. Use this parameter to also include &lsquo;size&rsquo; (object size in bytes), &lsquo;etag&rsquo;, &lsquo;md5&rsquo;, &lsquo;timeCreated&rsquo; (object creation date and time), &lsquo;timeModified&rsquo; (object modification date and time), &lsquo;storageTier&rsquo; and &lsquo;archivalState&rsquo; fields. Specify the value of this parameter as a comma-separated, case-insensitive list of those field names.  For example &lsquo;name,etag,timeCreated,md5,timeModified,storageTier,archivalState&rsquo;.</li>
+<li><code>namespace</code> - (Required) The Object Storage namespace used for the request.</li>
+<li><code>prefix</code> - (Optional) The string to use for matching against the start of object names in a list query.</li>
+<li><code>start</code> - (Optional) Returns object names which are lexicographically greater than or equal to this parameter.</li>
+<li><code>start_after</code> - (Optional) Returns object names which are lexicographically strictly greater than this parameter.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>object_version_collection</code> - The list of object_version_collection.</li>
+</ul>
+
+<h3>ObjectVersion Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - An array of object version summaries.
+
+<ul>
+<li><code>archival_state</code> - Archival state of an object. This field is set only for objects in Archive tier.</li>
+<li><code>etag</code> - The current entity tag (ETag) for the object.</li>
+<li><code>is_delete_marker</code> - This flag will indicate if the version is deleted or not.</li>
+<li><code>md5</code> - Base64-encoded MD5 hash of the object data.</li>
+<li><code>name</code> - The name of the object. Avoid entering confidential information. Example: test/object1.log</li>
+<li><code>size</code> - Size of the object in bytes.</li>
+<li><code>storage_tier</code> - The storage tier that the object is stored in.</li>
+<li><code>time_created</code> - The date and time the object was created, as described in <a href="https://tools.ietf.org/html/rfc2616#section-14.29">RFC 2616</a>.</li>
+<li><code>time_modified</code> - The date and time the object was modified, as described in <a href="https://tools.ietf.org/rfc/rfc2616#section-14.29">RFC 2616</a>.</li>
+<li><code>version_id</code> - VersionId of the object.</li>
+</ul></li>
+<li><code>prefixes</code> - Prefixes that are common to the results returned by the request if the request specified a delimiter.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

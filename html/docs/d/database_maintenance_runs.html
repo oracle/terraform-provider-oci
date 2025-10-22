@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_maintenance_runs</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_maintenance_runs</h1>
+
+<p>This data source provides the list of Maintenance Runs in Oracle Cloud Infrastructure Database service.</p>
+
+<p>Gets a list of the maintenance runs in the specified compartment.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_maintenance_runs&quot; &quot;test_maintenance_runs&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	availability_domain = var.maintenance_run_availability_domain
+	is_local_adg = var.maintenance_run_is_local_adg
+	maintenance_subtype = var.maintenance_run_maintenance_subtype
+	maintenance_type = var.maintenance_run_maintenance_type
+	state = var.maintenance_run_state
+	target_resource_id = oci_database_target_resource.test_target_resource.id
+	target_resource_type = var.maintenance_run_target_resource_type
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>availability_domain</code> - (Optional) A filter to return only resources that match the given availability domain exactly.</li>
+<li><code>compartment_id</code> - (Required) The compartment <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>is_local_adg</code> - (Optional) A filter to return the maintenance history results for the local standby Autonomous Database Serverless only.</li>
+<li><code>maintenance_subtype</code> - (Optional) The sub-type of the maintenance run.</li>
+<li><code>maintenance_type</code> - (Optional) The maintenance type.</li>
+<li><code>state</code> - (Optional) A filter to return only resources that match the given lifecycle state exactly.</li>
+<li><code>target_resource_id</code> - (Optional) The target resource ID.</li>
+<li><code>target_resource_type</code> - (Optional) The type of the target resource. Accepted values are: AUTONOMOUS_CONTAINER_DATABASE, AUTONOMOUS_EXADATA_INFRASTRUCTURE, EXADATA_DB_SYSTEM</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>maintenance_runs</code> - The list of maintenance_runs.</li>
+</ul>
+
+<h3>MaintenanceRun Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>compartment_id</code> - The OCID of the compartment.</p></li>
+
+<li><p><code>current_custom_action_timeout_in_mins</code> - Extend current custom action timeout between the current database servers during waiting state, from 0 (zero) to 30 minutes.</p></li>
+
+<li><p><code>current_patching_component</code> - The name of the current infrastruture component that is getting patched.</p></li>
+
+<li><p><code>custom_action_timeout_in_mins</code> - Determines the amount of time the system will wait before the start of each database server patching operation. Specify a number of minutes, from 15 to 120.</p></li>
+
+<li><p><code>database_software_image_id</code> - The Autonomous Database Software Image <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a></p></li>
+
+<li><p><code>description</code> - Description of the maintenance run.</p></li>
+
+<li><p><code>display_name</code> - The user-friendly name for the maintenance run.</p></li>
+
+<li><p><code>estimated_component_patching_start_time</code> - The estimated start time of the next infrastruture component patching operation.</p></li>
+
+<li><p><code>estimated_patching_time</code> - The estimated total time required in minutes for all patching operations (database server, storage server, and network switch patching).</p>
+
+<ul>
+<li><code>estimated_db_server_patching_time</code> - The estimated time required in minutes for database server patching.</li>
+<li><code>estimated_network_switches_patching_time</code> - The estimated time required in minutes for network switch patching.</li>
+<li><code>estimated_storage_server_patching_time</code> - The estimated time required in minutes for storage server patching.</li>
+<li><code>total_estimated_patching_time</code> - The estimated total time required in minutes for all patching operations.</li>
+</ul></li>
+
+<li><p><code>id</code> - The OCID of the maintenance run.</p></li>
+
+<li><p><code>is_custom_action_timeout_enabled</code> - If true, enables the configuration of a custom action timeout (waiting period) between database servers patching operations.</p></li>
+
+<li><p><code>is_dst_file_update_enabled</code> - Indicates if an automatic DST Time Zone file update is enabled for the Autonomous Container Database. If enabled along with Release Update, patching will be done in a Non-Rolling manner.</p></li>
+
+<li><p><code>is_maintenance_run_granular</code> - If <code>FALSE</code>, the maintenance run doesn&rsquo;t support granular maintenance.</p></li>
+
+<li><p><code>lifecycle_details</code> - Additional information about the current lifecycle state.</p></li>
+
+<li><p><code>maintenance_subtype</code> - Maintenance sub-type.</p></li>
+
+<li><p><code>maintenance_type</code> - Maintenance type.</p></li>
+
+<li><p><code>patch_failure_count</code> - Contain the patch failure count.</p></li>
+
+<li><p><code>patch_id</code> - The unique identifier of the patch. The identifier string includes the patch type, the Oracle Database version, and the patch creation date (using the format YYMMDD). For example, the identifier <code>ru_patch_19.9.0.0_201030</code> is used for an RU patch for Oracle Database 19.9.0.0 that was released October 30, 2020.</p></li>
+
+<li><p><code>patching_end_time</code> - The time when the patching operation ended.</p></li>
+
+<li><p><code>patching_mode</code> - Cloud Exadata infrastructure node patching method, either &ldquo;ROLLING&rdquo; or &ldquo;NONROLLING&rdquo;. Default value is ROLLING.</p>
+
+<p><em>IMPORTANT</em>: Non-rolling infrastructure patching involves system down time. See <a href="https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/examaintenance.htm#Oracle">Oracle-Managed Infrastructure Maintenance Updates</a> for more information.</p></li>
+
+<li><p><code>patching_start_time</code> - The time when the patching operation started.</p></li>
+
+<li><p><code>patching_status</code> - The status of the patching operation.</p></li>
+
+<li><p><code>peer_maintenance_run_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the maintenance run for the Autonomous Data Guard association&rsquo;s peer container database.</p></li>
+
+<li><p><code>peer_maintenance_run_ids</code> - The list of OCIDs for the maintenance runs associated with their Autonomous Data Guard peer container databases.</p></li>
+
+<li><p><code>state</code> - The current state of the maintenance run. For Autonomous Database Serverless instances, valid states are IN_PROGRESS, SUCCEEDED, and FAILED.</p></li>
+
+<li><p><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</p></li>
+
+<li><p><code>target_db_server_version</code> - The target software version for the database server patching operation.</p></li>
+
+<li><p><code>target_resource_id</code> - The ID of the target resource on which the maintenance run occurs.</p></li>
+
+<li><p><code>target_resource_type</code> - The type of the target resource on which the maintenance run occurs.</p></li>
+
+<li><p><code>target_storage_server_version</code> - The target Cell version that is to be patched to.</p></li>
+
+<li><p><code>time_ended</code> - The date and time the maintenance run was completed.</p></li>
+
+<li><p><code>time_scheduled</code> - The date and time the maintenance run is scheduled to occur.</p></li>
+
+<li><p><code>time_started</code> - The date and time the maintenance run starts.</p></li>
+
+<li><p><code>total_time_taken_in_mins</code> - The total time taken by corresponding resource activity in minutes.</p></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

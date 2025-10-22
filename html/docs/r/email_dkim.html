@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_email_dkim</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_email_dkim</h1>
+
+<p>This resource provides the Dkim resource in Oracle Cloud Infrastructure Email service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/email/latest/Dkim">https://docs.oracle.com/iaas/api/#/en/email/latest/Dkim</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/email">https://github.com/oracle/terraform-provider-oci/tree/master/examples/email</a></p>
+
+<p>Creates a new DKIM for an email domain.
+This DKIM signs all approved senders in the tenancy that are in this email domain.
+Best security practices indicate to periodically rotate the DKIM that is doing the signing.
+When a second DKIM is applied, all senders seamlessly pick up the new key
+without interruption in signing.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_email_dkim&quot; &quot;test_dkim&quot; {
+	#Required
+	email_domain_id = oci_email_email_domain.test_email_domain.id
+
+	#Optional
+	defined_tags = {&quot;Operations.CostCenter&quot;= &quot;42&quot;}
+	description = var.dkim_description
+	freeform_tags = {&quot;Department&quot;= &quot;Finance&quot;}
+	name = var.dkim_name
+	private_key = var.dkim_private_key
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></p></li>
+
+<li><p><code>description</code> - (Optional) (Updatable) A string that describes the details about the DKIM. It does not have to be unique, and you can change it. Avoid entering confidential information.</p></li>
+
+<li><p><code>email_domain_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the EmailDomain for this DKIM.</p></li>
+
+<li><p><code>freeform_tags</code> - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></p></li>
+
+<li><p><code>name</code> - (Optional) The DKIM selector. This selector is required to be globally unique for this email domain. If you do not provide the selector, we will generate one for you. If you do provide the selector, we suggest adding a short region indicator to differentiate from your signing of emails in other regions you might be subscribed to. Selectors limited to ASCII characters can use alphanumeric, dash (&ldquo;-&rdquo;), and dot (&ldquo;.&rdquo;) characters. Non-ASCII selector names should adopt IDNA2008 normalization (RFC 5891-5892).</p>
+
+<p>Avoid entering confidential information.</p>
+
+<p>Example: <code>mydomain-phx-20210228</code></p></li>
+
+<li><p><code>private_key</code> - (Optional) The DKIM RSA Private Key in Privacy-Enhanced Mail (PEM) format. It is a text-based representation of the private key used for signing email messages.</p></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>cname_record_value</code> - The DNS CNAME record value to provision to the DKIM DNS subdomain, when using the CNAME method for DKIM setup (preferred).</li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment that contains this DKIM.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - The description of the DKIM. Avoid entering confidential information.</li>
+<li><code>dns_subdomain_name</code> - The name of the DNS subdomain that must be provisioned to enable email recipients to verify DKIM signatures. It is usually created with a CNAME record set to the cnameRecordValue.</li>
+<li><code>email_domain_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the email domain that this DKIM belongs to.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the DKIM.</li>
+<li><code>is_imported</code> - Indicates whether the DKIM was imported.</li>
+<li><code>key_length</code> - Length of the RSA key used in the DKIM.</li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource.</li>
+<li><code>name</code> - The DKIM selector. If the same domain is managed in more than one region, each region must use different selectors.</li>
+<li><code>state</code> - The current state of the DKIM.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time the DKIM was created. Times are expressed in <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a> timestamp format, &ldquo;YYYY-MM-ddThh:mmZ&rdquo;.  Example: <code>2021-02-12T22:47:12.613Z</code></li>
+<li><code>time_updated</code> - The time of the last change to the DKIM configuration, due to a state change or an update operation. Times are expressed in <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a> timestamp format, &ldquo;YYYY-MM-ddThh:mmZ&rdquo;.</li>
+<li><code>txt_record_value</code> - The DNS TXT record value to provision to the DKIM DNS subdomain in place of using a CNAME record. This is used in cases where a CNAME cannot be used, such as when the cnameRecordValue would exceed the maximum length for a DNS entry. You can also use this if you have an existing procedure to directly provision TXT records for DKIM. Many DNS APIs require you to break this string into segments of fewer than 255 characters.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Dkim
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Dkim
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Dkim</p>
+
+<h2>Import</h2>
+
+<p>Dkims can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_email_dkim.test_dkim &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_cloud_guard_saved_query</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_cloud_guard_saved_query</h1>
+
+<p>This resource provides the Saved Query resource in Oracle Cloud Infrastructure Cloud Guard service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/cloud-guard/latest/SavedQuery">https://docs.oracle.com/iaas/api/#/en/cloud-guard/latest/SavedQuery</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/certificatesguard">https://github.com/oracle/terraform-provider-oci/tree/master/examples/certificatesguard</a></p>
+
+<p>Creates a SavedQuery resource.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_cloud_guard_saved_query&quot; &quot;test_saved_query&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	display_name = var.saved_query_display_name
+	query = var.saved_query_query
+
+	#Optional
+	defined_tags = {&quot;foo-namespace.bar-key&quot;= &quot;value&quot;}
+	description = var.saved_query_description
+	freeform_tags = {&quot;bar-key&quot;= &quot;value&quot;}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>compartment_id</code> - (Required) (Updatable) Compartment OCID of the saved query</p></li>
+
+<li><p><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></p></li>
+
+<li><p><code>description</code> - (Optional) (Updatable) Description of the saved query</p></li>
+
+<li><p><code>display_name</code> - (Required) (Updatable) Display name of the saved query</p></li>
+
+<li><p><code>freeform_tags</code> - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></p>
+
+<p>Avoid entering confidential information.</p></li>
+
+<li><p><code>query</code> - (Required) (Updatable) The adhoc query expression that is run</p></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>compartment_id</code> - Compartment OCID of the saved query</p></li>
+
+<li><p><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></p></li>
+
+<li><p><code>description</code> - Description of the saved query</p></li>
+
+<li><p><code>display_name</code> - Display name of the saved query</p></li>
+
+<li><p><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></p>
+
+<p>Avoid entering confidential information.</p></li>
+
+<li><p><code>id</code> - OCID for the saved query</p></li>
+
+<li><p><code>query</code> - The saved query expression</p></li>
+
+<li><p><code>state</code> - The current lifecycle state of the resource</p></li>
+
+<li><p><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. System tags can be viewed by users, but can only be created by the system.  Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></p></li>
+
+<li><p><code>time_created</code> - The date and time the saved query was created. Format defined by RFC3339.</p></li>
+
+<li><p><code>time_updated</code> - The date and time the saved query was updated. Format defined by RFC3339.</p></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Saved Query
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Saved Query
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Saved Query</p>
+
+<h2>Import</h2>
+
+<p>SavedQueries can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_cloud_guard_saved_query.test_saved_query &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

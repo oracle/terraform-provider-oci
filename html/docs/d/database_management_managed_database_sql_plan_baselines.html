@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_management_managed_database_sql_plan_baselines</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_management_managed_database_sql_plan_baselines</h1>
+
+<p>This data source provides the list of Managed Database Sql Plan Baselines in Oracle Cloud Infrastructure Database Management service.</p>
+
+<p>Lists the SQL plan baselines for the specified Managed Database.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_management_managed_database_sql_plan_baselines&quot; &quot;test_managed_database_sql_plan_baselines&quot; {
+	#Required
+	managed_database_id = oci_database_management_managed_database.test_managed_database.id
+
+	#Optional
+	is_accepted = var.managed_database_sql_plan_baseline_is_accepted
+	is_adaptive = var.managed_database_sql_plan_baseline_is_adaptive
+	is_auto_purged = var.managed_database_sql_plan_baseline_is_auto_purged
+	is_enabled = var.managed_database_sql_plan_baseline_is_enabled
+	is_fixed = var.managed_database_sql_plan_baseline_is_fixed
+	is_never_executed = var.managed_database_sql_plan_baseline_is_never_executed
+	is_reproduced = var.managed_database_sql_plan_baseline_is_reproduced
+	opc_named_credential_id = var.managed_database_sql_plan_baseline_opc_named_credential_id
+	origin = var.managed_database_sql_plan_baseline_origin
+	plan_name = var.managed_database_sql_plan_baseline_plan_name
+	sql_handle = var.managed_database_sql_plan_baseline_sql_handle
+	sql_text = var.managed_database_sql_plan_baseline_sql_text
+	time_last_executed_greater_than = var.managed_database_sql_plan_baseline_time_last_executed_greater_than
+	time_last_executed_less_than = var.managed_database_sql_plan_baseline_time_last_executed_less_than
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>is_accepted</code> - (Optional) A filter to return only SQL plan baselines that are either accepted or not accepted. By default, all SQL plan baselines are returned.</li>
+<li><code>is_adaptive</code> - (Optional) A filter to return only SQL plan baselines that are either adaptive or not adaptive. By default, all SQL plan baselines are returned.</li>
+<li><code>is_auto_purged</code> - (Optional) A filter to return only SQL plan baselines that are either auto-purged or not auto-purged. By default, all SQL plan baselines are returned.</li>
+<li><code>is_enabled</code> - (Optional) A filter to return only SQL plan baselines that are either enabled or not enabled. By default, all SQL plan baselines are returned.</li>
+<li><code>is_fixed</code> - (Optional) A filter to return only SQL plan baselines that are either fixed or not fixed. By default, all SQL plan baselines are returned.</li>
+<li><code>is_never_executed</code> - (Optional) A filter to return only SQL plan baselines that are not executed till now. By default, all SQL plan baselines are returned.</li>
+<li><code>is_reproduced</code> - (Optional) A filter to return only SQL plan baselines that were either reproduced or not reproduced by the optimizer. By default, all SQL plan baselines are returned.</li>
+<li><code>managed_database_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Managed Database.</li>
+<li><code>opc_named_credential_id</code> - (Optional) The OCID of the Named Credential.</li>
+<li><code>origin</code> - (Optional) A filter to return all the SQL plan baselines that match the origin.</li>
+<li><code>plan_name</code> - (Optional) A filter to return only SQL plan baselines that match the plan name.</li>
+<li><code>sql_handle</code> - (Optional) A filter to return all the SQL plan baselines for the specified SQL handle.</li>
+<li><code>sql_text</code> - (Optional) A filter to return all the SQL plan baselines that match the SQL text. By default, the search is case insensitive. To run an exact or case-sensitive search, double-quote the search string. You may also use the &lsquo;%&rsquo; symbol as a wildcard.</li>
+<li><code>time_last_executed_greater_than</code> - (Optional) A filter to return only SQL plan baselines whose last execution time is after the specified value. By default, all SQL plan baselines are returned.</li>
+<li><code>time_last_executed_less_than</code> - (Optional) A filter to return only SQL plan baselines whose last execution time is before the specified value. By default, all SQL plan baselines are returned.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>sql_plan_baseline_collection</code> - The list of sql_plan_baseline_collection.</li>
+</ul>
+
+<h3>ManagedDatabaseSqlPlanBaseline Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>accepted</code> - Indicates whether the plan baseline is accepted (<code>YES</code>) or not (<code>NO</code>).</p></li>
+
+<li><p><code>action</code> - The application action.</p></li>
+
+<li><p><code>adaptive</code> - Indicates whether a plan that is automatically captured by SQL plan management is marked adaptive or not.</p>
+
+<p>When a new adaptive plan is found for a SQL statement that has an existing SQL plan baseline, that new plan will be added to the SQL plan baseline as an unaccepted plan, and the <code>ADAPTIVE</code> property will be marked <code>YES</code>. When this new plan is verified (either manually or via the auto evolve task), the plan will be test executed and the final plan determined at execution will become an accepted plan if its performance is better than the existing plan baseline. At this point, the value of the <code>ADAPTIVE</code> property is set to <code>NO</code> since the plan is no longer adaptive, but resolved.</p></li>
+
+<li><p><code>auto_purge</code> - Indicates whether the plan baseline is auto-purged (<code>YES</code>) or not (<code>NO</code>).</p></li>
+
+<li><p><code>enabled</code> - Indicates whether the plan baseline is enabled (<code>YES</code>) or disabled (<code>NO</code>).</p></li>
+
+<li><p><code>execution_plan</code> - The execution plan for the SQL statement.</p></li>
+
+<li><p><code>fixed</code> - Indicates whether the plan baseline is fixed (<code>YES</code>) or not (<code>NO</code>).</p></li>
+
+<li><p><code>module</code> - The application module name.</p></li>
+
+<li><p><code>origin</code> - The origin of the SQL plan baseline.</p></li>
+
+<li><p><code>plan_name</code> - The unique plan identifier.</p></li>
+
+<li><p><code>reproduced</code> - Indicates whether the optimizer was able to reproduce the plan (<code>YES</code>) or not (<code>NO</code>). The value is set to <code>YES</code> when a plan is initially added to the plan baseline.</p></li>
+
+<li><p><code>sql_handle</code> - The unique SQL identifier.</p></li>
+
+<li><p><code>sql_text</code> - The SQL text.</p></li>
+
+<li><p><code>time_created</code> - The date and time when the plan baseline was created.</p></li>
+
+<li><p><code>time_last_executed</code> - The date and time when the plan baseline was last executed.</p>
+
+<p><strong>Note:</strong> For performance reasons, database does not update this value immediately after each execution of the plan baseline. Therefore, the plan baseline may have been executed more recently than this value indicates.</p></li>
+
+<li><p><code>time_last_modified</code> - The date and time when the plan baseline was last modified.</p></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

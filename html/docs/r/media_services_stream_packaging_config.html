@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_media_services_stream_packaging_config</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_media_services_stream_packaging_config</h1>
+
+<p>This resource provides the Stream Packaging Config resource in Oracle Cloud Infrastructure Media Services service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/dms/latest/StreamPackagingConfig">https://docs.oracle.com/iaas/api/#/en/dms/latest/StreamPackagingConfig</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/media_services">https://github.com/oracle/terraform-provider-oci/tree/master/examples/media_services</a></p>
+
+<p>Creates a new Packaging Configuration.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_media_services_stream_packaging_config&quot; &quot;test_stream_packaging_config&quot; {
+	#Required
+	display_name = var.stream_packaging_config_display_name
+	distribution_channel_id = oci_mysql_channel.test_channel.id
+	segment_time_in_seconds = var.stream_packaging_config_segment_time_in_seconds
+	stream_packaging_format = var.stream_packaging_config_stream_packaging_format
+
+	#Optional
+	defined_tags = {&quot;foo-namespace.bar-key&quot;= &quot;value&quot;}
+	encryption {
+		#Required
+		algorithm = var.stream_packaging_config_encryption_algorithm
+
+		#Optional
+		kms_key_id = oci_kms_key.test_key.id
+	}
+	freeform_tags = {&quot;bar-key&quot;= &quot;value&quot;}
+	locks {
+		#Required
+		compartment_id = var.compartment_id
+		type = var.stream_packaging_config_locks_type
+
+		#Optional
+		message = var.stream_packaging_config_locks_message
+		related_resource_id = oci_usage_proxy_resource.test_resource.id
+		time_created = var.stream_packaging_config_locks_time_created
+	}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>display_name</code> - (Required) (Updatable) The name of the stream Packaging Configuration. Avoid entering confidential information.</li>
+<li><code>distribution_channel_id</code> - (Required) Unique identifier of the Distribution Channel that this stream packaging configuration belongs to.</li>
+<li><code>encryption</code> - (Optional) The encryption used by the stream packaging configuration.
+
+<ul>
+<li><code>algorithm</code> - (Required) The encryption algorithm for the stream packaging configuration.</li>
+<li><code>kms_key_id</code> - (Applicable when algorithm=AES128) The identifier of the customer managed Vault KMS symmetric encryption key (null if Oracle managed).</li>
+</ul></li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>locks</code> - (Optional) Locks associated with this resource.
+
+<ul>
+<li><code>compartment_id</code> - (Required) The compartment ID of the lock.</li>
+<li><code>message</code> - (Optional) A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked.</li>
+<li><code>related_resource_id</code> - (Optional) The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock.</li>
+<li><code>time_created</code> - (Optional) When the lock was created.</li>
+<li><code>type</code> - (Required) Type of the lock.</li>
+</ul></li>
+<li><code>segment_time_in_seconds</code> - (Required) The duration in seconds for each fragment.</li>
+<li><code>stream_packaging_format</code> - (Required) The output format for the package.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - Compartment Identifier</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>display_name</code> - The name of the stream packaging configuration. Avoid entering confidential information.</li>
+<li><code>distribution_channel_id</code> - Unique identifier of the Distribution Channel that this stream packaging configuration belongs to.</li>
+<li><code>encryption</code> - The encryption used by the stream packaging configuration.
+
+<ul>
+<li><code>algorithm</code> - The encryption algorithm for the stream packaging configuration.</li>
+<li><code>kms_key_id</code> - The identifier of the customer managed Vault KMS symmetric encryption key (null if Oracle managed).</li>
+</ul></li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - Unique identifier that is immutable on creation.</li>
+<li><code>locks</code> - Locks associated with this resource.
+
+<ul>
+<li><code>compartment_id</code> - The compartment ID of the lock.</li>
+<li><code>message</code> - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked.</li>
+<li><code>related_resource_id</code> - The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock.</li>
+<li><code>time_created</code> - When the lock was created.</li>
+<li><code>type</code> - Type of the lock.</li>
+</ul></li>
+<li><code>segment_time_in_seconds</code> - The duration in seconds for each fragment.</li>
+<li><code>state</code> - The current state of the Packaging Configuration.</li>
+<li><code>stream_packaging_format</code> - The output format for the package.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time when the Packaging Configuration was created. An RFC3339 formatted datetime string.</li>
+<li><code>time_updated</code> - The time when the Packaging Configuration was updated. An RFC3339 formatted datetime string.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Stream Packaging Config
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Stream Packaging Config
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Stream Packaging Config</p>
+
+<h2>Import</h2>
+
+<p>StreamPackagingConfigs can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_media_services_stream_packaging_config.test_stream_packaging_config &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

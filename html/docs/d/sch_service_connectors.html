@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_sch_service_connectors</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_sch_service_connectors</h1>
+
+<p>This data source provides the list of Service Connectors in Oracle Cloud Infrastructure Service Connector Hub service.</p>
+
+<p>Lists connectors in the specified compartment.
+For more information, see
+<a href="https://docs.cloud.oracle.com/iaas/Content/connector-hub/list-service-connector.htm">Listing Connectors</a>.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_sch_service_connectors&quot; &quot;test_service_connectors&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	display_name = var.service_connector_display_name
+	state = var.service_connector_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment for this request.</li>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the given display name exactly.  Example: <code>example_service_connector</code></li>
+<li><code>state</code> - (Optional) A filter to return only resources that match the given lifecycle state.  Example: <code>ACTIVE</code></li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>service_connector_collection</code> - The list of service_connector_collection.</li>
+</ul>
+
+<h3>ServiceConnector Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment containing the connector.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>description</code> - The description of the resource. Avoid entering confidential information.</li>
+<li><code>display_name</code> - A user-friendly name. It does not have to be unique, and it is changeable. Avoid entering confidential information.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the connector.</li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail. For example, the message might provide actionable information for a resource in a <code>FAILED</code> state.</li>
+<li><code>lifecyle_details</code> - <em>Please note this property is deprecated and will be removed on January 27, 2026. Use <code>lifecycleDetails</code> instead.</em> A message describing the current state in more detail. For example, the message might provide actionable information for a resource in a <code>FAILED</code> state.</li>
+<li><code>source</code> -
+
+<ul>
+<li><code>config_map</code> - The configuration map for the connector plugin. This map includes parameters specific to the connector plugin type.  For example, for <code>QueueSource</code>, the map lists the OCID of the selected queue. To find the parameters for a connector plugin, get the plugin using <a href="https://docs.cloud.oracle.com/iaas/api/#/en/serviceconnectors/latest/ConnectorPlugin/GetConnectorPlugin">GetConnectorPlugin</a> and review its schema value.</li>
+<li><code>cursor</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/connector-hub/create-service-connector-streaming-source.htm">read setting</a>, which determines where in the stream to start moving data. For configuration instructions, see <a href="https://docs.cloud.oracle.com/iaas/Content/connector-hub/create-service-connector-streaming-source.htm">Creating a Connector with a Streaming Source</a>.
+
+<ul>
+<li><code>kind</code> - The type discriminator.</li>
+</ul></li>
+<li><code>log_sources</code> - The logs for this Logging source.
+
+<ul>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment containing the log source.</li>
+<li><code>log_group_id</code> - Identifier of the log group. Either <code>_Audit</code> or the <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the log group. Note: For the Notifications target, only <code>_Audit</code> is allowed.</li>
+<li><code>log_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the log.</li>
+</ul></li>
+<li><code>monitoring_sources</code> - One or more compartment-specific lists of metric namespaces to retrieve data from.
+
+<ul>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of a compartment containing metric namespaces you want to use for the Monitoring source.</li>
+<li><code>namespace_details</code> - Discriminator for namespaces in the compartment-specific list.
+
+<ul>
+<li><code>kind</code> - The type discriminator.</li>
+<li><code>namespaces</code> - The namespaces for the compartment-specific list.
+
+<ul>
+<li><code>metrics</code> - The metrics to query for the specified metric namespace.
+
+<ul>
+<li><code>kind</code> - The type discriminator.</li>
+</ul></li>
+<li><code>namespace</code> - The source service or application to use when querying for metric data points. Must begin with <code>oci_</code>.  Example: <code>oci_computeagent</code></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><code>plugin_name</code> - The name of the connector plugin. This name indicates the service to be called by the connector plugin. For example, <code>QueueSource</code> indicates the Queue service. To find names of connector plugins, list the plugin using <a href="https://docs.cloud.oracle.com/iaas/api/#/en/serviceconnectors/latest/ConnectorPluginSummary/ListConnectorPlugins">ListConnectorPlugin</a>.</li>
+<li><code>private_endpoint_metadata</code> - The private endpoint metadata for the connector&rsquo;s source or target.
+
+<ul>
+<li><code>rce_dns_proxy_ip_address</code> - The reverse connection endpoint (RCE) IP address for DNS lookups.</li>
+<li><code>rce_traffic_ip_address</code> - The reverse connection endpoint (RCE) IP address for primary flow of traffic in the subnet.</li>
+</ul></li>
+<li><code>stream_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the stream.</li>
+</ul></li>
+<li><code>state</code> - The current state of the connector.</li>
+<li><code>system_tags</code> - The system tags associated with this resource, if any. The system tags are set by Oracle Cloud Infrastructure services. Each key is predefined and scoped to namespaces. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{orcl-cloud: {free-tier-retain: true}}</code></li>
+<li><code>target</code> -
+
+<ul>
+<li><code>batch_rollover_size_in_mbs</code> - The batch rollover size in megabytes.</li>
+<li><code>batch_rollover_time_in_ms</code> - The batch rollover time in milliseconds.</li>
+<li><code>batch_size_in_kbs</code> - The batch rollover size in kilobytes. Only one size option can be specified: <code>batchSizeInKbs</code> or <code>batchSizeInNum</code>.</li>
+<li><code>batch_size_in_num</code> - The batch rollover size in number of messages. Only one size option can be specified: <code>batchSizeInKbs</code> or <code>batchSizeInNum</code>.</li>
+<li><code>batch_time_in_sec</code> - The batch rollover time in seconds.</li>
+<li><code>bucket</code> - The name of the bucket. Valid characters are letters (upper or lower case), numbers, hyphens (-), underscores(_), and periods (.). Bucket names must be unique within an Object Storage namespace. Avoid entering confidential information. Example: my-new-bucket1</li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment containing the metric.</li>
+<li><code>dimensions</code> - List of dimension names and values.
+
+<ul>
+<li><code>dimension_value</code> - Instructions for extracting the value corresponding to the specified dimension key: Either extract the value as-is (static) or derive the value from a path (evaluated).
+
+<ul>
+<li><code>kind</code> - The type of dimension value: static or evaluated.</li>
+<li><code>path</code> - The location to use for deriving the dimension value (evaluated). The path must start with <code>logContent</code> in an acceptable notation style with supported <a href="https://jmespath.org/specification.html">JMESPath selectors</a>: expression with dot and index operator (<code>.</code> and <code>[]</code>). Example with dot notation: <code>logContent.data</code> Example with index notation: <code>logContent.data[0].content</code> For information on valid dimension keys and values, see <a href="https://docs.cloud.oracle.com/iaas/api/#/en/monitoring/latest/datatypes/MetricDataDetails">MetricDataDetails Reference</a>. The returned value depends on the results of evaluation. If the evaluated value is valid, then the evaluated value is returned without double quotes. (Any front or trailing double quotes are trimmed before returning the value. For example, the evaluated value <code>&quot;compartmentId&quot;</code> is returned as <code>compartmentId</code>.) If the evaluated value is invalid, then the returned value is <code>SCH_EVAL_INVALID_VALUE</code>. If the evaluated value is empty, then the returned value is <code>SCH_EVAL_VALUE_EMPTY</code>.</li>
+<li><code>value</code> - The data extracted from the specified dimension value (passed as-is). Unicode characters only. For information on valid dimension keys and values, see <a href="https://docs.cloud.oracle.com/iaas/api/#/en/monitoring/latest/datatypes/MetricDataDetails">MetricDataDetails Reference</a>.</li>
+</ul></li>
+<li><code>name</code> - Dimension key. A valid dimension key includes only printable ASCII, excluding periods (.) and spaces. Custom dimension keys are acceptable. Avoid entering confidential information. Due to use by Connector Hub, the following dimension names are reserved: <code>connectorId</code>, <code>connectorName</code>, <code>connectorSourceType</code>. For information on valid dimension keys and values, see <a href="https://docs.cloud.oracle.com/iaas/api/#/en/monitoring/latest/datatypes/MetricDataDetails">MetricDataDetails Reference</a>. Example: <code>type</code></li>
+</ul></li>
+<li><code>enable_formatted_messaging</code> - Whether to apply a simplified, user-friendly format to the message. Applies only when friendly formatting is supported by the connector source and the subscription protocol. Example: <code>true</code></li>
+<li><code>function_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the function.</li>
+<li><code>log_group_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Logging Analytics log group.</li>
+<li><code>log_source_identifier</code> - Identifier of the log source that you want to use for processing data received from the connector source. Applies to <code>StreamingSource</code> only. Equivalent to <code>name</code> at <a href="https://docs.cloud.oracle.com/iaas/api/#/en/logan-api-spec/latest/LogAnalyticsSource/">LogAnalyticsSource</a>.</li>
+<li><code>metric</code> - The name of the metric. Example: <code>CpuUtilization</code></li>
+<li><code>metric_namespace</code> - The namespace of the metric. Example: <code>oci_computeagent</code></li>
+<li><code>namespace</code> - The namespace.</li>
+<li><code>object_name_prefix</code> - The prefix of the objects. Avoid entering confidential information.</li>
+<li><code>private_endpoint_metadata</code> - The private endpoint metadata for the connector&rsquo;s source or target.
+
+<ul>
+<li><code>rce_dns_proxy_ip_address</code> - The reverse connection endpoint (RCE) IP address for DNS lookups.</li>
+<li><code>rce_traffic_ip_address</code> - The reverse connection endpoint (RCE) IP address for primary flow of traffic in the subnet.</li>
+</ul></li>
+<li><code>stream_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the stream.</li>
+<li><code>topic_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the topic.</li>
+</ul></li>
+<li><code>tasks</code> - The list of tasks.
+
+<ul>
+<li><code>batch_size_in_kbs</code> - Size limit (kilobytes) for batch sent to invoke the function.</li>
+<li><code>batch_time_in_sec</code> - Time limit (seconds) for batch sent to invoke the function.</li>
+<li><code>condition</code> - A filter or mask to limit the source used in the flow defined by the connector.</li>
+<li><code>function_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the function to be used as a task.</li>
+<li><code>private_endpoint_metadata</code> - The private endpoint metadata for the connector&rsquo;s source or target.
+
+<ul>
+<li><code>rce_dns_proxy_ip_address</code> - The reverse connection endpoint (RCE) IP address for DNS lookups.</li>
+<li><code>rce_traffic_ip_address</code> - The reverse connection endpoint (RCE) IP address for primary flow of traffic in the subnet.</li>
+</ul></li>
+</ul></li>
+<li><code>time_created</code> - The date and time when the connector was created. Format is defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>. Example: <code>2020-01-25T21:10:29.600Z</code></li>
+<li><code>time_updated</code> - The date and time when the connector was updated. Format is defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>. Example: <code>2020-01-25T21:10:29.600Z</code></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_database_software_images</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_database_software_images</h1>
+
+<p>This data source provides the list of Database Software Images in Oracle Cloud Infrastructure Database service.</p>
+
+<p>Gets a list of the database software images in the specified compartment.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_database_software_images&quot; &quot;test_database_software_images&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	db_system_id = oci_database_db_system.test_db_system.id
+	display_name = var.database_software_image_display_name
+	image_shape_family = var.database_software_image_image_shape_family
+	image_type = var.database_software_image_image_type
+	is_upgrade_supported = var.database_software_image_is_upgrade_supported
+	state = var.database_software_image_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The compartment <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>db_system_id</code> - (Optional) The DB system <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>. If provided, filters the results to the set of database versions which are supported for the DB system.</li>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.</li>
+<li><code>image_shape_family</code> - (Optional) A filter to return only resources that match the given image shape family exactly.</li>
+<li><code>image_type</code> - (Optional) A filter to return only resources that match the given image type exactly.</li>
+<li><code>is_upgrade_supported</code> - (Optional) If provided, filters the results to the set of database versions which are supported for Upgrade.</li>
+<li><code>state</code> - (Optional) A filter to return only resources that match the given lifecycle state exactly.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>database_software_images</code> - The list of database_software_images.</li>
+</ul>
+
+<h3>DatabaseSoftwareImage Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>database_software_image_included_patches</code> - List of one-off patches for Database Homes.</li>
+<li><code>database_software_image_one_off_patches</code> - List of one-off patches for Database Homes.</li>
+<li><code>database_version</code> - The database version with which the database software image is to be built.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</li>
+<li><code>display_name</code> - The user-friendly name for the database software image. The name does not have to be unique.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the database software image.</li>
+<li><code>image_shape_family</code> - To what shape the image is meant for.</li>
+<li><code>image_type</code> - The type of software image. Can be grid or database.</li>
+<li><code>included_patches_summary</code> - The patches included in the image and the version of the image.</li>
+<li><code>is_upgrade_supported</code> - True if this Database software image is supported for Upgrade.</li>
+<li><code>lifecycle_details</code> - Detailed message for the lifecycle state.</li>
+<li><code>ls_inventory</code> - The output from the OPatch lsInventory command, which is passed as a string.</li>
+<li><code>patch_set</code> - The PSU or PBP or Release Updates. To get a list of supported versions, use the <a href="https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/DbVersionSummary/ListDbVersions">ListDbVersions</a> operation.</li>
+<li><code>state</code> - The current state of the database software image.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</li>
+<li><code>time_created</code> - The date and time the database software image was created.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

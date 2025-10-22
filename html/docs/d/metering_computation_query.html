@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_metering_computation_query</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_metering_computation_query</h1>
+
+<p>This data source provides details about a specific Query resource in Oracle Cloud Infrastructure Metering Computation service.</p>
+
+<p>Returns the saved query.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_metering_computation_query&quot; &quot;test_query&quot; {
+	#Required
+	query_id = oci_metering_computation_query.test_query.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>query_id</code> - (Required) The query unique OCID.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The compartment OCID.</li>
+<li><code>id</code> - The query OCID.</li>
+<li><code>query_definition</code> - The common fields for queries.
+
+<ul>
+<li><code>cost_analysis_ui</code> - The common fields for Cost Analysis UI rendering.
+
+<ul>
+<li><code>graph</code> - The graph type.</li>
+<li><code>is_cumulative_graph</code> - A cumulative graph.</li>
+</ul></li>
+<li><code>display_name</code> - The query display name. Avoid entering confidential information.</li>
+<li><code>report_query</code> - The request of the generated Cost Analysis report.
+
+<ul>
+<li><code>compartment_depth</code> - The compartment depth level.</li>
+<li><code>date_range_name</code> - The UI date range, for example, LAST_THREE_MONTHS. Conflicts with timeUsageStarted and timeUsageEnded.</li>
+<li><code>filter</code> - The filter object for query usage.</li>
+<li><code>forecast</code> - Forecast configuration of usage/cost.
+
+<ul>
+<li><code>forecast_type</code> - BASIC uses the exponential smoothing (ETS) model to project future usage/costs based on history data. The basis for projections is a periodic set of equivalent historical days for which the projection is being made</li>
+<li><code>time_forecast_ended</code> - The forecast end time.</li>
+<li><code>time_forecast_started</code> - The forecast start time. Defaults to UTC-1 if not specified.</li>
+</ul></li>
+<li><code>granularity</code> - The usage granularity. HOURLY - Hourly data aggregation. DAILY - Daily data aggregation. MONTHLY - Monthly data aggregation. TOTAL - Not yet supported.</li>
+<li><code>group_by</code> - Specifies what to aggregate the result by. For example: <code>[&quot;tagNamespace&quot;, &quot;tagKey&quot;, &quot;tagValue&quot;, &quot;service&quot;, &quot;skuName&quot;, &quot;skuPartNumber&quot;, &quot;unit&quot;, &quot;compartmentName&quot;, &quot;compartmentPath&quot;, &quot;compartmentId&quot;, &quot;platform&quot;, &quot;region&quot;, &quot;logicalAd&quot;, &quot;resourceId&quot;, &quot;tenantId&quot;, &quot;tenantName&quot;]</code></li>
+<li><code>group_by_tag</code> - GroupBy a specific tagKey. Provide the tagNamespace and tagKey in the tag object. Only supports one tag in the list. For example: <code>[{&quot;namespace&quot;:&quot;oracle&quot;, &quot;key&quot;:&quot;createdBy&quot;]</code>
+
+<ul>
+<li><code>key</code> - The tag key.</li>
+<li><code>namespace</code> - The tag namespace.</li>
+<li><code>value</code> - The tag value.</li>
+</ul></li>
+<li><code>is_aggregate_by_time</code> - Specifies whether aggregated by time. If isAggregateByTime is true, all usage or cost over the query time period will be added up.</li>
+<li><code>query_type</code> - The query usage type. COST by default if it is missing.
+
+<ul>
+<li>Usage: Query the usage data.</li>
+<li>Cost: Query the cost/billing data.</li>
+<li>Credit: Query the credit adjustments data.</li>
+<li>ExpiredCredit: Query the expired credits data.</li>
+<li>AllCredit: Query the credit adjustments and expired credit.</li>
+</ul></li>
+<li><code>query_filter</code> - The filter object for query usage.</li>
+<li><code>tenant_id</code> - Tenant ID.</li>
+<li><code>time_usage_ended</code> - The usage end time.</li>
+<li><code>time_usage_started</code> - The usage start time.</li>
+</ul></li>
+<li><code>version</code> - The saved query version.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_database_management_external_exadata_infrastructure</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_database_management_external_exadata_infrastructure</h1>
+
+<p>This resource provides the External Exadata Infrastructure resource in Oracle Cloud Infrastructure Database Management service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/database-management/latest/ExternalExadataInfrastructure">https://docs.oracle.com/iaas/api/#/en/database-management/latest/ExternalExadataInfrastructure</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/databasemanagement">https://github.com/oracle/terraform-provider-oci/tree/master/examples/databasemanagement</a></p>
+
+<p>Creates an Oracle Cloud Infrastructure resource for the Exadata infrastructure and enables the Monitoring service for the Exadata infrastructure.
+The following resource/subresources are created:
+  Infrastructure
+  Storage server connectors
+  Storage servers
+  Storage grids</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_database_management_external_exadata_infrastructure&quot; &quot;test_external_exadata_infrastructure&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	db_system_ids = var.external_exadata_infrastructure_db_system_ids
+	display_name = var.external_exadata_infrastructure_display_name
+
+	#Optional
+	defined_tags = {&quot;Operations.CostCenter&quot;= &quot;42&quot;}
+	discovery_key = var.external_exadata_infrastructure_discovery_key
+	freeform_tags = {&quot;Department&quot;= &quot;Finance&quot;}
+	license_model = var.external_exadata_infrastructure_license_model
+	storage_server_names = var.external_exadata_infrastructure_storage_server_names
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>db_system_ids</code> - (Required) (Updatable) The list of DB systems in the Exadata infrastructure.</li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>discovery_key</code> - (Optional) (Updatable) The unique key of the discovery request.</li>
+<li><code>display_name</code> - (Required) (Updatable) The name of the Exadata infrastructure.</li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>license_model</code> - (Optional) (Updatable) The Oracle license model that applies to the database management resources.</li>
+<li><code>storage_server_names</code> - (Optional) (Updatable) The list of all the Exadata storage server names to be included for monitoring purposes. If not specified, all the Exadata storage servers associated with the DB systems are included.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>additional_details</code> - The additional details of the resource defined in <code>{&quot;key&quot;: &quot;value&quot;}</code> format. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>database_compartments</code> - The list of <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCIDs</a> of the compartments.</li>
+<li><code>database_systems</code> - A list of DB systems.
+
+<ul>
+<li><code>additional_details</code> - The additional details of the resource defined in <code>{&quot;key&quot;: &quot;value&quot;}</code> format. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>display_name</code> - The name of the Exadata resource. English letters, numbers, &ldquo;-&rdquo;, &ldquo;_&rdquo; and &ldquo;.&rdquo; only.</li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Exadata resource.</li>
+<li><code>internal_id</code> - The internal ID of the Exadata resource.</li>
+<li><code>license_model</code> - The Oracle license model that applies to the database management resources.</li>
+<li><code>lifecycle_details</code> - The details of the lifecycle state of the Exadata resource.</li>
+<li><code>resource_type</code> - The type of Exadata resource.</li>
+<li><code>state</code> - The current lifecycle state of the database resource.</li>
+<li><code>status</code> - The status of the Exadata resource.</li>
+<li><code>time_created</code> - The timestamp of the creation of the Exadata resource.</li>
+<li><code>time_updated</code> - The timestamp of the last update of the Exadata resource.</li>
+<li><code>version</code> - The version of the Exadata resource.</li>
+</ul></li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>display_name</code> - The name of the Exadata resource. English letters, numbers, &ldquo;-&rdquo;, &ldquo;_&rdquo; and &ldquo;.&rdquo; only.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Exadata resource.</li>
+<li><code>internal_id</code> - The internal ID of the Exadata resource.</li>
+<li><code>license_model</code> - The Oracle license model that applies to the database management resources.</li>
+<li><code>lifecycle_details</code> - The details of the lifecycle state of the Exadata resource.</li>
+<li><code>rack_size</code> - The rack size of the Exadata infrastructure.</li>
+<li><code>resource_type</code> - The type of Exadata resource.</li>
+<li><code>state</code> - The current lifecycle state of the database resource.</li>
+<li><code>status</code> - The status of the Exadata resource.</li>
+<li><code>storage_grid</code> - The Exadata storage server grid of the Exadata infrastructure.
+
+<ul>
+<li><code>additional_details</code> - The additional details of the resource defined in <code>{&quot;key&quot;: &quot;value&quot;}</code> format. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>display_name</code> - The name of the Exadata resource. English letters, numbers, &ldquo;-&rdquo;, &ldquo;_&rdquo; and &ldquo;.&rdquo; only.</li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Exadata resource.</li>
+<li><code>internal_id</code> - The internal ID of the Exadata resource.</li>
+<li><code>lifecycle_details</code> - The details of the lifecycle state of the Exadata resource.</li>
+<li><code>resource_type</code> - The type of Exadata resource.</li>
+<li><code>server_count</code> - The number of Exadata storage servers in the Exadata infrastructure.</li>
+<li><code>state</code> - The current lifecycle state of the database resource.</li>
+<li><code>status</code> - The status of the Exadata resource.</li>
+<li><code>time_created</code> - The timestamp of the creation of the Exadata resource.</li>
+<li><code>time_updated</code> - The timestamp of the last update of the Exadata resource.</li>
+<li><code>version</code> - The version of the Exadata resource.</li>
+</ul></li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. System tags can be viewed by users, but can only be created by the system.  Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The timestamp of the creation of the Exadata resource.</li>
+<li><code>time_updated</code> - The timestamp of the last update of the Exadata resource.</li>
+<li><code>version</code> - The version of the Exadata resource.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the External Exadata Infrastructure
+	* <code>update</code> - (Defaults to 20 minutes), when updating the External Exadata Infrastructure
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the External Exadata Infrastructure</p>
+
+<h2>Import</h2>
+
+<p>ExternalExadataInfrastructures can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_database_management_external_exadata_infrastructure.test_external_exadata_infrastructure &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

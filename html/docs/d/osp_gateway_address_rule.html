@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_osp_gateway_address_rule</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_osp_gateway_address_rule</h1>
+
+<p>This data source provides details about a specific Address Rule resource in Oracle Cloud Infrastructure Osp Gateway service.</p>
+
+<p>Get the address rule for the compartment based on the country code</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_osp_gateway_address_rule&quot; &quot;test_address_rule&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	country_code = var.address_rule_country_code
+	osp_home_region = var.address_rule_osp_home_region
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>country_code</code> - (Required) Country code for the address rule in ISO-3166-1 2-letter format.</li>
+<li><code>osp_home_region</code> - (Required) The home region&rsquo;s public name of the logged in user.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>address</code> - Address type rule information
+
+<ul>
+<li><code>fields</code> - Address type rule fields
+
+<ul>
+<li><code>format</code> - Format information
+
+<ul>
+<li><code>example</code> - Example of the desired format that matches the regex</li>
+<li><code>value</code> - Regex format specification</li>
+</ul></li>
+<li><code>is_required</code> - The given field is requeired or not</li>
+<li><code>label</code> - Label information
+
+<ul>
+<li><code>example</code> - English translation of the label (for reference only - translation is not provided)</li>
+<li><code>value</code> - Language token of the required label</li>
+</ul></li>
+<li><code>language</code> - Locale code (rfc4646 format) of a forced language (e.g.: jp addresses require jp always)</li>
+<li><code>name</code> - The field name</li>
+</ul></li>
+<li><code>third_party_validation</code> - Third party validation.</li>
+</ul></li>
+<li><code>contact</code> - Contact type rule information
+
+<ul>
+<li><code>fields</code> - Contact type rule fields
+
+<ul>
+<li><code>format</code> - Format information
+
+<ul>
+<li><code>example</code> - Example of the desired format that matches the regex</li>
+<li><code>value</code> - Regex format specification</li>
+</ul></li>
+<li><code>is_required</code> - The given field is requeired or not</li>
+<li><code>label</code> - Label information
+
+<ul>
+<li><code>example</code> - English translation of the label (for reference only - translation is not provided)</li>
+<li><code>value</code> - Language token of the required label</li>
+</ul></li>
+<li><code>language</code> - Locale code (rfc4646 format) of a forced language (e.g.: jp addresses require jp always)</li>
+<li><code>name</code> - The field name</li>
+</ul></li>
+</ul></li>
+<li><code>country_code</code> - Country code for the address rule in ISO-3166-1 2-letter format</li>
+<li><code>tax</code> - Tax type rule information
+
+<ul>
+<li><code>fields</code> - Tax type rule fields
+
+<ul>
+<li><code>format</code> - Format information
+
+<ul>
+<li><code>example</code> - Example of the desired format that matches the regex</li>
+<li><code>value</code> - Regex format specification</li>
+</ul></li>
+<li><code>is_required</code> - The given field is requeired or not</li>
+<li><code>label</code> - Label information
+
+<ul>
+<li><code>example</code> - English translation of the label (for reference only - translation is not provided)</li>
+<li><code>value</code> - Language token of the required label</li>
+</ul></li>
+<li><code>language</code> - Locale code (rfc4646 format) of a forced language (e.g.: jp addresses require jp always)</li>
+<li><code>name</code> - The field name</li>
+</ul></li>
+<li><code>value_set</code> - Label value pair for allowed values. Used for GIRO
+
+<ul>
+<li><code>name</code> - User friendly name</li>
+<li><code>value</code> - Value</li>
+</ul></li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_log_analytics_namespace_field_usage</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_log_analytics_namespace_field_usage</h1>
+
+<p>This data source provides details about a specific Namespace Field Usage resource in Oracle Cloud Infrastructure Log Analytics service.</p>
+
+<p>Gets usage information about the field with the specified name.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_log_analytics_namespace_field_usage&quot; &quot;test_namespace_field_usage&quot; {
+	#Required
+	field_name = var.namespace_field_usage_field_name
+	namespace = var.namespace_field_usage_namespace
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>field_name</code> - (Required) The field name.</li>
+<li><code>namespace</code> - (Required) The Logging Analytics namespace used for the request.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>dependent_parsers</code> - Parsers that depend on or use the field.
+
+<ul>
+<li><code>dependencies</code> - The list of dependencies of the parser.
+
+<ul>
+<li><code>reference_display_name</code> - The display name of the dependency object</li>
+<li><code>reference_id</code> - The unique identifier of the reference, if available.</li>
+<li><code>reference_name</code> - The name of the dependency object</li>
+<li><code>reference_type</code> - The type of reference that defines the dependency.</li>
+<li><code>type</code> - The dependency type.</li>
+</ul></li>
+<li><code>is_system</code> - The system flag.  A value of false denotes a custom, or user defined object.  A value of true denotes a built in object.</li>
+<li><code>parser_display_name</code> - The parser display name.</li>
+<li><code>parser_id</code> - The parser unique identifier.</li>
+<li><code>parser_name</code> - The parser name.</li>
+<li><code>parser_type</code> - The parser type</li>
+</ul></li>
+<li><code>dependent_sources</code> - Sources that depend on or use the field.
+
+<ul>
+<li><code>dependencies</code> - The list of dependencies defined by the source.
+
+<ul>
+<li><code>reference_display_name</code> - The display name of the dependency object</li>
+<li><code>reference_id</code> - The unique identifier of the reference, if available.</li>
+<li><code>reference_name</code> - The name of the dependency object</li>
+<li><code>reference_type</code> - The type of reference that defines the dependency.</li>
+<li><code>type</code> - The dependency type.</li>
+</ul></li>
+<li><code>entity_types</code> - The entity types.
+
+<ul>
+<li><code>entity_type</code> - The entity type.</li>
+<li><code>entity_type_category</code> - The type category.</li>
+<li><code>entity_type_display_name</code> - The entity type display name.</li>
+<li><code>source_id</code> - The source unique identifier.</li>
+</ul></li>
+<li><code>is_auto_association_enabled</code> - A flag indicating whether or not the source is marked for auto association.</li>
+<li><code>is_system</code> - The system flag.  A value of false denotes a custom, or user defined object.  A value of true denotes a built in object.</li>
+<li><code>source_display_name</code> - The source display name.</li>
+<li><code>source_id</code> - The source unique identifier.</li>
+<li><code>source_name</code> - The source name.</li>
+<li><code>source_type</code> - The source type.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

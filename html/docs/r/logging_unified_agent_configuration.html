@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_logging_unified_agent_configuration</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_logging_unified_agent_configuration</h1>
+
+<p>This resource provides the Unified Agent Configuration resource in Oracle Cloud Infrastructure Logging service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/logging-management/latest/UnifiedAgentConfiguration">https://docs.oracle.com/iaas/api/#/en/logging-management/latest/UnifiedAgentConfiguration</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/logging">https://github.com/oracle/terraform-provider-oci/tree/master/examples/logging</a></p>
+
+<p>Create unified agent configuration registration.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_logging_unified_agent_configuration&quot; &quot;test_unified_agent_configuration&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	description = var.unified_agent_configuration_description
+	display_name = var.unified_agent_configuration_display_name
+	is_enabled = var.unified_agent_configuration_is_enabled
+    description = var.unified_agent_configuration_description
+	display_name = var.unified_agent_configuration_display_name
+	service_configuration {
+		#Required
+		configuration_type = var.unified_agent_configuration_service_configuration_configuration_type
+
+		#Optional
+		application_configurations {
+			#Required
+			destination {
+
+				#Optional
+				compartment_id = var.compartment_id
+				metrics_namespace = var.unified_agent_configuration_service_configuration_application_configurations_destination_metrics_namespace
+			}
+			source_type = var.unified_agent_configuration_service_configuration_application_configurations_source_type
+
+			#Optional
+			source {
+
+				#Optional
+				name = var.unified_agent_configuration_service_configuration_application_configurations_source_name
+				scrape_targets {
+
+					#Optional
+					k8s_namespace = var.unified_agent_configuration_service_configuration_application_configurations_source_scrape_targets_k8s_namespace
+					name = var.unified_agent_configuration_service_configuration_application_configurations_source_scrape_targets_name
+					resource_group = var.unified_agent_configuration_service_configuration_application_configurations_source_scrape_targets_resource_group
+					resource_type = var.unified_agent_configuration_service_configuration_application_configurations_source_scrape_targets_resource_type
+					service_name = oci_core_service.test_service.name
+					url = var.unified_agent_configuration_service_configuration_application_configurations_source_scrape_targets_url
+				}
+			}
+			sources {
+
+				#Optional
+				advanced_options {
+
+					#Optional
+					is_read_from_head = var.unified_agent_configuration_service_configuration_application_configurations_sources_advanced_options_is_read_from_head
+				}
+				name = var.unified_agent_configuration_service_configuration_application_configurations_sources_name
+				parser {
+					#Required
+					parser_type = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_parser_type
+
+					#Optional
+					delimiter = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_delimiter
+					expression = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_expression
+					field_time_key = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_field_time_key
+					format = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_format
+					format_firstline = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_format_firstline
+					grok_failure_key = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_grok_failure_key
+					grok_name_key = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_grok_name_key
+					is_estimate_current_event = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_is_estimate_current_event
+					is_keep_time_key = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_is_keep_time_key
+					is_merge_cri_fields = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_is_merge_cri_fields
+					is_null_empty_string = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_is_null_empty_string
+					is_support_colonless_ident = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_is_support_colonless_ident
+					is_with_priority = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_is_with_priority
+					keys = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_keys
+					message_format = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_message_format
+					message_key = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_message_key
+					multi_line_start_regexp = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_multi_line_start_regexp
+					nested_parser {
+
+						#Optional
+						parse_nested = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_nested_parser_parse_nested
+						separator = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_nested_parser_separator
+						time_format = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_nested_parser_time_format
+						time_type = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_nested_parser_time_type
+					}
+					null_value_pattern = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_null_value_pattern
+					parse_nested = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_parse_nested
+					patterns {
+
+						#Optional
+						field_time_format = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_patterns_field_time_format
+						field_time_key = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_patterns_field_time_key
+						field_time_zone = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_patterns_field_time_zone
+						name = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_patterns_name
+						pattern = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_patterns_pattern
+					}
+					record_input {
+
+						#Optional
+						dimensions = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_record_input_dimensions
+						namespace = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_record_input_namespace
+						resource_group = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_record_input_resource_group
+					}
+					rfc5424time_format = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_rfc5424time_format
+					separator = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_separator
+					syslog_parser_type = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_syslog_parser_type
+					time_format = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_time_format
+					time_type = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_time_type
+					timeout_in_milliseconds = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_timeout_in_milliseconds
+					types = var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_types
+				}
+				paths = var.unified_agent_configuration_service_configuration_application_configurations_sources_paths
+				source_type = var.unified_agent_configuration_service_configuration_application_configurations_sources_source_type
+			}
+			unified_agent_configuration_filter {
+
+				#Optional
+				allow_list = var.unified_agent_configuration_service_configuration_application_configurations_unified_agent_configuration_filter_allow_list
+				deny_list = var.unified_agent_configuration_service_configuration_application_configurations_unified_agent_configuration_filter_deny_list
+				filter_type = var.unified_agent_configuration_service_configuration_application_configurations_unified_agent_configuration_filter_filter_type
+				name = var.unified_agent_configuration_service_configuration_application_configurations_unified_agent_configuration_filter_name
+			}
+		}
+		
+		destination {
+
+			#Optional
+			log_object_id = oci_objectstorage_object.test_object.id
+			operational_metrics_configuration {
+
+				#Optional
+				destination {
+
+					#Optional
+					compartment_id = var.compartment_id
+				}
+				source {
+
+					#Optional
+					metrics = var.unified_agent_configuration_service_configuration_destination_operational_metrics_configuration_source_metrics
+					
+					#Required
+					record_input {
+
+						#Optional
+						namespace = var.unified_agent_configuration_service_configuration_destination_operational_metrics_configuration_source_record_input_namespace
+						resource_group = var.unified_agent_configuration_service_configuration_destination_operational_metrics_configuration_source_record_input_resource_group
+					}
+					type = var.unified_agent_configuration_service_configuration_destination_operational_metrics_configuration_source_type
+				}
+			}
+		}
+		sources {
+			#Required
+			source_type = var.unified_agent_configuration_service_configuration_sources_source_type
+
+			#Optional
+			advanced_options {
+
+				#Optional
+				is_read_from_head = var.unified_agent_configuration_service_configuration_sources_advanced_options_is_read_from_head
+			}
+			channels = var.unified_agent_configuration_service_configuration_sources_channels
+			custom_plugin = var.unified_agent_configuration_service_configuration_sources_custom_plugin
+			name = var.unified_agent_configuration_service_configuration_sources_name
+			parser {
+				#Required
+				parser_type = var.unified_agent_configuration_service_configuration_sources_parser_parser_type
+
+				#Optional
+				delimiter = var.unified_agent_configuration_service_configuration_sources_parser_delimiter
+				expression = var.unified_agent_configuration_service_configuration_sources_parser_expression
+				field_time_key = var.unified_agent_configuration_service_configuration_sources_parser_field_time_key
+				format = var.unified_agent_configuration_service_configuration_sources_parser_format
+				format_firstline = var.unified_agent_configuration_service_configuration_sources_parser_format_firstline
+				grok_failure_key = var.unified_agent_configuration_service_configuration_sources_parser_grok_failure_key
+				grok_name_key = var.unified_agent_configuration_service_configuration_sources_parser_grok_name_key
+				is_estimate_current_event = var.unified_agent_configuration_service_configuration_sources_parser_is_estimate_current_event
+				is_keep_time_key = var.unified_agent_configuration_service_configuration_sources_parser_is_keep_time_key
+				is_merge_cri_fields = var.unified_agent_configuration_service_configuration_sources_parser_is_merge_cri_fields
+				is_null_empty_string = var.unified_agent_configuration_service_configuration_sources_parser_is_null_empty_string
+				is_support_colonless_ident = var.unified_agent_configuration_service_configuration_sources_parser_is_support_colonless_ident
+				is_with_priority = var.unified_agent_configuration_service_configuration_sources_parser_is_with_priority
+				keys = var.unified_agent_configuration_service_configuration_sources_parser_keys
+				message_format = var.unified_agent_configuration_service_configuration_sources_parser_message_format
+				message_key = var.unified_agent_configuration_service_configuration_sources_parser_message_key
+				multi_line_start_regexp = var.unified_agent_configuration_service_configuration_sources_parser_multi_line_start_regexp
+				nested_parser {
+
+					#Optional
+					parse_nested = var.unified_agent_configuration_service_configuration_sources_parser_nested_parser_parse_nested
+					separator = var.unified_agent_configuration_service_configuration_sources_parser_nested_parser_separator
+					time_format = var.unified_agent_configuration_service_configuration_sources_parser_nested_parser_time_format
+					field_time_key = var.unified_agent_configuration_service_configuration_sources_parser_nested_parser_field_time_key
+					is_keep_time_key = var.unified_agent_configuration_service_configuration_sources_parser_nested_parser_is_keep_time_key
+				}
+				null_value_pattern = var.unified_agent_configuration_service_configuration_sources_parser_null_value_pattern
+				parse_nested = var.unified_agent_configuration_service_configuration_sources_parser_parse_nested
+				patterns {
+
+					#Optional
+					field_time_format = var.unified_agent_configuration_service_configuration_sources_parser_patterns_field_time_format
+					field_time_key = var.unified_agent_configuration_service_configuration_sources_parser_patterns_field_time_key
+					field_time_zone = var.unified_agent_configuration_service_configuration_sources_parser_patterns_field_time_zone
+					name = var.unified_agent_configuration_service_configuration_sources_parser_patterns_name
+					pattern = var.unified_agent_configuration_service_configuration_sources_parser_patterns_pattern
+				}
+				record_input {
+
+					#Optional
+					dimensions = var.unified_agent_configuration_service_configuration_sources_parser_record_input_dimensions
+					namespace = var.unified_agent_configuration_service_configuration_sources_parser_record_input_namespace
+					resource_group = var.unified_agent_configuration_service_configuration_sources_parser_record_input_resource_group
+				}
+				rfc5424time_format = var.unified_agent_configuration_service_configuration_sources_parser_rfc5424time_format
+				separator = var.unified_agent_configuration_service_configuration_sources_parser_separator
+				syslog_parser_type = var.unified_agent_configuration_service_configuration_sources_parser_syslog_parser_type
+				time_format = var.unified_agent_configuration_service_configuration_sources_parser_time_format
+				time_type = var.unified_agent_configuration_service_configuration_sources_parser_time_type
+				timeout_in_milliseconds = var.unified_agent_configuration_service_configuration_sources_parser_timeout_in_milliseconds
+				types = var.unified_agent_configuration_service_configuration_sources_parser_types
+			}
+			paths = var.unified_agent_configuration_service_configuration_sources_paths
+		}
+		unified_agent_configuration_filter {
+			#Required
+			filter_type = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_filter_type
+
+			#Optional
+			allow_list {
+
+				#Optional
+				key = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_allow_list_key
+				pattern = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_allow_list_pattern
+			}
+			custom_filter_type = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_custom_filter_type
+			custom_sections {
+
+				#Optional
+				name = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_custom_sections_name
+				params = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_custom_sections_params
+			}
+			deny_list {
+
+				#Optional
+				key = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_deny_list_key
+				pattern = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_deny_list_pattern
+			}
+			emit_invalid_record_to_error = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_emit_invalid_record_to_error
+			hash_value_field = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_hash_value_field
+			inject_key_prefix = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_inject_key_prefix
+			is_auto_typecast_enabled = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_is_auto_typecast_enabled
+			is_renew_record_enabled = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_is_renew_record_enabled
+			is_ruby_enabled = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_is_ruby_enabled
+			keep_keys = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_keep_keys
+			key_name = oci_kms_key.test_key.name
+			name = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_name
+			params = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_params
+			parser {
+				#Required
+				parser_type = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_parser_type
+
+				#Optional
+				delimiter = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_delimiter
+				expression = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_expression
+				field_time_key = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_field_time_key
+				format = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_format
+				format_firstline = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_format_firstline
+				grok_failure_key = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_grok_failure_key
+				grok_name_key = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_grok_name_key
+				is_estimate_current_event = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_is_estimate_current_event
+				is_keep_time_key = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_is_keep_time_key
+				is_merge_cri_fields = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_is_merge_cri_fields
+				is_null_empty_string = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_is_null_empty_string
+				is_support_colonless_ident = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_is_support_colonless_ident
+				is_with_priority = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_is_with_priority
+				keys = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_keys
+				message_format = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_message_format
+				message_key = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_message_key
+				multi_line_start_regexp = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_multi_line_start_regexp
+				nested_parser {
+
+					#Optional
+					parse_nested = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_nested_parser_parse_nested
+					separator = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_nested_parser_separator
+					time_format = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_nested_parser_time_format
+					time_type = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_nested_parser_time_type
+				}
+				null_value_pattern = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_null_value_pattern
+				parse_nested = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_parse_nested
+				patterns {
+
+					#Optional
+					field_time_format = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_patterns_field_time_format
+					field_time_key = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_patterns_field_time_key
+					field_time_zone = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_patterns_field_time_zone
+					name = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_patterns_name
+					pattern = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_patterns_pattern
+				}
+				record_input {
+
+					#Optional
+					dimensions = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_record_input_dimensions
+					namespace = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_record_input_namespace
+					resource_group = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_record_input_resource_group
+				}
+				rfc5424time_format = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_rfc5424time_format
+				separator = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_separator
+				syslog_parser_type = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_syslog_parser_type
+				time_format = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_time_format
+				time_type = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_time_type
+				timeout_in_milliseconds = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_timeout_in_milliseconds
+				types = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_types
+			}
+			record_list {
+
+				#Optional
+				key = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_record_list_key
+				value = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_record_list_value
+			}
+			remove_key_name_field = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_remove_key_name_field
+			remove_keys = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_remove_keys
+			renew_time_key = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_renew_time_key
+			replace_invalid_sequence = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_replace_invalid_sequence
+			reserve_data = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_reserve_data
+			reserve_time = var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_reserve_time
+		}
+	}
+
+	#Optional
+	defined_tags = {&quot;Operations.CostCenter&quot;= &quot;42&quot;}
+	freeform_tags = {&quot;Department&quot;= &quot;Finance&quot;}
+	group_association {
+
+		#Optional
+		group_list = var.unified_agent_configuration_group_association_group_list
+	}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>compartment_id</code> - (Required) (Updatable) The OCID of the compartment that the resource belongs to.</p></li>
+
+<li><p><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></p></li>
+
+<li><p><code>description</code> - (Required) (Updatable) Description for this resource.</p></li>
+
+<li><p><code>display_name</code> - (Required) (Updatable) The user-friendly display name. This must be unique within the enclosing resource, and it&rsquo;s changeable. Avoid entering confidential information.</p></li>
+
+<li><p><code>freeform_tags</code> - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></p></li>
+
+<li><p><code>group_association</code> - (Optional) (Updatable) Groups using the configuration.</p>
+
+<ul>
+<li><code>group_list</code> - (Optional) (Updatable) list of group/dynamic group ids associated with this configuration.</li>
+</ul></li>
+
+<li><p><code>is_enabled</code> - (Required) (Updatable) Whether or not this resource is currently enabled.</p></li>
+
+<li><p><code>service_configuration</code> - (Required) (Updatable) Top level Unified Agent service configuration object.</p>
+
+<ul>
+<li><p><code>application_configurations</code> - (Required when configuration_type=MONITORING) (Updatable) Unified Agent monitoring application configuration details.</p>
+
+<ul>
+<li><p><code>destination</code> - (Required) (Updatable) Kubernetes destination object.</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required when source_type=KUBERNETES | TAIL | URL) (Updatable) The OCID of the compartment that the resource belongs to.</li>
+<li><code>metrics_namespace</code> - (Required when source_type=KUBERNETES | TAIL | URL) (Updatable) Namespace to which metrics will be emitted.</li>
+</ul></li>
+
+<li><p><code>source</code> - (Required when source_type=KUBERNETES | URL) (Updatable) Kubernetes source object.</p>
+
+<ul>
+<li><code>name</code> - (Required when source_type=KUBERNETES | URL) (Updatable) Unique name for the source.</li>
+<li><code>scrape_targets</code> - (Required when source_type=KUBERNETES | URL) (Updatable) List of UnifiedAgentKubernetesScrapeTarget.
+
+<ul>
+<li><code>k8s_namespace</code> - (Required when source_type=KUBERNETES) (Updatable) K8s namespace of the resource.</li>
+<li><code>name</code> - (Applicable when source_type=URL) (Updatable) Custom name.</li>
+<li><code>resource_group</code> - (Applicable when source_type=KUBERNETES) (Updatable) Resource group in Oracle Cloud Infrastructure monitoring.</li>
+<li><code>resource_type</code> - (Required when source_type=KUBERNETES) (Updatable) Type of resource to scrape metrics.</li>
+<li><code>service_name</code> - (Applicable when source_type=KUBERNETES) (Updatable) Name of the service prepended to the endpoints.</li>
+<li><code>url</code> - (Required when source_type=URL) (Updatable) URL from which the metrics are fetched.</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>source_type</code> - (Required) (Updatable) Type of source of metrics</p></li>
+
+<li><p><code>sources</code> - (Required when source_type=TAIL) (Updatable) Tail log source objects.</p>
+
+<ul>
+<li><p><code>advanced_options</code> - (Applicable when source_type=TAIL) (Updatable) Advanced options for logging configuration</p>
+
+<ul>
+<li><code>is_read_from_head</code> - (Applicable when source_type=TAIL) (Updatable) Starts to read the logs from the head of the file or the last read position recorded in pos_file, not tail.</li>
+</ul></li>
+
+<li><p><code>name</code> - (Required when source_type=TAIL) (Updatable) Unique name for the source.</p></li>
+
+<li><p><code>parser</code> - (Applicable when source_type=TAIL) (Updatable) Source parser object.</p>
+
+<ul>
+<li><p><code>delimiter</code> - (Applicable when parser_type=CSV | TSV) (Updatable) CSV delimiter.</p></li>
+
+<li><p><code>expression</code> - (Required when parser_type=REGEXP) (Updatable) Regex pattern.</p></li>
+
+<li><p><code>field_time_key</code> - (Applicable when source_type=TAIL) (Updatable) Specifies the time field for the event time. If the event doesn&rsquo;t have this field, the current time is used.</p></li>
+
+<li><p><code>format</code> - (Required when parser_type=MULTILINE) (Updatable) Mutiline pattern format.</p></li>
+
+<li><p><code>format_firstline</code> - (Applicable when parser_type=MULTILINE) (Updatable) First line pattern format.</p></li>
+
+<li><p><code>grok_failure_key</code> - (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable) Grok failure key.</p></li>
+
+<li><p><code>grok_name_key</code> - (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable) Grok name key.</p></li>
+
+<li><p><code>is_estimate_current_event</code> - (Applicable when source_type=TAIL) (Updatable) If true, use Fluent::EventTime.now(current time) as a timestamp when the time_key is specified.</p></li>
+
+<li><p><code>is_keep_time_key</code> - (Applicable when source_type=TAIL) (Updatable) If true, keep the time field in the record.</p></li>
+
+<li><p><code>is_merge_cri_fields</code> - (Applicable when parser_type=CRI) (Updatable) If you don&rsquo;t need stream or logtag fields, set this to false.</p></li>
+
+<li><p><code>is_null_empty_string</code> - (Applicable when source_type=TAIL) (Updatable) If true, an empty string field is replaced with a null value.</p></li>
+
+<li><p><code>is_support_colonless_ident</code> - (Applicable when parser_type=SYSLOG) (Updatable) Specifies whether or not to support colonless ident. Corresponds to the Fluentd support_colonless_ident parameter.</p></li>
+
+<li><p><code>is_with_priority</code> - (Applicable when parser_type=SYSLOG) (Updatable) Specifies with priority or not. Corresponds to the Fluentd with_priority parameter.</p></li>
+
+<li><p><code>keys</code> - (Required when parser_type=CSV | TSV) (Updatable) CSV keys.</p></li>
+
+<li><p><code>message_format</code> - (Applicable when parser_type=SYSLOG) (Updatable) Syslog message format.</p></li>
+
+<li><p><code>message_key</code> - (Applicable when parser_type=NONE) (Updatable) Specifies the field name to contain logs.</p></li>
+
+<li><p><code>multi_line_start_regexp</code> - (Applicable when parser_type=MULTILINE_GROK) (Updatable) Multiline start regexp pattern.</p></li>
+
+<li><p><code>nested_parser</code> - (Applicable when parser_type=CRI) (Updatable) Optional nested JSON Parser for CRI. Supported fields are fieldTimeKey, timeFormat, and isKeepTimeKey.</p>
+
+<ul>
+<li><code>parse_nested</code> - (Applicable when parser_type=CRI) (Updatable) If true, a separator parameter can be further defined.</li>
+<li><code>separator</code> - (Applicable when parser_type=CRI) (Updatable) Keys of adjacent levels are joined by the separator.</li>
+<li><code>time_format</code> - (Applicable when parser_type=CRI) (Updatable) Process time value using the specified format.</li>
+<li><code>time_type</code> - (Applicable when parser_type=CRI) (Updatable) JSON parser time type.</li>
+</ul></li>
+
+<li><p><code>null_value_pattern</code> - (Applicable when source_type=TAIL) (Updatable) Specify the null value pattern.</p></li>
+
+<li><p><code>parse_nested</code> - (Applicable when parser_type=JSON) (Updatable) If true, a separator parameter can be further defined.</p></li>
+
+<li><p><code>parser_type</code> - (Required) (Updatable) Type of fluent parser.</p></li>
+
+<li><p><code>patterns</code> - (Required when parser_type=GROK | MULTILINE_GROK) (Updatable) Grok pattern object.</p>
+
+<ul>
+<li><code>field_time_format</code> - (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable) Process value using the specified format. This is available only when time_type is a string.</li>
+<li><code>field_time_key</code> - (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable) Specify the time field for the event time. If the event doesn&rsquo;t have this field, the current time is used.</li>
+<li><code>field_time_zone</code> - (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable) Use the specified time zone. The time value can be parsed or formatted in the specified time zone.</li>
+<li><code>name</code> - (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable) The name key to tag this Grok pattern.</li>
+<li><code>pattern</code> - (Required when parser_type=GROK | MULTILINE_GROK) (Updatable) The Grok pattern.</li>
+</ul></li>
+
+<li><p><code>record_input</code> - (Applicable when parser_type=OPENMETRICS) (Updatable) record section of openmetrics parser.</p>
+
+<ul>
+<li><code>dimensions</code> - (Applicable when parser_type=OPENMETRICS) (Updatable) Dimensions to be added for metrics.</li>
+<li><code>namespace</code> - (Applicable when parser_type=OPENMETRICS) (Updatable) Namespace to emit metrics.</li>
+<li><code>resource_group</code> - (Applicable when parser_type=OPENMETRICS) (Updatable) Resource group to emit metrics.</li>
+</ul></li>
+
+<li><p><code>rfc5424time_format</code> - (Applicable when parser_type=SYSLOG) (Updatable) RFC 5424 time format.</p></li>
+
+<li><p><code>separator</code> - (Applicable when parser_type=JSON) (Updatable) Keys of adjacent levels are joined by the separator.</p></li>
+
+<li><p><code>syslog_parser_type</code> - (Applicable when parser_type=SYSLOG) (Updatable) Syslog parser type.</p></li>
+
+<li><p><code>time_format</code> - (Applicable when parser_type=JSON | REGEXP | SYSLOG) (Updatable) Process time value using the specified format.</p></li>
+
+<li><p><code>time_type</code> - (Applicable when parser_type=JSON) (Updatable) JSON parser time type.</p></li>
+
+<li><p><code>timeout_in_milliseconds</code> - (Applicable when source_type=TAIL) (Updatable) Specify the timeout for parse processing. This is mainly for detecting an incorrect regexp pattern.</p></li>
+
+<li><p><code>types</code> - (Applicable when source_type=TAIL) (Updatable) Specify types for converting a field into another type. For example, With this configuration: <parse> @type csv keys time,host,req_id,user time_key time </parse></p>
+
+<p>This incoming event: &ldquo;2013/02/28 12:00:00,192.168.0.1,111,-&rdquo;</p>
+
+<p>is parsed as: 1362020400 (2013/02/28/ 12:00:00)</p>
+
+<p>record: { &ldquo;host&rdquo;   : &ldquo;192.168.0.1&rdquo;, &ldquo;req_id&rdquo; : &ldquo;111&rdquo;, &ldquo;user&rdquo;   : &ldquo;-&rdquo; }</p></li>
+</ul></li>
+
+<li><p><code>paths</code> - (Required when source_type=TAIL) (Updatable) Absolute paths for log source files. Wildcards can be used.</p></li>
+
+<li><p><code>source_type</code> - (Required when source_type=TAIL) (Updatable) Unified schema logging source type.</p></li>
+</ul></li>
+
+<li><p><code>unified_agent_configuration_filter</code> - (Applicable when source_type=KUBERNETES | URL) (Updatable) Kubernetes filter object</p>
+
+<ul>
+<li><code>allow_list</code> - (Applicable when source_type=KUBERNETES | URL) (Updatable) List of metrics regex to be allowed.</li>
+<li><code>deny_list</code> - (Applicable when source_type=KUBERNETES | URL) (Updatable) List of metrics regex to be denied.</li>
+<li><code>filter_type</code> - (Required when source_type=KUBERNETES | URL) (Updatable) Unified schema logging filter type.</li>
+<li><code>name</code> - (Required when source_type=KUBERNETES | URL) (Updatable) Unique name for the filter.</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>configuration_type</code> - (Required) (Updatable) Type of Unified Agent service configuration.</p></li>
+
+<li><p><code>destination</code> - (Required when configuration_type=LOGGING) (Updatable) Logging destination object.</p>
+
+<ul>
+<li><code>log_object_id</code> - (Required when configuration_type=LOGGING) (Updatable) The OCID of the resource.</li>
+<li><code>operational_metrics_configuration</code> - (Applicable when configuration_type=LOGGING) (Updatable) Unified monitoring agent operational metrics configuration object.
+
+<ul>
+<li><code>destination</code> - (Required when configuration_type=LOGGING) (Updatable) Unified monitoring agent operational metrics destination object.
+
+<ul>
+<li><code>compartment_id</code> - (Required when configuration_type=LOGGING) (Updatable) The OCID of the compartment that the resource belongs to.</li>
+</ul></li>
+<li><code>source</code> - (Required when configuration_type=LOGGING) (Updatable) Unified monitoring agent operational metrics source object.
+
+<ul>
+<li><code>metrics</code> - (Applicable when configuration_type=LOGGING) (Updatable) List of unified monitoring agent operational metrics.</li>
+<li><code>record_input</code> - (Required when configuration_type=LOGGING) (Updatable) Record section of OperationalMetricsSource object.
+
+<ul>
+<li><code>namespace</code> - (Required when configuration_type=LOGGING) (Updatable) Namespace to emit the operational metrics.</li>
+<li><code>resource_group</code> - (Applicable when configuration_type=LOGGING) (Updatable) Resource group to emit the operational metrics.</li>
+</ul></li>
+<li><code>type</code> - (Required when configuration_type=LOGGING) (Updatable) Type of the unified monitoring agent operational metrics source object.</li>
+</ul></li>
+</ul></li>
+</ul></li>
+
+<li><p><code>sources</code> - (Required when configuration_type=LOGGING) (Updatable) Logging source object.</p>
+
+<ul>
+<li><p><code>advanced_options</code> - (Applicable when source_type=LOG_TAIL) (Updatable) Advanced options for logging configuration</p>
+
+<ul>
+<li><code>is_read_from_head</code> - (Applicable when source_type=LOG_TAIL) (Updatable) Starts to read the logs from the head of the file or the last read position recorded in pos_file, not tail.</li>
+</ul></li>
+
+<li><p><code>channels</code> - (Required when source_type=WINDOWS_EVENT_LOG) (Updatable) Windows event log channels.</p></li>
+
+<li><p><code>custom_plugin</code> - (Required when source_type=CUSTOM_PLUGIN) (Updatable) User customized source plugin.</p></li>
+
+<li><p><code>name</code> - (Required when configuration_type=LOGGING) (Updatable) Unique name for the source.</p></li>
+
+<li><p><code>parser</code> - (Applicable when source_type=LOG_TAIL) (Updatable) Source parser object.</p>
+
+<ul>
+<li><p><code>delimiter</code> - (Applicable when parser_type=CSV | TSV) (Updatable) CSV delimiter.</p></li>
+
+<li><p><code>expression</code> - (Required when parser_type=REGEXP) (Updatable) Regex pattern.</p></li>
+
+<li><p><code>field_time_key</code> - (Applicable when source_type=LOG_TAIL) (Updatable) Specifies the time field for the event time. If the event doesn&rsquo;t have this field, the current time is used.</p></li>
+
+<li><p><code>format</code> - (Required when parser_type=MULTILINE) (Updatable) Mutiline pattern format.</p></li>
+
+<li><p><code>format_firstline</code> - (Applicable when parser_type=MULTILINE) (Updatable) First line pattern format.</p></li>
+
+<li><p><code>grok_failure_key</code> - (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable) Grok failure key.</p></li>
+
+<li><p><code>grok_name_key</code> - (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable) Grok name key.</p></li>
+
+<li><p><code>is_estimate_current_event</code> - (Applicable when source_type=LOG_TAIL) (Updatable) If true, use Fluent::EventTime.now(current time) as a timestamp when the time_key is specified.</p></li>
+
+<li><p><code>is_keep_time_key</code> - (Applicable when source_type=LOG_TAIL) (Updatable) If true, keep the time field in the record.</p></li>
+
+<li><p><code>is_merge_cri_fields</code> - (Applicable when parser_type=CRI) (Updatable) If you don&rsquo;t need stream or logtag fields, set this to false.</p></li>
+
+<li><p><code>is_null_empty_string</code> - (Applicable when source_type=LOG_TAIL) (Updatable) If true, an empty string field is replaced with a null value.</p></li>
+
+<li><p><code>is_support_colonless_ident</code> - (Applicable when parser_type=SYSLOG) (Updatable) Specifies whether or not to support colonless ident. Corresponds to the Fluentd support_colonless_ident parameter.</p></li>
+
+<li><p><code>is_with_priority</code> - (Applicable when parser_type=SYSLOG) (Updatable) Specifies with priority or not. Corresponds to the Fluentd with_priority parameter.</p></li>
+
+<li><p><code>keys</code> - (Required when parser_type=CSV | TSV) (Updatable) CSV keys.</p></li>
+
+<li><p><code>message_format</code> - (Applicable when parser_type=SYSLOG) (Updatable) Syslog message format.</p></li>
+
+<li><p><code>message_key</code> - (Applicable when parser_type=NONE) (Updatable) Specifies the field name to contain logs.</p></li>
+
+<li><p><code>multi_line_start_regexp</code> - (Applicable when parser_type=MULTILINE_GROK) (Updatable) Multiline start regexp pattern.</p></li>
+
+<li><p><code>nested_parser</code> - (Applicable when parser_type=CRI) (Updatable) Optional nested JSON Parser for CRI. Supported fields are fieldTimeKey, timeFormat, and isKeepTimeKey.</p>
+
+<ul>
+<li><code>parse_nested</code> - (Applicable when parser_type=CRI) (Updatable) If true, a separator parameter can be further defined.</li>
+<li><code>separator</code> - (Applicable when parser_type=CRI) (Updatable) Keys of adjacent levels are joined by the separator.</li>
+<li><code>time_format</code> - (Applicable when parser_type=CRI) (Updatable) Process time value using the specified format.</li>
+<li><code>time_type</code> - (Applicable when parser_type=CRI) (Updatable) JSON parser time type.</li>
+</ul></li>
+
+<li><p><code>null_value_pattern</code> - (Applicable when source_type=LOG_TAIL) (Updatable) Specify the null value pattern.</p></li>
+
+<li><p><code>parse_nested</code> - (Applicable when parser_type=JSON) (Updatable) If true, a separator parameter can be further defined.</p></li>
+
+<li><p><code>parser_type</code> - (Required) (Updatable) Type of fluent parser.</p></li>
+
+<li><p><code>patterns</code> - (Required when parser_type=GROK | MULTILINE_GROK) (Updatable) Grok pattern object.</p>
+
+<ul>
+<li><code>field_time_format</code> - (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable) Process value using the specified format. This is available only when time_type is a string.</li>
+<li><code>field_time_key</code> - (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable) Specify the time field for the event time. If the event doesn&rsquo;t have this field, the current time is used.</li>
+<li><code>field_time_zone</code> - (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable) Use the specified time zone. The time value can be parsed or formatted in the specified time zone.</li>
+<li><code>name</code> - (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable) The name key to tag this Grok pattern.</li>
+<li><code>pattern</code> - (Required when parser_type=GROK | MULTILINE_GROK) (Updatable) The Grok pattern.</li>
+</ul></li>
+
+<li><p><code>record_input</code> - (Applicable when parser_type=OPENMETRICS) (Updatable) record section of openmetrics parser.</p>
+
+<ul>
+<li><code>dimensions</code> - (Applicable when parser_type=OPENMETRICS) (Updatable) Dimensions to be added for metrics.</li>
+<li><code>namespace</code> - (Applicable when parser_type=OPENMETRICS) (Updatable) Namespace to emit metrics.</li>
+<li><code>resource_group</code> - (Applicable when parser_type=OPENMETRICS) (Updatable) Resource group to emit metrics.</li>
+</ul></li>
+
+<li><p><code>rfc5424time_format</code> - (Applicable when parser_type=SYSLOG) (Updatable) RFC 5424 time format.</p></li>
+
+<li><p><code>separator</code> - (Applicable when parser_type=JSON) (Updatable) Keys of adjacent levels are joined by the separator.</p></li>
+
+<li><p><code>syslog_parser_type</code> - (Applicable when parser_type=SYSLOG) (Updatable) Syslog parser type.</p></li>
+
+<li><p><code>time_format</code> - (Applicable when parser_type=JSON | REGEXP | SYSLOG) (Updatable) Process time value using the specified format.</p></li>
+
+<li><p><code>time_type</code> - (Applicable when parser_type=JSON) (Updatable) JSON parser time type.</p></li>
+
+<li><p><code>timeout_in_milliseconds</code> - (Applicable when source_type=LOG_TAIL) (Updatable) Specify the timeout for parse processing. This is mainly for detecting an incorrect regexp pattern.</p></li>
+
+<li><p><code>types</code> - (Applicable when source_type=LOG_TAIL) (Updatable) Specify types for converting a field into another type. For example, With this configuration: <parse> @type csv keys time,host,req_id,user time_key time </parse></p>
+
+<p>This incoming event: &ldquo;2013/02/28 12:00:00,192.168.0.1,111,-&rdquo;</p>
+
+<p>is parsed as: 1362020400 (2013/02/28/ 12:00:00)</p>
+
+<p>record: { &ldquo;host&rdquo;   : &ldquo;192.168.0.1&rdquo;, &ldquo;req_id&rdquo; : &ldquo;111&rdquo;, &ldquo;user&rdquo;   : &ldquo;-&rdquo; }</p></li>
+</ul></li>
+
+<li><p><code>paths</code> - (Required when source_type=LOG_TAIL) (Updatable) Absolute paths for log source files. Wildcards can be used.</p></li>
+
+<li><p><code>source_type</code> - (Required) (Updatable) Unified schema logging source type.</p></li>
+</ul></li>
+
+<li><p><code>unified_agent_configuration_filter</code> - (Applicable when configuration_type=LOGGING) (Updatable) Logging filter object.</p>
+
+<ul>
+<li><p><code>allow_list</code> - (Applicable when filter_type=GREP_FILTER) (Updatable) A list of filtering rules to include logs</p>
+
+<ul>
+<li><code>key</code> - (Applicable when filter_type=GREP_FILTER) (Updatable) The field name to which the regular expression is applied</li>
+<li><code>pattern</code> - (Applicable when filter_type=GREP_FILTER) (Updatable) The regular expression</li>
+</ul></li>
+
+<li><p><code>custom_filter_type</code> - (Required when filter_type=CUSTOM_FILTER) (Updatable) Type of the custom filter</p></li>
+
+<li><p><code>custom_sections</code> - (Applicable when filter_type=CUSTOM_FILTER) (Updatable) List of custom sections in custom filter</p>
+
+<ul>
+<li><code>name</code> - (Applicable when filter_type=CUSTOM_FILTER) (Updatable) The name of the custom section</li>
+<li><code>params</code> - (Applicable when filter_type=CUSTOM_FILTER) (Updatable) Parameters in the custom section</li>
+</ul></li>
+
+<li><p><code>deny_list</code> - (Applicable when filter_type=GREP_FILTER) (Updatable) A list of filtering rules to reject logs</p>
+
+<ul>
+<li><code>key</code> - (Applicable when filter_type=GREP_FILTER) (Updatable) The field name to which the regular expression is applied</li>
+<li><code>pattern</code> - (Applicable when filter_type=GREP_FILTER) (Updatable) The regular expression</li>
+</ul></li>
+
+<li><p><code>emit_invalid_record_to_error</code> - (Applicable when filter_type=PARSER_FILTER) (Updatable) If true, emit invalid record to @ERROR label. Invalid cases are: 1) key does not exist; 2) the format does not match; or 3) an unexpected error. You can rescue unexpected format logs in the @ERROR lable. If you want to ignore these errors, set this to false.</p></li>
+
+<li><p><code>filter_type</code> - (Required) (Updatable) Unified schema logging filter type.</p></li>
+
+<li><p><code>hash_value_field</code> - (Applicable when filter_type=PARSER_FILTER) (Updatable) Store the parsed values as a hash value in a field.</p></li>
+
+<li><p><code>inject_key_prefix</code> - (Applicable when filter_type=PARSER_FILTER) (Updatable) Store the parsed values with the specified key name prefix.</p></li>
+
+<li><p><code>is_auto_typecast_enabled</code> - (Applicable when filter_type=RECORD_TRANSFORMER_FILTER) (Updatable) If true, automatically casts the field types.</p></li>
+
+<li><p><code>is_renew_record_enabled</code> - (Applicable when filter_type=RECORD_TRANSFORMER_FILTER) (Updatable) If true, it modifies a new empty hash</p></li>
+
+<li><p><code>is_ruby_enabled</code> - (Applicable when filter_type=RECORD_TRANSFORMER_FILTER) (Updatable) When set to true, the full Ruby syntax is enabled in the ${} expression.</p></li>
+
+<li><p><code>keep_keys</code> - (Applicable when filter_type=RECORD_TRANSFORMER_FILTER) (Updatable) A list of keys to keep. Only relevant if isRenewRecordEnabled is set to true</p></li>
+
+<li><p><code>key_name</code> - (Required when filter_type=PARSER_FILTER) (Updatable) The field name in the record to parse.</p></li>
+
+<li><p><code>name</code> - (Required when configuration_type=LOGGING) (Updatable) Unique name for the filter.</p></li>
+
+<li><p><code>params</code> - (Applicable when filter_type=CUSTOM_FILTER) (Updatable) Parameters of the custom filter</p></li>
+
+<li><p><code>parser</code> - (Required when filter_type=PARSER_FILTER) (Updatable) Source parser object.</p>
+
+<ul>
+<li><p><code>delimiter</code> - (Applicable when parser_type=CSV | TSV) (Updatable) CSV delimiter.</p></li>
+
+<li><p><code>expression</code> - (Required when parser_type=REGEXP) (Updatable) Regex pattern.</p></li>
+
+<li><p><code>field_time_key</code> - (Applicable when filter_type=PARSER_FILTER) (Updatable) Specifies the time field for the event time. If the event doesn&rsquo;t have this field, the current time is used.</p></li>
+
+<li><p><code>format</code> - (Required when parser_type=MULTILINE) (Updatable) Mutiline pattern format.</p></li>
+
+<li><p><code>format_firstline</code> - (Applicable when parser_type=MULTILINE) (Updatable) First line pattern format.</p></li>
+
+<li><p><code>grok_failure_key</code> - (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable) Grok failure key.</p></li>
+
+<li><p><code>grok_name_key</code> - (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable) Grok name key.</p></li>
+
+<li><p><code>is_estimate_current_event</code> - (Applicable when filter_type=PARSER_FILTER) (Updatable) If true, use Fluent::EventTime.now(current time) as a timestamp when the time_key is specified.</p></li>
+
+<li><p><code>is_keep_time_key</code> - (Applicable when filter_type=PARSER_FILTER) (Updatable) If true, keep the time field in the record.</p></li>
+
+<li><p><code>is_merge_cri_fields</code> - (Applicable when parser_type=CRI) (Updatable) If you don&rsquo;t need stream or logtag fields, set this to false.</p></li>
+
+<li><p><code>is_null_empty_string</code> - (Applicable when filter_type=PARSER_FILTER) (Updatable) If true, an empty string field is replaced with a null value.</p></li>
+
+<li><p><code>is_support_colonless_ident</code> - (Applicable when parser_type=SYSLOG) (Updatable) Specifies whether or not to support colonless ident. Corresponds to the Fluentd support_colonless_ident parameter.</p></li>
+
+<li><p><code>is_with_priority</code> - (Applicable when parser_type=SYSLOG) (Updatable) Specifies with priority or not. Corresponds to the Fluentd with_priority parameter.</p></li>
+
+<li><p><code>keys</code> - (Required when parser_type=CSV | TSV) (Updatable) CSV keys.</p></li>
+
+<li><p><code>message_format</code> - (Applicable when parser_type=SYSLOG) (Updatable) Syslog message format.</p></li>
+
+<li><p><code>message_key</code> - (Applicable when parser_type=NONE) (Updatable) Specifies the field name to contain logs.</p></li>
+
+<li><p><code>multi_line_start_regexp</code> - (Applicable when parser_type=MULTILINE_GROK) (Updatable) Multiline start regexp pattern.</p></li>
+
+<li><p><code>nested_parser</code> - (Applicable when parser_type=CRI) (Updatable) Optional nested JSON Parser for CRI. Supported fields are fieldTimeKey, timeFormat, and isKeepTimeKey.</p>
+
+<ul>
+<li><code>parse_nested</code> - (Applicable when parser_type=CRI) (Updatable) If true, a separator parameter can be further defined.</li>
+<li><code>separator</code> - (Applicable when parser_type=CRI) (Updatable) Keys of adjacent levels are joined by the separator.</li>
+<li><code>time_format</code> - (Applicable when parser_type=CRI) (Updatable) Process time value using the specified format.</li>
+<li><code>time_type</code> - (Applicable when parser_type=CRI) (Updatable) JSON parser time type.</li>
+</ul></li>
+
+<li><p><code>null_value_pattern</code> - (Applicable when filter_type=PARSER_FILTER) (Updatable) Specify the null value pattern.</p></li>
+
+<li><p><code>parse_nested</code> - (Applicable when parser_type=JSON) (Updatable) If true, a separator parameter can be further defined.</p></li>
+
+<li><p><code>parser_type</code> - (Required) (Updatable) Type of fluent parser.</p></li>
+
+<li><p><code>patterns</code> - (Required when parser_type=GROK | MULTILINE_GROK) (Updatable) Grok pattern object.</p>
+
+<ul>
+<li><code>field_time_format</code> - (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable) Process value using the specified format. This is available only when time_type is a string.</li>
+<li><code>field_time_key</code> - (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable) Specify the time field for the event time. If the event doesn&rsquo;t have this field, the current time is used.</li>
+<li><code>field_time_zone</code> - (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable) Use the specified time zone. The time value can be parsed or formatted in the specified time zone.</li>
+<li><code>name</code> - (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable) The name key to tag this Grok pattern.</li>
+<li><code>pattern</code> - (Required when parser_type=GROK | MULTILINE_GROK) (Updatable) The Grok pattern.</li>
+</ul></li>
+
+<li><p><code>record_input</code> - (Applicable when parser_type=OPENMETRICS) (Updatable) record section of openmetrics parser.</p>
+
+<ul>
+<li><code>dimensions</code> - (Applicable when parser_type=OPENMETRICS) (Updatable) Dimensions to be added for metrics.</li>
+<li><code>namespace</code> - (Applicable when parser_type=OPENMETRICS) (Updatable) Namespace to emit metrics.</li>
+<li><code>resource_group</code> - (Applicable when parser_type=OPENMETRICS) (Updatable) Resource group to emit metrics.</li>
+</ul></li>
+
+<li><p><code>rfc5424time_format</code> - (Applicable when parser_type=SYSLOG) (Updatable) RFC 5424 time format.</p></li>
+
+<li><p><code>separator</code> - (Applicable when parser_type=JSON) (Updatable) Keys of adjacent levels are joined by the separator.</p></li>
+
+<li><p><code>syslog_parser_type</code> - (Applicable when parser_type=SYSLOG) (Updatable) Syslog parser type.</p></li>
+
+<li><p><code>time_format</code> - (Applicable when parser_type=JSON | REGEXP | SYSLOG) (Updatable) Process time value using the specified format.</p></li>
+
+<li><p><code>time_type</code> - (Applicable when parser_type=JSON) (Updatable) JSON parser time type.</p></li>
+
+<li><p><code>timeout_in_milliseconds</code> - (Applicable when filter_type=PARSER_FILTER) (Updatable) Specify the timeout for parse processing. This is mainly for detecting an incorrect regexp pattern.</p></li>
+
+<li><p><code>types</code> - (Applicable when filter_type=PARSER_FILTER) (Updatable) Specify types for converting a field into another type. For example, With this configuration: <parse> @type csv keys time,host,req_id,user time_key time </parse></p>
+
+<p>This incoming event: &ldquo;2013/02/28 12:00:00,192.168.0.1,111,-&rdquo;</p>
+
+<p>is parsed as: 1362020400 (2013/02/28/ 12:00:00)</p>
+
+<p>record: { &ldquo;host&rdquo;   : &ldquo;192.168.0.1&rdquo;, &ldquo;req_id&rdquo; : &ldquo;111&rdquo;, &ldquo;user&rdquo;   : &ldquo;-&rdquo; }</p></li>
+</ul></li>
+
+<li><p><code>record_list</code> - (Required when filter_type=RECORD_TRANSFORMER_FILTER) (Updatable) Add new key-value pairs in logs</p>
+
+<ul>
+<li><code>key</code> - (Applicable when filter_type=RECORD_TRANSFORMER_FILTER) (Updatable) A new key</li>
+<li><code>value</code> - (Applicable when filter_type=RECORD_TRANSFORMER_FILTER) (Updatable) A new value</li>
+</ul></li>
+
+<li><p><code>remove_key_name_field</code> - (Applicable when filter_type=PARSER_FILTER) (Updatable) If true, remove the keyName field when parsing is succeeded.</p></li>
+
+<li><p><code>remove_keys</code> - (Applicable when filter_type=RECORD_TRANSFORMER_FILTER) (Updatable) A list of keys to delete</p></li>
+
+<li><p><code>renew_time_key</code> - (Applicable when filter_type=RECORD_TRANSFORMER_FILTER) (Updatable) Overwrites the time of logs with this value, this value must be a Unix timestamp.</p></li>
+
+<li><p><code>replace_invalid_sequence</code> - (Applicable when filter_type=PARSER_FILTER) (Updatable) If true, the invalid string is replaced with safe characters and is re-parsed.</p></li>
+
+<li><p><code>reserve_data</code> - (Applicable when filter_type=PARSER_FILTER) (Updatable) If true, keep the original key-value pair in the parsed result.</p></li>
+
+<li><p><code>reserve_time</code> - (Applicable when filter_type=PARSER_FILTER) (Updatable) If true, keep the original event time in the parsed result.</p></li>
+</ul></li>
+</ul></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>compartment_id</code> - The OCID of the compartment that the resource belongs to.</p></li>
+
+<li><p><code>configuration_state</code> - State of unified agent service configuration.</p></li>
+
+<li><p><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></p></li>
+
+<li><p><code>description</code> - Description for this resource.</p></li>
+
+<li><p><code>display_name</code> - The user-friendly display name. This must be unique within the enclosing resource, and it&rsquo;s changeable. Avoid entering confidential information.</p></li>
+
+<li><p><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></p></li>
+
+<li><p><code>group_association</code> - Groups using the configuration.</p>
+
+<ul>
+<li><code>group_list</code> - list of group/dynamic group ids associated with this configuration.</li>
+</ul></li>
+
+<li><p><code>id</code> - The OCID of the resource.</p></li>
+
+<li><p><code>is_enabled</code> - Whether or not this resource is currently enabled.</p></li>
+
+<li><p><code>service_configuration</code> - Top level Unified Agent service configuration object.</p>
+
+<ul>
+<li><p><code>application_configurations</code> - Unified Agent monitoring application configuration details.</p>
+
+<ul>
+<li><p><code>destination</code> - Kubernetes destination object.</p>
+
+<ul>
+<li><code>compartment_id</code> - The OCID of the compartment that the resource belongs to.</li>
+<li><code>metrics_namespace</code> - Namespace to which metrics will be emitted.</li>
+</ul></li>
+
+<li><p><code>source</code> - Kubernetes source object.</p>
+
+<ul>
+<li><code>name</code> - Unique name for the source.</li>
+<li><code>scrape_targets</code> - List of UnifiedAgentKubernetesScrapeTarget.
+
+<ul>
+<li><code>k8s_namespace</code> - K8s namespace of the resource.</li>
+<li><code>name</code> - Custom name.</li>
+<li><code>resource_group</code> - Resource group in Oracle Cloud Infrastructure monitoring.</li>
+<li><code>resource_type</code> - Type of resource to scrape metrics.</li>
+<li><code>service_name</code> - Name of the service prepended to the endpoints.</li>
+<li><code>url</code> - URL from which the metrics are fetched.</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>source_type</code> - Type of source of metrics</p></li>
+
+<li><p><code>sources</code> - Tail log source objects.</p>
+
+<ul>
+<li><p><code>advanced_options</code> - Advanced options for logging configuration</p>
+
+<ul>
+<li><code>is_read_from_head</code> - Starts to read the logs from the head of the file or the last read position recorded in pos_file, not tail.</li>
+</ul></li>
+
+<li><p><code>name</code> - Unique name for the source.</p></li>
+
+<li><p><code>parser</code> - Source parser object.</p>
+
+<ul>
+<li><p><code>delimiter</code> - CSV delimiter.</p></li>
+
+<li><p><code>expression</code> - Regex pattern.</p></li>
+
+<li><p><code>field_time_key</code> - Specifies the time field for the event time. If the event doesn&rsquo;t have this field, the current time is used.</p></li>
+
+<li><p><code>format</code> - Mutiline pattern format.</p></li>
+
+<li><p><code>format_firstline</code> - First line pattern format.</p></li>
+
+<li><p><code>grok_failure_key</code> - Grok failure key.</p></li>
+
+<li><p><code>grok_name_key</code> - Grok name key.</p></li>
+
+<li><p><code>is_estimate_current_event</code> - If true, use Fluent::EventTime.now(current time) as a timestamp when the time_key is specified.</p></li>
+
+<li><p><code>is_keep_time_key</code> - If true, keep the time field in the record.</p></li>
+
+<li><p><code>is_merge_cri_fields</code> - If you don&rsquo;t need stream or logtag fields, set this to false.</p></li>
+
+<li><p><code>is_null_empty_string</code> - If true, an empty string field is replaced with a null value.</p></li>
+
+<li><p><code>is_support_colonless_ident</code> - Specifies whether or not to support colonless ident. Corresponds to the Fluentd support_colonless_ident parameter.</p></li>
+
+<li><p><code>is_with_priority</code> - Specifies with priority or not. Corresponds to the Fluentd with_priority parameter.</p></li>
+
+<li><p><code>keys</code> - CSV keys.</p></li>
+
+<li><p><code>message_format</code> - Syslog message format.</p></li>
+
+<li><p><code>message_key</code> - Specifies the field name to contain logs.</p></li>
+
+<li><p><code>multi_line_start_regexp</code> - Multiline start regexp pattern.</p></li>
+
+<li><p><code>nested_parser</code> - Optional nested JSON Parser for CRI. Supported fields are fieldTimeKey, timeFormat, and isKeepTimeKey.</p>
+
+<ul>
+<li><code>parse_nested</code> - If true, a separator parameter can be further defined.</li>
+<li><code>separator</code> - Keys of adjacent levels are joined by the separator.</li>
+<li><code>time_format</code> - Process time value using the specified format.</li>
+<li><code>time_type</code> - JSON parser time type.</li>
+</ul></li>
+
+<li><p><code>null_value_pattern</code> - Specify the null value pattern.</p></li>
+
+<li><p><code>parse_nested</code> - If true, a separator parameter can be further defined.</p></li>
+
+<li><p><code>parser_type</code> - Type of fluent parser.</p></li>
+
+<li><p><code>patterns</code> - Grok pattern object.</p>
+
+<ul>
+<li><code>field_time_format</code> - Process value using the specified format. This is available only when time_type is a string.</li>
+<li><code>field_time_key</code> - Specify the time field for the event time. If the event doesn&rsquo;t have this field, the current time is used.</li>
+<li><code>field_time_zone</code> - Use the specified time zone. The time value can be parsed or formatted in the specified time zone.</li>
+<li><code>name</code> - The name key to tag this Grok pattern.</li>
+<li><code>pattern</code> - The Grok pattern.</li>
+</ul></li>
+
+<li><p><code>record_input</code> - record section of openmetrics parser.</p>
+
+<ul>
+<li><code>dimensions</code> - Dimensions to be added for metrics.</li>
+<li><code>namespace</code> - Namespace to emit metrics.</li>
+<li><code>resource_group</code> - Resource group to emit metrics.</li>
+</ul></li>
+
+<li><p><code>rfc5424time_format</code> - RFC 5424 time format.</p></li>
+
+<li><p><code>separator</code> - Keys of adjacent levels are joined by the separator.</p></li>
+
+<li><p><code>syslog_parser_type</code> - Syslog parser type.</p></li>
+
+<li><p><code>time_format</code> - Process time value using the specified format.</p></li>
+
+<li><p><code>time_type</code> - JSON parser time type.</p></li>
+
+<li><p><code>timeout_in_milliseconds</code> - Specify the timeout for parse processing. This is mainly for detecting an incorrect regexp pattern.</p></li>
+
+<li><p><code>types</code> - Specify types for converting a field into another type. For example, With this configuration: <parse> @type csv keys time,host,req_id,user time_key time </parse></p>
+
+<p>This incoming event: &ldquo;2013/02/28 12:00:00,192.168.0.1,111,-&rdquo;</p>
+
+<p>is parsed as: 1362020400 (2013/02/28/ 12:00:00)</p>
+
+<p>record: { &ldquo;host&rdquo;   : &ldquo;192.168.0.1&rdquo;, &ldquo;req_id&rdquo; : &ldquo;111&rdquo;, &ldquo;user&rdquo;   : &ldquo;-&rdquo; }</p></li>
+</ul></li>
+
+<li><p><code>paths</code> - Absolute paths for log source files. Wildcards can be used.</p></li>
+
+<li><p><code>source_type</code> - Unified schema logging source type.</p></li>
+</ul></li>
+
+<li><p><code>unified_agent_configuration_filter</code> - Kubernetes filter object</p>
+
+<ul>
+<li><code>allow_list</code> - List of metrics regex to be allowed.</li>
+<li><code>deny_list</code> - List of metrics regex to be denied.</li>
+<li><code>filter_type</code> - Unified schema logging filter type.</li>
+<li><code>name</code> - Unique name for the filter.</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>configuration_type</code> - Type of Unified Agent service configuration.</p></li>
+
+<li><p><code>destination</code> - Logging destination object.</p>
+
+<ul>
+<li><code>log_object_id</code> - The OCID of the resource.</li>
+<li><code>operational_metrics_configuration</code> - Unified monitoring agent operational metrics configuration object.
+
+<ul>
+<li><code>destination</code> - Unified monitoring agent operational metrics destination object.
+
+<ul>
+<li><code>compartment_id</code> - The OCID of the compartment that the resource belongs to.</li>
+</ul></li>
+<li><code>source</code> - Unified monitoring agent operational metrics source object.
+
+<ul>
+<li><code>metrics</code> - List of unified monitoring agent operational metrics.</li>
+<li><code>record_input</code> - Record section of OperationalMetricsSource object.
+
+<ul>
+<li><code>namespace</code> - Namespace to emit the operational metrics.</li>
+<li><code>resource_group</code> - Resource group to emit the operational metrics.</li>
+</ul></li>
+<li><code>type</code> - Type of the unified monitoring agent operational metrics source object.</li>
+</ul></li>
+</ul></li>
+</ul></li>
+
+<li><p><code>sources</code> - Logging source object.</p>
+
+<ul>
+<li><p><code>advanced_options</code> - Advanced options for logging configuration</p>
+
+<ul>
+<li><code>is_read_from_head</code> - Starts to read the logs from the head of the file or the last read position recorded in pos_file, not tail.</li>
+</ul></li>
+
+<li><p><code>channels</code> - Windows event log channels.</p></li>
+
+<li><p><code>custom_plugin</code> - User customized source plugin.</p></li>
+
+<li><p><code>name</code> - Unique name for the source.</p></li>
+
+<li><p><code>parser</code> - Source parser object.</p>
+
+<ul>
+<li><p><code>delimiter</code> - CSV delimiter.</p></li>
+
+<li><p><code>expression</code> - Regex pattern.</p></li>
+
+<li><p><code>field_time_key</code> - Specifies the time field for the event time. If the event doesn&rsquo;t have this field, the current time is used.</p></li>
+
+<li><p><code>format</code> - Mutiline pattern format.</p></li>
+
+<li><p><code>format_firstline</code> - First line pattern format.</p></li>
+
+<li><p><code>grok_failure_key</code> - Grok failure key.</p></li>
+
+<li><p><code>grok_name_key</code> - Grok name key.</p></li>
+
+<li><p><code>is_estimate_current_event</code> - If true, use Fluent::EventTime.now(current time) as a timestamp when the time_key is specified.</p></li>
+
+<li><p><code>is_keep_time_key</code> - If true, keep the time field in the record.</p></li>
+
+<li><p><code>is_merge_cri_fields</code> - If you don&rsquo;t need stream or logtag fields, set this to false.</p></li>
+
+<li><p><code>is_null_empty_string</code> - If true, an empty string field is replaced with a null value.</p></li>
+
+<li><p><code>is_support_colonless_ident</code> - Specifies whether or not to support colonless ident. Corresponds to the Fluentd support_colonless_ident parameter.</p></li>
+
+<li><p><code>is_with_priority</code> - Specifies with priority or not. Corresponds to the Fluentd with_priority parameter.</p></li>
+
+<li><p><code>keys</code> - CSV keys.</p></li>
+
+<li><p><code>message_format</code> - Syslog message format.</p></li>
+
+<li><p><code>message_key</code> - Specifies the field name to contain logs.</p></li>
+
+<li><p><code>multi_line_start_regexp</code> - Multiline start regexp pattern.</p></li>
+
+<li><p><code>nested_parser</code> - Optional nested JSON Parser for CRI. Supported fields are fieldTimeKey, timeFormat, and isKeepTimeKey.</p>
+
+<ul>
+<li><code>parse_nested</code> - If true, a separator parameter can be further defined.</li>
+<li><code>separator</code> - Keys of adjacent levels are joined by the separator.</li>
+<li><code>time_format</code> - Process time value using the specified format.</li>
+<li><code>time_type</code> - JSON parser time type.</li>
+</ul></li>
+
+<li><p><code>null_value_pattern</code> - Specify the null value pattern.</p></li>
+
+<li><p><code>parse_nested</code> - If true, a separator parameter can be further defined.</p></li>
+
+<li><p><code>parser_type</code> - Type of fluent parser.</p></li>
+
+<li><p><code>patterns</code> - Grok pattern object.</p>
+
+<ul>
+<li><code>field_time_format</code> - Process value using the specified format. This is available only when time_type is a string.</li>
+<li><code>field_time_key</code> - Specify the time field for the event time. If the event doesn&rsquo;t have this field, the current time is used.</li>
+<li><code>field_time_zone</code> - Use the specified time zone. The time value can be parsed or formatted in the specified time zone.</li>
+<li><code>name</code> - The name key to tag this Grok pattern.</li>
+<li><code>pattern</code> - The Grok pattern.</li>
+</ul></li>
+
+<li><p><code>record_input</code> - record section of openmetrics parser.</p>
+
+<ul>
+<li><code>dimensions</code> - Dimensions to be added for metrics.</li>
+<li><code>namespace</code> - Namespace to emit metrics.</li>
+<li><code>resource_group</code> - Resource group to emit metrics.</li>
+</ul></li>
+
+<li><p><code>rfc5424time_format</code> - RFC 5424 time format.</p></li>
+
+<li><p><code>separator</code> - Keys of adjacent levels are joined by the separator.</p></li>
+
+<li><p><code>syslog_parser_type</code> - Syslog parser type.</p></li>
+
+<li><p><code>time_format</code> - Process time value using the specified format.</p></li>
+
+<li><p><code>time_type</code> - JSON parser time type.</p></li>
+
+<li><p><code>timeout_in_milliseconds</code> - Specify the timeout for parse processing. This is mainly for detecting an incorrect regexp pattern.</p></li>
+
+<li><p><code>types</code> - Specify types for converting a field into another type. For example, With this configuration: <parse> @type csv keys time,host,req_id,user time_key time </parse></p>
+
+<p>This incoming event: &ldquo;2013/02/28 12:00:00,192.168.0.1,111,-&rdquo;</p>
+
+<p>is parsed as: 1362020400 (2013/02/28/ 12:00:00)</p>
+
+<p>record: { &ldquo;host&rdquo;   : &ldquo;192.168.0.1&rdquo;, &ldquo;req_id&rdquo; : &ldquo;111&rdquo;, &ldquo;user&rdquo;   : &ldquo;-&rdquo; }</p></li>
+</ul></li>
+
+<li><p><code>paths</code> - Absolute paths for log source files. Wildcards can be used.</p></li>
+
+<li><p><code>source_type</code> - Unified schema logging source type.</p></li>
+</ul></li>
+
+<li><p><code>unified_agent_configuration_filter</code> - Logging filter object.</p>
+
+<ul>
+<li><p><code>allow_list</code> - A list of filtering rules to include logs</p>
+
+<ul>
+<li><code>key</code> - The field name to which the regular expression is applied</li>
+<li><code>pattern</code> - The regular expression</li>
+</ul></li>
+
+<li><p><code>custom_filter_type</code> - Type of the custom filter</p></li>
+
+<li><p><code>custom_sections</code> - List of custom sections in custom filter</p>
+
+<ul>
+<li><code>name</code> - The name of the custom section</li>
+<li><code>params</code> - Parameters in the custom section</li>
+</ul></li>
+
+<li><p><code>deny_list</code> - A list of filtering rules to reject logs</p>
+
+<ul>
+<li><code>key</code> - The field name to which the regular expression is applied</li>
+<li><code>pattern</code> - The regular expression</li>
+</ul></li>
+
+<li><p><code>emit_invalid_record_to_error</code> - If true, emit invalid record to @ERROR label. Invalid cases are: 1) key does not exist; 2) the format does not match; or 3) an unexpected error. You can rescue unexpected format logs in the @ERROR lable. If you want to ignore these errors, set this to false.</p></li>
+
+<li><p><code>filter_type</code> - Unified schema logging filter type.</p></li>
+
+<li><p><code>hash_value_field</code> - Store the parsed values as a hash value in a field.</p></li>
+
+<li><p><code>inject_key_prefix</code> - Store the parsed values with the specified key name prefix.</p></li>
+
+<li><p><code>is_auto_typecast_enabled</code> - If true, automatically casts the field types.</p></li>
+
+<li><p><code>is_renew_record_enabled</code> - If true, it modifies a new empty hash</p></li>
+
+<li><p><code>is_ruby_enabled</code> - When set to true, the full Ruby syntax is enabled in the ${} expression.</p></li>
+
+<li><p><code>keep_keys</code> - A list of keys to keep. Only relevant if isRenewRecordEnabled is set to true</p></li>
+
+<li><p><code>key_name</code> - The field name in the record to parse.</p></li>
+
+<li><p><code>name</code> - Unique name for the filter.</p></li>
+
+<li><p><code>params</code> - Parameters of the custom filter</p></li>
+
+<li><p><code>parser</code> - Source parser object.</p>
+
+<ul>
+<li><p><code>delimiter</code> - CSV delimiter.</p></li>
+
+<li><p><code>expression</code> - Regex pattern.</p></li>
+
+<li><p><code>field_time_key</code> - Specifies the time field for the event time. If the event doesn&rsquo;t have this field, the current time is used.</p></li>
+
+<li><p><code>format</code> - Mutiline pattern format.</p></li>
+
+<li><p><code>format_firstline</code> - First line pattern format.</p></li>
+
+<li><p><code>grok_failure_key</code> - Grok failure key.</p></li>
+
+<li><p><code>grok_name_key</code> - Grok name key.</p></li>
+
+<li><p><code>is_estimate_current_event</code> - If true, use Fluent::EventTime.now(current time) as a timestamp when the time_key is specified.</p></li>
+
+<li><p><code>is_keep_time_key</code> - If true, keep the time field in the record.</p></li>
+
+<li><p><code>is_merge_cri_fields</code> - If you don&rsquo;t need stream or logtag fields, set this to false.</p></li>
+
+<li><p><code>is_null_empty_string</code> - If true, an empty string field is replaced with a null value.</p></li>
+
+<li><p><code>is_support_colonless_ident</code> - Specifies whether or not to support colonless ident. Corresponds to the Fluentd support_colonless_ident parameter.</p></li>
+
+<li><p><code>is_with_priority</code> - Specifies with priority or not. Corresponds to the Fluentd with_priority parameter.</p></li>
+
+<li><p><code>keys</code> - CSV keys.</p></li>
+
+<li><p><code>message_format</code> - Syslog message format.</p></li>
+
+<li><p><code>message_key</code> - Specifies the field name to contain logs.</p></li>
+
+<li><p><code>multi_line_start_regexp</code> - Multiline start regexp pattern.</p></li>
+
+<li><p><code>nested_parser</code> - Optional nested JSON Parser for CRI. Supported fields are fieldTimeKey, timeFormat, and isKeepTimeKey.</p>
+
+<ul>
+<li><code>parse_nested</code> - If true, a separator parameter can be further defined.</li>
+<li><code>separator</code> - Keys of adjacent levels are joined by the separator.</li>
+<li><code>time_format</code> - Process time value using the specified format.</li>
+<li><code>time_type</code> - JSON parser time type.</li>
+</ul></li>
+
+<li><p><code>null_value_pattern</code> - Specify the null value pattern.</p></li>
+
+<li><p><code>parse_nested</code> - If true, a separator parameter can be further defined.</p></li>
+
+<li><p><code>parser_type</code> - Type of fluent parser.</p></li>
+
+<li><p><code>patterns</code> - Grok pattern object.</p>
+
+<ul>
+<li><code>field_time_format</code> - Process value using the specified format. This is available only when time_type is a string.</li>
+<li><code>field_time_key</code> - Specify the time field for the event time. If the event doesn&rsquo;t have this field, the current time is used.</li>
+<li><code>field_time_zone</code> - Use the specified time zone. The time value can be parsed or formatted in the specified time zone.</li>
+<li><code>name</code> - The name key to tag this Grok pattern.</li>
+<li><code>pattern</code> - The Grok pattern.</li>
+</ul></li>
+
+<li><p><code>record_input</code> - record section of openmetrics parser.</p>
+
+<ul>
+<li><code>dimensions</code> - Dimensions to be added for metrics.</li>
+<li><code>namespace</code> - Namespace to emit metrics.</li>
+<li><code>resource_group</code> - Resource group to emit metrics.</li>
+</ul></li>
+
+<li><p><code>rfc5424time_format</code> - RFC 5424 time format.</p></li>
+
+<li><p><code>separator</code> - Keys of adjacent levels are joined by the separator.</p></li>
+
+<li><p><code>syslog_parser_type</code> - Syslog parser type.</p></li>
+
+<li><p><code>time_format</code> - Process time value using the specified format.</p></li>
+
+<li><p><code>time_type</code> - JSON parser time type.</p></li>
+
+<li><p><code>timeout_in_milliseconds</code> - Specify the timeout for parse processing. This is mainly for detecting an incorrect regexp pattern.</p></li>
+
+<li><p><code>types</code> - Specify types for converting a field into another type. For example, With this configuration: <parse> @type csv keys time,host,req_id,user time_key time </parse></p>
+
+<p>This incoming event: &ldquo;2013/02/28 12:00:00,192.168.0.1,111,-&rdquo;</p>
+
+<p>is parsed as: 1362020400 (2013/02/28/ 12:00:00)</p>
+
+<p>record: { &ldquo;host&rdquo;   : &ldquo;192.168.0.1&rdquo;, &ldquo;req_id&rdquo; : &ldquo;111&rdquo;, &ldquo;user&rdquo;   : &ldquo;-&rdquo; }</p></li>
+</ul></li>
+
+<li><p><code>record_list</code> - Add new key-value pairs in logs</p>
+
+<ul>
+<li><code>key</code> - A new key</li>
+<li><code>value</code> - A new value</li>
+</ul></li>
+
+<li><p><code>remove_key_name_field</code> - If true, remove the keyName field when parsing is succeeded.</p></li>
+
+<li><p><code>remove_keys</code> - A list of keys to delete</p></li>
+
+<li><p><code>renew_time_key</code> - Overwrites the time of logs with this value, this value must be a Unix timestamp.</p></li>
+
+<li><p><code>replace_invalid_sequence</code> - If true, the invalid string is replaced with safe characters and is re-parsed.</p></li>
+
+<li><p><code>reserve_data</code> - If true, keep the original key-value pair in the parsed result.</p></li>
+
+<li><p><code>reserve_time</code> - If true, keep the original event time in the parsed result.</p></li>
+</ul></li>
+</ul></li>
+
+<li><p><code>state</code> - The pipeline state.</p></li>
+
+<li><p><code>time_created</code> - Time the resource was created.</p></li>
+
+<li><p><code>time_last_modified</code> - Time the resource was last modified.</p></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Unified Agent Configuration
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Unified Agent Configuration
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Unified Agent Configuration</p>
+
+<h2>Import</h2>
+
+<p>UnifiedAgentConfigurations can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_logging_unified_agent_configuration.test_unified_agent_configuration &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

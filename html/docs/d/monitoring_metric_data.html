@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_monitoring_metric_data</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_monitoring_metric_data</h1>
+
+<p>This data source provides the list of Metric Data in Oracle Cloud Infrastructure Monitoring service.</p>
+
+<p>Returns aggregated data that match the criteria specified in the request. Compartment OCID required.
+For more information, see
+<a href="https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/query-metric-landing.htm">Querying Metric Data</a>
+and
+<a href="https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/query-metric.htm">Creating a Query</a>.
+For important limits information, see
+<a href="https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#limits">Limits on Monitoring</a>.</p>
+
+<p>Transactions Per Second (TPS) per-tenancy limit for this operation: 10.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_monitoring_metric_data&quot; &quot;test_metric_data&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	namespace = var.metric_data_namespace
+	query = var.metric_data_query
+
+	#Optional
+	compartment_id_in_subtree = var.metric_data_compartment_id_in_subtree
+	end_time = var.metric_data_end_time
+	resolution = var.metric_data_resolution
+	resource_group = var.metric_data_resource_group
+	start_time = var.metric_data_start_time
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>compartment_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment containing the resources monitored by the metric that you are searching for. Use tenancyId to search in the root compartment.  Example: <code>ocid1.compartment.oc1..exampleuniqueID</code></p></li>
+
+<li><p><code>compartment_id_in_subtree</code> - (Optional) When true, returns resources from all compartments and subcompartments. The parameter can only be set to true when compartmentId is the tenancy OCID (the tenancy is the root compartment). A true value requires the user to have tenancy-level permissions. If this requirement is not met, then the call is rejected. When false, returns resources from only the compartment specified in compartmentId. Default is false.</p></li>
+
+<li><p><code>end_time</code> - (Optional) The end of the time range to use when searching for metric data points. Format is defined by RFC3339. The response excludes metric data points for the endTime. Default value: the timestamp representing when the call was sent.  Example: <code>2023-02-01T02:02:29.600Z</code></p></li>
+
+<li><p><code>namespace</code> - (Required) The source service or application to use when searching for metric data points to aggregate.  Example: <code>oci_computeagent</code></p></li>
+
+<li><p><code>query</code> - (Required) The Monitoring Query Language (MQL) expression to use when searching for metric data points to aggregate. The query must specify a metric, statistic, and interval. Supported values for interval depend on the specified time range. More interval values are supported for smaller time ranges. You can optionally specify dimensions and grouping functions. When specifying a dimension value, surround it with double quotes, and escape each double quote with a backslash (<code>\</code>) character. Supported grouping functions: <code>grouping()</code>, <code>groupBy()</code>.</p>
+
+<p>Construct your query to avoid exceeding limits on returned data. See <a href="https://docs.cloud.oracle.com/iaas/api/#/en/monitoring/20180401/MetricData">MetricData Reference</a>.</p>
+
+<p>For details about Monitoring Query Language (MQL), see <a href="https://docs.cloud.oracle.com/iaas/Content/Monitoring/Reference/mql.htm">Monitoring Query Language (MQL) Reference</a>. For available dimensions, review the metric definition for the supported service. See <a href="https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#SupportedServices">Supported Services</a>.</p>
+
+<p>Example 1: <code>CpuUtilization[1m].sum()</code></p>
+
+<p>Example 2 (escaped double quotes for value string): <code>CpuUtilization[1m]{resourceId = \&quot;&lt;var&gt;&amp;lt;instance_OCID&amp;gt;&lt;/var&gt;\&quot;}.max()</code></p></li>
+
+<li><p><code>resolution</code> - (Optional) The time between calculated aggregation windows. Use with the query interval to vary the frequency for returning aggregated data points. For example, use a query interval of 5 minutes with a resolution of 1 minute to retrieve five-minute aggregations at a one-minute frequency. The resolution must be equal or less than the interval in the query. The default resolution is 1m (one minute). Supported values: <code>1m</code>-<code>60m</code>, <code>1h</code>-<code>24h</code>, <code>1d</code>.  Example: <code>5m</code></p></li>
+
+<li><p><code>resource_group</code> - (Optional) Resource group that you want to match. A null value returns only metric data that has no resource groups. The specified resource group must exist in the definition of the posted metric. Only one resource group can be applied per metric. A valid resourceGroup value starts with an alphabetical character and includes only alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($).  Example: <code>frontend-fleet</code></p></li>
+
+<li><p><code>start_time</code> - (Optional) The beginning of the time range to use when searching for metric data points. Format is defined by RFC3339. The response includes metric data points for the startTime. Default value: the timestamp 3 hours before the call was sent.  Example: <code>2023-02-01T01:02:29.600Z</code></p></li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>metric_data</code> - The list of metric_data.</li>
+</ul>
+
+<h3>MetricData Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>aggregated_datapoints</code> - The list of timestamp-value pairs returned for the specified request. Metric values are rolled up to the start time specified in the request. For important limits information related to data points, see MetricData Reference at the top of this page.
+
+<ul>
+<li><code>timestamp</code> - The date and time associated with the value of this data point. Format defined by RFC3339.  Example: <code>2023-02-01T01:02:29.600Z</code></li>
+<li><code>value</code> - Numeric value of the metric.  Example: <code>10.4</code></li>
+</ul></li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment containing the resources that the aggregated data was returned from.</li>
+<li><code>dimensions</code> - Qualifiers provided in the definition of the returned metric. Available dimensions vary by metric namespace. Each dimension takes the form of a key-value pair.  Example: <code>{&quot;resourceId&quot;: &quot;instance.region1.phx.exampleuniqueID&quot;}</code></li>
+<li><code>metadata</code> - The references provided in a metric definition to indicate extra information about the metric.  Example: <code>&quot;unit&quot;: &quot;bytes&quot;</code></li>
+<li><code>name</code> - The name of the metric.  Example: <code>CpuUtilization</code></li>
+<li><code>namespace</code> - The reference provided in a metric definition to indicate the source service or application that emitted the metric.  Example: <code>oci_computeagent</code></li>
+<li><code>resolution</code> - The time between calculated aggregation windows. Use with the query interval to vary the frequency for returning aggregated data points. For example, use a query interval of 5 minutes with a resolution of 1 minute to retrieve five-minute aggregations at a one-minute frequency. The resolution must be equal or less than the interval in the query. The default resolution is 1m (one minute). Supported values: <code>1m</code>-<code>60m</code>, <code>1h</code>-<code>24h</code>, <code>1d</code>.  Example: <code>5m</code></li>
+<li><code>resource_group</code> - Resource group provided with the posted metric. A resource group is a custom string that you can match when retrieving custom metrics. Only one resource group can be applied per metric. A valid resourceGroup value starts with an alphabetical character and includes only alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($).  Example: <code>frontend-fleet</code></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

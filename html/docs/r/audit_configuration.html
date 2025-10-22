@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_audit_configuration</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_audit_configuration</h1>
+
+<p>This resource provides the Configuration resource in Oracle Cloud Infrastructure Audit service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/audit/latest/Configuration">https://docs.oracle.com/iaas/api/#/en/audit/latest/Configuration</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/audit">https://github.com/oracle/terraform-provider-oci/tree/master/examples/audit</a></p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_audit_configuration&quot; &quot;test_configuration&quot; {
+	#Required
+	compartment_id = var.tenancy_ocid
+	retention_period_days = var.configuration_retention_period_days
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) ID of the root compartment (tenancy)</li>
+<li><code>retention_period_days</code> - (Required) (Updatable) The retention period setting, specified in days. The minimum is 90, the maximum 365.  Example: <code>90</code></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>retention_period_days</code> - The retention period setting, specified in days. The minimum is 90, the maximum 365.  Example: <code>90</code></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Configuration
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Configuration
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Configuration</p>
+
+<h2>Import</h2>
+
+<p>Import is not supported for this resource.</p>
+
+	</div>
+
+</body>
+</html>

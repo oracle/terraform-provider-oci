@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_jms_fleet</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_jms_fleet</h1>
+
+<p>This resource provides the Fleet resource in Oracle Cloud Infrastructure Jms service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/jms/latest/Fleet">https://docs.oracle.com/iaas/api/#/en/jms/latest/Fleet</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/jms">https://github.com/oracle/terraform-provider-oci/tree/master/examples/jms</a></p>
+
+<p>Create a new Fleet using the information provided.</p>
+
+<p><code>inventoryLog</code> is now a required parameter for CreateFleet API.
+Update existing applications using this API
+before July 15, 2022 to ensure the applications continue to work.
+See the <a href="https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#JMS">Service Change Notice</a> for more details.
+Migrate existing fleets using the <code>UpdateFleet</code> API to set the <code>inventoryLog</code> parameter.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_jms_fleet&quot; &quot;test_fleet&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	display_name = var.fleet_display_name
+	inventory_log {
+		#Required
+		log_group_id = oci_logging_log_group.test_log_group.id
+		log_id = oci_logging_log.test_log.id
+	}
+
+	#Optional
+	defined_tags = {&quot;foo-namespace.bar-key&quot;= &quot;value&quot;}
+	description = var.fleet_description
+	freeform_tags = {&quot;bar-key&quot;= &quot;value&quot;}
+	is_advanced_features_enabled = var.fleet_is_advanced_features_enabled
+	operation_log {
+		#Required
+		log_group_id = oci_logging_log_group.test_log_group.id
+		log_id = oci_logging_log.test_log.id
+	}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment of the Fleet.</li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code>. (See <a href="https://docs.cloud.oracle.com/iaas/Content/Tagging/Tasks/managingtagsandtagnamespaces.htm">Understanding Free-form Tags</a>).</li>
+<li><code>description</code> - (Optional) (Updatable) The Fleet&rsquo;s description. If nothing is provided, the Fleet description will be null.</li>
+<li><code>display_name</code> - (Required) (Updatable) The name of the Fleet. The displayName must be unique for Fleets in the same compartment.</li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code>. (See <a href="https://docs.cloud.oracle.com/iaas/Content/Tagging/Concepts/understandingfreeformtags.htm">Managing Tags and Tag Namespaces</a>.)</li>
+<li><code>inventory_log</code> - (Required) (Updatable) Custom Log for inventory or operation log.
+
+<ul>
+<li><code>log_group_id</code> - (Required) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the log group.</li>
+<li><code>log_id</code> - (Required) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the log.</li>
+</ul></li>
+<li><code>is_advanced_features_enabled</code> - (Optional) (Updatable) Whether or not advanced features are enabled in this Fleet. Deprecated, use <code>/fleets/{fleetId}/advanceFeatureConfiguration</code> API instead.</li>
+<li><code>operation_log</code> - (Optional) (Updatable) Custom Log for inventory or operation log.
+
+<ul>
+<li><code>log_group_id</code> - (Required) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the log group.</li>
+<li><code>log_id</code> - (Required) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the log.</li>
+</ul></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>approximate_application_count</code> - The approximate count of all unique applications in the Fleet in the past seven days. This metric is provided on a best-effort manner, and isn&rsquo;t taken into account when computing the resource ETag.</li>
+<li><code>approximate_installation_count</code> - The approximate count of all unique Java installations in the Fleet in the past seven days. This metric is provided on a best-effort manner, and isn&rsquo;t taken into account when computing the resource ETag.</li>
+<li><code>approximate_java_server_count</code> - The approximate count of all unique Java servers in the Fleet in the past seven days. This metric is provided on a best-effort manner, and isn&rsquo;t taken into account when computing the resource ETag.</li>
+<li><code>approximate_jre_count</code> - The approximate count of all unique Java Runtimes in the Fleet in the past seven days. This metric is provided on a best-effort manner, and isn&rsquo;t taken into account when computing the resource ETag.</li>
+<li><code>approximate_library_count</code> - The approximate count of all unique libraries in the Fleet in the past seven days. This metric is provided on a best-effort manner, and isn&rsquo;t taken into account when computing the resource ETag.</li>
+<li><code>approximate_library_vulnerability_count</code> - The approximate count of all unique library vulnerabilities in the Fleet in the past seven days. This metric is provided on a best-effort manner, and isn&rsquo;t taken into account when computing the resource ETag.</li>
+<li><code>approximate_managed_instance_count</code> - The approximate count of all unique managed instances in the Fleet in the past seven days. This metric is provided on a best-effort manner, and isn&rsquo;t taken into account when computing the resource ETag.</li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment of the Fleet.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code>. (See <a href="https://docs.cloud.oracle.com/iaas/Content/Tagging/Tasks/managingtagsandtagnamespaces.htm">Understanding Free-form Tags</a>).</li>
+<li><code>description</code> - The Fleet&rsquo;s description.</li>
+<li><code>display_name</code> - The name of the Fleet.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code>. (See <a href="https://docs.cloud.oracle.com/iaas/Content/Tagging/Concepts/understandingfreeformtags.htm">Managing Tags and Tag Namespaces</a>.)</li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Fleet.</li>
+<li><code>inventory_log</code> - Custom Log for inventory or operation log.
+
+<ul>
+<li><code>log_group_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the log group.</li>
+<li><code>log_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the log.</li>
+</ul></li>
+<li><code>is_advanced_features_enabled</code> - Whether or not advanced features are enabled in this Fleet. Deprecated, use <code>/fleets/{fleetId}/advanceFeatureConfiguration</code> API instead.</li>
+<li><code>is_export_setting_enabled</code> - Whether or not export setting is enabled in this Fleet.</li>
+<li><code>operation_log</code> - Custom Log for inventory or operation log.
+
+<ul>
+<li><code>log_group_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the log group.</li>
+<li><code>log_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the log.</li>
+</ul></li>
+<li><code>state</code> - The lifecycle state of the Fleet.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. System tags can be viewed by users, but can only be created by the system.  Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The creation date and time of the Fleet (formatted according to <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>).</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Fleet
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Fleet
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Fleet</p>
+
+<h2>Import</h2>
+
+<p>Fleets can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_jms_fleet.test_fleet &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

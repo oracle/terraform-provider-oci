@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_core_private_ips</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_core_private_ips</h1>
+
+<p>This data source provides the list of Private Ips in Oracle Cloud Infrastructure Core service.</p>
+
+<p>Lists the <a href="https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/PrivateIp/">PrivateIp</a> objects based
+on one of these filters:</p>
+
+<ul>
+<li>Subnet <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li>VNIC <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li>Both private IP address and subnet OCID: This lets
+you get a <code>privateIP</code> object based on its private IP
+address (for example, 10.0.3.3) and not its <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>. For comparison,
+<a href="https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/PrivateIp/GetPrivateIp">GetPrivateIp</a>
+requires the <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+</ul>
+
+<p>If you&rsquo;re listing all the private IPs associated with a given subnet
+or VNIC, the response includes both primary and secondary private IPs.</p>
+
+<p>If you are an Oracle Cloud VMware Solution customer and have VLANs
+in your VCN, you can filter the list by VLAN <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>. See <a href="https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan">Vlan</a>.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl"># Filter on Subnet OCID
+data &quot;oci_core_private_ips&quot; &quot;test_private_ips_by_subnet&quot; {
+	#Optional
+	subnet_id = var.private_ip_subnet_id
+}
+</code></pre>
+
+<pre><code class="language-hcl"># Filter on VNIC OCID
+data &quot;oci_core_private_ips&quot; &quot;test_private_ips_by_vnic&quot; {
+	#Optional
+	vnic_id = oci_core_vnic.test_vnic.id
+}
+</code></pre>
+
+<pre><code class="language-hcl"># Filter on private IP address and Subnet OCID
+data &quot;oci_core_private_ips&quot; &quot;test_private_ips_by_ip_address&quot; {
+	#Optional
+	ip_address = var.private_ip_ip_address
+	ip_state = var.private_ip_ip_state
+	lifetime = var.private_ip_lifetime
+	subnet_id = oci_core_subnet.test_subnet.id
+	vlan_id = oci_core_vlan.test_vlan.id
+	vnic_id = oci_core_vnic_attachment.test_vnic_attachment.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>ip_address</code> - (Optional) An IP address. This could be either IPv4 or IPv6, depending on the resource. Example: <code>10.0.3.3</code></li>
+<li><code>ip_state</code> - (Optional) State of the IP address. If an IP address is assigned to a VNIC it is ASSIGNED otherwise AVAILABLE</li>
+<li><code>lifetime</code> - (Optional) Lifetime of the IP address. There are two types of IPs:
+
+<ul>
+<li>Ephemeral</li>
+<li>Reserved</li>
+</ul></li>
+<li><code>subnet_id</code> - (Optional) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the subnet.</li>
+<li><code>vlan_id</code> - (Optional) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VLAN.</li>
+<li><code>vnic_id</code> - (Optional) The OCID of the VNIC.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>private_ips</code> - The list of private_ips.</li>
+</ul>
+
+<h3>PrivateIp Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>availability_domain</code> - The private IP&rsquo;s availability domain. This attribute will be null if this is a <em>secondary</em> private IP assigned to a VNIC that is in a <em>regional</em> subnet.  Example: <code>Uocm:PHX-AD-1</code></p></li>
+
+<li><p><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment containing the private IP.</p></li>
+
+<li><p><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></p></li>
+
+<li><p><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.</p></li>
+
+<li><p><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></p></li>
+
+<li><p><code>hostname_label</code> - The hostname for the private IP. Used for DNS. The value is the hostname portion of the private IP&rsquo;s fully qualified domain name (FQDN) (for example, <code>bminstance1</code> in FQDN <code>bminstance1.subnet123.vcn1.oraclevcn.com</code>). Must be unique across all VNICs in the subnet and comply with <a href="https://tools.ietf.org/html/rfc952">RFC 952</a> and <a href="https://tools.ietf.org/html/rfc1123">RFC 1123</a>.</p>
+
+<p>For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm">DNS in Your Virtual Cloud Network</a>.</p>
+
+<p>Example: <code>bminstance1</code></p></li>
+
+<li><p><code>id</code> - The private IP&rsquo;s Oracle ID (<a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>).</p></li>
+
+<li><p><code>ip_address</code> - The private IP address of the <code>privateIp</code> object. The address is within the CIDR of the VNIC&rsquo;s subnet.</p>
+
+<p>However, if the <code>PrivateIp</code> object is being used with a VLAN as part of the Oracle Cloud VMware Solution, the address is from the range specified by the <code>cidrBlock</code> attribute for the VLAN. See <a href="https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan">Vlan</a>.</p>
+
+<p>Example: <code>10.0.3.3</code></p></li>
+
+<li><p><code>ip_state</code> - State of the IP address. If an IP address is assigned to a VNIC it is ASSIGNED, otherwise it is AVAILABLE.</p></li>
+
+<li><p><code>is_primary</code> - Whether this private IP is the primary one on the VNIC. Primary private IPs are unassigned and deleted automatically when the VNIC is terminated.  Example: <code>true</code></p></li>
+
+<li><p><code>lifetime</code> - Lifetime of the IP address. There are two types of IPv6 IPs:</p>
+
+<ul>
+<li>Ephemeral</li>
+<li>Reserved</li>
+</ul></li>
+
+<li><p><code>route_table_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the route table the IP address or VNIC will use. For more information, see <a href="https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#Overview_of_Routing_for_Your_VCN__source_routing">Source Based Routing</a>.</p></li>
+
+<li><p><code>subnet_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the subnet the VNIC is in.</p>
+
+<p>However, if the <code>PrivateIp</code> object is being used with a VLAN as part of the Oracle Cloud VMware Solution, the <code>subnetId</code> is null.</p></li>
+
+<li><p><code>time_created</code> - The date and time the private IP was created, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.  Example: <code>2016-08-25T21:10:29.600Z</code></p></li>
+
+<li><p><code>vlan_id</code> - Applicable only if the <code>PrivateIp</code> object is being used with a VLAN as part of the Oracle Cloud VMware Solution. The <code>vlanId</code> is the <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VLAN. See <a href="https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan">Vlan</a>.</p></li>
+
+<li><p><code>vnic_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VNIC the private IP is assigned to. The VNIC and private IP must be in the same subnet. However, if the <code>PrivateIp</code> object is being used with a VLAN as part of the Oracle Cloud VMware Solution, the <code>vnicId</code> is null.</p></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

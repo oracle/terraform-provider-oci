@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_identity_idp_group_mapping</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_identity_idp_group_mapping</h1>
+
+<p>This resource provides the Idp Group Mapping resource in Oracle Cloud Infrastructure Identity service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/identity/latest/IdpGroupMapping">https://docs.oracle.com/iaas/api/#/en/identity/latest/IdpGroupMapping</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/identity">https://github.com/oracle/terraform-provider-oci/tree/master/examples/identity</a></p>
+
+<p><strong>Deprecated.</strong> For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/deprecatediamapis.htm">Deprecated IAM Service APIs</a>.</p>
+
+<p>Creates a single mapping between an IdP group and an IAM Service
+<a href="https://docs.cloud.oracle.com/iaas/api/#/en/identity/20160918/Group/">group</a>.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_identity_idp_group_mapping&quot; &quot;test_idp_group_mapping&quot; {
+	#Required
+	group_id = oci_identity_group.test_group.id
+	identity_provider_id = oci_identity_identity_provider.test_identity_provider.id
+	idp_group_name = var.idp_group_mapping_idp_group_name
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>group_id</code> - (Required) (Updatable) The OCID of the IAM Service <a href="https://docs.cloud.oracle.com/iaas/api/#/en/identity/20160918/Group/">group</a> you want to map to the IdP group.</li>
+<li><code>identity_provider_id</code> - (Required) The OCID of the identity provider.</li>
+<li><code>idp_group_name</code> - (Required) (Updatable) The name of the IdP group you want to map.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The OCID of the tenancy containing the <code>IdentityProvider</code>.</li>
+<li><code>group_id</code> - The OCID of the IAM Service group that is mapped to the IdP group.</li>
+<li><code>id</code> - The OCID of the <code>IdpGroupMapping</code>.</li>
+<li><code>identity_provider_id</code> - The OCID of the <code>IdentityProvider</code> this mapping belongs to.</li>
+<li><code>idp_group_name</code> - The name of the IdP group that is mapped to the IAM Service group.</li>
+<li><code>inactive_state</code> - The detailed status of INACTIVE lifecycleState.</li>
+<li><code>state</code> - The mapping&rsquo;s current state.</li>
+<li><code>time_created</code> - Date and time the mapping was created, in the format defined by RFC3339.  Example: <code>2016-08-25T21:10:29.600Z</code></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Idp Group Mapping
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Idp Group Mapping
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Idp Group Mapping</p>
+
+<h2>Import</h2>
+
+<p>IdpGroupMappings can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_identity_idp_group_mapping.test_idp_group_mapping &quot;identityProviders/{identityProviderId}/groupMappings/{mappingId}&quot; 
+</code></pre>
+
+	</div>
+
+</body>
+</html>

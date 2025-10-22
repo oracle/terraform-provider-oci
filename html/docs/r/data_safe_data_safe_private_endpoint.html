@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_data_safe_data_safe_private_endpoint</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_data_safe_data_safe_private_endpoint</h1>
+
+<p>This resource provides the Data Safe Private Endpoint resource in Oracle Cloud Infrastructure Data Safe service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/data-safe/latest/DataSafePrivateEndpoint">https://docs.oracle.com/iaas/api/#/en/data-safe/latest/DataSafePrivateEndpoint</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe">https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe</a></p>
+
+<p>Creates a new Data Safe private endpoint.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_data_safe_data_safe_private_endpoint&quot; &quot;test_data_safe_private_endpoint&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	display_name = var.data_safe_private_endpoint_display_name
+	subnet_id = oci_core_subnet.test_subnet.id
+	vcn_id = oci_core_vcn.test_vcn.id
+
+	#Optional
+	defined_tags = {&quot;Operations.CostCenter&quot;= &quot;42&quot;}
+	description = var.data_safe_private_endpoint_description
+	freeform_tags = {&quot;Department&quot;= &quot;Finance&quot;}
+	nsg_ids = var.data_safe_private_endpoint_nsg_ids
+	private_endpoint_ip = var.data_safe_private_endpoint_private_endpoint_ip
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) (Updatable) The OCID of the compartment.</li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a> Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - (Optional) (Updatable) The description of the private endpoint.</li>
+<li><code>display_name</code> - (Required) (Updatable) The display name for the private endpoint. The name does not have to be unique, and it&rsquo;s changeable.</li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>nsg_ids</code> - (Optional) (Updatable) The OCIDs of the network security groups that the private endpoint belongs to.</li>
+<li><code>private_endpoint_ip</code> - (Optional) The private IP address of the private endpoint.</li>
+<li><code>subnet_id</code> - (Required) The OCID of the subnet.</li>
+<li><code>vcn_id</code> - (Required) The OCID of the VCN.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The OCID of the compartment.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a> Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - The description of the private endpoint.</li>
+<li><code>display_name</code> - The display name of the private endpoint.</li>
+<li><code>endpoint_fqdn</code> - The three-label fully qualified domain name (FQDN) of the private endpoint. The customer VCN&rsquo;s DNS records are updated with this FQDN.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The OCID of the Data Safe private endpoint.</li>
+<li><code>nsg_ids</code> - The OCIDs of the network security groups that the private endpoint belongs to.</li>
+<li><code>private_endpoint_id</code> - The OCID of the underlying private endpoint.</li>
+<li><code>private_endpoint_ip</code> - The private IP address of the private endpoint.</li>
+<li><code>state</code> - The current state of the private endpoint.</li>
+<li><code>subnet_id</code> - The OCID of the subnet.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The date and time the private endpoint was created, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>vcn_id</code> - The OCID of the VCN.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Data Safe Private Endpoint
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Data Safe Private Endpoint
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Data Safe Private Endpoint</p>
+
+<h2>Import</h2>
+
+<p>DataSafePrivateEndpoints can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_data_safe_data_safe_private_endpoint.test_data_safe_private_endpoint &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_monitoring_alarms</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_monitoring_alarms</h1>
+
+<p>This data source provides the list of Alarms in Oracle Cloud Infrastructure Monitoring service.</p>
+
+<p>Lists the alarms for the specified compartment.
+For more information, see
+<a href="https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/list-alarm.htm">Listing Alarms</a>.
+For important limits information, see
+<a href="https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#limits">Limits on Monitoring</a>.</p>
+
+<p>This call is subject to a Monitoring limit that applies to the total number of requests across all alarm operations.
+Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests,
+or transactions, per second (TPS) for a given tenancy.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_monitoring_alarms&quot; &quot;test_alarms&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	compartment_id_in_subtree = var.alarm_compartment_id_in_subtree
+	display_name = var.alarm_display_name
+	state = var.alarm_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment containing the resources monitored by the metric that you are searching for. Use tenancyId to search in the root compartment.  Example: <code>ocid1.compartment.oc1..exampleuniqueID</code></li>
+<li><code>compartment_id_in_subtree</code> - (Optional) When true, returns resources from all compartments and subcompartments. The parameter can only be set to true when compartmentId is the tenancy OCID (the tenancy is the root compartment). A true value requires the user to have tenancy-level permissions. If this requirement is not met, then the call is rejected. When false, returns resources from only the compartment specified in compartmentId. Default is false.</li>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the given display name exactly. Use this filter to list an alarm by name. Alternatively, when you know the alarm OCID, use the GetAlarm operation.</li>
+<li><code>state</code> - (Optional) A filter to return only alarms that match the given lifecycle state exactly. When not specified, only alarms in the ACTIVE lifecycle state are listed.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>alarms</code> - The list of alarms.</li>
+</ul>
+
+<h3>Alarm Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>alarm_summary</code> - Customizable alarm summary (<code>alarmSummary</code> <a href="https://docs.cloud.oracle.com/iaas/Content/Monitoring/alarm-message-format.htm">alarm message parameter</a>). Optionally include <a href="https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/update-alarm-dynamic-variables.htm">dynamic variables</a>. The alarm summary appears within the body of the alarm message and in responses to  <a href="https://docs.cloud.oracle.com/iaas/api/#/en/monitoring/latest/AlarmStatusSummary/ListAlarmsStatus">ListAlarmStatus</a>  <a href="https://docs.cloud.oracle.com/iaas/api/#/en/monitoring/latest/AlarmHistoryCollection/GetAlarmHistory">GetAlarmHistory</a> and <a href="https://docs.cloud.oracle.com/iaas/api/#/en/monitoring/latest/AlarmDimensionStatesCollection/RetrieveDimensionStates">RetrieveDimensionStates</a>.</p></li>
+
+<li><p><code>body</code> - The human-readable content of the delivered alarm notification. Optionally include <a href="https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/update-alarm-dynamic-variables.htm">dynamic variables</a>. Oracle recommends providing guidance to operators for resolving the alarm condition. Consider adding links to standard runbook practices. Avoid entering confidential information.  Example: <code>High CPU usage alert. Follow runbook instructions for resolution.</code></p></li>
+
+<li><p><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment containing the alarm.</p></li>
+
+<li><p><code>defined_tags</code> - Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></p></li>
+
+<li><p><code>destinations</code> - A list of destinations for alarm notifications. Each destination is represented by the <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of a related resource, such as a <a href="https://docs.cloud.oracle.com/iaas/api/#/en/notification/latest/NotificationTopic">topic</a>. Supported destination services: Notifications, Streaming. Limit: One destination per supported destination service.</p></li>
+
+<li><p><code>display_name</code> - A user-friendly name for the alarm. It does not have to be unique, and it&rsquo;s changeable.</p>
+
+<p>This value determines the title of each alarm notification.</p>
+
+<p>Example: <code>High CPU Utilization</code></p></li>
+
+<li><p><code>evaluation_slack_duration</code> - Customizable slack period to wait for metric ingestion before evaluating the alarm. Specify a string in ISO 8601 format (<code>PT10M</code> for ten minutes or <code>PT1H</code> for one hour). Minimum: PT3M. Maximum: PT2H. Default: PT3M. For more information about the slack period, see <a href="https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#reset">About the Internal Reset Period</a>.</p></li>
+
+<li><p><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></p></li>
+
+<li><p><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the alarm.</p></li>
+
+<li><p><code>is_enabled</code> - Whether the alarm is enabled.  Example: <code>true</code></p></li>
+
+<li><p><code>is_notifications_per_metric_dimension_enabled</code> - Whether the alarm sends a separate message for each metric stream. See <a href="https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/create-alarm-split.htm">Creating an Alarm That Splits Messages by Metric Stream</a>. Example: <code>true</code></p></li>
+
+<li><p><code>message_format</code> - The format to use for alarm notifications. The formats are:</p>
+
+<ul>
+<li><code>RAW</code> - Raw JSON blob. Default value. When the <code>destinations</code> attribute specifies <code>Streaming</code>, all alarm notifications use this format.</li>
+<li><code>PRETTY_JSON</code>: JSON with new lines and indents. Available when the <code>destinations</code> attribute specifies <code>Notifications</code> only.</li>
+<li><code>ONS_OPTIMIZED</code>: Simplified, user-friendly layout. Available when the <code>destinations</code> attribute specifies <code>Notifications</code> only. Applies to Email subscription types only.</li>
+</ul></li>
+
+<li><p><code>metric_compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment containing the metric being evaluated by the alarm.</p></li>
+
+<li><p><code>metric_compartment_id_in_subtree</code> - When true, the alarm evaluates metrics from all compartments and subcompartments. The parameter can only be set to true when metricCompartmentId is the tenancy OCID (the tenancy is the root compartment). A true value requires the user to have tenancy-level permissions. If this requirement is not met, then the call is rejected. When false, the alarm evaluates metrics from only the compartment specified in metricCompartmentId. Default is false.  Example: <code>true</code></p></li>
+
+<li><p><code>namespace</code> - The source service or application emitting the metric that is evaluated by the alarm.  Example: <code>oci_computeagent</code></p></li>
+
+<li><p><code>notification_title</code> - Customizable notification title (<code>title</code> <a href="https://docs.cloud.oracle.com/iaas/Content/Monitoring/alarm-message-format.htm">alarm message parameter</a>). Optionally include <a href="https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/update-alarm-dynamic-variables.htm">dynamic variables</a>. The notification title appears as the subject line in a formatted email message and as the title in a Slack message.</p></li>
+
+<li><p><code>notification_version</code> - The version of the alarm notification to be delivered. Allowed value: <code>1.X</code> The value must start with a number (up to four digits), followed by a period and an uppercase X.</p></li>
+
+<li><p><code>overrides</code> - A set of overrides that control evaluations of the alarm.</p>
+
+<p>Each override can specify values for query, severity, body, and pending duration. When an alarm contains overrides, the Monitoring service evaluates each override in order, beginning with the first override in the array (index position <code>0</code>), and then evaluates the alarm&rsquo;s base values (<code>ruleName</code> value of <code>BASE</code>).</p>
+
+<ul>
+<li><p><code>body</code> - The human-readable content of the delivered alarm notification. Optionally include <a href="https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/update-alarm-dynamic-variables.htm">dynamic variables</a>. Oracle recommends providing guidance to operators for resolving the alarm condition. Consider adding links to standard runbook practices. Avoid entering confidential information.  Example: <code>High CPU usage alert. Follow runbook instructions for resolution.</code></p></li>
+
+<li><p><code>pending_duration</code> - The period of time that the condition defined in the alarm must persist before the alarm state changes from &ldquo;OK&rdquo; to &ldquo;FIRING&rdquo;. For example, a value of 5 minutes means that the alarm must persist in breaching the condition for five minutes before the alarm updates its state to &ldquo;FIRING&rdquo;.</p>
+
+<p>The duration is specified as a string in ISO 8601 format (<code>PT10M</code> for ten minutes or <code>PT1H</code> for one hour). Minimum: PT1M. Maximum: PT1H. Default: PT1M.</p>
+
+<p>Under the default value of PT1M, the first evaluation that breaches the alarm updates the state to &ldquo;FIRING&rdquo;.</p>
+
+<p>The alarm updates its status to &ldquo;OK&rdquo; when the breaching condition has been clear for the most recent minute.</p>
+
+<p>Example: <code>PT5M</code></p></li>
+
+<li><p><code>query</code> - The Monitoring Query Language (MQL) expression to evaluate for the alarm. The Alarms feature of the Monitoring service interprets results for each returned time series as Boolean values, where zero represents false and a non-zero value represents true. A true value means that the trigger rule condition has been met. The query must specify a metric, statistic, interval, and trigger rule (threshold or absence). Supported values for interval depend on the specified time range. More interval values are supported for smaller time ranges. You can optionally specify dimensions and grouping functions. Also, you can customize the  <a href="https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/create-edit-alarm-query-absence-detection-period.htm">absence detection period</a>. Supported grouping functions: <code>grouping()</code>, <code>groupBy()</code>. For information about writing MQL expressions, see <a href="https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/query-metric-mql.htm">Editing the MQL Expression for a Query</a>. For details about MQL, see <a href="https://docs.cloud.oracle.com/iaas/Content/Monitoring/Reference/mql.htm">Monitoring Query Language (MQL) Reference</a>. For available dimensions, review the metric definition for the supported service. See <a href="https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#SupportedServices">Supported Services</a>.</p>
+
+<p>Example of threshold alarm:</p>
+
+<hr>
+
+<p>CpuUtilization[1m]{availabilityDomain=&ldquo;cumS:PHX-AD-1&rdquo;}.groupBy(availabilityDomain).percentile(0.9) &gt; 85</p>
+
+<hr>
+
+<p>Example of absence alarm:</p>
+
+<hr>
+
+<p>CpuUtilization[1m]{availabilityDomain=&ldquo;cumS:PHX-AD-1&rdquo;}.absent()</p>
+
+<p>&mdash;&ndash; Example of absence alarm with custom absence detection period of 20 hours:</p>
+
+<p>&mdash;&ndash; CpuUtilization[1m]{availabilityDomain=&ldquo;cumS:PHX-AD-1&rdquo;}.absent(20h) &mdash;&ndash;</p></li>
+
+<li><p><code>rule_name</code> - A user-friendly description for this alarm override. Must be unique across all <code>ruleName</code> values for the alarm.</p></li>
+
+<li><p><code>severity</code> - The perceived severity of the alarm with regard to the affected system.  Example: <code>CRITICAL</code></p></li>
+</ul></li>
+
+<li><p><code>pending_duration</code> - The period of time that the condition defined in the alarm must persist before the alarm state changes from &ldquo;OK&rdquo; to &ldquo;FIRING&rdquo;. For example, a value of 5 minutes means that the alarm must persist in breaching the condition for five minutes before the alarm updates its state to &ldquo;FIRING&rdquo;.</p>
+
+<p>The duration is specified as a string in ISO 8601 format (<code>PT10M</code> for ten minutes or <code>PT1H</code> for one hour). Minimum: PT1M. Maximum: PT1H. Default: PT1M.</p>
+
+<p>Under the default value of PT1M, the first evaluation that breaches the alarm updates the state to &ldquo;FIRING&rdquo;.</p>
+
+<p>The alarm updates its status to &ldquo;OK&rdquo; when the breaching condition has been clear for the most recent minute.</p>
+
+<p>Example: <code>PT5M</code></p></li>
+
+<li><p><code>query</code> - The Monitoring Query Language (MQL) expression to evaluate for the alarm. The Alarms feature of the Monitoring service interprets results for each returned time series as Boolean values, where zero represents false and a non-zero value represents true. A true value means that the trigger rule condition has been met. The query must specify a metric, statistic, interval, and trigger rule (threshold or absence). Supported values for interval depend on the specified time range. More interval values are supported for smaller time ranges. You can optionally specify dimensions and grouping functions. Also, you can customize the  <a href="https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/create-edit-alarm-query-absence-detection-period.htm">absence detection period</a>. Supported grouping functions: <code>grouping()</code>, <code>groupBy()</code>. For information about writing MQL expressions, see <a href="https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/query-metric-mql.htm">Editing the MQL Expression for a Query</a>. For details about MQL, see <a href="https://docs.cloud.oracle.com/iaas/Content/Monitoring/Reference/mql.htm">Monitoring Query Language (MQL) Reference</a>. For available dimensions, review the metric definition for the supported service. See <a href="https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#SupportedServices">Supported Services</a>.</p>
+
+<p>Example of threshold alarm:</p>
+
+<hr>
+
+<p>CpuUtilization[1m]{availabilityDomain=&ldquo;cumS:PHX-AD-1&rdquo;}.groupBy(availabilityDomain).percentile(0.9) &gt; 85</p>
+
+<hr>
+
+<p>Example of absence alarm:</p>
+
+<hr>
+
+<p>CpuUtilization[1m]{availabilityDomain=&ldquo;cumS:PHX-AD-1&rdquo;}.absent()</p>
+
+<p>&mdash;&ndash; Example of absence alarm with custom absence detection period of 20 hours:</p>
+
+<p>&mdash;&ndash; CpuUtilization[1m]{availabilityDomain=&ldquo;cumS:PHX-AD-1&rdquo;}.absent(20h) &mdash;&ndash;</p></li>
+
+<li><p><code>repeat_notification_duration</code> - The frequency for re-submitting alarm notifications, if the alarm keeps firing without interruption. Format defined by ISO 8601. For example, <code>PT4H</code> indicates four hours. Minimum: PT1M. Maximum: P30D.</p>
+
+<p>Default value: null (notifications are not re-submitted).</p>
+
+<p>Example: <code>PT2H</code></p></li>
+
+<li><p><code>resolution</code> - The time between calculated aggregation windows for the alarm. Supported value: <code>1m</code></p></li>
+
+<li><p><code>resource_group</code> - Resource group that you want to match. A null value returns only metric data that has no resource groups. The specified resource group must exist in the definition of the posted metric. Only one resource group can be applied per metric. A valid resourceGroup value starts with an alphabetical character and includes only alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($).  Example: <code>frontend-fleet</code></p></li>
+
+<li><p><code>rule_name</code> - Identifier of the alarm&rsquo;s base values for alarm evaluation, for use when the alarm contains overrides.  Default value is <code>BASE</code>. For information about alarm overrides, see <a href="https://docs.cloud.oracle.com/iaas/api/#/en/monitoring/latest/datatypes/AlarmOverride">AlarmOverride</a>.</p></li>
+
+<li><p><code>severity</code> - The perceived type of response required when the alarm is in the &ldquo;FIRING&rdquo; state.  Example: <code>CRITICAL</code></p></li>
+
+<li><p><code>state</code> - The current lifecycle state of the alarm.  Example: <code>DELETED</code></p></li>
+
+<li><p><code>suppression</code> - The configuration details for suppressing an alarm.</p>
+
+<ul>
+<li><p><code>description</code> - Human-readable reason for suppressing alarm notifications. It does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.</p>
+
+<p>Oracle recommends including tracking information for the event or associated work, such as a ticket number.</p>
+
+<p>Example: <code>Planned outage due to change IT-1234.</code></p></li>
+
+<li><p><code>time_suppress_from</code> - The start date and time for the suppression to take place, inclusive. Format defined by RFC3339.  Example: <code>2023-02-01T01:02:29.600Z</code></p></li>
+
+<li><p><code>time_suppress_until</code> - The end date and time for the suppression to take place, inclusive. Format defined by RFC3339.  Example: <code>2023-02-01T02:02:29.600Z</code></p></li>
+</ul></li>
+
+<li><p><code>time_created</code> - The date and time the alarm was created. Format defined by RFC3339.  Example: <code>2023-02-01T01:02:29.600Z</code></p></li>
+
+<li><p><code>time_updated</code> - The date and time the alarm was last updated. Format defined by RFC3339.  Example: <code>2023-02-03T01:02:29.600Z</code></p></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

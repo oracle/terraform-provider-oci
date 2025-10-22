@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_waa_web_app_acceleration_policies</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_waa_web_app_acceleration_policies</h1>
+
+<p>This data source provides the list of Web App Acceleration Policies in Oracle Cloud Infrastructure Waa service.</p>
+
+<p>Gets a list of all WebAppAccelerationPolicies in a compartment.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_waa_web_app_acceleration_policies&quot; &quot;test_web_app_acceleration_policies&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	display_name = var.web_app_acceleration_policy_display_name
+	id = var.web_app_acceleration_policy_id
+	state = var.web_app_acceleration_policy_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment in which to list resources.</li>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the entire display name given.</li>
+<li><code>id</code> - (Optional) A filter to return only the WebAppAccelerationPolicy with the given <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>state</code> - (Optional) A filter to return only resources that match the given lifecycleState.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>web_app_acceleration_policy_collection</code> - The list of web_app_acceleration_policy_collection.</li>
+</ul>
+
+<h3>WebAppAccelerationPolicy Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</p></li>
+
+<li><p><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></p></li>
+
+<li><p><code>display_name</code> - WebAppAccelerationPolicy display name, can be renamed.</p></li>
+
+<li><p><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></p></li>
+
+<li><p><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the WebAppAccelerationPolicy.</p></li>
+
+<li><p><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in FAILED state.</p></li>
+
+<li><p><code>response_caching_policy</code> - An object that specifies an HTTP response caching policy.</p>
+
+<ul>
+<li><p><code>is_response_header_based_caching_enabled</code> - When false, responses will not be cached by the backend based on response headers.</p>
+
+<p>When true, responses that contain one of the supported cache control headers will be cached according to the values specified in the cache control headers.</p>
+
+<p>The &ldquo;X-Accel-Expires&rdquo; header field sets caching time of a response in seconds. The zero value disables caching for a response. If the value starts with the @ prefix, it sets an absolute time in seconds since Epoch, up to which the response may be cached.</p>
+
+<p>If the header does not include the &ldquo;X-Accel-Expires&rdquo; field, parameters of caching may be set in the header fields &ldquo;Expires&rdquo; or &ldquo;Cache-Control&rdquo;.</p>
+
+<p>If the header includes the &ldquo;Set-Cookie&rdquo; field, such a response will not be cached.</p>
+
+<p>If the header includes the &ldquo;Vary&rdquo; field with the special value &ldquo;*&rdquo;, such a response will not be cached. If the header includes the &ldquo;Vary&rdquo; field with another value, such a response will be cached taking into account the corresponding request header fields.</p></li>
+</ul></li>
+
+<li><p><code>response_compression_policy</code> - An object that specifies a compression policy for HTTP response from ENABLEMENT POINT to the client.</p>
+
+<p>This compression policy can be used to enable support for HTTP response compression algorithms like gzip and configure the conditions of when a compression algorithm will be used.</p>
+
+<p>HTTP responses will only be compressed if the client indicates support for one of the enabled compression algorithms via the &ldquo;Accept-Encoding&rdquo; request header.</p>
+
+<ul>
+<li><p><code>gzip_compression</code> - An object that specifies the gzip compression policy.</p>
+
+<ul>
+<li><p><code>is_enabled</code> - When true, support for gzip compression is enabled. HTTP responses will be compressed with gzip only if the client indicates support for gzip via the &ldquo;Accept-Encoding: gzip&rdquo; request header.</p>
+
+<p>When false, support for gzip compression is disabled and HTTP responses will not be compressed with gzip even if the client indicates support for gzip.</p></li>
+</ul></li>
+</ul></li>
+
+<li><p><code>state</code> - The current state of the WebAppAccelerationPolicy.</p></li>
+
+<li><p><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></p></li>
+
+<li><p><code>time_created</code> - The time the WebAppAccelerationPolicy was created. An RFC3339 formatted datetime string.</p></li>
+
+<li><p><code>time_updated</code> - The time the WebAppAccelerationPolicy was updated. An RFC3339 formatted datetime string.</p></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_core_drgs</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_core_drgs</h1>
+
+<p>This data source provides the list of Drgs in Oracle Cloud Infrastructure Core service.</p>
+
+<p>Lists the DRGs in the specified compartment.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_core_drgs&quot; &quot;test_drgs&quot; {
+	#Required
+	compartment_id = var.compartment_id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>drgs</code> - The list of drgs.</li>
+</ul>
+
+<h3>Drg Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment containing the DRG.</p></li>
+
+<li><p><code>default_drg_route_tables</code> - The default DRG route table for this DRG. Each network type has a default DRG route table.</p>
+
+<p>You can update a network type to use a different DRG route table, but each network type must have a default DRG route table. You cannot delete a default DRG route table.</p>
+
+<ul>
+<li><code>ipsec_tunnel</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the default DRG route table assigned to DRG attachments of type IPSEC_TUNNEL on creation.</li>
+<li><code>remote_peering_connection</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the default DRG route table to be assigned to DRG attachments of type REMOTE_PEERING_CONNECTION on creation.</li>
+<li><code>vcn</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the default DRG route table to be assigned to DRG attachments of type VCN on creation.</li>
+<li><code>virtual_circuit</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the default DRG route table to be assigned to DRG attachments of type VIRTUAL_CIRCUIT on creation.</li>
+</ul></li>
+
+<li><p><code>default_export_drg_route_distribution_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of this DRG&rsquo;s default export route distribution for the DRG attachments.</p></li>
+
+<li><p><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></p></li>
+
+<li><p><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.</p></li>
+
+<li><p><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></p></li>
+
+<li><p><code>id</code> - The DRG&rsquo;s Oracle ID (<a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>).</p></li>
+
+<li><p><code>state</code> - The DRG&rsquo;s current state.</p></li>
+
+<li><p><code>time_created</code> - The date and time the DRG was created, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.  Example: <code>2016-08-25T21:10:29.600Z</code></p></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

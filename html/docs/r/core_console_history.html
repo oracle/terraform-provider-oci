@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_core_console_history</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_core_console_history</h1>
+
+<p>This resource provides the Console History resource in Oracle Cloud Infrastructure Core service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/iaas/latest/ConsoleHistory">https://docs.oracle.com/iaas/api/#/en/iaas/latest/ConsoleHistory</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/">https://github.com/oracle/terraform-provider-oci/tree/master/examples/</a></p>
+
+<p>Captures the most recent serial console data (up to a megabyte) for the
+specified instance.</p>
+
+<p>The <code>CaptureConsoleHistory</code> operation works with the other console history operations
+as described below.</p>
+
+<ol>
+<li>Use <code>CaptureConsoleHistory</code> to request the capture of up to a megabyte of the
+most recent console history. This call returns a <code>ConsoleHistory</code>
+object. The object will have a state of REQUESTED.</li>
+<li>Wait for the capture operation to succeed by polling <code>GetConsoleHistory</code> with
+the identifier of the console history metadata. The state of the
+<code>ConsoleHistory</code> object will go from REQUESTED to GETTING-HISTORY and
+then SUCCEEDED (or FAILED).</li>
+<li>Use <code>GetConsoleHistoryContent</code> to get the actual console history data (not the
+metadata).</li>
+<li>Optionally, use <code>DeleteConsoleHistory</code> to delete the console history metadata
+and the console history data.</li>
+</ol>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_core_console_history&quot; &quot;test_console_history&quot; {
+	#Required
+	instance_id = oci_core_instance.test_instance.id
+
+	#Optional
+	defined_tags = {&quot;Operations.CostCenter&quot;= &quot;42&quot;}
+	display_name = var.console_history_display_name
+	freeform_tags = {&quot;Department&quot;= &quot;Finance&quot;}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>display_name</code> - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.</li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>instance_id</code> - (Required) The OCID of the instance to get the console history from.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>availability_domain</code> - The availability domain of an instance.  Example: <code>Uocm:PHX-AD-1</code></li>
+<li><code>compartment_id</code> - The OCID of the compartment.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The OCID of the console history metadata object.</li>
+<li><code>instance_id</code> - The OCID of the instance this console history was fetched from.</li>
+<li><code>state</code> - The current state of the console history.</li>
+<li><code>time_created</code> - The date and time the history was created, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>. Example: <code>2016-08-25T21:10:29.600Z</code></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Console History
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Console History
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Console History</p>
+
+<h2>Import</h2>
+
+<p>ConsoleHistories can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_core_console_history.test_console_history &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

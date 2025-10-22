@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_load_balancer_backend_set</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_load_balancer_backend_set</h1>
+
+<p>This resource provides the Backend Set resource in Oracle Cloud Infrastructure Load Balancer service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/loadbalancer/latest/BackendSet">https://docs.oracle.com/iaas/api/#/en/loadbalancer/latest/BackendSet</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/load_balancer">https://github.com/oracle/terraform-provider-oci/tree/master/examples/load_balancer</a></p>
+
+<p>Adds a backend set to a load balancer.</p>
+
+<h2>Supported Aliases</h2>
+
+<ul>
+<li><code>oci_load_balancer_backendset</code></li>
+</ul>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_load_balancer_backend_set&quot; &quot;test_backend_set&quot; {
+	#Required
+	health_checker {
+		#Required
+		protocol = var.backend_set_health_checker_protocol
+
+		#Optional
+		interval_ms = var.backend_set_health_checker_interval_ms
+		is_force_plain_text = var.backend_set_health_checker_is_force_plain_text
+		port = var.backend_set_health_checker_port
+		response_body_regex = var.backend_set_health_checker_response_body_regex
+		retries = var.backend_set_health_checker_retries
+		return_code = var.backend_set_health_checker_return_code
+		timeout_in_millis = var.backend_set_health_checker_timeout_in_millis
+		url_path = var.backend_set_health_checker_url_path
+	}
+	load_balancer_id = oci_load_balancer_load_balancer.test_load_balancer.id
+	name = var.backend_set_name
+	policy = var.backend_set_policy
+
+	#Optional
+	backend_max_connections = var.backend_set_backend_max_connections
+	lb_cookie_session_persistence_configuration {
+
+		#Optional
+		cookie_name = var.backend_set_lb_cookie_session_persistence_configuration_cookie_name
+		disable_fallback = var.backend_set_lb_cookie_session_persistence_configuration_disable_fallback
+		domain = var.backend_set_lb_cookie_session_persistence_configuration_domain
+		is_http_only = var.backend_set_lb_cookie_session_persistence_configuration_is_http_only
+		is_secure = var.backend_set_lb_cookie_session_persistence_configuration_is_secure
+		max_age_in_seconds = var.backend_set_lb_cookie_session_persistence_configuration_max_age_in_seconds
+		path = var.backend_set_lb_cookie_session_persistence_configuration_path
+	}
+	session_persistence_configuration {
+		#Required
+		cookie_name = var.backend_set_session_persistence_configuration_cookie_name
+
+		#Optional
+		disable_fallback = var.backend_set_session_persistence_configuration_disable_fallback
+	}
+	ssl_configuration {
+
+		#Optional
+		certificate_ids = var.backend_set_ssl_configuration_certificate_ids
+		certificate_name = oci_load_balancer_certificate.test_certificate.name
+		cipher_suite_name = var.backend_set_ssl_configuration_cipher_suite_name
+		protocols = var.backend_set_ssl_configuration_protocols
+		server_order_preference = var.backend_set_ssl_configuration_server_order_preference
+		trusted_certificate_authority_ids = var.backend_set_ssl_configuration_trusted_certificate_authority_ids
+		verify_depth = var.backend_set_ssl_configuration_verify_depth
+		verify_peer_certificate = var.backend_set_ssl_configuration_verify_peer_certificate
+	}
+}
+</code></pre>
+
+<p><strong>Note:</strong> The <code>sessionPersistenceConfiguration</code> (application cookie stickiness) and <code>lbCookieSessionPersistenceConfiguration</code>
+      (LB cookie stickiness) attributes are mutually exclusive. To avoid returning an error, configure only one of these two
+      attributes per backend set.</p>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>backend</code> - (Optional) (Updatable)</p>
+
+<ul>
+<li><p><code>backup</code> - (Optional) (Updatable) Whether the load balancer should treat this server as a backup unit. If <code>true</code>, the load balancer forwards no ingress traffic to this backend server unless all other backend servers not marked as &ldquo;backup&rdquo; fail the health check policy.</p>
+
+<p><strong>Note:</strong> You cannot add a backend server marked as <code>backup</code> to a backend set that uses the IP Hash policy.</p>
+
+<p>Example: <code>false</code></p></li>
+
+<li><p><code>drain</code> - (Optional) (Updatable) Whether the load balancer should drain this server. Servers marked &ldquo;drain&rdquo; receive no new incoming traffic.  Example: <code>false</code></p></li>
+
+<li><p><code>ip_address</code> - (Required) (Updatable) The IP address of the backend server.  Example: <code>10.0.0.3</code></p></li>
+
+<li><p><code>max_connections</code> - (Optional) (Updatable) The maximum number of simultaneous connections the load balancer can make to the backend. If this is not set or set to 0 then the maximum number of simultaneous connections the load balancer can make to the backend is unlimited.</p>
+
+<p>If setting maxConnections to some value other than 0 then that value must be greater or equal to 256.</p>
+
+<p>Example: <code>300</code></p></li>
+
+<li><p><code>offline</code> - (Optional) (Updatable) Whether the load balancer should treat this server as offline. Offline servers receive no incoming traffic.  Example: <code>false</code></p></li>
+
+<li><p><code>port</code> - (Required) (Updatable) The communication port for the backend server.  Example: <code>8080</code></p></li>
+
+<li><p><code>weight</code> - (Optional) (Updatable) The load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted &lsquo;3&rsquo; receives 3 times the number of new connections as a server weighted &lsquo;1&rsquo;. For more information on load balancing policies, see <a href="https://docs.cloud.oracle.com/iaas/Content/Balance/Reference/lbpolicies.htm">How Load Balancing Policies Work</a>.  Example: <code>3</code></p></li>
+</ul></li>
+
+<li><p><code>backend_max_connections</code> - (Optional) (Updatable) The maximum number of simultaneous connections the load balancer can make to any backend in the backend set unless the backend has its own maxConnections setting. If this is not set or set to 0 then the number of simultaneous connections the load balancer can make to any backend in the backend set unless the backend has its own maxConnections setting is unlimited.</p>
+
+<p>If setting backendMaxConnections to some value other than 0 then that value must be greater or equal to 256.</p>
+
+<p>Example: <code>300</code></p></li>
+
+<li><p><code>health_checker</code> - (Required) (Updatable) The health check policy&rsquo;s configuration details.</p>
+
+<ul>
+<li><p><code>interval_ms</code> - (Optional) (Updatable) The interval between health checks, in milliseconds.  Example: <code>10000</code></p></li>
+
+<li><p><code>is_force_plain_text</code> - (Optional) (Updatable) Specifies if health checks should always be done using plain text instead of depending on whether or not the associated backend set is using SSL.</p>
+
+<p>If &ldquo;true&rdquo;, health checks will be done using plain text even if the associated backend set is configured to use SSL.</p>
+
+<p>If &ldquo;false&rdquo;, health checks will be done using SSL encryption if the associated backend set is configured to use SSL. If the backend set is not so configured the health checks will be done using plain text.</p>
+
+<p>Example: <code>false</code></p></li>
+
+<li><p><code>port</code> - (Optional) (Updatable) The backend server port against which to run the health check. If the port is not specified, the load balancer uses the port information from the <code>Backend</code> object.  Example: <code>8080</code></p></li>
+
+<li><p><code>protocol</code> - (Required) (Updatable) The protocol the health check must use; either HTTP or TCP.  Example: <code>HTTP</code></p></li>
+
+<li><p><code>response_body_regex</code> - (Optional) (Updatable) A regular expression for parsing the response body from the backend server.  Example: <code>^((?!false).|\s)*$</code></p></li>
+
+<li><p><code>retries</code> - (Optional) (Updatable) The number of retries to attempt before a backend server is considered &ldquo;unhealthy&rdquo;. This number also applies when recovering a server to the &ldquo;healthy&rdquo; state.  Example: <code>3</code></p></li>
+
+<li><p><code>return_code</code> - (Optional) (Updatable) The status code a healthy backend server should return.  Example: <code>200</code></p></li>
+
+<li><p><code>timeout_in_millis</code> - (Optional) (Updatable) The maximum time, in milliseconds, to wait for a reply to a health check. A health check is successful only if a reply returns within this timeout period.  Example: <code>3000</code></p></li>
+
+<li><p><code>url_path</code> - (Optional) (Updatable) The path against which to run the health check.  Example: <code>/healthcheck</code></p></li>
+</ul></li>
+
+<li><p><code>lb_cookie_session_persistence_configuration</code> - (Optional) (Updatable) The configuration details for implementing load balancer cookie session persistence (LB cookie stickiness).</p>
+
+<p>Session persistence enables the Load Balancing service to direct all requests that originate from a single logical client to a single backend web server. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/Balance/Reference/sessionpersistence.htm">Session Persistence</a>.</p>
+
+<p>When you configure LB cookie stickiness, the load balancer inserts a cookie into the response. The parameters configured in the cookie enable session stickiness. This method is useful when you have applications and Web backend services that cannot generate their own cookies.</p>
+
+<p>Path route rules take precedence to determine the target backend server. The load balancer verifies that session stickiness is enabled for the backend server and that the cookie configuration (domain, path, and cookie hash) is valid for the target. The system ignores invalid cookies.</p>
+
+<p>To disable LB cookie stickiness on a running load balancer, use the <a href="https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/BackendSet/UpdateBackendSet">UpdateBackendSet</a> operation and specify <code>null</code> for the <code>LBCookieSessionPersistenceConfigurationDetails</code> object.</p>
+
+<p>Example: <code>LBCookieSessionPersistenceConfigurationDetails: null</code></p>
+
+<p><strong>Note:</strong> <code>SessionPersistenceConfigurationDetails</code> (application cookie stickiness) and <code>LBCookieSessionPersistenceConfigurationDetails</code> (LB cookie stickiness) are mutually exclusive. An error results if you try to enable both types of session persistence.</p>
+
+<p><strong>Warning:</strong> Oracle recommends that you avoid using any confidential information when you supply string values using the API.</p>
+
+<ul>
+<li><p><code>cookie_name</code> - (Optional) (Updatable) The name of the cookie inserted by the load balancer. If this field is not configured, the cookie name defaults to &ldquo;X-Oracle-BMC-LBS-Route&rdquo;.  Example: <code>example_cookie</code></p>
+
+<p><strong>Notes:</strong></p>
+
+<ul>
+<li>Ensure that the cookie name used at the backend application servers is different from the cookie name used at the load balancer. To minimize the chance of name collision, Oracle recommends that you use a prefix such as &ldquo;X-Oracle-OCI-&rdquo; for this field.</li>
+<li>If a backend server and the load balancer both insert cookies with the same name, the client or browser behavior can vary depending on the domain and path values associated with the cookie. If the name, domain, and path values of the <code>Set-cookie</code> generated by a backend server and the <code>Set-cookie</code> generated by the load balancer are all the same, the client or browser treats them as one cookie and returns only one of the cookie values in subsequent requests. If both <code>Set-cookie</code> names are the same, but the domain and path names are different, the client or browser treats them as two different cookies.</li>
+</ul></li>
+
+<li><p><code>disable_fallback</code> - (Optional) (Updatable) Whether the load balancer is prevented from directing traffic from a persistent session client to a different backend server if the original server is unavailable. Defaults to false.  Example: <code>false</code></p></li>
+
+<li><p><code>domain</code> - (Optional) (Updatable) The domain in which the cookie is valid. The <code>Set-cookie</code> header inserted by the load balancer contains a domain attribute with the specified value.</p>
+
+<p>This attribute has no default value. If you do not specify a value, the load balancer does not insert the domain attribute into the <code>Set-cookie</code> header.</p>
+
+<p><strong>Notes:</strong></p>
+
+<ul>
+<li><a href="https://www.ietf.org/rfc/rfc6265.txt">RFC 6265 - HTTP State Management Mechanism</a> describes client and browser behavior when the domain attribute is present or not present in the <code>Set-cookie</code> header.</li>
+</ul>
+
+<p>If the value of the <code>Domain</code> attribute is <code>example.com</code> in the <code>Set-cookie</code> header, the client includes the same cookie in the <code>Cookie</code> header when making HTTP requests to <code>example.com</code>, <code>www.example.com</code>, and <code>www.abc.example.com</code>. If the <code>Domain</code> attribute is not present, the client returns the cookie only for the domain to which the original request was made.
+*  Ensure that this attribute specifies the correct domain value. If the <code>Domain</code> attribute in the <code>Set-cookie</code> header does not include the domain to which the original request was made, the client or browser might reject the cookie. As specified in RFC 6265, the client accepts a cookie with the <code>Domain</code> attribute value <code>example.com</code> or <code>www.example.com</code> sent from <code>www.example.com</code>. It does not accept a cookie with the <code>Domain</code> attribute <code>abc.example.com</code> or <code>www.abc.example.com</code> sent from <code>www.example.com</code>.</p>
+
+<p>Example: <code>example.com</code></p></li>
+
+<li><p><code>is_http_only</code> - (Optional) (Updatable) Whether the <code>Set-cookie</code> header should contain the <code>HttpOnly</code> attribute. If <code>true</code>, the <code>Set-cookie</code> header inserted by the load balancer contains the <code>HttpOnly</code> attribute, which limits the scope of the cookie to HTTP requests. This attribute directs the client or browser to omit the cookie when providing access to cookies through non-HTTP APIs. For example, it restricts the cookie from JavaScript channels.  Example: <code>true</code></p></li>
+
+<li><p><code>is_secure</code> - (Optional) (Updatable) Whether the <code>Set-cookie</code> header should contain the <code>Secure</code> attribute. If <code>true</code>, the <code>Set-cookie</code> header inserted by the load balancer contains the <code>Secure</code> attribute, which directs the client or browser to send the cookie only using a secure protocol.</p>
+
+<p><strong>Note:</strong> If you set this field to <code>true</code>, you cannot associate the corresponding backend set with an HTTP listener.</p>
+
+<p>Example: <code>true</code></p></li>
+
+<li><p><code>max_age_in_seconds</code> - (Optional) (Updatable) The amount of time the cookie remains valid. The <code>Set-cookie</code> header inserted by the load balancer contains a <code>Max-Age</code> attribute with the specified value.</p>
+
+<p>The specified value must be at least one second. There is no default value for this attribute. If you do not specify a value, the load balancer does not include the <code>Max-Age</code> attribute in the <code>Set-cookie</code> header. In most cases, the client or browser retains the cookie until the current session ends, as defined by the client.</p>
+
+<p>Example: <code>3600</code></p></li>
+
+<li><p><code>path</code> - (Optional) (Updatable) The path in which the cookie is valid. The <code>Set-cookie header</code> inserted by the load balancer contains a <code>Path</code> attribute with the specified value.</p>
+
+<p>Clients include the cookie in an HTTP request only if the path portion of the request-uri matches, or is a subdirectory of, the cookie&rsquo;s <code>Path</code> attribute.</p>
+
+<p>The default value is <code>/</code>.</p>
+
+<p>Example: <code>/example</code></p></li>
+</ul></li>
+
+<li><p><code>load_balancer_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the load balancer on which to add a backend set.</p></li>
+
+<li><p><code>name</code> - (Required) A friendly name for the backend set. It must be unique and it cannot be changed.</p>
+
+<p>Valid backend set names include only alphanumeric characters, dashes, and underscores. Backend set names cannot contain spaces. Avoid entering confidential information.</p>
+
+<p>Example: <code>example_backend_set</code></p></li>
+
+<li><p><code>policy</code> - (Required) (Updatable) The load balancer policy for the backend set. To get a list of available policies, use the <a href="https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/LoadBalancerPolicy/ListPolicies">ListPolicies</a> operation.  Example: <code>LEAST_CONNECTIONS</code></p></li>
+
+<li><p><code>session_persistence_configuration</code> - (Optional) (Updatable) The configuration details for implementing session persistence based on a user-specified cookie name (application cookie stickiness).</p>
+
+<p>Session persistence enables the Load Balancing service to direct any number of requests that originate from a single logical client to a single backend web server. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/Balance/Reference/sessionpersistence.htm">Session Persistence</a>.</p>
+
+<p>With application cookie stickiness, the load balancer enables session persistence only when the response from a backend application server includes a <code>Set-cookie</code> header with the user-specified cookie name.</p>
+
+<p>To disable application cookie stickiness on a running load balancer, use the <a href="https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/BackendSet/UpdateBackendSet">UpdateBackendSet</a> operation and specify <code>null</code> for the <code>SessionPersistenceConfigurationDetails</code> object.</p>
+
+<p>Example: <code>SessionPersistenceConfigurationDetails: null</code></p>
+
+<p><strong>Note:</strong> <code>SessionPersistenceConfigurationDetails</code> (application cookie stickiness) and <code>LBCookieSessionPersistenceConfigurationDetails</code> (LB cookie stickiness) are mutually exclusive. An error results if you try to enable both types of session persistence.</p>
+
+<p><strong>Warning:</strong> Oracle recommends that you avoid using any confidential information when you supply string values using the API.</p>
+
+<ul>
+<li><code>cookie_name</code> - (Required) (Updatable) The name of the cookie used to detect a session initiated by the backend server. Use &lsquo;*&rsquo; to specify that any cookie set by the backend causes the session to persist.  Example: <code>example_cookie</code></li>
+<li><code>disable_fallback</code> - (Optional) (Updatable) Whether the load balancer is prevented from directing traffic from a persistent session client to a different backend server if the original server is unavailable. Defaults to false.  Example: <code>false</code></li>
+</ul></li>
+
+<li><p><code>ssl_configuration</code> - (Optional) (Updatable) The load balancer&rsquo;s SSL handling configuration details.</p>
+
+<p><strong>Warning:</strong> Oracle recommends that you avoid using any confidential information when you supply string values using the API.</p>
+
+<ul>
+<li><p><code>certificate_ids</code> - (Optional) (Updatable) Ids for Oracle Cloud Infrastructure certificates service certificates. Currently only a single Id may be passed.  Example: <code>[ocid1.certificate.oc1.us-ashburn-1.amaaaaaaav3bgsaa5o2q7rh5nfmkkukfkogasqhk6af2opufhjlqg7m6jqzq]</code></p></li>
+
+<li><p><code>certificate_name</code> - (Optional) (Updatable) A friendly name for the certificate bundle. It must be unique and it cannot be changed. Valid certificate bundle names include only alphanumeric characters, dashes, and underscores. Certificate bundle names cannot contain spaces. Avoid entering confidential information.  Example: <code>example_certificate_bundle</code></p></li>
+
+<li><p><code>cipher_suite_name</code> - (Optional) (Updatable) The name of the cipher suite to use for HTTPS or SSL connections.</p>
+
+<p>If this field is not specified, the default is <code>oci-default-ssl-cipher-suite-v1</code>.</p>
+
+<p><strong>Notes:</strong></p>
+
+<ul>
+<li>You must ensure compatibility between the specified SSL protocols and the ciphers configured in the cipher suite. Clients cannot perform an SSL handshake if there is an incompatible configuration.</li>
+<li>You must ensure compatibility between the ciphers configured in the cipher suite and the configured certificates. For example, RSA-based ciphers require RSA certificates and ECDSA-based ciphers require ECDSA certificates.</li>
+<li>If the cipher configuration is not modified after load balancer creation, the <code>GET</code> operation returns <code>oci-default-ssl-cipher-suite-v1</code> as the value of this field in the SSL configuration for existing listeners that predate this feature.</li>
+<li>If the cipher configuration was modified using Oracle operations after load balancer creation, the <code>GET</code> operation returns <code>oci-customized-ssl-cipher-suite</code> as the value of this field in the SSL configuration for existing listeners that predate this feature.</li>
+<li>The <code>GET</code> operation returns <code>oci-wider-compatible-ssl-cipher-suite-v1</code> as the value of this field in the SSL configuration for existing backend sets that predate this feature.</li>
+<li>If the <code>GET</code> operation on a listener returns <code>oci-customized-ssl-cipher-suite</code> as the value of this field, you must specify an appropriate predefined or custom cipher suite name when updating the resource.</li>
+<li>The <code>oci-customized-ssl-cipher-suite</code> Oracle reserved cipher suite name is not accepted as valid input for this field.</li>
+</ul>
+
+<p>example: <code>example_cipher_suite</code></p></li>
+
+<li><p><code>protocols</code> - (Optional) (Updatable) A list of SSL protocols the load balancer must support for HTTPS or SSL connections.</p>
+
+<p>The load balancer uses SSL protocols to establish a secure connection between a client and a server. A secure connection ensures that all data passed between the client and the server is private.</p>
+
+<p>The Load Balancing service supports the following protocols:</p>
+
+<ul>
+<li>TLSv1</li>
+<li>TLSv1.1</li>
+<li>TLSv1.2</li>
+<li>TLSv1.3</li>
+</ul>
+
+<p>If this field is not specified, TLSv1.2 is the default.</p>
+
+<p><strong>Warning:</strong> All SSL listeners created on a given port must use the same set of SSL protocols.</p>
+
+<p><strong>Notes:</strong>
+*  The handshake to establish an SSL connection fails if the client supports none of the specified protocols.
+*  You must ensure compatibility between the specified SSL protocols and the ciphers configured in the cipher suite.
+*  For all existing load balancer listeners and backend sets that predate this feature, the <code>GET</code> operation displays a list of SSL protocols currently used by those resources.</p>
+
+<p>example: <code>[&quot;TLSv1.1&quot;, &quot;TLSv1.2&quot;]</code></p></li>
+
+<li><p><code>server_order_preference</code> - (Optional) (Updatable) When this attribute is set to ENABLED, the system gives preference to the server ciphers over the client ciphers.</p>
+
+<p><strong>Note:</strong> This configuration is applicable only when the load balancer is acting as an SSL/HTTPS server. This field is ignored when the <code>SSLConfiguration</code> object is associated with a backend set.</p></li>
+
+<li><p><code>trusted_certificate_authority_ids</code> - (Optional) (Updatable) Ids for Oracle Cloud Infrastructure certificates service CA or CA bundles for the load balancer to trust.  Example: <code>[ocid1.cabundle.oc1.us-ashburn-1.amaaaaaaav3bgsaagl4zzyqdop5i2vuwoqewdvauuw34llqa74otq2jdsfyq]</code></p></li>
+
+<li><p><code>verify_depth</code> - (Optional) (Updatable) The maximum depth for peer certificate chain verification.  Example: <code>3</code></p></li>
+
+<li><p><code>verify_peer_certificate</code> - (Optional) (Updatable) Whether the load balancer listener should verify peer certificates.  Example: <code>true</code></p></li>
+</ul></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>backend</code> -</p>
+
+<ul>
+<li><p><code>backup</code> - Whether the load balancer should treat this server as a backup unit. If <code>true</code>, the load balancer forwards no ingress traffic to this backend server unless all other backend servers not marked as &ldquo;backup&rdquo; fail the health check policy.</p>
+
+<p><strong>Note:</strong> You cannot add a backend server marked as <code>backup</code> to a backend set that uses the IP Hash policy.</p>
+
+<p>Example: <code>false</code></p></li>
+
+<li><p><code>drain</code> - Whether the load balancer should drain this server. Servers marked &ldquo;drain&rdquo; receive no new incoming traffic.  Example: <code>false</code></p></li>
+
+<li><p><code>ip_address</code> - The IP address of the backend server.  Example: <code>10.0.0.3</code></p></li>
+
+<li><p><code>max_connections</code> - The maximum number of simultaneous connections the load balancer can make to the backend. If this is not set or set to 0 then the maximum number of simultaneous connections the load balancer can make to the backend is unlimited.  Example: <code>300</code></p></li>
+
+<li><p><code>name</code> - A read-only field showing the IP address and port that uniquely identify this backend server in the backend set.  Example: <code>10.0.0.3:8080</code></p></li>
+
+<li><p><code>offline</code> - Whether the load balancer should treat this server as offline. Offline servers receive no incoming traffic.  Example: <code>false</code></p></li>
+
+<li><p><code>port</code> - The communication port for the backend server.  Example: <code>8080</code></p></li>
+
+<li><p><code>weight</code> - The load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted &lsquo;3&rsquo; receives 3 times the number of new connections as a server weighted &lsquo;1&rsquo;. For more information on load balancing policies, see <a href="https://docs.cloud.oracle.com/iaas/Content/Balance/Reference/lbpolicies.htm">How Load Balancing Policies Work</a>.  Example: <code>3</code></p></li>
+</ul></li>
+
+<li><p><code>backend_max_connections</code> - The maximum number of simultaneous connections the load balancer can make to any backend in the backend set unless the backend has its own maxConnections setting. If this is not set or set to 0 then the number of simultaneous connections the load balancer can make to any backend in the backend set unless the backend has its own maxConnections setting is unlimited.  Example: <code>300</code></p></li>
+
+<li><p><code>health_checker</code> - The health check policy configuration. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/Balance/Tasks/editinghealthcheck.htm">Editing Health Check Policies</a>.</p>
+
+<ul>
+<li><p><code>interval_ms</code> - The interval between health checks, in milliseconds. The default is 10000 (10 seconds).  Example: <code>10000</code></p></li>
+
+<li><p><code>is_force_plain_text</code> - Specifies if health checks should always be done using plain text instead of depending on whether or not the associated backend set is using SSL.</p>
+
+<p>If &ldquo;true&rdquo;, health checks will be done using plain text even if the associated backend set is configured to use SSL.</p>
+
+<p>If &ldquo;false&rdquo;, health checks will be done using SSL encryption if the associated backend set is configured to use SSL. If the backend set is not so configured the health checks will be done using plain text.</p>
+
+<p>Example: <code>false</code></p></li>
+
+<li><p><code>port</code> - The backend server port against which to run the health check. If the port is not specified, the load balancer uses the port information from the <code>Backend</code> object.  Example: <code>8080</code></p></li>
+
+<li><p><code>protocol</code> - The protocol the health check must use; either HTTP or TCP.  Example: <code>HTTP</code></p></li>
+
+<li><p><code>response_body_regex</code> - A regular expression for parsing the response body from the backend server.  Example: <code>^((?!false).|\s)*$</code></p></li>
+
+<li><p><code>retries</code> - The number of retries to attempt before a backend server is considered &ldquo;unhealthy&rdquo;. This number also applies when recovering a server to the &ldquo;healthy&rdquo; state. Defaults to 3.  Example: <code>3</code></p></li>
+
+<li><p><code>return_code</code> - The status code a healthy backend server should return. If you configure the health check policy to use the HTTP protocol, you can use common HTTP status codes such as &ldquo;200&rdquo;.  Example: <code>200</code></p></li>
+
+<li><p><code>timeout_in_millis</code> - The maximum time, in milliseconds, to wait for a reply to a health check. A health check is successful only if a reply returns within this timeout period. Defaults to 3000 (3 seconds).  Example: <code>3000</code></p></li>
+
+<li><p><code>url_path</code> - The path against which to run the health check.  Example: <code>/healthcheck</code></p></li>
+</ul></li>
+
+<li><p><code>lb_cookie_session_persistence_configuration</code> - The configuration details for implementing load balancer cookie session persistence (LB cookie stickiness).</p>
+
+<p>Session persistence enables the Load Balancing service to direct all requests that originate from a single logical client to a single backend web server. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/Balance/Reference/sessionpersistence.htm">Session Persistence</a>.</p>
+
+<p>When you configure LB cookie stickiness, the load balancer inserts a cookie into the response. The parameters configured in the cookie enable session stickiness. This method is useful when you have applications and Web backend services that cannot generate their own cookies.</p>
+
+<p>Path route rules take precedence to determine the target backend server. The load balancer verifies that session stickiness is enabled for the backend server and that the cookie configuration (domain, path, and cookie hash) is valid for the target. The system ignores invalid cookies.</p>
+
+<p>To disable LB cookie stickiness on a running load balancer, use the <a href="https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/BackendSet/UpdateBackendSet">UpdateBackendSet</a> operation and specify <code>null</code> for the <code>LBCookieSessionPersistenceConfigurationDetails</code> object.</p>
+
+<p>Example: <code>LBCookieSessionPersistenceConfigurationDetails: null</code></p>
+
+<p><strong>Note:</strong> <code>SessionPersistenceConfigurationDetails</code> (application cookie stickiness) and <code>LBCookieSessionPersistenceConfigurationDetails</code> (LB cookie stickiness) are mutually exclusive. An error results if you try to enable both types of session persistence.</p>
+
+<p><strong>Warning:</strong> Oracle recommends that you avoid using any confidential information when you supply string values using the API.</p>
+
+<ul>
+<li><p><code>cookie_name</code> - The name of the cookie inserted by the load balancer. If this field is not configured, the cookie name defaults to &ldquo;X-Oracle-BMC-LBS-Route&rdquo;.  Example: <code>example_cookie</code></p>
+
+<p><strong>Notes:</strong></p>
+
+<ul>
+<li>Ensure that the cookie name used at the backend application servers is different from the cookie name used at the load balancer. To minimize the chance of name collision, Oracle recommends that you use a prefix such as &ldquo;X-Oracle-OCI-&rdquo; for this field.</li>
+<li>If a backend server and the load balancer both insert cookies with the same name, the client or browser behavior can vary depending on the domain and path values associated with the cookie. If the name, domain, and path values of the <code>Set-cookie</code> generated by a backend server and the <code>Set-cookie</code> generated by the load balancer are all the same, the client or browser treats them as one cookie and returns only one of the cookie values in subsequent requests. If both <code>Set-cookie</code> names are the same, but the domain and path names are different, the client or browser treats them as two different cookies.</li>
+</ul></li>
+
+<li><p><code>disable_fallback</code> - Whether the load balancer is prevented from directing traffic from a persistent session client to a different backend server if the original server is unavailable. Defaults to false.  Example: <code>false</code></p></li>
+
+<li><p><code>domain</code> - The domain in which the cookie is valid. The <code>Set-cookie</code> header inserted by the load balancer contains a domain attribute with the specified value.</p>
+
+<p>This attribute has no default value. If you do not specify a value, the load balancer does not insert the domain attribute into the <code>Set-cookie</code> header.</p>
+
+<p><strong>Notes:</strong></p>
+
+<ul>
+<li><a href="https://www.ietf.org/rfc/rfc6265.txt">RFC 6265 - HTTP State Management Mechanism</a> describes client and browser behavior when the domain attribute is present or not present in the <code>Set-cookie</code> header.</li>
+</ul>
+
+<p>If the value of the <code>Domain</code> attribute is <code>example.com</code> in the <code>Set-cookie</code> header, the client includes the same cookie in the <code>Cookie</code> header when making HTTP requests to <code>example.com</code>, <code>www.example.com</code>, and <code>www.abc.example.com</code>. If the <code>Domain</code> attribute is not present, the client returns the cookie only for the domain to which the original request was made.
+*  Ensure that this attribute specifies the correct domain value. If the <code>Domain</code> attribute in the <code>Set-cookie</code> header does not include the domain to which the original request was made, the client or browser might reject the cookie. As specified in RFC 6265, the client accepts a cookie with the <code>Domain</code> attribute value <code>example.com</code> or <code>www.example.com</code> sent from <code>www.example.com</code>. It does not accept a cookie with the <code>Domain</code> attribute <code>abc.example.com</code> or <code>www.abc.example.com</code> sent from <code>www.example.com</code>.</p>
+
+<p>Example: <code>example.com</code></p></li>
+
+<li><p><code>is_http_only</code> - Whether the <code>Set-cookie</code> header should contain the <code>HttpOnly</code> attribute. If <code>true</code>, the <code>Set-cookie</code> header inserted by the load balancer contains the <code>HttpOnly</code> attribute, which limits the scope of the cookie to HTTP requests. This attribute directs the client or browser to omit the cookie when providing access to cookies through non-HTTP APIs. For example, it restricts the cookie from JavaScript channels.  Example: <code>true</code></p></li>
+
+<li><p><code>is_secure</code> - Whether the <code>Set-cookie</code> header should contain the <code>Secure</code> attribute. If <code>true</code>, the <code>Set-cookie</code> header inserted by the load balancer contains the <code>Secure</code> attribute, which directs the client or browser to send the cookie only using a secure protocol.</p>
+
+<p><strong>Note:</strong> If you set this field to <code>true</code>, you cannot associate the corresponding backend set with an HTTP listener.</p>
+
+<p>Example: <code>true</code></p></li>
+
+<li><p><code>max_age_in_seconds</code> - The amount of time the cookie remains valid. The <code>Set-cookie</code> header inserted by the load balancer contains a <code>Max-Age</code> attribute with the specified value.</p>
+
+<p>The specified value must be at least one second. There is no default value for this attribute. If you do not specify a value, the load balancer does not include the <code>Max-Age</code> attribute in the <code>Set-cookie</code> header. In most cases, the client or browser retains the cookie until the current session ends, as defined by the client.</p>
+
+<p>Example: <code>3600</code></p></li>
+
+<li><p><code>path</code> - The path in which the cookie is valid. The <code>Set-cookie header</code> inserted by the load balancer contains a <code>Path</code> attribute with the specified value.</p>
+
+<p>Clients include the cookie in an HTTP request only if the path portion of the request-uri matches, or is a subdirectory of, the cookie&rsquo;s <code>Path</code> attribute.</p>
+
+<p>The default value is <code>/</code>.</p>
+
+<p>Example: <code>/example</code></p></li>
+</ul></li>
+
+<li><p><code>name</code> - A friendly name for the backend set. It must be unique and it cannot be changed.</p>
+
+<p>Valid backend set names include only alphanumeric characters, dashes, and underscores. Backend set names cannot contain spaces. Avoid entering confidential information.</p>
+
+<p>Example: <code>example_backend_set</code></p></li>
+
+<li><p><code>policy</code> - The load balancer policy for the backend set. To get a list of available policies, use the <a href="https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/LoadBalancerPolicy/ListPolicies">ListPolicies</a> operation.  Example: <code>LEAST_CONNECTIONS</code></p></li>
+
+<li><p><code>session_persistence_configuration</code> - The configuration details for implementing session persistence based on a user-specified cookie name (application cookie stickiness).</p>
+
+<p>Session persistence enables the Load Balancing service to direct any number of requests that originate from a single logical client to a single backend web server. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/Balance/Reference/sessionpersistence.htm">Session Persistence</a>.</p>
+
+<p>With application cookie stickiness, the load balancer enables session persistence only when the response from a backend application server includes a <code>Set-cookie</code> header with the user-specified cookie name.</p>
+
+<p>To disable application cookie stickiness on a running load balancer, use the <a href="https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/BackendSet/UpdateBackendSet">UpdateBackendSet</a> operation and specify <code>null</code> for the <code>SessionPersistenceConfigurationDetails</code> object.</p>
+
+<p>Example: <code>SessionPersistenceConfigurationDetails: null</code></p>
+
+<p><strong>Note:</strong> <code>SessionPersistenceConfigurationDetails</code> (application cookie stickiness) and <code>LBCookieSessionPersistenceConfigurationDetails</code> (LB cookie stickiness) are mutually exclusive. An error results if you try to enable both types of session persistence.</p>
+
+<p><strong>Warning:</strong> Oracle recommends that you avoid using any confidential information when you supply string values using the API.</p>
+
+<ul>
+<li><code>cookie_name</code> - The name of the cookie used to detect a session initiated by the backend server. Use &lsquo;*&rsquo; to specify that any cookie set by the backend causes the session to persist.  Example: <code>example_cookie</code></li>
+<li><code>disable_fallback</code> - Whether the load balancer is prevented from directing traffic from a persistent session client to a different backend server if the original server is unavailable. Defaults to false.  Example: <code>false</code></li>
+</ul></li>
+
+<li><p><code>ssl_configuration</code> - A listener&rsquo;s SSL handling configuration.</p>
+
+<p>To use SSL, a listener must be associated with a <a href="https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/Certificate/">certificate bundle</a>.</p>
+
+<p><strong>Warning:</strong> Oracle recommends that you avoid using any confidential information when you supply string values using the API.</p>
+
+<ul>
+<li><p><code>certificate_ids</code> - Ids for Oracle Cloud Infrastructure certificates service certificates. Currently only a single Id may be passed.  Example: <code>[ocid1.certificate.oc1.us-ashburn-1.amaaaaaaav3bgsaa5o2q7rh5nfmkkukfkogasqhk6af2opufhjlqg7m6jqzq]</code></p></li>
+
+<li><p><code>certificate_name</code> - A friendly name for the certificate bundle. It must be unique and it cannot be changed. Valid certificate bundle names include only alphanumeric characters, dashes, and underscores. Certificate bundle names cannot contain spaces. Avoid entering confidential information.  Example: <code>example_certificate_bundle</code></p></li>
+
+<li><p><code>cipher_suite_name</code> - The name of the cipher suite to use for HTTPS or SSL connections.</p>
+
+<p>If this field is not specified, the default is <code>oci-default-ssl-cipher-suite-v1</code>.</p>
+
+<p><strong>Notes:</strong></p>
+
+<ul>
+<li>You must ensure compatibility between the specified SSL protocols and the ciphers configured in the cipher suite. Clients cannot perform an SSL handshake if there is an incompatible configuration.</li>
+<li>You must ensure compatibility between the ciphers configured in the cipher suite and the configured certificates. For example, RSA-based ciphers require RSA certificates and ECDSA-based ciphers require ECDSA certificates.</li>
+<li>If the cipher configuration is not modified after load balancer creation, the <code>GET</code> operation returns <code>oci-default-ssl-cipher-suite-v1</code> as the value of this field in the SSL configuration for existing listeners that predate this feature.</li>
+<li>If the cipher configuration was modified using Oracle operations after load balancer creation, the <code>GET</code> operation returns <code>oci-customized-ssl-cipher-suite</code> as the value of this field in the SSL configuration for existing listeners that predate this feature.</li>
+<li>The <code>GET</code> operation returns <code>oci-wider-compatible-ssl-cipher-suite-v1</code> as the value of this field in the SSL configuration for existing backend sets that predate this feature.</li>
+<li>If the <code>GET</code> operation on a listener returns <code>oci-customized-ssl-cipher-suite</code> as the value of this field, you must specify an appropriate predefined or custom cipher suite name when updating the resource.</li>
+<li>The <code>oci-customized-ssl-cipher-suite</code> Oracle reserved cipher suite name is not accepted as valid input for this field.</li>
+</ul>
+
+<p>example: <code>example_cipher_suite</code></p></li>
+
+<li><p><code>protocols</code> - A list of SSL protocols the load balancer must support for HTTPS or SSL connections.</p>
+
+<p>The load balancer uses SSL protocols to establish a secure connection between a client and a server. A secure connection ensures that all data passed between the client and the server is private.</p>
+
+<p>The Load Balancing service supports the following protocols:</p>
+
+<ul>
+<li>TLSv1</li>
+<li>TLSv1.1</li>
+<li>TLSv1.2</li>
+<li>TLSv1.3</li>
+</ul>
+
+<p>If this field is not specified, TLSv1.2 is the default.</p>
+
+<p><strong>Warning:</strong> All SSL listeners created on a given port must use the same set of SSL protocols.</p>
+
+<p><strong>Notes:</strong>
+*  The handshake to establish an SSL connection fails if the client supports none of the specified protocols.
+*  You must ensure compatibility between the specified SSL protocols and the ciphers configured in the cipher suite.
+*  For all existing load balancer listeners and backend sets that predate this feature, the <code>GET</code> operation displays a list of SSL protocols currently used by those resources.</p>
+
+<p>example: <code>[&quot;TLSv1.1&quot;, &quot;TLSv1.2&quot;]</code></p></li>
+
+<li><p><code>server_order_preference</code> - When this attribute is set to ENABLED, the system gives preference to the server ciphers over the client ciphers.</p>
+
+<p><strong>Note:</strong> This configuration is applicable only when the load balancer is acting as an SSL/HTTPS server. This field is ignored when the <code>SSLConfiguration</code> object is associated with a backend set.</p></li>
+
+<li><p><code>trusted_certificate_authority_ids</code> - Ids for Oracle Cloud Infrastructure certificates service CA or CA bundles for the load balancer to trust.  Example: <code>[ocid1.cabundle.oc1.us-ashburn-1.amaaaaaaav3bgsaagl4zzyqdop5i2vuwoqewdvauuw34llqa74otq2jdsfyq]</code></p></li>
+
+<li><p><code>verify_depth</code> - The maximum depth for peer certificate chain verification.  Example: <code>3</code></p></li>
+
+<li><p><code>verify_peer_certificate</code> - Whether the load balancer listener should verify peer certificates.  Example: <code>true</code></p></li>
+</ul></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Backend Set
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Backend Set
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Backend Set</p>
+
+<h2>Import</h2>
+
+<p>BackendSets can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_load_balancer_backend_set.test_backend_set &quot;loadBalancers/{loadBalancerId}/backendSets/{backendSetName}&quot; 
+</code></pre>
+
+	</div>
+
+</body>
+</html>

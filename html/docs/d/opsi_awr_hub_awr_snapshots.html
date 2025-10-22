@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_opsi_awr_hub_awr_snapshots</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_opsi_awr_hub_awr_snapshots</h1>
+
+<p>This data source provides the list of Awr Hub Awr Snapshots in Oracle Cloud Infrastructure Opsi service.</p>
+
+<p>Lists AWR snapshots for the specified source database in the AWR hub. The difference between the timeGreaterThanOrEqualTo and timeLessThanOrEqualTo should not exceed an elapsed range of 1 day.
+The timeGreaterThanOrEqualTo &amp; timeLessThanOrEqualTo params are optional. If these params are not provided, by default last 1 day snapshots will be returned.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_opsi_awr_hub_awr_snapshots&quot; &quot;test_awr_hub_awr_snapshots&quot; {
+	#Required
+	awr_hub_id = oci_opsi_awr_hub.test_awr_hub.id
+	awr_source_database_identifier = var.awr_hub_awr_snapshot_awr_source_database_identifier
+
+	#Optional
+	time_greater_than_or_equal_to = var.awr_hub_awr_snapshot_time_greater_than_or_equal_to
+	time_less_than_or_equal_to = var.awr_hub_awr_snapshot_time_less_than_or_equal_to
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>awr_hub_id</code> - (Required) Unique Awr Hub identifier</li>
+<li><code>awr_source_database_identifier</code> - (Required) AWR source database identifier.</li>
+<li><code>time_greater_than_or_equal_to</code> - (Optional) The optional greater than or equal to query parameter to filter the timestamp. The timestamp format to be followed is: YYYY-MM-DDTHH:MM:SSZ, example 2020-12-03T19:00:53Z</li>
+<li><code>time_less_than_or_equal_to</code> - (Optional) The optional less than or equal to query parameter to filter the timestamp. The timestamp format to be followed is: YYYY-MM-DDTHH:MM:SSZ, example 2020-12-03T19:00:53Z</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>awr_snapshot_collection</code> - The list of awr_snapshot_collection.</li>
+</ul>
+
+<h3>AwrHubAwrSnapshot Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - A list of AWR snapshot summary data.
+
+<ul>
+<li><code>awr_source_database_id</code> - DatabaseId of the Source database for which AWR Data will be uploaded to AWR Hub.</li>
+<li><code>error_count</code> - The total number of errors.</li>
+<li><code>instance_number</code> - The database instance number.</li>
+<li><code>snapshot_identifier</code> - The identifier of the snapshot.</li>
+<li><code>time_db_startup</code> - The timestamp of the database startup.</li>
+<li><code>time_snapshot_begin</code> - The start time of the snapshot.</li>
+<li><code>time_snapshot_end</code> - The end time of the snapshot.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_network_firewall_network_firewall_policy_nat_rule</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_network_firewall_network_firewall_policy_nat_rule</h1>
+
+<p>This resource provides the Network Firewall Policy Nat Rule resource in Oracle Cloud Infrastructure Network Firewall service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/network-firewall/latest/NetworkFirewallPolicyNatRule">https://docs.oracle.com/iaas/api/#/en/network-firewall/latest/NetworkFirewallPolicyNatRule</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/network_firewall">https://github.com/oracle/terraform-provider-oci/tree/master/examples/network_firewall</a></p>
+
+<p>Creates a new NAT Rule for the Network Firewall Policy.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_network_firewall_network_firewall_policy_nat_rule&quot; &quot;test_network_firewall_policy_nat_rule&quot; {
+	#Required
+	action = var.network_firewall_policy_nat_rule_action
+	condition {
+
+		#Optional
+		destination_address = var.network_firewall_policy_nat_rule_condition_destination_address
+		service = var.network_firewall_policy_nat_rule_condition_service
+		source_address = var.network_firewall_policy_nat_rule_condition_source_address
+	}
+	name = var.network_firewall_policy_nat_rule_name
+	network_firewall_policy_id = oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id
+	type = var.network_firewall_policy_nat_rule_type
+
+	#Optional
+	description = var.network_firewall_policy_nat_rule_description
+	position {
+
+		#Optional
+		after_rule = var.network_firewall_policy_nat_rule_position_after_rule
+		before_rule = var.network_firewall_policy_nat_rule_position_before_rule
+	}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>action</code> - (Required) (Updatable) action:
+
+<ul>
+<li>DIPP_SRC_NAT - Dynamic-ip-port source NAT.</li>
+</ul></li>
+<li><code>condition</code> - (Required) (Updatable) Match criteria used in NAT Rule used on the firewall policy.
+
+<ul>
+<li><code>destination_address</code> - (Optional) (Updatable) An array of IP address list names to be evaluated against the traffic destination address.</li>
+<li><code>service</code> - (Optional) (Updatable) A Service name to be evaluated against the traffic protocol and protocol-specific parameters.</li>
+<li><code>source_address</code> - (Optional) (Updatable) An array of IP address list names to be evaluated against the traffic source address.</li>
+</ul></li>
+<li><code>description</code> - (Optional) (Updatable) Description of a NAT rule. This field can be used to add additional info.</li>
+<li><code>name</code> - (Required) Name for the NAT rule, must be unique within the policy.</li>
+<li><code>network_firewall_policy_id</code> - (Required) Unique Network Firewall Policy identifier</li>
+<li><code>position</code> - (Optional) (Updatable) An object which defines the position of the rule.
+
+<ul>
+<li><code>after_rule</code> - (Optional) (Updatable) Identifier for rule after which this rule lies.</li>
+<li><code>before_rule</code> - (Optional) (Updatable) Identifier for rule before which this rule lies.</li>
+</ul></li>
+<li><code>type</code> - (Required) (Updatable) NAT type:
+
+<ul>
+<li>NATV4 - NATV4 type NAT.</li>
+</ul></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>action</code> - action:
+
+<ul>
+<li>DIPP_SRC_NAT - Dynamic-ip-port source NAT.</li>
+</ul></li>
+<li><code>condition</code> - Match criteria used in NAT Rule used on the firewall policy.
+
+<ul>
+<li><code>destination_address</code> - An array of IP address list names to be evaluated against the traffic destination address.</li>
+<li><code>service</code> - A Service name to be evaluated against the traffic protocol and protocol-specific parameters.</li>
+<li><code>source_address</code> - An array of IP address list names to be evaluated against the traffic source address.</li>
+</ul></li>
+<li><code>description</code> - Description of a NAT rule. This field can be used to add additional info.</li>
+<li><code>name</code> - Name for the NAT rule, must be unique within the policy.</li>
+<li><code>parent_resource_id</code> - OCID of the Network Firewall Policy this decryption profile belongs to.</li>
+<li><code>position</code> - An object which defines the position of the rule.
+
+<ul>
+<li><code>after_rule</code> - Identifier for rule after which this rule lies.</li>
+<li><code>before_rule</code> - Identifier for rule before which this rule lies.</li>
+</ul></li>
+<li><code>priority_order</code> - The priority order in which this rule should be evaluated</li>
+<li><code>type</code> - NAT type:
+
+<ul>
+<li>NATV4 - NATV4 type NAT.</li>
+</ul></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Network Firewall Policy Nat Rule
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Network Firewall Policy Nat Rule
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Network Firewall Policy Nat Rule</p>
+
+<h2>Import</h2>
+
+<p>NetworkFirewallPolicyNatRules can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_network_firewall_network_firewall_policy_nat_rule.test_network_firewall_policy_nat_rule &quot;networkFirewallPolicies/{networkFirewallPolicyId}/natRules/{natRuleName}&quot; 
+</code></pre>
+
+	</div>
+
+</body>
+</html>

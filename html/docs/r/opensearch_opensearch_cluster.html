@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_opensearch_opensearch_cluster</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_opensearch_opensearch_cluster</h1>
+
+<p>This resource provides the Opensearch Cluster resource in Oracle Cloud Infrastructure Opensearch service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/opensearch/latest/OpensearchCluster">https://docs.oracle.com/iaas/api/#/en/opensearch/latest/OpensearchCluster</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/opensearch">https://github.com/oracle/terraform-provider-oci/tree/master/examples/opensearch</a></p>
+
+<p>Creates a new OpensearchCluster.</p>
+
+<h2>Prerequisites</h2>
+
+<p>The below policies must be created in compartment before creating OpensearchCluster</p>
+
+<h5>{Compartment-Name} - Name of  your compartment</h5>
+
+<pre><code>Allow service opensearch to manage vnics in compartment {Compartment-Name}
+Allow service opensearch to use subnets in compartment {Compartment-Name}
+Allow service opensearch to use network-security-groups in compartment {Compartment-Name}
+Allow service opensearch to manage vcns in compartment {Compartment-Name}
+</code></pre>
+
+<p>For latest documentation on OpenSearch use please refer to <a href="https://docs.oracle.com/en-us/iaas/Content/search-opensearch/home.htm">https://docs.oracle.com/en-us/iaas/Content/search-opensearch/home.htm</a><br>
+Required permissions: <a href="https://docs.oracle.com/en-us/iaas/Content/search-opensearch/Concepts/ocisearchpermissions.htm">https://docs.oracle.com/en-us/iaas/Content/search-opensearch/Concepts/ocisearchpermissions.htm</a></p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_opensearch_opensearch_cluster&quot; &quot;test_opensearch_cluster&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	data_node_count = var.opensearch_cluster_data_node_count
+	data_node_host_memory_gb = var.opensearch_cluster_data_node_host_memory_gb
+	data_node_host_ocpu_count = var.opensearch_cluster_data_node_host_ocpu_count
+	data_node_host_type = var.opensearch_cluster_data_node_host_type
+	data_node_storage_gb = var.opensearch_cluster_data_node_storage_gb
+	display_name = var.opensearch_cluster_display_name
+	master_node_count = var.opensearch_cluster_master_node_count
+	master_node_host_memory_gb = var.opensearch_cluster_master_node_host_memory_gb
+	master_node_host_ocpu_count = var.opensearch_cluster_master_node_host_ocpu_count
+	master_node_host_type = var.opensearch_cluster_master_node_host_type
+	opendashboard_node_count = var.opensearch_cluster_opendashboard_node_count
+	opendashboard_node_host_memory_gb = var.opensearch_cluster_opendashboard_node_host_memory_gb
+	opendashboard_node_host_ocpu_count = var.opensearch_cluster_opendashboard_node_host_ocpu_count
+	software_version = var.opensearch_cluster_software_version
+	subnet_compartment_id = oci_identity_compartment.test_compartment.id
+	subnet_id = oci_core_subnet.test_subnet.id
+	vcn_compartment_id = oci_identity_compartment.test_compartment.id
+	vcn_id = oci_core_vcn.test_vcn.id
+
+	#Optional
+	certificate_config {
+
+		#Optional
+		cluster_certificate_mode = var.opensearch_cluster_certificate_config_cluster_certificate_mode
+		dashboard_certificate_mode = var.opensearch_cluster_certificate_config_dashboard_certificate_mode
+		open_search_api_certificate_id = oci_apigateway_certificate.test_certificate.id
+		open_search_dashboard_certificate_id = oci_apigateway_certificate.test_certificate.id
+	}
+	data_node_host_bare_metal_shape = var.opensearch_cluster_data_node_host_bare_metal_shape
+	data_node_host_shape = var.opensearch_cluster_data_node_host_shape
+	defined_tags = {&quot;foo-namespace.bar-key&quot;= &quot;value&quot;}
+	freeform_tags = {&quot;bar-key&quot;= &quot;value&quot;}
+	inbound_cluster_ids = var.opensearch_cluster_inbound_cluster_ids
+	maintenance_details {
+
+		#Optional
+		notification_email_ids = var.opensearch_cluster_maintenance_details_notification_email_ids
+	}
+	master_node_host_bare_metal_shape = var.opensearch_cluster_master_node_host_bare_metal_shape
+	master_node_host_shape = var.opensearch_cluster_master_node_host_shape
+	nsg_id = oci_opensearch_nsg.test_nsg.id
+	opendashboard_node_host_shape = var.opensearch_cluster_opendashboard_node_host_shape
+	outbound_cluster_config {
+		#Required
+		is_enabled = var.opensearch_cluster_outbound_cluster_config_is_enabled
+		outbound_clusters {
+			#Required
+			display_name = var.opensearch_cluster_outbound_cluster_config_outbound_clusters_display_name
+			seed_cluster_id = oci_opensearch_opensearch_cluster.test_opensearch_cluster.id
+
+			#Optional
+			is_skip_unavailable = var.opensearch_cluster_outbound_cluster_config_outbound_clusters_is_skip_unavailable
+			mode = var.opensearch_cluster_outbound_cluster_config_outbound_clusters_mode
+			ping_schedule = var.opensearch_cluster_outbound_cluster_config_outbound_clusters_ping_schedule
+		}
+	}
+	reverse_connection_endpoint_customer_ips = var.opensearch_cluster_reverse_connection_endpoint_customer_ips
+	search_node_count = var.opensearch_cluster_search_node_count
+	search_node_host_memory_gb = var.opensearch_cluster_search_node_host_memory_gb
+	search_node_host_ocpu_count = var.opensearch_cluster_search_node_host_ocpu_count
+	search_node_host_shape = var.opensearch_cluster_search_node_host_shape
+	search_node_host_type = var.opensearch_cluster_search_node_host_type
+	search_node_storage_gb = var.opensearch_cluster_search_node_storage_gb
+	security_attributes = var.opensearch_cluster_security_attributes
+	security_master_user_name = oci_identity_user.test_user.name
+	security_master_user_password_hash = var.opensearch_cluster_security_master_user_password_hash
+	security_mode = var.opensearch_cluster_security_mode
+	system_tags = var.opensearch_cluster_system_tags
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>certificate_config</code> - (Optional) (Updatable) Custom certificate config for customer provided certs.
+
+<ul>
+<li><code>cluster_certificate_mode</code> - (Optional) (Updatable) Specifies whether the certificate to be used in cluster is managed by OpenSearch or Oracle Cloud Infrastructure Certificates service.</li>
+<li><code>dashboard_certificate_mode</code> - (Optional) (Updatable) Specifies whether the certificate to be used in dashboard is managed by OpenSearch or Oracle Cloud Infrastructure Certificates service.</li>
+<li><code>open_search_api_certificate_id</code> - (Optional) (Updatable) certificate to be used for OpenSearch cluster api communication</li>
+<li><code>open_search_dashboard_certificate_id</code> - (Optional) (Updatable) certificate to be used for OpenSearch dashboard api communication</li>
+</ul></li>
+<li><code>compartment_id</code> - (Required) The OCID of the compartment to create the cluster in.</li>
+<li><code>data_node_count</code> - (Required) (Updatable) The number of data nodes to configure for the cluster.</li>
+<li><code>data_node_host_bare_metal_shape</code> - (Optional) The bare metal shape for the cluster&rsquo;s data nodes.</li>
+<li><code>data_node_host_memory_gb</code> - (Required) (Updatable) The amount of memory in GB, to configure per node for the cluster&rsquo;s data nodes.</li>
+<li><code>data_node_host_ocpu_count</code> - (Required) (Updatable) The number of OCPUs to configure for the cluster&rsquo;s data nodes.</li>
+<li><code>data_node_host_shape</code> - (Optional) (Updatable) The node shape for the cluster&rsquo;s data nodes.</li>
+<li><code>data_node_host_type</code> - (Required) TThe instance type for the cluster&rsquo;s data nodes.</li>
+<li><code>data_node_storage_gb</code> - (Required) (Updatable) The amount of storage in GB, to configure per node for the cluster&rsquo;s data nodes.</li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>display_name</code> - (Required) (Updatable) The name of the cluster. Avoid entering confidential information.</li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>inbound_cluster_ids</code> - (Optional) List of inbound clusters that will be queried using cross cluster search</li>
+<li><code>maintenance_details</code> - (Optional) (Updatable) Details for creation of maintenance details
+
+<ul>
+<li><code>notification_email_ids</code> - (Optional) (Updatable) The Email IDs given by the customer to get notified about maintenance activities</li>
+</ul></li>
+<li><code>master_node_count</code> - (Required) (Updatable) The number of master nodes to configure for the cluster.</li>
+<li><code>master_node_host_bare_metal_shape</code> - (Optional) The bare metal shape for the cluster&rsquo;s master nodes.</li>
+<li><code>master_node_host_memory_gb</code> - (Required) (Updatable) The amount of memory in GB, to configure per node for the cluster&rsquo;s master nodes.</li>
+<li><code>master_node_host_ocpu_count</code> - (Required) (Updatable) The number of OCPUs to configure for the cluser&rsquo;s master nodes.</li>
+<li><code>master_node_host_shape</code> - (Optional) (Updatable) The node shape for the cluster&rsquo;s master nodes.</li>
+<li><code>master_node_host_type</code> - (Required) The instance type for the cluster&rsquo;s master nodes.</li>
+<li><code>nsg_id</code> - (Optional) The OCID of the NSG where the private endpoint vnic will be attached.</li>
+<li><code>opendashboard_node_count</code> - (Required) (Updatable) The number of OpenSearch Dashboard nodes to configure for the cluster.</li>
+<li><code>opendashboard_node_host_memory_gb</code> - (Required) (Updatable) The amount of memory in GB, to configure for the cluster&rsquo;s OpenSearch Dashboard nodes.</li>
+<li><code>opendashboard_node_host_ocpu_count</code> - (Required) (Updatable) The number of OCPUs to configure for the cluster&rsquo;s OpenSearch Dashboard nodes.</li>
+<li><code>opendashboard_node_host_shape</code> - (Optional) (Updatable) The node shape for the cluster&rsquo;s OpenSearch Dashboard nodes.</li>
+<li><code>outbound_cluster_config</code> - (Optional) (Updatable) This configuration is used for passing request details to connect outbound cluster(s) to the inbound cluster (coordinating cluster)
+
+<ul>
+<li><code>is_enabled</code> - (Required) (Updatable) Flag to indicate whether outbound cluster configuration is enabled</li>
+<li><code>outbound_clusters</code> - (Required) (Updatable) List of outbound clusters to be connected to the inbound cluster
+
+<ul>
+<li><code>display_name</code> - (Required) (Updatable) Name of the Outbound cluster. Avoid entering confidential information.</li>
+<li><code>is_skip_unavailable</code> - (Optional) (Updatable) Flag to indicate whether to skip the Outbound cluster during cross cluster search, if it is unavailable</li>
+<li><code>mode</code> - (Optional) (Updatable) Mode for the cross cluster connection</li>
+<li><code>ping_schedule</code> - (Optional) (Updatable) Sets the time interval between regular application-level ping messages that are sent to try and keep outbound cluster connections alive. If set to -1, application-level ping messages to this outbound cluster are not sent. If unset, application-level ping messages are sent according to the global transport.ping_schedule setting, which defaults to -1 meaning that pings are not sent.</li>
+<li><code>seed_cluster_id</code> - (Required) (Updatable) OCID of the Outbound cluster</li>
+</ul></li>
+</ul></li>
+<li><code>reverse_connection_endpoint_customer_ips</code> - (Optional) (Updatable) The customer IP addresses of the endpoint in customer VCN</li>
+<li><code>search_node_count</code> - (Optional) (Updatable) The number of search nodes configured for the cluster.</li>
+<li><code>search_node_host_memory_gb</code> - (Optional) (Updatable) The amount of memory in GB, for the cluster&rsquo;s search nodes.</li>
+<li><code>search_node_host_ocpu_count</code> - (Optional) (Updatable) The number of OCPUs configured for the cluster&rsquo;s search nodes.</li>
+<li><code>search_node_host_shape</code> - (Optional) (Updatable) The node shape for the cluster&rsquo;s search nodes.</li>
+<li><code>search_node_host_type</code> - (Optional) The instance type for the cluster&rsquo;s search nodes.</li>
+<li><code>search_node_storage_gb</code> - (Optional) (Updatable) The amount of storage in GB, to configure per node for the cluster&rsquo;s search nodes.</li>
+<li><code>security_attributes</code> - (Optional) (Updatable) Security attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Oracle-ZPR&quot;: {&quot;MaxEgressCount&quot;: {&quot;value&quot;: &quot;42&quot;, &quot;mode&quot;: &quot;enforce&quot;}}}</code></li>
+<li><code>security_master_user_name</code> - (Optional) (Updatable) The name of the master user that are used to manage security config</li>
+<li><code>security_master_user_password_hash</code> - (Optional) (Updatable) The password hash of the master user that are used to manage security config</li>
+<li><code>security_mode</code> - (Optional) (Updatable) The security mode of the cluster.</li>
+<li><code>software_version</code> - (Required) (Updatable) The version of the software the cluster is running.</li>
+<li><code>subnet_compartment_id</code> - (Required) The OCID for the compartment where the cluster&rsquo;s subnet is located.</li>
+<li><code>subnet_id</code> - (Required) The OCID of the cluster&rsquo;s subnet.</li>
+<li><code>system_tags</code> - (Optional) Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>vcn_compartment_id</code> - (Required) The OCID for the compartment where the cluster&rsquo;s VCN is located.</li>
+<li><code>vcn_id</code> - (Required) The OCID of the cluster&rsquo;s VCN.</li>
+<li><code>configure_outbound_cluster_trigger</code> - (Optional) (Updatable) An optional property when incremented triggers Configure Outbound Cluster. Could be set to any integer value.</li>
+<li><code>upgrade_major_version_trigger</code> - (Optional) An optional property to upgrade the major version of the cluster. This workflow upgrades the cluster without creating a clone. If you want to create a clone and upgrade the clone for testing please use SDK or CLI.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>availability_domains</code> - The availability domains to distribute the cluser nodes across.</li>
+<li><code>certificate_config</code> - Custom certificate config for customer provided certs.
+
+<ul>
+<li><code>cluster_certificate_mode</code> - Specifies whether the certificate to be used in cluster is managed by OpenSearch or Oracle Cloud Infrastructure Certificates service.</li>
+<li><code>dashboard_certificate_mode</code> - Specifies whether the certificate to be used in dashboard is managed by OpenSearch or Oracle Cloud Infrastructure Certificates service.</li>
+<li><code>open_search_api_certificate_id</code> - certificate to be used for OpenSearch cluster api communication</li>
+<li><code>open_search_dashboard_certificate_id</code> - certificate to be used for OpenSearch dashboard api communication</li>
+</ul></li>
+<li><code>compartment_id</code> - The OCID of the compartment where the cluster is located.</li>
+<li><code>data_node_count</code> - The number of data nodes configured for the cluster.</li>
+<li><code>data_node_host_bare_metal_shape</code> - The bare metal shape for the cluster&rsquo;s data nodes.</li>
+<li><code>data_node_host_memory_gb</code> - The amount of memory in GB, for the cluster&rsquo;s data nodes.</li>
+<li><code>data_node_host_ocpu_count</code> - The number of OCPUs configured for the cluster&rsquo;s data nodes.</li>
+<li><code>data_node_host_shape</code> - The node shape for the cluster&rsquo;s data nodes.</li>
+<li><code>data_node_host_type</code> - The instance type for the cluster&rsquo;s data nodes.</li>
+<li><code>data_node_storage_gb</code> - The amount of storage in GB, to configure per node for the cluster&rsquo;s data nodes.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>display_name</code> - The name of the cluster. Avoid entering confidential information.</li>
+<li><code>fqdn</code> - The fully qualified domain name (FQDN) for the cluster&rsquo;s API endpoint.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - The OCID of the cluster.</li>
+<li><code>inbound_cluster_ids</code> - List of inbound clusters for which this cluster is an outbound cluster</li>
+<li><code>lifecycle_details</code> - Additional information about the current lifecycle state of the cluster.</li>
+<li><code>maintenance_details</code> - Details for the maintenance activity.
+
+<ul>
+<li><code>end_time</code> - End time of the maintenance activity</li>
+<li><code>notification_email_ids</code> - The Email Ids given the by customer to get notified about maintenance activities</li>
+<li><code>start_time</code> - Start time of the maintenance activity</li>
+<li><code>state</code> - State of the maintenance activity</li>
+</ul></li>
+<li><code>master_node_count</code> - The number of master nodes configured for the cluster.</li>
+<li><code>master_node_host_bare_metal_shape</code> - The bare metal shape for the cluster&rsquo;s master nodes.</li>
+<li><code>master_node_host_memory_gb</code> - The amount of memory in GB, for the cluster&rsquo;s master nodes.</li>
+<li><code>master_node_host_ocpu_count</code> - The number of OCPUs configured for cluster&rsquo;s master nodes.</li>
+<li><code>master_node_host_shape</code> - The node shape for the cluster&rsquo;s master nodes.</li>
+<li><code>master_node_host_type</code> - The instance type for the cluster&rsquo;s master nodes.</li>
+<li><code>nsg_id</code> - The OCID of the NSG where the private endpoint vnic will be attached.</li>
+<li><code>opendashboard_fqdn</code> - The fully qualified domain name (FQDN) for the cluster&rsquo;s OpenSearch Dashboard API endpoint.</li>
+<li><code>opendashboard_node_count</code> - The number of OpenSearch Dashboard nodes configured for the cluster.</li>
+<li><code>opendashboard_node_host_memory_gb</code> - The amount of memory in GB, for the cluster&rsquo;s OpenSearch Dashboard nodes.</li>
+<li><code>opendashboard_node_host_ocpu_count</code> - The amount of memory in GB, for the cluster&rsquo;s OpenSearch Dashboard nodes.</li>
+<li><code>opendashboard_node_host_shape</code> - The node shape for the cluster&rsquo;s OpenSearch Dashboard nodes.</li>
+<li><code>opendashboard_private_ip</code> - The private IP address for the cluster&rsquo;s OpenSearch Dashboard.</li>
+<li><code>opensearch_fqdn</code> - The fully qualified domain name (FQDN) for the cluster&rsquo;s API endpoint.</li>
+<li><code>opensearch_private_ip</code> - The cluster&rsquo;s private IP address.</li>
+<li><code>outbound_cluster_config</code> - This configuration is used for passing request details to connect outbound cluster(s) to the inbound cluster (coordinating cluster)
+
+<ul>
+<li><code>is_enabled</code> - Flag to indicate whether outbound cluster configuration is enabled</li>
+<li><code>outbound_clusters</code> - List of outbound clusters to be connected to the inbound cluster
+
+<ul>
+<li><code>display_name</code> - Name of the Outbound cluster. Avoid entering confidential information.</li>
+<li><code>is_skip_unavailable</code> - Flag to indicate whether to skip the Outbound cluster during cross cluster search, if it is unavailable</li>
+<li><code>mode</code> - Mode for the cross cluster connection</li>
+<li><code>ping_schedule</code> - Sets the time interval between regular application-level ping messages that are sent to try and keep outbound cluster connections alive. If set to -1, application-level ping messages to this outbound cluster are not sent. If unset, application-level ping messages are sent according to the global transport.ping_schedule setting, which defaults to -1 meaning that pings are not sent.</li>
+<li><code>seed_cluster_id</code> - OCID of the Outbound cluster</li>
+</ul></li>
+</ul></li>
+<li><code>reverse_connection_endpoint_customer_ips</code> - The customer IP addresses of the endpoint in customer VCN</li>
+<li><code>reverse_connection_endpoints</code> - The list of reverse connection endpoints.
+
+<ul>
+<li><code>customer_ip</code> - The IP addresses of the endpoint in customer VCN</li>
+<li><code>nat_ip</code> - The NAT IP addresses of the endpoint in service VCN</li>
+</ul></li>
+<li><code>search_node_count</code> - The number of search nodes configured for the cluster.</li>
+<li><code>search_node_host_memory_gb</code> - The amount of memory in GB, for the cluster&rsquo;s search nodes.</li>
+<li><code>search_node_host_ocpu_count</code> - The number of OCPUs configured for the cluster&rsquo;s search nodes.</li>
+<li><code>search_node_host_shape</code> - The node shape for the cluster&rsquo;s search nodes.</li>
+<li><code>search_node_host_type</code> - The instance type for the cluster&rsquo;s search nodes.</li>
+<li><code>search_node_storage_gb</code> - The amount of storage in GB, to configure per node for the cluster&rsquo;s search nodes.</li>
+<li><code>security_attributes</code> - Security attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Oracle-ZPR&quot;: {&quot;MaxEgressCount&quot;: {&quot;value&quot;: &quot;42&quot;, &quot;mode&quot;: &quot;enforce&quot;}}}</code></li>
+<li><code>security_master_user_name</code> - The name of the master user that are used to manage security config</li>
+<li><code>security_master_user_password_hash</code> - The password hash of the master user that are used to manage security config</li>
+<li><code>security_saml_config</code> - SAML policy is optionally used for Opensearch cluster to config SAML authentication
+
+<ul>
+<li><code>is_enabled</code> - A flag determine whether SAML is enabled</li>
+<li><code>idp_metadata_content</code> - The content of identity provider metadata</li>
+<li><code>idp_entity_id</code> - The unique name for a identity provider entity</li>
+<li><code>opendashboard_url</code> - The endpoint of opendashboard</li>
+<li><code>admin_backend_role</code> - The backend role of admins who have all permissions like local master user</li>
+<li><code>subject_key</code> - The subject key is used to get username from SAML assertion. By default, it is NameID</li>
+<li><code>roles_key</code> - The roles key is sued to get backend roles from SAML assertion</li>
+</ul></li>
+<li><code>security_mode</code> - The security mode of the cluster.</li>
+<li><code>software_version</code> - The software version the cluster is running.</li>
+<li><code>state</code> - The current state of the cluster.</li>
+<li><code>subnet_compartment_id</code> - The OCID for the compartment where the cluster&rsquo;s subnet is located.</li>
+<li><code>subnet_id</code> - The OCID of the cluster&rsquo;s subnet.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The amount of time in milliseconds since the cluster was created.</li>
+<li><code>time_deleted</code> - The amount of time in milliseconds since the cluster was updated.</li>
+<li><code>time_updated</code> - The amount of time in milliseconds since the cluster was updated.</li>
+<li><code>total_storage_gb</code> - The size in GB of the cluster&rsquo;s total storage.</li>
+<li><code>vcn_compartment_id</code> - The OCID for the compartment where the cluster&rsquo;s VCN is located.</li>
+<li><code>vcn_id</code> - The OCID of the cluster&rsquo;s VCN.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+* <code>create</code> - (Defaults to 45 minutes), when creating the Opensearch Cluster
+* <code>update</code> - (Defaults to 45 minutes), when updating the Opensearch Cluster
+* <code>delete</code> - (Defaults to 45 minutes), when destroying the Opensearch Cluster</p>
+
+<h2>Import</h2>
+
+<p>OpensearchClusters can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_opensearch_opensearch_cluster.test_opensearch_cluster &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

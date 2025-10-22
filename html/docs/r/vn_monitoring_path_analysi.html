@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_vn_monitoring_path_analysi</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_vn_monitoring_path_analysi</h1>
+
+<p>This resource provides the Path Analysi resource in Oracle Cloud Infrastructure Vn Monitoring service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/NetMonitor/latest/PathAnalysis">https://docs.oracle.com/iaas/api/#/en/NetMonitor/latest/PathAnalysis</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/vn_monitoring">https://github.com/oracle/terraform-provider-oci/tree/master/examples/vn_monitoring</a></p>
+
+<p>Use this method to initiate a <a href="https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm">Network Path Analyzer</a> analysis. This method returns
+an opc-work-request-id, and you can poll the status of the work request until it either fails or succeeds.</p>
+
+<p>If the work request status is successful, use <a href="https://docs.cloud.oracle.com/iaas/api/#/en/VnConfigAdvisor/latest/WorkRequestResult/ListWorkRequestResults">ListWorkRequestResults</a>
+with the work request ID to ask for the successful analysis results. If the work request status is failed, use
+<a href="https://docs.cloud.oracle.com/iaas/api/#/en/VnConfigAdvisor/latest/WorkRequestError/ListWorkRequestErrors">ListWorkRequestErrors</a>
+with the work request ID to ask for the analysis failure information. The information
+returned from either of these methods can be used to build a final report.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_vn_monitoring_path_analysi&quot; &quot;test_path_analysi&quot; {
+	#Required
+	type = var.path_analysi_type
+
+	#Optional
+	cache_control = var.path_analysi_cache_control
+	compartment_id = var.compartment_id
+	destination_endpoint {
+		#Required
+		type = var.path_analysi_destination_endpoint_type
+
+		#Optional
+		address = var.path_analysi_destination_endpoint_address
+		instance_id = oci_core_instance.test_instance.id
+		listener_id = oci_load_balancer_listener.test_listener.id
+		load_balancer_id = oci_load_balancer_load_balancer.test_load_balancer.id
+		network_load_balancer_id = oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id
+		subnet_id = oci_core_subnet.test_subnet.id
+		vlan_id = oci_core_vlan.test_vlan.id
+		vnic_id = oci_core_vnic_attachment.test_vnic_attachment.id
+	}
+	path_analyzer_test_id = oci_vn_monitoring_path_analyzer_test.test_path_analyzer_test.id
+	protocol = var.path_analysi_protocol
+	protocol_parameters {
+		#Required
+		type = var.path_analysi_protocol_parameters_type
+
+		#Optional
+		destination_port = var.path_analysi_protocol_parameters_destination_port
+		icmp_code = var.path_analysi_protocol_parameters_icmp_code
+		icmp_type = var.path_analysi_protocol_parameters_icmp_type
+		source_port = var.path_analysi_protocol_parameters_source_port
+	}
+	query_options {
+
+		#Optional
+		is_bi_directional_analysis = var.path_analysi_query_options_is_bi_directional_analysis
+	}
+	source_endpoint {
+		#Required
+		type = var.path_analysi_source_endpoint_type
+
+		#Optional
+		address = var.path_analysi_source_endpoint_address
+		instance_id = oci_core_instance.test_instance.id
+		listener_id = oci_load_balancer_listener.test_listener.id
+		load_balancer_id = oci_load_balancer_load_balancer.test_load_balancer.id
+		network_load_balancer_id = oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id
+		subnet_id = oci_core_subnet.test_subnet.id
+		vlan_id = oci_core_vlan.test_vlan.id
+		vnic_id = oci_core_vnic_attachment.test_vnic_attachment.id
+	}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>cache_control</code> - (Optional) The Cache-Control HTTP header holds directives (instructions) for caching in both requests and responses.</li>
+<li><code>compartment_id</code> - (Required when type=ADHOC_QUERY) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> for the compartment.</li>
+<li><code>destination_endpoint</code> - (Required when type=ADHOC_QUERY) Information describing a source or destination in a <code>PathAnalyzerTest</code> resource.
+
+<ul>
+<li><code>address</code> - (Required when type=COMPUTE_INSTANCE | IP_ADDRESS | ON_PREM | SUBNET | VLAN | VNIC) The IPv4 address of the COMPUTE_INSTANCE-type <code>Endpoint</code> object.</li>
+<li><code>instance_id</code> - (Required when type=COMPUTE_INSTANCE) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compute instance.</li>
+<li><code>listener_id</code> - (Required when type=LOAD_BALANCER_LISTENER | NETWORK_LOAD_BALANCER_LISTENER) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the network load balancer listener.</li>
+<li><code>load_balancer_id</code> - (Required when type=LOAD_BALANCER | LOAD_BALANCER_LISTENER) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the listener&rsquo;s load balancer.</li>
+<li><code>network_load_balancer_id</code> - (Required when type=NETWORK_LOAD_BALANCER | NETWORK_LOAD_BALANCER_LISTENER) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the listener&rsquo;s network load balancer.</li>
+<li><code>subnet_id</code> - (Required when type=SUBNET) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the subnet containing the IP address. This can be used to disambiguate which subnet is intended, in case the IP address is used in more than one subnet (when there are subnets with overlapping IP ranges).</li>
+<li><code>type</code> - (Required) The type of the <code>Endpoint</code>.</li>
+<li><code>vlan_id</code> - (Required when type=VLAN) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VLAN containing the IP address. This can be used to disambiguate which VLAN is queried, in case the endpoint IP address belongs to more than one VLAN (when there are VLANs with overlapping IP ranges).</li>
+<li><code>vnic_id</code> - (Required when type=COMPUTE_INSTANCE | VNIC) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VNIC attached to the compute instance.</li>
+</ul></li>
+<li><code>path_analyzer_test_id</code> - (Required when type=PERSISTED_QUERY) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the <code>PathAnalyzerTest</code> resource.</li>
+<li><code>protocol</code> - (Required when type=ADHOC_QUERY) The IP protocol to used for the path analysis.</li>
+<li><code>protocol_parameters</code> - (Applicable when type=ADHOC_QUERY) Defines the IP protocol parameters for a <code>PathAnalyzerTest</code> resource.
+
+<ul>
+<li><code>destination_port</code> - (Required when type=TCP | UDP) The destination port to use in a <code>PathAnalyzerTest</code> resource.</li>
+<li><code>icmp_code</code> - (Applicable when type=ICMP) The <a href="https://www.iana.org/assignments/icmp-parameters/icmp-parameters.xhtml">ICMP</a> code.</li>
+<li><code>icmp_type</code> - (Required when type=ICMP) The <a href="https://www.iana.org/assignments/icmp-parameters/icmp-parameters.xhtml">ICMP</a> type.</li>
+<li><code>source_port</code> - (Applicable when type=TCP | UDP) The source port to use in a <code>PathAnalyzerTest</code> resource.</li>
+<li><code>type</code> - (Required) The type of the <code>ProtocolParameters</code> object.</li>
+</ul></li>
+<li><code>query_options</code> - (Applicable when type=ADHOC_QUERY) Defines the query options required for a <code>PathAnalyzerTest</code> resource.
+
+<ul>
+<li><code>is_bi_directional_analysis</code> - (Applicable when type=ADHOC_QUERY) If true, a path analysis is done for both the forward and reverse routes.</li>
+</ul></li>
+<li><code>source_endpoint</code> - (Required when type=ADHOC_QUERY) Information describing a source or destination in a <code>PathAnalyzerTest</code> resource.
+
+<ul>
+<li><code>address</code> - (Required when type=COMPUTE_INSTANCE | IP_ADDRESS | ON_PREM | SUBNET | VLAN | VNIC) The IPv4 address of the COMPUTE_INSTANCE-type <code>Endpoint</code> object.</li>
+<li><code>instance_id</code> - (Required when type=COMPUTE_INSTANCE) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compute instance.</li>
+<li><code>listener_id</code> - (Required when type=LOAD_BALANCER_LISTENER | NETWORK_LOAD_BALANCER_LISTENER) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the network load balancer listener.</li>
+<li><code>load_balancer_id</code> - (Required when type=LOAD_BALANCER | LOAD_BALANCER_LISTENER) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the listener&rsquo;s load balancer.</li>
+<li><code>network_load_balancer_id</code> - (Required when type=NETWORK_LOAD_BALANCER | NETWORK_LOAD_BALANCER_LISTENER) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the listener&rsquo;s network load balancer.</li>
+<li><code>subnet_id</code> - (Required when type=SUBNET) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the subnet containing the IP address. This can be used to disambiguate which subnet is intended, in case the IP address is used in more than one subnet (when there are subnets with overlapping IP ranges).</li>
+<li><code>type</code> - (Required) The type of the <code>Endpoint</code>.</li>
+<li><code>vlan_id</code> - (Required when type=VLAN) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VLAN containing the IP address. This can be used to disambiguate which VLAN is queried, in case the endpoint IP address belongs to more than one VLAN (when there are VLANs with overlapping IP ranges).</li>
+<li><code>vnic_id</code> - (Required when type=COMPUTE_INSTANCE | VNIC) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VNIC attached to the compute instance.</li>
+</ul></li>
+<li><code>type</code> - (Required) The type of the <code>PathAnalysis</code> query.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Path Analysi
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Path Analysi
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Path Analysi</p>
+
+<h2>Import</h2>
+
+<p>PathAnalysis can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_vn_monitoring_path_analysi.test_path_analysi &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

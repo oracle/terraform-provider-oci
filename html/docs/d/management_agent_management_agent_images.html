@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_management_agent_management_agent_images</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_management_agent_management_agent_images</h1>
+
+<p>This data source provides the list of Management Agent Images in Oracle Cloud Infrastructure Management Agent service.</p>
+
+<p>Get supported agent image information</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_management_agent_management_agent_images&quot; &quot;test_management_agent_images&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	install_type = var.management_agent_image_install_type
+	name = var.management_agent_image_name
+	state = var.management_agent_image_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The OCID of the compartment to which a request will be scoped.</li>
+<li><code>install_type</code> - (Optional) A filter to return either agents or gateway types depending upon install type selected by user. By default both install type will be returned.</li>
+<li><code>name</code> - (Optional) A filter to return only resources that match the entire platform name given.</li>
+<li><code>state</code> - (Optional) Filter to return only Management Agents in the particular lifecycle state.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>management_agent_images</code> - The list of management_agent_images.</li>
+</ul>
+
+<h3>ManagementAgentImage Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>checksum</code> - Agent image content SHA256 Hash</li>
+<li><code>id</code> - Agent image resource id</li>
+<li><code>image_object_storage_details</code> - Details of the Objectstorage object
+
+<ul>
+<li><code>checksum</code> - Object content SHA256 Hash</li>
+<li><code>object</code> - Objectstorage object name reference providing the original location of this object</li>
+<li><code>object_bucket</code> - Objectstorage bucket reference providing the original location of this object</li>
+<li><code>object_namespace</code> - Objectstorage namespace reference providing the original location of this object</li>
+<li><code>object_url</code> - Object storage URL for download</li>
+</ul></li>
+<li><code>object_url</code> - Object storage URL for download</li>
+<li><code>package_architecture_type</code> - The installation package target architecture type</li>
+<li><code>package_type</code> - The installation package type</li>
+<li><code>platform_name</code> - Agent image platform display name</li>
+<li><code>platform_type</code> - Agent image platform type</li>
+<li><code>size</code> - Agent image size in bytes</li>
+<li><code>state</code> - The current state of Management Agent Image</li>
+<li><code>version</code> - Agent image version</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

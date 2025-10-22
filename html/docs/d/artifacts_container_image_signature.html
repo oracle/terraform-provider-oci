@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_artifacts_container_image_signature</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_artifacts_container_image_signature</h1>
+
+<p>This data source provides details about a specific Container Image Signature resource in Oracle Cloud Infrastructure Artifacts service.</p>
+
+<p>Get container image signature metadata.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_artifacts_container_image_signature&quot; &quot;test_container_image_signature&quot; {
+	#Required
+	image_signature_id = oci_artifacts_image_signature.test_image_signature.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>image_signature_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the container image signature.  Example: <code>ocid1.containersignature.oc1..exampleuniqueID</code></li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment in which the container repository exists.</li>
+<li><code>created_by</code> - The id of the user or principal that created the resource.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>display_name</code> - The last 10 characters of the kmsKeyId, the last 10 characters of the kmsKeyVersionId, the signingAlgorithm, and the last 10 characters of the signatureId.  Example: <code>wrmz22sixa::qdwyc2ptun::SHA_256_RSA_PKCS_PSS::2vwmobasva</code></li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the container image signature.  Example: <code>ocid1.containerimagesignature.oc1..exampleuniqueID</code></li>
+<li><code>image_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the container image.  Example: <code>ocid1.containerimage.oc1..exampleuniqueID</code></li>
+<li><code>kms_key_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the kmsKeyId used to sign the container image.  Example: <code>ocid1.key.oc1..exampleuniqueID</code></li>
+<li><code>kms_key_version_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the kmsKeyVersionId used to sign the container image.  Example: <code>ocid1.keyversion.oc1..exampleuniqueID</code></li>
+<li><code>message</code> - The base64 encoded signature payload that was signed.</li>
+<li><code>signature</code> - The signature of the message field using the kmsKeyId, the kmsKeyVersionId, and the signingAlgorithm.</li>
+<li><code>signing_algorithm</code> - The algorithm to be used for signing. These are the only supported signing algorithms for container images.</li>
+<li><code>state</code> - The current state of the container image signature.</li>
+<li><code>system_tags</code> - The system tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - An RFC 3339 timestamp indicating when the image was created.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

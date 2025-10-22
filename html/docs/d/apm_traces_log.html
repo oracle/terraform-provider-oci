@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_apm_traces_log</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_apm_traces_log</h1>
+
+<p>This data source provides details about a specific Log resource in Oracle Cloud Infrastructure Apm Traces service.</p>
+
+<p>Retrieve a log in the APM Domain.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_apm_traces_log&quot; &quot;test_log&quot; {
+	#Required
+	apm_domain_id = oci_apm_apm_domain.test_apm_domain.id
+	log_key = var.log_log_key
+	time_log_ended_less_than = var.log_time_log_ended_less_than
+	time_log_started_greater_than_or_equal_to = var.log_time_log_started_greater_than_or_equal_to
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>apm_domain_id</code> - (Required) The APM Domain ID for the intended request.</li>
+<li><code>log_key</code> - (Required) Log key.</li>
+<li><code>time_log_ended_less_than</code> - (Required) Include logs with log time less than this value.</li>
+<li><code>time_log_started_greater_than_or_equal_to</code> - (Required) Include logs with log time equal to or greater than this value.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>attribute_metadata</code> - Metadata about the attributes in the logs.
+
+<ul>
+<li><code>attribute_type</code> - Type associated with the attribute key.</li>
+<li><code>attribute_unit</code> - Unit associated with the attribute key.  If unit is not specified, it defaults to NONE.</li>
+</ul></li>
+<li><code>attributes</code> - List of attributes associated with the logs.
+
+<ul>
+<li><code>attribute_name</code> - Key that specifies the attribute name.</li>
+<li><code>attribute_value</code> - Value associated with the attribute key.</li>
+</ul></li>
+<li><code>body</code> - Log body (Body).</li>
+<li><code>event_name</code> - Name of the event.</li>
+<li><code>log_key</code> - Unique identifier (logId) for the logKey.  Note that this field is defined as logKey in the API and it maps to the logId in Application Performance Monitoring.</li>
+<li><code>overflow_attributes</code> - Full values for attributes that are too long to be stored as a log attribute (Overflow).</li>
+<li><code>severity_number</code> - Log Severity number (SeverityNumber).</li>
+<li><code>severity_text</code> - Log Severity text (SeverityText).  Also known as Log level.</li>
+<li><code>span_key</code> - Unique identifier for the span (spanId) associated with this log.</li>
+<li><code>time_created</code> - Time that the log event occurred (CreatedTime).</li>
+<li><code>time_observed</code> - Time that the log was received by apm (ObservedTime).</li>
+<li><code>timestamp</code> - Time used by the time picker (RecordedTime).  Either the timeCreated if present or the timeObserved.</li>
+<li><code>trace_flags</code> - Trace flags.</li>
+<li><code>trace_key</code> - Unique identifier for the trace (traceId) associated with this log.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

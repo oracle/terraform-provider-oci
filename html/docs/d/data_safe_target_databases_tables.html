@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_data_safe_target_databases_tables</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_data_safe_target_databases_tables</h1>
+
+<p>This data source provides the list of Target Databases Tables in Oracle Cloud Infrastructure Data Safe service.</p>
+
+<p>Returns a list of table metadata objects.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_data_safe_target_databases_tables&quot; &quot;test_target_databases_tables&quot; {
+	#Required
+	target_database_id = oci_data_safe_target_database.test_target_database.id
+
+	#Optional
+	schema_name = var.target_databases_table_schema_name
+	schema_name_contains = var.target_databases_table_schema_name_contains
+	table_name = oci_nosql_table.test_table.name
+	table_name_contains = var.target_databases_table_table_name_contains
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>schema_name</code> - (Optional) A filter to return only items related to specific schema name.</li>
+<li><code>schema_name_contains</code> - (Optional) A filter to return only items if schema name contains a specific string.</li>
+<li><code>table_name</code> - (Optional) A filter to return only items related to specific table name.</li>
+<li><code>table_name_contains</code> - (Optional) A filter to return only items if table name contains a specific string.</li>
+<li><code>target_database_id</code> - (Required) The OCID of the Data Safe target database.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>tables</code> - The list of tables.</li>
+</ul>
+
+<h3>TargetDatabasesTable Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>schema_name</code> - Name of the schema.</li>
+<li><code>table_name</code> - Name of the table.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

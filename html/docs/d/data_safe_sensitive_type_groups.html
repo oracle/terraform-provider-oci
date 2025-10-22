@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_data_safe_sensitive_type_groups</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_data_safe_sensitive_type_groups</h1>
+
+<p>This data source provides the list of Sensitive Type Groups in Oracle Cloud Infrastructure Data Safe service.</p>
+
+<p>Gets a list of sensitive type groups based on the specified query parameters.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_data_safe_sensitive_type_groups&quot; &quot;test_sensitive_type_groups&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	access_level = var.sensitive_type_group_access_level
+	compartment_id_in_subtree = var.sensitive_type_group_compartment_id_in_subtree
+	display_name = var.sensitive_type_group_display_name
+	sensitive_type_group_id = oci_data_safe_sensitive_type_group.test_sensitive_type_group.id
+	state = var.sensitive_type_group_state
+	time_created_greater_than_or_equal_to = var.sensitive_type_group_time_created_greater_than_or_equal_to
+	time_created_less_than = var.sensitive_type_group_time_created_less_than
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>access_level</code> - (Optional) Valid values are RESTRICTED and ACCESSIBLE. Default is RESTRICTED. Setting this to ACCESSIBLE returns only those compartments for which the user has INSPECT permissions directly or indirectly (permissions can be on a resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed.</p></li>
+
+<li><p><code>compartment_id</code> - (Required) A filter to return only resources that match the specified compartment OCID.</p></li>
+
+<li><p><code>compartment_id_in_subtree</code> - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the &lsquo;accessLevel&rsquo; setting.</p></li>
+
+<li><p><code>display_name</code> - (Optional) A filter to return only resources that match the specified display name.</p></li>
+
+<li><p><code>sensitive_type_group_id</code> - (Optional) An optional filter to return only resources that match the specified OCID of the sensitive type group resource.</p></li>
+
+<li><p><code>state</code> - (Optional) A filter to return only the resources that match the specified lifecycle state.</p></li>
+
+<li><p><code>time_created_greater_than_or_equal_to</code> - (Optional) A filter to return only the resources that were created after the specified date and time, as defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>. Using TimeCreatedGreaterThanOrEqualToQueryParam parameter retrieves all resources created after that date.</p>
+
+<p><strong>Example:</strong> 2016-12-19T16:39:57.600Z</p></li>
+
+<li><p><code>time_created_less_than</code> - (Optional) Search for resources that were created before a specific date. Specifying this parameter corresponding <code>timeCreatedLessThan</code> parameter will retrieve all resources created before the specified created date, in &ldquo;YYYY-MM-ddThh:mmZ&rdquo; format with a Z offset, as defined by RFC 3339.</p>
+
+<p><strong>Example:</strong> 2016-12-19T16:39:57.600Z</p></li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>sensitive_type_group_collection</code> - The list of sensitive_type_group_collection.</li>
+</ul>
+
+<h3>SensitiveTypeGroup Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The OCID of the compartment that contains the sensitive type group.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a> Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - The description of the sensitive type group.</li>
+<li><code>display_name</code> - The display name of the sensitive type group.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The OCID of the sensitive type group.</li>
+<li><code>sensitive_type_count</code> - The number of sensitive types in the specified sensitive type group.</li>
+<li><code>state</code> - The current state of the sensitive type group.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The date and time the sensitive type group was created, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>time_updated</code> - The date and time the sensitive type group was last updated, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

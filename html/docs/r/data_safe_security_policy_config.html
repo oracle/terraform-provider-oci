@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_data_safe_security_policy_config</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_data_safe_security_policy_config</h1>
+
+<p>This resource provides the Security Policy Config resource in Oracle Cloud Infrastructure Data Safe service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/data-safe/latest/SecurityPolicyConfig">https://docs.oracle.com/iaas/api/#/en/data-safe/latest/SecurityPolicyConfig</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe">https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe</a></p>
+
+<p>Creates a new security policy configuration resource.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_data_safe_security_policy_config&quot; &quot;test_security_policy_config&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	security_policy_id = oci_data_safe_security_policy.test_security_policy.id
+
+	#Optional
+	defined_tags = {&quot;Operations.CostCenter&quot;= &quot;42&quot;}
+	description = var.security_policy_config_description
+	display_name = var.security_policy_config_display_name
+	firewall_config {
+
+		#Optional
+		exclude_job = var.security_policy_config_firewall_config_exclude_job
+		status = var.security_policy_config_firewall_config_status
+		violation_log_auto_purge = var.security_policy_config_firewall_config_violation_log_auto_purge
+	}
+	freeform_tags = {&quot;Department&quot;= &quot;Finance&quot;}
+	unified_audit_policy_config {
+
+		#Optional
+		exclude_datasafe_user = var.security_policy_config_unified_audit_policy_config_exclude_datasafe_user
+	}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) (Updatable) The OCID of the compartment containing the security policy configuration.</li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a> Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - (Optional) (Updatable) The description of the security policy.</li>
+<li><code>display_name</code> - (Optional) (Updatable) The display name of the security policy configuration. The name does not have to be unique, and it is changeable.</li>
+<li><code>firewall_config</code> - (Optional) (Updatable) Details to update the SQL Firewall configuration.
+
+<ul>
+<li><code>exclude_job</code> - (Optional) (Updatable) Specifies whether the firewall should include or exclude the database internal job activities.</li>
+<li><code>status</code> - (Optional) (Updatable) Specifies whether the firewall is enabled or disabled.</li>
+<li><code>violation_log_auto_purge</code> - (Optional) (Updatable) Specifies whether Data Safe should automatically purge the violation logs  from the database after collecting the violation logs and persisting them in Data Safe.</li>
+</ul></li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>security_policy_id</code> - (Required) The OCID of the security policy corresponding to the security policy configuration.</li>
+<li><code>unified_audit_policy_config</code> - (Optional) (Updatable) The unified audit policy related configurations.
+
+<ul>
+<li><code>exclude_datasafe_user</code> - (Optional) (Updatable) Specifies whether the Data Safe service account on the target database should be excluded in the unified audit policy.</li>
+</ul></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The OCID of the compartment containing the security policy configuration.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a> Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - The description of the security policy configuration.</li>
+<li><code>display_name</code> - The display name of the security policy configuration.</li>
+<li><code>firewall_config</code> - The SQL Firewall related configurations.
+
+<ul>
+<li><code>exclude_job</code> - Specifies whether the firewall should include or exclude the database internal job activities.</li>
+<li><code>status</code> - Specifies if the firewall is enabled or disabled.</li>
+<li><code>time_status_updated</code> - The date and time the firewall configuration was last updated, in the format defined by RFC3339.</li>
+<li><code>violation_log_auto_purge</code> - Specifies whether Data Safe should automatically purge the violation logs  from the database after collecting the violation logs and persisting on Data Safe.</li>
+</ul></li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The OCID of the security policy configuration.</li>
+<li><code>lifecycle_details</code> - Details about the current state of the security policy configuration.</li>
+<li><code>security_policy_id</code> - The OCID of the security policy corresponding to the security policy configuration.</li>
+<li><code>state</code> - The current state of the security policy configuration.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time the security policy configuration was created, in the format defined by RFC3339.</li>
+<li><code>time_updated</code> - The date and time the security policy configuration was last updated, in the format defined by RFC3339.</li>
+<li><code>unified_audit_policy_config</code> - The unified audit policy related configurations.
+
+<ul>
+<li><code>exclude_datasafe_user</code> - Specifies whether the Data Safe service account on the target database should be excluded in the unified audit policy.</li>
+</ul></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Security Policy Config
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Security Policy Config
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Security Policy Config</p>
+
+<h2>Import</h2>
+
+<p>SecurityPolicyConfigs can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_data_safe_security_policy_config.test_security_policy_config &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_apm_synthetics_monitors</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_apm_synthetics_monitors</h1>
+
+<p>This data source provides the list of Monitors in Oracle Cloud Infrastructure APM Availability Monitoring service (aka APM Synthetics Service).</p>
+
+<p>Returns a list of monitors.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_apm_synthetics_monitors&quot; &quot;test_monitors&quot; {
+	#Required
+	apm_domain_id = oci_apm_synthetics_apm_domain.test_apm_domain.id
+
+	#Optional
+	display_name = var.monitor_display_name
+	is_maintenance_window_active = var.monitor_is_maintenance_window_active
+	is_maintenance_window_set = var.monitor_is_maintenance_window_set
+	monitor_type = var.monitor_monitor_type
+	script_id = oci_apm_synthetics_script.test_script.id
+	status = var.monitor_status
+	vantage_point = var.monitor_vantage_point
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>apm_domain_id</code> - (Required) The APM domain ID the request is intended for.</li>
+<li><code>display_name</code> - (Optional) A filter to return only the resources that match the entire display name.</li>
+<li><code>is_maintenance_window_active</code> - (Optional) A filter to return the monitors whose maintenance window is currently active.</li>
+<li><code>is_maintenance_window_set</code> - (Optional) A filter to return the monitors whose maintenance window is set.</li>
+<li><code>monitor_type</code> - (Optional) A filter to return only monitors that match the given monitor type. Supported values are SCRIPTED_BROWSER, BROWSER, SCRIPTED_REST, REST, NETWORK, DNS, FTP and SQL.</li>
+<li><code>script_id</code> - (Optional) A filter to return only monitors using scriptId.</li>
+<li><code>status</code> - (Optional) A filter to return only monitors that match the status given.</li>
+<li><code>vantage_point</code> - (Optional) The name of the public or dedicated vantage point.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>monitor_collection</code> - The list of monitor_collection.</li>
+</ul>
+
+<h3>Monitor Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>availability_configuration</code> - Monitor availability configuration details.
+
+<ul>
+<li><code>max_allowed_failures_per_interval</code> - Maximum number of failed runs allowed in an interval. If an interval has more failed runs than the specified value, then the interval will be classified as UNAVAILABLE.</li>
+<li><code>min_allowed_runs_per_interval</code> - Minimum number of runs allowed in an interval. If an interval has fewer runs than the specified value, then the interval will be classified as UNKNOWN and will be excluded from the availability calculations.</li>
+</ul></li>
+<li><code>batch_interval_in_seconds</code> - Time interval between two runs in round robin batch mode (SchedulingPolicy - BATCHED_ROUND_ROBIN).</li>
+<li><code>configuration</code> - Details of monitor configuration.
+
+<ul>
+<li><code>client_certificate_details</code> - Details for client certificate.
+
+<ul>
+<li><code>client_certificate</code> - Client certificate in PEM format.
+
+<ul>
+<li><code>content</code> - Content of the client certificate file.</li>
+<li><code>file_name</code> - Name of the certificate file. The name should not contain any confidential information.</li>
+</ul></li>
+<li><code>private_key</code> - The private key associated with the client certificate in PEM format.
+
+<ul>
+<li><code>content</code> - Content of the private key file.</li>
+<li><code>file_name</code> - Name of the private key file.</li>
+</ul></li>
+</ul></li>
+<li><code>config_type</code> - Type of configuration.</li>
+<li><code>connection_string</code> - Database connection string.</li>
+<li><code>database_authentication_details</code> - Details for basic authentication.
+
+<ul>
+<li><code>password</code> - Password.
+
+<ul>
+<li><code>password</code> - Password.</li>
+<li><code>password_type</code> - Type of method to pass password.</li>
+<li><code>vault_secret_id</code> - Vault secret OCID.</li>
+</ul></li>
+<li><code>username</code> - Username for authentication.</li>
+</ul></li>
+<li><code>database_connection_type</code> - Database connection type. Only CUSTOM_JDBC is supported for MYSQL database type.</li>
+<li><code>database_role</code> - Database role.</li>
+<li><code>database_type</code> - Database type.</li>
+<li><code>database_wallet_details</code> - Details for database wallet.
+
+<ul>
+<li><code>database_wallet</code> - The database wallet configuration zip file.</li>
+<li><code>service_name</code> - Service name of the database.</li>
+</ul></li>
+<li><code>dns_configuration</code> - Information about the DNS settings.
+
+<ul>
+<li><code>is_override_dns</code> - If isOverrideDns is true, then DNS settings will be overridden.</li>
+<li><code>override_dns_ip</code> - Attribute to override the DNS IP value. This value will be honored only if isOverrideDns is set to true.</li>
+</ul></li>
+<li><code>download_size_limit_in_bytes</code> - Download size limit in Bytes, at which to stop the transfer. Maximum download size limit is 5 MiB.</li>
+<li><code>ftp_basic_authentication_details</code> - Details for basic authentication.
+
+<ul>
+<li><code>password</code> - Password.
+
+<ul>
+<li><code>password</code> - Password.</li>
+<li><code>password_type</code> - Type of method to pass password.</li>
+<li><code>vault_secret_id</code> - Vault secret OCID.</li>
+</ul></li>
+<li><code>username</code> - Username for authentication.</li>
+</ul></li>
+<li><code>ftp_protocol</code> - FTP protocol type.</li>
+<li><code>ftp_request_type</code> - FTP monitor request type.</li>
+<li><code>is_active_mode</code> - If enabled, Active mode will be used for the FTP connection. Not supported for SFTP protocol.</li>
+<li><code>is_certificate_validation_enabled</code> - If certificate validation is enabled, then the call will fail in case of certification errors.</li>
+<li><code>is_default_snapshot_enabled</code> - If disabled, auto snapshots are not collected.</li>
+<li><code>is_failure_retried</code> - If isFailureRetried is enabled, then a failed call will be retried.</li>
+<li><code>is_query_recursive</code> - If isQueryRecursive is enabled, then queries will be sent recursively to the target server.</li>
+<li><code>is_redirection_enabled</code> - If redirection is enabled, then redirects will be allowed while accessing target URL.</li>
+<li><code>name_server</code> - Name of the server that will be used to perform DNS lookup.</li>
+<li><code>network_configuration</code> - Details of the network configuration. For NETWORK monitor type, NetworkConfiguration is mandatory.
+
+<ul>
+<li><code>number_of_hops</code> - Number of hops.</li>
+<li><code>probe_mode</code> - Type of probe mode when TCP protocol is selected.</li>
+<li><code>probe_per_hop</code> - Number of probes per hop.</li>
+<li><code>protocol</code> - Type of protocol.</li>
+<li><code>transmission_rate</code> - Number of probe packets sent out simultaneously.</li>
+</ul></li>
+<li><code>protocol</code> - Type of protocol.</li>
+<li><code>query</code> - SQL query to be executed.</li>
+<li><code>record_type</code> - DNS record type.</li>
+<li><code>req_authentication_details</code> - Details for request HTTP authentication.
+
+<ul>
+<li><code>auth_headers</code> - List of authentication headers. Example: <code>[{&quot;headerName&quot;: &quot;content-type&quot;, &quot;headerValue&quot;:&quot;json&quot;}]</code>
+
+<ul>
+<li><code>header_name</code> - Name of the header.</li>
+<li><code>header_value</code> - Value of the header.</li>
+</ul></li>
+<li><code>auth_request_method</code> - Request method.</li>
+<li><code>auth_request_post_body</code> - Request post body.</li>
+<li><code>auth_token</code> - Authentication token.</li>
+<li><code>auth_url</code> - URL to get authentication token.</li>
+<li><code>auth_user_name</code> - User name for authentication.</li>
+<li><code>auth_user_password</code> - User password for authentication.</li>
+<li><code>oauth_scheme</code> - Request HTTP OAuth scheme.</li>
+</ul></li>
+<li><code>req_authentication_scheme</code> - Request HTTP authentication scheme.</li>
+<li><code>request_headers</code> - List of request headers. Example: <code>[{&quot;headerName&quot;: &quot;content-type&quot;, &quot;headerValue&quot;:&quot;json&quot;}]</code>
+
+<ul>
+<li><code>header_name</code> - Name of the header.</li>
+<li><code>header_value</code> - Value of the header.</li>
+</ul></li>
+<li><code>request_method</code> - Request HTTP method.</li>
+<li><code>request_post_body</code> - Request post body content.</li>
+<li><code>request_query_params</code> - List of request query params. Example: <code>[{&quot;paramName&quot;: &quot;sortOrder&quot;, &quot;paramValue&quot;: &quot;asc&quot;}]</code>
+
+<ul>
+<li><code>param_name</code> - Name of request query parameter.</li>
+<li><code>param_value</code> - Value of request query parameter.</li>
+</ul></li>
+<li><code>upload_file_size_in_bytes</code> - File upload size in Bytes, at which to stop the transfer. Maximum upload size is 5 MiB.</li>
+<li><code>verify_response_codes</code> - Expected HTTP response codes. For status code range, set values such as 2xx, 3xx.</li>
+<li><code>verify_response_content</code> - Verify response content against regular expression based string. If response content does not match the verifyResponseContent value, then it will be considered a failure.</li>
+<li><code>verify_texts</code> - Verifies all the search strings present in the response. If any search string is not present in the response, then it will be considered as a failure.
+
+<ul>
+<li><code>text</code> - Verification text in the response.</li>
+</ul></li>
+</ul></li>
+<li><code>content_type</code> - Content type of the script.</li>
+<li><code>created_by</code> - Name of the user that created the monitor.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>display_name</code> - Unique name that can be edited. The name should not contain any confidential information.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the monitor.</li>
+<li><code>is_ipv6</code> - If enabled, domain name will resolve to an IPv6 address.</li>
+<li><code>is_run_now</code> - If isRunNow is enabled, then the monitor will run immediately.</li>
+<li><code>is_run_once</code> - If runOnce is enabled, then the monitor will run once.</li>
+<li><code>last_updated_by</code> - Name of the user that recently updated the monitor.</li>
+<li><code>maintenance_window_schedule</code> - Details required to schedule maintenance window.
+
+<ul>
+<li><code>time_ended</code> - End time of the maintenance window, expressed in <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a> timestamp format. Example: <code>2020-02-12T22:47:12.613Z</code></li>
+<li><code>time_started</code> - Start time of the maintenance window, expressed in <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a> timestamp format. Example: <code>2020-02-12T22:47:12.613Z</code></li>
+</ul></li>
+<li><code>monitor_type</code> - Type of monitor.</li>
+<li><code>repeat_interval_in_seconds</code> - Interval in seconds after the start time when the job should be repeated. Minimum repeatIntervalInSeconds should be 300 seconds for Scripted REST, Scripted Browser and Browser monitors, and 60 seconds for REST monitor.</li>
+<li><code>scheduling_policy</code> - Scheduling policy to decide the distribution of monitor executions on vantage points.</li>
+<li><code>script_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the script. scriptId is mandatory for creation of SCRIPTED_BROWSER and SCRIPTED_REST monitor types. For other monitor types, it should be set to null.</li>
+<li><code>script_name</code> - Name of the script.</li>
+<li><code>script_parameters</code> - List of script parameters. Example: <code>[{&quot;monitorScriptParameter&quot;: {&quot;paramName&quot;: &quot;userid&quot;, &quot;paramValue&quot;:&quot;testuser&quot;}, &quot;isSecret&quot;: false, &quot;isOverwritten&quot;: false}]</code>
+
+<ul>
+<li><code>is_overwritten</code> - If parameter value is default or overwritten.</li>
+<li><code>is_secret</code> - Describes if  the parameter value is secret and should be kept confidential. isSecret is specified in either CreateScript or UpdateScript API.</li>
+<li><code>monitor_script_parameter</code> - Details of the script parameter that can be used to overwrite the parameter present in the script.
+
+<ul>
+<li><code>param_name</code> - Name of the parameter.</li>
+<li><code>param_value</code> - Value of the parameter.</li>
+</ul></li>
+</ul></li>
+<li><code>status</code> - Enables or disables the monitor.</li>
+<li><code>target</code> - Specify the endpoint on which to run the monitor. For BROWSER, REST, NETWORK, DNS and FTP monitor types, target is mandatory. If target is specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script (specified by scriptId in monitor) against the specified target endpoint. If target is not specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script as it is. For NETWORK monitor with TCP protocol, a port needs to be provided along with target. Example: 192.168.0.1:80.</li>
+<li><code>time_created</code> - The time the resource was created, expressed in <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a> timestamp format. Example: <code>2020-02-12T22:47:12.613Z</code></li>
+<li><code>time_updated</code> - The time the resource was updated, expressed in <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a> timestamp format. Example: <code>2020-02-13T22:47:12.613Z</code></li>
+<li><code>timeout_in_seconds</code> - Timeout in seconds. If isFailureRetried is true, then timeout cannot be more than 30% of repeatIntervalInSeconds time for monitors. If isFailureRetried is false, then timeout cannot be more than 50% of repeatIntervalInSeconds time for monitors. Also, timeoutInSeconds should be a multiple of 60 for Scripted REST, Scripted Browser and Browser monitors. Monitor will be allowed to run only for timeoutInSeconds time. It would be terminated after that.</li>
+<li><code>vantage_point_count</code> - Number of vantage points where monitor is running.</li>
+<li><code>vantage_points</code> - List of public, dedicated and onPremise vantage points where the monitor is running.
+
+<ul>
+<li><code>display_name</code> - Unique name that can be edited. The name should not contain any confidential information.</li>
+<li><code>name</code> - Name of the vantage point.</li>
+<li><code>worker_list</code> - List of workers running the assigned monitor.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

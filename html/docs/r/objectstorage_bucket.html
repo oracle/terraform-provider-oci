@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_objectstorage_bucket</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_objectstorage_bucket</h1>
+
+<p>This resource provides the Bucket resource in Oracle Cloud Infrastructure Object Storage service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/objectstorage/latest/Bucket">https://docs.oracle.com/iaas/api/#/en/objectstorage/latest/Bucket</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/">https://github.com/oracle/terraform-provider-oci/tree/master/examples/</a></p>
+
+<p>Creates a bucket in the given namespace with a bucket name and optional user-defined metadata. Avoid entering
+confidential information in bucket names.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_objectstorage_bucket&quot; &quot;test_bucket&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	name = var.bucket_name
+	namespace = var.bucket_namespace
+
+	#Optional
+	access_type = var.bucket_access_type
+	auto_tiering = var.bucket_auto_tiering
+	defined_tags = {&quot;Operations.CostCenter&quot;= &quot;42&quot;}
+	freeform_tags = {&quot;Department&quot;= &quot;Finance&quot;}
+	kms_key_id = oci_kms_key.test_key.id
+	metadata = var.bucket_metadata
+	object_events_enabled = var.bucket_object_events_enabled
+	storage_tier = var.bucket_storage_tier
+	retention_rules {
+        display_name = var.retention_rule_display_name
+        duration {
+            #Required
+            time_amount = var.retention_rule_duration_time_amount
+            time_unit = var.retention_rule_duration_time_unit
+        }
+        time_rule_locked = var.retention_rule_time_rule_locked
+    }
+	versioning = var.bucket_versioning
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>access_type</code> - (Optional) (Updatable) The type of public access enabled on this bucket. A bucket is set to <code>NoPublicAccess</code> by default, which only allows an authenticated caller to access the bucket and its contents. When <code>ObjectRead</code> is enabled on the bucket, public access is allowed for the <code>GetObject</code>, <code>HeadObject</code>, and <code>ListObjects</code> operations. When <code>ObjectReadWithoutList</code> is enabled on the bucket, public access is allowed for the <code>GetObject</code> and <code>HeadObject</code> operations.</li>
+<li><code>auto_tiering</code> - (Optional) (Updatable) Set the auto tiering status on the bucket. By default, a bucket is created with auto tiering <code>Disabled</code>. Use this option to enable auto tiering during bucket creation. Objects in a bucket with auto tiering set to <code>InfrequentAccess</code> are transitioned automatically between the &lsquo;Standard&rsquo; and &lsquo;InfrequentAccess&rsquo; tiers based on the access pattern of the objects.</li>
+<li><code>compartment_id</code> - (Required) (Updatable) The ID of the compartment in which to create the bucket.</li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>kms_key_id</code> - (Optional) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of a master encryption key used to call the Key Management service to generate a data encryption key or to encrypt or decrypt a data encryption key.</li>
+<li><code>metadata</code> - (Optional) (Updatable) Arbitrary string, up to 4KB, of keys and values for user-defined metadata.</li>
+<li><code>name</code> - (Required) The name of the bucket. Valid characters are uppercase or lowercase letters, numbers, hyphens, underscores, and periods. Bucket names must be unique within an Object Storage namespace. Avoid entering confidential information. example: Example: my-new-bucket1</li>
+<li><code>namespace</code> - (Required) The Object Storage namespace used for the request.</li>
+<li><code>object_events_enabled</code> - (Optional) (Updatable) Whether or not events are emitted for object state changes in this bucket. By default, <code>objectEventsEnabled</code> is set to <code>false</code>. Set <code>objectEventsEnabled</code> to <code>true</code> to emit events for object state changes. For more information about events, see <a href="https://docs.cloud.oracle.com/iaas/Content/Events/Concepts/eventsoverview.htm">Overview of Events</a>.</li>
+<li><code>retention_rules</code> - (Optional) (Updatable) Creates a new retention rule in the specified bucket. The new rule will take effect typically within 30 seconds. Note that a maximum of 100 rules are supported on a bucket.
+
+<ul>
+<li><code>display_name</code> - (Required) A user-specified name for the retention rule. Names can be helpful in identifying retention rules. The name should be unique. This attribute is a forcenew attribute<br>
+</li>
+<li><code>duration</code> - (Optional) (Updatable)
+
+<ul>
+<li><code>time_amount</code> - (Required) (Updatable) The timeAmount is interpreted in units defined by the timeUnit parameter, and is calculated in relation to each object&rsquo;s Last-Modified timestamp.</li>
+<li><code>time_unit</code> - (Required) (Updatable) The unit that should be used to interpret timeAmount.</li>
+</ul></li>
+<li><code>time_rule_locked</code> - (Optional) (Updatable) The date and time as per <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a> after which this rule is locked and can only be deleted by deleting the bucket. Once a rule is locked, only increases in the duration are allowed and no other properties can be changed. This property cannot be updated for rules that are in a locked state. Specifying it when a duration is not specified is considered an error.</li>
+</ul></li>
+<li><code>storage_tier</code> - (Optional) The type of storage tier of this bucket. A bucket is set to &lsquo;Standard&rsquo; tier by default, which means the bucket will be put in the standard storage tier. When &lsquo;Archive&rsquo; tier type is set explicitly, the bucket is put in the Archive Storage tier. The &lsquo;storageTier&rsquo; property is immutable after bucket is created.</li>
+<li><code>versioning</code> - (Optional) (Updatable) Set the versioning status on the bucket. By default, a bucket is created with versioning <code>Disabled</code>. Use this option to enable versioning during bucket creation. Objects in a version enabled bucket are protected from overwrites and deletions. Previous versions of the same object will be available in the bucket. Allowed Create values: Enabled, Disabled. Allowed Update values: Enabled, Suspended.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>access_type</code> - The type of public access enabled on this bucket. A bucket is set to <code>NoPublicAccess</code> by default, which only allows an authenticated caller to access the bucket and its contents. When <code>ObjectRead</code> is enabled on the bucket, public access is allowed for the <code>GetObject</code>, <code>HeadObject</code>, and <code>ListObjects</code> operations. When <code>ObjectReadWithoutList</code> is enabled on the bucket, public access is allowed for the <code>GetObject</code> and <code>HeadObject</code> operations.</li>
+<li><code>approximate_count</code> - The approximate number of objects in the bucket. Count statistics are reported periodically. You will see a lag between what is displayed and the actual object count.</li>
+<li><code>approximate_size</code> - The approximate total size in bytes of all objects in the bucket. Size statistics are reported periodically. You will see a lag between what is displayed and the actual size of the bucket.</li>
+<li><code>auto_tiering</code> - The auto tiering status on the bucket. A bucket is created with auto tiering <code>Disabled</code> by default. For auto tiering <code>InfrequentAccess</code>, objects are transitioned automatically between the &lsquo;Standard&rsquo; and &lsquo;InfrequentAccess&rsquo; tiers based on the access pattern of the objects.</li>
+<li><code>bucket_id</code> - The OCID of the bucket which is a Oracle assigned unique identifier for this resource type (bucket). <code>bucket_id</code> cannot be used for bucket lookup.</li>
+<li><code>compartment_id</code> - The compartment ID in which the bucket is authorized.</li>
+<li><code>created_by</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the user who created the bucket.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>etag</code> - The entity tag (ETag) for the bucket.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>is_read_only</code> - Whether or not this bucket is read only. By default, <code>isReadOnly</code> is set to <code>false</code>. This will be set to &lsquo;true&rsquo; when this bucket is configured as a destination in a replication policy.</li>
+<li><code>kms_key_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of a master encryption key used to call the Key Management service to generate a data encryption key or to encrypt or decrypt a data encryption key.</li>
+<li><code>metadata</code> - Arbitrary string keys and values for user-defined metadata.</li>
+<li><code>name</code> - The name of the bucket. Avoid entering confidential information. Example: my-new-bucket1</li>
+<li><code>namespace</code> - The Object Storage namespace in which the bucket resides.</li>
+<li><code>object_events_enabled</code> - Whether or not events are emitted for object state changes in this bucket. By default, <code>objectEventsEnabled</code> is set to <code>false</code>. Set <code>objectEventsEnabled</code> to <code>true</code> to emit events for object state changes. For more information about events, see <a href="https://docs.cloud.oracle.com/iaas/Content/Events/Concepts/eventsoverview.htm">Overview of Events</a>.</li>
+<li><code>object_lifecycle_policy_etag</code> - The entity tag (ETag) for the live object lifecycle policy on the bucket.</li>
+<li><code>retention_rules</code> - User specified list of retention rules for the bucket.
+
+<ul>
+<li><code>display_name</code> - User specified name for the retention rule.</li>
+<li><code>duration</code> -
+
+<ul>
+<li><code>time_amount</code> - The timeAmount is interpreted in units defined by the timeUnit parameter, and is calculated in relation to each object&rsquo;s Last-Modified timestamp.</li>
+<li><code>time_unit</code> - The unit that should be used to interpret timeAmount.</li>
+</ul></li>
+<li><code>retention_rule_id</code> - Unique identifier for the retention rule.</li>
+<li><code>time_created</code> - The date and time that the retention rule was created as per <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>time_modified</code> - The date and time that the retention rule was modified as per <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>time_rule_locked</code> - The date and time as per <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a> after which this rule becomes locked. and can only be deleted by deleting the bucket.</li>
+</ul></li>
+<li><code>replication_enabled</code> - Whether or not this bucket is a replication source. By default, <code>replicationEnabled</code> is set to <code>false</code>. This will be set to &lsquo;true&rsquo; when you create a replication policy for the bucket.</li>
+<li><code>storage_tier</code> - The storage tier type assigned to the bucket. A bucket is set to <code>Standard</code> tier by default, which means objects uploaded or copied to the bucket will be in the standard storage tier. When the <code>Archive</code> tier type is set explicitly for a bucket, objects uploaded or copied to the bucket will be stored in archive storage. The <code>storageTier</code> property is immutable after bucket is created.</li>
+<li><code>time_created</code> - The date and time the bucket was created, as described in <a href="https://tools.ietf.org/html/rfc2616#section-14.29">RFC 2616</a>.</li>
+<li><code>versioning</code> - The versioning status on the bucket. A bucket is created with versioning <code>Disabled</code> by default. For versioning <code>Enabled</code>, objects are protected from overwrites and deletes, by maintaining their version history. When versioning is <code>Suspended</code>, the previous versions will still remain but new versions will no longer be created when overwitten or deleted.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Bucket
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Bucket
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Bucket</p>
+
+<h2>Import</h2>
+
+<p>Buckets can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_objectstorage_bucket.test_bucket &quot;n/{namespaceName}/b/{bucketName}&quot; 
+</code></pre>
+
+	</div>
+
+</body>
+</html>

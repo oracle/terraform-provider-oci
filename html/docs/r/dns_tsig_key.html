@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_dns_tsig_key</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_dns_tsig_key</h1>
+
+<p>This resource provides the Tsig Key resource in Oracle Cloud Infrastructure DNS service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/dns/latest/TsigKey">https://docs.oracle.com/iaas/api/#/en/dns/latest/TsigKey</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/dns">https://github.com/oracle/terraform-provider-oci/tree/master/examples/dns</a></p>
+
+<p>Creates a new TSIG key in the specified compartment. There is no
+<code>opc-retry-token</code> header since TSIG key names must be globally unique.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_dns_tsig_key&quot; &quot;test_tsig_key&quot; {
+	#Required
+	algorithm = var.tsig_key_algorithm
+	compartment_id = var.compartment_id
+	name = var.tsig_key_name
+	secret = var.tsig_key_secret
+
+	#Optional
+	defined_tags = var.tsig_key_defined_tags
+	freeform_tags = var.tsig_key_freeform_tags
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>algorithm</code> - (Required) TSIG key algorithms are encoded as domain names, but most consist of only one non-empty label, which is not required to be explicitly absolute. Applicable algorithms include: hmac-sha1, hmac-sha224, hmac-sha256, hmac-sha512. For more information on these algorithms, see <a href="https://tools.ietf.org/html/rfc4635#section-2">RFC 4635</a>.</p></li>
+
+<li><p><code>compartment_id</code> - (Required) (Updatable) The OCID of the compartment containing the TSIG key.</p></li>
+
+<li><p><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</p>
+
+<p><strong>Example:</strong> <code>{&quot;Operations&quot;: {&quot;CostCenter&quot;: &quot;42&quot;}}</code></p></li>
+
+<li><p><code>freeform_tags</code> - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</p>
+
+<p><strong>Example:</strong> <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></p></li>
+
+<li><p><code>name</code> - (Required) A globally unique domain name identifying the key for a given pair of hosts.</p></li>
+
+<li><p><code>secret</code> - (Required) A base64 string encoding the binary shared secret.</p></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>algorithm</code> - TSIG key algorithms are encoded as domain names, but most consist of only one non-empty label, which is not required to be explicitly absolute. Applicable algorithms include: hmac-sha1, hmac-sha224, hmac-sha256, hmac-sha512. For more information on these algorithms, see <a href="https://tools.ietf.org/html/rfc4635#section-2">RFC 4635</a>.</p></li>
+
+<li><p><code>compartment_id</code> - The OCID of the compartment containing the TSIG key.</p></li>
+
+<li><p><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</p>
+
+<p><strong>Example:</strong> <code>{&quot;Operations&quot;: {&quot;CostCenter&quot;: &quot;42&quot;}}</code></p></li>
+
+<li><p><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</p>
+
+<p><strong>Example:</strong> <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></p></li>
+
+<li><p><code>id</code> - The OCID of the resource.</p></li>
+
+<li><p><code>name</code> - A globally unique domain name identifying the key for a given pair of hosts.</p></li>
+
+<li><p><code>secret</code> - A base64 string encoding the binary shared secret.</p></li>
+
+<li><p><code>self</code> - The canonical absolute URL of the resource.</p></li>
+
+<li><p><code>state</code> - The current state of the resource.</p></li>
+
+<li><p><code>time_created</code> - The date and time the resource was created, expressed in RFC 3339 timestamp format.</p>
+
+<p><strong>Example:</strong> <code>2016-07-22T17:23:59:60Z</code></p></li>
+
+<li><p><code>time_updated</code> - The date and time the resource was last updated, expressed in RFC 3339 timestamp format.</p>
+
+<p><strong>Example:</strong> <code>2016-07-22T17:23:59:60Z</code></p></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Tsig Key
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Tsig Key
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Tsig Key</p>
+
+<h2>Import</h2>
+
+<p>TsigKeys can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_dns_tsig_key.test_tsig_key &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_log_analytics_namespace_lookups_update_data_management</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_log_analytics_namespace_lookups_update_data_management</h1>
+
+<p>This resource provides the Namespace Lookups Update Data Management resource in Oracle Cloud Infrastructure Log Analytics service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/logan-api-spec/latest/NamespaceLookupsUpdateDataManagement">https://docs.oracle.com/iaas/api/#/en/logan-api-spec/latest/NamespaceLookupsUpdateDataManagement</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/log_analytics">https://github.com/oracle/terraform-provider-oci/tree/master/examples/log_analytics</a></p>
+
+<p>Updates the lookup content. The csv file containing the content to be updated is passed in as binary data in the request.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_log_analytics_namespace_lookups_update_data_management&quot; &quot;test_namespace_lookups_update_data_management&quot; {
+	#Required
+	update_lookup_file_body = var.namespace_lookups_update_data_management_update_lookup_file_body
+	lookup_name = var.namespace_lookups_update_data_management_lookup_name
+	namespace = var.namespace_lookups_update_data_management_namespace
+
+	#Optional
+	char_encoding = var.namespace_lookups_update_data_management_char_encoding
+	expect = var.namespace_lookups_update_data_management_expect
+	is_force = var.namespace_lookups_update_data_management_is_force
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>update_lookup_file_body</code> - (Required) The file to use for the lookup update.</li>
+<li><code>char_encoding</code> - (Optional) The character encoding of the uploaded file.</li>
+<li><code>expect</code> - (Optional) A value of <code>100-continue</code> requests preliminary verification of the request method, path, and headers before the request body is sent. If no error results from such verification, the server will send a 100 (Continue) interim response to indicate readiness for the request body. The only allowed value for this parameter is &ldquo;100-Continue&rdquo; (case-insensitive).</li>
+<li><code>is_force</code> - (Optional) is force</li>
+<li><code>lookup_name</code> - (Required) The name of the lookup to operate on.</li>
+<li><code>namespace</code> - (Required) The Logging Analytics namespace used for the request.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Namespace Lookups Update Data Management
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Namespace Lookups Update Data Management
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Namespace Lookups Update Data Management</p>
+
+<h2>Import</h2>
+
+<p>Import is not supported for NamespaceLookupsUpdateDataManagement</p>
+
+	</div>
+
+</body>
+</html>

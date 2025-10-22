@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_osp_gateway_subscription</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_osp_gateway_subscription</h1>
+
+<p>This resource provides the Subscription resource in Oracle Cloud Infrastructure Osp Gateway service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/">https://docs.oracle.com/iaas/api/#/en/</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/osp_gateway">https://github.com/oracle/terraform-provider-oci/tree/master/examples/osp_gateway</a></p>
+
+<p>Update plan of the subscription.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_osp_gateway_subscription&quot; &quot;test_subscription&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	email = var.subscription_email
+	osp_home_region = var.subscription_osp_home_region
+	subscription {
+		#Required
+		subscription_plan_number = var.subscription_subscription_subscription_plan_number
+
+		#Optional
+		account_type = var.subscription_subscription_account_type
+		bill_to_cust_account_id = oci_osp_gateway_bill_to_cust_account.test_bill_to_cust_account.id
+		billing_address {
+
+			#Optional
+			address_key = var.subscription_subscription_billing_address_address_key
+			city = var.subscription_subscription_billing_address_city
+			company_name = var.subscription_subscription_billing_address_company_name
+			contributor_class = var.subscription_subscription_billing_address_contributor_class
+			country = var.subscription_subscription_billing_address_country
+			county = var.subscription_subscription_billing_address_county
+			department_name = var.subscription_subscription_billing_address_department_name
+			email_address = var.subscription_subscription_billing_address_email_address
+			first_name = var.subscription_subscription_billing_address_first_name
+			internal_number = var.subscription_subscription_billing_address_internal_number
+			job_title = var.subscription_subscription_billing_address_job_title
+			last_name = var.subscription_subscription_billing_address_last_name
+			line1 = var.subscription_subscription_billing_address_line1
+			line2 = var.subscription_subscription_billing_address_line2
+			line3 = var.subscription_subscription_billing_address_line3
+			line4 = var.subscription_subscription_billing_address_line4
+			middle_name = var.subscription_subscription_billing_address_middle_name
+			municipal_inscription = var.subscription_subscription_billing_address_municipal_inscription
+			phone_country_code = var.subscription_subscription_billing_address_phone_country_code
+			phone_number = var.subscription_subscription_billing_address_phone_number
+			postal_code = var.subscription_subscription_billing_address_postal_code
+			province = var.subscription_subscription_billing_address_province
+			state = var.subscription_subscription_billing_address_state
+			state_inscription = var.subscription_subscription_billing_address_state_inscription
+			street_name = var.subscription_subscription_billing_address_street_name
+			street_number = var.subscription_subscription_billing_address_street_number
+		}
+		currency_code = var.subscription_subscription_currency_code
+		gsi_org_code = var.subscription_subscription_gsi_org_code
+		id = var.subscription_subscription_id
+		is_corporate_conversion_allowed = var.subscription_subscription_is_corporate_conversion_allowed
+		is_intent_to_pay = var.subscription_subscription_is_intent_to_pay
+		language_code = var.subscription_subscription_language_code
+		organization_id = oci_osp_gateway_organization.test_organization.id
+		payment_gateway {
+
+			#Optional
+			merchant_defined_data {
+
+				#Optional
+				cloud_account_name = var.subscription_subscription_payment_gateway_merchant_defined_data_cloud_account_name
+				promo_type = var.subscription_subscription_payment_gateway_merchant_defined_data_promo_type
+			}
+		}
+		payment_options {
+			#Required
+			payment_method = var.subscription_subscription_payment_options_payment_method
+
+			#Optional
+			credit_card_type = var.subscription_subscription_payment_options_credit_card_type
+			email_address = var.subscription_subscription_payment_options_email_address
+			ext_billing_agreement_id = oci_osp_gateway_ext_billing_agreement.test_ext_billing_agreement.id
+			first_name = var.subscription_subscription_payment_options_first_name
+			last_digits = var.subscription_subscription_payment_options_last_digits
+			last_name = var.subscription_subscription_payment_options_last_name
+			name_on_card = var.subscription_subscription_payment_options_name_on_card
+			time_expiration = var.subscription_subscription_payment_options_time_expiration
+			wallet_instrument_id = oci_osp_gateway_wallet_instrument.test_wallet_instrument.id
+			wallet_transaction_id = oci_osp_gateway_wallet_transaction.test_wallet_transaction.id
+		}
+		plan_type = var.subscription_subscription_plan_type
+		ship_to_cust_acct_role_id = oci_osp_gateway_ship_to_cust_acct_role.test_ship_to_cust_acct_role.id
+		ship_to_cust_acct_site_id = oci_osp_gateway_ship_to_cust_acct_site.test_ship_to_cust_acct_site.id
+		tax_info {
+
+			#Optional
+			no_tax_reason_code = var.subscription_subscription_tax_info_no_tax_reason_code
+			no_tax_reason_code_details = var.subscription_subscription_tax_info_no_tax_reason_code_details
+			tax_cnpj = var.subscription_subscription_tax_info_tax_cnpj
+			tax_payer_id = oci_osp_gateway_tax_payer.test_tax_payer.id
+			tax_reg_number = var.subscription_subscription_tax_info_tax_reg_number
+		}
+		time_personal_to_corporate_conv = var.subscription_subscription_time_personal_to_corporate_conv
+		time_plan_upgrade = var.subscription_subscription_time_plan_upgrade
+		time_start = var.subscription_subscription_time_start
+		upgrade_state = var.subscription_subscription_upgrade_state
+		upgrade_state_details = var.subscription_subscription_upgrade_state_details
+	}
+	subscription_id = oci_osp_gateway_subscription.test_subscription.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>email</code> - (Required) (Updatable) User email</li>
+<li><code>osp_home_region</code> - (Required) (Updatable) The home region&rsquo;s public name of the logged in user.</li>
+<li><code>subscription</code> - (Required) (Updatable) Subscription details object which extends the SubscriptionSummary
+
+<ul>
+<li><code>account_type</code> - (Optional) (Updatable) Account type.</li>
+<li><code>bill_to_cust_account_id</code> - (Optional) (Updatable) Bill to customer Account id.</li>
+<li><code>billing_address</code> - (Optional) (Updatable) Address details model.
+
+<ul>
+<li><code>address_key</code> - (Optional) (Updatable) Address identifier.</li>
+<li><code>city</code> - (Optional) (Updatable) Name of the city.</li>
+<li><code>company_name</code> - (Optional) (Updatable) Name of the customer company.</li>
+<li><code>contributor_class</code> - (Optional) (Updatable) Contributor class of the customer company.</li>
+<li><code>country</code> - (Optional) (Updatable) Country of the address.</li>
+<li><code>county</code> - (Optional) (Updatable) County of the address.</li>
+<li><code>department_name</code> - (Optional) (Updatable) Department name of the customer company.</li>
+<li><code>email_address</code> - (Optional) (Updatable) Contact person email address.</li>
+<li><code>first_name</code> - (Optional) (Updatable) First name of the contact person.</li>
+<li><code>internal_number</code> - (Optional) (Updatable) Internal number of the customer company.</li>
+<li><code>job_title</code> - (Optional) (Updatable) Job title of the contact person.</li>
+<li><code>last_name</code> - (Optional) (Updatable) Last name of the contact person.</li>
+<li><code>line1</code> - (Optional) (Updatable) Address line 1.</li>
+<li><code>line2</code> - (Optional) (Updatable) Address line 2.</li>
+<li><code>line3</code> - (Optional) (Updatable) Address line 3.</li>
+<li><code>line4</code> - (Optional) (Updatable) Address line 4.</li>
+<li><code>middle_name</code> - (Optional) (Updatable) Middle name of the contact person.</li>
+<li><code>municipal_inscription</code> - (Optional) (Updatable) Municipal Inscription.</li>
+<li><code>phone_country_code</code> - (Optional) (Updatable) Phone country code of the contact person.</li>
+<li><code>phone_number</code> - (Optional) (Updatable) Phone number of the contact person.</li>
+<li><code>postal_code</code> - (Optional) (Updatable) Post code of the address.</li>
+<li><code>province</code> - (Optional) (Updatable) Province of the address.</li>
+<li><code>state</code> - (Optional) (Updatable) State of the address.</li>
+<li><code>state_inscription</code> - (Optional) (Updatable) State Inscription.</li>
+<li><code>street_name</code> - (Optional) (Updatable) Street name of the address.</li>
+<li><code>street_number</code> - (Optional) (Updatable) Street number of the address.</li>
+</ul></li>
+<li><code>currency_code</code> - (Optional) (Updatable) Currency code</li>
+<li><code>gsi_org_code</code> - (Optional) (Updatable) GSI Subscription external code.</li>
+<li><code>id</code> - (Optional) (Updatable) Subscription id identifier (OCID).</li>
+<li><code>is_corporate_conversion_allowed</code> - (Optional) (Updatable) Corporate conversion allowed status</li>
+<li><code>is_intent_to_pay</code> - (Optional) (Updatable) Payment intension.</li>
+<li><code>language_code</code> - (Optional) (Updatable) Language short code (en, de, hu, etc)</li>
+<li><code>organization_id</code> - (Optional) (Updatable) GSI organization external identifier.</li>
+<li><code>payment_gateway</code> - (Optional) (Updatable) Payment gateway details.
+
+<ul>
+<li><code>merchant_defined_data</code> - (Optional) (Updatable) Merchant details.
+
+<ul>
+<li><code>cloud_account_name</code> - (Optional) (Updatable) Cloud account name.</li>
+<li><code>promo_type</code> - (Optional) (Updatable) Promotion type code.</li>
+</ul></li>
+</ul></li>
+<li><code>payment_options</code> - (Optional) (Updatable) Payment option list of a subscription.
+
+<ul>
+<li><code>credit_card_type</code> - (Applicable when payment_method=CREDIT_CARD) (Updatable) Credit card type.</li>
+<li><code>email_address</code> - (Applicable when payment_method=PAYPAL) (Updatable) The email address of the paypal user.</li>
+<li><code>ext_billing_agreement_id</code> - (Applicable when payment_method=PAYPAL) (Updatable) Agreement id for the paypal account.</li>
+<li><code>first_name</code> - (Applicable when payment_method=PAYPAL) (Updatable) First name of the paypal user.</li>
+<li><code>last_digits</code> - (Applicable when payment_method=CREDIT_CARD) (Updatable) Last four digits of the card.</li>
+<li><code>last_name</code> - (Applicable when payment_method=PAYPAL) (Updatable) Last name of the paypal user.</li>
+<li><code>name_on_card</code> - (Applicable when payment_method=CREDIT_CARD) (Updatable) Name on the credit card.</li>
+<li><code>payment_method</code> - (Required) (Updatable) Payment method</li>
+<li><code>time_expiration</code> - (Applicable when payment_method=CREDIT_CARD) (Updatable) Expired date of the credit card.</li>
+<li><code>wallet_instrument_id</code> - (Optional) (Updatable) Wallet instrument internal id.</li>
+<li><code>wallet_transaction_id</code> - (Optional) (Updatable) Wallet transaction id.</li>
+</ul></li>
+<li><code>plan_type</code> - (Optional) (Updatable) Subscription plan type.</li>
+<li><code>ship_to_cust_acct_role_id</code> - (Optional) (Updatable) Ship to customer account role.</li>
+<li><code>ship_to_cust_acct_site_id</code> - (Optional) (Updatable) Ship to customer account site address id.</li>
+<li><code>subscription_plan_number</code> - (Required) (Updatable) Subscription plan number.</li>
+<li><code>tax_info</code> - (Optional) (Updatable) Tax details.
+
+<ul>
+<li><code>no_tax_reason_code</code> - (Optional) (Updatable) Tax exemption reason code.</li>
+<li><code>no_tax_reason_code_details</code> - (Optional) (Updatable) Tax exemption reason description.</li>
+<li><code>tax_cnpj</code> - (Optional) (Updatable) Brazilian companies&rsquo; CNPJ number.</li>
+<li><code>tax_payer_id</code> - (Optional) (Updatable) Tay payer identifier.</li>
+<li><code>tax_reg_number</code> - (Optional) (Updatable) Tax registration number.</li>
+</ul></li>
+<li><code>time_personal_to_corporate_conv</code> - (Optional) (Updatable) Date of upgrade/conversion when account type changed from PERSONAL to CORPORATE</li>
+<li><code>time_plan_upgrade</code> - (Optional) (Updatable) Date of upgrade/conversion when planType changed from FREE_TIER to PAYG</li>
+<li><code>time_start</code> - (Optional) (Updatable) Start date of the subscription.</li>
+<li><code>upgrade_state</code> - (Optional) (Updatable) Status of the upgrade.</li>
+<li><code>upgrade_state_details</code> - (Optional) (Updatable) This field is used to describe the Upgrade State in case of error (E.g. Upgrade failure caused by interfacing Tax details- TaxError)</li>
+</ul></li>
+<li><code>subscription_id</code> - (Required) Subscription id(OCID).</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>account_type</code> - Account type.</li>
+<li><code>bill_to_cust_account_id</code> - Bill to customer Account id.</li>
+<li><code>billing_address</code> - Address details model.
+
+<ul>
+<li><code>address_key</code> - Address identifier.</li>
+<li><code>city</code> - Name of the city.</li>
+<li><code>company_name</code> - Name of the customer company.</li>
+<li><code>contributor_class</code> - Contributor class of the customer company.</li>
+<li><code>country</code> - Country of the address.</li>
+<li><code>county</code> - County of the address.</li>
+<li><code>department_name</code> - Department name of the customer company.</li>
+<li><code>email_address</code> - Contact person email address.</li>
+<li><code>first_name</code> - First name of the contact person.</li>
+<li><code>internal_number</code> - Internal number of the customer company.</li>
+<li><code>job_title</code> - Job title of the contact person.</li>
+<li><code>last_name</code> - Last name of the contact person.</li>
+<li><code>line1</code> - Address line 1.</li>
+<li><code>line2</code> - Address line 2.</li>
+<li><code>line3</code> - Address line 3.</li>
+<li><code>line4</code> - Address line 4.</li>
+<li><code>middle_name</code> - Middle name of the contact person.</li>
+<li><code>municipal_inscription</code> - Municipal Inscription.</li>
+<li><code>phone_country_code</code> - Phone country code of the contact person.</li>
+<li><code>phone_number</code> - Phone number of the contact person.</li>
+<li><code>postal_code</code> - Post code of the address.</li>
+<li><code>province</code> - Province of the address.</li>
+<li><code>state</code> - State of the address.</li>
+<li><code>state_inscription</code> - State Inscription.</li>
+<li><code>street_name</code> - Street name of the address.</li>
+<li><code>street_number</code> - Street number of the address.</li>
+</ul></li>
+<li><code>currency_code</code> - Currency code</li>
+<li><code>gsi_org_code</code> - GSI Subscription external code.</li>
+<li><code>id</code> - Subscription id identifier (OCID).</li>
+<li><code>is_corporate_conversion_allowed</code> - Corporate conversion allowed status</li>
+<li><code>is_intent_to_pay</code> - Payment intension.</li>
+<li><code>language_code</code> - Language short code (en, de, hu, etc)</li>
+<li><code>organization_id</code> - GSI organization external identifier.</li>
+<li><code>payment_gateway</code> - Payment gateway details.
+
+<ul>
+<li><code>merchant_defined_data</code> - Merchant details.
+
+<ul>
+<li><code>cloud_account_name</code> - Cloud account name.</li>
+<li><code>promo_type</code> - Promotion type code.</li>
+</ul></li>
+</ul></li>
+<li><code>payment_options</code> - Payment option list of a subscription.
+
+<ul>
+<li><code>credit_card_type</code> - Credit card type.</li>
+<li><code>email_address</code> - The email address of the paypal user.</li>
+<li><code>ext_billing_agreement_id</code> - Agreement id for the paypal account.</li>
+<li><code>first_name</code> - First name of the paypal user.</li>
+<li><code>last_digits</code> - Last four digits of the card.</li>
+<li><code>last_name</code> - Last name of the paypal user.</li>
+<li><code>name_on_card</code> - Name on the credit card.</li>
+<li><code>payment_method</code> - Payment method</li>
+<li><code>time_expiration</code> - Expired date of the credit card.</li>
+<li><code>wallet_instrument_id</code> - Wallet instrument internal id.</li>
+<li><code>wallet_transaction_id</code> - Wallet transaction id.</li>
+</ul></li>
+<li><code>plan_type</code> - Subscription plan type.</li>
+<li><code>ship_to_cust_acct_role_id</code> - Ship to customer account role.</li>
+<li><code>ship_to_cust_acct_site_id</code> - Ship to customer account site address id.</li>
+<li><code>subscription_plan_number</code> - Subscription plan number.</li>
+<li><code>tax_info</code> - Tax details.
+
+<ul>
+<li><code>giro</code> - Companies&rsquo; GIRO code</li>
+<li><code>no_tax_reason_code</code> - Tax exemption reason code.</li>
+<li><code>no_tax_reason_code_details</code> - Tax exemption reason description.</li>
+<li><code>tax_cnpj</code> - Brazilian companies&rsquo; CNPJ number.</li>
+<li><code>tax_payer_id</code> - Tay payer identifier.</li>
+<li><code>tax_reg_number</code> - Tax registration number.</li>
+</ul></li>
+<li><code>time_personal_to_corporate_conv</code> - Date of upgrade/conversion when account type changed from PERSONAL to CORPORATE</li>
+<li><code>time_plan_upgrade</code> - Date of upgrade/conversion when planType changed from FREE_TIER to PAYG</li>
+<li><code>time_start</code> - Start date of the subscription.</li>
+<li><code>upgrade_state</code> - Status of the upgrade.</li>
+<li><code>upgrade_state_details</code> - This field is used to describe the Upgrade State in case of error (E.g. Upgrade failure caused by interfacing Tax details- TaxError)</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Subscription
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Subscription
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Subscription</p>
+
+<h2>Import</h2>
+
+<p>Subscriptions can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_osp_gateway_subscription.test_subscription &quot;subscriptions/{subscriptionId}/compartmentId/{compartmentId}/ospHomeRegion/{ospHomeRegion}&quot; 
+</code></pre>
+
+	</div>
+
+</body>
+</html>

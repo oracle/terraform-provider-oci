@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_cloud_migrations_migration</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_cloud_migrations_migration</h1>
+
+<p>This resource provides the Migration resource in Oracle Cloud Infrastructure Cloud Migrations service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/ocm/latest/Migration">https://docs.oracle.com/iaas/api/#/en/ocm/latest/Migration</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/cloudMigrations">https://github.com/oracle/terraform-provider-oci/tree/master/examples/cloudMigrations</a></p>
+
+<p>Creates a migration.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_cloud_migrations_migration&quot; &quot;test_migration&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	display_name = var.migration_display_name
+
+	#Optional
+	defined_tags = {&quot;foo-namespace.bar-key&quot;= &quot;value&quot;}
+	freeform_tags = {&quot;bar-key&quot;= &quot;value&quot;}
+	is_completed = var.migration_is_completed
+	replication_schedule_id = oci_cloud_migrations_replication_schedule.test_replication_schedule.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) (Updatable) Compartment identifier</li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>display_name</code> - (Required) (Updatable) Migration identifier</li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. It exists only for cross-compatibility. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>is_completed</code> - (Optional) (Updatable) Indicates whether migration is marked as complete.</li>
+<li><code>replication_schedule_id</code> - (Optional) (Updatable) Replication schedule identifier</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - Compartment Identifier</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>display_name</code> - Migration Identifier that can be renamed</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. It exists only for cross-compatibility. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - Unique identifier that is immutable on creation</li>
+<li><code>is_completed</code> - Indicates whether migration is marked as completed.</li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail. For example, it can be used to provide actionable information for a resource in Failed state.</li>
+<li><code>replication_schedule_id</code> - Replication schedule identifier</li>
+<li><code>state</code> - The current state of migration.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time when the migration project was created. An RFC3339 formatted datetime string</li>
+<li><code>time_updated</code> - The time when the migration project was updated. An RFC3339 formatted datetime string</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Migration
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Migration
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Migration</p>
+
+<h2>Import</h2>
+
+<p>Migrations can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_cloud_migrations_migration.test_migration &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

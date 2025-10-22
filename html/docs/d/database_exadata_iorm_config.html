@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_exadata_iorm_config</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_exadata_iorm_config</h1>
+
+<p>This data source provides details about a specific Exadata Iorm Config resource in Oracle Cloud Infrastructure Database service.</p>
+
+<p>Gets the IORM configuration settings for the specified cloud Exadata DB system.
+All Exadata service instances have default IORM settings.</p>
+
+<p><strong>Note:</strong> Deprecated for Exadata Cloud Service systems. Use the <a href="https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaflexsystem.htm#exaflexsystem_topic-resource_model">new resource model APIs</a> instead.</p>
+
+<p>For Exadata Cloud Service instances, support for this API will end on May 15th, 2021. See <a href="https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaflexsystem_topic-resource_model_conversion.htm">Switching an Exadata DB System to the New Resource Model and APIs</a> for details on converting existing Exadata DB systems to the new resource model.</p>
+
+<p>The <a href="https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/CloudVmCluster/GetCloudVmClusterIormConfig/">GetCloudVmClusterIormConfig</a> API is used for this operation with Exadata systems using the
+new resource model.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_exadata_iorm_config&quot; &quot;test_exadata_iorm_config&quot; {
+	#Required
+	db_system_id = oci_database_db_system.test_db_system.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>db_system_id</code> - (Required) The DB system <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>db_plans</code> - An array of IORM settings for all the database in the Exadata DB system.
+
+<ul>
+<li><code>db_name</code> - The database name. For the default <code>DbPlan</code>, the <code>dbName</code> is <code>default</code>.</li>
+<li><code>flash_cache_limit</code> - The flash cache limit for this database. This value is internally configured based on the share value assigned to the database.</li>
+<li><code>share</code> - The relative priority of this database.</li>
+</ul></li>
+<li><code>lifecycle_details</code> - Additional information about the current <code>lifecycleState</code>.</li>
+<li><code>objective</code> - The current value for the IORM objective. The default is <code>AUTO</code>.</li>
+<li><code>state</code> - The current state of IORM configuration for the Exadata DB system.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

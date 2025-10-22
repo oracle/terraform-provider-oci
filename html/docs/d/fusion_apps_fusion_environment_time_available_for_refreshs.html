@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_fusion_apps_fusion_environment_time_available_for_refreshs</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_fusion_apps_fusion_environment_time_available_for_refreshs</h1>
+
+<p>This data source provides the list of Fusion Environment Time Available For Refreshs in Oracle Cloud Infrastructure Fusion Apps service.</p>
+
+<p>Gets available refresh time for this fusion environment</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_fusion_apps_fusion_environment_time_available_for_refreshs&quot; &quot;test_fusion_environment_time_available_for_refreshs&quot; {
+	#Required
+	fusion_environment_id = oci_fusion_apps_fusion_environment.test_fusion_environment.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>fusion_environment_id</code> - (Required) unique FusionEnvironment identifier</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>time_available_for_refresh_collection</code> - The list of time_available_for_refresh_collection.</li>
+</ul>
+
+<h3>FusionEnvironmentTimeAvailableForRefresh Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - A list of available refresh time objects.
+
+<ul>
+<li><code>time_available_for_refresh</code> - refresh time.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

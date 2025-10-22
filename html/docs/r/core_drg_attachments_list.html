@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_core_drg_attachments_list</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_core_drg_attachments_list</h1>
+
+<p>This resource provides the Drg Attachments List resource in Oracle Cloud Infrastructure Core service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/iaas/latest/DrgAttachmentsList">https://docs.oracle.com/iaas/api/#/en/iaas/latest/DrgAttachmentsList</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/">https://github.com/oracle/terraform-provider-oci/tree/master/examples/</a></p>
+
+<p>Returns a complete list of DRG attachments that belong to a particular DRG.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_core_drg_attachments_list&quot; &quot;test_drg_attachments_list&quot; {
+	#Required
+	drg_id = oci_core_drg.test_drg.id
+
+	#Optional
+	attachment_type = var.drg_attachments_list_attachment_type
+	is_cross_tenancy = var.drg_attachments_list_is_cross_tenancy
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>attachment_type</code> - (Optional) The type for the network resource attached to the DRG.</li>
+<li><code>drg_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the DRG.</li>
+<li><code>is_cross_tenancy</code> - (Optional) Whether the DRG attachment lives in a different tenancy than the DRG.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>drg_all_attachments</code> - The list of drg_attachments.</li>
+</ul>
+
+<h3>Drg_All_Attachments Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>id</code> - The Oracle-assigned ID of the DRG attachment</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Drg Attachments List
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Drg Attachments List
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Drg Attachments List</p>
+
+<h2>Import</h2>
+
+<p>Import is not supported for this resource.</p>
+
+	</div>
+
+</body>
+</html>

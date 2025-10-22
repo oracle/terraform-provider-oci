@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_management_managed_database_optimizer_statistics_collection_operation</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_management_managed_database_optimizer_statistics_collection_operation</h1>
+
+<p>This data source provides details about a specific Managed Database Optimizer Statistics Collection Operation resource in Oracle Cloud Infrastructure Database Management service.</p>
+
+<p>Gets a detailed report of the Optimizer Statistics Collection operation for the specified Managed Database.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_management_managed_database_optimizer_statistics_collection_operation&quot; &quot;test_managed_database_optimizer_statistics_collection_operation&quot; {
+	#Required
+	managed_database_id = oci_database_management_managed_database.test_managed_database.id
+	optimizer_statistics_collection_operation_id = oci_database_management_optimizer_statistics_collection_operation.test_optimizer_statistics_collection_operation.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>managed_database_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Managed Database.</li>
+<li><code>optimizer_statistics_collection_operation_id</code> - (Required) The ID of the Optimizer Statistics Collection operation.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>completed_count</code> - The number of objects for which statistics collection is completed.</li>
+<li><code>database</code> - The summary of the Managed Database resource.
+
+<ul>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment in which the Managed Database resides.</li>
+<li><code>db_deployment_type</code> - The infrastructure used to deploy the Oracle Database.</li>
+<li><code>db_sub_type</code> - The subtype of the Oracle Database. Indicates whether the database is a Container Database, Pluggable Database, Non-container Database, Autonomous Database, or Autonomous Container Database.</li>
+<li><code>db_type</code> - The type of Oracle Database installation.</li>
+<li><code>db_version</code> - The version of the Oracle Database.</li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Managed Database.</li>
+<li><code>name</code> - The name of the Managed Database.</li>
+</ul></li>
+<li><code>duration_in_seconds</code> - The time it takes to complete the operation (in seconds).</li>
+<li><code>end_time</code> - The end time of the operation.</li>
+<li><code>failed_count</code> - The number of objects for which statistics collection failed.</li>
+<li><code>id</code> - The ID of the operation.</li>
+<li><code>in_progress_count</code> - The number of objects for which statistics collection is in progress.</li>
+<li><code>job_name</code> - The name of the job.</li>
+<li><code>operation_name</code> - The name of the operation.</li>
+<li><code>start_time</code> - The start time of the operation.</li>
+<li><code>status</code> - The status of the operation such as Completed, and Failed.</li>
+<li><code>target</code> - The target object type such as Table, Index, and Partition.</li>
+<li><code>tasks</code> - An array of Optimizer Statistics Collection task details.
+
+<ul>
+<li><code>status</code> - The status of the Optimizer Statistics Collection task.</li>
+<li><code>target</code> - The name of the target object for which statistics are gathered.</li>
+<li><code>target_type</code> - The type of target object.</li>
+<li><code>time_end</code> - The end time of the Optimizer Statistics Collection task.</li>
+<li><code>time_start</code> - The start time of the Optimizer Statistics Collection task.</li>
+</ul></li>
+<li><code>timed_out_count</code> - The number of objects for which statistics collection timed out.</li>
+<li><code>total_objects_count</code> - The total number of objects for which statistics is collected. This number is the sum of all the objects with various statuses: completed, inProgress, failed, and timedOut.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_jms_fleet_diagnoses</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_jms_fleet_diagnoses</h1>
+
+<p>This data source provides the list of Fleet Diagnoses in Oracle Cloud Infrastructure Jms service.</p>
+
+<p>List potential diagnoses that would put a fleet into FAILED or NEEDS_ATTENTION lifecycle state.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_jms_fleet_diagnoses&quot; &quot;test_fleet_diagnoses&quot; {
+	#Required
+	fleet_id = oci_jms_fleet.test_fleet.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>fleet_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Fleet.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>fleet_diagnosis_collection</code> - The list of fleet_diagnosis_collection.</li>
+</ul>
+
+<h3>FleetDiagnose Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - A list of the fleet resource diagnosis.
+
+<ul>
+<li><code>resource_diagnosis</code> - The diagnosis message.</li>
+<li><code>resource_id</code> - The OCID of the external resouce needed by the fleet.</li>
+<li><code>resource_state</code> - The state of the resource. The resource state is ACTIVE when it works properly for the fleet. In case it would cause an issue for the fleet function, the state is INACTIVE. When JMS can&rsquo;t locate the resource, the state is NOT_FOUND. OTHER covers other cases, such as a temporarily network issue that prevents JMS from detecting the resource. Check the resourceDiagnosis for details.</li>
+<li><code>resource_type</code> - The type of the resource needed by the fleet. This is the role of a resource in the fleet. Use the OCID to determine the actual Oracle Cloud Infrastructure resource type such as log group or log.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

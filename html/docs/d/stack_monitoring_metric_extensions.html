@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_stack_monitoring_metric_extensions</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_stack_monitoring_metric_extensions</h1>
+
+<p>This data source provides the list of Metric Extensions in Oracle Cloud Infrastructure Stack Monitoring service.</p>
+
+<p>Returns a list of metric extensions</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_stack_monitoring_metric_extensions&quot; &quot;test_metric_extensions&quot; {
+
+	#Optional
+	compartment_id = var.compartment_id
+	enabled_on_resource_id = oci_usage_proxy_resource.test_resource.id
+	metric_extension_id = oci_stack_monitoring_metric_extension.test_metric_extension.id
+	name = var.metric_extension_name
+	resource_type = var.metric_extension_resource_type
+	state = var.metric_extension_state
+	status = var.metric_extension_status
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Optional) The ID of the compartment in which data is listed.</li>
+<li><code>enabled_on_resource_id</code> - (Optional) A filter to return metric extensions based on input resource Id on which metric extension is enabled</li>
+<li><code>metric_extension_id</code> - (Optional) Identifier for the metric extension</li>
+<li><code>name</code> - (Optional) A filter to return resources based on name.</li>
+<li><code>resource_type</code> - (Optional) A filter to return resources based on resource type.</li>
+<li><code>state</code> - (Optional) A filter to return metric extensions based on Lifecycle State</li>
+<li><code>status</code> - (Optional) A filter to return resources based on status e.g. Draft or Published</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>metric_extension_collection</code> - The list of metric_extension_collection.</li>
+</ul>
+
+<h3>MetricExtension Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>collection_method</code> - Collection Method  Metric Extension applies</li>
+<li><code>collection_recurrences</code> - Schedule of metric extension should use RFC 5545 format -&gt; recur-rule-part = &ldquo;FREQ&rdquo;;&ldquo;INTERVAL&rdquo; where FREQ rule part identifies the type of recurrence rule. Valid values are &ldquo;MINUTELY&rdquo;,&ldquo;HOURLY&rdquo;,&ldquo;DAILY&rdquo; to specify repeating events based on an interval of a minute, an hour and a day or more. Example- FREQ=DAILY;INTERVAL=1</li>
+<li><code>compartment_id</code> - Compartment Identifier <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a></li>
+<li><code>created_by</code> - Created by user</li>
+<li><code>description</code> - Description of the metric extension.</li>
+<li><code>display_name</code> - Metric Extension resource display name</li>
+<li><code>enabled_on_resources</code> - List of resource details objects having resourceIds on which this metric extension is enabled.
+
+<ul>
+<li><code>resource_id</code> - The OCID of the resource on which Metric Extension is enabled</li>
+</ul></li>
+<li><code>enabled_on_resources_count</code> - Count of resources on which this metric extension is enabled.</li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of Metric Extension resource</li>
+<li><code>last_updated_by</code> - Last updated by user</li>
+<li><code>metric_list</code> - List of metrics which are part of this metric extension
+
+<ul>
+<li><code>compute_expression</code> - Compute Expression to calculate the value of this metric</li>
+<li><code>data_type</code> - Data type of value of this metric</li>
+<li><code>display_name</code> - Display name of the metric.</li>
+<li><code>is_dimension</code> - Current metric need to be included as dimension or not</li>
+<li><code>is_hidden</code> - Flag to marks whether a metric has to be uploaded or not. When isHidden = false -&gt; Metric is uploaded, isHidden = true -&gt; Metric is NOT uploaded</li>
+<li><code>metric_category</code> - Metric category</li>
+<li><code>name</code> - Name of the metric.</li>
+<li><code>unit</code> - Unit of metric value</li>
+</ul></li>
+<li><code>name</code> - Metric Extension resource name</li>
+<li><code>query_properties</code> - Collection method and query properties details of metric extension
+
+<ul>
+<li><code>arguments</code> - Arguments required by either command or script</li>
+<li><code>auto_row_prefix</code> - Prefix for an auto generated metric, in case multiple rows with non unique key values are returned</li>
+<li><code>collection_method</code> - Type of possible collection methods.</li>
+<li><code>command</code> - OS command to execute without arguments</li>
+<li><code>delimiter</code> - Character used to delimit multiple metric values in single line of output</li>
+<li><code>identity_metric</code> - Semi-colon separated list of key properties from Managed Bean ObjectName to be used as key metrics</li>
+<li><code>in_param_details</code> - List of values and position of PL/SQL procedure IN parameters
+
+<ul>
+<li><code>in_param_position</code> - Position of IN parameter</li>
+<li><code>in_param_value</code> - Value of IN parameter</li>
+</ul></li>
+<li><code>is_metric_service_enabled</code> - Indicates if Metric Service is enabled on server domain</li>
+<li><code>jmx_attributes</code> - List of JMX attributes or Metric Service Table columns separated by semi-colon</li>
+<li><code>managed_bean_query</code> - JMX Managed Bean Query or Metric Service Table name</li>
+<li><code>out_param_details</code> - Position and SQL Type of PL/SQL OUT parameter
+
+<ul>
+<li><code>out_param_name</code> - Name of the Out Parameter</li>
+<li><code>out_param_position</code> - Position of PL/SQL procedure OUT parameter. The value of this property is ignored during update, if &ldquo;outParamType&rdquo; is set to NO_OUT_PARAM value.</li>
+<li><code>out_param_type</code> - SQL Type of PL/SQL procedure OUT parameter. During the update, to completely remove the out parameter, use the value NO_OUT_PARAM. In that case, the value of &ldquo;outParamPosition&rdquo; will be ignored.</li>
+</ul></li>
+<li><code>protocol_type</code> - Supported protocol of resources to be associated with this metric extension. This is optional and defaults to HTTPS, which uses secure connection to the URL</li>
+<li><code>response_content_type</code> - Type of content response given by the http(s) URL</li>
+<li><code>script_details</code> - Script details applicable to any OS Command/HTTP based Metric Extension which needs to run a script to collect data. For removing it during OS Command based Metric Extension update, set its &ldquo;content&rdquo; property to an empty string. In that case, &ldquo;name&rdquo; property value is ignored.
+
+<ul>
+<li><code>content</code> - Content of the script/JavaScript file as base64 encoded string</li>
+<li><code>name</code> - Name of the script file</li>
+</ul></li>
+<li><code>sql_details</code> - Details of Sql content which needs to execute to collect Metric Extension data
+
+<ul>
+<li><code>content</code> - Sql statement or script file content as base64 encoded string</li>
+<li><code>script_file_name</code> - If a script needs to be executed, then provide file name of the script</li>
+</ul></li>
+<li><code>sql_type</code> - Type of SQL data collection method i.e. either a Statement or SQL Script File</li>
+<li><code>starts_with</code> - String prefix used to identify metric output of the OS Command</li>
+<li><code>url</code> - Http(s) end point URL</li>
+</ul></li>
+<li><code>resource_type</code> - Resource type to which Metric Extension applies</li>
+<li><code>resource_uri</code> - The URI path that the user can do a GET on to access the metric extension metadata</li>
+<li><code>state</code> - The current lifecycle state of the metric extension</li>
+<li><code>status</code> - The current status of the metric extension i.e. whether it is Draft or Published</li>
+<li><code>tenant_id</code> - Tenant Identifier <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a></li>
+<li><code>time_created</code> - Metric Extension creation time. An RFC3339 formatted datetime string.</li>
+<li><code>time_updated</code> - Metric Extension update time. An RFC3339 formatted datetime string.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

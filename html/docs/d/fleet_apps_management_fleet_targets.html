@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_fleet_apps_management_fleet_targets</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_fleet_apps_management_fleet_targets</h1>
+
+<p>This data source provides the list of Fleet Targets in Oracle Cloud Infrastructure Fleet Apps Management service.</p>
+
+<p>Returns the list of all confirmed targets within a fleet.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_fleet_apps_management_fleet_targets&quot; &quot;test_fleet_targets&quot; {
+	#Required
+	fleet_id = oci_fleet_apps_management_fleet.test_fleet.id
+
+	#Optional
+	display_name = var.fleet_target_display_name
+	product = var.fleet_target_product
+	resource_display_name = var.fleet_target_resource_display_name
+	resource_id = oci_cloud_guard_resource.test_resource.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the entire display name given.</li>
+<li><code>fleet_id</code> - (Required) Unique Fleet identifier.</li>
+<li><code>product</code> - (Optional) Product Name.</li>
+<li><code>resource_display_name</code> - (Optional) Resource Display Name.</li>
+<li><code>resource_id</code> - (Optional) Resource Identifier</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>fleet_target_collection</code> - The list of fleet_target_collection.</li>
+</ul>
+
+<h3>FleetTarget Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - List of fleetTargets.
+
+<ul>
+<li><code>compartment_id</code> - compartment OCID</li>
+<li><code>compliance_state</code> - The last known compliance state of the target.</li>
+<li><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.  Example: <code>My new resource</code></li>
+<li><code>id</code> - The OCID of the resource.</li>
+<li><code>is_last_discovery_attempt_successful</code> - A boolean flag that represents whether the last discovery attempt was successful.</li>
+<li><code>product</code> - Product to which the target belongs to.</li>
+<li><code>resource</code> - Resource Information for the Target.
+
+<ul>
+<li><code>resource_display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.  Example: <code>My new resource</code></li>
+<li><code>resource_id</code> - The OCID of the resource.</li>
+</ul></li>
+<li><code>state</code> - The current state of the FleetTarget.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_of_last_discovery_attempt</code> - The time when last discovery was attempted.</li>
+<li><code>time_of_last_successful_discovery</code> - The time when the last successful discovery was made.</li>
+<li><code>version</code> - Current version of target.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

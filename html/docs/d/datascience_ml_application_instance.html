@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_datascience_ml_application_instance</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_datascience_ml_application_instance</h1>
+
+<p>This data source provides details about a specific Ml Application Instance resource in Oracle Cloud Infrastructure Data Science service.</p>
+
+<p>Gets a MlApplicationInstance by identifier</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_datascience_ml_application_instance&quot; &quot;test_ml_application_instance&quot; {
+	#Required
+	ml_application_instance_id = oci_datascience_ml_application_instance.test_ml_application_instance.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>ml_application_instance_id</code> - (Required) unique MlApplicationInstance identifier</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>auth_configuration</code> - AuthN/Z configuration for online prediction
+
+<ul>
+<li><code>application_name</code> - Name of the IDCS application</li>
+<li><code>domain_id</code> - Identity Domain OCID</li>
+<li><code>type</code> - Type of AuthN/Z</li>
+</ul></li>
+<li><code>compartment_id</code> - The OCID of the compartment where the MlApplicationInstance is created.</li>
+<li><code>configuration</code> - Data that are used for provisioning of the given MlApplicationInstance. These are validated against configurationSchema defined in referenced MlApplicationImplementation.
+
+<ul>
+<li><code>key</code> - Key of configuration property</li>
+<li><code>value</code> - Value of configuration property</li>
+</ul></li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>display_name</code> - The name of MlApplicationInstance. System will generate displayName when not provided during creation.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The OCID of the MlApplicationInstance. Unique identifier that is immutable after creation</li>
+<li><code>is_enabled</code> - States whether the MlApplicationInstance is supposed to be in ACTIVE lifecycle state.</li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.</li>
+<li><code>lifecycle_substate</code> - The current substate of the MlApplicationInstance. The substate has MlApplicationInstance specific values in comparison with lifecycleState which has standard values common for all Oracle Cloud Infrastructure resources. The NEEDS<em>ATTENTION and FAILED substates are deprecated in favor of (NON</em>)?RECOVERABLE_(PROVIDER|SERVICE)_ISSUE and will be removed in next release.</li>
+<li><code>ml_application_id</code> - The OCID of ML Application. This resource is an instance of ML Application referenced by this OCID.</li>
+<li><code>ml_application_implementation_id</code> - The OCID of ML Application Implementation selected as a certain solution for a given ML problem (ML Application)</li>
+<li><code>ml_application_implementation_name</code> - The name of Ml Application Implementation (based on mlApplicationImplementationId)</li>
+<li><code>ml_application_name</code> - The name of ML Application (based on mlApplicationId).</li>
+<li><code>prediction_endpoint_details</code> - Prediction endpoint related information.
+
+<ul>
+<li><code>base_prediction_uri</code> - Base URI of prediction router.</li>
+<li><code>prediction_uris</code> - Array of all prediction URIs per use-case.
+
+<ul>
+<li><code>uri</code> - Prediction URI.</li>
+<li><code>use_case</code> - Prediction use-case.</li>
+</ul></li>
+</ul></li>
+<li><code>state</code> - The current state of the MlApplicationInstance.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time the the MlApplication was created. An RFC3339 formatted datetime string</li>
+<li><code>time_updated</code> - Time of last MlApplicationInstance update in the format defined by RFC 3339.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

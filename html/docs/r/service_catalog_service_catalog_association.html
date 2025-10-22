@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_service_catalog_service_catalog_association</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_service_catalog_service_catalog_association</h1>
+
+<p>This resource provides the Service Catalog Association resource in Oracle Cloud Infrastructure Service Catalog service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/service-catalog/latest/ServiceCatalogAssociation">https://docs.oracle.com/iaas/api/#/en/service-catalog/latest/ServiceCatalogAssociation</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/service_catalog">https://github.com/oracle/terraform-provider-oci/tree/master/examples/service_catalog</a></p>
+
+<p>Creates an association between service catalog and a resource.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_service_catalog_service_catalog_association&quot; &quot;test_service_catalog_association&quot; {
+	#Required
+	entity_id = oci_service_catalog_entity.test_entity.id
+	service_catalog_id = oci_service_catalog_service_catalog.test_service_catalog.id
+
+	#Optional
+	entity_type = var.service_catalog_association_entity_type
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>entity_id</code> - (Required) Identifier of the entity being associated with service catalog.</li>
+<li><code>entity_type</code> - (Optional) The type of the entity that is associated with the service catalog.</li>
+<li><code>service_catalog_id</code> - (Required) Identifier of the service catalog.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>entity_id</code> - Identifier of the entity being associated with service catalog.</li>
+<li><code>entity_type</code> - The type of the entity that is associated with the service catalog.</li>
+<li><code>id</code> - Identifier of the association.</li>
+<li><code>service_catalog_id</code> - Identifier of the service catalog.</li>
+<li><code>time_created</code> - Timestamp of when the resource was associated with service catalog.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Service Catalog Association
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Service Catalog Association
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Service Catalog Association</p>
+
+<h2>Import</h2>
+
+<p>ServiceCatalogAssociations can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_service_catalog_service_catalog_association.test_service_catalog_association &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

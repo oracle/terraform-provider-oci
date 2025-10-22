@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_devops_trigger</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_devops_trigger</h1>
+
+<p>This data source provides details about a specific Trigger resource in Oracle Cloud Infrastructure Devops service.</p>
+
+<p>Retrieves a trigger by identifier.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_devops_trigger&quot; &quot;test_trigger&quot; {
+	#Required
+	trigger_id = oci_devops_trigger.test_trigger.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>trigger_id</code> - (Required) Unique trigger identifier.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>actions</code> - The list of actions that are to be performed for this trigger.
+
+<ul>
+<li><code>build_pipeline_id</code> - The OCID of the build pipeline to be triggered.</li>
+<li><code>trigger_filter</code> - The filters for the trigger.
+
+<ul>
+<li><code>events</code> - The events, for example, PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED.</li>
+<li><code>exclude</code> - Attributes to filter GitLab self-hosted server events. File filter criteria - Changes only affecting excluded files will not invoke a build. if both include and exclude filter are used then exclusion filter will be applied on the result set of inclusion filter.
+
+<ul>
+<li><code>file_filter</code> - Attributes to support include/exclude files for triggering build runs.
+
+<ul>
+<li><code>file_paths</code> - The file paths/glob pattern for files.</li>
+</ul></li>
+</ul></li>
+<li><code>include</code> - Attributes to filter GitLab self-hosted server events.
+
+<ul>
+<li><code>base_ref</code> - The target branch for pull requests; not applicable for push requests.</li>
+<li><code>head_ref</code> - Branch for push event; source branch for pull requests.</li>
+<li><code>repository_name</code> - The repository name for trigger events.</li>
+</ul></li>
+<li><code>trigger_source</code> - Source of the trigger. Allowed values are, GITHUB and GITLAB.</li>
+</ul></li>
+<li><code>type</code> - The type of action that will be taken. Allowed value is TRIGGER_BUILD_PIPELINE.</li>
+</ul></li>
+<li><code>compartment_id</code> - The OCID of the compartment that contains the trigger.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>description</code> - Description about the trigger.</li>
+<li><code>display_name</code> - Trigger display name. Avoid entering confidential information.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - Unique identifier that is immutable on creation.</li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.</li>
+<li><code>project_id</code> - The OCID of the DevOps project to which the trigger belongs to.</li>
+<li><code>repository_id</code> - The OCID of the DevOps code repository.</li>
+<li><code>state</code> - The current state of the trigger.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time the trigger was created. Format defined by <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>.</li>
+<li><code>time_updated</code> - The time the trigger was updated. Format defined by <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>.</li>
+<li><code>trigger_source</code> - Source of the trigger. Allowed values are, GITHUB and GITLAB.</li>
+<li><code>trigger_url</code> - The endpoint that listens to trigger events.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

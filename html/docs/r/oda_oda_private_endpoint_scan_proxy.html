@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_oda_oda_private_endpoint_scan_proxy</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_oda_oda_private_endpoint_scan_proxy</h1>
+
+<p>This resource provides the Oda Private Endpoint Scan Proxy resource in Oracle Cloud Infrastructure Digital Assistant service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/digital-assistant/latest/OdaPrivateEndpointScanProxy">https://docs.oracle.com/iaas/api/#/en/digital-assistant/latest/OdaPrivateEndpointScanProxy</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/oracle_digital_assistant">https://github.com/oracle/terraform-provider-oci/tree/master/examples/oracle_digital_assistant</a></p>
+
+<p>Starts an asynchronous job to create an ODA Private Endpoint Scan Proxy.</p>
+
+<p>To monitor the status of the job, take the <code>opc-work-request-id</code> response
+header value and use it to call <code>GET /workRequests/{workRequestID}</code>.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_oda_oda_private_endpoint_scan_proxy&quot; &quot;test_oda_private_endpoint_scan_proxy&quot; {
+	#Required
+	oda_private_endpoint_id = oci_oda_oda_private_endpoint.test_oda_private_endpoint.id
+	protocol = var.oda_private_endpoint_scan_proxy_protocol
+	scan_listener_infos {
+
+		#Optional
+		scan_listener_fqdn = var.oda_private_endpoint_scan_proxy_scan_listener_infos_scan_listener_fqdn
+		scan_listener_ip = var.oda_private_endpoint_scan_proxy_scan_listener_infos_scan_listener_ip
+		scan_listener_port = var.oda_private_endpoint_scan_proxy_scan_listener_infos_scan_listener_port
+	}
+	scan_listener_type = var.oda_private_endpoint_scan_proxy_scan_listener_type
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>oda_private_endpoint_id</code> - (Required) Unique ODA Private Endpoint identifier which is the <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>protocol</code> - (Required) The protocol used for communication between client, scanProxy and RAC&rsquo;s scan listeners</li>
+<li><code>scan_listener_infos</code> - (Required) The FQDN/IPs and port information of customer&rsquo;s Real Application Cluster (RAC)&rsquo;s SCAN listeners.
+
+<ul>
+<li><code>scan_listener_fqdn</code> - (Optional) FQDN of the customer&rsquo;s Real Application Cluster (RAC)&rsquo;s SCAN listeners.</li>
+<li><code>scan_listener_ip</code> - (Optional) A SCAN listener&rsquo;s IP of the customer&rsquo;s Real Application Cluster (RAC).</li>
+<li><code>scan_listener_port</code> - (Optional) The port that customer&rsquo;s Real Application Cluster (RAC)&rsquo;s SCAN listeners are listening on.</li>
+</ul></li>
+<li><code>scan_listener_type</code> - (Required) Type indicating whether Scan listener is specified by its FQDN or list of IPs</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the ODA Private Endpoint Scan Proxy.</li>
+<li><code>protocol</code> - The protocol used for communication between client, scanProxy and RAC&rsquo;s scan listeners</li>
+<li><code>scan_listener_infos</code> - The FQDN/IPs and port information of customer&rsquo;s Real Application Cluster (RAC)&rsquo;s SCAN listeners.
+
+<ul>
+<li><code>scan_listener_fqdn</code> - FQDN of the customer&rsquo;s Real Application Cluster (RAC)&rsquo;s SCAN listeners.</li>
+<li><code>scan_listener_ip</code> - A SCAN listener&rsquo;s IP of the customer&rsquo;s Real Application Cluster (RAC).</li>
+<li><code>scan_listener_port</code> - The port that customer&rsquo;s Real Application Cluster (RAC)&rsquo;s SCAN listeners are listening on.</li>
+</ul></li>
+<li><code>scan_listener_type</code> - Type indicating whether Scan listener is specified by its FQDN or list of IPs</li>
+<li><code>state</code> - The current state of the ODA Private Endpoint Scan Proxy.</li>
+<li><code>time_created</code> - When the resource was created. A date-time string as described in <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a>, section 14.29.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Oda Private Endpoint Scan Proxy
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Oda Private Endpoint Scan Proxy
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Oda Private Endpoint Scan Proxy</p>
+
+<h2>Import</h2>
+
+<p>OdaPrivateEndpointScanProxies can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_oda_oda_private_endpoint_scan_proxy.test_oda_private_endpoint_scan_proxy &quot;odaPrivateEndpoints/{odaPrivateEndpointId}/odaPrivateEndpointScanProxies/{odaPrivateEndpointScanProxyId}&quot; 
+</code></pre>
+
+	</div>
+
+</body>
+</html>

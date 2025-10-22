@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_core_volume_backups</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_core_volume_backups</h1>
+
+<p>This data source provides the list of Volume Backups in Oracle Cloud Infrastructure Core service.</p>
+
+<p>Lists the volume backups in the specified compartment. You can filter the results by volume.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_core_volume_backups&quot; &quot;test_volume_backups&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	display_name = var.volume_backup_display_name
+	source_volume_backup_id = oci_core_volume_backup.test_volume_backup.id
+	state = var.volume_backup_state
+	volume_id = oci_core_volume.test_volume.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the given display name exactly.</li>
+<li><code>source_volume_backup_id</code> - (Optional) A filter to return only resources that originated from the given source volume backup.</li>
+<li><code>state</code> - (Optional) A filter to only return resources that match the given lifecycle state. The state value is case-insensitive.</li>
+<li><code>volume_id</code> - (Optional) The OCID of the volume.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>volume_backups</code> - The list of volume_backups.</li>
+</ul>
+
+<h3>VolumeBackup Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The OCID of the compartment that contains the volume backup.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.</li>
+<li><code>expiration_time</code> - The date and time the volume backup will expire and be automatically deleted. Format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>. This parameter will always be present for backups that were created automatically by a scheduled-backup policy. For manually created backups, it will be absent, signifying that there is no expiration time and the backup will last forever until manually deleted.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The OCID of the volume backup.</li>
+<li><code>kms_key_id</code> - The OCID of the Vault service key which is the master encryption key for the volume backup. For more information about the Vault service and encryption keys, see <a href="https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm">Overview of Vault service</a> and <a href="https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm">Using Keys</a>.</li>
+<li><code>size_in_gbs</code> - The size of the volume, in GBs.</li>
+<li><code>size_in_mbs</code> - The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Please use <code>size_in_gbs</code>.</li>
+<li><code>source_type</code> - Specifies whether the backup was created manually, or via scheduled backup policy.</li>
+<li><code>source_volume_backup_id</code> - The OCID of the source volume backup.</li>
+<li><code>state</code> - The current state of a volume backup.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>time_created</code> - The date and time the volume backup was created. This is the time the actual point-in-time image of the volume data was taken. Format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>time_request_received</code> - The date and time the request to create the volume backup was received. Format defined by [RFC3339]<a href="https://tools.ietf.org/html/rfc3339">https://tools.ietf.org/html/rfc3339</a>.</li>
+<li><code>type</code> - The type of a volume backup. Supported values are &lsquo;FULL&rsquo; or &lsquo;INCREMENTAL&rsquo;.</li>
+<li><code>unique_size_in_gbs</code> - The size used by the backup, in GBs. It is typically smaller than sizeInGBs, depending on the space consumed on the volume and whether the backup is full or incremental.</li>
+<li><code>unique_size_in_mbs</code> - The size used by the backup, in MBs. It is typically smaller than sizeInMBs, depending on the space consumed on the volume and whether the backup is full or incremental. This field is deprecated. Please use uniqueSizeInGBs.</li>
+<li><code>volume_id</code> - The OCID of the volume.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

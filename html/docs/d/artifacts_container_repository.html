@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_artifacts_container_repository</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_artifacts_container_repository</h1>
+
+<p>This data source provides details about a specific Container Repository resource in Oracle Cloud Infrastructure Artifacts service.</p>
+
+<p>Get container repository.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_artifacts_container_repository&quot; &quot;test_container_repository&quot; {
+	#Required
+	repository_id = oci_artifacts_repository.test_repository.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>repository_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the container repository.  Example: <code>ocid1.containerrepo.oc1..exampleuniqueID</code></li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>billable_size_in_gbs</code> - Total storage size in GBs that will be charged.</li>
+<li><code>compartment_id</code> - The OCID of the compartment in which the container repository exists.</li>
+<li><code>created_by</code> - The id of the user or principal that created the resource.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>display_name</code> - The container repository name.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the container repository.  Example: <code>ocid1.containerrepo.oc1..exampleuniqueID</code></li>
+<li><code>image_count</code> - Total number of images.</li>
+<li><code>is_immutable</code> - Whether the repository is immutable. Images cannot be overwritten in an immutable repository.</li>
+<li><code>is_public</code> - Whether the repository is public. A public repository allows unauthenticated access.</li>
+<li><code>layer_count</code> - Total number of layers.</li>
+<li><code>layers_size_in_bytes</code> - Total storage in bytes consumed by layers.</li>
+<li><code>namespace</code> - The tenancy namespace used in the container repository path.</li>
+<li><code>readme</code> - Container repository readme.
+
+<ul>
+<li><code>content</code> - Readme content. Avoid entering confidential information.</li>
+<li><code>format</code> - Readme format. Supported formats are text/plain and text/markdown.</li>
+</ul></li>
+<li><code>state</code> - The current state of the container repository.</li>
+<li><code>system_tags</code> - The system tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - An RFC 3339 timestamp indicating when the repository was created.</li>
+<li><code>time_last_pushed</code> - An RFC 3339 timestamp indicating when an image was last pushed to the repository.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

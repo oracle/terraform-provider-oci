@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_datascience_pipeline_run</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_datascience_pipeline_run</h1>
+
+<p>This resource provides the Pipeline Run resource in Oracle Cloud Infrastructure Data Science service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/data-science/latest/PipelineRun">https://docs.oracle.com/iaas/api/#/en/data-science/latest/PipelineRun</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/datascience">https://github.com/oracle/terraform-provider-oci/tree/master/examples/datascience</a></p>
+
+<p>Creates a new PipelineRun.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_datascience_pipeline_run&quot; &quot;test_pipeline_run&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	pipeline_id = oci_datascience_pipeline.test_pipeline.id
+
+	#Optional
+	configuration_override_details {
+		#Required
+		type = var.pipeline_run_configuration_override_details_type
+
+		#Optional
+		command_line_arguments = var.pipeline_run_configuration_override_details_command_line_arguments
+		environment_variables = var.pipeline_run_configuration_override_details_environment_variables
+		maximum_runtime_in_minutes = var.pipeline_run_configuration_override_details_maximum_runtime_in_minutes
+	}
+	defined_tags = {&quot;Operations.CostCenter&quot;= &quot;42&quot;}
+	display_name = var.pipeline_run_display_name
+	freeform_tags = {&quot;Department&quot;= &quot;Finance&quot;}
+	infrastructure_configuration_override_details {
+		#Required
+		block_storage_size_in_gbs = var.pipeline_run_infrastructure_configuration_override_details_block_storage_size_in_gbs
+		shape_name = oci_core_shape.test_shape.name
+
+		#Optional
+		shape_config_details {
+
+			#Optional
+			memory_in_gbs = var.pipeline_run_infrastructure_configuration_override_details_shape_config_details_memory_in_gbs
+			ocpus = var.pipeline_run_infrastructure_configuration_override_details_shape_config_details_ocpus
+		}
+		subnet_id = oci_core_subnet.test_subnet.id
+	}
+	log_configuration_override_details {
+
+		#Optional
+		enable_auto_log_creation = var.pipeline_run_log_configuration_override_details_enable_auto_log_creation
+		enable_logging = var.pipeline_run_log_configuration_override_details_enable_logging
+		log_group_id = oci_logging_log_group.test_log_group.id
+		log_id = oci_logging_log.test_log.id
+	}
+	opc_parent_rpt_url = var.pipeline_run_opc_parent_rpt_url
+	project_id = oci_datascience_project.test_project.id
+	step_override_details {
+		#Required
+		step_configuration_details {
+
+			#Optional
+			command_line_arguments = var.pipeline_run_step_override_details_step_configuration_details_command_line_arguments
+			environment_variables = var.pipeline_run_step_override_details_step_configuration_details_environment_variables
+			maximum_runtime_in_minutes = var.pipeline_run_step_override_details_step_configuration_details_maximum_runtime_in_minutes
+		}
+		step_name = var.pipeline_run_step_override_details_step_name
+
+		#Optional
+		step_container_configuration_details {
+			#Required
+			container_type = var.pipeline_run_step_override_details_step_container_configuration_details_container_type
+			image = var.pipeline_run_step_override_details_step_container_configuration_details_image
+
+			#Optional
+			cmd = var.pipeline_run_step_override_details_step_container_configuration_details_cmd
+			entrypoint = var.pipeline_run_step_override_details_step_container_configuration_details_entrypoint
+			image_digest = var.pipeline_run_step_override_details_step_container_configuration_details_image_digest
+			image_signature_id = oci_datascience_image_signature.test_image_signature.id
+		}
+		step_dataflow_configuration_details {
+
+			#Optional
+			configuration = var.pipeline_run_step_override_details_step_dataflow_configuration_details_configuration
+			driver_shape = var.pipeline_run_step_override_details_step_dataflow_configuration_details_driver_shape
+			driver_shape_config_details {
+
+				#Optional
+				cpu_baseline = var.pipeline_run_step_override_details_step_dataflow_configuration_details_driver_shape_config_details_cpu_baseline
+				memory_in_gbs = var.pipeline_run_step_override_details_step_dataflow_configuration_details_driver_shape_config_details_memory_in_gbs
+				ocpus = var.pipeline_run_step_override_details_step_dataflow_configuration_details_driver_shape_config_details_ocpus
+			}
+			executor_shape = var.pipeline_run_step_override_details_step_dataflow_configuration_details_executor_shape
+			executor_shape_config_details {
+
+				#Optional
+				cpu_baseline = var.pipeline_run_step_override_details_step_dataflow_configuration_details_executor_shape_config_details_cpu_baseline
+				memory_in_gbs = var.pipeline_run_step_override_details_step_dataflow_configuration_details_executor_shape_config_details_memory_in_gbs
+				ocpus = var.pipeline_run_step_override_details_step_dataflow_configuration_details_executor_shape_config_details_ocpus
+			}
+			logs_bucket_uri = var.pipeline_run_step_override_details_step_dataflow_configuration_details_logs_bucket_uri
+			num_executors = var.pipeline_run_step_override_details_step_dataflow_configuration_details_num_executors
+			warehouse_bucket_uri = var.pipeline_run_step_override_details_step_dataflow_configuration_details_warehouse_bucket_uri
+		}
+		step_infrastructure_configuration_details {
+			#Required
+			block_storage_size_in_gbs = var.pipeline_run_step_override_details_step_infrastructure_configuration_details_block_storage_size_in_gbs
+			shape_name = oci_core_shape.test_shape.name
+
+			#Optional
+			shape_config_details {
+
+				#Optional
+				memory_in_gbs = var.pipeline_run_step_override_details_step_infrastructure_configuration_details_shape_config_details_memory_in_gbs
+				ocpus = var.pipeline_run_step_override_details_step_infrastructure_configuration_details_shape_config_details_ocpus
+			}
+			subnet_id = oci_core_subnet.test_subnet.id
+		}
+	}
+	system_tags = var.pipeline_run_system_tags
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment where you want to create the pipeline run.</li>
+<li><code>configuration_override_details</code> - (Optional) The configuration details of a pipeline.
+
+<ul>
+<li><code>command_line_arguments</code> - (Optional) The command line arguments to set for steps in the pipeline.</li>
+<li><code>environment_variables</code> - (Optional) Environment variables to set for steps in the pipeline.</li>
+<li><code>maximum_runtime_in_minutes</code> - (Optional) A time bound for the execution of the entire Pipeline. Timer starts when the Pipeline Run is in progress.</li>
+<li><code>type</code> - (Required) The type of pipeline.</li>
+</ul></li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>display_name</code> - (Optional) (Updatable) A user-friendly display name for the resource.</li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>infrastructure_configuration_override_details</code> - (Optional) The infrastructure configuration details of a pipeline or a step.
+
+<ul>
+<li><code>block_storage_size_in_gbs</code> - (Required) The size of the block storage volume to attach to the instance.</li>
+<li><code>shape_config_details</code> - (Optional) Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
+
+<ul>
+<li><code>memory_in_gbs</code> - (Optional) A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs.</li>
+<li><code>ocpus</code> - (Optional) A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified.</li>
+</ul></li>
+<li><code>shape_name</code> - (Required) The shape used to launch the instance for all step runs in the pipeline.</li>
+<li><code>subnet_id</code> - (Optional) The subnet to create a secondary vnic in to attach to the instance running the pipeline step.</li>
+</ul></li>
+<li><code>log_configuration_override_details</code> - (Optional) The pipeline log configuration details.
+
+<ul>
+<li><code>enable_auto_log_creation</code> - (Optional) If automatic on-behalf-of log object creation is enabled for pipeline runs.</li>
+<li><code>enable_logging</code> - (Optional) If customer logging is enabled for pipeline.</li>
+<li><code>log_group_id</code> - (Optional) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the log group.</li>
+<li><code>log_id</code> - (Optional) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the log.</li>
+</ul></li>
+<li><code>opc_parent_rpt_url</code> - (Optional) URL to fetch the Resource Principal Token from the parent resource.</li>
+<li><code>pipeline_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the pipeline for which pipeline run is created.</li>
+<li><code>project_id</code> - (Optional) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the project to associate the pipeline run with.</li>
+<li><code>step_override_details</code> - (Optional) Array of step override details. Only Step Configuration is allowed to be overridden.
+
+<ul>
+<li><code>step_configuration_details</code> - (Required) The configuration details of a step.
+
+<ul>
+<li><code>command_line_arguments</code> - (Optional) The command line arguments to set for step.</li>
+<li><code>environment_variables</code> - (Optional) Environment variables to set for step.</li>
+<li><code>maximum_runtime_in_minutes</code> - (Optional) A time bound for the execution of the step.</li>
+</ul></li>
+<li><code>step_container_configuration_details</code> - (Optional) Container Details for a step in pipeline.
+
+<ul>
+<li><code>cmd</code> - (Optional) The container image run <a href="https://docs.docker.com/engine/reference/builder/#cmd">CMD</a> as a list of strings. Use <code>CMD</code> as arguments to the <code>ENTRYPOINT</code> or the only command to run in the absence of an <code>ENTRYPOINT</code>. The combined size of <code>CMD</code> and <code>ENTRYPOINT</code> must be less than 2048 bytes.</li>
+<li><code>container_type</code> - (Required) The type of container.</li>
+<li><code>entrypoint</code> - (Optional) The container image run <a href="https://docs.docker.com/engine/reference/builder/#entrypoint">ENTRYPOINT</a> as a list of strings. Accept the <code>CMD</code> as extra arguments. The combined size of <code>CMD</code> and <code>ENTRYPOINT</code> must be less than 2048 bytes. More information on how <code>CMD</code> and <code>ENTRYPOINT</code> interact are <a href="https://docs.docker.com/engine/reference/builder/#understand-how-cmd-and-entrypoint-interact">here</a>.</li>
+<li><code>image</code> - (Required) The full path to the Oracle Container Repository (OCIR) registry, image, and tag in a canonical format.</li>
+<li><code>image_digest</code> - (Optional) The digest of the container image. For example, <code>sha256:881303a6b2738834d795a32b4a98eb0e5e3d1cad590a712d1e04f9b2fa90a030</code></li>
+<li><code>image_signature_id</code> - (Optional) OCID of the container image signature</li>
+</ul></li>
+<li><code>step_dataflow_configuration_details</code> - (Optional) The configuration details of a Dataflow step.
+
+<ul>
+<li><code>configuration</code> - (Optional) The Spark configuration passed to the running process.</li>
+<li><code>driver_shape</code> - (Optional) The VM shape for the driver.</li>
+<li><code>driver_shape_config_details</code> - (Optional) Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
+
+<ul>
+<li><code>cpu_baseline</code> - (Optional) The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to <code>BASELINE_1_1</code>. The following values are supported: BASELINE_1_8 - baseline usage is <sup>1</sup>&frasl;<sub>8</sub> of an OCPU. BASELINE_1_2 - baseline usage is <sup>1</sup>&frasl;<sub>2</sub> of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance.</li>
+<li><code>memory_in_gbs</code> - (Optional) A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs.</li>
+<li><code>ocpus</code> - (Optional) A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified.</li>
+</ul></li>
+<li><code>executor_shape</code> - (Optional) The VM shape for the executors.</li>
+<li><code>executor_shape_config_details</code> - (Optional) Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
+
+<ul>
+<li><code>cpu_baseline</code> - (Optional) The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to <code>BASELINE_1_1</code>. The following values are supported: BASELINE_1_8 - baseline usage is <sup>1</sup>&frasl;<sub>8</sub> of an OCPU. BASELINE_1_2 - baseline usage is <sup>1</sup>&frasl;<sub>2</sub> of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance.</li>
+<li><code>memory_in_gbs</code> - (Optional) A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs.</li>
+<li><code>ocpus</code> - (Optional) A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified.</li>
+</ul></li>
+<li><code>logs_bucket_uri</code> - (Optional) An Oracle Cloud Infrastructure URI of the bucket where the Spark job logs are to be uploaded.</li>
+<li><code>num_executors</code> - (Optional) The number of executor VMs requested.</li>
+<li><code>warehouse_bucket_uri</code> - (Optional) An Oracle Cloud Infrastructure URI of the bucket to be used as default warehouse directory for BATCH SQL runs.</li>
+</ul></li>
+<li><code>step_infrastructure_configuration_details</code> - (Optional) The infrastructure configuration details of a pipeline or a step.
+
+<ul>
+<li><code>block_storage_size_in_gbs</code> - (Required) The size of the block storage volume to attach to the instance.</li>
+<li><code>shape_config_details</code> - (Optional) Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
+
+<ul>
+<li><code>memory_in_gbs</code> - (Optional) A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs.</li>
+<li><code>ocpus</code> - (Optional) A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified.</li>
+</ul></li>
+<li><code>shape_name</code> - (Required) The shape used to launch the instance for all step runs in the pipeline.</li>
+<li><code>subnet_id</code> - (Optional) The subnet to create a secondary vnic in to attach to the instance running the pipeline step.</li>
+</ul></li>
+<li><code>step_name</code> - (Required) The name of the step.</li>
+</ul></li>
+<li><code>system_tags</code> - (Optional) Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment where you want to create the pipeline run.</li>
+<li><code>configuration_details</code> - The configuration details of a pipeline.
+
+<ul>
+<li><code>command_line_arguments</code> - The command line arguments to set for steps in the pipeline.</li>
+<li><code>environment_variables</code> - Environment variables to set for steps in the pipeline.</li>
+<li><code>maximum_runtime_in_minutes</code> - A time bound for the execution of the entire Pipeline. Timer starts when the Pipeline Run is in progress.</li>
+<li><code>type</code> - The type of pipeline.</li>
+</ul></li>
+<li><code>configuration_override_details</code> - The configuration details of a pipeline.
+
+<ul>
+<li><code>command_line_arguments</code> - The command line arguments to set for steps in the pipeline.</li>
+<li><code>environment_variables</code> - Environment variables to set for steps in the pipeline.</li>
+<li><code>maximum_runtime_in_minutes</code> - A time bound for the execution of the entire Pipeline. Timer starts when the Pipeline Run is in progress.</li>
+<li><code>type</code> - The type of pipeline.</li>
+</ul></li>
+<li><code>created_by</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the user who created the pipeline run.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>display_name</code> - A user-friendly display name for the resource.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the pipeline run.</li>
+<li><code>infrastructure_configuration_override_details</code> - The infrastructure configuration details of a pipeline or a step.
+
+<ul>
+<li><code>block_storage_size_in_gbs</code> - The size of the block storage volume to attach to the instance.</li>
+<li><code>shape_config_details</code> - Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
+
+<ul>
+<li><code>memory_in_gbs</code> - A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs.</li>
+<li><code>ocpus</code> - A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified.</li>
+</ul></li>
+<li><code>shape_name</code> - The shape used to launch the instance for all step runs in the pipeline.</li>
+<li><code>subnet_id</code> - The subnet to create a secondary vnic in to attach to the instance running the pipeline step.</li>
+</ul></li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in &lsquo;Failed&rsquo; state.</li>
+<li><code>log_configuration_override_details</code> - The pipeline log configuration details.
+
+<ul>
+<li><code>enable_auto_log_creation</code> - If automatic on-behalf-of log object creation is enabled for pipeline runs.</li>
+<li><code>enable_logging</code> - If customer logging is enabled for pipeline.</li>
+<li><code>log_group_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the log group.</li>
+<li><code>log_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the log.</li>
+</ul></li>
+<li><code>log_details</code> - Customer logging details for pipeline run.
+
+<ul>
+<li><code>log_group_id</code> - The log group id for where log objects will be for pipeline runs.</li>
+<li><code>log_id</code> - The log id of the log object the pipeline run logs will be shipped to.</li>
+</ul></li>
+<li><code>pipeline_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the pipeline for which pipeline run is created.</li>
+<li><code>project_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the project to associate the pipeline run with.</li>
+<li><code>state</code> - The current state of the pipeline run.</li>
+<li><code>step_override_details</code> - Array of step override details. Only Step Configuration is allowed to be overridden.
+
+<ul>
+<li><code>step_configuration_details</code> - The configuration details of a step.
+
+<ul>
+<li><code>command_line_arguments</code> - The command line arguments to set for step.</li>
+<li><code>environment_variables</code> - Environment variables to set for step.</li>
+<li><code>maximum_runtime_in_minutes</code> - A time bound for the execution of the step.</li>
+</ul></li>
+<li><code>step_container_configuration_details</code> - Container Details for a step in pipeline.
+
+<ul>
+<li><code>cmd</code> - The container image run <a href="https://docs.docker.com/engine/reference/builder/#cmd">CMD</a> as a list of strings. Use <code>CMD</code> as arguments to the <code>ENTRYPOINT</code> or the only command to run in the absence of an <code>ENTRYPOINT</code>. The combined size of <code>CMD</code> and <code>ENTRYPOINT</code> must be less than 2048 bytes.</li>
+<li><code>container_type</code> - The type of container.</li>
+<li><code>entrypoint</code> - The container image run <a href="https://docs.docker.com/engine/reference/builder/#entrypoint">ENTRYPOINT</a> as a list of strings. Accept the <code>CMD</code> as extra arguments. The combined size of <code>CMD</code> and <code>ENTRYPOINT</code> must be less than 2048 bytes. More information on how <code>CMD</code> and <code>ENTRYPOINT</code> interact are <a href="https://docs.docker.com/engine/reference/builder/#understand-how-cmd-and-entrypoint-interact">here</a>.</li>
+<li><code>image</code> - The full path to the Oracle Container Repository (OCIR) registry, image, and tag in a canonical format.</li>
+<li><code>image_digest</code> - The digest of the container image. For example, <code>sha256:881303a6b2738834d795a32b4a98eb0e5e3d1cad590a712d1e04f9b2fa90a030</code></li>
+<li><code>image_signature_id</code> - OCID of the container image signature</li>
+</ul></li>
+<li><code>step_dataflow_configuration_details</code> - The configuration details of a Dataflow step.
+
+<ul>
+<li><code>configuration</code> - The Spark configuration passed to the running process.</li>
+<li><code>driver_shape</code> - The VM shape for the driver.</li>
+<li><code>driver_shape_config_details</code> - Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
+
+<ul>
+<li><code>cpu_baseline</code> - The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to <code>BASELINE_1_1</code>. The following values are supported: BASELINE_1_8 - baseline usage is <sup>1</sup>&frasl;<sub>8</sub> of an OCPU. BASELINE_1_2 - baseline usage is <sup>1</sup>&frasl;<sub>2</sub> of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance.</li>
+<li><code>memory_in_gbs</code> - A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs.</li>
+<li><code>ocpus</code> - A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified.</li>
+</ul></li>
+<li><code>executor_shape</code> - The VM shape for the executors.</li>
+<li><code>executor_shape_config_details</code> - Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
+
+<ul>
+<li><code>cpu_baseline</code> - The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to <code>BASELINE_1_1</code>. The following values are supported: BASELINE_1_8 - baseline usage is <sup>1</sup>&frasl;<sub>8</sub> of an OCPU. BASELINE_1_2 - baseline usage is <sup>1</sup>&frasl;<sub>2</sub> of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance.</li>
+<li><code>memory_in_gbs</code> - A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs.</li>
+<li><code>ocpus</code> - A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified.</li>
+</ul></li>
+<li><code>logs_bucket_uri</code> - An Oracle Cloud Infrastructure URI of the bucket where the Spark job logs are to be uploaded.</li>
+<li><code>num_executors</code> - The number of executor VMs requested.</li>
+<li><code>warehouse_bucket_uri</code> - An Oracle Cloud Infrastructure URI of the bucket to be used as default warehouse directory for BATCH SQL runs.</li>
+</ul></li>
+<li><code>step_infrastructure_configuration_details</code> - The infrastructure configuration details of a pipeline or a step.
+
+<ul>
+<li><code>block_storage_size_in_gbs</code> - The size of the block storage volume to attach to the instance.</li>
+<li><code>shape_config_details</code> - Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
+
+<ul>
+<li><code>memory_in_gbs</code> - A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs.</li>
+<li><code>ocpus</code> - A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified.</li>
+</ul></li>
+<li><code>shape_name</code> - The shape used to launch the instance for all step runs in the pipeline.</li>
+<li><code>subnet_id</code> - The subnet to create a secondary vnic in to attach to the instance running the pipeline step.</li>
+</ul></li>
+<li><code>step_name</code> - The name of the step.</li>
+</ul></li>
+<li><code>step_runs</code> - Array of StepRun object for each step.
+
+<ul>
+<li><code>dataflow_run_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the dataflow run triggered for this step run.</li>
+<li><code>job_run_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the job run triggered for this step run.</li>
+<li><code>lifecycle_details</code> - Details of the state of the step run.</li>
+<li><code>state</code> - The state of the step run.</li>
+<li><code>step_name</code> - The name of the step.</li>
+<li><code>step_type</code> - The type of step.</li>
+<li><code>time_finished</code> - The date and time the pipeline step run finshed executing in the timestamp format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>time_started</code> - The date and time the pipeline step run was started in the timestamp format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+</ul></li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_accepted</code> - The date and time the pipeline run was accepted in the timestamp format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>time_finished</code> - The date and time the pipeline run request was finished in the timestamp format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>time_started</code> - The date and time the pipeline run request was started in the timestamp format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>time_updated</code> - The date and time the pipeline run was updated in the timestamp format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Pipeline Run
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Pipeline Run
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Pipeline Run</p>
+
+<h2>Import</h2>
+
+<p>PipelineRuns can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_datascience_pipeline_run.test_pipeline_run &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

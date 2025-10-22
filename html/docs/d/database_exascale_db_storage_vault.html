@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_exascale_db_storage_vault</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_exascale_db_storage_vault</h1>
+
+<p>This data source provides details about a specific Exascale Db Storage Vault resource in Oracle Cloud Infrastructure Database service.</p>
+
+<p>Gets information about the specified Exadata Database Storage Vaults in the specified compartment.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_exascale_db_storage_vault&quot; &quot;test_exascale_db_storage_vault&quot; {
+	#Required
+	exascale_db_storage_vault_id = oci_database_exascale_db_storage_vault.test_exascale_db_storage_vault.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>exascale_db_storage_vault_id</code> - (Required) The Exadata Database Storage Vault <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>additional_flash_cache_in_percent</code> - The size of additional Flash Cache in percentage of High Capacity database storage.</li>
+<li><code>attached_shape_attributes</code> - The shapeAttribute of the Exadata VM cluster(s) associated with the Exadata Database Storage Vault.</li>
+<li><code>autoscale_limit_in_gbs</code> - Maximum limit storage size in gigabytes, that is applicable for the Database Storage Vault.</li>
+<li><code>availability_domain</code> - The name of the availability domain in which the Exadata Database Storage Vault is located.</li>
+<li><code>cluster_placement_group_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the cluster placement group of the Exadata Infrastructure or Db System.</li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</li>
+<li><code>description</code> - Exadata Database Storage Vault description.</li>
+<li><code>display_name</code> - The user-friendly name for the Exadata Database Storage Vault. The name does not need to be unique.</li>
+<li><code>exadata_infrastructure_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Exadata infrastructure.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>high_capacity_database_storage</code> - Exadata Database Storage Details
+
+<ul>
+<li><code>available_size_in_gbs</code> - Available Capacity</li>
+<li><code>total_size_in_gbs</code> - Total Capacity</li>
+</ul></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Exadata Database Storage Vault.</li>
+<li><code>is_autoscale_enabled</code> - Indicates if autoscale feature is enabled for the Database Storage Vault. The default value is <code>FALSE</code>.</li>
+<li><code>lifecycle_details</code> - Additional information about the current lifecycle state.</li>
+<li><code>state</code> - The current state of the Exadata Database Storage Vault.</li>
+<li><code>subscription_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the subscription with which resource needs to be associated with.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</li>
+<li><code>time_created</code> - The date and time that the Exadata Database Storage Vault was created.</li>
+<li><code>time_zone</code> - The time zone that you want to use for the Exadata Database Storage Vault. For details, see <a href="https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm">Time Zones</a>.</li>
+<li><code>vm_cluster_count</code> - The number of Exadata VM clusters used the Exadata Database Storage Vault.</li>
+<li><code>vm_cluster_ids</code> - The List of Exadata VM cluster on Exascale Infrastructure <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCIDs</a> <strong>Note:</strong> If Exadata Database Storage Vault is not used for any Exadata VM cluster on Exascale Infrastructure, this list is empty.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

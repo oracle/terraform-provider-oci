@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_apm_traces_scheduled_queries</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_apm_traces_scheduled_queries</h1>
+
+<p>This data source provides the list of Scheduled Queries in Oracle Cloud Infrastructure Apm Traces service.</p>
+
+<p>Returns a list of all scheduled queries in the APM Domain.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_apm_traces_scheduled_queries&quot; &quot;test_scheduled_queries&quot; {
+	#Required
+	apm_domain_id = oci_apm_apm_domain.test_apm_domain.id
+
+	#Optional
+	display_name = var.scheduled_query_display_name
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>apm_domain_id</code> - (Required) The APM Domain ID for the intended request.</li>
+<li><code>display_name</code> - (Optional) A filter to return resources that match the given display name.  This will return resources that have name starting with this filter.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>scheduled_query_collection</code> - The list of scheduled_query_collection.</li>
+</ul>
+
+<h3>ScheduledQuery Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the scheduled query . An OCID is generated when the scheduled query is created.</li>
+<li><code>scheduled_query_description</code> - Description for the scheduled query.</li>
+<li><code>scheduled_query_instances</code> - Scheduled query instances.</li>
+<li><code>scheduled_query_maximum_runtime_in_seconds</code> - Maximum runtime for the scheduled query in seconds.</li>
+<li><code>scheduled_query_name</code> - Name of the scheduled query.</li>
+<li><code>scheduled_query_next_run_in_ms</code> - Next run for the scheduled query.</li>
+<li><code>scheduled_query_processing_configuration</code> - Definition of the scheduled query processing configuration.
+
+<ul>
+<li><code>custom_metric</code> - Definition of the Custom Metric.
+
+<ul>
+<li><code>compartment</code> - Compartment of the Monitoring Service. It defaults to the APM domain&rsquo;s compartment if not specified.  If specified, the necessary Oracle Cloud Infrastructure policies should be set to allow APM to write to that compartment.</li>
+<li><code>description</code> - Description of the Custom Metric.</li>
+<li><code>is_anomaly_detection_enabled</code> - Indicates whether anomaly Detection should be performed on the generated metric.</li>
+<li><code>is_metric_published</code> - Used in conjunction with the dry run header.  When the dry run header is set and the isPublishMetric flag is set to true, the  scheduled query is not created, but validations happen to check if the right Oracle Cloud Infrastructure policies have been set to write to the specified namespace/compartment.</li>
+<li><code>name</code> - Name of the Custom Metric.</li>
+<li><code>namespace</code> - Namespace in the Custom Metric. It defaults to <code>oracle_apm_custom</code> if not specified.  If specified, the necessary Oracle Cloud Infrastructure policies should be set to allow APM to write to that namespace.</li>
+<li><code>resource_group</code> - Resource Group of the Custom Metric.</li>
+<li><code>unit</code> - Unit in which the metric value is reported. For example &lsquo;ms&rsquo;.</li>
+</ul></li>
+<li><code>object_storage</code> - Definition of the object storage.
+
+<ul>
+<li><code>bucket</code> - Bucket name in the object store.</li>
+<li><code>name_space</code> - Namespace in the object store.</li>
+<li><code>object_name_prefix</code> - Object name prefix in the object store.</li>
+</ul></li>
+<li><code>streaming</code> - Definition of the Stream.
+
+<ul>
+<li><code>stream_id</code> - Stream Id.</li>
+</ul></li>
+</ul></li>
+<li><code>scheduled_query_processing_sub_type</code> - Processing sub type of the scheduled query.</li>
+<li><code>scheduled_query_processing_type</code> - Processing type of the scheduled query.</li>
+<li><code>scheduled_query_retention_criteria</code> - Retention criteria for the scheduled query.</li>
+<li><code>scheduled_query_retention_period_in_ms</code> - Retention period for the scheduled query in milliseconds.</li>
+<li><code>scheduled_query_schedule</code> - Schedule for the scheduled query.</li>
+<li><code>scheduled_query_text</code> - Scheduled query to be run.</li>
+<li><code>state</code> - The current lifecycle state of the Scheduled Query.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

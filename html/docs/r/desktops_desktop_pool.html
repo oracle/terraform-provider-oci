@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_desktops_desktop_pool</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_desktops_desktop_pool</h1>
+
+<p>This resource provides the Desktop Pool resource in Oracle Cloud Infrastructure Desktops service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/secure-desktops/latest/DesktopPool">https://docs.oracle.com/iaas/api/#/en/secure-desktops/latest/DesktopPool</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/desktops">https://github.com/oracle/terraform-provider-oci/tree/master/examples/desktops</a></p>
+
+<p>Creates a desktop pool with the given configuration parameters.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_desktops_desktop_pool&quot; &quot;test_desktop_pool&quot; {
+	#Required
+	are_privileged_users = var.desktop_pool_are_privileged_users
+	availability_domain = var.desktop_pool_availability_domain
+	availability_policy {
+
+		#Optional
+		start_schedule {
+			#Required
+			cron_expression = &quot;0 10 8 ? * 2&quot;
+			timezone = &quot;America/Denver&quot;
+		}
+		stop_schedule {
+			#Required
+			cron_expression = &quot;0 20 18 ? * 6&quot;
+			timezone = &quot;America/Denver&quot;
+		}
+	}
+	compartment_id = var.compartment_id
+	contact_details = var.desktop_pool_contact_details
+	device_policy {
+		#Required
+		audio_mode = var.desktop_pool_device_policy_audio_mode
+		cdm_mode = var.desktop_pool_device_policy_cdm_mode
+		clipboard_mode = var.desktop_pool_device_policy_clipboard_mode
+		is_display_enabled = var.desktop_pool_device_policy_is_display_enabled
+		is_keyboard_enabled = var.desktop_pool_device_policy_is_keyboard_enabled
+		is_pointer_enabled = var.desktop_pool_device_policy_is_pointer_enabled
+		is_printing_enabled = var.desktop_pool_device_policy_is_printing_enabled
+	}
+	display_name = var.desktop_pool_display_name
+	image {
+		#Required
+		image_id = oci_core_image.test_image.id
+		image_name = var.desktop_pool_image_image_name
+
+		#Optional
+		operating_system = var.desktop_pool_image_operating_system
+	}
+	is_storage_enabled = var.desktop_pool_is_storage_enabled
+	maximum_size = var.desktop_pool_maximum_size
+	network_configuration {
+		#Required
+		subnet_id = oci_core_subnet.test_subnet.id
+		vcn_id = oci_core_vcn.test_vcn.id
+	}
+	shape_name = &quot;VM.Standard.E4.Flex&quot;
+	standby_size = var.desktop_pool_standby_size
+	storage_backup_policy_id = &quot;ocid1.volumebackuppolicy.oc1.xxxxyyyyyzzzz&quot;
+	storage_size_in_gbs = var.desktop_pool_storage_size_in_gbs
+
+	#Optional
+	are_volumes_preserved = var.desktop_pool_are_volumes_preserved
+	defined_tags = {&quot;Operations.CostCenter&quot;= &quot;42&quot;}
+	description = var.desktop_pool_description
+	freeform_tags = {&quot;Department&quot;= &quot;Finance&quot;}
+	nsg_ids = var.desktop_pool_nsg_ids
+	shape_config {
+
+		#Optional
+		baseline_ocpu_utilization = var.desktop_pool_shape_config_baseline_ocpu_utilization
+		memory_in_gbs = var.desktop_pool_shape_config_memory_in_gbs
+		ocpus = var.desktop_pool_shape_config_ocpus
+	}
+	private_access_details {
+      #Required
+      subnet_id = oci_core_subnet.test_subnet.id
+
+      #Optional
+      nsg_ids    = var.desktop_pool_private_access_details_nsg_ids
+      private_ip = var.desktop_pool_private_access_details_private_ip
+    }
+	session_lifecycle_actions {
+
+		#Optional
+		disconnect {
+			#Required
+			action = &quot;STOP&quot;
+
+			#Optional
+			grace_period_in_minutes = var.desktop_pool_session_lifecycle_actions_disconnect_grace_period_in_minutes
+		}
+		inactivity {
+			#Required
+			action = &quot;DISCONNECT&quot;
+
+			#Optional
+			grace_period_in_minutes = var.desktop_pool_session_lifecycle_actions_inactivity_grace_period_in_minutes
+		}
+	}
+	time_start_scheduled = var.desktop_pool_time_start_scheduled
+	time_stop_scheduled = var.desktop_pool_time_stop_scheduled
+	use_dedicated_vm_host = var.desktop_pool_use_dedicated_vm_host
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>are_privileged_users</code> - (Required) Indicates whether desktop pool users have administrative privileges on their desktop.</li>
+<li><code>availability_domain</code> - (Required) The availability domain of the desktop pool.</li>
+<li><code>availability_policy</code> - (Required) (Updatable) Provides the start and stop schedule information for desktop availability of the desktop pool. Use <code>availability_policy { }</code> to not set a schedule.
+
+<ul>
+<li><code>start_schedule</code> - (Optional) (Updatable) Provides the schedule information for a desktop.
+
+<ul>
+<li><code>cron_expression</code> - (Required) (Updatable) A cron expression describing the desktop&rsquo;s schedule.</li>
+<li><code>timezone</code> - (Required) (Updatable) The timezone of the desktop&rsquo;s schedule.</li>
+</ul></li>
+<li><code>stop_schedule</code> - (Optional) (Updatable) Provides the schedule information for a desktop.
+
+<ul>
+<li><code>cron_expression</code> - (Required) (Updatable) A cron expression describing the desktop&rsquo;s schedule.</li>
+<li><code>timezone</code> - (Required) (Updatable) The timezone of the desktop&rsquo;s schedule.</li>
+</ul></li>
+</ul></li>
+<li><code>compartment_id</code> - (Required) (Updatable) The OCID of the compartment which will contain the desktop pool.</li>
+<li><code>contact_details</code> - (Required) (Updatable) Contact information of the desktop pool administrator. Avoid entering confidential information.</li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - (Optional) (Updatable) A user friendly description providing additional information about the resource. Avoid entering confidential information.</li>
+<li><code>device_policy</code> - (Required) (Updatable) Provides the settings for desktop and client device options, such as audio in and out, client drive mapping, and clipboard access.
+
+<ul>
+<li><code>audio_mode</code> - (Required) (Updatable) The audio mode. NONE: No access to the local audio devices is permitted. TODESKTOP: The user may record audio on their desktop.  FROMDESKTOP: The user may play audio on their desktop. FULL: The user may play and record audio on their desktop.</li>
+<li><code>cdm_mode</code> - (Required) (Updatable) The client local drive access mode. NONE: No access to local drives permitted. READONLY: The user may read from local drives on their desktop. FULL: The user may read from and write to their local drives on their desktop.<br>
+</li>
+<li><code>clipboard_mode</code> - (Required) (Updatable) The clipboard mode. NONE: No access to the local clipboard is permitted. TODESKTOP: The clipboard can be used to transfer data to the desktop only.  FROMDESKTOP: The clipboard can be used to transfer data from the desktop only. FULL: The clipboard can be used to transfer data to and from the desktop.</li>
+<li><code>is_display_enabled</code> - (Required) (Updatable) Indicates whether the display is enabled.</li>
+<li><code>is_keyboard_enabled</code> - (Required) (Updatable) Indicates whether the keyboard is enabled.</li>
+<li><code>is_pointer_enabled</code> - (Required) (Updatable) Indicates whether the pointer is enabled.</li>
+<li><code>is_printing_enabled</code> - (Required) (Updatable) Indicates whether printing is enabled.</li>
+</ul></li>
+<li><code>display_name</code> - (Required) (Updatable) A user friendly display name. Avoid entering confidential information.</li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>image</code> - (Required) Provides information about the desktop image.
+
+<ul>
+<li><code>image_id</code> - (Required) The OCID of the desktop image.</li>
+<li><code>image_name</code> - (Required) The name of the desktop image.</li>
+<li><code>operating_system</code> - (Optional) The operating system of the desktop image, e.g. &ldquo;Oracle Linux&rdquo;, &ldquo;Windows&rdquo;.</li>
+</ul></li>
+<li><code>is_storage_enabled</code> - (Required) Indicates whether storage is enabled for the desktop pool.</li>
+<li><code>maximum_size</code> - (Required) (Updatable) The maximum number of desktops permitted in the desktop pool.</li>
+<li><code>network_configuration</code> - (Required) Provides information about the network configuration of the desktop pool.
+
+<ul>
+<li><code>subnet_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the subnet in the customer VCN where the connectivity will be established.</li>
+<li><code>vcn_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the customer VCN.</li>
+</ul></li>
+<li><code>nsg_ids</code> - (Optional) A list of network security groups for the private access.</li>
+<li><code>shape_config</code> - (Optional) The compute instance shape configuration requested for each desktop in the desktop pool.
+
+<ul>
+<li><code>baseline_ocpu_utilization</code> - (Optional) The baseline OCPU utilization for a subcore burstable VM instance used for each desktop compute instance in the desktop pool. Leave this attribute blank for a non-burstable instance, or explicitly specify non-burstable with <code>BASELINE_1_1</code>. The following values are supported:
+
+<ul>
+<li><code>BASELINE_1_8</code> - baseline usage is <sup>1</sup>&frasl;<sub>8</sub> of an OCPU.</li>
+<li><code>BASELINE_1_2</code> - baseline usage is <sup>1</sup>&frasl;<sub>2</sub> of an OCPU.</li>
+<li><code>BASELINE_1_1</code> - baseline usage is the entire OCPU. This represents a non-burstable instance.</li>
+</ul></li>
+<li><code>memory_in_gbs</code> - (Optional) The total amount of memory available in gigabytes for each desktop compute instance in the desktop pool.</li>
+<li><code>ocpus</code> - (Optional) The total number of OCPUs available for each desktop compute instance in the desktop pool.</li>
+</ul></li>
+<li><code>private_access_details</code> - (Optional) The details of the desktop&rsquo;s private access network connectivity to be set up for the desktop pool.
+
+<ul>
+<li><code>nsg_ids</code> - (Optional) A list of network security groups for the private access.</li>
+<li><code>private_ip</code> - (Optional) The IPv4 address from the provided Oracle Cloud Infrastructure subnet which needs to be assigned to the VNIC. If not provided, it will be auto-assigned with an available IPv4 address from the subnet.</li>
+<li><code>subnet_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the private subnet in the customer VCN where the connectivity will be established.</li>
+</ul></li>
+<li><code>session_lifecycle_actions</code> - (Optional) The details of action to be triggered in case of inactivity or disconnect
+
+<ul>
+<li><code>disconnect</code> - (Optional) (Updatable) Action and grace period for disconnect. Session disconnect can not be used together with an <code>availability_policy</code> schedule.
+
+<ul>
+<li><code>action</code> - (Required) (Updatable) a disconnect action to be triggered. Could be set to NONE or STOP</li>
+<li><code>grace_period_in_minutes</code> - (Optional) (Updatable) The period of time (in minutes) after disconnect before any action occurs. If the value is not provided, a default value is used.</li>
+</ul></li>
+<li><code>inactivity</code> - (Optional) (Updatable) Action and grace period for inactivity
+
+<ul>
+<li><code>action</code> - (Required) (Updatable) an inactivity action to be triggered. Could be set to NONE or DISCONNECT.</li>
+<li><code>grace_period_in_minutes</code> - (Optional) (Updatable) The period of time (in minutes) during which the session must remain inactive before any action occurs. If the value is not provided, a default value is used.</li>
+</ul></li>
+</ul></li>
+<li><code>shape_name</code> - (Required) The shape of the desktop pool.</li>
+<li><code>standby_size</code> - (Required) (Updatable) The maximum number of standby desktops available in the desktop pool.</li>
+<li><code>storage_backup_policy_id</code> - (Required) The backup policy OCID of the storage.</li>
+<li><code>storage_size_in_gbs</code> - (Required) The size in GBs of the storage for the desktop pool.</li>
+<li><code>time_start_scheduled</code> - (Optional) (Updatable) The start time of the desktop pool.</li>
+<li><code>time_stop_scheduled</code> - (Optional) (Updatable) The stop time of the desktop pool.</li>
+<li><code>use_dedicated_vm_host</code> - (Optional) Indicates whether the desktop pool uses dedicated virtual machine hosts.</li>
+<li><code>are_volumes_preserved</code> - (Optional) (Updatable) Indicates whether the volumes are preserved when a desktop pool is deleted. Default value is false.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>active_desktops</code> - The number of active desktops in the desktop pool.</li>
+<li><code>are_privileged_users</code> - Indicates whether desktop pool users have administrative privileges on their desktop.</li>
+<li><code>availability_domain</code> - The availability domain of the desktop pool.</li>
+<li><code>availability_policy</code> - Provides the start and stop schedule information for desktop availability of the desktop pool.
+
+<ul>
+<li><code>start_schedule</code> - Provides the schedule information for a desktop.
+
+<ul>
+<li><code>cron_expression</code> - A cron expression describing the desktop&rsquo;s schedule.</li>
+<li><code>timezone</code> - The timezone of the desktop&rsquo;s schedule.</li>
+</ul></li>
+<li><code>stop_schedule</code> - Provides the schedule information for a desktop.
+
+<ul>
+<li><code>cron_expression</code> - A cron expression describing the desktop&rsquo;s schedule.</li>
+<li><code>timezone</code> - The timezone of the desktop&rsquo;s schedule.</li>
+</ul></li>
+</ul></li>
+<li><code>compartment_id</code> - The OCID of the compartment of the desktop pool.</li>
+<li><code>contact_details</code> - Contact information of the desktop pool administrator. Avoid entering confidential information.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - A user friendly description providing additional information about the resource. Avoid entering confidential information.</li>
+<li><code>device_policy</code> - Provides the settings for desktop and client device options, such as audio in and out, client drive mapping, and clipboard access.
+
+<ul>
+<li><code>audio_mode</code> - The audio mode. NONE: No access to the local audio devices is permitted. TODESKTOP: The user may record audio on their desktop.  FROMDESKTOP: The user may play audio on their desktop. FULL: The user may play and record audio on their desktop.</li>
+<li><code>cdm_mode</code> - The client local drive access mode. NONE: No access to local drives permitted. READONLY: The user may read from local drives on their desktop. FULL: The user may read from and write to their local drives on their desktop.<br>
+</li>
+<li><code>clipboard_mode</code> - The clipboard mode. NONE: No access to the local clipboard is permitted. TODESKTOP: The clipboard can be used to transfer data to the desktop only.  FROMDESKTOP: The clipboard can be used to transfer data from the desktop only. FULL: The clipboard can be used to transfer data to and from the desktop.</li>
+<li><code>is_display_enabled</code> - Indicates whether the display is enabled.</li>
+<li><code>is_keyboard_enabled</code> - Indicates whether the keyboard is enabled.</li>
+<li><code>is_pointer_enabled</code> - Indicates whether the pointer is enabled.</li>
+<li><code>is_printing_enabled</code> - Indicates whether printing is enabled.</li>
+</ul></li>
+<li><code>display_name</code> - A user friendly display name. Avoid entering confidential information.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The OCID of the desktop pool.</li>
+<li><code>image</code> - Provides information about the desktop image.
+
+<ul>
+<li><code>image_id</code> - The OCID of the desktop image.</li>
+<li><code>image_name</code> - The name of the desktop image.</li>
+<li><code>operating_system</code> - The operating system of the desktop image, e.g. &ldquo;Oracle Linux&rdquo;, &ldquo;Windows&rdquo;.</li>
+</ul></li>
+<li><code>is_storage_enabled</code> - Indicates whether storage is enabled for the desktop pool.</li>
+<li><code>maximum_size</code> - The maximum number of desktops permitted in the desktop pool.</li>
+<li><code>network_configuration</code> - Provides information about the network configuration of the desktop pool.
+
+<ul>
+<li><code>subnet_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the subnet in the customer VCN where the connectivity will be established.</li>
+<li><code>vcn_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the customer VCN.</li>
+</ul></li>
+<li><code>nsg_ids</code> - A list of network security groups for the network.</li>
+<li><code>shape_config</code> - The shape configuration used for each desktop compute instance in the desktop pool.
+
+<ul>
+<li><code>baseline_ocpu_utilization</code> - The baseline OCPU utilization for a subcore burstable VM instance used for each desktop compute instance in the desktop pool. Leave this attribute blank for a non-burstable instance, or explicitly specify non-burstable with <code>BASELINE_1_1</code>. The following values are supported:
+
+<ul>
+<li><code>BASELINE_1_8</code> - baseline usage is <sup>1</sup>&frasl;<sub>8</sub> of an OCPU.</li>
+<li><code>BASELINE_1_2</code> - baseline usage is <sup>1</sup>&frasl;<sub>2</sub> of an OCPU.</li>
+<li><code>BASELINE_1_1</code> - baseline usage is the entire OCPU. This represents a non-burstable instance.</li>
+</ul></li>
+<li><code>memory_in_gbs</code> - The total amount of memory available in gigabytes for each desktop compute instance in the desktop pool.</li>
+<li><code>ocpus</code> - The total number of OCPUs available for each desktop compute instance in the desktop pool.</li>
+</ul></li>
+<li><code>private_access_details</code> - The details of the desktop&rsquo;s private access network connectivity that were used to create the pool.
+
+<ul>
+<li><code>endpoint_fqdn</code> - The three-label FQDN to use for the private endpoint. The customer VCN&rsquo;s DNS records are updated with this FQDN. This enables the customer to use the FQDN instead of the private endpoint&rsquo;s private IP address to access the service (for example, xyz.oraclecloud.com).</li>
+<li><code>nsg_ids</code> - A list of network security groups for the private access.</li>
+<li><code>private_ip</code> - The IPv4 address from the provided Oracle Cloud Infrastructure subnet which needs to be assigned to the VNIC. If not provided, it will be auto-assigned with an available IPv4 address from the subnet.</li>
+<li><code>subnet_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the subnet in the customer VCN where the connectivity will be established.</li>
+<li><code>vcn_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the customer VCN.</li>
+</ul></li>
+<li><code>session_lifecycle_actions</code> - Action to be triggered on inactivity or disconnect
+
+<ul>
+<li><code>disconnect</code> - Action and grace period for disconnect
+
+<ul>
+<li><code>action</code> - a disconnect action to be triggered</li>
+<li><code>grace_period_in_minutes</code> - The period of time (in minutes) after disconnect before any action occurs. If the value is not provided, a default value is used.</li>
+</ul></li>
+<li><code>inactivity</code> - Action and grace period for inactivity
+
+<ul>
+<li><code>action</code> - an inactivity action to be triggered</li>
+<li><code>grace_period_in_minutes</code> - The period of time (in minutes) during which the session must remain inactive before any action occurs. If the value is not provided, a default value is used.</li>
+</ul></li>
+</ul></li>
+<li><code>shape_name</code> - The shape of the desktop pool.</li>
+<li><code>standby_size</code> - The maximum number of standby desktops available in the desktop pool.</li>
+<li><code>state</code> - The current state of the desktop pool.</li>
+<li><code>storage_backup_policy_id</code> - The backup policy OCID of the storage.</li>
+<li><code>storage_size_in_gbs</code> - The size in GBs of the storage for the desktop pool.</li>
+<li><code>time_created</code> - The date and time the resource was created.</li>
+<li><code>time_start_scheduled</code> - The start time of the desktop pool.</li>
+<li><code>time_stop_scheduled</code> - The stop time of the desktop pool.</li>
+<li><code>use_dedicated_vm_host</code> - Indicates whether the desktop pool uses dedicated virtual machine hosts.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Desktop Pool
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Desktop Pool
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Desktop Pool</p>
+
+<h2>Import</h2>
+
+<p>DesktopPools can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_desktops_desktop_pool.test_desktop_pool &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

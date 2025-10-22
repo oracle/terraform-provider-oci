@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_datascience_notebook_session</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_datascience_notebook_session</h1>
+
+<p>This data source provides details about a specific Notebook Session resource in Oracle Cloud Infrastructure Data Science service.</p>
+
+<p>Gets the specified notebook session&rsquo;s information.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_datascience_notebook_session&quot; &quot;test_notebook_session&quot; {
+	#Required
+	notebook_session_id = oci_datascience_notebook_session.test_notebook_session.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>notebook_session_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the notebook session.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the notebook session&rsquo;s compartment.</li>
+<li><code>created_by</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the user who created the notebook session.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>display_name</code> - A user-friendly display name for the resource. It does not have to be unique and can be modified. Avoid entering confidential information. Example: <code>My NotebookSession</code></li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the notebook session.</li>
+<li><code>lifecycle_details</code> - Details about the state of the notebook session.</li>
+<li><code>notebook_session_config_details</code> - Details for the notebook session configuration.
+
+<ul>
+<li><code>block_storage_size_in_gbs</code> - A notebook session instance is provided with a block storage volume. This specifies the size of the volume in GBs.</li>
+<li><code>notebook_session_shape_config_details</code> - Details for the notebook session shape configuration.
+
+<ul>
+<li><code>cpu_baseline</code> - The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left bank, it will default to <code>BASELINE_1_1</code>. The following values are supported: BASELINE_1_8 - baseline usage is <sup>1</sup>&frasl;<sub>8</sub> of an OCPU. BASELINE_1_2 - baseline usage is <sup>1</sup>&frasl;<sub>2</sub> of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance.</li>
+<li><code>memory_in_gbs</code> - The total amount of memory available to the notebook session instance, in gigabytes.</li>
+<li><code>ocpus</code> - The total number of OCPUs available to the notebook session instance.</li>
+</ul></li>
+<li><code>private_endpoint_id</code> - The OCID of a Data Science private endpoint.</li>
+<li><code>shape</code> - The shape used to launch the notebook session compute instance.  The list of available shapes in a given compartment can be retrieved using the <code>ListNotebookSessionShapes</code> endpoint.</li>
+<li><code>subnet_id</code> - A notebook session instance is provided with a VNIC for network access.  This specifies the <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the subnet to create a VNIC in.  The subnet should be in a VCN with a NAT gateway for egress to the internet.</li>
+</ul></li>
+<li><code>notebook_session_configuration_details</code> - Details for the notebook session configuration.
+
+<ul>
+<li><code>block_storage_size_in_gbs</code> - A notebook session instance is provided with a block storage volume. This specifies the size of the volume in GBs.</li>
+<li><code>notebook_session_shape_config_details</code> - Details for the notebook session shape configuration.
+
+<ul>
+<li><code>cpu_baseline</code> - The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left bank, it will default to <code>BASELINE_1_1</code>. The following values are supported: BASELINE_1_8 - baseline usage is <sup>1</sup>&frasl;<sub>8</sub> of an OCPU. BASELINE_1_2 - baseline usage is <sup>1</sup>&frasl;<sub>2</sub> of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance.</li>
+<li><code>memory_in_gbs</code> - The total amount of memory available to the notebook session instance, in gigabytes.</li>
+<li><code>ocpus</code> - The total number of OCPUs available to the notebook session instance.</li>
+</ul></li>
+<li><code>private_endpoint_id</code> - The OCID of a Data Science private endpoint.</li>
+<li><code>shape</code> - The shape used to launch the notebook session compute instance.  The list of available shapes in a given compartment can be retrieved using the <code>ListNotebookSessionShapes</code> endpoint.</li>
+<li><code>subnet_id</code> - A notebook session instance is provided with a VNIC for network access.  This specifies the <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the subnet to create a VNIC in.  The subnet should be in a VCN with a NAT gateway for egress to the internet.</li>
+</ul></li>
+<li><code>notebook_session_runtime_config_details</code> - Notebook Session runtime configuration details.
+
+<ul>
+<li><code>custom_environment_variables</code> - Custom environment variables for Notebook Session. These key-value pairs will be available for customers in Notebook Sessions.</li>
+<li><code>notebook_session_git_config_details</code> - Git configuration Details.
+
+<ul>
+<li><code>notebook_session_git_repo_config_collection</code> - A collection of Git repository configurations.
+
+<ul>
+<li><code>url</code> - The repository URL</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><code>notebook_session_storage_mount_configuration_details_list</code> - Collection of NotebookSessionStorageMountConfigurationDetails.
+
+<ul>
+<li><code>bucket</code> - The object storage bucket</li>
+<li><code>destination_directory_name</code> - The local directory name to be mounted</li>
+<li><code>destination_path</code> - The local path of the mounted directory, excluding directory name.</li>
+<li><code>export_id</code> - OCID of the export</li>
+<li><code>mount_target_id</code> - OCID of the mount target</li>
+<li><code>namespace</code> - The object storage namespace</li>
+<li><code>prefix</code> - Prefix in the bucket to mount</li>
+<li><code>storage_type</code> - The type of storage.</li>
+</ul></li>
+<li><code>notebook_session_url</code> - The URL to interact with the notebook session.</li>
+<li><code>project_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the project associated with the notebook session.</li>
+<li><code>state</code> - The state of the notebook session.</li>
+<li><code>time_created</code> - The date and time the resource was created in the timestamp format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>. Example: 2019-08-25T21:10:29.41Z</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

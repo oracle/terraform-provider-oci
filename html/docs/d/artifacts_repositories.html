@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_artifacts_repositories</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_artifacts_repositories</h1>
+
+<p>This data source provides the list of Repositories in Oracle Cloud Infrastructure Artifacts service.</p>
+
+<p>Lists repositories in the specified compartment.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_artifacts_repositories&quot; &quot;test_repositories&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	display_name = var.repository_display_name
+	id = var.repository_id
+	is_immutable = var.repository_is_immutable
+	state = var.repository_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the given display name exactly.</li>
+<li><code>id</code> - (Optional) A filter to return the resources for the specified OCID.</li>
+<li><code>is_immutable</code> - (Optional) A filter to return resources that match the isImmutable value.</li>
+<li><code>state</code> - (Optional) A filter to return only resources that match the given lifecycle state name exactly.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>repository_collection</code> - The list of repository_collection.</li>
+</ul>
+
+<h3>Repository Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The OCID of the repository&rsquo;s compartment.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - The repository description.</li>
+<li><code>display_name</code> - The repository name.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the repository.  Example: <code>ocid1.artifactrepository.oc1..exampleuniqueID</code></li>
+<li><code>is_immutable</code> - Whether the repository is immutable. The artifacts of an immutable repository cannot be overwritten.</li>
+<li><code>repository_type</code> - The repository&rsquo;s supported artifact type.</li>
+<li><code>state</code> - The current state of the repository.</li>
+<li><code>time_created</code> - An RFC 3339 timestamp indicating when the repository was created.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

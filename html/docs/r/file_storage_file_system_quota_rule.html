@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_file_storage_file_system_quota_rule</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_file_storage_file_system_quota_rule</h1>
+
+<p>This resource provides the File System Quota Rule resource in Oracle Cloud Infrastructure File Storage service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/filestorage/latest/FileSystemQuotaRule">https://docs.oracle.com/iaas/api/#/en/filestorage/latest/FileSystemQuotaRule</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/">https://github.com/oracle/terraform-provider-oci/tree/master/examples/</a></p>
+
+<p>Create an FS level, user or group quota rule given the <code>fileSystemId</code>, <code>principalId</code>, <code>principalType</code> and
+<code>isHardQuota</code> parameters.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_file_storage_file_system_quota_rule&quot; &quot;test_file_system_quota_rule&quot; {
+	#Required
+	file_system_id = oci_file_storage_file_system.test_file_system.id
+	is_hard_quota = var.file_system_quota_rule_is_hard_quota
+	principal_type = var.file_system_quota_rule_principal_type
+	quota_limit_in_gigabytes = var.file_system_quota_rule_quota_limit_in_gigabytes
+
+	#Optional
+	display_name = var.file_system_quota_rule_display_name
+	principal_id = oci_file_storage_principal.test_principal.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>display_name</code> - (Optional) (Updatable) A user-friendly name. It does not have to be unique, and it is changeable. Avoid entering confidential information. Example: <code>UserXYZ's quota</code></li>
+<li><code>file_system_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the file system.</li>
+<li><code>is_hard_quota</code> - (Required) The flag is an identifier to tell whether the quota rule will be enforced. If <code>isHardQuota</code> is true, the quota rule will be enforced so the write will be blocked if usage exceeds the hard quota limit. If <code>isHardQuota</code> is false, usage can exceed the soft quota limit. An alarm or notification will be sent to the customer, if the specific usage exceeds.</li>
+<li><code>principal_id</code> - (Optional) An identifier for the owner of this usage and quota rule. Unix-like operating systems use this integer value to identify a user or group to manage access control.</li>
+<li><code>principal_type</code> - (Required) The type of the owner of this quota rule and usage.</li>
+<li><code>quota_limit_in_gigabytes</code> - (Required) (Updatable) The value of the quota rule. The unit is Gigabyte.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>display_name</code> - A user-friendly name. It does not have to be unique, and it is changeable. Avoid entering confidential information. Example: <code>UserXYZ's quota</code></li>
+<li><code>file_system_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the file System.</li>
+<li><code>id</code> - The identifier of the quota rule. It is the base64 encoded string of the tuple <principalId, principalType, isHardQuota>.</li>
+<li><code>is_hard_quota</code> - The flag is an identifier to tell whether the quota rule will be enforced. If <code>isHardQuota</code> is false, the quota rule will be enforced so the usage cannot exceed the hard quota limit. If <code>isHardQuota</code> is true, usage can exceed the soft quota limit. An alarm or notification will be sent to the customer, if the specific usage exceeds.</li>
+<li><code>principal_id</code> - An identifier for the owner of this usage and quota rule. Unix-like operating systems use this integer value to identify a user or group to manage access control.</li>
+<li><code>principal_type</code> - The type of the owner of this quota rule and usage.</li>
+<li><code>quota_limit_in_gigabytes</code> - The value of the quota rule. The unit is Gigabyte.</li>
+<li><code>time_created</code> - The date and time the quota rule was started, expressed in <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a> timestamp format.  Example: <code>2016-08-25T21:10:29.600Z</code></li>
+<li><code>time_updated</code> - The date and time the quota rule was last updated, expressed in <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a> timestamp format.  Example: <code>2016-08-25T21:10:29.600Z</code></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the File System Quota Rule
+	* <code>update</code> - (Defaults to 20 minutes), when updating the File System Quota Rule
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the File System Quota Rule</p>
+
+<h2>Import</h2>
+
+<p>FileSystemQuotaRules can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_file_storage_file_system_quota_rule.test_file_system_quota_rule &quot;fileSystems/{fileSystemId}/quotaRules/{quotaRuleId}&quot; 
+</code></pre>
+
+	</div>
+
+</body>
+</html>

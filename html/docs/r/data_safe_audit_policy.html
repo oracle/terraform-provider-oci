@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_data_safe_audit_policy</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_data_safe_audit_policy</h1>
+
+<p>This resource provides the Audit Policy resource in Oracle Cloud Infrastructure Data Safe service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/data-safe/latest/AuditPolicy">https://docs.oracle.com/iaas/api/#/en/data-safe/latest/AuditPolicy</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe">https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe</a></p>
+
+<p>Updates the audit policy.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_data_safe_audit_policy&quot; &quot;test_audit_policy&quot; {
+	#Required
+	audit_policy_id = oci_data_safe_audit_policy.test_audit_policy.id
+
+	#Optional
+	defined_tags = {&quot;Operations.CostCenter&quot;= &quot;42&quot;}
+	description = var.audit_policy_description
+	display_name = var.audit_policy_display_name
+	freeform_tags = {&quot;Department&quot;= &quot;Finance&quot;}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>audit_policy_id</code> - (Required) Unique audit policy identifier.</li>
+<li><code>compartment_id</code> - (Optional) (Updatable) The OCID of the compartment containing the audit policy.</li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a> Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - (Optional) (Updatable) The description of the audit policy.</li>
+<li><code>display_name</code> - (Optional) (Updatable) The display name of the audit policy. The name does not have to be unique, and it is changeable.</li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>provision_trigger</code> - (Optional) (Updatable) An optional property when incremented triggers Provision. Could be set to any integer value.</li>
+<li><code>retrieve_from_target_trigger</code> - (Optional) (Updatable) An optional property when incremented triggers Retrieve From Target. Could be set to any integer value.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>audit_conditions</code> - Lists the audit policy provisioning conditions for the target database.
+
+<ul>
+<li><code>audit_policy_name</code> - Indicates the audit policy name. Refer to the <a href="https://docs.oracle.com/en/cloud/paas/data-safe/udscs/audit-policies.html#GUID-361A9A9A-7C21-4F5A-8945-9B3A0C472827">documentation</a> for seeded audit policy names. For custom policies, refer to the user-defined policy name created in the target database.</li>
+<li><code>enable_conditions</code> - Indicates the users/roles in the target database for which the audit policy is enforced, and the success/failure event condition to generate the audit event..
+
+<ul>
+<li><code>entity_names</code> - List of users or roles that the policy must be enabled for.</li>
+<li><code>entity_selection</code> - The entity include or exclude selection.</li>
+<li><code>entity_type</code> - The entity type that the policy must be enabled for.</li>
+<li><code>operation_status</code> - The operation status that the policy must be enabled for.</li>
+</ul></li>
+<li><code>is_data_safe_service_account_audited</code> - Indicates whether the Data Safe user activity on the target database will be audited by the policy.</li>
+<li><code>is_priv_users_managed_by_data_safe</code> - Indicates whether the privileged user list is managed by Data Safe.</li>
+<li><code>is_enabled</code> - Indicates whether the policy has to be enabled or disabled in the target database. Set this to true if you want the audit policy to be enabled in the target database. If the seeded audit policy is not already created in the database, the provisioning creates and enables them. If this is set to false, the policy will be disabled in the target database.</li>
+</ul></li>
+<li><code>audit_specifications</code> - Represents all available audit policy specifications relevant for the target database. For more details on available audit polcies, refer to <a href="https://docs.oracle.com/en/cloud/paas/data-safe/udscs/audit-policies.html#GUID-361A9A9A-7C21-4F5A-8945-9B3A0C472827">documentation</a>.
+
+<ul>
+<li><code>audit_policy_category</code> - The category to which the audit policy belongs.</li>
+<li><code>audit_policy_name</code> - Indicates the audit policy name. Refer to the <a href="https://docs.oracle.com/en/cloud/paas/data-safe/udscs/audit-policies.html#GUID-361A9A9A-7C21-4F5A-8945-9B3A0C472827">documentation</a> for seeded audit policy names. For custom policies, refer to the user-defined policy name created in the target database.</li>
+<li><code>database_policy_names</code> - Indicates the names of corresponding database policy ( or policies) in the target database.</li>
+<li><code>enable_status</code> - Indicates whether the policy has been enabled, disabled or partially enabled in the target database. The status is PARTIALLY_ENABLED if any of the constituent database audit policies is not enabled.</li>
+<li><code>enabled_entities</code> - Indicates on whom the audit policy is enabled.</li>
+<li><code>is_created</code> - Indicates whether the policy is already created on the target database.</li>
+<li><code>is_enabled_for_all_users</code> - Indicates whether the policy by default is enabled for all users with no flexibility to alter the enablement conditions.</li>
+<li><code>is_seeded_in_data_safe</code> - Indicates whether the audit policy is one of the seeded policies provided by Oracle Data Safe.</li>
+<li><code>is_seeded_in_target</code> - Indicates whether the audit policy is one of the predefined policies provided by Oracle Database.</li>
+<li><code>is_view_only</code> - Indicates whether the audit policy is available for provisioning/ de-provisioning from Oracle Data Safe, or is only available for displaying the current provisioning status from the target.</li>
+<li><code>partially_enabled_msg</code> - Provides information about the policy that has been only partially enabled.</li>
+</ul></li>
+<li><code>compartment_id</code> - The OCID of the compartment containing the audit policy.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a> Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - Description of the audit policy.</li>
+<li><code>display_name</code> - The display name of the audit policy.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The OCID of the audit policy.</li>
+<li><code>is_data_safe_service_account_excluded</code> - Option provided to users at the target to indicate whether the Data Safe service account has to be excluded while provisioning the audit policies.</li>
+<li><code>lifecycle_details</code> - Details about the current state of the audit policy in Data Safe.</li>
+<li><code>state</code> - The current state of the audit policy.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>target_id</code> - The OCID of the target for which the audit policy is created.</li>
+<li><code>time_created</code> - The time the the audit policy was created, in the format defined by RFC3339.</li>
+<li><code>time_last_provisioned</code> - Indicates the last provisioning time of audit policies on the target, in the format defined by RFC3339.</li>
+<li><code>time_last_retrieved</code> - The time when the audit policies was last retrieved from this target, in the format defined by RFC3339.</li>
+<li><code>time_updated</code> - The last date and time the audit policy was updated, in the format defined by RFC3339.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Audit Policy
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Audit Policy
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Audit Policy</p>
+
+<h2>Import</h2>
+
+<p>AuditPolicies can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_data_safe_audit_policy.test_audit_policy &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

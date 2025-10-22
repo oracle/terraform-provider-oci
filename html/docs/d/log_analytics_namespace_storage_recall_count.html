@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_log_analytics_namespace_storage_recall_count</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_log_analytics_namespace_storage_recall_count</h1>
+
+<p>This data source provides details about a specific Namespace Storage Recall Count resource in Oracle Cloud Infrastructure Log Analytics service.</p>
+
+<p>This API gets the number of recalls made and the maximum recalls that can be made</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_log_analytics_namespace_storage_recall_count&quot; &quot;test_namespace_storage_recall_count&quot; {
+	#Required
+	namespace = var.namespace_storage_recall_count_namespace
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>namespace</code> - (Required) The Logging Analytics namespace used for the request.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>recall_count</code> - This is the total number of recalls made so far</li>
+<li><code>recall_failed</code> - This is the number of recalls that failed</li>
+<li><code>recall_limit</code> - This is the maximum number of recalls (including successful and pending recalls) allowed</li>
+<li><code>recall_pending</code> - This is the number of recalls in pending state</li>
+<li><code>recall_succeeded</code> - This is the number of recalls that succeeded</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

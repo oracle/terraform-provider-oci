@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_apm_traces_trace_snapshot_data</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_apm_traces_trace_snapshot_data</h1>
+
+<p>This data source provides details about a specific Trace Snapshot Data resource in Oracle Cloud Infrastructure Apm Traces service.</p>
+
+<p>Gets the trace snapshots data identified by trace ID.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_apm_traces_trace_snapshot_data&quot; &quot;test_trace_snapshot_data&quot; {
+	#Required
+	apm_domain_id = oci_apm_apm_domain.test_apm_domain.id
+	trace_key = var.trace_snapshot_data_trace_key
+
+	#Optional
+	is_summarized = var.trace_snapshot_data_is_summarized
+	snapshot_time = var.trace_snapshot_data_snapshot_time
+	thread_id = oci_apm_traces_thread.test_thread.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>apm_domain_id</code> - (Required) The APM Domain ID for the intended request.</li>
+<li><code>is_summarized</code> - (Optional) If enabled, only span level details are sent.</li>
+<li><code>snapshot_time</code> - (Optional) Epoch time of snapshot.</li>
+<li><code>thread_id</code> - (Optional) Thread ID for which snapshots need to be retrieved. This identifier of a thread is a long positive number generated when a thread is created.</li>
+<li><code>trace_key</code> - (Required) Unique Application Performance Monitoring trace identifier (traceId).</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>key</code> - Unique identifier (traceId) for the trace that represents the span set.  Note that this field is defined as traceKey in the API and it maps to the traceId in the trace data in Application Performance Monitoring.</li>
+<li><code>time_ended</code> - End time of the trace.</li>
+<li><code>time_started</code> - Start time of the trace.</li>
+<li><code>trace_snapshot_details</code> - Trace snapshots properties.
+
+<ul>
+<li><code>key</code> - Name of the property.</li>
+<li><code>value</code> - Value of the property.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

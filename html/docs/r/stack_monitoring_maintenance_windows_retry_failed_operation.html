@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_stack_monitoring_maintenance_windows_retry_failed_operation</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_stack_monitoring_maintenance_windows_retry_failed_operation</h1>
+
+<p>This resource provides the Maintenance Windows Retry Failed Operation resource in Oracle Cloud Infrastructure Stack Monitoring service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/stack-monitoring/latest/MaintenanceWindowsRetryFailedOperation">https://docs.oracle.com/iaas/api/#/en/stack-monitoring/latest/MaintenanceWindowsRetryFailedOperation</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/stack_monitoring">https://github.com/oracle/terraform-provider-oci/tree/master/examples/stack_monitoring</a></p>
+
+<p>Retry the last failed operation. The operation failed will be the most recent one. It won&rsquo;t apply for previous failed operations.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_stack_monitoring_maintenance_windows_retry_failed_operation&quot; &quot;test_maintenance_windows_retry_failed_operation&quot; {
+	#Required
+	maintenance_window_id = oci_stack_monitoring_maintenance_window.test_maintenance_window.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>maintenance_window_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of maintenance window.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Maintenance Windows Retry Failed Operation
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Maintenance Windows Retry Failed Operation
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Maintenance Windows Retry Failed Operation</p>
+
+<h2>Import</h2>
+
+<p>MaintenanceWindowsRetryFailedOperation can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_stack_monitoring_maintenance_windows_retry_failed_operation.test_maintenance_windows_retry_failed_operation &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

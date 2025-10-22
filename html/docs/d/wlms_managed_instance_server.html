@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_wlms_managed_instance_server</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_wlms_managed_instance_server</h1>
+
+<p>This data source provides details about a specific Managed Instance Server resource in Oracle Cloud Infrastructure Wlms service.</p>
+
+<p>Gets information about the specified server in a managed instance.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_wlms_managed_instance_server&quot; &quot;test_managed_instance_server&quot; {
+	#Required
+	managed_instance_id = oci_wlms_managed_instance.test_managed_instance.id
+	server_id = oci_wlms_server.test_server.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>managed_instance_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the instance.</p></li>
+
+<li><p><code>server_id</code> - (Required) The unique identifier of a server.</p>
+
+<p><strong>Note:</strong> Not an <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</p></li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>host_name</code> - The name of the server.</p></li>
+
+<li><p><code>id</code> - The unique identifier of the server.</p>
+
+<p><strong>Note:</strong> Not an <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</p></li>
+
+<li><p><code>is_admin</code> - Whether or not the server is an admin node.</p></li>
+
+<li><p><code>jdk_path</code> - The JDK path on the server.</p></li>
+
+<li><p><code>jdk_version</code> - The JDK version on the server.</p></li>
+
+<li><p><code>latest_patches_status</code> - Whether or not the server has installed the latest patches.</p></li>
+
+<li><p><code>managed_instance_id</code> - The managed instance ID of the server.</p></li>
+
+<li><p><code>middleware_path</code> - The middleware path on the server.</p></li>
+
+<li><p><code>middleware_type</code> - The middleware type on the server.</p></li>
+
+<li><p><code>name</code> - The name of the server.</p></li>
+
+<li><p><code>patch_readiness_status</code> - The patch readiness status of the server.</p></li>
+
+<li><p><code>restart_order</code> - The restart order assigned to the server.</p></li>
+
+<li><p><code>status</code> - The status of the server.</p></li>
+
+<li><p><code>time_created</code> - The date and time the server was first reported (in <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a> format).  Example: <code>2016-08-25T21:10:29.600Z</code></p></li>
+
+<li><p><code>time_updated</code> - The date and time the server was last reported (in <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a> format).  Example: <code>2016-08-25T21:10:29.600Z</code></p></li>
+
+<li><p><code>weblogic_version</code> - The version of the WebLogic domain of the server</p></li>
+
+<li><p><code>wls_domain_id</code> - The ID of the WebLogic domain to which the server belongs.</p></li>
+
+<li><p><code>wls_domain_name</code> - The name of the WebLogic domain to which the server belongs.</p></li>
+
+<li><p><code>wls_domain_path</code> - The path of the WebLogic domain to which the server belongs.</p></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

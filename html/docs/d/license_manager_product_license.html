@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_license_manager_product_license</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_license_manager_product_license</h1>
+
+<p>This data source provides details about a specific Product License resource in Oracle Cloud Infrastructure License Manager service.</p>
+
+<p>Retrieves product license details by product license ID in a given compartment.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_license_manager_product_license&quot; &quot;test_product_license&quot; {
+	#Required
+	product_license_id = oci_license_manager_product_license.test_product_license.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>product_license_id</code> - (Required) Unique product license identifier.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>active_license_record_count</code> - The number of active license records associated with the product license.</li>
+<li><code>compartment_id</code> - The compartment <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> where the product license is created.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>display_name</code> - License record name</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - The product license <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>images</code> - The images associated with the product license.
+
+<ul>
+<li><code>id</code> - The image ID associated with the product license.</li>
+<li><code>listing_id</code> - The image listing ID.</li>
+<li><code>listing_name</code> - The listing name associated with the product license.</li>
+<li><code>package_version</code> - The image package version.</li>
+<li><code>publisher</code> - The image publisher.</li>
+</ul></li>
+<li><code>is_over_subscribed</code> - Specifies whether or not the product license is oversubscribed.</li>
+<li><code>is_unlimited</code> - Specifies if the license unit count is unlimited.</li>
+<li><code>is_vendor_oracle</code> - Specifies whether the vendor is Oracle or a third party.</li>
+<li><code>license_unit</code> - The product license unit.</li>
+<li><code>state</code> - The current product license state.</li>
+<li><code>status</code> - The current product license status.</li>
+<li><code>status_description</code> - Status description for the current product license status.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time the product license was created. An <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a>-formatted datetime string.</li>
+<li><code>time_updated</code> - The time the product license was updated. An <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a>-formatted datetime string.</li>
+<li><code>total_active_license_unit_count</code> - The total number of licenses available for the product license, calculated by adding up all the license counts for active license records associated with the product license.</li>
+<li><code>total_license_record_count</code> - The number of license records associated with the product license.</li>
+<li><code>total_license_units_consumed</code> - The number of license units consumed. Updated after each allocation run.</li>
+<li><code>vendor_name</code> - The vendor of the ProductLicense</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

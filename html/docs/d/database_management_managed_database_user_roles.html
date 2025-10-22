@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_management_managed_database_user_roles</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_management_managed_database_user_roles</h1>
+
+<p>This data source provides the list of Managed Database User Roles in Oracle Cloud Infrastructure Database Management service.</p>
+
+<p>Gets the list of roles granted to a specific user.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_management_managed_database_user_roles&quot; &quot;test_managed_database_user_roles&quot; {
+	#Required
+	managed_database_id = oci_database_management_managed_database.test_managed_database.id
+	user_name = oci_identity_user.test_user.name
+
+	#Optional
+	name = var.managed_database_user_role_name
+	opc_named_credential_id = var.managed_database_user_role_opc_named_credential_id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>managed_database_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Managed Database.</li>
+<li><code>name</code> - (Optional) A filter to return only resources that match the entire name.</li>
+<li><code>opc_named_credential_id</code> - (Optional) The OCID of the Named Credential.</li>
+<li><code>user_name</code> - (Required) The name of the user whose details are to be viewed.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>role_collection</code> - The list of role_collection.</li>
+</ul>
+
+<h3>ManagedDatabaseUserRole Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - An array of roles.
+
+<ul>
+<li><code>admin_option</code> - Indicates whether the role is granted with the ADMIN OPTION (YES) or not (NO).</li>
+<li><code>common</code> - Indicates how the role was granted. Possible values: YES if the role is granted commonly (CONTAINER=ALL is used) NO if the role is granted locally (CONTAINER=ALL is not used)</li>
+<li><code>default_role</code> - Indicates whether the role is designated as a DEFAULT ROLE for the user (YES) or not (NO).</li>
+<li><code>delegate_option</code> - Indicates whether the role is granted with the DELEGATE OPTION (YES) or not (NO).</li>
+<li><code>inherited</code> - Indicates whether the granted role is inherited from another container (YES) or not (NO).</li>
+<li><code>name</code> - The name of the role granted to the user.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

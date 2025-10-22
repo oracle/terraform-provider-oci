@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_network_firewall_network_firewall_policy_application</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_network_firewall_network_firewall_policy_application</h1>
+
+<p>This resource provides the Network Firewall Policy Application resource in Oracle Cloud Infrastructure Network Firewall service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/network-firewall/latest/NetworkFirewallPolicyApplication">https://docs.oracle.com/iaas/api/#/en/network-firewall/latest/NetworkFirewallPolicyApplication</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/network_firewall">https://github.com/oracle/terraform-provider-oci/tree/master/examples/network_firewall</a></p>
+
+<p>Creates a new Application inside the Network Firewall Policy.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_network_firewall_network_firewall_policy_application&quot; &quot;test_network_firewall_policy_application&quot; {
+	#Required
+	icmp_type = var.network_firewall_policy_application_icmp_type
+	name = var.network_firewall_policy_application_name
+	network_firewall_policy_id = oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id
+	type = var.network_firewall_policy_application_type
+
+	#Optional
+	icmp_code = var.network_firewall_policy_application_icmp_code
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>icmp_code</code> - (Optional) (Updatable) The value of the ICMP/ICMP_V6 message Code (subtype) field as defined by <a href="https://www.rfc-editor.org/rfc/rfc4443.html#section-2.1">RFC 4443</a>.</li>
+<li><code>icmp_type</code> - (Required) (Updatable) The value of the ICMP/IMCP_V6 message Type field as defined by <a href="https://www.rfc-editor.org/rfc/rfc4443.html#section-2.1">RFC 4443</a>.</li>
+<li><code>name</code> - (Required) Name of the application</li>
+<li><code>network_firewall_policy_id</code> - (Required) Unique Network Firewall Policy identifier</li>
+<li><code>type</code> - (Required) Describes the type of application. The accepted values are - * ICMP * ICMP_V6</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>icmp_code</code> - The value of the ICMP/ICMP_V6 message Code (subtype) field as defined by <a href="https://www.rfc-editor.org/rfc/rfc4443.html#section-2.1">RFC 4443</a>.</li>
+<li><code>icmp_type</code> - The value of the ICMP/ICMP_V6 message Type field as defined by <a href="https://www.rfc-editor.org/rfc/rfc4443.html#section-2.1">RFC 4443</a>.</li>
+<li><code>name</code> - Name of the application.</li>
+<li><code>parent_resource_id</code> - OCID of the Network Firewall Policy this application belongs to.</li>
+<li><code>type</code> - Describes the type of application.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Network Firewall Policy Application
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Network Firewall Policy Application
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Network Firewall Policy Application</p>
+
+<h2>Import</h2>
+
+<p>NetworkFirewallPolicyApplications can be imported using the <code>name</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_network_firewall_network_firewall_policy_application.test_network_firewall_policy_application &quot;networkFirewallPolicies/{networkFirewallPolicyId}/applications/{applicationName}&quot; 
+</code></pre>
+
+	</div>
+
+</body>
+</html>

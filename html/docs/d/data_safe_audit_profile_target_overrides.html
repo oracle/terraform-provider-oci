@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_data_safe_audit_profile_target_overrides</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_data_safe_audit_profile_target_overrides</h1>
+
+<p>This data source provides the list of Audit Profile Target Overrides in Oracle Cloud Infrastructure Data Safe service.</p>
+
+<p>Gets a list of all targets whose audit settings override the target group setting.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_data_safe_audit_profile_target_overrides&quot; &quot;test_audit_profile_target_overrides&quot; {
+	#Required
+	audit_profile_id = oci_data_safe_audit_profile.test_audit_profile.id
+
+	#Optional
+	display_name = var.audit_profile_target_override_display_name
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>audit_profile_id</code> - (Required) The OCID of the audit.</li>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the specified display name.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>target_override_collection</code> - The list of target_override_collection.</li>
+</ul>
+
+<h3>AuditProfileTargetOverride Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - Array of target database override summary.
+
+<ul>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a> Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>is_paid_usage_enabled</code> - Indicates if you want to continue collecting audit records beyond the free limit of one million audit records per month per target database, potentially incurring additional charges. The default value is inherited from the global settings.  You can change at the global level or at the target level.</li>
+<li><code>offline_months</code> - Number of months the audit records will be stored offline in the offline archive. Minimum: 0; Maximum: 72 months. If you have a requirement to store the audit data even longer (up to 168 months) in the offline archive, please contact the Oracle Support.</li>
+<li><code>offline_months_source</code> - The name or the OCID of the resource from which the offline month retention setting is sourced. For example a target database group OCID or global.</li>
+<li><code>online_months</code> - Number of months the audit records will be stored online in the audit repository for immediate reporting and analysis. Minimum: 1; Maximum: 12 months</li>
+<li><code>online_months_source</code> - The name or the OCID of the resource from which the online month retention setting is sourced. For example a target database group OCID or global.</li>
+<li><code>paid_usage_source</code> - The name or the OCID of the resource from which the paid usage setting is sourced. For example a target database group OCID or global.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>target_database_id</code> - The OCID of the target database that overrides from the audit profile of the target database group.</li>
+</ul></li>
+<li><code>targets_conforming_count</code> - Number of target databases within the target database group that conform with the audit profile of the target database group.</li>
+<li><code>targets_count</code> - Number of target databases within the target database group.</li>
+<li><code>targets_overriding_count</code> - Number of target databases within the target database group that override the audit profile of the target database group.</li>
+<li><code>targets_overriding_offline_months_count</code> - Number of target databases within the group that override the offline retention setting of the audit profile for the target database group.</li>
+<li><code>targets_overriding_online_months_count</code> - Number of target databases within the group that override the online retention setting of the audit profile for the target database group.</li>
+<li><code>targets_overriding_paid_usage_count</code> - Number of target databases within the group that override the paid usage setting of the audit profile for the target database group.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

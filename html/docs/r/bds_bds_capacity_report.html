@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_bds_bds_capacity_report</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_bds_bds_capacity_report</h1>
+
+<p>This resource provides the Bds Capacity Report resource in Oracle Cloud Infrastructure Big Data Service service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/bigdata/latest/BdsCapacityReport">https://docs.oracle.com/iaas/api/#/en/bigdata/latest/BdsCapacityReport</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/big_data_service">https://github.com/oracle/terraform-provider-oci/tree/master/examples/big_data_service</a></p>
+
+<p>Create a detailed capacity report for BDS service</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_bds_bds_capacity_report&quot; &quot;test_bds_capacity_report&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	shape_availabilities {
+		#Required
+		shape = var.bds_capacity_report_shape_availabilities_shape
+
+		#Optional
+		shape_config {
+
+			#Optional
+			memory_in_gbs = var.bds_capacity_report_shape_availabilities_shape_config_memory_in_gbs
+			nvmes = var.bds_capacity_report_shape_availabilities_shape_config_nvmes
+			ocpus = var.bds_capacity_report_shape_availabilities_shape_config_ocpus
+		}
+	}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The OCID for the compartment. This should always be the root compartment.</li>
+<li><code>shape_availabilities</code> - (Required) Information about the shapes in the capacity report.
+
+<ul>
+<li><code>shape</code> - (Required) The shape that you want to request a capacity report for.</li>
+<li><code>shape_config</code> - (Optional) The shape configuration requested for the node.
+
+<ul>
+<li><code>memory_in_gbs</code> - (Optional) The total amount of memory available to the node, in gigabytes.</li>
+<li><code>nvmes</code> - (Optional) The number of NVMe drives to be used for storage. A single drive has 6.8 TB available. This parameter is used only for dense shapes.</li>
+<li><code>ocpus</code> - (Optional) The total number of OCPUs available to the node.</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The OCID for the compartment. This should always be the root compartment.</li>
+<li><code>shape_availabilities</code> - Information about the capacity of each requested shape.
+
+<ul>
+<li><code>domain_level_capacity_reports</code> - Information about the capacity in each domain.
+
+<ul>
+<li><code>availability_domain</code> - The availability domain for the capacity report.</li>
+<li><code>capacity_availability</code> - Information about the available capacity for a shape.
+
+<ul>
+<li><code>availability_status</code> - A flag denoting whether capacity is available.</li>
+<li><code>available_count</code> - The total number of new cluster nodes that can be created with the specified shape configuration.</li>
+</ul></li>
+<li><code>domain_type</code> - Type of domain level for the capacity report.</li>
+<li><code>fault_domain</code> - The fault domain for the capacity report.</li>
+</ul></li>
+<li><code>shape</code> - The shape that the capacity report was requested for.</li>
+<li><code>shape_config</code> - The shape configuration requested for the node.
+
+<ul>
+<li><code>memory_in_gbs</code> - The total amount of memory available to the node, in gigabytes.</li>
+<li><code>nvmes</code> - The number of NVMe drives to be used for storage. A single drive has 6.8 TB available.</li>
+<li><code>ocpus</code> - The total number of OCPUs available to the node.</li>
+</ul></li>
+</ul></li>
+<li><code>time_created</code> - The time the report was created, shown as an RFC 3339 formatted datetime string.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Bds Capacity Report
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Bds Capacity Report
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Bds Capacity Report</p>
+
+<h2>Import</h2>
+
+<p>BdsCapacityReports can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_bds_bds_capacity_report.test_bds_capacity_report &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_stack_monitoring_monitored_resource</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_stack_monitoring_monitored_resource</h1>
+
+<p>This data source provides details about a specific Monitored Resource resource in Oracle Cloud Infrastructure Stack Monitoring service.</p>
+
+<p>Get monitored resource for the given identifier <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_stack_monitoring_monitored_resource&quot; &quot;test_monitored_resource&quot; {
+	#Required
+	monitored_resource_id = oci_stack_monitoring_monitored_resource.test_monitored_resource.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>monitored_resource_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of monitored resource.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>aliases</code> - Monitored Resource Alias Credential Details
+
+<ul>
+<li><code>credential</code> - Monitored Resource Alias Reference Source Credential.
+
+<ul>
+<li><code>name</code> - The name of the pre-existing source credential which alias cred should point to. This should refer to the pre-existing source attribute which is bound to credential name.</li>
+<li><code>service</code> - The name of the service owning the credential.  Example: stack-monitoring or dbmgmt</li>
+<li><code>source</code> - The source type and source name combination,delimited with (.) separator. This refers to the pre-existing source which alias cred should point to. Ex. {source type}.{source name} and source type max char limit is 63.</li>
+</ul></li>
+<li><code>name</code> - The name of the alias, within the context of the source.</li>
+<li><code>source</code> - The source type and source name combination,delimited with (.) separator. Example: {source type}.{source name} and source type max char limit is 63.</li>
+</ul></li>
+<li><code>compartment_id</code> - Compartment Identifier <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>credentials</code> - Monitored Resource Credential Details.
+
+<ul>
+<li><code>credential_type</code> - Type of credentials specified in the credentials element. Three possible values - EXISTING, PLAINTEXT and ENCRYPTED.
+
+<ul>
+<li>EXISTING  - Credential is already stored in agent and only credential name need to be passed for existing credential.</li>
+<li>PLAINTEXT - The credential properties will have credentials in plain text format.</li>
+<li>ENCRYPTED - The credential properties will have credentials stored in vault in encrypted format using KMS client which uses master key for encryption. The same master key will be used to decrypt the credentials before passing on to the management agent.</li>
+</ul></li>
+<li><code>description</code> - The user-specified textual description of the credential.</li>
+<li><code>key_id</code> - The master key should be created in Oracle Cloud Infrastructure Vault owned by the client of this API.  The user should have permission to access the vault key.</li>
+<li><code>name</code> - The name of the credential, within the context of the source.</li>
+<li><code>properties</code> - The credential properties list. Credential property values will be either  in plain text format or encrypted for encrypted credentials.
+
+<ul>
+<li><code>name</code> - The name of the credential property, should confirm with names of properties of this credential&rsquo;s type.  Example: For JMXCreds type, credential property name for weblogic user is &lsquo;Username&rsquo;.</li>
+<li><code>value</code> - The value of the credential property name. Example: For JMXCreds type, credential property value for &lsquo;Username&rsquo; property is &lsquo;weblogic&rsquo;.</li>
+</ul></li>
+<li><code>source</code> - The source type and source name combination, delimited with (.) separator. {source type}.{source name} and source type max char limit is 63.</li>
+<li><code>type</code> - The type of the credential ( ex. JMXCreds,DBCreds).</li>
+</ul></li>
+<li><code>database_connection_details</code> - Connection details for the database.
+
+<ul>
+<li><code>connector_id</code> - Database connector Identifier <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>db_id</code> - dbId of the database.</li>
+<li><code>db_unique_name</code> - UniqueName used for database connection requests.</li>
+<li><code>port</code> - Listener Port number used for connection requests.</li>
+<li><code>protocol</code> - Protocol used in DB connection string when connecting to external database service.</li>
+<li><code>service_name</code> - Service name used for connection requests.</li>
+<li><code>ssl_secret_id</code> - SSL Secret Identifier for TCPS connector in Oracle Cloud Infrastructure Vault<a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+</ul></li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>display_name</code> - Monitored resource display name.</li>
+<li><code>external_id</code> - The external resource identifier <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>. External resource is any Oracle Cloud Infrastructure resource which is not a Stack Monitoring service resource. Currently supports only following resource types - Container database, non-container database,  pluggable database and Oracle Cloud Infrastructure compute instance.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>host_name</code> - Monitored resource host name.</li>
+<li><code>id</code> - Monitored resource identifier <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>license</code> - License edition of the monitored resource.</li>
+<li><code>management_agent_id</code> - Management Agent Identifier <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>name</code> - Monitored resource name.</li>
+<li><code>properties</code> - List of monitored resource properties.
+
+<ul>
+<li><code>name</code> - Property Name.</li>
+<li><code>value</code> - Property Value.</li>
+</ul></li>
+<li><code>resource_category</code> - Resource Category to indicate the kind of resource type.</li>
+<li><code>resource_time_zone</code> - Time zone in the form of tz database canonical zone ID.</li>
+<li><code>source_type</code> - Source type to indicate if the resource is stack monitoring discovered, Oracle Cloud Infrastructure native resource, etc.</li>
+<li><code>state</code> - Lifecycle state of the monitored resource.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>tenant_id</code> - Tenancy Identifier <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>time_created</code> - The date and time when the monitored resource was created, expressed in  <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a> timestamp format.</li>
+<li><code>time_updated</code> - The date and time when the monitored resource was last updated, expressed in <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a> timestamp format.</li>
+<li><code>type</code> - Monitored Resource Type.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_os_management_hub_managed_instance_available_packages</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_os_management_hub_managed_instance_available_packages</h1>
+
+<p>This data source provides the list of Managed Instance Available Packages in Oracle Cloud Infrastructure Os Management Hub service.</p>
+
+<p>Returns a list of packages that are available for installation on a managed instance.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_os_management_hub_managed_instance_available_packages&quot; &quot;test_managed_instance_available_packages&quot; {
+	#Required
+	managed_instance_id = oci_os_management_hub_managed_instance.test_managed_instance.id
+
+	#Optional
+	compartment_id = var.compartment_id
+	display_name = var.managed_instance_available_package_display_name
+	display_name_contains = var.managed_instance_available_package_display_name_contains
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Optional) The OCID of the compartment that contains the resources to list. This filter returns only resources contained within the specified compartment.</li>
+<li><code>display_name</code> - (Optional) A filter to return resources that match the given display names.</li>
+<li><code>display_name_contains</code> - (Optional) A filter to return resources that may partially match the given display name.</li>
+<li><code>managed_instance_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the managed instance.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>available_package_collection</code> - The list of available_package_collection.</li>
+</ul>
+
+<h3>ManagedInstanceAvailablePackage Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - List of available packages.
+
+<ul>
+<li><code>architecture</code> - The architecture for which this package was built.</li>
+<li><code>display_name</code> - Package name.</li>
+<li><code>name</code> - Unique identifier for the package.</li>
+<li><code>package_classification</code> - Status of the software package.</li>
+<li><code>software_sources</code> - List of software sources that provide the software package.
+
+<ul>
+<li><code>description</code> - Software source description.</li>
+<li><code>display_name</code> - Software source name.</li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the software source.</li>
+<li><code>is_mandatory_for_autonomous_linux</code> - Indicates whether this is a required software source for Autonomous Linux instances. If true, the user can&rsquo;t unselect it.</li>
+<li><code>software_source_type</code> - Type of the software source.</li>
+</ul></li>
+<li><code>type</code> - Type of the package.</li>
+<li><code>version</code> - Version of the installed package.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

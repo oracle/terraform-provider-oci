@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_lustre_file_storage_lustre_file_system</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_lustre_file_storage_lustre_file_system</h1>
+
+<p>This data source provides details about a specific Lustre File System resource in Oracle Cloud Infrastructure Lustre File Storage service.</p>
+
+<p>Gets information about a Lustre file system.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_lustre_file_storage_lustre_file_system&quot; &quot;test_lustre_file_system&quot; {
+	#Required
+	lustre_file_system_id = oci_lustre_file_storage_lustre_file_system.test_lustre_file_system.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>lustre_file_system_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Lustre file system.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>availability_domain</code> - The availability domain the file system is in. May be unset as a blank or NULL value.  Example: <code>Uocm:PHX-AD-1</code></li>
+<li><code>capacity_in_gbs</code> - Capacity of the Lustre file system in GB.</li>
+<li><code>cluster_placement_group_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the cluster placement group in which the Lustre file system exists.</li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment that contains the Lustre file system.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>display_name</code> - A user-friendly name. It does not have to be unique, and it is changeable. Avoid entering confidential information.  Example: <code>My Lustre file system</code></li>
+<li><code>file_system_description</code> - Short description of the Lustre file system. Avoid entering confidential information.</li>
+<li><code>file_system_name</code> - The Lustre file system name. This is used in mount commands and other aspects of the client command line interface. The default file system name is &lsquo;lustre&rsquo;. The file system name is limited to 8 characters. Allowed characters are lower and upper case English letters, numbers, and &lsquo;_&rsquo;.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Lustre file system.</li>
+<li><code>kms_key_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the KMS key used to encrypt the encryption keys associated with this file system.</li>
+<li><code>lifecycle_details</code> - A message that describes the current state of the Lustre file system in more detail. For example, can be used to provide actionable information for a resource in the Failed state.</li>
+<li><code>lnet</code> - Type of network used by clients to mount the file system.   Example: <code>tcp</code></li>
+<li><code>maintenance_window</code> - The preferred day and time to perform maintenance.
+
+<ul>
+<li><code>day_of_week</code> - Day of the week when the maintainence window starts.</li>
+<li><code>time_start</code> - The time to start the maintenance window. The format is &lsquo;HH:MM&rsquo;, &lsquo;HH:MM&rsquo; represents the time in UTC.   Example: <code>22:00</code></li>
+</ul></li>
+<li><code>major_version</code> - Major version of Lustre running in the Lustre file system.  Example: <code>2.15</code></li>
+<li><code>management_service_address</code> - The IPv4 address of MGS (Lustre Management Service) used by clients to mount the file system. For example &lsquo;10.0.0.4&rsquo;.</li>
+<li><code>nsg_ids</code> - A list of Network Security Group <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCIDs</a> associated with this lustre file system. A maximum of 5 is allowed. Setting this to an empty array after the list is created removes the lustre file system from all NSGs. For more information about NSGs, see <a href="https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm">Security Rules</a>.</li>
+<li><code>performance_tier</code> - The Lustre file system performance tier. A value of <code>MBPS_PER_TB_125</code> represents 125 megabytes per second per terabyte.</li>
+<li><code>root_squash_configuration</code> - An administrative feature that allows you to restrict root level access from clients that try to access your Lustre file system as root.
+
+<ul>
+<li><code>client_exceptions</code> - A list of NIDs allowed with this lustre file system not to be squashed. A maximum of 10 is allowed.</li>
+<li><code>identity_squash</code> - Used when clients accessing the Lustre file system have their UID and GID remapped to <code>squashUid</code> and <code>squashGid</code>. If <code>ROOT</code>, only the root user and group (UID/GID 0) are remapped; if <code>NONE</code>, no remapping is done. If unspecified, defaults to <code>NONE</code>.</li>
+<li><code>squash_gid</code> - The GID value to remap to when squashing a client GID. See <code>identitySquash</code> for more details. If unspecified, defaults to <code>65534</code>.</li>
+<li><code>squash_uid</code> - The UID value to remap to when squashing a client UID. See <code>identitySquash</code> for more details. If unspecified, defaults to <code>65534</code>.</li>
+</ul></li>
+<li><code>state</code> - The current state of the Lustre file system.</li>
+<li><code>subnet_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the subnet the Lustre file system is in.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace.  Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_billing_cycle_end</code> - The date and time that the current billing cycle for the file system will end, expressed in <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a> timestamp format. After the current cycle ends, this date is updated automatically to the next timestamp, which is 30 days later. File systems deleted earlier than this time will still incur charges until the billing cycle ends.  Example: <code>2016-08-25T21:10:29.600Z</code></li>
+<li><code>time_created</code> - The date and time the Lustre file system was created, expressed in <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a> timestamp format.  Example: <code>2024-04-25T21:10:29.600Z</code></li>
+<li><code>time_updated</code> - The date and time the Lustre file system was updated, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a>.  Example: <code>2024-04-25T21:10:29.600Z</code></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

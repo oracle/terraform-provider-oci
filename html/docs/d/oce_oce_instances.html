@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_oce_oce_instances</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_oce_oce_instances</h1>
+
+<p>This data source provides the list of Oce Instances in Oracle Cloud Infrastructure Content and Experience service.</p>
+
+<p>Returns a list of OceInstances.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_oce_oce_instances&quot; &quot;test_oce_instances&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	display_name = var.oce_instance_display_name
+	state = var.oce_instance_state
+	tenancy_id = oci_identity_tenancy.test_tenancy.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The ID of the compartment in which to list resources.</li>
+<li><code>display_name</code> - (Optional) A user-friendly name. Does not have to be unique, and it&rsquo;s changeable.  Example: <code>My new resource</code></li>
+<li><code>state</code> - (Optional) Filter results on lifecycleState.</li>
+<li><code>tenancy_id</code> - (Optional) The ID of the tenancy in which to list resources.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>oce_instances</code> - The list of oce_instances.</li>
+</ul>
+
+<h3>OceInstance Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>add_on_features</code> - a list of add-on features for the ocm instance</li>
+<li><code>admin_email</code> - Admin Email for Notification</li>
+<li><code>compartment_id</code> - Compartment Identifier</li>
+<li><code>defined_tags</code> - Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>description</code> - OceInstance description, can be updated</li>
+<li><code>dr_region</code> - disaster recovery paired ragion name</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>guid</code> - Unique GUID identifier that is immutable on creation</li>
+<li><code>id</code> - Unique identifier that is immutable on creation</li>
+<li><code>idcs_tenancy</code> - IDCS Tenancy Identifier</li>
+<li><code>instance_access_type</code> - Flag indicating whether the instance access is private or public</li>
+<li><code>instance_license_type</code> - Flag indicating whether the instance license is new cloud or bring your own license</li>
+<li><code>instance_usage_type</code> - Instance type based on its usage</li>
+<li><code>lifecycle_details</code> - Details of the current state of the instance lifecycle</li>
+<li><code>name</code> - OceInstance Name</li>
+<li><code>object_storage_namespace</code> - Object Storage Namespace of tenancy</li>
+<li><code>service</code> - SERVICE data. Example: <code>{&quot;service&quot;: {&quot;IDCS&quot;: &quot;value&quot;}}</code></li>
+<li><code>state</code> - The current state of the instance lifecycle.</li>
+<li><code>state_message</code> - An message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>tenancy_id</code> - Tenancy Identifier</li>
+<li><code>tenancy_name</code> - Tenancy Name</li>
+<li><code>time_created</code> - The time the the OceInstance was created. An RFC3339 formatted datetime string</li>
+<li><code>time_updated</code> - The time the OceInstance was updated. An RFC3339 formatted datetime string</li>
+<li><code>upgrade_schedule</code> - Upgrade schedule type representing service to be upgraded immediately whenever latest version is released or delay upgrade of the service to previous released version</li>
+<li><code>waf_primary_domain</code> - Web Application Firewall(WAF) primary domain</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_ai_vision_model</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_ai_vision_model</h1>
+
+<p>This data source provides details about a specific Model resource in Oracle Cloud Infrastructure Ai Vision service.</p>
+
+<p>Get a model by identifier.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_ai_vision_model&quot; &quot;test_model&quot; {
+	#Required
+	model_id = oci_ai_vision_model.test_model.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>model_id</code> - (Required) A unique model identifier.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; ours
+* <code>average_precision</code> - The mean average precision of the trained model.
+* <code>compartment_id</code> - The compartment identifier.
+* <code>confidence_threshold</code> - The intersection over the union threshold used for calculating precision and recall.
+* <code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For example: <code>{&quot;foo-namespace&quot;: {&quot;bar-key&quot;: &quot;value&quot;}}</code>
+* <code>description</code> - An optional description of the model.
+* <code>display_name</code> - A human-friendly name for the model, which can be changed.
+* <code>freeform_tags</code> - A simple key-value pair that is applied without any predefined name, type, or scope. It exists for cross-compatibility only. For example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code>
+* <code>id</code> - A unique identifier that is immutable after creation.
+* <code>is_quick_mode</code> - Set to true when experimenting with a new model type or dataset, so model training is quick, with a predefined low number of passes through the training data.
+* <code>lifecycle_details</code> - A message describing the current state in more detail, that can provide actionable information if training failed.
+* <code>max_training_duration_in_hours</code> - The maximum model training duration in hours, expressed as a decimal fraction.
+* <code>metrics</code> - The complete set of per-label metrics for successfully trained models.
+* <code>model_type</code> - What type of Vision model this is.
+* <code>model_version</code> - The version of the model.
+* <code>precision</code> - The precision of the trained model.
+* <code>project_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the project that contains the model.
+* <code>recall</code> - Recall of the trained model.
+* <code>state</code> - The current state of the model.
+* <code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. For example: <code>{&quot;orcl-cloud&quot;: {&quot;free-tier-retained&quot;: &quot;true&quot;}}</code>
+* <code>test_image_count</code> - The number of images set aside for evaluating model performance metrics after training.
+* <code>testing_dataset</code> - The base entity which is the input for creating and training a model.
+	* <code>bucket</code> - The name of the Object Storage bucket that contains the input data file.
+	* <code>dataset_id</code> - OCID of the Data Labeling dataset.
+	* <code>dataset_type</code> - The dataset type, based on where it is stored.
+	* <code>namespace</code> - The namespace name of the Object Storage bucket that contains the input data file.
+	* <code>object</code> - The object name of the input data file.
+* <code>time_created</code> - When the model was created, as an RFC3339 datetime string.
+* <code>time_updated</code> - When the model was updated, as an RFC3339 datetime string.
+* <code>total_image_count</code> - The number of images in the dataset used to train, validate, and test the model.
+* <code>trained_duration_in_hours</code> - The total hours actually used for model training.
+* <code>training_dataset</code> - The base entity which is the input for creating and training a model.
+	* <code>bucket</code> - The name of the Object Storage bucket that contains the input data file.
+	* <code>dataset_id</code> - OCID of the Data Labeling dataset.
+	* <code>dataset_type</code> - The dataset type, based on where it is stored.
+	* <code>namespace</code> - The namespace name of the Object Storage bucket that contains the input data file.
+	* <code>object</code> - The object name of the input data file.
+* <code>validation_dataset</code> - The base entity which is the input for creating and training a model.
+	* <code>bucket</code> - The name of the Object Storage bucket that contains the input data file.
+	* <code>dataset_id</code> - OCID of the Data Labeling dataset.
+	* <code>dataset_type</code> - The dataset type, based on where it is stored.</p>
+
+<h1>	* <code>namespace</code> - The namespace name of the Object Storage bucket that contains the input data file.</h1>
+
+<ul>
+<li><code>average_precision</code> - Average precision of the trained model</li>
+<li><code>compartment_id</code> - Compartment Identifier</li>
+<li><code>confidence_threshold</code> - Confidence ratio of the calculation</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>description</code> - A short description of the model.</li>
+<li><code>display_name</code> - Model Identifier, can be renamed</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - Unique identifier that is immutable on creation</li>
+<li><code>is_quick_mode</code> - If It&rsquo;s true, Training is set for recommended epochs needed for quick training.</li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.</li>
+<li><code>max_training_duration_in_hours</code> - The maximum duration in hours for which the training will run.</li>
+<li><code>metrics</code> - Complete Training Metrics for successful trained model</li>
+<li><code>model_type</code> - Type of the Model.</li>
+<li><code>model_version</code> - The version of the model</li>
+<li><code>precision</code> - Precision of the trained model</li>
+<li><code>project_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the project to associate with the model.</li>
+<li><code>recall</code> - Recall of the trained model</li>
+<li><code>state</code> - The current state of the Model.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>test_image_count</code> - Total number of testing Images</li>
+<li><code>testing_dataset</code> - The base entity for a Dataset, which is the input for Model creation.
+
+<ul>
+<li><code>bucket</code> - The name of the ObjectStorage bucket that contains the input data file.</li>
+<li><code>dataset_id</code> - The OCID of the Data Science Labeling Dataset.</li>
+<li><code>dataset_type</code> - Type of the Dataset.</li>
+<li><code>namespace_name</code> - The namespace name of the ObjectStorage bucket that contains the input data file.</li>
+<li><code>object</code> - The object name of the input data file.</li>
+</ul></li>
+<li><code>time_created</code> - The time the Model was created. An RFC3339 formatted datetime string</li>
+<li><code>time_updated</code> - The time the Model was updated. An RFC3339 formatted datetime string</li>
+<li><code>total_image_count</code> - Total number of training Images</li>
+<li><code>trained_duration_in_hours</code> - Total hours actually used for training</li>
+<li><code>training_dataset</code> - The base entity for a Dataset, which is the input for Model creation.
+
+<ul>
+<li><code>bucket</code> - The name of the ObjectStorage bucket that contains the input data file.</li>
+<li><code>dataset_id</code> - The OCID of the Data Science Labeling Dataset.</li>
+<li><code>dataset_type</code> - Type of the Dataset.</li>
+<li><code>namespace_name</code> - The namespace name of the ObjectStorage bucket that contains the input data file.</li>
+<li><code>object</code> - The object name of the input data file.</li>
+</ul></li>
+<li><code>validation_dataset</code> - The base entity for a Dataset, which is the input for Model creation.
+
+<ul>
+<li><code>bucket</code> - The name of the ObjectStorage bucket that contains the input data file.</li>
+<li><code>dataset_id</code> - The OCID of the Data Science Labeling Dataset.</li>
+<li><code>dataset_type</code> - Type of the Dataset.</li>
+<li><code>namespace_name</code> - The namespace name of the ObjectStorage bucket that contains the input data file.
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; theirs</li>
+<li><code>object</code> - The object name of the input data file.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

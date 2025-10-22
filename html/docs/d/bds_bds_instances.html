@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_bds_bds_instances</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_bds_bds_instances</h1>
+
+<p>This data source provides the list of Bds Instances in Oracle Cloud Infrastructure Big Data Service service.</p>
+
+<p>Returns a list of all Big Data Service clusters in a compartment.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_bds_bds_instances&quot; &quot;test_bds_instances&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	display_name = var.bds_instance_display_name
+	state = var.bds_instance_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The OCID of the compartment.</li>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the entire display name given.</li>
+<li><code>state</code> - (Optional) The state of the cluster.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>bds_instances</code> - The list of bds_instances.</li>
+</ul>
+
+<h3>BdsInstance Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>bds_cluster_version_summary</code> - Cluster version details including bds and odh version information.
+
+<ul>
+<li><code>bds_version</code> - BDS version to be used for cluster creation</li>
+<li><code>odh_version</code> - ODH version to be used for cluster creation</li>
+</ul></li>
+<li><code>bootstrap_script_url</code> - pre-authenticated URL of the bootstrap script in Object Store that can be downloaded and executed.</li>
+<li><code>cloud_sql_details</code> - The information about added Cloud SQL capability
+
+<ul>
+<li><code>block_volume_size_in_gbs</code> - The size of block volume in GB that needs to be attached to a given node. All the necessary details needed for attachment are managed by service itself.</li>
+<li><code>ip_address</code> - IP address of the Cloud SQL node.</li>
+<li><code>is_kerberos_mapped_to_database_users</code> - Boolean flag specifying whether or not Kerberos principals are mapped to database users.</li>
+<li><code>kerberos_details</code> - Details about the Kerberos principals.
+
+<ul>
+<li><code>keytab_file</code> - Location of the keytab file</li>
+<li><code>principal_name</code> - Name of the Kerberos principal.</li>
+</ul></li>
+<li><code>shape</code> - Shape of the node</li>
+</ul></li>
+<li><code>cluster_details</code> - Specific info about a Hadoop cluster
+
+<ul>
+<li><code>ambari_url</code> - The URL of Ambari</li>
+<li><code>bd_cell_version</code> - Cloud SQL cell version.</li>
+<li><code>bda_version</code> - BDA version installed in the cluster</li>
+<li><code>bdm_version</code> - Big Data Manager version installed in the cluster.</li>
+<li><code>bds_version</code> - Big Data Service version installed in the cluster.</li>
+<li><code>big_data_manager_url</code> - The URL of Big Data Manager.</li>
+<li><code>cloudera_manager_url</code> - The URL of Cloudera Manager</li>
+<li><code>csql_cell_version</code> - Big Data SQL version.</li>
+<li><code>db_version</code> - Cloud SQL query server database version.</li>
+<li><code>hue_server_url</code> - The URL of the Hue server.</li>
+<li><code>jupyter_hub_url</code> - The URL of the Jupyterhub.</li>
+<li><code>odh_version</code> - Version of the ODH (Oracle Distribution including Apache Hadoop) installed on the cluster.</li>
+<li><code>os_version</code> - Oracle Linux version installed in the cluster.</li>
+<li><code>time_created</code> - The time the cluster was created, shown as an RFC 3339 formatted datetime string.</li>
+<li><code>time_refreshed</code> - The time the cluster was automatically or manually refreshed, shown as an RFC 3339 formatted datetime string.</li>
+</ul></li>
+<li><code>cluster_profile</code> - Profile of the Big Data Service cluster.</li>
+<li><code>cluster_version</code> - Version of the Hadoop distribution.</li>
+<li><code>compartment_id</code> - The OCID of the compartment.</li>
+<li><code>created_by</code> - The user who created the cluster.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For example, <code>{&quot;foo-namespace&quot;: {&quot;bar-key&quot;: &quot;value&quot;}}</code></li>
+<li><code>display_name</code> - The name of the cluster.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only. For example, <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - The OCID of the Big Data Service resource.</li>
+<li><code>is_cloud_sql_configured</code> - Boolean flag specifying whether or not Cloud SQL should be configured.</li>
+<li><code>is_high_availability</code> - Boolean flag specifying whether or not the cluster is highly available (HA)</li>
+<li><code>is_kafka_configured</code> - Boolean flag specifying whether or not Kafka should be configured.</li>
+<li><code>is_secure</code> - Boolean flag specifying whether or not the cluster should be set up as secure.</li>
+<li><code>kms_key_id</code> - The OCID of the Key Management master encryption key.</li>
+<li><code>network_config</code> - Additional configuration of the user&rsquo;s network.
+
+<ul>
+<li><code>cidr_block</code> - The CIDR IP address block of the VCN.</li>
+<li><code>is_nat_gateway_required</code> - A boolean flag whether to configure a NAT gateway.</li>
+</ul></li>
+<li><code>nodes</code> - The list of nodes in the cluster.
+
+<ul>
+<li><code>attached_block_volumes</code> - The list of block volumes attached to a given node.
+
+<ul>
+<li><code>volume_attachment_id</code> - The OCID of the volume attachment.</li>
+<li><code>volume_size_in_gbs</code> - The size of the volume in GBs.</li>
+</ul></li>
+<li><code>availability_domain</code> - The name of the availability domain in which the node is running.</li>
+<li><code>display_name</code> - The name of the node.</li>
+<li><code>fault_domain</code> - The name of the fault domain in which the node is running.</li>
+<li><code>hostname</code> - The fully-qualified hostname (FQDN) of the node.</li>
+<li><code>image_id</code> - The OCID of the image from which the node was created.</li>
+<li><code>instance_id</code> - The OCID of the underlying Oracle Cloud Infrastructure Compute instance.</li>
+<li><code>ip_address</code> - IP address of the node.</li>
+<li><code>is_reboot_required</code> - Indicates if the node requires a reboot to either reflect the latest os kernel or take actions for maintenance reboot.</li>
+<li><code>local_disks_total_size_in_gbs</code> - The aggregate size of all local disks, in gigabytes. If the instance does not have any local disks, this field is null.</li>
+<li><code>memory_in_gbs</code> - The total amount of memory available to the node, in gigabytes.</li>
+<li><code>node_type</code> - Cluster node type.</li>
+<li><code>nvmes</code> - The number of NVMe drives to be used for storage. A single drive has 6.8 TB available.</li>
+<li><code>ocpus</code> - The total number of OCPUs available to the node.</li>
+<li><code>odh_version</code> - Version of the ODH (Oracle Distribution including Apache Hadoop) for the node.</li>
+<li><code>os_version</code> - BDS-assigned Operating System version for the node.</li>
+<li><code>shape</code> - Shape of the node.</li>
+<li><code>ssh_fingerprint</code> - The fingerprint of the SSH key used for node access.</li>
+<li><code>state</code> - The state of the node.</li>
+<li><code>subnet_id</code> - The OCID of the subnet in which the node is to be created.</li>
+<li><code>time_created</code> - The time the node was created, shown as an RFC 3339 formatted datetime string.</li>
+<li><code>time_maintenance_reboot_due</code> - The date and time the instance is expected to be stopped / started, in the format defined by RFC3339.</li>
+<li><code>time_updated</code> - The time the cluster was updated, shown as an RFC 3339 formatted datetime string.</li>
+</ul></li>
+<li><code>number_of_nodes</code> - The number of nodes that form the cluster.</li>
+<li><code>number_of_nodes_requiring_maintenance_reboot</code> - Number of nodes that require a maintenance reboot</li>
+<li><code>state</code> - The state of the cluster.</li>
+<li><code>time_created</code> - The time the cluster was created, shown as an RFC 3339 formatted datetime string.</li>
+<li><code>time_updated</code> - The time the cluster was updated, shown as an RFC 3339 formatted datetime string.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_os_management_hub_profile_version</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_os_management_hub_profile_version</h1>
+
+<p>This data source provides details about a specific Profile Version resource in Oracle Cloud Infrastructure Os Management Hub service.</p>
+
+<p>Returns information about the version of the specified registration profile.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_os_management_hub_profile_version&quot; &quot;test_profile_version&quot; {
+	#Required
+	profile_id = oci_os_management_hub_profile.test_profile.id
+	profile_version = var.profile_version_profile_version
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>profile_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the registration profile.</li>
+<li><code>profile_version</code> - (Required) The version of the registration profile.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>arch_type</code> - The architecture type.</li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment that contains the registration profile.</li>
+<li><code>description</code> - The description of the registration profile.</li>
+<li><code>display_name</code> - A user-friendly name for the profile.</li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the registration profile.</li>
+<li><code>is_default_profile</code> - Indicates if the profile is set as the default. There is exactly one default profile for a specified architecture, OS family, registration type, and vendor. When registering an instance with the corresonding characteristics, the default profile is used, unless another profile is specified.</li>
+<li><code>is_service_provided_profile</code> - Indicates if the profile was created by the service. OS Management Hub provides a limited set of standardized profiles that can be used to register Autonomous Linux or Windows instances.</li>
+<li><code>lifecycle_environment</code> - Provides identifying information for the specified lifecycle environment.
+
+<ul>
+<li><code>display_name</code> - Lifecycle environment name.</li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the lifecycle environment.</li>
+</ul></li>
+<li><code>lifecycle_stage</code> - Provides identifying information for the specified lifecycle stage.
+
+<ul>
+<li><code>display_name</code> - Lifecycle stage name.</li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the lifecycle stage.</li>
+</ul></li>
+<li><code>managed_instance_group</code> - Provides identifying information for the specified managed instance group.
+
+<ul>
+<li><code>display_name</code> - Managed instance group name.</li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the managed instance group.</li>
+</ul></li>
+<li><code>management_station_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the management station to associate with an  instance once registered. Management stations are only used with non-OCI instances.</li>
+<li><code>os_family</code> - The operating system family.</li>
+<li><code>profile_type</code> - The type of profile.</li>
+<li><code>profile_version</code> - The version of the profile.</li>
+<li><code>registration_type</code> - The type of instance to register.</li>
+<li><code>software_sources</code> - The list of software sources that the registration profile will use.
+
+<ul>
+<li><code>description</code> - Software source description.</li>
+<li><code>display_name</code> - Software source name.</li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the software source.</li>
+<li><code>is_mandatory_for_autonomous_linux</code> - Indicates whether this is a required software source for Autonomous Linux instances. If true, the user can&rsquo;t unselect it.</li>
+<li><code>software_source_type</code> - Type of the software source.</li>
+</ul></li>
+<li><code>state</code> - The current state of the registration profile.</li>
+<li><code>time_created</code> - The time the registration profile was created (in <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a> format).</li>
+<li><code>time_modified</code> - The time the registration profile was last modified (in <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a> format).</li>
+<li><code>vendor_name</code> - The vendor of the operating system for the instance.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

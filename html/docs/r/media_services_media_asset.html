@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_media_services_media_asset</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_media_services_media_asset</h1>
+
+<p>This resource provides the Media Asset resource in Oracle Cloud Infrastructure Media Services service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/dms/latest/MediaAsset">https://docs.oracle.com/iaas/api/#/en/dms/latest/MediaAsset</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/media_services">https://github.com/oracle/terraform-provider-oci/tree/master/examples/media_services</a></p>
+
+<p>Creates a new MediaAsset.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_media_services_media_asset&quot; &quot;test_media_asset&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	type = var.media_asset_type
+
+	#Optional
+	bucket = var.media_asset_bucket
+	defined_tags = {&quot;foo-namespace.bar-key&quot;= &quot;value&quot;}
+	display_name = var.media_asset_display_name
+	freeform_tags = {&quot;bar-key&quot;= &quot;value&quot;}
+	locks {
+		#Required
+		compartment_id = var.compartment_id
+		type = var.media_asset_locks_type
+
+		#Optional
+		message = var.media_asset_locks_message
+		related_resource_id = oci_usage_proxy_resource.test_resource.id
+		time_created = var.media_asset_locks_time_created
+	}
+	master_media_asset_id = oci_media_services_media_asset.test_media_asset.id
+	media_asset_tags {
+		#Required
+		value = var.media_asset_media_asset_tags_value
+
+		#Optional
+		type = var.media_asset_media_asset_tags_type
+	}
+	media_workflow_job_id = oci_media_services_media_workflow_job.test_media_workflow_job.id
+	metadata {
+		#Required
+		metadata = var.media_asset_metadata_metadata
+	}
+	namespace = var.media_asset_namespace
+	object = var.media_asset_object
+	object_etag = var.media_asset_object_etag
+	parent_media_asset_id = oci_media_services_media_asset.test_media_asset.id
+	segment_range_end_index = var.media_asset_segment_range_end_index
+	segment_range_start_index = var.media_asset_segment_range_start_index
+	source_media_workflow_id = oci_media_services_media_workflow.test_media_workflow.id
+	source_media_workflow_version = var.media_asset_source_media_workflow_version
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>bucket</code> - (Optional) The name of the object storage bucket where this asset is located.</li>
+<li><code>compartment_id</code> - (Required) (Updatable) Compartment Identifier.</li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>display_name</code> - (Optional) (Updatable) Display name for the Media Asset. Does not have to be unique. Avoid entering confidential information.</li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>locks</code> - (Optional) Locks associated with this resource.
+
+<ul>
+<li><code>compartment_id</code> - (Required) (Updatable) The compartment ID of the lock.</li>
+<li><code>message</code> - (Optional) A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked.</li>
+<li><code>related_resource_id</code> - (Optional) The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock.</li>
+<li><code>time_created</code> - (Optional) When the lock was created.</li>
+<li><code>type</code> - (Required) Type of the lock.</li>
+</ul></li>
+<li><code>master_media_asset_id</code> - (Optional) (Updatable) The ID of the senior most asset from which this asset is derived.</li>
+<li><code>media_asset_tags</code> - (Optional) (Updatable) list of tags for the MediaAsset.
+
+<ul>
+<li><code>type</code> - (Optional) (Updatable) Type of the tag.</li>
+<li><code>value</code> - (Required) (Updatable) Tag of the MediaAsset.</li>
+</ul></li>
+<li><code>media_workflow_job_id</code> - (Optional) The ID of the MediaWorkflowJob used to produce this asset.</li>
+<li><code>metadata</code> - (Optional) (Updatable) List of Metadata.
+
+<ul>
+<li><code>metadata</code> - (Required) (Updatable) JSON string containing the technial metadata for the media asset.</li>
+</ul></li>
+<li><code>namespace</code> - (Optional) The object storage namespace where this asset is located.</li>
+<li><code>object</code> - (Optional) The object storage object name that identifies this asset.</li>
+<li><code>object_etag</code> - (Optional) eTag of the underlying object storage object.</li>
+<li><code>parent_media_asset_id</code> - (Optional) (Updatable) The ID of the parent asset from which this asset is derived.</li>
+<li><code>segment_range_end_index</code> - (Optional) The end index for video segment files.</li>
+<li><code>segment_range_start_index</code> - (Optional) The start index for video segment files.</li>
+<li><code>source_media_workflow_id</code> - (Optional) The ID of the MediaWorkflow used to produce this asset.</li>
+<li><code>source_media_workflow_version</code> - (Optional) The version of the MediaWorkflow used to produce this asset.</li>
+<li><code>type</code> - (Required) (Updatable) The type of the media asset.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>bucket</code> - The name of the object storage bucket where this represented asset is located.</li>
+<li><code>compartment_id</code> - The ID of the compartment containing the MediaAsset.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - Unique identifier that is immutable on creation.</li>
+<li><code>locks</code> - Locks associated with this resource.
+
+<ul>
+<li><code>compartment_id</code> - The compartment ID of the lock.</li>
+<li><code>message</code> - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked.</li>
+<li><code>related_resource_id</code> - The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock.</li>
+<li><code>time_created</code> - When the lock was created.</li>
+<li><code>type</code> - Type of the lock.</li>
+</ul></li>
+<li><code>master_media_asset_id</code> - The ID of the senior most asset from which this asset is derived.</li>
+<li><code>media_asset_tags</code> - List of tags for the MediaAsset.
+
+<ul>
+<li><code>type</code> - Type of the tag.</li>
+<li><code>value</code> - Tag of the MediaAsset.</li>
+</ul></li>
+<li><code>media_workflow_job_id</code> - The ID of the MediaWorkflowJob used to produce this asset.</li>
+<li><code>metadata</code> - List of Metadata.
+
+<ul>
+<li><code>metadata</code> - JSON string containing the technial metadata for the media asset.</li>
+</ul></li>
+<li><code>namespace</code> - The object storage namespace where this asset is located.</li>
+<li><code>object</code> - The object storage object name that identifies this asset.</li>
+<li><code>object_etag</code> - eTag of the underlying object storage object.</li>
+<li><code>parent_media_asset_id</code> - The ID of the parent asset from which this asset is derived.</li>
+<li><code>segment_range_end_index</code> - The end index of video segment files.</li>
+<li><code>segment_range_start_index</code> - The start index for video segment files.</li>
+<li><code>source_media_workflow_id</code> - The ID of the MediaWorkflow used to produce this asset.</li>
+<li><code>source_media_workflow_version</code> - The version of the MediaWorkflow used to produce this asset.</li>
+<li><code>state</code> - The current state of the MediaAsset.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time when the MediaAsset was created. An RFC3339 formatted datetime string.</li>
+<li><code>time_updated</code> - The time when the MediaAsset was updated. An RFC3339 formatted datetime string.</li>
+<li><code>type</code> - The type of the media asset.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Media Asset
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Media Asset
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Media Asset</p>
+
+<h2>Import</h2>
+
+<p>MediaAssets can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_media_services_media_asset.test_media_asset &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

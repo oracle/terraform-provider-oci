@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_jms_fleet_errors</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_jms_fleet_errors</h1>
+
+<p>This data source provides the list of Fleet Errors in Oracle Cloud Infrastructure Jms service.</p>
+
+<p>Returns a list of fleet errors that describe all detected errors.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_jms_fleet_errors&quot; &quot;test_fleet_errors&quot; {
+
+	#Optional
+	compartment_id = var.compartment_id
+	compartment_id_in_subtree = var.fleet_error_compartment_id_in_subtree
+	fleet_id = oci_jms_fleet.test_fleet.id
+	time_first_seen_greater_than_or_equal_to = var.fleet_error_time_first_seen_greater_than_or_equal_to
+	time_first_seen_less_than_or_equal_to = var.fleet_error_time_first_seen_less_than_or_equal_to
+	time_last_seen_greater_than_or_equal_to = var.fleet_error_time_last_seen_greater_than_or_equal_to
+	time_last_seen_less_than_or_equal_to = var.fleet_error_time_last_seen_less_than_or_equal_to
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Optional) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment in which to list resources.</li>
+<li><code>compartment_id_in_subtree</code> - (Optional) Flag to determine whether the info should be gathered only in the compartment or in the compartment and its subcompartments.</li>
+<li><code>fleet_id</code> - (Optional) The ID of the Fleet.</li>
+<li><code>time_first_seen_greater_than_or_equal_to</code> - (Optional) If specified, only errors with a first seen time later than this parameter will be included in the search (formatted according to RFC3339).</li>
+<li><code>time_first_seen_less_than_or_equal_to</code> - (Optional) If specified, only errors with a first seen time earlier than this parameter will be included in the search (formatted according to RFC3339).</li>
+<li><code>time_last_seen_greater_than_or_equal_to</code> - (Optional) If specified, only errors with a last seen time later than this parameter will be included in the search (formatted according to RFC3339).</li>
+<li><code>time_last_seen_less_than_or_equal_to</code> - (Optional) If specified, only errors with a last seen time earlier than this parameter will be included in the search (formatted according to RFC3339).</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>fleet_error_collection</code> - The list of fleet_error_collection.</li>
+</ul>
+
+<h3>FleetError Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - A list of FleetErrorSummary.
+
+<ul>
+<li><code>compartment_id</code> - The compartment <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Fleet.</li>
+<li><code>errors</code> - List of fleet error details.
+
+<ul>
+<li><code>details</code> - Optional string containing additional details.</li>
+<li><code>reason</code> - The fleet error reason.</li>
+<li><code>time_last_seen</code> - The date and time the resource was <em>last</em> reported to JMS. This is potentially <em>after</em> the specified time period provided by the filters. For example, a resource can be last reported to JMS before the start of a specified time period, if it is also reported during the time period.</li>
+</ul></li>
+<li><code>fleet_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Fleet.</li>
+<li><code>fleet_name</code> - The display name of the Fleet.</li>
+<li><code>time_first_seen</code> - The timestamp of the first time an error was detected.</li>
+<li><code>time_last_seen</code> - The timestamp of the last time an error was detected.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

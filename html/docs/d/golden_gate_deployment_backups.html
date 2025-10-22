@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_golden_gate_deployment_backups</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_golden_gate_deployment_backups</h1>
+
+<p>This data source provides the list of Deployment Backups in Oracle Cloud Infrastructure Golden Gate service.</p>
+
+<p>Lists the Backups in a compartment.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_golden_gate_deployment_backups&quot; &quot;test_deployment_backups&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	deployment_id = oci_golden_gate_deployment.test_deployment.id
+	display_name = var.deployment_backup_display_name
+	state = var.deployment_backup_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The OCID of the compartment that contains the work request. Work requests should be scoped  to the same compartment as the resource the work request affects. If the work request concerns  multiple resources, and those resources are not in the same compartment, it is up to the service team  to pick the primary resource whose compartment should be used.</li>
+<li><code>deployment_id</code> - (Optional) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the deployment in which to list resources.</li>
+<li><code>display_name</code> - (Optional) A filter to return only the resources that match the entire &lsquo;displayName&rsquo; given.</li>
+<li><code>state</code> - (Optional) A filter to return only the resources that match the &lsquo;lifecycleState&rsquo; given.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>deployment_backup_collection</code> - The list of deployment_backup_collection.</li>
+</ul>
+
+<h3>DeploymentBackup Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>backup_source_type</code> - Possible deployment backup source types.</li>
+<li><code>backup_type</code> - Possible Deployment backup types.</li>
+<li><code>bucket</code> - Name of the bucket where the object is to be uploaded in the object storage</li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment being referenced.</li>
+<li><code>defined_tags</code> - Tags defined for this resource. Each key is predefined and scoped to a namespace.  Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>deployment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the deployment being referenced.</li>
+<li><code>deployment_type</code> - The type of deployment, which can be any one of the Allowed values.  NOTE: Use of the value &lsquo;OGG&rsquo; is maintained for backward compatibility purposes.  Its use is discouraged in favor of &lsquo;DATABASE_ORACLE&rsquo;.</li>
+<li><code>display_name</code> - An object&rsquo;s Display Name.</li>
+<li><code>freeform_tags</code> - A simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.  Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the backup being referenced.</li>
+<li><code>is_automatic</code> - True if this object is automatically created</li>
+<li><code>is_metadata_only</code> - Parameter to allow users to create backup without trails</li>
+<li><code>lifecycle_details</code> - Describes the object&rsquo;s current state in detail. For example, it can be used to provide actionable information for a resource in a Failed state.</li>
+<li><code>locks</code> - Locks associated with this resource.
+
+<ul>
+<li><code>message</code> - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked.</li>
+<li><code>related_resource_id</code> - The id of the resource that is locking this resource. Indicates that deleting this resource will remove the lock.</li>
+<li><code>time_created</code> - When the lock was created.</li>
+<li><code>type</code> - Type of the lock.</li>
+</ul></li>
+<li><code>namespace</code> - Name of namespace that serves as a container for all of your buckets</li>
+<li><code>object</code> - Name of the object to be uploaded to object storage</li>
+<li><code>ogg_version</code> - Version of OGG</li>
+<li><code>size_in_bytes</code> - The size of the backup stored in object storage (in bytes)</li>
+<li><code>state</code> - Possible lifecycle states.</li>
+<li><code>system_tags</code> - The system tags associated with this resource, if any. The system tags are set by Oracle Cloud Infrastructure services. Each key is predefined and scoped to namespaces.  For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{orcl-cloud: {free-tier-retain: true}}</code></li>
+<li><code>time_backup_finished</code> - The time of the resource backup finish. The format is defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>, such as <code>2016-08-25T21:10:29.600Z</code>.</li>
+<li><code>time_created</code> - The time the resource was created. The format is defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>, such as <code>2016-08-25T21:10:29.600Z</code>.</li>
+<li><code>time_of_backup</code> - The time of the resource backup. The format is defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>, such as <code>2016-08-25T21:10:29.600Z</code>.</li>
+<li><code>time_updated</code> - The time the resource was last updated. The format is defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>, such as <code>2016-08-25T21:10:29.600Z</code>.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

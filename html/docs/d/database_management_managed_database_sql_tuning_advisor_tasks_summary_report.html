@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_management_managed_database_sql_tuning_advisor_tasks_summary_report</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_management_managed_database_sql_tuning_advisor_tasks_summary_report</h1>
+
+<p>This data source provides details about a specific Managed Database Sql Tuning Advisor Tasks Summary Report resource in Oracle Cloud Infrastructure Database Management service.</p>
+
+<p>Gets the summary report for the specified SQL Tuning Advisor task.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_management_managed_database_sql_tuning_advisor_tasks_summary_report&quot; &quot;test_managed_database_sql_tuning_advisor_tasks_summary_report&quot; {
+	#Required
+	managed_database_id = oci_database_management_managed_database.test_managed_database.id
+	sql_tuning_advisor_task_id = oci_database_management_sql_tuning_advisor_task.test_sql_tuning_advisor_task.id
+
+	#Optional
+	begin_exec_id_greater_than_or_equal_to = var.managed_database_sql_tuning_advisor_tasks_summary_report_begin_exec_id_greater_than_or_equal_to
+	end_exec_id_less_than_or_equal_to = var.managed_database_sql_tuning_advisor_tasks_summary_report_end_exec_id_less_than_or_equal_to
+	opc_named_credential_id = var.managed_database_sql_tuning_advisor_tasks_summary_report_opc_named_credential_id
+	search_period = var.managed_database_sql_tuning_advisor_tasks_summary_report_search_period
+	time_greater_than_or_equal_to = var.managed_database_sql_tuning_advisor_tasks_summary_report_time_greater_than_or_equal_to
+	time_less_than_or_equal_to = var.managed_database_sql_tuning_advisor_tasks_summary_report_time_less_than_or_equal_to
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>begin_exec_id_greater_than_or_equal_to</code> - (Optional) The optional greater than or equal to filter on the execution ID related to a specific SQL Tuning Advisor task. This is applicable only for Auto SQL Tuning tasks.</li>
+<li><code>end_exec_id_less_than_or_equal_to</code> - (Optional) The optional less than or equal to query parameter to filter on the execution ID related to a specific SQL Tuning Advisor task. This is applicable only for Auto SQL Tuning tasks.</li>
+<li><code>managed_database_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Managed Database.</li>
+<li><code>opc_named_credential_id</code> - (Optional) The OCID of the Named Credential.</li>
+<li><code>search_period</code> - (Optional) How far back the API will search for begin and end exec id. Unused if neither exec ids nor time filter query params are supplied. This is applicable only for Auto SQL Tuning tasks.</li>
+<li><code>sql_tuning_advisor_task_id</code> - (Required) The SQL tuning task identifier. This is not the <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>time_greater_than_or_equal_to</code> - (Optional) The optional greater than or equal to query parameter to filter the timestamp. This is applicable only for Auto SQL Tuning tasks.</li>
+<li><code>time_less_than_or_equal_to</code> - (Optional) The optional less than or equal to query parameter to filter the timestamp. This is applicable only for Auto SQL Tuning tasks.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>index_findings</code> - The list of object findings related to indexes.
+
+<ul>
+<li><code>index_columns</code> - Columns of the index.</li>
+<li><code>index_hash_value</code> - Numerical representation of the index.</li>
+<li><code>index_name</code> - Name of the index.</li>
+<li><code>reference_count</code> - The number of times the index is referenced within the SQL Tuning advisor task findings.</li>
+<li><code>schema</code> - Schema related to the index.</li>
+<li><code>table_name</code> - Table&rsquo;s name related to the index.</li>
+</ul></li>
+<li><code>object_stat_findings</code> - The list of object findings related to statistics.
+
+<ul>
+<li><code>object</code> - Name of the object.</li>
+<li><code>object_hash_value</code> - Numerical representation of the object.</li>
+<li><code>object_type</code> - Type of the object.</li>
+<li><code>problem_type</code> - Type of statistics problem related to the object.</li>
+<li><code>reference_count</code> - The number of the times the object is referenced within the SQL Tuning advisor task findings.</li>
+<li><code>schema</code> - Schema of the object.</li>
+</ul></li>
+<li><code>statistics</code> - The statistics of the statements and findings in the SQL Tuning Advisor summary report.
+
+<ul>
+<li><code>finding_benefits</code> - The benefits of the findings in the SQL Tuning Advisor summary report.
+
+<ul>
+<li><code>db_time_after_implemented</code> - The actual database time of the SQL statements for which SQL Tuning Advisor recommendations are implemented.</li>
+<li><code>db_time_after_recommended</code> - The estimated database time of the above SQL statements, if SQL Tuning Advisor recommendations are implemented.</li>
+<li><code>db_time_before_implemented</code> - The actual database time of the above SQL statements, before SQL Tuning Advisor recommendations are implemented.</li>
+<li><code>db_time_before_recommended</code> - The actual database time of the SQL statements for which SQL Tuning Advisor recommendations are not implemented.</li>
+</ul></li>
+<li><code>finding_counts</code> - The number of findings in the SQL Tuning Advisor summary report.
+
+<ul>
+<li><code>alternate_plan</code> - The number of distinct SQL statements with alternative plan recommendations.</li>
+<li><code>implemented_sql_profile</code> - The number of distinct SQL statements with implemented SQL profiles.</li>
+<li><code>index</code> - The number of distinct SQL statements with index recommendations.</li>
+<li><code>recommended_sql_profile</code> - The number of distinct SQL statements with recommended SQL profiles.</li>
+<li><code>restructure</code> - The number of distinct SQL statements with restructured SQL recommendations.</li>
+<li><code>statistics</code> - The number of distinct SQL statements with stale or missing optimizer statistics recommendations.</li>
+</ul></li>
+<li><code>statement_counts</code> - The number of statements in the SQL Tuning Advisor summary report.
+
+<ul>
+<li><code>distinct_sql</code> - The number of distinct SQL statements.</li>
+<li><code>error_count</code> - The number of distinct SQL statements with errors.</li>
+<li><code>finding_count</code> - The number of distinct SQL statements with findings.</li>
+<li><code>total_sql</code> - The total number of SQL statements.</li>
+</ul></li>
+</ul></li>
+<li><code>task_info</code> - The general information regarding the SQL Tuning Advisor task.
+
+<ul>
+<li><code>description</code> - The description of the SQL Tuning Advisor task. This is not defined for Auto SQL Tuning tasks.</li>
+<li><code>id</code> - The ID of the SQL Tuning Advisor task. This is not the <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>name</code> - The name of the SQL Tuning Advisor task.</li>
+<li><code>owner</code> - The owner of the SQL Tuning Advisor task.</li>
+<li><code>running_time</code> - The total running time in seconds. This is not defined for Auto SQL Tuning tasks.</li>
+<li><code>status</code> - The status of the SQL Tuning Advisor task. This is not defined for Auto SQL Tuning tasks.</li>
+<li><code>time_ended</code> - The end time of the task execution.</li>
+<li><code>time_started</code> - The start time of the task execution.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

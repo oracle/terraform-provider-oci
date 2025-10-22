@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_management_managed_database_table_statistics</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_management_managed_database_table_statistics</h1>
+
+<p>This data source provides the list of Managed Database Table Statistics in Oracle Cloud Infrastructure Database Management service.</p>
+
+<p>Gets the number of database table objects grouped by different statuses such as
+Not Stale Stats, Stale Stats, and No Stats. This also includes the percentage of each status.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_management_managed_database_table_statistics&quot; &quot;test_managed_database_table_statistics&quot; {
+	#Required
+	managed_database_id = oci_database_management_managed_database.test_managed_database.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>managed_database_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Managed Database.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>table_statistics_collection</code> - The list of table_statistics_collection.</li>
+</ul>
+
+<h3>ManagedDatabaseTableStatistic Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - The list of table statistics statuses.
+
+<ul>
+<li><code>count</code> - The number of objects aggregated by status category.</li>
+<li><code>percentage</code> - The percentage of objects with a particular status.</li>
+<li><code>type</code> - The valid status categories of table statistics.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

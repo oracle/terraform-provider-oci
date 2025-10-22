@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_management_managed_database_sql_tuning_advisor_tasks_sql_execution_plan</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_management_managed_database_sql_tuning_advisor_tasks_sql_execution_plan</h1>
+
+<p>This data source provides details about a specific Managed Database Sql Tuning Advisor Tasks Sql Execution Plan resource in Oracle Cloud Infrastructure Database Management service.</p>
+
+<p>Retrieves a SQL execution plan for the SQL being tuned.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_management_managed_database_sql_tuning_advisor_tasks_sql_execution_plan&quot; &quot;test_managed_database_sql_tuning_advisor_tasks_sql_execution_plan&quot; {
+	#Required
+	attribute = var.managed_database_sql_tuning_advisor_tasks_sql_execution_plan_attribute
+	managed_database_id = oci_database_management_managed_database.test_managed_database.id
+	sql_object_id = oci_objectstorage_object.test_object.id
+	sql_tuning_advisor_task_id = oci_database_management_sql_tuning_advisor_task.test_sql_tuning_advisor_task.id
+
+	#Optional
+	opc_named_credential_id = var.managed_database_sql_tuning_advisor_tasks_sql_execution_plan_opc_named_credential_id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>attribute</code> - (Required) The attribute of the SQL execution plan.</li>
+<li><code>managed_database_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Managed Database.</li>
+<li><code>opc_named_credential_id</code> - (Optional) The OCID of the Named Credential.</li>
+<li><code>sql_object_id</code> - (Required) The SQL object ID for the SQL tuning task. This is not the <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>sql_tuning_advisor_task_id</code> - (Required) The SQL tuning task identifier. This is not the <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>plan</code> - A SQL execution plan as a list of steps.
+
+<ul>
+<li><code>access_predicates</code> - The predicates used to locate rows in an access structure. For example, start or stop predicates for an index range scan.</li>
+<li><code>attribute</code> - The text string identifying the type of execution plan.</li>
+<li><code>bytes</code> - The number of bytes returned by the current operation.</li>
+<li><code>cardinality</code> - The number of rows returned by the current operation (estimated by the CBO).</li>
+<li><code>cost</code> - The cost of the current operation estimated by the cost-based optimizer (CBO).</li>
+<li><code>cpu_cost</code> - The CPU cost of the current operation.</li>
+<li><code>filter_predicates</code> - The predicates used to filter rows before producing them.</li>
+<li><code>io_cost</code> - The I/O cost of the current operation.</li>
+<li><code>number_of_search_column</code> - Number of index columns with start and stop keys (that is, the number of columns with matching predicates).</li>
+<li><code>object</code> - The name of the object.</li>
+<li><code>object_node</code> - The name of the database link used to reference the object.</li>
+<li><code>object_owner</code> - The owner of the object.</li>
+<li><code>object_position</code> - The numbered position of the object name in the original SQL statement.</li>
+<li><code>object_type</code> - The descriptive modifier that further describes the type of object.</li>
+<li><code>operation</code> - The name of the operation performed at this step.</li>
+<li><code>optimizer_mode</code> - The current mode of the optimizer, such as all_rows, first_rows_n (where n = 1, 10, 100, 1000, and so on).</li>
+<li><code>options</code> - The options used for the operation performed at this step.</li>
+<li><code>other</code> - Information about parallel execution servers and parallel queries</li>
+<li><code>other_tag</code> - Describes the function of the SQL text in the OTHER column.</li>
+<li><code>parent_step_id</code> - The ID of the next step that operates on the results of this step. This is not the <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>partition_id</code> - The ID of the step in the execution plan that has computed the pair of values of partitionStart and partitionStop.</li>
+<li><code>partition_start</code> - A step may get data from a range of partitions of a partitioned object, such as table or index, based on predicates and sorting order. The partionStart is the starting partition of the range. The partitionStop is the ending partition of the range.</li>
+<li><code>partition_stop</code> - A step may get data from a range of partitions of a partitioned object, such as table or index, based on predicates and sorting order. The partionStart is the starting partition of the range. The partitionStop is the ending partition of the range.</li>
+<li><code>plan_hash_value</code> - The numerical representation of the SQL execution plan.</li>
+<li><code>position</code> - The order of processing for steps with the same parent ID.</li>
+<li><code>remarks</code> - The place for comments that can be added to the steps of the execution plan.</li>
+<li><code>step_id</code> - The identification number of a step in the SQL execution plan. This is unique within the SQL execution plan. This is not the <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>temp_space</code> - The temporary space usage (in bytes) of the operation (sort or hash-join) as estimated by the CBO.</li>
+<li><code>time</code> - The elapsed time (in seconds) of the operation as estimated by the CBO.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

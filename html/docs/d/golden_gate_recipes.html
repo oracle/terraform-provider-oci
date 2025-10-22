@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_golden_gate_recipes</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_golden_gate_recipes</h1>
+
+<p>This data source provides the list of Recipes in Oracle Cloud Infrastructure Golden Gate service.</p>
+
+<p>Returns an array of Recipe Summary.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_golden_gate_recipes&quot; &quot;test_recipes&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	display_name = var.recipe_display_name
+	recipe_type = var.recipe_recipe_type
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The OCID of the compartment that contains the work request. Work requests should be scoped  to the same compartment as the resource the work request affects. If the work request concerns  multiple resources, and those resources are not in the same compartment, it is up to the service team  to pick the primary resource whose compartment should be used.</li>
+<li><code>display_name</code> - (Optional) A filter to return only the resources that match the entire &lsquo;displayName&rsquo; given.</li>
+<li><code>recipe_type</code> - (Optional) The pipeline&rsquo;s recipe type. The default value is ZERO_ETL.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>recipe_summary_collection</code> - The list of recipe_summary_collection.</li>
+</ul>
+
+<h3>Recipe Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - Array of Recipe Summary
+
+<ul>
+<li><code>description</code> - Metadata about this specific object.</li>
+<li><code>display_name</code> - An object&rsquo;s Display Name.</li>
+<li><code>name</code> - An object&rsquo;s Display Name.</li>
+<li><code>recipe_type</code> - The type of the recipe</li>
+<li><code>supported_source_technology_types</code> - Array of supported technology types for this recipe.</li>
+<li><code>supported_target_technology_types</code> - Array of supported technology types for this recipe.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

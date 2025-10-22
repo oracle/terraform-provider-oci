@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_opsi_importable_agent_entity</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_opsi_importable_agent_entity</h1>
+
+<p>This data source provides details about a specific Importable Agent Entity resource in Oracle Cloud Infrastructure Opsi service.</p>
+
+<p>Gets a list of agent entities available to add a new hostInsight.  An agent entity is &ldquo;available&rdquo;
+and will be shown if all the following conditions are true:
+   1.  The agent OCID is not already being used for an existing hostInsight.
+   2.  The agent availabilityStatus = &lsquo;ACTIVE&rsquo;
+   3.  The agent lifecycleState = &lsquo;ACTIVE&rsquo;</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_opsi_importable_agent_entity&quot; &quot;test_importable_agent_entity&quot; {
+	#Required
+	compartment_id = var.compartment_id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - Array of importable agent entity objects.
+
+<ul>
+<li><code>entity_source</code> - Source of the importable agent entity.</li>
+<li><code>host_name</code> - The host name. The host name is unique amongst the hosts managed by the same management agent.</li>
+<li><code>management_agent_display_name</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Display">Display Name</a> of the Management Agent</li>
+<li><code>management_agent_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Management Agent</li>
+<li><code>platform_type</code> - Platform type. Supported platformType(s) for MACS-managed external host insight: [LINUX]. Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

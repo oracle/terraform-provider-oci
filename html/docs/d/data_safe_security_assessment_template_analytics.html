@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_data_safe_security_assessment_template_analytics</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_data_safe_security_assessment_template_analytics</h1>
+
+<p>This data source provides the list of Security Assessment Template Analytics in Oracle Cloud Infrastructure Data Safe service.</p>
+
+<p>Gets a list of template aggregated details in the specified compartment. This provides information about the
+overall template usage, by returning the count of the target databases/target groups using the templates. It also provides information
+about the statistics for the template baseline and the comparison related. If the comparison is done, it will show if there is any drift,
+and how many checks have drifts.
+The dimension field - isGroup identifies if the targetId belongs to a target group or a individual target.
+The dimension field - isCompared identifies if the comparison between the latest assessment and the template baseline assessment is done or not.
+The dimension field - isCompliant identifies if the latest assessment is compliant with the template baseline assessment or not.
+The dimension field - totalChecksFailed identifies how many checks in the template have drifts in the comparison.</p>
+
+<p>When you perform the ListTemplateAnalytics operation, if the parameter compartmentIdInSubtree is set to &ldquo;true,&rdquo; and if the
+parameter accessLevel is set to ACCESSIBLE, then the operation returns statistics from the compartments in which the requestor has INSPECT
+permissions on at least one resource, directly or indirectly (in subcompartments). If the operation is performed at the
+root compartment and the requestor does not have access to at least one subcompartment of the compartment specified by
+compartmentId, then &ldquo;Not Authorized&rdquo; is returned.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_data_safe_security_assessment_template_analytics&quot; &quot;test_security_assessment_template_analytics&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	access_level = var.security_assessment_template_analytic_access_level
+	compartment_id_in_subtree = var.security_assessment_template_analytic_compartment_id_in_subtree
+	is_compared = var.security_assessment_template_analytic_is_compared
+	is_compliant = var.security_assessment_template_analytic_is_compliant
+	is_group = var.security_assessment_template_analytic_is_group
+	target_database_group_id = oci_data_safe_target_database_group.test_target_database_group.id
+	target_id = oci_cloud_guard_target.test_target.id
+	template_assessment_id = oci_data_safe_template_assessment.test_template_assessment.id
+	template_baseline_assessment_id = oci_data_safe_template_baseline_assessment.test_template_baseline_assessment.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>access_level</code> - (Optional) Valid values are RESTRICTED and ACCESSIBLE. Default is RESTRICTED. Setting this to ACCESSIBLE returns only those compartments for which the user has INSPECT permissions directly or indirectly (permissions can be on a resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed.</li>
+<li><code>compartment_id</code> - (Required) A filter to return only resources that match the specified compartment OCID.</li>
+<li><code>compartment_id_in_subtree</code> - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the &lsquo;accessLevel&rsquo; setting.</li>
+<li><code>is_compared</code> - (Optional) A filter to return only the statistics where the comparison between the latest assessment and the template baseline assessment is done.</li>
+<li><code>is_compliant</code> - (Optional) A filter to return only the statistics where the latest assessment is compliant with the template baseline assessment.</li>
+<li><code>is_group</code> - (Optional) A filter to return only the target group related information if the OCID belongs to a target group.</li>
+<li><code>target_database_group_id</code> - (Optional) A filter to return the target database group that matches the specified OCID.</li>
+<li><code>target_id</code> - (Optional) A filter to return only items related to a specific target OCID.</li>
+<li><code>template_assessment_id</code> - (Optional) The OCID of the security assessment of type TEMPLATE.</li>
+<li><code>template_baseline_assessment_id</code> - (Optional) The OCID of the security assessment of type TEMPLATE_BASELINE.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>template_analytics_collection</code> - The list of template_analytics_collection.</li>
+</ul>
+
+<h3>SecurityAssessmentTemplateAnalytic Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - The array of template analytics summary.
+
+<ul>
+<li><code>dimensions</code> - The scope of analytics data.
+
+<ul>
+<li><code>is_compared</code> - Indicates whether or not the comparison between the latest assessment and the template baseline assessment is done. If the value is false, it means the comparison is not done yet.</li>
+<li><code>is_compliant</code> - Indicates whether or not the latest assessment is compliant with the template baseline assessment. If the value is false, it means there is drift in the comparison report and the totalChecksFailed field will have a non-zero value.</li>
+<li><code>is_group</code> - Indicates whether or not the template security assessment is applied to a target group.  If the value is false, it means the template security assessment is applied to a individual target.</li>
+<li><code>target_database_group_id</code> - The OCID of the target database group that the group assessment is created for.  This field will be in the response if the template was applied on a target group.</li>
+<li><code>target_id</code> - The OCID of the target database. This field will be in the response if the template was applied on an individual target.</li>
+<li><code>template_assessment_id</code> - The OCID of the security assessment of type TEMPLATE.</li>
+<li><code>template_baseline_assessment_id</code> - The OCID of the security assessment of type TEMPLATE_BASELINE.</li>
+<li><code>time_last_compared</code> - The date and time when the comparison was made upon the template baseline. Conforms to the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>total_checks</code> - The number of checks inside the template assessment.</li>
+<li><code>total_checks_failed</code> - Indicates how many checks in the template have drifts in the comparison report. This field is only present if isCompliant is false.</li>
+<li><code>total_non_compliant_targets</code> - The number of the target(s) that have drifts in the comparison report. This field is only present if isCompared is true.</li>
+<li><code>total_targets</code> - The number of the target(s) inside the target group for which the template baseline assessment was created for. If the isGroup field is false, the value will be 1, representing the single target.</li>
+</ul></li>
+<li><code>metric_name</code> - The name of the aggregation metric.</li>
+<li><code>security_assessment_template_analytic_count</code> - The total count for the aggregation metric.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

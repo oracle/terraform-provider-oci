@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_datascience_job</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_datascience_job</h1>
+
+<p>This data source provides details about a specific Job resource in Oracle Cloud Infrastructure Data Science service.</p>
+
+<p>Gets a job.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_datascience_job&quot; &quot;test_job&quot; {
+	#Required
+	job_id = oci_datascience_job.test_job.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>job_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the job.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment where you want to create the job.</li>
+<li><code>created_by</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the user who created the project.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - A short description of the job.</li>
+<li><code>display_name</code> - A user-friendly display name for the resource.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the job.</li>
+<li><code>job_configuration_details</code> - The job configuration details
+
+<ul>
+<li><code>command_line_arguments</code> - The arguments to pass to the job.</li>
+<li><code>environment_variables</code> - Environment variables to set for the job.</li>
+<li><code>job_type</code> - The type of job.</li>
+<li><code>maximum_runtime_in_minutes</code> - A time bound for the execution of the job. Timer starts when the job becomes active.</li>
+<li><code>startup_probe_details</code> - The probe indicates whether the application within the job run has started.
+
+<ul>
+<li><code>command</code> - The commands to run in the target job run to perform the startup probe</li>
+<li><code>failure_threshold</code> - How many times the job will try before giving up when a probe fails.</li>
+<li><code>initial_delay_in_seconds</code> - Number of seconds after the job run has started before a startup probe is initiated.</li>
+<li><code>job_probe_check_type</code> - The probe check type to perform the startup probe and specifies the type of health check for a job.</li>
+<li><code>period_in_seconds</code> - Number of seconds how often the job run should perform a startup probe</li>
+</ul></li>
+</ul></li>
+<li><code>job_environment_configuration_details</code> - Environment configuration to capture job runtime dependencies.
+
+<ul>
+<li><code>cmd</code> - The container image run <a href="https://docs.docker.com/engine/reference/builder/#cmd">CMD</a> as a list of strings. Use <code>CMD</code> as arguments to the <code>ENTRYPOINT</code> or the only command to run in the absence of an <code>ENTRYPOINT</code>. The combined size of <code>CMD</code> and <code>ENTRYPOINT</code> must be less than 2048 bytes.</li>
+<li><code>entrypoint</code> - The container image run <a href="https://docs.docker.com/engine/reference/builder/#entrypoint">ENTRYPOINT</a> as a list of strings. Accept the <code>CMD</code> as extra arguments. The combined size of <code>CMD</code> and <code>ENTRYPOINT</code> must be less than 2048 bytes. More information on how <code>CMD</code> and <code>ENTRYPOINT</code> interact are <a href="https://docs.docker.com/engine/reference/builder/#understand-how-cmd-and-entrypoint-interact">here</a>.</li>
+<li><code>image</code> - The full path to the Oracle Container Repository (OCIR) registry, image, and tag in a canonical format. Acceptable format: <code>&lt;region&gt;.ocir.io/&lt;registry&gt;/&lt;image&gt;:&lt;tag&gt;</code> <code>&lt;region&gt;.ocir.io/&lt;registry&gt;/&lt;image&gt;:&lt;tag&gt;@digest</code></li>
+<li><code>image_digest</code> - The digest of the container image. For example, <code>sha256:881303a6b2738834d795a32b4a98eb0e5e3d1cad590a712d1e04f9b2fa90a030</code></li>
+<li><code>image_signature_id</code> - OCID of the container image signature</li>
+<li><code>job_environment_type</code> - The environment configuration type used for job runtime.</li>
+</ul></li>
+<li><code>job_infrastructure_configuration_details</code> - The job infrastructure configuration details (shape, block storage, etc.)
+
+<ul>
+<li><code>block_storage_size_in_gbs</code> - The size of the block storage volume to attach to the instance running the job</li>
+<li><code>job_infrastructure_type</code> - The infrastructure type used for job run.</li>
+<li><code>job_shape_config_details</code> - Details for the job run shape configuration. Specify only when a flex shape is selected.
+
+<ul>
+<li><code>cpu_baseline</code> - The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to <code>BASELINE_1_1</code>. The following values are supported: BASELINE_1_8 - baseline usage is <sup>1</sup>&frasl;<sub>8</sub> of an OCPU. BASELINE_1_2 - baseline usage is <sup>1</sup>&frasl;<sub>2</sub> of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance.</li>
+<li><code>memory_in_gbs</code> - The total amount of memory available to the job run instance, in gigabytes.</li>
+<li><code>ocpus</code> - The total number of OCPUs available to the job run instance.</li>
+</ul></li>
+<li><code>shape_name</code> - The name that corresponds to the JobShapeSummary to use for the job node</li>
+<li><code>subnet_id</code> - The subnet to create a secondary vnic in to attach to the instance running the job</li>
+</ul></li>
+<li><code>job_log_configuration_details</code> - Logging configuration for resource.
+
+<ul>
+<li><code>enable_auto_log_creation</code> - If automatic on-behalf-of log object creation is enabled for job runs.</li>
+<li><code>enable_logging</code> - If customer logging is enabled for job runs.</li>
+<li><code>log_group_id</code> - The log group id for where log objects are for job runs.</li>
+<li><code>log_id</code> - The log id the job run will push logs too.</li>
+</ul></li>
+<li><code>job_node_configuration_details</code> - The job node configuration details
+
+<ul>
+<li><code>job_network_configuration</code> - The job network configuration details
+
+<ul>
+<li><code>job_network_type</code> - job network type</li>
+<li><code>subnet_id</code> - The custom subnet id</li>
+</ul></li>
+<li><code>job_node_group_configuration_details_list</code> - List of JobNodeGroupConfigurationDetails
+
+<ul>
+<li><code>job_configuration_details</code> - The job configuration details
+
+<ul>
+<li><code>command_line_arguments</code> - The arguments to pass to the job.</li>
+<li><code>environment_variables</code> - Environment variables to set for the job.</li>
+<li><code>job_type</code> - The type of job.</li>
+<li><code>maximum_runtime_in_minutes</code> - A time bound for the execution of the job. Timer starts when the job becomes active.</li>
+<li><code>startup_probe_details</code> - The probe indicates whether the application within the job run has started.
+
+<ul>
+<li><code>command</code> - The commands to run in the target job run to perform the startup probe</li>
+<li><code>failure_threshold</code> - How many times the job will try before giving up when a probe fails.</li>
+<li><code>initial_delay_in_seconds</code> - Number of seconds after the job run has started before a startup probe is initiated.</li>
+<li><code>job_probe_check_type</code> - The probe check type to perform the startup probe and specifies the type of health check for a job.</li>
+<li><code>period_in_seconds</code> - Number of seconds how often the job run should perform a startup probe</li>
+</ul></li>
+</ul></li>
+<li><code>job_environment_configuration_details</code> - Environment configuration to capture job runtime dependencies.
+
+<ul>
+<li><code>cmd</code> - The container image run <a href="https://docs.docker.com/engine/reference/builder/#cmd">CMD</a> as a list of strings. Use <code>CMD</code> as arguments to the <code>ENTRYPOINT</code> or the only command to run in the absence of an <code>ENTRYPOINT</code>. The combined size of <code>CMD</code> and <code>ENTRYPOINT</code> must be less than 2048 bytes.</li>
+<li><code>entrypoint</code> - The container image run <a href="https://docs.docker.com/engine/reference/builder/#entrypoint">ENTRYPOINT</a> as a list of strings. Accept the <code>CMD</code> as extra arguments. The combined size of <code>CMD</code> and <code>ENTRYPOINT</code> must be less than 2048 bytes. More information on how <code>CMD</code> and <code>ENTRYPOINT</code> interact are <a href="https://docs.docker.com/engine/reference/builder/#understand-how-cmd-and-entrypoint-interact">here</a>.</li>
+<li><code>image</code> - The full path to the Oracle Container Repository (OCIR) registry, image, and tag in a canonical format. Acceptable format: <code>&lt;region&gt;.ocir.io/&lt;registry&gt;/&lt;image&gt;:&lt;tag&gt;</code> <code>&lt;region&gt;.ocir.io/&lt;registry&gt;/&lt;image&gt;:&lt;tag&gt;@digest</code></li>
+<li><code>image_digest</code> - The digest of the container image. For example, <code>sha256:881303a6b2738834d795a32b4a98eb0e5e3d1cad590a712d1e04f9b2fa90a030</code></li>
+<li><code>image_signature_id</code> - OCID of the container image signature</li>
+<li><code>job_environment_type</code> - The environment configuration type used for job runtime.</li>
+</ul></li>
+<li><code>job_infrastructure_configuration_details</code> - The job infrastructure configuration details (shape, block storage, etc.)
+
+<ul>
+<li><code>block_storage_size_in_gbs</code> - The size of the block storage volume to attach to the instance running the job</li>
+<li><code>job_infrastructure_type</code> - The infrastructure type used for job run.</li>
+<li><code>job_shape_config_details</code> - Details for the job run shape configuration. Specify only when a flex shape is selected.
+
+<ul>
+<li><code>memory_in_gbs</code> - The total amount of memory available to the job run instance, in gigabytes.</li>
+<li><code>ocpus</code> - The total number of OCPUs available to the job run instance.</li>
+</ul></li>
+<li><code>shape_name</code> - The name that corresponds to the JobShapeSummary to use for the job node</li>
+<li><code>subnet_id</code> - The subnet to create a secondary vnic in to attach to the instance running the job</li>
+</ul></li>
+<li><code>minimum_success_replicas</code> - The minimum threshold of successful replicas for node group to be successful. All replicas need to succeed if this is not specified.</li>
+<li><code>name</code> - node group name.</li>
+<li><code>replicas</code> - The number of nodes.</li>
+</ul></li>
+<li><code>job_node_type</code> - The node type used for job run.</li>
+<li><code>maximum_runtime_in_minutes</code> - A time bound for the execution of the job run. Timer starts when the job run is in progress.</li>
+<li><code>startup_order</code> - The execution order of node groups</li>
+</ul></li>
+<li><code>job_storage_mount_configuration_details_list</code> - Collection of JobStorageMountConfigurationDetails.
+
+<ul>
+<li><code>bucket</code> - The object storage bucket</li>
+<li><code>destination_directory_name</code> - The local directory name to be mounted</li>
+<li><code>destination_path</code> - The local path of the mounted directory, excluding directory name.</li>
+<li><code>export_id</code> - OCID of the export</li>
+<li><code>mount_target_id</code> - OCID of the mount target</li>
+<li><code>namespace</code> - The object storage namespace</li>
+<li><code>prefix</code> - Prefix in the bucket to mount</li>
+<li><code>storage_type</code> - The type of storage.</li>
+</ul></li>
+<li><code>lifecycle_details</code> - The state of the job.</li>
+<li><code>project_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the project to associate the job with.</li>
+<li><code>state</code> - The state of the job.</li>
+<li><code>time_created</code> - The date and time the resource was created in the timestamp format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>. Example: 2020-08-06T21:10:29.41Z</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

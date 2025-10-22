@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_scheduling_policy_scheduling_windows</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_scheduling_policy_scheduling_windows</h1>
+
+<p>This data source provides the list of Scheduling Policy Scheduling Windows in Oracle Cloud Infrastructure Database service.</p>
+
+<p>Lists the Scheduling Window resources in the specified compartment.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_scheduling_policy_scheduling_windows&quot; &quot;test_scheduling_policy_scheduling_windows&quot; {
+	#Required
+	scheduling_policy_id = oci_database_scheduling_policy.test_scheduling_policy.id
+
+	#Optional
+	compartment_id = var.compartment_id
+	display_name = var.scheduling_policy_scheduling_window_display_name
+	state = var.scheduling_policy_scheduling_window_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Optional) The compartment <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.</li>
+<li><code>scheduling_policy_id</code> - (Required) The Scheduling Policy <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>state</code> - (Optional) A filter to return only resources that match the given lifecycle state exactly.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>scheduling_windows</code> - The list of scheduling_windows.</li>
+</ul>
+
+<h3>SchedulingPolicySchedulingWindow Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</li>
+<li><code>display_name</code> - The user-friendly name for the Scheduling Window. The name does not need to be unique.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Scheduling Window.</li>
+<li><code>lifecycle_details</code> - Additional information about the current lifecycle state.</li>
+<li><code>scheduling_policy_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Scheduling Policy.</li>
+<li><code>state</code> - The current state of the Scheduling Window. Valid states are CREATING, ACTIVE, UPDATING, FAILED, DELETING and DELETED.</li>
+<li><code>time_created</code> - The date and time the Scheduling Window was created.</li>
+<li><code>time_next_scheduling_window_starts</code> - The date and time of the next upcoming window associated within the schedulingWindow is planned to start.</li>
+<li><code>time_updated</code> - The last date and time that the Scheduling Window was updated.</li>
+<li><code>window_preference</code> - The Single Scheduling Window details.
+
+<ul>
+<li><code>days_of_week</code> - Days during the week when scheduling window should be performed.
+
+<ul>
+<li><code>name</code> - Name of the day of the week.</li>
+</ul></li>
+<li><code>duration</code> - Duration window allows user to set a duration they plan to allocate for Scheduling window. The duration is in minutes.</li>
+<li><code>is_enforced_duration</code> - Indicates if duration the user plans to allocate for scheduling window is strictly enforced. The default value is <code>FALSE</code>.</li>
+<li><code>months</code> - Months during the year when scheduled window should be performed.
+
+<ul>
+<li><code>name</code> - Name of the month of the year.</li>
+</ul></li>
+<li><code>start_time</code> - The scheduling window start time. The value must use the ISO-8601 format &ldquo;hh:mm&rdquo;.</li>
+<li><code>weeks_of_month</code> - Weeks during the month when scheduled window should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow scheduling window during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Scheduling window cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and startTime parameters to allow you to specify specific days of the week and hours that scheduled window will be performed.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

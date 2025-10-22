@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_core_volume_group_backups</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_core_volume_group_backups</h1>
+
+<p>This data source provides the list of Volume Group Backups in Oracle Cloud Infrastructure Core service.</p>
+
+<p>Lists the volume group backups in the specified compartment. You can filter the results by volume group.
+For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/volumegroups.htm">Volume Groups</a>.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_core_volume_group_backups&quot; &quot;test_volume_group_backups&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	display_name = var.volume_group_backup_display_name
+	volume_group_id = oci_core_volume_group.test_volume_group.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the given display name exactly.</li>
+<li><code>volume_group_id</code> - (Optional) The OCID of the volume group.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>volume_group_backups</code> - The list of volume_group_backups.</li>
+</ul>
+
+<h3>VolumeGroupBackup Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The OCID of the compartment that contains the volume group backup.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.</li>
+<li><code>expiration_time</code> - The date and time the volume group backup will expire and be automatically deleted. Format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>. This parameter will always be present for volume group backups that were created automatically by a scheduled-backup policy. For manually created volume group backups, it will be absent, signifying that there is no expiration time and the backup will last forever until manually deleted.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The OCID of the volume group backup.</li>
+<li><code>size_in_gbs</code> - The aggregate size of the volume group backup, in GBs.</li>
+<li><code>size_in_mbs</code> - The aggregate size of the volume group backup, in MBs.</li>
+<li><code>source_type</code> - Specifies whether the volume group backup was created manually, or via scheduled backup policy.</li>
+<li><code>source_volume_group_backup_id</code> - The OCID of the source volume group backup.</li>
+<li><code>state</code> - The current state of a volume group backup.</li>
+<li><code>time_created</code> - The date and time the volume group backup was created. This is the time the actual point-in-time image of the volume group data was taken. Format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>time_request_received</code> - The date and time the request to create the volume group backup was received. Format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>type</code> - The type of backup.</li>
+<li><code>unique_size_in_gbs</code> - The aggregate size used by the volume group backup, in GBs.  It is typically smaller than <code>size_in_gbs</code>, depending on the space consumed on the volume group and whether the volume backup is full or incremental.</li>
+<li><code>unique_size_in_mbs</code> - The aggregate size used by the volume group backup, in MBs.  It is typically smaller than <code>size_in_mbs</code>, depending on the space consumed on the volume group and whether the volume backup is full or incremental.</li>
+<li><code>volume_backup_ids</code> - OCIDs for the volume backups in this volume group backup.</li>
+<li><code>volume_group_id</code> - The OCID of the source volume group.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

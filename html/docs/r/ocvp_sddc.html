@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_ocvp_sddc</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_ocvp_sddc</h1>
+
+<p>This resource provides the Sddc resource in Oracle Cloud Infrastructure Oracle Cloud VMware Solution service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/vmware/latest/Sddc">https://docs.oracle.com/iaas/api/#/en/vmware/latest/Sddc</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/ocvp">https://github.com/oracle/terraform-provider-oci/tree/master/examples/ocvp</a></p>
+
+<p>Creates an Oracle Cloud VMware Solution software-defined data center (SDDC).</p>
+
+<p>Use the <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20230701/WorkRequest/">WorkRequest</a> operations to track the
+creation of the SDDC.</p>
+
+<p><strong>Important:</strong> You must configure the SDDC&rsquo;s networking resources with the security rules detailed in <a href="https://docs.cloud.oracle.com/iaas/Content/VMware/Reference/ocvssecurityrules.htm">Security Rules for Oracle Cloud VMware Solution SDDCs</a>. Otherwise, provisioning the SDDC will fail. The rules are based on the requirements set by VMware.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_ocvp_sddc&quot; &quot;test_sddc&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	initial_configuration {
+		#Required
+		initial_cluster_configurations {
+			#Required
+			compute_availability_domain = var.sddc_initial_configuration_initial_cluster_configurations_compute_availability_domain
+			esxi_hosts_count = var.sddc_initial_configuration_initial_cluster_configurations_esxi_hosts_count
+			network_configuration {
+				#Required
+				nsx_edge_vtep_vlan_id = oci_core_vlan.test_vlan.id
+				nsx_vtep_vlan_id = oci_core_vlan.test_vlan.id
+				provisioning_subnet_id = oci_core_subnet.test_subnet.id
+				vmotion_vlan_id = oci_core_vlan.test_vlan.id
+				vsan_vlan_id = oci_core_vlan.test_vlan.id
+
+				#Optional
+				hcx_vlan_id = oci_core_vlan.test_vlan.id
+				nsx_edge_uplink1vlan_id = oci_ocvp_nsx_edge_uplink1vlan.test_nsx_edge_uplink1vlan.id
+				nsx_edge_uplink2vlan_id = oci_ocvp_nsx_edge_uplink2vlan.test_nsx_edge_uplink2vlan.id
+				provisioning_vlan_id = oci_core_vlan.test_vlan.id
+				replication_vlan_id = oci_core_vlan.test_vlan.id
+				vsphere_vlan_id = oci_core_vlan.test_vlan.id
+			}
+			vsphere_type = var.sddc_initial_configuration_initial_cluster_configurations_vsphere_type
+
+			#Optional
+			capacity_reservation_id = oci_ocvp_capacity_reservation.test_capacity_reservation.id
+			datastore_cluster_ids = var.sddc_initial_configuration_initial_cluster_configurations_datastore_cluster_ids
+			datastores {
+				#Required
+				block_volume_ids = var.sddc_initial_configuration_initial_cluster_configurations_datastores_block_volume_ids
+				datastore_type = var.sddc_initial_configuration_initial_cluster_configurations_datastores_datastore_type
+			}
+			display_name = var.sddc_initial_configuration_initial_cluster_configurations_display_name
+			initial_commitment = var.sddc_initial_configuration_initial_cluster_configurations_initial_commitment
+			initial_host_ocpu_count = var.sddc_initial_configuration_initial_cluster_configurations_initial_host_ocpu_count
+			initial_host_shape_name = oci_core_shape.test_shape.name
+			instance_display_name_prefix = var.sddc_initial_configuration_initial_cluster_configurations_instance_display_name_prefix
+			is_shielded_instance_enabled = var.sddc_initial_configuration_initial_cluster_configurations_is_shielded_instance_enabled
+			workload_network_cidr = var.sddc_initial_configuration_initial_cluster_configurations_workload_network_cidr
+		}
+	}
+	ssh_authorized_keys = var.sddc_ssh_authorized_keys
+	vmware_software_version = var.sddc_vmware_software_version
+
+	#Optional
+	defined_tags = {&quot;Operations.CostCenter&quot;= &quot;42&quot;}
+	display_name = var.sddc_display_name
+	freeform_tags = {&quot;Department&quot;= &quot;Finance&quot;}
+	is_single_host_sddc = var.sddc_is_single_host_sddc
+	hcx_action = var.hcx_action
+	is_hcx_enabled = var.sddc_is_hcx_enabled
+}
+</code></pre>
+
+<h2>How to migrate from deprecated fields to new fields</h2>
+
+<ol>
+<li>Before starting migration, back up your terraform state file.</li>
+<li>Get the SDDC OCID for the <code>oci_ocvp_sddc</code> resource you plan to migrate.</li>
+<li>Remove the <code>oci_ocvp_sddc</code> resource from Terraform state via <a href="https://developer.hashicorp.com/terraform/cli/commands/state/rm">command: terraform state rm &lt;resource address&gt;</a></li>
+<li>Update <code>oci_ocvp_sddc</code> resource config. Remove all deprecated fields and add corresponding new fields to the resource config. Note: Remove and do not add <code>hcx_action</code> or <code>refresh_hcx_license_status</code> because these fields will not be imported.</li>
+<li>Import <code>oci_ocvp_sddc</code> resource to Terraform state using <a href="https://developer.hashicorp.com/terraform/cli/commands/import">command: terraform import &lt;resource address&gt; &lt;SDDC OCID&gt;</a>.</li>
+<li>Run <code>terraform plan</code> to check if there is any planned change for <code>oci_ocvp_sddc</code> resource. If there is any planned change, update <code>oci_ocvp_sddc</code> resource config until there is no planned change.</li>
+</ol>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>capacity_reservation_id</code> - (<strong>Deprecated</strong>) (Optional) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Capacity Reservation. <strong>Deprecated</strong>. Please use <code>capacity_reservation_id</code> of <code>initial_cluster_configurations</code> instead.</li>
+<li><code>compartment_id</code> - (Required) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment to contain the SDDC.</li>
+<li><code>compute_availability_domain</code> - (<strong>Deprecated</strong>) (Required) The availability domain to create the SDDC&rsquo;s ESXi hosts in. For multi-AD SDDC deployment, set to <code>multi-AD</code>. <strong>Deprecated</strong>. Please use <code>compute_availability_domain</code> of <code>initial_cluster_configurations</code> instead.</li>
+<li><code>datastores</code> - (<strong>Deprecated</strong>) (Optional) A list of datastore info for the SDDC. This value is required only when <code>initialHostShapeName</code> is a standard shape. <strong>Deprecated</strong>. Please use <code>datastores</code> of <code>initial_cluster_configurations</code> instead.
+
+<ul>
+<li><code>block_volume_ids</code> - (Required) A list of <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>s of Block Storage Volumes.</li>
+<li><code>datastore_type</code> - (Required) Type of the datastore.</li>
+</ul></li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>display_name</code> - (Optional) (Updatable) A descriptive name for the SDDC. SDDC name requirements are 1-16 character length limit, Must start with a letter, Must be English letters, numbers, - only, No repeating hyphens, Must be unique within the region. Avoid entering confidential information.</li>
+<li><code>esxi_hosts_count</code> - (<strong>Deprecated</strong>) (Required) The number of ESXi hosts to create in the SDDC. You can add more hosts later (see <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/CreateEsxiHost">CreateEsxiHost</a>). Creating a SDDC with a ESXi host count of 1 will be considered a single ESXi host SDDC. <strong>Deprecated</strong>. Please use <code>esxi_hosts_count</code> of <code>initial_cluster_configurations</code> instead.</li>
+</ul>
+
+<p><strong>Note:</strong> If you later delete EXSi hosts from a production SDDC to total less than 3, you are still billed for the 3 minimum recommended ESXi hosts. Also, you cannot add more VMware workloads to the SDDC until it again has at least 3 ESXi hosts.
+* <code>esxi_software_version</code> - (Optional) (Updatable) The ESXi software bundle to install on the ESXi hosts in the SDDC.  Only versions under the same vmwareSoftwareVersion and have been validate by Oracle Cloud VMware Solution will be accepted. To get a list of the available versions, use <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20230701/SupportedVmwareSoftwareVersionSummary/ListSupportedVmwareSoftwareVersions">ListSupportedVmwareSoftwareVersions</a>.
+* <code>freeform_tags</code> - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code>
+* <code>hcx_action</code> - (Optional) (Updatable) The action to be performed upon HCX licenses. &ldquo;UPGRADE&rdquo; will upgrade the SDDC from HCX Advanced to HCX Enterprise. &ldquo;DOWNGRADE&rdquo; will downgrade the SDDC from HCX Enterprise to HCX Advanced after current HCX Enterprise billing cycle end date. After downgrade completion, you can run <code>terraform refresh</code> to update the Terraform state. &ldquo;CANCEL_DOWNGRADE&rdquo; will cancel the pending downgrade of HCX licenses. The action will only be performed when its value is changed. This field can also be used to enable HCX Enterprise during SDDC creation. If &ldquo;UPGRADE&rdquo; is set during SDDC creation, the SDDC will be created with HCX Enterprise enable. Supported actions during update: UPGRADE, DOWNGRADE, CANCEL_DOWNGRADE. Supported actions during creation: UPGRADE.
+* <code>hcx_vlan_id</code> - (<strong>Deprecated</strong>) (Optional) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VLAN to use for the HCX component of the VMware environment. This value is required only when <code>isHcxEnabled</code> is true. <strong>Deprecated</strong>. Please use <code>hcx_vlan_id</code> of <code>network_configuration</code> instead.
+* <code>initial_configuration</code> - (Required) Details of SDDC initial configuration
+	* <code>initial_cluster_configurations</code> - (Required) The configurations for Clusters initially created in the SDDC.
+		* <code>capacity_reservation_id</code> - (Optional) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Capacity Reservation.
+		* <code>compute_availability_domain</code> - (Required) The availability domain to create the Cluster&rsquo;s ESXi hosts in. For multi-AD Cluster deployment, set to <code>multi-AD</code>.
+		* <code>datastore_cluster_ids</code> - (Optional) A list of datastore clusters.
+		* <code>datastores</code> - (Optional) A list of datastore info for the Cluster. This value is required only when <code>initialHostShapeName</code> is a standard shape.
+			* <code>block_volume_ids</code> - (Required) A list of <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>s of Block Storage Volumes.
+			* <code>datastore_type</code> - (Required) Type of the datastore.
+		* <code>display_name</code> - (Optional) A descriptive name for the Cluster. Cluster name requirements are 1-22 character length limit, Must start with a letter, Must be English letters, numbers, - only, No repeating hyphens, Must be unique within the region. Avoid entering confidential information.
+		* <code>esxi_hosts_count</code> - (Required) The number of ESXi hosts to create in the Cluster. You can add more hosts later (see <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/CreateEsxiHost">CreateEsxiHost</a>). Creating a Cluster with a ESXi host count of 1 will be considered a single ESXi host Cluster.</p>
+
+<pre><code>		**Note:** If you later delete EXSi hosts from a production Cluster to total less than 3, you are still billed for the 3 minimum recommended ESXi hosts. Also, you cannot add more VMware workloads to the Cluster until it again has at least 3 ESXi hosts. 
+	* `initial_commitment` - (Optional) The billing option selected during Cluster creation. [ListSupportedCommitments](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedCommitmentSummary/ListSupportedCommitments). 
+	* `initial_host_ocpu_count` - (Optional) The initial OCPU count of the Cluster's ESXi hosts. 
+	* `initial_host_shape_name` - (Optional) The initial compute shape of the Cluster's ESXi hosts. [ListSupportedHostShapes](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedHostShapes/ListSupportedHostShapes). 
+	* `instance_display_name_prefix` - (Optional) A prefix used in the name of each ESXi host and Compute instance in the Cluster. If this isn't set, the Cluster's `displayName` is used as the prefix.
+
+		For example, if the value is `myCluster`, the ESXi hosts are named `myCluster-1`, `myCluster-2`, and so on. 
+	* `is_shielded_instance_enabled` - (Optional) Indicates whether shielded instance is enabled for this Cluster. 
+	* `network_configuration` - (Required) The network configurations used by Cluster, including [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management subnet and VLANs. 
+		* `hcx_vlan_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN used by the SDDC for the HCX component of the VMware environment. This VLAN is a mandatory attribute  for Management Cluster when HCX is enabled.
+
+			This attribute is not guaranteed to reflect the HCX VLAN currently used by the ESXi hosts in the SDDC. The purpose of this attribute is to show the HCX VLAN that the Oracle Cloud VMware Solution will use for any new ESXi hosts that you *add to this SDDC in the future* with [CreateEsxiHost](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20230701/EsxiHost/CreateEsxiHost).
+
+			Therefore, if you change the existing ESXi hosts in the SDDC to use a different VLAN for the HCX component of the VMware environment, you should use [UpdateSddc](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20230701/Sddc/UpdateSddc) to update the SDDC's `hcxVlanId` with that new VLAN's OCID. 
+		* `nsx_edge_uplink1vlan_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN used by the SDDC for the NSX Edge Uplink 1 component of the VMware environment. This VLAN is a mandatory attribute for Management Cluster.
+
+			This attribute is not guaranteed to reflect the NSX Edge Uplink 1 VLAN currently used by the ESXi hosts in the Cluster. The purpose of this attribute is to show the NSX Edge Uplink 1 VLAN that the Oracle Cloud VMware Solution will use for any new ESXi hosts that you *add to this Cluster in the future* with [CreateEsxiHost](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/CreateEsxiHost).
+
+			Therefore, if you change the existing ESXi hosts in the Cluster to use a different VLAN for the NSX Edge Uplink 1 component of the VMware environment, you should use [UpdateCluster](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/Cluster/UpdateCluster) to update the Cluster's `nsxEdgeUplink1VlanId` with that new VLAN's OCID. 
+		* `nsx_edge_uplink2vlan_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN used by the SDDC  for the NSX Edge Uplink 2 component of the VMware environment. This VLAN is a mandatory attribute for Management Cluster.
+
+			This attribute is not guaranteed to reflect the NSX Edge Uplink 2 VLAN currently used by the ESXi hosts in the Cluster. The purpose of this attribute is to show the NSX Edge Uplink 2 VLAN that the Oracle Cloud VMware Solution will use for any new ESXi hosts that you *add to this Cluster in the future* with [CreateEsxiHost](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/CreateEsxiHost).
+
+			Therefore, if you change the existing ESXi hosts in the Cluster to use a different VLAN for the NSX Edge Uplink 2 component of the VMware environment, you should use [UpdateCluster](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/Cluster/UpdateCluster) to update the Cluster's `nsxEdgeUplink2VlanId` with that new VLAN's OCID. 
+		* `nsx_edge_vtep_vlan_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN used by the Cluster for the NSX Edge VTEP component of the VMware environment.
+
+			This attribute is not guaranteed to reflect the NSX Edge VTEP VLAN currently used by the ESXi hosts in the Cluster. The purpose of this attribute is to show the NSX Edge VTEP VLAN that the Oracle Cloud VMware Solution will use for any new ESXi hosts that you *add to this Cluster in the future* with [CreateEsxiHost](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/CreateEsxiHost).
+
+			Therefore, if you change the existing ESXi hosts in the Cluster to use a different VLAN for the NSX Edge VTEP component of the VMware environment, you should use [UpdateCluster](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/Cluster/UpdateCluster) to update the Cluster's `nsxEdgeVTepVlanId` with that new VLAN's OCID. 
+		* `nsx_vtep_vlan_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN used by the Cluster for the NSX VTEP component of the VMware environment.
+
+			This attribute is not guaranteed to reflect the NSX VTEP VLAN currently used by the ESXi hosts in the Cluster. The purpose of this attribute is to show the NSX VTEP VLAN that the Oracle Cloud VMware Solution will use for any new ESXi hosts that you *add to this Cluster in the future* with [CreateEsxiHost](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/CreateEsxiHost).
+
+			Therefore, if you change the existing ESXi hosts in the Cluster to use a different VLAN for the NSX VTEP component of the VMware environment, you should use [UpdateCluster](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/Cluster/UpdateCluster) to update the Cluster's `nsxVTepVlanId` with that new VLAN's OCID. 
+		* `provisioning_subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management subnet used to provision the Cluster. 
+		* `provisioning_vlan_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN used by the Cluster for the Provisioning component of the VMware environment. 
+		* `replication_vlan_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN used by the Cluster for the vSphere Replication component of the VMware environment. 
+		* `vmotion_vlan_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN used by the Cluster for the vMotion component of the VMware environment.
+
+			This attribute is not guaranteed to reflect the vMotion VLAN currently used by the ESXi hosts in the Cluster. The purpose of this attribute is to show the vMotion VLAN that the Oracle Cloud VMware Solution will use for any new ESXi hosts that you *add to this Cluster in the future* with [CreateEsxiHost](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/CreateEsxiHost).
+
+			Therefore, if you change the existing ESXi hosts in the Cluster to use a different VLAN for the vMotion component of the VMware environment, you should use [UpdateCluster](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/Sddc/UpdateCluster) to update the Cluster's `vmotionVlanId` with that new VLAN's OCID. 
+		* `vsan_vlan_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN used by the Cluster for the vSAN component of the VMware environment.
+
+			This attribute is not guaranteed to reflect the vSAN VLAN currently used by the ESXi hosts in the Cluster. The purpose of this attribute is to show the vSAN VLAN that the Oracle Cloud VMware Solution will use for any new ESXi hosts that you *add to this Cluster in the future* with [CreateEsxiHost](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/CreateEsxiHost).
+
+			Therefore, if you change the existing ESXi hosts in the Cluster to use a different VLAN for the vSAN component of the VMware environment, you should use [UpdateCluster](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/Cluster/UpdateCluster) to update the Cluster's `vsanVlanId` with that new VLAN's OCID. 
+		* `vsphere_vlan_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN used by the SDDC for the vSphere component of the VMware environment. This VLAN is a mandatory attribute for Management Cluster.
+
+			This attribute is not guaranteed to reflect the vSphere VLAN currently used by the ESXi hosts in the Cluster. The purpose of this attribute is to show the vSphere VLAN that the Oracle Cloud VMware Solution will use for any new ESXi hosts that you *add to this Cluster in the future* with [CreateEsxiHost](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/CreateEsxiHost).
+
+			Therefore, if you change the existing ESXi hosts in the Cluster to use a different VLAN for the vSphere component of the VMware environment, you should use [UpdateCluster](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/Sddc/UpdateSddc) to update the Cluster's `vsphereVlanId` with that new VLAN's OCID. 
+	* `vsphere_type` - (Required) vSphere Cluster types. 
+	* `workload_network_cidr` - (Optional) The CIDR block for the IP addresses that VMware VMs in the Cluster use to run application workloads. 
+</code></pre>
+
+<ul>
+<li><p><code>is_single_host_sddc</code> - (Optional) Indicates whether this SDDC is designated for only single ESXi host.</p></li>
+
+<li><p><code>initial_host_ocpu_count</code> - (<strong>Deprecated</strong>) (Optional) The initial OCPU count of the SDDC&rsquo;s ESXi hosts. <strong>Deprecated</strong>. Please use <code>initial_host_ocpu_count</code> of <code>initial_cluster_configurations</code> instead.</p></li>
+
+<li><p><code>initial_host_shape_name</code> - (<strong>Deprecated</strong>) (Optional) The initial compute shape of the SDDC&rsquo;s ESXi hosts. <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedHostShapes/ListSupportedHostShapes">ListSupportedHostShapes</a>. <strong>Deprecated</strong>. Please use <code>initial_host_shape_name</code> of <code>initial_cluster_configurations</code> instead.</p></li>
+
+<li><p><code>initial_sku</code> - (<strong>Deprecated</strong>) (Optional) The billing option selected during SDDC creation. <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedSkuSummary/ListSupportedSkus">ListSupportedSkus</a>. <strong>Deprecated</strong>. Please use  <code>initial_commitment</code> of <code>initial_cluster_configurations</code> instead.</p></li>
+
+<li><p><code>instance_display_name_prefix</code> - (<strong>Deprecated</strong>) (Optional) A prefix used in the name of each ESXi host and Compute instance in the SDDC. If this isn&rsquo;t set, the SDDC&rsquo;s <code>displayName</code> is used as the prefix.</p>
+
+<p>For example, if the value is <code>mySDDC</code>, the ESXi hosts are named <code>mySDDC-1</code>, <code>mySDDC-2</code>, and so on. <strong>Deprecated</strong>. Please use  <code>instance_display_name_prefix</code> of <code>initial_cluster_configurations</code> instead.</p></li>
+
+<li><p><code>is_hcx_enabled</code> - (Optional) For SDDC with dense compute shapes, this parameter indicates whether to enable HCX Advanced for this SDDC. For SDDC with standard compute shapes, this parameter is equivalent to <code>isHcxEnterpriseEnabled</code>.</p></li>
+
+<li><p><code>is_shielded_instance_enabled</code> - (<strong>Deprecated</strong>) (Optional) Indicates whether shielded instance is enabled for this SDDC. <strong>Deprecated</strong>. Please use <code>is_shielded_instance_enabled</code> of <code>initial_cluster_configurations</code> instead.</p></li>
+
+<li><p><code>is_single_host_sddc</code> - (Optional) Indicates whether this SDDC is designated for only single ESXi host.</p></li>
+
+<li><p><code>nsx_edge_uplink1vlan_id</code> - (<strong>Deprecated</strong>) (Required) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VLAN to use for the NSX Edge Uplink 1 component of the VMware environment. <strong>Deprecated</strong>. Please use <code>nsx_edge_uplink1vlan_id</code> of <code>network_configuration</code> instead.</p></li>
+
+<li><p><code>nsx_edge_uplink2vlan_id</code> - (<strong>Deprecated</strong>) (Required) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VLAN to use for the NSX Edge Uplink 2 component of the VMware environment. <strong>Deprecated</strong>. Please use <code>nsx_edge_uplink2vlan_id</code> of <code>network_configuration</code> instead.</p>
+
+<p><strong>Note:</strong> This VLAN is reserved for future use to deploy public-facing applications on the VMware SDDC.</p></li>
+
+<li><p><code>nsx_edge_vtep_vlan_id</code> - (<strong>Deprecated</strong>) (Required) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VLAN to use for the NSX Edge VTEP component of the VMware environment. <strong>Deprecated</strong>. Please use <code>nsx_edge_vtep_vlan_id</code> of <code>network_configuration</code> instead.</p></li>
+
+<li><p><code>nsx_vtep_vlan_id</code> - (<strong>Deprecated</strong>) (Required) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VLAN to use for the NSX VTEP component of the VMware environment. <strong>Deprecated</strong>. Please use <code>nsx_vtep_vlan_id</code> of <code>network_configuration</code> instead.</p></li>
+
+<li><p><code>provisioning_subnet_id</code> - (<strong>Deprecated</strong>) (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the management subnet to use for provisioning the SDDC. <strong>Deprecated</strong>. Please use <code>provisioning_subnet_id</code> of <code>network_configuration</code> instead.</p></li>
+
+<li><p><code>provisioning_vlan_id</code> - (<strong>Deprecated</strong>) (Optional) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VLAN used by the SDDC for the Provisioning component of the VMware environment. <strong>Deprecated</strong>. Please use <code>provisioning_vlan_id</code> of <code>network_configuration</code> instead.</p></li>
+
+<li><p><code>refresh_hcx_license_status</code> - (Optional) (Updatable) HCX on-premise licenses status will be refreshed whenever the value of this field is changed.</p></li>
+
+<li><p><code>replication_vlan_id</code> - (<strong>Deprecated</strong>) (Optional) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VLAN used by the SDDC for the vSphere Replication component of the VMware environment. <strong>Deprecated</strong>. Please use <code>replication_vlan_id</code> of <code>network_configuration</code> instead.</p></li>
+
+<li><p><code>reserving_hcx_on_premise_license_keys</code> - (Optional) (Updatable) The HCX on-premise licenses to be reserved when downgrade from HCX Enterprise to HCX Advanced. It should not be provided during resource creation. It is required and can only be set when the hcx_action is &ldquo;DOWNGRADE&rdquo;. Its value can only be changed when hcx_action is updated.</p></li>
+
+<li><p><code>ssh_authorized_keys</code> - (Required) (Updatable) One or more public SSH keys to be included in the <code>~/.ssh/authorized_keys</code> file for the default user on each ESXi host. Use a newline character to separate multiple keys. The SSH keys must be in the format required for the <code>authorized_keys</code> file</p></li>
+
+<li><p><code>vmotion_vlan_id</code> - (<strong>Deprecated</strong>) (Required) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VLAN to use for the vMotion component of the VMware environment. <strong>Deprecated</strong>. Please use <code>vmotion_vlan_id</code> of <code>network_configuration</code> instead.</p></li>
+
+<li><p><code>vmware_software_version</code> - (Required) (Updatable) The VMware software bundle to install on the ESXi hosts in the SDDC. To get a list of the available versions, use <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedVmwareSoftwareVersionSummary/ListSupportedVmwareSoftwareVersions">ListSupportedVmwareSoftwareVersions</a>.</p></li>
+
+<li><p><code>vsan_vlan_id</code> - (<strong>Deprecated</strong>) (Required) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VLAN to use for the vSAN component of the VMware environment. <strong>Deprecated</strong>. Please use <code>vsan_vlan_id</code> of <code>network_configuration</code> instead.</p></li>
+
+<li><p><code>vsphere_vlan_id</code> - (<strong>Deprecated</strong>) (Required) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VLAN to use for the vSphere component of the VMware environment. <strong>Deprecated</strong>. Please use <code>vsphere_vlan_id</code> of <code>network_configuration</code> instead.</p></li>
+
+<li><p><code>workload_network_cidr</code> - (<strong>Deprecated</strong>) (Optional) The CIDR block for the IP addresses that VMware VMs in the SDDC use to run application workloads.  <strong>Deprecated</strong>. Please use <code>workload_network_cidr</code> of <code>initial_cluster_configurations</code> instead.</p></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>capacity_reservation_id</code> - (<strong>Deprecated</strong>) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Capacity Reservation. <strong>Deprecated</strong>. Please use <code>capacity_reservation_id</code> of <code>initial_cluster_configurations</code> instead.</li>
+<li><code>clusters_count</code> - The number of Clusters in the SDDC.</li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment that contains the SDDC.</li>
+<li><code>compute_availability_domain</code> - (<strong>Deprecated</strong>) The availability domain the ESXi hosts are running in. For Multi-AD SDDC, it is <code>multi-AD</code>.  Example: <code>Uocm:PHX-AD-1</code>, <code>multi-AD</code>. <strong>Deprecated</strong>. Please use <code>compute_availability_domain</code> of <code>initial_cluster_configurations</code> instead.</li>
+<li><code>datastores</code> - (<strong>Deprecated</strong>) Datastores used for the Sddc. <strong>Deprecated</strong>. Please use <code>datastores</code> of <code>initial_cluster_configurations</code> instead.
+
+<ul>
+<li><code>block_volume_ids</code> - A list of <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>s of Block Storage Volumes.</li>
+<li><code>capacity</code> - Size of the Block Storage Volume in GB.</li>
+<li><code>datastore_type</code> - Type of the datastore.</li>
+</ul></li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>display_name</code> - A descriptive name for the SDDC. It must be unique, start with a letter, and contain only letters, digits, whitespaces, dashes and underscores. Avoid entering confidential information.</li>
+<li><code>esxi_hosts_count</code> - (<strong>Deprecated</strong>) The number of ESXi hosts in the SDDC. <strong>Deprecated</strong>. Please use <code>esxi_hosts_count</code> of <code>initial_cluster_configurations</code> instead.</li>
+<li><code>actual_esxi_hosts_count</code> - (<strong>Deprecated</strong>) The number of actual ESXi hosts in the SDDC on the cloud. This attribute will be different when esxi Host is added to an existing SDDC. <strong>Deprecated</strong>. Please use <code>actual_esxi_hosts_count</code> of <code>initial_cluster_configurations</code> instead.</li>
+<li><code>esxi_software_version</code> - In general, this is a specific version of bundled ESXi software supported by Oracle Cloud VMware Solution (see <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20230701/SupportedVmwareSoftwareVersionSummary/ListSupportedVmwareSoftwareVersions">ListSupportedVmwareSoftwareVersions</a>).</li>
+</ul>
+
+<p>This attribute is not guaranteed to reflect the version of software currently installed on the ESXi hosts in the SDDC. The purpose of this attribute is to show the version of software that the Oracle Cloud VMware Solution will install on any new ESXi hosts that you <em>add to this SDDC in the future</em> with <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20230701/EsxiHost/CreateEsxiHost">CreateEsxiHost</a>  unless a different version is configured on the Cluster or ESXi host level.</p>
+
+<p>Therefore, if you upgrade the existing ESXi hosts in the SDDC to use a newer version of bundled ESXi software supported by the Oracle Cloud VMware Solution, you should use <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20230701/Sddc/UpdateSddc">UpdateSddc</a> to update the SDDC&rsquo;s <code>vmwareSoftwareVersion</code> with that new version.
+* <code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code>
+* <code>hcx_action</code> - The action to be performed upon HCX licenses.
+* <code>hcx_fqdn</code> - The FQDN for HCX Manager.  Example: <code>hcx-my-sddc.sddc.us-phoenix-1.oraclecloud.com</code>
+* <code>hcx_initial_password</code> - (<strong>Deprecated</strong>) The SDDC includes an administrator username and initial password for HCX Manager. Make sure to change this initial HCX Manager password to a different value. <strong>Deprecated</strong>. Please use the <code>oci_ocvp_retrieve_password</code> data source instead.
+* <code>hcx_mode</code> - HCX configuration of the SDDC.
+* <code>hcx_on_prem_key</code> - (<strong>Deprecated</strong>) The activation keys to use on the on-premises HCX Enterprise appliances you site pair with HCX Manager in your VMware Solution. The number of keys provided depends on the HCX license type. HCX Advanced provides 3 activation keys. HCX Enterprise provides 10 activation keys. <strong>Deprecated</strong>. Please use <code>hcx_on_prem_licenses</code> instead.
+* <code>hcx_on_prem_licenses</code> - The activation licenses to use on the on-premises HCX Enterprise appliance you site pair with HCX Manager in your VMware Solution.
+	* <code>activation_key</code> - HCX on-premise license key value.
+	* <code>status</code> - status of HCX on-premise license.
+	* <code>system_name</code> - Name of the system that consumed the HCX on-premise license
+* <code>hcx_private_ip_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the <code>PrivateIp</code> object that is the virtual IP (VIP) for HCX Manager. For information about <code>PrivateIp</code> objects, see the Core Services API.
+* <code>hcx_vlan_id</code> - (<strong>Deprecated</strong>) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VLAN used by the SDDC for the HCX component of the VMware environment.</p>
+
+<p>This attribute is not guaranteed to reflect the HCX VLAN currently used by the ESXi hosts in the SDDC. The purpose of this attribute is to show the HCX VLAN that the Oracle Cloud VMware Solution will use for any new ESXi hosts that you <em>add to this SDDC in the future</em> with <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20230701/EsxiHost/CreateEsxiHost">CreateEsxiHost</a>.</p>
+
+<p>Therefore, if you change the existing ESXi hosts in the SDDC to use a different VLAN for the HCX component of the VMware environment, you should use <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/Sddc/UpdateSddc">UpdateSddc</a> to update the SDDC&rsquo;s <code>hcxVlanId</code> with that new VLAN&rsquo;s OCID.
+* <code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the SDDC.
+* <code>initial_configuration</code> - Details of SDDC initial configuration
+	* <code>initial_cluster_configurations</code> - The configurations for Clusters initially created in the SDDC.
+		* <code>capacity_reservation_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Capacity Reservation.
+		* <code>compute_availability_domain</code> - The availability domain to create the Cluster&rsquo;s ESXi hosts in. For multi-AD Cluster deployment, set to <code>multi-AD</code>.
+		* <code>datastore_cluster_ids</code> - A list of datastore clusters.
+		* <code>datastores</code> - A list of datastore info for the Cluster. This value is required only when <code>initialHostShapeName</code> is a standard shape.
+			* <code>block_volume_ids</code> - A list of <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>s of Block Storage Volumes.
+			* <code>datastore_type</code> - Type of the datastore.
+		* <code>display_name</code> - A descriptive name for the Cluster. Cluster name requirements are 1-22 character length limit, Must start with a letter, Must be English letters, numbers, - only, No repeating hyphens, Must be unique within the region. Avoid entering confidential information.
+		* <code>esxi_hosts_count</code> - The number of ESXi hosts to create in the Cluster. You can add more hosts later (see <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/CreateEsxiHost">CreateEsxiHost</a>). Creating a Cluster with a ESXi host count of 1 will be considered a single ESXi host Cluster.</p>
+
+<pre><code>		**Note:** If you later delete EXSi hosts from a production Cluster to total less than 3, you are still billed for the 3 minimum recommended ESXi hosts. Also, you cannot add more VMware workloads to the Cluster until it again has at least 3 ESXi hosts. 
+	* `actual_esxi_hosts_count` - The number of actual ESXi hosts in the SDDC on the cloud. This attribute will be different when esxi Host is added to an existing SDDC. **Deprecated**.
+    * `initial_commitment` - The billing option selected during Cluster creation. [ListSupportedCommitments](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedCommitmentSummary/ListSupportedCommitments). 
+	* `initial_host_ocpu_count` - The initial OCPU count of the Cluster's ESXi hosts. 
+	* `initial_host_shape_name` - The initial compute shape of the Cluster's ESXi hosts. [ListSupportedHostShapes](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedHostShapes/ListSupportedHostShapes). 
+	* `instance_display_name_prefix` - A prefix used in the name of each ESXi host and Compute instance in the Cluster. If this isn't set, the Cluster's `displayName` is used as the prefix.
+
+		For example, if the value is `myCluster`, the ESXi hosts are named `myCluster-1`, `myCluster-2`, and so on. 
+	* `is_shielded_instance_enabled` - Indicates whether shielded instance is enabled for this Cluster. 
+	* `network_configuration` - The network configurations used by Cluster, including [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management subnet and VLANs. 
+		* `hcx_vlan_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN used by the SDDC for the HCX component of the VMware environment. This VLAN is a mandatory attribute  for Management Cluster when HCX is enabled.
+
+		    This attribute is not guaranteed to reflect the HCX VLAN currently used by the ESXi hosts in the SDDC. The purpose of this attribute is to show the HCX VLAN that the Oracle Cloud VMware Solution will use for any new ESXi hosts that you *add to this SDDC in the future* with [CreateEsxiHost](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20230701/EsxiHost/CreateEsxiHost).
+
+            Therefore, if you change the existing ESXi hosts in the SDDC to use a different VLAN for the HCX component of the VMware environment, you should use [UpdateSddc](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20230701/Sddc/UpdateSddc) to update the SDDC's `hcxVlanId` with that new VLAN's OCID.
+        * `nsx_edge_uplink1vlan_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN used by the SDDC for the NSX Edge Uplink 1 component of the VMware environment. This VLAN is a mandatory attribute for Management Cluster.
+            Therefore, if you change the existing ESXi hosts in the Cluster to use a different VLAN for the NSX Edge Uplink 1 component of the VMware environment, you should use [UpdateCluster](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/Cluster/UpdateCluster) to update the Cluster's `nsxEdgeUplink1VlanId` with that new VLAN's OCID.
+        * `nsx_edge_uplink2vlan_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN used by the SDDC  for the NSX Edge Uplink 2 component of the VMware environment. This VLAN is a mandatory attribute for Management Cluster.
+
+			This attribute is not guaranteed to reflect the NSX Edge Uplink 2 VLAN currently used by the ESXi hosts in the Cluster. The purpose of this attribute is to show the NSX Edge Uplink 2 VLAN that the Oracle Cloud VMware Solution will use for any new ESXi hosts that you *add to this Cluster in the future* with [CreateEsxiHost](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/CreateEsxiHost).
+
+			Therefore, if you change the existing ESXi hosts in the Cluster to use a different VLAN for the NSX Edge Uplink 2 component of the VMware environment, you should use [UpdateCluster](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/Cluster/UpdateCluster) to update the Cluster's `nsxEdgeUplink2VlanId` with that new VLAN's OCID. 
+		* `nsx_edge_vtep_vlan_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN used by the Cluster for the NSX Edge VTEP component of the VMware environment.
+
+			This attribute is not guaranteed to reflect the NSX Edge VTEP VLAN currently used by the ESXi hosts in the Cluster. The purpose of this attribute is to show the NSX Edge VTEP VLAN that the Oracle Cloud VMware Solution will use for any new ESXi hosts that you *add to this Cluster in the future* with [CreateEsxiHost](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/CreateEsxiHost).
+
+			Therefore, if you change the existing ESXi hosts in the Cluster to use a different VLAN for the NSX Edge VTEP component of the VMware environment, you should use [UpdateCluster](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/Cluster/UpdateCluster) to update the Cluster's `nsxEdgeVTepVlanId` with that new VLAN's OCID. 
+		* `nsx_vtep_vlan_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN used by the Cluster for the NSX VTEP component of the VMware environment.
+
+			This attribute is not guaranteed to reflect the NSX VTEP VLAN currently used by the ESXi hosts in the Cluster. The purpose of this attribute is to show the NSX VTEP VLAN that the Oracle Cloud VMware Solution will use for any new ESXi hosts that you *add to this Cluster in the future* with [CreateEsxiHost](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/CreateEsxiHost).
+
+			Therefore, if you change the existing ESXi hosts in the Cluster to use a different VLAN for the NSX VTEP component of the VMware environment, you should use [UpdateCluster](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/Cluster/UpdateCluster) to update the Cluster's `nsxVTepVlanId` with that new VLAN's OCID. 
+		* `provisioning_subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management subnet used to provision the Cluster. 
+		* `provisioning_vlan_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN used by the Cluster for the Provisioning component of the VMware environment. 
+		* `replication_vlan_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN used by the Cluster for the vSphere Replication component of the VMware environment. 
+		* `vmotion_vlan_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN used by the Cluster for the vMotion component of the VMware environment.
+
+			This attribute is not guaranteed to reflect the vMotion VLAN currently used by the ESXi hosts in the Cluster. The purpose of this attribute is to show the vMotion VLAN that the Oracle Cloud VMware Solution will use for any new ESXi hosts that you *add to this Cluster in the future* with [CreateEsxiHost](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/CreateEsxiHost).
+
+			Therefore, if you change the existing ESXi hosts in the Cluster to use a different VLAN for the vMotion component of the VMware environment, you should use [UpdateCluster](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/Sddc/UpdateCluster) to update the Cluster's `vmotionVlanId` with that new VLAN's OCID. 
+		* `vsan_vlan_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN used by the Cluster for the vSAN component of the VMware environment.
+
+			This attribute is not guaranteed to reflect the vSAN VLAN currently used by the ESXi hosts in the Cluster. The purpose of this attribute is to show the vSAN VLAN that the Oracle Cloud VMware Solution will use for any new ESXi hosts that you *add to this Cluster in the future* with [CreateEsxiHost](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/CreateEsxiHost).
+
+			Therefore, if you change the existing ESXi hosts in the Cluster to use a different VLAN for the vSAN component of the VMware environment, you should use [UpdateCluster](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/Cluster/UpdateCluster) to update the Cluster's `vsanVlanId` with that new VLAN's OCID. 
+		* `vsphere_vlan_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN used by the SDDC for the vSphere component of the VMware environment. This VLAN is a mandatory attribute for Management Cluster.
+
+			This attribute is not guaranteed to reflect the vSphere VLAN currently used by the ESXi hosts in the Cluster. The purpose of this attribute is to show the vSphere VLAN that the Oracle Cloud VMware Solution will use for any new ESXi hosts that you *add to this Cluster in the future* with [CreateEsxiHost](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/CreateEsxiHost).
+
+			Therefore, if you change the existing ESXi hosts in the Cluster to use a different VLAN for the vSphere component of the VMware environment, you should use [UpdateCluster](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/Sddc/UpdateSddc) to update the Cluster's `vsphereVlanId` with that new VLAN's OCID. 
+	    * `vsphere_type` - vSphere Cluster types. 
+	    * `workload_network_cidr` - The CIDR block for the IP addresses that VMware VMs in the Cluster use to run application workloads. 
+</code></pre>
+
+<ul>
+<li><code>initial_host_ocpu_count</code> - (<strong>Deprecated</strong>) The initial OCPU count of the SDDC&rsquo;s ESXi hosts. <strong>Deprecated</strong>. Please use <code>initial_host_ocpu_count</code> of <code>initial_cluster_configurations</code> instead.</li>
+<li><code>initial_host_shape_name</code> - (<strong>Deprecated</strong>) The initial compute shape of the SDDC&rsquo;s ESXi hosts. <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedHostShapes/ListSupportedHostShapes">ListSupportedHostShapes</a>. <strong>Deprecated</strong>. Please use <code>initial_host_shape_name</code> of <code>initial_cluster_configurations</code> instead.</li>
+<li><code>initial_sku</code> - (<strong>Deprecated</strong>) The billing option selected during SDDC creation. <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedSkuSummary/ListSupportedSkus">ListSupportedSkus</a>. <strong>Deprecated</strong>. Please use <code>initial_commitment</code> of <code>initial_cluster_configurations</code> instead.</li>
+<li><code>instance_display_name_prefix</code> - (<strong>Deprecated</strong>) A prefix used in the name of each ESXi host and Compute instance in the SDDC. If this isn&rsquo;t set, the SDDC&rsquo;s <code>displayName</code> is used as the prefix.</li>
+</ul>
+
+<p>For example, if the value is <code>MySDDC</code>, the ESXi hosts are named <code>MySDDC-1</code>, <code>MySDDC-2</code>, and so on. <strong>Deprecated</strong>. Please use  <code>instance_display_name_prefix</code> of <code>initial_cluster_configurations</code> instead.
+* <code>is_hcx_enabled</code> - Indicates whether HCX is enabled for this SDDC.
+* <code>is_hcx_enterprise_enabled</code> - (<strong>Deprecated</strong>) Indicates whether HCX Enterprise is enabled for this SDDC.
+* <code>is_hcx_pending_downgrade</code> - Indicates whether SDDC is pending downgrade from HCX Enterprise to HCX Advanced.
+* <code>is_shielded_instance_enabled</code> - (<strong>Deprecated</strong>) Indicates whether shielded instance is enabled at the SDDC level. <strong>Deprecated</strong>. Please use <code>is_shielded_instance_enabled</code> of <code>initial_cluster_configurations</code> instead.
+* <code>is_single_host_sddc</code> - Indicates whether this SDDC is designated for only single ESXi host.
+* <code>nsx_edge_uplink1vlan_id</code> - (<strong>Deprecated</strong>) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VLAN used by the SDDC for the NSX Edge Uplink 1 component of the VMware environment.</p>
+
+<p>This attribute is not guaranteed to reflect the NSX Edge Uplink 1 VLAN currently used by the ESXi hosts in the SDDC. The purpose of this attribute is to show the NSX Edge Uplink 1 VLAN that the Oracle Cloud VMware Solution will use for any new ESXi hosts that you <em>add to this SDDC in the future</em> with <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/CreateEsxiHost">CreateEsxiHost</a>.</p>
+
+<p>Therefore, if you change the existing ESXi hosts in the SDDC to use a different VLAN for the NSX Edge Uplink 1 component of the VMware environment, you should use <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/Sddc/UpdateSddc">UpdateSddc</a> to update the SDDC&rsquo;s <code>nsxEdgeUplink1VlanId</code> with that new VLAN&rsquo;s OCID. <strong>Deprecated</strong>. Please use <code>nsx_edge_uplink1vlan_id</code> of <code>network_configuration</code> instead.
+* <code>nsx_edge_uplink2vlan_id</code> - (<strong>Deprecated</strong>) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VLAN used by the SDDC for the NSX Edge Uplink 2 component of the VMware environment.</p>
+
+<p>This attribute is not guaranteed to reflect the NSX Edge Uplink 2 VLAN currently used by the ESXi hosts in the SDDC. The purpose of this attribute is to show the NSX Edge Uplink 2 VLAN that the Oracle Cloud VMware Solution will use for any new ESXi hosts that you <em>add to this SDDC in the future</em> with <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/CreateEsxiHost">CreateEsxiHost</a>.</p>
+
+<p>Therefore, if you change the existing ESXi hosts in the SDDC to use a different VLAN for the NSX Edge Uplink 2 component of the VMware environment, you should use <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/Sddc/UpdateSddc">UpdateSddc</a> to update the SDDC&rsquo;s <code>nsxEdgeUplink2VlanId</code> with that new VLAN&rsquo;s OCID. <strong>Deprecated</strong>. Please use <code>nsx_edge_uplink2vlan_id</code> of <code>network_configuration</code> instead.
+* <code>nsx_edge_uplink_ip_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the <code>PrivateIp</code> object that is the virtual IP (VIP) for the NSX Edge Uplink. Use this OCID as the route target for route table rules when setting up connectivity between the SDDC and other networks. For information about <code>PrivateIp</code> objects, see the Core Services API.
+* <code>nsx_edge_vtep_vlan_id</code> - (<strong>Deprecated</strong>) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VLAN used by the SDDC for the NSX Edge VTEP component of the VMware environment.</p>
+
+<p>This attribute is not guaranteed to reflect the NSX Edge VTEP VLAN currently used by the ESXi hosts in the SDDC. The purpose of this attribute is to show the NSX Edge VTEP VLAN that the Oracle Cloud VMware Solution will use for any new ESXi hosts that you <em>add to this SDDC in the future</em> with <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/CreateEsxiHost">CreateEsxiHost</a>.</p>
+
+<p>Therefore, if you change the existing ESXi hosts in the SDDC to use a different VLAN for the NSX Edge VTEP component of the VMware environment, you should use <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/Sddc/UpdateSddc">UpdateSddc</a> to update the SDDC&rsquo;s <code>nsxEdgeVTepVlanId</code> with that new VLAN&rsquo;s OCID. <strong>Deprecated</strong>. Please use <code>nsx_edge_vtep_vlan_id</code> of <code>network_configuration</code> instead.
+* <code>nsx_manager_fqdn</code> - The FQDN for NSX Manager.  Example: <code>nsx-my-sddc.sddc.us-phoenix-1.oraclecloud.com</code>
+* <code>nsx_manager_private_ip_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the <code>PrivateIp</code> object that is the virtual IP (VIP) for NSX Manager. For information about <code>PrivateIp</code> objects, see the Core Services API.
+* <code>nsx_manager_username</code> - The SDDC includes an administrator username and initial password for NSX Manager. You can change this initial username to a different value in NSX Manager.
+* <code>nsx_manager_initial_password</code> - (<strong>Deprecated</strong>) The SDDC includes an administrator username and initial password for NSX Manager. Make sure to change this initial NSX Manager password to a different value. <strong>Deprecated</strong>. Please use the <code>oci_ocvp_retrieve_password</code> data source instead.
+* <code>nsx_overlay_segment_name</code> - (<strong>Deprecated</strong>) The VMware NSX overlay workload segment to host your application. Connect to workload portgroup in vCenter to access this overlay segment.
+* <code>nsx_vtep_vlan_id</code> - (<strong>Deprecated</strong>) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VLAN used by the SDDC for the NSX VTEP component of the VMware environment.</p>
+
+<pre><code>This attribute is not guaranteed to reflect the NSX VTEP VLAN currently used by the ESXi hosts in the SDDC. The purpose of this attribute is to show the NSX VTEP VLAN that the Oracle Cloud VMware Solution will use for any new ESXi hosts that you *add to this SDDC in the future* with [CreateEsxiHost](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/CreateEsxiHost).
+
+Therefore, if you change the existing ESXi hosts in the SDDC to use a different VLAN for the NSX VTEP component of the VMware environment, you should use [UpdateSddc](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/Sddc/UpdateSddc) to update the SDDC's `nsxVTepVlanId` with that new VLAN's OCID. **Deprecated**. Please use `nsx_vtep_vlan_id` of `network_configuration` instead.
+</code></pre>
+
+<ul>
+<li><p><code>provisioning_subnet_id</code> - (<strong>Deprecated</strong>) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the management subnet used to provision the SDDC. <strong>Deprecated</strong>. Please use <code>provisioning_subnet_id</code> of <code>network_configuration</code> instead.</p></li>
+
+<li><p><code>provisioning_vlan_id</code> - (<strong>Deprecated</strong>) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VLAN used by the SDDC for the Provisioning component of the VMware environment. <strong>Deprecated</strong>. Please use <code>provisioning_vlan_id</code> of <code>network_configuration</code> instead.</p></li>
+
+<li><p><code>replication_vlan_id</code> - (<strong>Deprecated</strong>) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VLAN used by the SDDC for the vSphere Replication component of the VMware environment. <strong>Deprecated</strong>. Please use <code>replication_vlan_id</code> of <code>network_configuration</code> instead.</p></li>
+
+<li><p><code>reserving_hcx_on_premise_license_keys</code> - The HCX on-premise licenses to be reserved when downgrade from HCX Enterprise to HCX Advanced.</p></li>
+
+<li><p><code>ssh_authorized_keys</code> - One or more public SSH keys to be included in the <code>~/.ssh/authorized_keys</code> file for the default user on each ESXi host. Use a newline character to separate multiple keys. The SSH keys must be in the format required for the <code>authorized_keys</code> file.</p>
+
+<p>This attribute is not guaranteed to reflect the public SSH keys currently installed on the ESXi hosts in the SDDC. The purpose of this attribute is to show the public SSH keys that Oracle Cloud VMware Solution will install on any new ESXi hosts that you <em>add to this SDDC in the future</em> with <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20230701/EsxiHost/CreateEsxiHost">CreateEsxiHost</a>.</p>
+
+<p>Therefore, if you upgrade the existing ESXi hosts in the SDDC to use different SSH keys, you should use <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20230701/Sddc/UpdateSddc">UpdateSddc</a> to update the SDDC&rsquo;s <code>sshAuthorizedKeys</code> with the new public keys.</p></li>
+
+<li><p><code>state</code> - The current state of the SDDC.</p></li>
+
+<li><p><code>time_created</code> - The date and time the SDDC was created, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.  Example: <code>2016-08-25T21:10:29.600Z</code></p></li>
+
+<li><p><code>time_hcx_billing_cycle_end</code> - The date and time current HCX Enterprise billing cycle ends, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.  Example: <code>2016-08-25T21:10:29.600Z</code></p></li>
+
+<li><p><code>time_hcx_license_status_updated</code> - The date and time the SDDC&rsquo;s HCX on-premise license status was updated, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.  Example: <code>2016-08-25T21:10:29.600Z</code></p></li>
+
+<li><p><code>time_updated</code> - The date and time the SDDC was updated, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</p></li>
+
+<li><p><code>upgrade_licenses</code> - (<strong>Deprecated</strong>) The vSphere licenses to use when upgrading the SDDC.</p>
+
+<ul>
+<li><code>license_key</code> - vSphere license key value.</li>
+<li><code>license_type</code> - vSphere license type.</li>
+</ul></li>
+
+<li><p><code>vcenter_fqdn</code> - The FQDN for vCenter.  Example: <code>vcenter-my-sddc.sddc.us-phoenix-1.oraclecloud.com</code></p></li>
+
+<li><p><code>vcenter_private_ip_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the <code>PrivateIp</code> object that is the virtual IP (VIP) for vCenter. For information about <code>PrivateIp</code> objects, see the Core Services API.</p></li>
+
+<li><p><code>vcenter_username</code> - The SDDC includes an administrator username and password for vCenter. You can change this initial username to a different value in vCenter.</p></li>
+
+<li><p><code>vmware_software_version</code> - In general, this is a specific version of bundled VMware software supported by Oracle Cloud VMware Solution (see <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20230701/SupportedVmwareSoftwareVersionSummary/ListSupportedVmwareSoftwareVersions">ListSupportedVmwareSoftwareVersions</a>).</p>
+
+<p>This attribute is not guaranteed to reflect the version of software currently installed on the ESXi hosts in the SDDC. The purpose of this attribute is to show the version of software that the Oracle Cloud VMware Solution will install on any new ESXi hosts that you <em>add to this SDDC in the future</em> with <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20230701/EsxiHost/CreateEsxiHost">CreateEsxiHost</a>.</p>
+
+<p>Therefore, if you upgrade the existing ESXi hosts in the SDDC to use a newer version of bundled VMware software supported by the Oracle Cloud VMware Solution, you should use <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20230701/Sddc/UpdateSddc">UpdateSddc</a> to update the SDDC&rsquo;s <code>vmwareSoftwareVersion</code> with that new version.</p></li>
+
+<li><p><code>vcenter_fqdn</code> - The FQDN for vCenter.  Example: <code>vcenter-my-sddc.sddc.us-phoenix-1.oraclecloud.com</code></p></li>
+
+<li><p><code>vcenter_initial_password</code> - (<strong>Deprecated</strong>) The SDDC includes an administrator username and initial password for vCenter. Make sure to change this initial vCenter password to a different value. <strong>Deprecated</strong>. Please use the <code>oci_ocvp_retrieve_password</code> data source instead.</p></li>
+
+<li><p><code>vcenter_username</code> - The SDDC includes an administrator username and initial password for vCenter. You can change this initial username to a different value in vCenter.</p></li>
+
+<li><p><code>vmotion_vlan_id</code> - (<strong>Deprecated</strong>) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VLAN used by the SDDC for the vMotion component of the VMware environment.</p>
+
+<p>This attribute is not guaranteed to reflect the vMotion VLAN currently used by the ESXi hosts in the SDDC. The purpose of this attribute is to show the vMotion VLAN that the Oracle Cloud VMware Solution will use for any new ESXi hosts that you <em>add to this SDDC in the future</em> with <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/CreateEsxiHost">CreateEsxiHost</a>.</p>
+
+<p>Therefore, if you change the existing ESXi hosts in the SDDC to use a different VLAN for the vMotion component of the VMware environment, you should use <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/Sddc/UpdateSddc">UpdateSddc</a> to update the SDDC&rsquo;s <code>vmotionVlanId</code> with that new VLAN&rsquo;s OCID. <strong>Deprecated</strong>. Please use <code>vmotion_vlan_id</code> of <code>network_configuration</code> instead.</p></li>
+
+<li><p><code>vsan_vlan_id</code> - (<strong>Deprecated</strong>) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VLAN used by the SDDC for the vSAN component of the VMware environment.</p>
+
+<p>This attribute is not guaranteed to reflect the vSAN VLAN currently used by the ESXi hosts in the SDDC. The purpose of this attribute is to show the vSAN VLAN that the Oracle Cloud VMware Solution will use for any new ESXi hosts that you <em>add to this SDDC in the future</em> with <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/CreateEsxiHost">CreateEsxiHost</a>.</p>
+
+<p>Therefore, if you change the existing ESXi hosts in the SDDC to use a different VLAN for the vSAN component of the VMware environment, you should use <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/Sddc/UpdateSddc">UpdateSddc</a> to update the SDDC&rsquo;s <code>vsanVlanId</code> with that new VLAN&rsquo;s OCID. <strong>Deprecated</strong>. Please use <code>vsan_vlan_id</code> of <code>network_configuration</code> instead.</p></li>
+
+<li><p><code>vsphere_upgrade_guide</code> - (<strong>Deprecated</strong>) The link to guidance for upgrading vSphere.</p></li>
+
+<li><p><code>vsphere_upgrade_objects</code> - (<strong>Deprecated</strong>) The links to binary objects needed to upgrade vSphere.</p>
+
+<ul>
+<li><code>download_link</code> - Binary object download link.</li>
+<li><code>link_description</code> - Binary object description.</li>
+</ul></li>
+
+<li><p><code>vsphere_vlan_id</code> - (<strong>Deprecated</strong>) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VLAN used by the SDDC for the vSphere component of the VMware environment.</p>
+
+<p>This attribute is not guaranteed to reflect the version of software currently installed on the ESXi hosts in the SDDC. The purpose of this attribute is to show the version of software that the Oracle Cloud VMware Solution will install on any new ESXi hosts that you <em>add to this SDDC in the future</em> with <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20230701/EsxiHost/CreateEsxiHost">CreateEsxiHost</a>.</p>
+
+<p>Therefore, if you change the existing ESXi hosts in the SDDC to use a different VLAN for the vSphere component of the VMware environment, you should use <a href="https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/Sddc/UpdateSddc">UpdateSddc</a> to update the SDDC&rsquo;s <code>vsphereVlanId</code> with that new VLAN&rsquo;s OCID. <strong>Deprecated</strong>. Please use <code>vsphere_vlan_id</code> of <code>network_configuration</code> instead.</p></li>
+
+<li><p><code>workload_network_cidr</code> - (<strong>Deprecated</strong>) The CIDR block for the IP addresses that VMware VMs in the SDDC use to run application workloads. <strong>Deprecated</strong>. Please use <code>workload_network_cidr</code> of <code>initial_cluster_configurations</code> instead.</p></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 6 hours), when creating the Sddc
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Sddc
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Sddc</p>
+
+<h2>Import</h2>
+
+<p>Sddcs can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_ocvp_sddc.test_sddc &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

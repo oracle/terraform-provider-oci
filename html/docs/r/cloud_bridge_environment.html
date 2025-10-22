@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_cloud_bridge_environment</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_cloud_bridge_environment</h1>
+
+<p>This resource provides the Environment resource in Oracle Cloud Infrastructure Cloud Bridge service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/OCB/latest/Environment">https://docs.oracle.com/iaas/api/#/en/OCB/latest/Environment</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/cloudBridge">https://github.com/oracle/terraform-provider-oci/tree/master/examples/cloudBridge</a></p>
+
+<p>Creates a source environment.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_cloud_bridge_environment&quot; &quot;test_environment&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	defined_tags = {&quot;Operations.CostCenter&quot;= &quot;42&quot;}
+	display_name = var.environment_display_name
+	freeform_tags = {&quot;Department&quot;= &quot;Finance&quot;}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) (Updatable) Compartment identifier.</li>
+<li><code>defined_tags</code> - (Optional) (Updatable) The defined tags associated with this resource, if any. Each key is predefined and scoped to namespaces. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>display_name</code> - (Optional) (Updatable) Environment identifier.</li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) The freeform tags associated with this resource, if any. Each tag is a simple key-value pair with no predefined name, type, or namespace/scope. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - Compartment identifier.</li>
+<li><code>defined_tags</code> - The defined tags associated with this resource, if any. Each key is predefined and scoped to namespaces. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>display_name</code> - Environment identifier, which can be renamed.</li>
+<li><code>freeform_tags</code> - The freeform tags associated with this resource, if any. Each tag is a simple key-value pair with no predefined name, type, or namespace/scope. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - Unique identifier that is immutable on creation.</li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail. For example, it can be used to provide actionable information for a resource in Failed state.</li>
+<li><code>state</code> - The current state of the source environment.</li>
+<li><code>system_tags</code> - The system tags associated with this resource, if any. The system tags are set by Oracle cloud infrastructure services. Each key is predefined and scoped to namespaces. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{orcl-cloud: {free-tier-retain: true}}</code></li>
+<li><code>time_created</code> - The time when the source environment was created. An RFC3339 formatted datetime string.</li>
+<li><code>time_updated</code> - The time when the source environment was updated. An RFC3339 formatted datetime string.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Environment
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Environment
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Environment</p>
+
+<h2>Import</h2>
+
+<p>Environments can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_cloud_bridge_environment.test_environment &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

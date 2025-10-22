@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_datascience_ml_application_implementation</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_datascience_ml_application_implementation</h1>
+
+<p>This resource provides the Ml Application Implementation resource in Oracle Cloud Infrastructure Data Science service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/data-science/latest/MlApplicationImplementation">https://docs.oracle.com/iaas/api/#/en/data-science/latest/MlApplicationImplementation</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/datascience">https://github.com/oracle/terraform-provider-oci/tree/master/examples/datascience</a></p>
+
+<p>Creates a new MlApplicationImplementation.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_datascience_ml_application_implementation&quot; &quot;test_ml_application_implementation&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	ml_application_id = oci_datascience_ml_application.test_ml_application.id
+	name = var.ml_application_implementation_name
+
+	#Optional
+	ml_application_package = {
+		source_type = var.ml_application_package_source_type
+		uri = var.ml_application_package_uri
+	}
+	opc_ml_app_package_args = var.opc_ml_app_package_args
+	allowed_migration_destinations = var.ml_application_implementation_allowed_migration_destinations
+	defined_tags = {&quot;Operations.CostCenter&quot;= &quot;42&quot;}
+	freeform_tags = {&quot;Department&quot;= &quot;Finance&quot;}
+	logging {
+
+		#Optional
+		aggregated_instance_view_log {
+
+			#Optional
+			enable_logging = var.ml_application_implementation_logging_aggregated_instance_view_log_enable_logging
+			log_group_id = oci_logging_log_group.test_log_group.id
+			log_id = oci_logging_log.test_log.id
+		}
+		implementation_log {
+
+			#Optional
+			enable_logging = var.ml_application_implementation_logging_implementation_log_enable_logging
+			log_group_id = oci_logging_log_group.test_log_group.id
+			log_id = oci_logging_log.test_log.id
+		}
+		trigger_log {
+
+			#Optional
+			enable_logging = var.ml_application_implementation_logging_trigger_log_enable_logging
+			log_group_id = oci_logging_log_group.test_log_group.id
+			log_id = oci_logging_log.test_log.id
+		}
+	}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>allowed_migration_destinations</code> - (Optional) (Updatable) List of ML Application Implementation OCIDs for which migration from this implementation is allowed. Migration means that if consumers change implementation for their instances to implementation with OCID from this list, instance components will be updated in place otherwise new instance components are created based on the new implementation and old instance components are removed.</li>
+<li><code>compartment_id</code> - (Required) (Updatable) The OCID of the compartment where ML Application Implementation is created.</li>
+<li><code>ml_application_package</code> - (Optional) (Updatable) Configuration of The ML Application Package to upload.
+
+<ul>
+<li><code>source_type</code> - (Optional) ML Application Package source type. List of Source Types
+
+<ul>
+<li><code>local</code> - Refers local file path</li>
+<li><code>object_storage_download</code> - Terraform downloads package from Object Storage Bucket on local and then uploads</li>
+<li><code>object_storage</code> - Terraform pass package reference to ML Application Service</li>
+</ul></li>
+<li><code>path</code> - (Optional) ML Application Package local file path (Applicable when source_type=&ldquo;local&rdquo;). e.g. file://${path.root}/ml-app-package.zip</li>
+<li><code>uri</code> - (Optional) Object Storage Bucket path for ML Application Package(Applicable when source_type is &ldquo;object_storage_download&rdquo; or &ldquo;object_storage&rdquo;).</li>
+</ul></li>
+<li><code>opc_ml_app_package_args</code> - (Optional) (Updatable) ML Application package arguments required during ML Application package upload. Each argument is a simple key-value pair.</li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>logging</code> - (Optional) (Updatable) Configuration of Logging for ML Application Implementation.
+
+<ul>
+<li><code>aggregated_instance_view_log</code> - (Optional) (Updatable) Log configuration details for particular areas of ML Application Implementation.
+
+<ul>
+<li><code>enable_logging</code> - (Optional) (Updatable) If logging is enabled.</li>
+<li><code>log_group_id</code> - (Optional) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the log group.</li>
+<li><code>log_id</code> - (Optional) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the log.</li>
+</ul></li>
+<li><code>implementation_log</code> - (Optional) (Updatable) Log configuration details for particular areas of ML Application Implementation.
+
+<ul>
+<li><code>enable_logging</code> - (Optional) (Updatable) If logging is enabled.</li>
+<li><code>log_group_id</code> - (Optional) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the log group.</li>
+<li><code>log_id</code> - (Optional) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the log.</li>
+</ul></li>
+<li><code>trigger_log</code> - (Optional) (Updatable) Log configuration details for particular areas of ML Application Implementation.
+
+<ul>
+<li><code>enable_logging</code> - (Optional) (Updatable) If logging is enabled.</li>
+<li><code>log_group_id</code> - (Optional) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the log group.</li>
+<li><code>log_id</code> - (Optional) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the log.</li>
+</ul></li>
+</ul></li>
+<li><code>ml_application_id</code> - (Required) The OCID of the ML Application implemented by this ML Application Implementation</li>
+<li><code>name</code> - (Required) ML Application Implementation name which is unique for given ML Application.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>allowed_migration_destinations</code> - List of ML Application Implementation OCIDs for which migration from this implementation is allowed. Migration means that if consumers change implementation for their instances to implementation with OCID from this list, instance components will be updated in place otherwise new instance components are created based on the new implementation and old instance components are removed.</li>
+<li><code>application_components</code> - List of application components (OCI resources shared for all MlApplicationInstances). These have been created automatically based on their definitions in the ML Application package.
+
+<ul>
+<li><code>application_id</code> - OCID of Data Flow Application</li>
+<li><code>component_name</code> - Name of application component</li>
+<li><code>id</code> - OCID of the resource</li>
+<li><code>job_id</code> - OCID of Data Science Job</li>
+<li><code>model_id</code> - OCID of Data Science Model</li>
+<li><code>name</code> - Name of referenced resource (generally resources do not have to have any name but most resources have name exposed as &lsquo;name&rsquo; or &lsquo;displayName&rsquo; field).</li>
+<li><code>pipeline_id</code> - OCID of Data Science Pipeline</li>
+<li><code>resource_type</code> - Type of the resource</li>
+<li><code>type</code> - Type of application component</li>
+</ul></li>
+<li><code>compartment_id</code> - The OCID of the compartment where ML Application Implementation is created.</li>
+<li><code>configuration_schema</code> - Schema of configuration which needs to be provided for each ML Application Instance. It is defined in the ML Application package descriptor.
+
+<ul>
+<li><code>default_value</code> - The default value for the optional configuration property (it must not be specified for mandatory configuration properties)</li>
+<li><code>description</code> - Description of this configuration property</li>
+<li><code>is_mandatory</code> - If the value is true this configuration property is mandatory and visa versa. If not specified configuration property is optional.</li>
+<li><code>key_name</code> - Name of key (parameter name)</li>
+<li><code>sample_value</code> - Sample property value (it must match validationRegexp if it is specified)</li>
+<li><code>validation_regexp</code> - A regular expression will be used for the validation of property value.</li>
+<li><code>value_type</code> - Type of value</li>
+</ul></li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - Description of ML Application Implementation defined in ML Application package descriptor</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The OCID of the MlApplicationImplementation. Unique identifier that is immutable after creation.</li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.</li>
+<li><code>logging</code> - Configuration of Logging for ML Application Implementation.
+
+<ul>
+<li><code>aggregated_instance_view_log</code> - Log configuration details for particular areas of ML Application Implementation.
+
+<ul>
+<li><code>enable_logging</code> - If logging is enabled.</li>
+<li><code>log_group_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the log group.</li>
+<li><code>log_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the log.</li>
+</ul></li>
+<li><code>implementation_log</code> - Log configuration details for particular areas of ML Application Implementation.
+
+<ul>
+<li><code>enable_logging</code> - If logging is enabled.</li>
+<li><code>log_group_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the log group.</li>
+<li><code>log_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the log.</li>
+</ul></li>
+<li><code>trigger_log</code> - Log configuration details for particular areas of ML Application Implementation.
+
+<ul>
+<li><code>enable_logging</code> - If logging is enabled.</li>
+<li><code>log_group_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the log group.</li>
+<li><code>log_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the log.</li>
+</ul></li>
+</ul></li>
+<li><code>ml_application_id</code> - The OCID of the ML Application implemented by this ML Application Implementation.</li>
+<li><code>ml_application_name</code> - The name of ML Application (based on mlApplicationId)</li>
+<li><code>ml_application_package_arguments</code> - List of ML Application package arguments provided during ML Application package upload.
+
+<ul>
+<li><code>arguments</code> - Array of the ML Application package arguments
+
+<ul>
+<li><code>description</code> - short description of the argument</li>
+<li><code>is_mandatory</code> - argument is mandatory or not</li>
+<li><code>name</code> - Argument name</li>
+<li><code>type</code> - type of the argument</li>
+<li><code>value</code> - Argument value</li>
+</ul></li>
+</ul></li>
+<li><code>name</code> - ML Application Implementation name which is unique for given ML Application.</li>
+<li><code>package_version</code> - The version of ML Application Package (e.g. &ldquo;1.2&rdquo; or &ldquo;2.0.4&rdquo;) defined in ML Application package descriptor. Value is not mandatory only for CREATING state otherwise it must be always presented.</li>
+<li><code>state</code> - The current state of the MlApplicationImplementation.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - Creation time of MlApplicationImplementation creation in the format defined by RFC 3339.</li>
+<li><code>time_updated</code> - Time of last MlApplicationImplementation update in the format defined by RFC 3339.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Ml Application Implementation
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Ml Application Implementation
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Ml Application Implementation</p>
+
+<h2>Import</h2>
+
+<p>MlApplicationImplementations can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_datascience_ml_application_implementation.test_ml_application_implementation &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

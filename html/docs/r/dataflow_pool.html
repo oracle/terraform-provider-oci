@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_dataflow_pool</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_dataflow_pool</h1>
+
+<p>This resource provides the Pool resource in Oracle Cloud Infrastructure Data Flow service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/data-flow/latest/Pool">https://docs.oracle.com/iaas/api/#/en/data-flow/latest/Pool</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/dataflow">https://github.com/oracle/terraform-provider-oci/tree/master/examples/dataflow</a></p>
+
+<p>Create a pool to be used by dataflow runs or applications.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_dataflow_pool&quot; &quot;test_pool&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	configurations {
+
+		#Optional
+		max = var.pool_configurations_max
+		min = var.pool_configurations_min
+		shape = var.pool_configurations_shape
+		shape_config {
+
+			#Optional
+			memory_in_gbs = var.pool_configurations_shape_config_memory_in_gbs
+			ocpus = var.pool_configurations_shape_config_ocpus
+		}
+	}
+	display_name = var.pool_display_name
+
+	#Optional
+	defined_tags = {&quot;Operations.CostCenter&quot;= &quot;42&quot;}
+	description = var.pool_description
+	freeform_tags = {&quot;Department&quot;= &quot;Finance&quot;}
+	idle_timeout_in_minutes = var.pool_idle_timeout_in_minutes
+	schedules {
+
+		#Optional
+		day_of_week = var.pool_schedules_day_of_week
+		start_time = var.pool_schedules_start_time
+		stop_time = var.pool_schedules_stop_time
+	}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) (Updatable) The OCID of a compartment.</li>
+<li><code>configurations</code> - (Required) (Updatable) List of PoolConfig items.
+
+<ul>
+<li><code>max</code> - (Optional) (Updatable) Maximum number of compute instances in the pool for a given compute shape.</li>
+<li><code>min</code> - (Optional) (Updatable) Minimum number of compute instances in the pool for a given compute shape.</li>
+<li><code>shape</code> - (Optional) (Updatable) The compute shape of the resources you would like to provision.</li>
+<li><code>shape_config</code> - (Optional) (Updatable) This is used to configure the shape of the driver or executor if a flexible shape is used.
+
+<ul>
+<li><code>memory_in_gbs</code> - (Optional) (Updatable) The amount of memory used for the driver or executors.</li>
+<li><code>ocpus</code> - (Optional) (Updatable) The total number of OCPUs used for the driver or executors. See <a href="https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/Shape/">here</a> for details.</li>
+</ul></li>
+</ul></li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - (Optional) (Updatable) A user-friendly description. Avoid entering confidential information.</li>
+<li><code>display_name</code> - (Required) (Updatable) A user-friendly name. It does not have to be unique. Avoid entering confidential information.</li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>idle_timeout_in_minutes</code> - (Optional) (Updatable) Optional timeout value in minutes used to auto stop Pools. A Pool will be auto stopped after inactivity for this amount of time period. If value not set, pool will not be auto stopped auto.</li>
+<li><code>schedules</code> - (Optional) (Updatable) A list of schedules for pool to auto start and stop.
+
+<ul>
+<li><code>day_of_week</code> - (Optional) (Updatable) Day of the week SUN-SAT</li>
+<li><code>start_time</code> - (Optional) (Updatable) Hour of the day to start or stop pool.</li>
+<li><code>stop_time</code> - (Optional) (Updatable) Hour of the day to stop the pool.</li>
+</ul></li>
+<li><code>state</code> - (Optional) (Updatable) The target state for the Pool. Could be set to <code>ACTIVE</code> or <code>DELETED</code>.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The OCID of a compartment.</li>
+<li><code>configurations</code> - List of PoolConfig items.
+
+<ul>
+<li><code>max</code> - Maximum number of compute instances in the pool for a given compute shape.</li>
+<li><code>min</code> - Minimum number of compute instances in the pool for a given compute shape.</li>
+<li><code>shape</code> - The compute shape of the resources you would like to provision.</li>
+<li><code>shape_config</code> - This is used to configure the shape of the driver or executor if a flexible shape is used.
+
+<ul>
+<li><code>memory_in_gbs</code> - The amount of memory used for the driver or executors.</li>
+<li><code>ocpus</code> - The total number of OCPUs used for the driver or executors. See <a href="https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/Shape/">here</a> for details.</li>
+</ul></li>
+</ul></li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - A user-friendly description. Avoid entering confidential information.</li>
+<li><code>display_name</code> - A user-friendly name. It does not have to be unique. Avoid entering confidential information.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The OCID of a pool. Unique Id to indentify a dataflow pool resource.</li>
+<li><code>idle_timeout_in_minutes</code> - Optional timeout value in minutes used to auto stop Pools. A Pool will be auto stopped after inactivity for this amount of time period. If value not set, pool will not be auto stopped auto.</li>
+<li><code>lifecycle_details</code> - The detailed messages about the lifecycle state.</li>
+<li><code>owner_principal_id</code> - The OCID of the user who created the resource.</li>
+<li><code>owner_user_name</code> - The username of the user who created the resource.  If the username of the owner does not exist, <code>null</code> will be returned and the caller should refer to the ownerPrincipalId value instead.</li>
+<li><code>pool_metrics</code> - A collection of metrics related to a particular pool.
+
+<ul>
+<li><code>active_runs_count</code> - The number of runs that are currently running that are using this pool.</li>
+<li><code>actively_used_node_count</code> - A count of the nodes that are currently being used for each shape in this pool.
+
+<ul>
+<li><code>logical_shape</code> - The compute shape of the nodes that the count is for.</li>
+<li><code>pool_count</code> - The node count of this compute shape.</li>
+</ul></li>
+<li><code>time_last_metrics_updated</code> - The last time the mertics were updated for this.</li>
+<li><code>time_last_started</code> - The last time this pool was started.</li>
+<li><code>time_last_stopped</code> - The last time this pool was stopped.</li>
+<li><code>time_last_used</code> - The last time a run used this pool.</li>
+</ul></li>
+<li><code>schedules</code> - A list of schedules for pool to auto start and stop.
+
+<ul>
+<li><code>day_of_week</code> - Day of the week SUN-SAT</li>
+<li><code>start_time</code> - Hour of the day to start or stop pool.</li>
+<li><code>stop_time</code> - Hour of the day to stop the pool.</li>
+</ul></li>
+<li><code>state</code> - The current state of this pool.</li>
+<li><code>time_created</code> - The date and time the resource was created, expressed in <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a> timestamp format. Example: <code>2018-04-03T21:10:29.600Z</code></li>
+<li><code>time_updated</code> - The date and time the resource was updated, expressed in <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a> timestamp format. Example: <code>2018-04-03T21:10:29.600Z</code></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Pool
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Pool
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Pool</p>
+
+<h2>Import</h2>
+
+<p>Pools can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_dataflow_pool.test_pool &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

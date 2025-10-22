@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_dns_resolver</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_dns_resolver</h1>
+
+<p>This resource provides the Resolver resource in Oracle Cloud Infrastructure DNS service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/dns/latest/Resolver">https://docs.oracle.com/iaas/api/#/en/dns/latest/Resolver</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/dns">https://github.com/oracle/terraform-provider-oci/tree/master/examples/dns</a></p>
+
+<p>Updates the specified resolver with your new information.</p>
+
+<p>Note: Resolvers are associated with VCNs and created when a VCN is created. Wait until created VCN&rsquo;s state shows as Available in OCI console before updating DNS resolver properties.
+Also a VCN cannot be deleted while its resolver has resolver endpoints. Additionally a resolver endpoint cannot be deleted if it is referenced in the resolver&rsquo;s rules. To remove the rules from a resolver user needs to update the resolver resource. Since DNS Resolver gets deleted when VCN is deleted there is no support for Delete for DNS Resolver.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_dns_resolver&quot; &quot;test_resolver&quot; {
+	#Required
+	resolver_id = oci_dns_resolver.test_resolver.id
+
+	#Optional
+	scope = &quot;PRIVATE&quot;
+	attached_views {
+		#Required
+		view_id = oci_dns_view.test_view.id
+	}
+	defined_tags = var.resolver_defined_tags
+	display_name = var.resolver_display_name
+	freeform_tags = var.resolver_freeform_tags
+	rules {
+		#Required
+		action = var.resolver_rules_action
+		destination_addresses = var.resolver_rules_destination_addresses
+		source_endpoint_name = oci_data_connectivity_endpoint.test_endpoint.name
+
+		#Optional
+		client_address_conditions = var.resolver_rules_client_address_conditions
+		qname_cover_conditions = var.resolver_rules_qname_cover_conditions
+	}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>attached_views</code> - (Optional) (Updatable) The attached views. Views are evaluated in order.</p>
+
+<ul>
+<li><code>view_id</code> - (Required) (Updatable) The OCID of the view.</li>
+</ul></li>
+
+<li><p><code>compartment_id</code> - (Optional) (Updatable) The OCID of the owning compartment.</p></li>
+
+<li><p><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</p>
+
+<p><strong>Example:</strong> <code>{&quot;Operations&quot;: {&quot;CostCenter&quot;: &quot;42&quot;}}</code></p></li>
+
+<li><p><code>display_name</code> - (Optional) (Updatable) The display name of the resolver.</p></li>
+
+<li><p><code>freeform_tags</code> - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</p>
+
+<p><strong>Example:</strong> <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></p></li>
+
+<li><p><code>resolver_id</code> - (Required) The OCID of the target resolver.</p></li>
+
+<li><p><code>rules</code> - (Optional) (Updatable) Rules for the resolver. Rules are evaluated in order.</p>
+
+<ul>
+<li><code>action</code> - (Required) (Updatable) The action determines the behavior of the rule. If a query matches a supplied condition, the action will apply. If there are no conditions on the rule, all queries are subject to the specified action.
+
+<ul>
+<li><code>FORWARD</code> - Matching requests will be forwarded from the source interface to the destination address.</li>
+</ul></li>
+<li><code>client_address_conditions</code> - (Optional) (Updatable) A list of CIDR blocks. The query must come from a client within one of the blocks in order for the rule action to apply.</li>
+<li><code>destination_addresses</code> - (Required) (Updatable) IP addresses to which queries should be forwarded. Currently limited to a single address.</li>
+<li><code>qname_cover_conditions</code> - (Optional) (Updatable) A list of domain names. The query must be covered by one of the domains in order for the rule action to apply.</li>
+<li><code>source_endpoint_name</code> - (Required) (Updatable) Case-insensitive name of an endpoint, that is a sub-resource of the resolver, to use as the forwarding interface. The endpoint must have isForwarding set to true.</li>
+</ul></li>
+
+<li><p><code>scope</code> - (Optional) Specifies to operate only on resources that have a matching DNS scope.</p></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>attached_vcn_id</code> - The OCID of the attached VCN.</p></li>
+
+<li><p><code>attached_views</code> - The attached views. Views are evaluated in order.</p>
+
+<ul>
+<li><code>view_id</code> - The OCID of the view.</li>
+</ul></li>
+
+<li><p><code>compartment_id</code> - The OCID of the owning compartment.</p></li>
+
+<li><p><code>default_view_id</code> - The OCID of the default view.</p></li>
+
+<li><p><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</p>
+
+<p><strong>Example:</strong> <code>{&quot;Operations&quot;: {&quot;CostCenter&quot;: &quot;42&quot;}}</code></p></li>
+
+<li><p><code>display_name</code> - The display name of the resolver.</p></li>
+
+<li><p><code>endpoints</code> - Read-only array of endpoints for the resolver.</p>
+
+<ul>
+<li><p><code>compartment_id</code> - The OCID of the owning compartment. This will match the resolver that the resolver endpoint is under and will be updated if the resolver&rsquo;s compartment is changed.</p></li>
+
+<li><p><code>endpoint_type</code> - The type of resolver endpoint. VNIC is currently the only supported type.</p></li>
+
+<li><p><code>forwarding_address</code> - An IP address from which forwarded queries may be sent. For VNIC endpoints, this IP address must be part of the subnet and will be assigned by the system if unspecified when isForwarding is true.</p></li>
+
+<li><p><code>is_forwarding</code> - A Boolean flag indicating whether or not the resolver endpoint is for forwarding.</p></li>
+
+<li><p><code>is_listening</code> - A Boolean flag indicating whether or not the resolver endpoint is for listening.</p></li>
+
+<li><p><code>listening_address</code> - An IP address to listen to queries on. For VNIC endpoints this IP address must be part of the subnet and will be assigned by the system if unspecified when isListening is true.</p></li>
+
+<li><p><code>name</code> - The name of the resolver endpoint. Must be unique, case-insensitive, within the resolver.</p></li>
+
+<li><p><code>self</code> - The canonical absolute URL of the resource.</p></li>
+
+<li><p><code>state</code> - The current state of the resource.</p></li>
+
+<li><p><code>subnet_id</code> - The OCID of a subnet. Must be part of the VCN that the resolver is attached to.</p></li>
+
+<li><p><code>time_created</code> - The date and time the resource was created in &ldquo;YYYY-MM-ddThh:mm:ssZ&rdquo; format with a Z offset, as defined by RFC 3339.</p>
+
+<p><strong>Example:</strong> <code>2016-07-22T17:23:59:60Z</code></p></li>
+
+<li><p><code>time_updated</code> - The date and time the resource was last updated in &ldquo;YYYY-MM-ddThh:mm:ssZ&rdquo; format with a Z offset, as defined by RFC 3339.</p>
+
+<p><strong>Example:</strong> <code>2016-07-22T17:23:59:60Z</code></p></li>
+</ul></li>
+
+<li><p><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</p>
+
+<p><strong>Example:</strong> <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></p></li>
+
+<li><p><code>id</code> - The OCID of the resolver.</p></li>
+
+<li><p><code>is_protected</code> - A Boolean flag indicating whether or not parts of the resource are unable to be explicitly managed.</p></li>
+
+<li><p><code>rules</code> - Rules for the resolver. Rules are evaluated in order.</p>
+
+<ul>
+<li><code>action</code> - The action determines the behavior of the rule. If a query matches a supplied condition, the action will apply. If there are no conditions on the rule, all queries are subject to the specified action.
+
+<ul>
+<li><code>FORWARD</code> - Matching requests will be forwarded from the source interface to the destination address.</li>
+</ul></li>
+<li><code>client_address_conditions</code> - A list of CIDR blocks. The query must come from a client within one of the blocks in order for the rule action to apply.</li>
+<li><code>destination_addresses</code> - IP addresses to which queries should be forwarded. Currently limited to a single address.</li>
+<li><code>qname_cover_conditions</code> - A list of domain names. The query must be covered by one of the domains in order for the rule action to apply.</li>
+<li><code>source_endpoint_name</code> - Case-insensitive name of an endpoint, that is a sub-resource of the resolver, to use as the forwarding interface. The endpoint must have isForwarding set to true.</li>
+</ul></li>
+
+<li><p><code>self</code> - The canonical absolute URL of the resource.</p></li>
+
+<li><p><code>state</code> - The current state of the resource.</p></li>
+
+<li><p><code>time_created</code> - The date and time the resource was created in &ldquo;YYYY-MM-ddThh:mm:ssZ&rdquo; format with a Z offset, as defined by RFC 3339.</p>
+
+<p><strong>Example:</strong> <code>2016-07-22T17:23:59:60Z</code></p></li>
+
+<li><p><code>time_updated</code> - The date and time the resource was last updated in &ldquo;YYYY-MM-ddThh:mm:ssZ&rdquo; format with a Z offset, as defined by RFC 3339.</p>
+
+<p><strong>Example:</strong> <code>2016-07-22T17:23:59:60Z</code></p></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Resolver
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Resolver
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Resolver</p>
+
+<h2>Import</h2>
+
+<p>Resolvers can be imported using their OCID, e.g.</p>
+
+<pre><code>$ terraform import oci_dns_resolver.test_resolver &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

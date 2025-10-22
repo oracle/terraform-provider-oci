@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_core_shapes</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_core_shapes</h1>
+
+<p>This data source provides the list of Shapes in Oracle Cloud Infrastructure Core service.</p>
+
+<p>Lists the shapes that can be used to launch an instance within the specified compartment. You can
+filter the list by compatibility with a specific image.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_core_shapes&quot; &quot;test_shapes&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	availability_domain = var.shape_availability_domain
+	image_id = oci_core_image.test_image.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>availability_domain</code> - (Optional) The name of the availability domain.  Example: <code>Uocm:PHX-AD-1</code></li>
+<li><code>compartment_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>image_id</code> - (Optional) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of an image.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>shapes</code> - The list of shapes.</li>
+</ul>
+
+<h3>Shape Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>baseline_ocpu_utilizations</code> - For a subcore burstable VM, the supported baseline OCPU utilization for instances that use this shape.</p></li>
+
+<li><p><code>billing_type</code> - How instances that use this shape are charged.</p></li>
+
+<li><p><code>gpu_description</code> - A short description of the graphics processing unit (GPU) available for this shape.</p>
+
+<p>If the shape does not have any GPUs, this field is <code>null</code>.</p></li>
+
+<li><p><code>gpus</code> - The number of GPUs available for this shape.</p></li>
+
+<li><p><code>is_billed_for_stopped_instance</code> - Whether billing continues when the instances that use this shape are in the stopped state.</p></li>
+
+<li><p><code>is_flexible</code> - Whether the shape supports creating flexible instances. A <a href="https://docs.cloud.oracle.com/iaas/Content/Compute/References/computeshapes.htm#flexible">flexible shape</a> is a shape that lets you customize the number of OCPUs and the amount of memory when launching or resizing your instance.</p></li>
+
+<li><p><code>is_live_migration_supported</code> - Whether live migration is supported for this shape.</p></li>
+
+<li><p><code>is_subcore</code> - Whether the shape supports creating subcore or burstable instances. A <a href="https://docs.cloud.oracle.com/iaas/Content/Compute/References/burstable-instances.htm">burstable instance</a> is a virtual machine (VM) instance that provides a baseline level of CPU performance with the ability to burst to a higher level to support occasional spikes in usage.</p></li>
+
+<li><p><code>local_disk_description</code> - A short description of the local disks available for this shape.</p>
+
+<p>If the shape does not have any local disks, this field is <code>null</code>.</p></li>
+
+<li><p><code>local_disks</code> - The number of local disks available for this shape.</p></li>
+
+<li><p><code>local_disks_total_size_in_gbs</code> - The aggregate size of the local disks available for this shape, in gigabytes.</p>
+
+<p>If the shape does not have any local disks, this field is <code>null</code>.</p></li>
+
+<li><p><code>max_vnic_attachment_options</code> - For a flexible shape, the number of VNIC attachments that are available for instances that use this shape.</p>
+
+<p>If this field is null, then this shape has a fixed maximum number of VNIC attachments equal to <code>maxVnicAttachments</code>.</p>
+
+<ul>
+<li><code>default_per_ocpu</code> - The default number of VNIC attachments allowed per OCPU.</li>
+<li><code>max</code> - The highest maximum value of VNIC attachments.</li>
+<li><code>min</code> - The lowest maximum value of VNIC attachments.</li>
+</ul></li>
+
+<li><p><code>max_vnic_attachments</code> - The maximum number of VNIC attachments available for this shape.</p></li>
+
+<li><p><code>memory_in_gbs</code> - The default amount of memory available for this shape, in gigabytes.</p></li>
+
+<li><p><code>memory_options</code> - For a flexible shape, the amount of memory available for instances that use this shape.</p>
+
+<p>If this field is null, then this shape has a fixed amount of memory equivalent to <code>memoryInGBs</code>.</p>
+
+<ul>
+<li><code>default_per_ocpu_in_gbs</code> - The default amount of memory per OCPU available for this shape, in gigabytes.</li>
+<li><code>max_in_gbs</code> - The maximum amount of memory, in gigabytes.</li>
+<li><code>max_per_numa_node_in_gbs</code> - The maximum amount of memory per NUMA node, in gigabytes.</li>
+<li><code>max_per_ocpu_in_gbs</code> - The maximum amount of memory per OCPU available for this shape, in gigabytes.</li>
+<li><code>min_in_gbs</code> - The minimum amount of memory, in gigabytes.</li>
+<li><code>min_per_ocpu_in_gbs</code> - The minimum amount of memory per OCPU available for this shape, in gigabytes.</li>
+</ul></li>
+
+<li><p><code>min_total_baseline_ocpus_required</code> - For a subcore burstable VM, the minimum total baseline OCPUs required. The total baseline OCPUs is equal to baselineOcpuUtilization chosen multiplied by the number of OCPUs chosen.</p></li>
+
+<li><p><code>name</code> - The name of the shape. You can enumerate all available shapes by calling <a href="https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Shape/ListShapes">ListShapes</a>.</p></li>
+
+<li><p><code>network_ports</code> - The number of physical network interface card (NIC) ports available for this shape.</p></li>
+
+<li><p><code>networking_bandwidth_in_gbps</code> - The networking bandwidth available for this shape, in gigabits per second.</p></li>
+
+<li><p><code>networking_bandwidth_options</code> - For a flexible shape, the amount of networking bandwidth available for instances that use this shape.</p>
+
+<p>If this field is null, then this shape has a fixed amount of bandwidth equivalent to <code>networkingBandwidthInGbps</code>.</p>
+
+<ul>
+<li><code>default_per_ocpu_in_gbps</code> - The default amount of networking bandwidth per OCPU, in gigabits per second.</li>
+<li><code>max_in_gbps</code> - The maximum amount of networking bandwidth, in gigabits per second.</li>
+<li><code>min_in_gbps</code> - The minimum amount of networking bandwidth, in gigabits per second.</li>
+</ul></li>
+
+<li><p><code>ocpu_options</code> - For a flexible shape, the number of OCPUs available for instances that use this shape.</p>
+
+<p>If this field is null, then this shape has a fixed number of OCPUs equal to <code>ocpus</code>.</p>
+
+<ul>
+<li><code>max</code> - The maximum number of OCPUs.</li>
+<li><code>max_per_numa_node</code> - The maximum number of cores available per NUMA node.</li>
+<li><code>min</code> - The minimum number of OCPUs.</li>
+</ul></li>
+
+<li><p><code>ocpus</code> - The default number of OCPUs available for this shape.</p></li>
+
+<li><p><code>platform_config_options</code> - The list of supported platform configuration options for this shape.</p>
+
+<ul>
+<li><code>access_control_service_options</code> - Configuration options for the Access Control Service.
+
+<ul>
+<li><code>allowed_values</code> - Whether the Access Control Service can be enabled.</li>
+<li><code>is_default_enabled</code> - Whether the Access Control Service is enabled by default.</li>
+</ul></li>
+<li><code>input_output_memory_management_unit_options</code> - Configuration options for the input-output memory management unit (IOMMU).
+
+<ul>
+<li><code>allowed_values</code> - Whether the input-output memory management unit can be enabled.</li>
+<li><code>is_default_enabled</code> - Whether the input-output memory management unit is enabled by default.</li>
+</ul></li>
+<li><code>measured_boot_options</code> - Configuration options for the Measured Boot feature.
+
+<ul>
+<li><code>allowed_values</code> - Boolean values that indicate whether the Measured Boot feature can be enabled or disabled.</li>
+<li><code>is_default_enabled</code> - Whether the Measured Boot feature is enabled by default.</li>
+</ul></li>
+<li><code>memory_encryption_options</code> - Configuration options for memory encryption.
+
+<ul>
+<li><code>allowed_values</code> - Whether memory encryption can be enabled.</li>
+<li><code>is_default_enabled</code> - Whether memory encryption is enabled by default.</li>
+</ul></li>
+<li><code>numa_nodes_per_socket_platform_options</code> - Configuration options for NUMA nodes per socket.
+
+<ul>
+<li><code>allowed_values</code> - The supported values for this platform configuration property.</li>
+<li><code>default_value</code> - The default NUMA nodes per socket configuration.</li>
+</ul></li>
+<li><code>percentage_of_cores_enabled_options</code> - Configuration options for the percentage of cores enabled.
+
+<ul>
+<li><code>default_value</code> - The default percentage of cores enabled.</li>
+<li><code>max</code> - The maximum allowed percentage of cores enabled.</li>
+<li><code>min</code> - The minimum allowed percentage of cores enabled.</li>
+</ul></li>
+<li><code>secure_boot_options</code> - Configuration options for Secure Boot.
+
+<ul>
+<li><code>allowed_values</code> - Boolean values that indicate whether Secure Boot can be enabled or disabled.</li>
+<li><code>is_default_enabled</code> - Whether Secure Boot is enabled by default.</li>
+</ul></li>
+<li><code>symmetric_multi_threading_options</code> - Configuration options for symmetric multithreading (also called simultaneous multithreading or SMT).
+
+<ul>
+<li><code>allowed_values</code> - Whether symmetric multithreading can be enabled.</li>
+<li><code>is_default_enabled</code> - Whether symmetric multithreading is enabled by default.</li>
+</ul></li>
+<li><code>trusted_platform_module_options</code> - Configuration options for the Trusted Platform Module (TPM).
+
+<ul>
+<li><code>allowed_values</code> - Boolean values that indicate whether the Trusted Platform Module can be enabled or disabled.</li>
+<li><code>is_default_enabled</code> - Whether the Trusted Platform Module is enabled by default.</li>
+</ul></li>
+<li><code>type</code> - The type of platform being configured.</li>
+<li><code>virtual_instructions_options</code> - Configuration options for the virtualization instructions.
+
+<ul>
+<li><code>allowed_values</code> - Whether virtualization instructions can be enabled.</li>
+<li><code>is_default_enabled</code> - Whether virtualization instructions are enabled by default.</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>platform_config_options</code> - The list of supported platform configuration options for this shape.</p>
+
+<ul>
+<li><code>access_control_service_options</code> - Configuration options for the Access Control Service.
+
+<ul>
+<li><code>allowed_values</code> - Whether the Access Control Service can be enabled.</li>
+<li><code>is_default_enabled</code> - Whether the Access Control Service is enabled by default.</li>
+</ul></li>
+<li><code>input_output_memory_management_unit_options</code> - Configuration options for the input-output memory management unit.
+
+<ul>
+<li><code>allowed_values</code> - Whether the input-output memory management unit can be enabled.</li>
+<li><code>is_default_enabled</code> - Whether the input-output memory management unit is enabled by default.</li>
+</ul></li>
+<li><code>measured_boot_options</code> - Configuration options for the Measured Boot feature.
+
+<ul>
+<li><code>allowed_values</code> - Boolean values that indicate whether the Measured Boot feature can be enabled or disabled.</li>
+<li><code>is_default_enabled</code> - Whether the Measured Boot feature is enabled by default.</li>
+</ul></li>
+<li><code>numa_nodes_per_socket_platform_options</code> - Configuration options for NUMA nodes per socket.
+
+<ul>
+<li><code>allowed_values</code> - The supported values for this platform configuration property.</li>
+<li><code>default_value</code> - The default NUMA nodes per socket configuration.</li>
+</ul></li>
+<li><code>percentage_of_cores_enabled_options</code> - Configuration options for the percentage of cores enabled.
+
+<ul>
+<li><code>default_value</code> - The default percentage of cores enabled.</li>
+<li><code>max</code> - The maximum allowed percentage of cores enabled.</li>
+<li><code>min</code> - The minimum allowed percentage of cores enabled.</li>
+</ul></li>
+<li><code>secure_boot_options</code> - Configuration options for Secure Boot.
+
+<ul>
+<li><code>allowed_values</code> - Boolean values that indicate whether Secure Boot can be enabled or disabled.</li>
+<li><code>is_default_enabled</code> - Whether Secure Boot is enabled by default.</li>
+</ul></li>
+<li><code>symmetric_multi_threading_options</code> - Configuration options for symmetric multi-threading.
+
+<ul>
+<li><code>allowed_values</code> - Whether symmetric multi-threading can be enabled.</li>
+<li><code>is_default_enabled</code> - Whether symmetric multi-threading is enabled by default.</li>
+</ul></li>
+<li><code>trusted_platform_module_options</code> - Configuration options for the Trusted Platform Module (TPM).
+
+<ul>
+<li><code>allowed_values</code> - Boolean values that indicate whether the Trusted Platform Module can be enabled or disabled.</li>
+<li><code>is_default_enabled</code> - Whether the Trusted Platform Module is enabled by default.</li>
+</ul></li>
+<li><code>type</code> - The type of platform being configured. (Supported types=[INTEL_VM, AMD_MILAN_BM, AMD_ROME_BM, AMD_ROME_BM_GPU, INTEL_ICELAKE_BM, INTEL_SKYLAKE_BM])</li>
+<li><code>virtual_instructions_options</code> - Configuration options for the virtualization instructions.
+
+<ul>
+<li><code>allowed_values</code> - Whether virtualization instructions can be enabled.</li>
+<li><code>is_default_enabled</code> - Whether virtualization instructions are enabled by default.</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>processor_description</code> - A short description of the shape&rsquo;s processor (CPU).</p></li>
+
+<li><p><code>quota_names</code> - The list of of compartment quotas for the shape.</p></li>
+
+<li><p><code>rdma_bandwidth_in_gbps</code> - The networking bandwidth available for the remote direct memory access (RDMA) network for this shape, in gigabits per second.</p></li>
+
+<li><p><code>rdma_ports</code> - The number of networking ports available for the remote direct memory access (RDMA) network between nodes in a high performance computing (HPC) cluster network. If the shape does not support cluster networks, this value is <code>0</code>.</p></li>
+
+<li><p><code>recommended_alternatives</code> - The list of shapes and shape details (if applicable) that Oracle recommends that you use as an alternative to the current shape.</p>
+
+<ul>
+<li><code>shape_name</code> - The name of the shape.</li>
+</ul></li>
+
+<li><p><code>resize_compatible_shapes</code> - The list of compatible shapes that this shape can be changed to. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/resizinginstances.htm">Changing the Shape of an Instance</a>.</p></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

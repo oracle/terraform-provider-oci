@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_jms_java_releases</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_jms_java_releases</h1>
+
+<p>This data source provides the list of Java Releases in Oracle Cloud Infrastructure Jms service.</p>
+
+<p>Returns a list of Java releases.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_jms_java_releases&quot; &quot;test_java_releases&quot; {
+
+	#Optional
+	family_version = var.java_release_family_version
+	jre_security_status = var.java_release_jre_security_status
+	license_type = var.java_release_license_type
+	release_type = var.java_release_release_type
+	release_version = var.java_release_release_version
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>family_version</code> - (Optional) The version identifier for the Java family.</li>
+<li><code>jre_security_status</code> - (Optional) The security status of the Java Runtime.</li>
+<li><code>license_type</code> - (Optional) Java license type.</li>
+<li><code>release_type</code> - (Optional) Java release type.</li>
+<li><code>release_version</code> - (Optional) Unique Java release version identifier</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>java_release_collection</code> - The list of java_release_collection.</li>
+</ul>
+
+<h3>JavaRelease Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>artifact_content_types</code> - Artifact content types for the Java version.</li>
+<li><code>artifacts</code> - List of Java artifacts.
+
+<ul>
+<li><code>approximate_file_size_in_bytes</code> - Approximate compressed file size in bytes.</li>
+<li><code>architecture</code> - The target Operating System architecture for the artifact.</li>
+<li><code>artifact_content_type</code> - Product content type of this artifact.</li>
+<li><code>artifact_description</code> - Description of the binary artifact. Typically includes the OS, architecture, and installer type.</li>
+<li><code>artifact_file_name</code> - The file name of the artifact.</li>
+<li><code>artifact_id</code> - Unique identifier for the artifact.</li>
+<li><code>download_url</code> - The endpoint that returns a short-lived artifact download URL in the response payload. This download url can then be used for downloading the artifact. See this <a href="https://docs.oracle.com/en-us/iaas/api/#/en/jms-java-download/20230601/DownloadUrl/GenerateArtifactDownloadUrl">API</a> for more details.</li>
+<li><code>os_family</code> - The target Operating System family for the artifact.</li>
+<li><code>package_type</code> - The package type(typically the file extension) of the artifact.</li>
+<li><code>package_type_detail</code> - Additional information about the package type.</li>
+<li><code>script_checksum_url</code> - The URL for retrieving the checksum for the artifact. Depending on the context, this can point to the checksum of the archive or latest update release version artifact.</li>
+<li><code>script_download_url</code> - The endpoint for downloading this artifact from command line, automatically in scripts and dockerfiles. Depending on the context, this can point to the archive or latest update release version artifact in the specified family.</li>
+<li><code>sha256</code> - SHA256 checksum of the artifact.</li>
+</ul></li>
+<li><code>days_under_security_baseline</code> - The number of days since this release has been under the security baseline.</li>
+<li><code>family_details</code> - Metadata associated with a specific Java release family. A Java release family is typically a major version in the Java version identifier.
+
+<ul>
+<li><code>display_name</code> - The display name of the release family.</li>
+<li><code>doc_url</code> - Link to access the documentation for the release.</li>
+<li><code>end_of_support_life_date</code> - The End of Support Life (EOSL) date of the Java release family (formatted according to <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>).</li>
+<li><code>family_version</code> - The Java release family identifier.</li>
+<li><code>is_supported_version</code> - Whether or not this Java release family is under active support. Refer <a href="https://www.oracle.com/java/technologies/java-se-support-roadmap.html">Java Support Roadmap</a> for more details.</li>
+<li><code>latest_release_artifacts</code> - List of artifacts for the latest Java release version in this family. The script URLs in the response can be used from a command line, or in scripts and dockerfiles to always get the artifacts corresponding to the latest update release version.
+
+<ul>
+<li><code>approximate_file_size_in_bytes</code> - Approximate compressed file size in bytes.</li>
+<li><code>architecture</code> - The target Operating System architecture for the artifact.</li>
+<li><code>artifact_content_type</code> - Product content type of this artifact.</li>
+<li><code>artifact_description</code> - Description of the binary artifact. Typically includes the OS, architecture, and installer type.</li>
+<li><code>artifact_file_name</code> - The file name of the artifact.</li>
+<li><code>artifact_id</code> - Unique identifier for the artifact.</li>
+<li><code>download_url</code> - The endpoint that returns a short-lived artifact download URL in the response payload. This download url can then be used for downloading the artifact. See this <a href="https://docs.oracle.com/en-us/iaas/api/#/en/jms-java-download/20230601/DownloadUrl/GenerateArtifactDownloadUrl">API</a> for more details.</li>
+<li><code>os_family</code> - The target Operating System family for the artifact.</li>
+<li><code>package_type</code> - The package type(typically the file extension) of the artifact.</li>
+<li><code>package_type_detail</code> - Additional information about the package type.</li>
+<li><code>script_checksum_url</code> - The URL for retrieving the checksum for the artifact. Depending on the context, this can point to the checksum of the archive or latest update release version artifact.</li>
+<li><code>script_download_url</code> - The endpoint for downloading this artifact from command line, automatically in scripts and dockerfiles. Depending on the context, this can point to the archive or latest update release version artifact in the specified family.</li>
+<li><code>sha256</code> - SHA256 checksum of the artifact.</li>
+</ul></li>
+<li><code>latest_release_version</code> - Latest Java release version in the family.</li>
+<li><code>license_types</code> - The license type(s) associated with the Java family.</li>
+<li><code>release_date</code> - The date on which the Java release family was first made available (formatted according to <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>).</li>
+<li><code>support_type</code> - This indicates the support category for the Java release family.</li>
+</ul></li>
+<li><code>family_version</code> - Java release family identifier.</li>
+<li><code>license_details</code> - Information about a license type for Java.
+
+<ul>
+<li><code>display_name</code> - Commonly used name for the license type.</li>
+<li><code>license_type</code> - License Type</li>
+<li><code>license_url</code> - Publicly accessible license URL containing the detailed terms and conditions.</li>
+</ul></li>
+<li><code>license_type</code> - License type for the Java version.</li>
+<li><code>mos_patches</code> - List of My Oracle Support(MoS) patches available for this release. This information is only available for <code>BPR</code> release type.
+
+<ul>
+<li><code>display_name</code> - Commonly used name for the MoS release.</li>
+<li><code>patch_url</code> - MoS URL to access the artifacts for the Java release.</li>
+</ul></li>
+<li><code>parent_release_version</code> - Parent Java release version identifier. This is applicable for BPR releases.</li>
+<li><code>release_date</code> - The release date of the Java version (formatted according to <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>).</li>
+<li><code>release_notes_url</code> - Release notes associated with the Java version.</li>
+<li><code>release_type</code> - Release category of the Java version.</li>
+<li><code>release_version</code> - Java release version identifier.</li>
+<li><code>security_status</code> - The security status of the Java version.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

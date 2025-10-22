@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_data_safe_audit_profiles</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_data_safe_audit_profiles</h1>
+
+<p>This data source provides the list of Audit Profiles in Oracle Cloud Infrastructure Data Safe service.</p>
+
+<p>Gets a list of all audit profiles.</p>
+
+<p>The ListAuditProfiles operation returns only the audit profiles in the specified <code>compartmentId</code>.
+The list does not include any subcompartments of the compartmentId passed.</p>
+
+<p>The parameter <code>accessLevel</code> specifies whether to return only those compartments for which the
+requestor has INSPECT permissions on at least one resource directly
+or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to return Not Authorized if
+Principal doesn&rsquo;t have access to even one of the child compartments. This is valid only when
+<code>compartmentIdInSubtree</code> is set to <code>true</code>.</p>
+
+<p>The parameter <code>compartmentIdInSubtree</code> applies when you perform ListAuditProfiles on the
+<code>compartmentId</code> passed and when it is set to true, the entire hierarchy of compartments can be returned.
+To get a full list of all compartments and subcompartments in the tenancy (root compartment),
+set the parameter <code>compartmentIdInSubtree</code> to true and <code>accessLevel</code> to ACCESSIBLE.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_data_safe_audit_profiles&quot; &quot;test_audit_profiles&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	access_level = var.audit_profile_access_level
+	audit_collected_volume_greater_than_or_equal_to = var.audit_profile_audit_collected_volume_greater_than_or_equal_to
+	audit_profile_id = oci_data_safe_audit_profile.test_audit_profile.id
+	compartment_id_in_subtree = var.audit_profile_compartment_id_in_subtree
+	display_name = var.audit_profile_display_name
+	is_override_global_retention_setting = var.audit_profile_is_override_global_retention_setting
+	is_paid_usage_enabled = var.audit_profile_is_paid_usage_enabled
+	state = var.audit_profile_state
+	target_database_group_id = oci_data_safe_target_database_group.test_target_database_group.id
+	target_id = oci_cloud_guard_target.test_target.id
+	target_type = var.audit_profile_target_type
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>access_level</code> - (Optional) Valid values are RESTRICTED and ACCESSIBLE. Default is RESTRICTED. Setting this to ACCESSIBLE returns only those compartments for which the user has INSPECT permissions directly or indirectly (permissions can be on a resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed.</li>
+<li><code>audit_collected_volume_greater_than_or_equal_to</code> - (Optional) A filter to return only items that have count of audit records collected greater than or equal to the specified value.</li>
+<li><code>audit_profile_id</code> - (Optional) A optional filter to return only resources that match the specified id.</li>
+<li><code>compartment_id</code> - (Required) A filter to return only resources that match the specified compartment OCID.</li>
+<li><code>compartment_id_in_subtree</code> - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the &lsquo;accessLevel&rsquo; setting.</li>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the specified display name.</li>
+<li><code>is_override_global_retention_setting</code> - (Optional) A optional filter to return only resources that match the specified retention configured value.</li>
+<li><code>is_paid_usage_enabled</code> - (Optional) Indicates if you want to continue audit record collection beyond the free limit of one million audit records per month per target database, incurring additional charges. The default value is inherited from the global settings. You can change at the global level or at the target level.</li>
+<li><code>state</code> - (Optional) A optional filter to return only resources that match the specified lifecycle state.</li>
+<li><code>target_database_group_id</code> - (Optional) A filter to return the target database group that matches the specified OCID.</li>
+<li><code>target_id</code> - (Optional) A filter to return only items related to a specific target OCID.</li>
+<li><code>target_type</code> - (Optional) A optional filter to return only resources that belong to the specified audit profile type.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>audit_profile_collection</code> - The list of audit_profile_collection.</li>
+</ul>
+
+<h3>AuditProfile Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>audit_collected_volume</code> - Number of audit records collected in the current calendar month.  Audit records for the Data Safe service account are excluded and are not counted towards your monthly free limit.</li>
+<li><code>audit_trails</code> - Contains the list of available audit trails on the target database.
+
+<ul>
+<li><code>audit_collection_start_time</code> - The date from which the audit trail must start collecting data, in the format defined by RFC3339.</li>
+<li><code>audit_profile_id</code> - The OCID of the  parent audit.</li>
+<li><code>can_update_last_archive_time_on_target</code> - Indicates if the Datasafe updates last archive time on target database. If isAutoPurgeEnabled field is enabled, this field must be true.</li>
+<li><code>compartment_id</code> - The OCID of the compartment that contains the audit trail and is the same as the compartment of the audit profile resource.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a> Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - The description of the audit trail.</li>
+<li><code>display_name</code> - The display name of the audit trail.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The OCID of the audit trail.</li>
+<li><code>is_auto_purge_enabled</code> - Indicates if auto purge is enabled on the target database, which helps delete audit data in the target database every seven days so that the database&rsquo;s audit trail does not become too large.</li>
+<li><code>lifecycle_details</code> - Details about the current state of the audit trail in Data Safe.</li>
+<li><code>peer_target_database_key</code> - The secondary id assigned for the peer database registered with Data Safe.</li>
+<li><code>purge_job_details</code> - The details of the audit trail purge job that ran on the &ldquo;purgeJobTime&rdquo;.</li>
+<li><code>purge_job_status</code> - The current status of the audit trail purge job.</li>
+<li><code>purge_job_time</code> - The date and time of the last purge job, which deletes audit data in the target database every seven days so that the database&rsquo;s audit trail does not become too large. In the format defined by RFC3339.</li>
+<li><code>state</code> - The current state of the audit trail.</li>
+<li><code>status</code> - The current sub-state of the audit trail.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>target_id</code> - The OCID of the Data Safe target for which the audit trail is created.</li>
+<li><code>time_created</code> - The date and time the audit trail was created, in the format defined by RFC3339.</li>
+<li><code>time_last_collected</code> - The date and time until when the audit events were collected from the target database by the Data Safe audit trail  collection process, in the format defined by RFC3339.</li>
+<li><code>time_updated</code> - The date and time the audit trail was updated, in the format defined by RFC3339.</li>
+<li><code>trail_location</code> - An audit trail location represents the source of audit records that provides documentary evidence of the sequence of activities in the target database.</li>
+<li><code>trail_source</code> - The underlying source of unified audit trail.</li>
+<li><code>work_request_id</code> - The OCID of the workrequest for audit trail which collects audit records.</li>
+</ul></li>
+<li><code>compartment_id</code> - The OCID of the compartment that contains the audit profile.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a> Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - The description of the audit profile.</li>
+<li><code>display_name</code> - The display name of the audit profile.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The OCID of the audit profile.</li>
+<li><code>is_override_global_paid_usage</code> - Indicates whether audit paid usage settings specified at the target database level override both the global settings and the target group level paid usage settings. Enabling paid usage continues the collection of audit records beyond the free limit of one million audit records per month per target database, potentially incurring additional charges. For more information, see <a href="https://www.oracle.com/cloud/price-list/#data-safe">Data Safe Price List</a>.</li>
+<li><code>is_override_global_retention_setting</code> - Indicates whether audit retention settings like online and offline months set at the  target level override both the global settings and the target group level audit retention settings.</li>
+<li><code>is_paid_usage_enabled</code> - Indicates if you want to continue collecting audit records beyond the free limit of one million audit records per month per target database, potentially incurring additional charges. The default value is inherited from the global settings.  You can change at the global level or at the target level.</li>
+<li><code>lifecycle_details</code> - Details about the current state of the audit profile in Data Safe.</li>
+<li><code>offline_months</code> - Number of months the audit records will be stored offline in the offline archive. Minimum: 0; Maximum: 72 months. If you have a requirement to store the audit data even longer in the offline archive, please contact the Oracle Support.</li>
+<li><code>offline_months_source</code> - The name or the OCID of the resource from which the offline month retention setting is sourced. For example, a global setting or a target database group OCID.</li>
+<li><code>online_months</code> - Number of months the audit records will be stored online in the audit repository for immediate reporting and analysis.  Minimum: 1; Maximum: 12 months</li>
+<li><code>online_months_source</code> - The name or the OCID of the resource from which the online month retention setting is sourced. For example, a global setting or a target database group OCID.</li>
+<li><code>paid_usage_source</code> - The name or the OCID of the resource from which the paid usage setting is sourced. For example, a global setting or a target database group OCID.</li>
+<li><code>state</code> - The current state of the audit profile.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>target_id</code> - The OCID of the target database or target database group for which the audit profile is created.</li>
+<li><code>target_type</code> - The resource type that is represented by the audit profile.</li>
+<li><code>time_created</code> - The date and time the audit profile was created, in the format defined by RFC3339.</li>
+<li><code>time_updated</code> - The date and time the audit profile was updated, in the format defined by RFC3339.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

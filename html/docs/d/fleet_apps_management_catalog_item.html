@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_fleet_apps_management_catalog_item</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_fleet_apps_management_catalog_item</h1>
+
+<p>This data source provides details about a specific Catalog Item resource in Oracle Cloud Infrastructure Fleet Apps Management service.</p>
+
+<p>Gets information about a CatalogItem.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_fleet_apps_management_catalog_item&quot; &quot;test_catalog_item&quot; {
+	#Required
+	catalog_item_id = oci_fleet_apps_management_catalog_item.test_catalog_item.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>catalog_item_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the CatalogItem.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>catalog_result_payload</code> - Catalog result payload.
+
+<ul>
+<li><code>branch_name</code> - branch Name</li>
+<li><code>config_result_type</code> - config result type.</li>
+<li><code>configuration_source_provider_id</code> - configuration Source Provider <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a></li>
+<li><code>package_url</code> - package url</li>
+<li><code>repository_url</code> - repository Url</li>
+<li><code>template_id</code> - template id</li>
+<li><code>time_expires</code> - The date and time expires, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a>.  Example: <code>2016-08-25T21:10:29.600Z</code></li>
+<li><code>working_directory</code> - working directory</li>
+</ul></li>
+<li><code>catalog_source_payload</code> - Catalog source payload.
+
+<ul>
+<li><code>access_uri</code> - access uri</li>
+<li><code>branch_name</code> - branch Name</li>
+<li><code>bucket</code> - bucket name</li>
+<li><code>config_source_type</code> - config source type.</li>
+<li><code>configuration_source_provider_id</code> - configuration Source Provider <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a></li>
+<li><code>description</code> - Template Description</li>
+<li><code>listing_id</code> - This listing Id parameter of Payload.</li>
+<li><code>long_description</code> - Template Long Description</li>
+<li><code>namespace</code> - nameSpace</li>
+<li><code>object</code> - object name</li>
+<li><code>repository_url</code> - repository Url</li>
+<li><code>template_display_name</code> - Template Display Name</li>
+<li><code>time_expires</code> - The date and time expires, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a>.  Example: <code>2016-08-25T21:10:29.600Z</code></li>
+<li><code>version</code> - This version parameter of Payload.</li>
+<li><code>working_directory</code> - File path to the directory to use for running Terraform. If not specified, the root directory is used.</li>
+<li><code>zip_file_base64encoded</code> - The Base64 encoded template. This payload will trigger CreateTemplate API, where the parameter will be passed.</li>
+</ul></li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>config_source_type</code> - Config source type Eg: STACK_TEMPLATE_CATALOG_SOURCE, PAR_CATALOG_SOURCE, GIT_CATALOG_SOURCE, MARKETPLACE_CATALOG_SOURCE.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>description</code> - Description about the catalog item.</li>
+<li><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the catalog.</li>
+<li><code>lifecycle_details</code> - The details of lifecycle state CatalogItem.</li>
+<li><code>listing_id</code> - The catalog listing Id.</li>
+<li><code>listing_version</code> - The catalog package version.</li>
+<li><code>package_type</code> - Config package type Eg: TF_PACKAGE, NON_TF_PACKAGE, CONFIG_FILE.</li>
+<li><code>short_description</code> - Short description about the catalog item.</li>
+<li><code>should_list_public_items</code> - The indicator to append Public Items from the root compartment to any query, when set to TRUE.</li>
+<li><code>state</code> - The current state of the CatalogItem.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_backfill_last_checked</code> - The date and time the CatalogItem was last checked by backfill job, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a>. Example: <code>2016-08-25T21:10:29.600Z</code></li>
+<li><code>time_created</code> - The date and time the CatalogItem was created, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a>. Example: <code>2016-08-25T21:10:29.600Z</code></li>
+<li><code>time_last_checked</code> - The date and time the CatalogItem was last checked, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a>. Example: <code>2016-08-25T21:10:29.600Z</code></li>
+<li><code>time_released</code> - The date and time the CatalogItem was released, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a>. Example: <code>2016-08-25T21:10:29.600Z</code></li>
+<li><code>time_updated</code> - The date and time the CatalogItem was updated, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a>. Example: <code>2016-08-25T21:10:29.600Z</code></li>
+<li><code>version_description</code> - Version description about the catalog item.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_data_safe_masking_policy_health_report_management</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_data_safe_masking_policy_health_report_management</h1>
+
+<p>This resource provides Pre-masking Report Management resource in Oracle Cloud Infrastructure Data Safe service.</p>
+
+<p>Gets the details of the specified pre-masking health report.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_data_safe_masking_policy_health_report_management&quot; &quot;test_pre_masking_report_management&quot; { 
+  #Required
+  target_id = oci_data_safe_target_database.test_target_database.id
+  masking_policy_id = oci_data_safe_masking_policy.test_masking_policy.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>target_id</code> - (Required) The OCID of the target database masked.</li>
+<li><code>masking_policy_id</code> - (Required) The OCID of the masking policy.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The OCID of the compartment that contains the masking report.</li>
+<li><code>id</code> - The OCID of the pre-masking report.</li>
+<li><code>masking_policy_id</code> - The OCID of the masking policy used.</li>
+<li><code>display_name</code>: The display name of the pre-masking report,</li>
+<li><code>time_created</code>: The date and time the pre-masking report was created, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>,</li>
+<li><code>time_updated</code>: The date and time the pre-masking report was updated, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>,</li>
+<li><code>description</code>: Description for the pre-masking report,</li>
+<li><code>state</code> - The current state of the pre-masking report.</li>
+<li><code>target_id</code> - The OCID of the target database used for pre-masking check.</li>
+</ul>
+
+<h2>Import</h2>
+
+<p>Import is not supported for this resource.</p>
+
+	</div>
+
+</body>
+</html>

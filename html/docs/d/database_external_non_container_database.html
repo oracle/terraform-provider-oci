@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_external_non_container_database</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_external_non_container_database</h1>
+
+<p>This data source provides details about a specific External Non Container Database resource in Oracle Cloud Infrastructure Database service.</p>
+
+<p>Gets information about a specific external non-container database.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_external_non_container_database&quot; &quot;test_external_non_container_database&quot; {
+	#Required
+	external_non_container_database_id = oci_database_external_non_container_database.test_external_non_container_database.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>external_non_container_database_id</code> - (Required) The external non-container database <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>character_set</code> - The character set of the external database.</li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>database_configuration</code> - The Oracle Database configuration</li>
+<li><code>database_edition</code> - The Oracle Database Edition that applies to all the databases on the DB system. Exadata DB systems and 2-node RAC DB systems require ENTERPRISE_EDITION_EXTREME_PERFORMANCE.</li>
+<li><code>database_management_config</code> - The configuration of the Database Management service.
+
+<ul>
+<li><code>database_management_connection_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the <a href="https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/datatypes/CreateExternalDatabaseConnectorDetails">external database connector</a>.</li>
+<li><code>database_management_status</code> - The status of the Database Management service.</li>
+<li><code>license_model</code> - The Oracle license model that applies to the external database.</li>
+</ul></li>
+<li><code>database_version</code> - The Oracle Database version.</li>
+<li><code>db_id</code> - The Oracle Database ID, which identifies an Oracle Database located outside of Oracle Cloud.</li>
+<li><code>db_packs</code> - The database packs licensed for the external Oracle Database.</li>
+<li><code>db_unique_name</code> - The <code>DB_UNIQUE_NAME</code> of the external database.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</li>
+<li><code>display_name</code> - The user-friendly name for the external database. The name does not have to be unique.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Oracle Cloud Infrastructure external database resource.</li>
+<li><code>lifecycle_details</code> - Additional information about the current lifecycle state.</li>
+<li><code>ncharacter_set</code> - The national character of the external database.</li>
+<li><code>operations_insights_config</code> - The configuration of Operations Insights for the external database
+
+<ul>
+<li><code>operations_insights_connector_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the <a href="https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/datatypes/CreateExternalDatabaseConnectorDetails">external database connector</a>.</li>
+<li><code>operations_insights_status</code> - The status of Operations Insights</li>
+</ul></li>
+<li><code>stack_monitoring_config</code> - The configuration of Stack Monitoring for the external database.
+
+<ul>
+<li><code>stack_monitoring_connector_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the <a href="https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/datatypes/CreateExternalDatabaseConnectorDetails">external database connector</a>.</li>
+<li><code>stack_monitoring_status</code> - The status of Stack Monitoring.</li>
+</ul></li>
+<li><code>state</code> - The current state of the Oracle Cloud Infrastructure external database resource.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</li>
+<li><code>time_created</code> - The date and time the database was created.</li>
+<li><code>time_zone</code> - The time zone of the external database. It is a time zone offset (a character type in the format &lsquo;[+|-]TZH:TZM&rsquo;) or a time zone region name, depending on how the time zone value was specified when the database was created / last altered.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>
