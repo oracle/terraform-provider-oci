@@ -28,6 +28,10 @@ type PipelineInfrastructureConfigurationDetails struct {
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
 	ShapeConfigDetails *PipelineShapeConfigDetails `mandatory:"false" json:"shapeConfigDetails"`
+
+	// The size of the block storage volume to attach to the pipeline step run instance specified as a parameter. This overrides the blockStorageSizeInGBs value.
+	// The request will fail if the parameters used are null or invalid.
+	BlockStorageSizeInGBsParameterized *string `mandatory:"false" json:"blockStorageSizeInGBsParameterized"`
 }
 
 func (m PipelineInfrastructureConfigurationDetails) String() string {
