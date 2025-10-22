@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_database_management_external_exadata_storage_connector</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_database_management_external_exadata_storage_connector</h1>
+
+<p>This resource provides the External Exadata Storage Connector resource in Oracle Cloud Infrastructure Database Management service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/database-management/latest/ExternalExadataStorageConnector">https://docs.oracle.com/iaas/api/#/en/database-management/latest/ExternalExadataStorageConnector</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/databasemanagement">https://github.com/oracle/terraform-provider-oci/tree/master/examples/databasemanagement</a></p>
+
+<p>Creates the Exadata storage server connector after validating the connection information.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_database_management_external_exadata_storage_connector&quot; &quot;test_external_exadata_storage_connector&quot; {
+	#Required
+	agent_id = oci_cloud_bridge_agent.test_agent.id
+	connection_uri = var.external_exadata_storage_connector_connection_uri
+	connector_name = var.external_exadata_storage_connector_connector_name
+	credential_info {
+		#Required
+		password = var.external_exadata_storage_connector_credential_info_password
+		username = var.external_exadata_storage_connector_credential_info_username
+
+		#Optional
+		ssl_trust_store_location = var.external_exadata_storage_connector_credential_info_ssl_trust_store_location
+		ssl_trust_store_password = var.external_exadata_storage_connector_credential_info_ssl_trust_store_password
+		ssl_trust_store_type = var.external_exadata_storage_connector_credential_info_ssl_trust_store_type
+	}
+	storage_server_id = oci_database_management_storage_server.test_storage_server.id
+
+	#Optional
+	defined_tags = {&quot;Operations.CostCenter&quot;= &quot;42&quot;}
+	freeform_tags = {&quot;Department&quot;= &quot;Finance&quot;}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>agent_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the agent for the Exadata storage server.</li>
+<li><code>connection_uri</code> - (Required) (Updatable) The unique string of the connection. For example, &ldquo;https://<storage-server-name>/MS/RESTService/&rdquo;.</li>
+<li><code>connector_name</code> - (Required) (Updatable) The name of the Exadata storage server connector.</li>
+<li><code>credential_info</code> - (Required) (Updatable) The user credential information.
+
+<ul>
+<li><code>password</code> - (Required) (Updatable) The password of the user.</li>
+<li><code>ssl_trust_store_location</code> - (Optional) (Updatable) The full path of the SSL truststore location in the agent.</li>
+<li><code>ssl_trust_store_password</code> - (Optional) (Updatable) The password of the SSL truststore location in the agent.</li>
+<li><code>ssl_trust_store_type</code> - (Optional) (Updatable) The SSL truststore type.</li>
+<li><code>username</code> - (Required) (Updatable) The name of the user.</li>
+</ul></li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>storage_server_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Exadata storage server.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>additional_details</code> - The additional details of the resource defined in <code>{&quot;key&quot;: &quot;value&quot;}</code> format. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>agent_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the agent for the Exadata storage server.</li>
+<li><code>connection_uri</code> - The unique string of the connection. For example, &ldquo;https://<storage-server-name>/MS/RESTService/&rdquo;.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>display_name</code> - The name of the Exadata resource. English letters, numbers, &ldquo;-&rdquo;, &ldquo;_&rdquo; and &ldquo;.&rdquo; only.</li>
+<li><code>exadata_infrastructure_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Exadata infrastructure.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Exadata resource.</li>
+<li><code>internal_id</code> - The internal ID of the Exadata resource.</li>
+<li><code>lifecycle_details</code> - The details of the lifecycle state of the Exadata resource.</li>
+<li><code>resource_type</code> - The type of Exadata resource.</li>
+<li><code>state</code> - The current lifecycle state of the database resource.</li>
+<li><code>status</code> - The status of the Exadata resource.</li>
+<li><code>storage_server_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Exadata storage server.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. System tags can be viewed by users, but can only be created by the system.  Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The timestamp of the creation of the Exadata resource.</li>
+<li><code>time_updated</code> - The timestamp of the last update of the Exadata resource.</li>
+<li><code>version</code> - The version of the Exadata resource.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the External Exadata Storage Connector
+	* <code>update</code> - (Defaults to 20 minutes), when updating the External Exadata Storage Connector
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the External Exadata Storage Connector</p>
+
+<h2>Import</h2>
+
+<p>ExternalExadataStorageConnectors can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_database_management_external_exadata_storage_connector.test_external_exadata_storage_connector &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

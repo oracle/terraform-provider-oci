@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_oda_oda_private_endpoints</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_oda_oda_private_endpoints</h1>
+
+<p>This data source provides the list of Oda Private Endpoints in Oracle Cloud Infrastructure Digital Assistant service.</p>
+
+<p>Returns a page of ODA Private Endpoints that belong to the specified
+compartment.</p>
+
+<p>If the <code>opc-next-page</code> header appears in the response, then
+there are more items to retrieve. To get the next page in the subsequent
+GET request, include the header&rsquo;s value as the <code>page</code> query parameter.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_oda_oda_private_endpoints&quot; &quot;test_oda_private_endpoints&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	display_name = var.oda_private_endpoint_display_name
+	state = var.oda_private_endpoint_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) List the ODA Private Endpoints that belong to this compartment.</li>
+<li><code>display_name</code> - (Optional) List only the information for the Digital Assistant instance with this user-friendly name. These names don&rsquo;t have to be unique and may change.  Example: <code>My new resource</code></li>
+<li><code>state</code> - (Optional) List only the ODA Private Endpoints that are in this lifecycle state.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>oda_private_endpoint_collection</code> - The list of oda_private_endpoint_collection.</li>
+</ul>
+
+<h3>OdaPrivateEndpoint Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment that the ODA private endpoint belongs to.</li>
+<li><code>defined_tags</code> - Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>description</code> - Description of the ODA private endpoint.</li>
+<li><code>display_name</code> - User-defined name for the ODA private endpoint. Avoid entering confidential information. You can change this value.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type, or scope. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> that was assigned when the ODA private endpoint was created.</li>
+<li><code>nsg_ids</code> - List of <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCIDs</a> of <a href="https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/networksecuritygroups.htm">network security groups</a></li>
+<li><code>state</code> - The current state of the ODA private endpoint.</li>
+<li><code>subnet_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the subnet that the private endpoint belongs to.</li>
+<li><code>time_created</code> - When the resource was created. A date-time string as described in <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a>, section 14.29.</li>
+<li><code>time_updated</code> - When the resource was last updated. A date-time string as described in <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a>, section 14.29.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

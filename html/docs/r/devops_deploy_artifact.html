@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_devops_deploy_artifact</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_devops_deploy_artifact</h1>
+
+<p>This resource provides the Deploy Artifact resource in Oracle Cloud Infrastructure Devops service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/devops/latest/DeployArtifact">https://docs.oracle.com/iaas/api/#/en/devops/latest/DeployArtifact</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/devops">https://github.com/oracle/terraform-provider-oci/tree/master/examples/devops</a></p>
+
+<p>Creates a new deployment artifact.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_devops_deploy_artifact&quot; &quot;test_deploy_artifact&quot; {
+	#Required
+	argument_substitution_mode = var.deploy_artifact_argument_substitution_mode
+	deploy_artifact_source {
+		#Required
+		deploy_artifact_source_type = var.deploy_artifact_deploy_artifact_source_deploy_artifact_source_type
+
+		#Optional
+		base64encoded_content = var.deploy_artifact_deploy_artifact_source_base64encoded_content
+		chart_url = var.deploy_artifact_deploy_artifact_source_chart_url
+		deploy_artifact_path = var.deploy_artifact_deploy_artifact_source_deploy_artifact_path
+		deploy_artifact_version = var.deploy_artifact_deploy_artifact_source_deploy_artifact_version
+		helm_artifact_source_type = var.deploy_artifact_deploy_artifact_source_helm_artifact_source_type
+		helm_verification_key_source {
+			#Required
+			verification_key_source_type = var.deploy_artifact_deploy_artifact_source_helm_verification_key_source_verification_key_source_type
+
+			#Optional
+			current_public_key = var.deploy_artifact_deploy_artifact_source_helm_verification_key_source_current_public_key
+			previous_public_key = var.deploy_artifact_deploy_artifact_source_helm_verification_key_source_previous_public_key
+			vault_secret_id = oci_vault_secret.test_secret.id
+		}
+		image_digest = var.deploy_artifact_deploy_artifact_source_image_digest
+		image_uri = var.deploy_artifact_deploy_artifact_source_image_uri
+		repository_id = oci_devops_repository.test_repository.id
+	}
+	deploy_artifact_type = var.deploy_artifact_deploy_artifact_type
+	project_id = oci_devops_project.test_project.id
+
+	#Optional
+	defined_tags = {&quot;foo-namespace.bar-key&quot;= &quot;value&quot;}
+	description = var.deploy_artifact_description
+	display_name = var.deploy_artifact_display_name
+	freeform_tags = {&quot;bar-key&quot;= &quot;value&quot;}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>argument_substitution_mode</code> - (Required) (Updatable) Mode for artifact parameter substitution. Options: <code>&quot;NONE&quot;, &quot;SUBSTITUTE_PLACEHOLDERS&quot;</code> For Helm Deployments only &ldquo;NONE&rdquo; is supported.</li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>deploy_artifact_source</code> - (Required) (Updatable) Specifies source of an artifact.
+
+<ul>
+<li><code>base64encoded_content</code> - (Required when deploy_artifact_source_type=HELM_COMMAND_SPEC | INLINE) (Updatable) The Helm commands to be executed, base 64 encoded</li>
+<li><code>chart_url</code> - (Required when deploy_artifact_source_type=HELM_CHART) (Updatable) The URL of an OCIR repository.</li>
+<li><code>deploy_artifact_path</code> - (Required when deploy_artifact_source_type=GENERIC_ARTIFACT) (Updatable) Specifies the artifact path in the repository.</li>
+<li><code>deploy_artifact_source_type</code> - (Required) (Updatable) Specifies types of artifact sources.</li>
+<li><code>deploy_artifact_version</code> - (Required when deploy_artifact_source_type=GENERIC_ARTIFACT | HELM_CHART) (Updatable) Users can set this as a placeholder value that refers to a pipeline parameter, for example, ${appVersion}.</li>
+<li><code>helm_artifact_source_type</code> - (Required when deploy_artifact_source_type=HELM_COMMAND_SPEC) (Updatable) Specifies types of artifact sources.</li>
+<li><code>helm_verification_key_source</code> - (Applicable when deploy_artifact_source_type=HELM_CHART) (Updatable) The source of the verification material.
+
+<ul>
+<li><code>current_public_key</code> - (Required when verification_key_source_type=INLINE_PUBLIC_KEY) (Updatable) Current version of Base64 encoding of the public key which is in binary GPG exported format.</li>
+<li><code>previous_public_key</code> - (Applicable when verification_key_source_type=INLINE_PUBLIC_KEY) (Updatable) Previous version of Base64 encoding of the public key which is in binary GPG exported format. This would be used for key rotation scenarios.</li>
+<li><code>vault_secret_id</code> - (Required when verification_key_source_type=VAULT_SECRET) (Updatable) The OCID of the Vault Secret containing the verification key versions.</li>
+<li><code>verification_key_source_type</code> - (Required) (Updatable) Specifies type of verification material.</li>
+</ul></li>
+<li><code>image_digest</code> - (Applicable when deploy_artifact_source_type=OCIR) (Updatable) Specifies image digest for the version of the image.</li>
+<li><code>image_uri</code> - (Required when deploy_artifact_source_type=OCIR) (Updatable) Specifies OCIR Image Path - optionally include tag.</li>
+<li><code>repository_id</code> - (Required when deploy_artifact_source_type=GENERIC_ARTIFACT) (Updatable) The OCID of a repository</li>
+</ul></li>
+<li><code>deploy_artifact_type</code> - (Required) (Updatable) Type of the deployment artifact.</li>
+<li><code>description</code> - (Optional) (Updatable) Optional description about the deployment artifact.</li>
+<li><code>display_name</code> - (Optional) (Updatable) Deployment artifact display name. Avoid entering confidential information.</li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>project_id</code> - (Required) The OCID of a project.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>argument_substitution_mode</code> - Mode for artifact parameter substitution. Options: <code>&quot;NONE&quot;, &quot;SUBSTITUTE_PLACEHOLDERS&quot;</code> For Helm Deployments only &ldquo;NONE&rdquo; is supported.</li>
+<li><code>compartment_id</code> - The OCID of a compartment.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>deploy_artifact_source</code> - Specifies source of an artifact.
+
+<ul>
+<li><code>base64encoded_content</code> - The Helm commands to be executed, base 64 encoded</li>
+<li><code>chart_url</code> - The URL of an OCIR repository.</li>
+<li><code>deploy_artifact_path</code> - Specifies the artifact path in the repository.</li>
+<li><code>deploy_artifact_source_type</code> - Specifies types of artifact sources.</li>
+<li><code>deploy_artifact_version</code> - Users can set this as a placeholder value that refers to a pipeline parameter, for example, ${appVersion}.</li>
+<li><code>helm_artifact_source_type</code> - Specifies types of artifact sources.</li>
+<li><code>helm_verification_key_source</code> - The source of the verification material.
+
+<ul>
+<li><code>current_public_key</code> - Current version of Base64 encoding of the public key which is in binary GPG exported format.</li>
+<li><code>previous_public_key</code> - Previous version of Base64 encoding of the public key which is in binary GPG exported format. This would be used for key rotation scenarios.</li>
+<li><code>vault_secret_id</code> - The OCID of the Vault Secret containing the verification key versions.</li>
+<li><code>verification_key_source_type</code> - Specifies type of verification material.</li>
+</ul></li>
+<li><code>image_digest</code> - Specifies image digest for the version of the image.</li>
+<li><code>image_uri</code> - Specifies OCIR Image Path - optionally include tag.</li>
+<li><code>repository_id</code> - The OCID of a repository</li>
+</ul></li>
+<li><code>deploy_artifact_type</code> - Type of the deployment artifact.</li>
+<li><code>description</code> - Optional description about the artifact to be deployed.</li>
+<li><code>display_name</code> - Deployment artifact identifier, which can be renamed and is not necessarily unique. Avoid entering confidential information.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - Unique identifier that is immutable on creation.</li>
+<li><code>lifecycle_details</code> - A detailed message describing the current state. For example, can be used to provide actionable information for a resource in Failed state.</li>
+<li><code>project_id</code> - The OCID of a project.</li>
+<li><code>state</code> - Current state of the deployment artifact.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - Time the deployment artifact was created. Format defined by <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>.</li>
+<li><code>time_updated</code> - Time the deployment artifact was updated. Format defined by <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Deploy Artifact
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Deploy Artifact
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Deploy Artifact</p>
+
+<h2>Import</h2>
+
+<p>DeployArtifacts can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_devops_deploy_artifact.test_deploy_artifact &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

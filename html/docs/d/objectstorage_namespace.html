@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_objectstorage_namespace</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_objectstorage_namespace</h1>
+
+<p>This data source provides details about a specific Namespace resource in Oracle Cloud Infrastructure Object Storage service.</p>
+
+<p>Each Oracle Cloud Infrastructure tenant is assigned one unique and uneditable Object Storage namespace. The namespace
+is a system-generated string assigned during account creation. For some older tenancies, the namespace string may be
+the tenancy name in all lower-case letters. You cannot edit a namespace.</p>
+
+<p>GetNamespace returns the name of the Object Storage namespace for the user making the request.
+If an optional compartmentId query parameter is provided, GetNamespace returns the namespace name of the corresponding
+tenancy, provided the user has access to it.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_objectstorage_namespace&quot; &quot;test_namespace&quot; {
+
+	#Optional
+	compartment_id = var.compartment_id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Optional) This is an optional field representing either the tenancy <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> or the compartment <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> within the tenancy whose Object Storage namespace is to be retrieved.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>namespace</code> - (Computed) The name of the user&rsquo;s namespace.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

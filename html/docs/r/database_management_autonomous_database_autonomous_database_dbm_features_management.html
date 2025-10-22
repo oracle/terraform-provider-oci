@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_database_management_autonomous_database_autonomous_database_dbm_features_management</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_database_management_autonomous_database_autonomous_database_dbm_features_management</h1>
+
+<p>This resource provides the Autonomous Database Autonomous Database Dbm Features Management resource in Oracle Cloud Infrastructure Database Management service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/database-management/latest/AutonomousDatabaseAutonomousDatabaseDbmFeaturesManagement">https://docs.oracle.com/iaas/api/#/en/database-management/latest/AutonomousDatabaseAutonomousDatabaseDbmFeaturesManagement</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/databasemanagement">https://github.com/oracle/terraform-provider-oci/tree/master/examples/databasemanagement</a>
+Enables a Database Management feature for the specified Autonomous Database.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_database_management_autonomous_database_autonomous_database_dbm_features_management&quot; &quot;test_autonomous_database_autonomous_database_dbm_features_management&quot; {
+	#Required
+	autonomous_database_id = oci_database_autonomous_database.test_autonomous_database.id
+	enable_autonomous_database_dbm_feature = var.enable_autonomous_database_dbm_feature
+
+	#Optional
+	feature_details {
+		#Required
+		feature = var.autonomous_database_autonomous_database_dbm_features_management_feature_details_feature
+		enable_autonomous_database_dbm_feature = var.enable_autonomous_database_dbm_feature
+
+		#Optional
+		database_connection_details {
+
+			#Optional
+			connection_credentials {
+
+				#Optional
+				credential_name = var.autonomous_database_autonomous_database_dbm_features_management_feature_details_database_connection_details_connection_credentials_credential_name
+				credential_type = var.autonomous_database_autonomous_database_dbm_features_management_feature_details_database_connection_details_connection_credentials_credential_type
+				password_secret_id = oci_vault_secret.test_secret.id
+				role = var.autonomous_database_autonomous_database_dbm_features_management_feature_details_database_connection_details_connection_credentials_role
+				ssl_secret_id = oci_vault_secret.test_secret.id
+				user_name = oci_identity_user.test_user.name
+			}
+			connection_string {
+
+				#Optional
+				connection_type = var.autonomous_database_autonomous_database_dbm_features_management_feature_details_database_connection_details_connection_string_connection_type
+				port = var.autonomous_database_autonomous_database_dbm_features_management_feature_details_database_connection_details_connection_string_port
+				protocol = var.autonomous_database_autonomous_database_dbm_features_management_feature_details_database_connection_details_connection_string_protocol
+				service = var.autonomous_database_autonomous_database_dbm_features_management_feature_details_database_connection_details_connection_string_service
+			}
+		}
+		connector_details {
+
+			#Optional
+			connector_type = var.autonomous_database_autonomous_database_dbm_features_management_feature_details_connector_details_connector_type
+			database_connector_id = oci_database_management_database_connector.test_database_connector.id
+			management_agent_id = oci_management_agent_management_agent.test_management_agent.id
+			private_end_point_id = oci_database_management_private_end_point.test_private_end_point.id
+		}
+	}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>autonomous_database_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Autonomous Database.</p></li>
+
+<li><p><code>feature_details</code> - (Optional) The details required to enable the specified Database Management feature for an Autonomous Database.</p>
+
+<ul>
+<li><p><code>connector_details</code> - (Optional) The connector details required to connect to an Oracle cloud database.</p>
+
+<ul>
+<li><code>connector_type</code> - (Optional) The list of supported connection types:
+
+<ul>
+<li>PE: Private endpoint</li>
+<li>MACS: Management agent</li>
+<li>EXTERNAL: External database connector</li>
+<li>DIRECT: Direct connection</li>
+</ul></li>
+<li><code>database_connector_id</code> - (Applicable when connector_type=EXTERNAL) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the external database connector.</li>
+<li><code>management_agent_id</code> - (Applicable when connector_type=MACS) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the management agent.</li>
+<li><code>private_end_point_id</code> - (Applicable when connector_type=PE) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the private endpoint.</li>
+</ul></li>
+
+<li><p><code>database_connection_details</code> - (Optional) The connection details required to connect to the database.</p>
+
+<ul>
+<li><p><code>connection_credentials</code> - (Optional) The credentials used to connect to the database. Currently only the <code>DETAILS</code> type is supported for creating MACS connector credentials.</p>
+
+<ul>
+<li><p><code>credential_name</code> - (Optional) The name of the credential information that used to connect to the DB system resource. The name should be in &ldquo;x.y&rdquo; format, where the length of &ldquo;x&rdquo; has a maximum of 64 characters, and length of &ldquo;y&rdquo; has a maximum of 199 characters. The name strings can contain letters, numbers and the underscore character only. Other characters are not valid, except for the &ldquo;.&rdquo; character that separates the &ldquo;x&rdquo; and &ldquo;y&rdquo; portions of the name. <em>IMPORTANT</em> - The name must be unique within the Oracle Cloud Infrastructure region the credential is being created in. If you specify a name that duplicates the name of another credential within the same Oracle Cloud Infrastructure region, you may overwrite or corrupt the credential that is already using the name.</p>
+
+<p>For example: inventorydb.abc112233445566778899</p></li>
+
+<li><p><code>credential_type</code> - (Optional) The type of credential used to connect to the database.</p></li>
+
+<li><p><code>password_secret_id</code> - (Applicable when credential_type=DETAILS | SSL_DETAILS) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the secret containing the user password.</p></li>
+
+<li><p><code>role</code> - (Applicable when credential_type=DETAILS | SSL_DETAILS) The role of the user connecting to the database.</p></li>
+
+<li><p><code>ssl_secret_id</code> - (Applicable when credential_type=SSL_DETAILS) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the secret containing the SSL keystore and truststore details.</p></li>
+
+<li><p><code>user_name</code> - (Applicable when credential_type=DETAILS | SSL_DETAILS) The user name used to connect to the database.</p></li>
+</ul></li>
+
+<li><p><code>connection_string</code> - (Optional) The details of the Oracle Database connection string.</p>
+
+<ul>
+<li><code>connection_type</code> - (Optional) The list of supported connection types:
+
+<ul>
+<li>BASIC: Basic connection details</li>
+</ul></li>
+<li><code>port</code> - (Optional) The port number used to connect to the database.</li>
+<li><code>protocol</code> - (Optional) The protocol used to connect to the database.</li>
+<li><code>service</code> - (Optional) The service name of the database.</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>feature</code> - (Required) The name of the Database Management feature.</p></li>
+</ul></li>
+
+<li><p><code>enable_autonomous_database_dbm_feature</code> - (Required) (Updatable) A required field when set to <code>true</code> calls enable action and when set to <code>false</code> calls disable action.</p></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Autonomous Database Autonomous Database Dbm Features Management
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Autonomous Database Autonomous Database Dbm Features Management
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Autonomous Database Autonomous Database Dbm Features Management</p>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_opsi_opsi_configurations</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_opsi_opsi_configurations</h1>
+
+<p>This data source provides the list of Opsi Configurations in Oracle Cloud Infrastructure Opsi service.</p>
+
+<p>Gets a list of OPSI configuration resources based on the query parameters specified.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_opsi_opsi_configurations&quot; &quot;test_opsi_configurations&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	display_name = var.opsi_configuration_display_name
+	opsi_config_type = var.opsi_configuration_opsi_config_type
+	state = var.opsi_configuration_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>display_name</code> - (Optional) Filter to return based on resources that match the entire display name.</li>
+<li><code>opsi_config_type</code> - (Optional) Filter to return based on configuration type of OPSI configuration.</li>
+<li><code>state</code> - (Optional) Filter to return based on Lifecycle state of OPSI configuration.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>opsi_configurations_collection</code> - The list of opsi_configurations_collection.</li>
+</ul>
+
+<h3>OpsiConfiguration Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>config_items</code> - Array of configuration item summary objects.
+
+<ul>
+<li><code>applicable_contexts</code> - List of contexts in Operations Insights where this configuration item is applicable.</li>
+<li><code>config_item_type</code> - Type of configuration item.</li>
+<li><code>default_value</code> - Value of configuration item.</li>
+<li><code>metadata</code> - Configuration item metadata.
+
+<ul>
+<li><code>config_item_type</code> - Type of configuration item.</li>
+<li><code>data_type</code> - Data type of configuration item. Examples: STRING, BOOLEAN, NUMBER</li>
+<li><code>description</code> - Description of configuration item .</li>
+<li><code>display_name</code> - User-friendly display name for the configuration item.</li>
+<li><code>unit_details</code> - Unit details of configuration item.
+
+<ul>
+<li><code>display_name</code> - User-friendly display name for the configuration item unit.</li>
+<li><code>unit</code> - Unit of configuration item.</li>
+</ul></li>
+<li><code>value_input_details</code> - Allowed value details of configuration item, to validate what value can be assigned to a configuration item.
+
+<ul>
+<li><code>allowed_value_type</code> - Allowed value type of configuration item.</li>
+<li><code>max_value</code> - Maximum value limit for the configuration item.</li>
+<li><code>min_value</code> - Minimum value limit for the configuration item.</li>
+<li><code>possible_values</code> - Allowed values to pick for the configuration item.</li>
+</ul></li>
+</ul></li>
+<li><code>name</code> - Name of configuration item.</li>
+<li><code>value</code> - Value of configuration item.</li>
+</ul></li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>description</code> - Description of OPSI configuration.</li>
+<li><code>display_name</code> - User-friendly display name for the OPSI configuration. The name does not have to be unique.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of OPSI configuration resource.</li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.</li>
+<li><code>opsi_config_type</code> - OPSI configuration type.</li>
+<li><code>state</code> - OPSI configuration resource lifecycle state.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time at which the resource was first created. An RFC3339 formatted datetime string</li>
+<li><code>time_updated</code> - The time at which the resource was last updated. An RFC3339 formatted datetime string</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

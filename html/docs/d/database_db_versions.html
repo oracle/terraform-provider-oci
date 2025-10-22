@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_db_versions</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_db_versions</h1>
+
+<p>This data source provides the list of Db Versions in Oracle Cloud Infrastructure Database service.</p>
+
+<p>Gets a list of supported Oracle Database versions.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_db_versions&quot; &quot;test_db_versions&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	db_system_id = oci_database_db_system.test_db_system.id
+	db_system_shape = var.db_version_db_system_shape
+	is_database_software_image_supported = var.db_version_is_database_software_image_supported
+	is_upgrade_supported = var.db_version_is_upgrade_supported
+	shape_attribute = var.db_version_shape_attribute
+	storage_management = var.db_version_storage_management
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The compartment <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>db_system_id</code> - (Optional) The DB system <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>. If provided, filters the results to the set of database versions which are supported for the DB system.</li>
+<li><code>db_system_shape</code> - (Optional) If provided, filters the results to the set of database versions which are supported for the given shape.</li>
+<li><code>is_database_software_image_supported</code> - (Optional) If true, filters the results to the set of Oracle Database versions that are supported for Oracle Cloud Infrastructure database software images.</li>
+<li><code>is_upgrade_supported</code> - (Optional) If provided, filters the results to the set of database versions which are supported for Upgrade.</li>
+<li><code>shape_attribute</code> - (Optional) If provided and applicable, return the results based on the shapeAttribute provided</li>
+<li><code>storage_management</code> - (Optional) The DB system storage management option. Used to list database versions available for that storage manager. Valid values are <code>ASM</code> and <code>LVM</code>.
+
+<ul>
+<li>ASM specifies Oracle Automatic Storage Management</li>
+<li>LVM specifies logical volume manager, sometimes called logical disk manager.</li>
+</ul></li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>db_versions</code> - The list of db_versions.</li>
+</ul>
+
+<h3>DbVersion Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>is_latest_for_major_version</code> - True if this version of the Oracle Database software is the latest version for a release.</li>
+<li><code>is_preview_db_version</code> - True if this version of the Oracle Database software is the preview version.</li>
+<li><code>is_upgrade_supported</code> - True if this version of the Oracle Database software is supported for Upgrade.</li>
+<li><code>supports_pdb</code> - True if this version of the Oracle Database software supports pluggable databases.</li>
+<li><code>version</code> - A valid Oracle Database version.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

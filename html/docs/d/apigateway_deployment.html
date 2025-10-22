@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_apigateway_deployment</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_apigateway_deployment</h1>
+
+<p>This data source provides details about a specific Deployment resource in Oracle Cloud Infrastructure API Gateway service.</p>
+
+<p>Gets a deployment by identifier.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_apigateway_deployment&quot; &quot;test_deployment&quot; {
+	#Required
+	deployment_id = oci_apigateway_deployment.test_deployment.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>deployment_id</code> - (Required) The ocid of the deployment.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment in which the resource is created.</p></li>
+
+<li><p><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></p></li>
+
+<li><p><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.  Example: <code>My new resource</code></p></li>
+
+<li><p><code>endpoint</code> - The endpoint to access this deployment on the gateway.</p></li>
+
+<li><p><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></p></li>
+
+<li><p><code>gateway_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the resource.</p></li>
+
+<li><p><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the resource.</p></li>
+
+<li><p><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in a Failed state.</p></li>
+
+<li><p><code>locks</code> - Locks associated with this resource.</p>
+
+<ul>
+<li><code>message</code> - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked.</li>
+<li><code>related_resource_id</code> - The id of the resource that is locking this resource. Indicates that deleting this resource will remove the lock.</li>
+<li><code>time_created</code> - When the lock was created.</li>
+<li><code>type</code> - Type of the lock.</li>
+</ul></li>
+
+<li><p><code>path_prefix</code> - A path on which to deploy all routes contained in the API deployment specification. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/APIGateway/Tasks/apigatewaycreatingdeployment.htm">Deploying an API on an API Gateway by Creating an API Deployment</a>.</p></li>
+
+<li><p><code>specification</code> - The logical configuration of the API exposed by a deployment.</p>
+
+<ul>
+<li><p><code>logging_policies</code> - Policies controlling the pushing of logs to Oracle Cloud Infrastructure Public Logging.</p>
+
+<ul>
+<li><p><code>access_log</code> - Configures the logging policies for the access logs of an API Deployment.</p>
+
+<ul>
+<li><p><code>is_enabled</code> - Enables pushing of access logs to the legacy Oracle Cloud Infrastructure Object Storage log archival bucket.</p>
+
+<p>Oracle recommends using the Oracle Cloud Infrastructure Logging service to enable, retrieve, and query access logs for an API Deployment. If there is an active log object for the API Deployment and its category is set to &lsquo;access&rsquo; in Oracle Cloud Infrastructure Logging service, the logs will not be uploaded to the legacy Oracle Cloud Infrastructure Object Storage log archival bucket.</p>
+
+<p>Please note that the functionality to push to the legacy Oracle Cloud Infrastructure Object Storage log archival bucket has been deprecated and will be removed in the future.</p></li>
+</ul></li>
+
+<li><p><code>execution_log</code> - Configures the logging policies for the execution logs of an API Deployment.</p>
+
+<ul>
+<li><p><code>is_enabled</code> - Enables pushing of execution logs to the legacy Oracle Cloud Infrastructure Object Storage log archival bucket.</p>
+
+<p>Oracle recommends using the Oracle Cloud Infrastructure Logging service to enable, retrieve, and query execution logs for an API Deployment. If there is an active log object for the API Deployment and its category is set to &lsquo;execution&rsquo; in Oracle Cloud Infrastructure Logging service, the logs will not be uploaded to the legacy Oracle Cloud Infrastructure Object Storage log archival bucket.</p>
+
+<p>Please note that the functionality to push to the legacy Oracle Cloud Infrastructure Object Storage log archival bucket has been deprecated and will be removed in the future.</p></li>
+
+<li><p><code>log_level</code> - Specifies the log level used to control logging output of execution logs. Enabling logging at a given level also enables logging at all higher levels.</p></li>
+</ul></li>
+</ul></li>
+
+<li><p><code>request_policies</code> - Global behavior applied to all requests received by the API.</p>
+
+<ul>
+<li><code>authentication</code> - Information on how to authenticate incoming requests.
+
+<ul>
+<li><code>audiences</code> - The list of intended recipients for the token.</li>
+<li><code>cache_key</code> - A list of keys from &ldquo;parameters&rdquo; attribute value whose values will be added to the cache key.</li>
+<li><code>function_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Oracle Functions function resource.</li>
+<li><code>is_anonymous_access_allowed</code> - Whether an unauthenticated user may access the API. Must be &ldquo;true&rdquo; to enable ANONYMOUS route authorization.</li>
+<li><code>issuers</code> - A list of parties that could have issued the token.</li>
+<li><code>max_clock_skew_in_seconds</code> - The maximum expected time difference between the system clocks of the token issuer and the API Gateway.</li>
+<li><code>parameters</code> - A map where key is a user defined string and value is a context expressions whose values will be sent to the custom auth function. Values should contain an expression. Example: <code>{&quot;foo&quot;: &quot;request.header[abc]&quot;}</code></li>
+<li><code>public_keys</code> - A set of Public Keys that will be used to verify the JWT signature.
+
+<ul>
+<li><code>is_ssl_verify_disabled</code> - Defines whether or not to uphold SSL verification.</li>
+<li><code>keys</code> - The set of static public keys.
+
+<ul>
+<li><code>alg</code> - The algorithm intended for use with this key.</li>
+<li><code>e</code> - The base64 url encoded exponent of the RSA public key represented by this key.</li>
+<li><code>format</code> - The format of the public key.</li>
+<li><code>key</code> - The content of the PEM-encoded public key.</li>
+<li><code>key_ops</code> - The operations for which this key is to be used.</li>
+<li><code>kid</code> - A unique key ID. This key will be used to verify the signature of a JWT with matching &ldquo;kid&rdquo;.</li>
+<li><code>kty</code> - The key type.</li>
+<li><code>n</code> - The base64 url encoded modulus of the RSA public key represented by this key.</li>
+<li><code>use</code> - The intended use of the public key.</li>
+</ul></li>
+<li><code>max_cache_duration_in_hours</code> - The duration for which the JWKS should be cached before it is fetched again.</li>
+<li><code>type</code> - Type of the public key set.</li>
+<li><code>uri</code> - The uri from which to retrieve the key. It must be accessible without authentication.</li>
+</ul></li>
+<li><code>token_auth_scheme</code> - The authentication scheme that is to be used when authenticating the token. This must to be provided if &ldquo;tokenHeader&rdquo; is specified.</li>
+<li><code>token_header</code> - The name of the header containing the authentication token.</li>
+<li><code>token_query_param</code> - The name of the query parameter containing the authentication token.</li>
+<li><code>type</code> - Type of the authentication policy to use.</li>
+<li><code>validation_failure_policy</code> - Policy for defining behaviour on validation failure.
+
+<ul>
+<li><code>client_details</code> - Client App Credential details.
+
+<ul>
+<li><code>client_id</code> - Client ID for the OAuth2/OIDC app.</li>
+<li><code>client_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Oracle Vault Service secret resource.</li>
+<li><code>client_secret_version_number</code> - The version number of the client secret to use.</li>
+<li><code>type</code> - To specify where the Client App details should be taken from.</li>
+</ul></li>
+<li><code>fallback_redirect_path</code> - The path to be used as fallback after OAuth2.</li>
+<li><code>logout_path</code> - The path to be used as logout.</li>
+<li><code>max_expiry_duration_in_hours</code> - The duration for which the OAuth2 success token should be cached before it is fetched again.</li>
+<li><code>response_code</code> - HTTP response code, can include context variables.</li>
+<li><code>response_header_transformations</code> - A set of transformations to apply to HTTP headers that pass through the gateway.
+
+<ul>
+<li><code>filter_headers</code> - Filter HTTP headers as they pass through the gateway.  The gateway applies filters after other transformations, so any headers set or renamed must also be listed here when using an ALLOW type policy.
+
+<ul>
+<li><code>items</code> - The list of headers.
+
+<ul>
+<li><code>name</code> - The case-insensitive name of the header.  This name must be unique across transformation policies.</li>
+</ul></li>
+<li><code>type</code> - BLOCK drops any headers that are in the list of items, so it acts as an exclusion list.  ALLOW permits only the headers in the list and removes all others, so it acts as an inclusion list.</li>
+</ul></li>
+<li><code>rename_headers</code> - Rename HTTP headers as they pass through the gateway.
+
+<ul>
+<li><code>items</code> - The list of headers.
+
+<ul>
+<li><code>from</code> - The original case-insensitive name of the header.  This name must be unique across transformation policies.</li>
+<li><code>to</code> - The new name of the header.  This name must be unique across transformation policies.</li>
+</ul></li>
+</ul></li>
+<li><code>set_headers</code> - Set HTTP headers as they pass through the gateway.
+
+<ul>
+<li><code>items</code> - The list of headers.
+
+<ul>
+<li><code>if_exists</code> - If a header with the same name already exists in the request, OVERWRITE will overwrite the value, APPEND will append to the existing value, or SKIP will keep the existing value.</li>
+<li><code>name</code> - The case-insensitive name of the header.  This name must be unique across transformation policies.</li>
+<li><code>values</code> - A list of new values.  Each value can be a constant or may include one or more expressions enclosed within ${} delimiters.</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><code>response_message</code> - HTTP response message.</li>
+<li><code>response_type</code> - Response Type.</li>
+<li><code>scopes</code> - List of scopes.</li>
+<li><code>source_uri_details</code> - Auth endpoint details.
+
+<ul>
+<li><code>type</code> - Type of the Uri detail.</li>
+<li><code>uri</code> - The discovery URI for the auth server.</li>
+</ul></li>
+<li><code>type</code> - Type of the Validation failure Policy.</li>
+<li><code>use_cookies_for_intermediate_steps</code> - Defines whether or not to use cookies for OAuth2 intermediate steps.</li>
+<li><code>use_cookies_for_session</code> - Defines whether or not to use cookies for session maintenance.</li>
+<li><code>use_pkce</code> - Defines whether or not to support PKCE.</li>
+</ul></li>
+<li><code>validation_policy</code> - Authentication Policies for the Token Authentication types.
+
+<ul>
+<li><code>additional_validation_policy</code> - Additional JWT validation checks.
+
+<ul>
+<li><code>audiences</code> - The list of intended recipients for the token.</li>
+<li><code>issuers</code> - A list of parties that could have issued the token.</li>
+<li><code>verify_claims</code> - A list of claims which should be validated to consider the token valid.
+
+<ul>
+<li><code>is_required</code> - Whether the claim is required to be present in the JWT or not. If set to &ldquo;false&rdquo;, the claim values will be matched only if the claim is present in the JWT.</li>
+<li><code>key</code> - Name of the claim.</li>
+<li><code>values</code> - The list of acceptable values for a given claim. If this value is &ldquo;null&rdquo; or empty and &ldquo;isRequired&rdquo; set to &ldquo;true&rdquo;, then the presence of this claim in the JWT is validated.</li>
+</ul></li>
+</ul></li>
+<li><code>client_details</code> - Client App Credential details.
+
+<ul>
+<li><code>client_id</code> - Client ID for the OAuth2/OIDC app.</li>
+<li><code>client_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Oracle Vault Service secret resource.</li>
+<li><code>client_secret_version_number</code> - The version number of the client secret to use.</li>
+<li><code>type</code> - To specify where the Client App details should be taken from.</li>
+</ul></li>
+<li><code>is_ssl_verify_disabled</code> - Defines whether or not to uphold SSL verification.</li>
+<li><code>keys</code> - The set of static public keys.
+
+<ul>
+<li><code>alg</code> - The algorithm intended for use with this key.</li>
+<li><code>e</code> - The base64 url encoded exponent of the RSA public key represented by this key.</li>
+<li><code>format</code> - The format of the public key.</li>
+<li><code>key</code> - The content of the PEM-encoded public key.</li>
+<li><code>key_ops</code> - The operations for which this key is to be used.</li>
+<li><code>kid</code> - A unique key ID. This key will be used to verify the signature of a JWT with matching &ldquo;kid&rdquo;.</li>
+<li><code>kty</code> - The key type.</li>
+<li><code>n</code> - The base64 url encoded modulus of the RSA public key represented by this key.</li>
+<li><code>use</code> - The intended use of the public key.</li>
+</ul></li>
+<li><code>max_cache_duration_in_hours</code> - The duration for which the introspect URL response should be cached before it is fetched again.</li>
+<li><code>source_uri_details</code> - Auth endpoint details.
+
+<ul>
+<li><code>type</code> - Type of the Uri detail.</li>
+<li><code>uri</code> - The discovery URI for the auth server.</li>
+</ul></li>
+<li><code>type</code> - Type of the token validation policy.</li>
+<li><code>uri</code> - The uri from which to retrieve the key. It must be accessible without authentication.</li>
+</ul></li>
+<li><code>verify_claims</code> - A list of claims which should be validated to consider the token valid.
+
+<ul>
+<li><code>is_required</code> - Whether the claim is required to be present in the JWT or not. If set to &ldquo;false&rdquo;, the claim values will be matched only if the claim is present in the JWT.</li>
+<li><code>key</code> - Name of the claim.</li>
+<li><code>values</code> - The list of acceptable values for a given claim. If this value is &ldquo;null&rdquo; or empty and &ldquo;isRequired&rdquo; set to &ldquo;true&rdquo;, then the presence of this claim in the JWT is validated.</li>
+</ul></li>
+</ul></li>
+<li><code>cors</code> - Enable CORS (Cross-Origin-Resource-Sharing) request handling.
+
+<ul>
+<li><code>allowed_headers</code> - The list of headers that will be allowed from the client via the Access-Control-Allow-Headers header. &lsquo;*&rsquo; will allow all headers.</li>
+<li><code>allowed_methods</code> - The list of allowed HTTP methods that will be returned for the preflight OPTIONS request in the Access-Control-Allow-Methods header. &lsquo;*&rsquo; will allow all methods.</li>
+<li><code>allowed_origins</code> - The list of allowed origins that the CORS handler will use to respond to CORS requests. The gateway will send the Access-Control-Allow-Origin header with the best origin match for the circumstances. &lsquo;*&rsquo; will match any origins, and &lsquo;null&rsquo; will match queries from &lsquo;file:&rsquo; origins. All other origins must be qualified with the scheme, full hostname, and port if necessary.</li>
+<li><code>exposed_headers</code> - The list of headers that the client will be allowed to see from the response as indicated by the Access-Control-Expose-Headers header. &lsquo;*&rsquo; will expose all headers.</li>
+<li><code>is_allow_credentials_enabled</code> - Whether to send the Access-Control-Allow-Credentials header to allow CORS requests with cookies.</li>
+<li><code>max_age_in_seconds</code> - The time in seconds for the client to cache preflight responses. This is sent as the Access-Control-Max-Age if greater than 0.</li>
+</ul></li>
+<li><code>dynamic_authentication</code> - Policy on how to authenticate requests when multiple authentication options are configured for a deployment. For an incoming request, the value of selector specified under selectionSource will be matched against the keys specified for each authentication server. The authentication server whose key matches the value of selector will be used for authentication.
+
+<ul>
+<li><code>authentication_servers</code> - List of authentication servers to choose from during dynamic authentication.
+
+<ul>
+<li><code>authentication_server_detail</code> - Information on how to authenticate incoming requests.
+
+<ul>
+<li><code>audiences</code> - The list of intended recipients for the token.</li>
+<li><code>function_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Oracle Functions function resource.</li>
+<li><code>is_anonymous_access_allowed</code> - Whether an unauthenticated user may access the API. Must be &ldquo;true&rdquo; to enable ANONYMOUS route authorization.</li>
+<li><code>issuers</code> - A list of parties that could have issued the token.</li>
+<li><code>max_clock_skew_in_seconds</code> - The maximum expected time difference between the system clocks of the token issuer and the API Gateway.</li>
+<li><code>public_keys</code> - A set of Public Keys that will be used to verify the JWT signature.
+
+<ul>
+<li><code>is_ssl_verify_disabled</code> - Defines whether or not to uphold SSL verification.</li>
+<li><code>keys</code> - The set of static public keys.
+
+<ul>
+<li><code>alg</code> - The algorithm intended for use with this key.</li>
+<li><code>e</code> - The base64 url encoded exponent of the RSA public key represented by this key.</li>
+<li><code>format</code> - The format of the public key.</li>
+<li><code>key</code> - The content of the PEM-encoded public key.</li>
+<li><code>key_ops</code> - The operations for which this key is to be used.</li>
+<li><code>kid</code> - A unique key ID. This key will be used to verify the signature of a JWT with matching &ldquo;kid&rdquo;.</li>
+<li><code>kty</code> - The key type.</li>
+<li><code>n</code> - The base64 url encoded modulus of the RSA public key represented by this key.</li>
+<li><code>use</code> - The intended use of the public key.</li>
+</ul></li>
+<li><code>max_cache_duration_in_hours</code> - The duration for which the JWKS should be cached before it is fetched again.</li>
+<li><code>type</code> - Type of the public key set.</li>
+<li><code>uri</code> - The uri from which to retrieve the key. It must be accessible without authentication.</li>
+</ul></li>
+<li><code>token_auth_scheme</code> - The authentication scheme that is to be used when authenticating the token. This must to be provided if &ldquo;tokenHeader&rdquo; is specified.</li>
+<li><code>token_header</code> - The name of the header containing the authentication token.</li>
+<li><code>token_query_param</code> - The name of the query parameter containing the authentication token.</li>
+<li><code>type</code> - Type of the authentication policy to use.</li>
+<li><code>validation_failure_policy</code> - Policy for defining behaviour on validation failure.
+
+<ul>
+<li><code>client_details</code> - Client App Credential details.
+
+<ul>
+<li><code>client_id</code> - Client ID for the OAuth2/OIDC app.</li>
+<li><code>client_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Oracle Vault Service secret resource.</li>
+<li><code>client_secret_version_number</code> - The version number of the client secret to use.</li>
+<li><code>type</code> - To specify where the Client App details should be taken from.</li>
+</ul></li>
+<li><code>fallback_redirect_path</code> - The path to be used as fallback after OAuth2.</li>
+<li><code>logout_path</code> - The path to be used as logout.</li>
+<li><code>max_expiry_duration_in_hours</code> - The duration for which the OAuth2 success token should be cached before it is fetched again.</li>
+<li><code>response_code</code> - HTTP response code, can include context variables.</li>
+<li><code>response_header_transformations</code> - A set of transformations to apply to HTTP headers that pass through the gateway.
+
+<ul>
+<li><code>filter_headers</code> - Filter HTTP headers as they pass through the gateway.  The gateway applies filters after other transformations, so any headers set or renamed must also be listed here when using an ALLOW type policy.
+
+<ul>
+<li><code>items</code> - The list of headers.
+
+<ul>
+<li><code>name</code> - The case-insensitive name of the header.  This name must be unique across transformation policies.</li>
+</ul></li>
+<li><code>type</code> - BLOCK drops any headers that are in the list of items, so it acts as an exclusion list.  ALLOW permits only the headers in the list and removes all others, so it acts as an inclusion list.</li>
+</ul></li>
+<li><code>rename_headers</code> - Rename HTTP headers as they pass through the gateway.
+
+<ul>
+<li><code>items</code> - The list of headers.
+
+<ul>
+<li><code>from</code> - The original case-insensitive name of the header.  This name must be unique across transformation policies.</li>
+<li><code>to</code> - The new name of the header.  This name must be unique across transformation policies.</li>
+</ul></li>
+</ul></li>
+<li><code>set_headers</code> - Set HTTP headers as they pass through the gateway.
+
+<ul>
+<li><code>items</code> - The list of headers.
+
+<ul>
+<li><code>if_exists</code> - If a header with the same name already exists in the request, OVERWRITE will overwrite the value, APPEND will append to the existing value, or SKIP will keep the existing value.</li>
+<li><code>name</code> - The case-insensitive name of the header.  This name must be unique across transformation policies.</li>
+<li><code>values</code> - A list of new values.  Each value can be a constant or may include one or more expressions enclosed within ${} delimiters.</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><code>response_message</code> - HTTP response message.</li>
+<li><code>response_type</code> - Response Type.</li>
+<li><code>scopes</code> - List of scopes.</li>
+<li><code>source_uri_details</code> - Auth endpoint details.
+
+<ul>
+<li><code>type</code> - Type of the Uri detail.</li>
+<li><code>uri</code> - The discovery URI for the auth server.</li>
+</ul></li>
+<li><code>type</code> - Type of the Validation failure Policy.</li>
+<li><code>use_cookies_for_intermediate_steps</code> - Defines whether or not to use cookies for OAuth2 intermediate steps.</li>
+<li><code>use_cookies_for_session</code> - Defines whether or not to use cookies for session maintenance.</li>
+<li><code>use_pkce</code> - Defines whether or not to support PKCE.</li>
+</ul></li>
+<li><code>validation_policy</code> - Authentication Policies for the Token Authentication types.
+
+<ul>
+<li><code>additional_validation_policy</code> - Additional JWT validation checks.
+
+<ul>
+<li><code>audiences</code> - The list of intended recipients for the token.</li>
+<li><code>issuers</code> - A list of parties that could have issued the token.</li>
+<li><code>verify_claims</code> - A list of claims which should be validated to consider the token valid.
+
+<ul>
+<li><code>is_required</code> - Whether the claim is required to be present in the JWT or not. If set to &ldquo;false&rdquo;, the claim values will be matched only if the claim is present in the JWT.</li>
+<li><code>key</code> - Name of the claim.</li>
+<li><code>values</code> - The list of acceptable values for a given claim. If this value is &ldquo;null&rdquo; or empty and &ldquo;isRequired&rdquo; set to &ldquo;true&rdquo;, then the presence of this claim in the JWT is validated.</li>
+</ul></li>
+</ul></li>
+<li><code>client_details</code> - Client App Credential details.
+
+<ul>
+<li><code>client_id</code> - Client ID for the OAuth2/OIDC app.</li>
+<li><code>client_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Oracle Vault Service secret resource.</li>
+<li><code>client_secret_version_number</code> - The version number of the client secret to use.</li>
+<li><code>type</code> - To specify where the Client App details should be taken from.</li>
+</ul></li>
+<li><code>is_ssl_verify_disabled</code> - Defines whether or not to uphold SSL verification.</li>
+<li><code>keys</code> - The set of static public keys.
+
+<ul>
+<li><code>alg</code> - The algorithm intended for use with this key.</li>
+<li><code>e</code> - The base64 url encoded exponent of the RSA public key represented by this key.</li>
+<li><code>format</code> - The format of the public key.</li>
+<li><code>key</code> - The content of the PEM-encoded public key.</li>
+<li><code>key_ops</code> - The operations for which this key is to be used.</li>
+<li><code>kid</code> - A unique key ID. This key will be used to verify the signature of a JWT with matching &ldquo;kid&rdquo;.</li>
+<li><code>kty</code> - The key type.</li>
+<li><code>n</code> - The base64 url encoded modulus of the RSA public key represented by this key.</li>
+<li><code>use</code> - The intended use of the public key.</li>
+</ul></li>
+<li><code>max_cache_duration_in_hours</code> - The duration for which the introspect URL response should be cached before it is fetched again.</li>
+<li><code>source_uri_details</code> - Auth endpoint details.
+
+<ul>
+<li><code>type</code> - Type of the Uri detail.</li>
+<li><code>uri</code> - The discovery URI for the auth server.</li>
+</ul></li>
+<li><code>type</code> - Type of the token validation policy.</li>
+<li><code>uri</code> - The uri from which to retrieve the key. It must be accessible without authentication.</li>
+</ul></li>
+<li><code>verify_claims</code> - A list of claims which should be validated to consider the token valid.
+
+<ul>
+<li><code>is_required</code> - Whether the claim is required to be present in the JWT or not. If set to &ldquo;false&rdquo;, the claim values will be matched only if the claim is present in the JWT.</li>
+<li><code>key</code> - Name of the claim.</li>
+<li><code>values</code> - The list of acceptable values for a given claim. If this value is &ldquo;null&rdquo; or empty and &ldquo;isRequired&rdquo; set to &ldquo;true&rdquo;, then the presence of this claim in the JWT is validated.</li>
+</ul></li>
+</ul></li>
+<li><code>key</code> - Base policy for defining how to match the context variable in an incoming request with selection keys when dynamically routing and dynamically authenticating requests.
+
+<ul>
+<li><code>expression</code> - A selection key string containing a wildcard to match with the context variable in an incoming request. If the context variable matches the string, the request is sent to the route or authentication server associated with the selection key. Valid wildcards are &lsquo;*&rsquo; (zero or more characters) and &lsquo;+&rsquo; (one or more characters). The string can only contain one wildcard, and the wildcard must be at the start or the end of the string.</li>
+<li><code>is_default</code> - Specifies whether to use the route or authentication server associated with this selection key as the default. The default is used if the value of a context variable in an incoming request does not match any of the other selection key values when dynamically routing and dynamically authenticating requests.</li>
+<li><code>name</code> - Name assigned to the branch.</li>
+<li><code>type</code> - Type of the selection key.</li>
+<li><code>values</code> - The set of selection keys to match with the context variable in an incoming request. If the context variable exactly matches one of the keys in the set, the request is sent to the route or authentication server associated with the set.</li>
+</ul></li>
+</ul></li>
+<li><code>selection_source</code> - The type of selector to use when dynamically routing and dynamically authenticating requests.
+
+<ul>
+<li><code>selector</code> - String describing the context variable used as selector.</li>
+<li><code>type</code> - Type of the Selection source to use.</li>
+</ul></li>
+</ul></li>
+<li><code>mutual_tls</code> - Properties used to configure client mTLS verification when API Consumer makes connection to the gateway.
+
+<ul>
+<li><code>allowed_sans</code> - Allowed list of CN or SAN which will be used for verification of certificate.</li>
+<li><code>is_verified_certificate_required</code> - Determines whether to enable client verification when API Consumer makes connection to the gateway.</li>
+</ul></li>
+<li><code>rate_limiting</code> - Limit the number of requests that should be handled for the specified window using a specfic key.
+
+<ul>
+<li><code>rate_in_requests_per_second</code> - The maximum number of requests per second to allow.</li>
+<li><code>rate_key</code> - The key used to group requests together.</li>
+</ul></li>
+<li><code>usage_plans</code> - Usage plan policies for this deployment
+
+<ul>
+<li><code>token_locations</code> - A list of context variables specifying where API tokens may be located in a request. Example locations:
+
+<ul>
+<li>&ldquo;request.headers[token]&rdquo;</li>
+<li>&ldquo;request.query[token]&rdquo;</li>
+<li>&ldquo;request.auth[Token]&rdquo;</li>
+<li>&ldquo;request.path[TOKEN]&rdquo;</li>
+</ul></li>
+</ul></li>
+</ul></li>
+
+<li><p><code>routes</code> - A list of routes that this API exposes.</p>
+
+<ul>
+<li><p><code>backend</code> - The backend to forward requests to.</p>
+
+<ul>
+<li><code>allowed_post_logout_uris</code> - A list of allowed post-logout URLs to which a request can be redirected after revoke access</li>
+<li><code>body</code> - The body of the stock response from the mock backend.</li>
+<li><code>connect_timeout_in_seconds</code> - Defines a timeout for establishing a connection with a proxied server.</li>
+<li><code>function_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Oracle Functions function resource.</li>
+<li><code>headers</code> - The headers of the stock response from the mock backend.
+
+<ul>
+<li><code>name</code> - Name of the header.</li>
+<li><code>value</code> - Value of the header.</li>
+</ul></li>
+<li><code>is_ssl_verify_disabled</code> - Defines whether or not to uphold SSL verification.</li>
+<li><code>post_logout_state</code> - Defines a state that should be shared on redirecting to postLogout URL.</li>
+<li><code>read_timeout_in_seconds</code> - Defines a timeout for reading a response from the proxied server.</li>
+<li><code>routing_backends</code> - List of backends to chose from for Dynamic Routing.
+
+<ul>
+<li><code>backend</code> - The backend to forward requests to.
+
+<ul>
+<li><code>body</code> - The body of the stock response from the mock backend.</li>
+<li><code>connect_timeout_in_seconds</code> - Defines a timeout for establishing a connection with a proxied server.</li>
+<li><code>function_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Oracle Functions function resource.</li>
+<li><code>headers</code> - The headers of the stock response from the mock backend.
+
+<ul>
+<li><code>name</code> - Name of the header.</li>
+<li><code>value</code> - Value of the header.</li>
+</ul></li>
+<li><code>is_ssl_verify_disabled</code> - Defines whether or not to uphold SSL verification.</li>
+<li><code>read_timeout_in_seconds</code> - Defines a timeout for reading a response from the proxied server.</li>
+<li><code>send_timeout_in_seconds</code> - Defines a timeout for transmitting a request to the proxied server.</li>
+<li><code>status</code> - The status code of the stock response from the mock backend.</li>
+<li><code>type</code> - Type of the API backend.</li>
+<li><code>url</code> - The url of the proxied server.</li>
+</ul></li>
+<li><code>key</code> - Information around the values for selector of an authentication/ routing branch.
+
+<ul>
+<li><code>expression</code> - String describing the expression with wildcards.</li>
+<li><code>is_default</code> - Information regarding whether this is the default branch.</li>
+<li><code>name</code> - Name assigned to the branch.</li>
+<li><code>type</code> - Information regarding type of the selection key.</li>
+<li><code>values</code> - Information regarding the set of values of selector for which this branch should be selected.</li>
+</ul></li>
+</ul></li>
+<li><code>selection_source</code> - Information around selector used for branching among routes/ authentication servers while dynamic routing/ authentication.
+
+<ul>
+<li><code>selector</code> - String describing the context variable used as selector.</li>
+<li><code>type</code> - Type of the Selection source to use.</li>
+</ul></li>
+<li><code>send_timeout_in_seconds</code> - Defines a timeout for transmitting a request to the proxied server.</li>
+<li><code>status</code> - The status code of the stock response from the mock backend.</li>
+<li><code>type</code> - Type of the API backend.</li>
+<li><code>url</code> - The url of the HTTP Backend</li>
+</ul></li>
+
+<li><p><code>logging_policies</code> - Policies controlling the pushing of logs to Oracle Cloud Infrastructure Public Logging.</p>
+
+<ul>
+<li><p><code>access_log</code> - Configures the logging policies for the access logs of an API Deployment.</p>
+
+<ul>
+<li><p><code>is_enabled</code> - Enables pushing of access logs to the legacy Oracle Cloud Infrastructure Object Storage log archival bucket.</p>
+
+<p>Oracle recommends using the Oracle Cloud Infrastructure Logging service to enable, retrieve, and query access logs for an API Deployment. If there is an active log object for the API Deployment and its category is set to &lsquo;access&rsquo; in Oracle Cloud Infrastructure Logging service, the logs will not be uploaded to the legacy Oracle Cloud Infrastructure Object Storage log archival bucket.</p>
+
+<p>Please note that the functionality to push to the legacy Oracle Cloud Infrastructure Object Storage log archival bucket has been deprecated and will be removed in the future.</p></li>
+</ul></li>
+
+<li><p><code>execution_log</code> - Configures the logging policies for the execution logs of an API Deployment.</p>
+
+<ul>
+<li><p><code>is_enabled</code> - Enables pushing of execution logs to the legacy Oracle Cloud Infrastructure Object Storage log archival bucket.</p>
+
+<p>Oracle recommends using the Oracle Cloud Infrastructure Logging service to enable, retrieve, and query execution logs for an API Deployment. If there is an active log object for the API Deployment and its category is set to &lsquo;execution&rsquo; in Oracle Cloud Infrastructure Logging service, the logs will not be uploaded to the legacy Oracle Cloud Infrastructure Object Storage log archival bucket.</p>
+
+<p>Please note that the functionality to push to the legacy Oracle Cloud Infrastructure Object Storage log archival bucket has been deprecated and will be removed in the future.</p></li>
+
+<li><p><code>log_level</code> - Specifies the log level used to control logging output of execution logs. Enabling logging at a given level also enables logging at all higher levels.</p></li>
+</ul></li>
+</ul></li>
+
+<li><p><code>methods</code> - A list of allowed methods on this route.</p></li>
+
+<li><p><code>path</code> - A URL path pattern that must be matched on this route. The path pattern may contain a subset of RFC 6570 identifiers to allow wildcard and parameterized matching.</p></li>
+
+<li><p><code>request_policies</code> - Behavior applied to any requests received by the API on this route.</p>
+
+<ul>
+<li><p><code>authorization</code> - If authentication has been performed, validate whether the request scope (if any) applies to this route. If no RouteAuthorizationPolicy is defined for a route, a policy with a type of AUTHENTICATION_ONLY is applied.</p>
+
+<ul>
+<li><code>allowed_scope</code> - A user whose scope includes any of these access ranges is allowed on this route. Access ranges are case-sensitive.</li>
+<li><code>type</code> - Indicates how authorization should be applied. For a type of ANY_OF, an &ldquo;allowedScope&rdquo; property must also be specified. Otherwise, only a type is required. For a type of ANONYMOUS, an authenticated API must have the &ldquo;isAnonymousAccessAllowed&rdquo; property set to &ldquo;true&rdquo; in the authentication policy.</li>
+</ul></li>
+
+<li><p><code>body_validation</code> - Validate the payload body of the incoming API requests on a specific route.</p>
+
+<ul>
+<li><p><code>content</code> - The content of the request body.</p>
+
+<ul>
+<li><p><code>media_type</code> - The media type is a <a href="https://tools.ietf.org/html/rfc7231#appendix-D">media type range</a> subset restricted to the following schema</p>
+
+<p>( / (  &ldquo;<em>&rdquo; &ldquo;/&rdquo; &ldquo;</em>&rdquo; ) / ( type &ldquo;/&rdquo; &ldquo;*&rdquo; ) / ( type &ldquo;/&rdquo; subtype ) )</p>
+
+<p>For requests that match multiple media types, only the most specific media type is applicable. e.g. <code>text/plain</code> overrides <code>text/*</code></p></li>
+
+<li><p><code>validation_type</code> - Validation type defines the content validation method.</p>
+
+<p>Make the validation to first parse the body as the respective format.</p></li>
+</ul></li>
+
+<li><p><code>required</code> - Determines if the request body is required in the request.</p></li>
+
+<li><p><code>validation_mode</code> - Validation behavior mode.</p>
+
+<p>In <code>ENFORCING</code> mode, upon a validation failure, the request will be rejected with a 4xx response and not sent to the backend.</p>
+
+<p>In <code>PERMISSIVE</code> mode, the result of the validation will be exposed as metrics while the request will follow the normal path.</p>
+
+<p><code>DISABLED</code> type turns the validation off.</p></li>
+</ul></li>
+
+<li><p><code>cors</code> - Enable CORS (Cross-Origin-Resource-Sharing) request handling.</p>
+
+<ul>
+<li><code>allowed_headers</code> - The list of headers that will be allowed from the client via the Access-Control-Allow-Headers header. &lsquo;*&rsquo; will allow all headers.</li>
+<li><code>allowed_methods</code> - The list of allowed HTTP methods that will be returned for the preflight OPTIONS request in the Access-Control-Allow-Methods header. &lsquo;*&rsquo; will allow all methods.</li>
+<li><code>allowed_origins</code> - The list of allowed origins that the CORS handler will use to respond to CORS requests. The gateway will send the Access-Control-Allow-Origin header with the best origin match for the circumstances. &lsquo;*&rsquo; will match any origins, and &lsquo;null&rsquo; will match queries from &lsquo;file:&rsquo; origins. All other origins must be qualified with the scheme, full hostname, and port if necessary.</li>
+<li><code>exposed_headers</code> - The list of headers that the client will be allowed to see from the response as indicated by the Access-Control-Expose-Headers header. &lsquo;*&rsquo; will expose all headers.</li>
+<li><code>is_allow_credentials_enabled</code> - Whether to send the Access-Control-Allow-Credentials header to allow CORS requests with cookies.</li>
+<li><code>max_age_in_seconds</code> - The time in seconds for the client to cache preflight responses. This is sent as the Access-Control-Max-Age if greater than 0.</li>
+</ul></li>
+
+<li><p><code>header_transformations</code> - A set of transformations to apply to HTTP headers that pass through the gateway.</p>
+
+<ul>
+<li><code>filter_headers</code> - Filter HTTP headers as they pass through the gateway.  The gateway applies filters after other transformations, so any headers set or renamed must also be listed here when using an ALLOW type policy.
+
+<ul>
+<li><code>items</code> - The list of headers.
+
+<ul>
+<li><code>name</code> - The case-insensitive name of the header.  This name must be unique across transformation policies.</li>
+</ul></li>
+<li><code>type</code> - BLOCK drops any headers that are in the list of items, so it acts as an exclusion list.  ALLOW permits only the headers in the list and removes all others, so it acts as an inclusion list.</li>
+</ul></li>
+<li><code>rename_headers</code> - Rename HTTP headers as they pass through the gateway.
+
+<ul>
+<li><code>items</code> - The list of headers.
+
+<ul>
+<li><code>from</code> - The original case-insensitive name of the header.  This name must be unique across transformation policies.</li>
+<li><code>to</code> - The new name of the header.  This name must be unique across transformation policies.</li>
+</ul></li>
+</ul></li>
+<li><code>set_headers</code> - Set HTTP headers as they pass through the gateway.
+
+<ul>
+<li><code>items</code> - The list of headers.
+
+<ul>
+<li><code>if_exists</code> - If a header with the same name already exists in the request, OVERWRITE will overwrite the value, APPEND will append to the existing value, or SKIP will keep the existing value.</li>
+<li><code>name</code> - The case-insensitive name of the header.  This name must be unique across transformation policies.</li>
+<li><code>values</code> - A list of new values.  Each value can be a constant or may include one or more expressions enclosed within ${} delimiters.</li>
+</ul></li>
+</ul></li>
+</ul></li>
+
+<li><p><code>header_validations</code> - Validate the HTTP headers on the incoming API requests on a specific route.</p>
+
+<ul>
+<li><p><code>headers</code> - The List of Headers</p>
+
+<ul>
+<li><code>name</code> - Parameter name.</li>
+<li><code>required</code> - Determines if the header is required in the request.</li>
+</ul></li>
+
+<li><p><code>validation_mode</code> - Validation behavior mode.</p>
+
+<p>In <code>ENFORCING</code> mode, upon a validation failure, the request will be rejected with a 4xx response and not sent to the backend.</p>
+
+<p>In <code>PERMISSIVE</code> mode, the result of the validation will be exposed as metrics while the request will follow the normal path.</p>
+
+<p><code>DISABLED</code> type turns the validation off.</p></li>
+</ul></li>
+
+<li><p><code>query_parameter_transformations</code> - A set of transformations to apply to query parameters that pass through the gateway.</p>
+
+<ul>
+<li><code>filter_query_parameters</code> - Filter parameters from the query string as they pass through the gateway.  The gateway applies filters after other transformations, so any parameters set or renamed must also be listed here when using an ALLOW type policy.
+
+<ul>
+<li><code>items</code> - The list of query parameters.
+
+<ul>
+<li><code>name</code> - The case-sensitive name of the query parameter.</li>
+</ul></li>
+<li><code>type</code> - BLOCK drops any query parameters that are in the list of items, so it acts as an exclusion list.  ALLOW permits only the parameters in the list and removes all others, so it acts as an inclusion list.</li>
+</ul></li>
+<li><code>rename_query_parameters</code> - Rename parameters on the query string as they pass through the gateway.
+
+<ul>
+<li><code>items</code> - The list of query parameters.
+
+<ul>
+<li><code>from</code> - The original case-sensitive name of the query parameter.  This name must be unique across transformation policies.</li>
+<li><code>to</code> - The new name of the query parameter.  This name must be unique across transformation policies.</li>
+</ul></li>
+</ul></li>
+<li><code>set_query_parameters</code> - Set parameters on the query string as they pass through the gateway.
+
+<ul>
+<li><code>items</code> - The list of query parameters.
+
+<ul>
+<li><code>if_exists</code> - If a query parameter with the same name already exists in the request, OVERWRITE will overwrite the value, APPEND will append to the existing value, or SKIP will keep the existing value.</li>
+<li><code>name</code> - The case-sensitive name of the query parameter.  This name must be unique across transformation policies.</li>
+<li><code>values</code> - A list of new values.  Each value can be a constant or may include one or more expressions enclosed within ${} delimiters.</li>
+</ul></li>
+</ul></li>
+</ul></li>
+
+<li><p><code>query_parameter_validations</code> - Validate the URL query parameters on the incoming API requests on a specific route.</p>
+
+<ul>
+<li><p><code>parameters</code> - The List of Query Parameters</p>
+
+<ul>
+<li><code>name</code> - Parameter name.</li>
+<li><code>required</code> - Determines if the parameter is required in the request.</li>
+</ul></li>
+
+<li><p><code>validation_mode</code> - Validation behavior mode.</p>
+
+<p>In <code>ENFORCING</code> mode, upon a validation failure, the request will be rejected with a 4xx response and not sent to the backend.</p>
+
+<p>In <code>PERMISSIVE</code> mode, the result of the validation will be exposed as metrics while the request will follow the normal path.</p>
+
+<p><code>DISABLED</code> type turns the validation off.</p></li>
+</ul></li>
+
+<li><p><code>response_cache_lookup</code> - Base policy for Response Cache lookup.</p>
+
+<ul>
+<li><p><code>cache_key_additions</code> - A list of context expressions whose values will be added to the base cache key. Values should contain an expression enclosed within ${} delimiters. Only the request context is available.</p></li>
+
+<li><p><code>is_enabled</code> - Whether this policy is currently enabled.</p></li>
+
+<li><p><code>is_private_caching_enabled</code> - Set true to allow caching responses where the request has an Authorization header. Ensure you have configured your  cache key additions to get the level of isolation across authenticated requests that you require.</p>
+
+<p>When false, any request with an Authorization header will not be stored in the Response Cache.</p>
+
+<p>If using the CustomAuthenticationPolicy then the tokenHeader/tokenQueryParam are also subject to this check.</p></li>
+
+<li><p><code>type</code> - Type of the Response Cache Store Policy.</p></li>
+</ul></li>
+</ul></li>
+
+<li><p><code>response_policies</code> - Behavior applied to any responses sent by the API for requests on this route.</p>
+
+<ul>
+<li><code>header_transformations</code> - A set of transformations to apply to HTTP headers that pass through the gateway.
+
+<ul>
+<li><code>filter_headers</code> - Filter HTTP headers as they pass through the gateway.  The gateway applies filters after other transformations, so any headers set or renamed must also be listed here when using an ALLOW type policy.
+
+<ul>
+<li><code>items</code> - The list of headers.
+
+<ul>
+<li><code>name</code> - The case-insensitive name of the header.  This name must be unique across transformation policies.</li>
+</ul></li>
+<li><code>type</code> - BLOCK drops any headers that are in the list of items, so it acts as an exclusion list.  ALLOW permits only the headers in the list and removes all others, so it acts as an inclusion list.</li>
+</ul></li>
+<li><code>rename_headers</code> - Rename HTTP headers as they pass through the gateway.
+
+<ul>
+<li><code>items</code> - The list of headers.
+
+<ul>
+<li><code>from</code> - The original case-insensitive name of the header.  This name must be unique across transformation policies.</li>
+<li><code>to</code> - The new name of the header.  This name must be unique across transformation policies.</li>
+</ul></li>
+</ul></li>
+<li><code>set_headers</code> - Set HTTP headers as they pass through the gateway.
+
+<ul>
+<li><code>items</code> - The list of headers.
+
+<ul>
+<li><code>if_exists</code> - If a header with the same name already exists in the request, OVERWRITE will overwrite the value, APPEND will append to the existing value, or SKIP will keep the existing value.</li>
+<li><code>name</code> - The case-insensitive name of the header.  This name must be unique across transformation policies.</li>
+<li><code>values</code> - A list of new values.  Each value can be a constant or may include one or more expressions enclosed within ${} delimiters.</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><code>response_cache_store</code> - Base policy for how a response from a backend is cached in the Response Cache.
+
+<ul>
+<li><code>time_to_live_in_seconds</code> - Sets the number of seconds for a response from a backend being stored in the Response Cache before it expires.</li>
+<li><code>type</code> - Type of the Response Cache Store Policy.</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+
+<li><p><code>state</code> - The current state of the deployment.</p></li>
+
+<li><p><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></p></li>
+
+<li><p><code>time_created</code> - The time this resource was created. An RFC3339 formatted datetime string.</p></li>
+
+<li><p><code>time_updated</code> - The time this resource was last updated. An RFC3339 formatted datetime string.</p></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

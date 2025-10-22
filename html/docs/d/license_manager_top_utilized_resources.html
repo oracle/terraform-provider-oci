@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_license_manager_top_utilized_resources</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_license_manager_top_utilized_resources</h1>
+
+<p>This data source provides the list of Top Utilized Resources in Oracle Cloud Infrastructure License Manager service.</p>
+
+<p>Retrieves the top utilized resources for a given compartment.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_license_manager_top_utilized_resources&quot; &quot;test_top_utilized_resources&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	is_compartment_id_in_subtree = var.top_utilized_resource_is_compartment_id_in_subtree
+	resource_unit_type = var.top_utilized_resource_resource_unit_type
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The compartment <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> used for the license record, product license, and configuration.</li>
+<li><code>is_compartment_id_in_subtree</code> - (Optional) Indicates if the given compartment is the root compartment.</li>
+<li><code>resource_unit_type</code> - (Optional) A filter to return only resources whose unit matches the given resource unit.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>top_utilized_resource_collection</code> - The list of top_utilized_resource_collection.</li>
+</ul>
+
+<h3>TopUtilizedResource Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - The top utilized resource summary collection.
+
+<ul>
+<li><code>resource_compartment_id</code> - The compartment <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> that contains the resource.</li>
+<li><code>resource_compartment_name</code> - The display name of the compartment that contains the resource.</li>
+<li><code>resource_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the resource.</li>
+<li><code>resource_name</code> - Resource canonical name.</li>
+<li><code>total_units</code> - Number of license units consumed by the resource.</li>
+<li><code>unit_type</code> - The resource unit.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

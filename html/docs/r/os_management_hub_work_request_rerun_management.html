@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_os_management_hub_work_request_rerun_management</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_os_management_hub_work_request_rerun_management</h1>
+
+<p>This resource provides the Work Request Rerun Management resource in Oracle Cloud Infrastructure Os Management Hub service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/os-management/latest/WorkRequestRerunManagement">https://docs.oracle.com/iaas/api/#/en/os-management/latest/WorkRequestRerunManagement</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/os_management_hub">https://github.com/oracle/terraform-provider-oci/tree/master/examples/os_management_hub</a></p>
+
+<p>Reruns a failed work for the specified work request <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>. Rerunning restarts the work on failed targets.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_os_management_hub_work_request_rerun_management&quot; &quot;test_work_request_rerun_management&quot; {
+	#Required
+	work_request_id = oci_containerengine_work_request.test_work_request.id
+
+	#Optional
+	managed_instances = var.work_request_rerun_management_managed_instances
+	work_request_details {
+
+		#Optional
+		description = var.work_request_rerun_management_work_request_details_description
+		display_name = var.work_request_rerun_management_work_request_details_display_name
+	}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>managed_instances</code> - (Optional) List of managed instance <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCIDs</a> to affected by the rerun of the work request.</li>
+<li><code>work_request_details</code> - (Optional) Provides the name and description of the job.
+
+<ul>
+<li><code>description</code> - (Optional) User-specified information about the job. Avoid entering confidential information.</li>
+<li><code>display_name</code> - (Optional) A user-friendly name for the job. The name does not have to be unique. Avoid entering confidential information.</li>
+</ul></li>
+<li><code>work_request_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the work request.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Work Request Rerun Management
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Work Request Rerun Management
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Work Request Rerun Management</p>
+
+<h2>Import</h2>
+
+<p>WorkRequestRerunManagement can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_os_management_hub_work_request_rerun_management.test_work_request_rerun_management &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

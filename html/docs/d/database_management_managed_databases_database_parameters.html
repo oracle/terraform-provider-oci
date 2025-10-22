@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_management_managed_databases_database_parameters</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_management_managed_databases_database_parameters</h1>
+
+<p>This data source provides the list of Managed Databases Database Parameters in Oracle Cloud Infrastructure Database Management service.</p>
+
+<p>Gets the list of database parameters for the specified Managed Database. The parameters are listed in alphabetical order, along with their current values.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_management_managed_databases_database_parameters&quot; &quot;test_managed_databases_database_parameters&quot; {
+	#Required
+	managed_database_id = oci_database_management_managed_database.test_managed_database.id
+
+	#Optional
+	is_allowed_values_included = var.managed_databases_database_parameter_is_allowed_values_included
+	name = var.managed_databases_database_parameter_name
+	opc_named_credential_id = var.managed_databases_database_parameter_opc_named_credential_id
+	source = var.managed_databases_database_parameter_source
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>is_allowed_values_included</code> - (Optional) When true, results include a list of valid values for parameters (if applicable).</li>
+<li><code>managed_database_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Managed Database.</li>
+<li><code>name</code> - (Optional) A filter to return all parameters that have the text given in their names.</li>
+<li><code>opc_named_credential_id</code> - (Optional) The OCID of the Named Credential.</li>
+<li><code>source</code> - (Optional) The source used to list database parameters. <code>CURRENT</code> is used to get the database parameters that are currently in effect for the database instance. <code>SPFILE</code> is used to list parameters from the server parameter file. Default is <code>CURRENT</code>.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>database_parameters_collection</code> - The list of database_parameters_collection.</li>
+</ul>
+
+<h3>ManagedDatabasesDatabaseParameter Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>database_name</code> - The name of the Managed Database.</li>
+<li><code>database_sub_type</code> - The subtype of the Oracle Database. Indicates whether the database is a Container Database, Pluggable Database, or a Non-container Database.</li>
+<li><code>database_type</code> - The type of Oracle Database installation.</li>
+<li><code>database_version</code> - The Oracle Database version.</li>
+<li><code>items</code> - An array of DatabaseParameterSummary objects.
+
+<ul>
+<li><code>allowed_values</code> - A list of allowed values for this parameter.
+
+<ul>
+<li><code>is_default</code> - Indicates whether the given ordinal value is the default value for the parameter.</li>
+<li><code>ordinal</code> - The ordinal number in the list (1-based).</li>
+<li><code>value</code> - The parameter value at ordinal.</li>
+</ul></li>
+<li><code>category</code> - The parameter category.</li>
+<li><code>constraint</code> - Applicable in case of Oracle Real Application Clusters (Oracle RAC) databases. A <code>UNIQUE</code> parameter is one which is unique to each Oracle Real Application Clusters (Oracle RAC) instance. For example, the parameter <code>INSTANCE_NUMBER</code> must have different values in each instance. An <code>IDENTICAL</code> parameter must have the same value for every instance. For example, the parameter <code>DB_BLOCK_SIZE</code> must have the same value in all instances.</li>
+<li><code>container_id</code> - The ID of the database container to which the data pertains. Possible values include:
+
+<ul>
+<li><code>0</code>: This value is used for data that pertain to the entire CDB. This value is also used for data in non-CDBs.</li>
+<li><code>1</code>: This value is used for data that pertain to only the root container.</li>
+<li><code>n</code>: Where n is the applicable container ID for the data.</li>
+</ul></li>
+<li><code>description</code> - The description of the parameter.</li>
+<li><code>display_value</code> - The parameter value in a user-friendly format. For example, if the <code>value</code> property shows the value 262144 for a big integer parameter, then the <code>displayValue</code> property will show the value 256K.</li>
+<li><code>is_adjusted</code> - Indicates whether Oracle adjusted the input value to a more suitable value.</li>
+<li><code>is_basic</code> - Indicates whether the parameter is a basic parameter (<code>TRUE</code>) or not (<code>FALSE</code>).</li>
+<li><code>is_default</code> - Indicates whether the parameter is set to the default value (<code>TRUE</code>) or the parameter value was specified in the parameter file (<code>FALSE</code>).</li>
+<li><code>is_deprecated</code> - Indicates whether the parameter has been deprecated (<code>TRUE</code>) or not (<code>FALSE</code>).</li>
+<li><code>is_instance_modifiable</code> - For parameters that can be changed with <code>ALTER SYSTEM</code>, indicates whether the value of the parameter can be different for every instance (<code>TRUE</code>) or whether the parameter must have the same value for all Real Application Clusters instances (<code>FALSE</code>). For other parameters, this is always <code>FALSE</code>.</li>
+<li><code>is_modified</code> - Indicates how the parameter was modified. If an <code>ALTER SYSTEM</code> was performed, the value will be <code>MODIFIED</code>.</li>
+<li><code>is_pdb_modifiable</code> - Indicates whether the parameter can be modified on a per-PDB basis (<code>TRUE</code>) or not (<code>FALSE</code>). In a non-CDB, the value of this property is <code>null</code>.</li>
+<li><code>is_session_modifiable</code> - Indicates whether the parameter can be changed with <code>ALTER SESSION</code> (<code>TRUE</code>) or not (<code>FALSE</code>)</li>
+<li><code>is_specified</code> - Indicates whether the parameter was specified in the server parameter file (<code>TRUE</code>) or not (<code>FALSE</code>). Applicable only when the parameter source is <code>SPFILE</code>.</li>
+<li><code>is_system_modifiable</code> - Indicates whether the parameter can be changed with <code>ALTER SYSTEM</code> and when the change takes effect:
+
+<ul>
+<li>IMMEDIATE: Parameter can be changed with <code>ALTER SYSTEM</code> regardless of the type of parameter file used to start the instance. The change takes effect immediately.</li>
+<li>DEFERRED: Parameter can be changed with <code>ALTER SYSTEM</code> regardless of the type of parameter file used to start the instance. The change takes effect in subsequent sessions.</li>
+<li>FALSE: Parameter cannot be changed with <code>ALTER SYSTEM</code> unless a server parameter file was used to start the instance. The change takes effect in subsequent instances.</li>
+</ul></li>
+<li><code>name</code> - The parameter name.</li>
+<li><code>number</code> - The parameter number.</li>
+<li><code>ordinal</code> - The position (ordinal number) of the parameter value. Useful only for parameters whose values are lists of strings.</li>
+<li><code>sid</code> - The database instance SID for which the parameter is defined.</li>
+<li><code>type</code> - The parameter type.</li>
+<li><code>update_comment</code> - The comments associated with the most recent update.</li>
+<li><code>value</code> - The parameter value.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

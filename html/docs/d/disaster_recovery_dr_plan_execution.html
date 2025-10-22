@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_disaster_recovery_dr_plan_execution</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_disaster_recovery_dr_plan_execution</h1>
+
+<p>This data source provides details about a specific Dr Plan Execution resource in Oracle Cloud Infrastructure Disaster Recovery service.</p>
+
+<p>Get details for the DR plan execution identified by <em>drPlanExecutionId</em>.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_disaster_recovery_dr_plan_execution&quot; &quot;test_dr_plan_execution&quot; {
+	#Required
+	dr_plan_execution_id = oci_disaster_recovery_dr_plan_execution.test_dr_plan_execution.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>dr_plan_execution_id</code> - (Required) The OCID of the DR plan execution.  Example: <code>ocid1.drplanexecution.oc1..uniqueID</code></li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The OCID of the compartment containing this DR plan execution.  Example: <code>ocid1.compartment.oc1..uniqueID</code></li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>display_name</code> - The display name of the DR plan execution.  Example: <code>Execution - EBS Switchover PHX to IAD</code></li>
+<li><code>dr_protection_group_id</code> - The OCID of the DR protection group to which this DR plan execution belongs.  Example: <code>ocid1.drprotectiongroup.oc1..uniqueID</code></li>
+<li><code>execution_duration_in_sec</code> - The total duration in seconds taken to complete the DR plan execution.  Example: <code>750</code></li>
+<li><code>execution_options</code> - The options for a plan execution.
+
+<ul>
+<li><code>are_prechecks_enabled</code> - A flag indicating whether a precheck should be executed before the plan execution.  Example: <code>true</code></li>
+<li><code>are_warnings_ignored</code> - A flag indicating whether warnings should be ignored during the plan execution.  Example: <code>false</code></li>
+<li><code>plan_execution_type</code> - The type of the plan execution.</li>
+</ul></li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>group_executions</code> - A list of groups executed in this DR plan execution.
+
+<ul>
+<li><code>display_name</code> - The display name of the group execution.  Example: <code>DATABASE_SWITCHOVER</code></li>
+<li><code>execution_duration_in_sec</code> - The total duration in seconds taken to complete group execution.  Example: <code>120</code></li>
+<li><code>group_id</code> - The unique id of the group. Must not be modified by user.  Example: <code>sgid1.group..uniqueID</code></li>
+<li><code>status</code> - The status of the group execution.</li>
+<li><code>status_details</code> - Additional details on the group execution status.  Example: <code>A total of [3] steps failed in the group</code></li>
+<li><code>step_executions</code> - A list of step executions in the group.
+
+<ul>
+<li><code>display_name</code> - The display name of the step execution.  Example: <code>DATABASE_SWITCHOVER</code></li>
+<li><code>execution_duration_in_sec</code> - The total duration in seconds taken to complete the step execution.  Example: <code>35</code></li>
+<li><code>group_id</code> - The unique id of the group to which this step belongs. Must not be modified by user.  Example: <code>sgid1.group..uniqueID</code></li>
+<li><code>log_location</code> - The details of an object storage log location for a DR protection group.
+
+<ul>
+<li><code>bucket</code> - The bucket name inside the object storage namespace.  Example: <code>operation_logs</code></li>
+<li><code>namespace</code> - The namespace in object storage (Note - this is usually the tenancy name).  Example: <code>myocitenancy</code></li>
+<li><code>object</code> - The object name inside the object storage bucket.  Example: <code>switchover_plan_executions</code></li>
+</ul></li>
+<li><code>status</code> - The status of the step execution.</li>
+<li><code>status_details</code> - Additional details on the step execution status.  Example: <code>This step failed to complete due to a timeout</code></li>
+<li><code>step_id</code> - The unique id of the step. Must not be modified by user.  Example: <code>sgid1.step..uniqueID</code></li>
+<li><code>time_ended</code> - The time when execution ended. An RFC3339 formatted datetime string.  Example: <code>2019-03-29T09:36:42Z</code></li>
+<li><code>time_started</code> - The time when step execution began. An RFC3339 formatted datetime string.  Example: <code>2019-03-29T09:36:42Z</code></li>
+<li><code>type</code> - The step type.</li>
+<li><code>type_display_name</code> - The display name of the DR Plan step type.  Example: <code>Database Switchover</code></li>
+</ul></li>
+<li><code>time_ended</code> - The time when group execution ended. An RFC3339 formatted datetime string.  Example: <code>2019-03-29T09:36:42Z</code></li>
+<li><code>time_started</code> - The time when group execution began. An RFC3339 formatted datetime string.  Example: <code>2019-03-29T09:36:42Z</code></li>
+<li><code>type</code> - The group type.  Example: <code>BUILT_IN</code></li>
+</ul></li>
+<li><code>id</code> - The OCID of the DR plan execution.  Example: <code>ocid1.drplanexecution.oc1..uniqueID</code></li>
+<li><code>life_cycle_details</code> - A message describing the DR plan execution&rsquo;s current state in more detail.</li>
+<li><code>log_location</code> - The details of an object storage log location for a DR protection group.
+
+<ul>
+<li><code>bucket</code> - The bucket name inside the object storage namespace.  Example: <code>operation_logs</code></li>
+<li><code>namespace</code> - The namespace in object storage (Note - this is usually the tenancy name).  Example: <code>myocitenancy</code></li>
+<li><code>object</code> - The object name inside the object storage bucket.  Example: <code>switchover_plan_executions</code></li>
+</ul></li>
+<li><code>peer_dr_protection_group_id</code> - The OCID of peer DR protection group associated with this plan&rsquo;s DR protection group.  Example: <code>ocid1.drprotectiongroup.oc1..uniqueID</code></li>
+<li><code>peer_region</code> - The region of the peer DR protection group associated with this plan&rsquo;s DR protection group.  Example: <code>us-ashburn-1</code></li>
+<li><code>plan_execution_type</code> - The type of the DR plan executed.</li>
+<li><code>plan_id</code> - The OCID of the DR plan.  Example: <code>ocid1.drplan.oc1..uniqueID</code></li>
+<li><code>state</code> - The current state of the DR plan execution.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces.  Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The date and time at which DR plan execution was created. An RFC3339 formatted datetime string.  Example: <code>2019-03-29T09:36:42Z</code></li>
+<li><code>time_ended</code> - The date and time at which DR plan execution succeeded, failed, was paused, or was canceled. An RFC3339 formatted datetime string.  Example: <code>2019-03-29T09:36:42Z</code></li>
+<li><code>time_started</code> - The date and time at which DR plan execution began. An RFC3339 formatted datetime string.  Example: <code>2019-03-29T09:36:42Z</code></li>
+<li><code>time_updated</code> - The time when DR plan execution was last updated. An RFC3339 formatted datetime string.  Example: <code>2019-03-29T09:36:42Z</code></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

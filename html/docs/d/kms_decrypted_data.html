@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_kms_decrypted_data</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_kms_decrypted_data</h1>
+
+<p>The <code>oci_kms_decrypted_data</code> data source provides details about a specific DecryptedData</p>
+
+<p>Decrypts data using the given DecryptDataDetails resource.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_kms_decrypted_data&quot; &quot;test_decrypted_data&quot; {
+	#Required
+	ciphertext = var.decrypted_data_ciphertext
+	crypto_endpoint = var.decrypted_data_crypto_endpoint
+	key_id = oci_kms_key.test_key.id
+
+	#Optional
+	associated_data = var.decrypted_data_associated_data
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>associated_data</code> - (Optional) Information that can be used to provide an encryption context for the  encrypted data. The length of the string representation of the associatedData must be fewer than 4096 characters.</li>
+<li><code>ciphertext</code> - (Required) The encrypted data to decrypt.</li>
+<li><code>crypto_endpoint</code> - (Required) The service endpoint to perform cryptographic operations against. Cryptographic operations include &lsquo;Encrypt,&rsquo; &lsquo;Decrypt,&rsquo; and &lsquo;GenerateDataEncryptionKey&rsquo; operations. see Vault Crypto endpoint.</li>
+<li><code>key_id</code> - (Required) The OCID of the key used to encrypt the ciphertext.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>plaintext</code> - The decrypted data, in the form of a base64-encoded value.</li>
+<li><code>plaintext_checksum</code> - Checksum of the decrypted data.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

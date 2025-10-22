@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_onesubscription_commitment</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_onesubscription_commitment</h1>
+
+<p>This data source provides details about a specific Commitment resource in Oracle Cloud Infrastructure Onesubscription service.</p>
+
+<p>This API returns the commitment details corresponding to the id provided</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_onesubscription_commitment&quot; &quot;test_commitment&quot; {
+	#Required
+	commitment_id = oci_onesubscription_commitment.test_commitment.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>commitment_id</code> - (Required) The Commitment Id</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>available_amount</code> - Commitment available amount</li>
+<li><code>funded_allocation_value</code> - Funded Allocation line value example: 12000.00</li>
+<li><code>id</code> - SPM internal Commitment ID</li>
+<li><code>quantity</code> - Commitment quantity</li>
+<li><code>subscribed_service_id</code> - SPM internal Subscribed Service ID</li>
+<li><code>time_end</code> - Commitment end date</li>
+<li><code>time_start</code> - Commitment start date</li>
+<li><code>used_amount</code> - Commitment used amount</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_management_managed_my_sql_database_inbound_replications</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_management_managed_my_sql_database_inbound_replications</h1>
+
+<p>This data source provides the list of Managed My Sql Database Inbound Replications in Oracle Cloud Infrastructure Database Management service.</p>
+
+<p>Retrieves information about the inbound replications of a specific MySQL server.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_management_managed_my_sql_database_inbound_replications&quot; &quot;test_managed_my_sql_database_inbound_replications&quot; {
+	#Required
+	managed_my_sql_database_id = oci_database_management_managed_my_sql_database.test_managed_my_sql_database.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>managed_my_sql_database_id</code> - (Required) The OCID of the Managed MySQL Database.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>managed_my_sql_database_inbound_replication_collection</code> - The list of managed_my_sql_database_inbound_replication_collection.</li>
+</ul>
+
+<h3>ManagedMySqlDatabaseInboundReplication Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>inbound_replications_count</code> - The number of sources this server is replicating from.</li>
+<li><code>items</code> - A list of ManagedMySqlDatabaseInboundReplicationSummary records.
+
+<ul>
+<li><code>applier_filters</code> - A list of MySqlReplicationApplierFilter records.
+
+<ul>
+<li><code>filter_name</code> - The type of replication filter that has been configured for the replication channel.</li>
+<li><code>filter_rule</code> - The rules configured for the replication filter type.</li>
+</ul></li>
+<li><code>apply_delay</code> - The time in seconds that the current transaction took between being committed on the source and being applied on the replica.</li>
+<li><code>apply_error</code> - Error from the apply operation of a MySQL server replication channel.
+
+<ul>
+<li><code>last_error_message</code> - The error message of the most recent error that caused the SQL or coordinator thread to stop.</li>
+<li><code>last_error_number</code> - The error number of the most recent error that caused the SQL or coordinator thread to stop.</li>
+<li><code>time_last_error</code> - The timestamp when the most recent SQL or coordinator error occurred.</li>
+<li><code>worker_errors</code> - A list of MySqlApplyErrorWorker records.
+
+<ul>
+<li><code>last_error_message</code> - The error message of the most recent error that caused the worker thread to stop.</li>
+<li><code>last_error_number</code> - The error number of the most recent error that caused the worker thread to stop.</li>
+<li><code>time_last_error</code> - The timestamp when the most recent worker error occurred.</li>
+</ul></li>
+</ul></li>
+<li><code>apply_status</code> - The current status of apply operations.</li>
+<li><code>busy_workers</code> - The number of workers currently busy applying transactions from the source server.</li>
+<li><code>channel_name</code> - The name of the replication channel.</li>
+<li><code>desired_delay_seconds</code> - The desired number of seconds that the replica must lag the source.</li>
+<li><code>fetch_error</code> - Error from the fetch operation of a MySQL server replication channel.
+
+<ul>
+<li><code>last_error_message</code> - The error message of the most recent error that caused the I/O thread to stop.</li>
+<li><code>last_error_number</code> - The error number of the most recent error that caused the I/O thread to stop.</li>
+<li><code>time_last_error</code> - The timestamp when the most recent I/O error occurred.</li>
+</ul></li>
+<li><code>fetch_status</code> - The current status of fetch operations.</li>
+<li><code>gtid_assignment</code> - Indicates whether the channel assigns global transaction identifiers (GTIDs) to anonymous replicated transactions. OFF means no GTIDs are assigned. LOCAL means a GTID is assigned that includes this replica&rsquo;s own universally unique identifier (UUID). A UUID as value indicates that a GTID is assigned, which includes that manually set UUID value.</li>
+<li><code>relay_log_storage_space_used</code> - The total size in bytes of all the existing relay log files pertaining to this channel.</li>
+<li><code>remaining_delay_seconds</code> - If the replica is waiting for the desired delay seconds to pass since the source applied an event, this field contains the number of delay seconds remaining.</li>
+<li><code>retrieved_gtid_set</code> - The set of global transaction IDs corresponding to all transactions received by this replica from the source server. Empty if GTIDs are not in use.</li>
+<li><code>seconds_behind_source</code> - The number of seconds the replica is behind the source server.</li>
+<li><code>source_host</code> - The host name or IP address of the source this replica is connected to.</li>
+<li><code>source_port</code> - The port used to connect to the source.</li>
+<li><code>source_server_id</code> - The server ID value from the source server.</li>
+<li><code>source_uuid</code> - The Universally Unique Identifier (UUID) value from the source server.</li>
+<li><code>transactions_received</code> - The number of transactions received by this replica from the source server.</li>
+</ul></li>
+<li><code>parallel_workers</code> - The number of applier threads for executing replication transactions in parallel.</li>
+<li><code>preserve_commit_order</code> - For multi-threaded replicas, indicates if transactions are executed and committed on the replica in the same order as they appear in the relay log.</li>
+<li><code>replica_server_id</code> - The server ID value of this replica.</li>
+<li><code>replica_uuid</code> - The Universally Unique Identifier (UUID) value of this replica server.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

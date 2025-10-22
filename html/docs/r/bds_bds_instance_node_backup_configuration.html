@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_bds_bds_instance_node_backup_configuration</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_bds_bds_instance_node_backup_configuration</h1>
+
+<p>This resource provides the Bds Instance Node Backup Configuration resource in Oracle Cloud Infrastructure Big Data Service service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/bigdata/latest/BdsInstanceNodeBackupConfiguration">https://docs.oracle.com/iaas/api/#/en/bigdata/latest/BdsInstanceNodeBackupConfiguration</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/big_data_service">https://github.com/oracle/terraform-provider-oci/tree/master/examples/big_data_service</a></p>
+
+<p>Add a node volume backup configuration to the cluster for an indicated node type or node.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_bds_bds_instance_node_backup_configuration&quot; &quot;test_bds_instance_node_backup_configuration&quot; {
+	#Required
+	bds_instance_id = oci_bds_bds_instance.test_bds_instance.id
+	level_type_details {
+		#Required
+		level_type = var.bds_instance_node_backup_configuration_level_type_details_level_type
+
+		#Optional
+		node_host_name = var.bds_instance_node_backup_configuration_level_type_details_node_host_name
+		node_type = var.bds_instance_node_backup_configuration_level_type_details_node_type
+	}
+	schedule = var.bds_instance_node_backup_configuration_schedule
+
+	#Optional
+	backup_type = var.bds_instance_node_backup_configuration_backup_type
+	display_name = var.bds_instance_node_backup_configuration_display_name
+	number_of_backups_to_retain = var.bds_instance_node_backup_configuration_number_of_backups_to_retain
+	timezone = var.bds_instance_node_backup_configuration_timezone
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>backup_type</code> - (Optional) (Updatable) Incremental backup type includes only the changes since the last backup. Full backup type includes all changes since the volume was created.</li>
+<li><code>bds_instance_id</code> - (Required) The OCID of the cluster.</li>
+<li><code>display_name</code> - (Optional) (Updatable) A user-friendly name. Only ASCII alphanumeric characters with no spaces allowed. The name does not have to be unique, and it may be changed. Avoid entering confidential information.</li>
+<li><code>level_type_details</code> - (Required) (Updatable) Details of the type of level used to trigger the creation of a new node backup configuration or node replacement configuration.
+
+<ul>
+<li><code>level_type</code> - (Required) (Updatable) Type of level used to trigger the creation of a new node backup configuration or node replacement configuration.</li>
+<li><code>node_host_name</code> - (Required when level_type=NODE_LEVEL) (Updatable) Host name of the node to create backup configuration.</li>
+<li><code>node_type</code> - (Required when level_type=NODE_TYPE_LEVEL) (Updatable) Type of the node or nodes of the node backup configuration or node replacement configuration which are going to be created. Accepted values are MASTER and UTILITY.</li>
+</ul></li>
+<li><code>number_of_backups_to_retain</code> - (Optional) (Updatable) Number of backup copies to retain.</li>
+<li><code>schedule</code> - (Required) (Updatable) Day/time recurrence (specified following RFC 5545) at which to trigger the backup process. Currently only DAILY, WEEKLY and MONTHLY frequency is supported. Days of the week are specified using BYDAY field. Time of the day is specified using BYHOUR. Other fields are not supported.</li>
+<li><code>timezone</code> - (Optional) (Updatable) The time zone of the execution schedule, in IANA time zone database name format</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>backup_type</code> - Incremental backup type includes only the changes since the last backup. Full backup type includes all changes since the volume was created.</li>
+<li><code>bds_instance_id</code> - The OCID of the bdsInstance which is the parent resource id.</li>
+<li><code>display_name</code> - A user-friendly name. Only ASCII alphanumeric characters with no spaces allowed. The name does not have to be unique, and it may be changed. Avoid entering confidential information.</li>
+<li><code>id</code> - The unique identifier for the NodeBackupConfiguration.</li>
+<li><code>level_type_details</code> - Details of the type of level used to trigger the creation of a new node backup configuration or node replacement configuration.
+
+<ul>
+<li><code>level_type</code> - Type of level used to trigger the creation of a new node backup configuration or node replacement configuration.</li>
+<li><code>node_host_name</code> - Host name of the node to create backup configuration.</li>
+<li><code>node_type</code> - Type of the node or nodes of the node backup configuration or node replacement configuration which are going to be created. Accepted values are MASTER and UTILITY.</li>
+</ul></li>
+<li><code>number_of_backups_to_retain</code> - Number of backup copies to retain.</li>
+<li><code>schedule</code> - Day/time recurrence (specified following RFC 5545) at which to trigger the backup process. Currently only DAILY, WEEKLY and MONTHLY frequency is supported. Days of the week are specified using BYDAY field. Time of the day is specified using BYHOUR. Other fields are not supported.</li>
+<li><code>state</code> - The state of the NodeBackupConfiguration.</li>
+<li><code>time_created</code> - The time the NodeBackupConfiguration was created, shown as an RFC 3339 formatted datetime string.</li>
+<li><code>time_updated</code> - The time the NodeBackupConfiguration was updated, shown as an RFC 3339 formatted datetime string.</li>
+<li><code>timezone</code> - The time zone of the execution schedule, in IANA time zone database name format</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Bds Instance Node Backup Configuration
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Bds Instance Node Backup Configuration
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Bds Instance Node Backup Configuration</p>
+
+<h2>Import</h2>
+
+<p>BdsInstanceNodeBackupConfigurations can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_bds_bds_instance_node_backup_configuration.test_bds_instance_node_backup_configuration &quot;bdsInstances/{bdsInstanceId}/nodeBackupConfigurations/{nodeBackupConfigurationId}&quot; 
+</code></pre>
+
+	</div>
+
+</body>
+</html>

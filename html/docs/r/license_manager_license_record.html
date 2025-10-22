@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_license_manager_license_record</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_license_manager_license_record</h1>
+
+<p>This resource provides the License Record resource in Oracle Cloud Infrastructure License Manager service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/licensemanager/latest/LicenseRecord">https://docs.oracle.com/iaas/api/#/en/licensemanager/latest/LicenseRecord</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/license_manager">https://github.com/oracle/terraform-provider-oci/tree/master/examples/license_manager</a></p>
+
+<p>Creates a new license record for the given product license ID.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_license_manager_license_record&quot; &quot;test_license_record&quot; {
+	#Required
+	display_name = var.license_record_display_name
+	is_perpetual = var.license_record_is_perpetual
+	is_unlimited = var.license_record_is_unlimited
+	product_license_id = oci_license_manager_product_license.test_product_license.id
+
+	#Optional
+	defined_tags = {&quot;foo-namespace.bar-key&quot;= &quot;value&quot;}
+	expiration_date = var.license_record_expiration_date
+	freeform_tags = {&quot;bar-key&quot;= &quot;value&quot;}
+	license_count = var.license_record_license_count
+	product_id = oci_license_manager_product.test_product.id
+	support_end_date = var.license_record_support_end_date
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>display_name</code> - (Required) (Updatable) License record name.</li>
+<li><code>expiration_date</code> - (Optional) (Updatable) The license record end date in <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a> date format. Example: <code>2018-09-12</code></li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>is_perpetual</code> - (Required) (Updatable) Specifies if the license record term is perpertual.</li>
+<li><code>is_unlimited</code> - (Required) (Updatable) Specifies if the license count is unlimited.</li>
+<li><code>license_count</code> - (Optional) (Updatable) The number of license units added by a user in a license record. Default 1</li>
+<li><code>product_id</code> - (Optional) (Updatable) The license record product ID.</li>
+<li><code>product_license_id</code> - (Required) Unique product license identifier.</li>
+<li><code>support_end_date</code> - (Optional) (Updatable) The license record support end date in <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a> date format. Example: <code>2018-09-12</code></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The compartment <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> where the license record is created.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>display_name</code> - The license record display name. Avoid entering confidential information.</li>
+<li><code>expiration_date</code> - The license record end date in <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a> date format. Example: <code>2018-09-12</code></li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - The license record <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>is_perpetual</code> - Specifies if the license record term is perpertual.</li>
+<li><code>is_unlimited</code> - Specifies if the license count is unlimited.</li>
+<li><code>license_count</code> - The number of license units added by the user for the given license record. Default 1</li>
+<li><code>license_unit</code> - The product license unit.</li>
+<li><code>product_id</code> - The license record product ID.</li>
+<li><code>product_license</code> - The product license name with which the license record is associated.</li>
+<li><code>product_license_id</code> - The product license <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> with which the license record is associated.</li>
+<li><code>state</code> - The current license record state.</li>
+<li><code>support_end_date</code> - The license record support end date in <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a> date format. Example: <code>2018-09-12</code></li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time the license record was created. An <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a>-formatted datetime string.</li>
+<li><code>time_updated</code> - The time the license record was updated. An <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a>-formatted datetime string.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the License Record
+	* <code>update</code> - (Defaults to 20 minutes), when updating the License Record
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the License Record</p>
+
+<h2>Import</h2>
+
+<p>LicenseRecords can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_license_manager_license_record.test_license_record &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

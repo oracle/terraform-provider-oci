@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_os_management_hub_software_source_change_availability_management</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_os_management_hub_software_source_change_availability_management</h1>
+
+<p>This resource provides the Software Source Change Availability Management resource in Oracle Cloud Infrastructure Os Management Hub service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/os-management/latest/SoftwareSourceChangeAvailabilityManagement">https://docs.oracle.com/iaas/api/#/en/os-management/latest/SoftwareSourceChangeAvailabilityManagement</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/os_management_hub">https://github.com/oracle/terraform-provider-oci/tree/master/examples/os_management_hub</a></p>
+
+<p>Updates the availability for a list of specified software sources.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_os_management_hub_software_source_change_availability_management&quot; &quot;test_software_source_change_availability_management&quot; {
+	#Required
+	software_source_availabilities {
+		#Required
+		software_source_id = oci_os_management_hub_software_source.test_software_source.id
+
+		#Optional
+		availability = var.software_source_change_availability_management_software_source_availabilities_availability
+		availability_at_oci = var.software_source_change_availability_management_software_source_availabilities_availability_at_oci
+	}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>software_source_availabilities</code> - (Required) List of vendor software sources and their availability statuses.
+
+<ul>
+<li><code>availability</code> - (Optional) Availability of the software source to instances in private data centers or third-party clouds.</li>
+<li><code>availability_at_oci</code> - (Optional) Availability of the software source to Oracle Cloud Infrastructure instances.</li>
+<li><code>software_source_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the vendor software source.</li>
+</ul></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Software Source Change Availability Management
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Software Source Change Availability Management
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Software Source Change Availability Management</p>
+
+<h2>Import</h2>
+
+<p>SoftwareSourceChangeAvailabilityManagement can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_os_management_hub_software_source_change_availability_management.test_software_source_change_availability_management &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

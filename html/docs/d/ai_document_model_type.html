@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_ai_document_model_type</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_ai_document_model_type</h1>
+
+<p>This data source provides details about a specific Model Type resource in Oracle Cloud Infrastructure Ai Document service.</p>
+
+<p>Gets model capabilities</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_ai_document_model_type&quot; &quot;test_model_type&quot; {
+	#Required
+	model_type = var.model_type_model_type
+
+	#Optional
+	compartment_id = var.compartment_id
+	model_sub_type = var.model_type_model_sub_type
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Optional) The ID of the compartment in which to list resources.</li>
+<li><code>model_sub_type</code> - (Optional) The sub type based upon model selected.</li>
+<li><code>model_type</code> - (Required) The type of the Document model.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>capabilities</code> - Model information capabilities related to version
+
+<ul>
+<li><code>capability</code> - Model information capabilities related to version
+
+<ul>
+<li><code>details</code> - values</li>
+</ul></li>
+</ul></li>
+<li><code>versions</code> - Model versions available for this model and submodel type</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

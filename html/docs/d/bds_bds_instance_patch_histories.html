@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_bds_bds_instance_patch_histories</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_bds_bds_instance_patch_histories</h1>
+
+<p>This data source provides the list of Bds Instance Patch Histories in Oracle Cloud Infrastructure Big Data Service service.</p>
+
+<p>List the patch history of this cluster.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_bds_bds_instance_patch_histories&quot; &quot;test_bds_instance_patch_histories&quot; {
+	#Required
+	bds_instance_id = oci_bds_bds_instance.test_bds_instance.id
+
+	#Optional
+	patch_type = var.bds_instance_patch_history_patch_type
+	patch_version = var.bds_instance_patch_history_patch_version
+	state = var.bds_instance_patch_history_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>bds_instance_id</code> - (Required) The OCID of the cluster.</li>
+<li><code>patch_type</code> - (Optional) The type of a BDS patch history entity.</li>
+<li><code>patch_version</code> - (Optional) The version of the patch</li>
+<li><code>state</code> - (Optional) The status of the patch.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>patch_histories</code> - The list of patch_histories.</li>
+</ul>
+
+<h3>BdsInstancePatchHistory Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>patch_type</code> - The type of current patch history. DP - Data Plane patch(This history type is internal available only) ODH - Oracle Distribution of Hadoop update OS - Operating System update BDS - Big Data Service update</li>
+<li><code>state</code> - The status of this patch.</li>
+<li><code>time_updated</code> - The time when the patch history was last updated.</li>
+<li><code>version</code> - The version of the patch.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

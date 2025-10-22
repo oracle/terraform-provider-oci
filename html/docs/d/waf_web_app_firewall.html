@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_waf_web_app_firewall</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_waf_web_app_firewall</h1>
+
+<p>This data source provides details about a specific Web App Firewall resource in Oracle Cloud Infrastructure Waf service.</p>
+
+<p>Gets a WebAppFirewall by OCID.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_waf_web_app_firewall&quot; &quot;test_web_app_firewall&quot; {
+	#Required
+	web_app_firewall_id = oci_waf_web_app_firewall.test_web_app_firewall.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>web_app_firewall_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the WebAppFirewall.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>backend_type</code> - Type of the WebAppFirewall, as example LOAD_BALANCER.</li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>display_name</code> - WebAppFirewall display name, can be renamed.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the WebAppFirewall.</li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in FAILED state.</li>
+<li><code>load_balancer_id</code> - LoadBalancer <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> to which the WebAppFirewallPolicy is attached to.</li>
+<li><code>state</code> - The current state of the WebAppFirewall.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time the WebAppFirewall was created. An RFC3339 formatted datetime string.</li>
+<li><code>time_updated</code> - The time the WebAppFirewall was updated. An RFC3339 formatted datetime string.</li>
+<li><code>web_app_firewall_policy_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of WebAppFirewallPolicy, which is attached to the resource.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

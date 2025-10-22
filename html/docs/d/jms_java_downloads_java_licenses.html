@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_jms_java_downloads_java_licenses</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_jms_java_downloads_java_licenses</h1>
+
+<p>This data source provides the list of Java Licenses in Oracle Cloud Infrastructure Jms Java Downloads service.</p>
+
+<p>Return a list with details of all Java licenses.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_jms_java_downloads_java_licenses&quot; &quot;test_java_licenses&quot; {
+
+	#Optional
+	display_name = var.java_license_display_name
+	license_type = var.java_license_license_type
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the display name.</li>
+<li><code>license_type</code> - (Optional) Unique Java license type.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>java_license_collection</code> - The list of java_license_collection.</li>
+</ul>
+
+<h3>JavaLicense Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>display_name</code> - Commonly used name for the license type.</li>
+<li><code>license_type</code> - License Type</li>
+<li><code>license_url</code> - Publicly accessible license URL containing the detailed terms and conditions.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

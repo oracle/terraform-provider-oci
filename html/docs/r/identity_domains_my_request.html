@@ -1,0 +1,2562 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_identity_domains_my_request</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_identity_domains_my_request</h1>
+
+<p>This resource provides the My Request resource in Oracle Cloud Infrastructure Identity Domains service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/identity-domains/latest/MyRequest">https://docs.oracle.com/iaas/api/#/en/identity-domains/latest/MyRequest</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/identity_domains">https://github.com/oracle/terraform-provider-oci/tree/master/examples/identity_domains</a></p>
+
+<p>Create a Request</p>
+
+<p>** IMPORTANT **
+In our latest release, the property <code>status</code> is changed to readonly. It will now be automatically handled by the system. Please remove any manual assignment to this property to use the latest version.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_identity_domains_my_request&quot; &quot;test_my_request&quot; {
+	#Required
+	idcs_endpoint = data.oci_identity_domain.test_domain.url
+	justification = var.my_request_justification
+	requesting {
+		#Required
+		type = var.my_request_requesting_type
+		value = oci_identity_domains_group.group_to_request.id
+
+		#Optional
+		description = var.my_request_requesting_description
+	}
+	schemas = [&quot;urn:ietf:params:scim:schemas:oracle:idcs:Request&quot;]
+
+	#Optional
+	action = var.my_request_action
+	approval_details {
+	}
+	attribute_sets = [&quot;all&quot;]
+	attributes = &quot;&quot;
+	authorization = var.my_request_authorization
+	ocid = var.my_request_ocid
+	requestor {
+		#Required
+		value = var.my_request_requestor_value
+	}
+	resource_type_schema_version = var.my_request_resource_type_schema_version
+	tags {
+		#Required
+		key = var.my_request_tags_key
+		value = var.my_request_tags_value
+	}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>action</code> - (Optional) Requestor can set action to CANCEL to cancel the request or to ESCALATE to escalate the request while the request status is IN_PROGRESS. Requestor can&rsquo;t escalate the request if canceling or escalation is in progress.</p>
+
+<p><strong>Added In:</strong> 2307071836</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>approval_details</code> - (Optional) Approvals created for this request.</p>
+
+<p><strong>Added In:</strong> 2307071836</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: false</p></li>
+
+<li><p>multiValued: true</p></li>
+
+<li><p>mutability: readOnly</p></li>
+
+<li><p>returned: request</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>approval_type</code> - (Optional) (Updatable) Approval Type (Escalation or Regular)</p>
+
+<p><strong>Added In:</strong> 2307071836</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+<li>mutability: readOnly</li>
+</ul></li>
+
+<li><p><code>approver_display_name</code> - (Optional) (Updatable) Approver display name</p>
+
+<p><strong>Added In:</strong> 2307071836</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+<li>mutability: readOnly</li>
+</ul></li>
+
+<li><p><code>approver_id</code> - (Optional) (Updatable) Approver Id</p>
+
+<p><strong>Added In:</strong> 2307071836</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+<li>mutability: readOnly</li>
+</ul></li>
+
+<li><p><code>justification</code> - (Optional) (Updatable) Approval Justification</p>
+
+<p><strong>Added In:</strong> 2307071836</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>multiValued: false</li>
+<li>idcsSearchable: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+<li>mutability: readOnly</li>
+</ul></li>
+
+<li><p><code>order</code> - (Optional) (Updatable) Approval Order</p>
+
+<p><strong>Added In:</strong> 2307071836</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+<li>mutability: readOnly</li>
+</ul></li>
+
+<li><p><code>status</code> - (Optional) (Updatable) Approval Status</p>
+
+<p><strong>Added In:</strong> 2307071836</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+<li>mutability: readOnly</li>
+</ul></li>
+
+<li><p><code>time_updated</code> - (Optional) (Updatable) Approval Update Time</p>
+
+<p><strong>Added In:</strong> 2307071836</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>multiValued: false</li>
+<li>idcsSearchable: false</li>
+<li>returned: default</li>
+<li>type: dateTime</li>
+<li>uniqueness: none</li>
+<li>mutability: readOnly</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>attribute_sets</code> - (Optional) A multi-valued list of strings indicating the return type of attribute definition. The specified set of attributes can be fetched by the return type of the attribute. One or more values can be given together to fetch more than one group of attributes. If &lsquo;attributes&rsquo; query parameter is also available, union of the two is fetched. Valid values - all, always, never, request, default. Values are case-insensitive.</p></li>
+
+<li><p><code>attributes</code> - (Optional) A comma-delimited string that specifies the names of resource attributes that should be returned in the response. By default, a response that contains resource attributes contains only attributes that are defined in the schema for that resource type as returned=always or returned=default. An attribute that is defined as returned=request is returned in a response only if the request specifies its name in the value of this query parameter. If a request specifies this query parameter, the response contains the attributes that this query parameter specifies, as well as any attribute that is defined as returned=always.</p></li>
+
+<li><p><code>authorization</code> - (Optional) The Authorization field value consists of credentials containing the authentication information of the user agent for the realm of the resource being requested.</p></li>
+
+<li><p><code>compartment_ocid</code> - (Optional) (Updatable) Oracle Cloud Infrastructure Compartment Id (ocid) in which the resource lives.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>delete_in_progress</code> - (Optional) (Updatable) A boolean flag indicating this resource in the process of being deleted. Usually set to true when synchronous deletion of the resource would take too long.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>domain_ocid</code> - (Optional) (Updatable) Oracle Cloud Infrastructure Domain Id (ocid) in which the resource lives.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>expires</code> - (Optional) (Updatable) Time by when Request expires</p>
+
+<p><strong>Added In:</strong> 2307071836</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: dateTime</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>id</code> - (Optional) (Updatable) Unique identifier for the SCIM Resource as defined by the Service Provider. Each representation of the Resource MUST include a non-empty id value. This identifier MUST be unique across the Service Provider&rsquo;s entire set of Resources. It MUST be a stable, non-reassignable identifier that does not change when the same Resource is returned in subsequent requests. The value of the id attribute is always issued by the Service Provider and MUST never be specified by the Service Consumer. bulkId: is a reserved keyword and MUST NOT be used in the unique identifier.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: always</li>
+<li>type: string</li>
+<li>uniqueness: global</li>
+</ul></li>
+
+<li><p><code>idcs_created_by</code> - (Optional) (Updatable) The User or App who created the Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readOnly</p></li>
+
+<li><p>required: true</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p><code>display</code> - (Optional) The displayName of the User or App who created this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>ocid</code> - (Optional) The OCID of the SCIM resource that represents the User or App who created this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>ref</code> - (Optional) (Updatable) The URI of the SCIM resource that represents the User or App who created this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: reference</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>type</code> - (Optional) The type of resource, User or App, that created this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - (Required) The ID of the SCIM resource that represents the User or App who created this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>idcs_endpoint</code> - (Required) The basic endpoint for the identity domain</p></li>
+
+<li><p><code>idcs_last_modified_by</code> - (Optional) (Updatable) The User or App who modified the Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readOnly</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p><code>display</code> - (Optional) The displayName of the User or App who modified this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>ocid</code> - (Optional) The OCID of the SCIM resource that represents the User or App who modified this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>ref</code> - (Optional) (Updatable) The URI of the SCIM resource that represents the User or App who modified this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: reference</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>type</code> - (Optional) The type of resource, User or App, that modified this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - (Required) The ID of the SCIM resource that represents the User or App who modified this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>idcs_last_upgraded_in_release</code> - (Optional) (Updatable) The release number when the resource was upgraded.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: request</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>idcs_prevented_operations</code> - (Optional) (Updatable) Each value of this attribute specifies an operation that only an internal client may perform on this particular resource.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: true</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: request</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>justification</code> - (Required) justification</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: immutable</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>meta</code> - (Optional) (Updatable) A complex attribute that contains resource metadata. All sub-attributes are OPTIONAL.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>caseExact: false</p></li>
+
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readOnly</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>idcsCsvAttributeNameMappings: [[columnHeaderName:Created Date, mapsTo:meta.created]]</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p><code>created</code> - (Optional) The DateTime the Resource was added to the Service Provider</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: dateTime</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>last_modified</code> - (Optional) The most recent DateTime that the details of this Resource were updated at the Service Provider. If this Resource has never been modified since its initial creation, the value MUST be the same as the value of created. The attribute MUST be a DateTime.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: dateTime</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>location</code> - (Optional) The URI of the Resource being returned. This value MUST be the same as the Location HTTP response header.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>resource_type</code> - (Optional) Name of the resource type of the resource&ndash;for example, Users or Groups</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>version</code> - (Optional) The version of the Resource being returned. This value must be the same as the ETag HTTP response header.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>ocid</code> - (Optional) Unique Oracle Cloud Infrastructure identifier for the SCIM Resource.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: immutable</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: global</li>
+</ul></li>
+
+<li><p><code>requesting</code> - (Required) Requestable resource reference.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: immutable</p></li>
+
+<li><p>required: true</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>display</code> - (Optional) Resource display name</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>description</code> - (Optional) Resource description</p>
+
+<p><strong>Added In:</strong> 2307071836</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>ref</code> - (Optional) (Updatable) Resource URI</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: reference</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>type</code> - (Required) Requestable type. Allowed values are Group and App.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsCsvAttributeName: Requestable Type</li>
+<li>idcsDefaultValue: Group</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: immutable</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - (Required) Resource identifier</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsCsvAttributeName: requesting_id</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: immutable</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>requestor</code> - (Optional) Requesting User</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: immutable</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: request</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>display</code> - (Optional) User display name</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>ref</code> - (Optional) (Updatable) User URI</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: reference</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - (Required) User identifier</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsCsvAttributeName: requestor_id</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: immutable</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>resource_type_schema_version</code> - (Optional) An endpoint-specific schema version number to use in the Request. Allowed version values are Earliest Version or Latest Version as specified in each REST API endpoint description, or any sequential number inbetween. All schema attributes/body parameters are a part of version 1. After version 1, any attributes added or deprecated will be tagged with the version that they were added to or deprecated in. If no version is provided, the latest schema version is returned.</p></li>
+
+<li><p><code>schemas</code> - (Required) REQUIRED. The schemas attribute is an array of Strings which allows introspection of the supported schema version for a SCIM representation as well any schema extensions supported by that representation. Each String value must be a unique URI. This specification defines URIs for User, Group, and a standard \&ldquo;enterprise\&rdquo; extension. All representations of SCIM schema MUST include a non-zero value array with value(s) of the URIs supported by that representation. Duplicate values MUST NOT be included. Value order is not specified and MUST not impact behavior.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: true</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>status</code> - (Optional) (Updatable) status.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>tags</code> - (Optional) A list of tags on this resource.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsCompositeKey: [key, value]</p></li>
+
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: true</p></li>
+
+<li><p>mutability: readWrite</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: request</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>key</code> - (Required) Key or name of the tag.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - (Required) Value of the tag.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>tenancy_ocid</code> - (Optional) (Updatable) Oracle Cloud Infrastructure Tenant Id (ocid) in which the resource lives.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>resources</code> - A multi-valued list of complex objects containing the requested resources. This MAY be a subset of the full set of resources if pagination is requested. REQUIRED if &ldquo;totalResults&rdquo; is non-zero.</p>
+
+<ul>
+<li><p><code>action</code> - Requestor can set action to CANCEL to cancel the request or to ESCALATE to escalate the request while the request status is IN_PROGRESS. Requestor can&rsquo;t escalate the request if canceling or escalation is in progress.</p>
+
+<p><strong>Added In:</strong> 2307071836</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>approval_details</code> - Approvals created for this request.</p>
+
+<p><strong>Added In:</strong> 2307071836</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: false</p></li>
+
+<li><p>multiValued: true</p></li>
+
+<li><p>mutability: readOnly</p></li>
+
+<li><p>returned: request</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>approval_type</code> - Approval Type (Escalation or Regular)</p>
+
+<p><strong>Added In:</strong> 2307071836</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+<li>mutability: readOnly</li>
+</ul></li>
+
+<li><p><code>approver_display_name</code> - Approver display name</p>
+
+<p><strong>Added In:</strong> 2307071836</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+<li>mutability: readOnly</li>
+</ul></li>
+
+<li><p><code>approver_id</code> - Approver Id</p>
+
+<p><strong>Added In:</strong> 2307071836</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+<li>mutability: readOnly</li>
+</ul></li>
+
+<li><p><code>justification</code> - Approval Justification</p>
+
+<p><strong>Added In:</strong> 2307071836</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>multiValued: false</li>
+<li>idcsSearchable: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+<li>mutability: readOnly</li>
+</ul></li>
+
+<li><p><code>order</code> - Approval Order</p>
+
+<p><strong>Added In:</strong> 2307071836</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+<li>mutability: readOnly</li>
+</ul></li>
+
+<li><p><code>status</code> - Approval Status</p>
+
+<p><strong>Added In:</strong> 2307071836</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+<li>mutability: readOnly</li>
+</ul></li>
+
+<li><p><code>time_updated</code> - Approval Update Time</p>
+
+<p><strong>Added In:</strong> 2307071836</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>multiValued: false</li>
+<li>idcsSearchable: false</li>
+<li>returned: default</li>
+<li>type: dateTime</li>
+<li>uniqueness: none</li>
+<li>mutability: readOnly</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>compartment_ocid</code> - Oracle Cloud Infrastructure Compartment Id (ocid) in which the resource lives.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>delete_in_progress</code> - A boolean flag indicating this resource in the process of being deleted. Usually set to true when synchronous deletion of the resource would take too long.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>domain_ocid</code> - Oracle Cloud Infrastructure Domain Id (ocid) in which the resource lives.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>expires</code> - Time by when Request expires</p>
+
+<p><strong>Added In:</strong> 2307071836</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: dateTime</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>id</code> - Unique identifier for the SCIM Resource as defined by the Service Provider. Each representation of the Resource MUST include a non-empty id value. This identifier MUST be unique across the Service Provider&rsquo;s entire set of Resources. It MUST be a stable, non-reassignable identifier that does not change when the same Resource is returned in subsequent requests. The value of the id attribute is always issued by the Service Provider and MUST never be specified by the Service Consumer. bulkId: is a reserved keyword and MUST NOT be used in the unique identifier.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: always</li>
+<li>type: string</li>
+<li>uniqueness: global</li>
+</ul></li>
+
+<li><p><code>idcs_created_by</code> - The User or App who created the Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readOnly</p></li>
+
+<li><p>required: true</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p><code>display</code> - The displayName of the User or App who created this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>ocid</code> - The OCID of the SCIM resource that represents the User or App who created this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>ref</code> - The URI of the SCIM resource that represents the User or App who created this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: reference</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>type</code> - The type of resource, User or App, that created this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - The ID of the SCIM resource that represents the User or App who created this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>idcs_last_modified_by</code> - The User or App who modified the Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readOnly</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p><code>display</code> - The displayName of the User or App who modified this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>ocid</code> - The OCID of the SCIM resource that represents the User or App who modified this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>ref</code> - The URI of the SCIM resource that represents the User or App who modified this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: reference</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>type</code> - The type of resource, User or App, that modified this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - The ID of the SCIM resource that represents the User or App who modified this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>idcs_last_upgraded_in_release</code> - The release number when the resource was upgraded.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: request</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>idcs_prevented_operations</code> - Each value of this attribute specifies an operation that only an internal client may perform on this particular resource.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: true</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: request</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>justification</code> - justification</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: immutable</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>meta</code> - A complex attribute that contains resource metadata. All sub-attributes are OPTIONAL.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>caseExact: false</p></li>
+
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readOnly</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>idcsCsvAttributeNameMappings: [[columnHeaderName:Created Date, mapsTo:meta.created]]</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p><code>created</code> - The DateTime the Resource was added to the Service Provider</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: dateTime</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>last_modified</code> - The most recent DateTime that the details of this Resource were updated at the Service Provider. If this Resource has never been modified since its initial creation, the value MUST be the same as the value of created. The attribute MUST be a DateTime.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: dateTime</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>location</code> - The URI of the Resource being returned. This value MUST be the same as the Location HTTP response header.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>resource_type</code> - Name of the resource type of the resource&ndash;for example, Users or Groups</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>version</code> - The version of the Resource being returned. This value must be the same as the ETag HTTP response header.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>ocid</code> - Unique Oracle Cloud Infrastructure identifier for the SCIM Resource.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: immutable</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: global</li>
+</ul></li>
+
+<li><p><code>requesting</code> - Requestable resource reference.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: immutable</p></li>
+
+<li><p>required: true</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>display</code> - Resource display name</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>description</code> - Resource description</p>
+
+<p><strong>Added In:</strong> 2307071836</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>ref</code> - Resource URI</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: reference</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>type</code> - Requestable type. Allowed values are Group and App.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsCsvAttributeName: Requestable Type</li>
+<li>idcsDefaultValue: Group</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: immutable</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - Resource identifier</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsCsvAttributeName: requesting_id</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: immutable</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>requestor</code> - Requesting User</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: immutable</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: request</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>display</code> - User display name</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>ref</code> - User URI</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: reference</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - User identifier</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsCsvAttributeName: requestor_id</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: immutable</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>schemas</code> - REQUIRED. The schemas attribute is an array of Strings which allows introspection of the supported schema version for a SCIM representation as well any schema extensions supported by that representation. Each String value must be a unique URI. This specification defines URIs for User, Group, and a standard \&ldquo;enterprise\&rdquo; extension. All representations of SCIM schema MUST include a non-zero value array with value(s) of the URIs supported by that representation. Duplicate values MUST NOT be included. Value order is not specified and MUST not impact behavior.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: true</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>status</code> - status</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>tags</code> - A list of tags on this resource.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsCompositeKey: [key, value]</p></li>
+
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: true</p></li>
+
+<li><p>mutability: readWrite</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: request</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>key</code> - Key or name of the tag.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - Value of the tag.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>tenancy_ocid</code> - Oracle Cloud Infrastructure Tenant Id (ocid) in which the resource lives.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>action</code> - Requestor can set action to CANCEL to cancel the request or to ESCALATE to escalate the request while the request status is IN_PROGRESS. Requestor can&rsquo;t escalate the request if canceling or escalation is in progress.</p>
+
+<p><strong>Added In:</strong> 2307071836</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>approval_details</code> - Approvals created for this request.</p>
+
+<p><strong>Added In:</strong> 2307071836</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: false</p></li>
+
+<li><p>multiValued: true</p></li>
+
+<li><p>mutability: readOnly</p></li>
+
+<li><p>returned: request</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>approval_type</code> - Approval Type (Escalation or Regular)</p>
+
+<p><strong>Added In:</strong> 2307071836</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+<li>mutability: readOnly</li>
+</ul></li>
+
+<li><p><code>approver_display_name</code> - Approver display name</p>
+
+<p><strong>Added In:</strong> 2307071836</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+<li>mutability: readOnly</li>
+</ul></li>
+
+<li><p><code>approver_id</code> - Approver Id</p>
+
+<p><strong>Added In:</strong> 2307071836</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+<li>mutability: readOnly</li>
+</ul></li>
+
+<li><p><code>justification</code> - Approval Justification</p>
+
+<p><strong>Added In:</strong> 2307071836</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>multiValued: false</li>
+<li>idcsSearchable: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+<li>mutability: readOnly</li>
+</ul></li>
+
+<li><p><code>order</code> - Approval Order</p>
+
+<p><strong>Added In:</strong> 2307071836</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+<li>mutability: readOnly</li>
+</ul></li>
+
+<li><p><code>status</code> - Approval Status</p>
+
+<p><strong>Added In:</strong> 2307071836</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+<li>mutability: readOnly</li>
+</ul></li>
+
+<li><p><code>time_updated</code> - Approval Update Time</p>
+
+<p><strong>Added In:</strong> 2307071836</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>multiValued: false</li>
+<li>idcsSearchable: false</li>
+<li>returned: default</li>
+<li>type: dateTime</li>
+<li>uniqueness: none</li>
+<li>mutability: readOnly</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>compartment_ocid</code> - Oracle Cloud Infrastructure Compartment Id (ocid) in which the resource lives.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>delete_in_progress</code> - A boolean flag indicating this resource in the process of being deleted. Usually set to true when synchronous deletion of the resource would take too long.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>domain_ocid</code> - Oracle Cloud Infrastructure Domain Id (ocid) in which the resource lives.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>expires</code> - Time by when Request expires</p>
+
+<p><strong>Added In:</strong> 2307071836</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: dateTime</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>id</code> - Unique identifier for the SCIM Resource as defined by the Service Provider. Each representation of the Resource MUST include a non-empty id value. This identifier MUST be unique across the Service Provider&rsquo;s entire set of Resources. It MUST be a stable, non-reassignable identifier that does not change when the same Resource is returned in subsequent requests. The value of the id attribute is always issued by the Service Provider and MUST never be specified by the Service Consumer. bulkId: is a reserved keyword and MUST NOT be used in the unique identifier.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: always</li>
+<li>type: string</li>
+<li>uniqueness: global</li>
+</ul></li>
+
+<li><p><code>idcs_created_by</code> - The User or App who created the Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readOnly</p></li>
+
+<li><p>required: true</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p><code>display</code> - The displayName of the User or App who created this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>ocid</code> - The OCID of the SCIM resource that represents the User or App who created this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>ref</code> - The URI of the SCIM resource that represents the User or App who created this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: reference</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>type</code> - The type of resource, User or App, that created this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - The ID of the SCIM resource that represents the User or App who created this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>idcs_last_modified_by</code> - The User or App who modified the Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readOnly</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p><code>display</code> - The displayName of the User or App who modified this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>ocid</code> - The OCID of the SCIM resource that represents the User or App who modified this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>ref</code> - The URI of the SCIM resource that represents the User or App who modified this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: reference</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>type</code> - The type of resource, User or App, that modified this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - The ID of the SCIM resource that represents the User or App who modified this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>idcs_last_upgraded_in_release</code> - The release number when the resource was upgraded.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: request</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>idcs_prevented_operations</code> - Each value of this attribute specifies an operation that only an internal client may perform on this particular resource.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: true</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: request</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>items_per_page</code> - The number of resources returned in a list response page. REQUIRED when partial results returned due to pagination.</p></li>
+
+<li><p><code>justification</code> - justification</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: immutable</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>meta</code> - A complex attribute that contains resource metadata. All sub-attributes are OPTIONAL.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>caseExact: false</p></li>
+
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readOnly</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>idcsCsvAttributeNameMappings: [[columnHeaderName:Created Date, mapsTo:meta.created]]</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p><code>created</code> - The DateTime the Resource was added to the Service Provider</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: dateTime</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>last_modified</code> - The most recent DateTime that the details of this Resource were updated at the Service Provider. If this Resource has never been modified since its initial creation, the value MUST be the same as the value of created. The attribute MUST be a DateTime.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: dateTime</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>location</code> - The URI of the Resource being returned. This value MUST be the same as the Location HTTP response header.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>resource_type</code> - Name of the resource type of the resource&ndash;for example, Users or Groups</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>version</code> - The version of the Resource being returned. This value must be the same as the ETag HTTP response header.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>ocid</code> - Unique Oracle Cloud Infrastructure identifier for the SCIM Resource.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: immutable</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: global</li>
+</ul></li>
+
+<li><p><code>requesting</code> - Requestable resource reference.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: immutable</p></li>
+
+<li><p>required: true</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>display</code> - Resource display name</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>description</code> - Resource description</p>
+
+<p><strong>Added In:</strong> 2307071836</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>ref</code> - Resource URI</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: reference</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>type</code> - Requestable type. Allowed values are Group and App.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsCsvAttributeName: Requestable Type</li>
+<li>idcsDefaultValue: Group</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: immutable</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - Resource identifier</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsCsvAttributeName: requesting_id</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: immutable</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>requestor</code> - Requesting User</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: immutable</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: request</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>display</code> - User display name</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>ref</code> - User URI</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: reference</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - User identifier</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsCsvAttributeName: requestor_id</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: immutable</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>schemas</code> - REQUIRED. The schemas attribute is an array of Strings which allows introspection of the supported schema version for a SCIM representation as well any schema extensions supported by that representation. Each String value must be a unique URI. This specification defines URIs for User, Group, and a standard \&ldquo;enterprise\&rdquo; extension. All representations of SCIM schema MUST include a non-zero value array with value(s) of the URIs supported by that representation. Duplicate values MUST NOT be included. Value order is not specified and MUST not impact behavior.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: true</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>start_index</code> - The 1-based index of the first result in the current set of list results.  REQUIRED when partial results returned due to pagination.</p></li>
+
+<li><p><code>status</code> - status</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>tags</code> - A list of tags on this resource.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsCompositeKey: [key, value]</p></li>
+
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: true</p></li>
+
+<li><p>mutability: readWrite</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: request</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>key</code> - Key or name of the tag.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - Value of the tag.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>tenancy_ocid</code> - Oracle Cloud Infrastructure Tenant Id (ocid) in which the resource lives.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>total_results</code> - The total number of results returned by the list or query operation.  The value may be larger than the number of resources returned such as when returning a single page of results where multiple pages are available. REQUIRED.</p></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the My Request
+	* <code>update</code> - (Defaults to 20 minutes), when updating the My Request
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the My Request</p>
+
+<h2>Import</h2>
+
+<p>Import is not supported for this resource.</p>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_budget_alert_rule</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_budget_alert_rule</h1>
+
+<p>This data source provides details about a specific Alert Rule resource in Oracle Cloud Infrastructure Budget service.</p>
+
+<p>Gets an Alert Rule for a specified budget.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_budget_alert_rule&quot; &quot;test_alert_rule&quot; {
+	#Required
+	alert_rule_id = oci_budget_alert_rule.test_alert_rule.id
+	budget_id = oci_budget_budget.test_budget.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>alert_rule_id</code> - (Required) The unique Alert Rule OCID.</li>
+<li><code>budget_id</code> - (Required) The unique budget OCID.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>budget_id</code> - The OCID of the budget.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - The description of the alert rule.</li>
+<li><code>display_name</code> - The name of the alert rule. Avoid entering confidential information.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The OCID of the alert rule.</li>
+<li><code>message</code> - The custom message that will be sent when the alert is triggered.</li>
+<li><code>recipients</code> - The delimited list of email addresses to receive the alert when it triggers. Delimiter characters can be a comma, space, TAB, or semicolon.</li>
+<li><code>state</code> - The current state of the alert rule.</li>
+<li><code>threshold</code> - The threshold for triggering the alert. If the thresholdType is PERCENTAGE, the maximum value is 10000.</li>
+<li><code>threshold_type</code> - The type of threshold.</li>
+<li><code>time_created</code> - The time when the budget was created.</li>
+<li><code>time_updated</code> - The time when the budget was updated.</li>
+<li><code>type</code> - The type of the alert. Valid values are ACTUAL (the alert triggers based on actual usage), or FORECAST (the alert triggers based on predicted usage).</li>
+<li><code>version</code> - The version of the alert rule. Starts from 1 and increments by 1.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

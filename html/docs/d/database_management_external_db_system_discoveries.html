@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_management_external_db_system_discoveries</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_management_external_db_system_discoveries</h1>
+
+<p>This data source provides the list of External Db System Discoveries in Oracle Cloud Infrastructure Database Management service.</p>
+
+<p>Lists the external DB system discovery resources in the specified compartment.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_management_external_db_system_discoveries&quot; &quot;test_external_db_system_discoveries&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	display_name = var.external_db_system_discovery_display_name
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>display_name</code> - (Optional) A filter to only return the resources that match the entire display name.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>external_db_system_discovery_collection</code> - The list of external_db_system_discovery_collection.</li>
+</ul>
+
+<h3>ExternalDbSystemDiscovery Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>agent_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the management agent used for the external DB system discovery.</p></li>
+
+<li><p><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</p></li>
+
+<li><p><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></p></li>
+
+<li><p><code>discovered_components</code> - The list of DB system components that were found in the DB system discovery.</p>
+
+<ul>
+<li><p><code>adr_home_directory</code> - The directory that stores tracing and logging incidents when Automatic Diagnostic Repository (ADR) is enabled.</p></li>
+
+<li><p><code>asm_instances</code> -</p>
+
+<ul>
+<li><code>adr_home_directory</code> - The Automatic Diagnostic Repository (ADR) home directory for the ASM instance.</li>
+<li><code>host_name</code> - The name of the host on which the ASM instance is running.</li>
+<li><code>instance_name</code> - The name of the ASM instance.</li>
+</ul></li>
+
+<li><p><code>associated_components</code> - The list of associated components.</p>
+
+<ul>
+<li><code>association_type</code> - The association type.</li>
+<li><code>component_id</code> - The identifier of the associated component.</li>
+<li><code>component_type</code> - The type of associated component.</li>
+</ul></li>
+
+<li><p><code>can_enable_all_current_pdbs</code> - Indicates whether Diagnostics &amp; Management should be enabled for all the current pluggable databases in the container database.</p></li>
+
+<li><p><code>cluster_id</code> - The unique identifier of the Oracle cluster.</p></li>
+
+<li><p><code>cluster_instances</code> -</p>
+
+<ul>
+<li><p><code>adr_home_directory</code> - The Automatic Diagnostic Repository (ADR) home directory for the cluster instance.</p></li>
+
+<li><p><code>cluster_id</code> - The unique identifier of the Oracle cluster.</p></li>
+
+<li><p><code>connector</code> - The connector details used to connect to the external DB system component.</p>
+
+<ul>
+<li><p><code>agent_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the management agent used for the external DB system connector.</p></li>
+
+<li><p><code>connection_failure_message</code> - The error message indicating the reason for connection failure or <code>null</code> if the connection was successful.</p></li>
+
+<li><p><code>connection_info</code> - The connection details required to connect to an external DB system component.</p>
+
+<ul>
+<li><p><code>component_type</code> - The component type.</p></li>
+
+<li><p><code>connection_credentials</code> - The credentials used to connect to the ASM instance. Currently only the <code>DETAILS</code> type is supported for creating MACS connector credentials.</p>
+
+<ul>
+<li><p><code>credential_name</code> - The name of the credential information that used to connect to the DB system resource. The name should be in &ldquo;x.y&rdquo; format, where the length of &ldquo;x&rdquo; has a maximum of 64 characters, and length of &ldquo;y&rdquo; has a maximum of 199 characters. The name strings can contain letters, numbers and the underscore character only. Other characters are not valid, except for the &ldquo;.&rdquo; character that separates the &ldquo;x&rdquo; and &ldquo;y&rdquo; portions of the name. <em>IMPORTANT</em> - The name must be unique within the Oracle Cloud Infrastructure region the credential is being created in. If you specify a name that duplicates the name of another credential within the same Oracle Cloud Infrastructure region, you may overwrite or corrupt the credential that is already using the name.</p>
+
+<p>For example: inventorydb.abc112233445566778899</p></li>
+
+<li><p><code>credential_type</code> - The type of credential used to connect to the ASM instance.</p></li>
+
+<li><p><code>named_credential_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Named Credential where the database password metadata is stored.</p></li>
+
+<li><p><code>password_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the secret containing the user password.</p></li>
+
+<li><p><code>role</code> - The role of the user connecting to the ASM instance.</p></li>
+
+<li><p><code>ssl_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the secret containing the SSL keystore and truststore details.</p></li>
+
+<li><p><code>user_name</code> - The user name used to connect to the ASM instance.</p></li>
+</ul></li>
+
+<li><p><code>connection_string</code> - The Oracle Database connection string.</p>
+
+<ul>
+<li><code>host_name</code> - The host name of the database or the SCAN name in case of a RAC database.</li>
+<li><code>hosts</code> - The list of host names of the ASM instances.</li>
+<li><code>port</code> - The port used to connect to the ASM instance.</li>
+<li><code>protocol</code> - The protocol used to connect to the ASM instance.</li>
+<li><code>service</code> - The service name of the ASM instance.</li>
+</ul></li>
+
+<li><p><code>database_credential</code> - The credential to connect to the database to perform tablespace administration tasks.</p>
+
+<ul>
+<li><code>credential_type</code> - The type of the credential for tablespace administration tasks.</li>
+<li><code>named_credential_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the named credential where the database password metadata is stored.</li>
+<li><code>password</code> - The database user&rsquo;s password encoded using BASE64 scheme.</li>
+<li><code>password_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the database password is stored.</li>
+<li><code>role</code> - The role of the database user.</li>
+<li><code>username</code> - The user to connect to the database.</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>connection_status</code> - The status of connectivity to the external DB system component.</p></li>
+
+<li><p><code>connector_type</code> - The type of connector.</p></li>
+
+<li><p><code>display_name</code> - The user-friendly name for the external connector. The name does not have to be unique.</p></li>
+
+<li><p><code>time_connection_status_last_updated</code> - The date and time the connectionStatus of the external DB system connector was last updated.</p></li>
+</ul></li>
+
+<li><p><code>crs_base_directory</code> - The Oracle base location of Cluster Ready Services (CRS).</p></li>
+
+<li><p><code>host_name</code> - The name of the host on which the cluster instance is running.</p></li>
+
+<li><p><code>node_role</code> - The role of the cluster node.</p></li>
+</ul></li>
+
+<li><p><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</p></li>
+
+<li><p><code>component_id</code> - The identifier of the discovered DB system component.</p></li>
+
+<li><p><code>component_name</code> - The name of the discovered DB system component.</p></li>
+
+<li><p><code>component_type</code> - The external DB system component type.</p></li>
+
+<li><p><code>connector</code> - The connector details used to connect to the external DB system component.</p>
+
+<ul>
+<li><p><code>agent_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the management agent used for the external DB system connector.</p></li>
+
+<li><p><code>connection_failure_message</code> - The error message indicating the reason for connection failure or <code>null</code> if the connection was successful.</p></li>
+
+<li><p><code>connection_info</code> - The connection details required to connect to an external DB system component.</p>
+
+<ul>
+<li><p><code>component_type</code> - The component type.</p></li>
+
+<li><p><code>connection_credentials</code> - The credentials used to connect to the ASM instance. Currently only the <code>DETAILS</code> type is supported for creating MACS connector credentials.</p>
+
+<ul>
+<li><p><code>credential_name</code> - The name of the credential information that used to connect to the DB system resource. The name should be in &ldquo;x.y&rdquo; format, where the length of &ldquo;x&rdquo; has a maximum of 64 characters, and length of &ldquo;y&rdquo; has a maximum of 199 characters. The name strings can contain letters, numbers and the underscore character only. Other characters are not valid, except for the &ldquo;.&rdquo; character that separates the &ldquo;x&rdquo; and &ldquo;y&rdquo; portions of the name. <em>IMPORTANT</em> - The name must be unique within the Oracle Cloud Infrastructure region the credential is being created in. If you specify a name that duplicates the name of another credential within the same Oracle Cloud Infrastructure region, you may overwrite or corrupt the credential that is already using the name.</p>
+
+<p>For example: inventorydb.abc112233445566778899</p></li>
+
+<li><p><code>credential_type</code> - The type of credential used to connect to the ASM instance.</p></li>
+
+<li><p><code>named_credential_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Named Credential where the database password metadata is stored.</p></li>
+
+<li><p><code>password_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the secret containing the user password.</p></li>
+
+<li><p><code>role</code> - The role of the user connecting to the ASM instance.</p></li>
+
+<li><p><code>ssl_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the secret containing the SSL keystore and truststore details.</p></li>
+
+<li><p><code>user_name</code> - The user name used to connect to the ASM instance.</p></li>
+</ul></li>
+
+<li><p><code>connection_string</code> - The Oracle Database connection string.</p>
+
+<ul>
+<li><code>host_name</code> - The host name of the database or the SCAN name in case of a RAC database.</li>
+<li><code>hosts</code> - The list of host names of the ASM instances.</li>
+<li><code>port</code> - The port used to connect to the ASM instance.</li>
+<li><code>protocol</code> - The protocol used to connect to the ASM instance.</li>
+<li><code>service</code> - The service name of the ASM instance.</li>
+</ul></li>
+
+<li><p><code>database_credential</code> - The credential to connect to the database to perform tablespace administration tasks.</p>
+
+<ul>
+<li><code>credential_type</code> - The type of the credential for tablespace administration tasks.</li>
+<li><code>named_credential_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the named credential where the database password metadata is stored.</li>
+<li><code>password</code> - The database user&rsquo;s password encoded using BASE64 scheme.</li>
+<li><code>password_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the database password is stored.</li>
+<li><code>role</code> - The role of the database user.</li>
+<li><code>username</code> - The user to connect to the database.</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>connection_status</code> - The status of connectivity to the external DB system component.</p></li>
+
+<li><p><code>connector_type</code> - The type of connector.</p></li>
+
+<li><p><code>display_name</code> - The user-friendly name for the external connector. The name does not have to be unique.</p></li>
+
+<li><p><code>time_connection_status_last_updated</code> - The date and time the connectionStatus of the external DB system connector was last updated.</p></li>
+</ul></li>
+
+<li><p><code>container_database_id</code> - The unique identifier of the parent Container Database (CDB).</p></li>
+
+<li><p><code>cpu_core_count</code> - The number of CPU cores available on the DB node.</p></li>
+
+<li><p><code>crs_base_directory</code> - The Oracle base location of Cluster Ready Services (CRS).</p></li>
+
+<li><p><code>db_edition</code> - The Oracle Database edition.</p></li>
+
+<li><p><code>db_id</code> - The Oracle Database ID.</p></li>
+
+<li><p><code>db_instances</code> - The list of database instances.</p>
+
+<ul>
+<li><code>adr_home_directory</code> - The Automatic Diagnostic Repository (ADR) home directory for the DB instance.</li>
+<li><code>host_name</code> - The name of the host on which the DB instance is running.</li>
+<li><code>instance_name</code> - The name of the DB instance.</li>
+<li><code>node_name</code> - The name of the DB instance node.</li>
+<li><code>oracle_home</code> - The Oracle home location of the DB instance.</li>
+</ul></li>
+
+<li><p><code>db_node_name</code> - The name of the DB node.</p></li>
+
+<li><p><code>db_packs</code> - The database packs licensed for the external Oracle Database.</p></li>
+
+<li><p><code>db_role</code> - The role of the Oracle Database in Oracle Data Guard configuration.</p></li>
+
+<li><p><code>db_type</code> - The type of Oracle Database. Indicates whether the database is a Container Database, Pluggable Database, or a Non-container Database.</p></li>
+
+<li><p><code>db_unique_name</code> - The <code>DB_UNIQUE_NAME</code> of the external database.</p></li>
+
+<li><p><code>db_version</code> - The Oracle Database version.</p></li>
+
+<li><p><code>display_name</code> - The user-friendly name for the discovered DB system component. The name does not have to be unique.</p></li>
+
+<li><p><code>endpoints</code> - The list of protocol addresses the listener is configured to listen on.</p>
+
+<ul>
+<li><code>host</code> - The host name or IP address.</li>
+<li><code>key</code> - The unique name of the service.</li>
+<li><code>port</code> - The port number.</li>
+<li><code>protocol</code> - The listener protocol.</li>
+<li><code>services</code> - The list of services registered with the listener.</li>
+</ul></li>
+
+<li><p><code>grid_home</code> - The directory in which ASM is installed. This is the same directory in which Oracle Grid Infrastructure is installed.</p></li>
+
+<li><p><code>guid</code> - The unique identifier of the PDB.</p></li>
+
+<li><p><code>home_directory</code> - The location of the DB home.</p></li>
+
+<li><p><code>host_name</code> - The name of the host on which the external listener is running.</p></li>
+
+<li><p><code>instance_name</code> - The name of the ASM instance.</p></li>
+
+<li><p><code>is_auto_enable_pluggable_database</code> - Indicates whether Diagnostics &amp; Management should be enabled automatically for all the pluggable databases in the container database.</p></li>
+
+<li><p><code>is_cluster</code> - Indicates whether the Oracle Database is part of a cluster.</p></li>
+
+<li><p><code>is_flex_cluster</code> - Indicates whether the cluster is an Oracle Flex Cluster or not.</p></li>
+
+<li><p><code>is_flex_enabled</code> - Indicates whether Oracle Flex ASM is enabled or not.</p></li>
+
+<li><p><code>is_selected_for_monitoring</code> - Indicates whether the DB system component should be provisioned as an Oracle Cloud Infrastructure resource or not.</p></li>
+
+<li><p><code>listener_alias</code> - The listener alias.</p></li>
+
+<li><p><code>listener_type</code> - The type of listener.</p></li>
+
+<li><p><code>log_directory</code> - The destination directory of the listener log file.</p></li>
+
+<li><p><code>memory_size_in_gbs</code> - The total memory in gigabytes (GB) on the DB node.</p></li>
+
+<li><p><code>network_configurations</code> - The list of network address configurations of the external cluster.</p>
+
+<ul>
+<li><code>network_number</code> - The network number.</li>
+<li><code>network_type</code> - The network type.</li>
+<li><code>subnet</code> - The subnet for the network.</li>
+</ul></li>
+
+<li><p><code>node_name</code> - The name of the DB instance node.</p></li>
+
+<li><p><code>node_role</code> - The role of the cluster node.</p></li>
+
+<li><p><code>ocr_file_location</code> - The location of the Oracle Cluster Registry (OCR) file.</p></li>
+
+<li><p><code>oracle_home</code> - The Oracle home location of the DB instance.</p></li>
+
+<li><p><code>pluggable_databases</code> - The list of Pluggable Databases.</p>
+
+<ul>
+<li><p><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</p></li>
+
+<li><p><code>connector</code> - The connector details used to connect to the external DB system component.</p>
+
+<ul>
+<li><p><code>agent_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the management agent used for the external DB system connector.</p></li>
+
+<li><p><code>connection_failure_message</code> - The error message indicating the reason for connection failure or <code>null</code> if the connection was successful.</p></li>
+
+<li><p><code>connection_info</code> - The connection details required to connect to an external DB system component.</p>
+
+<ul>
+<li><p><code>component_type</code> - The component type.</p></li>
+
+<li><p><code>connection_credentials</code> - The credentials used to connect to the ASM instance. Currently only the <code>DETAILS</code> type is supported for creating MACS connector credentials.</p>
+
+<ul>
+<li><p><code>credential_name</code> - The name of the credential information that used to connect to the DB system resource. The name should be in &ldquo;x.y&rdquo; format, where the length of &ldquo;x&rdquo; has a maximum of 64 characters, and length of &ldquo;y&rdquo; has a maximum of 199 characters. The name strings can contain letters, numbers and the underscore character only. Other characters are not valid, except for the &ldquo;.&rdquo; character that separates the &ldquo;x&rdquo; and &ldquo;y&rdquo; portions of the name. <em>IMPORTANT</em> - The name must be unique within the Oracle Cloud Infrastructure region the credential is being created in. If you specify a name that duplicates the name of another credential within the same Oracle Cloud Infrastructure region, you may overwrite or corrupt the credential that is already using the name.</p>
+
+<p>For example: inventorydb.abc112233445566778899</p></li>
+
+<li><p><code>credential_type</code> - The type of credential used to connect to the ASM instance.</p></li>
+
+<li><p><code>named_credential_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Named Credential where the database password metadata is stored.</p></li>
+
+<li><p><code>password_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the secret containing the user password.</p></li>
+
+<li><p><code>role</code> - The role of the user connecting to the ASM instance.</p></li>
+
+<li><p><code>ssl_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the secret containing the SSL keystore and truststore details.</p></li>
+
+<li><p><code>user_name</code> - The user name used to connect to the ASM instance.</p></li>
+</ul></li>
+
+<li><p><code>connection_string</code> - The Oracle Database connection string.</p>
+
+<ul>
+<li><code>host_name</code> - The host name of the database or the SCAN name in case of a RAC database.</li>
+<li><code>hosts</code> - The list of host names of the ASM instances.</li>
+<li><code>port</code> - The port used to connect to the ASM instance.</li>
+<li><code>protocol</code> - The protocol used to connect to the ASM instance.</li>
+<li><code>service</code> - The service name of the ASM instance.</li>
+</ul></li>
+
+<li><p><code>database_credential</code> - The credential to connect to the database to perform tablespace administration tasks.</p>
+
+<ul>
+<li><code>credential_type</code> - The type of the credential for tablespace administration tasks.</li>
+<li><code>named_credential_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the named credential where the database password metadata is stored.</li>
+<li><code>password</code> - The database user&rsquo;s password encoded using BASE64 scheme.</li>
+<li><code>password_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the database password is stored.</li>
+<li><code>role</code> - The role of the database user.</li>
+<li><code>username</code> - The user to connect to the database.</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>connection_status</code> - The status of connectivity to the external DB system component.</p></li>
+
+<li><p><code>connector_type</code> - The type of connector.</p></li>
+
+<li><p><code>display_name</code> - The user-friendly name for the external connector. The name does not have to be unique.</p></li>
+
+<li><p><code>time_connection_status_last_updated</code> - The date and time the connectionStatus of the external DB system connector was last updated.</p></li>
+</ul></li>
+
+<li><p><code>container_database_id</code> - The unique identifier of the parent Container Database (CDB).</p></li>
+
+<li><p><code>guid</code> - The unique identifier of the PDB.</p></li>
+</ul></li>
+
+<li><p><code>resource_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the existing Oracle Cloud Infrastructure resource matching the discovered DB system component.</p></li>
+
+<li><p><code>scan_configurations</code> - The list of Single Client Access Name (SCAN) configurations of the external cluster.</p>
+
+<ul>
+<li><code>network_number</code> - The network number from which SCAN VIPs are obtained.</li>
+<li><code>scan_name</code> - The name of the SCAN listener.</li>
+<li><code>scan_port</code> - The port number of the SCAN listener.</li>
+<li><code>scan_protocol</code> - The protocol of the SCAN listener.</li>
+</ul></li>
+
+<li><p><code>status</code> - The state of the discovered DB system component.</p></li>
+
+<li><p><code>trace_directory</code> - The destination directory of the listener trace file.</p></li>
+
+<li><p><code>version</code> - The version of Oracle Clusterware running in the cluster.</p></li>
+
+<li><p><code>vip_configurations</code> - The list of Virtual IP (VIP) configurations of the external cluster.</p>
+
+<ul>
+<li><code>address</code> - The VIP name or IP address.</li>
+<li><code>network_number</code> - The network number from which VIPs are obtained.</li>
+<li><code>node_name</code> - The name of the node with the VIP.</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>display_name</code> - The user-friendly name for the DB system. The name does not have to be unique.</p></li>
+
+<li><p><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></p></li>
+
+<li><p><code>grid_home</code> - The directory in which Oracle Grid Infrastructure is installed.</p></li>
+
+<li><p><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the external DB system discovery.</p></li>
+
+<li><p><code>lifecycle_details</code> - Additional information about the current lifecycle state.</p></li>
+
+<li><p><code>resource_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the existing Oracle Cloud Infrastructure resource matching the discovered DB system.</p></li>
+
+<li><p><code>state</code> - The current lifecycle state of the external DB system discovery resource.</p></li>
+
+<li><p><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. System tags can be viewed by users, but can only be created by the system.  Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></p></li>
+
+<li><p><code>time_created</code> - The date and time the external DB system discovery was created.</p></li>
+
+<li><p><code>time_updated</code> - The date and time the external DB system discovery was last updated.</p></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

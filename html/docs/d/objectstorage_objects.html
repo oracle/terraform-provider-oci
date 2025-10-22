@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_objectstorage_objects</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_objectstorage_objects</h1>
+
+<p>This data source provides the list of Objects in Oracle Cloud Infrastructure Object Storage service.</p>
+
+<p>Lists the objects in a bucket. By default, ListObjects returns object names only. See the <code>fields</code>
+parameter for other fields that you can optionally include in ListObjects response.</p>
+
+<p>ListObjects returns at most 1000 objects. To paginate through more objects, use the returned &lsquo;nextStartWith&rsquo;
+value with the &lsquo;start&rsquo; parameter. To filter which objects ListObjects returns, use the &lsquo;start&rsquo; and &lsquo;end&rsquo;
+parameters.</p>
+
+<p>To use this and other API operations, you must be authorized in an IAM policy. If you are not authorized,
+talk to an administrator. If you are an administrator who needs to write policies to give users access, see
+<a href="https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm">Getting Started with Policies</a>.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_objectstorage_objects&quot; &quot;test_objects&quot; {
+	#Required
+	bucket = var.object_bucket
+	namespace = var.object_namespace
+
+	#Optional
+	delimiter = var.object_delimiter
+	end = var.object_end
+	fields = var.object_fields
+	prefix = var.object_prefix
+	start = var.object_start
+	start_after = var.object_start_after
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>bucket</code> - (Required) The name of the bucket. Avoid entering confidential information. Example: <code>my-new-bucket1</code></li>
+<li><code>delimiter</code> - (Optional) When this parameter is set, only objects whose names do not contain the delimiter character (after an optionally specified prefix) are returned in the objects key of the response body. Scanned objects whose names contain the delimiter have the part of their name up to the first occurrence of the delimiter (including the optional prefix) returned as a set of prefixes. Note that only &lsquo;/&rsquo; is a supported delimiter character at this time.</li>
+<li><code>end</code> - (Optional) Returns object names which are lexicographically strictly less than this parameter.</li>
+<li><code>fields</code> - (Optional) Object summary by default includes only the &lsquo;name&rsquo; field. Use this parameter to also include &lsquo;size&rsquo; (object size in bytes), &lsquo;etag&rsquo;, &lsquo;md5&rsquo;, &lsquo;timeCreated&rsquo; (object creation date and time), &lsquo;timeModified&rsquo; (object modification date and time), &lsquo;storageTier&rsquo; and &lsquo;archivalState&rsquo; fields. Specify the value of this parameter as a comma-separated, case-insensitive list of those field names.  For example &lsquo;name,etag,timeCreated,md5,timeModified,storageTier,archivalState&rsquo;.</li>
+<li><code>namespace</code> - (Required) The Object Storage namespace used for the request.</li>
+<li><code>prefix</code> - (Optional) The string to use for matching against the start of object names in a list query.</li>
+<li><code>start</code> - (Optional) Returns object names which are lexicographically greater than or equal to this parameter.</li>
+<li><code>start_after</code> - (Optional) Returns object names which are lexicographically strictly greater than this parameter.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>objects</code> - The list of list_objects.</li>
+</ul>
+
+<h3>Object Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>name</code> - The name of the object.</li>
+<li><code>size</code> - Size of the object in bytes.</li>
+<li><code>md5</code> - Base64-encoded MD5 hash of the object data.</li>
+<li><code>time_created</code> - The date and time the object was created, as described in <a href="https://tools.ietf.org/html/rfc2616#section-14.29">RFC 2616</a>.</li>
+<li><code>time_modified</code> - The date and time the object was modified, as described in <a href="https://tools.ietf.org/rfc/rfc2616#section-14.29">RFC 2616</a>.</li>
+<li><code>etag</code> - The current entity tag (ETag) for the object.</li>
+<li><code>storage_tier</code> - The storage tier that the object is stored in.</li>
+<li><code>archival-state</code> - Archival state of an object. This field is set only for objects in Archive tier.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

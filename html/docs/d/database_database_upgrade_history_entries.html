@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_database_upgrade_history_entries</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_database_upgrade_history_entries</h1>
+
+<p>This data source provides the list of Database Upgrade History Entries in Oracle Cloud Infrastructure Database service.</p>
+
+<p>Gets the upgrade history for a specified database in a bare metal or virtual machine DB system.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_database_upgrade_history_entries&quot; &quot;test_database_upgrade_history_entries&quot; {
+	#Required
+	database_id = oci_database_database.test_database.id
+
+	#Optional
+	state = var.database_upgrade_history_entry_state
+	upgrade_action = var.database_upgrade_history_entry_upgrade_action
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>database_id</code> - (Required) The database <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>state</code> - (Optional) A filter to return only upgradeHistoryEntries that match the given lifecycle state exactly.</li>
+<li><code>upgrade_action</code> - (Optional) A filter to return only upgradeHistoryEntries that match the specified Upgrade Action.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>database_upgrade_history_entries</code> - The list of database_upgrade_history_entries.</li>
+</ul>
+
+<h3>DatabaseUpgradeHistoryEntry Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>action</code> - The database upgrade action.</p></li>
+
+<li><p><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the database upgrade history.</p></li>
+
+<li><p><code>lifecycle_details</code> - Additional information about the current lifecycle state.</p></li>
+
+<li><p><code>options</code> - Additional upgrade options supported by DBUA(Database Upgrade Assistant). Example: &ldquo;-upgradeTimezone false -keepEvents&rdquo;</p></li>
+
+<li><p><code>source</code> - The source of the Oracle Database software to be used for the upgrade.</p>
+
+<ul>
+<li>Use <code>DB_VERSION</code> to specify a generally-available Oracle Database software version to upgrade the database.</li>
+<li>Use <code>DB_SOFTWARE_IMAGE</code> to specify a <a href="https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databasesoftwareimage.htm">database software image</a> to upgrade the database.</li>
+</ul></li>
+
+<li><p><code>source_db_home_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Database Home.</p></li>
+
+<li><p><code>state</code> - Status of database upgrade history SUCCEEDED|IN_PROGRESS|FAILED.</p></li>
+
+<li><p><code>target_db_version</code> - A valid Oracle Database version. For a list of supported versions, use the ListDbVersions operation.</p>
+
+<p>This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.</p></li>
+
+<li><p><code>target_database_software_image_id</code> - the database software image used for upgrading database.</p></li>
+
+<li><p><code>target_db_home_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Database Home.</p></li>
+
+<li><p><code>time_ended</code> - The date and time when the database upgrade ended.</p></li>
+
+<li><p><code>time_started</code> - The date and time when the database upgrade started.</p></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

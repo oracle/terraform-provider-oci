@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_autonomous_container_database_versions</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_autonomous_container_database_versions</h1>
+
+<p>This data source provides the list of Autonomous Container Database Versions in Oracle Cloud Infrastructure Database service.</p>
+
+<p>Gets a list of supported Autonomous Container Database versions.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_autonomous_container_database_versions&quot; &quot;test_autonomous_container_database_versions&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	service_component = var.autonomous_container_database_version_service_component
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The compartment <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>service_component</code> - (Required) The service component to use, either ADBD or EXACC.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>autonomous_container_database_versions</code> - The list of autonomous_container_database_versions.</li>
+</ul>
+
+<h3>AutonomousContainerDatabaseVersion Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>details</code> - A URL that points to a detailed description of the Autonomous Container Database version.</li>
+<li><code>supported_apps</code> - The list of applications supported for the given version.
+
+<ul>
+<li><code>end_of_support</code> - The Autonomous Container Database version end of support date.</li>
+<li><code>is_certified</code> - Indicates if the image is certified.</li>
+<li><code>release_date</code> - The Autonomous Container Database version release date.</li>
+<li><code>supported_app_name</code> - The name of the supported application.</li>
+</ul></li>
+<li><code>version</code> - A valid Oracle Database version for provisioning an Autonomous Container Database.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_nosql_table_replica</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_nosql_table_replica</h1>
+
+<p>This resource provides the Table Replica resource in Oracle Cloud Infrastructure NoSQL Database service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/nosql-database/latest/TableReplica">https://docs.oracle.com/iaas/api/#/en/nosql-database/latest/TableReplica</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/object_storage">https://github.com/oracle/terraform-provider-oci/tree/master/examples/object_storage</a></p>
+
+<p>Add a replica for this table. The table&rsquo;s schema must be frozen prior to this operation.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_nosql_table_replica&quot; &quot;test_table_replica&quot; {
+	#Required
+	region = var.table_replica_region
+	table_name_or_id = oci_nosql_table_name_or.test_table_name_or.id
+
+	#Optional
+	compartment_id = var.compartment_id
+	max_read_units = var.table_replica_max_read_units
+	max_write_units = var.table_replica_max_write_units
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Optional) The OCID of the table&rsquo;s compartment.  Required if the tableNameOrId path parameter is a table name. Optional if tableNameOrId is an OCID.  If tableNameOrId is an OCID, and compartmentId is supplied, the latter must match the identified table&rsquo;s compartmentId.</li>
+<li><code>max_read_units</code> - (Optional) Maximum sustained read throughput limit for the new replica table. If not specified, the local table&rsquo;s read limit is used.</li>
+<li><code>max_write_units</code> - (Optional) Maximum sustained write throughput limit for the new replica table. If not specified, the local table&rsquo;s write limit is used.</li>
+<li><code>region</code> - (Required) Name of the remote region in standard Oracle Cloud Infrastructure format, i.e. us-ashburn-1</li>
+<li><code>table_name_or_id</code> - (Required) A table name within the compartment, or a table OCID.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that is not identified as &ldquo;Updateable&rdquo; will force the destruction and recreation of the resource with the new property values.</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Table Replica
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Table Replica
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Table Replica</p>
+
+<h2>Import</h2>
+
+<p>TableReplicas can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_nosql_table_replica.test_table_replica &quot;tables/{tableNameOrId}/replicas/{region}&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_dns_zone</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_dns_zone</h1>
+
+<p>This resource provides the Zone resource in Oracle Cloud Infrastructure DNS service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/dns/latest/Zone">https://docs.oracle.com/iaas/api/#/en/dns/latest/Zone</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/dns">https://github.com/oracle/terraform-provider-oci/tree/master/examples/dns</a></p>
+
+<p>Creates a new zone in the specified compartment.</p>
+
+<p>Private zones must have a zone type of <code>PRIMARY</code>. Creating a private zone at or under <code>oraclevcn.com</code>
+within the default protected view of a VCN-dedicated resolver is not permitted.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_dns_zone&quot; &quot;test_zone&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	name = var.zone_name
+	zone_type = var.zone_zone_type
+
+	#Optional
+	defined_tags = var.zone_defined_tags
+	dnssec_state = var.zone_dnssec_state
+	external_downstreams {
+		#Required
+		address = var.zone_external_downstreams_address
+
+		#Optional
+		port = var.zone_external_downstreams_port
+		tsig_key_id = oci_dns_tsig_key.test_tsig_key.id
+	}
+	external_masters {
+		#Required
+		address = var.zone_external_masters_address
+
+		#Optional
+		port = var.zone_external_masters_port
+		tsig_key_id = oci_dns_tsig_key.test_tsig_key.id
+	}
+	freeform_tags = var.zone_freeform_tags
+	scope = var.zone_scope
+	view_id = oci_dns_view.test_view.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>compartment_id</code> - (Required) (Updatable) The OCID of the compartment containing the zone.</p></li>
+
+<li><p><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</p>
+
+<p><strong>Example:</strong> <code>{&quot;Operations&quot;: {&quot;CostCenter&quot;: &quot;42&quot;}}</code></p></li>
+
+<li><p><code>dnssec_state</code> - (Optional) (Updatable) The state of DNSSEC on the zone.</p>
+
+<p>For DNSSEC to function, every parent zone in the DNS tree up to the top-level domain (or an independent trust anchor) must also have DNSSEC correctly set up. After enabling DNSSEC, you must add a DS record to the zone&rsquo;s parent zone containing the <code>KskDnssecKeyVersion</code> data. You can find the DS data in the <code>dsData</code> attribute of the <code>KskDnssecKeyVersion</code>. Then, use the <code>PromoteZoneDnssecKeyVersion</code> operation to promote the <code>KskDnssecKeyVersion</code>.</p>
+
+<p>New <code>KskDnssecKeyVersion</code>s are generated annually, a week before the existing <code>KskDnssecKeyVersion</code>&rsquo;s expiration. To rollover a <code>KskDnssecKeyVersion</code>, you must replace the parent zone&rsquo;s DS record containing the old <code>KskDnssecKeyVersion</code> data with the data from the new <code>KskDnssecKeyVersion</code>.</p>
+
+<p>To remove the old DS record without causing service disruption, wait until the old DS record&rsquo;s TTL has expired, and the new DS record has propagated. After the DS replacement has been completed, then the <code>PromoteZoneDnssecKeyVersion</code> operation must be called.</p>
+
+<p>Metrics are emitted in the <code>oci_dns</code> namespace daily for each <code>KskDnssecKeyVersion</code> indicating how many days are left until expiration. We recommend that you set up alarms and notifications for KskDnssecKeyVersion expiration so that the necessary parent zone updates can be made and the <code>PromoteZoneDnssecKeyVersion</code> operation can be called.</p>
+
+<p>Enabling DNSSEC results in additional records in DNS responses which increases their size and can cause higher response latency.</p>
+
+<p>For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/DNS/Concepts/dnssec.htm">DNSSEC</a>.</p></li>
+
+<li><p><code>external_downstreams</code> - (Optional) (Updatable) External secondary servers for the zone. This field is currently not supported when <code>zoneType</code> is <code>SECONDARY</code> or <code>scope</code> is <code>PRIVATE</code>.</p>
+
+<ul>
+<li><code>address</code> - (Required) (Updatable) The server&rsquo;s IP address (IPv4 or IPv6).</li>
+<li><code>port</code> - (Optional) (Updatable) The server&rsquo;s port. Port value must be a value of 53, otherwise omit the port value.</li>
+<li><code>tsig_key_id</code> - (Optional) (Updatable) The OCID of the TSIG key. A TSIG key is used to secure DNS messages (in this case, zone transfers) between two systems that both have the (shared) secret.</li>
+</ul></li>
+
+<li><p><code>external_masters</code> - (Optional) (Updatable) External master servers for the zone. <code>externalMasters</code> becomes a required parameter when the <code>zoneType</code> value is <code>SECONDARY</code>.</p>
+
+<ul>
+<li><code>address</code> - (Required) (Updatable) The server&rsquo;s IP address (IPv4 or IPv6).</li>
+<li><code>port</code> - (Optional) (Updatable) The server&rsquo;s port. Port value must be a value of 53, otherwise omit the port value.</li>
+<li><code>tsig_key_id</code> - (Optional) (Updatable) The OCID of the TSIG key.</li>
+</ul></li>
+
+<li><p><code>freeform_tags</code> - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</p>
+
+<p><strong>Example:</strong> <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></p></li>
+
+<li><p><code>name</code> - (Required) The name of the zone.</p></li>
+
+<li><p><code>scope</code> - (Optional) Specifies to operate only on resources that have a matching DNS scope.
+This value will be null for zones in the global DNS and <code>PRIVATE</code> when creating a private zone.</p></li>
+
+<li><p><code>view_id</code> - (Optional) The OCID of the private view containing the zone. This value will be null for zones in the global DNS, which are publicly resolvable and not part of a private view.</p></li>
+
+<li><p><code>zone_type</code> - (Required) The type of the zone. Must be either <code>PRIMARY</code> or <code>SECONDARY</code>. <code>SECONDARY</code> is only supported for GLOBAL zones.</p></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>compartment_id</code> - The OCID of the compartment containing the zone.</p></li>
+
+<li><p><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</p>
+
+<p><strong>Example:</strong> <code>{&quot;Operations&quot;: {&quot;CostCenter&quot;: &quot;42&quot;}}</code></p></li>
+
+<li><p><code>dnssec_config</code> - DNSSEC configuration data.</p>
+
+<p>A zone may have a maximum of 10 <code>DnssecKeyVersions</code>, regardless of signing key type.</p>
+
+<ul>
+<li><p><code>ksk_dnssec_key_versions</code> - A read-only array of key signing key (KSK) versions.</p>
+
+<ul>
+<li><p><code>algorithm</code> - The signing algorithm used for the key.</p></li>
+
+<li><p><code>ds_data</code> - An array of data for DS records corresponding with this key version. An entry will exist for each supported DS digest algorithm.</p>
+
+<ul>
+<li><code>digest_type</code> - The type of the digest associated with the rdata.</li>
+<li><code>rdata</code> - Presentation-format DS record data that must be added to the parent zone. For more information about RDATA, see <a href="https://docs.cloud.oracle.com/iaas/Content/DNS/Reference/supporteddnsresource.htm">Supported DNS Resource Record Types</a></li>
+</ul></li>
+
+<li><p><code>key_tag</code> - The key tag associated with the <code>DnssecKeyVersion</code>. This key tag will be present in the RRSIG and DS records associated with the key material for this <code>DnssecKeyVersion</code>. For more information about key tags, see <a href="https://tools.ietf.org/html/rfc4034">RFC 4034</a>.</p></li>
+
+<li><p><code>length_in_bytes</code> - The length of the corresponding private key in bytes, expressed as an integer.</p></li>
+
+<li><p><code>predecessor_dnssec_key_version_uuid</code> - When populated, this is the UUID of the <code>DnssecKeyVersion</code> that this <code>DnssecKeyVersion</code> will replace or has replaced.</p></li>
+
+<li><p><code>successor_dnssec_key_version_uuid</code> - When populated, this is the UUID of the <code>DnssecKeyVersion</code> that will replace, or has replaced, this <code>DnssecKeyVersion</code>.</p></li>
+
+<li><p><code>time_activated</code> - The date and time the key version went, or will go, active, expressed in RFC 3339 timestamp format. This is when the key material will be used to generate RRSIGs.</p>
+
+<p><strong>Example:</strong> <code>2016-07-22T17:23:59:00Z</code></p></li>
+
+<li><p><code>time_created</code> - The date and time the key version was created, expressed in RFC 3339 timestamp format.</p>
+
+<p><strong>Example:</strong> <code>2016-07-22T17:23:59:00Z</code></p></li>
+
+<li><p><code>time_expired</code> - The date and time at which the recommended key version publication/activation lifetime ends, expressed in RFC 3339 timestamp format. This is when the corresponding DNSKEY should no longer exist in zone contents and no longer be used to generate RRSIGs. For a key sigining key (KSK), if <code>PromoteZoneDnssecKeyVersion</code> has not been called on this <code>DnssecKeyVersion</code>&rsquo;s successor then it will remain active for arbitrarily long past its recommended lifetime. This prevents service disruption at the potential increased risk of key compromise.</p>
+
+<p><strong>Example:</strong> <code>2016-07-22T17:23:59:00Z</code></p></li>
+
+<li><p><code>time_inactivated</code> - The date and time the key version went, or will go, inactive, expressed in RFC 3339 timestamp format. This is when the key material will no longer be used to generate RRSIGs. For a key signing key (KSK) <code>DnssecKeyVersion</code>, this is populated after <code>PromoteZoneDnssecKeyVersion</code> has been called on its successor <code>DnssecKeyVersion</code>.</p>
+
+<p><strong>Example:</strong> <code>2016-07-22T17:23:59:00Z</code></p></li>
+
+<li><p><code>time_promoted</code> - The date and time the key version was promoted expressed in RFC 3339 timestamp format.</p>
+
+<p><strong>Example:</strong> <code>2016-07-22T17:23:59:00Z</code></p></li>
+
+<li><p><code>time_published</code> - The date and time the key version was, or will be, published, expressed in RFC 3339 timestamp format. This is when the zone contents will include a DNSKEY record corresponding to the key material.</p>
+
+<p><strong>Example:</strong> <code>2016-07-22T17:23:59:00Z</code></p></li>
+
+<li><p><code>time_unpublished</code> - The date and time the key version was, or will be, unpublished, expressed in RFC 3339 timestamp format. This is when the corresponding DNSKEY will be removed from zone contents. For a key signing key (KSK) <code>DnssecKeyVersion</code>, this is populated after <code>PromoteZoneDnssecKeyVersion</code> has been called on its successor <code>DnssecKeyVersion</code>.</p>
+
+<p><strong>Example:</strong> <code>2016-07-22T17:23:59:00Z</code></p></li>
+
+<li><p><code>uuid</code> - The UUID of the <code>DnssecKeyVersion</code>.</p></li>
+</ul></li>
+
+<li><p><code>zsk_dnssec_key_versions</code> - A read-only array of zone signing key (ZSK) versions.</p>
+
+<ul>
+<li><p><code>algorithm</code> - The signing algorithm used for the key.</p></li>
+
+<li><p><code>key_tag</code> - The key tag associated with the <code>DnssecKeyVersion</code>. This key tag will be present in the RRSIG and DS records associated with the key material for this <code>DnssecKeyVersion</code>. For more information about key tags, see <a href="https://tools.ietf.org/html/rfc4034">RFC 4034</a>.</p></li>
+
+<li><p><code>length_in_bytes</code> - The length of the corresponding private key in bytes, expressed as an integer.</p></li>
+
+<li><p><code>predecessor_dnssec_key_version_uuid</code> - When populated, this is the UUID of the <code>DnssecKeyVersion</code> that this <code>DnssecKeyVersion</code> will replace or has replaced.</p></li>
+
+<li><p><code>successor_dnssec_key_version_uuid</code> - When populated, this is the UUID of the <code>DnssecKeyVersion</code> that will replace, or has replaced, this <code>DnssecKeyVersion</code>.</p></li>
+
+<li><p><code>time_activated</code> - The date and time the key version went, or will go, active, expressed in RFC 3339 timestamp format. This is when the key material will be used to generate RRSIGs.</p>
+
+<p><strong>Example:</strong> <code>2016-07-22T17:23:59:00Z</code></p></li>
+
+<li><p><code>time_created</code> - The date and time the key version was created, expressed in RFC 3339 timestamp format.</p>
+
+<p><strong>Example:</strong> <code>2016-07-22T17:23:59:00Z</code></p></li>
+
+<li><p><code>time_expired</code> - The date and time at which the recommended key version publication/activation lifetime ends, expressed in RFC 3339 timestamp format. This is when the corresponding DNSKEY should no longer exist in zone contents and no longer be used to generate RRSIGs. For a key sigining key (KSK), if <code>PromoteZoneDnssecKeyVersion</code> has not been called on this <code>DnssecKeyVersion</code>&rsquo;s successor then it will remain active for arbitrarily long past its recommended lifetime. This prevents service disruption at the potential increased risk of key compromise.</p>
+
+<p><strong>Example:</strong> <code>2016-07-22T17:23:59:00Z</code></p></li>
+
+<li><p><code>time_inactivated</code> - The date and time the key version went, or will go, inactive, expressed in RFC 3339 timestamp format. This is when the key material will no longer be used to generate RRSIGs. For a key signing key (KSK) <code>DnssecKeyVersion</code>, this is populated after <code>PromoteZoneDnssecKeyVersion</code> has been called on its successor <code>DnssecKeyVersion</code>.</p>
+
+<p><strong>Example:</strong> <code>2016-07-22T17:23:59:00Z</code></p></li>
+
+<li><p><code>time_promoted</code> - The date and time the key version was promoted expressed in RFC 3339 timestamp format.</p>
+
+<p><strong>Example:</strong> <code>2016-07-22T17:23:59:00Z</code></p></li>
+
+<li><p><code>time_published</code> - The date and time the key version was, or will be, published, expressed in RFC 3339 timestamp format. This is when the zone contents will include a DNSKEY record corresponding to the key material.</p>
+
+<p><strong>Example:</strong> <code>2016-07-22T17:23:59:00Z</code></p></li>
+
+<li><p><code>time_unpublished</code> - The date and time the key version was, or will be, unpublished, expressed in RFC 3339 timestamp format. This is when the corresponding DNSKEY will be removed from zone contents. For a key signing key (KSK) <code>DnssecKeyVersion</code>, this is populated after <code>PromoteZoneDnssecKeyVersion</code> has been called on its successor <code>DnssecKeyVersion</code>.</p>
+
+<p><strong>Example:</strong> <code>2016-07-22T17:23:59:00Z</code></p></li>
+
+<li><p><code>uuid</code> - The UUID of the <code>DnssecKeyVersion</code>.</p></li>
+</ul></li>
+</ul></li>
+
+<li><p><code>dnssec_state</code> - The state of DNSSEC on the zone.</p>
+
+<p>For DNSSEC to function, every parent zone in the DNS tree up to the top-level domain (or an independent trust anchor) must also have DNSSEC correctly set up. After enabling DNSSEC, you must add a DS record to the zone&rsquo;s parent zone containing the <code>KskDnssecKeyVersion</code> data. You can find the DS data in the <code>dsData</code> attribute of the <code>KskDnssecKeyVersion</code>. Then, use the <code>PromoteZoneDnssecKeyVersion</code> operation to promote the <code>KskDnssecKeyVersion</code>.</p>
+
+<p>New <code>KskDnssecKeyVersion</code>s are generated annually, a week before the existing <code>KskDnssecKeyVersion</code>&rsquo;s expiration. To rollover a <code>KskDnssecKeyVersion</code>, you must replace the parent zone&rsquo;s DS record containing the old <code>KskDnssecKeyVersion</code> data with the data from the new <code>KskDnssecKeyVersion</code>.</p>
+
+<p>To remove the old DS record without causing service disruption, wait until the old DS record&rsquo;s TTL has expired, and the new DS record has propagated. After the DS replacement has been completed, then the <code>PromoteZoneDnssecKeyVersion</code> operation must be called.</p>
+
+<p>Metrics are emitted in the <code>oci_dns</code> namespace daily for each <code>KskDnssecKeyVersion</code> indicating how many days are left until expiration. We recommend that you set up alarms and notifications for KskDnssecKeyVersion expiration so that the necessary parent zone updates can be made and the <code>PromoteZoneDnssecKeyVersion</code> operation can be called.</p>
+
+<p>Enabling DNSSEC results in additional records in DNS responses which increases their size and can cause higher response latency.</p>
+
+<p>For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/DNS/Concepts/dnssec.htm">DNSSEC</a>.</p></li>
+
+<li><p><code>external_downstreams</code> - External secondary servers for the zone. This field is currently not supported when <code>zoneType</code> is <code>SECONDARY</code> or <code>scope</code> is <code>PRIVATE</code>.</p>
+
+<ul>
+<li><code>address</code> - The server&rsquo;s IP address (IPv4 or IPv6).</li>
+<li><code>port</code> - The server&rsquo;s port. Port value must be a value of 53, otherwise omit the port value.</li>
+<li><code>tsig_key_id</code> - The OCID of the TSIG key. A TSIG key is used to secure DNS messages (in this case, zone transfers) between two systems that both have the (shared) secret.</li>
+</ul></li>
+
+<li><p><code>external_masters</code> - External master servers for the zone. <code>externalMasters</code> becomes a required parameter when the <code>zoneType</code> value is <code>SECONDARY</code>.</p>
+
+<ul>
+<li><code>address</code> - The server&rsquo;s IP address (IPv4 or IPv6).</li>
+<li><code>port</code> - The server&rsquo;s port. Port value must be a value of 53, otherwise omit the port value.</li>
+<li><code>tsig_key_id</code> - The OCID of the TSIG key.</li>
+</ul></li>
+
+<li><p><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</p>
+
+<p><strong>Example:</strong> <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></p></li>
+
+<li><p><code>id</code> - The OCID of the zone.</p></li>
+
+<li><p><code>is_protected</code> - A Boolean flag indicating whether or not parts of the resource are unable to be explicitly managed.</p></li>
+
+<li><p><code>name</code> - The name of the zone.</p></li>
+
+<li><p><code>nameservers</code> - The authoritative nameservers for the zone.</p>
+
+<ul>
+<li><code>hostname</code> - The hostname of the nameserver.</li>
+</ul></li>
+
+<li><p><code>scope</code> - The scope of the zone.</p></li>
+
+<li><p><code>self</code> - The canonical absolute URL of the resource.</p></li>
+
+<li><p><code>serial</code> - The current serial of the zone. As seen in the zone&rsquo;s SOA record.</p></li>
+
+<li><p><code>state</code> - The current state of the zone resource.</p></li>
+
+<li><p><code>time_created</code> - The date and time the resource was created in &ldquo;YYYY-MM-ddThh:mm:ssZ&rdquo; format with a Z offset, as defined by RFC 3339.</p>
+
+<p><strong>Example:</strong> <code>2016-07-22T17:23:59:60Z</code></p></li>
+
+<li><p><code>version</code> - Version is the never-repeating, totally-orderable, version of the zone, from which the serial field of the zone&rsquo;s SOA record is derived.</p></li>
+
+<li><p><code>view_id</code> - The OCID of the private view containing the zone. This value will be null for zones in the global DNS, which are publicly resolvable and not part of a private view.</p></li>
+
+<li><p><code>zone_transfer_servers</code> - The Oracle Cloud Infrastructure nameservers that transfer the zone data with external nameservers.</p>
+
+<ul>
+<li><code>address</code> - The server&rsquo;s IP address (IPv4 or IPv6).</li>
+<li><code>is_transfer_destination</code> - A Boolean flag indicating whether or not the server is a zone data transfer destination.</li>
+<li><code>is_transfer_source</code> - A Boolean flag indicating whether or not the server is a zone data transfer source.</li>
+<li><code>port</code> - The server&rsquo;s port.</li>
+</ul></li>
+
+<li><p><code>zone_type</code> - The type of the zone. Must be either <code>PRIMARY</code> or <code>SECONDARY</code>. <code>SECONDARY</code> is only supported for GLOBAL zones.</p></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Zone
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Zone
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Zone</p>
+
+<h2>Import</h2>
+
+<p>Zones can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_dns_zone.test_zone &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

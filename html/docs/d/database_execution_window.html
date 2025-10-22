@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_execution_window</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_execution_window</h1>
+
+<p>This data source provides details about a specific Execution Window resource in Oracle Cloud Infrastructure Database service.</p>
+
+<p>Gets information about the specified execution window.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_execution_window&quot; &quot;test_execution_window&quot; {
+	#Required
+	execution_window_id = oci_database_execution_window.test_execution_window.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>execution_window_id</code> - (Required) The execution window <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</li>
+<li><code>description</code> - Description of the execution window.</li>
+<li><code>display_name</code> - The user-friendly name for the execution window. The name does not need to be unique.</li>
+<li><code>estimated_time_in_mins</code> - The estimated time of the execution window in minutes.</li>
+<li><code>execution_resource_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the execution resource the execution window belongs to.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the execution window.</li>
+<li><code>is_enforced_duration</code> - Indicates if duration the user plans to allocate for scheduling window is strictly enforced. The default value is <code>FALSE</code>.</li>
+<li><code>lifecycle_details</code> - Additional information about the current lifecycle state.</li>
+<li><code>lifecycle_substate</code> - The current sub-state of the execution window. Valid states are DURATION_EXCEEDED, MAINTENANCE_IN_PROGRESS and WAITING.</li>
+<li><code>state</code> - The current state of the Schedule Policy. Valid states are CREATED, SCHEDULED, IN_PROGRESS, FAILED, CANCELED, UPDATING, DELETED, SUCCEEDED and PARTIAL_SUCCESS.</li>
+<li><code>time_created</code> - The date and time the execution window was created.</li>
+<li><code>time_ended</code> - The date and time that the execution window ended.</li>
+<li><code>time_scheduled</code> - The scheduled start date and time of the execution window.</li>
+<li><code>time_started</code> - The date and time that the execution window was started.</li>
+<li><code>time_updated</code> - The last date and time that the execution window was updated.</li>
+<li><code>total_time_taken_in_mins</code> - The total time taken by corresponding resource activity in minutes.</li>
+<li><code>window_duration_in_mins</code> - Duration window allows user to set a duration they plan to allocate for Scheduling window. The duration is in minutes.</li>
+<li><code>window_type</code> - The execution window is of PLANNED or UNPLANNED type.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

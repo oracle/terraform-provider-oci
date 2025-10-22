@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_stack_monitoring_configs</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_stack_monitoring_configs</h1>
+
+<p>This data source provides the list of Configs in Oracle Cloud Infrastructure Stack Monitoring service.</p>
+
+<p>Get a list of configurations in a compartment.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_stack_monitoring_configs&quot; &quot;test_configs&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	display_name = var.config_display_name
+	state = var.config_state
+	type = var.config_type
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The ID of the compartment in which data is listed.</li>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the entire display name given.</li>
+<li><code>state</code> - (Optional) The current state of the Config.</li>
+<li><code>type</code> - (Optional) A filter to return only configuration items for a given config type. The only valid config type is <code>&quot;AUTO_PROMOTE&quot;</code></li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>config_collection</code> - The list of config_collection.</li>
+</ul>
+
+<h3>Config Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>additional_configurations</code> - Property Details
+
+<ul>
+<li><code>properties_map</code> - Key/Value pair of Property</li>
+</ul></li>
+<li><code>compartment_id</code> - The OCID of the compartment containing the configuration.</li>
+<li><code>config_type</code> - The type of configuration.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.</li>
+<li><code>dynamic_groups</code> - List of dynamic groups dedicated for Stack Monitoring.
+
+<ul>
+<li><code>domain</code> - Identity domain name</li>
+<li><code>name</code> - Name of dynamic Group</li>
+<li><code>stack_monitoring_assignment</code> - Assignment of dynamic group in context of Stack Monitoring service. It describes the purpose of dynamic groups in Stack Monitoring.</li>
+</ul></li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - The Unique Oracle ID (OCID) that is immutable on creation.</li>
+<li><code>is_manually_onboarded</code> - True if customer decides marks configuration as manually configured.</li>
+<li><code>is_enabled</code> - True if automatic activation of the Management Agent plugin, automatic promotion or enterprise extensibility is enabled, false if it is not enabled.</li>
+<li><code>license</code> - License edition.</li>
+<li><code>policy_names</code> - List of policy names assigned for onboarding</li>
+<li><code>resource_type</code> - The type of resource to configure for automatic promotion.</li>
+<li><code>state</code> - The current state of the configuration.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time the configuration was created. An RFC3339 formatted datetime string.</li>
+<li><code>time_updated</code> - The time the Config was updated.</li>
+<li><code>user_groups</code> - List of user groups dedicated for Stack Monitoring.
+
+<ul>
+<li><code>domain</code> - Identity domain name</li>
+<li><code>name</code> - Name of user Group</li>
+<li><code>stack_monitoring_role</code> - Role assigned to user group in context of Stack Monitoring service. Access role can be for example: ADMINISTRATOR, OPERATOR, VIEWER, any other access role</li>
+</ul></li>
+<li><code>version</code> - Assigned version to given onboard configuration.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

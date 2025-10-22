@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_fleet_software_update_fsu_collection</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_fleet_software_update_fsu_collection</h1>
+
+<p>This resource provides the Fsu Collection resource in Oracle Cloud Infrastructure Fleet Software Update service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/edsfu/latest/FsuCollection">https://docs.oracle.com/iaas/api/#/en/edsfu/latest/FsuCollection</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/fleetsoftwareupdate">https://github.com/oracle/terraform-provider-oci/tree/master/examples/fleetsoftwareupdate</a></p>
+
+<p>Creates a new Exadata Fleet Update Collection.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_fleet_software_update_fsu_collection&quot; &quot;test_fsu_collection&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	service_type = var.fsu_collection_service_type
+	type = var.fsu_collection_type
+
+	#Optional
+	components {
+		#Required
+		component_type = var.fsu_collection_components_component_type
+		source_major_version = var.fsu_collection_components_source_major_version
+
+		#Optional
+		fleet_discovery {
+			#Required
+			strategy = var.fsu_collection_components_fleet_discovery_strategy
+
+			#Optional
+			filters {
+				#Required
+				type = var.fsu_collection_components_fleet_discovery_filters_type
+
+				#Optional
+				entity_type = var.fsu_collection_components_fleet_discovery_filters_entity_type
+				exadata_releases = var.fsu_collection_components_fleet_discovery_filters_exadata_releases
+				identifiers = var.fsu_collection_components_fleet_discovery_filters_identifiers
+				mode = var.fsu_collection_components_fleet_discovery_filters_mode
+				operator = var.fsu_collection_components_fleet_discovery_filters_operator
+				tags {
+
+					#Optional
+					key = var.fsu_collection_components_fleet_discovery_filters_tags_key
+					namespace = var.fsu_collection_components_fleet_discovery_filters_tags_namespace
+					value = var.fsu_collection_components_fleet_discovery_filters_tags_value
+				}
+				versions = var.fsu_collection_components_fleet_discovery_filters_versions
+			}
+			fsu_discovery_id = oci_fleet_software_update_fsu_discovery.test_fsu_discovery.id
+			query = var.fsu_collection_components_fleet_discovery_query
+			targets = var.fsu_collection_components_fleet_discovery_targets
+		}
+	}
+	defined_tags = {&quot;foo-namespace.bar-key&quot;= &quot;value&quot;}
+	display_name = var.fsu_collection_display_name
+	fleet_discovery {
+		#Required
+		strategy = var.fsu_collection_fleet_discovery_strategy
+
+		#Optional
+		filters {
+			#Required
+			type = var.fsu_collection_fleet_discovery_filters_type
+
+			#Optional
+			entity_type = var.fsu_collection_fleet_discovery_filters_entity_type
+			exadata_releases = var.fsu_collection_fleet_discovery_filters_exadata_releases
+			identifiers = var.fsu_collection_fleet_discovery_filters_identifiers
+			mode = var.fsu_collection_fleet_discovery_filters_mode
+			names = var.fsu_collection_fleet_discovery_filters_names
+			operator = var.fsu_collection_fleet_discovery_filters_operator
+			tags {
+
+				#Optional
+				key = var.fsu_collection_fleet_discovery_filters_tags_key
+				namespace = var.fsu_collection_fleet_discovery_filters_tags_namespace
+				value = var.fsu_collection_fleet_discovery_filters_tags_value
+			}
+			versions = var.fsu_collection_fleet_discovery_filters_versions
+		}
+		fsu_discovery_id = oci_fleet_software_update_fsu_discovery.test_fsu_discovery.id
+		query = var.fsu_collection_fleet_discovery_query
+		targets = var.fsu_collection_fleet_discovery_targets
+	}
+	freeform_tags = {&quot;bar-key&quot;= &quot;value&quot;}
+	source_major_version = var.fsu_collection_source_major_version
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Compartment.</li>
+<li><code>components</code> - (Required when type=EXADB_STACK) Details of components in an Exadata software stack.
+
+<ul>
+<li><code>component_type</code> - (Required) Type of component in an Exadata software stack.</li>
+<li><code>fleet_discovery</code> - (Optional) Fleet discovery strategies for a &lsquo;GUEST_OS&rsquo; collection of Exadata VM Clusters. If specified for an UpdateCollection request, discovery for Exadata VM Clusters will be rerun.
+
+<ul>
+<li><code>filters</code> - (Required when strategy=FILTERS) Filters to perform the target discovery.
+
+<ul>
+<li><code>entity_type</code> - (Required when type=RESOURCE_ID) Type of resource to match in the discovery.</li>
+<li><code>exadata_releases</code> - (Required when type=EXADATA_RELEASE_VERSION) List of Exadata Release versions to include when discovering Exadata VM Cluster targets for a &lsquo;GUEST_OS&rsquo; collection.</li>
+<li><code>identifiers</code> - (Required when type=COMPARTMENT_ID | RESOURCE_ID) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCIDs</a> of associated resources to include when discovering Exadata VM Cluster targets for a &lsquo;GUEST_OS&rsquo; collection.  Specified resources must match the specified &lsquo;entityType&rsquo;. FsuCollection of type &lsquo;GI&rsquo; or &lsquo;GUEST_OS&rsquo; can be specified.</li>
+<li><code>mode</code> - (Applicable when strategy=FILTERS) INCLUDE or EXCLUDE the filter results when discovering Exadata VM Cluster targets for a &lsquo;GUEST_OS&rsquo; collection. Supported only for RESOURCE_ID filter.</li>
+<li><code>operator</code> - (Applicable when type=DEFINED_TAG | FREEFORM_TAG | RESOURCE_ID) Type of join for each element in this filter.</li>
+<li><code>tags</code> - (Required when type=DEFINED_TAG | FREEFORM_TAG) <a href="https://docs.cloud.oracle.com/iaas/Content/Tagging/Concepts/understandingfreeformtags.htm">Free-form tags</a> to include when discovering Exadata VM Cluster targets for a &lsquo;GUEST_OS&rsquo; collection.
+
+<ul>
+<li><code>key</code> - (Required when type=DEFINED_TAG | FREEFORM_TAG) Freeform tag key.</li>
+<li><code>namespace</code> - (Required when type=DEFINED_TAG) Defined tag namespace.</li>
+<li><code>value</code> - (Required when type=DEFINED_TAG | FREEFORM_TAG) Freeform tag value.</li>
+</ul></li>
+<li><code>type</code> - (Required) Filters supported for searching Exadata VM Cluster targets for a &lsquo;GUEST_OS&rsquo; collection.</li>
+<li><code>versions</code> - (Required when type=VERSION) List of Exadata Image (Guest OS) version strings to include when discovering Exadata VM Cluster targets for a &lsquo;GUEST_OS&rsquo; collection.</li>
+</ul></li>
+<li><code>fsu_discovery_id</code> - (Required when strategy=DISCOVERY_RESULTS) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Exadata Fleet Update Discovery.</li>
+<li><code>query</code> - (Required when strategy=SEARCH_QUERY) <a href="https://docs.cloud.oracle.com/iaas/Content/Search/Concepts/queryoverview.htm">OCI Search Service</a> query string.</li>
+<li><code>strategy</code> - (Required) Supported fleet discovery strategies.</li>
+<li><code>targets</code> - (Required when strategy=TARGET_LIST) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCIDs</a> of Exadata VM Cluster targets. Only Exadata VM Cluster targets associated with the specified &lsquo;serviceType&rsquo; are allowed.</li>
+</ul></li>
+<li><code>source_major_version</code> - (Required) Major version of Exadata Image (Guest OS) release for Exadata VM Cluster targets to be included in an Exadata Fleet Update Collection. Major Versions of Exadata Software are demarcated by the underlying Oracle Linux OS version. For more details, refer to <a href="https://support.oracle.com/knowledge/Oracle%20Database%20Products/2075007_1.html">Oracle document 2075007.1</a></li>
+</ul></li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>display_name</code> - (Optional) (Updatable) The user-friendly name for the Exadata Fleet Update Collection.</li>
+<li><code>fleet_discovery</code> - (Applicable when type=DB | GI | GUEST_OS) Fleet discovery strategies for a &lsquo;GUEST_OS&rsquo; collection of Exadata VM Clusters. If specified for an UpdateCollection request, discovery for Exadata VM Clusters will be rerun.
+
+<ul>
+<li><code>filters</code> - (Required when strategy=FILTERS) Filters to perform the target discovery.
+
+<ul>
+<li><code>entity_type</code> - (Required when type=RESOURCE_ID) Type of resource to match in the discovery.</li>
+<li><code>exadata_releases</code> - (Required when type=EXADATA_RELEASE_VERSION) List of Exadata Release versions to include when discovering Exadata VM Cluster targets for a &lsquo;GUEST_OS&rsquo; collection.</li>
+<li><code>identifiers</code> - (Required when type=COMPARTMENT_ID | RESOURCE_ID) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCIDs</a> of associated resources to include when discovering Exadata VM Cluster targets for a &lsquo;GUEST_OS&rsquo; collection.  Specified resources must match the specified &lsquo;entityType&rsquo;. FsuCollection of type &lsquo;GI&rsquo; or &lsquo;GUEST_OS&rsquo; can be specified.</li>
+<li><code>mode</code> - (Applicable when strategy=FILTERS) INCLUDE or EXCLUDE the filter results when discovering Exadata VM Cluster targets for a &lsquo;GUEST_OS&rsquo; collection. Supported only for RESOURCE_ID filter.</li>
+<li><code>names</code> - (Required when type=DB_HOME_NAME | DB_NAME | DB_UNIQUE_NAME) List of Database unique names to include in the discovery.</li>
+<li><code>operator</code> - (Applicable when type=DEFINED_TAG | FREEFORM_TAG | RESOURCE_ID) Type of join for each element in this filter.</li>
+<li><code>tags</code> - (Required when type=DEFINED_TAG | FREEFORM_TAG) <a href="https://docs.cloud.oracle.com/iaas/Content/Tagging/Concepts/understandingfreeformtags.htm">Free-form tags</a> to include when discovering Exadata VM Cluster targets for a &lsquo;GUEST_OS&rsquo; collection.
+
+<ul>
+<li><code>key</code> - (Required when type=DEFINED_TAG | FREEFORM_TAG) Freeform tag key.</li>
+<li><code>namespace</code> - (Required when type=DEFINED_TAG) Defined tag namespace.</li>
+<li><code>value</code> - (Required when type=DEFINED_TAG | FREEFORM_TAG) Freeform tag value.</li>
+</ul></li>
+<li><code>type</code> - (Required) Filters supported for searching Exadata VM Cluster targets for a &lsquo;GUEST_OS&rsquo; collection.</li>
+<li><code>versions</code> - (Required when type=VERSION) List of Exadata Image (Guest OS) version strings to include when discovering Exadata VM Cluster targets for a &lsquo;GUEST_OS&rsquo; collection.</li>
+</ul></li>
+<li><code>fsu_discovery_id</code> - (Required when strategy=DISCOVERY_RESULTS) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Exadata Fleet Update Discovery.</li>
+<li><code>query</code> - (Required when strategy=SEARCH_QUERY) <a href="https://docs.cloud.oracle.com/iaas/Content/Search/Concepts/queryoverview.htm">OCI Search Service</a> query string.</li>
+<li><code>strategy</code> - (Required) Supported fleet discovery strategies.</li>
+<li><code>targets</code> - (Required when strategy=TARGET_LIST) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCIDs</a> of Exadata VM Cluster targets. Only Exadata VM Cluster targets associated with the specified &lsquo;serviceType&rsquo; are allowed.</li>
+</ul></li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>service_type</code> - (Required) Exadata service type for the target resource members.</li>
+<li><code>source_major_version</code> - (Required when type=DB | GI | GUEST_OS) Major version of Exadata Image (Guest OS) release for Exadata VM Cluster targets to be included in the Exadata Fleet Update Collection. Only Exadata VM Clusters whose &lsquo;systemVersion&rsquo; is related to the major version will be added to the Exadata Fleet Update Collection. For more details, refer to <a href="https://support.oracle.com/knowledge/Oracle%20Database%20Products/2075007_1.html">Oracle document 2075007.1</a></li>
+<li><code>type</code> - (Required) Collection type. DB: Only Database entity type resources allowed. GI: CloudVMCluster and VMCluster entity type resources allowed. GUEST_OS: CloudVmCluster and VmCluster entity type resources are allowed. EXADB_STACK: CloudVmCluster and VmCluster entity type resources are allowed.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>active_fsu_cycle</code> - Active Exadata Fleet Update Cycle resource for this Collection. Object would be null if there is no active Cycle.
+
+<ul>
+<li><code>display_name</code> - Display name of the active Exadata Fleet Update Cycle resource.</li>
+<li><code>id</code> - OCID of the active Exadata Fleet Update Cycle resource.</li>
+</ul></li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Compartment.</li>
+<li><code>components</code> - Details of components in an Exadata software stack.
+
+<ul>
+<li><code>component_type</code> - Type of component in an Exadata software stack.</li>
+<li><code>fleet_discovery</code> - Fleet discovery strategies for a &lsquo;GUEST_OS&rsquo; collection of Exadata VM Clusters. If specified for an UpdateCollection request, discovery for Exadata VM Clusters will be rerun.
+
+<ul>
+<li><code>filters</code> - Filters to perform the target discovery.
+
+<ul>
+<li><code>entity_type</code> - Type of resource to match in the discovery.</li>
+<li><code>exadata_releases</code> - List of Exadata Release versions to include when discovering Exadata VM Cluster targets for a &lsquo;GUEST_OS&rsquo; collection.</li>
+<li><code>identifiers</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCIDs</a> of associated resources to include when discovering Exadata VM Cluster targets for a &lsquo;GUEST_OS&rsquo; collection.  Specified resources must match the specified &lsquo;entityType&rsquo;. FsuCollection of type &lsquo;GI&rsquo; or &lsquo;GUEST_OS&rsquo; can be specified.</li>
+<li><code>mode</code> - INCLUDE or EXCLUDE the filter results when discovering Exadata VM Cluster targets for a &lsquo;GUEST_OS&rsquo; collection. Supported only for RESOURCE_ID filter.</li>
+<li><code>operator</code> - Type of join for each element in this filter.</li>
+<li><code>tags</code> - <a href="https://docs.cloud.oracle.com/iaas/Content/Tagging/Concepts/understandingfreeformtags.htm">Free-form tags</a> to include when discovering Exadata VM Cluster targets for a &lsquo;GUEST_OS&rsquo; collection.
+
+<ul>
+<li><code>key</code> - Freeform tag key.</li>
+<li><code>namespace</code> - Defined tag namespace.</li>
+<li><code>value</code> - Freeform tag value.</li>
+</ul></li>
+<li><code>type</code> - Filters supported for searching Exadata VM Cluster targets for a &lsquo;GUEST_OS&rsquo; collection.</li>
+<li><code>versions</code> - List of Exadata Image (Guest OS) version strings to include when discovering Exadata VM Cluster targets for a &lsquo;GUEST_OS&rsquo; collection.</li>
+</ul></li>
+<li><code>fsu_discovery_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Exadata Fleet Update Discovery.</li>
+<li><code>query</code> - <a href="https://docs.cloud.oracle.com/iaas/Content/Search/Concepts/queryoverview.htm">OCI Search Service</a> query string.</li>
+<li><code>strategy</code> - Supported fleet discovery strategies.</li>
+<li><code>targets</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCIDs</a> of Exadata VM Cluster targets. Only Exadata VM Cluster targets associated with the specified &lsquo;serviceType&rsquo; are allowed.</li>
+</ul></li>
+<li><code>source_major_version</code> - Major version of Exadata Image (Guest OS) release for Exadata VM Cluster targets to be included in an Exadata Fleet Update Collection. Major Versions of Exadata Software are demarcated by the underlying Oracle Linux OS version. For more details, refer to <a href="https://support.oracle.com/knowledge/Oracle%20Database%20Products/2075007_1.html">Oracle document 2075007.1</a></li>
+</ul></li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>display_name</code> - The user-friendly name for the Exadata Fleet Update Collection.</li>
+<li><code>fleet_discovery</code> - Fleet discovery strategies for a &lsquo;GUEST_OS&rsquo; collection of Exadata VM Clusters. If specified for an UpdateCollection request, discovery for Exadata VM Clusters will be rerun.
+
+<ul>
+<li><code>filters</code> - Filters to perform the target discovery.
+
+<ul>
+<li><code>entity_type</code> - Type of resource to match in the discovery.</li>
+<li><code>exadata_releases</code> - List of Exadata Release versions to include when discovering Exadata VM Cluster targets for a &lsquo;GUEST_OS&rsquo; collection.</li>
+<li><code>identifiers</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCIDs</a> of associated resources to include when discovering Exadata VM Cluster targets for a &lsquo;GUEST_OS&rsquo; collection.  Specified resources must match the specified &lsquo;entityType&rsquo;. FsuCollection of type &lsquo;GI&rsquo; or &lsquo;GUEST_OS&rsquo; can be specified.</li>
+<li><code>mode</code> - INCLUDE or EXCLUDE the filter results when discovering Exadata VM Cluster targets for a &lsquo;GUEST_OS&rsquo; collection. Supported only for RESOURCE_ID filter.</li>
+<li><code>names</code> - List of Database unique names to include in the discovery.</li>
+<li><code>operator</code> - Type of join for each element in this filter.</li>
+<li><code>tags</code> - <a href="https://docs.cloud.oracle.com/iaas/Content/Tagging/Concepts/understandingfreeformtags.htm">Free-form tags</a> to include when discovering Exadata VM Cluster targets for a &lsquo;GUEST_OS&rsquo; collection.
+
+<ul>
+<li><code>key</code> - Freeform tag key.</li>
+<li><code>namespace</code> - Defined tag namespace.</li>
+<li><code>value</code> - Freeform tag value.</li>
+</ul></li>
+<li><code>type</code> - Filters supported for searching Exadata VM Cluster targets for a &lsquo;GUEST_OS&rsquo; collection.</li>
+<li><code>versions</code> - List of Exadata Image (Guest OS) version strings to include when discovering Exadata VM Cluster targets for a &lsquo;GUEST_OS&rsquo; collection.</li>
+</ul></li>
+<li><code>fsu_discovery_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Exadata Fleet Update Discovery.</li>
+<li><code>query</code> - <a href="https://docs.cloud.oracle.com/iaas/Content/Search/Concepts/queryoverview.htm">OCI Search Service</a> query string.</li>
+<li><code>strategy</code> - Supported fleet discovery strategies.</li>
+<li><code>targets</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCIDs</a> of Exadata VM Cluster targets. Only Exadata VM Cluster targets associated with the specified &lsquo;serviceType&rsquo; are allowed.</li>
+</ul></li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Exadata Fleet Update Collection.</li>
+<li><code>last_completed_fsu_cycle_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of last completed FSU Cycle.</li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.</li>
+<li><code>service_type</code> - Exadata service type for the target resource members.</li>
+<li><code>source_major_version</code> - Major version of Exadata Image (Guest OS) release for Exadata VM Cluster targets to be included in the Exadata Fleet Update Collection. Only Exadata VM Clusters whose &lsquo;systemVersion&rsquo; is related to the major version will be added to the Exadata Fleet Update Collection. For more details, refer to <a href="https://support.oracle.com/knowledge/Oracle%20Database%20Products/2075007_1.html">Oracle document 2075007.1</a></li>
+<li><code>state</code> - The current state of the Exadata Fleet Update Collection.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>target_count</code> - Number of targets that are members of this Collection.</li>
+<li><code>time_created</code> - The time the Exadata Fleet Update Collection was created. An RFC3339 formatted datetime string.</li>
+<li><code>time_updated</code> - The time the Exadata Fleet Update Collection was updated. An RFC3339 formatted datetime string.</li>
+<li><code>type</code> - Exadata Fleet Update Collection type.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Fsu Collection
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Fsu Collection
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Fsu Collection</p>
+
+<h2>Import</h2>
+
+<p>FsuCollections can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_fleet_software_update_fsu_collection.test_fsu_collection &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

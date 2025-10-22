@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_fusion_apps_fusion_environment</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_fusion_apps_fusion_environment</h1>
+
+<p>This resource provides the Fusion Environment resource in Oracle Cloud Infrastructure Fusion Apps service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/fusion-applications/latest/FusionEnvironment">https://docs.oracle.com/iaas/api/#/en/fusion-applications/latest/FusionEnvironment</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/fusionapps">https://github.com/oracle/terraform-provider-oci/tree/master/examples/fusionapps</a></p>
+
+<p>Creates a new FusionEnvironment.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_fusion_apps_fusion_environment&quot; &quot;test_fusion_environment&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	create_fusion_environment_admin_user_details {
+		#Required
+		email_address = var.fusion_environment_create_fusion_environment_admin_user_details_email_address
+		first_name = var.fusion_environment_create_fusion_environment_admin_user_details_first_name
+		last_name = var.fusion_environment_create_fusion_environment_admin_user_details_last_name
+		username = var.fusion_environment_create_fusion_environment_admin_user_details_username
+
+		#Optional
+		password = var.fusion_environment_create_fusion_environment_admin_user_details_password
+	}
+	display_name = var.fusion_environment_display_name
+	fusion_environment_family_id = oci_fusion_apps_fusion_environment_family.test_fusion_environment_family.id
+	fusion_environment_type = var.fusion_environment_fusion_environment_type
+
+	#Optional
+	additional_language_packs = var.fusion_environment_additional_language_packs
+	defined_tags = {&quot;foo-namespace.bar-key&quot;= &quot;value&quot;}
+	dns_prefix = var.fusion_environment_dns_prefix
+	freeform_tags = {&quot;bar-key&quot;= &quot;value&quot;}
+	is_ipv6dual_stack_enabled = var.fusion_environment_is_ipv6dual_stack_enabled
+	kms_key_id = oci_kms_key.test_key.id
+	maintenance_policy {
+
+		#Optional
+		environment_maintenance_override = var.fusion_environment_maintenance_policy_environment_maintenance_override
+		monthly_patching_override = var.fusion_environment_maintenance_policy_monthly_patching_override
+	}
+	rules {
+		#Required
+		action = var.fusion_environment_rules_action
+		conditions {
+			#Required
+			attribute_name = var.fusion_environment_rules_conditions_attribute_name
+			attribute_value = var.fusion_environment_rules_conditions_attribute_value
+		}
+
+		#Optional
+		description = var.fusion_environment_rules_description
+	}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>additional_language_packs</code> - (Optional) (Updatable) Language packs.</li>
+<li><code>compartment_id</code> - (Required) (Updatable) The unique identifier (OCID) of the compartment where the Fusion Environment is located.</li>
+<li><code>create_fusion_environment_admin_user_details</code> - (Required) The credentials for the Fusion Applications service administrator.
+
+<ul>
+<li><code>email_address</code> - (Required) The email address for the administrator.</li>
+<li><code>first_name</code> - (Required) The administrator&rsquo;s first name.</li>
+<li><code>last_name</code> - (Required) The administrator&rsquo;s last name.</li>
+<li><code>password</code> - (Optional) The password for the administrator.</li>
+<li><code>username</code> - (Required) The username for the administrator.</li>
+</ul></li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>display_name</code> - (Required) (Updatable) FusionEnvironment Identifier can be renamed.</li>
+<li><code>dns_prefix</code> - (Optional) DNS prefix.</li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>fusion_environment_family_id</code> - (Required) The unique identifier (OCID) of the Fusion Environment Family that the Fusion Environment belongs to.</li>
+<li><code>fusion_environment_type</code> - (Required) The type of environment. Valid values are Production, Test, or Development.</li>
+<li><code>kms_key_id</code> - (Optional) (Updatable) byok kms keyId</li>
+<li><code>maintenance_policy</code> - (Optional) (Updatable) The policy that specifies the maintenance and upgrade preferences for an environment. For more information about the options, see <a href="https://docs.cloud.oracle.com/iaas/Content/fusion-applications/plan-environment-family.htm#about-env-maintenance">Understanding Environment Maintenance</a>.
+
+<ul>
+<li><code>environment_maintenance_override</code> - (Optional) (Updatable) User choice to upgrade both test and prod pods at the same time. Overrides fusion environment families&rsquo;.</li>
+<li><code>monthly_patching_override</code> - (Optional) (Updatable) When &ldquo;ENABLED&rdquo;, the Fusion environment is patched monthly. When &ldquo;DISABLED&rdquo;, the Fusion environment is not patched monthly. This setting overrides the environment family setting. When not set, the environment follows the environment family policy.</li>
+</ul></li>
+<li><code>rules</code> - (Optional) (Updatable) Rules.
+
+<ul>
+<li><code>action</code> - (Required) (Updatable) Rule type</li>
+<li><code>conditions</code> - (Required) (Updatable)
+
+<ul>
+<li><code>attribute_name</code> - (Required) (Updatable) RuleCondition type</li>
+<li><code>attribute_value</code> - (Required) (Updatable) The OCID of the originating VCN that an incoming packet must match. You can use this condition in conjunction with <code>SourceVcnIpAddressCondition</code>. <strong>NOTE:</strong> If you define this condition for a rule without a <code>SourceVcnIpAddressCondition</code>, this condition matches all incoming traffic in the specified VCN.</li>
+</ul></li>
+<li><code>description</code> - (Optional) (Updatable) A brief description of the access control rule. Avoid entering confidential information. example: <code>192.168.0.0/16 and 2001:db8::/32 are trusted clients. Whitelist them.</code></li>
+</ul></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>additional_language_packs</code> - Language packs</li>
+<li><code>applied_patch_bundles</code> - Patch bundle names</li>
+<li><code>compartment_id</code> - Compartment Identifier</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>display_name</code> - FusionEnvironment Identifier, can be renamed</li>
+<li><code>dns_prefix</code> - DNS prefix</li>
+<li><code>domain_id</code> - The IDCS domain created for the fusion instance</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>fusion_environment_family_id</code> - FusionEnvironmentFamily Identifier</li>
+<li><code>fusion_environment_type</code> - Type of the FusionEnvironment.</li>
+<li><code>id</code> - Unique identifier that is immutable on creation</li>
+<li><code>idcs_domain_url</code> - The IDCS Domain URL</li>
+<li><code>is_break_glass_enabled</code> - If it&rsquo;s true, then the Break Glass feature is enabled</li>
+<li><code>is_ipv6dual_stack_enabled</code> - Enable IPv4/IPv6 dual stack support for the environment.  Setting to true will assign an IPv6 address to the environment in addition to an IPv4 address.</li>
+<li><code>kms_key_id</code> - BYOK key id</li>
+<li><code>kms_key_info</code> - BYOK key info</li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.</li>
+<li><code>lockbox_id</code> - The lockbox Id of this fusion environment. If there&rsquo;s no lockbox id, this field will be null</li>
+<li><code>maintenance_policy</code> - The policy that specifies the maintenance and upgrade preferences for an environment. For more information about the options, see <a href="https://docs.cloud.oracle.com/iaas/Content/fusion-applications/plan-environment-family.htm#about-env-maintenance">Understanding Environment Maintenance</a>.
+
+<ul>
+<li><code>environment_maintenance_override</code> - User choice to upgrade both production and non-production environments at the same time. Overrides the Fusion environment family setting.</li>
+<li><code>monthly_patching_override</code> - Whether the Fusion environment will be updated monthly or updated on the quarterly cycle. This setting overrides the monthly patching setting of its Fusion environment family.</li>
+<li><code>quarterly_upgrade_begin_times</code> - Determines the quarterly upgrade begin times (monthly maintenance group schedule ) of the Fusion environment.
+
+<ul>
+<li><code>begin_times_value</code> - The frequency and month when maintenance occurs for the Fusion environment.</li>
+<li><code>override_type</code> - Determines if the maintenance schedule of the Fusion environment is inherited from the Fusion environment family.</li>
+</ul></li>
+</ul></li>
+<li><code>public_url</code> - Public URL</li>
+<li><code>refresh</code> - Describes a refresh of a fusion environment
+
+<ul>
+<li><code>source_fusion_environment_id</code> - The source environment id for the last refresh</li>
+<li><code>time_finished</code> - The time of when the last refresh finish</li>
+<li><code>time_of_restoration_point</code> - The point of time of the latest DB backup for the last refresh</li>
+</ul></li>
+<li><code>rules</code> - Network Access Control Rules
+
+<ul>
+<li><code>action</code> - Rule type</li>
+<li><code>conditions</code> -
+
+<ul>
+<li><code>attribute_name</code> - RuleCondition type</li>
+<li><code>attribute_value</code> - The OCID of the originating VCN that an incoming packet must match. You can use this condition in conjunction with <code>SourceVcnIpAddressCondition</code>. <strong>NOTE:</strong> If you define this condition for a rule without a <code>SourceVcnIpAddressCondition</code>, this condition matches all incoming traffic in the specified VCN.</li>
+</ul></li>
+<li><code>description</code> - A brief description of the access control rule. Avoid entering confidential information. example: <code>192.168.0.0/16 and 2001:db8::/32 are trusted clients. Whitelist them.</code></li>
+</ul></li>
+<li><code>state</code> - The current state of the ServiceInstance.</li>
+<li><code>subscription_ids</code> - List of subscription IDs.</li>
+<li><code>system_name</code> - Environment Specific Guid/ System Name</li>
+<li><code>time_created</code> - The time the the FusionEnvironment was created. An RFC3339 formatted datetime string</li>
+<li><code>time_upcoming_maintenance</code> - The next maintenance for this environment</li>
+<li><code>time_updated</code> - The time the FusionEnvironment was updated. An RFC3339 formatted datetime string</li>
+<li><code>version</code> - Version of Fusion Apps used by this environment</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Fusion Environment
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Fusion Environment
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Fusion Environment</p>
+
+<h2>Import</h2>
+
+<p>FusionEnvironments can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_fusion_apps_fusion_environment.test_fusion_environment &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

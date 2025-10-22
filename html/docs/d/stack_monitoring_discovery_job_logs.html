@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_stack_monitoring_discovery_job_logs</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_stack_monitoring_discovery_job_logs</h1>
+
+<p>This data source provides the list of Discovery Job Logs in Oracle Cloud Infrastructure Stack Monitoring service.</p>
+
+<p>API to get all the logs of a Discovery Job.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_stack_monitoring_discovery_job_logs&quot; &quot;test_discovery_job_logs&quot; {
+	#Required
+	discovery_job_id = oci_stack_monitoring_discovery_job.test_discovery_job.id
+
+	#Optional
+	log_type = var.discovery_job_log_log_type
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>discovery_job_id</code> - (Required) The Discovery Job ID</li>
+<li><code>log_type</code> - (Optional) The log type like INFO, WARNING, ERROR, SUCCESS</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>discovery_job_log_collection</code> - The list of discovery_job_log_collection.</li>
+</ul>
+
+<h3>DiscoveryJobLog Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - List of logs
+
+<ul>
+<li><code>id</code> - The OCID of Discovery job</li>
+<li><code>log_message</code> - Log message</li>
+<li><code>log_type</code> - Type of log (INFO, WARNING, ERROR or SUCCESS)</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - Time the Job log was created</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

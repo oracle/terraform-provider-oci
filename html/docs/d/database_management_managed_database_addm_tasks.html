@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_management_managed_database_addm_tasks</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_management_managed_database_addm_tasks</h1>
+
+<p>This data source provides the list of Managed Database Addm Tasks in Oracle Cloud Infrastructure Database Management service.</p>
+
+<p>Lists the metadata for each ADDM task who&rsquo;s end snapshot time falls within the provided start and end time. Details include
+the name of the ADDM task, description, user, status and creation date time.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_management_managed_database_addm_tasks&quot; &quot;test_managed_database_addm_tasks&quot; {
+	#Required
+	managed_database_id = oci_database_management_managed_database.test_managed_database.id
+	time_end = var.managed_database_addm_task_time_end
+	time_start = var.managed_database_addm_task_time_start
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>managed_database_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Managed Database.</li>
+<li><code>time_end</code> - (Required) The end of the time range to search for ADDM tasks as defined by date-time RFC3339 format.</li>
+<li><code>time_start</code> - (Required) The beginning of the time range to search for ADDM tasks as defined by date-time RFC3339 format.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>addm_tasks_collection</code> - The list of addm_tasks_collection.</li>
+</ul>
+
+<h3>ManagedDatabaseAddmTask Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - The list of ADDM task metadata.
+
+<ul>
+<li><code>begin_snapshot_id</code> - The ID number of the beginning AWR snapshot.</li>
+<li><code>db_user</code> - The database user who owns the ADDM task.</li>
+<li><code>description</code> - The description of the ADDM task.</li>
+<li><code>end_snapshot_id</code> - The ID number of the ending AWR snapshot.</li>
+<li><code>end_snapshot_time</code> - The timestamp of the ending AWR snapshot used in the ADDM task as defined by date-time RFC3339 format.</li>
+<li><code>findings</code> - The number of ADDM findings.</li>
+<li><code>how_created</code> - A description of how the task was created.</li>
+<li><code>start_snapshot_time</code> - The timestamp of the beginning AWR snapshot used in the ADDM task as defined by date-time RFC3339 format.</li>
+<li><code>status</code> - The status of the ADDM task.</li>
+<li><code>task_id</code> - The ID number of the ADDM task.</li>
+<li><code>task_name</code> - The name of the ADDM task.</li>
+<li><code>time_created</code> - The creation date of the ADDM task.</li>
+</ul></li>
+<li><code>managed_database_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Managed Database.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

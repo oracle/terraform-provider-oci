@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_network_load_balancer_network_load_balancer_backend_set_backend_operational_status</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_network_load_balancer_network_load_balancer_backend_set_backend_operational_status</h1>
+
+<p>This data source provides details about a specific Network Load Balancer Backend Set Backend Operational Status resource in Oracle Cloud Infrastructure Network Load Balancer service.</p>
+
+<p>Retrieves the current operational status of the specified backend server.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_network_load_balancer_network_load_balancer_backend_set_backend_operational_status&quot; &quot;test_network_load_balancer_backend_set_backend_operational_status&quot; {
+	#Required
+	backend_name = oci_network_load_balancer_backend.test_backend.name
+	backend_set_name = oci_network_load_balancer_backend_set.test_backend_set.name
+	network_load_balancer_id = oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>backend_name</code> - (Required) The name of the backend server to retrieve health status for. If the backend was created with an explicitly specified name, that name should be used here. If the backend was created without explicitly specifying the name, but was created using ipAddress, this is specified as <ipAddress>:<port>. If the backend was created without explicitly specifying the name, but was created using targetId, this is specified as <targetId>:<port>.  Example: <code>10.0.0.3:8080</code> or <code>ocid1.privateip..oc1.&lt;var&gt;&amp;lt;unique_ID&amp;gt;&lt;/var&gt;:8080</code></li>
+<li><code>backend_set_name</code> - (Required) The name of the backend set associated with the backend server for which to retrieve the operational status.  Example: <code>example_backend_set</code></li>
+<li><code>network_load_balancer_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the network load balancer to update.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>status</code> - The operational status.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

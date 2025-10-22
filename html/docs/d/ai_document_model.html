@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_ai_document_model</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_ai_document_model</h1>
+
+<p>This data source provides details about a specific Model resource in Oracle Cloud Infrastructure Ai Document service.</p>
+
+<p>Get a model by identifier.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_ai_document_model&quot; &quot;test_model&quot; {
+	#Required
+	model_id = oci_ai_document_model.test_model.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>model_id</code> - (Required) A unique model identifier.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>alias_name</code> - the alias name of the model.</li>
+<li><code>compartment_id</code> - The compartment identifier.</li>
+<li><code>component_models</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> collection of active custom Key Value models that need to be composed.
+
+<ul>
+<li><code>model_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of active custom Key Value model that need to be composed.</li>
+</ul></li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For example: <code>{&quot;foo-namespace&quot;: {&quot;bar-key&quot;: &quot;value&quot;}}</code></li>
+<li><code>description</code> - An optional description of the model.</li>
+<li><code>display_name</code> - A human-friendly name for the model, which can be changed.</li>
+<li><code>freeform_tags</code> - A simple key-value pair that is applied without any predefined name, type, or scope. It exists for cross-compatibility only. For example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - A unique identifier that is immutable after creation.</li>
+<li><code>inference_units</code> - Number of replicas required for this model.</li>
+<li><code>is_composed_model</code> - Set to true when the model is created by using multiple key value extraction models.</li>
+<li><code>is_quick_mode</code> - Set to true when experimenting with a new model type or dataset, so model training is quick, with a predefined low number of passes through the training data.</li>
+<li><code>labels</code> - The collection of labels used to train the custom model.</li>
+<li><code>language</code> - The document language for model training, abbreviated according to the BCP 47 syntax.</li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail, that can provide actionable information if training failed.</li>
+<li><code>locks</code> - Locks associated with this resource.
+
+<ul>
+<li><code>compartment_id</code> - The lock compartment ID.</li>
+<li><code>message</code> - A message added by the lock creator. The message typically gives an indication of why the resource is locked.</li>
+<li><code>related_resource_id</code> - The resource ID that is locking this resource. Indicates that deleting this resource removes the lock.</li>
+<li><code>time_created</code> - Indicates when the lock was created, in the format defined by RFC 3339.</li>
+<li><code>type</code> - Lock type.</li>
+</ul></li>
+<li><code>max_training_time_in_hours</code> - The maximum model training time in hours, expressed as a decimal fraction.</li>
+<li><code>metrics</code> - Trained Model Metrics.
+
+<ul>
+<li><code>dataset_summary</code> - Summary of count of samples used during model training.
+
+<ul>
+<li><code>test_sample_count</code> - Number of samples used for testing the model.</li>
+<li><code>training_sample_count</code> - Number of samples used for training the model.</li>
+<li><code>validation_sample_count</code> - Number of samples used for validating the model.</li>
+</ul></li>
+<li><code>label_metrics_report</code> - List of metrics entries per label.
+
+<ul>
+<li><code>confidence_entries</code> - List of document classification confidence report.
+
+<ul>
+<li><code>accuracy</code> - accuracy under the threshold</li>
+<li><code>f1score</code> - f1Score under the threshold</li>
+<li><code>precision</code> - Precision under the threshold</li>
+<li><code>recall</code> - Recall under the threshold</li>
+<li><code>threshold</code> - Threshold used to calculate precision and recall.</li>
+</ul></li>
+<li><code>document_count</code> - Total test documents in the label.</li>
+<li><code>label</code> - Label name</li>
+<li><code>mean_average_precision</code> - Mean average precision under different thresholds</li>
+</ul></li>
+<li><code>model_type</code> - The type of custom model trained.</li>
+<li><code>overall_metrics_report</code> - Overall Metrics report for Document Classification Model.
+
+<ul>
+<li><code>confidence_entries</code> - List of document classification confidence report.
+
+<ul>
+<li><code>accuracy</code> - accuracy under the threshold</li>
+<li><code>f1score</code> - f1Score under the threshold</li>
+<li><code>precision</code> - Precision under the threshold</li>
+<li><code>recall</code> - Recall under the threshold</li>
+<li><code>threshold</code> - Threshold used to calculate precision and recall.</li>
+</ul></li>
+<li><code>document_count</code> - Total test documents in the label.</li>
+<li><code>mean_average_precision</code> - Mean average precision under different thresholds</li>
+</ul></li>
+</ul></li>
+<li><code>model_sub_type</code> - Applicable to only PRE_TRAINED_KEY_VALUE_EXTRACTION, PRE_TRAINED_DOCUMENT_ELEMENTS_EXTRACTION.
+
+<ul>
+<li><code>model_sub_type</code> - The model sub type for PRE_TRAINED_KEY_VALUE_EXTRACTION The allowed values are:
+
+<ul>
+<li><code>RECEIPT</code></li>
+<li><code>INVOICE</code></li>
+<li><code>PASSPORT</code></li>
+<li><code>DRIVER_LICENSE</code></li>
+<li><code>HEALTH_INSURANCE_ID</code></li>
+</ul></li>
+<li><code>model_type</code> - Sub type model based on the model type. The allowed values are:
+
+<ul>
+<li><code>PRE_TRAINED_KEY_VALUE_EXTRACTION</code></li>
+<li><code>PRE_TRAINED_DOCUMENT_ELEMENTS_EXTRACTION</code></li>
+</ul></li>
+</ul></li>
+<li><code>model_type</code> - The type of the Document model.</li>
+<li><code>model_version</code> - The version of the model.</li>
+<li><code>project_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the project that contains the model.</li>
+<li><code>state</code> - The current state of the model.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. For example: <code>{&quot;orcl-cloud&quot;: {&quot;free-tier-retained&quot;: &quot;true&quot;}}</code></li>
+<li><code>tenancy_id</code> - The tenancy id of the model.</li>
+<li><code>testing_dataset</code> - The base entity which is the input for creating and training a model.
+
+<ul>
+<li><code>bucket</code> - The name of the Object Storage bucket that contains the input data file.</li>
+<li><code>dataset_id</code> - OCID of the Data Labeling dataset.</li>
+<li><code>dataset_type</code> - The dataset type, based on where it is stored.</li>
+<li><code>namespace</code> - The namespace name of the Object Storage bucket that contains the input data file.</li>
+<li><code>object</code> - The object name of the input data file.</li>
+</ul></li>
+<li><code>time_created</code> - When the model was created, as an RFC3339 datetime string.</li>
+<li><code>time_updated</code> - When the model was updated, as an RFC3339 datetime string.</li>
+<li><code>trained_time_in_hours</code> - The total hours actually used for model training.</li>
+<li><code>training_dataset</code> - The base entity which is the input for creating and training a model.
+
+<ul>
+<li><code>bucket</code> - The name of the Object Storage bucket that contains the input data file.</li>
+<li><code>dataset_id</code> - OCID of the Data Labeling dataset.</li>
+<li><code>dataset_type</code> - The dataset type, based on where it is stored.</li>
+<li><code>namespace</code> - The namespace name of the Object Storage bucket that contains the input data file.</li>
+<li><code>object</code> - The object name of the input data file.</li>
+</ul></li>
+<li><code>validation_dataset</code> - The base entity which is the input for creating and training a model.
+
+<ul>
+<li><code>bucket</code> - The name of the Object Storage bucket that contains the input data file.</li>
+<li><code>dataset_id</code> - OCID of the Data Labeling dataset.</li>
+<li><code>dataset_type</code> - The dataset type, based on where it is stored.</li>
+<li><code>namespace</code> - The namespace name of the Object Storage bucket that contains the input data file.</li>
+<li><code>object</code> - The object name of the input data file.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

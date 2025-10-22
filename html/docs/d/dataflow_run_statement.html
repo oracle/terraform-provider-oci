@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_dataflow_run_statement</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_dataflow_run_statement</h1>
+
+<p>This data source provides details about a specific Run Statement resource in Oracle Cloud Infrastructure Data Flow service.</p>
+
+<p>Retrieves the statement corresponding to the <code>statementId</code> for a Session run specified by <code>runId</code>.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_dataflow_run_statement&quot; &quot;test_run_statement&quot; {
+	#Required
+	run_id = oci_dataflow_run.test_run.id
+	statement_id = oci_dataflow_statement.test_statement.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>run_id</code> - (Required) The unique ID for the run</li>
+<li><code>statement_id</code> - (Required) The unique ID for the statement.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>code</code> - The statement code to execute. Example: <code>println(sc.version)</code></li>
+<li><code>id</code> - The statement ID.</li>
+<li><code>output</code> - The execution output of a statement.
+
+<ul>
+<li><code>data</code> - An object representing execution output of a statement.
+
+<ul>
+<li><code>type</code> - The type of the <code>StatementOutputData</code> like <code>TEXT_PLAIN</code>, <code>TEXT_HTML</code> or <code>IMAGE_PNG</code>.</li>
+<li><code>value</code> - The statement code execution output in html format.</li>
+</ul></li>
+<li><code>error_name</code> - The name of the error in the statement output.</li>
+<li><code>error_value</code> - The value of the error in the statement output.</li>
+<li><code>status</code> - Status of the statement output.</li>
+<li><code>traceback</code> - The traceback of the statement output.</li>
+</ul></li>
+<li><code>progress</code> - The execution progress.</li>
+<li><code>run_id</code> - The ID of a run.</li>
+<li><code>state</code> - The current state of this statement.</li>
+<li><code>time_completed</code> - The date and time a statement execution was completed, expressed in <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a> timestamp format. Example: <code>2022-05-31T21:10:29.600Z</code></li>
+<li><code>time_created</code> - The date and time the resource was created, expressed in <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a> timestamp format. Example: <code>2018-04-03T21:10:29.600Z</code></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

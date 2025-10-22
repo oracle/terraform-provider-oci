@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_database_db_systems_upgrade</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_database_db_systems_upgrade</h1>
+
+<p>This resource provides the Db Systems Upgrade resource in Oracle Cloud Infrastructure Database service.</p>
+
+<p>Upgrades the operating system and grid infrastructure of the DB system.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_database_db_systems_upgrade&quot; &quot;test_db_systems_upgrade&quot; {
+	#Required
+	action = var.db_systems_upgrade_action
+	db_system_id = oci_database_db_system.test_db_system.id
+
+	#Optional
+	is_snapshot_retention_days_force_updated = var.db_systems_upgrade_is_snapshot_retention_days_force_updated
+	new_gi_version = var.db_systems_upgrade_new_gi_version
+	snapshot_retention_period_in_days = var.db_systems_upgrade_snapshot_retention_period_in_days
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>action</code> - (Required) The operating system upgrade action.</li>
+<li><code>db_system_id</code> - (Required) The DB system <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>is_snapshot_retention_days_force_updated</code> - (Optional) If true, rollback time is updated even if operating system upgrade history contains errors.</li>
+<li><code>new_gi_version</code> - (Optional) A valid Oracle Grid Infrastructure (GI) software version.</li>
+<li><code>snapshot_retention_period_in_days</code> - (Optional) The retention period, in days, for the snapshot that allows you to perform a rollback of the upgrade operation. After this number of days passes, you cannot roll back the upgrade.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>availability_domain</code> - The name of the availability domain that the DB system is located in.</p></li>
+
+<li><p><code>backup_network_nsg_ids</code> - A list of the <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCIDs</a> of the network security groups (NSGs) that the backup network of this DB system belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see <a href="https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm">Security Rules</a>. Applicable only to Exadata systems.</p></li>
+
+<li><p><code>backup_subnet_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the backup network subnet the DB system is associated with. Applicable only to Exadata DB systems.</p>
+
+<p><strong>Subnet Restriction:</strong> See the subnet restrictions information for <strong>subnetId</strong>.</p></li>
+
+<li><p><code>cluster_name</code> - The cluster name for Exadata and 2-node RAC virtual machine DB systems. The cluster name must begin with an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted. The cluster name can be no longer than 11 characters and is not case sensitive.</p></li>
+
+<li><p><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</p></li>
+
+<li><p><code>cpu_core_count</code> - The number of CPU cores enabled on the DB system.</p></li>
+
+<li><p><code>data_storage_percentage</code> - The percentage assigned to DATA storage (user data and database files). The remaining percentage is assigned to RECO storage (database redo logs, archive logs, and recovery manager backups). Accepted values are 40 and 80. The default is 80 percent assigned to DATA storage. Not applicable for virtual machine DB systems.</p></li>
+
+<li><p><code>data_storage_size_in_gb</code> - The data storage size, in gigabytes, that is currently available to the DB system. Applies only for virtual machine DB systems.</p></li>
+
+<li><p><code>database_edition</code> - The Oracle Database edition that applies to all the databases on the DB system.</p></li>
+
+<li><p><code>db_system_options</code> - The DB system options.</p>
+
+<ul>
+<li><code>storage_management</code> - The storage option used in DB system. ASM - Automatic storage management LVM - Logical Volume management</li>
+</ul></li>
+
+<li><p><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</p></li>
+
+<li><p><code>disk_redundancy</code> - The type of redundancy configured for the DB system. NORMAL is 2-way redundancy. HIGH is 3-way redundancy.</p></li>
+
+<li><p><code>display_name</code> - The user-friendly name for the DB system. The name does not have to be unique.</p></li>
+
+<li><p><code>domain</code> - The domain name for the DB system.</p></li>
+
+<li><p><code>fault_domains</code> - List of the Fault Domains in which this DB system is provisioned.</p></li>
+
+<li><p><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></p></li>
+
+<li><p><code>hostname</code> - The hostname for the DB system.</p></li>
+
+<li><p><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the DB system.</p></li>
+
+<li><p><code>iorm_config_cache</code> - The IORM settings of the Exadata DB system.</p>
+
+<ul>
+<li><code>db_plans</code> - An array of IORM settings for all the database in the Exadata DB system.
+
+<ul>
+<li><code>db_name</code> - The database name. For the default <code>DbPlan</code>, the <code>dbName</code> is <code>default</code>.</li>
+<li><code>flash_cache_limit</code> - The flash cache limit for this database. This value is internally configured based on the share value assigned to the database.</li>
+<li><code>share</code> - The relative priority of this database.</li>
+</ul></li>
+<li><code>lifecycle_details</code> - Additional information about the current <code>lifecycleState</code>.</li>
+<li><code>objective</code> - The current value for the IORM objective. The default is <code>AUTO</code>.</li>
+<li><code>state</code> - The current state of IORM configuration for the Exadata DB system.</li>
+</ul></li>
+
+<li><p><code>kms_key_id</code> - The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.</p></li>
+
+<li><p><code>last_maintenance_run_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the last maintenance run.</p></li>
+
+<li><p><code>last_patch_history_entry_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the last patch history. This value is updated as soon as a patch operation starts.</p></li>
+
+<li><p><code>license_model</code> - The Oracle license model that applies to all the databases on the DB system. The default is LICENSE_INCLUDED.</p></li>
+
+<li><p><code>lifecycle_details</code> - Additional information about the current lifecycle state.</p></li>
+
+<li><p><code>listener_port</code> - The port number configured for the listener on the DB system.</p></li>
+
+<li><p><code>maintenance_window</code> - The scheduling details for the quarterly maintenance window. Patching and system updates take place during the maintenance window.</p>
+
+<ul>
+<li><code>days_of_week</code> - Days during the week when maintenance should be performed.
+
+<ul>
+<li><code>name</code> - Name of the day of the week.</li>
+</ul></li>
+<li><code>hours_of_day</code> - The window of hours during the day when maintenance should be performed. The window is a 4 hour slot. Valid values are
+
+<ul>
+<li>0 - represents time slot 0:00 - 3:59 UTC - 4 - represents time slot 4:00 - 7:59 UTC - 8 - represents time slot 8:00 - 11:59 UTC - 12 - represents time slot 12:00 - 15:59 UTC - 16 - represents time slot 16:00 - 19:59 UTC - 20 - represents time slot 20:00 - 23:59 UTC</li>
+</ul></li>
+<li><code>lead_time_in_weeks</code> - Lead time window allows user to set a lead time to prepare for a down time. The lead time is in weeks and valid value is between 1 to 4.</li>
+<li><code>months</code> - Months during the year when maintenance should be performed.
+
+<ul>
+<li><code>name</code> - Name of the month of the year.</li>
+</ul></li>
+<li><code>preference</code> - The maintenance window scheduling preference.</li>
+<li><code>weeks_of_month</code> - Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed.</li>
+</ul></li>
+
+<li><p><code>next_maintenance_run_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the next maintenance run.</p></li>
+
+<li><p><code>node_count</code> - The number of nodes in the DB system. For RAC DB systems, the value is greater than 1.</p></li>
+
+<li><p><code>nsg_ids</code> - A list of the <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCIDs</a> of the network security groups (NSGs) that this resource belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see <a href="https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm">Security Rules</a>. <strong>NsgIds restrictions:</strong></p>
+
+<ul>
+<li>Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds array cannot be empty.</li>
+</ul></li>
+
+<li><p><code>point_in_time_data_disk_clone_timestamp</code> - The point in time for a cloned database system when the data disks were cloned from the source database system, as described in <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a>.</p></li>
+
+<li><p><code>reco_storage_size_in_gb</code> - The RECO/REDO storage size, in gigabytes, that is currently allocated to the DB system. Applies only for virtual machine DB systems.</p></li>
+
+<li><p><code>scan_dns_name</code> - The FQDN of the DNS record for the SCAN IP addresses that are associated with the DB system.</p></li>
+
+<li><p><code>scan_dns_record_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the DNS record for the SCAN IP addresses that are associated with the DB system.</p></li>
+
+<li><p><code>scan_ip_ids</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Single Client Access Name (SCAN) IP addresses associated with the DB system. SCAN IP addresses are typically used for load balancing and are not assigned to any interface. Oracle Clusterware directs the requests to the appropriate nodes in the cluster.</p>
+
+<p><strong>Note:</strong> For a single-node DB system, this list is empty.</p></li>
+
+<li><p><code>shape</code> - The shape of the DB system. The shape determines resources to allocate to the DB system.</p>
+
+<ul>
+<li>For virtual machine shapes, the number of CPU cores and memory</li>
+<li>For bare metal and Exadata shapes, the number of CPU cores, storage, and memory</li>
+</ul></li>
+
+<li><p><code>source_db_system_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the DB system.</p></li>
+
+<li><p><code>sparse_diskgroup</code> - True, if Sparse Diskgroup is configured for Exadata dbsystem, False, if Sparse diskgroup was not configured.</p></li>
+
+<li><p><code>ssh_public_keys</code> - The public key portion of one or more key pairs used for SSH access to the DB system.</p></li>
+
+<li><p><code>state</code> - The current state of the DB system.</p></li>
+
+<li><p><code>subnet_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the subnet the DB system is associated with.</p>
+
+<p><strong>Subnet Restrictions:</strong></p>
+
+<ul>
+<li>For bare metal DB systems and for single node virtual machine DB systems, do not use a subnet that overlaps with 192.168.16.<sup>16</sup>&frasl;<sub>28</sub>.</li>
+<li>For Exadata and virtual machine 2-node RAC DB systems, do not use a subnet that overlaps with 192.168.128.0/20.</li>
+</ul>
+
+<p>These subnets are used by the Oracle Clusterware private interconnect on the database instance. Specifying an overlapping subnet will cause the private interconnect to malfunction. This restriction applies to both the client subnet and backup subnet.</p></li>
+
+<li><p><code>time_created</code> - The date and time the DB system was created.</p></li>
+
+<li><p><code>time_zone</code> - The time zone of the DB system. For details, see <a href="https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm">DB System Time Zones</a>.</p></li>
+
+<li><p><code>version</code> - The Oracle Database version of the DB system.</p></li>
+
+<li><p><code>vip_ids</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the virtual IP (VIP) addresses associated with the DB system. The Cluster Ready Services (CRS) creates and maintains one VIP address for each node in the DB system to enable failover. If one node fails, the VIP is reassigned to another active node in the cluster.</p>
+
+<p><strong>Note:</strong> For a single-node DB system, this list is empty.</p></li>
+
+<li><p><code>zone_id</code> - The OCID of the zone the DB system is associated with.</p></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Db Systems Upgrade
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Db Systems Upgrade
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Db Systems Upgrade</p>
+
+<h2>Import</h2>
+
+<p>Import is not supported for this resource.</p>
+
+	</div>
+
+</body>
+</html>

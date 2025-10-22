@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_data_safe_target_databases_columns</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_data_safe_target_databases_columns</h1>
+
+<p>This data source provides the list of Target Databases Columns in Oracle Cloud Infrastructure Data Safe service.</p>
+
+<p>Returns a list of column metadata objects.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_data_safe_target_databases_columns&quot; &quot;test_target_databases_columns&quot; {
+	#Required
+	target_database_id = oci_data_safe_target_database.test_target_database.id
+
+	#Optional
+	column_name = var.target_databases_column_column_name
+	column_name_contains = var.target_databases_column_column_name_contains
+	datatype = var.target_databases_column_datatype
+	schema_name = var.target_databases_column_schema_name
+	schema_name_contains = var.target_databases_column_schema_name_contains
+	table_name = oci_nosql_table.test_table.name
+	table_name_contains = var.target_databases_column_table_name_contains
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>column_name</code> - (Optional) A filter to return only a specific column based on column name.</li>
+<li><code>column_name_contains</code> - (Optional) A filter to return only items if column name contains a specific string.</li>
+<li><code>datatype</code> - (Optional) A filter to return only items related to specific datatype.</li>
+<li><code>schema_name</code> - (Optional) A filter to return only items related to specific schema name.</li>
+<li><code>schema_name_contains</code> - (Optional) A filter to return only items if schema name contains a specific string.</li>
+<li><code>table_name</code> - (Optional) A filter to return only items related to specific table name.</li>
+<li><code>table_name_contains</code> - (Optional) A filter to return only items if table name contains a specific string.</li>
+<li><code>target_database_id</code> - (Required) The OCID of the Data Safe target database.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>columns</code> - The list of columns.</li>
+</ul>
+
+<h3>TargetDatabasesColumn Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>character_length</code> - Character length.</li>
+<li><code>column_name</code> - Name of the column.</li>
+<li><code>data_type</code> - Data type of the column.</li>
+<li><code>length</code> - Length of the data represented by the column.</li>
+<li><code>precision</code> - Precision of the column.</li>
+<li><code>scale</code> - Scale of the column.</li>
+<li><code>schema_name</code> - Name of the schema.</li>
+<li><code>table_name</code> - Name of the table.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

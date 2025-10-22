@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_ai_vision_stream_group</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_ai_vision_stream_group</h1>
+
+<p>This resource provides the Stream Group resource in Oracle Cloud Infrastructure Ai Vision service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/vision/latest/StreamGroup">https://docs.oracle.com/iaas/api/#/en/vision/latest/StreamGroup</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/aiVision">https://github.com/oracle/terraform-provider-oci/tree/master/examples/aiVision</a></p>
+
+<p>Registration of new streamGroup</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_ai_vision_stream_group&quot; &quot;test_stream_group&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	defined_tags = var.stream_group_defined_tags
+	display_name = var.stream_group_display_name
+	freeform_tags = var.stream_group_freeform_tags
+	is_enabled = var.stream_group_is_enabled
+	stream_overlaps {
+
+		#Optional
+		overlapping_streams = var.stream_group_stream_overlaps_overlapping_streams
+	}
+	stream_source_ids = var.stream_group_stream_source_ids
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) (Updatable) <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of compartment</li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For example: <code>{&quot;foo-namespace&quot;: {&quot;bar-key&quot;: &quot;value&quot;}}</code></li>
+<li><code>display_name</code> - (Optional) (Updatable) A human-friendly name for the streamGroup.</li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) A simple key-value pair that is applied without any predefined name, type, or scope. It exists for cross-compatibility only. For example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>is_enabled</code> - (Optional) (Updatable) Stream</li>
+<li><code>stream_overlaps</code> - (Optional) (Updatable) List of streamSource OCIDs where the streamSource overlaps in field of view.
+
+<ul>
+<li><code>overlapping_streams</code> - (Optional) (Updatable) List of streamSource OCIDs.</li>
+</ul></li>
+<li><code>stream_source_ids</code> - (Optional) (Updatable) List of streamSource OCIDs associated with the stream group</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of compartment</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For example: <code>{&quot;foo-namespace&quot;: {&quot;bar-key&quot;: &quot;value&quot;}}</code></li>
+<li><code>display_name</code> - A human-friendly name for the streamGroup.</li>
+<li><code>freeform_tags</code> - A simple key-value pair that is applied without any predefined name, type, or scope. It exists for cross-compatibility only. For example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the streamGroup.</li>
+<li><code>is_enabled</code> - Stream</li>
+<li><code>state</code> - The current state of the streamGroup.</li>
+<li><code>stream_overlaps</code> - List of streamSource OCIDs where the streamSource overlaps in field of view.
+
+<ul>
+<li><code>overlapping_streams</code> - List of streamSource OCIDs.</li>
+</ul></li>
+<li><code>stream_source_ids</code> - List of streamSource OCIDs associated with the stream group</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. For example: <code>{&quot;orcl-cloud&quot;: {&quot;free-tier-retained&quot;: &quot;true&quot;}}</code></li>
+<li><code>time_created</code> - When the streamGroup was created, as an RFC3339 datetime string.</li>
+<li><code>time_updated</code> - When the streamGroup was updated, as an RFC3339 datetime string.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Stream Group
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Stream Group
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Stream Group</p>
+
+<h2>Import</h2>
+
+<p>StreamGroups can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_ai_vision_stream_group.test_stream_group &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

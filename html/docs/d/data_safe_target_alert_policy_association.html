@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_data_safe_target_alert_policy_association</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_data_safe_target_alert_policy_association</h1>
+
+<p>This data source provides details about a specific Target Alert Policy Association resource in Oracle Cloud Infrastructure Data Safe service.</p>
+
+<p>Gets the details of target-alert policy association by its ID.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_data_safe_target_alert_policy_association&quot; &quot;test_target_alert_policy_association&quot; {
+  #Required
+  target_alert_policy_association_id = oci_data_safe_target_alert_policy_association.test_target_alert_policy_association.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>target_alert_policy_association_id</code> - (Required) The OCID of the target-alert policy association.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The OCID of the compartment that contains the policy.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a> Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - Describes the target-alert policy association.</li>
+<li><code>display_name</code> - The display name of the target-alert policy association.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The OCID of the target-alert policy association.</li>
+<li><code>is_enabled</code> - Indicates if the target-alert policy association is enabled or disabled by user.</li>
+<li><code>lifecycle_details</code> - Details about the current state of the target-alert policy association.</li>
+<li><code>policy_id</code> - The OCID of the alert policy.</li>
+<li><code>state</code> - The current state of the target-alert policy association.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>target_id</code> - The OCID of the target on which alert policy is to be applied.</li>
+<li><code>target_type</code> - The resource type that is represented by the target alert policy association.</li>
+<li><code>time_created</code> - Creation date and time of the alert policy, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>time_updated</code> - Last date and time the alert policy was updated, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

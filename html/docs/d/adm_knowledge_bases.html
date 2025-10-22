@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_adm_knowledge_bases</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_adm_knowledge_bases</h1>
+
+<p>This data source provides the list of Knowledge Bases in Oracle Cloud Infrastructure ADM service.</p>
+
+<p>Returns a list of KnowledgeBases based on the specified query parameters.
+At least id or compartmentId query parameter must be provided.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_adm_knowledge_bases&quot; &quot;test_knowledge_bases&quot; {
+
+	#Optional
+	compartment_id = var.compartment_id
+	display_name = var.knowledge_base_display_name
+	id = var.knowledge_base_id
+	state = var.knowledge_base_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Optional) A filter to return only resources that belong to the specified compartment identifier. Required only if the id query param is not specified.</li>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the entire display name given.</li>
+<li><code>id</code> - (Optional) A filter to return only resources that match the specified identifier. Required only if the compartmentId query parameter is not specified.</li>
+<li><code>state</code> - (Optional) A filter to return only Knowledge Bases that match the specified lifecycleState.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>knowledge_base_collection</code> - The list of knowledge_base_collection.</li>
+</ul>
+
+<h3>KnowledgeBase Reference</h3>
+
+<p>The following attributes are exported:
+* <code>items</code> - List of knowledge base summaries.
+  * <code>compartment_id</code> - The compartment Oracle Cloud Identifier (<a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>) of the knowledge base.
+  * <code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code>
+  * <code>display_name</code> - The name of the knowledge base.
+  * <code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code>
+  * <code>id</code> - The Oracle Cloud Identifier (<a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>) of the knowledge base.
+  * <code>state</code> - The current lifecycle state of the knowledge base.
+  * <code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code>
+  * <code>time_created</code> - The creation date and time of the knowledge base (formatted according to <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>).
+  * <code>time_updated</code> - The date and time the knowledge base was last updated (formatted according to <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>).</p>
+
+	</div>
+
+</body>
+</html>

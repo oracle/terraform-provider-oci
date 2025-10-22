@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_resourcemanager_private_endpoint_reachable_ip</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_resourcemanager_private_endpoint_reachable_ip</h1>
+
+<p>This data source provides details about a specific Private Endpoint Reachable Ip resource in Oracle Cloud Infrastructure Resource Manager service.</p>
+
+<p>Gets the reachable, or alternative, IP address for a nonpublic IP address that is associated with the private endpoint.
+Resource Manager uses this IP address to connect to nonpublic resources through the associated private endpoint.
+For more information, see
+<a href="https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/get-private-endpoint-reachable-ip.htm">Getting the Reachable IP Address for a Private Endpoint</a>.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_resourcemanager_private_endpoint_reachable_ip&quot; &quot;test_private_endpoint_reachable_ip&quot; {
+	#Required
+	private_endpoint_id = oci_resourcemanager_private_endpoint.test_private_endpoint.id
+	private_ip = var.private_endpoint_reachable_ip_private_ip
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>private_endpoint_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the private endpoint.</li>
+<li><code>private_ip</code> - (Required) The IP address of the resource in the private subnet.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>ip_address</code> - Reachable IP address associated with the private endpoint.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

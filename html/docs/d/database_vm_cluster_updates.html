@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_vm_cluster_updates</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_vm_cluster_updates</h1>
+
+<p>This data source provides the list of Vm Cluster Updates in Oracle Cloud Infrastructure Database service.</p>
+
+<p>Lists the maintenance updates that can be applied to the specified VM cluster. Applies to Exadata Cloud@Customer instances only.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_vm_cluster_updates&quot; &quot;test_vm_cluster_updates&quot; {
+	#Required
+	vm_cluster_id = oci_database_vm_cluster.test_vm_cluster.id
+
+	#Optional
+	state = var.vm_cluster_update_state
+	update_type = var.vm_cluster_update_update_type
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>state</code> - (Optional) A filter to return only resources that match the given lifecycle state exactly.</li>
+<li><code>update_type</code> - (Optional) A filter to return only resources that match the given update type exactly.</li>
+<li><code>vm_cluster_id</code> - (Required) The VM cluster <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>vm_cluster_updates</code> - The list of vm_cluster_updates.</li>
+</ul>
+
+<h3>VmClusterUpdate Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>available_actions</code> - The possible actions that can be performed using this maintenance update.</li>
+<li><code>description</code> - Details of the maintenance update package.</li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the maintenance update.</li>
+<li><code>last_action</code> - The update action performed most recently using this maintenance update.</li>
+<li><code>lifecycle_details</code> - Descriptive text providing additional details about the lifecycle state.</li>
+<li><code>state</code> - The current state of the maintenance update. Dependent on value of <code>lastAction</code>.</li>
+<li><code>time_released</code> - The date and time the maintenance update was released.</li>
+<li><code>update_type</code> - The type of VM cluster maintenance update.</li>
+<li><code>version</code> - The version of the maintenance update package.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

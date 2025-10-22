@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_jms_jms_java_family</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_jms_jms_java_family</h1>
+
+<p>This data source provides details about a specific Jms Java Family resource in Oracle Cloud Infrastructure Jms service.</p>
+
+<p>Returns details of a Java release family based on specified version.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_jms_jms_java_family&quot; &quot;test_jms_java_family&quot; {
+	#Required
+	family_version = var.jms_java_family_family_version
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>family_version</code> - (Required) Unique Java family version identifier.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>display_name</code> - The display name of the release family.</li>
+<li><code>doc_url</code> - Link to access the documentation for the release.</li>
+<li><code>end_of_support_life_date</code> - The End of Support Life (EOSL) date of the Java release family (formatted according to <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>).</li>
+<li><code>family_version</code> - The Java release family identifier.</li>
+<li><code>support_type</code> - This indicates the support category for the Java release family.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

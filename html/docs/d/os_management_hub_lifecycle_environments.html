@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_os_management_hub_lifecycle_environments</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_os_management_hub_lifecycle_environments</h1>
+
+<p>This data source provides the list of Lifecycle Environments in Oracle Cloud Infrastructure Os Management Hub service.</p>
+
+<p>Lists lifecycle environments that match the specified compartment or lifecycle environment OCID. Filter the list
+against a variety of criteria including but not limited to its name, status, architecture, and OS family.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_os_management_hub_lifecycle_environments&quot; &quot;test_lifecycle_environments&quot; {
+
+	#Optional
+	arch_type = var.lifecycle_environment_arch_type
+	compartment_id = var.compartment_id
+	display_name = var.lifecycle_environment_display_name
+	display_name_contains = var.lifecycle_environment_display_name_contains
+	lifecycle_environment_id = oci_os_management_hub_lifecycle_environment.test_lifecycle_environment.id
+	location = var.lifecycle_environment_location
+	location_not_equal_to = var.lifecycle_environment_location_not_equal_to
+	os_family = var.lifecycle_environment_os_family
+	state = var.lifecycle_environment_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>arch_type</code> - (Optional) A filter to return only profiles that match the given archType.</li>
+<li><code>compartment_id</code> - (Optional) (Updatable) The OCID of the compartment that contains the resources to list. This filter returns only resources contained within the specified compartment.</li>
+<li><code>display_name</code> - (Optional) A filter to return resources that match the given display names.</li>
+<li><code>display_name_contains</code> - (Optional) A filter to return resources that may partially match the given display name.</li>
+<li><code>lifecycle_environment_id</code> - (Optional) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the lifecycle environment.</li>
+<li><code>location</code> - (Optional) A filter to return only resources whose location matches the given value.</li>
+<li><code>location_not_equal_to</code> - (Optional) A filter to return only resources whose location does not match the given value.</li>
+<li><code>os_family</code> - (Optional) A filter to return only resources that match the given operating system family.</li>
+<li><code>state</code> - (Optional) A filter to return only the lifecycle environments that match the display name given.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>lifecycle_environment_collection</code> - The list of lifecycle_environment_collection.</li>
+</ul>
+
+<h3>LifecycleEnvironment Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>arch_type</code> - The CPU architecture of the managed instances in the lifecycle environment.</li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment that contains the lifecycle environment.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - User-specified information about the lifecycle environment.</li>
+<li><code>display_name</code> - The user-friendly name for the lifecycle environment.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the lifecycle environment.</li>
+<li><code>location</code> - The location of managed instances attached to the lifecycle environment.</li>
+<li><code>os_family</code> - The operating system of the managed instances in the lifecycle environment.</li>
+<li><code>stages</code> - User-specified list of lifecycle stages used within the lifecycle environment.
+
+<ul>
+<li><code>arch_type</code> - The CPU architecture of the managed instances in the lifecycle stage.</li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment that contains the lifecycle stage.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>display_name</code> - The user-friendly name for the lifecycle stage.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the lifecycle stage.</li>
+<li><code>lifecycle_environment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the lifecycle environment that contains the lifecycle stage.</li>
+<li><code>lifecycle_environment_display_name</code> - The user-friendly name for the lifecycle environment. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.</li>
+<li><code>location</code> - The location of managed instances associated with the lifecycle stage.</li>
+<li><code>managed_instances</code> - The number of managed instances associated with the lifecycle stage.</li>
+<li><code>os_family</code> - The operating system of the managed instances in the lifecycle stage.</li>
+<li><code>rank</code> - User-specified rank for the lifecycle stage. Rank determines the hierarchy of the lifecycle stages within the lifecycle environment.</li>
+<li><code>software_source_id</code> - Provides identifying information for the specified software source.
+
+<ul>
+<li><code>description</code> - Software source description.</li>
+<li><code>display_name</code> - Software source name.</li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the software source.</li>
+<li><code>is_mandatory_for_autonomous_linux</code> - Indicates whether this is a required software source for Autonomous Linux instances. If true, the user can&rsquo;t unselect it.</li>
+<li><code>software_source_type</code> - Type of the software source.</li>
+</ul></li>
+<li><code>state</code> - The current state of the lifecycle stage.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time the lifecycle stage was created (in <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a> format).</li>
+<li><code>time_modified</code> - The time the lifecycle stage was last modified (in <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a> format).</li>
+<li><code>vendor_name</code> - The vendor of the operating system used by the managed instances in the lifecycle stage.</li>
+</ul></li>
+<li><code>state</code> - The current state of the lifecycle environment.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time the lifecycle environment was created (in <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a> format).</li>
+<li><code>time_modified</code> - The time the lifecycle environment was last modified (in <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a> format).</li>
+<li><code>vendor_name</code> - The vendor of the operating system used by the managed instances in the lifecycle environment.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

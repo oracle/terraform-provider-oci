@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_load_balancer_listener</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_load_balancer_listener</h1>
+
+<p>This resource provides the Listener resource in Oracle Cloud Infrastructure Load Balancer service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/loadbalancer/latest/Listener">https://docs.oracle.com/iaas/api/#/en/loadbalancer/latest/Listener</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/load_balancer">https://github.com/oracle/terraform-provider-oci/tree/master/examples/load_balancer</a></p>
+
+<p>Adds a listener to a load balancer.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_load_balancer_listener&quot; &quot;test_listener&quot; {
+	#Required
+	default_backend_set_name = oci_load_balancer_backend_set.test_backend_set.name
+	load_balancer_id = oci_load_balancer_load_balancer.test_load_balancer.id
+	name = var.listener_name
+	port = var.listener_port
+	protocol = var.listener_protocol
+
+	#Optional
+	connection_configuration {
+		#Required
+		idle_timeout_in_seconds = var.listener_connection_configuration_idle_timeout_in_seconds
+
+		#Optional
+		backend_tcp_proxy_protocol_options = var.listener_connection_configuration_backend_tcp_proxy_protocol_options
+		backend_tcp_proxy_protocol_version = var.listener_connection_configuration_backend_tcp_proxy_protocol_version
+	}
+	hostname_names = [oci_load_balancer_hostname.test_hostname.name]
+	path_route_set_name = oci_load_balancer_path_route_set.test_path_route_set.name
+	routing_policy_name = oci_load_balancer_load_balancer_routing_policy.test_load_balancer_routing_policy.name
+	rule_set_names = [oci_load_balancer_rule_set.test_rule_set.name]
+	ssl_configuration {
+        #Optional
+		certificate_name = oci_load_balancer_certificate.test_certificate.name
+		has_session_resumption = var.listener_ssl_configuration_has_session_resumption
+		certificate_ids = var.listener_ssl_configuration_certificate_ids
+		cipher_suite_name = var.listener_ssl_configuration_cipher_suite_name
+		protocols = var.listener_ssl_configuration_protocols
+		server_order_preference = var.listener_ssl_configuration_server_order_preference
+		trusted_certificate_authority_ids = var.listener_ssl_configuration_trusted_certificate_authority_ids
+		verify_depth = var.listener_ssl_configuration_verify_depth
+		verify_peer_certificate = var.listener_ssl_configuration_verify_peer_certificate
+	}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>connection_configuration</code> - (Optional) (Updatable) Configuration details for the connection between the client and backend servers.</p>
+
+<ul>
+<li><p><code>backend_tcp_proxy_protocol_options</code> - (Optional) (Updatable) An array that represents the PPV2 Options that can be enabled on TCP Listeners. Example: [&ldquo;PP2_TYPE_AUTHORITY&rdquo;]</p></li>
+
+<li><p><code>backend_tcp_proxy_protocol_version</code> - (Required when <code>protocol</code> = <code>TCP</code>) (Updatable) The backend TCP Proxy Protocol version.  Example: <code>1</code></p></li>
+
+<li><p><code>idle_timeout_in_seconds</code> - (Required) (Updatable) The maximum idle time, in seconds, allowed between two successive receive or two successive send operations between the client and backend servers. A send operation does not reset the timer for receive operations. A receive operation does not reset the timer for send operations.</p>
+
+<p>For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/Balance/Reference/connectionreuse.htm#ConnectionConfiguration">Connection Configuration</a>.</p>
+
+<p>Example: <code>1200</code></p></li>
+</ul></li>
+
+<li><p><code>default_backend_set_name</code> - (Required) (Updatable) The name of the associated backend set.  Example: <code>example_backend_set</code></p></li>
+
+<li><p><code>hostname_names</code> - (Optional) (Updatable) An array of hostname resource names.</p></li>
+
+<li><p><code>load_balancer_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the load balancer on which to add a listener.</p></li>
+
+<li><p><code>name</code> - (Required) A friendly name for the listener. It must be unique and it cannot be changed. Avoid entering confidential information.  Example: <code>example_listener</code></p></li>
+
+<li><p><code>path_route_set_name</code> - (Optional) (Updatable) Deprecated. Please use <code>routingPolicies</code> instead.</p>
+
+<p>The name of the set of path-based routing rules, <a href="https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/PathRouteSet/">PathRouteSet</a>, applied to this listener&rsquo;s traffic.</p>
+
+<p>Example: <code>example_path_route_set</code></p></li>
+
+<li><p><code>port</code> - (Required) (Updatable) The communication port for the listener.  Example: <code>80</code></p></li>
+
+<li><p><code>protocol</code> - (Required) (Updatable) The protocol on which the listener accepts connection requests. To get a list of valid protocols, use the <a href="https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/LoadBalancerProtocol/ListProtocols">ListProtocols</a> operation.  Example: <code>HTTP</code></p></li>
+
+<li><p><code>routing_policy_name</code> - (Optional) (Updatable) The name of the routing policy applied to this listener&rsquo;s traffic.  Example: <code>example_routing_policy</code></p></li>
+
+<li><p><code>rule_set_names</code> - (Optional) (Updatable) The names of the <a href="https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/RuleSet/">rule sets</a> to apply to the listener.  Example: [&ldquo;example_rule_set&rdquo;]</p></li>
+
+<li><p><code>ssl_configuration</code> - (Optional) (Updatable) The load balancer&rsquo;s SSL handling configuration details.</p>
+
+<p><strong>Warning:</strong> Oracle recommends that you avoid using any confidential information when you supply string values using the API.</p>
+
+<ul>
+<li><p><code>certificate_ids</code> - (Optional) (Updatable) Ids for Oracle Cloud Infrastructure certificates service certificates. Currently only a single Id may be passed.  Example: <code>[ocid1.certificate.oc1.us-ashburn-1.amaaaaaaav3bgsaa5o2q7rh5nfmkkukfkogasqhk6af2opufhjlqg7m6jqzq]</code></p></li>
+
+<li><p><code>certificate_name</code> - (Optional) (Updatable) A friendly name for the certificate bundle. It must be unique and it cannot be changed. Valid certificate bundle names include only alphanumeric characters, dashes, and underscores. Certificate bundle names cannot contain spaces. Avoid entering confidential information.  Example: <code>example_certificate_bundle</code></p></li>
+
+<li><p><code>has_session_resumption</code> - (Optional) (Updatable) Whether the load balancer listener should resume an encrypted session by reusing the cryptographic parameters of a previous TLS session, without having to perform a full handshake again. If &ldquo;true&rdquo;, the service resumes the previous TLS encrypted session. If &ldquo;false&rdquo;, the service starts a new TLS encrypted session. Enabling session resumption improves performance but provides a lower level of security. Disabling session resumption improves security but reduces performance.  Example: <code>true</code></p></li>
+
+<li><p><code>cipher_suite_name</code> - (Optional) (Updatable) The name of the cipher suite to use for HTTPS or SSL connections.</p>
+
+<p>If this field is not specified, the default is <code>oci-default-ssl-cipher-suite-v1</code>.</p>
+
+<p><strong>Notes:</strong></p>
+
+<ul>
+<li>You must ensure compatibility between the specified SSL protocols and the ciphers configured in the cipher suite. Clients cannot perform an SSL handshake if there is an incompatible configuration.</li>
+<li>You must ensure compatibility between the ciphers configured in the cipher suite and the configured certificates. For example, RSA-based ciphers require RSA certificates and ECDSA-based ciphers require ECDSA certificates.</li>
+<li>If the cipher configuration is not modified after load balancer creation, the <code>GET</code> operation returns <code>oci-default-ssl-cipher-suite-v1</code> as the value of this field in the SSL configuration for existing listeners that predate this feature.</li>
+<li>If the cipher configuration was modified using Oracle operations after load balancer creation, the <code>GET</code> operation returns <code>oci-customized-ssl-cipher-suite</code> as the value of this field in the SSL configuration for existing listeners that predate this feature.</li>
+<li>The <code>GET</code> operation returns <code>oci-wider-compatible-ssl-cipher-suite-v1</code> as the value of this field in the SSL configuration for existing backend sets that predate this feature.</li>
+<li>If the <code>GET</code> operation on a listener returns <code>oci-customized-ssl-cipher-suite</code> as the value of this field, you must specify an appropriate predefined or custom cipher suite name when updating the resource.</li>
+<li>The <code>oci-customized-ssl-cipher-suite</code> Oracle reserved cipher suite name is not accepted as valid input for this field.</li>
+</ul>
+
+<p>example: <code>example_cipher_suite</code></p></li>
+
+<li><p><code>protocols</code> - (Optional) (Updatable) A list of SSL protocols the load balancer must support for HTTPS or SSL connections.</p>
+
+<p>The load balancer uses SSL protocols to establish a secure connection between a client and a server. A secure connection ensures that all data passed between the client and the server is private.</p>
+
+<p>The Load Balancing service supports the following protocols:</p>
+
+<ul>
+<li>TLSv1</li>
+<li>TLSv1.1</li>
+<li>TLSv1.2</li>
+<li>TLSv1.3</li>
+</ul>
+
+<p>If this field is not specified, TLSv1.2 is the default.</p>
+
+<p><strong>Warning:</strong> All SSL listeners created on a given port must use the same set of SSL protocols.</p>
+
+<p><strong>Notes:</strong>
+*  The handshake to establish an SSL connection fails if the client supports none of the specified protocols.
+*  You must ensure compatibility between the specified SSL protocols and the ciphers configured in the cipher suite.
+*  For all existing load balancer listeners and backend sets that predate this feature, the <code>GET</code> operation displays a list of SSL protocols currently used by those resources.</p>
+
+<p>example: <code>[&quot;TLSv1.1&quot;, &quot;TLSv1.2&quot;]</code></p></li>
+
+<li><p><code>server_order_preference</code> - (Optional) (Updatable) When this attribute is set to ENABLED, the system gives preference to the server ciphers over the client ciphers.</p>
+
+<p><strong>Note:</strong> This configuration is applicable only when the load balancer is acting as an SSL/HTTPS server. This field is ignored when the <code>SSLConfiguration</code> object is associated with a backend set.</p></li>
+
+<li><p><code>trusted_certificate_authority_ids</code> - (Optional) (Updatable) Ids for Oracle Cloud Infrastructure certificates service CA or CA bundles for the load balancer to trust.  Example: <code>[ocid1.cabundle.oc1.us-ashburn-1.amaaaaaaav3bgsaagl4zzyqdop5i2vuwoqewdvauuw34llqa74otq2jdsfyq]</code></p></li>
+
+<li><p><code>verify_depth</code> - (Optional) (Updatable) The maximum depth for peer certificate chain verification.  Example: <code>3</code></p></li>
+
+<li><p><code>verify_peer_certificate</code> - (Optional) (Updatable) Whether the load balancer listener should verify peer certificates.  Example: <code>true</code></p></li>
+</ul></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>connection_configuration</code> -
+
+<ul>
+<li><code>idle_timeout_in_seconds</code> - The maximum idle time, in seconds, allowed between two successive receive or two successive send operations between the client and backend servers. A send operation does not reset the timer for receive operations. A receive operation does not reset the timer for send operations.  The default values are:  *  300 seconds for TCP  *  60 seconds for HTTP and WebSocket protocols.  Note: The protocol is set at the listener.  Modify this parameter if the client or backend server stops transmitting data for more than the default time. Some examples include:  *  The client sends a database query to the backend server and the database takes over 300 seconds to execute.    Therefore, the backend server does not transmit any data within 300 seconds.  *  The client uploads data using the HTTP protocol. During the upload, the backend does not transmit any data    to the client for more than 60 seconds.  *  The client downloads data using the HTTP protocol.  After the initial request, it stops transmitting data to    the backend server for more than 60 seconds.  *  The client starts transmitting data after establishing a WebSocket connection, but the backend server does    not transmit data for more than 60 seconds.  *  The backend server starts transmitting data after establishing a WebSocket connection, but the client does    not transmit data for more than 60 seconds.  The maximum value is 7200 seconds. Contact My Oracle Support to file a service request if you want to increase this limit for your tenancy. For more information, see <a href="https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/servicelimits.htm">Service Limits</a>.  Example: <code>1200</code></li>
+</ul></li>
+<li><code>default_backend_set_name</code> - The name of the associated backend set.  Example: <code>example_backend_set</code></li>
+<li><code>hostname_names</code> - An array of hostname resource names.</li>
+<li><code>load_balancer_id</code> - The <a href="https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm">OCID</a> of the load balancer on which to add a listener.</li>
+<li><code>name</code> - A friendly name for the listener. It must be unique and it cannot be changed. Avoid entering confidential information.  Example: <code>My listener</code></li>
+<li><code>path_route_set_name</code> - The name of the set of path-based routing rules, <a href="https://docs.us-phoenix-1.oraclecloud.com/api/#/en/loadbalancer/20170115/PathRouteSet/">PathRouteSet</a>, applied to this listener&rsquo;s traffic.  Example: <code>path-route-set-001</code></li>
+<li><code>port</code> - The communication port for the listener.  Example: <code>80</code></li>
+<li><code>protocol</code> - The protocol on which the listener accepts connection requests. To get a list of valid protocols, use the <a href="https://docs.us-phoenix-1.oraclecloud.com/api/#/en/loadbalancer/20170115/LoadBalancerProtocol/ListProtocols">ListProtocols</a> operation.  Example: <code>HTTP</code></li>
+<li><code>ssl_configuration</code> -
+
+<ul>
+<li><code>certificate_name</code> - A friendly name for the certificate bundle. It must be unique and it cannot be changed. Valid certificate bundle names include only alphanumeric characters, dashes, and underscores. Certificate bundle names cannot contain spaces. Avoid entering confidential information.  Example: <code>example_certificate_bundle</code></li>
+<li><code>verify_depth</code> - The maximum depth for peer certificate chain verification.  Example: <code>3</code></li>
+<li><code>verify_peer_certificate</code> - Whether the load balancer listener should verify peer certificates.  Example: <code>true</code></li>
+</ul></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Listener
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Listener
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Listener</p>
+
+<h2>Import</h2>
+
+<p>Listeners can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_load_balancer_listener.test_listener &quot;loadBalancers/{loadBalancerId}/listeners/{listenerName}&quot; 
+</code></pre>
+
+	</div>
+
+</body>
+</html>

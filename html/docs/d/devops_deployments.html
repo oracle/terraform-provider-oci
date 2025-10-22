@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_devops_deployments</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_devops_deployments</h1>
+
+<p>This data source provides the list of Deployments in Oracle Cloud Infrastructure Devops service.</p>
+
+<p>Returns a list of deployments.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_devops_deployments&quot; &quot;test_deployments&quot; {
+
+	#Optional
+	compartment_id = var.compartment_id
+	deploy_pipeline_id = oci_devops_deploy_pipeline.test_deploy_pipeline.id
+	display_name = var.deployment_display_name
+	id = var.deployment_id
+	project_id = oci_devops_project.test_project.id
+	state = var.deployment_state
+	time_created_greater_than_or_equal_to = var.deployment_time_created_greater_than_or_equal_to
+	time_created_less_than = var.deployment_time_created_less_than
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Optional) The OCID of the compartment in which to list resources.</li>
+<li><code>deploy_pipeline_id</code> - (Optional) The ID of the parent pipeline.</li>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the entire display name given.</li>
+<li><code>id</code> - (Optional) Unique identifier or OCID for listing a single resource by ID.</li>
+<li><code>project_id</code> - (Optional) unique project identifier</li>
+<li><code>state</code> - (Optional) A filter to return only Deployments that matches the given lifecycleState.</li>
+<li><code>time_created_greater_than_or_equal_to</code> - (Optional) Search for DevOps resources that were created after a specific date. Specifying this parameter corresponding to <code>timeCreatedGreaterThanOrEqualTo</code> parameter will retrieve all security assessments created after the specified created date, in &ldquo;YYYY-MM-ddThh:mmZ&rdquo; format with a Z offset, as defined by <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>.</li>
+<li><code>time_created_less_than</code> - (Optional) Search for DevOps resources that were created before a specific date. Specifying this parameter corresponding to <code>timeCreatedLessThan</code> parameter will retrieve all assessments created before the specified created date, in &ldquo;YYYY-MM-ddThh:mmZ&rdquo; format with a Z offset, as defined by <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>deployment_collection</code> - The list of deployment_collection.</li>
+</ul>
+
+<h3>Deployment Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The OCID of a compartment.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>deploy_artifact_override_arguments</code> - Specifies the list of artifact override arguments at the time of deployment.
+
+<ul>
+<li><code>items</code> - List of artifact override arguments at the time of deployment.
+
+<ul>
+<li><code>deploy_artifact_id</code> - The OCID of the artifact to which this parameter applies.</li>
+<li><code>name</code> - Name of the parameter (case-sensitive).</li>
+<li><code>value</code> - Value of the parameter.</li>
+</ul></li>
+</ul></li>
+<li><code>deploy_pipeline_artifacts</code> - List of all artifacts used in the pipeline.
+
+<ul>
+<li><code>items</code> - List of all artifacts used in the pipeline.
+
+<ul>
+<li><code>deploy_artifact_id</code> - The OCID of an artifact</li>
+<li><code>deploy_pipeline_stages</code> - List of stages.
+
+<ul>
+<li><code>items</code> - List of stages.
+
+<ul>
+<li><code>deploy_stage_id</code> - The OCID of a stage</li>
+<li><code>display_name</code> - Display name of the stage. Avoid entering confidential information.</li>
+</ul></li>
+</ul></li>
+<li><code>display_name</code> - Display name of the artifact. Avoid entering confidential information.</li>
+</ul></li>
+</ul></li>
+<li><code>deploy_pipeline_environments</code> - List of all environments used in the pipeline.
+
+<ul>
+<li><code>items</code> - List of all environments used in the pipeline.
+
+<ul>
+<li><code>deploy_environment_id</code> - The OCID of an Environment</li>
+<li><code>deploy_pipeline_stages</code> - List of stages.
+
+<ul>
+<li><code>items</code> - List of stages.
+
+<ul>
+<li><code>deploy_stage_id</code> - The OCID of a stage</li>
+<li><code>display_name</code> - Display name of the stage. Avoid entering confidential information.</li>
+</ul></li>
+</ul></li>
+<li><code>display_name</code> - Display name of the environment. Avoid entering confidential information.</li>
+</ul></li>
+</ul></li>
+<li><code>deploy_pipeline_id</code> - The OCID of a pipeline.</li>
+<li><code>deploy_stage_id</code> - Specifies the OCID of the stage to be redeployed.</li>
+<li><code>deploy_stage_override_arguments</code> - Specifies the list of arguments to be overriden per Stage at the time of deployment.
+
+<ul>
+<li><code>items</code> - List of stage override arguments at the time of deployment.
+
+<ul>
+<li><code>deploy_stage_id</code> - The OCID of the stage.</li>
+<li><code>name</code> - Name of the parameter (case-sensitive).</li>
+<li><code>value</code> - Value of the parameter.</li>
+</ul></li>
+</ul></li>
+<li><code>deployment_arguments</code> - Specifies list of arguments passed along with the deployment.
+
+<ul>
+<li><code>items</code> - List of arguments provided at the time of deployment.
+
+<ul>
+<li><code>name</code> - Name of the parameter (case-sensitive).</li>
+<li><code>value</code> - value of the argument.</li>
+</ul></li>
+</ul></li>
+<li><code>deployment_execution_progress</code> - The execution progress details of a deployment.
+
+<ul>
+<li><code>deploy_stage_execution_progress</code> - Map of stage OCIDs to deploy stage execution progress model.
+
+<ul>
+<li><code>approval_actions</code> -
+
+<ul>
+<li><code>action</code> - The action of the user on the DevOps deployment stage.</li>
+<li><code>reason</code> - The reason for approving or rejecting the deployment.</li>
+<li><code>subject_id</code> - The subject ID of the user who approves or disapproves a DevOps deployment stage.</li>
+</ul></li>
+<li><code>chart_url</code> - The URL of an OCIR repository.<br>
+</li>
+<li><code>deploy_stage_display_name</code> - Stage display name. Avoid entering confidential information.</li>
+<li><code>deploy_stage_execution_progress_details</code> - Details about stage execution for all the target environments.
+
+<ul>
+<li><code>rollback_steps</code> - Details about all the rollback steps for one target environment.
+
+<ul>
+<li><code>name</code> - Name of the step.</li>
+<li><code>state</code> - State of the step.</li>
+<li><code>time_finished</code> - Time when the step finished.</li>
+<li><code>time_started</code> - Time when the step started.</li>
+</ul></li>
+<li><code>steps</code> - Details about all the steps for one target environment.
+
+<ul>
+<li><code>name</code> - Name of the step.</li>
+<li><code>state</code> - State of the step.</li>
+<li><code>time_finished</code> - Time when the step finished.</li>
+<li><code>time_started</code> - Time when the step started.</li>
+</ul></li>
+<li><code>target_group</code> - Group for the target environment for example, the batch number for an Instance Group deployment.</li>
+<li><code>target_id</code> - The function ID, instance ID or the cluster ID. For Wait stage it will be the stage ID.</li>
+</ul></li>
+<li><code>deploy_stage_id</code> - The OCID of the stage.</li>
+<li><code>deploy_stage_predecessors</code> - Collection containing the predecessors of a stage.
+
+<ul>
+<li><code>items</code> - A list of stage predecessors for a stage.
+
+<ul>
+<li><code>id</code> - The OCID of the predecessor stage. If a stage is the first stage in the pipeline, then the ID is the pipeline&rsquo;s OCID.</li>
+</ul></li>
+</ul></li>
+<li><code>deploy_stage_type</code> - Deployment stage type.</li>
+<li><code>environment_id</code> - The OCID of the environment where the artifacts were deployed.</li>
+<li><code>helm_diff</code> - Helm Diff output Example: Helm diff was successful data:
+
+<ul>
+<li>greeting: Version 1.0 + greeting: Version 1.1</li>
+</ul></li>
+<li><code>namespace</code> - Default namespace to be used for Kubernetes deployment when not specified in the manifest.</li>
+<li><code>release_name</code> - Release name of the Helm chart.</li>
+<li><code>status</code> - The current state of the stage.</li>
+<li><code>time_finished</code> - Time the stage finished executing. Format defined by <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>.</li>
+<li><code>time_started</code> - Time the stage started executing. Format defined by <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>.</li>
+<li><code>version</code> - The version of the helm chart stored in OCIR repository.</li>
+</ul></li>
+<li><code>time_finished</code> - Time the deployment is finished. Format defined by <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>.</li>
+<li><code>time_started</code> - Time the deployment is started. Format defined by <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>.</li>
+</ul></li>
+<li><code>deployment_type</code> - Specifies type of Deployment</li>
+<li><code>display_name</code> - Deployment identifier which can be renamed and is not necessarily unique. Avoid entering confidential information.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - Unique identifier that is immutable on creation.</li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.</li>
+<li><code>previous_deployment_id</code> - Specifies the OCID of the previous deployment to be redeployed.</li>
+<li><code>project_id</code> - The OCID of a project.</li>
+<li><code>state</code> - The current state of the deployment.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - Time the deployment was created. Format defined by <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>.</li>
+<li><code>time_updated</code> - Time the deployment was updated. Format defined by <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

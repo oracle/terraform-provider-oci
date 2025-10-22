@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_system_versions</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_system_versions</h1>
+
+<p>This data source provides the list of System Versions in Oracle Cloud Infrastructure Database service.</p>
+
+<p>Gets a list of supported Exadata system versions for a given shape and GI version.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_system_versions&quot; &quot;test_system_versions&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	gi_version = var.system_version_gi_version
+
+	#Optional
+	is_latest = var.system_version_is_latest
+	resource_id = oci_cloud_guard_resource.test_resource.id
+	shape = var.system_version_shape
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The compartment <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>gi_version</code> - (Required) Specifies gi version query parameter.</li>
+<li><code>is_latest</code> - (Optional) If provided, return highest versions from each major version family.</li>
+<li><code>resource_id</code> - (Optional) If provided, filters the results for the specified resource Id.</li>
+<li><code>shape</code> - (Optional) If provided, filters the results for the given shape.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>system_version_collection</code> - The list of system_version_collection.</li>
+</ul>
+
+<h3>SystemVersion Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - List of System versions.
+
+<ul>
+<li><code>gi_version</code> - Grid Infrastructure version.</li>
+<li><code>shape</code> - Exadata shape.</li>
+<li><code>system_versions</code> - Compatible Exadata system versions for a given shape and GI version.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_db_systems_upgrade_history_entries</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_db_systems_upgrade_history_entries</h1>
+
+<p>This data source provides the list of Db Systems Upgrade History Entries in Oracle Cloud Infrastructure Database service.</p>
+
+<p>Gets the history of the upgrade actions performed on the specified DB system.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_db_systems_upgrade_history_entries&quot; &quot;test_db_systems_upgrade_history_entries&quot; {
+	#Required
+	db_system_id = oci_database_db_system.test_db_system.id
+
+	#Optional
+	state = var.db_systems_upgrade_history_entry_state
+	upgrade_action = var.db_systems_upgrade_history_entry_upgrade_action
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>db_system_id</code> - (Required) The DB system <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>state</code> - (Optional) A filter to return only upgrade history entries that match the given lifecycle state exactly.</li>
+<li><code>upgrade_action</code> - (Optional) A filter to return only upgradeHistoryEntries that match the specified Upgrade Action.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>db_system_upgrade_history_entries</code> - The list of db_system_upgrade_history_entries.</li>
+</ul>
+
+<h3>DbSystemsUpgradeHistoryEntry Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>action</code> - The operating system upgrade action.</li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the upgrade history entry.</li>
+<li><code>lifecycle_details</code> - A descriptive text associated with the lifecycleState. Typically contains additional displayable text.</li>
+<li><code>new_gi_version</code> - A valid Oracle Grid Infrastructure (GI) software version.</li>
+<li><code>new_os_version</code> - A valid Oracle Software (OS) version eg. Oracle Linux Server release 8</li>
+<li><code>old_gi_version</code> - A valid Oracle Grid Infrastructure (GI) software version.</li>
+<li><code>old_os_version</code> - A valid Oracle Software (OS) version eg. Oracle Linux Server release 8</li>
+<li><code>snapshot_retention_period_in_days</code> - The retention period, in days, for the snapshot that allows you to perform a rollback of the upgrade operation. After this number of days passes, you cannot roll back the upgrade.</li>
+<li><code>state</code> - The current state of the action.</li>
+<li><code>time_ended</code> - The date and time when the upgrade action completed</li>
+<li><code>time_started</code> - The date and time when the upgrade action started.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

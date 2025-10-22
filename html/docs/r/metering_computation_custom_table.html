@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_metering_computation_custom_table</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_metering_computation_custom_table</h1>
+
+<p>This resource provides the Custom Table resource in Oracle Cloud Infrastructure Metering Computation service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/usage/latest/CustomTable">https://docs.oracle.com/iaas/api/#/en/usage/latest/CustomTable</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/metering_computation">https://github.com/oracle/terraform-provider-oci/tree/master/examples/metering_computation</a></p>
+
+<p>Returns the created custom table.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_metering_computation_custom_table&quot; &quot;test_custom_table&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	saved_custom_table {
+		#Required
+		display_name = var.custom_table_saved_custom_table_display_name
+
+		#Optional
+		column_group_by = var.custom_table_saved_custom_table_column_group_by
+		compartment_depth = var.custom_table_saved_custom_table_compartment_depth
+		group_by_tag {
+
+			#Optional
+			key = var.custom_table_saved_custom_table_group_by_tag_key
+			namespace = var.custom_table_saved_custom_table_group_by_tag_namespace
+			value = var.custom_table_saved_custom_table_group_by_tag_value
+		}
+		row_group_by = var.custom_table_saved_custom_table_row_group_by
+		version = var.custom_table_saved_custom_table_version
+	}
+	saved_report_id = oci_metering_computation_saved_report.test_saved_report.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The compartment OCID.</li>
+<li><code>saved_custom_table</code> - (Required) (Updatable) The custom table for Cost Analysis UI rendering.
+
+<ul>
+<li><code>column_group_by</code> - (Optional) (Updatable) The column groupBy key list. For example: <code>[&quot;tagNamespace&quot;, &quot;tagKey&quot;, &quot;tagValue&quot;, &quot;service&quot;, &quot;skuName&quot;, &quot;skuPartNumber&quot;, &quot;unit&quot;, &quot;compartmentName&quot;, &quot;compartmentPath&quot;, &quot;compartmentId&quot;, &quot;platform&quot;, &quot;region&quot;, &quot;logicalAd&quot;, &quot;resourceId&quot;, &quot;tenantId&quot;, &quot;tenantName&quot;]</code></li>
+<li><code>compartment_depth</code> - (Optional) (Updatable) The compartment depth level.</li>
+<li><code>display_name</code> - (Required) (Updatable) The name of the custom table.</li>
+<li><code>group_by_tag</code> - (Optional) (Updatable) GroupBy a specific tagKey. Provide the tagNamespace and tagKey in the tag object. Only one tag in the list is supported. For example: <code>[{&quot;namespace&quot;:&quot;oracle&quot;, &quot;key&quot;:&quot;createdBy&quot;]</code>
+
+<ul>
+<li><code>key</code> - (Optional) (Updatable) The tag key.</li>
+<li><code>namespace</code> - (Optional) (Updatable) The tag namespace.</li>
+<li><code>value</code> - (Optional) (Updatable) The tag value.</li>
+</ul></li>
+<li><code>row_group_by</code> - (Optional) (Updatable) The row groupBy key list. For example: <code>[&quot;tagNamespace&quot;, &quot;tagKey&quot;, &quot;tagValue&quot;, &quot;service&quot;, &quot;skuName&quot;, &quot;skuPartNumber&quot;, &quot;unit&quot;, &quot;compartmentName&quot;, &quot;compartmentPath&quot;, &quot;compartmentId&quot;, &quot;platform&quot;, &quot;region&quot;, &quot;logicalAd&quot;, &quot;resourceId&quot;, &quot;tenantId&quot;, &quot;tenantName&quot;]</code></li>
+<li><code>version</code> - (Optional) (Updatable) The version of the custom table.</li>
+</ul></li>
+<li><code>saved_report_id</code> - (Required) The associated saved report OCID.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The custom table compartment OCID.</li>
+<li><code>id</code> - The custom table OCID.</li>
+<li><code>saved_custom_table</code> - The custom table for Cost Analysis UI rendering.
+
+<ul>
+<li><code>column_group_by</code> - The column groupBy key list. For example: <code>[&quot;tagNamespace&quot;, &quot;tagKey&quot;, &quot;tagValue&quot;, &quot;service&quot;, &quot;skuName&quot;, &quot;skuPartNumber&quot;, &quot;unit&quot;, &quot;compartmentName&quot;, &quot;compartmentPath&quot;, &quot;compartmentId&quot;, &quot;platform&quot;, &quot;region&quot;, &quot;logicalAd&quot;, &quot;resourceId&quot;, &quot;tenantId&quot;, &quot;tenantName&quot;]</code></li>
+<li><code>compartment_depth</code> - The compartment depth level.</li>
+<li><code>display_name</code> - The name of the custom table.</li>
+<li><code>group_by_tag</code> - GroupBy a specific tagKey. Provide the tagNamespace and tagKey in the tag object. Only one tag in the list is supported. For example: <code>[{&quot;namespace&quot;:&quot;oracle&quot;, &quot;key&quot;:&quot;createdBy&quot;]</code>
+
+<ul>
+<li><code>key</code> - The tag key.</li>
+<li><code>namespace</code> - The tag namespace.</li>
+<li><code>value</code> - The tag value.</li>
+</ul></li>
+<li><code>row_group_by</code> - The row groupBy key list. For example: <code>[&quot;tagNamespace&quot;, &quot;tagKey&quot;, &quot;tagValue&quot;, &quot;service&quot;, &quot;skuName&quot;, &quot;skuPartNumber&quot;, &quot;unit&quot;, &quot;compartmentName&quot;, &quot;compartmentPath&quot;, &quot;compartmentId&quot;, &quot;platform&quot;, &quot;region&quot;, &quot;logicalAd&quot;, &quot;resourceId&quot;, &quot;tenantId&quot;, &quot;tenantName&quot;]</code></li>
+<li><code>version</code> - The version of the custom table.</li>
+</ul></li>
+<li><code>saved_report_id</code> - The custom table associated saved report OCID.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Custom Table
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Custom Table
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Custom Table</p>
+
+<h2>Import</h2>
+
+<p>CustomTables can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_metering_computation_custom_table.test_custom_table &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

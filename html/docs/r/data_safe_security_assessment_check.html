@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_data_safe_security_assessment_check</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_data_safe_security_assessment_check</h1>
+
+<p>This resource provides the Security Assessment Check resource in Oracle Cloud Infrastructure Data Safe service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/data-safe/latest/SecurityAssessmentCheck">https://docs.oracle.com/iaas/api/#/en/data-safe/latest/SecurityAssessmentCheck</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe">https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe</a></p>
+
+<p>Patches one or more checks in the specified template type security assessment. Use it to add or delete checks.
+To add check, use CreateCheckDetails as the patch value.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_data_safe_security_assessment_check&quot; &quot;test_security_assessment_check&quot; {
+	#Required
+	security_assessment_id = oci_data_safe_security_assessment.test_security_assessment.id
+
+	#Optional
+	patch_operations {
+		#Required
+		operation = var.security_assessment_check_patch_operations_operation
+		selection = var.security_assessment_check_patch_operations_selection
+
+		#Optional
+		value = var.security_assessment_check_patch_operations_value
+	}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>patch_operations</code> - (Optional) (Updatable)
+
+<ul>
+<li><code>operation</code> - (Required) (Updatable) The operation can be one of these values: <code>INSERT</code>, <code>MERGE</code>, <code>REMOVE</code></li>
+<li><code>selection</code> - (Required) (Updatable)</li>
+<li><code>value</code> - (Required when operation=INSERT | MERGE) (Updatable)</li>
+</ul></li>
+<li><code>security_assessment_id</code> - (Required)</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>category</code> - The category to which the check belongs to.</li>
+<li><code>key</code> - A unique identifier for the check.</li>
+<li><code>oneline</code> - Provides a recommended approach to take to remediate the check reported.</li>
+<li><code>references</code> - Provides information on whether the check is related to a CIS Oracle Database Benchmark recommendation, STIG rule, GDPR Article/Recital or related to the Oracle Best Practice.
+
+<ul>
+<li><code>cis</code> - Relevant section from CIS.</li>
+<li><code>gdpr</code> - Relevant section from GDPR.</li>
+<li><code>obp</code> - Relevant section from OBP.</li>
+<li><code>stig</code> - Relevant section from STIG.</li>
+</ul></li>
+<li><code>remarks</code> - The explanation of the issue in this check. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.</li>
+<li><code>suggested_severity</code> - The severity of the check as suggested by Data Safe security assessment. This will be the default severity in the template baseline security assessment.</li>
+<li><code>title</code> - The short title for the check.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Security Assessment Check
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Security Assessment Check
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Security Assessment Check</p>
+
+<h2>Import</h2>
+
+<p>SecurityAssessmentChecks can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_data_safe_security_assessment_check.test_security_assessment_check &quot;securityAssessments/{securityAssessmentId}/checks&quot; 
+</code></pre>
+
+	</div>
+
+</body>
+</html>

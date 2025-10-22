@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_health_checks_ping_probe_results</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_health_checks_ping_probe_results</h1>
+
+<p>This data source provides the list of Ping Probe Results in Oracle Cloud Infrastructure Health Checks service.</p>
+
+<p>Returns the results for the specified probe, where the <code>probeConfigurationId</code>
+is the OCID of either a monitor or an on-demand probe.</p>
+
+<p>Results are paginated based on <code>page</code> and <code>limit</code>.  The <code>opc-next-page</code> header provides
+a URL for fetching the next page.  Use <code>sortOrder</code> to set the order of the
+results.  If <code>sortOrder</code> is unspecified, results are sorted in ascending order by
+<code>startTime</code>.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_health_checks_ping_probe_results&quot; &quot;test_ping_probe_results&quot; {
+	#Required
+	probe_configuration_id = oci_health_checks_probe_configuration.test_probe_configuration.id
+
+	#Optional
+	start_time_greater_than_or_equal_to = var.ping_probe_result_start_time_greater_than_or_equal_to
+	start_time_less_than_or_equal_to = var.ping_probe_result_start_time_less_than_or_equal_to
+	target = var.ping_probe_result_target
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>probe_configuration_id</code> - (Required) The OCID of a monitor or on-demand probe.</li>
+<li><code>start_time_greater_than_or_equal_to</code> - (Optional) Returns results with a <code>startTime</code> equal to or greater than the specified value.</li>
+<li><code>start_time_less_than_or_equal_to</code> - (Optional) Returns results with a <code>startTime</code> equal to or less than the specified value.</li>
+<li><code>target</code> - (Optional) Filters results that match the <code>target</code>.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>ping_probe_results</code> - The list of ping_probe_results.</li>
+</ul>
+
+<h3>PingProbeResult Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>connection</code> - The network connection results.
+
+<ul>
+<li><code>address</code> - The connection IP address.</li>
+<li><code>port</code> - The port.</li>
+</ul></li>
+<li><code>dns</code> - The DNS resolution results.
+
+<ul>
+<li><code>addresses</code> - The addresses returned by DNS resolution.</li>
+<li><code>domain_lookup_duration</code> - Total DNS resolution duration, in milliseconds. Calculated using <code>domainLookupEnd</code> minus <code>domainLookupStart</code>.</li>
+</ul></li>
+<li><code>domain_lookup_end</code> - The time immediately before the vantage point finishes the domain name lookup for the resource.</li>
+<li><code>domain_lookup_start</code> - The time immediately before the vantage point starts the domain name lookup for the resource.</li>
+<li><code>error_category</code> - The category of error if an error occurs executing the probe. The <code>errorMessage</code> field provides a message with the error details.
+
+<ul>
+<li>NONE - No error</li>
+<li>DNS - DNS errors</li>
+<li>TRANSPORT - Transport-related errors, for example a &ldquo;TLS certificate expired&rdquo; error.</li>
+<li>NETWORK - Network-related errors, for example a &ldquo;network unreachable&rdquo; error.</li>
+<li>SYSTEM - Internal system errors.</li>
+</ul></li>
+<li><code>error_message</code> - The error information indicating why a probe execution failed.</li>
+<li><code>icmp_code</code> - The ICMP code of the response message.  This field is not used when the protocol is set to TCP.  For more information on ICMP codes, see <a href="https://www.iana.org/assignments/icmp-parameters/icmp-parameters.xhtml">Internet Control Message Protocol (ICMP) Parameters</a>.</li>
+<li><code>is_healthy</code> - True if the probe result is determined to be healthy based on probe type-specific criteria.  For HTTP probes, a probe result is considered healthy if the HTTP response code is greater than or equal to 200 and less than 300.</li>
+<li><code>is_timed_out</code> - True if the probe did not complete before the configured <code>timeoutInSeconds</code> value.</li>
+<li><code>key</code> - A value identifying this specific probe result. The key is only unique within the results of its probe configuration. The key may be reused after 90 days.</li>
+<li><code>latency_in_ms</code> - The latency of the probe execution, in milliseconds.</li>
+<li><code>probe_configuration_id</code> - The OCID of the monitor or on-demand probe responsible for creating this result.</li>
+<li><code>protocol</code> - The protocols for ping probes.</li>
+<li><code>start_time</code> - The date and time the probe was executed, expressed in milliseconds since the POSIX epoch. This field is defined by the PerformanceResourceTiming interface of the W3C Resource Timing specification. For more information, see <a href="https://w3c.github.io/resource-timing/#sec-resource-timing">Resource Timing</a>.</li>
+<li><code>target</code> - The target hostname or IP address of the probe.</li>
+<li><code>vantage_point_name</code> - The name of the vantage point that executed the probe.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_disaster_recovery_dr_plans</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_disaster_recovery_dr_plans</h1>
+
+<p>This data source provides the list of Dr Plans in Oracle Cloud Infrastructure Disaster Recovery service.</p>
+
+<p>Get a summary list of all DR plans for a DR protection group.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_disaster_recovery_dr_plans&quot; &quot;test_dr_plans&quot; {
+	#Required
+	dr_protection_group_id = oci_disaster_recovery_dr_protection_group.test_dr_protection_group.id
+
+	#Optional
+	display_name = var.dr_plan_display_name
+	dr_plan_id = oci_disaster_recovery_dr_plan.test_dr_plan.id
+	dr_plan_type = var.dr_plan_dr_plan_type
+	lifecycle_sub_state = var.dr_plan_lifecycle_sub_state
+	state = var.dr_plan_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the given display name.  Example: <code>MyResourceDisplayName</code></li>
+<li><code>dr_plan_id</code> - (Optional) The OCID of the DR plan.  Example: <code>ocid1.drplan.oc1..uniqueID</code></li>
+<li><code>dr_plan_type</code> - (Optional) The DR plan type.</li>
+<li><code>dr_protection_group_id</code> - (Required) The OCID of the DR protection group. Mandatory query param.  Example: <code>ocid1.drprotectiongroup.oc1..uniqueID</code></li>
+<li><code>lifecycle_sub_state</code> - (Optional) A filter to return only DR plans that match the given lifecycle sub-state.</li>
+<li><code>state</code> - (Optional) A filter to return only DR plans that match the given lifecycle state.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>dr_plan_collection</code> - The list of dr_plan_collection.</li>
+</ul>
+
+<h3>DrPlan Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>compartment_id</code> - The OCID of the compartment containing the DR plan.  Example: <code>ocid1.compartment.oc1..uniqueID</code></p></li>
+
+<li><p><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></p></li>
+
+<li><p><code>display_name</code> - The display name of the DR plan.  Example: <code>EBS Switchover PHX to IAD</code></p></li>
+
+<li><p><code>dr_protection_group_id</code> - The OCID of the DR protection group to which this DR plan belongs.  Example: <code>ocid1.drplan.oc1..uniqueID</code></p></li>
+
+<li><p><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></p></li>
+
+<li><p><code>id</code> - The OCID of the DR plan.  Example: <code>ocid1.drplan.oc1..uniqueID</code></p></li>
+
+<li><p><code>life_cycle_details</code> - A message describing the DR plan&rsquo;s current state in more detail.</p></li>
+
+<li><p><code>lifecycle_sub_state</code> - The current state of the DR plan.</p></li>
+
+<li><p><code>peer_dr_protection_group_id</code> - The OCID of the peer DR protection group associated with this plan&rsquo;s DR protection group.  Example: <code>ocid1.drprotectiongroup.oc1..uniqueID</code></p></li>
+
+<li><p><code>peer_region</code> - The region of the peer DR protection group associated with this plan&rsquo;s DR protection group.  Example: <code>us-ashburn-1</code></p></li>
+
+<li><p><code>plan_groups</code> - The list of groups in this DR plan.</p>
+
+<ul>
+<li><p><code>display_name</code> - The display name of the group.  Example: <code>DATABASE_SWITCHOVER</code></p></li>
+
+<li><p><code>id</code> - The unique id of the group. Must not be modified by user.  Example: <code>sgid1.group..uniqueID</code></p></li>
+
+<li><p><code>is_pause_enabled</code> - A flag indicating whether this group should be enabled for execution. This flag is only applicable to the <code>USER_DEFINED_PAUSE</code> group. The flag should be null for the remaining group types.  Example: <code>true</code></p></li>
+
+<li><p><code>refresh_status</code> - The DR plan group refresh status.  Example: <code>GROUP_MODIFIED</code></p></li>
+
+<li><p><code>steps</code> - The list of steps in the group.</p>
+
+<ul>
+<li><p><code>display_name</code> - The display name of the group.  Example: <code>DATABASE_SWITCHOVER</code></p></li>
+
+<li><p><code>error_mode</code> - The error mode for this step.</p></li>
+
+<li><p><code>group_id</code> - The unique id of the group to which this step belongs. Must not be modified by user.  Example: <code>sgid1.group..uniqueID</code></p></li>
+
+<li><p><code>id</code> - The unique id of the step. Must not be modified by the user.  Example: <code>sgid1.step..uniqueID</code></p></li>
+
+<li><p><code>is_enabled</code> - A flag indicating whether this step should be enabled for execution.  Example: <code>true</code></p></li>
+
+<li><p><code>member_id</code> - The OCID of the member associated with this step.  Example: <code>ocid1.database.oc1..uniqueID</code></p></li>
+
+<li><p><code>refresh_status</code> - The DR plan step refresh status.  Example: <code>STEP_ADDED</code></p></li>
+
+<li><p><code>timeout</code> - The timeout in seconds for executing this step.  Example: <code>600</code></p></li>
+
+<li><p><code>type</code> - The plan step type.</p></li>
+
+<li><p><code>type_display_name</code> - The display name of the DR Plan step type.  Example: <code>Database Switchover</code></p></li>
+
+<li><p><code>user_defined_step</code> - The details for a user-defined step in a DR plan.</p>
+
+<ul>
+<li><p><code>function_id</code> - The OCID of function to be invoked.  Example: <code>ocid1.fnfunc.oc1..uniqueID</code></p></li>
+
+<li><p><code>function_region</code> - The region in which the function is deployed.  Example: <code>us-ashburn-1</code></p></li>
+
+<li><p><code>object_storage_script_location</code> - The details of an object storage script location for a user-defined step in a DR plan.</p>
+
+<ul>
+<li><code>bucket</code> - The bucket name inside the object storage namespace.  Example: <code>custom_dr_scripts</code></li>
+<li><code>namespace</code> - The namespace in object storage (Note - this is usually the tenancy name).  Example: <code>myocitenancy</code></li>
+<li><code>object</code> - The object name inside the object storage bucket.  Example: <code>validate_app_start.sh</code></li>
+</ul></li>
+
+<li><p><code>request_body</code> - The request body for the function.  Example: <code>{ &quot;FnParam1&quot;, &quot;FnParam2&quot; }</code></p></li>
+
+<li><p><code>run_as_user</code> - The userid on the instance to be used for executing the script or command.  Example: <code>opc</code></p></li>
+
+<li><p><code>run_on_instance_id</code> - The OCID of the instance on which this script or command should be executed.</p>
+
+<p><strong>For moving instances:</strong> <em>runOnInstanceId</em> must be the OCID of the instance in the region where the  instance is currently present.</p>
+
+<p><strong>For non-moving instances:</strong> <em>runOnInstanceId</em> must be the OCID of the non-moving instance.</p>
+
+<p>Example: <code>ocid1.instance.oc1..uniqueID</code></p></li>
+
+<li><p><code>run_on_instance_region</code> - The region of the instance where this script or command should be executed.  Example: <code>us-ashburn-1</code></p></li>
+
+<li><p><code>script_command</code> - The script name and arguments.  Example: <code>/usr/bin/python3 /home/opc/scripts/my_app_script.py arg1 arg2 arg3</code></p></li>
+
+<li><p><code>step_type</code> - The type of the user-defined step.</p>
+
+<p><strong>RUN_OBJECTSTORE_SCRIPT_PRECHECK</strong> - A built-in step which performs a precheck on a script stored in Oracle Cloud Infrastructure object storage.  This step cannot be added, deleted, or customized by the user.</p>
+
+<p><strong>RUN_LOCAL_SCRIPT_PRECHECK</strong> - A built-in step which performs a precheck on a script which resides locally on a compute instance.  This step cannot be added, deleted, or customized by the user.</p>
+
+<p><strong>INVOKE_FUNCTION_PRECHECK</strong> - A built-in step which performs a precheck on an Oracle Cloud Infrastructure function.  This  step cannot be added, deleted, or customized by the user. See <a href="https://docs.oracle.com/en-us/iaas/Content/Functions/home.htm">https://docs.oracle.com/en-us/iaas/Content/Functions/home.htm</a>.</p>
+
+<p><strong>RUN_OBJECTSTORE_SCRIPT</strong> - A step which runs a script stored in Oracle Cloud Infrastructure object storage.</p>
+
+<p><strong>RUN_LOCAL_SCRIPT</strong> - A step which runs a script that resides locally on a compute instance.</p>
+
+<p><strong>INVOKE_FUNCTION</strong> - A step which invokes an Oracle Cloud Infrastructure function. See <a href="https://docs.oracle.com/en-us/iaas/Content/Functions/home.htm">https://docs.oracle.com/en-us/iaas/Content/Functions/home.htm</a>.</p>
+
+<p><strong>RUN_OBJECTSTORE_SCRIPT_USER_DEFINED_CUSTOM_PRECHECK</strong> - A user-defined step which performs a precheck by executing a user-provided script stored in Oracle Cloud Infrastructure object storage.</p>
+
+<p><strong>RUN_LOCAL_SCRIPT_USER_DEFINED_CUSTOM_PRECHECK</strong> - A user-defined step which performs a precheck by executing a user-provided script which resides locally on a compute instance.</p>
+
+<p><strong>INVOKE_FUNCTION_USER_DEFINED_CUSTOM_PRECHECK</strong> - A user-defined step which performs a precheck by executing a user-provided Oracle Cloud Infrastructure function. See <a href="https://docs.oracle.com/en-us/iaas/Content/Functions/home.htm">https://docs.oracle.com/en-us/iaas/Content/Functions/home.htm</a>.</p></li>
+</ul></li>
+</ul></li>
+
+<li><p><code>type</code> - The group type.  Example: <code>BUILT_IN</code></p></li>
+</ul></li>
+
+<li><p><code>source_plan_id</code> - If this is a cloned DR plan, the OCID of the source DR plan that was used to clone this DR plan. If this DR plan was not cloned, then the value for this will be <code>null</code>.  Example: <code>ocid1.drplan.oc1..uniqueID</code></p></li>
+
+<li><p><code>state</code> - The current state of the DR plan.</p></li>
+
+<li><p><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces.  Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></p></li>
+
+<li><p><code>time_created</code> - The date and time the DR plan was created. An RFC3339 formatted datetime string.  Example: <code>2019-03-29T09:36:42Z</code></p></li>
+
+<li><p><code>time_updated</code> - The date and time the DR plan was updated. An RFC3339 formatted datetime string.  Example: <code>2019-03-29T09:36:42Z</code></p></li>
+
+<li><p><code>type</code> - The type of the DR plan.</p></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

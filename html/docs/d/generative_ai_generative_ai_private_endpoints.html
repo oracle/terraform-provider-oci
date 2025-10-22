@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_generative_ai_generative_ai_private_endpoints</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_generative_ai_generative_ai_private_endpoints</h1>
+
+<p>This data source provides the list of Generative Ai Private Endpoints in Oracle Cloud Infrastructure Generative AI service.</p>
+
+<p>Lists all Generative AI private endpoints in the specified compartment.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_generative_ai_generative_ai_private_endpoints&quot; &quot;test_generative_ai_private_endpoints&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	display_name = var.generative_ai_private_endpoint_display_name
+	id = var.generative_ai_private_endpoint_id
+	state = var.generative_ai_private_endpoint_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment in which to list resources.</li>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the given display name exactly.</li>
+<li><code>id</code> - (Optional) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the private endpoint.</li>
+<li><code>state</code> - (Optional) The lifecycle state of Generative AI private endpoints.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>generative_ai_private_endpoint_collection</code> - The list of generative_ai_private_endpoint_collection.</li>
+</ul>
+
+<h3>GenerativeAiPrivateEndpoint Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>description</code> - A description of this private endpoint.</li>
+<li><code>display_name</code> - A user friendly name. It doesn&rsquo;t have to be unique. Avoid entering confidential information.</li>
+<li><code>fqdn</code> - Fully qualified domain name the customer will use for access (for eg: xyz.oraclecloud.com)</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The OCID of a private endpoint.</li>
+<li><code>nsg_ids</code> - A list of the OCIDs of the network security groups that the private endpoint&rsquo;s VNIC belongs to.</li>
+<li><code>private_endpoint_ip</code> - The private IP address (in the customer&rsquo;s VCN) that represents the access point for the associated endpoint service.</li>
+<li><code>state</code> - The current state of the Generative AI Private Endpoint.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

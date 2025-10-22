@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_datascience_model_deployment_shapes</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_datascience_model_deployment_shapes</h1>
+
+<p>This data source provides the list of Model Deployment Shapes in Oracle Cloud Infrastructure Datascience service.</p>
+
+<p>Lists the valid model deployment shapes.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_datascience_model_deployment_shapes&quot; &quot;test_model_deployment_shapes&quot; {
+  #Required
+  compartment_id = var.compartment_id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) <b>Filter</b> results by the <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>model_deployment_shapes</code> - The list of model_deployment_shapes.</li>
+</ul>
+
+<h3>ModelDeploymentShape Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>core_count</code> - The number of cores associated with this model deployment shape.</li>
+<li><code>memory_in_gbs</code> - The amount of memory in GBs associated with this model deployment shape.</li>
+<li><code>name</code> - The name of the model deployment shape.</li>
+<li><code>shape_series</code> - The family that the compute shape belongs to.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

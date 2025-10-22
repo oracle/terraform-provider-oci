@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_execution_actions</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_execution_actions</h1>
+
+<p>This data source provides the list of Execution Actions in Oracle Cloud Infrastructure Database service.</p>
+
+<p>Lists the execution action resources in the specified compartment.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_execution_actions&quot; &quot;test_execution_actions&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	display_name = var.execution_action_display_name
+	execution_window_id = oci_database_execution_window.test_execution_window.id
+	state = var.execution_action_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The compartment <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.</li>
+<li><code>execution_window_id</code> - (Optional) A filter to return only resources that match the given execution wondow id.</li>
+<li><code>state</code> - (Optional) A filter to return only resources that match the given lifecycle state exactly.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>execution_actions</code> - The list of execution_actions.</li>
+</ul>
+
+<h3>ExecutionAction Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>action_members</code> - List of action members of this execution action.
+
+<ul>
+<li><code>estimated_time_in_mins</code> - The estimated time of the execution action member in minutes.</li>
+<li><code>member_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the parent resource the execution action belongs to.</li>
+<li><code>member_order</code> - The priority order of the execution action member.</li>
+<li><code>status</code> - The current status of the execution action member. Valid states are SCHEDULED, IN_PROGRESS, FAILED, CANCELED, DURATION_EXCEEDED, RESCHEDULED and COMPLETED. enum:
+
+<ul>
+<li>SCHEDULED</li>
+<li>IN_PROGRESS</li>
+<li>FAILED</li>
+<li>CANCELED</li>
+<li>DURATION_EXCEEDED</li>
+<li>RESCHEDULED</li>
+<li>SUCCEEDED</li>
+</ul></li>
+<li><code>total_time_taken_in_mins</code> - The total time taken by corresponding resource activity in minutes.</li>
+</ul></li>
+<li><code>action_params</code> - Map<ParamName, ParamValue> where a key value pair describes the specific action parameter. Example: <code>{&quot;count&quot;: &quot;3&quot;}</code></li>
+<li><code>action_type</code> - The action type of the execution action being performed</li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</li>
+<li><code>description</code> - Description of the execution action.</li>
+<li><code>display_name</code> - The user-friendly name for the execution action. The name does not need to be unique.</li>
+<li><code>estimated_time_in_mins</code> - The estimated time of the execution action in minutes.</li>
+<li><code>execution_action_order</code> - The priority order of the execution action.</li>
+<li><code>execution_window_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the execution window resource the execution action belongs to.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the execution action.</li>
+<li><code>lifecycle_details</code> - Additional information about the current lifecycle state.</li>
+<li><code>lifecycle_substate</code> - The current sub-state of the execution action. Valid states are DURATION_EXCEEDED, MAINTENANCE_IN_PROGRESS and WAITING.</li>
+<li><code>state</code> - The current state of the execution action. Valid states are SCHEDULED, IN_PROGRESS, FAILED, CANCELED, UPDATING, DELETED, SUCCEEDED and PARTIAL_SUCCESS.</li>
+<li><code>time_created</code> - The date and time the execution action was created.</li>
+<li><code>time_updated</code> - The last date and time that the execution action was updated.</li>
+<li><code>total_time_taken_in_mins</code> - The total time taken by corresponding resource activity in minutes.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

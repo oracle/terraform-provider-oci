@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_appmgmt_control_monitor_plugin_management</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_appmgmt_control_monitor_plugin_management</h1>
+
+<p>This resource provides the Monitor Plugin Management resource in Oracle Cloud Infrastructure Appmgmt Control service.</p>
+
+<p>Activates Resource Plugin for compute instance identified by the instance ocid.
+Stores monitored instances Id and its state. Tries to enable Resource Monitoring plugin by making
+remote calls to Oracle Cloud Agent and Management Agent Cloud Service.</p>
+
+<p>Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/resource-discovery-monitoring-control-api/20210330/MonitoredInstance/ActivateMonitoringPlugin">https://docs.oracle.com/iaas/api/#/en/resource-discovery-monitoring-control-api/20210330/MonitoredInstance/ActivateMonitoringPlugin</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/appmgmt_control">https://github.com/oracle/terraform-provider-oci/tree/master/examples/appmgmt_control</a></p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_appmgmt_control_monitor_plugin_management&quot; &quot;test_monitor_plugin_management&quot; {
+	#Required
+	monitored_instance_id = oci_appmgmt_control_monitored_instance.test_monitored_instance.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>monitored_instance_id</code> - (Required) OCID of monitored instance.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Monitor Plugin Management
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Monitor Plugin Management
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Monitor Plugin Management</p>
+
+<h2>Import</h2>
+
+<p>Import is not supported for this resource.</p>
+
+	</div>
+
+</body>
+</html>

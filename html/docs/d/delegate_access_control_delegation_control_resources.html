@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_delegate_access_control_delegation_control_resources</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_delegate_access_control_delegation_control_resources</h1>
+
+<p>This data source provides the list of Delegation Control Resources in Oracle Cloud Infrastructure Delegate Access Control service.</p>
+
+<p>Returns a list of resources associated with the Delegation Control.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_delegate_access_control_delegation_control_resources&quot; &quot;test_delegation_control_resources&quot; {
+	#Required
+	delegation_control_id = oci_delegate_access_control_delegation_control.test_delegation_control.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>delegation_control_id</code> - (Required) unique Delegation Control identifier</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>delegation_control_resource_collection</code> - The list of delegation_control_resource_collection.</li>
+</ul>
+
+<h3>DelegationControlResource Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - List of DelegationControlResourceSummary objects.
+
+<ul>
+<li><code>id</code> - OCID of the resource.</li>
+<li><code>resource_status</code> - The current status of the resource in Delegation Control.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

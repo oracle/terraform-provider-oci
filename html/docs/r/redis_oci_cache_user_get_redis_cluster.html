@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_redis_oci_cache_user_get_redis_cluster</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_redis_oci_cache_user_get_redis_cluster</h1>
+
+<p>This resource provides the Oci Cache User Get Redis Cluster resource in Oracle Cloud Infrastructure Redis service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/redis/latest/OciCacheUserGetRedisCluster">https://docs.oracle.com/iaas/api/#/en/redis/latest/OciCacheUserGetRedisCluster</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/redis">https://github.com/oracle/terraform-provider-oci/tree/master/examples/redis</a></p>
+
+<p>Gets a list of associated redis cluster for an Oracle Cloud Infrastructure cache user.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_redis_oci_cache_user_get_redis_cluster&quot; &quot;test_oci_cache_user_get_redis_cluster&quot; {
+	#Required
+	oci_cache_user_id = oci_redis_oci_cache_user.test_oci_cache_user.id
+
+	#Optional
+	compartment_id = var.compartment_id
+	display_name = var.oci_cache_user_get_redis_cluster_display_name
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Optional) The ID of the compartment in which to list resources.</li>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the entire display name given.</li>
+<li><code>oci_cache_user_id</code> - (Required) A filter to return only resources, that match with the given Oracle Cloud Infrastructure cache user ID (OCID).</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>oci_cache_cluster_id</code> - OCID of the OciCacheCluster</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Oci Cache User Get Redis Cluster
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Oci Cache User Get Redis Cluster
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Oci Cache User Get Redis Cluster</p>
+
+<h2>Import</h2>
+
+<p>Import is not supported for this resource.</p>
+
+	</div>
+
+</body>
+</html>

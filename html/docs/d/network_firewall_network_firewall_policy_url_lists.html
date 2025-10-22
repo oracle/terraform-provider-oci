@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_network_firewall_network_firewall_policy_url_lists</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_network_firewall_network_firewall_policy_url_lists</h1>
+
+<p>This data source provides the list of Network Firewall Policy Url Lists in Oracle Cloud Infrastructure Network Firewall service.</p>
+
+<p>Returns a list of URL lists for the Network Firewall Policy.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_network_firewall_network_firewall_policy_url_lists&quot; &quot;test_network_firewall_policy_url_lists&quot; {
+	#Required
+	network_firewall_policy_id = oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id
+
+	#Optional
+	display_name = var.network_firewall_policy_url_list_display_name
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the entire display name given.</li>
+<li><code>network_firewall_policy_id</code> - (Required) Unique Network Firewall Policy identifier</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>url_list_summary_collection</code> - The list of url_list_summary_collection.</li>
+</ul>
+
+<h3>NetworkFirewallPolicyUrlList Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>name</code> - Unique name identifier for the URL list.</li>
+<li><code>parent_resource_id</code> - OCID of the Network Firewall Policy this URL List belongs to.</li>
+<li><code>total_urls</code> - Total count of URLs in the URL List</li>
+<li><code>urls</code> - List of urls.
+
+<ul>
+<li><code>pattern</code> - A string consisting of a concatenation of optional host component and optional path component. The host component may start with <code>*.</code> to match the case-insensitive domain and all its subdomains. The path component must start with a <code>/</code>, and may end with <code>*</code> to match all paths of which it is a case-sensitive prefix. A missing host component matches all request domains, and a missing path component matches all request paths. An empty value matches all requests.</li>
+<li><code>type</code> - The type of pattern.
+
+<ul>
+<li>SIMPLE - A simple pattern with optional subdomain and/or path suffix wildcards.</li>
+</ul></li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_blockchain_osn</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_blockchain_osn</h1>
+
+<p>This resource provides the Osn resource in Oracle Cloud Infrastructure Blockchain service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/blockchain/latest/Osn">https://docs.oracle.com/iaas/api/#/en/blockchain/latest/Osn</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/blockchain">https://github.com/oracle/terraform-provider-oci/tree/master/examples/blockchain</a></p>
+
+<p>Create Blockchain Platform Osn</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_blockchain_osn&quot; &quot;test_osn&quot; {
+	#Required
+	ad = var.osn_ad
+	blockchain_platform_id = oci_blockchain_blockchain_platform.test_blockchain_platform.id
+
+	#Optional
+	ocpu_allocation_param {
+		#Required
+		ocpu_allocation_number = var.osn_ocpu_allocation_param_ocpu_allocation_number
+	}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>ad</code> - (Required) Availability Domain to place new OSN</li>
+<li><code>blockchain_platform_id</code> - (Required) Unique service identifier.</li>
+<li><code>ocpu_allocation_param</code> - (Optional) (Updatable) OCPU allocation parameter
+
+<ul>
+<li><code>ocpu_allocation_number</code> - (Required) (Updatable) Number of OCPU allocation</li>
+</ul></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>ad</code> - Availability Domain of OSN</li>
+<li><code>ocpu_allocation_param</code> - OCPU allocation parameter
+
+<ul>
+<li><code>ocpu_allocation_number</code> - Number of OCPU allocation</li>
+</ul></li>
+<li><code>osn_key</code> - OSN identifier</li>
+<li><code>state</code> - The current state of the OSN.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 30 minutes), when creating the Osn
+	* <code>update</code> - (Defaults to 30 minutes), when updating the Osn
+	* <code>delete</code> - (Defaults to 30 minutes), when destroying the Osn</p>
+
+<h2>Import</h2>
+
+<p>Osns can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_blockchain_osn.test_osn &quot;blockchainPlatforms/{blockchainPlatformId}/osns/{osnId}&quot; 
+</code></pre>
+
+	</div>
+
+</body>
+</html>

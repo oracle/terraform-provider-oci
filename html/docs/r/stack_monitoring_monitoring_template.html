@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_stack_monitoring_monitoring_template</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_stack_monitoring_monitoring_template</h1>
+
+<p>This resource provides the Monitoring Template resource in Oracle Cloud Infrastructure Stack Monitoring service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/stack-monitoring/latest/MonitoringTemplate">https://docs.oracle.com/iaas/api/#/en/stack-monitoring/latest/MonitoringTemplate</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/stack_monitoring">https://github.com/oracle/terraform-provider-oci/tree/master/examples/stack_monitoring</a></p>
+
+<p>Creates a new monitoring template for a given compartment.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_stack_monitoring_monitoring_template&quot; &quot;test_monitoring_template&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	destinations = var.monitoring_template_destinations
+	display_name = var.monitoring_template_display_name
+	members {
+		#Required
+		id = var.monitoring_template_members_id
+		type = var.monitoring_template_members_type
+
+		#Optional
+		composite_type = var.monitoring_template_members_composite_type
+	}
+
+	#Optional
+	defined_tags = {&quot;foo-namespace.bar-key&quot;= &quot;value&quot;}
+	description = var.monitoring_template_description
+	freeform_tags = {&quot;bar-key&quot;= &quot;value&quot;}
+	is_alarms_enabled = var.monitoring_template_is_alarms_enabled
+	is_split_notification_enabled = var.monitoring_template_is_split_notification_enabled
+	message_format = var.monitoring_template_message_format
+	repeat_notification_duration = var.monitoring_template_repeat_notification_duration
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The OCID of the compartment containing the monitoringTemplate.</li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>description</code> - (Optional) (Updatable) A user-friendly description for the monitoring template. It does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.</li>
+<li><code>destinations</code> - (Required) (Updatable) A list of destinations for alarm notifications. Each destination is represented by the OCID of a related resource, such as a topic.</li>
+<li><code>display_name</code> - (Required) (Updatable) A user-friendly name for the monitoring template. It is unique and mutable in nature. Avoid entering confidential information.</li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>is_alarms_enabled</code> - (Optional) (Updatable) Whether the alarm is enabled or disabled, it will be Enabled by default.</li>
+<li><code>is_split_notification_enabled</code> - (Optional) (Updatable) Whether the alarm notification is enabled or disabled, it will be Enabled by default.</li>
+<li><code>members</code> - (Required) (Updatable) List of members of this monitoring template
+
+<ul>
+<li><code>composite_type</code> - (Optional) (Updatable) The OCID of the composite resource type like EBS or Peoplesoft.</li>
+<li><code>id</code> - (Required) (Updatable) The OCID of the resourceInstance/resourceType/resourceGroup</li>
+<li><code>type</code> - (Required) (Updatable) Type of the member reference RESOURCE_INSTANCE, RESOURCE_TYPE, RESOURCE_GROUP</li>
+</ul></li>
+<li><code>message_format</code> - (Optional) (Updatable) The format to use for alarm notifications.</li>
+<li><code>repeat_notification_duration</code> - (Optional) (Updatable) The frequency for re-submitting alarm notifications, if the alarm keeps firing without interruption. Format defined by ISO 8601. For example, PT4H indicates four hours. Minimum- PT1M. Maximum - P30D.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The OCID of the compartment containing the monitoringTemplate.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>description</code> - A user-friendly description for the monitoring template. It does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.</li>
+<li><code>destinations</code> - A list of destinations for alarm notifications. Each destination is represented by the OCID of a related resource.</li>
+<li><code>display_name</code> - A user-friendly name for the monitoring template. It should be unique, and it&rsquo;s mutable in nature. Avoid entering confidential information.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the monitoringTemplate</li>
+<li><code>is_alarms_enabled</code> - Whether the alarm is enabled or disabled. Default value is enabled.</li>
+<li><code>is_split_notification_enabled</code> - Whether the alarm notification is enabled or disabled, it will be Enabled by default.</li>
+<li><code>members</code> - List of members of this monitoring template.
+
+<ul>
+<li><code>composite_type</code> - The OCID of the composite resource type like EBS or Peoplesoft.</li>
+<li><code>id</code> - The OCID of the resourceInstance/resourceType/resourceGroup</li>
+<li><code>type</code> - Type of the member reference RESOURCE_INSTANCE, RESOURCE_TYPE, RESOURCE_GROUP</li>
+</ul></li>
+<li><code>message_format</code> - The format to use for alarm notifications.</li>
+<li><code>repeat_notification_duration</code> - The frequency for re-submitting alarm notifications, if the alarm keeps firing without interruption. Format defined by ISO 8601. For example, PT4H indicates four hours. Minimum- PT1M. Maximum - P30D.</li>
+<li><code>state</code> - The current lifecycle state of the monitoring template.</li>
+<li><code>status</code> - The current status of the monitoring template i.e. whether it is Applied or NotApplied.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>tenant_id</code> - Tenant Identifier <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a></li>
+<li><code>time_created</code> - The date and time the monitoringTemplate was created. Format defined by RFC3339.</li>
+<li><code>time_updated</code> - The date and time the monitoringTemplate was last updated. Format defined by RFC3339.</li>
+<li><code>total_alarm_conditions</code> - Total Alarm Conditions</li>
+<li><code>total_applied_alarm_conditions</code> - Total Applied Alarm Conditions</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Monitoring Template
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Monitoring Template
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Monitoring Template</p>
+
+<h2>Import</h2>
+
+<p>MonitoringTemplates can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_stack_monitoring_monitoring_template.test_monitoring_template &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

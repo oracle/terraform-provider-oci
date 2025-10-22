@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_management_managed_my_sql_database_outbound_replications</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_management_managed_my_sql_database_outbound_replications</h1>
+
+<p>This data source provides the list of Managed My Sql Database Outbound Replications in Oracle Cloud Infrastructure Database Management service.</p>
+
+<p>Retrieves information pertaining to the outbound replications of a specific MySQL server.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_management_managed_my_sql_database_outbound_replications&quot; &quot;test_managed_my_sql_database_outbound_replications&quot; {
+	#Required
+	managed_my_sql_database_id = oci_database_management_managed_my_sql_database.test_managed_my_sql_database.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>managed_my_sql_database_id</code> - (Required) The OCID of the Managed MySQL Database.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>managed_my_sql_database_outbound_replication_collection</code> - The list of managed_my_sql_database_outbound_replication_collection.</li>
+</ul>
+
+<h3>ManagedMySqlDatabaseOutboundReplication Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - The list of ManagedMySqlDatabaseOutboundReplicationSummary records.
+
+<ul>
+<li><code>replica_host</code> - The host name of the replica server, as specified on the replica with the &ndash;report-host option. This can differ from the machine name as configured in the operating system.</li>
+<li><code>replica_port</code> - The port on the replica server, as specified on the replica with the &ndash;report-port option. A zero in this column means that the replica port (&ndash;report-port) was not set.</li>
+<li><code>replica_server_id</code> - The server ID value of the replica.</li>
+<li><code>replica_uuid</code> - The Universally Unique Identifier (UUID) value of the replica server.</li>
+</ul></li>
+<li><code>outbound_replications_count</code> - The number of outbound replications from the MySQL server.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

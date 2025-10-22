@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_database_cloud_vm_cluster_iorm_config</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_database_cloud_vm_cluster_iorm_config</h1>
+
+<p>This resource provides the Cloud Vm Cluster Iorm Config resource in Oracle Cloud Infrastructure Database service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/database/latest/CloudVmClusterIormConfig">https://docs.oracle.com/iaas/api/#/en/database/latest/CloudVmClusterIormConfig</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/database">https://github.com/oracle/terraform-provider-oci/tree/master/examples/database</a></p>
+
+<p>Updates IORM settings for the specified Cloud Vm Cluster.</p>
+
+<p>The <a href="https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/CloudVmCluster/UpdateCloudVmClusterIormConfig/">UpdateCloudVmClusterIormConfig</a> API is used for Cloud Vm Cluster.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_database_cloud_vm_cluster_iorm_config&quot; &quot;test_cloud_vm_cluster_iorm_config&quot; {
+	#Required
+	db_plans {
+		#Required
+		db_name = var.cloud_vm_cluster_iorm_config_db_plans_db_name
+		share = var.cloud_vm_cluster_iorm_config_db_plans_share
+	}
+	cloud_vm_cluster_id = oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id
+
+	#Optional
+	objective = &quot;AUTO&quot;
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>db_plans</code> - (Required) (Updatable) Array of IORM Setting for all the database in this Cloud Vm Cluster
+
+<ul>
+<li><code>db_name</code> - (Required) (Updatable) The database name. For the default <code>DbPlan</code>, the <code>dbName</code> is <code>default</code>.</li>
+<li><code>share</code> - (Required) (Updatable) The relative priority of this database.</li>
+</ul></li>
+<li><code>cloud_vm_cluster_id</code> - (Required) The Cluster <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>objective</code> - (Optional) (Updatable) Value for the IORM objective Default is &ldquo;Auto&rdquo;</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>db_plans</code> - An array of IORM settings for all the database in the Cloud Vm Cluster.
+
+<ul>
+<li><code>db_name</code> - The database name. For the default <code>DbPlan</code>, the <code>dbName</code> is <code>default</code>.</li>
+<li><code>flash_cache_limit</code> - The flash cache limit for this database. This value is internally configured based on the share value assigned to the database.</li>
+<li><code>share</code> - The relative priority of this database.</li>
+</ul></li>
+<li><code>lifecycle_details</code> - Additional information about the current <code>lifecycleState</code>.</li>
+<li><code>objective</code> - The current value for the IORM objective. The default is <code>AUTO</code>.</li>
+<li><code>state</code> - The current state of IORM configuration for the Exadata DB system.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Cloud Vm Cluster Iorm Config
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Cloud Vm Cluster Iorm Config
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Cloud Vm Cluster Iorm Config</p>
+
+<h2>Import</h2>
+
+<p>CloudVmClusterIormConfigs can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_database_cloud_vm_cluster_iorm_config.test_cloud_vm_cluster_iorm_config &quot;cloudVmClusters/{cloudVmClusterId}/CloudVmClusterIormConfig&quot; 
+</code></pre>
+
+	</div>
+
+</body>
+</html>

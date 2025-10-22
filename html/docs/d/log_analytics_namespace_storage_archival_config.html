@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_log_analytics_namespace_storage_archival_config</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_log_analytics_namespace_storage_archival_config</h1>
+
+<p>This data source provides details about a specific Namespace Storage Archival Config resource in Oracle Cloud Infrastructure Log Analytics service.</p>
+
+<p>This API gets the storage configuration of a tenancy</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_log_analytics_namespace_storage_archival_config&quot; &quot;test_namespace_storage_archival_config&quot; {
+	#Required
+	namespace = var.namespace_storage_archival_config_namespace
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>namespace</code> - (Required) The Logging Analytics namespace used for the request.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>archiving_configuration</code> - This is the configuration for data archiving in object storage
+
+<ul>
+<li><code>active_storage_duration</code> - This is the duration data in active storage before data is archived, as described in <a href="https://en.wikipedia.org/wiki/ISO_8601#Durations">https://en.wikipedia.org/wiki/ISO_8601#Durations</a>. The largest supported unit is D, e.g. P365D (not P1Y) or P14D (not P2W).</li>
+<li><code>archival_storage_duration</code> - This is the duration before archived data is deleted from object storage, as described in <a href="https://en.wikipedia.org/wiki/ISO_8601#Durations">https://en.wikipedia.org/wiki/ISO_8601#Durations</a> The largest supported unit is D, e.g. P365D (not P1Y) or P14D (not P2W).</li>
+</ul></li>
+<li><code>is_archiving_enabled</code> - This indicates if old data can be archived for a tenancy</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

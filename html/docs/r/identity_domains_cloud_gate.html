@@ -1,0 +1,2461 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_identity_domains_cloud_gate</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_identity_domains_cloud_gate</h1>
+
+<p>This resource provides the Cloud Gate resource in Oracle Cloud Infrastructure Identity Domains service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/identity-domains/latest/CloudGate">https://docs.oracle.com/iaas/api/#/en/identity-domains/latest/CloudGate</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/identity_domains">https://github.com/oracle/terraform-provider-oci/tree/master/examples/identity_domains</a></p>
+
+<p>Create a Cloud Gate</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_identity_domains_cloud_gate&quot; &quot;test_cloud_gate&quot; {
+	#Required
+	display_name = var.cloud_gate_display_name
+	idcs_endpoint = data.oci_identity_domain.test_domain.url
+	schemas = [&quot;urn:ietf:params:scim:schemas:oracle:idcs:CloudGate&quot;]
+
+	#Optional
+	active = var.cloud_gate_active
+	attribute_sets = [&quot;all&quot;]
+	attributes = &quot;&quot;
+	authorization = var.cloud_gate_authorization
+	description = var.cloud_gate_description
+	last_modified_time = &quot;2000-01-01T00:00:00Z&quot;
+	ocid = var.cloud_gate_ocid
+	resource_type_schema_version = var.cloud_gate_resource_type_schema_version
+	tags {
+		#Required
+		key = var.cloud_gate_tags_key
+		value = var.cloud_gate_tags_value
+	}
+	type = var.cloud_gate_type
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>active</code> - (Optional) (Updatable) Activation status for this Cloud Gate</p>
+
+<p><strong>Added In:</strong> 19.2.1</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>attribute_sets</code> - (Optional) (Updatable) A multi-valued list of strings indicating the return type of attribute definition. The specified set of attributes can be fetched by the return type of the attribute. One or more values can be given together to fetch more than one group of attributes. If &lsquo;attributes&rsquo; query parameter is also available, union of the two is fetched. Valid values - all, always, never, request, default. Values are case-insensitive.</p></li>
+
+<li><p><code>attributes</code> - (Optional) (Updatable) A comma-delimited string that specifies the names of resource attributes that should be returned in the response. By default, a response that contains resource attributes contains only attributes that are defined in the schema for that resource type as returned=always or returned=default. An attribute that is defined as returned=request is returned in a response only if the request specifies its name in the value of this query parameter. If a request specifies this query parameter, the response contains the attributes that this query parameter specifies, as well as any attribute that is defined as returned=always.</p></li>
+
+<li><p><code>authorization</code> - (Optional) (Updatable) The Authorization field value consists of credentials containing the authentication information of the user agent for the realm of the resource being requested.</p></li>
+
+<li><p><code>compartment_ocid</code> - (Optional) (Updatable) Oracle Cloud Infrastructure Compartment Id (ocid) in which the resource lives.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>delete_in_progress</code> - (Optional) (Updatable) A boolean flag indicating this resource in the process of being deleted. Usually set to true when synchronous deletion of the resource would take too long.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>description</code> - (Optional) (Updatable) Brief description for this Cloud Gate</p>
+
+<p><strong>Added In:</strong> 19.2.1</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>display_name</code> - (Required) (Updatable) Display name/Host identifier for this Cloud Gate</p>
+
+<p><strong>Added In:</strong> 19.2.1</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: always</li>
+<li>type: string</li>
+<li>uniqueness: server</li>
+</ul></li>
+
+<li><p><code>domain_ocid</code> - (Optional) (Updatable) Oracle Cloud Infrastructure Domain Id (ocid) in which the resource lives.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>id</code> - (Optional) (Updatable) Unique identifier for the SCIM Resource as defined by the Service Provider. Each representation of the Resource MUST include a non-empty id value. This identifier MUST be unique across the Service Provider&rsquo;s entire set of Resources. It MUST be a stable, non-reassignable identifier that does not change when the same Resource is returned in subsequent requests. The value of the id attribute is always issued by the Service Provider and MUST never be specified by the Service Consumer. bulkId: is a reserved keyword and MUST NOT be used in the unique identifier.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: always</li>
+<li>type: string</li>
+<li>uniqueness: global</li>
+</ul></li>
+
+<li><p><code>idcs_created_by</code> - (Optional) (Updatable) The User or App who created the Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readOnly</p></li>
+
+<li><p>required: true</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p><code>ref</code> - (Optional) (Updatable) The URI of the SCIM resource that represents the User or App who created this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: reference</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>display</code> - (Optional) (Updatable) The displayName of the User or App who created this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>ocid</code> - (Optional) (Updatable) The OCID of the SCIM resource that represents the User or App who created this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>type</code> - (Optional) (Updatable) The type of resource, User or App, that created this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - (Required) (Updatable) The ID of the SCIM resource that represents the User or App who created this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>idcs_endpoint</code> - (Required) The basic endpoint for the identity domain</p></li>
+
+<li><p><code>idcs_last_modified_by</code> - (Optional) (Updatable) The User or App who modified the Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readOnly</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p><code>ref</code> - (Optional) (Updatable) The URI of the SCIM resource that represents the User or App who modified this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: reference</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>display</code> - (Optional) (Updatable) The displayName of the User or App who modified this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>ocid</code> - (Optional) (Updatable) The OCID of the SCIM resource that represents the User or App who modified this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>type</code> - (Optional) (Updatable) The type of resource, User or App, that modified this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - (Required) (Updatable) The ID of the SCIM resource that represents the User or App who modified this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>idcs_last_upgraded_in_release</code> - (Optional) (Updatable) The release number when the resource was upgraded.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: request</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>idcs_prevented_operations</code> - (Optional) (Updatable) Each value of this attribute specifies an operation that only an internal client may perform on this particular resource.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: true</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: request</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>is_opc_service</code> - (Optional) (Updatable) Indicates whether this resource was created by OPC</p>
+
+<p><strong>Added In:</strong> 19.3.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: always</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>last_modified_time</code> - (Optional) (Updatable) Last updated timestamp for this CloudGate&rsquo;s servers and mappings.</p>
+
+<p><strong>Added In:</strong> 19.2.1</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: dateTime</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>mappings</code> - (Optional) (Updatable) A list of Cloud Gate Mappings that map Apps to this Cloud Gate</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>caseExact: true</p></li>
+
+<li><p>idcsCompositeKey: [serverId, resourcePrefix]</p></li>
+
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: true</p></li>
+
+<li><p>mutability: readOnly</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: request</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>ref</code> - (Optional) (Updatable) URI of the App being mapped to</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: reference</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>app_id</code> - (Optional) (Updatable) The ID of the App being mapped to</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>mapping_id</code> - (Optional) (Updatable) The id of the Cloud Gate Mapping</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>name</code> - (Optional) (Updatable) The name (Client ID) of the App being mapped to</p>
+
+<p><strong>Added In:</strong> 19.2.1</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>nginx_settings</code> - (Optional) (Updatable) More NGINX Settings. JSON encoded key value pairs similar to WTP encoding</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>policy_name</code> - (Optional) (Updatable) The Web Tier policy name used for the App that is mapped to this Cloud Gate</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>proxy_pass</code> - (Optional) (Updatable) NGINX ProxyPass entry for this Mapping</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>resource_prefix</code> - (Required) (Updatable) Resource prefix for this mapping.  This will be used to define the location block</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>server_id</code> - (Required) (Updatable) Server Instance for the Mapping. This is one of the server IDs(server blocks) from the associated Cloud Gate list</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>upstream_server_group_id</code> - (Optional) (Updatable) Upstream server group instance for the Mapping. This is one of the upstream server group IDs(upstream blocks) from the associated Cloud Gate list</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - (Optional) (Updatable) The id of the App being mapped to</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>meta</code> - (Optional) (Updatable) A complex attribute that contains resource metadata. All sub-attributes are OPTIONAL.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>caseExact: false</p></li>
+
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readOnly</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>idcsCsvAttributeNameMappings: [[columnHeaderName:Created Date, mapsTo:meta.created]]</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p><code>created</code> - (Optional) (Updatable) The DateTime the Resource was added to the Service Provider</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: dateTime</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>last_modified</code> - (Optional) (Updatable) The most recent DateTime that the details of this Resource were updated at the Service Provider. If this Resource has never been modified since its initial creation, the value MUST be the same as the value of created. The attribute MUST be a DateTime.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: dateTime</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>location</code> - (Optional) (Updatable) The URI of the Resource being returned. This value MUST be the same as the Location HTTP response header.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>resource_type</code> - (Optional) (Updatable) Name of the resource type of the resource&ndash;for example, Users or Groups</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>version</code> - (Optional) (Updatable) The version of the Resource being returned. This value must be the same as the ETag HTTP response header.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>oauth_client</code> - (Optional) (Updatable) A reference to the OAuth client App used by this Cloud Gate instance.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>caseExact: false</p></li>
+
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readOnly</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>ref</code> - (Optional) (Updatable) The URI of the OAuth app for this CloudGate.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: reference</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>client_id</code> - (Optional) (Updatable) The Client ID of the OAuth app for this CloudGate.</p>
+
+<p><strong>Added In:</strong> 19.2.1</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - (Optional) (Updatable) The id of the OAuth app for this CloudGate.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>ocid</code> - (Optional) (Updatable) Unique Oracle Cloud Infrastructure identifier for the SCIM Resource.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: immutable</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: global</li>
+</ul></li>
+
+<li><p><code>resource_type_schema_version</code> - (Optional) (Updatable) An endpoint-specific schema version number to use in the Request. Allowed version values are Earliest Version or Latest Version as specified in each REST API endpoint description, or any sequential number inbetween. All schema attributes/body parameters are a part of version 1. After version 1, any attributes added or deprecated will be tagged with the version that they were added to or deprecated in. If no version is provided, the latest schema version is returned.</p></li>
+
+<li><p><code>schemas</code> - (Required) (Updatable) REQUIRED. The schemas attribute is an array of Strings which allows introspection of the supported schema version for a SCIM representation as well any schema extensions supported by that representation. Each String value must be a unique URI. This specification defines URIs for User, Group, and a standard \&ldquo;enterprise\&rdquo; extension. All representations of SCIM schema MUST include a non-zero value array with value(s) of the URIs supported by that representation. Duplicate values MUST NOT be included. Value order is not specified and MUST not impact behavior.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: true</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>servers</code> - (Optional) (Updatable) A list of Server Blocks on this Cloud Gate</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>caseExact: true</p></li>
+
+<li><p>idcsCompositeKey: [hostName]</p></li>
+
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: true</p></li>
+
+<li><p>mutability: readOnly</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: request</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>host_name</code> - (Required) (Updatable) Hostname for the Server block</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>nginx_settings</code> - (Optional) (Updatable) More nginx Settings. JSON encoded text block</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>port</code> - (Required) (Updatable) Port for the Server Block</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>server_id</code> - (Optional) (Updatable) Server Name for the Server Block</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>ssl</code> - (Required) (Updatable) SSL flag for the Server Block</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>tags</code> - (Optional) (Updatable) A list of tags on this resource.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsCompositeKey: [key, value]</p></li>
+
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: true</p></li>
+
+<li><p>mutability: readWrite</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: request</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>key</code> - (Required) (Updatable) Key or name of the tag.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - (Required) (Updatable) Value of the tag.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>tenancy_ocid</code> - (Optional) (Updatable) Oracle Cloud Infrastructure Tenant Id (ocid) in which the resource lives.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>type</code> - (Optional) Type of Cloud Gate</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: immutable</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>upstream_server_groups</code> - (Optional) (Updatable) A list of upstream server groups</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>caseExact: false</p></li>
+
+<li><p>idcsCompositeKey: [value]</p></li>
+
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: true</p></li>
+
+<li><p>mutability: readOnly</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: request</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>ref</code> - (Optional) (Updatable) URI of the upstream server groups</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: reference</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>display_name</code> - (Required) (Updatable) Display name of upstream</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>nginx_settings</code> - (Optional) (Updatable) Any additional settings in nginx configuration form</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>ssl</code> - (Optional) (Updatable) SSL flag for the Upstream Block</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - (Required) (Updatable) Name for the Upstream Block</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>upstream_servers</code> - (Optional) (Updatable) A list of upstream servers</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>caseExact: false</p></li>
+
+<li><p>idcsCompositeKey: [value]</p></li>
+
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: true</p></li>
+
+<li><p>mutability: readOnly</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: request</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>ref</code> - (Optional) (Updatable) URI of the upstream server</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: reference</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>display_name</code> - (Optional) (Updatable) Display name of upstream server</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>group_id</code> - (Optional) (Updatable) Upstream Server Group instance for the upstream server. This is one of the upstreamServerGroup IDs(upstream blocks) from the associated Cloud Gate list</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>host_name</code> - (Optional) (Updatable) Any incoming request to cloud gate is finally sent to this host, if selected during load balancing</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>nginx_settings</code> - (Optional) (Updatable) Any additional settings for this upstream server in nginx configuration form</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>port</code> - (Optional) (Updatable) Port for the Upstream Server</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - (Required) (Updatable) ID of the upstream server</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>active</code> - Activation status for this Cloud Gate</p>
+
+<p><strong>Added In:</strong> 19.2.1</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>compartment_ocid</code> - Oracle Cloud Infrastructure Compartment Id (ocid) in which the resource lives.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>delete_in_progress</code> - A boolean flag indicating this resource in the process of being deleted. Usually set to true when synchronous deletion of the resource would take too long.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>description</code> - Brief description for this Cloud Gate</p>
+
+<p><strong>Added In:</strong> 19.2.1</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>display_name</code> - Display name/Host identifier for this Cloud Gate</p>
+
+<p><strong>Added In:</strong> 19.2.1</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: always</li>
+<li>type: string</li>
+<li>uniqueness: server</li>
+</ul></li>
+
+<li><p><code>domain_ocid</code> - Oracle Cloud Infrastructure Domain Id (ocid) in which the resource lives.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>id</code> - Unique identifier for the SCIM Resource as defined by the Service Provider. Each representation of the Resource MUST include a non-empty id value. This identifier MUST be unique across the Service Provider&rsquo;s entire set of Resources. It MUST be a stable, non-reassignable identifier that does not change when the same Resource is returned in subsequent requests. The value of the id attribute is always issued by the Service Provider and MUST never be specified by the Service Consumer. bulkId: is a reserved keyword and MUST NOT be used in the unique identifier.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: always</li>
+<li>type: string</li>
+<li>uniqueness: global</li>
+</ul></li>
+
+<li><p><code>idcs_created_by</code> - The User or App who created the Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readOnly</p></li>
+
+<li><p>required: true</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p><code>ref</code> - The URI of the SCIM resource that represents the User or App who created this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: reference</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>display</code> - The displayName of the User or App who created this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>ocid</code> - The OCID of the SCIM resource that represents the User or App who created this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>type</code> - The type of resource, User or App, that created this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - The ID of the SCIM resource that represents the User or App who created this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>idcs_last_modified_by</code> - The User or App who modified the Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readOnly</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p><code>ref</code> - The URI of the SCIM resource that represents the User or App who modified this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: reference</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>display</code> - The displayName of the User or App who modified this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>ocid</code> - The OCID of the SCIM resource that represents the User or App who modified this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>type</code> - The type of resource, User or App, that modified this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - The ID of the SCIM resource that represents the User or App who modified this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>idcs_last_upgraded_in_release</code> - The release number when the resource was upgraded.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: request</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>idcs_prevented_operations</code> - Each value of this attribute specifies an operation that only an internal client may perform on this particular resource.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: true</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: request</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>is_opc_service</code> - Indicates whether this resource was created by OPC</p>
+
+<p><strong>Added In:</strong> 19.3.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: always</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>last_modified_time</code> - Last updated timestamp for this CloudGate&rsquo;s servers and mappings.</p>
+
+<p><strong>Added In:</strong> 19.2.1</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: dateTime</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>mappings</code> - A list of Cloud Gate Mappings that map Apps to this Cloud Gate</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>caseExact: true</p></li>
+
+<li><p>idcsCompositeKey: [serverId, resourcePrefix]</p></li>
+
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: true</p></li>
+
+<li><p>mutability: readOnly</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: request</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>ref</code> - URI of the App being mapped to</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: reference</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>app_id</code> - The ID of the App being mapped to</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>mapping_id</code> - The id of the Cloud Gate Mapping</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>name</code> - The name (Client ID) of the App being mapped to</p>
+
+<p><strong>Added In:</strong> 19.2.1</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>nginx_settings</code> - More NGINX Settings. JSON encoded key value pairs similar to WTP encoding</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>policy_name</code> - The Web Tier policy name used for the App that is mapped to this Cloud Gate</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>proxy_pass</code> - NGINX ProxyPass entry for this Mapping</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>resource_prefix</code> - Resource prefix for this mapping.  This will be used to define the location block</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>server_id</code> - Server Instance for the Mapping. This is one of the server IDs(server blocks) from the associated Cloud Gate list</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>upstream_server_group_id</code> - Upstream server group instance for the Mapping. This is one of the upstream server group IDs(upstream blocks) from the associated Cloud Gate list</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - The id of the App being mapped to</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>meta</code> - A complex attribute that contains resource metadata. All sub-attributes are OPTIONAL.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>caseExact: false</p></li>
+
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readOnly</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>idcsCsvAttributeNameMappings: [[columnHeaderName:Created Date, mapsTo:meta.created]]</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p><code>created</code> - The DateTime the Resource was added to the Service Provider</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: dateTime</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>last_modified</code> - The most recent DateTime that the details of this Resource were updated at the Service Provider. If this Resource has never been modified since its initial creation, the value MUST be the same as the value of created. The attribute MUST be a DateTime.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: dateTime</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>location</code> - The URI of the Resource being returned. This value MUST be the same as the Location HTTP response header.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>resource_type</code> - Name of the resource type of the resource&ndash;for example, Users or Groups</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>version</code> - The version of the Resource being returned. This value must be the same as the ETag HTTP response header.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>oauth_client</code> - A reference to the OAuth client App used by this Cloud Gate instance.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>caseExact: false</p></li>
+
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readOnly</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>ref</code> - The URI of the OAuth app for this CloudGate.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: reference</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>client_id</code> - The Client ID of the OAuth app for this CloudGate.</p>
+
+<p><strong>Added In:</strong> 19.2.1</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - The id of the OAuth app for this CloudGate.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>ocid</code> - Unique Oracle Cloud Infrastructure identifier for the SCIM Resource.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: immutable</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: global</li>
+</ul></li>
+
+<li><p><code>schemas</code> - REQUIRED. The schemas attribute is an array of Strings which allows introspection of the supported schema version for a SCIM representation as well any schema extensions supported by that representation. Each String value must be a unique URI. This specification defines URIs for User, Group, and a standard \&ldquo;enterprise\&rdquo; extension. All representations of SCIM schema MUST include a non-zero value array with value(s) of the URIs supported by that representation. Duplicate values MUST NOT be included. Value order is not specified and MUST not impact behavior.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: true</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>servers</code> - A list of Server Blocks on this Cloud Gate</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>caseExact: true</p></li>
+
+<li><p>idcsCompositeKey: [hostName]</p></li>
+
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: true</p></li>
+
+<li><p>mutability: readOnly</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: request</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>host_name</code> - Hostname for the Server block</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>nginx_settings</code> - More nginx Settings. JSON encoded text block</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>port</code> - Port for the Server Block</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>server_id</code> - Server Name for the Server Block</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>ssl</code> - SSL flag for the Server Block</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>tags</code> - A list of tags on this resource.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsCompositeKey: [key, value]</p></li>
+
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: true</p></li>
+
+<li><p>mutability: readWrite</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: request</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>key</code> - Key or name of the tag.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - Value of the tag.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>tenancy_ocid</code> - Oracle Cloud Infrastructure Tenant Id (ocid) in which the resource lives.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>type</code> - Type of Cloud Gate</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: immutable</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>upstream_server_groups</code> - A list of upstream server groups</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>caseExact: false</p></li>
+
+<li><p>idcsCompositeKey: [value]</p></li>
+
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: true</p></li>
+
+<li><p>mutability: readOnly</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: request</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>ref</code> - URI of the upstream server groups</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: reference</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>display_name</code> - Display name of upstream</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>nginx_settings</code> - Any additional settings in nginx configuration form</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>ssl</code> - SSL flag for the Upstream Block</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - Name for the Upstream Block</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>upstream_servers</code> - A list of upstream servers</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>caseExact: false</p></li>
+
+<li><p>idcsCompositeKey: [value]</p></li>
+
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: true</p></li>
+
+<li><p>mutability: readOnly</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: request</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>ref</code> - URI of the upstream server</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: reference</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>display_name</code> - Display name of upstream server</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>group_id</code> - Upstream Server Group instance for the upstream server. This is one of the upstreamServerGroup IDs(upstream blocks) from the associated Cloud Gate list</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>host_name</code> - Any incoming request to cloud gate is finally sent to this host, if selected during load balancing</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>nginx_settings</code> - Any additional settings for this upstream server in nginx configuration form</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>port</code> - Port for the Upstream Server</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - ID of the upstream server</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Cloud Gate
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Cloud Gate
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Cloud Gate</p>
+
+<h2>Import</h2>
+
+<p>CloudGates can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_identity_domains_cloud_gate.test_cloud_gate &quot;idcsEndpoint/{idcsEndpoint}/cloudGates/{cloudGateId}&quot; 
+</code></pre>
+
+	</div>
+
+</body>
+</html>

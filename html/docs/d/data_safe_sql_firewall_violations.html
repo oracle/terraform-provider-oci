@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_data_safe_sql_firewall_violations</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_data_safe_sql_firewall_violations</h1>
+
+<p>This data source provides the list of Sql Firewall Violations in Oracle Cloud Infrastructure Data Safe service.</p>
+
+<p>Gets a list of all the SQL Firewall violations captured by the firewall.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_data_safe_sql_firewall_violations&quot; &quot;test_sql_firewall_violations&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	access_level = var.sql_firewall_violation_access_level
+	compartment_id_in_subtree = var.sql_firewall_violation_compartment_id_in_subtree
+	scim_query = var.sql_firewall_violation_scim_query
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>access_level</code> - (Optional) Valid values are RESTRICTED and ACCESSIBLE. Default is RESTRICTED. Setting this to ACCESSIBLE returns only those compartments for which the user has INSPECT permissions directly or indirectly (permissions can be on a resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed.</p></li>
+
+<li><p><code>compartment_id</code> - (Required) A filter to return only resources that match the specified compartment OCID.</p></li>
+
+<li><p><code>compartment_id_in_subtree</code> - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the &lsquo;accessLevel&rsquo; setting.</p></li>
+
+<li><p><code>scim_query</code> - (Optional) The scimQuery query parameter accepts filter expressions that use the syntax described in Section 3.2.2.2 of the System for Cross-Domain Identity Management (SCIM) specification, which is available at <a href="https://tools.ietf.org/html/draft-ietf-scim-api-12">RFC3339</a>. In SCIM filtering expressions, text, date, and time values must be enclosed in quotation marks, with date and time values using ISO-8601 format. (Numeric and boolean values should not be quoted.)</p>
+
+<p><strong>Example:</strong> query=(operationTime ge &ldquo;2021-06-04T01:00:26.000Z&rdquo;) and (violationAction eq &ldquo;BLOCKED&rdquo;)</p></li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>sql_firewall_violations_collection</code> - The list of sql_firewall_violations_collection.</li>
+</ul>
+
+<h3>SqlFirewallViolation Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - Array of SQL violation summary.
+
+<ul>
+<li><code>client_ip</code> - The IP address of the host machine from which the session was generated.</li>
+<li><code>client_os_user_name</code> - The name of the operating system user for the database session.</li>
+<li><code>client_program</code> - The application from which the SQL violation was generated. Examples include SQL Plus or SQL Developer.</li>
+<li><code>compartment_id</code> - The OCID of the compartment containing the SQL violation.</li>
+<li><code>current_db_user_name</code> - The name of the user that SQL was executed as.</li>
+<li><code>db_user_name</code> - The name of the database user.</li>
+<li><code>id</code> - The OCID of the SQL violation.</li>
+<li><code>operation</code> - The name of the action executed by the user on the target database. For example, ALTER, CREATE, DROP.</li>
+<li><code>operation_time</code> - The time of the SQL violation occurrence in the target database.</li>
+<li><code>sql_accessed_objects</code> - The objects accessed by the SQL.</li>
+<li><code>sql_level</code> - Specifies the level of SQL for this violation. USER_ISSUED_SQL - User issued SQL statements only. ALL_SQL - Includes all SQL statements including SQL statement issued inside PL/SQL units.</li>
+<li><code>sql_text</code> - The SQL text caught by the firewall.</li>
+<li><code>target_id</code> - The OCID of the target database.</li>
+<li><code>target_name</code> - The name of the target database.</li>
+<li><code>time_collected</code> - The timestamp when this SQL violation was collected from the target database by Data Safe.</li>
+<li><code>violation_action</code> - The action taken for this SQL violation.</li>
+<li><code>violation_cause</code> - Indicates whether SQL or context violation.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

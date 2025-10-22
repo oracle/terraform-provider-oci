@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_apigateway_usage_plans</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_apigateway_usage_plans</h1>
+
+<p>This data source provides the list of Usage Plans in Oracle Cloud Infrastructure API Gateway service.</p>
+
+<p>Returns a list of usage plans.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_apigateway_usage_plans&quot; &quot;test_usage_plans&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	display_name = var.usage_plan_display_name
+	state = var.usage_plan_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The ocid of the compartment in which to list resources.</li>
+<li><code>display_name</code> - (Optional) A user-friendly name. Does not have to be unique, and it&rsquo;s changeable.  Example: <code>My new resource</code></li>
+<li><code>state</code> - (Optional) A filter to return only resources that match the given lifecycle state. Example: <code>ACTIVE</code></li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>usage_plan_collection</code> - The list of usage_plan_collection.</li>
+</ul>
+
+<h3>UsagePlan Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment in which the resource is created.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.  Example: <code>My new resource</code></li>
+<li><code>entitlements</code> - A collection of entitlements currently assigned to the usage plan.
+
+<ul>
+<li><code>description</code> - A user-friendly description. To provide some insight about the resource. Avoid entering confidential information.</li>
+<li><code>name</code> - An entitlement name, unique within a usage plan.</li>
+<li><code>quota</code> - Quota policy for a usage plan.
+
+<ul>
+<li><code>operation_on_breach</code> - What the usage plan will do when a quota is breached: <code>REJECT</code> will allow no further requests <code>ALLOW</code> will continue to allow further requests</li>
+<li><code>reset_policy</code> - The policy that controls when quotas will reset. Example: <code>CALENDAR</code></li>
+<li><code>unit</code> - The unit of time over which quotas are calculated. Example: <code>MINUTE</code> or <code>MONTH</code></li>
+<li><code>value</code> - The number of requests that can be made per time period.</li>
+</ul></li>
+<li><code>rate_limit</code> - Rate-limiting policy for a usage plan.
+
+<ul>
+<li><code>unit</code> - The unit of time over which rate limits are calculated. Example: <code>SECOND</code></li>
+<li><code>value</code> - The number of requests that can be made per time period.</li>
+</ul></li>
+<li><code>targets</code> - A collection of targeted deployments that the entitlement will be applied to.
+
+<ul>
+<li><code>deployment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of a deployment resource.</li>
+</ul></li>
+</ul></li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of a usage plan resource.</li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in a Failed state.</li>
+<li><code>locks</code> - Locks associated with this resource.
+
+<ul>
+<li><code>message</code> - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked.</li>
+<li><code>related_resource_id</code> - The id of the resource that is locking this resource. Indicates that deleting this resource will remove the lock.</li>
+<li><code>time_created</code> - When the lock was created.</li>
+<li><code>type</code> - Type of the lock.</li>
+</ul></li>
+<li><code>state</code> - The current state of the usage plan.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time this resource was created. An RFC3339 formatted datetime string.</li>
+<li><code>time_updated</code> - The time this resource was last updated. An RFC3339 formatted datetime string.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

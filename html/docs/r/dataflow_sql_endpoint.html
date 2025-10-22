@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_dataflow_sql_endpoint</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_dataflow_sql_endpoint</h1>
+
+<p>This resource provides the Sql Endpoint resource in Oracle Cloud Infrastructure Data Flow service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/data-flow/latest/SqlEndpoint">https://docs.oracle.com/iaas/api/#/en/data-flow/latest/SqlEndpoint</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/dataflow">https://github.com/oracle/terraform-provider-oci/tree/master/examples/dataflow</a></p>
+
+<h2>Note</h2>
+
+<p>Resource Discovery is not supported for this resource.</p>
+
+<p>Create a new Sql Endpoint.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_dataflow_sql_endpoint&quot; &quot;test_sql_endpoint&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	display_name = var.sql_endpoint_display_name
+	driver_shape = var.sql_endpoint_driver_shape
+	executor_shape = var.sql_endpoint_executor_shape
+	lake_id = oci_dataflow_lake.test_lake.id
+	max_executor_count = var.sql_endpoint_max_executor_count
+	metastore_id = oci_datacatalog_metastore.test_metastore.id
+	min_executor_count = var.sql_endpoint_min_executor_count
+	network_configuration {
+		#Required
+		network_type = var.sql_endpoint_network_configuration_network_type
+
+		#Optional
+		access_control_rules {
+
+			#Optional
+			ip_notation = var.sql_endpoint_network_configuration_access_control_rules_ip_notation
+			value = var.sql_endpoint_network_configuration_access_control_rules_value
+			vcn_ips = var.sql_endpoint_network_configuration_access_control_rules_vcn_ips
+		}
+		host_name_prefix = var.sql_endpoint_network_configuration_host_name_prefix
+		nsg_ids = var.sql_endpoint_network_configuration_nsg_ids
+		private_endpoint_ip = var.sql_endpoint_network_configuration_private_endpoint_ip
+		public_endpoint_ip = var.sql_endpoint_network_configuration_public_endpoint_ip
+		subnet_id = oci_core_subnet.test_subnet.id
+		vcn_id = oci_core_vcn.test_vcn.id
+	}
+	sql_endpoint_version = var.sql_endpoint_sql_endpoint_version
+	warehouse_bucket_uri = var.sql_endpoint_warehouse_bucket_uri
+
+	#Optional
+	defined_tags = {&quot;Operations.CostCenter&quot;= &quot;42&quot;}
+	description = var.sql_endpoint_description
+	driver_shape_config {
+
+		#Optional
+		memory_in_gbs = var.sql_endpoint_driver_shape_config_memory_in_gbs
+		ocpus = var.sql_endpoint_driver_shape_config_ocpus
+	}
+	executor_shape_config {
+
+		#Optional
+		memory_in_gbs = var.sql_endpoint_executor_shape_config_memory_in_gbs
+		ocpus = var.sql_endpoint_executor_shape_config_ocpus
+	}
+	freeform_tags = {&quot;Department&quot;= &quot;Finance&quot;}
+	spark_advanced_configurations = var.sql_endpoint_spark_advanced_configurations
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) (Updatable) The identifier of the compartment used with the SQL Endpoint.</li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - (Optional) (Updatable) The description of CreateSQLEndpointDetails.</li>
+<li><code>display_name</code> - (Required) (Updatable) The SQL Endpoint name, which can be changed.</li>
+<li><code>driver_shape</code> - (Required) The shape of the SQL Endpoint driver instance.</li>
+<li><code>driver_shape_config</code> - (Optional) This is used to configure the shape of the driver or executor if a flexible shape is used.
+
+<ul>
+<li><code>memory_in_gbs</code> - (Optional) The amount of memory used for the driver or executors.</li>
+<li><code>ocpus</code> - (Optional) The total number of OCPUs used for the driver or executors. See <a href="https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/Shape/">here</a> for details.</li>
+</ul></li>
+<li><code>executor_shape</code> - (Required) The shape of the SQL Endpoint worker instance.</li>
+<li><code>executor_shape_config</code> - (Optional) This is used to configure the shape of the driver or executor if a flexible shape is used.
+
+<ul>
+<li><code>memory_in_gbs</code> - (Optional) The amount of memory used for the driver or executors.</li>
+<li><code>ocpus</code> - (Optional) The total number of OCPUs used for the driver or executors. See <a href="https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/Shape/">here</a> for details.</li>
+</ul></li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>lake_id</code> - (Required) Oracle Cloud Infrastructure lake OCID</li>
+<li><code>max_executor_count</code> - (Required) (Updatable) The maximum number of executors.</li>
+<li><code>metastore_id</code> - (Required) Metastore OCID</li>
+<li><code>min_executor_count</code> - (Required) (Updatable) The minimum number of executors.</li>
+<li><code>network_configuration</code> - (Required) The network configuration of a SQL Endpoint.
+
+<ul>
+<li><code>access_control_rules</code> - (Applicable when network_type=SECURE_ACCESS) A list of SecureAccessControlRule&rsquo;s to which access is limited to
+
+<ul>
+<li><code>ip_notation</code> - (Required when network_type=SECURE_ACCESS) The type of IP notation.</li>
+<li><code>value</code> - (Required when network_type=SECURE_ACCESS) The associated value of the selected IP notation.</li>
+<li><code>vcn_ips</code> - (Applicable when network_type=SECURE_ACCESS) A comma-separated IP or CIDR address for VCN OCID IP notation selection.</li>
+</ul></li>
+<li><code>host_name_prefix</code> - (Applicable when network_type=VCN) The host name prefix.</li>
+<li><code>network_type</code> - (Required) The type of network configuration.</li>
+<li><code>nsg_ids</code> - (Applicable when network_type=VCN) The OCIDs of Network Security Groups (NSGs).</li>
+<li><code>private_endpoint_ip</code> - (Applicable when network_type=VCN) Ip Address of private endpoint</li>
+<li><code>public_endpoint_ip</code> - (Applicable when network_type=SECURE_ACCESS) Ip Address of public endpoint</li>
+<li><code>subnet_id</code> - (Required when network_type=VCN) The VCN Subnet OCID.</li>
+<li><code>vcn_id</code> - (Required when network_type=VCN) The VCN OCID.</li>
+</ul></li>
+<li><code>spark_advanced_configurations</code> - (Optional) (Updatable) The Spark configuration passed to the running process. See <a href="https://spark.apache.org/docs/latest/configuration.html#available-properties">https://spark.apache.org/docs/latest/configuration.html#available-properties</a>. Example: { &ldquo;spark.app.name&rdquo; : &ldquo;My App Name&rdquo;, &ldquo;spark.shuffle.io.maxRetries&rdquo; : &ldquo;4&rdquo; } Note: Not all Spark properties are permitted to be set.  Attempting to set a property that is not allowed to be overwritten will cause a 400 status to be returned.</li>
+<li><code>sql_endpoint_version</code> - (Required) The version of the SQL Endpoint.</li>
+<li><code>warehouse_bucket_uri</code> - (Required) The warehouse bucket URI. It is a Oracle Cloud Infrastructure Object Storage bucket URI as defined here <a href="https://docs.oracle.com/en/cloud/paas/atp-cloud/atpud/object-storage-uris.html">https://docs.oracle.com/en/cloud/paas/atp-cloud/atpud/object-storage-uris.html</a></li>
+<li><code>state</code> - (Optional) (Updatable) The target state for the Sql Endpoint. Could be set to <code>ACTIVE</code> or <code>INACTIVE</code>.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The OCID of a compartment.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - The description of the SQL Endpoint.</li>
+<li><code>display_name</code> - The SQL Endpoint name, which can be changed.</li>
+<li><code>driver_shape</code> - The shape of the SQL Endpoint driver instance.</li>
+<li><code>driver_shape_config</code> - This is used to configure the shape of the driver or executor if a flexible shape is used.
+
+<ul>
+<li><code>memory_in_gbs</code> - The amount of memory used for the driver or executors.</li>
+<li><code>ocpus</code> - The total number of OCPUs used for the driver or executors. See <a href="https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/Shape/">here</a> for details.</li>
+</ul></li>
+<li><code>executor_shape</code> - The shape of the SQL Endpoint executor instance.</li>
+<li><code>executor_shape_config</code> - This is used to configure the shape of the driver or executor if a flexible shape is used.
+
+<ul>
+<li><code>memory_in_gbs</code> - The amount of memory used for the driver or executors.</li>
+<li><code>ocpus</code> - The total number of OCPUs used for the driver or executors. See <a href="https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/Shape/">here</a> for details.</li>
+</ul></li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The provision identifier that is immutable on creation.</li>
+<li><code>jdbc_endpoint_url</code> - The JDBC URL field. For example, jdbc:spark://{serviceFQDN}:443/default;SparkServerType=DFI</li>
+<li><code>lake_id</code> - The OCID of Oracle Cloud Infrastructure Lake.</li>
+<li><code>max_executor_count</code> - The maximum number of executors.</li>
+<li><code>metastore_id</code> - The OCID of Oracle Cloud Infrastructure Hive Metastore.</li>
+<li><code>min_executor_count</code> - The minimum number of executors.</li>
+<li><code>network_configuration</code> - The network configuration of a SQL Endpoint.
+
+<ul>
+<li><code>access_control_rules</code> - A list of SecureAccessControlRule&rsquo;s to which access is limited to
+
+<ul>
+<li><code>ip_notation</code> - The type of IP notation.</li>
+<li><code>value</code> - The associated value of the selected IP notation.</li>
+<li><code>vcn_ips</code> - A comma-separated IP or CIDR address for VCN OCID IP notation selection.</li>
+</ul></li>
+<li><code>host_name_prefix</code> - The host name prefix.</li>
+<li><code>network_type</code> - The type of network configuration.</li>
+<li><code>nsg_ids</code> - The OCIDs of Network Security Groups (NSGs).</li>
+<li><code>private_endpoint_ip</code> - Ip Address of private endpoint</li>
+<li><code>public_endpoint_ip</code> - Ip Address of public endpoint</li>
+<li><code>subnet_id</code> - The VCN Subnet OCID.</li>
+<li><code>vcn_id</code> - The VCN OCID.</li>
+</ul></li>
+<li><code>spark_advanced_configurations</code> - The Spark configuration passed to the running process. See <a href="https://spark.apache.org/docs/latest/configuration.html#available-properties">https://spark.apache.org/docs/latest/configuration.html#available-properties</a>. Example: { &ldquo;spark.app.name&rdquo; : &ldquo;My App Name&rdquo;, &ldquo;spark.shuffle.io.maxRetries&rdquo; : &ldquo;4&rdquo; } Note: Not all Spark properties are permitted to be set.  Attempting to set a property that is not allowed to be overwritten will cause a 400 status to be returned.</li>
+<li><code>sql_endpoint_version</code> - The version of SQL Endpoint.</li>
+<li><code>state</code> - The current state of the Sql Endpoint.</li>
+<li><code>state_message</code> - A message describing the reason why the resource is in it&rsquo;s current state. Helps bubble up errors in state changes. For example, it can be used to provide actionable information for a resource in the Failed state.</li>
+<li><code>system_tags</code> - The system tags associated with this resource, if any. The system tags are set by Oracle cloud infrastructure services. Each key is predefined and scoped to namespaces. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{orcl-cloud: {free-tier-retain: true}}</code></li>
+<li><code>time_created</code> - The time the Sql Endpoint was created. An RFC3339 formatted datetime string.</li>
+<li><code>time_updated</code> - The time the Sql Endpoint was updated. An RFC3339 formatted datetime string.</li>
+<li><code>warehouse_bucket_uri</code> - The warehouse bucket URI. It is a Oracle Cloud Infrastructure Object Storage bucket URI as defined here <a href="https://docs.oracle.com/en/cloud/paas/atp-cloud/atpud/object-storage-uris.html">https://docs.oracle.com/en/cloud/paas/atp-cloud/atpud/object-storage-uris.html</a></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Sql Endpoint
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Sql Endpoint
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Sql Endpoint</p>
+
+<h2>Import</h2>
+
+<p>SqlEndpoints can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_dataflow_sql_endpoint.test_sql_endpoint &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

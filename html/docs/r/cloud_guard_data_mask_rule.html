@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_cloud_guard_data_mask_rule</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_cloud_guard_data_mask_rule</h1>
+
+<p>This resource provides the Data Mask Rule resource in Oracle Cloud Infrastructure Cloud Guard service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/cloud-guard/latest/DataMaskRule">https://docs.oracle.com/iaas/api/#/en/cloud-guard/latest/DataMaskRule</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/certificatesguard">https://github.com/oracle/terraform-provider-oci/tree/master/examples/certificatesguard</a></p>
+
+<p>Creates a new DataMaskRule resource definition.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_cloud_guard_data_mask_rule&quot; &quot;test_data_mask_rule&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	data_mask_categories = var.data_mask_rule_data_mask_categories
+	display_name = var.data_mask_rule_display_name
+	iam_group_id = oci_identity_group.test_group.id
+	target_selected {
+		#Required
+		kind = var.data_mask_rule_target_selected_kind
+
+		#Optional
+		values = var.data_mask_rule_target_selected_values
+	}
+
+	#Optional
+	data_mask_rule_status = var.data_mask_rule_data_mask_rule_status
+	defined_tags = {&quot;foo-namespace.bar-key&quot;= &quot;value&quot;}
+	description = var.data_mask_rule_description
+	freeform_tags = {&quot;bar-key&quot;= &quot;value&quot;}
+	state = var.data_mask_rule_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>compartment_id</code> - (Required) (Updatable) Compartment OCID where the resource is created</p></li>
+
+<li><p><code>data_mask_categories</code> - (Required) (Updatable) Data mask rule categories</p></li>
+
+<li><p><code>data_mask_rule_status</code> - (Optional) (Updatable) The current status of the data mask rule</p></li>
+
+<li><p><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></p></li>
+
+<li><p><code>description</code> - (Optional) The data mask rule description Avoid entering confidential information.</p></li>
+
+<li><p><code>display_name</code> - (Required) (Updatable) Data mask rule display name</p>
+
+<p>Avoid entering confidential information.</p></li>
+
+<li><p><code>freeform_tags</code> - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></p>
+
+<p>Avoid entering confidential information.</p></li>
+
+<li><p><code>iam_group_id</code> - (Required) (Updatable) IAM group ID associated with the data mask rule</p></li>
+
+<li><p><code>state</code> - (Optional) The current lifecycle state of the data mask rule</p></li>
+
+<li><p><code>target_selected</code> - (Required) (Updatable) Specification of how targets are to be selected (select ALL, or select by TargetResourceType or TargetId).</p>
+
+<ul>
+<li><code>kind</code> - (Required) (Updatable) Kind of target selection to be used</li>
+<li><code>values</code> - (Applicable when kind=TARGETIDS | TARGETTYPES) (Updatable) Types of targets</li>
+</ul></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>compartment_id</code> - Compartment OCID where the resource is created</p></li>
+
+<li><p><code>data_mask_categories</code> - List of data mask rule categories</p></li>
+
+<li><p><code>data_mask_rule_status</code> - The current status of the data mask rule</p></li>
+
+<li><p><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></p></li>
+
+<li><p><code>description</code> - The data mask rule description</p></li>
+
+<li><p><code>display_name</code> - Data mask rule display name</p></li>
+
+<li><p><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></p>
+
+<p>Avoid entering confidential information.</p></li>
+
+<li><p><code>iam_group_id</code> - IAM Group ID associated with the data mask rule</p></li>
+
+<li><p><code>id</code> - Unique identifier that can&rsquo;t be changed after creation</p></li>
+
+<li><p><code>lifecyle_details</code> - Additional details on the substate of the lifecycle state [DEPRECATE]</p></li>
+
+<li><p><code>state</code> - The current lifecycle state of the data mask rule</p></li>
+
+<li><p><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. System tags can be viewed by users, but can only be created by the system.  Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></p></li>
+
+<li><p><code>target_selected</code> - Specification of how targets are to be selected (select ALL, or select by TargetResourceType or TargetId).</p>
+
+<ul>
+<li><code>kind</code> - Kind of target selection to be used</li>
+<li><code>values</code> - Types of targets</li>
+</ul></li>
+
+<li><p><code>time_created</code> - The date and time the target was created. Format defined by RFC3339.</p></li>
+
+<li><p><code>time_updated</code> - The date and time the target was updated. Format defined by RFC3339.</p></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Data Mask Rule
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Data Mask Rule
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Data Mask Rule</p>
+
+<h2>Import</h2>
+
+<p>DataMaskRules can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_cloud_guard_data_mask_rule.test_data_mask_rule &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_db_system_shapes</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_db_system_shapes</h1>
+
+<p>This data source provides the list of Db System Shapes in Oracle Cloud Infrastructure Database service.</p>
+
+<p>Gets a list of the shapes that can be used to launch a new DB system. The shape determines resources to allocate to the DB system - CPU cores and memory for VM shapes; CPU cores, memory and storage for non-VM (or bare metal) shapes.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_db_system_shapes&quot; &quot;test_db_system_shapes&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	availability_domain = var.db_system_shape_availability_domain
+	shape_attribute = var.db_system_shape_shape_attribute
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>availability_domain</code> - (Optional) The name of the Availability Domain.</li>
+<li><code>compartment_id</code> - (Required) The compartment <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>shape_attribute</code> - (Optional) If provided and applicable, return DB System shape parameters based on the shapeAttribute provided</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>db_system_shapes</code> - The list of db_system_shapes.</li>
+</ul>
+
+<h3>DbSystemShape Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>are_server_types_supported</code> - If true, the shape supports configurable DB and Storage Server types.</li>
+<li><code>available_core_count</code> - The maximum number of CPU cores that can be enabled on the DB system for this shape.</li>
+<li><code>available_core_count_per_node</code> - The maximum number of CPU cores per database node that can be enabled for this shape. Only applicable to the flex Exadata shape, ExaCC Elastic shapes and VM Flex shapes.</li>
+<li><code>available_data_storage_in_tbs</code> - The maximum DATA storage that can be enabled for this shape.</li>
+<li><code>available_data_storage_per_server_in_tbs</code> - The maximum data storage available per storage server for this shape. Only applicable to ExaCC Elastic shapes.</li>
+<li><code>available_db_node_per_node_in_gbs</code> - The maximum Db Node storage available per database node for this shape. Only applicable to ExaCC Elastic shapes.</li>
+<li><code>available_db_node_storage_in_gbs</code> - The maximum Db Node storage that can be enabled for this shape.</li>
+<li><code>available_memory_in_gbs</code> - The maximum memory that can be enabled for this shape.</li>
+<li><code>available_memory_per_node_in_gbs</code> - The maximum memory available per database node for this shape. Only applicable to ExaCC Elastic shapes.</li>
+<li><code>compute_model</code> - The compute model of the Autonomous Database. This is required if using the <code>computeCount</code> parameter. If using <code>cpuCoreCount</code> then it is an error to specify <code>computeModel</code> to a non-null value. ECPU compute model is the recommended model and OCPU compute model is legacy.</li>
+<li><code>core_count_increment</code> - The discrete number by which the CPU core count for this shape can be increased or decreased.</li>
+<li><code>display_name</code> - The display name of the shape used for the DB system.</li>
+<li><code>max_storage_count</code> - The maximum number of Exadata storage servers available for the Exadata infrastructure.</li>
+<li><code>maximum_node_count</code> - The maximum number of compute servers available for this shape.</li>
+<li><code>min_core_count_per_node</code> - The minimum number of CPU cores that can be enabled per node for this shape.</li>
+<li><code>min_data_storage_in_tbs</code> - The minimum data storage that need be allocated for this shape.</li>
+<li><code>min_db_node_storage_per_node_in_gbs</code> - The minimum Db Node storage that need be allocated per node for this shape.</li>
+<li><code>min_memory_per_node_in_gbs</code> - The minimum memory that need be allocated per node for this shape.</li>
+<li><code>min_storage_count</code> - The minimum number of Exadata storage servers available for the Exadata infrastructure.</li>
+<li><code>minimum_core_count</code> - The minimum number of CPU cores that can be enabled on the DB system for this shape.</li>
+<li><code>minimum_node_count</code> - The minimum number of compute servers available for this shape.</li>
+<li><code>name</code> - The name of the shape used for the DB system.</li>
+<li><code>shape</code> - Deprecated. Use <code>name</code> instead of <code>shape</code>.</li>
+<li><code>shape_attributes</code> - The shapeAttributes of the DB system shape.</li>
+<li><code>shape_family</code> - The family of the shape used for the DB system.</li>
+<li><code>shape_type</code> - The shape type for the virtual machine DB system. Shape type is determined by CPU hardware. Valid values are <code>AMD</code> , <code>INTEL</code> or <code>INTEL_FLEX_X9</code>.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

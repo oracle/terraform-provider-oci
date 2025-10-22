@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_network_firewall_network_firewall_policy_decryption_profile</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_network_firewall_network_firewall_policy_decryption_profile</h1>
+
+<p>This data source provides details about a specific Network Firewall Policy Decryption Profile resource in Oracle Cloud Infrastructure Network Firewall service.</p>
+
+<p>Get Decryption Profile by the given name in the context of network firewall policy.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_network_firewall_network_firewall_policy_decryption_profile&quot; &quot;test_network_firewall_policy_decryption_profile&quot; {
+	#Required
+	decryption_profile_name = var.oci_network_firewall_network_firewall_policy_decryption_profile_name
+	network_firewall_policy_id = oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>decryption_profile_name</code> - (Required) Unique identifier for Decryption Profiles in the scope of Network Firewall Policy.</li>
+<li><code>network_firewall_policy_id</code> - (Required) Unique Network Firewall Policy identifier</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>are_certificate_extensions_restricted</code> - Whether to block sessions if the server&rsquo;s certificate uses extensions other than key usage and/or extended key usage.</li>
+<li><code>is_auto_include_alt_name</code> - Whether to automatically append SAN to impersonating certificate if server certificate is missing SAN.</li>
+<li><code>is_expired_certificate_blocked</code> - Whether to block sessions if server&rsquo;s certificate is expired.</li>
+<li><code>is_out_of_capacity_blocked</code> - Whether to block sessions if the firewall is temporarily unable to decrypt their traffic.</li>
+<li><code>is_revocation_status_timeout_blocked</code> - Whether to block sessions if the revocation status check for server&rsquo;s certificate does not succeed within the maximum allowed time (defaulting to 5 seconds).</li>
+<li><code>is_unknown_revocation_status_blocked</code> - Whether to block sessions if the revocation status check for server&rsquo;s certificate results in &ldquo;unknown&rdquo;.</li>
+<li><code>is_unsupported_cipher_blocked</code> - Whether to block sessions if SSL cipher suite is not supported.</li>
+<li><code>is_unsupported_version_blocked</code> - Whether to block sessions if SSL version is not supported.</li>
+<li><code>is_untrusted_issuer_blocked</code> - Whether to block sessions if server&rsquo;s certificate is issued by an untrusted certificate authority (CA).</li>
+<li><code>name</code> - Unique Name of the decryption profile.</li>
+<li><code>parent_resource_id</code> - OCID of the Network Firewall Policy this decryption profile belongs to.</li>
+<li><code>type</code> - Describes the type of Decryption Profile SslForwardProxy or SslInboundInspection.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_fleet_apps_management_scheduler_executions</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_fleet_apps_management_scheduler_executions</h1>
+
+<p>This data source provides the list of Scheduler Executions in Oracle Cloud Infrastructure Fleet Apps Management service.</p>
+
+<p>Returns a list of all Fleets that are scheduled.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_fleet_apps_management_scheduler_executions&quot; &quot;test_scheduler_executions&quot; {
+
+	#Optional
+	compartment_id = var.compartment_id
+	display_name = var.scheduler_execution_display_name
+	resource_id = oci_cloud_guard_resource.test_resource.id
+	runbook_id = oci_fleet_apps_management_runbook.test_runbook.id
+	runbook_version_name = oci_fleet_apps_management_runbook_version.test_runbook_version.name
+	scheduler_defintion_id = oci_fleet_apps_management_scheduler_defintion.test_scheduler_defintion.id
+	scheduler_job_id = oci_database_migration_job.test_job.id
+	substate = var.scheduler_execution_substate
+	time_scheduled_greater_than_or_equal_to = var.scheduler_execution_time_scheduled_greater_than_or_equal_to
+	time_scheduled_less_than = var.scheduler_execution_time_scheduled_less_than
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Optional) The ID of the compartment in which to list resources. Empty only if the resource OCID query param is not specified.</li>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the entire display name given.</li>
+<li><code>resource_id</code> - (Optional) ResourceId filter (Example FleetId)</li>
+<li><code>runbook_id</code> - (Optional) A filter to return only schedule definitions whose associated runbookId matches the given runbookId.</li>
+<li><code>runbook_version_name</code> - (Optional) RunbookVersion Name filter</li>
+<li><code>scheduler_defintion_id</code> - (Optional) SchedulerDefinition identifier</li>
+<li><code>scheduler_job_id</code> - (Optional) SchedulerJob identifier filter</li>
+<li><code>substate</code> - (Optional) A filter to return only resources their subState matches the given subState.</li>
+<li><code>time_scheduled_greater_than_or_equal_to</code> - (Optional) Scheduled Time</li>
+<li><code>time_scheduled_less_than</code> - (Optional) Scheduled Time</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>scheduler_execution_collection</code> - The list of scheduler_execution_collection.</li>
+</ul>
+
+<h3>SchedulerExecution Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - List of schedulerExecutions.
+
+<ul>
+<li><code>activity_id</code> - Action Group associated with the Schedule.</li>
+<li><code>compartment_id</code> - Compartment OCID</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.  Example: <code>My new resource</code></li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - The OCID of the resource.</li>
+<li><code>latest_runbook_version_name</code> - Latest Runbook version available.</li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.</li>
+<li><code>resource_display_name</code> - Resource DsiplayName associated with the Schedule.</li>
+<li><code>resource_id</code> - ResourceId associated with the Schedule.</li>
+<li><code>runbook_display_name</code> - DsiplayName of Runbook associated with the Schedule.</li>
+<li><code>runbook_id</code> - RunbookId associated with the Schedule.</li>
+<li><code>runbook_version_name</code> - Name of the Runbook version associated with the Schedule.</li>
+<li><code>scheduler_definition</code> - SchedulerDefinition  associated with the job.
+
+<ul>
+<li><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.  Example: <code>My new resource</code></li>
+<li><code>id</code> - The OCID of the resource.</li>
+<li><code>is_recurring</code> - Is this a recurring schedule?</li>
+</ul></li>
+<li><code>scheduler_job_id</code> - jobId associated with the Schedule.</li>
+<li><code>state</code> - The current state of the Scheduler Execution.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time this resource was created. An RFC3339 formatted datetime string.</li>
+<li><code>time_ended</code> - Actual end date and time for the Execution.</li>
+<li><code>time_scheduled</code> - The scheduled date and time for the Job.</li>
+<li><code>time_started</code> - Actual start date and time for the Execution.</li>
+<li><code>time_updated</code> - The time this resource was last updated. An RFC3339 formatted datetime string.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_load_balancer_path_route_sets</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_load_balancer_path_route_sets</h1>
+
+<p>This data source provides the list of Path Route Sets in Oracle Cloud Infrastructure Load Balancer service.</p>
+
+<p>Lists all path route sets associated with the specified load balancer.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_load_balancer_path_route_sets&quot; &quot;test_path_route_sets&quot; {
+	#Required
+	load_balancer_id = oci_load_balancer_load_balancer.test_load_balancer.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>load_balancer_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the load balancer associated with the path route sets to retrieve.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>path_route_sets</code> - The list of path_route_sets.</li>
+</ul>
+
+<h3>PathRouteSet Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>name</code> - The unique name for this set of path route rules. Avoid entering confidential information.  Example: <code>example_path_route_set</code></p></li>
+
+<li><p><code>path_routes</code> - The set of path route rules.</p>
+
+<ul>
+<li><p><code>backend_set_name</code> - The name of the target backend set for requests where the incoming URI matches the specified path.  Example: <code>example_backend_set</code></p></li>
+
+<li><p><code>path</code> - The path string to match against the incoming URI path.</p>
+
+<ul>
+<li>Path strings are case-insensitive.</li>
+<li>Asterisk (*) wildcards are not supported.</li>
+<li>Regular expressions are not supported.</li>
+</ul>
+
+<p>Example: <code>/example/video/123</code></p></li>
+
+<li><p><code>path_match_type</code> - The type of matching to apply to incoming URIs.</p>
+
+<ul>
+<li><p><code>match_type</code> - Specifies how the load balancing service compares a <a href="https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/requests/PathRoute">PathRoute</a> object&rsquo;s <code>path</code> string against the incoming URI.</p>
+
+<ul>
+<li><strong>EXACT_MATCH</strong> - Looks for a <code>path</code> string that exactly matches the incoming URI path.</li>
+<li><strong>FORCE_LONGEST_PREFIX_MATCH</strong> - Looks for the <code>path</code> string with the best, longest match of the beginning portion of the incoming URI path.</li>
+<li><strong>PREFIX_MATCH</strong> - Looks for a <code>path</code> string that matches the beginning portion of the incoming URI path.</li>
+<li><strong>SUFFIX_MATCH</strong> - Looks for a <code>path</code> string that matches the ending portion of the incoming URI path.</li>
+</ul>
+
+<p>For a full description of how the system handles <code>matchType</code> in a path route set containing multiple rules, see <a href="https://docs.cloud.oracle.com/iaas/Content/Balance/Tasks/managingrequest.htm">Managing Request Routing</a>.</p></li>
+</ul></li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

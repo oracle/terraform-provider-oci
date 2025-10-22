@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_ai_language_models</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_ai_language_models</h1>
+
+<p>This data source provides the list of Models in Oracle Cloud Infrastructure Ai Language service.</p>
+
+<p>Returns a list of models.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_ai_language_models&quot; &quot;test_models&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	display_name = var.model_display_name
+	model_id = oci_ai_language_model.test_model.id
+	project_id = oci_ai_language_project.test_project.id
+	state = var.model_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The ID of the compartment in which to list resources.</li>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the entire display name given.</li>
+<li><code>model_id</code> - (Optional) unique model OCID.</li>
+<li><code>project_id</code> - (Optional) The ID of the project for which to list the objects.</li>
+<li><code>state</code> - (Optional) <b>Filter</b> results by the specified lifecycle state. Must be a valid state for the resource type.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>model_collection</code> - The list of model_collection.</li>
+</ul>
+
+<h3>Model Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>  for the model&rsquo;s compartment.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>description</code> - A short description of the Model.</li>
+<li><code>display_name</code> - A user-friendly display name for the resource. It does not have to be unique and can be modified. Avoid entering confidential information.</li>
+<li><code>evaluation_results</code> - model training results of different models
+
+<ul>
+<li><code>class_metrics</code> - List of text classification metrics
+
+<ul>
+<li><code>f1</code> - F1-score, is a measure of a model’s accuracy on a dataset</li>
+<li><code>label</code> - Text classification label</li>
+<li><code>precision</code> - Precision refers to the number of true positives divided by the total number of positive predictions (i.e., the number of true positives plus the number of false positives)</li>
+<li><code>recall</code> - Measures the model&rsquo;s ability to predict actual positive classes. It is the ratio between the predicted true positives and what was actually tagged. The recall metric reveals how many of the predicted classes are correct.</li>
+<li><code>support</code> - number of samples in the test set</li>
+</ul></li>
+<li><code>confusion_matrix</code> - class level confusion matrix
+
+<ul>
+<li><code>matrix</code> - confusion matrix data</li>
+</ul></li>
+<li><code>entity_metrics</code> - List of entity metrics
+
+<ul>
+<li><code>f1</code> - F1-score, is a measure of a model’s accuracy on a dataset</li>
+<li><code>label</code> - Entity label</li>
+<li><code>precision</code> - Precision refers to the number of true positives divided by the total number of positive predictions (i.e., the number of true positives plus the number of false positives)</li>
+<li><code>recall</code> - Measures the model&rsquo;s ability to predict actual positive classes. It is the ratio between the predicted true positives and what was actually tagged. The recall metric reveals how many of the predicted classes are correct.</li>
+</ul></li>
+<li><code>labels</code> - labels</li>
+<li><code>metrics</code> - Model level named entity recognition metrics
+
+<ul>
+<li><code>accuracy</code> - The fraction of the labels that were correctly recognised .</li>
+<li><code>macro_f1</code> - F1-score, is a measure of a model’s accuracy on a dataset</li>
+<li><code>macro_precision</code> - Precision refers to the number of true positives divided by the total number of positive predictions (i.e., the number of true positives plus the number of false positives)</li>
+<li><code>macro_recall</code> - Measures the model&rsquo;s ability to predict actual positive classes. It is the ratio between the predicted true positives and what was actually tagged. The recall metric reveals how many of the predicted classes are correct.</li>
+<li><code>micro_f1</code> - F1-score, is a measure of a model’s accuracy on a dataset</li>
+<li><code>micro_precision</code> - Precision refers to the number of true positives divided by the total number of positive predictions (i.e., the number of true positives plus the number of false positives)</li>
+<li><code>micro_recall</code> - Measures the model&rsquo;s ability to predict actual positive classes. It is the ratio between the predicted true positives and what was actually tagged. The recall metric reveals how many of the predicted classes are correct.</li>
+<li><code>weighted_f1</code> - F1-score, is a measure of a model’s accuracy on a dataset</li>
+<li><code>weighted_precision</code> - Precision refers to the number of true positives divided by the total number of positive predictions (i.e., the number of true positives plus the number of false positives)</li>
+<li><code>weighted_recall</code> - Measures the model&rsquo;s ability to predict actual positive classes. It is the ratio between the predicted true positives and what was actually tagged. The recall metric reveals how many of the predicted classes are correct.</li>
+</ul></li>
+<li><code>model_type</code> - Model type</li>
+</ul></li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - Unique identifier model OCID of a model that is immutable on creation</li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in failed state.</li>
+<li><code>model_details</code> - Possible model types
+
+<ul>
+<li><code>classification_mode</code> - possible text classification modes
+
+<ul>
+<li><code>classification_mode</code> - classification Modes</li>
+<li><code>version</code> - Optional if nothing specified latest base model will be used for training. Supported versions can be found at /modelTypes/{modelType}</li>
+</ul></li>
+<li><code>language_code</code> - supported language default value is en</li>
+<li><code>model_type</code> - Model type</li>
+<li><code>version</code> - Optional pre trained model version. if nothing specified latest pre trained model will be used.  Supported versions can be found at /modelTypes/{modelType}</li>
+</ul></li>
+<li><code>project_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the project to associate with the model.</li>
+<li><code>state</code> - The state of the model.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>test_strategy</code> - Possible strategy as testing and validation(optional) dataset.
+
+<ul>
+<li><code>strategy_type</code> - This information will define the test strategy different datasets for test and validation(optional) dataset.</li>
+<li><code>testing_dataset</code> - Possible data set type
+
+<ul>
+<li><code>dataset_id</code> - Data Science Labelling Service OCID</li>
+<li><code>dataset_type</code> - Possible data sets</li>
+<li><code>location_details</code> - Possible object storage location types
+
+<ul>
+<li><code>bucket</code> - Object storage bucket name</li>
+<li><code>location_type</code> - Possible object storage location types</li>
+<li><code>namespace</code> - Object storage namespace</li>
+<li><code>object_names</code> - Array of files which need to be processed in the bucket</li>
+</ul></li>
+</ul></li>
+<li><code>validation_dataset</code> - Possible data set type
+
+<ul>
+<li><code>dataset_id</code> - Data Science Labelling Service OCID</li>
+<li><code>dataset_type</code> - Possible data sets</li>
+<li><code>location_details</code> - Possible object storage location types
+
+<ul>
+<li><code>bucket</code> - Object storage bucket name</li>
+<li><code>location_type</code> - Possible object storage location types</li>
+<li><code>namespace</code> - Object storage namespace</li>
+<li><code>object_names</code> - Array of files which need to be processed in the bucket</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><code>time_created</code> - The time the the model was created. An RFC3339 formatted datetime string.</li>
+<li><code>time_updated</code> - The time the model was updated. An RFC3339 formatted datetime string.</li>
+<li><code>training_dataset</code> - Possible data set type
+
+<ul>
+<li><code>dataset_id</code> - Data Science Labelling Service OCID</li>
+<li><code>dataset_type</code> - Possible data sets</li>
+<li><code>location_details</code> - Possible object storage location types
+
+<ul>
+<li><code>bucket</code> - Object storage bucket name</li>
+<li><code>location_type</code> - Possible object storage location types</li>
+<li><code>namespace</code> - Object storage namespace</li>
+<li><code>object_names</code> - Array of files which need to be processed in the bucket</li>
+</ul></li>
+</ul></li>
+<li><code>version</code> - For pre trained models this will identify model type version used for model creation For custom identifying the model by model id is difficult. This param provides ease of use for end customer. &lt;<service>&gt;::&lt;<service-name>&gt;_&lt;<model-type-version>&gt;::&lt;<custom model on which this training has to be done>&gt; ex: ai-lang::NER_V1::CUSTOM-V0</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

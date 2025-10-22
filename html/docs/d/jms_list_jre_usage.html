@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_jms_list_jre_usage</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_jms_list_jre_usage</h1>
+
+<p>This data source provides details about a specific List Jre Usage resource in Oracle Cloud Infrastructure Jms service.</p>
+
+<p>List Java Runtime usage in a specified host filtered by query parameters.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_jms_list_jre_usage&quot; &quot;test_list_jre_usage&quot; {
+
+	#Optional
+	application_id = oci_dataflow_application.test_application.id
+	application_name = oci_dataflow_application.test_application.name
+	compartment_id = var.compartment_id
+	host_id = oci_jms_host.test_host.id
+	time_end = var.list_jre_usage_time_end
+	time_start = var.list_jre_usage_time_start
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>application_id</code> - (Optional) The Fleet-unique identifier of the application.</li>
+<li><code>application_name</code> - (Optional) The name of the application.</li>
+<li><code>compartment_id</code> - (Optional) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment in which to list resources.</li>
+<li><code>host_id</code> - (Optional) The host <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the managed instance.</li>
+<li><code>time_end</code> - (Optional) The end of the time period during which resources are searched (formatted according to <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>).</li>
+<li><code>time_start</code> - (Optional) The start of the time period during which resources are searched (formatted according to <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>).</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - A list of Java Runtimes.
+
+<ul>
+<li><code>approximate_application_count</code> - The approximate count of the applications running on this Java Runtime.</li>
+<li><code>approximate_installation_count</code> - The approximate count of installations that are installations of this Java Runtime.</li>
+<li><code>approximate_managed_instance_count</code> - The approximate count of the managed instances that report this Java Runtime.</li>
+<li><code>approximate_pending_work_request_count</code> - The approximate count of work requests working on this Java Runtime.</li>
+<li><code>days_under_security_baseline</code> - The number of days since this release has been under the security baseline.</li>
+<li><code>distribution</code> - The distribution of a Java Runtime is the name of the lineage of product to which it belongs, for example <em>Java&trade; SE Runtime Environment</em>.</li>
+<li><code>end_of_support_life_date</code> - The End of Support Life (EOSL) date of the Java Runtime (formatted according to <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>).</li>
+<li><code>fleet_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the related fleet.</li>
+<li><code>id</code> - The internal identifier of the Java Runtime.</li>
+<li><code>managed_instance_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the related managed instance. This property value is present only for /listJreUsage.</li>
+<li><code>operating_systems</code> - The operating systems that have this Java Runtime installed.
+
+<ul>
+<li><code>architecture</code> - The architecture of the operating system as provided by the Java system property os.arch.</li>
+<li><code>family</code> - The operating system type, such as Windows or Linux</li>
+<li><code>managed_instance_count</code> - Number of instances running the operating system</li>
+<li><code>name</code> - The name of the operating system as provided by the Java system property os.name.</li>
+<li><code>version</code> - The version of the operating system as provided by the Java system property os.version.</li>
+</ul></li>
+<li><code>release_date</code> - The release date of the Java Runtime (formatted according to <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>).</li>
+<li><code>security_status</code> - The security status of the Java Runtime.</li>
+<li><code>time_end</code> - Upper bound of the specified time period filter. JMS provides a view of the data that is <em>per day</em>. The query uses only the date element of the parameter.</li>
+<li><code>time_first_seen</code> - The date and time the resource was <em>first</em> reported to JMS. This is potentially <em>before</em> the specified time period provided by the filters. For example, a resource can be first reported to JMS before the start of a specified time period, if it is also reported during the time period.</li>
+<li><code>time_last_seen</code> - The date and time the resource was <em>last</em> reported to JMS. This is potentially <em>after</em> the specified time period provided by the filters. For example, a resource can be last reported to JMS before the start of a specified time period, if it is also reported during the time period.</li>
+<li><code>time_start</code> - Lower bound of the specified time period filter. JMS provides a view of the data that is <em>per day</em>. The query uses only the date element of the parameter.</li>
+<li><code>vendor</code> - The vendor of the Java Runtime.</li>
+<li><code>version</code> - The version of the Java Runtime.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

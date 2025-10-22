@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_log_analytics_namespace_storage_archival_config</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_log_analytics_namespace_storage_archival_config</h1>
+
+<p>This resource provides the Namespace Storage Archival Config resource in Oracle Cloud Infrastructure Log Analytics service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/logan-api-spec/latest/NamespaceStorageArchivalConfig">https://docs.oracle.com/iaas/api/#/en/logan-api-spec/latest/NamespaceStorageArchivalConfig</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/log_analytics">https://github.com/oracle/terraform-provider-oci/tree/master/examples/log_analytics</a></p>
+
+<p>This API updates the archiving configuration</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_log_analytics_namespace_storage_archival_config&quot; &quot;test_namespace_storage_archival_config&quot; {
+	#Required
+	archiving_configuration {
+
+		#Optional
+		active_storage_duration = var.namespace_storage_archival_config_archiving_configuration_active_storage_duration
+		archival_storage_duration = var.namespace_storage_archival_config_archiving_configuration_archival_storage_duration
+	}
+	namespace = var.namespace_storage_archival_config_namespace
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>archiving_configuration</code> - (Required) (Updatable) This is the configuration for data archiving in object storage
+
+<ul>
+<li><code>active_storage_duration</code> - (Optional) (Updatable) This is the duration data in active storage before data is archived, as described in <a href="https://en.wikipedia.org/wiki/ISO_8601#Durations">https://en.wikipedia.org/wiki/ISO_8601#Durations</a>. The largest supported unit is D, e.g. P365D (not P1Y) or P14D (not P2W).</li>
+<li><code>archival_storage_duration</code> - (Optional) (Updatable) This is the duration before archived data is deleted from object storage, as described in <a href="https://en.wikipedia.org/wiki/ISO_8601#Durations">https://en.wikipedia.org/wiki/ISO_8601#Durations</a> The largest supported unit is D, e.g. P365D (not P1Y) or P14D (not P2W).</li>
+</ul></li>
+<li><code>namespace</code> - (Required) The Logging Analytics namespace used for the request.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>archiving_configuration</code> - This is the configuration for data archiving in object storage
+
+<ul>
+<li><code>active_storage_duration</code> - This is the duration data in active storage before data is archived, as described in <a href="https://en.wikipedia.org/wiki/ISO_8601#Durations">https://en.wikipedia.org/wiki/ISO_8601#Durations</a>. The largest supported unit is D, e.g. P365D (not P1Y) or P14D (not P2W).</li>
+<li><code>archival_storage_duration</code> - This is the duration before archived data is deleted from object storage, as described in <a href="https://en.wikipedia.org/wiki/ISO_8601#Durations">https://en.wikipedia.org/wiki/ISO_8601#Durations</a> The largest supported unit is D, e.g. P365D (not P1Y) or P14D (not P2W).</li>
+</ul></li>
+<li><code>is_archiving_enabled</code> - This indicates if old data can be archived for a tenancy</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Namespace Storage Archival Config
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Namespace Storage Archival Config
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Namespace Storage Archival Config</p>
+
+	</div>
+
+</body>
+</html>

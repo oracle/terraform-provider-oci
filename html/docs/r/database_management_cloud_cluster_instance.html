@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_database_management_cloud_cluster_instance</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_database_management_cloud_cluster_instance</h1>
+
+<p>This resource provides the Cloud Cluster Instance resource in Oracle Cloud Infrastructure Database Management service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/database-management/latest/CloudClusterInstance">https://docs.oracle.com/iaas/api/#/en/database-management/latest/CloudClusterInstance</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/databasemanagement">https://github.com/oracle/terraform-provider-oci/tree/master/examples/databasemanagement</a></p>
+
+<p>Updates the cloud cluster instance specified by <code>cloudClusterInstanceId</code>.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_database_management_cloud_cluster_instance&quot; &quot;test_cloud_cluster_instance&quot; {
+	#Required
+	cloud_cluster_instance_id = oci_database_management_cloud_cluster_instance.test_cloud_cluster_instance.id
+
+	#Optional
+	cloud_connector_id = oci_database_management_cloud_connector.test_cloud_connector.id
+	defined_tags = {&quot;Operations.CostCenter&quot;= &quot;42&quot;}
+	freeform_tags = {&quot;Department&quot;= &quot;Finance&quot;}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>cloud_cluster_instance_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the cloud cluster instance.</li>
+<li><code>cloud_connector_id</code> - (Optional) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the cloud connector.</li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>adr_home_directory</code> - The Automatic Diagnostic Repository (ADR) home directory for the cluster instance.</li>
+<li><code>cloud_cluster_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the cloud cluster that the cluster instance belongs to.</li>
+<li><code>cloud_connector_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the cloud connector.</li>
+<li><code>cloud_db_node_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the cloud DB node.</li>
+<li><code>cloud_db_system_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the cloud DB system that the cluster instance is a part of.</li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>component_name</code> - The name of the cloud cluster instance.</li>
+<li><code>crs_base_directory</code> - The Oracle base location of Cluster Ready Services (CRS).</li>
+<li><code>dbaas_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> in DBaas service.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>display_name</code> - The user-friendly name for the cluster instance. The name does not have to be unique.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>host_name</code> - The name of the host on which the cluster instance is running.</li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the cloud cluster instance.</li>
+<li><code>lifecycle_details</code> - Additional information about the current lifecycle state.</li>
+<li><code>node_role</code> - The role of the cluster node.</li>
+<li><code>state</code> - The current lifecycle state of the cloud cluster instance.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. System tags can be viewed by users, but can only be created by the system.  Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The date and time the cloud cluster instance was created.</li>
+<li><code>time_updated</code> - The date and time the cloud cluster instance was last updated.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Cloud Cluster Instance
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Cloud Cluster Instance
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Cloud Cluster Instance</p>
+
+<h2>Import</h2>
+
+<p>CloudClusterInstances can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_database_management_cloud_cluster_instance.test_cloud_cluster_instance &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

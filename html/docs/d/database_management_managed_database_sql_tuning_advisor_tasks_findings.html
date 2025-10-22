@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_management_managed_database_sql_tuning_advisor_tasks_findings</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_management_managed_database_sql_tuning_advisor_tasks_findings</h1>
+
+<p>This data source provides the list of Managed Database Sql Tuning Advisor Tasks Findings in Oracle Cloud Infrastructure Database Management service.</p>
+
+<p>Gets an array of the details of the findings that match specific filters.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_management_managed_database_sql_tuning_advisor_tasks_findings&quot; &quot;test_managed_database_sql_tuning_advisor_tasks_findings&quot; {
+	#Required
+	managed_database_id = oci_database_management_managed_database.test_managed_database.id
+	sql_tuning_advisor_task_id = oci_database_management_sql_tuning_advisor_task.test_sql_tuning_advisor_task.id
+
+	#Optional
+	begin_exec_id = oci_database_management_begin_exec.test_begin_exec.id
+	end_exec_id = oci_database_management_end_exec.test_end_exec.id
+	finding_filter = var.managed_database_sql_tuning_advisor_tasks_finding_finding_filter
+	index_hash_filter = var.managed_database_sql_tuning_advisor_tasks_finding_index_hash_filter
+	opc_named_credential_id = var.managed_database_sql_tuning_advisor_tasks_finding_opc_named_credential_id
+	search_period = var.managed_database_sql_tuning_advisor_tasks_finding_search_period
+	stats_hash_filter = var.managed_database_sql_tuning_advisor_tasks_finding_stats_hash_filter
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>begin_exec_id</code> - (Optional) The optional greater than or equal to filter on the execution ID related to a specific SQL Tuning Advisor task.</li>
+<li><code>end_exec_id</code> - (Optional) The optional less than or equal to query parameter to filter on the execution ID related to a specific SQL Tuning Advisor task.</li>
+<li><code>finding_filter</code> - (Optional) The filter used to display specific findings in the report.</li>
+<li><code>index_hash_filter</code> - (Optional) The hash value of the index table name.</li>
+<li><code>managed_database_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Managed Database.</li>
+<li><code>opc_named_credential_id</code> - (Optional) The OCID of the Named Credential.</li>
+<li><code>search_period</code> - (Optional) The search period during which the API will search for begin and end exec id, if not supplied. Unused if beginExecId and endExecId optional query params are both supplied.</li>
+<li><code>sql_tuning_advisor_task_id</code> - (Required) The SQL tuning task identifier. This is not the <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>stats_hash_filter</code> - (Optional) The hash value of the object for the statistic finding search.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>sql_tuning_advisor_task_finding_collection</code> - The list of sql_tuning_advisor_task_finding_collection.</li>
+</ul>
+
+<h3>ManagedDatabaseSqlTuningAdvisorTasksFinding Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - An array of the findings for a tuning task.
+
+<ul>
+<li><code>db_time_benefit</code> - The time benefit (in seconds) for the highest-rated finding for this object.</li>
+<li><code>is_alternative_plan_finding_present</code> - Indicates whether an alternative execution plan was reported for this SQL statement.</li>
+<li><code>is_error_finding_present</code> - Indicates whether there is an error in this SQL statement.</li>
+<li><code>is_index_finding_present</code> - Indicates whether an index recommendation was reported for this SQL statement.</li>
+<li><code>is_miscellaneous_finding_present</code> - Indicates whether a miscellaneous finding was reported for this SQL statement.</li>
+<li><code>is_restructure_sql_finding_present</code> - Indicates whether a restructure SQL recommendation was reported for this SQL statement.</li>
+<li><code>is_sql_profile_finding_implemented</code> - Indicates whether a SQL Profile recommendation has been implemented for this SQL statement.</li>
+<li><code>is_sql_profile_finding_present</code> - Indicates whether a SQL Profile recommendation was reported for this SQL statement.</li>
+<li><code>is_stats_finding_present</code> - Indicates whether a statistics recommendation was reported for this SQL statement.</li>
+<li><code>is_timeout_finding_present</code> - Indicates whether the task timed out.</li>
+<li><code>parsing_schema</code> - The parsing schema of the object.</li>
+<li><code>per_execution_percentage</code> - The per-execution percentage benefit.</li>
+<li><code>sql_key</code> - The unique key of this SQL statement.</li>
+<li><code>sql_text</code> - The text of the SQL statement.</li>
+<li><code>sql_tuning_advisor_task_id</code> - The unique identifier of the SQL Tuning Advisor task. This is not the <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>sql_tuning_advisor_task_object_execution_id</code> - The execution id of the analyzed SQL object. This is not the <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>sql_tuning_advisor_task_object_id</code> - The key of the object to which these recommendations apply. This is not the <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

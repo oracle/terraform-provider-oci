@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_network_firewall_network_firewall_policy_security_rule</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_network_firewall_network_firewall_policy_security_rule</h1>
+
+<p>This resource provides the Network Firewall Policy Security Rule resource in Oracle Cloud Infrastructure Network Firewall service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/network-firewall/latest/NetworkFirewallPolicySecurityRule">https://docs.oracle.com/iaas/api/#/en/network-firewall/latest/NetworkFirewallPolicySecurityRule</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/network_firewall">https://github.com/oracle/terraform-provider-oci/tree/master/examples/network_firewall</a></p>
+
+<p>Creates a new Security Rule for the Network Firewall Policy.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_network_firewall_network_firewall_policy_security_rule&quot; &quot;test_network_firewall_policy_security_rule&quot; {
+	lifecycle {
+		ignore_changes = [position]
+	}
+	#Required
+	action = var.network_firewall_policy_security_rule_action
+	name = var.network_firewall_policy_security_rule_name
+	condition {
+		application = var.network_firewall_policy_security_rule_condition_application
+		destination_address = var.network_firewall_policy_security_rule_condition_destination_address
+		service = var.network_firewall_policy_security_rule_condition_service
+		source_address = var.network_firewall_policy_security_rule_condition_source_address
+		url = var.network_firewall_policy_security_rule_condition_url
+	}
+	network_firewall_policy_id = oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id
+
+	#Optional
+	inspection = var.network_firewall_policy_security_rule_inspection
+	position {
+
+		#Optional
+		after_rule = var.network_firewall_policy_security_rule_position_after_rule
+		before_rule = var.network_firewall_policy_security_rule_position_before_rule
+	}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>action</code> - (Required) (Updatable) Types of Action on the Traffic flow.
+
+<ul>
+<li>ALLOW - Allows the traffic.</li>
+<li>DROP - Silently drops the traffic, e.g. without sending a TCP reset.</li>
+<li>REJECT - Rejects the traffic, sending a TCP reset to client and/or server as applicable.</li>
+<li>INSPECT - Inspects traffic for vulnerability as specified in <code>inspection</code>, which may result in rejection.</li>
+</ul></li>
+<li><code>condition</code> - (Required) (Updatable) Criteria to evaluate against network traffic. A match occurs when at least one item in the array associated with each specified property corresponds with the relevant aspect of the traffic. The resources mentioned must already be present in the policy before being referenced in the rule.
+
+<ul>
+<li><code>application</code> - (Optional) (Updatable) An array of application group names to be evaluated against the traffic protocol and protocol-specific parameters.</li>
+<li><code>destination_address</code> - (Optional) (Updatable) An array of address list names to be evaluated against the traffic destination address.</li>
+<li><code>service</code> - (Optional) (Updatable) An array of service list names to be evaluated against the traffic protocol and protocol-specific parameters.</li>
+<li><code>source_address</code> - (Optional) (Updatable) An array of address list names to be evaluated against the traffic source address.</li>
+<li><code>url</code> - (Optional) (Updatable) An array of URL list names to be evaluated against the HTTP(S) request target.</li>
+</ul></li>
+<li><code>inspection</code> - (Optional) (Updatable) Type of inspection to affect the traffic flow. This is only applicable if action is INSPECT.
+
+<ul>
+<li>INTRUSION_DETECTION - Intrusion Detection.</li>
+<li>INTRUSION_PREVENTION - Intrusion Detection and Prevention. Traffic classified as potentially malicious will be rejected as described in <code>type</code>.</li>
+</ul></li>
+<li><code>name</code> - (Required) Name for the Security rule, must be unique within the policy.</li>
+<li><code>network_firewall_policy_id</code> - (Required) Unique Network Firewall Policy identifier</li>
+<li><code>position</code> - (Optional) (Updatable) An object which defines the position of the rule. Only one of the following position references should be provided.
+
+<ul>
+<li><code>after_rule</code> - (Optional) (Updatable) Identifier for rule after which this rule lies.</li>
+<li><code>before_rule</code> - (Optional) (Updatable) Identifier for rule before which this rule lies.</li>
+</ul></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>action</code> - Types of Action on the Traffic flow.
+
+<ul>
+<li>ALLOW - Allows the traffic.</li>
+<li>DROP - Silently drops the traffic, e.g. without sending a TCP reset.</li>
+<li>REJECT - Rejects the traffic, sending a TCP reset to client and/or server as applicable.</li>
+<li>INSPECT - Inspects traffic for vulnerability as specified in <code>inspection</code>, which may result in rejection.</li>
+</ul></li>
+<li><code>condition</code> - Criteria to evaluate against network traffic. A match occurs when at least one item in the array associated with each specified property corresponds with the relevant aspect of the traffic.
+
+<ul>
+<li><code>application</code> - An array of application list names to be evaluated against the traffic protocol and protocol-specific parameters.</li>
+<li><code>destination_address</code> - An array of address list names to be evaluated against the traffic destination address.</li>
+<li><code>service</code> - An array of service list names to be evaluated against the traffic protocol and protocol-specific parameters.</li>
+<li><code>source_address</code> - An array of address list names to be evaluated against the traffic source address.</li>
+<li><code>url</code> - An array of URL list names to be evaluated against the HTTP(S) request target.</li>
+</ul></li>
+<li><code>inspection</code> - Type of inspection to affect the Traffic flow. This is only applicable if action is INSPECT.
+
+<ul>
+<li>INTRUSION_DETECTION - Intrusion Detection.</li>
+<li>INTRUSION_PREVENTION - Intrusion Detection and Prevention. Traffic classified as potentially malicious will be rejected as described in <code>type</code>.</li>
+</ul></li>
+<li><code>name</code> - Name for the Security rule, must be unique within the policy.</li>
+<li><code>parent_resource_id</code> - OCID of the Network Firewall Policy this security rule belongs to.</li>
+<li><code>position</code> - An object which defines the position of the rule.
+
+<ul>
+<li><code>after_rule</code> - Identifier for rule after which this rule lies.</li>
+<li><code>before_rule</code> - Identifier for rule before which this rule lies.</li>
+</ul></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Network Firewall Policy Security Rule
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Network Firewall Policy Security Rule
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Network Firewall Policy Security Rule</p>
+
+<h2>Import</h2>
+
+<p>NetworkFirewallPolicySecurityRules can be imported using the <code>name</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_network_firewall_network_firewall_policy_security_rule.test_network_firewall_policy_security_rule &quot;networkFirewallPolicies/{networkFirewallPolicyId}/securityRules/{securityRuleName}&quot; 
+</code></pre>
+
+	</div>
+
+</body>
+</html>

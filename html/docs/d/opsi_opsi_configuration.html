@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_opsi_opsi_configuration</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_opsi_opsi_configuration</h1>
+
+<p>This data source provides details about a specific Opsi Configuration resource in Oracle Cloud Infrastructure Opsi service.</p>
+
+<p>Gets details of an OPSI configuration resource.
+Values specified in configItemField and configItemCustomStatus query params will be considered, only if configItems field is requested as part of opsiConfigField query param.
+Values specified in configItemCustomStatus will determine whether only customized configuration items or only non-customized configuration items or both have to be returned.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_opsi_opsi_configuration&quot; &quot;test_opsi_configuration&quot; {
+	#Required
+	opsi_configuration_id = oci_opsi_opsi_configuration.test_opsi_configuration.id
+
+	#Optional
+	config_item_custom_status = var.opsi_configuration_config_item_custom_status
+	config_item_field = var.opsi_configuration_config_item_field
+	config_items_applicable_context = var.opsi_configuration_config_items_applicable_context
+	opsi_config_field = var.opsi_configuration_opsi_config_field
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>config_item_custom_status</code> - (Optional) Specifies whether only customized configuration items or only non-customized configuration items or both have to be returned. By default only customized configuration items are returned.</li>
+<li><code>config_item_field</code> - (Optional) Specifies the fields to return in a config item summary.</li>
+<li><code>config_items_applicable_context</code> - (Optional) Returns the configuration items filtered by applicable contexts sent in this param. By default configuration items of all applicable contexts are returned.</li>
+<li><code>opsi_config_field</code> - (Optional) Optional fields to return as part of OpsiConfiguration object. Unless requested, these fields will not be returned by default.</li>
+<li><code>opsi_configuration_id</code> - (Required) <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of OPSI configuration resource.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>config_items</code> - Array of configuration item summary objects.
+
+<ul>
+<li><code>applicable_contexts</code> - List of contexts in Operations Insights where this configuration item is applicable.</li>
+<li><code>config_item_type</code> - Type of configuration item.</li>
+<li><code>default_value</code> - Value of configuration item.</li>
+<li><code>metadata</code> - Configuration item metadata.
+
+<ul>
+<li><code>config_item_type</code> - Type of configuration item.</li>
+<li><code>data_type</code> - Data type of configuration item. Examples: STRING, BOOLEAN, NUMBER</li>
+<li><code>description</code> - Description of configuration item .</li>
+<li><code>display_name</code> - User-friendly display name for the configuration item.</li>
+<li><code>unit_details</code> - Unit details of configuration item.
+
+<ul>
+<li><code>display_name</code> - User-friendly display name for the configuration item unit.</li>
+<li><code>unit</code> - Unit of configuration item.</li>
+</ul></li>
+<li><code>value_input_details</code> - Allowed value details of configuration item, to validate what value can be assigned to a configuration item.
+
+<ul>
+<li><code>allowed_value_type</code> - Allowed value type of configuration item.</li>
+<li><code>max_value</code> - Maximum value limit for the configuration item.</li>
+<li><code>min_value</code> - Minimum value limit for the configuration item.</li>
+<li><code>possible_values</code> - Allowed values to pick for the configuration item.</li>
+</ul></li>
+</ul></li>
+<li><code>name</code> - Name of configuration item.</li>
+<li><code>value</code> - Value of configuration item.</li>
+</ul></li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>description</code> - Description of OPSI configuration.</li>
+<li><code>display_name</code> - User-friendly display name for the OPSI configuration. The name does not have to be unique.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of OPSI configuration resource.</li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.</li>
+<li><code>opsi_config_type</code> - OPSI configuration type.</li>
+<li><code>state</code> - OPSI configuration resource lifecycle state.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time at which the resource was first created. An RFC3339 formatted datetime string</li>
+<li><code>time_updated</code> - The time at which the resource was last updated. An RFC3339 formatted datetime string</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_log_analytics_log_analytics_entity_topology</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_log_analytics_log_analytics_entity_topology</h1>
+
+<p>This data source provides details about a specific Log Analytics Entity Topology resource in Oracle Cloud Infrastructure Log Analytics service.</p>
+
+<p>Return a log analytics entity topology collection that contains a set of log analytics entities and a set of relationships between those, for the input source entity.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_log_analytics_log_analytics_entity_topology&quot; &quot;test_log_analytics_entity_topology&quot; {
+	#Required
+	log_analytics_entity_id = oci_log_analytics_log_analytics_entity.test_log_analytics_entity.id
+	namespace = var.log_analytics_entity_topology_namespace
+
+	#Optional
+	context = var.log_analytics_entity_topology_context
+	metadata_equals = var.log_analytics_entity_topology_metadata_equals
+	state = var.log_analytics_entity_topology_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>context</code> - (Optional) A filter to return log analytics entity toplogy whose context matches the specified string.</li>
+<li><code>log_analytics_entity_id</code> - (Required) The log analytics entity OCID.</li>
+<li><code>metadata_equals</code> - (Optional) A filter to return only log analytics entities whose metadata name, value and type matches the specified string. Each item in the array has the format &ldquo;{name}:{value}:{type}&rdquo;.  All inputs are case-insensitive.</li>
+<li><code>namespace</code> - (Required) The Logging Analytics namespace used for the request.</li>
+<li><code>state</code> - (Optional) A filter to return only those log analytics entities with the specified lifecycle state. The state value is case-insensitive.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - Array of log analytics entity topologies.
+
+<ul>
+<li><code>links</code> - Collection of log analytics entity relationship links.
+
+<ul>
+<li><code>items</code> - Array of log analytics entity relationship links.
+
+<ul>
+<li><code>contexts</code> - Array of log analytics entity relationship context.</li>
+<li><code>destination_entity_id</code> - The log analytics entity OCID. This ID is a reference used by log analytics features and it represents a resource that is provisioned and managed by the customer on their premises or on the cloud.</li>
+<li><code>source_entity_id</code> - The log analytics entity OCID. This ID is a reference used by log analytics features and it represents a resource that is provisioned and managed by the customer on their premises or on the cloud.</li>
+<li><code>time_last_discovered</code> - The date and time the resource was last discovered, in the format defined by RFC3339.</li>
+</ul></li>
+</ul></li>
+<li><code>nodes</code> - Collection of log analytics entities.
+
+<ul>
+<li><code>items</code> - Array of log analytics entity summary.
+
+<ul>
+<li><code>are_logs_collected</code> - The Boolean flag to indicate if logs are collected for an entity for log analytics usage.</li>
+<li><code>associated_sources_count</code> - The count of associated log sources for a given log analytics entity.</li>
+<li><code>cloud_resource_id</code> - The OCID of the Cloud resource which this entity is a representation of. This may be blank when the entity represents a non-cloud resource that the customer may have on their premises.</li>
+<li><code>compartment_id</code> - Compartment Identifier <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>entity_type_internal_name</code> - Internal name for the log analytics entity type.</li>
+<li><code>entity_type_name</code> - Log analytics entity type name.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - The log analytics entity OCID. This ID is a reference used by log analytics features and it represents a resource that is provisioned and managed by the customer on their premises or on the cloud.</li>
+<li><code>lifecycle_details</code> - lifecycleDetails has additional information regarding substeps such as management agent plugin deployment.</li>
+<li><code>management_agent_id</code> - The OCID of the Management Agent.</li>
+<li><code>metadata</code> - A collection of entity metadata information.
+
+<ul>
+<li><code>items</code> - An array of entity metadata.
+
+<ul>
+<li><code>name</code> - The metadata name.</li>
+<li><code>type</code> - The metadata type.</li>
+<li><code>value</code> - The metadata value.</li>
+</ul></li>
+</ul></li>
+<li><code>name</code> - Log analytics entity name.</li>
+<li><code>source_id</code> - This indicates the type of source. It is primarily for Enterprise Manager Repository ID.</li>
+<li><code>state</code> - The current state of the log analytics entity.</li>
+<li><code>time_created</code> - The date and time the resource was created, in the format defined by RFC3339.</li>
+<li><code>time_last_discovered</code> - The date and time the resource was last discovered, in the format defined by RFC3339.</li>
+<li><code>time_updated</code> - The date and time the resource was last updated, in the format defined by RFC3339.</li>
+<li><code>timezone_region</code> - The timezone region of the log analytics entity.</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

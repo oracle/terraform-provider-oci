@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_database_database_snapshot_standby</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_database_database_snapshot_standby</h1>
+
+<p>This resource provides the Database Snapshot Standby resource in Oracle Cloud Infrastructure Database service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/database/latest/DatabaseSnapshotStandby">https://docs.oracle.com/iaas/api/#/en/database/latest/DatabaseSnapshotStandby</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/database">https://github.com/oracle/terraform-provider-oci/tree/master/examples/database</a></p>
+
+<p>Performs transition from standby database into a snapshot standby and vice versa.
+The transition performed based on the current role of the database, if the current role is standby then this operation will convert it to snapshot standby and if the current role is snapshot standby then this operation will convert it to standby.</p>
+
+<p>This operation should be performed on respective standby/snapshot standby database.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_database_database_snapshot_standby&quot; &quot;test_database_snapshot_standby&quot; {
+	#Required
+	database_admin_password = var.database_snapshot_standby_database_admin_password
+	database_id = oci_database_database.test_database.id
+	standby_conversion_type = var.database_snapshot_standby_standby_conversion_type
+
+	#Optional
+	snapshot_duration_in_days = var.database_snapshot_standby_snapshot_duration_in_days
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>database_admin_password</code> - (Required) The administrator password of the primary database in this Data Guard association.</p>
+
+<p><strong>The password MUST be the same as the primary admin password.</strong></p></li>
+
+<li><p><code>database_id</code> - (Required) The database <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</p></li>
+
+<li><p><code>snapshot_duration_in_days</code> - (Optional) SnapshotDurationInDays is the duration in day(s) after which the Snapshot Standby Database will get converted back to Physical Standby. The minimum value of snapshotDurationInDays is 3 days and maximum value is 14 days. Default value will be 7 days if not provided in the Request.</p>
+
+<p>This field is only applicable if the requested database role is snapshot standby.</p></li>
+
+<li><p><code>standby_conversion_type</code> - (Required) Defines the conversion type of the standby database. Specify this to convert a physical standby to a snapshot standby and vice versa.</p>
+
+<p>Valid standbyConversionType:</p>
+
+<ul>
+<li>SNAPSHOT</li>
+<li>PHYSICAL</li>
+</ul></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>character_set</code> - The character set for the database.</p></li>
+
+<li><p><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</p></li>
+
+<li><p><code>connection_strings</code> - The Connection strings used to connect to the Oracle Database.</p>
+
+<ul>
+<li><code>all_connection_strings</code> - All connection strings to use to connect to the Database.</li>
+<li><code>cdb_default</code> - Host name based CDB Connection String.</li>
+<li><code>cdb_ip_default</code> - IP based CDB Connection String.</li>
+</ul></li>
+
+<li><p><code>data_guard_group</code> - Details of Data Guard setup that the given database is part of.  Also includes information about databases part of this Data Guard group and properties for their Data Guard configuration.</p>
+
+<ul>
+<li><p><code>members</code> - List of Data Guard members, representing each database that is part of Data Guard.</p>
+
+<ul>
+<li><p><code>apply_lag</code> - The lag time between updates to the primary database and application of the redo data on the standby database, as computed by the reporting database.  Example: <code>1 second</code></p></li>
+
+<li><p><code>apply_rate</code> - The rate at which redo logs are synced between the associated databases.  Example: <code>102.96 MByte/s</code></p></li>
+
+<li><p><code>database_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Database.</p></li>
+
+<li><p><code>db_system_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the DB system, Cloud VM cluster or VM cluster.</p></li>
+
+<li><p><code>is_active_data_guard_enabled</code> - True if active Data Guard is enabled.</p></li>
+
+<li><p><code>role</code> - The role of the reporting database in this Data Guard association.</p></li>
+
+<li><p><code>transport_lag</code> - The rate at which redo logs are transported between the associated databases.  Example: <code>1 second</code></p></li>
+
+<li><p><code>transport_lag_refresh</code> - The date and time when last redo transport has been done.</p></li>
+
+<li><p><code>transport_type</code> - The redo transport type to use for this Data Guard association.  Valid values depend on the specified <code>protectionMode</code>:</p>
+
+<ul>
+<li>MAXIMUM_AVAILABILITY - SYNC or FASTSYNC</li>
+<li>MAXIMUM_PERFORMANCE - ASYNC</li>
+<li>MAXIMUM_PROTECTION - SYNC</li>
+</ul>
+
+<p>For more information, see <a href="http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-redo-transport-services.htm#SBYDB00400">Redo Transport Services</a> in the Oracle Data Guard documentation.</p>
+
+<p><strong>IMPORTANT</strong> - The only transport type currently supported by the Database service is ASYNC.</p></li>
+</ul></li>
+
+<li><p><code>protection_mode</code> - The protection mode of this Data Guard. For more information, see <a href="http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000">Oracle Data Guard Protection Modes</a> in the Oracle Data Guard documentation.</p></li>
+</ul></li>
+
+<li><p><code>database_management_config</code> - The configuration of the Database Management service.</p>
+
+<ul>
+<li><code>management_status</code> - The status of the Database Management service.</li>
+<li><code>management_type</code> - The Database Management type.</li>
+</ul></li>
+
+<li><p><code>database_software_image_id</code> - The database software image <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a></p></li>
+
+<li><p><code>db_backup_config</code> - Backup Options To use any of the API operations, you must be authorized in an IAM policy. If you&rsquo;re not authorized, talk to an administrator. If you&rsquo;re an administrator who needs to write policies to give users access, see <a href="https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm">Getting Started with Policies</a>.</p>
+
+<ul>
+<li><code>auto_backup_enabled</code> - If set to true, configures automatic backups. If you previously used RMAN or dbcli to configure backups and then you switch to using the Console or the API for backups, a new backup configuration is created and associated with your database. This means that you can no longer rely on your previously configured unmanaged backups to work.</li>
+<li><code>auto_backup_window</code> - Time window selected for initiating automatic backup for the database system. There are twelve available two-hour time windows. If no option is selected, a start time between 12:00 AM to 7:00 AM in the region of the database is automatically chosen. For example, if the user selects SLOT_TWO from the enum list, the automatic backup job will start in between 2:00 AM (inclusive) to 4:00 AM (exclusive).  Example: <code>SLOT_TWO</code></li>
+<li><code>auto_full_backup_day</code> - Day of the week the full backup should be applied on the database system. If no option is selected, the value is null and we will default to Sunday.</li>
+<li><code>auto_full_backup_window</code> - Time window selected for initiating full backup for the database system. There are twelve available two-hour time windows. If no option is selected, the value is null and a start time between 12:00 AM to 7:00 AM in the region of the database is automatically chosen. For example, if the user selects SLOT_TWO from the enum list, the automatic backup job will start in between 2:00 AM (inclusive) to 4:00 AM (exclusive).  Example: <code>SLOT_TWO</code></li>
+<li><code>backup_deletion_policy</code> - This defines when the backups will be deleted. - IMMEDIATE option keep the backup for predefined time i.e 72 hours and then delete permanently&hellip; - RETAIN will keep the backups as per the policy defined for database backups.</li>
+<li><code>backup_destination_details</code> - Backup destination details.
+
+<ul>
+<li><code>dbrs_policy_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the DBRS policy used for backup.</li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the backup destination.</li>
+<li><code>internet_proxy</code> - Proxy URL to connect to object store.</li>
+<li><code>type</code> - Type of the database backup destination.</li>
+<li><code>vpc_password</code> - For a RECOVERY_APPLIANCE backup destination, the password for the VPC user that is used to access the Recovery Appliance.</li>
+<li><code>vpc_user</code> - For a RECOVERY_APPLIANCE backup destination, the Virtual Private Catalog (VPC) user that is used to access the Recovery Appliance.</li>
+</ul></li>
+<li><code>recovery_window_in_days</code> - Number of days between the current and the earliest point of recoverability covered by automatic backups. This value applies to automatic backups only. After a new automatic backup has been created, Oracle removes old automatic backups that are created before the window. When the value is updated, it is applied to all existing automatic backups.</li>
+<li><code>run_immediate_full_backup</code> - If set to true, configures automatic full backups in the local region (the region of the DB system) for the first backup run immediately.</li>
+</ul></li>
+
+<li><p><code>db_home_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Database Home.</p></li>
+
+<li><p><code>db_name</code> - The database name.</p></li>
+
+<li><p><code>db_system_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the DB system.</p></li>
+
+<li><p><code>db_unique_name</code> - A system-generated name for the database to ensure uniqueness within an Oracle Data Guard group (a primary database and its standby databases). The unique name cannot be changed.</p></li>
+
+<li><p><code>db_workload</code> - <strong>Deprecated.</strong> The dbWorkload field has been deprecated for Exadata Database Service on Dedicated Infrastructure, Exadata Database Service on Cloud@Customer, and Base Database Service. Support for this attribute will end in November 2023. You may choose to update your custom scripts to exclude the dbWorkload attribute. After November 2023 if you pass a value to the dbWorkload attribute, it will be ignored.</p>
+
+<p>The database workload type.</p></li>
+
+<li><p><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</p></li>
+
+<li><p><code>encryption_key_location_details</code> - Types of providers supported for managing database encryption keys</p>
+
+<ul>
+<li><code>hsm_password</code> - Provide the HSM password as you would in RDBMS for External HSM.</li>
+<li><code>provider_type</code> - Use &lsquo;EXTERNAL&rsquo; for creating a new database or migrate database key with External HSM.</li>
+</ul></li>
+
+<li><p><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></p></li>
+
+<li><p><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the database.</p></li>
+
+<li><p><code>is_cdb</code> - True if the database is a container database.</p></li>
+
+<li><p><code>key_store_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the key store of Oracle Vault.</p></li>
+
+<li><p><code>key_store_wallet_name</code> - The wallet name for Oracle Key Vault.</p></li>
+
+<li><p><code>kms_key_id</code> - The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.</p></li>
+
+<li><p><code>kms_key_version_id</code> - The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. Autonomous Database Serverless does not use key versions, hence is not applicable for Autonomous Database Serverless instances.</p></li>
+
+<li><p><code>last_backup_duration_in_seconds</code> - The duration when the latest database backup created.</p></li>
+
+<li><p><code>last_backup_timestamp</code> - The date and time when the latest database backup was created.</p></li>
+
+<li><p><code>last_failed_backup_timestamp</code> - The date and time when the latest database backup failed.</p></li>
+
+<li><p><code>lifecycle_details</code> - Additional information about the current lifecycle state.</p></li>
+
+<li><p><code>ncharacter_set</code> - The national character set for the database.</p></li>
+
+<li><p><code>pdb_name</code> - The name of the pluggable database. The name must begin with an alphabetic character and can contain a maximum of thirty alphanumeric characters. Special characters are not permitted. Pluggable database should not be same as database name.</p></li>
+
+<li><p><code>sid_prefix</code> - Specifies a prefix for the <code>Oracle SID</code> of the database to be created.</p></li>
+
+<li><p><code>source_database_point_in_time_recovery_timestamp</code> - Point in time recovery timeStamp of the source database at which cloned database system is cloned from the source database system, as described in <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a></p></li>
+
+<li><p><code>state</code> - The current state of the database.</p></li>
+
+<li><p><code>time_created</code> - The date and time the database was created.</p></li>
+
+<li><p><code>vault_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Oracle Cloud Infrastructure <a href="https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts">vault</a>. This parameter and <code>secretId</code> are required for Customer Managed Keys.</p></li>
+
+<li><p><code>vm_cluster_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VM cluster.</p></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Database Snapshot Standby
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Database Snapshot Standby
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Database Snapshot Standby</p>
+
+<h2>Import</h2>
+
+<p>DatabaseSnapshotStandby can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_database_database_snapshot_standby.test_database_snapshot_standby &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

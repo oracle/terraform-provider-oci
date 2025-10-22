@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_recovery_protected_databases</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_recovery_protected_databases</h1>
+
+<p>This data source provides the list of Protected Databases in Oracle Cloud Infrastructure Recovery service.</p>
+
+<p>Lists the protected databases based on the specified parameters.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_recovery_protected_databases&quot; &quot;test_protected_databases&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	display_name = var.protected_database_display_name
+	id = var.protected_database_id
+	protection_policy_id = oci_recovery_protection_policy.test_protection_policy.id
+	recovery_service_subnet_id = oci_recovery_recovery_service_subnet.test_recovery_service_subnet.id
+	state = var.protected_database_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The compartment OCID.</li>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the entire &lsquo;displayname&rsquo; given.</li>
+<li><code>id</code> - (Optional) The protected database OCID.</li>
+<li><code>protection_policy_id</code> - (Optional) The protection policy OCID.</li>
+<li><code>recovery_service_subnet_id</code> - (Optional) The recovery service subnet OCID.</li>
+<li><code>state</code> - (Optional) A filter to return only the resources that match the specified lifecycle state.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>protected_database_collection</code> - The list of protected_database_collection.</li>
+</ul>
+
+<h3>ProtectedDatabase Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>compartment_id</code> - The OCID of the compartment that contains the protected database.</p></li>
+
+<li><p><code>database_id</code> - The OCID of the protected database.</p></li>
+
+<li><p><code>database_size</code> - The size of the protected database. XS - Less than 5GB, S - 5GB to 50GB, M - 50GB to 500GB, L - 500GB to 1TB, XL - 1TB to 5TB, XXL - Greater than 5TB.</p></li>
+
+<li><p><code>db_unique_name</code> - The dbUniqueName for the protected database in Recovery Service. You cannot change the unique name.</p></li>
+
+<li><p><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code>. For more information, see <a href="https://docs.oracle.com/en-us/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a></p></li>
+
+<li><p><code>display_name</code> - The protected database name. You can change the displayName. Avoid entering confidential information.</p></li>
+
+<li><p><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></p></li>
+
+<li><p><code>health</code> - Indicates the protection status of the database.</p>
+
+<p>A &lsquo;PROTECTED&rsquo; status indicates that Recovery Service can ensure database recovery to any point in time within the entire recovery window. The potential data loss exposure since the last backup is:</p>
+
+<ul>
+<li>Less than 10 seconds, if Real-time data protection is enabled</li>
+<li>Less than 70 minutes if Real-time data protection is disabled</li>
+</ul>
+
+<p>A &lsquo;WARNING&rsquo; status indicates that Recovery Service can ensure database recovery within the current recovery window - 1 day. The potential data loss exposure since the last backup is:
+* Greater than 10 seconds, if Real-time data protection is enabled
+* Greater than 60 minutes, if if Real-time data protection is disabled</p>
+
+<p>An &lsquo;ALERT&rsquo; status indicates that Recovery Service cannot recover the database within the current recovery window.</p></li>
+
+<li><p><code>health_details</code> - A message describing the current health of the protected database.</p></li>
+
+<li><p><code>id</code> - The OCID of the protected database.</p></li>
+
+<li><p><code>is_read_only_resource</code> - Indicates whether the protected database is created by Recovery Service or created manually. Set to <b>TRUE</b> for a service-defined protected database. When you enable the OCI-managed automatic backups option for a database and set Recovery Service as the backup destination, then Recovery Service creates the associated protected database resource. Set to <b>FALSE</b> for a user-defined protected database.</p></li>
+
+<li><p><code>is_redo_logs_shipped</code> - The value TRUE indicates that the protected database is configured to use Real-time data protection, and redo-data is sent from the protected database to Recovery Service. Real-time data protection substantially reduces the window of potential data loss that exists between successive archived redo log backups. For this to be effective, additional configuration is needed on client side.</p></li>
+
+<li><p><code>lifecycle_details</code> - Detailed description about the current lifecycle state of the protected database. For example, it can be used to provide actionable information for a resource in a Failed state.</p></li>
+
+<li><p><code>metrics</code> - Backup performance and storage utilization metrics for the protected database.</p>
+
+<ul>
+<li><code>backup_space_estimate_in_gbs</code> - The estimated backup storage space, in gigabytes, required to meet the recovery window goal, including foot print and backups for the protected database.</li>
+<li><code>backup_space_used_in_gbs</code> - Backup storage space, in gigabytes, utilized by the protected database. Oracle charges for the total storage used.</li>
+<li><code>current_retention_period_in_seconds</code> - Number of seconds backups are currently retained for this database.</li>
+<li><code>db_size_in_gbs</code> - The estimated space, in gigabytes, consumed by the protected database. The database size is based on the size of the data files in the catalog, and does not include archive logs.</li>
+<li><code>is_redo_logs_enabled</code> - The value TRUE indicates that the protected database is configured to use Real-time data protection, and redo-data is sent from the protected database to Recovery Service. Real-time data protection substantially reduces the window of potential data loss that exists between successive archived redo log backups.</li>
+<li><code>minimum_recovery_needed_in_days</code> - Number of days of redo/archive to be applied to recover database.</li>
+<li><code>retention_period_in_days</code> - The maximum number of days to retain backups for a protected database.</li>
+<li><code>unprotected_window_in_seconds</code> - This is the time window when there is data loss exposure. The point after which recovery is impossible unless additional redo is available.  This is the time we received the last backup or last redo-log shipped.</li>
+</ul></li>
+
+<li><p><code>policy_locked_date_time</code> - An RFC3339 formatted datetime string that specifies the exact date and time for the retention lock to take effect and permanently lock the retention period defined in the policy.</p>
+
+<p>The retention lock feature controls whether Recovery Service strictly preserves backups for the duration defined in a policy. Retention lock is useful to enforce recovery window compliance and to prevent unintentional modifications to protected database backups.  Recovery Service enforces a 14-day delay before the retention lock set for a policy can take effect.</p></li>
+
+<li><p><code>protection_policy_id</code> - The OCID of the protection policy associated with the protected database.</p></li>
+
+<li><p><code>recovery_service_subnets</code> - List of recovery service subnet resources associated with the protected database.</p>
+
+<ul>
+<li><code>recovery_service_subnet_id</code> - Recovery Service Subnet Identifier.</li>
+<li><code>state</code> - The current state of the Recovery Service Subnet.</li>
+</ul></li>
+
+<li><p><code>state</code> - The current state of the Protected Database.</p></li>
+
+<li><p><code>subscription_id</code> - The OCID of the cloud service subscription to which the protected database is linked.</p></li>
+
+<li><p><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code>. For more information, see <a href="https://docs.oracle.com/en-us/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a></p></li>
+
+<li><p><code>time_created</code> - An RFC3339 formatted datetime string that indicates the created time for a protected database. For example: &lsquo;2020-05-22T21:10:29.600Z&rsquo;</p></li>
+
+<li><p><code>time_updated</code> - An RFC3339 formatted datetime string that indicates the last updated time for a protected database. For example: &lsquo;2020-05-22T21:10:29.600Z&rsquo;</p></li>
+
+<li><p><code>vpc_user_name</code> - The virtual private catalog (VPC) user credentials that authenticates the protected database to access Recovery Service.</p></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

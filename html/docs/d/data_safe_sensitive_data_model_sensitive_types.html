@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_data_safe_sensitive_data_model_sensitive_types</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_data_safe_sensitive_data_model_sensitive_types</h1>
+
+<p>This data source provides the list of Sensitive Data Model Sensitive Types in Oracle Cloud Infrastructure Data Safe service.</p>
+
+<p>Gets a list of sensitive type Ids present in the specified sensitive data model.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_data_safe_sensitive_data_model_sensitive_types&quot; &quot;test_sensitive_data_model_sensitive_types&quot; {
+	#Required
+	sensitive_data_model_id = oci_data_safe_sensitive_data_model.test_sensitive_data_model.id
+
+	#Optional
+	sensitive_type_id = oci_data_safe_sensitive_type.test_sensitive_type.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>sensitive_data_model_id</code> - (Required) The OCID of the sensitive data model.</li>
+<li><code>sensitive_type_id</code> - (Optional) A filter to return only items related to a specific sensitive type OCID.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>sensitive_data_model_sensitive_type_collection</code> - The list of sensitive_data_model_sensitive_type_collection.</li>
+</ul>
+
+<h3>SensitiveDataModelSensitiveType Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - An array of sensitive types summary objects present in a sensitive data model.
+
+<ul>
+<li><code>sensitive_data_model_sensitive_type_count</code> - The total number of sensitive columns linked to this specific sensitive type .</li>
+<li><code>sensitive_type_id</code> - The OCID of the sensitive type.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

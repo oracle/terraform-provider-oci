@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_psql_shapes</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_psql_shapes</h1>
+
+<p>This data source provides the list of Shapes in Oracle Cloud Infrastructure Psql service.</p>
+
+<p>Returns the list of shapes allowed in the region.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_psql_shapes&quot; &quot;test_shapes&quot; {
+
+	#Optional
+	compartment_id = var.compartment_id
+	id = var.shape_id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Optional) The ID of the compartment in which to list resources.</li>
+<li><code>id</code> - (Optional) A filter to return the feature by the shape name.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>shape_collection</code> - The list of shape_collection.</li>
+</ul>
+
+<h3>Shape Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - List of supported shapes.
+
+<ul>
+<li><code>id</code> - A unique identifier for the shape.</li>
+<li><code>is_flexible</code> - Indicates if the shape is a flex shape.</li>
+<li><code>memory_size_in_gbs</code> - The amount of memory in gigabytes.</li>
+<li><code>ocpu_count</code> - The number of OCPUs.</li>
+<li><code>shape</code> - The name of the Compute VM shape. Example: <code>VM.Standard.E4.Flex</code></li>
+<li><code>shape_memory_options</code> - Options for the the shape memory
+
+<ul>
+<li><code>default_per_ocpu_in_gbs</code> - Default per OCPU configuration in GBs</li>
+<li><code>max_in_gbs</code> - Maximum Memory configuration in GBs</li>
+<li><code>max_per_ocpu_in_gbs</code> - Maximum Memory configuration per OCPU in GBs</li>
+<li><code>min_in_gbs</code> - Minimum Memory configuration in GBs</li>
+<li><code>min_per_ocpu_in_gbs</code> - Minimum Memory configuration per OCPU in GBs</li>
+</ul></li>
+<li><code>shape_ocpu_options</code> - Options for the the shape OCPU
+
+<ul>
+<li><code>max</code> - Maximum OCPU configuration</li>
+<li><code>min</code> - Minimum OCPU configuration</li>
+</ul></li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

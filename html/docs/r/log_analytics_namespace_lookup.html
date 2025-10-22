@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_log_analytics_namespace_lookup</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_log_analytics_namespace_lookup</h1>
+
+<p>This resource provides the Namespace Lookup resource in Oracle Cloud Infrastructure Log Analytics service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/logan-api-spec/latest/NamespaceLookup">https://docs.oracle.com/iaas/api/#/en/logan-api-spec/latest/NamespaceLookup</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/log_analytics">https://github.com/oracle/terraform-provider-oci/tree/master/examples/log_analytics</a></p>
+
+<p>Creates a lookup with the specified name, type and description. The csv file containing the lookup content is passed in as binary data in the request.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_log_analytics_namespace_lookup&quot; &quot;test_namespace_lookup&quot; {
+	#Required
+	lookup_name = var.namespace_lookup_lookup_name
+	namespace = var.namespace_lookup_namespace
+	register_lookup_file = var.namespace_lookup_register_lookup_file
+	type = var.namespace_lookup_type
+
+	#Optional
+	categories {
+
+		#Optional
+		description = var.namespace_lookup_categories_description
+		display_name = var.namespace_lookup_categories_display_name
+		is_system = var.namespace_lookup_categories_is_system
+		name = var.namespace_lookup_categories_name
+		type = var.namespace_lookup_categories_type
+	}
+	char_encoding = var.namespace_lookup_char_encoding
+	compartment_id = var.namespace_lookup_compartment_id
+	default_match_value = var.namespace_lookup_default_match_value
+	defined_tags = {&quot;foo-namespace.bar-key&quot;= &quot;value&quot;}
+	description = var.namespace_lookup_description
+	fields {
+
+		#Optional
+		common_field_name = var.namespace_lookup_fields_common_field_name
+		default_match_value = var.namespace_lookup_fields_default_match_value
+		display_name = var.namespace_lookup_fields_display_name
+		is_common_field = var.namespace_lookup_fields_is_common_field
+		match_operator = var.namespace_lookup_fields_match_operator
+		name = var.namespace_lookup_fields_name
+		position = var.namespace_lookup_fields_position
+	}
+	freeform_tags = {&quot;bar-key&quot;= &quot;value&quot;}
+	is_hidden = var.namespace_lookup_is_hidden
+	max_matches = var.namespace_lookup_max_matches
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>categories</code> - (Optional) (Updatable) An array of categories to assign to the lookup. Specifying the name attribute for each category would suffice. Oracle-defined category assignments cannot be removed.
+
+<ul>
+<li><code>description</code> - (Optional) (Updatable) The category description.</li>
+<li><code>display_name</code> - (Optional) (Updatable) The category display name.</li>
+<li><code>is_system</code> - (Optional) (Updatable) The system flag. A value of false denotes a user-created category. A value of true denotes an Oracle-defined category.</li>
+<li><code>name</code> - (Optional) (Updatable) The unique name that identifies the category.</li>
+<li><code>type</code> - (Optional) (Updatable) The category type. Values include &ldquo;PRODUCT&rdquo;, &ldquo;TIER&rdquo;, &ldquo;VENDOR&rdquo; and &ldquo;GENERIC&rdquo;.</li>
+</ul></li>
+<li><code>char_encoding</code> - (Optional) The character encoding of the uploaded file.</li>
+<li><code>compartment_id</code> - (Optional) (Updatable) Compartment Identifier <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>default_match_value</code> - (Optional) (Updatable) The default match value.</li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>description</code> - (Optional) (Updatable) The lookup description.</li>
+<li><code>fields</code> - (Optional) (Updatable) The lookup fields.
+
+<ul>
+<li><code>common_field_name</code> - (Optional) (Updatable) The common field name.</li>
+<li><code>default_match_value</code> - (Optional) (Updatable) The default match value.</li>
+<li><code>display_name</code> - (Optional) (Updatable) The display name.</li>
+<li><code>is_common_field</code> - (Optional) (Updatable) A flag indicating whether or not the field is a common field.</li>
+<li><code>match_operator</code> - (Optional) (Updatable) The match operator.</li>
+<li><code>name</code> - (Optional) (Updatable) The field name.</li>
+<li><code>position</code> - (Optional) (Updatable) The position.</li>
+</ul></li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>is_hidden</code> - (Optional) A flag indicating whether or not the new lookup should be hidden.</li>
+<li><code>lookup_name</code> - (Required) The name of the lookup to operate on.</li>
+<li><code>max_matches</code> - (Optional) (Updatable) The maximum number of matches.</li>
+<li><code>namespace</code> - (Required) The Logging Analytics namespace used for the request.</li>
+<li><code>register_lookup_file</code> - (Required) Path to the file containing data for lookup creation.</li>
+<li><code>type</code> - (Required) The lookup type. Valid values are Lookup, Dictionary or Module.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>active_edit_version</code> - The active edit version.</li>
+<li><code>canonical_link</code> - The canonical link.</li>
+<li><code>categories</code> - An array of categories assigned to this lookup. The isSystem flag denotes if each category assignment is user-created or Oracle-defined.
+
+<ul>
+<li><code>description</code> - The category description.</li>
+<li><code>display_name</code> - The category display name.</li>
+<li><code>is_system</code> - The system flag. A value of false denotes a user-created category. A value of true denotes an Oracle-defined category.</li>
+<li><code>name</code> - The unique name that identifies the category.</li>
+<li><code>type</code> - The category type. Values include &ldquo;PRODUCT&rdquo;, &ldquo;TIER&rdquo;, &ldquo;VENDOR&rdquo; and &ldquo;GENERIC&rdquo;.</li>
+</ul></li>
+<li><code>compartment_id</code> - Compartment Identifier <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>description</code> - The lookup description.</li>
+<li><code>edit_version</code> - The edit version.</li>
+<li><code>fields</code> - The lookup fields.
+
+<ul>
+<li><code>common_field_name</code> - The common field name.</li>
+<li><code>default_match_value</code> - The default match value.</li>
+<li><code>display_name</code> - The field display name.</li>
+<li><code>is_common_field</code> - A flag indicating whether or not the lookup field is a common field.</li>
+<li><code>match_operator</code> - The match operator.</li>
+<li><code>name</code> - The field name.</li>
+<li><code>position</code> - THe field position.</li>
+</ul></li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - A unique string that identifies this lookup in terraform.</li>
+<li><code>is_built_in</code> - A flag indicating if the lookup is custom (user-defined) or built in.</li>
+<li><code>is_hidden</code> - A flag indicating if the lookup is hidden or not.  A hidden lookup will not be returned in list operations by default.</li>
+<li><code>lookup_display_name</code> - The lookup display name.</li>
+<li><code>lookup_id</code> - The lookup OCID.</li>
+<li><code>lookup_name</code> - The lookup name.</li>
+<li><code>lookup_reference</code> - The lookup reference as an integer.</li>
+<li><code>lookup_reference_string</code> - The lookup reference as a string.</li>
+<li><code>referring_sources</code> - AutoLookups
+
+<ul>
+<li><code>canonical_link</code> - The canonical link.</li>
+<li><code>total_count</code> - The total count.</li>
+</ul></li>
+<li><code>status_summary</code> - StatusSummary
+
+<ul>
+<li><code>chunks_processed</code> - The number of chunks processed.</li>
+<li><code>failure_details</code> - The failure details, if any.</li>
+<li><code>filename</code> - The filename.</li>
+<li><code>status</code> - The status.</li>
+<li><code>total_chunks</code> - The total number of chunks.</li>
+</ul></li>
+<li><code>time_updated</code> - The last updated date.</li>
+<li><code>type</code> - The lookup type. Valid values are Lookup, Dictionary or Module.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Namespace Lookup
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Namespace Lookup
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Namespace Lookup</p>
+
+<h2>Import</h2>
+
+<p>NamespaceLookups can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_log_analytics_namespace_lookup.test_namespace_lookup &quot;namespaces/{namespaceName}/lookups/{lookupName}&quot; 
+</code></pre>
+
+	</div>
+
+</body>
+</html>

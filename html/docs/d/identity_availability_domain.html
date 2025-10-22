@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_identity_availability_domain</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_identity_availability_domain</h1>
+
+<p>This data source provides the details of a single Availability Domain in Oracle Cloud Infrastructure Identity service.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_identity_availability_domain&quot; &quot;test_compartment&quot; {
+	#Required
+	compartment_id = var.tenancy_ocid
+	
+	#Optional (one or the other is required)
+	id = var.id
+	ad_number = var.ad_number
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The OCID of the tenancy.</li>
+<li><code>id</code> - (Optional) The OCID of the Availability Domain. Required if <code>ad_number</code> is not specified.</li>
+<li><code>ad_number</code> - (Optional) The number of the Availability Domain. Required if <code>id</code> is not specified. This number corresponds to the integer in the Availability Domain <code>name</code>.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The OCID of the tenancy.</li>
+<li><code>id</code> - The OCID of the Availability Domain.</li>
+<li><code>ad_number</code> - The number of the Availability Domain. For example, the <code>ad_number</code> for YXol:US-ASHBURN-AD-1 would be &ldquo;1&rdquo;</li>
+<li><code>name</code> - The name of the Availability Domain.<br>
+</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

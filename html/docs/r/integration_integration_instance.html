@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_integration_integration_instance</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_integration_integration_instance</h1>
+
+<p>This resource provides the Integration Instance resource in Oracle Cloud Infrastructure Integration service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/integration/latest/IntegrationInstance">https://docs.oracle.com/iaas/api/#/en/integration/latest/IntegrationInstance</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/integration">https://github.com/oracle/terraform-provider-oci/tree/master/examples/integration</a></p>
+
+<p>Creates a new Integration Instance.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_integration_integration_instance&quot; &quot;test_integration_instance&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	display_name = var.integration_instance_display_name
+	integration_instance_type = var.integration_instance_integration_instance_type
+	is_byol = var.integration_instance_is_byol
+	message_packs = var.integration_instance_message_packs
+
+	#Optional
+	alternate_custom_endpoints {
+		#Required
+		hostname = var.integration_instance_alternate_custom_endpoints_hostname
+
+		#Optional
+		certificate_secret_id = oci_vault_secret.test_secret.id
+	}
+	consumption_model = var.integration_instance_consumption_model
+	custom_endpoint {
+		#Required
+		hostname = var.integration_instance_custom_endpoint_hostname
+
+		#Optional
+		certificate_secret_id = oci_vault_secret.test_secret.id
+	}
+	defined_tags = {&quot;foo-namespace.bar-key&quot;= &quot;value&quot;}
+	domain_id = oci_identity_domain.test_domain.id
+	freeform_tags = {&quot;bar-key&quot;= &quot;value&quot;}
+	idcs_at = var.integration_instance_idcs_at
+	is_disaster_recovery_enabled = var.integration_instance_is_disaster_recovery_enabled
+	is_file_server_enabled = var.integration_instance_is_file_server_enabled
+	is_visual_builder_enabled = var.integration_instance_is_visual_builder_enabled
+	network_endpoint_details {
+		#Required
+		network_endpoint_type = var.integration_instance_network_endpoint_details_network_endpoint_type
+
+		#Optional
+		allowlisted_http_ips = var.integration_instance_network_endpoint_details_allowlisted_http_ips
+		allowlisted_http_vcns {
+			#Required
+			id = var.integration_instance_network_endpoint_details_allowlisted_http_vcns_id
+
+			#Optional
+			allowlisted_ips = var.integration_instance_network_endpoint_details_allowlisted_http_vcns_allowlisted_ips
+		}
+		is_integration_vcn_allowlisted = var.integration_instance_network_endpoint_details_is_integration_vcn_allowlisted
+	}
+
+    security_attributes = {
+     &quot;oracle-zpr.sensitivity.value&quot; = &quot;low&quot;
+     &quot;oracle-zpr.sensitivity.mode&quot; = &quot;enforce&quot;
+    }
+
+	shape = var.integration_instance_shape
+	state = var.integration_instance_target_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>alternate_custom_endpoints</code> - (Optional) (Updatable) A list of alternate custom endpoints to be used for the integration instance URL (contact Oracle for alternateCustomEndpoints availability for a specific instance).
+
+<ul>
+<li><code>certificate_secret_id</code> - (Optional) (Updatable) Optional OCID of a vault/secret containing a private SSL certificate bundle to be used for the custom hostname. All certificates should be stored in a single base64 encoded secret Note the update will fail if this is not a valid certificate.</li>
+<li><code>hostname</code> - (Required) (Updatable) A custom hostname to be used for the integration instance URL, in FQDN format.</li>
+</ul></li>
+<li><code>compartment_id</code> - (Required) (Updatable) Compartment Identifier.</li>
+<li><code>consumption_model</code> - (Optional) Optional parameter specifying which entitlement to use for billing purposes. Only required if the account possesses more than one entitlement.</li>
+<li><code>custom_endpoint</code> - (Optional) (Updatable) Details for a custom endpoint for the integration instance (update).
+
+<ul>
+<li><code>certificate_secret_id</code> - (Optional) (Updatable) Optional OCID of a vault/secret containing a private SSL certificate bundle to be used for the custom hostname. All certificates should be stored in a single base64 encoded secret Note the update will fail if this is not a valid certificate.</li>
+<li><code>hostname</code> - (Required) (Updatable) A custom hostname to be used for the integration instance URL, in FQDN format.</li>
+</ul></li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>display_name</code> - (Required) (Updatable) Integration Instance Identifier.</li>
+<li><code>domain_id</code> - (Optional) The OCID of the identity domain, that will be used to determine the corresponding Idcs Stripe and create an Idcs application within the stripe. This parameter is mutually exclusive with parameter: idcsAt, i.e only one of two parameters should be specified.</li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>idcs_at</code> - (Optional) (Updatable) IDCS Authentication token. This is required for all realms with IDCS. Its optional as its not required for non IDCS realms.</li>
+<li><code>integration_instance_type</code> - (Required) (Updatable) Standard or Enterprise type, Oracle Integration Generation 2 uses ENTERPRISE and STANDARD, Oracle Integration 3 uses ENTERPRISEX and STANDARDX</li>
+<li><code>domain_id</code> - (Optional) The OCID of the identity domain, that will be used to determine the  corresponding Idcs Stripe and create an Idcs application within the stripe.  This parameter is mutually exclusive with parameter: idcsAt, i.e only one of  two parameters should be specified.</li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>idcs_at</code> - (Optional) (Updatable) IDCS Authentication token. This is required for all realms with IDCS. Its optional as its not required for non IDCS realms.</li>
+<li><code>is_byol</code> - (Required) (Updatable) Bring your own license.</li>
+<li><code>is_disaster_recovery_enabled</code> - (Optional) Is Disaster Recovery enabled or not.</li>
+<li><code>is_file_server_enabled</code> - (Optional) (Updatable) The file server is enabled or not.</li>
+<li><code>is_visual_builder_enabled</code> - (Optional) (Updatable) Visual Builder is enabled or not.</li>
+<li><code>message_packs</code> - (Required) (Updatable) The number of configured message packs</li>
+<li><code>network_endpoint_details</code> - (Optional) Base representation of a network endpoint.
+
+<ul>
+<li><code>allowlisted_http_ips</code> - (Optional) Source IP addresses or IP address ranges ingress rules. (ex: &ldquo;168.122.59.5&rdquo;, &ldquo;10.20.30.0/26&rdquo;) An invalid IP or CIDR block will result in a 400 response.</li>
+<li><code>allowlisted_http_vcns</code> - (Optional) Virtual Cloud Networks allowed to access this network endpoint.
+
+<ul>
+<li><code>allowlisted_ips</code> - (Optional) Source IP addresses or IP address ranges ingress rules. (ex: &ldquo;168.122.59.5&rdquo;, &ldquo;10.20.30.0/26&rdquo;) An invalid IP or CIDR block will result in a 400 response.</li>
+<li><code>id</code> - (Required) The Virtual Cloud Network OCID.</li>
+</ul></li>
+<li><code>is_integration_vcn_allowlisted</code> - (Optional) The Integration service&rsquo;s VCN is allow-listed to allow integrations to call back into other integrations</li>
+<li><code>network_endpoint_type</code> - (Required) The type of network endpoint.</li>
+</ul></li>
+<li><code>security_attributes</code> - (Optional) (Updatable) Security attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{
+&quot;oracle-zpr.sensitivity.value&quot; = &quot;low&quot;
+&quot;oracle-zpr.sensitivity.mode&quot; = &quot;enforce&quot;
+}</code></li>
+<li><code>shape</code> - (Optional) Shape</li>
+<li><code>enable_process_automation_trigger</code> - (Optional) (Updatable) An optional property when incremented triggers Enable Process Automation. Could be set to any integer value.</li>
+<li><code>extend_data_retention_trigger</code> - (Optional) (Updatable) An optional property when incremented triggers Extend Data Retention. Could be set to any integer value.</li>
+<li><code>add_oracle_managed_custom_endpoint_trigger</code> - (Optional) (Updatable) An optional property when incremented triggers Add Oracle Managed Custom Endpoint. Could be set to any integer value.</li>
+<li><code>enable_process_automation_trigger</code> - (Optional) (Updatable) An optional property when incremented triggers Enable Process Automation. Could be set to any integer value.</li>
+<li><code>remove_oracle_managed_custom_endpoint_trigger</code> - (Optional) (Updatable) An optional property when incremented triggers Remove Oracle Managed Custom Endpoint. Could be set to any integer value.</li>
+<li><code>failover_trigger</code> - (Optional) (Updatable) An optional property when incremented triggers Failover. Could be set to any integer value.
+
+<ul>
+<li><code>network_endpoint_type</code> - (Required) The type of network endpoint.</li>
+</ul></li>
+<li><code>failover_trigger</code> - (Optional) (Updatable) An optional property when incremented triggers Failover. Could be set to any integer value.
+
+<ul>
+<li><code>network_endpoint_type</code> - (Required) The type of network endpoint.</li>
+</ul></li>
+<li><code>shape</code> - (Optional) Shape</li>
+<li><code>state</code> - (Optional) (Updatable) The target state for the instance. Could be set to ACTIVE or INACTIVE</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>alternate_custom_endpoints</code> - A list of alternate custom endpoints used for the integration instance URL.
+
+<ul>
+<li><code>alias</code> - When creating the DNS CNAME record for the custom hostname, this value must be specified in the rdata.</li>
+<li><code>certificate_secret_id</code> - Optional OCID of a vault/secret containing a private SSL certificate bundle to be used for the custom hostname.</li>
+<li><code>certificate_secret_version</code> - The secret version used for the certificate-secret-id (if certificate-secret-id is specified).</li>
+<li><code>dns_type</code> - Type of DNS.</li>
+<li><code>dns_zone_name</code> - DNS Zone name</li>
+<li><code>hostname</code> - A custom hostname to be used for the integration instance URL, in FQDN format.</li>
+</ul></li>
+<li><code>managed_type</code> - Indicates if custom endpoint is managed by oracle or customer.</li>
+<li><code>attachments</code> - A list of associated attachments to other services
+
+<ul>
+<li><code>is_implicit</code> -
+
+<ul>
+<li>If role == <code>PARENT</code>, the attached instance was created by this service instance</li>
+<li>If role == <code>CHILD</code>, this instance was created from attached instance on behalf of a user</li>
+</ul></li>
+<li><code>target_id</code> - The OCID of the target instance (which could be any other Oracle Cloud Infrastructure PaaS/SaaS resource), to which this instance is attached.</li>
+<li><code>target_instance_url</code> - The dataplane instance URL of the attached instance</li>
+<li><code>target_role</code> - The role of the target attachment.
+
+<ul>
+<li><code>PARENT</code> - The target instance is the parent of this attachment.</li>
+<li><code>CHILD</code> - The target instance is the child of this attachment.</li>
+</ul></li>
+<li><code>target_service_type</code> - The type of the target instance, such as &ldquo;FUSION&rdquo;.</li>
+</ul></li>
+<li><code>compartment_id</code> - Compartment Identifier.</li>
+<li><code>consumption_model</code> - The entitlement used for billing purposes.</li>
+<li><code>custom_endpoint</code> - Details for a custom endpoint for the integration instance.
+
+<ul>
+<li><code>alias</code> - When creating the DNS CNAME record for the custom hostname, this value must be specified in the rdata.</li>
+<li><code>certificate_secret_id</code> - Optional OCID of a vault/secret containing a private SSL certificate bundle to be used for the custom hostname.</li>
+<li><code>certificate_secret_version</code> - The secret version used for the certificate-secret-id (if certificate-secret-id is specified).</li>
+<li><code>dns_type</code> - Type of DNS.</li>
+<li><code>dns_zone_name</code> - DNS Zone name</li>
+<li><code>hostname</code> - A custom hostname to be used for the integration instance URL, in FQDN format.</li>
+<li><code>managed_type</code> - Indicates if custom endpoint is managed by oracle or customer.</li>
+</ul></li>
+<li><code>defined_tags</code> - Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code>
+
+<ul>
+<li><code>alias</code> - When creating the DNS CNAME record for the custom hostname, this value must be specified in the rdata.</li>
+<li><code>certificate_secret_id</code> - Optional OCID of a vault/secret containing a private SSL certificate bundle to be used for the custom hostname.</li>
+<li><code>certificate_secret_version</code> - The secret version used for the certificate-secret-id (if certificate-secret-id is specified).</li>
+<li><code>hostname</code> - A custom hostname to be used for the integration instance URL, in FQDN format.</li>
+</ul></li>
+<li><code>data_retention_period</code> - Data retention period set for given integration instance</li>
+<li><code>disaster_recovery_details</code> - Disaster recovery details for the integration instance created in the region.
+
+<ul>
+<li><code>cross_region_integration_instance_details</code> - Details of integration instance created in cross region for disaster recovery.
+
+<ul>
+<li><code>id</code> - Cross region integration instance identifier</li>
+<li><code>region</code> - Cross region where integration instance is created</li>
+<li><code>role</code> - Role of the integration instance in the region</li>
+<li><code>time_role_changed</code> - Time when cross region integration instance role was changed</li>
+</ul></li>
+<li><code>regional_instance_url</code> - Region specific instance url for the integration instance in the region</li>
+<li><code>role</code> - Role of the integration instance in the region</li>
+</ul></li>
+<li><code>display_name</code> - Integration Instance Identifier, can be renamed.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - Unique identifier that is immutable on creation.</li>
+<li><code>idcs_info</code> - Information for IDCS access
+
+<ul>
+<li><code>idcs_app_display_name</code> - The IDCS application display name associated with the instance</li>
+<li><code>idcs_app_id</code> - The IDCS application ID associated with the instance</li>
+<li><code>idcs_app_location_url</code> - URL for the location of the IDCS Application (used by IDCS APIs)</li>
+<li><code>idcs_app_name</code> - The IDCS application name associated with the instance</li>
+<li><code>instance_primary_audience_url</code> - The URL used as the primary audience for integration flows in this instance type: string * <code>instance_design_time_url</code> - The Integration Instance Design Time URL</li>
+</ul></li>
+<li><code>instance_url</code> - The Integration Instance URL.</li>
+<li><code>integration_instance_type</code> - Standard or Enterprise type, Oracle Integration Generation 2 uses ENTERPRISE and STANDARD, Oracle Integration 3 uses ENTERPRISEX and STANDARDX</li>
+<li><code>instance_url</code> - The Integration Instance URL.</li>
+<li><code>integration_instance_type</code> - Standard or Enterprise type, Oracle Integration Generation 2 uses ENTERPRISE and STANDARD, Oracle Integration 3 uses ENTERPRISEX, STANDARDX and HEALTHCARE
+
+<ul>
+<li><code>instance_primary_audience_url</code> - The URL used as the primary audience for integration flows in this instance type: string</li>
+</ul></li>
+<li><code>instance_url</code> - The Integration Instance URL.</li>
+<li><code>is_byol</code> - Bring your own license.</li>
+<li><code>is_disaster_recovery_enabled</code> - Is Disaster Recovery enabled for the integrationInstance</li>
+<li><code>is_file_server_enabled</code> - The file server is enabled or not.</li>
+<li><code>is_visual_builder_enabled</code> - Visual Builder is enabled or not.</li>
+<li><code>lifecycle_details</code> - Additional details of lifecycleState or substates</li>
+<li><code>message_packs</code> - The number of configured message packs (if any)</li>
+<li><code>network_endpoint_details</code> - Base representation of a network endpoint.
+
+<ul>
+<li><code>allowlisted_http_ips</code> - Source IP addresses or IP address ranges ingress rules. (ex: &ldquo;168.122.59.5&rdquo;, &ldquo;10.20.30.0/26&rdquo;) An invalid IP or CIDR block will result in a 400 response.</li>
+<li><code>allowlisted_http_vcns</code> - Virtual Cloud Networks allowed to access this network endpoint.
+
+<ul>
+<li><code>allowlisted_ips</code> - Source IP addresses or IP address ranges ingress rules. (ex: &ldquo;168.122.59.5&rdquo;, &ldquo;10.20.30.0/26&rdquo;) An invalid IP or CIDR block will result in a 400 response.</li>
+<li><code>id</code> - The Virtual Cloud Network OCID.</li>
+</ul></li>
+<li><code>is_integration_vcn_allowlisted</code> - The Integration service&rsquo;s VCN is allow-listed to allow integrations to call back into other integrations</li>
+<li><code>network_endpoint_type</code> - The type of network endpoint.</li>
+</ul></li>
+<li><code>shape</code> - Shape</li>
+<li><code>private_endpoint_outbound_connection</code> - Base representation for Outbound Connection (Reverse Connection).
+
+<ul>
+<li><code>nsg_ids</code> - One or more Network security group Ids. This is an optional argument.</li>
+<li><code>outbound_connection_type</code> - The type of Outbound Connection.</li>
+<li><code>subnet_id</code> - Customer Private Network VCN Subnet OCID. This is a required argument.</li>
+</ul></li>
+<li><code>security_attributes</code> - Security attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{
+&quot;oracle-zpr.sensitivity.value&quot; = &quot;low&quot;
+&quot;oracle-zpr.sensitivity.mode&quot; = &quot;enforce&quot;
+}</code></li>
+<li><code>shape</code> - Shape</li>
+<li><code>state</code> - The current state of the integration instance.</li>
+<li><code>state_message</code> - An message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time the the Integration Instance was created. An RFC3339 formatted datetime string.</li>
+<li><code>time_updated</code> - The time the IntegrationInstance was updated. An RFC3339 formatted datetime string.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 1 hours), when creating the Integration Instance
+	* <code>update</code> - (Defaults to 1 hours), when updating the Integration Instance
+	* <code>delete</code> - (Defaults to 1 hours), when destroying the Integration Instance</p>
+
+<h2>Import</h2>
+
+<p>IntegrationInstances can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_integration_integration_instance.test_integration_instance &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

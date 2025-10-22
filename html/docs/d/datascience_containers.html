@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_datascience_containers</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_datascience_containers</h1>
+
+<p>This data source provides the list of Containers in Oracle Cloud Infrastructure Data Science service.</p>
+
+<p>List containers.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_datascience_containers&quot; &quot;test_containers&quot; {
+
+	#Optional
+	container_name = oci_datascience_container.test_container.name
+	display_name = var.container_display_name
+	is_latest = var.container_is_latest
+	state = var.container_state
+	tag_query_param = var.container_tag_query_param
+	target_workload = var.container_target_workload
+	usage_query_param = var.container_usage_query_param
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>container_name</code> - (Optional) <b>Filter</b> results by the container name.</li>
+<li><code>display_name</code> - (Optional) <b>Filter</b> results by its user-friendly name.</li>
+<li><code>is_latest</code> - (Optional) if true, this returns latest version of container.</li>
+<li><code>state</code> - (Optional) <b>Filter</b> results by the specified lifecycle state. Must be a valid state for the resource type.</li>
+<li><code>tag_query_param</code> - (Optional) <b>Filter</b> results by the container version tag.</li>
+<li><code>target_workload</code> - (Optional) <b>Filter</b> results by the target workload.</li>
+<li><code>usage_query_param</code> - (Optional) <b>Filter</b> results by the usage.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>containers</code> - The list of containers.</li>
+</ul>
+
+<h3>Container Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>container_name</code> - The name of the container. This can be same for different tags</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - Description of the container.</li>
+<li><code>display_name</code> - The display name of the container.</li>
+<li><code>family_name</code> - The family name of the container.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>is_latest</code> - The latest tag of the container.</li>
+<li><code>state</code> - Container Version LifecycleState.</li>
+<li><code>tag</code> - Container Tag.</li>
+<li><code>tag_configuration_list</code> - An array of defined metadata details for the model.
+
+<ul>
+<li><code>key</code> - Key of the container tag Metadata</li>
+<li><code>value</code> - Value of the container tag Metadata</li>
+</ul></li>
+<li><code>target_workloads</code> - The list of target workload. This Container can be used with given data science resources.</li>
+<li><code>usages</code> - The list of usages of this container. This Container can be used for given use-cases.</li>
+<li><code>workload_configuration_details_list</code> - workload configuration of the container.
+
+<ul>
+<li><code>additional_configurations</code> - The additional configurations</li>
+<li><code>cmd</code> - The container image run <a href="https://docs.docker.com/engine/reference/builder/#cmd">CMD</a> as a list of strings. Use <code>CMD</code> as arguments to the <code>ENTRYPOINT</code> or the only command to run in the absence of an <code>ENTRYPOINT</code>. The combined size of <code>CMD</code> and <code>ENTRYPOINT</code> must be less than 2048 bytes.</li>
+<li><code>health_check_port</code> - The port on which the container <a href="https://docs.docker.com/engine/reference/builder/#healthcheck">HEALTHCHECK</a> would listen. The port can be anything between <code>1024</code> and <code>65535</code>. The following ports cannot be used <code>24224</code>, <code>8446</code>, <code>8447</code>.</li>
+<li><code>server_port</code> - The port on which the web server serving the inference is running. The port can be anything between <code>1024</code> and <code>65535</code>. The following ports cannot be used <code>24224</code>, <code>8446</code>, <code>8447</code>.</li>
+<li><code>use_case_configuration</code> - The use-case configuration details
+
+<ul>
+<li><code>additional_configurations</code> - The additional configurations</li>
+<li><code>use_case_type</code> - The job-run use-case.</li>
+</ul></li>
+<li><code>workload_type</code> - The workload use case.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

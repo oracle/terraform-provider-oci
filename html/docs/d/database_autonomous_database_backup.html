@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_autonomous_database_backup</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_autonomous_database_backup</h1>
+
+<p>This data source provides details about a specific Autonomous Database Backup resource in Oracle Cloud Infrastructure Database service.</p>
+
+<p>Gets information about the specified Autonomous Database backup.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_autonomous_database_backup&quot; &quot;test_autonomous_database_backup&quot; {
+	#Required
+	autonomous_database_backup_id = oci_database_autonomous_database_backup.test_autonomous_database_backup.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>autonomous_database_backup_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Autonomous Database backup.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>autonomous_database_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Autonomous Database.</p></li>
+
+<li><p><code>backup_destination_details</code> - Backup destination details</p>
+
+<ul>
+<li><code>backup_retention_policy_on_terminate</code> - Defines the automatic and manual backup retention policy for the Autonomous Database termination.  The retention policy set on the Autonomous Container Database is not applicable for cross region remote backups and backups hosted on recovery Appliance backup destination. Options are &lsquo;RETAIN_PER_RETENTION_WINDOW&rsquo; or &lsquo;RETAIN_FOR_72_HOURS&rsquo;.The default value is &lsquo;RETAIN_FOR_72_HOURS&rsquo;.</li>
+<li><code>dbrs_policy_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the DBRS policy used for backup.</li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the backup destination.</li>
+<li><code>internet_proxy</code> - Proxy URL to connect to object store.</li>
+<li><code>is_remote</code> - Indicates whether the backup destination is cross-region or local.</li>
+<li><code>is_retention_lock_enabled</code> - Indicates if backup retention is locked for all the database backups in the Autonomous Container Database (ACD). The retention window cannot be decreased if the backup retention lock is enabled. Once applied on the Autonomous Container Database, the retention lock cannot be removed, or the retention period cannot be decreased after a 14-day period. If the backup is a Long Term Backup and retention lock is enabled, the backup cannot be deleted and must expire. The retention lock set on the Autonomous Container Database is not applicable for cross region remote backups and backups hosted on recovery Appliance backup destination.</li>
+<li><code>remote_region</code> - The name of the remote region where the remote automatic incremental backups will be stored.           For information about valid region names, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm">Regions and Availability Domains</a>.</li>
+<li><code>type</code> - Type of the database backup destination.</li>
+<li><code>vpc_password</code> - For a RECOVERY_APPLIANCE backup destination, the password for the VPC user that is used to access the Recovery Appliance.</li>
+<li><code>vpc_user</code> - For a RECOVERY_APPLIANCE backup destination, the Virtual Private Catalog (VPC) user that is used to access the Recovery Appliance.</li>
+</ul></li>
+
+<li><p><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</p></li>
+
+<li><p><code>database_size_in_tbs</code> - The size of the database in terabytes at the time the backup was taken.</p></li>
+
+<li><p><code>db_version</code> - A valid Oracle Database version for Autonomous Database.</p></li>
+
+<li><p><code>display_name</code> - The user-friendly name for the backup. The name does not have to be unique.</p></li>
+
+<li><p><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Autonomous Database backup.</p></li>
+
+<li><p><code>infrastructure_type</code> - The infrastructure type this resource belongs to.</p></li>
+
+<li><p><code>is_automatic</code> - Indicates whether the backup is user-initiated or automatic.</p></li>
+
+<li><p><code>is_restorable</code> - Indicates whether the backup can be used to restore the associated Autonomous Database.</p></li>
+
+<li><p><code>key_store_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the key store of Oracle Vault.</p></li>
+
+<li><p><code>key_store_wallet_name</code> - The wallet name for Oracle Key Vault.</p></li>
+
+<li><p><code>kms_key_id</code> - The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.</p></li>
+
+<li><p><code>kms_key_version_id</code> - The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. Autonomous Database Serverless does not use key versions, hence is not applicable for Autonomous Database Serverless instances.</p></li>
+
+<li><p><code>lifecycle_details</code> - Additional information about the current lifecycle state.</p></li>
+
+<li><p><code>region</code> - Name of the region in which backup is taken in.</p></li>
+
+<li><p><code>retention_period_in_days</code> - Retention period, in days, for long-term backups</p></li>
+
+<li><p><code>size_in_tbs</code> - The backup size in terrabytes (TB).</p></li>
+
+<li><p><code>source_database_details</code> - Source Autonomous Database details.</p>
+
+<ul>
+<li><p><code>autonomous_container_database_customer_contacts</code> - Customer Contacts for the Autonomous Container Database. Setting this to an empty list removes all customer contacts.</p>
+
+<ul>
+<li><code>email</code> - The email address used by Oracle to send notifications regarding databases and infrastructure.</li>
+</ul></li>
+
+<li><p><code>autonomous_container_database_display_name</code> - The user-provided name for the Autonomous Container Database.</p></li>
+
+<li><p><code>autonomous_container_database_dst_file_version</code> - DST Time-Zone File version of the Autonomous Container Database.</p></li>
+
+<li><p><code>autonomous_container_database_name</code> - Autonomous Container Database name.</p></li>
+
+<li><p><code>autonomous_database_customer_contacts</code> - Customer Contacts for the Autonomous database.</p>
+
+<ul>
+<li><code>email</code> - The email address used by Oracle to send notifications regarding databases and infrastructure.</li>
+</ul></li>
+
+<li><p><code>autonomous_database_name</code> - Autonomous Database&rsquo;s name.</p></li>
+
+<li><p><code>autonomous_vm_cluster_display_name</code> - Autonomous VM cluster&rsquo;s user-friendly name.</p></li>
+
+<li><p><code>db_workload</code> - The Autonomous Database workload type. The following values are valid:</p>
+
+<ul>
+<li>OLTP - indicates an Autonomous Transaction Processing database</li>
+<li>DW - indicates an Autonomous Data Warehouse database</li>
+<li>AJD - indicates an Autonomous JSON Database</li>
+<li>APEX - indicates an Autonomous Database with the Oracle APEX Application Development workload type.</li>
+</ul>
+
+<p>This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.</p></li>
+</ul></li>
+
+<li><p><code>state</code> - The current state of the backup.</p></li>
+
+<li><p><code>time_available_till</code> - Timestamp until when the backup will be available</p></li>
+
+<li><p><code>time_ended</code> - The date and time the backup completed.</p></li>
+
+<li><p><code>time_started</code> - The date and time the backup started.</p></li>
+
+<li><p><code>type</code> - The type of backup.</p></li>
+
+<li><p><code>vault_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Oracle Cloud Infrastructure <a href="https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts">vault</a>. This parameter and <code>secretId</code> are required for Customer Managed Keys.</p></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

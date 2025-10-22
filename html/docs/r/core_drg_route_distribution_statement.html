@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_core_drg_route_distribution_statement</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_core_drg_route_distribution_statement</h1>
+
+<p>This resource provides the Drg Route Distribution Statement resource in Oracle Cloud Infrastructure Core service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/iaas/latest/DrgRouteDistributionStatement">https://docs.oracle.com/iaas/api/#/en/iaas/latest/DrgRouteDistributionStatement</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/">https://github.com/oracle/terraform-provider-oci/tree/master/examples/</a></p>
+
+<p>Adds one route distribution statement to the specified route distribution.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_core_drg_route_distribution_statement&quot; &quot;test_drg_route_distribution_statement&quot; {
+	#Required
+	drg_route_distribution_id = oci_core_drg_route_distribution.test_drg_route_distribution.id
+	action = var.drg_route_distribution_statement_statements_action
+	#Optional
+	match_criteria {
+	#Required
+	match_type = var.drg_route_distribution_statement_statements_match_criteria_match_type
+
+	#Optional
+	attachment_type = var.drg_route_distribution_statement_statements_match_criteria_attachment_type
+	drg_attachment_id = oci_core_drg_attachment.test_drg_attachment.id
+	}
+	priority = var.drg_route_distribution_statement_statements_priority
+
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>drg_route_distribution_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the route distribution.</li>
+<li><code>action</code> - (Required) Accept: import/export the route &ldquo;as is&rdquo;</li>
+<li><code>match_criteria</code> - (Required) (Updatable) The action is applied only if all of the match criteria are met. MATCH_ALL match type implies any input is considered a match.
+	* <code>attachment_type</code> - (Required when match_type=DRG_ATTACHMENT_TYPE) The type of the network resource to be included in this match. A match for a network type implies that all DRG attachments of that type insert routes into the table.
+	* <code>drg_attachment_id</code> - (Required when match_type=DRG_ATTACHMENT_ID) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the DRG attachment.
+	* <code>match_type</code> - (Required) (Updatable) The type of the match criteria for a route distribution statement.</li>
+<li><code>priority</code> - (Required) (Updatable) This field is used to specify the priority of each statement in a route distribution. The priority will be represented as a number between 0 and 65535 where a lower number indicates a higher priority. When a route is processed, statements are applied in the order defined by their priority. The first matching rule dictates the action that will be taken on the route.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>action</code> - <code>ACCEPT</code> indicates the route should be imported or exported as-is.</li>
+<li><code>id</code> - The Oracle-assigned ID of the route distribution statement.</li>
+<li><code>match_criteria</code> - The action is applied only if all of the match criteria is met. If match type is MATCH_ALL, any input is considered a match.
+
+<ul>
+<li><code>attachment_type</code> - The type of the network resource to be included in this match. A match for a network type implies that all DRG attachments of that type insert routes into the table.</li>
+<li><code>drg_attachment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the DRG attachment.</li>
+<li><code>match_type</code> - The type of the match criteria for a route distribution statement. Can take three values- DRG_ATTACHMENT_TYPE, DRG_ATTACHMENT_ID and MATCH_ALL.</li>
+</ul></li>
+<li><code>priority</code> - This field specifies the priority of each statement in a route distribution. Priorities must be unique within a particular route distribution. The priority will be represented as a number between 0 and 65535 where a lower number indicates a higher priority. When a route is processed, statements are applied in the order defined by their priority. The first matching rule dictates the action that will be taken on the route.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Drg Route Distribution Statement
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Drg Route Distribution Statement
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Drg Route Distribution Statement</p>
+
+<h2>Import</h2>
+
+<p>DrgRouteDistributionStatement can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_core_drg_route_distribution_statement.test_drg_route_distribution_statement &quot;drgRouteDistributions/{drgRouteDistributionId}/statements/{id}&quot; 
+</code></pre>
+
+	</div>
+
+</body>
+</html>

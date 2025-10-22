@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_data_safe_user_assessment</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_data_safe_user_assessment</h1>
+
+<p>This resource provides the User Assessment resource in Oracle Cloud Infrastructure Data Safe service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/data-safe/latest/UserAssessment">https://docs.oracle.com/iaas/api/#/en/data-safe/latest/UserAssessment</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe">https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe</a></p>
+
+<p>Creates a new saved user assessment for one or multiple targets in a compartment. It saves the latest assessments in the
+specified compartment. If a scheduled is passed in, this operation persists the latest assessments that exist at the defined
+date and time, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_data_safe_user_assessment&quot; &quot;test_user_assessment&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	target_id = oci_cloud_guard_target.test_target.id
+
+	#Optional
+	defined_tags = {&quot;Operations.CostCenter&quot;= &quot;42&quot;}
+	description = var.user_assessment_description
+	display_name = var.user_assessment_display_name
+	freeform_tags = {&quot;Department&quot;= &quot;Finance&quot;}
+	is_assessment_scheduled = var.user_assessment_is_assessment_scheduled
+	schedule = var.user_assessment_schedule
+	target_type = var.user_assessment_target_type
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>compartment_id</code> - (Required) (Updatable) The OCID of the compartment that contains the user assessment.</p></li>
+
+<li><p><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a> Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></p></li>
+
+<li><p><code>description</code> - (Optional) (Updatable) The description of the user assessment.</p></li>
+
+<li><p><code>display_name</code> - (Optional) (Updatable) The display name of the user assessment.</p></li>
+
+<li><p><code>freeform_tags</code> - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></p></li>
+
+<li><p><code>is_assessment_scheduled</code> - (Optional) (Updatable) Indicates whether the assessment is scheduled to run.</p></li>
+
+<li><p><code>schedule</code> - (Optional) (Updatable) To schedule the assessment for saving periodically, specify the schedule in this attribute. Create or schedule one assessment per compartment. If not defined, the assessment runs immediately. Format - <version-string>;<version-specific-schedule></p>
+
+<p>Allowed version strings - &ldquo;v1&rdquo; v1&rsquo;s version specific schedule -<ss> <mm> <hh> <day-of-week> <day-of-month> Each of the above fields potentially introduce constraints. A workrequest is created only when clock time satisfies all the constraints. Constraints introduced: 1. seconds = <ss> (So, the allowed range for <ss> is [0, 59]) 2. minutes = <mm> (So, the allowed range for <mm> is [0, 59]) 3. hours = <hh> (So, the allowed range for <hh> is [0, 23]) <day-of-week> can be either &lsquo;<em>&rsquo; (without quotes or a number between 1(Monday) and 7(Sunday)) 4. No constraint introduced when it is &lsquo;</em>&rsquo;. When not, day of week must equal the given value <day-of-month> can be either &lsquo;<em>&rsquo; (without quotes or a number between 1 and 28) 5. No constraint introduced when it is &lsquo;</em>&rsquo;. When not, day of month must equal the given value</p></li>
+
+<li><p><code>target_id</code> - (Required) The OCID of the target database or target database group on which user assessment is to be run.</p></li>
+
+<li><p><code>target_type</code> - (Optional) The type of user assessment resource whether it is individual or group resource. For individual target use type TARGET_DATABASE and for group resource use type TARGET_DATABASE_GROUP. If not provided, TARGET_DATABASE would be used as default value.</p></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>compartment_id</code> - The OCID of the compartment that contains the user assessment.</p></li>
+
+<li><p><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a> Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></p></li>
+
+<li><p><code>description</code> - The description of the user assessment.</p></li>
+
+<li><p><code>display_name</code> - The display name of the user assessment.</p></li>
+
+<li><p><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></p></li>
+
+<li><p><code>id</code> - The OCID of the user assessment.</p></li>
+
+<li><p><code>ignored_assessment_ids</code> - List containing maps as values. Example: <code>{&quot;Operations&quot;: [ {&quot;CostCenter&quot;: &quot;42&quot;} ] }</code></p></li>
+
+<li><p><code>ignored_targets</code> - List containing maps as values. Example: <code>{&quot;Operations&quot;: [ {&quot;CostCenter&quot;: &quot;42&quot;} ] }</code></p></li>
+
+<li><p><code>is_assessment_scheduled</code> - Indicates whether the assessment is scheduled to run.</p></li>
+
+<li><p><code>is_baseline</code> - Indicates if the user assessment is set as a baseline. This is applicable only to saved user assessments.</p></li>
+
+<li><p><code>is_deviated_from_baseline</code> - Indicates if the user assessment deviates from the baseline.</p></li>
+
+<li><p><code>last_compared_baseline_id</code> - The OCID of the last user assessment baseline against which the latest assessment was compared.</p></li>
+
+<li><p><code>lifecycle_details</code> - Details about the current state of the user assessment.</p></li>
+
+<li><p><code>schedule</code> - Schedule of the assessment that runs periodically in this specified format: <version-string>;<version-specific-schedule></p>
+
+<p>Allowed version strings - &ldquo;v1&rdquo; v1&rsquo;s version specific schedule -<ss> <mm> <hh> <day-of-week> <day-of-month> Each of the above fields potentially introduce constraints. A workrequest is created only when clock time satisfies all the constraints. Constraints introduced: 1. seconds = <ss> (So, the allowed range for <ss> is [0, 59]) 2. minutes = <mm> (So, the allowed range for <mm> is [0, 59]) 3. hours = <hh> (So, the allowed range for <hh> is [0, 23]) <day-of-week> can be either &lsquo;<em>&rsquo; (without quotes or a number between 1(Monday) and 7(Sunday)) 4. No constraint introduced when it is &lsquo;</em>&rsquo;. When not, day of week must equal the given value <day-of-month> can be either &lsquo;<em>&rsquo; (without quotes or a number between 1 and 28) 5. No constraint introduced when it is &lsquo;</em>&rsquo;. When not, day of month must equal the given value</p></li>
+
+<li><p><code>schedule_assessment_id</code> - The OCID of the user assessment that is responsible for creating this scheduled save assessment.</p></li>
+
+<li><p><code>state</code> - The current state of the user assessment.</p></li>
+
+<li><p><code>statistics</code> - Map that contains maps of values. Example: <code>{&quot;Operations&quot;: {&quot;CostCenter&quot;: &quot;42&quot;}}</code></p></li>
+
+<li><p><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></p></li>
+
+<li><p><code>target_database_group_id</code> - The OCID of target database group.</p></li>
+
+<li><p><code>target_ids</code> - Array of database target OCIDs.</p></li>
+
+<li><p><code>target_type</code> - Indicates whether the user assessment is for a target database or a target database group.</p></li>
+
+<li><p><code>time_created</code> - The date and time the user assessment was created, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</p></li>
+
+<li><p><code>time_last_assessed</code> - The date and time the user assessment was last executed, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</p></li>
+
+<li><p><code>time_updated</code> - The date and time the user assessment was last updated, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</p></li>
+
+<li><p><code>triggered_by</code> - Indicates whether the user assessment was created by the system or the user.</p></li>
+
+<li><p><code>type</code> - The type of the user assessment. The possible types are:</p>
+
+<p>LATEST: The latest assessment that was executed for a target. It can either be system generated as part of the scheduled assessments or user driven by refreshing the latest assessment. SAVED: A saved user assessment. All user assessments are saved in the user assessment history. SAVE_SCHEDULE: The schedule to periodically save the LATEST assessment of a target database. COMPARTMENT: An automatic managed assessment type that stores all details of the targets in one compartment. This will keep an up-to-date status of all potential risks identified in the compartment. It also keeps track of user count and target count for each profile available on the targets in a given compartment.  It is automatically updated once the latest assessment or refresh action is executed, as well as when a target is deleted or moved to a different compartment.</p></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the User Assessment
+	* <code>update</code> - (Defaults to 20 minutes), when updating the User Assessment
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the User Assessment</p>
+
+<h2>Import</h2>
+
+<p>UserAssessments can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_data_safe_user_assessment.test_user_assessment &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

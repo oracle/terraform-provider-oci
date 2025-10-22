@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_dns_steering_policy_attachment</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_dns_steering_policy_attachment</h1>
+
+<p>This data source provides details about a specific Steering Policy Attachment resource in Oracle Cloud Infrastructure DNS service.</p>
+
+<p>Gets information about the specified steering policy attachment.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_dns_steering_policy_attachment&quot; &quot;test_steering_policy_attachment&quot; {
+	#Required
+	steering_policy_attachment_id = oci_dns_steering_policy_attachment.test_steering_policy_attachment.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>steering_policy_attachment_id</code> - (Required) The OCID of the target steering policy attachment.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>compartment_id</code> - The OCID of the compartment containing the steering policy attachment.</p></li>
+
+<li><p><code>display_name</code> - A user-friendly name for the steering policy attachment. Does not have to be unique and can be changed. Avoid entering confidential information.</p></li>
+
+<li><p><code>domain_name</code> - The attached domain within the attached zone.</p></li>
+
+<li><p><code>id</code> - The OCID of the resource.</p></li>
+
+<li><p><code>rtypes</code> - The record types covered by the attachment at the domain. The set of record types is determined by aggregating the record types from the answers defined in the steering policy.</p></li>
+
+<li><p><code>self</code> - The canonical absolute URL of the resource.</p></li>
+
+<li><p><code>state</code> - The current state of the resource.</p></li>
+
+<li><p><code>steering_policy_id</code> - The OCID of the attached steering policy.</p></li>
+
+<li><p><code>time_created</code> - The date and time the resource was created, expressed in RFC 3339 timestamp format.</p>
+
+<p><strong>Example:</strong> <code>2016-07-22T17:23:59:60Z</code></p></li>
+
+<li><p><code>zone_id</code> - The OCID of the attached zone.</p></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

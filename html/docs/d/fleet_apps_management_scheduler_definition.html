@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_fleet_apps_management_scheduler_definition</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_fleet_apps_management_scheduler_definition</h1>
+
+<p>This data source provides details about a specific Scheduler Definition resource in Oracle Cloud Infrastructure Fleet Apps Management service.</p>
+
+<p>Get the details of a SchedulerDefinition that performs lifecycle management operations.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_fleet_apps_management_scheduler_definition&quot; &quot;test_scheduler_definition&quot; {
+	#Required
+	scheduler_definition_id = oci_fleet_apps_management_scheduler_definition.test_scheduler_definition.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>scheduler_definition_id</code> - (Required) unique SchedulerDefinition identifier</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>action_groups</code> - Action Groups associated with the Schedule.
+
+<ul>
+<li><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.  Example: <code>My new resource</code></li>
+<li><code>fleet_id</code> - ID of the fleet</li>
+<li><code>kind</code> - Action Group kind</li>
+<li><code>runbook_id</code> - ID of the runbook</li>
+<li><code>runbook_version_name</code> - Name of the runbook version</li>
+<li><code>sequence</code> - Sequence of the Action Group. Action groups will be executed in a seuential order. All Action Groups having the same sequence will be executed parallely. If no value is provided a default value of 1 will be given.</li>
+</ul></li>
+<li><code>compartment_id</code> - Compartment OCID</li>
+<li><code>count_of_affected_action_groups</code> - Count of Action Groups affected by the Schedule.</li>
+<li><code>count_of_affected_resources</code> - Count of Resources affected by the Schedule.</li>
+<li><code>count_of_affected_targets</code> - Count of Targets affected by the Schedule.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>description</code> - A user-friendly description. To provide some insight about the resource. Avoid entering confidential information.</li>
+<li><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.  Example: <code>My new resource</code></li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - The OCID of the resource.</li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.</li>
+<li><code>lifecycle_operations</code> - All LifeCycle Operations that are part of the schedule.</li>
+<li><code>products</code> - All products that are part of the schedule for PRODUCT ActionGroup Type.</li>
+<li><code>resource_region</code> - Associated region</li>
+<li><code>run_books</code> - Runbooks.
+
+<ul>
+<li><code>input_parameters</code> - Input Parameters for the Task
+
+<ul>
+<li><code>arguments</code> - Arguments for the Task
+
+<ul>
+<li><code>content</code> - Content Source details.
+
+<ul>
+<li><code>bucket</code> - Bucket Name.</li>
+<li><code>checksum</code> - md5 checksum of the artifact.</li>
+<li><code>namespace</code> - Namespace.</li>
+<li><code>object</code> - Object Name.</li>
+<li><code>source_type</code> - Content Source type details.</li>
+</ul></li>
+<li><code>kind</code> - Task argument kind</li>
+<li><code>name</code> - Name of the input variable</li>
+<li><code>value</code> - The task input</li>
+</ul></li>
+<li><code>step_name</code> - stepName for which the input parameters are provided</li>
+</ul></li>
+<li><code>runbook_id</code> - The ID of the Runbook</li>
+<li><code>runbook_version_name</code> - The runbook version name</li>
+</ul></li>
+<li><code>schedule</code> - Schedule Information.
+
+<ul>
+<li><code>duration</code> - Duration of the schedule.</li>
+<li><code>execution_startdate</code> - Start Date for the schedule. An RFC3339 formatted datetime string</li>
+<li><code>maintenance_window_id</code> - Provide MaintenanceWindowId</li>
+<li><code>recurrences</code> - Recurrence rule specification if recurring</li>
+<li><code>type</code> - Schedule Type</li>
+</ul></li>
+<li><code>state</code> - The current state of the SchedulerDefinition.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time this resource was created. An RFC3339 formatted datetime string.</li>
+<li><code>time_of_next_run</code> - The scheduled date for the next run of the Job.</li>
+<li><code>time_updated</code> - The time this resource was last updated. An RFC3339 formatted datetime string.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

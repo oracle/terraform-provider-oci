@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_cloud_exadata_infrastructure_un_allocated_resource</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_cloud_exadata_infrastructure_un_allocated_resource</h1>
+
+<p>This data source provides details about a specific Cloud Exadata Infrastructure Un Allocated Resource resource in Oracle Cloud Infrastructure Database service.</p>
+
+<p>Gets unallocated resources information for the specified Cloud Exadata infrastructure.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_cloud_exadata_infrastructure_un_allocated_resource&quot; &quot;test_cloud_exadata_infrastructure_un_allocated_resource&quot; {
+	#Required
+	cloud_exadata_infrastructure_id = oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id
+
+	#Optional
+	db_servers = var.cloud_exadata_infrastructure_un_allocated_resource_db_servers
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>cloud_exadata_infrastructure_id</code> - (Required) The cloud Exadata infrastructure <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>db_servers</code> - (Optional) The list of <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCIDs</a> of the Db servers.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>cloud_autonomous_vm_clusters</code> - The list of Cloud Autonomous VM Clusters on the Infrastructure and their associated unallocated resources details.
+
+<ul>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Cloud Exadata infrastructure.</li>
+<li><code>un_allocated_adb_storage_in_tbs</code> - Total unallocated autonomous data storage in the Cloud Autonomous VM Cluster in TBs.</li>
+</ul></li>
+<li><code>cloud_exadata_infrastructure_display_name</code> - The user-friendly name for the Cloud Exadata infrastructure. The name does not need to be unique.</li>
+<li><code>cloud_exadata_infrastructure_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Cloud Exadata infrastructure.</li>
+<li><code>exadata_storage_in_tbs</code> - Total unallocated exadata storage in the infrastructure in TBs.</li>
+<li><code>local_storage_in_gbs</code> - The minimum amount of unallocated storage available across all nodes in the infrastructure.</li>
+<li><code>memory_in_gbs</code> - The minimum amount of unallocated memory available across all nodes in the infrastructure.</li>
+<li><code>ocpus</code> - The minimum amount of unallocated ocpus available across all nodes in the infrastructure.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

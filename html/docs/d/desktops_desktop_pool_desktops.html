@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_desktops_desktop_pool_desktops</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_desktops_desktop_pool_desktops</h1>
+
+<p>This data source provides the list of Desktop Pool Desktops in Oracle Cloud Infrastructure Desktops service.</p>
+
+<p>Returns a list of desktops within a given desktop pool. You can limit the results to an availability domain, desktop name, or desktop state. You can limit the number of results returned, sort the results by time or name, and sort in ascending or descending order.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_desktops_desktop_pool_desktops&quot; &quot;test_desktop_pool_desktops&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	desktop_pool_id = oci_desktops_desktop_pool.test_desktop_pool.id
+
+	#Optional
+	availability_domain = var.desktop_pool_desktop_availability_domain
+	display_name = var.desktop_pool_desktop_display_name
+	id = var.desktop_pool_desktop_id
+	state = var.desktop_pool_desktop_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>availability_domain</code> - (Optional) The name of the availability domain.</li>
+<li><code>compartment_id</code> - (Required) The OCID of the compartment of the desktop pool.</li>
+<li><code>desktop_pool_id</code> - (Required) The OCID of the desktop pool.</li>
+<li><code>display_name</code> - (Optional) A filter to return only results with the given displayName.</li>
+<li><code>id</code> - (Optional) A filter to return only results with the given OCID.</li>
+<li><code>state</code> - (Optional) A filter to return only results with the given lifecycleState.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>desktop_pool_desktop_collection</code> - The list of desktop_pool_desktop_collection.</li>
+</ul>
+
+<h3>DesktopPoolDesktop Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - A list of desktops.
+
+<ul>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>desktop_id</code> - The OCID of the desktop.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>instance_id</code> - The OCID of the compute resource used by this desktop.</li>
+<li><code>is_assigned</code> - Indicates whether the desktop is assigned to a user.</li>
+<li><code>state</code> - The state of the desktop.</li>
+<li><code>time_created</code> - The date and time the resource was created.</li>
+<li><code>user_name</code> - The owner of the desktop.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

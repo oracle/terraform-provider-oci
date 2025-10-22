@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_opsi_news_report</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_opsi_news_report</h1>
+
+<p>This data source provides details about a specific News Report resource in Oracle Cloud Infrastructure Opsi service.</p>
+
+<p>Gets details of a news report.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_opsi_news_report&quot; &quot;test_news_report&quot; {
+	#Required
+	news_report_id = oci_opsi_news_report.test_news_report.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>news_report_id</code> - (Required) Unique news report identifier.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>are_child_compartments_included</code> - A flag to consider the resources within a given compartment and all sub-compartments.</li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>content_types</code> - Content types that the news report can handle.
+
+<ul>
+<li><code>actionable_insights_resources</code> - Supported resources for actionable insights content type.</li>
+<li><code>capacity_planning_resources</code> - Supported resources for capacity planning content type.</li>
+<li><code>sql_insights_fleet_analysis_resources</code> - Supported resources for SQL insights - fleet analysis content type.</li>
+<li><code>sql_insights_performance_degradation_resources</code> - Supported resources for SQL insights - performance degradation content type.</li>
+<li><code>sql_insights_plan_changes_resources</code> - Supported resources for SQL insights - plan changes content type.</li>
+<li><code>sql_insights_top_databases_resources</code> - Supported resources for SQL insights - top databases content type.</li>
+<li><code>sql_insights_top_sql_by_insights_resources</code> - Supported resources for SQL insights - top SQL by insights content type.</li>
+<li><code>sql_insights_top_sql_resources</code> - Supported resources for SQL insights - top SQL content type.</li>
+</ul></li>
+<li><code>day_of_week</code> - Day of the week in which the news report will be sent if the frequency is set to WEEKLY.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>description</code> - The description of the news report.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the news report resource.</li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.</li>
+<li><code>locale</code> - Language of the news report.</li>
+<li><code>match_rule</code> - Match rule used for tag filters.</li>
+<li><code>name</code> - The news report name.</li>
+<li><code>news_frequency</code> - News report frequency.</li>
+<li><code>ons_topic_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the ONS topic.</li>
+<li><code>state</code> - The current state of the news report.</li>
+<li><code>status</code> - Indicates the status of a news report in Ops Insights.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>tag_filters</code> - List of tag filters; each filter composed by a namespace, key, and value. Example for defined tags - &lsquo;<TagNamespace>.<TagKey>=<TagValue>&rsquo;. Example for freeform tags - &lsquo;<TagKey>=<TagValue>&rsquo;.</li>
+<li><code>time_created</code> - The time the the news report was first enabled. An RFC3339 formatted datetime string.</li>
+<li><code>time_updated</code> - The time the news report was updated. An RFC3339 formatted datetime string.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

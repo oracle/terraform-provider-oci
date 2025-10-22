@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_log_analytics_namespace_properties_metadata</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_log_analytics_namespace_properties_metadata</h1>
+
+<p>This data source provides the list of Namespace Properties Metadata in Oracle Cloud Infrastructure Log Analytics service.</p>
+
+<p>Returns a list of properties along with their metadata.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_log_analytics_namespace_properties_metadata&quot; &quot;test_namespace_properties_metadata&quot; {
+	#Required
+	namespace = var.namespace_properties_metadata_namespace
+
+	#Optional
+	constraints = var.namespace_properties_metadata_constraints
+	display_text = var.namespace_properties_metadata_display_text
+	level = var.namespace_properties_metadata_level
+	name = var.namespace_properties_metadata_name
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>constraints</code> - (Optional) The constraints that apply to the properties at a certain level.</li>
+<li><code>display_text</code> - (Optional) The property display text used for filtering. Only properties matching the specified display name or description will be returned.</li>
+<li><code>level</code> - (Optional) The level for which applicable properties are to be listed.</li>
+<li><code>name</code> - (Optional) The property name used for filtering.</li>
+<li><code>namespace</code> - (Required) The Logging Analytics namespace used for the request.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>property_metadata_summary_collection</code> - The list of property_metadata_summary_collection.</li>
+</ul>
+
+<h3>NamespacePropertiesMetadata Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - An array of properties along with their metadata summary.
+
+<ul>
+<li><code>default_value</code> - The default property value.</li>
+<li><code>description</code> - The property description.</li>
+<li><code>display_name</code> - The property display name.</li>
+<li><code>levels</code> - A list of levels at which the property could be defined.
+
+<ul>
+<li><code>constraints</code> - A string representation of constraints that apply at this level. For example, a property defined at SOURCE level could further be applicable only for SOURCE_TYPE:database_sql.</li>
+<li><code>name</code> - The level name.</li>
+</ul></li>
+<li><code>name</code> - The property name.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

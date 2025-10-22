@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_devops_build_pipelines</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_devops_build_pipelines</h1>
+
+<p>This data source provides the list of Build Pipelines in Oracle Cloud Infrastructure Devops service.</p>
+
+<p>Returns a list of build pipelines.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_devops_build_pipelines&quot; &quot;test_build_pipelines&quot; {
+
+	#Optional
+	compartment_id = var.compartment_id
+	display_name = var.build_pipeline_display_name
+	id = var.build_pipeline_id
+	project_id = oci_devops_project.test_project.id
+	state = var.build_pipeline_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Optional) The OCID of the compartment in which to list resources.</li>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the entire display name given.</li>
+<li><code>id</code> - (Optional) Unique identifier or OCID for listing a single resource by ID.</li>
+<li><code>project_id</code> - (Optional) unique project identifier</li>
+<li><code>state</code> - (Optional) A filter to return only build pipelines that matches the given lifecycle state.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>build_pipeline_collection</code> - The list of build_pipeline_collection.</li>
+</ul>
+
+<h3>BuildPipeline Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>build_pipeline_parameters</code> - Specifies list of parameters present in a build pipeline. An UPDATE operation replaces the existing parameters list entirely.
+
+<ul>
+<li><code>items</code> - List of parameters defined for a build pipeline.
+
+<ul>
+<li><code>default_value</code> - Default value of the parameter.</li>
+<li><code>description</code> - Description of the parameter.</li>
+<li><code>name</code> - Name of the parameter (case-sensitive). Parameter name must be ^[a-zA-Z][a-zA-Z_0-9]*$. Example: &lsquo;Build_Pipeline_param&rsquo; is not same as &lsquo;build_pipeline_Param&rsquo;</li>
+</ul></li>
+</ul></li>
+<li><code>compartment_id</code> - The OCID of the compartment where the build pipeline is created.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>description</code> - Optional description about the build pipeline.</li>
+<li><code>display_name</code> - Build pipeline display name, which can be renamed and is not necessarily unique. Avoid entering confidential information.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - Unique identifier that is immutable on creation.</li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.</li>
+<li><code>project_id</code> - The OCID of the DevOps project.</li>
+<li><code>state</code> - The current state of the build pipeline.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time the build pipeline was created. Format defined by <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>.</li>
+<li><code>time_updated</code> - The time the build pipeline was updated. Format defined by <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

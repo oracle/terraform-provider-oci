@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_redis_oci_cache_config_set</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_redis_oci_cache_config_set</h1>
+
+<p>This resource provides the Oci Cache Config Set resource in Oracle Cloud Infrastructure Redis service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/redis/latest/OciCacheConfigSet">https://docs.oracle.com/iaas/api/#/en/redis/latest/OciCacheConfigSet</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/redis">https://github.com/oracle/terraform-provider-oci/tree/master/examples/redis</a></p>
+
+<p>Create a new Oracle Cloud Infrastructure Cache Config Set for the given Oracle Cloud Infrastructure cache engine version.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_redis_oci_cache_config_set&quot; &quot;test_oci_cache_config_set&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	configuration_details {
+		#Required
+		items {
+			#Required
+			config_key = var.oci_cache_config_set_configuration_details_items_config_key
+			config_value = var.oci_cache_config_set_configuration_details_items_config_value
+		}
+	}
+	display_name = var.oci_cache_config_set_display_name
+	software_version = var.oci_cache_config_set_software_version
+
+	#Optional
+	defined_tags = {&quot;foo-namespace.bar-key&quot;= &quot;value&quot;}
+	description = var.oci_cache_config_set_description
+	freeform_tags = {&quot;bar-key&quot;= &quot;value&quot;}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle">OCID</a> of the compartment that contains the Oracle Cloud Infrastructure Cache Config Set.</li>
+<li><code>configuration_details</code> - (Required) List of Oracle Cloud Infrastructure Cache Config Set Values.
+
+<ul>
+<li><code>items</code> - (Required) List of ConfigurationInfo objects.
+
+<ul>
+<li><code>config_key</code> - (Required) Key is the configuration key.</li>
+<li><code>config_value</code> - (Required) Value of the configuration as a string. Can represent a string, boolean, or number. Example: &ldquo;true&rdquo;, &ldquo;42&rdquo;, or &ldquo;someString&rdquo;.</li>
+</ul></li>
+</ul></li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>description</code> - (Optional) (Updatable) Description for the custom Oracle Cloud Infrastructure Cache Config Set.</li>
+<li><code>display_name</code> - (Required) (Updatable) A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.</li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>software_version</code> - (Required) The Oracle Cloud Infrastructure Cache engine version that the cluster is running.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle">OCID</a> of the compartment that contains the Oracle Cloud Infrastructure Cache Config Set.</li>
+<li><code>configuration_details</code> - List of Oracle Cloud Infrastructure Cache Config Set Values.
+
+<ul>
+<li><code>items</code> - List of ConfigurationInfo objects.
+
+<ul>
+<li><code>config_key</code> - Key is the configuration key.</li>
+<li><code>config_value</code> - Value of the configuration as a string. Can represent a string, boolean, or number. Example: &ldquo;true&rdquo;, &ldquo;42&rdquo;, or &ldquo;someString&rdquo;.</li>
+</ul></li>
+</ul></li>
+<li><code>default_config_set_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle">OCID</a> of the default Oracle Cloud Infrastructure Cache Config Set which the custom Oracle Cloud Infrastructure Cache Config Set is based upon.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>description</code> - A description of the Oracle Cloud Infrastructure Cache Config Set.</li>
+<li><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle">OCID</a> of the Oracle Cloud Infrastructure Cache Config Set.</li>
+<li><code>software_version</code> - The Oracle Cloud Infrastructure Cache engine version that the cluster is running.</li>
+<li><code>state</code> - The current state of the Oracle Cloud Infrastructure Cache Config Set.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The date and time the Oracle Cloud Infrastructure Cache Config Set was created. An <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a> formatted datetime string.</li>
+<li><code>time_updated</code> - The date and time the Oracle Cloud Infrastructure Cache Config Set was updated. An <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a> formatted datetime string.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Oci Cache Config Set
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Oci Cache Config Set
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Oci Cache Config Set</p>
+
+<h2>Import</h2>
+
+<p>OciCacheConfigSets can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_redis_oci_cache_config_set.test_oci_cache_config_set &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

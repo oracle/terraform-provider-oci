@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_data_safe_audit_events</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_data_safe_audit_events</h1>
+
+<p>This data source provides the list of Audit Events in Oracle Cloud Infrastructure Data Safe service.</p>
+
+<p>The ListAuditEvents operation returns specified <code>compartmentId</code> audit Events only.
+The list does not include any audit Events associated with the <code>subcompartments</code> of the specified <code>compartmentId</code>.</p>
+
+<p>The parameter <code>accessLevel</code> specifies whether to return only those compartments for which the
+requestor has INSPECT permissions on at least one resource directly
+or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to return Not Authorized if
+Principal doesn&rsquo;t have access to even one of the child compartments. This is valid only when
+<code>compartmentIdInSubtree</code> is set to <code>true</code>.</p>
+
+<p>The parameter <code>compartmentIdInSubtree</code> applies when you perform ListAuditEvents on the
+<code>compartmentId</code> passed and when it is set to true, the entire hierarchy of compartments can be returned.
+To get a full list of all compartments and subcompartments in the tenancy (root compartment),
+set the parameter <code>compartmentIdInSubtree</code> to true and <code>accessLevel</code> to ACCESSIBLE.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_data_safe_audit_events&quot; &quot;test_audit_events&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	access_level = var.audit_event_access_level
+	compartment_id_in_subtree = var.audit_event_compartment_id_in_subtree
+	scim_query = var.audit_event_scim_query
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>access_level</code> - (Optional) Valid values are RESTRICTED and ACCESSIBLE. Default is RESTRICTED. Setting this to ACCESSIBLE returns only those compartments for which the user has INSPECT permissions directly or indirectly (permissions can be on a resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed.</p></li>
+
+<li><p><code>compartment_id</code> - (Required) A filter to return only resources that match the specified compartment OCID.</p></li>
+
+<li><p><code>compartment_id_in_subtree</code> - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the &lsquo;accessLevel&rsquo; setting.</p></li>
+
+<li><p><code>scim_query</code> - (Optional) The scimQuery query parameter accepts filter expressions that use the syntax described in Section 3.2.2.2 of the System for Cross-Domain Identity Management (SCIM) specification, which is available at <a href="https://tools.ietf.org/html/draft-ietf-scim-api-12">RFC3339</a>. In SCIM filtering expressions, text, date, and time values must be enclosed in quotation marks, with date and time values using ISO-8601 format. (Numeric and boolean values should not be quoted.)</p>
+
+<p><strong>Example:</strong> (auditEventTime ge &ldquo;2021-06-04T01:00:26.000Z&rdquo;) and (eventName eq &ldquo;LOGON&rdquo;) The attrExp or the field (for example, operationTime and eventName in above example) which is used to filter can be any of the fields returned by AuditEventSummary. adminUser, commonUser, sensitiveActivity, dsActivity can only have eq operation and value 1. These define admin user activity, common user activity, sensitive data activity and data safe activity <strong>Example:</strong> (adminUser eq 1)</p></li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>audit_event_collection</code> - The list of audit_event_collection.</li>
+</ul>
+
+<h3>AuditEvent Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - Array of audit event summary.
+
+<ul>
+<li><code>action_taken</code> - The action taken for this audit event.</li>
+<li><code>application_contexts</code> - Semicolon-seperated list of application context namespace, attribute, value information in (APPCTX_NSPACE,APPCTX_ATTRIBUTE=<value>) format.</li>
+<li><code>audit_event_time</code> - The time that the audit event occurs in the target database.</li>
+<li><code>audit_location</code> - The location of the audit. Currently the value is audit table.</li>
+<li><code>audit_policies</code> - Comma-seperated list of audit policies that caused the current audit event.</li>
+<li><code>audit_trail_id</code> - The OCID of the audit trail that generated this audit event. To be noted, this field has been deprecated.</li>
+<li><code>audit_type</code> - The type of the auditing.</li>
+<li><code>client_hostname</code> - The name of the host machine from which the session was spawned.</li>
+<li><code>client_id</code> - The client identifier in each Oracle session.</li>
+<li><code>client_ip</code> - The IP address of the host machine from which the session was spawned.</li>
+<li><code>client_program</code> - The application from which the audit event was generated. For example SQL Plus or SQL Developer.</li>
+<li><code>command_param</code> - List of bind variables associated with the command text.</li>
+<li><code>command_text</code> - The SQL associated with the audit event.</li>
+<li><code>compartment_id</code> - The OCID of the compartment containing the audit event. The compartment is the same as that of audit profile of the target database resource.</li>
+<li><code>database_type</code> - The type of the target database that was audited. Allowed values are
+
+<ul>
+<li>DATABASE_CLOUD_SERVICE - Represents Oracle Database Cloud Services.</li>
+<li>AUTONOMOUS_DATABASE - Represents Oracle Autonomous Databases.</li>
+<li>INSTALLED_DATABASE - Represents databases running on-premises or on compute instances.</li>
+</ul></li>
+<li><code>database_unique_name</code> - Unique name of the database associated to the peer target database.</li>
+<li><code>db_user_name</code> - The name of the database user whose actions were audited.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a> Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>error_code</code> - Oracle Error code generated by the action. Zero indicates the action was successful.</li>
+<li><code>error_message</code> - The detailed message on why the error occurred.</li>
+<li><code>event_name</code> - The name of the detail action executed by the user on the target database. For example ALTER SEQUENCE, CREATE TRIGGER or CREATE INDEX.</li>
+<li><code>extended_event_attributes</code> - List of all other attributes of the audit event seperated by a colon other than the one returned in audit record.</li>
+<li><code>external_user_id</code> - The user ID of the external user of the audit event.</li>
+<li><code>fga_policy_name</code> - Fine-grained auditing (FGA) policy name that generated this audit record.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The OCID of the audit event.</li>
+<li><code>is_alerted</code> - Indicates whether an alert was raised for this audit event.</li>
+<li><code>object</code> - The name of the object affected by the action.</li>
+<li><code>object_owner</code> - The schema name of the object affected by the action.</li>
+<li><code>object_type</code> - The type of the object in the source database affected by the action. For example PL/SQL, SYNONYM or PACKAGE BODY.</li>
+<li><code>operation</code> - The name of the action executed by the user on the target database. For example ALTER, CREATE or DROP.</li>
+<li><code>operation_status</code> - Indicates whether the operation was a success or a failure.</li>
+<li><code>os_terminal</code> - The operating system terminal of the user session.</li>
+<li><code>os_user_name</code> - The name of the operating system user for the database session.</li>
+<li><code>peer_target_database_key</code> - The secondary id assigned for the peer database registered with Data Safe.</li>
+<li><code>target_class</code> - The class of the target that was audited.</li>
+<li><code>target_id</code> - The OCID of the target database that was audited.</li>
+<li><code>target_name</code> - The name of the target database that was audited.</li>
+<li><code>target_user</code> - The user on whom the GRANT/REVOKE/AUDIT/NOAUDIT statement was executed.</li>
+<li><code>time_collected</code> - The timestamp when this audit event was collected from the target database by Data Safe.</li>
+<li><code>trail_source</code> - The underlying source of unified audit trail.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

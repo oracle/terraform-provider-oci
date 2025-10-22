@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_migration_connections</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_migration_connections</h1>
+
+<p>This data source provides the list of Connections in Oracle Cloud Infrastructure Database Migration service.</p>
+
+<p>List all Database Connections.</p>
+
+<p>Note: If you wish to use the DMS deprecated API version /20210929 it is necessary to pin the Terraform Provider version to v5.47.0. Newer Terraform provider versions will not support the DMS deprecated API version /20210929</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_migration_connections&quot; &quot;test_connections&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	connection_type = var.connection_connection_type
+	display_name = var.connection_display_name
+	source_connection_id = oci_database_migration_connection.test_connection.id
+	state = var.connection_state
+	technology_type = var.connection_technology_type
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The ID of the compartment in which to list resources.</li>
+<li><code>connection_type</code> - (Optional) The array of connection types.</li>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the entire display name given.</li>
+<li><code>source_connection_id</code> - (Optional) The OCID of the source database connection.</li>
+<li><code>state</code> - (Optional) The current state of the Database Migration Deployment.</li>
+<li><code>technology_type</code> - (Optional) The array of technology types.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>connection_collection</code> - The list of connection_collection.</li>
+</ul>
+
+<h3>Connection Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>additional_attributes</code> - An array of name-value pair attribute entries.
+
+<ul>
+<li><code>name</code> - The name of the property entry.</li>
+<li><code>value</code> - The value of the property entry.</li>
+</ul></li>
+<li><code>compartment_id</code> - The OCID of the compartment.</li>
+<li><code>connection_string</code> - Connect descriptor or Easy Connect Naming method used to connect to a database.</li>
+<li><code>connection_type</code> - Defines the type of connection. For example, ORACLE.</li>
+<li><code>database_id</code> - The OCID of the database being referenced.</li>
+<li><code>database_name</code> - The name of the database being referenced.</li>
+<li><code>db_system_id</code> - The OCID of the database system being referenced.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>description</code> - A user-friendly description. Does not have to be unique, and it&rsquo;s changeable.  Avoid entering confidential information.</li>
+<li><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable.  Avoid entering confidential information.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.  For more information, see Resource Tags. Example: {&ldquo;Department&rdquo;: &ldquo;Finance&rdquo;}</li>
+<li><code>host</code> - The IP Address of the host.</li>
+<li><code>id</code> - The OCID of the connection being referenced.</li>
+<li><code>ingress_ips</code> - List of ingress IP addresses from where to connect to this connection&rsquo;s privateIp.
+
+<ul>
+<li><code>ingress_ip</code> - A Private Endpoint IPv4 or IPv6 Address created in the customer&rsquo;s subnet.</li>
+</ul></li>
+<li><code>key_id</code> - The OCID of the key used in cryptographic operations.</li>
+<li><code>lifecycle_details</code> - The message describing the current state of the connection&rsquo;s lifecycle in detail. For example, can be used to provide actionable information for a connection in a Failed state.</li>
+<li><code>nsg_ids</code> - An array of Network Security Group OCIDs used to define network access for Connections.</li>
+<li><code>password</code> - The password (credential) used when creating or updating this resource.</li>
+<li><code>port</code> - The port to be used for the connection.</li>
+<li><code>private_endpoint_id</code> - The OCID of the resource being referenced.</li>
+<li><code>replication_password</code> - The password (credential) used when creating or updating this resource.</li>
+<li><code>replication_username</code> - The username (credential) used when creating or updating this resource.</li>
+<li><code>secret_id</code> - The OCID of the resource being referenced.</li>
+<li><code>security_protocol</code> - Security Protocol to be used for the connection.</li>
+<li><code>ssh_host</code> - Name of the host the SSH key is valid for.</li>
+<li><code>ssh_key</code> - Private SSH key string.</li>
+<li><code>ssh_sudo_location</code> - Sudo location</li>
+<li><code>ssh_user</code> - The username (credential) used when creating or updating this resource.</li>
+<li><code>ssl_mode</code> - SSL mode to be used for the connection.</li>
+<li><code>state</code> - The Connection&rsquo;s current lifecycle state.</li>
+<li><code>subnet_id</code> - Oracle Cloud Infrastructure resource ID.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>technology_type</code> - The type of MySQL source or target connection. Example: OCI_MYSQL represents Oracle Cloud Infrastructure MySQL HeatWave Database Service</li>
+<li><code>time_created</code> - The time when this resource was created. An RFC3339 formatted datetime string such as <code>2016-08-25T21:10:29.600Z</code>.</li>
+<li><code>time_updated</code> - The time when this resource was updated. An RFC3339 formatted datetime string such as <code>2016-08-25T21:10:29.600Z</code>.</li>
+<li><code>username</code> - The username (credential) used when creating or updating this resource.</li>
+<li><code>vault_id</code> - Oracle Cloud Infrastructure resource ID.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

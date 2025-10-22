@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_tenantmanagercontrolplane_subscription_mapping</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_tenantmanagercontrolplane_subscription_mapping</h1>
+
+<p>This resource provides the Subscription Mapping resource in Oracle Cloud Infrastructure Tenantmanagercontrolplane service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/organizations/latest/SubscriptionMapping">https://docs.oracle.com/iaas/api/#/en/organizations/latest/SubscriptionMapping</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/tenantmanagercontrolplane">https://github.com/oracle/terraform-provider-oci/tree/master/examples/tenantmanagercontrolplane</a></p>
+
+<p>Assign the tenancy record identified by the compartment ID to the given subscription ID.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_tenantmanagercontrolplane_subscription_mapping&quot; &quot;test_subscription_mapping&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	subscription_id = oci_tenantmanagercontrolplane_subscription.test_subscription.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) OCID of the compartment. Always a tenancy OCID.</li>
+<li><code>subscription_id</code> - (Required) OCID of Subscription.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - OCID of the compartment. Always a tenancy OCID.</li>
+<li><code>id</code> - OCID of the mapping between subscription and compartment identified by the tenancy.</li>
+<li><code>is_explicitly_assigned</code> - Denotes if the subscription is explicity assigned to the root compartment or tenancy.</li>
+<li><code>state</code> - Lifecycle state of the subscriptionMapping.</li>
+<li><code>subscription_id</code> - OCID of the subscription.</li>
+<li><code>time_created</code> - Date-time when subscription mapping was created.</li>
+<li><code>time_terminated</code> - Date-time when subscription mapping was terminated.</li>
+<li><code>time_updated</code> - Date-time when subscription mapping was updated.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Subscription Mapping
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Subscription Mapping
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Subscription Mapping</p>
+
+<h2>Import</h2>
+
+<p>SubscriptionMappings can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_tenantmanagercontrolplane_subscription_mapping.test_subscription_mapping &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

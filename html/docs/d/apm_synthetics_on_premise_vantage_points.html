@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_apm_synthetics_on_premise_vantage_points</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_apm_synthetics_on_premise_vantage_points</h1>
+
+<p>This data source provides the list of On Premise Vantage Points in Oracle Cloud Infrastructure APM Availability Monitoring service (aka APM Synthetics Service).</p>
+
+<p>Returns a list of On-premise vantage points.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_apm_synthetics_on_premise_vantage_points&quot; &quot;test_on_premise_vantage_points&quot; {
+	#Required
+	apm_domain_id = oci_apm_apm_domain.test_apm_domain.id
+
+	#Optional
+	display_name = var.on_premise_vantage_point_display_name
+	name = var.on_premise_vantage_point_name
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>apm_domain_id</code> - (Required) The APM domain ID the request is intended for.</li>
+<li><code>display_name</code> - (Optional) A filter to return only the resources that match the entire display name.</li>
+<li><code>name</code> - (Optional) A filter to return only the resources that match the entire name.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>on_premise_vantage_point_collection</code> - The list of on_premise_vantage_point_collection.</li>
+</ul>
+
+<h3>OnPremiseVantagePoint Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>description</code> - A short description about the On-premise vantage point.</li>
+<li><code>display_name</code> - Unique permanent name of the On-premise vantage point.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the On-premise vantage point.</li>
+<li><code>name</code> - Unique On-premise vantage point name that cannot be edited. The name should not contain any confidential information.</li>
+<li><code>time_created</code> - The time the resource was created, expressed in <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a> timestamp format. Example: <code>2020-02-12T22:47:12.613Z</code></li>
+<li><code>time_updated</code> - The time the resource was updated, expressed in <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a> timestamp format. Example: <code>2020-02-13T22:47:12.613Z</code></li>
+<li><code>type</code> - Type of On-premise vantage point.</li>
+<li><code>workers_summary</code> - Details of the workers in a specific On-premise vantage point.
+
+<ul>
+<li><code>available</code> - Number of available workers in a specific On-premise vantage point.</li>
+<li><code>available_capabilities</code> - List of available capabilities in a specific On-premise vantage point.
+
+<ul>
+<li><code>capability</code> - Capability of an On-premise vantage point worker.</li>
+<li><code>on_premise_vantage_point_count</code> - Count of available capability in a specific On-premise vantage point.</li>
+</ul></li>
+<li><code>disabled</code> - Number of disabled workers in a specific On-premise vantage point.</li>
+<li><code>min_version</code> - Minimum version among the workers in a specific On-premise vantage point.</li>
+<li><code>total</code> - Total number of workers in a specific On-premise vantage point.</li>
+<li><code>used</code> - Number of occupied workers in a specific On-premise vantage point.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_core_volume_backup_policy_assignments</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_core_volume_backup_policy_assignments</h1>
+
+<p>This data source provides the list of Volume Backup Policy Assignments in Oracle Cloud Infrastructure Core service.</p>
+
+<p>Gets the volume backup policy assignment for the specified volume. The
+<code>assetId</code> query parameter is required, and the returned list will contain at most
+one item, since volume can only have one volume backup policy assigned at a time.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_core_volume_backup_policy_assignments&quot; &quot;test_volume_backup_policy_assignments&quot; {
+	#Required
+	asset_id = oci_core_volume.test_volume.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>asset_id</code> - (Required) The OCID of an asset (e.g. a volume).</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>volume_backup_policy_assignments</code> - The list of volume_backup_policy_assignments.</li>
+</ul>
+
+<h3>VolumeBackupPolicyAssignment Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>asset_id</code> - The OCID of the volume the policy has been assigned to.</li>
+<li><code>id</code> - The OCID of the volume backup policy assignment.</li>
+<li><code>policy_id</code> - The OCID of the volume backup policy that has been assigned to the volume.</li>
+<li><code>time_created</code> - The date and time the volume backup policy was assigned to the volume. The format is defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>xrc_kms_key_id</code> - The OCID of the Vault service key which is the master encryption key for the block / boot volume cross region backups, which will be used in the destination region to encrypt the backup&rsquo;s encryption keys. For more information about the Vault service and encryption keys, see <a href="https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm">Overview of Vault service</a> and <a href="https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm">Using Keys</a>.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

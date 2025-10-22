@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_ai_language_model_evaluation_results</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_ai_language_model_evaluation_results</h1>
+
+<p>This data source provides the list of Model Evaluation Results in Oracle Cloud Infrastructure Ai Language service.</p>
+
+<p>Get a (paginated) list of evaluation results for a given model.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_ai_language_model_evaluation_results&quot; &quot;test_model_evaluation_results&quot; {
+	#Required
+	model_id = oci_ai_language_model.test_model.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>model_id</code> - (Required) unique model OCID.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>evaluation_result_collection</code> - The list of evaluation_result_collection.</li>
+</ul>
+
+<h3>ModelEvaluationResult Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - List of model evaluation analysis
+
+<ul>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>location</code> - For CSV format location is rowId(1 is header) and for JSONL location is jsonL line sequence(1 is metadata)</li>
+<li><code>model_type</code> - Model type</li>
+<li><code>predicted_entities</code> - List of true(actual) entities in test data for NER model
+
+<ul>
+<li><code>length</code> - Length of text</li>
+<li><code>offset</code> - Starting index on text.</li>
+<li><code>type</code> - Type of entity text like PER, LOC, GPE, NOPE etc.</li>
+</ul></li>
+<li><code>predicted_labels</code> - List of predicted labels by custom multi class or multi label TextClassification model</li>
+<li><code>record</code> - For CSV format location is rowId(1 is header) and for JSONL location is jsonL line sequence(1 is metadata)</li>
+<li><code>true_entities</code> - List of true(actual) entities in test data for NER model
+
+<ul>
+<li><code>length</code> - Length of text</li>
+<li><code>offset</code> - Starting index on text.</li>
+<li><code>type</code> - Type of entity text like PER, LOC, GPE, NOPE etc.</li>
+</ul></li>
+<li><code>true_labels</code> - List of true(actual) labels in test data for multi class or multi label TextClassification</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

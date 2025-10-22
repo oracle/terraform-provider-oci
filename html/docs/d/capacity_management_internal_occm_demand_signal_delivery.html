@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_capacity_management_internal_occm_demand_signal_delivery</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_capacity_management_internal_occm_demand_signal_delivery</h1>
+
+<p>This data source provides details about a specific Internal Occm Demand Signal Delivery resource in Oracle Cloud Infrastructure Capacity Management service.</p>
+
+<p>This is an internal GET API to get the details of a demand signal delivery resource corresponding to a demand signal item.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_capacity_management_internal_occm_demand_signal_delivery&quot; &quot;test_internal_occm_demand_signal_delivery&quot; {
+	#Required
+	occm_demand_signal_delivery_id = oci_capacity_management_occm_demand_signal_delivery.test_occm_demand_signal_delivery.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>occm_demand_signal_delivery_id</code> - (Required) The OCID of the demand signal delivery.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>accepted_quantity</code> - The quantity of the resource that Oracle Cloud Infrastructure will supply to the customer.</p></li>
+
+<li><p><code>compartment_id</code> - The OCID of the tenancy from which the demand signal delivery resource is created.</p></li>
+
+<li><p><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></p></li>
+
+<li><p><code>demand_signal_id</code> - The OCID of the demand signal under which this delivery will be grouped.</p></li>
+
+<li><p><code>demand_signal_item_id</code> - The OCID of the demand signal item corresponding to which this delivery is made.</p></li>
+
+<li><p><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></p></li>
+
+<li><p><code>id</code> - The OCID of this demand signal delivery resource.</p></li>
+
+<li><p><code>justification</code> - This field could be used by Oracle Cloud Infrastructure to communicate the reason for accepting or declining the request.</p></li>
+
+<li><p><code>lifecycle_details</code> - The enum values corresponding to the various states associated with the delivery resource.</p>
+
+<p>SUBMITTED -&gt; The state where operators have started working and thinking on the quantity that Oracle Cloud Infrastructure can delivery for the corresponding demand signal item. IN_REVIEW -&gt; The operators are waiting on approvals from different teams/folks in this state. ACCEPTED -&gt; Oracle Cloud Infrastructure has accepted your resource request and will deliver the quantity as specified by acceptance quantity of this resource. DECLINED -&gt; Oracle Cloud Infrastructure has declined you resource request. DELIVERED -&gt; Oracle Cloud Infrastructure has delivered the accepted quantity to the customers.</p>
+
+<p>NOTE: The resource becomes visible to customers in ACCEPTED, DECLINED or DELIVERED state.</p></li>
+
+<li><p><code>notes</code> - This field acts as a notes section for operators.</p></li>
+
+<li><p><code>occ_customer_group_id</code> - The OCID of the corresponding customer group to which this demand signal delivery resource belongs to.</p></li>
+
+<li><p><code>state</code> - The current lifecycle state of the resource.</p></li>
+
+<li><p><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></p></li>
+
+<li><p><code>time_delivered</code> - The date on which the Oracle Cloud Infrastructure delivered the resource to the customers. The default value for this will be the corresponding demand signal item resource&rsquo;s need by date.</p></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

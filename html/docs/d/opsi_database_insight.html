@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_opsi_database_insight</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_opsi_database_insight</h1>
+
+<p>This data source provides details about a specific Database Insight resource in Oracle Cloud Infrastructure Opsi service.</p>
+
+<p>Gets details of a database insight.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_opsi_database_insight&quot; &quot;test_database_insight&quot; {
+	#Required
+	database_insight_id = oci_opsi_database_insight.test_database_insight.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>database_insight_id</code> - (Required) Unique database insight identifier</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - Compartment identifier of the database</li>
+<li><code>connection_credential_details</code> - User credential details to connect to the database.
+
+<ul>
+<li><code>credential_source_name</code> - Credential source name that had been added in Management Agent wallet. This is supplied in the External Database Service.</li>
+<li><code>credential_type</code> - CREDENTIALS_BY_SOURCE is supplied via the External Database Service. CREDENTIALS_BY_VAULT is supplied by secret service to connection PE_COMANAGED_DATABASE and ADB as well. CREDENTIALS_BY_IAM is used db-token to connect only for Autonomous Database. CREDENTIALS_BY_NAMED_CREDS is supplied by Management Agent service to connect for Macs Managed Cloud Database or Autonomous Database.<br>
+</li>
+<li><code>named_credential_id</code> - The credential <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> stored in management agent.</li>
+<li><code>password_secret_id</code> - The secret <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> mapping to the database credentials.</li>
+<li><code>role</code> - database user role.</li>
+<li><code>user_name</code> - database user name.</li>
+<li><code>wallet_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the database keystore contents are stored</li>
+</ul></li>
+<li><code>connection_details</code> - Connection details to connect to the database. HostName, protocol, and port should be specified.
+
+<ul>
+<li><code>host_name</code> - Name of the listener host that will be used to create the connect string to the database.</li>
+<li><code>hosts</code> - List of hosts and port for private endpoint accessed database resource.
+
+<ul>
+<li><code>host_ip</code> - Host IP used for connection requests for Cloud DB resource.</li>
+<li><code>port</code> - Listener port number used for connection requests for rivate endpoint accessed db resource.</li>
+</ul></li>
+<li><code>port</code> - Listener port number used for connection requests.</li>
+<li><code>protocol</code> - Protocol used for connection requests for private endpoint accssed database resource.</li>
+<li><code>service_name</code> - Database service name used for connection requests.</li>
+</ul></li>
+<li><code>connector_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of External Database Connector</li>
+<li><code>credential_details</code> - User credential details to connect to the database.
+
+<ul>
+<li><code>credential_source_name</code> - Credential source name that had been added in Management Agent wallet. This is supplied in the External Database Service.</li>
+<li><code>credential_type</code> - CREDENTIALS_BY_SOURCE is supplied via the External Database Service. CREDENTIALS_BY_VAULT is supplied by secret service to connection PE_COMANAGED_DATABASE and ADB as well. CREDENTIALS_BY_IAM is used db-token to connect only for Autonomous Database. CREDENTIALS_BY_NAMED_CREDS is supplied by Management Agent service to connect for Macs Managed Cloud Database or Autonomous Database.</li>
+<li><code>password_secret_id</code> - The secret <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> mapping to the database credentials.</li>
+<li><code>role</code> - database user role.</li>
+<li><code>user_name</code> - database user name.</li>
+<li><code>wallet_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the database keystore contents are stored.</li>
+</ul></li>
+<li><code>database_connector_id</code> - (Required when entity_source=EXTERNAL_MYSQL_DATABASE_SYSTEM) (Updatable) The DBM owned database connector <a href="/iaas/database-management/doc/view-connector-details.html">OCID</a> mapping to the database credentials and connection details.</li>
+<li><code>database_connection_status_details</code> - A message describing the status of the database connection of this resource. For example, it can be used to provide actionable information about the permission and content validity of the database connection.</li>
+<li><code>database_display_name</code> - Display name of database</li>
+<li><code>database_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the database.</li>
+<li><code>database_name</code> - Name of database</li>
+<li><code>database_resource_type</code> - Oracle Cloud Infrastructure database resource type</li>
+<li><code>database_type</code> - Ops Insights internal representation of the database type.</li>
+<li><code>database_version</code> - The version of the database.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>enterprise_manager_bridge_id</code> - OPSI Enterprise Manager Bridge OCID</li>
+<li><code>enterprise_manager_entity_display_name</code> - Enterprise Manager Entity Display Name</li>
+<li><code>enterprise_manager_entity_identifier</code> - Enterprise Manager Entity Unique Identifier</li>
+<li><code>enterprise_manager_entity_name</code> - Enterprise Manager Entity Name</li>
+<li><code>enterprise_manager_entity_type</code> - Enterprise Manager Entity Type</li>
+<li><code>enterprise_manager_identifier</code> - Enterprise Manager Unqiue Identifier</li>
+<li><code>entity_source</code> - Source of the database entity.</li>
+<li><code>exadata_insight_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Exadata insight.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - Database insight identifier</li>
+<li><code>is_advanced_features_enabled</code> - Flag is to identify if advanced features for autonomous database is enabled or not</li>
+<li><code>is_heat_wave_cluster_attached</code> - Specifies if MYSQL DB System has heatwave cluster attached.</li>
+<li><code>is_highly_available</code> - Specifies if MYSQL DB System is highly available.</li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.</li>
+<li><code>opsi_private_endpoint_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the OPSI private endpoint</li>
+<li><code>parent_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VM Cluster or DB System ID, depending on which configuration the resource belongs to.</li>
+<li><code>processor_count</code> - Processor count. This is the OCPU count for Autonomous Database and CPU core count for other database types.</li>
+<li><code>root_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Exadata Infrastructure.</li>
+<li><code>state</code> - The current state of the database.</li>
+<li><code>status</code> - Indicates the status of a database insight in Operations Insights</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time the the database insight was first enabled. An RFC3339 formatted datetime string</li>
+<li><code>time_updated</code> - The time the database insight was updated. An RFC3339 formatted datetime string</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

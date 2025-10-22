@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_management_agent_management_agent_data_source</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_management_agent_management_agent_data_source</h1>
+
+<p>This resource provides the Management Agent Data Source resource in Oracle Cloud Infrastructure Management Agent service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/management-agent/latest/ManagementAgentDataSource">https://docs.oracle.com/iaas/api/#/en/management-agent/latest/ManagementAgentDataSource</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/management_agent">https://github.com/oracle/terraform-provider-oci/tree/master/examples/management_agent</a></p>
+
+<p>Datasource creation request to given Management Agent.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_management_agent_management_agent_data_source&quot; &quot;test_management_agent_data_source&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	management_agent_id = oci_management_agent_management_agent.test_management_agent.id
+	name = var.management_agent_data_source_name
+	type = var.management_agent_data_source_type
+	url = var.management_agent_data_source_url
+
+	#Optional
+	allow_metrics = var.management_agent_data_source_allow_metrics
+	connection_timeout = var.management_agent_data_source_connection_timeout
+	metric_dimensions {
+		#Required
+		name = var.management_agent_data_source_metric_dimensions_name
+		value = var.management_agent_data_source_metric_dimensions_value
+	}
+	namespace = var.management_agent_data_source_namespace
+	proxy_url = var.management_agent_data_source_proxy_url
+	read_data_limit_in_kilobytes = var.management_agent_data_source_read_data_limit_in_kilobytes
+	read_timeout = var.management_agent_data_source_read_timeout
+	resource_group = var.management_agent_data_source_resource_group
+	schedule_mins = var.management_agent_data_source_schedule_mins
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>allow_metrics</code> - (Optional when type=PROMETHEUS_EMITTER) (Updatable) Comma separated metric name list. The complete set of desired scraped metrics. Use this property to limit the set of metrics uploaded if required.</li>
+<li><code>compartment_id</code> - (Required) Compartment owning this DataSource.</li>
+<li><code>connection_timeout</code> - (Optional when type=PROMETHEUS_EMITTER) (Updatable) Number in milliseconds. The timeout for connecting to the Prometheus Exporter&rsquo;s endpoint.</li>
+<li><code>management_agent_id</code> - (Required) Unique Management Agent identifier</li>
+<li><code>metric_dimensions</code> - (Optional when type=PROMETHEUS_EMITTER) (Updatable) The names of other user-supplied properties expressed as fixed values to be used as dimensions for every uploaded datapoint.
+
+<ul>
+<li><code>name</code> - (Required) (Updatable) Name of the metric dimension</li>
+<li><code>value</code> - (Required) (Updatable) Value of the metric dimension</li>
+</ul></li>
+<li><code>name</code> - (Required) Unique name of the DataSource.</li>
+<li><code>namespace</code> - (Required) The Oracle Cloud Infrastructure monitoring namespace to which scraped metrics should be uploaded.</li>
+<li><code>proxy_url</code> - (Optional when type=PROMETHEUS_EMITTER) (Updatable) The url of the network proxy that provides access to the Prometheus Exporter&rsquo;s endpoint (url required property).</li>
+<li><code>read_data_limit_in_kilobytes</code> - (Optional when type=PROMETHEUS_EMITTER) (Updatable) Number in kilobytes. The limit on the data being sent, not to exceed the agent&rsquo;s fixed limit of 400 (KB).</li>
+<li><code>read_timeout</code> - (Optional when type=PROMETHEUS_EMITTER) (Updatable) Number in milliseconds. The timeout for reading the response from the Prometheus Exporter&rsquo;s endpoint.</li>
+<li><code>resource_group</code> - (Optional when type=PROMETHEUS_EMITTER) (Updatable) Oracle Cloud Infrastructure monitoring resource group to assign the metric to.</li>
+<li><code>schedule_mins</code> - (Optional when type=PROMETHEUS_EMITTER) (Updatable) Number in minutes. The scraping occurs at the specified interval.</li>
+<li><code>type</code> - (Required) (Updatable) The type of the DataSource. Support types: PROMETHEUS_EMITTER</li>
+<li><code>url</code> - (Required when type=PROMETHEUS_EMITTER) (Updatable) The url through which the Prometheus Exporter publishes its metrics. (http only)</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>allow_metrics</code> - Comma separated metric name list. The complete set of desired scraped metrics. Use this property to limit the set of metrics uploaded if required.</li>
+<li><code>compartment_id</code> - Compartment owning this DataSource.</li>
+<li><code>connection_timeout</code> - Number in milliseconds. The timeout for connecting to the Prometheus Exporter&rsquo;s endpoint.</li>
+<li><code>is_daemon_set</code> - If the Kubernetes cluster type is Daemon set then this will be set to true.</li>
+<li><code>key</code> - Identifier for DataSource. This represents the type and name for the data source associated with the Management Agent.</li>
+<li><code>metric_dimensions</code> - The names of other user-supplied properties expressed as fixed values to be used as dimensions for every uploaded datapoint.
+
+<ul>
+<li><code>name</code> - Name of the metric dimension</li>
+<li><code>value</code> - Value of the metric dimension</li>
+</ul></li>
+<li><code>name</code> - Unique name of the DataSource.</li>
+<li><code>namespace</code> - The Oracle Cloud Infrastructure monitoring namespace to which scraped metrics should be uploaded.</li>
+<li><code>proxy_url</code> - The url of the network proxy that provides access to the Prometheus Exporter&rsquo;s endpoint (url required property).</li>
+<li><code>read_data_limit</code> - Number in kilobytes. The limit on the data being sent, not to exceed the agent&rsquo;s fixed limit of 400 (KB).</li>
+<li><code>read_timeout</code> - Number in milliseconds. The timeout for reading the response from the Prometheus Exporter&rsquo;s endpoint.</li>
+<li><code>resource_group</code> - Oracle Cloud Infrastructure monitoring resource group to assign the metric to.</li>
+<li><code>schedule_mins</code> - Number in minutes. The scraping occurs at the specified interval.</li>
+<li><code>state</code> - State of the DataSource.</li>
+<li><code>time_created</code> - The time the DataSource was created. An RFC3339 formatted datetime string</li>
+<li><code>time_updated</code> - The time the DataSource data was last received. An RFC3339 formatted datetime string</li>
+<li><code>type</code> - The type of the DataSource.</li>
+<li><code>url</code> - The url through which the Prometheus Exporter publishes its metrics. (http only)</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Management Agent Data Source
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Management Agent Data Source
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Management Agent Data Source</p>
+
+<h2>Import</h2>
+
+<p>ManagementAgentDataSources can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_management_agent_management_agent_data_source.test_management_agent_data_source &quot;managementAgents/{managementAgentId}/dataSources/{key}&quot; 
+</code></pre>
+
+	</div>
+
+</body>
+</html>

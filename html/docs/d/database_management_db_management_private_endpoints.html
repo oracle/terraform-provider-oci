@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_management_db_management_private_endpoints</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_management_db_management_private_endpoints</h1>
+
+<p>This data source provides the list of Db Management Private Endpoints in Oracle Cloud Infrastructure Database Management service.</p>
+
+<p>Gets a list of Database Management private endpoints.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_management_db_management_private_endpoints&quot; &quot;test_db_management_private_endpoints&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	is_cluster = var.db_management_private_endpoint_is_cluster
+	is_dns_resolution_enabled = var.db_management_private_endpoint_is_dns_resolution_enabled
+	name = var.db_management_private_endpoint_name
+	state = var.db_management_private_endpoint_state
+	vcn_id = oci_core_vcn.test_vcn.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>is_cluster</code> - (Optional) The option to filter Database Management private endpoints that can used for Oracle Databases in a cluster. This should be used along with the vcnId query parameter.</li>
+<li><code>is_dns_resolution_enabled</code> - (Optional) The option to filter Database Management private endpoints which are endbled with DNS proxy server. This should be used along with the vcnId query parameter. Only one of this parameter and IsClusterDbManagementPrivateEndpointQueryParam should be set to true at one time.</li>
+<li><code>name</code> - (Optional) A filter to return only resources that match the entire name.</li>
+<li><code>state</code> - (Optional) The lifecycle state of a resource.</li>
+<li><code>vcn_id</code> - (Optional) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VCN.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>db_management_private_endpoint_collection</code> - The list of db_management_private_endpoint_collection.</li>
+</ul>
+
+<h3>DbManagementPrivateEndpoint Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - The description of the Database Management private endpoint.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Database Management private endpoint.</li>
+<li><code>is_cluster</code> - Specifies whether the Database Management private endpoint can be used for Oracle Databases in a cluster.</li>
+<li><code>is_dns_resolution_enabled</code> - Specifies whether the Database Management private endpoint has DNS proxy server enabled to resolve private host name.</li>
+<li><code>name</code> - The display name of the Database Management private endpoint.</li>
+<li><code>nsg_ids</code> - The OCIDs of the Network Security Groups to which the Database Management private endpoint belongs.</li>
+<li><code>private_ip</code> - The IP addresses assigned to the Database Management private endpoint.</li>
+<li><code>state</code> - The current lifecycle state of the Database Management private endpoint.</li>
+<li><code>subnet_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the subnet.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. System tags can be viewed by users, but can only be created by the system.  Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The date and time the Database Managament private endpoint was created, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>vcn_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VCN.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

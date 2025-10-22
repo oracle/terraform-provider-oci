@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_cloud_guard_adhoc_query_result_content</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<p>&rdquo;`</p>
+
+<p>//resource not exposed to user through Terraform, but generated.
+//Hence TF team suggested to keep the file commented as codeGen patch build fails if file not present</p>
+
+<h1>Data Source: oci_cloud_guard_adhoc_query_result_content</h1>
+
+<p>This data source provides details about a specific Adhoc Query Result Content resource in Oracle Cloud Infrastructure Cloud Guard service.</p>
+
+<p>Downloads the results for a given adhoc ID (from includes results from all monitoring regions).</p>
+
+<h2>Example Usage</h2>
+
+<p>&rdquo;`hcl
+data &ldquo;oci_cloud_guard_adhoc_query_result_content&rdquo; &ldquo;test_adhoc_query_result_content&rdquo; {
+	#Required
+	adhoc_query_id = oci_cloud_guard_adhoc_query.test_adhoc_query.id
+}</p>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>adhoc_query_id</code> - (Required) Adhoc query OCID.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:&ldquo;`</p>
+
+	</div>
+
+</body>
+</html>

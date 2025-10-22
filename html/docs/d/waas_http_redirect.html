@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_waas_http_redirect</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_waas_http_redirect</h1>
+
+<p>This data source provides details about a specific Http Redirect resource in Oracle Cloud Infrastructure Web Application Acceleration and Security service.</p>
+
+<p>Gets the details of a HTTP Redirect.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_waas_http_redirect&quot; &quot;test_http_redirect&quot; {
+	#Required
+	http_redirect_id = oci_waas_http_redirect.test_http_redirect.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>http_redirect_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the HTTP Redirect.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the HTTP Redirect&rsquo;s compartment.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>display_name</code> - The user-friendly name of the HTTP Redirect. The name can be changed and does not need to be unique.</li>
+<li><code>domain</code> - The domain from which traffic will be redirected.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the HTTP Redirect.</li>
+<li><code>response_code</code> - The response code returned for the redirect to the client. For more information, see <a href="https://tools.ietf.org/html/rfc7231#section-6.4">RFC 7231</a>.</li>
+<li><code>state</code> - The current lifecycle state of the HTTP Redirect.</li>
+<li><code>target</code> - The redirect target object including all the redirect data.
+
+<ul>
+<li><code>host</code> - The host portion of the redirect.</li>
+<li><code>path</code> - The path component of the target URL (e.g., &ldquo;/path/to/resource&rdquo; in &ldquo;<a href="https://target.example.com/path/to/resource?redirected&quot;">https://target.example.com/path/to/resource?redirected&rdquo;</a>), which can be empty, static, or request-copying, or request-prefixing. Use of \ is not permitted except to escape a following \, {, or }. An empty value is treated the same as static &ldquo;/&rdquo;. A static value must begin with a leading &ldquo;/&rdquo;, optionally followed by other path characters. A request-copying value must exactly match &ldquo;{path}&rdquo;, and will be replaced with the path component of the request URL (including its initial &ldquo;/&rdquo;). A request-prefixing value must start with &ldquo;/&rdquo; and end with a non-escaped &ldquo;{path}&rdquo;, which will be replaced with the path component of the request URL (including its initial &ldquo;/&rdquo;). Only one such replacement token is allowed.</li>
+<li><code>port</code> - Port number of the target destination of the redirect, default to match protocol</li>
+<li><code>protocol</code> - The protocol used for the target, http or https.</li>
+<li><code>query</code> - The query component of the target URL (e.g., &ldquo;?redirected&rdquo; in &ldquo;<a href="https://target.example.com/path/to/resource?redirected&quot;">https://target.example.com/path/to/resource?redirected&rdquo;</a>), which can be empty, static, or request-copying. Use of \ is not permitted except to escape a following \, {, or }. An empty value results in a redirection target URL with no query component. A static value must begin with a leading &ldquo;?&rdquo;, optionally followed by other query characters. A request-copying value must exactly match &ldquo;{query}&rdquo;, and will be replaced with the query component of the request URL (including a leading &ldquo;?&rdquo; if and only if the request URL includes a query component).</li>
+</ul></li>
+<li><code>time_created</code> - The date and time the policy was created, expressed in RFC 3339 timestamp format.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

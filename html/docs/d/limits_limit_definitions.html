@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_limits_limit_definitions</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_limits_limit_definitions</h1>
+
+<p>This data source provides the list of Limit Definitions in Oracle Cloud Infrastructure Limits service.</p>
+
+<p>Includes a list of resource limits that are currently supported. If subscription Id is provided, then only resource limits supported by subscription will be returned
+If the &lsquo;areQuotasSupported&rsquo; property is true, you can create quota policies on top of this limit at the
+compartment level.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_limits_limit_definitions&quot; &quot;test_limit_definitions&quot; {
+	#Required
+	compartment_id = var.tenancy_ocid
+
+	#Optional
+	name = var.limit_definition_name
+	service_name = oci_limits_service.test_service.name
+	subscription_id = var.subscription_ocid
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The OCID of the parent compartment (remember that the tenancy is simply the root compartment).</li>
+<li><code>name</code> - (Optional) Optional field, filter for a specific resource limit.</li>
+<li><code>service_name</code> - (Optional) The target service name.</li>
+<li><code>subscription_id</code> - (Optional) The OCID of the subscription assigned to tenant</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>limit_definitions</code> - The list of limit_definitions.</li>
+</ul>
+
+<h3>LimitDefinition Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>are_quotas_supported</code> - If true, quota policies can be created on top of this resource limit.</li>
+<li><code>description</code> - The limit description.</li>
+<li><code>is_deprecated</code> - Indicates if the limit has been deprecated.</li>
+<li><code>is_dynamic</code> - The limit for this resource has a dynamic value that is based on consumption across all Oracle Cloud Infrastructure services.</li>
+<li><code>is_eligible_for_limit_increase</code> - Indicates if the customer can request a limit increase for this resource.</li>
+<li><code>is_resource_availability_supported</code> - Reflects whether or not the GetResourceAvailability API is supported for this limit. If not, the API returns an empty JSON response.</li>
+<li><code>name</code> - The resource limit name. To be used for writing policies (in case of quotas) or other programmatic calls.</li>
+<li><code>scope_type</code> - Reflects the scope of the resource limit, whether Global (across all regions), regional, or availability domain-specific.</li>
+<li><code>service_name</code> - The service name of the limit.</li>
+<li><code>supported_quota_families</code> - Supported quota family names for creation of quota policy.</li>
+<li><code>supported_subscriptions</code> - An array of subscription types supported by the limit. e,g The type of subscription, such as &lsquo;SAAS&rsquo;, &lsquo;ERP&rsquo;, &lsquo;CRM&rsquo;.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

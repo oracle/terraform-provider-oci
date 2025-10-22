@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_os_management_hub_software_source_available_software_packages</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_os_management_hub_software_source_available_software_packages</h1>
+
+<p>This data source provides the list of Software Source Available Software Packages in Oracle Cloud Infrastructure Os Management Hub service.</p>
+
+<p>Lists software packages that are available to be added to a custom software source of type MANIFEST.  Filter the list against a variety of criteria
+including but not limited to its name.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_os_management_hub_software_source_available_software_packages&quot; &quot;test_software_source_available_software_packages&quot; {
+	#Required
+	software_source_id = oci_os_management_hub_software_source.test_software_source.id
+
+	#Optional
+	display_name = var.software_source_available_software_package_display_name
+	display_name_contains = var.software_source_available_software_package_display_name_contains
+	is_latest = var.software_source_available_software_package_is_latest
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>display_name</code> - (Optional) A filter to return resources that match the given user-friendly name.</li>
+<li><code>display_name_contains</code> - (Optional) A filter to return resources that may partially match the given display name.</li>
+<li><code>is_latest</code> - (Optional) Indicates whether to list only the latest versions of packages, module streams, and stream profiles.</li>
+<li><code>software_source_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the software source.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>software_package_collection</code> - The list of software_package_collection.</li>
+</ul>
+
+<h3>SoftwareSourceAvailableSoftwarePackage Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - List of software packages.
+
+<ul>
+<li><code>architecture</code> - The architecture for which this software was built.</li>
+<li><code>checksum</code> - Checksum of the package.</li>
+<li><code>checksum_type</code> - Type of the checksum.</li>
+<li><code>display_name</code> - Package name.</li>
+<li><code>is_latest</code> - Indicates whether this package is the latest version.</li>
+<li><code>name</code> - Unique identifier for the package. Note that this is not an OCID.</li>
+<li><code>os_families</code> - The OS families the package belongs to.</li>
+<li><code>software_sources</code> - List of software sources that provide the software package. This property is deprecated and it will be removed in a future API release.
+
+<ul>
+<li><code>description</code> - Software source description.</li>
+<li><code>display_name</code> - Software source name.</li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the software source.</li>
+<li><code>is_mandatory_for_autonomous_linux</code> - Indicates whether this is a required software source for Autonomous Linux instances. If true, the user can&rsquo;t unselect it.</li>
+<li><code>software_source_type</code> - Type of the software source.</li>
+</ul></li>
+<li><code>type</code> - Type of the package.</li>
+<li><code>version</code> - Version of the package.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

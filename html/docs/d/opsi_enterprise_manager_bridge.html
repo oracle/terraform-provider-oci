@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_opsi_enterprise_manager_bridge</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_opsi_enterprise_manager_bridge</h1>
+
+<p>This data source provides details about a specific Enterprise Manager Bridge resource in Oracle Cloud Infrastructure Opsi service.</p>
+
+<p>Gets details of an Operations Insights Enterprise Manager bridge.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_opsi_enterprise_manager_bridge&quot; &quot;test_enterprise_manager_bridge&quot; {
+	#Required
+	enterprise_manager_bridge_id = oci_opsi_enterprise_manager_bridge.test_enterprise_manager_bridge.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>enterprise_manager_bridge_id</code> - (Required) Unique Enterprise Manager bridge identifier</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - Compartment identifier of the Enterprise Manager bridge</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>description</code> - Description of Enterprise Manager Bridge</li>
+<li><code>display_name</code> - User-friedly name of Enterprise Manager Bridge that does not have to be unique.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - Enterprise Manager bridge identifier</li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.</li>
+<li><code>object_storage_bucket_name</code> - Object Storage Bucket Name</li>
+<li><code>object_storage_bucket_status_details</code> - A message describing status of the object storage bucket of this resource. For example, it can be used to provide actionable information about the permission and content validity of the bucket.</li>
+<li><code>object_storage_namespace_name</code> - Object Storage Namespace Name</li>
+<li><code>state</code> - The current state of the Enterprise Manager bridge.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time the the Enterprise Manager bridge was first created. An RFC3339 formatted datetime string</li>
+<li><code>time_updated</code> - The time the Enterprise Manager bridge was updated. An RFC3339 formatted datetime string</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

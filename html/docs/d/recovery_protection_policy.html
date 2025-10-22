@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_recovery_protection_policy</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_recovery_protection_policy</h1>
+
+<p>This data source provides details about a specific Protection Policy resource in Oracle Cloud Infrastructure Recovery service.</p>
+
+<p>Gets information about a specified protection policy.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_recovery_protection_policy&quot; &quot;test_protection_policy&quot; {
+	#Required
+	protection_policy_id = oci_recovery_protection_policy.test_protection_policy.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>protection_policy_id</code> - (Required) The protection policy OCID.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>backup_retention_period_in_days</code> - The maximum number of days to retain backups for a protected database. Specify a period ranging from a minimum 14 days to a maximum 95 days. For example, specify the value 55 if you want to retain backups for 55 days.</li>
+<li><code>compartment_id</code> - The OCID of the compartment that contains the protection policy.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code>. For more information, see <a href="https://docs.oracle.com/en-us/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a></li>
+<li><code>display_name</code> - A user provided name for the protection policy.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - The protection policy OCID.</li>
+<li><code>is_predefined_policy</code> - Set to TRUE if the policy is Oracle-defined, and FALSE for a user-defined custom policy. You can modify only the custom policies.</li>
+<li><code>lifecycle_details</code> - Detailed description about the current lifecycle state of the protection policy. For example, it can be used to provide actionable information for a resource in a Failed state.</li>
+<li><code>must_enforce_cloud_locality</code> - Indicates whether the protection policy enforces Recovery Service to retain backups in the same cloud service environment where your Oracle Database is provisioned.</li>
+<li><code>policy_locked_date_time</code> - An RFC3339 formatted datetime string that specifies the exact date and time for the retention lock to take effect and permanently lock the retention period defined in the policy.</li>
+<li><code>state</code> - The current state of the protection policy.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code>. For more information, see <a href="https://docs.oracle.com/en-us/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a></li>
+<li><code>time_created</code> - An RFC3339 formatted datetime string that indicates the created time for the protection policy. For example: &lsquo;2020-05-22T21:10:29.600Z&rsquo;.</li>
+<li><code>time_updated</code> - An RFC3339 formatted datetime string that indicates the updated time for the protection policy. For example: &lsquo;2020-05-22T21:10:29.600Z&rsquo;.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

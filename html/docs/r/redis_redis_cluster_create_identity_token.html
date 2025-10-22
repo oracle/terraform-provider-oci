@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_redis_redis_cluster_create_identity_token</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_redis_redis_cluster_create_identity_token</h1>
+
+<p>This resource provides the Redis Cluster Create Identity Token resource in Oracle Cloud Infrastructure Redis service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/redis/latest/RedisClusterCreateIdentityToken">https://docs.oracle.com/iaas/api/#/en/redis/latest/RedisClusterCreateIdentityToken</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/redis">https://github.com/oracle/terraform-provider-oci/tree/master/examples/redis</a></p>
+
+<p>Generates an identity token to sign in with the specified redis user for the redis cluster</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_redis_redis_cluster_create_identity_token&quot; &quot;test_redis_cluster_create_identity_token&quot; {
+	#Required
+	public_key = var.redis_cluster_create_identity_token_public_key
+	redis_cluster_id = oci_redis_redis_cluster.test_redis_cluster.id
+	redis_user = var.redis_cluster_create_identity_token_redis_user
+
+	#Optional
+	defined_tags = var.redis_cluster_create_identity_token_defined_tags
+	freeform_tags = var.redis_cluster_create_identity_token_freeform_tags
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>defined_tags</code> - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>freeform_tags</code> - (Optional) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>public_key</code> - (Required) User public key pair</li>
+<li><code>redis_cluster_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle">OCID</a> of the cluster.</li>
+<li><code>redis_user</code> - (Required) Redis User generating identity token.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>identity_token</code> - Generated Identity token</li>
+<li><code>redis_user</code> - Redis user for the newly created identity token</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Redis Cluster Create Identity Token
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Redis Cluster Create Identity Token
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Redis Cluster Create Identity Token</p>
+
+<h2>Import</h2>
+
+<p>Import is not supported for this resource.</p>
+
+	</div>
+
+</body>
+</html>

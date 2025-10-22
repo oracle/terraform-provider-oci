@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_os_management_hub_managed_instance</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_os_management_hub_managed_instance</h1>
+
+<p>This data source provides details about a specific Managed Instance resource in Oracle Cloud Infrastructure Os Management Hub service.</p>
+
+<p>Gets information about the specified managed instance.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_os_management_hub_managed_instance&quot; &quot;test_managed_instance&quot; {
+	#Required
+	managed_instance_id = oci_os_management_hub_managed_instance.test_managed_instance.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>managed_instance_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the managed instance.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>agent_version</code> - The version of osmh-agent running on the managed instance</li>
+<li><code>architecture</code> - The CPU architecture type of the managed instance.</li>
+<li><code>autonomous_settings</code> - Settings for the Autonomous Linux service.
+
+<ul>
+<li><code>is_data_collection_authorized</code> - Indicates whether Autonomous Linux will collect crash files. This setting can be changed by the user.</li>
+<li><code>scheduled_job_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the restricted scheduled job associated with this instance. This value cannot be deleted by the user.</li>
+</ul></li>
+<li><code>bug_updates_available</code> - Number of bug fix type updates available for installation.</li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment that contains the managed instance.</li>
+<li><code>description</code> - User-specified description for the managed instance.</li>
+<li><code>display_name</code> - User-friendly name for the managed instance.</li>
+<li><code>enhancement_updates_available</code> - Number of enhancement type updates available for installation.</li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the managed instance.</li>
+<li><code>installed_packages</code> - Number of packages installed on the instance.</li>
+<li><code>installed_windows_updates</code> - Number of Windows updates installed on the instance.</li>
+<li><code>is_managed_by_autonomous_linux</code> - Indicates whether the Autonomous Linux service manages the instance.</li>
+<li><code>is_management_station</code> - Indicates whether this managed instance is acting as an on-premises management station.</li>
+<li><code>is_reboot_required</code> - Indicates whether a reboot is required to complete installation of updates.</li>
+<li><code>ksplice_effective_kernel_version</code> - The ksplice effective kernel version.</li>
+<li><code>lifecycle_environment</code> - Id and name of a resource to simplify the display for the user.
+
+<ul>
+<li><code>display_name</code> - User-friendly name.</li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the resource that is immutable on creation.</li>
+</ul></li>
+<li><code>lifecycle_stage</code> - Id and name of a resource to simplify the display for the user.
+
+<ul>
+<li><code>display_name</code> - User-friendly name.</li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the resource that is immutable on creation.</li>
+</ul></li>
+<li><code>location</code> - The location of the managed instance.</li>
+<li><code>managed_instance_group</code> - Id and name of a resource to simplify the display for the user.
+
+<ul>
+<li><code>display_name</code> - User-friendly name.</li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the resource that is immutable on creation.</li>
+</ul></li>
+<li><code>notification_topic_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> for the Oracle Notifications service (ONS) topic. ONS is the channel used to send notifications to the customer.</li>
+<li><code>os_family</code> - The operating system type of the managed instance.</li>
+<li><code>os_kernel_version</code> - Operating system kernel version.</li>
+<li><code>os_name</code> - Operating system name.</li>
+<li><code>os_version</code> - Operating system version.</li>
+<li><code>other_updates_available</code> - Number of non-classified (other) updates available for installation.</li>
+<li><code>primary_management_station_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the management station for the instance to use as primary management station.</li>
+<li><code>profile</code> - The profile that was used to register this instance with the service.</li>
+<li><code>profile_version</code> - The version of the profile that was used to register this instance with the service.</li>
+<li><code>scheduled_job_count</code> - Number of scheduled jobs associated with this instance.</li>
+<li><code>secondary_management_station_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the management station for the instance to use as secondary management station.</li>
+<li><code>security_updates_available</code> - Number of security type updates available for installation.</li>
+<li><code>software_sources</code> - The list of software sources currently attached to the managed instance.
+
+<ul>
+<li><code>description</code> - Software source description.</li>
+<li><code>display_name</code> - Software source name.</li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the software source.</li>
+<li><code>is_mandatory_for_autonomous_linux</code> - Indicates whether this is a required software source for Autonomous Linux instances. If true, the user can&rsquo;t unselect it.</li>
+<li><code>software_source_type</code> - Type of the software source.</li>
+</ul></li>
+<li><code>status</code> - Current status of the managed instance.</li>
+<li><code>tenancy_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the tenancy that the managed instance resides in.</li>
+<li><code>time_created</code> - The date and time the instance was created (in <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a> format).</li>
+<li><code>time_last_boot</code> - Time that the instance last booted (in <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a> format).</li>
+<li><code>time_last_checkin</code> - Time that the instance last checked in with the service (in <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a> format).</li>
+<li><code>time_updated</code> - The date and time the instance was last updated (in <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a> format).</li>
+<li><code>updates_available</code> - Number of updates available for installation.</li>
+<li><code>work_request_count</code> - Number of work requests associated with this instance.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

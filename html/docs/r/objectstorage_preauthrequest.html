@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_objectstorage_preauthrequest</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_objectstorage_preauthrequest</h1>
+
+<p>This resource provides the Preauthenticated Request resource in Oracle Cloud Infrastructure Object Storage service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/objectstorage/latest/PreauthenticatedRequest">https://docs.oracle.com/iaas/api/#/en/objectstorage/latest/PreauthenticatedRequest</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/">https://github.com/oracle/terraform-provider-oci/tree/master/examples/</a></p>
+
+<p>Creates a pre-authenticated request specific to the bucket.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_objectstorage_preauthrequest&quot; &quot;test_preauthenticated_request&quot; {
+	#Required
+	access_type = var.preauthenticated_request_access_type
+	bucket = var.preauthenticated_request_bucket
+	name = var.preauthenticated_request_name
+	namespace = var.preauthenticated_request_namespace
+	time_expires = var.preauthenticated_request_time_expires
+
+	#Optional
+	bucket_listing_action = var.preauthenticated_request_bucket_listing_action
+	object = var.preauthenticated_request_object
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>access_type</code> - (Required) The operation that can be performed on this resource. Allowed Values: <code>ObjectRead</code>, <code>ObjectWrite</code>, <code>ObjectReadWrite</code>, <code>AnyObjectReadWrite</code> or <code>AnyObjectRead</code></li>
+<li><code>bucket</code> - (Required) The name of the bucket. Avoid entering confidential information. Example: <code>my-new-bucket1</code></li>
+<li><code>bucket_listing_action</code> - (Optional) Specifies whether a list operation is allowed on a PAR with accessType &ldquo;AnyObjectRead&rdquo; or &ldquo;AnyObjectReadWrite&rdquo;. Deny: Prevents the user from performing a list operation. ListObjects: Authorizes the user to perform a list operation.</li>
+<li><code>name</code> - (Required) A user-specified name for the pre-authenticated request. Names can be helpful in managing pre-authenticated requests. Avoid entering confidential information.</li>
+<li><code>namespace</code> - (Required) The Object Storage namespace used for the request.</li>
+<li><code>object</code> - Deprecated. Instead use <code>object_name</code>. Requests that include both <code>object</code> and <code>object_name</code> will be rejected. (Optional) The name of the object that is being granted access to by the pre-authenticated request. Avoid entering confidential information. The object name can be null and if so, the pre-authenticated request grants access to the entire bucket if the access type allows that. The object name can be a prefix as well, in that case pre-authenticated request grants access to all the objects within the bucket starting with that prefix provided that we have the correct access type.</li>
+<li><code>object_name</code> - (Optional) The name of the object that is being granted access to by the pre-authenticated request. Avoid entering confidential information. The object name can be null and if so, the pre-authenticated request grants access to the entire bucket if the access type allows that. The object name can be a prefix as well, in that case pre-authenticated request grants access to all the objects within the bucket starting with that prefix provided that we have the correct access type.</li>
+<li><code>time_expires</code> - (Required) The expiration date for the pre-authenticated request as per <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a>. After this date the pre-authenticated request will no longer be valid.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>access_type</code> - The operation that can be performed on this resource.</li>
+<li><code>bucket_listing_action</code> - Specifies whether a list operation is allowed on a PAR with accessType &ldquo;AnyObjectRead&rdquo; or &ldquo;AnyObjectReadWrite&rdquo;. Deny: Prevents the user from performing a list operation. ListObjects: Authorizes the user to perform a list operation.</li>
+<li><code>full_path</code> - The full Path for the object.</li>
+<li><code>access_uri</code> - The URI to embed in the URL <code>https://objectstorage.${var.region}.oraclecloud.com{var.access_uri}</code> when using the pre-authenticated request.</li>
+<li><code>bucket</code> - The name of the bucket.  Example: <code>my-new-bucket1</code></li>
+<li><code>id</code> - The unique identifier to use when directly addressing the pre-authenticated request.</li>
+<li><code>name</code> - The user-provided name of the pre-authenticated request.</li>
+<li><code>namespace</code> - The top-level namespace used for the request.</li>
+<li><code>object</code> - The name of the object that is being granted access to by the pre-authenticated request. Avoid entering confidential information. The object name can be null and if so, the pre-authenticated request grants access to the entire bucket. Example: test/object1.log</li>
+<li><code>par_id</code> - The unique identifier for the pre-authenticated request. This can be used to manage operations against the pre-authenticated request, such as GET or DELETE.</li>
+<li><code>time_created</code> - The date when the pre-authenticated request was created as per specification <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a>.</li>
+<li><code>time_expires</code> - The expiration date for the pre-authenticated request as per <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a>. After this date the pre-authenticated request will no longer be valid.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Preauthenticated Request
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Preauthenticated Request
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Preauthenticated Request</p>
+
+<h2>Import</h2>
+
+<p>PreauthenticatedRequests can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_objectstorage_preauthrequest.test_preauthenticated_request &quot;n/{namespaceName}/b/{bucketName}/p/{parId}&quot; 
+</code></pre>
+
+	</div>
+
+</body>
+</html>

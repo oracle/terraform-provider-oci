@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_data_safe_user_assessment_user_analytics</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_data_safe_user_assessment_user_analytics</h1>
+
+<p>This data source provides the list of User Assessment User Analytics in Oracle Cloud Infrastructure Data Safe service.</p>
+
+<p>Gets a list of aggregated user details from the specified user assessment. This provides information about the overall state.
+of database user security.  For example, the user details include how many users have the DBA role and how many users are in
+the critical category. This data is especially useful content for dashboards or to support analytics.</p>
+
+<p>When you perform the ListUserAnalytics operation, if the parameter compartmentIdInSubtree is set to &ldquo;true,&rdquo; and if the
+parameter accessLevel is set to ACCESSIBLE, then the operation returns compartments in which the requestor has READ
+permissions on at least one resource, directly or indirectly (in subcompartments). If the operation is performed at the
+root compartment and the requestor does not have access to at least one subcompartment of the compartment specified by
+compartmentId, then &ldquo;Not Authorized&rdquo; is returned.</p>
+
+<p>The parameter compartmentIdInSubtree applies when you perform ListUserAnalytics on the compartmentId passed and when it is
+set to true, the entire hierarchy of compartments can be returned.</p>
+
+<p>To use ListUserAnalytics to get a full list of all compartments and subcompartments in the tenancy from the root compartment,
+set the parameter compartmentIdInSubtree to true and accessLevel to ACCESSIBLE.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_data_safe_user_assessment_user_analytics&quot; &quot;test_user_assessment_user_analytics&quot; {
+	#Required
+	user_assessment_id = oci_data_safe_user_assessment.test_user_assessment.id
+
+	#Optional
+	access_level = var.user_assessment_user_analytic_access_level
+	account_status = var.user_assessment_user_analytic_account_status
+	authentication_type = var.user_assessment_user_analytic_authentication_type
+	compartment_id_in_subtree = var.user_assessment_user_analytic_compartment_id_in_subtree
+	target_id = oci_cloud_guard_target.test_target.id
+	time_last_login_greater_than_or_equal_to = var.user_assessment_user_analytic_time_last_login_greater_than_or_equal_to
+	time_last_login_less_than = var.user_assessment_user_analytic_time_last_login_less_than
+	time_password_expiry_greater_than_or_equal_to = var.user_assessment_user_analytic_time_password_expiry_greater_than_or_equal_to
+	time_password_expiry_less_than = var.user_assessment_user_analytic_time_password_expiry_less_than
+	time_password_last_changed_greater_than_or_equal_to = var.user_assessment_user_analytic_time_password_last_changed_greater_than_or_equal_to
+	time_password_last_changed_less_than = var.user_assessment_user_analytic_time_password_last_changed_less_than
+	time_user_created_greater_than_or_equal_to = var.user_assessment_user_analytic_time_user_created_greater_than_or_equal_to
+	time_user_created_less_than = var.user_assessment_user_analytic_time_user_created_less_than
+	user_category = var.user_assessment_user_analytic_user_category
+	user_key = var.user_assessment_user_analytic_user_key
+	user_name = oci_identity_user.test_user.name
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>access_level</code> - (Optional) Valid values are RESTRICTED and ACCESSIBLE. Default is RESTRICTED. Setting this to ACCESSIBLE returns only those compartments for which the user has INSPECT permissions directly or indirectly (permissions can be on a resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed.</p></li>
+
+<li><p><code>account_status</code> - (Optional) A filter to return only items that match the specified account status.</p></li>
+
+<li><p><code>authentication_type</code> - (Optional) A filter to return only items that match the specified authentication type.</p></li>
+
+<li><p><code>compartment_id_in_subtree</code> - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the &lsquo;accessLevel&rsquo; setting.</p></li>
+
+<li><p><code>target_id</code> - (Optional) A filter to return only items related to a specific target OCID.</p></li>
+
+<li><p><code>time_last_login_greater_than_or_equal_to</code> - (Optional) A filter to return users whose last login time in the database is greater than or equal to the date and time specified, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</p>
+
+<p><strong>Example:</strong> 2016-12-19T16:39:57.600Z</p></li>
+
+<li><p><code>time_last_login_less_than</code> - (Optional) A filter to return users whose last login time in the database is less than the date and time specified, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>. <strong>Example:</strong> 2016-12-19T16:39:57.600Z</p></li>
+
+<li><p><code>time_password_expiry_greater_than_or_equal_to</code> - (Optional) A filter to return users whose password expiry date in the database is greater than or equal to the date and time specified, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>. <strong>Example:</strong> 2016-12-19T16:39:57.600Z</p></li>
+
+<li><p><code>time_password_expiry_less_than</code> - (Optional) A filter to return users whose password expiry date in the database is less than the date and time specified, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>. <strong>Example:</strong> 2016-12-19T16:39:57.600Z</p></li>
+
+<li><p><code>time_password_last_changed_greater_than_or_equal_to</code> - (Optional) A filter to return users whose last password change in the database is greater than or equal to the date and time specified, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</p>
+
+<p><strong>Example:</strong> 2016-12-19T16:39:57.600Z</p></li>
+
+<li><p><code>time_password_last_changed_less_than</code> - (Optional) A filter to return users whose last password change in the database is less than the date and time specified, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</p>
+
+<p><strong>Example:</strong> 2016-12-19T16:39:57.600Z</p></li>
+
+<li><p><code>time_user_created_greater_than_or_equal_to</code> - (Optional) A filter to return users whose creation time in the database is greater than or equal to the date and time specified, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>. <strong>Example:</strong> 2016-12-19T16:39:57.600Z</p></li>
+
+<li><p><code>time_user_created_less_than</code> - (Optional) A filter to return users whose creation time in the database is less than the date and time specified, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>. <strong>Example:</strong> 2016-12-19T16:39:57.600Z</p></li>
+
+<li><p><code>user_assessment_id</code> - (Required) The OCID of the user assessment.</p></li>
+
+<li><p><code>user_category</code> - (Optional) A filter to return only items that match the specified user category.</p></li>
+
+<li><p><code>user_key</code> - (Optional) A filter to return only items that match the specified user key.</p></li>
+
+<li><p><code>user_name</code> - (Optional) A filter to return only items that match the specified user name.</p></li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>user_aggregations</code> - The list of user_aggregations.</li>
+</ul>
+
+<h3>UserAssessmentUserAnalytic Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - List containing maps as values. Example: <code>{&quot;Operations&quot;: [ {&quot;CostCenter&quot;: &quot;42&quot;} ] }</code></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

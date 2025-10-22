@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_log_analytics_namespace_ingest_time_rule</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_log_analytics_namespace_ingest_time_rule</h1>
+
+<p>This resource provides the Namespace Ingest Time Rule resource in Oracle Cloud Infrastructure Log Analytics service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/logan-api-spec/latest/NamespaceIngestTimeRule">https://docs.oracle.com/iaas/api/#/en/logan-api-spec/latest/NamespaceIngestTimeRule</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/log_analytics">https://github.com/oracle/terraform-provider-oci/tree/master/examples/log_analytics</a></p>
+
+<p>Creates a new ingest time rule in the specified compartment. You may also specify optional information such as description, defined tags, and free-form tags.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_log_analytics_namespace_ingest_time_rule&quot; &quot;test_namespace_ingest_time_rule&quot; {
+	#Required
+	actions {
+		#Required
+		compartment_id = var.compartment_id
+		metric_name = oci_monitoring_metric.test_metric.name
+		namespace = var.namespace_ingest_time_rule_actions_namespace
+		type = var.namespace_ingest_time_rule_actions_type
+
+		#Optional
+		dimensions = var.namespace_ingest_time_rule_actions_dimensions
+		resource_group = var.namespace_ingest_time_rule_actions_resource_group
+	}
+	compartment_id = var.compartment_id
+	conditions {
+		#Required
+		field_name = var.namespace_ingest_time_rule_conditions_field_name
+		field_operator = var.namespace_ingest_time_rule_conditions_field_operator
+		field_value = var.namespace_ingest_time_rule_conditions_field_value
+		kind = var.namespace_ingest_time_rule_conditions_kind
+
+		#Optional
+		additional_conditions {
+			#Required
+			condition_field = var.namespace_ingest_time_rule_conditions_additional_conditions_condition_field
+			condition_operator = var.namespace_ingest_time_rule_conditions_additional_conditions_condition_operator
+			condition_value = var.namespace_ingest_time_rule_conditions_additional_conditions_condition_value
+		}
+	}
+	display_name = var.namespace_ingest_time_rule_display_name
+	namespace = var.namespace_ingest_time_rule_namespace
+
+	#Optional
+	defined_tags = {&quot;foo-namespace.bar-key&quot;= &quot;value&quot;}
+	description = var.namespace_ingest_time_rule_description
+	freeform_tags = {&quot;bar-key&quot;= &quot;value&quot;}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>actions</code> - (Required) (Updatable) The action(s) to be performed if the ingest time rule condition(s) are satisfied.
+
+<ul>
+<li><code>compartment_id</code> - (Required) (Updatable) The compartment OCID (<a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm</a>) of the extracted metric.</li>
+<li><code>dimensions</code> - (Optional) (Updatable) Additional dimensions to publish for the extracted metric. A valid list contains the source field names whose values are to be published as dimensions. The source name itself is specified using a special macro SOURCE_NAME</li>
+<li><code>metric_name</code> - (Required) (Updatable) The metric name of the extracted metric. A valid value starts with an alphabetical character and includes only alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($).</li>
+<li><code>namespace</code> - (Required) (Updatable) The namespace of the extracted metric. A valid value starts with an alphabetical character and includes only alphanumeric characters and underscores (_).</li>
+<li><code>resource_group</code> - (Optional) (Updatable) The resourceGroup of the extracted metric. A valid value starts with an alphabetical character and includes only alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($).</li>
+<li><code>type</code> - (Required) (Updatable) Discriminator.</li>
+</ul></li>
+<li><code>compartment_id</code> - (Required) (Updatable) Compartment Identifier <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>conditions</code> - (Required) (Updatable) The condition(s) to evaluate for an ingest time rule.
+
+<ul>
+<li><code>additional_conditions</code> - (Optional) (Updatable) Optional additional condition(s) to be evaluated.
+
+<ul>
+<li><code>condition_field</code> - (Required) (Updatable) The additional field name to be evaluated.</li>
+<li><code>condition_operator</code> - (Required) (Updatable) The operator to be used for evaluating the additional field.</li>
+<li><code>condition_value</code> - (Required) (Updatable) The additional field value to be evaluated.</li>
+</ul></li>
+<li><code>field_name</code> - (Required) (Updatable) The field name to be evaluated.</li>
+<li><code>field_operator</code> - (Required) (Updatable) The operator to be used for evaluating the field.</li>
+<li><code>field_value</code> - (Required) (Updatable) The field value to be evaluated.</li>
+<li><code>kind</code> - (Required) (Updatable) Discriminator.</li>
+</ul></li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>description</code> - (Optional) (Updatable) Description for this resource.</li>
+<li><code>display_name</code> - (Required) (Updatable) The ingest time rule display name.</li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>namespace</code> - (Required) The Logging Analytics namespace used for the request.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>actions</code> - The action(s) to be performed if the ingest time rule condition(s) are satisfied.
+
+<ul>
+<li><code>compartment_id</code> - The compartment OCID (<a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm</a>) of the extracted metric.</li>
+<li><code>dimensions</code> - Additional dimensions to publish for the extracted metric. A valid list contains the source field names whose values are to be published as dimensions. The source name itself is specified using a special macro SOURCE_NAME</li>
+<li><code>metric_name</code> - The metric name of the extracted metric. A valid value starts with an alphabetical character and includes only alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($).</li>
+<li><code>namespace</code> - The namespace of the extracted metric. A valid value starts with an alphabetical character and includes only alphanumeric characters and underscores (_).</li>
+<li><code>resource_group</code> - The resourceGroup of the extracted metric. A valid value starts with an alphabetical character and includes only alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($).</li>
+<li><code>type</code> - Discriminator.</li>
+</ul></li>
+<li><code>compartment_id</code> - Compartment Identifier <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>conditions</code> - The condition(s) to evaluate for an ingest time rule.
+
+<ul>
+<li><code>additional_conditions</code> - Optional additional condition(s) to be evaluated.
+
+<ul>
+<li><code>condition_field</code> - The additional field name to be evaluated.</li>
+<li><code>condition_operator</code> - The operator to be used for evaluating the additional field.</li>
+<li><code>condition_value</code> - The additional field value to be evaluated.</li>
+</ul></li>
+<li><code>field_name</code> - The field name to be evaluated.</li>
+<li><code>field_operator</code> - The operator to be used for evaluating the field.</li>
+<li><code>field_value</code> - The field value to be evaluated.</li>
+<li><code>kind</code> - Discriminator.</li>
+</ul></li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>description</code> - Description for this resource.</li>
+<li><code>display_name</code> - The ingest time rule display name.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - The log analytics entity OCID. This ID is a reference used by log analytics features and it represents a resource that is provisioned and managed by the customer on their premises or on the cloud.</li>
+<li><code>is_enabled</code> - A flag indicating whether or not the ingest time rule is enabled.</li>
+<li><code>state</code> - The current state of the ingest time rule.</li>
+<li><code>time_created</code> - The date and time the resource was created, in the format defined by RFC3339.</li>
+<li><code>time_updated</code> - The date and time the resource was last updated, in the format defined by RFC3339.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Namespace Ingest Time Rule
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Namespace Ingest Time Rule
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Namespace Ingest Time Rule</p>
+
+<h2>Import</h2>
+
+<p>NamespaceIngestTimeRules can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_log_analytics_namespace_ingest_time_rule.test_namespace_ingest_time_rule &quot;namespaces/{namespaceName}/ingestTimeRules/{ingestTimeRuleId}&quot; 
+</code></pre>
+
+	</div>
+
+</body>
+</html>

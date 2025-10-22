@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_database_management_external_db_system_database_managements_management</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_database_management_external_db_system_database_managements_management</h1>
+
+<p>This resource provides the External Db System Database Managements Management resource in Oracle Cloud Infrastructure Database Management service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/database-management/latest/ExternalDbSystemDatabaseManagementsManagement">https://docs.oracle.com/iaas/api/#/en/database-management/latest/ExternalDbSystemDatabaseManagementsManagement</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/databasemanagement">https://github.com/oracle/terraform-provider-oci/tree/master/examples/databasemanagement</a>
+Enables Database Management service for all the components of the specified
+external DB system (except databases).</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_database_management_external_db_system_database_managements_management&quot; &quot;test_external_db_system_database_managements_management&quot; {
+	#Required
+	external_db_system_id = oci_database_management_external_db_system.test_external_db_system.id
+	enable_database_management = var.enable_database_management
+
+	#Optional
+	license_model = var.external_db_system_database_managements_management_license_model
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>external_db_system_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the external DB system.</li>
+<li><code>license_model</code> - (Optional) The Oracle license model that applies to the external database.</li>
+<li><code>enable_database_management</code> - (Required) (Updatable) A required field when set to <code>true</code> calls enable action and when set to <code>false</code> calls disable action.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the External Db System Database Managements Management
+	* <code>update</code> - (Defaults to 20 minutes), when updating the External Db System Database Managements Management
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the External Db System Database Managements Management</p>
+
+	</div>
+
+</body>
+</html>

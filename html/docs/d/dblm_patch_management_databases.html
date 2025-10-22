@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_dblm_patch_management_databases</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_dblm_patch_management_databases</h1>
+
+<p>This data source provides the list of Patch Management Databases in Oracle Cloud Infrastructure Dblm service.</p>
+
+<p>Gets the list of databases</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_dblm_patch_management_databases&quot; &quot;test_patch_management_databases&quot; {
+
+	#Optional
+	compartment_id = var.compartment_id
+	database_release = var.patch_management_database_database_release
+	database_type = var.patch_management_database_database_type
+	display_name = var.patch_management_database_display_name
+	drifter_patch_id = oci_fleet_apps_management_patch.test_patch.id
+	image_compliance = var.patch_management_database_image_compliance
+	image_id = oci_core_image.test_image.id
+	severity_type = var.patch_management_database_severity_type
+	state = var.patch_management_database_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Optional) The ID of the compartment in which to list resources.</li>
+<li><code>database_release</code> - (Optional) A filter to return only database that match the given release version.</li>
+<li><code>database_type</code> - (Optional) Filter by database type. Possible values Single Instance or RAC.</li>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the entire display name given.</li>
+<li><code>drifter_patch_id</code> - (Optional) A filter to return only database that have given patchId as additional patch (drifter from image version).</li>
+<li><code>image_compliance</code> - (Optional) Filter databases by image compliance status.</li>
+<li><code>image_id</code> - (Optional) Subscribed image</li>
+<li><code>severity_type</code> - (Optional) Filter by one or more severity types. Possible values are critical, high, medium, low, info and none.</li>
+<li><code>state</code> - (Optional) A filter to return only resources their lifecycleState matches the given lifecycleState.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>patch_databases_collection</code> - The list of patch_databases_collection.</li>
+</ul>
+
+<h3>PatchManagementDatabase Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - List of patchDatabases.
+
+<ul>
+<li><code>additional_patches</code> - List of additional patches on database.
+
+<ul>
+<li><code>category</code> - Shows if patch is recommended or is an additional patch from an existing database.</li>
+<li><code>description</code> - Description of the patch recommendation.</li>
+<li><code>patch_id</code> - Id for the patch recommendation.</li>
+<li><code>patch_name</code> - Name for the patch recommendation.</li>
+</ul></li>
+<li><code>current_patch_watermark</code> - This is the hashcode representing the list of patches applied.</li>
+<li><code>database_id</code> - Database ocid.</li>
+<li><code>database_name</code> - Database name.</li>
+<li><code>database_type</code> - Database type.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>host_or_cluster</code> - For SI, hosted on host and for RAC, host on cluster.</li>
+<li><code>image_details</code> - Image details containing the subscribed image, its status, version, owner and time of creation.
+
+<ul>
+<li><code>created_by</code> - Name of the person who created the image.</li>
+<li><code>current_version</code> - Name of the image version marked as current of the image.</li>
+<li><code>image_id</code> - Image identifier.</li>
+<li><code>image_owner</code> - Owner of the image.</li>
+<li><code>image_status</code> - Image status.</li>
+<li><code>image_version</code> - Release version of the image.</li>
+<li><code>subscribed_image</code> - Subscribed image.</li>
+<li><code>time_image_creation</code> - Date when the image was created.</li>
+<li><code>up_to_date_image_version</code> - An image version name, that is up to date and has no recommendations.</li>
+</ul></li>
+<li><code>oracle_home_path</code> - Path to the Oracle home.</li>
+<li><code>patch_activity_details</code> - Details of deploy, update and migrate-listener(only for single Instance database) operations for this resource.
+
+<ul>
+<li><code>deploy_operation_id</code> - Operation Identifier for deploy operation.</li>
+<li><code>deploy_status</code> - Status of deploy operation.</li>
+<li><code>deploy_task_id</code> - Task identifier for deploy operation.</li>
+<li><code>migrate_listener_operation_id</code> - Operation Identifier for migrate listener operation.</li>
+<li><code>migrate_listener_status</code> - Status of migrate listener operation.</li>
+<li><code>migrate_listener_task_id</code> - Task identifier for migrate listener operation.</li>
+<li><code>update_operation_id</code> - Operation Identifier for update operation.</li>
+<li><code>update_status</code> - Status of update operation.</li>
+<li><code>update_task_id</code> - Task identifier for update operation.</li>
+</ul></li>
+<li><code>patch_compliance_details</code> - Patch Compliance Status
+
+<ul>
+<li><code>patch_compliance_status</code> - Patch compliance status.</li>
+<li><code>patch_compliance_version</code> - Resource patch compliance version name.</li>
+</ul></li>
+<li><code>patch_user</code> - Intermediate user to be used for patching, created and maintained by customers. This user requires sudo access to switch as Oracle home owner and root user</li>
+<li><code>release</code> - Database release.</li>
+<li><code>release_full_version</code> - Database release full version.</li>
+<li><code>state</code> - The current state of the database.</li>
+<li><code>sudo_file_path</code> - Path to sudo binary (executable) file</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>vulnerabilities_summary</code> - Summary of vulnerabilities found in registered resources grouped by severity.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

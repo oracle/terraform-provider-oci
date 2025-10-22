@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_jms_fleet_containers</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_jms_fleet_containers</h1>
+
+<p>This data source provides the list of Fleet Containers in Oracle Cloud Infrastructure Jms service.</p>
+
+<p>List containers in a fleet filtered by query parameters.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_jms_fleet_containers&quot; &quot;test_fleet_containers&quot; {
+	#Required
+	fleet_id = oci_jms_fleet.test_fleet.id
+
+	#Optional
+	application_name = oci_dataflow_application.test_application.name
+	display_name = var.fleet_container_display_name
+	jre_security_status = var.fleet_container_jre_security_status
+	jre_version = var.fleet_container_jre_version
+	managed_instance_id = oci_os_management_hub_managed_instance.test_managed_instance.id
+	time_started_greater_than_or_equal_to = var.fleet_container_time_started_greater_than_or_equal_to
+	time_started_less_than_or_equal_to = var.fleet_container_time_started_less_than_or_equal_to
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>application_name</code> - (Optional) The name of the application.</li>
+<li><code>display_name</code> - (Optional) The display name.</li>
+<li><code>fleet_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Fleet.</li>
+<li><code>jre_security_status</code> - (Optional) The security status of the Java Runtime.</li>
+<li><code>jre_version</code> - (Optional) The version of the related Java Runtime.</li>
+<li><code>managed_instance_id</code> - (Optional) The Fleet-unique identifier of the managed instance.</li>
+<li><code>time_started_greater_than_or_equal_to</code> - (Optional) If specified, only containers with a start time later than or equal to this parameter will be included in the response (formatted according to RFC3339).</li>
+<li><code>time_started_less_than_or_equal_to</code> - (Optional) If specified, only containers with a start time earlier than or equal to this parameter will be included in the response (formatted according to RFC3339).</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>container_collection</code> - The list of container_collection.</li>
+</ul>
+
+<h3>FleetContainer Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - A list of the container summaries.
+
+<ul>
+<li><code>application_key</code> - Unique key that identifies the application running in the container.</li>
+<li><code>application_name</code> - The name of the application running in the container.</li>
+<li><code>container_key</code> - Unique identifier for the container.</li>
+<li><code>display_name</code> - The name of the container.</li>
+<li><code>image_name</code> - The container image name.</li>
+<li><code>java_version</code> - The Java runtime used to run the application in the container.</li>
+<li><code>jre_key</code> - Unique key that identifies the Java runtime used to run the application in the container.</li>
+<li><code>jre_security_status</code> - The security status of the Java runtime used to run the application in the container.</li>
+<li><code>managed_instance_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the associated managed instance of type OCMA.</li>
+<li><code>namespace</code> - The namespace of the container.</li>
+<li><code>node_name</code> - The name of the node associated with the pod running this container.</li>
+<li><code>pod_name</code> - The name of the pod running this container.</li>
+<li><code>time_started</code> - The start time of the container.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

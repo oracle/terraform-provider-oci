@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_database_externalnoncontainerdatabases_stack_monitoring</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_database_externalnoncontainerdatabases_stack_monitoring</h1>
+
+<p>This resource provides the Externalnoncontainerdatabases Stack Monitoring resource in Oracle Cloud Infrastructure Database service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/database/latest/ExternalnoncontainerdatabasesStackMonitoring">https://docs.oracle.com/iaas/api/#/en/database/latest/ExternalnoncontainerdatabasesStackMonitoring</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/database">https://github.com/oracle/terraform-provider-oci/tree/master/examples/database</a></p>
+
+<p>Enable Stack Monitoring for the external non-container database.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_database_externalnoncontainerdatabases_stack_monitoring&quot; &quot;test_externalnoncontainerdatabases_stack_monitoring&quot; {
+	#Required
+	external_database_connector_id = oci_database_external_database_connector.test_external_database_connector.id
+	external_non_container_database_id = oci_database_external_non_container_database.test_external_non_container_database.id
+	enable_stack_monitoring = true
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>external_database_connector_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the <a href="https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/datatypes/CreateExternalDatabaseConnectorDetails">external database connector</a>.</li>
+<li><code>external_non_container_database_id</code> - (Required) The external non-container database <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>enable_stack_monitoring</code>  -  (Required) (Updatable) Enabling Stack Monitoring on External Non Container Databases . Requires boolean value &ldquo;true&rdquo; or &ldquo;false&rdquo;.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Externalnoncontainerdatabases Stack Monitoring
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Externalnoncontainerdatabases Stack Monitoring
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Externalnoncontainerdatabases Stack Monitoring</p>
+
+<h2>Import</h2>
+
+<p>Import is not supported for this resource.</p>
+
+	</div>
+
+</body>
+</html>

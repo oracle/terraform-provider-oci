@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_data_safe_audit_profile_collected_audit_volumes</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_data_safe_audit_profile_collected_audit_volumes</h1>
+
+<p>This data source provides the list of Audit Profile Collected Audit Volumes in Oracle Cloud Infrastructure Data Safe service.</p>
+
+<p>Gets a list of all collected audit volume data points.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_data_safe_audit_profile_collected_audit_volumes&quot; &quot;test_audit_profile_collected_audit_volumes&quot; {
+	#Required
+	audit_profile_id = oci_data_safe_audit_profile.test_audit_profile.id
+	work_request_id = oci_containerengine_work_request.test_work_request.id
+
+	#Optional
+	month_in_consideration_greater_than = var.audit_profile_collected_audit_volume_month_in_consideration_greater_than
+	month_in_consideration_less_than = var.audit_profile_collected_audit_volume_month_in_consideration_less_than
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>audit_profile_id</code> - (Required) The OCID of the audit.</p></li>
+
+<li><p><code>month_in_consideration_greater_than</code> - (Optional) Specifying <code>monthInConsiderationGreaterThan</code> parameter will retrieve all items for which the event month is greater than the date and time specified, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</p>
+
+<p><strong>Example:</strong> 2016-12-19T00:00:00.000Z</p></li>
+
+<li><p><code>month_in_consideration_less_than</code> - (Optional) Specifying <code>monthInConsiderationLessThan</code> parameter will retrieve all items for which the event month is less than the date and time specified, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</p>
+
+<p><strong>Example:</strong> 2016-12-19T00:00:00.000Z</p></li>
+
+<li><p><code>work_request_id</code> - (Required) The OCID of the work request.</p></li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>collected_audit_volume_collection</code> - The list of collected_audit_volume_collection.</li>
+</ul>
+
+<h3>AuditProfileCollectedAuditVolume Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - Array of collected audit volume summary.
+
+<ul>
+<li><code>archived_volume</code> - The audit data volume collected by Data Safe and is available in archive storage.</li>
+<li><code>audit_profile_id</code> - The OCID of the audit profile resource.</li>
+<li><code>month_in_consideration</code> - Represents the month under consideration in which the aggregated audit data volume collected by Data Safe is displayed. This field will be the UTC start of the day of the first day of the month for which the aggregate count corresponds to, in the format defined by RFC3339.. For instance, the value of 01-01-2021T00:00:00Z represents Jan 2021.</li>
+<li><code>online_volume</code> - The audit data volume collected by Data Safe and is available online in repository.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

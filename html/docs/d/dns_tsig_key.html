@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_dns_tsig_key</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_dns_tsig_key</h1>
+
+<p>This data source provides details about a specific Tsig Key resource in Oracle Cloud Infrastructure DNS service.</p>
+
+<p>Gets information about the specified TSIG key.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_dns_tsig_key&quot; &quot;test_tsig_key&quot; {
+	#Required
+	tsig_key_id = oci_dns_tsig_key.test_tsig_key.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>tsig_key_id</code> - (Required) The OCID of the target TSIG key.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>algorithm</code> - TSIG key algorithms are encoded as domain names, but most consist of only one non-empty label, which is not required to be explicitly absolute. Applicable algorithms include: hmac-sha1, hmac-sha224, hmac-sha256, hmac-sha512. For more information on these algorithms, see <a href="https://tools.ietf.org/html/rfc4635#section-2">RFC 4635</a>.</p></li>
+
+<li><p><code>compartment_id</code> - The OCID of the compartment containing the TSIG key.</p></li>
+
+<li><p><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</p>
+
+<p><strong>Example:</strong> <code>{&quot;Operations&quot;: {&quot;CostCenter&quot;: &quot;42&quot;}}</code></p></li>
+
+<li><p><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</p>
+
+<p><strong>Example:</strong> <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></p></li>
+
+<li><p><code>id</code> - The OCID of the resource.</p></li>
+
+<li><p><code>name</code> - A globally unique domain name identifying the key for a given pair of hosts.</p></li>
+
+<li><p><code>secret</code> - A base64 string encoding the binary shared secret.</p></li>
+
+<li><p><code>self</code> - The canonical absolute URL of the resource.</p></li>
+
+<li><p><code>state</code> - The current state of the resource.</p></li>
+
+<li><p><code>time_created</code> - The date and time the resource was created, expressed in RFC 3339 timestamp format.</p>
+
+<p><strong>Example:</strong> <code>2016-07-22T17:23:59:60Z</code></p></li>
+
+<li><p><code>time_updated</code> - The date and time the resource was last updated, expressed in RFC 3339 timestamp format.</p>
+
+<p><strong>Example:</strong> <code>2016-07-22T17:23:59:60Z</code></p></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

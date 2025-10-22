@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_data_safe_audit_event_analytic</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_data_safe_audit_event_analytic</h1>
+
+<p>This data source provides details about a specific Audit Event Analytic resource in Oracle Cloud Infrastructure Data Safe service.</p>
+
+<p>By default ListAuditEventAnalytics operation will return all of the summary columns. To filter desired summary columns, specify
+it in the <code>summaryOf</code> query parameter.</p>
+
+<p><strong>Example:</strong> /ListAuditEventAnalytics?summaryField=targetName&amp;summaryField=userName&amp;summaryField=clientHostName&amp;summaryField
+             &amp;summaryField=dmls&amp;summaryField=privilege_changes&amp;summaryField=ddls&amp;summaryField=login_failure&amp;summaryField=login_success
+             &amp;summaryField=eventcount&amp;q=(operationTime ge &lsquo;2021-06-13T23:49:14&rsquo;)&amp;groupBy=targetName</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_data_safe_audit_event_analytic&quot; &quot;test_audit_event_analytic&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	access_level = var.audit_event_analytic_access_level
+	compartment_id_in_subtree = var.audit_event_analytic_compartment_id_in_subtree
+	group_by = var.audit_event_analytic_group_by
+	query_time_zone = var.audit_event_analytic_query_time_zone
+	scim_query = var.audit_event_analytic_scim_query
+	summary_field = var.audit_event_analytic_summary_field
+	time_ended = var.audit_event_analytic_time_ended
+	time_started = var.audit_event_analytic_time_started
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>access_level</code> - (Optional) Valid values are RESTRICTED and ACCESSIBLE. Default is RESTRICTED. Setting this to ACCESSIBLE returns only those compartments for which the user has INSPECT permissions directly or indirectly (permissions can be on a resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed.</p></li>
+
+<li><p><code>compartment_id</code> - (Required) A filter to return only resources that match the specified compartment OCID.</p></li>
+
+<li><p><code>compartment_id_in_subtree</code> - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the &lsquo;accessLevel&rsquo; setting.</p></li>
+
+<li><p><code>group_by</code> - (Optional) A groupBy can only be used in combination with summaryField parameter. A groupBy value has to be a subset of the values mentioned in summaryField parameter.</p></li>
+
+<li><p><code>query_time_zone</code> - (Optional) Default time zone is UTC if no time zone provided. The date-time considerations of the resource will be in accordance with the specified time zone.</p></li>
+
+<li><p><code>scim_query</code> - (Optional) The scimQuery query parameter accepts filter expressions that use the syntax described in Section 3.2.2.2 of the System for Cross-Domain Identity Management (SCIM) specification, which is available at <a href="https://tools.ietf.org/html/draft-ietf-scim-api-12">RFC3339</a>. In SCIM filtering expressions, text, date, and time values must be enclosed in quotation marks, with date and time values using ISO-8601 format. (Numeric and boolean values should not be quoted.)</p>
+
+<p><strong>Example:</strong> query=(operationTime ge &lsquo;2021-06-04T01-00-26&rsquo;) and (eventName eq &lsquo;LOGON&rsquo;)</p></li>
+
+<li><p><code>summary_field</code> - (Optional) Specifies a subset of summarized fields to be returned in the response.</p></li>
+
+<li><p><code>time_ended</code> - (Optional) An optional filter to return audit events whose creation time in the database is less than and equal to the date-time specified, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</p></li>
+
+<li><p><code>time_started</code> - (Optional) An optional filter to return audit events whose creation time in the database is greater than and equal to the date-time specified, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</p></li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - The aggregated data point items.
+
+<ul>
+<li><code>count</code> - Total count of aggregated value.</li>
+<li><code>dimensions</code> - Details of aggregation dimensions used for summarizing audit events.
+
+<ul>
+<li><code>audit_event_time</code> - Time of audit event occurrence in the target database.</li>
+<li><code>audit_type</code> - Type of auditing.</li>
+<li><code>client_hostname</code> - Name of the host machine from which the session was spawned.</li>
+<li><code>client_id</code> - The client identifier in each Oracle session.</li>
+<li><code>client_program</code> - The application from which the audit event was generated. Examples SQL Plus or SQL Developer.</li>
+<li><code>db_user_name</code> - Name of the database user whose actions were audited.</li>
+<li><code>event_name</code> - Name of the detail action executed by the user on the target database. i.e ALTER SEQUENCE, CREATE TRIGGER, CREATE INDEX.</li>
+<li><code>object_type</code> - Type of object in the source database affected by the action. i.e PL/SQL, SYNONYM, PACKAGE BODY.</li>
+<li><code>target_class</code> - Class of the target that was audited.</li>
+<li><code>target_id</code> - The OCID of the target database that was audited.</li>
+<li><code>target_name</code> - The name of the target database that was audited.</li>
+</ul></li>
+<li><code>display_name</code> - Display Name of aggregation field.</li>
+<li><code>metric_name</code> - Name of the aggregation.</li>
+<li><code>time_ended</code> - The time at which the aggregation ended.</li>
+<li><code>time_started</code> - The time at which the aggregation started.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

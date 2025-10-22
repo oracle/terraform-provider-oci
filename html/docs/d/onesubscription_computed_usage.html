@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_onesubscription_computed_usage</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_onesubscription_computed_usage</h1>
+
+<p>This data source provides details about a specific Computed Usage resource in Oracle Cloud Infrastructure Onesubscription service.</p>
+
+<p>This is an API which returns Computed Usage corresponding to the id passed</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_onesubscription_computed_usage&quot; &quot;test_computed_usage&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	computed_usage_id = oci_onesubscription_computed_usage.test_computed_usage.id
+
+	#Optional
+	fields = var.computed_usage_fields
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The OCID of the root compartment.</li>
+<li><code>computed_usage_id</code> - (Required) The Computed Usage Id</li>
+<li><code>fields</code> - (Optional) Partial response refers to an optimization technique offered by the RESTful web APIs to return only the information  (fields) required by the client. This parameter is used to control what fields to return.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>commitment_service_id</code> - Subscribed service commitmentId.</li>
+<li><code>compute_source</code> - SPM Internal compute records source .</li>
+<li><code>cost</code> - Computed Line Amount not rounded</li>
+<li><code>cost_rounded</code> - Computed Line Amount rounded.</li>
+<li><code>currency_code</code> - Currency code</li>
+<li><code>data_center</code> - Data Center Attribute as sent by MQS to SPM.</li>
+<li><code>id</code> - SPM Internal computed usage Id , 32 character string</li>
+<li><code>is_invoiced</code> - Invoicing status for the aggregated compute usage</li>
+<li><code>mqs_message_id</code> - MQS Identfier send to SPM , SPM does not transform this attribute and is received as is.</li>
+<li><code>net_unit_price</code> - Net Unit Price for the product in consideration, price actual.</li>
+<li><code>original_usage_number</code> - SPM Internal Original usage Line number identifier in SPM coming from Metered Services entity.</li>
+<li><code>parent_product</code> - Product description
+
+<ul>
+<li><code>billing_category</code> - Metered service billing category</li>
+<li><code>name</code> - Product name</li>
+<li><code>part_number</code> - Product part number</li>
+<li><code>product_category</code> - Product category</li>
+<li><code>provisioning_group</code> - Product provisioning group</li>
+<li><code>ucm_rate_card_part_type</code> - Rate card part type of Product</li>
+<li><code>unit_of_measure</code> - Unit of Measure</li>
+</ul></li>
+<li><code>parent_subscribed_service_id</code> - Subscribed service line parent id</li>
+<li><code>plan_number</code> - Subscription plan number</li>
+<li><code>product</code> - Product description
+
+<ul>
+<li><code>billing_category</code> - Metered service billing category</li>
+<li><code>name</code> - Product name</li>
+<li><code>part_number</code> - Product part number</li>
+<li><code>product_category</code> - Product category</li>
+<li><code>provisioning_group</code> - Product provisioning group</li>
+<li><code>ucm_rate_card_part_type</code> - Rate card part type of Product</li>
+<li><code>unit_of_measure</code> - Unit of Measure</li>
+</ul></li>
+<li><code>quantity</code> - Total Quantity that was used for computation</li>
+<li><code>rate_card_id</code> - Ratecard Id at subscribed service level</li>
+<li><code>rate_card_tierd_id</code> - References the tier in the ratecard for that usage (OCI will be using the same reference to cross-reference for correctness on the usage csv report), comes from Entity OBSCNTR_IPT_PRODUCTTIER.</li>
+<li><code>time_created</code> - Computed Usage created time, expressed in RFC 3339 timestamp format.</li>
+<li><code>time_metered_on</code> - Metered Service date, expressed in RFC 3339 timestamp format.</li>
+<li><code>time_of_arrival</code> - Usae computation date, expressed in RFC 3339 timestamp format.</li>
+<li><code>time_updated</code> - Computed Usage updated time, expressed in RFC 3339 timestamp format.</li>
+<li><code>type</code> - Usage compute type in SPM.</li>
+<li><code>unit_of_measure</code> - Unit of Messure</li>
+<li><code>usage_number</code> - SPM Internal usage Line number identifier in SPM coming from Metered Services entity.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

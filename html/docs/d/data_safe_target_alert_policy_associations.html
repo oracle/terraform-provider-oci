@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_data_safe_target_alert_policy_associations</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_data_safe_target_alert_policy_associations</h1>
+
+<p>This data source provides the list of Target Alert Policy Associations in Oracle Cloud Infrastructure Data Safe service.</p>
+
+<p>Gets a list of all target-alert policy associations.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_data_safe_target_alert_policy_associations&quot; &quot;test_target_alert_policy_associations&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	access_level = var.target_alert_policy_association_access_level
+	alert_policy_id = oci_data_safe_alert_policy.test_alert_policy.id
+	compartment_id_in_subtree = var.target_alert_policy_association_compartment_id_in_subtree
+	state = var.target_alert_policy_association_state
+	target_alert_policy_association_id = oci_data_safe_target_alert_policy_association.test_target_alert_policy_association.id
+	target_id = oci_cloud_guard_target.test_target.id
+	target_type = var.target_alert_policy_association_target_type
+	time_created_greater_than_or_equal_to = var.target_alert_policy_association_time_created_greater_than_or_equal_to
+	time_created_less_than = var.target_alert_policy_association_time_created_less_than
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>access_level</code> - (Optional) Valid values are RESTRICTED and ACCESSIBLE. Default is RESTRICTED. Setting this to ACCESSIBLE returns only those compartments for which the user has INSPECT permissions directly or indirectly (permissions can be on a resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed.</li>
+<li><code>alert_policy_id</code> - (Optional) A filter to return policy by it&rsquo;s OCID.</li>
+<li><code>compartment_id</code> - (Required) A filter to return only resources that match the specified compartment OCID.</li>
+<li><code>compartment_id_in_subtree</code> - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the &lsquo;accessLevel&rsquo; setting.</li>
+<li><code>state</code> - (Optional) An optional filter to return only alert policies that have the given life-cycle state.</li>
+<li><code>target_alert_policy_association_id</code> - (Optional) A filter to return only items related to a specific target-alert policy association ID.</li>
+<li><code>target_id</code> - (Optional) A filter to return only items related to a specific target OCID.</li>
+<li><code>target_type</code> - (Optional) A optional filter to return only resources that belong to the specified alert policy association type.</li>
+<li><code>time_created_greater_than_or_equal_to</code> - (Optional) A filter to return only the resources that were created after the specified date and time, as defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>. Using TimeCreatedGreaterThanOrEqualToQueryParam parameter retrieves all resources created after that date.</li>
+</ul>
+
+<p><strong>Example:</strong> 2016-12-19T16:39:57.600Z
+* <code>time_created_less_than</code> - (Optional) Search for resources that were created before a specific date. Specifying this parameter corresponding <code>timeCreatedLessThan</code> parameter will retrieve all resources created before the specified created date, in &ldquo;YYYY-MM-ddThh:mmZ&rdquo; format with a Z offset, as defined by RFC 3339.</p>
+
+<p><strong>Example:</strong> 2016-12-19T16:39:57.600Z</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>target_alert_policy_association_collection</code> - The list of target_alert_policy_association_collection.</li>
+</ul>
+
+<h3>TargetAlertPolicyAssociation Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The OCID of the compartment that contains the policy.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a> Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - Describes the target-alert policy association.</li>
+<li><code>display_name</code> - The display name of the target-alert policy association.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The OCID of the target-alert policy association.</li>
+<li><code>is_enabled</code> - Indicates if the target-alert policy association is enabled or disabled by user.</li>
+<li><code>lifecycle_details</code> - Details about the current state of the target-alert policy association.</li>
+<li><code>policy_id</code> - The OCID of the alert policy.</li>
+<li><code>state</code> - The current state of the target-alert policy association.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>target_id</code> - The OCID of the target on which alert policy is to be applied.</li>
+<li><code>target_type</code> - The resource type that is represented by the target alert policy association.</li>
+<li><code>time_created</code> - Creation date and time of the alert policy, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>time_updated</code> - Last date and time the alert policy was updated, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

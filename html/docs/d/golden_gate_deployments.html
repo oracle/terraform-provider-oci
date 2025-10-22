@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_golden_gate_deployments</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_golden_gate_deployments</h1>
+
+<p>This data source provides the list of Deployments in Oracle Cloud Infrastructure Golden Gate service.</p>
+
+<p>Lists the Deployments in a compartment.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_golden_gate_deployments&quot; &quot;test_deployments&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	assignable_connection_id = oci_golden_gate_connection.test_connection.id
+	assigned_connection_id = oci_golden_gate_connection.test_connection.id
+	deployment_type = var.deployment_deployment_type
+	display_name = var.deployment_display_name
+	fqdn = var.deployment_fqdn
+	lifecycle_sub_state = var.deployment_lifecycle_sub_state
+	state = var.deployment_state
+	supported_connection_type = var.deployment_supported_connection_type
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>assignable_connection_id</code> - (Optional) Return the deployments to which the specified connectionId may be assigned.</li>
+<li><code>assigned_connection_id</code> - (Optional) The OCID of the connection which for the deployment must be assigned.</li>
+<li><code>compartment_id</code> - (Required) The OCID of the compartment that contains the work request. Work requests should be scoped  to the same compartment as the resource the work request affects. If the work request concerns  multiple resources, and those resources are not in the same compartment, it is up to the service team  to pick the primary resource whose compartment should be used.</li>
+<li><code>deployment_type</code> - (Optional) A filter that returns only the resources matching the specified &lsquo;deploymentType&rsquo;.</li>
+<li><code>display_name</code> - (Optional) A filter to return only the resources that match the entire &lsquo;displayName&rsquo; given.</li>
+<li><code>fqdn</code> - (Optional) A filter to return only the resources that match the &lsquo;fqdn&rsquo; given.</li>
+<li><code>lifecycle_sub_state</code> - (Optional) A filter to return only the resources that match the &lsquo;lifecycleSubState&rsquo; given.</li>
+<li><code>state</code> - (Optional) A filter to return only the resources that match the &lsquo;lifecycleState&rsquo; given.</li>
+<li><code>supported_connection_type</code> - (Optional) The connection type which the deployment must support.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>deployment_collection</code> - The list of deployment_collection.</li>
+</ul>
+
+<h3>Deployment Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>backup_schedule</code> - Defines the schedule of the deployment backup.
+
+<ul>
+<li><code>bucket</code> - Name of the bucket where the object is to be uploaded in the object storage</li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment being referenced.</li>
+<li><code>frequency_backup_scheduled</code> - The frequency of the deployment backup schedule. Frequency can be DAILY, WEEKLY or MONTHLY.</li>
+<li><code>is_metadata_only</code> - Parameter to allow users to create backup without trails</li>
+<li><code>namespace</code> - Name of namespace that serves as a container for all of your buckets</li>
+<li><code>time_backup_scheduled</code> - The start timestamp for the deployment backup schedule. The format is defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>, such as <code>2024-10-25T18:19:29.600Z</code>.</li>
+</ul></li>
+<li><code>availability_domain</code> - The availability domain of a placement.</li>
+<li><code>category</code> - The deployment category defines the broad separation of the deployment type into three categories. Currently the separation is &lsquo;DATA_REPLICATION&rsquo;, &lsquo;STREAM_ANALYTICS&rsquo; and &lsquo;DATA_TRANSFORMS&rsquo;.</li>
+<li><code>cluster_placement_group_id</code> - The OCID(<a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm</a>) of the cluster placement group for the resource. Only applicable for multicloud subscriptions. The cluster placement group id must be provided when a multicloud subscription id is provided. Otherwise the cluster placement group must not be provided.</li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment being referenced.</li>
+<li><code>cpu_core_count</code> - The Minimum number of OCPUs to be made available for this Deployment.</li>
+<li><code>defined_tags</code> - Tags defined for this resource. Each key is predefined and scoped to a namespace.  Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>deployment_backup_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the backup being referenced.</li>
+<li><code>deployment_diagnostic_data</code> - Information regarding the deployment diagnostic collection
+
+<ul>
+<li><code>bucket</code> - Name of the bucket where the object is to be uploaded in the object storage</li>
+<li><code>diagnostic_state</code> - The state of the deployment diagnostic collection.</li>
+<li><code>namespace</code> - Name of namespace that serves as a container for all of your buckets</li>
+<li><code>object</code> - Name of the diagnostic collected and uploaded to object storage</li>
+<li><code>time_diagnostic_end</code> - The time until which the diagnostic collection should collect the logs. The format is defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>, such as <code>2016-08-25T21:10:29.600Z</code>.</li>
+<li><code>time_diagnostic_start</code> - The time from which the diagnostic collection should collect the logs. The format is defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>, such as <code>2016-08-25T21:10:29.600Z</code>.</li>
+</ul></li>
+<li><code>deployment_role</code> - The type of the deployment role.</li>
+<li><code>deployment_type</code> - The type of deployment, which can be any one of the Allowed values.  NOTE: Use of the value &lsquo;OGG&rsquo; is maintained for backward compatibility purposes.  Its use is discouraged in favor of &lsquo;DATABASE_ORACLE&rsquo;.</li>
+<li><code>deployment_type</code> - The type of deployment, which can be any one of the Allowed values.  NOTE: Use of the value &lsquo;OGG&rsquo; is maintained for backward compatibility purposes.  Its use is discouraged in favor of &lsquo;DATABASE_ORACLE&rsquo;.</li>
+<li><code>deployment_url</code> - The URL of a resource.</li>
+<li><code>description</code> - Metadata about this specific object.</li>
+<li><code>display_name</code> - An object&rsquo;s Display Name.</li>
+<li><code>environment_type</code> - Specifies whether the deployment is used in a production or development/testing environment.</li>
+<li><code>fault_domain</code> - The fault domain of a placement.</li>
+<li><code>fqdn</code> - A three-label Fully Qualified Domain Name (FQDN) for a resource.</li>
+<li><code>freeform_tags</code> - A simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.  Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the deployment being referenced.</li>
+<li><code>ingress_ips</code> - List of ingress IP addresses from where the GoldenGate deployment connects to this connection&rsquo;s privateIp.  Customers may optionally set up ingress security rules to restrict traffic from these IP addresses.
+
+<ul>
+<li><code>ingress_ip</code> - A Private Endpoint IPv4 or IPv6 Address created in the customer&rsquo;s subnet.</li>
+</ul></li>
+<li><code>is_auto_scaling_enabled</code> - Indicates if auto scaling is enabled for the Deployment&rsquo;s CPU core count.</li>
+<li><code>byol_cpu_core_count_limit</code> - The maximum number of CPUs allowed with a &lsquo;Bring Your Own License&rsquo; (BYOL) license type. Any CPU usage above this limit is considered as License Included and billed.</li>
+<li><code>is_byol_cpu_core_count_limit_enabled</code> - Flag to allow to configure the &lsquo;Bring Your Own License&rsquo; (BYOL) license type CPU limit. If enabled, the exact number of CPUs must be provided via byolCpuCoreCountLimit.</li>
+<li><code>is_healthy</code> - True if all of the aggregate resources are working correctly.</li>
+<li><code>is_latest_version</code> - Indicates if the resource is the the latest available version.</li>
+<li><code>is_public</code> - True if this object is publicly available.</li>
+<li><code>is_storage_utilization_limit_exceeded</code> - Deprecated: This field is not updated and will be removed in future versions. If storage utilization exceeds the limit, the respective warning message will appear in deployment messages, which can be accessed through /messages?deploymentId=. Indicator will be true if the amount of storage being utilized exceeds the allowable storage utilization limit.  Exceeding the limit may be an indication of a misconfiguration of the deployment&rsquo;s GoldenGate service.</li>
+<li><code>license_model</code> - The Oracle license model that applies to a Deployment.</li>
+<li><code>lifecycle_details</code> - Describes the object&rsquo;s current state in detail. For example, it can be used to provide actionable information for a resource in a Failed state.</li>
+<li><code>lifecycle_sub_state</code> - Possible GGS lifecycle sub-states.</li>
+<li><code>load_balancer_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the loadbalancer in the customer&rsquo;s subnet. The loadbalancer of the public deployment created in the customer subnet.</li>
+<li><code>load_balancer_subnet_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of a public subnet in the customer tenancy. Can be provided only for public deployments. If provided, the loadbalancer will be created in this subnet instead of the service tenancy. For backward compatibility, this is an optional property. It will become mandatory for public deployments after October 1, 2024.</li>
+<li><code>locks</code> - Locks associated with this resource.
+
+<ul>
+<li><code>message</code> - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked.</li>
+<li><code>related_resource_id</code> - The id of the resource that is locking this resource. Indicates that deleting this resource will remove the lock.</li>
+<li><code>time_created</code> - When the lock was created.</li>
+<li><code>type</code> - Type of the lock.</li>
+</ul></li>
+<li><code>maintenance_configuration</code> - Attributes for configuring automatic deployment maintenance.
+
+<ul>
+<li><code>bundle_release_upgrade_period_in_days</code> - Defines auto upgrade period for bundle releases. Manually configured period cannot be longer than service defined period for bundle releases. This period must be shorter or equal to major release upgrade period. Not passing this field during create will equate to using the service default.</li>
+<li><code>interim_release_upgrade_period_in_days</code> - Defines auto upgrade period for interim releases. This period must be shorter or equal to bundle release upgrade period.</li>
+<li><code>is_interim_release_auto_upgrade_enabled</code> - By default auto upgrade for interim releases are not enabled. If auto-upgrade is enabled for interim release,  you have to specify interimReleaseUpgradePeriodInDays too.</li>
+<li><code>major_release_upgrade_period_in_days</code> - Defines auto upgrade period for major releases. Manually configured period cannot be longer than service defined period for major releases. Not passing this field during create will equate to using the service default.</li>
+<li><code>security_patch_upgrade_period_in_days</code> - Defines auto upgrade period for releases with security fix. Manually configured period cannot be longer than service defined period for security releases. Not passing this field during create will equate to using the service default.</li>
+</ul></li>
+<li><code>maintenance_window</code> - Defines the maintenance window, when automatic actions can be performed.
+
+<ul>
+<li><code>day</code> - Days of the week.</li>
+<li><code>start_hour</code> - Start hour for maintenance period. Hour is in UTC.</li>
+</ul></li>
+<li><code>next_maintenance_action_type</code> - Type of the next maintenance.</li>
+<li><code>next_maintenance_description</code> - Description of the next maintenance.</li>
+<li><code>nsg_ids</code> - An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.</li>
+<li><code>ogg_data</code> - Deployment Data for an OggDeployment
+
+<ul>
+<li><code>admin_username</code> - The GoldenGate deployment console username.</li>
+<li><code>certificate</code> - The base64 encoded content of the PEM file containing the SSL certificate.</li>
+<li><code>credential_store</code> - The type of credential store for OGG.</li>
+<li><code>deployment_name</code> - The name given to the GoldenGate service deployment. The name must be 1 to 32 characters long, must contain only alphanumeric characters and must start with a letter.</li>
+<li><code>group_to_roles_mapping</code> - Defines the IDP Groups to GoldenGate roles mapping. This field is used only for IAM deployment and does not have any impact on non-IAM deployments. For IAM deployment, when user does not specify this mapping, then it has null value and default mapping is used. User belonging to each group can only perform the actions according to the role the respective group is mapped to.
+
+<ul>
+<li><code>administrator_group_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the IDP group which will be mapped to goldengate role administratorGroup. It grants full access to the user, including the ability to alter general, non-security related operational parameters and profiles of the server.</li>
+<li><code>operator_group_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the IDP group which will be mapped to goldengate role operatorGroup. It allows users to perform only operational actions, like starting and stopping resources. Operators cannot alter the operational parameters or profiles of the MA server.</li>
+<li><code>security_group_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the IDP group which will be mapped to goldengate role securityGroup. It grants administration of security related objects and invoke security related service requests. This role has full privileges.</li>
+<li><code>user_group_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the IDP group which will be mapped to goldengate role userGroup. It allows information-only service requests, which do not alter or affect the operation of either the MA. Examples of query and read-only information include performance metric information and resource status and monitoring information</li>
+</ul></li>
+<li><code>identity_domain_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Identity Domain when IAM credential store is used.</li>
+<li><code>ogg_version</code> - Version of OGG</li>
+<li><code>password_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Secret where the deployment password is stored.</li>
+</ul></li>
+<li><code>placements</code> - An array of local peers of deployment
+
+<ul>
+<li><code>availability_domain</code> - The availability domain of a placement.</li>
+<li><code>fault_domain</code> - The fault domain of a placement.</li>
+</ul></li>
+<li><code>private_ip_address</code> - The private IP address in the customer&rsquo;s VCN representing the access point for the associated endpoint service in the GoldenGate service VCN.</li>
+<li><code>public_ip_address</code> - The public IP address representing the access point for the Deployment.</li>
+<li><code>security_attributes</code> - Security attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Oracle-ZPR&quot;: {&quot;MaxEgressCount&quot;: {&quot;value&quot;: &quot;42&quot;, &quot;mode&quot;: &quot;enforce&quot;}}}</code></li>
+<li><code>source_deployment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the deployment being referenced.</li>
+<li><code>state</code> - Possible lifecycle states.</li>
+<li><code>storage_utilization_in_bytes</code> - The amount of storage being utilized (in bytes)</li>
+<li><code>subnet_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the subnet of the deployment&rsquo;s private endpoint. The subnet must be a private subnet. For backward compatibility, public subnets are allowed until May 31 2025, after which the private subnet will be enforced.</li>
+<li><code>subscription_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the subscription with which resource needs to be associated with.</li>
+<li><code>system_tags</code> - The system tags associated with this resource, if any. The system tags are set by Oracle Cloud Infrastructure services. Each key is predefined and scoped to namespaces.  For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{orcl-cloud: {free-tier-retain: true}}</code></li>
+<li><code>time_created</code> - The time the resource was created. The format is defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>, such as <code>2016-08-25T21:10:29.600Z</code>.</li>
+<li><code>time_last_backup_scheduled</code> - The timestamp of last deployment backup scheduled. The format is defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>, such as <code>2024-10-25T18:19:29.600Z</code>.</li>
+<li><code>time_next_backup_scheduled</code> - The timestamp of next deployment backup scheduled. The format is defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>, such as <code>2024-10-26T20:19:29.600Z</code>.</li>
+<li><code>time_of_next_maintenance</code> - The time of next maintenance schedule. The format is defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>, such as <code>2016-08-25T21:10:29.600Z</code>.</li>
+<li><code>time_ogg_version_supported_until</code> - The time until OGG version is supported. After this date has passed OGG version will not be available anymore. The format is defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>, such as <code>2016-08-25T21:10:29.600Z</code>.</li>
+<li><code>time_role_changed</code> - The time of the last role change. The format is defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>, such as <code>2016-08-25T21:10:29.600Z</code>.</li>
+<li><code>time_updated</code> - The time the resource was last updated. The format is defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>, such as <code>2016-08-25T21:10:29.600Z</code>.</li>
+<li><code>time_upgrade_required</code> - Note: Deprecated: Use timeOfNextMaintenance instead, or related upgrade records  to check, when deployment will be forced to upgrade to a newer version. Old description: The date the existing version in use will no longer be considered as usable and an upgrade will be required.  This date is typically 6 months after the version was released for use by GGS.  The format is defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>, such as <code>2016-08-25T21:10:29.600Z</code>.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

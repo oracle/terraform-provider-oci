@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_recovery_long_term_backup</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_recovery_long_term_backup</h1>
+
+<p>This resource provides the Long Term Backup resource in Oracle Cloud Infrastructure Recovery service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/recovery-service/latest/LongTermBackup">https://docs.oracle.com/iaas/api/#/en/recovery-service/latest/LongTermBackup</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/recovery">https://github.com/oracle/terraform-provider-oci/tree/master/examples/recovery</a></p>
+
+<p>Creates a long-term backup of a specified protected database.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_recovery_long_term_backup&quot; &quot;test_long_term_backup&quot; {
+	#Required
+	protected_database_id = oci_recovery_protected_database.test_protected_database.id
+	retention_period {
+		#Required
+		retention_count = var.long_term_backup_retention_period_retention_count
+		retention_period_type = var.long_term_backup_retention_period_retention_period_type
+	}
+
+	#Optional
+	defined_tags = {&quot;foo-namespace.bar-key&quot;= &quot;value&quot;}
+	display_name = var.long_term_backup_display_name
+	freeform_tags = {&quot;bar-key&quot;= &quot;value&quot;}
+	retention_point_in_time = var.long_term_backup_retention_point_in_time
+	retention_scn = var.long_term_backup_retention_scn
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code>. For more information, see <a href="https://docs.oracle.com/en-us/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a></li>
+<li><code>display_name</code> - (Optional) (Updatable) A user provided name for the long term backup. The &lsquo;displayName&rsquo; does not have to be unique, and it can be modified. Avoid entering confidential information.</li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>protected_database_id</code> - (Required) The OCID of the protected database for which you want to create the long-term backup.</li>
+<li><code>retention_period</code> - (Required) (Updatable) The maximum period to retain the long-term backup. Specify the retention period type and the duration for the long-term backup. If you have chosen the retention period type as &lsquo;DAYS&rsquo;, then specify a duration ranging from 90 days to 3650 days. If you have chosen the retention period type as &lsquo;YEARS&rsquo;, then specify a duration ranging from 1 year to 10 years.
+
+<ul>
+<li><code>retention_count</code> - (Required) (Updatable) Specifies the duration (in days or years) to retain the long-term backup. If you have chosen the retentionPeriodType as &lsquo;DAYS&rsquo;, then specify a duration ranging from 90 days to 3650 days. If you have chosen the retentionPeriodType as &lsquo;YEARS&rsquo;, then specify a duration ranging from 1 year to 10 years.</li>
+<li><code>retention_period_type</code> - (Required) (Updatable) Specifies the retention period type for the long-term backup. Allowed values are DAYS or YEARS.</li>
+</ul></li>
+<li><code>retention_point_in_time</code> - (Optional) An RFC3339 formatted datetime string that indicates the desired target point in time in the database at which you want to create the long-term backup. For example, if you want the long-term backup to include all the changes until May 22 at 9:10 PM, then specify the value as, &lsquo;2020-05-22T21:10:00.000Z&rsquo;. If you want to specify the target point as an SCN value instead of the target time, then use the databaseSCN parameter.</li>
+<li><code>retention_scn</code> - (Optional) The desired target point (SCN) at which you want to create the long-term backup of the database.For example, specify the value as 1000 if you want to create the long-term backup until SCN 1000. If you want to specify the target point as a time expression instead of the SCN value, then use the longTermRetentionPointInTime parameter.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The OCID of the compartment containing the long-term backup.</li>
+<li><code>database_identifier</code> - The Oracle Database ID, which identifies an Oracle Database located outside of Oracle Cloud.</li>
+<li><code>database_size_in_gbs</code> - The size of the database, in gigabytes.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code>. For more information, see <a href="https://docs.oracle.com/en-us/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a></li>
+<li><code>display_name</code> - The user-provided name for the long-term backup. You can change the displayName. Avoid entering confidential information.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - The OCID of the long-term backup.</li>
+<li><code>lifecycle_details</code> - A detailed message about the current lifecycle state of the long-term backup. For example, it can be used to provide actionable information for a resource in a Failed state.</li>
+<li><code>lifecycle_substate</code> - More details on the state of the backup when it is in Creating lifecycleState.</li>
+<li><code>protected_database_id</code> - The OCID of the protected database associated with the long-term backup.</li>
+<li><code>retention_period</code> - The maximum number of DAYS or YEARS to store the long-term backup. You can retain a long-term backup for a period ranging from 90-3650 days or 1-10 years.
+
+<ul>
+<li><code>retention_count</code> - Specifies the duration (in days or years) to retain the long-term backup. If you have chosen the retentionPeriodType as &lsquo;DAYS&rsquo;, then specify a duration ranging from 90 days to 3650 days. If you have chosen the retentionPeriodType as &lsquo;YEARS&rsquo;, then specify a duration ranging from 1 year to 10 years.</li>
+<li><code>retention_period_type</code> - Specifies the retention period type for the long-term backup. Allowed values are DAYS or YEARS.</li>
+</ul></li>
+<li><code>retention_point_in_time</code> - An RFC3339 formatted datetime string that indicates the target point in time until which the long-term backup is consistent. For example, &lsquo;2020-05-22T21:10:29.600Z&rsquo;.</li>
+<li><code>retention_scn</code> - The unique system change number (SCN) or the target point in the database until which the long-term backup is consistent.</li>
+<li><code>retention_until_date_time</code> - Indicates that Recovery Service must retain the backup for the specified long-term retention period.</li>
+<li><code>rman_tag</code> - Recovery Manager (RMAN) assigned unique identifier for the long-term backup.</li>
+<li><code>state</code> - The current state of the long term backup.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code>. For more information, see <a href="https://docs.oracle.com/en-us/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a></li>
+<li><code>time_backup_completed</code> - An RFC3339 formatted datetime string that indicates the time when the long-term backup completed. For example, &lsquo;2020-05-22T21:10:29.600Z&rsquo;.</li>
+<li><code>time_backup_initiated</code> - An RFC3339 formatted datetime string that indicates the time when the long-term backup was created. For example, &lsquo;2020-05-22T21:10:29.600Z&rsquo;.</li>
+<li><code>time_created</code> - An RFC3339 formatted datetime string that indicates the time when the long-term backup was created. For example: &lsquo;2020-05-22T21:10:29.600Z&rsquo;.</li>
+<li><code>time_updated</code> - An RFC3339 formatted datetime string that indicates the time when the long term backup was last updated. For example: &lsquo;2020-05-22T21:10:29.600Z&rsquo;.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 24 hours), when creating the Long Term Backup
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Long Term Backup
+	* <code>delete</code> - (Defaults to 24 hours), when destroying the Long Term Backup</p>
+
+<h2>Import</h2>
+
+<p>LongTermBackups can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_recovery_long_term_backup.test_long_term_backup &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

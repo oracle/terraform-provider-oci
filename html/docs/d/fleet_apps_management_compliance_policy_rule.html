@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_fleet_apps_management_compliance_policy_rule</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_fleet_apps_management_compliance_policy_rule</h1>
+
+<p>This data source provides details about a specific Compliance Policy Rule resource in Oracle Cloud Infrastructure Fleet Apps Management service.</p>
+
+<p>Gets information about a compliance policy rule.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_fleet_apps_management_compliance_policy_rule&quot; &quot;test_compliance_policy_rule&quot; {
+	#Required
+	compliance_policy_rule_id = oci_fleet_apps_management_compliance_policy_rule.test_compliance_policy_rule.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compliance_policy_rule_id</code> - (Required) unique CompliancePolicyRule identifier.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The OCID of the compartment the CompliancePolicyRule belongs to.</li>
+<li><code>compliance_policy_id</code> - Unique OCID of the CompliancePolicy.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.  Example: <code>My new resource</code></li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>grace_period</code> - Grace period in days,weeks,months or years the exemption is applicable for the rule. This enables a grace period when Fleet Application Management doesn&rsquo;t report the product as noncompliant when patch is not applied.</li>
+<li><code>id</code> - Unique OCID of the CompliancePolicyRule.</li>
+<li><code>lifecycle_details</code> - A message that describes the current state of the CompliancePolicyRule in more detail. For example, can be used to provide actionable information for a resource in the Failed state.</li>
+<li><code>patch_selection</code> - Patch Selection Details
+
+<ul>
+<li><code>days_since_release</code> - Days passed since patch release.</li>
+<li><code>patch_level</code> - Patch Name.</li>
+<li><code>patch_name</code> - Patch Name.</li>
+<li><code>selection_type</code> - Selection type for the Patch.</li>
+</ul></li>
+<li><code>patch_type_id</code> - PlatformConfiguration OCID for the patch type to which this CompliancePolicyRule applies.</li>
+<li><code>product_version</code> - A specific product version or a specific version and succeeding. Example: 12.1 or 12.1 and above for Oracle WebLogic Application server. The policy applies to the next version only, and not to other versions such as, 12.1.x.
+
+<ul>
+<li><code>is_applicable_for_all_higher_versions</code> - Is rule applicable to all higher versions also</li>
+<li><code>version</code> - Product version the rule is applicable.</li>
+</ul></li>
+<li><code>severity</code> - Severity to which this CompliancePolicyRule applies.</li>
+<li><code>state</code> - The current state of the CompliancePolicyRule.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The date and time the CompliancePolicyRule was created, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a>.  Example: <code>2016-08-25T21:10:29.600Z</code></li>
+<li><code>time_updated</code> - The date and time the CompliancePolicyRule was updated, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a>.  Example: <code>2016-08-25T21:10:29.600Z</code></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_cloud_migrations_migration_plan_available_shape</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_cloud_migrations_migration_plan_available_shape</h1>
+
+<p>This data source provides details about a specific Migration Plan Available Shape resource in Oracle Cloud Infrastructure Cloud Migrations service.</p>
+
+<p>List of shapes by parameters.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_cloud_migrations_migration_plan_available_shape&quot; &quot;test_migration_plan_available_shape&quot; {
+	#Required
+	migration_plan_id = oci_cloud_migrations_migration_plan.test_migration_plan.id
+
+	#Optional
+	availability_domain = var.migration_plan_available_shape_availability_domain
+	compartment_id = var.compartment_id
+	dvh_host_id = oci_cloud_migrations_dvh_host.test_dvh_host.id
+	reserved_capacity_id = oci_cloud_migrations_reserved_capacity.test_reserved_capacity.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>availability_domain</code> - (Optional) The availability domain in which to list resources.</li>
+<li><code>compartment_id</code> - (Optional) The ID of the compartment in which to list resources.</li>
+<li><code>dvh_host_id</code> - (Optional) The ID of the Dvh in which to list resources.</li>
+<li><code>migration_plan_id</code> - (Required) Unique migration plan identifier</li>
+<li><code>reserved_capacity_id</code> - (Optional) The reserved capacity ID for which to list resources.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - Available shapes list.
+
+<ul>
+<li><code>availability_domain</code> - Availability domain of the shape.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. It exists only for cross-compatibility. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>gpu_description</code> - Description of the GPUs.</li>
+<li><code>gpus</code> - Number of GPUs.</li>
+<li><code>local_disk_description</code> - Description of local disks.</li>
+<li><code>local_disks</code> - Number of local disks.</li>
+<li><code>local_disks_total_size_in_gbs</code> - Total size of local disks for shape.</li>
+<li><code>max_vnic_attachments</code> - Maximum number of virtual network interfaces that can be attached.</li>
+<li><code>memory_in_gbs</code> - Amount of memory for the shape.</li>
+<li><code>min_total_baseline_ocpus_required</code> - Minimum CPUs required.</li>
+<li><code>networking_bandwidth_in_gbps</code> - Shape bandwidth.</li>
+<li><code>ocpus</code> - Number of CPUs.</li>
+<li><code>pagination_token</code> - Shape name and availability domain.  Used for pagination.</li>
+<li><code>processor_description</code> - Description of the processor.</li>
+<li><code>shape</code> - Name of the shape.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

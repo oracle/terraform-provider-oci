@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_data_safe_generate_on_prem_connector_configuration</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_data_safe_generate_on_prem_connector_configuration</h1>
+
+<p>This resource provides the Generate On Prem Connector Configuration resource in Oracle Cloud Infrastructure Data Safe service.</p>
+
+<p>Creates and downloads the configuration of the specified on-premises connector.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_data_safe_generate_on_prem_connector_configuration&quot; &quot;test_generate_on_prem_connector_configuration&quot; {
+	#Required
+	on_prem_connector_id = oci_data_safe_on_prem_connector.test_on_prem_connector.id
+	password = var.generate_on_prem_connector_configuration_password
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>on_prem_connector_id</code> - (Required) The OCID of the on-premises connector.</li>
+<li><code>password</code> - (Required) The password to encrypt the keys inside the wallet included as part of the configuration. The password must be between 12 and 30 characters long and must contain atleast 1 uppercase, 1 lowercase, 1 numeric, and 1 special character.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Generate On Prem Connector Configuration
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Generate On Prem Connector Configuration
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Generate On Prem Connector Configuration</p>
+
+<h2>Import</h2>
+
+<p>GenerateOnPremConnectorConfiguration can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_data_safe_generate_on_prem_connector_configuration.test_generate_on_prem_connector_configuration &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

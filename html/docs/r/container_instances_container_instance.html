@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_container_instances_container_instance</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_container_instances_container_instance</h1>
+
+<p>This resource provides the Container Instance resource in Oracle Cloud Infrastructure Container Instances service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/container-instances/latest/ContainerInstance">https://docs.oracle.com/iaas/api/#/en/container-instances/latest/ContainerInstance</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/container_instances">https://github.com/oracle/terraform-provider-oci/tree/master/examples/container_instances</a></p>
+
+<p>Creates a container instance and deploys the containers on it.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_container_instances_container_instance&quot; &quot;test_container_instance&quot; {
+	#Required
+	availability_domain = var.container_instance_availability_domain
+	compartment_id = var.compartment_id
+	containers {
+		#Required
+		image_url = var.container_instance_containers_image_url
+
+		#Optional
+		arguments = var.container_instance_containers_arguments
+		command = var.container_instance_containers_command
+		defined_tags = var.container_instance_containers_defined_tags
+		display_name = var.container_instance_containers_display_name
+		environment_variables = var.container_instance_containers_environment_variables
+		freeform_tags = var.container_instance_containers_freeform_tags
+		health_checks {
+			#Required
+			health_check_type = var.container_instance_containers_health_checks_health_check_type
+
+			#Optional
+			failure_action = var.container_instance_containers_health_checks_failure_action
+			failure_threshold = var.container_instance_containers_health_checks_failure_threshold
+			headers {
+
+				#Optional
+				name = var.container_instance_containers_health_checks_headers_name
+				value = var.container_instance_containers_health_checks_headers_value
+			}
+			initial_delay_in_seconds = var.container_instance_containers_health_checks_initial_delay_in_seconds
+			interval_in_seconds = var.container_instance_containers_health_checks_interval_in_seconds
+			name = var.container_instance_containers_health_checks_name
+			path = var.container_instance_containers_health_checks_path
+			port = var.container_instance_containers_health_checks_port
+			success_threshold = var.container_instance_containers_health_checks_success_threshold
+			timeout_in_seconds = var.container_instance_containers_health_checks_timeout_in_seconds
+		}
+		is_resource_principal_disabled = var.container_instance_containers_is_resource_principal_disabled
+		resource_config {
+
+			#Optional
+			memory_limit_in_gbs = var.container_instance_containers_resource_config_memory_limit_in_gbs
+			vcpus_limit = var.container_instance_containers_resource_config_vcpus_limit
+		}
+		security_context {
+
+			#Optional
+			capabilities {
+
+				#Optional
+				add_capabilities = var.container_instance_containers_security_context_capabilities_add_capabilities
+				drop_capabilities = var.container_instance_containers_security_context_capabilities_drop_capabilities
+			}
+			is_non_root_user_check_enabled = var.container_instance_containers_security_context_is_non_root_user_check_enabled
+			is_root_file_system_readonly = var.container_instance_containers_security_context_is_root_file_system_readonly
+			run_as_group = var.container_instance_containers_security_context_run_as_group
+			run_as_user = var.container_instance_containers_security_context_run_as_user
+			security_context_type = var.container_instance_containers_security_context_security_context_type
+		}
+		volume_mounts {
+			#Required
+			mount_path = var.container_instance_containers_volume_mounts_mount_path
+			volume_name = var.container_instance_containers_volume_mounts_volume_name
+
+			#Optional
+			is_read_only = var.container_instance_containers_volume_mounts_is_read_only
+			partition = var.container_instance_containers_volume_mounts_partition
+			sub_path = var.container_instance_containers_volume_mounts_sub_path
+		}
+		working_directory = var.container_instance_containers_working_directory
+	}
+	shape = var.container_instance_shape
+	shape_config {
+		#Required
+		ocpus = var.container_instance_shape_config_ocpus
+
+		#Optional
+		memory_in_gbs = var.container_instance_shape_config_memory_in_gbs
+	}
+	vnics {
+		#Required
+		subnet_id = oci_core_subnet.test_subnet.id
+
+		#Optional
+		defined_tags = var.container_instance_vnics_defined_tags
+		display_name = var.container_instance_vnics_display_name
+		freeform_tags = var.container_instance_vnics_freeform_tags
+		hostname_label = var.container_instance_vnics_hostname_label
+		is_public_ip_assigned = var.container_instance_vnics_is_public_ip_assigned
+		nsg_ids = var.container_instance_vnics_nsg_ids
+		private_ip = var.container_instance_vnics_private_ip
+		skip_source_dest_check = var.container_instance_vnics_skip_source_dest_check
+	}
+
+	#Optional
+	container_restart_policy = var.container_instance_container_restart_policy
+	defined_tags = {&quot;foo-namespace.bar-key&quot;= &quot;value&quot;}
+	display_name = var.container_instance_display_name
+	dns_config {
+
+		#Optional
+		nameservers = var.container_instance_dns_config_nameservers
+		options = var.container_instance_dns_config_options
+		searches = var.container_instance_dns_config_searches
+	}
+	fault_domain = var.container_instance_fault_domain
+	freeform_tags = {&quot;bar-key&quot;= &quot;value&quot;}
+	graceful_shutdown_timeout_in_seconds = var.container_instance_graceful_shutdown_timeout_in_seconds
+	image_pull_secrets {
+		#Required
+		registry_endpoint = var.container_instance_image_pull_secrets_registry_endpoint
+		secret_type = var.container_instance_image_pull_secrets_secret_type
+
+		#Optional
+		password = var.container_instance_image_pull_secrets_password
+		secret_id = oci_vault_secret.test_secret.id
+		username = var.container_instance_image_pull_secrets_username
+	}
+	volumes {
+		#Required
+		name = var.container_instance_volumes_name
+		volume_type = var.container_instance_volumes_volume_type
+
+		#Optional
+		backing_store = var.container_instance_volumes_backing_store
+		configs {
+
+			#Optional
+			data = var.container_instance_volumes_configs_data
+			file_name = var.container_instance_volumes_configs_file_name
+			path = var.container_instance_volumes_configs_path
+		}
+	}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>availability_domain</code> - (Required) The availability domain where the container instance runs.</p></li>
+
+<li><p><code>compartment_id</code> - (Required) (Updatable) The compartment OCID.</p></li>
+
+<li><p><code>container_restart_policy</code> - (Optional) Container restart policy</p></li>
+
+<li><p><code>containers</code> - (Required) The containers to create on this container instance.</p>
+
+<ul>
+<li><p><code>arguments</code> - (Optional) A list of string arguments for a container&rsquo;s ENTRYPOINT process.</p>
+
+<p>Many containers use an ENTRYPOINT process pointing to a shell (/bin/bash). For those containers, this argument list specifies the main command in the container process.</p>
+
+<p>The total size of all arguments combined must be 64 KB or smaller.</p></li>
+
+<li><p><code>command</code> - (Optional) An optional command that overrides the ENTRYPOINT process. If you do not provide a value, the existing ENTRYPOINT process defined in the image is used.</p></li>
+
+<li><p><code>defined_tags</code> - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code>.</p></li>
+
+<li><p><code>display_name</code> - (Optional) A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information. If you don&rsquo;t provide a name, a name is generated automatically.</p></li>
+
+<li><p><code>environment_variables</code> - (Optional) A map of additional environment variables to set in the environment of the container&rsquo;s ENTRYPOINT process. These variables are in addition to any variables already defined in the container&rsquo;s image.</p>
+
+<p>The total size of all environment variables combined, name and values, must be 64 KB or smaller.</p></li>
+
+<li><p><code>freeform_tags</code> - (Optional) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></p></li>
+
+<li><p><code>health_checks</code> - (Optional) list of container health checks to check container status and take appropriate action if container status is failed. There are two types of health checks that we currently support HTTP and TCP.</p>
+
+<ul>
+<li><code>failure_action</code> - (Optional) The action will be triggered when the container health check fails. There are two types of action: KILL or NONE. The default action is KILL. If failure action is KILL, the container will be subject to the container restart policy.</li>
+<li><code>failure_threshold</code> - (Optional) Number of consecutive failures at which we consider the check failed.</li>
+<li><code>headers</code> - (Applicable when health_check_type=HTTP) Container health check HTTP headers.
+
+<ul>
+<li><code>name</code> - (Required when health_check_type=HTTP) Container HTTP header Key.</li>
+<li><code>value</code> - (Required when health_check_type=HTTP) Container HTTP header value.</li>
+</ul></li>
+<li><code>health_check_type</code> - (Required) Container health check type.</li>
+<li><code>initial_delay_in_seconds</code> - (Optional) The initial delay in seconds before start checking container health status.</li>
+<li><code>interval_in_seconds</code> - (Optional) Number of seconds between two consecutive runs for checking container health.</li>
+<li><code>name</code> - (Optional) Health check name.</li>
+<li><code>path</code> - (Required when health_check_type=HTTP) Container health check HTTP path.</li>
+<li><code>port</code> - (Required) Container health check HTTP port.</li>
+<li><code>success_threshold</code> - (Optional) Number of consecutive successes at which we consider the check succeeded again after it was in failure state.</li>
+<li><code>timeout_in_seconds</code> - (Optional) Length of waiting time in seconds before marking health check failed.</li>
+</ul></li>
+
+<li><p><code>image_url</code> - (Required) A URL identifying the image that the container runs in, such as docker.io/library/busybox:latest. If you do not provide a tag, the tag will default to latest.</p>
+
+<p>If no registry is provided, will default the registry to public docker hub <code>docker.io/library</code>.</p>
+
+<p>The registry used for container image must be reachable over the Container Instance&rsquo;s VNIC.</p></li>
+
+<li><p><code>is_resource_principal_disabled</code> - (Optional) Determines if the container will have access to the container instance resource principal.</p>
+
+<p>This method utilizes resource principal version 2.2. For information on how to use the exposed resource principal elements, see <a href="https://docs.oracle.com/en-us/iaas/Content/API/Concepts/sdk_authentication_methods.htm#sdk_authentication_methods_resource_principal">https://docs.oracle.com/en-us/iaas/Content/API/Concepts/sdk_authentication_methods.htm#sdk_authentication_methods_resource_principal</a>.</p></li>
+
+<li><p><code>resource_config</code> - (Optional) The size and amount of resources available to the container.</p>
+
+<ul>
+<li><p><code>memory_limit_in_gbs</code> - (Optional) The maximum amount of memory that can be consumed by the container&rsquo;s process.</p>
+
+<p>If you do not set a value, then the process may use all available memory on the instance.</p></li>
+
+<li><p><code>vcpus_limit</code> - (Optional) The maximum amount of CPUs that can be consumed by the container&rsquo;s process.</p>
+
+<p>If you do not set a value, then the process can use all available CPU resources on the instance.</p>
+
+<p>CPU usage is defined in terms of logical CPUs. This means that the maximum possible value on an E3 ContainerInstance with 1 OCPU is 2.0.</p>
+
+<p>A container with a 2.0 vcpusLimit could consume up to 100% of the CPU resources available on the container instance. Values can be fractional. A value of &ldquo;1.5&rdquo; means that the container can consume at most the equivalent of 1 and a half logical CPUs worth of CPU capacity.</p></li>
+</ul></li>
+
+<li><p><code>security_context</code> - (Optional) Security context for container.</p>
+
+<ul>
+<li><code>capabilities</code> - (Optional) Linux Container capabilities to configure capabilities of container.
+
+<ul>
+<li><code>add_capabilities</code> - (Optional) A list of additional configurable container capabilities.</li>
+<li><code>drop_capabilities</code> - (Optional) A list of container capabilities that can be dropped.</li>
+</ul></li>
+<li><code>is_non_root_user_check_enabled</code> - (Optional) Indicates if the container must run as a non-root user. If true, the service validates the container image at runtime to ensure that it is not going to run with UID 0 (root) and fails the container instance creation if the validation fails.</li>
+<li><code>is_root_file_system_readonly</code> - (Optional) Determines if the container will have a read-only root file system. Default value is false.</li>
+<li><code>run_as_group</code> - (Optional) The group ID (GID) to run the entrypoint process of the container. Uses runtime default if not provided.</li>
+<li><code>run_as_user</code> - (Optional) The user ID (UID) to run the entrypoint process of the container. Defaults to user specified UID in container image metadata if not provided. This must be provided if runAsGroup is provided.</li>
+<li><code>security_context_type</code> - (Optional) The type of security context</li>
+</ul></li>
+
+<li><p><code>volume_mounts</code> - (Optional) List of the volume mounts.</p>
+
+<ul>
+<li><code>is_read_only</code> - (Optional) Whether the volume was mounted in read-only mode. By default, the volume is not read-only.</li>
+<li><code>mount_path</code> - (Required) The volume access path.</li>
+<li><code>partition</code> - (Optional) If there is more than one partition in the volume, reference this number of partitions. Here is an example: Number  Start   End     Size    File system  Name                  Flags 1      1049kB  106MB   105MB   fat16        EFI System Partition  boot, esp 2      106MB   1180MB  1074MB  xfs 3      1180MB  50.0GB  48.8GB                                     lvm</li>
+<li><code>sub_path</code> - (Optional) A subpath inside the referenced volume.</li>
+<li><code>volume_name</code> - (Required) The name of the volume. Avoid entering confidential information.</li>
+</ul></li>
+
+<li><p><code>working_directory</code> - (Optional) The working directory within the container&rsquo;s filesystem for the container process. If not specified, the default working directory from the image is used.</p></li>
+</ul></li>
+
+<li><p><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code>.</p></li>
+
+<li><p><code>display_name</code> - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information. If you don&rsquo;t provide a name, a name is generated automatically.</p></li>
+
+<li><p><code>dns_config</code> - (Optional) Allow customers to define DNS settings for containers. If this is not provided, the containers use the default DNS settings of the subnet.</p>
+
+<ul>
+<li><code>nameservers</code> - (Optional) IP address of a name server that the resolver should query, either an IPv4 address (in dot notation), or an IPv6 address in colon (and possibly dot) notation. If null, uses nameservers from subnet dhcpDnsOptions.</li>
+<li><code>options</code> - (Optional) Options allows certain internal resolver variables to be modified. Options are a list of objects in <a href="https://man7.org/linux/man-pages/man5/resolv.conf.5.html">https://man7.org/linux/man-pages/man5/resolv.conf.5.html</a>. Examples: [&ldquo;ndots:n&rdquo;, &ldquo;edns0&rdquo;].</li>
+<li><code>searches</code> - (Optional) Search list for host-name lookup. If null, we will use searches from subnet dhcpDnsOptios.</li>
+</ul></li>
+
+<li><p><code>fault_domain</code> - (Optional) The fault domain where the container instance runs.</p></li>
+
+<li><p><code>freeform_tags</code> - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></p></li>
+
+<li><p><code>graceful_shutdown_timeout_in_seconds</code> - (Optional) The amount of time that processes in a container have to gracefully end when the container must be stopped. For example, when you delete a container instance. After the timeout is reached, the processes are sent a signal to be deleted.</p></li>
+
+<li><p><code>image_pull_secrets</code> - (Optional) The image pulls secrets so you can access private registry to pull container images.</p>
+
+<ul>
+<li><code>password</code> - (Required when secret_type=BASIC) The password which should be used with the registry for authentication. The value is expected in base64 format.</li>
+<li><code>registry_endpoint</code> - (Required) The registry endpoint of the container image.</li>
+<li><code>secret_id</code> - (Required when secret_type=VAULT) The OCID of the secret for registry credentials.</li>
+<li><code>secret_type</code> - (Required) The type of ImagePullSecret.</li>
+<li><code>username</code> - (Required when secret_type=BASIC) The username which should be used with the registry for authentication. The value is expected in base64 format.</li>
+</ul></li>
+
+<li><p><code>shape</code> - (Required) The shape of the container instance. The shape determines the resources available to the container instance.</p></li>
+
+<li><p><code>shape_config</code> - (Required) The size and amount of resources available to the container instance.</p>
+
+<ul>
+<li><code>memory_in_gbs</code> - (Optional) The total amount of memory available to the container instance (GB).</li>
+<li><code>ocpus</code> - (Required) The total number of OCPUs available to the container instance.</li>
+</ul></li>
+
+<li><p><code>vnics</code> - (Required) The networks available to containers on this container instance.</p>
+
+<ul>
+<li><code>defined_tags</code> - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code>.</li>
+<li><code>display_name</code> - (Optional) A user-friendly name for the VNIC. Does not have to be unique. Avoid entering confidential information.</li>
+<li><code>freeform_tags</code> - (Optional) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>hostname_label</code> - (Optional) The hostname for the VNIC&rsquo;s primary private IP. Used for DNS.</li>
+<li><code>is_public_ip_assigned</code> - (Optional) Whether the VNIC should be assigned a public IP address.</li>
+<li><code>nsg_ids</code> - (Optional) A list of the OCIDs of the network security groups (NSGs) to add the VNIC to.</li>
+<li><code>private_ip</code> - (Optional) A private IP address of your choice to assign to the VNIC. Must be an available IP address within the subnet&rsquo;s CIDR.</li>
+<li><code>skip_source_dest_check</code> - (Optional) Whether the source/destination check is disabled on the VNIC.</li>
+<li><code>subnet_id</code> - (Required) The OCID of the subnet to create the VNIC in.</li>
+</ul></li>
+
+<li><p><code>volumes</code> - (Optional) A volume is a directory with data that is accessible across multiple containers in a container instance.</p>
+
+<p>You can attach up to 32 volumes to single container instance.</p>
+
+<ul>
+<li><code>backing_store</code> - (Applicable when volume_type=EMPTYDIR) The volume type of the empty directory, can be either File Storage or Memory.</li>
+<li><code>configs</code> - (Applicable when volume_type=CONFIGFILE) Contains key value pairs which can be mounted as individual files inside the container. The value needs to be base64 encoded. It is decoded to plain text before the mount.
+
+<ul>
+<li><code>data</code> - (Required when volume_type=CONFIGFILE) The base64 encoded contents of the file. The contents are decoded to plain text before mounted as a file to a container inside container instance.</li>
+<li><code>file_name</code> - (Required when volume_type=CONFIGFILE) The name of the file. The fileName should be unique across the volume.</li>
+<li><code>path</code> - (Applicable when volume_type=CONFIGFILE) (Optional) Relative path for this file inside the volume mount directory. By default, the file is presented at the root of the volume mount path.</li>
+</ul></li>
+<li><code>name</code> - (Required) The name of the volume. This must be unique within a single container instance.</li>
+<li><code>volume_type</code> - (Required) The type of volume.</li>
+</ul></li>
+
+<li><p><code>state</code> - (Optional) (Updatable) The target state for the Container Instance. Could be set to <code>ACTIVE</code> or <code>INACTIVE</code>.</p></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>availability_domain</code> - The availability domain to place the container instance.</li>
+<li><code>compartment_id</code> - The OCID of the compartment.</li>
+<li><code>container_count</code> - The number of containers on the container instance.</li>
+<li><code>container_restart_policy</code> - The container restart policy is applied for all containers in container instance.</li>
+<li><code>containers</code> - The containers on the container instance.
+
+<ul>
+<li><code>container_id</code> - The OCID of the container.</li>
+<li><code>display_name</code> - Display name for the Container.</li>
+</ul></li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code>.</li>
+<li><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.</li>
+<li><code>dns_config</code> - DNS settings for containers.
+
+<ul>
+<li><code>nameservers</code> - IP address of the name server..</li>
+<li><code>options</code> - Options allows certain internal resolver variables to be modified.</li>
+<li><code>searches</code> - Search list for hostname lookup.</li>
+</ul></li>
+<li><code>fault_domain</code> - The fault domain to place the container instance.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>graceful_shutdown_timeout_in_seconds</code> - The amount of time that processes in a container have to gracefully end when the container must be stopped. For example, when you delete a container instance. After the timeout is reached, the processes are sent a signal to be deleted.</li>
+<li><code>id</code> - An OCID that cannot be changed.</li>
+<li><code>image_pull_secrets</code> - The image pulls secrets so you can access private registry to pull container images.
+
+<ul>
+<li><code>registry_endpoint</code> - The registry endpoint of the container image.</li>
+<li><code>secret_id</code> - The OCID of the secret for registry credentials.</li>
+<li><code>secret_type</code> - The type of ImagePullSecret.</li>
+</ul></li>
+<li><code>lifecycle_details</code> - A message that describes the current state of the container in more detail. Can be used to provide actionable information.</li>
+<li><code>shape</code> - The shape of the container instance. The shape determines the number of OCPUs, amount of memory, and other resources that are allocated to a container instance.</li>
+<li><code>shape_config</code> - The shape configuration for a container instance. The shape configuration determines the resources thats are available to the container instance and its containers.
+
+<ul>
+<li><code>memory_in_gbs</code> - The total amount of memory available to the container instance, in gigabytes.</li>
+<li><code>networking_bandwidth_in_gbps</code> - The networking bandwidth available to the container instance, in gigabits per second.</li>
+<li><code>ocpus</code> - The total number of OCPUs available to the container instance.</li>
+<li><code>processor_description</code> - A short description of the container instance&rsquo;s processor (CPU).</li>
+</ul></li>
+<li><code>state</code> - The current state of the container instance.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code>.</li>
+<li><code>tenant_id</code> - TenantId id of the container instance.</li>
+<li><code>time_created</code> - The time the container instance was created, in the format defined by <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a>.</li>
+<li><code>time_updated</code> - The time the container instance was updated, in the format defined by <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a>.</li>
+<li><code>vnics</code> - The virtual networks available to the containers in the container instance.
+
+<ul>
+<li><code>vnic_id</code> - The identifier of the virtual network interface card (VNIC) over which the containers accessing this network can communicate with the larger virtual cloud network.</li>
+</ul></li>
+<li><code>volume_count</code> - The number of volumes that are attached to the container instance.</li>
+<li><code>volumes</code> - A volume is a directory with data that is accessible across multiple containers in a container instance.
+
+<ul>
+<li><code>backing_store</code> - The volume type of the empty directory, can be either File Storage or Memory.</li>
+<li><code>configs</code> - Contains string key value pairs which can be mounted as individual files inside the container. The value needs to be base64 encoded. It is decoded to plain text before the mount.
+
+<ul>
+<li><code>data</code> - The base64 encoded contents of the file. The contents are decoded to plain text before mounted as a file to a container inside container instance.</li>
+<li><code>file_name</code> - The name of the file. The fileName should be unique across the volume.</li>
+<li><code>path</code> - (Optional) Relative path for this file inside the volume mount directory. By default, the file is presented at the root of the volume mount path.</li>
+</ul></li>
+<li><code>name</code> - The name of the volume. This must be unique within a single container instance.</li>
+<li><code>volume_type</code> - The type of volume.</li>
+</ul></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Container Instance
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Container Instance
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Container Instance</p>
+
+<h2>Import</h2>
+
+<p>ContainerInstances can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_container_instances_container_instance.test_container_instance &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

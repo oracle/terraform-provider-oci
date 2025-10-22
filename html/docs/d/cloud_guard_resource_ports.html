@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_cloud_guard_resource_ports</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<pre><code>
+//resource not exposed to user through Terraform, but generated.
+//Hence TF team suggested to keep the file commented as codeGen patch build fails if file not present
+---
+subcategory: &quot;Cloud Guard&quot;
+layout: &quot;oci&quot;
+page_title: &quot;Oracle Cloud Infrastructure: oci_cloud_guard_resource_ports&quot;
+sidebar_current: &quot;docs-oci-datasource-cloud_guard-resource_ports&quot;
+description: |-
+  Provides the list of Resource Ports in Oracle Cloud Infrastructure Cloud Guard service
+---
+
+# Data Source: oci_cloud_guard_resource_ports
+This data source provides the list of Resource Ports in Oracle Cloud Infrastructure Cloud Guard service.
+
+Returns the list of open ports associated with the resourceId where resource is an instance
+
+## Example Usage
+
+```hcl
+data &quot;oci_cloud_guard_resource_ports&quot; &quot;test_resource_ports&quot; {
+	#Required
+	resource_id = oci_cloud_guard_resource.test_resource.id
+
+	#Optional
+	open_port = var.resource_port_open_port
+}
+
+
+## Argument Reference
+
+The following arguments are supported:
+
+* `open_port` - (Optional) open port associated with the resource.
+* `resource_id` - (Required) CloudGuard resource OCID
+
+
+## Attributes Reference
+
+The following attributes are exported:
+
+* `resource_port_collection` - The list of resource_port_collection.
+
+### ResourcePort Reference
+
+The following attributes are exported:
+
+* `items` - List of CloudGuardResourcePortSummary
+    * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}`
+    * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{&quot;bar-key&quot;: &quot;value&quot;}`
+
+      Avoid entering confidential information.
+    * `port_number` - The open port number
+    * `process` - Process running on the open port
+    * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). System tags can be viewed by users, but can only be created by the system.  Example: `{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}`
+    * `type` - Type of port
+</code></pre>
+
+	</div>
+
+</body>
+</html>

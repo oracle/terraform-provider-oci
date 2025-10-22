@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_apm_traces_trace_aggregated_snapshot_data</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_apm_traces_trace_aggregated_snapshot_data</h1>
+
+<p>This data source provides details about a specific Trace Aggregated Snapshot Data resource in Oracle Cloud Infrastructure Apm Traces service.</p>
+
+<p>Gets the aggregated snapshot identified by trace ID.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_apm_traces_trace_aggregated_snapshot_data&quot; &quot;test_trace_aggregated_snapshot_data&quot; {
+	#Required
+	apm_domain_id = oci_apm_apm_domain.test_apm_domain.id
+	trace_key = var.trace_aggregated_snapshot_data_trace_key
+
+	#Optional
+	server_name = var.trace_aggregated_snapshot_data_server_name
+	service_name = oci_core_service.test_service.name
+	span_key = var.trace_aggregated_snapshot_data_span_key
+	span_name = var.trace_aggregated_snapshot_data_span_name
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>apm_domain_id</code> - (Required) The APM Domain ID for the intended request.</li>
+<li><code>server_name</code> - (Optional) Name of the server.</li>
+<li><code>service_name</code> - (Optional) Name associated with the service.</li>
+<li><code>span_key</code> - (Optional) Unique Application Performance Monitoring span identifier (spanId).</li>
+<li><code>span_name</code> - (Optional) Name of the span associated with the trace.</li>
+<li><code>trace_key</code> - (Required) Unique Application Performance Monitoring trace identifier (traceId).</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>details</code> - Aggregated snapshot details.
+
+<ul>
+<li><code>key</code> - Name of the property.</li>
+<li><code>value</code> - Value of the property.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

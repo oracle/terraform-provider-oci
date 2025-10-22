@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_stack_monitoring_monitored_resource_types</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_stack_monitoring_monitored_resource_types</h1>
+
+<p>This data source provides the list of Monitored Resource Types in Oracle Cloud Infrastructure Stack Monitoring service.</p>
+
+<p>Returns list of resource types accessible to the customer.
+There are two types of resource types - System resource types and User resource types.
+System resource types are available out of the box in the stack monitoring resource service
+and are accessible to all the tenant users. User resource types are created in the context
+of a tenancy and are visible only for the tenancy. By default, both System resource types
+and User resource types are returned.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_stack_monitoring_monitored_resource_types&quot; &quot;test_monitored_resource_types&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	exclude_fields = var.monitored_resource_type_exclude_fields
+	fields = var.monitored_resource_type_fields
+	is_exclude_system_types = var.monitored_resource_type_is_exclude_system_types
+	metric_namespace = var.monitored_resource_type_metric_namespace
+	name = var.monitored_resource_type_name
+	resource_category = var.monitored_resource_type_resource_category
+	source_type = var.monitored_resource_type_source_type
+	status = var.monitored_resource_type_status
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>compartment_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the tenancy for which  monitored resource types should be listed.</p></li>
+
+<li><p><code>exclude_fields</code> - (Optional) Partial response refers to an optimization technique offered by the RESTful web APIs, to return all the information except the fields requested to be excluded (excludeFields) by the client. In this mechanism, the client sends the exclude field names as the query parameters for an API to the server, and the server trims down the default response content by removing the fields that are not required by the client. The parameter controls which fields to exlude and to return and should be a query string parameter called &ldquo;excludeFields&rdquo; of an array type, provide the values as enums, and use collectionFormat.</p></li>
+
+<li><p><code>fields</code> - (Optional) Partial response refers to an optimization technique offered by the RESTful web APIs, to return only the information (fields) required by the client. In this mechanism, the client sends the required field names as the query parameters for an API to the server, and the server trims down the default response content by removing the fields that are not required by the client. The parameter controls which fields to return and should be a query string parameter called &ldquo;fields&rdquo; of an array type, provide the values as enums, and use collectionFormat.</p>
+
+<p>MonitoredResourceType Id, name and compartment will be added by default.</p></li>
+
+<li><p><code>is_exclude_system_types</code> - (Optional) A filter to exclude system resource types. If set to true, system resource types will be excluded.</p></li>
+
+<li><p><code>metric_namespace</code> - (Optional) A filter to return monitored resource types that has the matching namespace.</p></li>
+
+<li><p><code>name</code> - (Optional) A filter to return monitored resource types that match exactly with the resource type name given.</p></li>
+
+<li><p><code>resource_category</code> - (Optional) A filter to return only resources with matching resource category.</p></li>
+
+<li><p><code>source_type</code> - (Optional) A filter to return only resources with matching source type.</p></li>
+
+<li><p><code>status</code> - (Optional) A filter to return only resources that matches with lifecycleState given.</p></li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>monitored_resource_types_collection</code> - The list of monitored_resource_types_collection.</li>
+</ul>
+
+<h3>MonitoredResourceType Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>additional_namespace_map</code> - Key/Value pair for additional namespaces used by stack monitoring services for SYSTEM (SMB) resource types.</li>
+<li><code>availability_metrics_config</code> - Availability metrics details.
+
+<ul>
+<li><code>collection_interval_in_seconds</code> - Availability metric collection internal in seconds.</li>
+<li><code>metrics</code> - List of metrics used for availability calculation for the resource.</li>
+</ul></li>
+<li><code>compartment_id</code> - Compartment Identifier <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>description</code> - A friendly description.</li>
+<li><code>display_name</code> - Monitored resource type display name.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>handler_config</code> - Specific resource mapping configurations for Agent Extension Handlers.
+
+<ul>
+<li><code>collectd_resource_name_config</code> - Resource name generation overriding configurations for collectd resource types.
+
+<ul>
+<li><code>exclude_properties</code> - List of property names to be excluded.</li>
+<li><code>include_properties</code> - List of property names to be included.</li>
+<li><code>suffix</code> - String to be suffixed to the resource name.</li>
+</ul></li>
+<li><code>collector_types</code> - List of collector/plugin names.</li>
+<li><code>handler_properties</code> - List of handler configuration properties
+
+<ul>
+<li><code>name</code> - Property name.</li>
+<li><code>value</code> - Property value.</li>
+</ul></li>
+<li><code>metric_mappings</code> - List of AgentExtensionHandlerMetricMappingDetails.
+
+<ul>
+<li><code>collector_metric_name</code> - Metric name as defined by the collector.</li>
+<li><code>is_skip_upload</code> - Is ignoring this metric.</li>
+<li><code>metric_upload_interval_in_seconds</code> - Metric upload interval in seconds. Any metric sent by telegraf/collectd before the  configured interval expires will be dropped.</li>
+<li><code>telemetry_metric_name</code> - Metric name to be upload to telemetry.</li>
+</ul></li>
+<li><code>metric_name_config</code> - Metric name generation overriding configurations.
+
+<ul>
+<li><code>exclude_pattern_on_prefix</code> - String pattern to be removed from the prefix of the metric name.</li>
+<li><code>is_prefix_with_collector_type</code> - is prefixing the metric with collector type.</li>
+</ul></li>
+<li><code>metric_upload_interval_in_seconds</code> - Metric upload interval in seconds. Any metric sent by telegraf/collectd before the  configured interval expires will be dropped.</li>
+<li><code>telegraf_resource_name_config</code> - Resource name generation overriding configurations for telegraf resource types.
+
+<ul>
+<li><code>exclude_tags</code> - List of tag names to be excluded.</li>
+<li><code>include_tags</code> - List of tag names to be included.</li>
+<li><code>is_use_tags_only</code> - Flag to indicate if only tags will be used for resource name generation.</li>
+</ul></li>
+<li><code>telemetry_resource_group</code> - Resource group string; if not specified, the resource group string will be generated by the handler.</li>
+</ul></li>
+<li><code>id</code> - Monitored resource type identifier <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>is_system_defined</code> - If boolean flag is true, then the resource type cannot be modified or deleted.</li>
+<li><code>metadata</code> - The metadata details for resource type.
+
+<ul>
+<li><code>agent_properties</code> - List of properties needed by the agent for monitoring the resource.  Valid only if resource type is Oracle Cloud Infrastructure management agent based. When specified,  these properties are passed to the management agent during resource create or update.</li>
+<li><code>format</code> - ResourceType metadata format to be used. Currently supports only one format. Possible values - SYSTEM_FORMAT.
+
+<ul>
+<li>SYSTEM_FORMAT - The resource type metadata is defined in machine friendly format.</li>
+</ul></li>
+<li><code>required_properties</code> - List of required properties for resource type.</li>
+<li><code>unique_property_sets</code> - List of property sets used to uniquely identify the resources.  This check is made during create or update of stack monitoring resource.  The resource has to pass unique check for each set in the list.  For example, database can have user, password and SID as one unique set.  Another unique set would be user, password and service name.
+
+<ul>
+<li><code>properties</code> - List of properties.</li>
+</ul></li>
+<li><code>valid_properties_for_create</code> - List of valid properties for resource type while creating the monitored resource.  If resources of this type specifies any other properties during create operation,  the operation will fail.</li>
+<li><code>valid_properties_for_update</code> - List of valid properties for resource type while updating the monitored resource.  If resources of this type specifies any other properties during update operation,  the operation will fail.</li>
+<li><code>valid_property_values</code> - List of valid values for the properties. This is useful when resource type wants to restrict only certain values for some properties. For instance for &lsquo;osType&rsquo; property,  supported values can be restricted to be either Linux or Windows. Example: <code>{&quot;osType&quot;: &quot;Linux,Windows,Solaris&quot;, &quot;osVersion&quot;: &quot;v6.0,v7.0&quot;}</code></li>
+<li><code>valid_sub_resource_types</code> - List of valid sub-resource types for a composite resource type. The sub-resource types will be obtained from the valid association pairs corresponding to the composite resource types. It will be empty for non composite resource types</li>
+</ul></li>
+<li><code>metric_namespace</code> - Metric namespace for resource type.</li>
+<li><code>name</code> - A unique monitored resource type name. The name must be unique across tenancy.  Name can not be changed.</li>
+<li><code>resource_category</code> - Resource Category to indicate the kind of resource type.</li>
+<li><code>source_type</code> - Source type to indicate if the resource is stack monitoring discovered, Oracle Cloud Infrastructure native resource, etc.</li>
+<li><code>state</code> - Lifecycle state of the monitored resource type.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>tenancy_id</code> - Tenancy Identifier <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>time_created</code> - The date and time when the monitored resource type was created, expressed in  <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a> timestamp format.</li>
+<li><code>time_updated</code> - The date and time when the monitored resource was updated, expressed in  <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a> timestamp format.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

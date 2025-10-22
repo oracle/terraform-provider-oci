@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_usage_proxy_resources</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_usage_proxy_resources</h1>
+
+<p>This data source provides the list of Resources in Oracle Cloud Infrastructure Usage Proxy service.</p>
+
+<p>Returns the resource details for a service
+&gt; <strong>Important</strong>: Calls to this API will only succeed against the endpoint in the home region.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_usage_proxy_resources&quot; &quot;test_resources&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	service_name = oci_core_service.test_service.name
+
+	#Optional
+	entitlement_id = oci_usage_proxy_entitlement.test_entitlement.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The OCID of the root compartment.</li>
+<li><code>entitlement_id</code> - (Optional) Subscription or entitlement Id.</li>
+<li><code>service_name</code> - (Required) Service Name.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>resources_collection</code> - The list of resources_collection.</li>
+</ul>
+
+<h3>Resource Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - The list of resource details for a service.
+
+<ul>
+<li><code>child_resources</code> - The details of any child resources.</li>
+<li><code>daily_unit_display_name</code> - Units to be used for daily aggregated data.</li>
+<li><code>description</code> - Description of the resource.</li>
+<li><code>hourly_unit_display_name</code> - Units to be used for hourly aggregated data.</li>
+<li><code>instance_type</code> - Instance type for the resource.</li>
+<li><code>is_purchased</code> - Indicates if the SKU was purchased</li>
+<li><code>name</code> - Name of the resource.</li>
+<li><code>raw_unit_display_name</code> - Default units to use when unspecified.</li>
+<li><code>servicename</code> - Name of the service.</li>
+<li><code>skus</code> - The details of resource Skus.
+
+<ul>
+<li><code>cloud_credit_type</code> - The cloud credit type for the resource.</li>
+<li><code>sku_id</code> - The Sku Id for the resource.</li>
+<li><code>sku_type</code> - The Sku type for the resource.</li>
+</ul></li>
+<li><code>usage_data_type</code> - Usage data type of the resource.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_log_analytics_namespace_storage_recalled_data_size</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_log_analytics_namespace_storage_recalled_data_size</h1>
+
+<p>This data source provides details about a specific Namespace Storage Recalled Data Size resource in Oracle Cloud Infrastructure Log Analytics service.</p>
+
+<p>This API gets the datasize of recalls for a given timeframe</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_log_analytics_namespace_storage_recalled_data_size&quot; &quot;test_namespace_storage_recalled_data_size&quot; {
+	#Required
+	namespace = var.namespace_storage_recalled_data_size_namespace
+
+	#Optional
+	time_data_ended = var.namespace_storage_recalled_data_size_time_data_ended
+	time_data_started = var.namespace_storage_recalled_data_size_time_data_started
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>namespace</code> - (Required) The Logging Analytics namespace used for the request.</li>
+<li><code>time_data_ended</code> - (Optional) This is the end of the time range for recalled data</li>
+<li><code>time_data_started</code> - (Optional) This is the start of the time range for recalled data</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>not_recalled_data_in_bytes</code> - This is the size of the archival data not recalled yet</li>
+<li><code>recalled_data_in_bytes</code> - This is the size of the recalled data</li>
+<li><code>time_data_ended</code> - This is the end of the time range of the archival data</li>
+<li><code>time_data_started</code> - This is the start of the time range of the archival data</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

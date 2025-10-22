@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_datascience_model_provenance</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_datascience_model_provenance</h1>
+
+<p>This data source provides details about a specific Model Provenance resource in Oracle Cloud Infrastructure Data Science service.</p>
+
+<p>Gets provenance information for specified model.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_datascience_model_provenance&quot; &quot;test_model_provenance&quot; {
+	#Required
+	model_id = oci_datascience_model.test_model.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>model_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the model.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>git_branch</code> - For model reproducibility purposes. Branch of the git repository associated with model training.</li>
+<li><code>git_commit</code> - For model reproducibility purposes. Commit ID of the git repository associated with model training.</li>
+<li><code>repository_url</code> - For model reproducibility purposes. URL of the git repository associated with model training.</li>
+<li><code>script_dir</code> - For model reproducibility purposes. Path to model artifacts.</li>
+<li><code>training_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of a training session(Job or NotebookSession) in which the model was trained. It is used for model reproducibility purposes.</li>
+<li><code>training_script</code> - For model reproducibility purposes. Path to the python script or notebook in which the model was trained.&rdquo;</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

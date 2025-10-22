@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_fleet_apps_management_fleet_property</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_fleet_apps_management_fleet_property</h1>
+
+<p>This data source provides details about a specific Fleet Property resource in Oracle Cloud Infrastructure Fleet Apps Management service.</p>
+
+<p>Gets a fleet property by identifier.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_fleet_apps_management_fleet_property&quot; &quot;test_fleet_property&quot; {
+	#Required
+	fleet_id = oci_fleet_apps_management_fleet.test_fleet.id
+	fleet_property_id = oci_fleet_apps_management_property.test_property.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>fleet_id</code> - (Required) Unique Fleet identifier.</li>
+<li><code>fleet_property_id</code> - (Required) Unique fleetProperty identifier.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>allowed_values</code> - Values of the property (must be a single value if selectionType = &lsquo;SINGLE_CHOICE&rsquo;).</li>
+<li><code>compartment_id</code> - Compartment OCID</li>
+<li><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.  Example: <code>My new resource</code></li>
+<li><code>id</code> - The unique id of the resource.</li>
+<li><code>property_id</code> - OCID referring to global level metadata property.</li>
+<li><code>selection_type</code> - Text selection of the property.</li>
+<li><code>state</code> - The current state of the FleetProperty.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time this resource was created. An RFC3339 formatted datetime string.</li>
+<li><code>time_updated</code> - The time this resource was last updated. An RFC3339 formatted datetime string.</li>
+<li><code>value</code> - Value of the Property.</li>
+<li><code>value_type</code> - Format of the value.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_jms_utils_analyze_applications_configuration</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_jms_utils_analyze_applications_configuration</h1>
+
+<p>This resource provides the Analyze Applications Configuration resource in Oracle Cloud Infrastructure Jms Utils service.</p>
+
+<p>Updates the configuration for analyze application.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_jms_utils_analyze_applications_configuration&quot; &quot;test_analyze_applications_configuration&quot; {
+
+	#Optional
+	bucket = var.analyze_applications_configuration_bucket
+	compartment_id = var.compartment_id
+	namespace = var.analyze_applications_configuration_namespace
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>bucket</code> - (Optional) (Updatable) The name of the bucket used for analyzing applications.</li>
+<li><code>compartment_id</code> - (Optional) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment in which to list resources.</li>
+<li><code>namespace</code> - (Optional) (Updatable) The Object Storage namespace used for analyzing applications.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>bucket</code> - The name of the bucket used for analyzing applications.</li>
+<li><code>namespace</code> - The Object Storage namespace used for analyzing applications.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Analyze Applications Configuration
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Analyze Applications Configuration
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Analyze Applications Configuration</p>
+
+<h2>Import</h2>
+
+<p>AnalyzeApplicationsConfigurations can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_jms_utils_analyze_applications_configuration.test_analyze_applications_configuration &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_adm_remediation_recipe</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_adm_remediation_recipe</h1>
+
+<p>This data source provides details about a specific Remediation Recipe resource in Oracle Cloud Infrastructure Adm service.</p>
+
+<p>Returns the details of the specified RemediationRecipe.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_adm_remediation_recipe&quot; &quot;test_remediation_recipe&quot; {
+	#Required
+	remediation_recipe_id = oci_adm_remediation_recipe.test_remediation_recipe.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>remediation_recipe_id</code> - (Required) The Oracle Cloud Identifier (<a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>) of a Remediation Recipe, as a URL path parameter.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The compartment Oracle Cloud Identifier (<a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>) of the remediation recipe.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>detect_configuration</code> - A configuration to define the constraints when detecting vulnerable dependencies and recommending remediations.
+
+<ul>
+<li><code>exclusions</code> - The list of dependencies to be ignored by the recommendation algorithm. The dependency pattern is matched against the &lsquo;group:artifact:version&rsquo; or the purl of a dependency. An asterisk (*) at the end in the dependency pattern acts as a wildcard and matches zero or more characters.</li>
+<li><code>max_permissible_cvss_v2score</code> - The maximum Common Vulnerability Scoring System Version 2 (CVSS V2) score. A vulnerability with a CVSS V2 score below this value is not considered for remediation.</li>
+<li><code>max_permissible_cvss_v3score</code> - The maximum Common Vulnerability Scoring System Version 3 (CVSS V3) score. A vulnerability with a CVSS V3 score below this value is not considered for patching.</li>
+<li><code>max_permissible_severity</code> - The maximum ADM Severity. A vulnerability with an severity below this value is not considered for remediation.</li>
+<li><code>upgrade_policy</code> - The upgrade policy for recommendations. The <code>Nearest</code> upgrade policy upgrades a dependency to the oldest version that meets both of the following criteria: it is newer than the current version and it is not affected by a vulnerability.</li>
+</ul></li>
+<li><code>display_name</code> - The name of the Remediation Recipe.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - The Oracle Cloud Identifier (<a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>) of the remediation recipe.</li>
+<li><code>is_run_triggered_on_kb_change</code> - Boolean indicating if a run should be automatically triggered once the Knowledge Base contents are updated.</li>
+<li><code>knowledge_base_id</code> - The Oracle Cloud Identifier (<a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>) of the knowledge base.</li>
+<li><code>network_configuration</code> - A network configuration defines the required network characteristics for the remediation run of the recipe to access the source repository and/or verify build services.
+
+<ul>
+<li><code>nsg_ids</code> - The list of Oracle Cloud Identifiers (<a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>) corresponding to Network Security Groups.</li>
+<li><code>subnet_id</code> - The Oracle Cloud Identifier (<a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>) of the subnet.</li>
+</ul></li>
+<li><code>scm_configuration</code> - A configuration for the Source Code Management tool/platform used by a remediation recipe.
+
+<ul>
+<li><code>branch</code> - The branch used by ADM to patch vulnerabilities.</li>
+<li><code>build_file_location</code> - The location of the build file relative to the root of the repository. Only Maven build files (POM) are currently supported. If this property is not specified, ADM will use the build file located at the root of the repository.</li>
+<li><code>external_scm_type</code> - The type of External Source Code Management.</li>
+<li><code>is_automerge_enabled</code> - If true, the Pull Request (PR) will be merged after the verify stage completes successfully     If false, the PR with the proposed changes must be reviewed and manually merged.</li>
+<li><code>oci_code_repository_id</code> - The Oracle Cloud Identifier (<a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>) of the Oracle Cloud Infrastructure DevOps repository.</li>
+<li><code>pat_secret_id</code> - The Oracle Cloud Identifier (<a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>) of the Private Access Token (PAT) Secret. The secret provides the credentials necessary to authenticate against the SCM.</li>
+<li><code>repository_url</code> - The repository URL for the SCM. For Non-Enterprise GitHub the expected format is <a href="https://github.com/[owner]/[repoName">https://github.com/[owner]/[repoName</a>] For Enterprise GitHub the expected format is http(s)://[hostname]/api/v3/repos/[owner]/[repoName] For GitLab the expected format is <a href="https://gitlab.com/[groupName]/[repoName">https://gitlab.com/[groupName]/[repoName</a>]</li>
+<li><code>scm_type</code> - The type of Source Code Management.</li>
+<li><code>username</code> - The username for the SCM (to perform operations such as cloning or pushing via HTTP).</li>
+</ul></li>
+<li><code>state</code> - The current lifecycle state of the Remediation Recipe.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The creation date and time of the Remediation Recipe (formatted according to <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>).</li>
+<li><code>time_updated</code> - The date and time the Remediation Recipe was last updated (formatted according to <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>).</li>
+<li><code>verify_configuration</code> - The Verify stage configuration specifies a build service to run a pipeline for the recommended code changes. The build pipeline will be initiated to ensure that there is no breaking change after the dependency versions have been updated in source to avoid vulnerabilities.
+
+<ul>
+<li><code>additional_parameters</code> - Additional key-value pairs passed as parameters to the build service when running an experiment.</li>
+<li><code>build_service_type</code> - The type of Build Service.</li>
+<li><code>jenkins_url</code> - The URL that locates the Jenkins pipeline.</li>
+<li><code>job_name</code> - The name of the Jenkins pipeline job that identifies the build pipeline.</li>
+<li><code>pat_secret_id</code> - The Oracle Cloud Identifier (<a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>) of the Private Access Token (PAT) Secret. The PAT provides the credentials to access the Jenkins Pipeline.</li>
+<li><code>pipeline_id</code> - The Oracle Cloud Identifier (<a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>) of the user&rsquo;s DevOps Build Pipeline.</li>
+<li><code>repository_url</code> - The location of the repository where the GitHub Actions is defined. For Non-Enterprise GitHub the expected format is <a href="https://github.com/[owner]/[repoName">https://github.com/[owner]/[repoName</a>] For Enterprise GitHub the expected format is http(s)://[hostname]/api/v3/repos/[owner]/[repoName]</li>
+<li><code>trigger_secret_id</code> - The Oracle Cloud Identifier (<a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>) of the trigger Secret. The Secret provides access to the trigger for a GitLab pipeline.</li>
+<li><code>username</code> - The username that will be used to authenticate with Jenkins.</li>
+<li><code>workflow_name</code> - The name of the GitHub Actions workflow that defines the build pipeline.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

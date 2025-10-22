@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_waas_waas_policy</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_waas_waas_policy</h1>
+
+<p>This resource provides the Waas Policy resource in Oracle Cloud Infrastructure Web Application Acceleration and Security service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/waas/latest/WaasPolicy">https://docs.oracle.com/iaas/api/#/en/waas/latest/WaasPolicy</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/web_application_acceleration_and_security">https://github.com/oracle/terraform-provider-oci/tree/master/examples/web_application_acceleration_and_security</a></p>
+
+<p>Creates a new Web Application Acceleration and Security (WAAS) policy in the specified compartment. A WAAS policy must be established before creating Web Application Firewall (WAF) rules. To use WAF rules, your web application&rsquo;s origin servers must defined in the <code>WaasPolicy</code> schema.</p>
+
+<p>A domain name must be specified when creating a WAAS policy. The domain name should be different from the origins specified in your <code>WaasPolicy</code>. Once domain name is entered and stored, it is unchangeable.</p>
+
+<p>Use the record data returned in the <code>cname</code> field of the <code>WaasPolicy</code> object to create a CNAME record in your DNS configuration that will direct your domain&rsquo;s traffic through the WAF.</p>
+
+<p>For the purposes of access control, you must provide the OCID of the compartment where you want the service to reside. For information about access control and compartments, see <a href="https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm">Overview of the IAM Service</a>.</p>
+
+<p>You must specify a display name and domain for the WAAS policy. The display name does not have to be unique and can be changed. The domain name should be different from every origin specified in <code>WaasPolicy</code>.</p>
+
+<p>All Oracle Cloud Infrastructure resources, including WAAS policies, receive a unique, Oracle-assigned ID called an Oracle Cloud Identifier (OCID). When a resource is created, you can find its OCID in the response. You can also retrieve a resource&rsquo;s OCID by using a list API operation for that resource type, or by viewing the resource in the Console. Fore more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">Resource Identifiers</a>.</p>
+
+<p><strong>Note:</strong> After sending the POST request, the new object&rsquo;s state will temporarily be <code>CREATING</code>. Ensure that the resource&rsquo;s state has changed to <code>ACTIVE</code> before use.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_waas_waas_policy&quot; &quot;test_waas_policy&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	domain = var.waas_policy_domain
+
+	#Optional
+	additional_domains = var.waas_policy_additional_domains
+	defined_tags = {&quot;Operations.CostCenter&quot;= &quot;42&quot;}
+	display_name = var.waas_policy_display_name
+	freeform_tags = {&quot;Department&quot;= &quot;Finance&quot;}
+	origin_groups {
+
+		#Optional
+		origins = var.waas_policy_origin_groups_origins
+	}
+	origins {
+		#Required
+		uri = var.waas_policy_origins_uri
+
+		#Optional
+		custom_headers {
+			#Required
+			name = var.waas_policy_origins_custom_headers_name
+			value = var.waas_policy_origins_custom_headers_value
+		}
+		http_port = var.waas_policy_origins_http_port
+		https_port = var.waas_policy_origins_https_port
+	}
+	policy_config {
+
+		#Optional
+		certificate_id = oci_waas_certificate.test_certificate.id
+		cipher_group = var.waas_policy_policy_config_cipher_group
+		client_address_header = var.waas_policy_policy_config_client_address_header
+		health_checks {
+
+			#Optional
+			expected_response_code_group = var.waas_policy_policy_config_health_checks_expected_response_code_group
+			expected_response_text = var.waas_policy_policy_config_health_checks_expected_response_text
+			headers = var.waas_policy_policy_config_health_checks_headers
+			healthy_threshold = var.waas_policy_policy_config_health_checks_healthy_threshold
+			interval_in_seconds = var.waas_policy_policy_config_health_checks_interval_in_seconds
+			is_enabled = var.waas_policy_policy_config_health_checks_is_enabled
+			is_response_text_check_enabled = var.waas_policy_policy_config_health_checks_is_response_text_check_enabled
+			method = var.waas_policy_policy_config_health_checks_method
+			path = var.waas_policy_policy_config_health_checks_path
+			timeout_in_seconds = var.waas_policy_policy_config_health_checks_timeout_in_seconds
+			unhealthy_threshold = var.waas_policy_policy_config_health_checks_unhealthy_threshold
+		}
+		is_behind_cdn = var.waas_policy_policy_config_is_behind_cdn
+		is_cache_control_respected = var.waas_policy_policy_config_is_cache_control_respected
+		is_https_enabled = var.waas_policy_policy_config_is_https_enabled
+		is_https_forced = var.waas_policy_policy_config_is_https_forced
+		is_origin_compression_enabled = var.waas_policy_policy_config_is_origin_compression_enabled
+		is_response_buffering_enabled = var.waas_policy_policy_config_is_response_buffering_enabled
+		is_sni_enabled = var.waas_policy_policy_config_is_sni_enabled
+		load_balancing_method {
+			#Required
+			method = var.waas_policy_policy_config_load_balancing_method_method
+
+			#Optional
+			domain = var.waas_policy_policy_config_load_balancing_method_domain
+			expiration_time_in_seconds = var.waas_policy_policy_config_load_balancing_method_expiration_time_in_seconds
+			name = var.waas_policy_policy_config_load_balancing_method_name
+		}
+		tls_protocols = var.waas_policy_policy_config_tls_protocols
+		websocket_path_prefixes = var.waas_policy_policy_config_websocket_path_prefixes
+	}
+	waf_config {
+
+		#Optional
+		access_rules {
+			#Required
+			action = var.waas_policy_waf_config_access_rules_action
+			criteria {
+				#Required
+				condition = var.waas_policy_waf_config_access_rules_criteria_condition
+				value = var.waas_policy_waf_config_access_rules_criteria_value
+
+				#Optional
+				is_case_sensitive = var.waas_policy_waf_config_access_rules_criteria_is_case_sensitive
+			}
+			name = var.waas_policy_waf_config_access_rules_name
+
+			#Optional
+			block_action = var.waas_policy_waf_config_access_rules_block_action
+			block_error_page_code = var.waas_policy_waf_config_access_rules_block_error_page_code
+			block_error_page_description = var.waas_policy_waf_config_access_rules_block_error_page_description
+			block_error_page_message = var.waas_policy_waf_config_access_rules_block_error_page_message
+			block_response_code = var.waas_policy_waf_config_access_rules_block_response_code
+			bypass_challenges = var.waas_policy_waf_config_access_rules_bypass_challenges
+			captcha_footer = var.waas_policy_waf_config_access_rules_captcha_footer
+			captcha_header = var.waas_policy_waf_config_access_rules_captcha_header
+			captcha_submit_label = var.waas_policy_waf_config_access_rules_captcha_submit_label
+			captcha_title = var.waas_policy_waf_config_access_rules_captcha_title
+			redirect_response_code = var.waas_policy_waf_config_access_rules_redirect_response_code
+			redirect_url = var.waas_policy_waf_config_access_rules_redirect_url
+			response_header_manipulation {
+				#Required
+				action = var.waas_policy_waf_config_access_rules_response_header_manipulation_action
+				header = var.waas_policy_waf_config_access_rules_response_header_manipulation_header
+
+				#Optional
+				value = var.waas_policy_waf_config_access_rules_response_header_manipulation_value
+			}
+		}
+		address_rate_limiting {
+			#Required
+			is_enabled = var.waas_policy_waf_config_address_rate_limiting_is_enabled
+
+			#Optional
+			allowed_rate_per_address = var.waas_policy_waf_config_address_rate_limiting_allowed_rate_per_address
+			block_response_code = var.waas_policy_waf_config_address_rate_limiting_block_response_code
+			max_delayed_count_per_address = var.waas_policy_waf_config_address_rate_limiting_max_delayed_count_per_address
+		}
+		caching_rules {
+			#Required
+			action = var.waas_policy_waf_config_caching_rules_action
+			criteria {
+				#Required
+				condition = var.waas_policy_waf_config_caching_rules_criteria_condition
+				value = var.waas_policy_waf_config_caching_rules_criteria_value
+			}
+			name = var.waas_policy_waf_config_caching_rules_name
+
+			#Optional
+			caching_duration = var.waas_policy_waf_config_caching_rules_caching_duration
+			client_caching_duration = var.waas_policy_waf_config_caching_rules_client_caching_duration
+			is_client_caching_enabled = var.waas_policy_waf_config_caching_rules_is_client_caching_enabled
+			key = var.waas_policy_waf_config_caching_rules_key
+		}
+		captchas {
+			#Required
+			failure_message = var.waas_policy_waf_config_captchas_failure_message
+			session_expiration_in_seconds = var.waas_policy_waf_config_captchas_session_expiration_in_seconds
+			submit_label = var.waas_policy_waf_config_captchas_submit_label
+			title = var.waas_policy_waf_config_captchas_title
+			url = var.waas_policy_waf_config_captchas_url
+
+			#Optional
+			footer_text = var.waas_policy_waf_config_captchas_footer_text
+			header_text = var.waas_policy_waf_config_captchas_header_text
+		}
+		custom_protection_rules {
+
+			#Optional
+			action = var.waas_policy_waf_config_custom_protection_rules_action
+			exclusions {
+
+				#Optional
+				exclusions = var.waas_policy_waf_config_custom_protection_rules_exclusions_exclusions
+				target = var.waas_policy_waf_config_custom_protection_rules_exclusions_target
+			}
+			id = var.waas_policy_waf_config_custom_protection_rules_id
+		}
+		device_fingerprint_challenge {
+			#Required
+			is_enabled = var.waas_policy_waf_config_device_fingerprint_challenge_is_enabled
+
+			#Optional
+			action = var.waas_policy_waf_config_device_fingerprint_challenge_action
+			action_expiration_in_seconds = var.waas_policy_waf_config_device_fingerprint_challenge_action_expiration_in_seconds
+			challenge_settings {
+
+				#Optional
+				block_action = var.waas_policy_waf_config_device_fingerprint_challenge_challenge_settings_block_action
+				block_error_page_code = var.waas_policy_waf_config_device_fingerprint_challenge_challenge_settings_block_error_page_code
+				block_error_page_description = var.waas_policy_waf_config_device_fingerprint_challenge_challenge_settings_block_error_page_description
+				block_error_page_message = var.waas_policy_waf_config_device_fingerprint_challenge_challenge_settings_block_error_page_message
+				block_response_code = var.waas_policy_waf_config_device_fingerprint_challenge_challenge_settings_block_response_code
+				captcha_footer = var.waas_policy_waf_config_device_fingerprint_challenge_challenge_settings_captcha_footer
+				captcha_header = var.waas_policy_waf_config_device_fingerprint_challenge_challenge_settings_captcha_header
+				captcha_submit_label = var.waas_policy_waf_config_device_fingerprint_challenge_challenge_settings_captcha_submit_label
+				captcha_title = var.waas_policy_waf_config_device_fingerprint_challenge_challenge_settings_captcha_title
+			}
+			failure_threshold = var.waas_policy_waf_config_device_fingerprint_challenge_failure_threshold
+			failure_threshold_expiration_in_seconds = var.waas_policy_waf_config_device_fingerprint_challenge_failure_threshold_expiration_in_seconds
+			max_address_count = var.waas_policy_waf_config_device_fingerprint_challenge_max_address_count
+			max_address_count_expiration_in_seconds = var.waas_policy_waf_config_device_fingerprint_challenge_max_address_count_expiration_in_seconds
+		}
+		human_interaction_challenge {
+			#Required
+			is_enabled = var.waas_policy_waf_config_human_interaction_challenge_is_enabled
+
+			#Optional
+			action = var.waas_policy_waf_config_human_interaction_challenge_action
+			action_expiration_in_seconds = var.waas_policy_waf_config_human_interaction_challenge_action_expiration_in_seconds
+			challenge_settings {
+
+				#Optional
+				block_action = var.waas_policy_waf_config_human_interaction_challenge_challenge_settings_block_action
+				block_error_page_code = var.waas_policy_waf_config_human_interaction_challenge_challenge_settings_block_error_page_code
+				block_error_page_description = var.waas_policy_waf_config_human_interaction_challenge_challenge_settings_block_error_page_description
+				block_error_page_message = var.waas_policy_waf_config_human_interaction_challenge_challenge_settings_block_error_page_message
+				block_response_code = var.waas_policy_waf_config_human_interaction_challenge_challenge_settings_block_response_code
+				captcha_footer = var.waas_policy_waf_config_human_interaction_challenge_challenge_settings_captcha_footer
+				captcha_header = var.waas_policy_waf_config_human_interaction_challenge_challenge_settings_captcha_header
+				captcha_submit_label = var.waas_policy_waf_config_human_interaction_challenge_challenge_settings_captcha_submit_label
+				captcha_title = var.waas_policy_waf_config_human_interaction_challenge_challenge_settings_captcha_title
+			}
+			failure_threshold = var.waas_policy_waf_config_human_interaction_challenge_failure_threshold
+			failure_threshold_expiration_in_seconds = var.waas_policy_waf_config_human_interaction_challenge_failure_threshold_expiration_in_seconds
+			interaction_threshold = var.waas_policy_waf_config_human_interaction_challenge_interaction_threshold
+			is_nat_enabled = var.waas_policy_waf_config_human_interaction_challenge_is_nat_enabled
+			recording_period_in_seconds = var.waas_policy_waf_config_human_interaction_challenge_recording_period_in_seconds
+			set_http_header {
+				#Required
+				name = var.waas_policy_waf_config_human_interaction_challenge_set_http_header_name
+				value = var.waas_policy_waf_config_human_interaction_challenge_set_http_header_value
+			}
+		}
+		js_challenge {
+			#Required
+			is_enabled = var.waas_policy_waf_config_js_challenge_is_enabled
+
+			#Optional
+			action = var.waas_policy_waf_config_js_challenge_action
+			action_expiration_in_seconds = var.waas_policy_waf_config_js_challenge_action_expiration_in_seconds
+			are_redirects_challenged = var.waas_policy_waf_config_js_challenge_are_redirects_challenged
+			challenge_settings {
+
+				#Optional
+				block_action = var.waas_policy_waf_config_js_challenge_challenge_settings_block_action
+				block_error_page_code = var.waas_policy_waf_config_js_challenge_challenge_settings_block_error_page_code
+				block_error_page_description = var.waas_policy_waf_config_js_challenge_challenge_settings_block_error_page_description
+				block_error_page_message = var.waas_policy_waf_config_js_challenge_challenge_settings_block_error_page_message
+				block_response_code = var.waas_policy_waf_config_js_challenge_challenge_settings_block_response_code
+				captcha_footer = var.waas_policy_waf_config_js_challenge_challenge_settings_captcha_footer
+				captcha_header = var.waas_policy_waf_config_js_challenge_challenge_settings_captcha_header
+				captcha_submit_label = var.waas_policy_waf_config_js_challenge_challenge_settings_captcha_submit_label
+				captcha_title = var.waas_policy_waf_config_js_challenge_challenge_settings_captcha_title
+			}
+			criteria {
+				#Required
+				condition = var.waas_policy_waf_config_js_challenge_criteria_condition
+				value = var.waas_policy_waf_config_js_challenge_criteria_value
+
+				#Optional
+				is_case_sensitive = var.waas_policy_waf_config_js_challenge_criteria_is_case_sensitive
+			}
+			failure_threshold = var.waas_policy_waf_config_js_challenge_failure_threshold
+			is_nat_enabled = var.waas_policy_waf_config_js_challenge_is_nat_enabled
+			set_http_header {
+				#Required
+				name = var.waas_policy_waf_config_js_challenge_set_http_header_name
+				value = var.waas_policy_waf_config_js_challenge_set_http_header_value
+			}
+		}
+		origin = var.waas_policy_waf_config_origin
+		origin_groups = var.waas_policy_waf_config_origin_groups
+		protection_settings {
+
+			#Optional
+			allowed_http_methods = var.waas_policy_waf_config_protection_settings_allowed_http_methods
+			block_action = var.waas_policy_waf_config_protection_settings_block_action
+			block_error_page_code = var.waas_policy_waf_config_protection_settings_block_error_page_code
+			block_error_page_description = var.waas_policy_waf_config_protection_settings_block_error_page_description
+			block_error_page_message = var.waas_policy_waf_config_protection_settings_block_error_page_message
+			block_response_code = var.waas_policy_waf_config_protection_settings_block_response_code
+			is_response_inspected = var.waas_policy_waf_config_protection_settings_is_response_inspected
+			max_argument_count = var.waas_policy_waf_config_protection_settings_max_argument_count
+			max_name_length_per_argument = var.waas_policy_waf_config_protection_settings_max_name_length_per_argument
+			max_response_size_in_ki_b = var.waas_policy_waf_config_protection_settings_max_response_size_in_ki_b
+			max_total_name_length_of_arguments = var.waas_policy_waf_config_protection_settings_max_total_name_length_of_arguments
+			media_types = var.waas_policy_waf_config_protection_settings_media_types
+			recommendations_period_in_days = var.waas_policy_waf_config_protection_settings_recommendations_period_in_days
+		}
+		whitelists {
+			#Required
+			name = var.waas_policy_waf_config_whitelists_name
+
+			#Optional
+			address_lists = var.waas_policy_waf_config_whitelists_address_lists
+			addresses = var.waas_policy_waf_config_whitelists_addresses
+		}
+	}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>additional_domains</code> - (Optional) (Updatable) An array of additional domains for the specified web application.</p></li>
+
+<li><p><code>compartment_id</code> - (Required) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment in which to create the WAAS policy.</p></li>
+
+<li><p><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></p></li>
+
+<li><p><code>display_name</code> - (Optional) (Updatable) A user-friendly name for the WAAS policy. The name can be changed and does not need to be unique.</p></li>
+
+<li><p><code>domain</code> - (Required) The web application domain that the WAAS policy protects.</p></li>
+
+<li><p><code>freeform_tags</code> - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></p></li>
+
+<li><p><code>origin_groups</code> - (Optional) (Updatable) The map of origin groups and their keys used to associate origins to the <code>wafConfig</code>. Origin groups allow you to apply weights to groups of origins for load balancing purposes. Origins with higher weights will receive larger proportions of client requests. To add additional origins to your WAAS policy, update the <code>origins</code> field of a <code>UpdateWaasPolicy</code> request.</p>
+
+<ul>
+<li><code>origins</code> - (Optional) (Updatable) The list of objects containing origin references and additional properties.</li>
+</ul></li>
+
+<li><p><code>origins</code> - (Optional) (Updatable) A map of host to origin for the web application. The key should be a customer friendly name for the host, ex. primary, secondary, etc.</p>
+
+<ul>
+<li><code>custom_headers</code> - (Optional) (Updatable) A list of HTTP headers to forward to your origin.
+
+<ul>
+<li><code>name</code> - (Required) (Updatable) The name of the header.</li>
+<li><code>value</code> - (Required) (Updatable) The value of the header.</li>
+</ul></li>
+<li><code>http_port</code> - (Optional) (Updatable) The HTTP port on the origin that the web application listens on. If unspecified, defaults to <code>80</code>. If <code>0</code> is specified - the origin is not used for HTTP traffic.</li>
+<li><code>https_port</code> - (Optional) (Updatable) The HTTPS port on the origin that the web application listens on. If unspecified, defaults to <code>443</code>. If <code>0</code> is specified - the origin is not used for HTTPS traffic.</li>
+<li><code>uri</code> - (Required) (Updatable) The URI of the origin. Does not support paths. Port numbers should be specified in the <code>httpPort</code> and <code>httpsPort</code> fields.</li>
+</ul></li>
+
+<li><p><code>policy_config</code> - (Optional) (Updatable) The configuration details for the WAAS policy.</p>
+
+<ul>
+<li><p><code>certificate_id</code> - (Optional) (Updatable) The OCID of the SSL certificate to use if HTTPS is supported.</p></li>
+
+<li><p><code>cipher_group</code> - (Optional) (Updatable) The set cipher group for the configured TLS protocol. This sets the configuration for the TLS connections between clients and edge nodes only.</p>
+
+<ul>
+<li><strong>DEFAULT:</strong> Cipher group supports TLS 1.0, TLS 1.1, TLS 1.2, TLS 1.3 protocols. It has the following ciphers enabled: <code>ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:!DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA</code></li>
+</ul></li>
+
+<li><p><code>client_address_header</code> - (Optional) (Updatable) Specifies an HTTP header name which is treated as the connecting client&rsquo;s IP address. Applicable only if <code>isBehindCdn</code> is enabled.</p>
+
+<p>The edge node reads this header and its value and sets the client IP address as specified. It does not create the header if the header is not present in the request. If the header is not present, the connecting IP address will be used as the client&rsquo;s true IP address. It uses the last IP address in the header&rsquo;s value as the true IP address.</p>
+
+<p>Example: <code>X-Client-Ip: 11.1.1.1, 13.3.3.3</code></p>
+
+<p>In the case of multiple headers with the same name, only the first header will be used. It is assumed that CDN sets the correct client IP address to prevent spoofing.</p>
+
+<ul>
+<li><strong>X_FORWARDED_FOR:</strong> Corresponds to <code>X-Forwarded-For</code> header name.</li>
+<li><strong>X_CLIENT_IP:</strong> Corresponds to <code>X-Client-Ip</code> header name.</li>
+<li><strong>X_REAL_IP:</strong> Corresponds to <code>X-Real-Ip</code> header name.</li>
+<li><strong>CLIENT_IP:</strong> Corresponds to <code>Client-Ip</code> header name.</li>
+<li><strong>TRUE_CLIENT_IP:</strong> Corresponds to <code>True-Client-Ip</code> header name.</li>
+</ul></li>
+
+<li><p><code>health_checks</code> - (Optional) (Updatable) Health checks monitor the status of your origin servers and only route traffic to the origins that pass the health check. If the health check fails, origin is automatically removed from the load balancing. There is roughly one health check per EDGE POP per period. Any checks that pass will be reported as &ldquo;healthy&rdquo;.</p>
+
+<ul>
+<li><p><code>expected_response_code_group</code> - (Optional) (Updatable) The HTTP response codes that signify a healthy state.</p>
+
+<ul>
+<li><strong>2XX:</strong> Success response code group.</li>
+<li><strong>3XX:</strong> Redirection response code group.</li>
+<li><strong>4XX:</strong> Client errors response code group.</li>
+<li><strong>5XX:</strong> Server errors response code group.</li>
+</ul></li>
+
+<li><p><code>expected_response_text</code> - (Optional) (Updatable) Health check will search for the given text in a case-sensitive manner within the response body and will fail if the text is not found.</p></li>
+
+<li><p><code>headers</code> - (Optional) (Updatable) HTTP header fields to include in health check requests, expressed as <code>&quot;name&quot;: &quot;value&quot;</code> properties. Because HTTP header field names are case-insensitive, any use of names that are case-insensitive equal to other names will be rejected. If Host is not specified, requests will include a Host header field with value matching the policy&rsquo;s protected domain. If User-Agent is not specified, requests will include a User-Agent header field with value &ldquo;waf health checks&rdquo;.</p>
+
+<p><strong>Note:</strong> The only currently-supported header fields are Host and User-Agent.</p></li>
+
+<li><p><code>healthy_threshold</code> - (Optional) (Updatable) Number of successful health checks after which the server is marked up.</p></li>
+
+<li><p><code>interval_in_seconds</code> - (Optional) (Updatable) Time between health checks of an individual origin server, in seconds.</p></li>
+
+<li><p><code>is_enabled</code> - (Optional) (Updatable) Enables or disables the health checks.</p></li>
+
+<li><p><code>is_response_text_check_enabled</code> - (Optional) (Updatable) Enables or disables additional check for predefined text in addition to response code.</p></li>
+
+<li><p><code>method</code> - (Optional) (Updatable) An HTTP verb (i.e. HEAD, GET, or POST) to use when performing the health check.</p></li>
+
+<li><p><code>path</code> - (Optional) (Updatable) Path to visit on your origins when performing the health check.</p></li>
+
+<li><p><code>timeout_in_seconds</code> - (Optional) (Updatable) Response timeout represents wait time until request is considered failed, in seconds.</p></li>
+
+<li><p><code>unhealthy_threshold</code> - (Optional) (Updatable) Number of failed health checks after which the server is marked down.</p></li>
+</ul></li>
+
+<li><p><code>is_behind_cdn</code> - (Optional) (Updatable) Enabling <code>isBehindCdn</code> allows for the collection of IP addresses from client requests if the WAF is connected to a CDN.</p></li>
+
+<li><p><code>is_cache_control_respected</code> - (Optional) (Updatable) Enable or disable automatic content caching based on the response <code>cache-control</code> header. This feature enables the origin to act as a proxy cache. Caching is usually defined using <code>cache-control</code> header. For example <code>cache-control: max-age=120</code> means that the returned resource is valid for 120 seconds. Caching rules will overwrite this setting.</p></li>
+
+<li><p><code>is_https_enabled</code> - (Optional) (Updatable) Enable or disable HTTPS support. If true, a <code>certificateId</code> is required. If unspecified, defaults to <code>false</code>.</p></li>
+
+<li><p><code>is_https_forced</code> - (Optional) (Updatable) Force HTTP to HTTPS redirection. If unspecified, defaults to <code>false</code>.</p></li>
+
+<li><p><code>is_origin_compression_enabled</code> - (Optional) (Updatable) Enable or disable GZIP compression of origin responses. If enabled, the header <code>Accept-Encoding: gzip</code> is sent to origin, otherwise, the empty <code>Accept-Encoding:</code> header is used.</p></li>
+
+<li><p><code>is_response_buffering_enabled</code> - (Optional) (Updatable) Enable or disable buffering of responses from the origin. Buffering improves overall stability in case of network issues, but slightly increases Time To First Byte.</p></li>
+
+<li><p><code>is_sni_enabled</code> - (Optional) (Updatable) SNI stands for Server Name Indication and is an extension of the TLS protocol. It indicates which hostname is being contacted by the browser at the beginning of the &lsquo;handshake&rsquo;-process. This allows a server to connect multiple SSL Certificates to one IP address and port.</p></li>
+
+<li><p><code>load_balancing_method</code> - (Optional) (Updatable) An object that represents a load balancing method and its properties.</p>
+
+<ul>
+<li><code>domain</code> - (Applicable when method=STICKY_COOKIE) (Updatable) The domain for which the cookie is set, defaults to WAAS policy domain.</li>
+<li><code>expiration_time_in_seconds</code> - (Applicable when method=STICKY_COOKIE) (Updatable) The time for which a browser should keep the cookie in seconds. Empty value will cause the cookie to expire at the end of a browser session.</li>
+<li><code>method</code> - (Required) (Updatable) Load balancing methods are algorithms used to efficiently distribute traffic among origin servers.
+
+<ul>
+<li><strong><a href="/iaas/api/#/en/waas/latest/datatypes/IPHashLoadBalancingMethod">IP_HASH</a>:</strong> All the incoming requests from the same client IP address should go to the same content origination server. IP_HASH load balancing method uses origin weights when choosing which origin should the hash be assigned to initially.</li>
+<li><strong><a href="/iaas/api/#/en/waas/latest/datatypes/RoundRobinLoadBalancingMethod">ROUND_ROBIN</a>:</strong> Forwards requests sequentially to the available origin servers. The first request - to the first origin server, the second request - to the next origin server, and so on. After it sends a request to the last origin server, it starts again with the first origin server. When using weights on origins, Weighted Round Robin assigns more requests to origins with a greater weight. Over a period of time, origins will receive a number of requests in proportion to their weight.</li>
+<li><strong><a href="/iaas/api/#/en/waas/latest/datatypes/StickyCookieLoadBalancingMethod">STICKY_COOKIE</a>:</strong> Adds a session cookie to the first response from the origin server and identifies the server that sent the response. The client&rsquo;s next request contains the cookie value, and nginx routes the request to the origin server that responded to the first request. STICKY_COOKIE load balancing method falls back to Round Robin for the first request.</li>
+</ul></li>
+<li><code>name</code> - (Applicable when method=STICKY_COOKIE) (Updatable) The name of the cookie used to track the persistence. Can contain any US-ASCII character except separator or control character.</li>
+</ul></li>
+
+<li><p><code>tls_protocols</code> - (Optional) (Updatable) A list of allowed TLS protocols. Only applicable when HTTPS support is enabled. The TLS protocol is negotiated while the request is connecting and the most recent protocol supported by both the edge node and client browser will be selected. If no such version exists, the connection will be aborted.</p>
+
+<ul>
+<li><strong>TLS_V1:</strong> corresponds to TLS 1.0 specification.</li>
+<li><strong>TLS_V1_1:</strong> corresponds to TLS 1.1 specification.</li>
+<li><strong>TLS_V1_2:</strong> corresponds to TLS 1.2 specification.</li>
+<li><strong>TLS_V1_3:</strong> corresponds to TLS 1.3 specification.</li>
+</ul>
+
+<p>Enabled TLS protocols must go in a row. For example if <code>TLS_v1_1</code> and <code>TLS_V1_3</code> are enabled, <code>TLS_V1_2</code> must be enabled too.</p></li>
+
+<li><p><code>websocket_path_prefixes</code> - (Optional) (Updatable) ModSecurity is not capable to inspect WebSockets. Therefore paths specified here have WAF disabled if Connection request header from the client has the value Upgrade (case insensitive matching) and Upgrade request header has the value websocket (case insensitive matching). Paths matches if the concatenation of request URL path and query starts with the contents of the one of <code>websocketPathPrefixes</code> array value. In All other cases challenges, like JSC, HIC and etc., remain active.</p></li>
+</ul></li>
+
+<li><p><code>waf_config</code> - (Optional) (Updatable) The Web Application Firewall configuration for the WAAS policy creation.</p>
+
+<ul>
+<li><p><code>access_rules</code> - (Optional) (Updatable) The access rules applied to the Web Application Firewall. Access rules allow custom content access policies to be defined and <code>ALLOW</code>, <code>DETECT</code>, or <code>BLOCK</code> actions to be taken on a request when specified criteria are met.</p>
+
+<ul>
+<li><p><code>action</code> - (Required) (Updatable) The action to take when the access criteria are met for a rule. If unspecified, defaults to <code>ALLOW</code>.</p>
+
+<ul>
+<li><strong>ALLOW:</strong> Takes no action, just logs the request.</li>
+<li><strong>DETECT:</strong> Takes no action, but creates an alert for the request.</li>
+<li><strong>BLOCK:</strong> Blocks the request by returning specified response code or showing error page.</li>
+<li><strong>BYPASS:</strong> Bypasses some or all challenges.</li>
+<li><strong>REDIRECT:</strong> Redirects the request to the specified URL. These fields are required when <code>REDIRECT</code> is selected: <code>redirectUrl</code>, <code>redirectResponseCode</code>.</li>
+<li><strong>SHOW_CAPTCHA:</strong> Show a CAPTCHA Challenge page instead of the requested page.</li>
+</ul>
+
+<p>Regardless of action, no further rules are processed once a rule is matched.</p></li>
+
+<li><p><code>block_action</code> - (Optional) (Updatable) The method used to block requests if <code>action</code> is set to <code>BLOCK</code> and the access criteria are met. If unspecified, defaults to <code>SET_RESPONSE_CODE</code>.</p></li>
+
+<li><p><code>block_error_page_code</code> - (Optional) (Updatable) The error code to show on the error page when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_ERROR_PAGE</code>, and the access criteria are met. If unspecified, defaults to &lsquo;Access rules&rsquo;.</p></li>
+
+<li><p><code>block_error_page_description</code> - (Optional) (Updatable) The description text to show on the error page when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_ERROR_PAGE</code>, and the access criteria are met. If unspecified, defaults to &lsquo;Access blocked by website owner. Please contact support.&rsquo;</p></li>
+
+<li><p><code>block_error_page_message</code> - (Optional) (Updatable) The message to show on the error page when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_ERROR_PAGE</code>, and the access criteria are met. If unspecified, defaults to &lsquo;Access to the website is blocked.&rsquo;</p></li>
+
+<li><p><code>block_response_code</code> - (Optional) (Updatable) The response status code to return when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SET_RESPONSE_CODE</code>, and the access criteria are met. If unspecified, defaults to <code>403</code>. The list of available response codes: <code>200</code>, <code>201</code>, <code>202</code>, <code>204</code>, <code>206</code>, <code>300</code>, <code>301</code>, <code>302</code>, <code>303</code>, <code>304</code>, <code>307</code>, <code>400</code>, <code>401</code>, <code>403</code>, <code>404</code>, <code>405</code>, <code>408</code>, <code>409</code>, <code>411</code>, <code>412</code>, <code>413</code>, <code>414</code>, <code>415</code>, <code>416</code>, <code>422</code>, <code>444</code>, <code>494</code>, <code>495</code>, <code>496</code>, <code>497</code>, <code>499</code>, <code>500</code>, <code>501</code>, <code>502</code>, <code>503</code>, <code>504</code>, <code>507</code>.</p></li>
+
+<li><p><code>bypass_challenges</code> - (Optional) (Updatable) The list of challenges to bypass when <code>action</code> is set to <code>BYPASS</code>. If unspecified or empty, all challenges are bypassed.</p>
+
+<ul>
+<li><strong>JS_CHALLENGE:</strong> Bypasses JavaScript Challenge.</li>
+<li><strong>DEVICE_FINGERPRINT_CHALLENGE:</strong> Bypasses Device Fingerprint Challenge.</li>
+<li><strong>HUMAN_INTERACTION_CHALLENGE:</strong> Bypasses Human Interaction Challenge.</li>
+<li><strong>CAPTCHA:</strong> Bypasses CAPTCHA Challenge.</li>
+</ul></li>
+
+<li><p><code>captcha_footer</code> - (Optional) (Updatable) The text to show in the footer when showing a CAPTCHA challenge when <code>action</code> is set to <code>SHOW_CAPTCHA</code> and the request is challenged.</p></li>
+
+<li><p><code>captcha_header</code> - (Optional) (Updatable) The text to show in the header when showing a CAPTCHA challenge when <code>action</code> is set to <code>SHOW_CAPTCHA</code> and the request is challenged.</p></li>
+
+<li><p><code>captcha_submit_label</code> - (Optional) (Updatable) The text to show on the label of the CAPTCHA challenge submit button when <code>action</code> is set to <code>SHOW_CAPTCHA</code> and the request is challenged.</p></li>
+
+<li><p><code>captcha_title</code> - (Optional) (Updatable) The title used when showing a CAPTCHA challenge when <code>action</code> is set to <code>SHOW_CAPTCHA</code> and the request is challenged.</p></li>
+
+<li><p><code>criteria</code> - (Required) (Updatable) The list of access rule criteria. The rule would be applied only for the requests that matched all the listed conditions.</p>
+
+<ul>
+<li><p><code>condition</code> - (Required) (Updatable) The criteria the access rule and JavaScript Challenge uses to determine if action should be taken on a request.</p>
+
+<ul>
+<li><strong>URL_IS:</strong> Matches if the concatenation of request URL path and query is identical to the contents of the <code>value</code> field. URL must start with a <code>/</code>.</li>
+<li><strong>URL_IS_NOT:</strong> Matches if the concatenation of request URL path and query is not identical to the contents of the <code>value</code> field. URL must start with a <code>/</code>.</li>
+<li><strong>URL_STARTS_WITH:</strong> Matches if the concatenation of request URL path and query starts with the contents of the <code>value</code> field. URL must start with a <code>/</code>.</li>
+<li><strong>URL_PART_ENDS_WITH:</strong> Matches if the concatenation of request URL path and query ends with the contents of the <code>value</code> field.</li>
+<li><strong>URL_PART_CONTAINS:</strong> Matches if the concatenation of request URL path and query contains the contents of the <code>value</code> field.</li>
+<li><strong>URL_REGEX:</strong> Matches if the concatenation of request URL path and query is described by the regular expression in the value field. The value must be a valid regular expression recognized by the PCRE library in Nginx (<a href="https://www.pcre.org">https://www.pcre.org</a>).</li>
+<li><strong>URL_DOES_NOT_MATCH_REGEX:</strong> Matches if the concatenation of request URL path and query is not described by the regular expression in the <code>value</code> field. The value must be a valid regular expression recognized by the PCRE library in Nginx (<a href="https://www.pcre.org">https://www.pcre.org</a>).</li>
+<li><strong>URL_DOES_NOT_START_WITH:</strong> Matches if the concatenation of request URL path and query does not start with the contents of the <code>value</code> field.</li>
+<li><strong>URL_PART_DOES_NOT_CONTAIN:</strong> Matches if the concatenation of request URL path and query does not contain the contents of the <code>value</code> field.</li>
+<li><strong>URL_PART_DOES_NOT_END_WITH:</strong> Matches if the concatenation of request URL path and query does not end with the contents of the <code>value</code> field.</li>
+<li><strong>IP_IS:</strong> Matches if the request originates from one of the IP addresses contained in the defined address list. The <code>value</code> in this case is string with one or multiple IPs or CIDR notations separated by new line symbol \n <em>Example:</em> &ldquo;1.1.1.1\n1.1.1.2\n1.2.2.<sup>1</sup>&frasl;<sub>30</sub>&rdquo;</li>
+<li><strong>IP_IS_NOT:</strong> Matches if the request does not originate from any of the IP addresses contained in the defined address list. The <code>value</code> in this case is string with one or multiple IPs or CIDR notations separated by new line symbol \n <em>Example:</em> &ldquo;1.1.1.1\n1.1.1.2\n1.2.2.<sup>1</sup>&frasl;<sub>30</sub>&rdquo;</li>
+<li><strong>IP_IN_LIST:</strong> Matches if the request originates from one of the IP addresses contained in the referenced address list. The <code>value</code> in this case is OCID of the address list.</li>
+<li><strong>IP_NOT_IN_LIST:</strong> Matches if the request does not originate from any IP address contained in the referenced address list. The <code>value</code> field in this case is OCID of the address list.</li>
+<li><strong>HTTP_HEADER_CONTAINS:</strong> The HTTP_HEADER_CONTAINS criteria is defined using a compound value separated by a colon: a header field name and a header field value. <code>host:test.example.com</code> is an example of a criteria value where <code>host</code> is the header field name and <code>test.example.com</code> is the header field value. A request matches when the header field name is a case insensitive match and the header field value is a case insensitive, substring match. <em>Example:</em> With a criteria value of <code>host:test.example.com</code>, where <code>host</code> is the name of the field and <code>test.example.com</code> is the value of the host field, a request with the header values, <code>Host: www.test.example.com</code> will match, where as a request with header values of <code>host: www.example.com</code> or <code>host: test.sub.example.com</code> will not match.</li>
+<li><strong>HTTP_METHOD_IS:</strong> Matches if the request method is identical to one of the values listed in field. The <code>value</code> in this case is string with one or multiple HTTP methods separated by new line symbol \n The list of available methods: <code>GET</code>, <code>HEAD</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code>, <code>CONNECT</code>, <code>OPTIONS</code>, <code>TRACE</code>, <code>PATCH</code></li>
+</ul>
+
+<p><em>Example:</em> &ldquo;GET\nPOST&rdquo;
+* <strong>HTTP_METHOD_IS_NOT:</strong> Matches if the request is not identical to any of the contents of the <code>value</code> field. The <code>value</code> in this case is string with one or multiple HTTP methods separated by new line symbol \n The list of available methods: <code>GET</code>, <code>HEAD</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code>, <code>CONNECT</code>, <code>OPTIONS</code>, <code>TRACE</code>, <code>PATCH</code></p>
+
+<p><em>Example:</em> &ldquo;GET\nPOST&rdquo;
+* <strong>COUNTRY_IS:</strong> Matches if the request originates from one of countries in the <code>value</code> field. The <code>value</code> in this case is string with one or multiple countries separated by new line symbol \n Country codes are in ISO 3166-1 alpha-2 format. For a list of codes, see <a href="https://www.iso.org/obp/ui/#search/code/">ISO&rsquo;s website</a>. <em>Example:</em> &ldquo;AL\nDZ\nAM&rdquo;
+* <strong>COUNTRY_IS_NOT:</strong> Matches if the request does not originate from any of countries in the <code>value</code> field. The <code>value</code> in this case is string with one or multiple countries separated by new line symbol \n Country codes are in ISO 3166-1 alpha-2 format. For a list of codes, see <a href="https://www.iso.org/obp/ui/#search/code/">ISO&rsquo;s website</a>. <em>Example:</em> &ldquo;AL\nDZ\nAM&rdquo;
+* <strong>USER_AGENT_IS:</strong> Matches if the requesting user agent is identical to the contents of the <code>value</code> field. <em>Example:</em> <code>Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:35.0) Gecko/20100101 Firefox/35.0</code>
+* <strong>USER_AGENT_IS_NOT:</strong> Matches if the requesting user agent is not identical to the contents of the <code>value</code> field. <em>Example:</em> <code>Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:35.0) Gecko/20100101 Firefox/35.0</code></p></li>
+
+<li><p><code>is_case_sensitive</code> - (Optional) (Updatable) When enabled, the condition will be matched with case-sensitive rules.</p></li>
+
+<li><p><code>value</code> - (Required) (Updatable) The criteria value.</p></li>
+</ul></li>
+
+<li><p><code>name</code> - (Required) (Updatable) The unique name of the access rule.</p></li>
+
+<li><p><code>redirect_response_code</code> - (Optional) (Updatable) The response status code to return when <code>action</code> is set to <code>REDIRECT</code>.</p>
+
+<ul>
+<li><strong>MOVED_PERMANENTLY:</strong> Used for designating the permanent movement of a page (numerical code - 301).</li>
+<li><strong>FOUND:</strong> Used for designating the temporary movement of a page (numerical code - 302).</li>
+</ul></li>
+
+<li><p><code>redirect_url</code> - (Optional) (Updatable) The target to which the request should be redirected, represented as a URI reference. Required when <code>action</code> is <code>REDIRECT</code>.</p></li>
+
+<li><p><code>response_header_manipulation</code> - (Optional) (Updatable) An object that represents an action to apply to an HTTP response headers if all rule criteria will be matched regardless of <code>action</code> value.</p>
+
+<ul>
+<li><code>action</code> - (Required) (Updatable) The action can be one of these values: <code>ADD_HTTP_RESPONSE_HEADER</code>, <code>EXTEND_HTTP_RESPONSE_HEADER</code>, <code>REMOVE_HTTP_RESPONSE_HEADER</code></li>
+<li><code>header</code> - (Required) (Updatable) A header field name that conforms to RFC 7230.  Example: <code>example_header_name</code></li>
+<li><code>value</code> - (Required when action=ADD_HTTP_RESPONSE_HEADER | EXTEND_HTTP_RESPONSE_HEADER) (Updatable) A header field value that conforms to RFC 7230.  Example: <code>example_value</code></li>
+</ul></li>
+</ul></li>
+
+<li><p><code>address_rate_limiting</code> - (Optional) (Updatable) The settings used to limit the number of requests from an IP address.</p>
+
+<ul>
+<li><code>allowed_rate_per_address</code> - (Optional) (Updatable) The number of allowed requests per second from one IP address. If unspecified, defaults to <code>1</code>.</li>
+<li><code>block_response_code</code> - (Optional) (Updatable) The response status code returned when a request is blocked. If unspecified, defaults to <code>503</code>. The list of available response codes: <code>400</code>, <code>401</code>, <code>403</code>, <code>404</code>, <code>405</code>, <code>408</code>, <code>409</code>, <code>411</code>, <code>412</code>, <code>413</code>, <code>414</code>, <code>415</code>, <code>416</code>, <code>422</code>, <code>494</code>, <code>495</code>, <code>496</code>, <code>497</code>, <code>499</code>, <code>500</code>, <code>501</code>, <code>502</code>, <code>503</code>, <code>504</code>, <code>507</code>.</li>
+<li><code>is_enabled</code> - (Required) (Updatable) Enables or disables the address rate limiting Web Application Firewall feature.</li>
+<li><code>max_delayed_count_per_address</code> - (Optional) (Updatable) The maximum number of requests allowed to be queued before subsequent requests are dropped. If unspecified, defaults to <code>10</code>.</li>
+</ul></li>
+
+<li><p><code>caching_rules</code> - (Optional) (Updatable) A list of caching rules applied to the web application.</p>
+
+<ul>
+<li><p><code>action</code> - (Required) (Updatable) The action to take when the criteria of a caching rule are met.</p>
+
+<ul>
+<li><strong>CACHE:</strong> Caches requested content when the criteria of the rule are met.</li>
+<li><strong>BYPASS_CACHE:</strong> Allows requests to bypass the cache and be directed to the origin when the criteria of the rule is met.</li>
+</ul></li>
+
+<li><p><code>caching_duration</code> - (Optional) (Updatable) The duration to cache content for the caching rule, specified in ISO 8601 extended format. Supported units: seconds, minutes, hours, days, weeks, months. The maximum value that can be set for any unit is <code>99</code>. Mixing of multiple units is not supported. Only applies when the <code>action</code> is set to <code>CACHE</code>. Example: <code>PT1H</code></p></li>
+
+<li><p><code>client_caching_duration</code> - (Optional) (Updatable) The duration to cache content in the user&rsquo;s browser, specified in ISO 8601 extended format. Supported units: seconds, minutes, hours, days, weeks, months. The maximum value that can be set for any unit is <code>99</code>. Mixing of multiple units is not supported. Only applies when the <code>action</code> is set to <code>CACHE</code>. Example: <code>PT1H</code></p></li>
+
+<li><p><code>criteria</code> - (Required) (Updatable) The array of the rule criteria with condition and value. The caching rule would be applied for the requests that matched any of the listed conditions.</p>
+
+<ul>
+<li><p><code>condition</code> - (Required) (Updatable) The condition of the caching rule criteria.</p>
+
+<ul>
+<li><strong>URL_IS:</strong> Matches if the concatenation of request URL path and query is identical to the contents of the <code>value</code> field.</li>
+<li><strong>URL_STARTS_WITH:</strong> Matches if the concatenation of request URL path and query starts with the contents of the <code>value</code> field.</li>
+<li><strong>URL_PART_ENDS_WITH:</strong> Matches if the concatenation of request URL path and query ends with the contents of the <code>value</code> field.</li>
+<li><strong>URL_PART_CONTAINS:</strong> Matches if the concatenation of request URL path and query contains the contents of the <code>value</code> field.</li>
+</ul>
+
+<p>URLs must start with a <code>/</code>. URLs can&rsquo;t contain restricted double slashes <code>//</code>. URLs can&rsquo;t contain the restricted <code>'</code> <code>&amp;</code> <code>?</code> symbols. Resources to cache can only be specified by a URL, any query parameters are ignored.</p></li>
+
+<li><p><code>value</code> - (Required) (Updatable) The value of the caching rule criteria.</p></li>
+</ul></li>
+
+<li><p><code>is_client_caching_enabled</code> - (Optional) (Updatable) Enables or disables client caching. Browsers use the <code>Cache-Control</code> header value for caching content locally in the browser. This setting overrides the addition of a <code>Cache-Control</code> header in responses.</p></li>
+
+<li><p><code>key</code> - (Optional) (Updatable) The unique key for the caching rule.</p></li>
+
+<li><p><code>name</code> - (Required) (Updatable) The name of the caching rule.</p></li>
+</ul></li>
+
+<li><p><code>captchas</code> - (Optional) (Updatable) A list of CAPTCHA challenge settings. CAPTCHAs challenge requests to ensure a human is attempting to reach the specified URL and not a bot.</p>
+
+<ul>
+<li><code>failure_message</code> - (Required) (Updatable) The text to show when incorrect CAPTCHA text is entered. If unspecified, defaults to <code>The CAPTCHA was incorrect. Try again.</code></li>
+<li><code>footer_text</code> - (Optional) (Updatable) The text to show in the footer when showing a CAPTCHA challenge. If unspecified, defaults to &lsquo;Enter the letters and numbers as they are shown in the image above.&rsquo;</li>
+<li><code>header_text</code> - (Optional) (Updatable) The text to show in the header when showing a CAPTCHA challenge. If unspecified, defaults to &lsquo;We have detected an increased number of attempts to access this website. To help us keep this site secure, please let us know that you are not a robot by entering the text from the image below.&rsquo;</li>
+<li><code>session_expiration_in_seconds</code> - (Required) (Updatable) The amount of time before the CAPTCHA expires, in seconds. If unspecified, defaults to <code>300</code>.</li>
+<li><code>submit_label</code> - (Required) (Updatable) The text to show on the label of the CAPTCHA challenge submit button. If unspecified, defaults to <code>Yes, I am human</code>.</li>
+<li><code>title</code> - (Required) (Updatable) The title used when displaying a CAPTCHA challenge. If unspecified, defaults to <code>Are you human?</code></li>
+<li><code>url</code> - (Required) (Updatable) The unique URL path at which to show the CAPTCHA challenge.</li>
+</ul></li>
+
+<li><p><code>custom_protection_rules</code> - (Optional) (Updatable) A list of the custom protection rule OCIDs and their actions.</p>
+
+<ul>
+<li><code>action</code> - (Optional) (Updatable) The action to take when the custom protection rule is triggered. <code>DETECT</code> - Logs the request when the criteria of the custom protection rule are met. <code>BLOCK</code> - Blocks the request when the criteria of the custom protection rule are met.</li>
+<li><code>exclusions</code> - (Optional) (Updatable)
+
+<ul>
+<li><code>exclusions</code> - (Optional) (Updatable) An array of The target property of a request that would allow it to bypass the protection rule. For example, when <code>target</code> is <code>REQUEST_COOKIE_NAMES</code>, the list may include names of cookies to exclude from the protection rule. When the target is <code>ARGS</code>, the list may include strings of URL query parameters and values from form-urlencoded XML, JSON, AMP, or POST payloads to exclude from the protection rule. <code>Exclusions</code> properties must not contain whitespace, comma or |. <strong>Note:</strong> If protection rules have been enabled that utilize the <code>maxArgumentCount</code> or <code>maxTotalNameLengthOfArguments</code> properties, and the <code>target</code> property has been set to <code>ARGS</code>, it is important that the <code>exclusions</code> properties be defined to honor those protection rule settings in a consistent manner.</li>
+<li><code>target</code> - (Optional) (Updatable) The target of the exclusion.</li>
+</ul></li>
+<li><code>id</code> - (Optional) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the custom protection rule.</li>
+</ul></li>
+
+<li><p><code>device_fingerprint_challenge</code> - (Optional) (Updatable) The device fingerprint challenge settings. Blocks bots based on unique device fingerprint information.</p>
+
+<ul>
+<li><code>action</code> - (Optional) (Updatable) The action to take on requests from detected bots. If unspecified, defaults to <code>DETECT</code>.</li>
+<li><code>action_expiration_in_seconds</code> - (Optional) (Updatable) The number of seconds between challenges for the same IP address. If unspecified, defaults to <code>60</code>.</li>
+<li><code>challenge_settings</code> - (Optional) (Updatable) The challenge settings if <code>action</code> is set to <code>BLOCK</code>.
+
+<ul>
+<li><code>block_action</code> - (Optional) (Updatable) The method used to block requests that fail the challenge, if <code>action</code> is set to <code>BLOCK</code>. If unspecified, defaults to <code>SHOW_ERROR_PAGE</code>.</li>
+<li><code>block_error_page_code</code> - (Optional) (Updatable) The error code to show on the error page when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_ERROR_PAGE</code> and the request is blocked. If unspecified, defaults to <code>403</code>.</li>
+<li><code>block_error_page_description</code> - (Optional) (Updatable) The description text to show on the error page when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_ERROR_PAGE</code>, and the request is blocked. If unspecified, defaults to <code>Access blocked by website owner. Please contact support.</code></li>
+<li><code>block_error_page_message</code> - (Optional) (Updatable) The message to show on the error page when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_ERROR_PAGE</code>, and the request is blocked. If unspecified, defaults to <code>Access to the website is blocked</code>.</li>
+<li><code>block_response_code</code> - (Optional) (Updatable) The response status code to return when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SET_RESPONSE_CODE</code> or <code>SHOW_ERROR_PAGE</code>, and the request is blocked. If unspecified, defaults to <code>403</code>. The list of available response codes: <code>200</code>, <code>201</code>, <code>202</code>, <code>204</code>, <code>206</code>, <code>300</code>, <code>301</code>, <code>302</code>, <code>303</code>, <code>304</code>, <code>307</code>, <code>400</code>, <code>401</code>, <code>403</code>, <code>404</code>, <code>405</code>, <code>408</code>, <code>409</code>, <code>411</code>, <code>412</code>, <code>413</code>, <code>414</code>, <code>415</code>, <code>416</code>, <code>422</code>, <code>444</code>, <code>494</code>, <code>495</code>, <code>496</code>, <code>497</code>, <code>499</code>, <code>500</code>, <code>501</code>, <code>502</code>, <code>503</code>, <code>504</code>, <code>507</code>.</li>
+<li><code>captcha_footer</code> - (Optional) (Updatable) The text to show in the footer when showing a CAPTCHA challenge when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_CAPTCHA</code>, and the request is blocked. If unspecified, default to <code>Enter the letters and numbers as they are shown in image above</code>.</li>
+<li><code>captcha_header</code> - (Optional) (Updatable) The text to show in the header when showing a CAPTCHA challenge when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_CAPTCHA</code>, and the request is blocked. If unspecified, defaults to <code>We have detected an increased number of attempts to access this webapp. To help us keep this webapp secure, please let us know that you are not a robot by entering the text from captcha below.</code></li>
+<li><code>captcha_submit_label</code> - (Optional) (Updatable) The text to show on the label of the CAPTCHA challenge submit button when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_CAPTCHA</code>, and the request is blocked. If unspecified, defaults to <code>Yes, I am human</code>.</li>
+<li><code>captcha_title</code> - (Optional) (Updatable) The title used when showing a CAPTCHA challenge when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_CAPTCHA</code>, and the request is blocked. If unspecified, defaults to <code>Are you human?</code></li>
+</ul></li>
+<li><code>failure_threshold</code> - (Optional) (Updatable) The number of failed requests allowed before taking action. If unspecified, defaults to <code>10</code>.</li>
+<li><code>failure_threshold_expiration_in_seconds</code> - (Optional) (Updatable) The number of seconds before the failure threshold resets. If unspecified, defaults to <code>60</code>.</li>
+<li><code>is_enabled</code> - (Required) (Updatable) Enables or disables the device fingerprint challenge Web Application Firewall feature.</li>
+<li><code>max_address_count</code> - (Optional) (Updatable) The maximum number of IP addresses permitted with the same device fingerprint. If unspecified, defaults to <code>20</code>.</li>
+<li><code>max_address_count_expiration_in_seconds</code> - (Optional) (Updatable) The number of seconds before the maximum addresses count resets. If unspecified, defaults to <code>60</code>.</li>
+</ul></li>
+
+<li><p><code>human_interaction_challenge</code> - (Optional) (Updatable) The human interaction challenge settings. Detects natural human interactions such as mouse movements, time on site, and page scrolling to identify bots.</p>
+
+<ul>
+<li><code>action</code> - (Optional) (Updatable) The action to take against requests from detected bots. If unspecified, defaults to <code>DETECT</code>.</li>
+<li><code>action_expiration_in_seconds</code> - (Optional) (Updatable) The number of seconds between challenges for the same IP address. If unspecified, defaults to <code>60</code>.</li>
+<li><code>challenge_settings</code> - (Optional) (Updatable) The challenge settings if <code>action</code> is set to <code>BLOCK</code>.
+
+<ul>
+<li><code>block_action</code> - (Optional) (Updatable) The method used to block requests that fail the challenge, if <code>action</code> is set to <code>BLOCK</code>. If unspecified, defaults to <code>SHOW_ERROR_PAGE</code>.</li>
+<li><code>block_error_page_code</code> - (Optional) (Updatable) The error code to show on the error page when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_ERROR_PAGE</code> and the request is blocked. If unspecified, defaults to <code>403</code>.</li>
+<li><code>block_error_page_description</code> - (Optional) (Updatable) The description text to show on the error page when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_ERROR_PAGE</code>, and the request is blocked. If unspecified, defaults to <code>Access blocked by website owner. Please contact support.</code></li>
+<li><code>block_error_page_message</code> - (Optional) (Updatable) The message to show on the error page when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_ERROR_PAGE</code>, and the request is blocked. If unspecified, defaults to <code>Access to the website is blocked</code>.</li>
+<li><code>block_response_code</code> - (Optional) (Updatable) The response status code to return when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SET_RESPONSE_CODE</code> or <code>SHOW_ERROR_PAGE</code>, and the request is blocked. If unspecified, defaults to <code>403</code>. The list of available response codes: <code>200</code>, <code>201</code>, <code>202</code>, <code>204</code>, <code>206</code>, <code>300</code>, <code>301</code>, <code>302</code>, <code>303</code>, <code>304</code>, <code>307</code>, <code>400</code>, <code>401</code>, <code>403</code>, <code>404</code>, <code>405</code>, <code>408</code>, <code>409</code>, <code>411</code>, <code>412</code>, <code>413</code>, <code>414</code>, <code>415</code>, <code>416</code>, <code>422</code>, <code>444</code>, <code>494</code>, <code>495</code>, <code>496</code>, <code>497</code>, <code>499</code>, <code>500</code>, <code>501</code>, <code>502</code>, <code>503</code>, <code>504</code>, <code>507</code>.</li>
+<li><code>captcha_footer</code> - (Optional) (Updatable) The text to show in the footer when showing a CAPTCHA challenge when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_CAPTCHA</code>, and the request is blocked. If unspecified, default to <code>Enter the letters and numbers as they are shown in image above</code>.</li>
+<li><code>captcha_header</code> - (Optional) (Updatable) The text to show in the header when showing a CAPTCHA challenge when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_CAPTCHA</code>, and the request is blocked. If unspecified, defaults to <code>We have detected an increased number of attempts to access this webapp. To help us keep this webapp secure, please let us know that you are not a robot by entering the text from captcha below.</code></li>
+<li><code>captcha_submit_label</code> - (Optional) (Updatable) The text to show on the label of the CAPTCHA challenge submit button when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_CAPTCHA</code>, and the request is blocked. If unspecified, defaults to <code>Yes, I am human</code>.</li>
+<li><code>captcha_title</code> - (Optional) (Updatable) The title used when showing a CAPTCHA challenge when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_CAPTCHA</code>, and the request is blocked. If unspecified, defaults to <code>Are you human?</code></li>
+</ul></li>
+<li><code>failure_threshold</code> - (Optional) (Updatable) The number of failed requests before taking action. If unspecified, defaults to <code>10</code>.</li>
+<li><code>failure_threshold_expiration_in_seconds</code> - (Optional) (Updatable) The number of seconds before the failure threshold resets. If unspecified, defaults to  <code>60</code>.</li>
+<li><code>interaction_threshold</code> - (Optional) (Updatable) The number of interactions required to pass the challenge. If unspecified, defaults to <code>3</code>.</li>
+<li><code>is_enabled</code> - (Required) (Updatable) Enables or disables the human interaction challenge Web Application Firewall feature.</li>
+<li><code>is_nat_enabled</code> - (Optional) (Updatable) When enabled, the user is identified not only by the IP address but also by an unique additional hash, which prevents blocking visitors with shared IP addresses.</li>
+<li><code>recording_period_in_seconds</code> - (Optional) (Updatable) The number of seconds to record the interactions from the user. If unspecified, defaults to <code>15</code>.</li>
+<li><code>set_http_header</code> - (Optional) (Updatable) Adds an additional HTTP header to requests that fail the challenge before being passed to the origin. Only applicable when the <code>action</code> is set to <code>DETECT</code>.
+
+<ul>
+<li><code>name</code> - (Required) (Updatable) The name of the header.</li>
+<li><code>value</code> - (Required) (Updatable) The value of the header.</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>js_challenge</code> - (Optional) (Updatable) The JavaScript challenge settings. Blocks bots by challenging requests from browsers that have no JavaScript support.</p>
+
+<ul>
+<li><p><code>action</code> - (Optional) (Updatable) The action to take against requests from detected bots. If unspecified, defaults to <code>DETECT</code>.</p></li>
+
+<li><p><code>action_expiration_in_seconds</code> - (Optional) (Updatable) The number of seconds between challenges from the same IP address. If unspecified, defaults to <code>60</code>.</p></li>
+
+<li><p><code>are_redirects_challenged</code> - (Optional) (Updatable) When enabled, redirect responses from the origin will also be challenged. This will change HTTP <sup>301</sup>&frasl;<sub>302</sub> responses from origin to HTTP 200 with an HTML body containing JavaScript page redirection.</p></li>
+
+<li><p><code>challenge_settings</code> - (Optional) (Updatable) The challenge settings if <code>action</code> is set to <code>BLOCK</code>.</p>
+
+<ul>
+<li><code>block_action</code> - (Optional) (Updatable) The method used to block requests that fail the challenge, if <code>action</code> is set to <code>BLOCK</code>. If unspecified, defaults to <code>SHOW_ERROR_PAGE</code>.</li>
+<li><code>block_error_page_code</code> - (Optional) (Updatable) The error code to show on the error page when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_ERROR_PAGE</code> and the request is blocked. If unspecified, defaults to <code>403</code>.</li>
+<li><code>block_error_page_description</code> - (Optional) (Updatable) The description text to show on the error page when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_ERROR_PAGE</code>, and the request is blocked. If unspecified, defaults to <code>Access blocked by website owner. Please contact support.</code></li>
+<li><code>block_error_page_message</code> - (Optional) (Updatable) The message to show on the error page when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_ERROR_PAGE</code>, and the request is blocked. If unspecified, defaults to <code>Access to the website is blocked</code>.</li>
+<li><code>block_response_code</code> - (Optional) (Updatable) The response status code to return when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SET_RESPONSE_CODE</code> or <code>SHOW_ERROR_PAGE</code>, and the request is blocked. If unspecified, defaults to <code>403</code>. The list of available response codes: <code>200</code>, <code>201</code>, <code>202</code>, <code>204</code>, <code>206</code>, <code>300</code>, <code>301</code>, <code>302</code>, <code>303</code>, <code>304</code>, <code>307</code>, <code>400</code>, <code>401</code>, <code>403</code>, <code>404</code>, <code>405</code>, <code>408</code>, <code>409</code>, <code>411</code>, <code>412</code>, <code>413</code>, <code>414</code>, <code>415</code>, <code>416</code>, <code>422</code>, <code>444</code>, <code>494</code>, <code>495</code>, <code>496</code>, <code>497</code>, <code>499</code>, <code>500</code>, <code>501</code>, <code>502</code>, <code>503</code>, <code>504</code>, <code>507</code>.</li>
+<li><code>captcha_footer</code> - (Optional) (Updatable) The text to show in the footer when showing a CAPTCHA challenge when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_CAPTCHA</code>, and the request is blocked. If unspecified, default to <code>Enter the letters and numbers as they are shown in image above</code>.</li>
+<li><code>captcha_header</code> - (Optional) (Updatable) The text to show in the header when showing a CAPTCHA challenge when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_CAPTCHA</code>, and the request is blocked. If unspecified, defaults to <code>We have detected an increased number of attempts to access this webapp. To help us keep this webapp secure, please let us know that you are not a robot by entering the text from captcha below.</code></li>
+<li><code>captcha_submit_label</code> - (Optional) (Updatable) The text to show on the label of the CAPTCHA challenge submit button when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_CAPTCHA</code>, and the request is blocked. If unspecified, defaults to <code>Yes, I am human</code>.</li>
+<li><code>captcha_title</code> - (Optional) (Updatable) The title used when showing a CAPTCHA challenge when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_CAPTCHA</code>, and the request is blocked. If unspecified, defaults to <code>Are you human?</code></li>
+</ul></li>
+
+<li><p><code>criteria</code> - (Optional) (Updatable) When defined, the JavaScript Challenge would be applied only for the requests that matched all the listed conditions.</p>
+
+<ul>
+<li><p><code>condition</code> - (Required) (Updatable) The criteria the access rule and JavaScript Challenge uses to determine if action should be taken on a request.</p>
+
+<ul>
+<li><strong>URL_IS:</strong> Matches if the concatenation of request URL path and query is identical to the contents of the <code>value</code> field. URL must start with a <code>/</code>.</li>
+<li><strong>URL_IS_NOT:</strong> Matches if the concatenation of request URL path and query is not identical to the contents of the <code>value</code> field. URL must start with a <code>/</code>.</li>
+<li><strong>URL_STARTS_WITH:</strong> Matches if the concatenation of request URL path and query starts with the contents of the <code>value</code> field. URL must start with a <code>/</code>.</li>
+<li><strong>URL_PART_ENDS_WITH:</strong> Matches if the concatenation of request URL path and query ends with the contents of the <code>value</code> field.</li>
+<li><strong>URL_PART_CONTAINS:</strong> Matches if the concatenation of request URL path and query contains the contents of the <code>value</code> field.</li>
+<li><strong>URL_REGEX:</strong> Matches if the concatenation of request URL path and query is described by the regular expression in the value field. The value must be a valid regular expression recognized by the PCRE library in Nginx (<a href="https://www.pcre.org">https://www.pcre.org</a>).</li>
+<li><strong>URL_DOES_NOT_MATCH_REGEX:</strong> Matches if the concatenation of request URL path and query is not described by the regular expression in the <code>value</code> field. The value must be a valid regular expression recognized by the PCRE library in Nginx (<a href="https://www.pcre.org">https://www.pcre.org</a>).</li>
+<li><strong>URL_DOES_NOT_START_WITH:</strong> Matches if the concatenation of request URL path and query does not start with the contents of the <code>value</code> field.</li>
+<li><strong>URL_PART_DOES_NOT_CONTAIN:</strong> Matches if the concatenation of request URL path and query does not contain the contents of the <code>value</code> field.</li>
+<li><strong>URL_PART_DOES_NOT_END_WITH:</strong> Matches if the concatenation of request URL path and query does not end with the contents of the <code>value</code> field.</li>
+<li><strong>IP_IS:</strong> Matches if the request originates from one of the IP addresses contained in the defined address list. The <code>value</code> in this case is string with one or multiple IPs or CIDR notations separated by new line symbol \n <em>Example:</em> &ldquo;1.1.1.1\n1.1.1.2\n1.2.2.<sup>1</sup>&frasl;<sub>30</sub>&rdquo;</li>
+<li><strong>IP_IS_NOT:</strong> Matches if the request does not originate from any of the IP addresses contained in the defined address list. The <code>value</code> in this case is string with one or multiple IPs or CIDR notations separated by new line symbol \n <em>Example:</em> &ldquo;1.1.1.1\n1.1.1.2\n1.2.2.<sup>1</sup>&frasl;<sub>30</sub>&rdquo;</li>
+<li><strong>IP_IN_LIST:</strong> Matches if the request originates from one of the IP addresses contained in the referenced address list. The <code>value</code> in this case is OCID of the address list.</li>
+<li><strong>IP_NOT_IN_LIST:</strong> Matches if the request does not originate from any IP address contained in the referenced address list. The <code>value</code> field in this case is OCID of the address list.</li>
+<li><strong>HTTP_HEADER_CONTAINS:</strong> The HTTP_HEADER_CONTAINS criteria is defined using a compound value separated by a colon: a header field name and a header field value. <code>host:test.example.com</code> is an example of a criteria value where <code>host</code> is the header field name and <code>test.example.com</code> is the header field value. A request matches when the header field name is a case insensitive match and the header field value is a case insensitive, substring match. <em>Example:</em> With a criteria value of <code>host:test.example.com</code>, where <code>host</code> is the name of the field and <code>test.example.com</code> is the value of the host field, a request with the header values, <code>Host: www.test.example.com</code> will match, where as a request with header values of <code>host: www.example.com</code> or <code>host: test.sub.example.com</code> will not match.</li>
+<li><strong>HTTP_METHOD_IS:</strong> Matches if the request method is identical to one of the values listed in field. The <code>value</code> in this case is string with one or multiple HTTP methods separated by new line symbol \n The list of available methods: <code>GET</code>, <code>HEAD</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code>, <code>CONNECT</code>, <code>OPTIONS</code>, <code>TRACE</code>, <code>PATCH</code></li>
+</ul>
+
+<p><em>Example:</em> &ldquo;GET\nPOST&rdquo;
+* <strong>HTTP_METHOD_IS_NOT:</strong> Matches if the request is not identical to any of the contents of the <code>value</code> field. The <code>value</code> in this case is string with one or multiple HTTP methods separated by new line symbol \n The list of available methods: <code>GET</code>, <code>HEAD</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code>, <code>CONNECT</code>, <code>OPTIONS</code>, <code>TRACE</code>, <code>PATCH</code></p>
+
+<p><em>Example:</em> &ldquo;GET\nPOST&rdquo;
+* <strong>COUNTRY_IS:</strong> Matches if the request originates from one of countries in the <code>value</code> field. The <code>value</code> in this case is string with one or multiple countries separated by new line symbol \n Country codes are in ISO 3166-1 alpha-2 format. For a list of codes, see <a href="https://www.iso.org/obp/ui/#search/code/">ISO&rsquo;s website</a>. <em>Example:</em> &ldquo;AL\nDZ\nAM&rdquo;
+* <strong>COUNTRY_IS_NOT:</strong> Matches if the request does not originate from any of countries in the <code>value</code> field. The <code>value</code> in this case is string with one or multiple countries separated by new line symbol \n Country codes are in ISO 3166-1 alpha-2 format. For a list of codes, see <a href="https://www.iso.org/obp/ui/#search/code/">ISO&rsquo;s website</a>. <em>Example:</em> &ldquo;AL\nDZ\nAM&rdquo;
+* <strong>USER_AGENT_IS:</strong> Matches if the requesting user agent is identical to the contents of the <code>value</code> field. <em>Example:</em> <code>Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:35.0) Gecko/20100101 Firefox/35.0</code>
+* <strong>USER_AGENT_IS_NOT:</strong> Matches if the requesting user agent is not identical to the contents of the <code>value</code> field. <em>Example:</em> <code>Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:35.0) Gecko/20100101 Firefox/35.0</code></p></li>
+
+<li><p><code>is_case_sensitive</code> - (Optional) (Updatable) When enabled, the condition will be matched with case-sensitive rules.</p></li>
+
+<li><p><code>value</code> - (Required) (Updatable) The criteria value.</p></li>
+</ul></li>
+
+<li><p><code>failure_threshold</code> - (Optional) (Updatable) The number of failed requests before taking action. If unspecified, defaults to <code>10</code>.</p></li>
+
+<li><p><code>is_enabled</code> - (Required) (Updatable) Enables or disables the JavaScript challenge Web Application Firewall feature.</p></li>
+
+<li><p><code>is_nat_enabled</code> - (Optional) (Updatable) When enabled, the user is identified not only by the IP address but also by an unique additional hash, which prevents blocking visitors with shared IP addresses.</p></li>
+
+<li><p><code>set_http_header</code> - (Optional) (Updatable) Adds an additional HTTP header to requests that fail the challenge before being passed to the origin. Only applicable when the <code>action</code> is set to <code>DETECT</code>.</p>
+
+<ul>
+<li><code>name</code> - (Required) (Updatable) The name of the header.</li>
+<li><code>value</code> - (Required) (Updatable) The value of the header.</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>origin</code> - (Optional) (Updatable) The key in the map of origins referencing the origin used for the Web Application Firewall. The origin must already be included in <code>Origins</code>. Required when creating the <code>WafConfig</code> resource, but is not required upon updating the configuration.</p></li>
+
+<li><p><code>origin_groups</code> - (Optional) (Updatable) The map of origin groups and their keys used to associate origins to the <code>wafConfig</code>. Origin groups allow you to apply weights to groups of origins for load balancing purposes. Origins with higher weights will receive larger proportions of client requests. To add additional origins to your WAAS policy, update the <code>origins</code> field of a <code>UpdateWaasPolicy</code> request.</p></li>
+
+<li><p><code>protection_settings</code> - (Optional) (Updatable) The settings applied to protection rules.</p>
+
+<ul>
+<li><p><code>allowed_http_methods</code> - (Optional) (Updatable) The list of allowed HTTP methods. If unspecified, default to <code>[OPTIONS, GET, HEAD, POST]</code>. This setting only applies if a corresponding protection rule is enabled, such as the &ldquo;Restrict HTTP Request Methods&rdquo; rule (key: 911100).</p></li>
+
+<li><p><code>block_action</code> - (Optional) (Updatable) If <code>action</code> is set to <code>BLOCK</code>, this specifies how the traffic is blocked when detected as malicious by a protection rule. If unspecified, defaults to <code>SET_RESPONSE_CODE</code>.</p></li>
+
+<li><p><code>block_error_page_code</code> - (Optional) (Updatable) The error code to show on the error page when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_ERROR_PAGE</code>, and the traffic is detected as malicious by a protection rule. If unspecified, defaults to <code>403</code>.</p></li>
+
+<li><p><code>block_error_page_description</code> - (Optional) (Updatable) The description text to show on the error page when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_ERROR_PAGE</code>, and the traffic is detected as malicious by a protection rule. If unspecified, defaults to <code>Access blocked by website owner. Please contact support.</code></p></li>
+
+<li><p><code>block_error_page_message</code> - (Optional) (Updatable) The message to show on the error page when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_ERROR_PAGE</code>, and the traffic is detected as malicious by a protection rule. If unspecified, defaults to &lsquo;Access to the website is blocked.&rsquo;</p></li>
+
+<li><p><code>block_response_code</code> - (Optional) (Updatable) The response code returned when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SET_RESPONSE_CODE</code>, and the traffic is detected as malicious by a protection rule. If unspecified, defaults to <code>403</code>. The list of available response codes: <code>400</code>, <code>401</code>, <code>403</code>, <code>405</code>, <code>409</code>, <code>411</code>, <code>412</code>, <code>413</code>, <code>414</code>, <code>415</code>, <code>416</code>, <code>500</code>, <code>501</code>, <code>502</code>, <code>503</code>, <code>504</code>, <code>507</code>.</p></li>
+
+<li><p><code>is_response_inspected</code> - (Optional) (Updatable) Inspects the response body of origin responses. Can be used to detect leakage of sensitive data. If unspecified, defaults to <code>false</code>.</p>
+
+<p><strong>Note:</strong> Only origin responses with a Content-Type matching a value in <code>mediaTypes</code> will be inspected.</p></li>
+
+<li><p><code>max_argument_count</code> - (Optional) (Updatable) The maximum number of arguments allowed to be passed to your application before an action is taken. Arguements are query parameters or body parameters in a PUT or POST request. If unspecified, defaults to <code>255</code>. This setting only applies if a corresponding protection rule is enabled, such as the &ldquo;Number of Arguments Limits&rdquo; rule (key: 960335).  Example: If <code>maxArgumentCount</code> to <code>2</code> for the Max Number of Arguments protection rule (key: 960335), the following requests would be blocked: <code>GET /myapp/path?query=one&amp;query=two&amp;query=three</code> <code>POST /myapp/path</code> with Body <code>{&quot;argument1&quot;:&quot;one&quot;,&quot;argument2&quot;:&quot;two&quot;,&quot;argument3&quot;:&quot;three&quot;}</code></p></li>
+
+<li><p><code>max_name_length_per_argument</code> - (Optional) (Updatable) The maximum length allowed for each argument name, in characters. Arguements are query parameters or body parameters in a PUT or POST request. If unspecified, defaults to <code>400</code>. This setting only applies if a corresponding protection rule is enabled, such as the &ldquo;Values Limits&rdquo; rule (key: 960208).</p></li>
+
+<li><p><code>max_response_size_in_ki_b</code> - (Optional) (Updatable) The maximum response size to be fully inspected, in binary kilobytes (KiB). Anything over this limit will be partially inspected. If unspecified, defaults to <code>1024</code>.</p></li>
+
+<li><p><code>max_total_name_length_of_arguments</code> - (Optional) (Updatable) The maximum length allowed for the sum of the argument name and value, in characters. Arguements are query parameters or body parameters in a PUT or POST request. If unspecified, defaults to <code>64000</code>. This setting only applies if a corresponding protection rule is enabled, such as the &ldquo;Total Arguments Limits&rdquo; rule (key: 960341).</p></li>
+
+<li><p><code>media_types</code> - (Optional) (Updatable) The list of media types to allow for inspection, if <code>isResponseInspected</code> is enabled. Only responses with MIME types in this list will be inspected. If unspecified, defaults to <code>[&quot;text/html&quot;, &quot;text/plain&quot;, &quot;text/xml&quot;]</code>.</p>
+
+<p>Supported MIME types include:</p>
+
+<ul>
+<li>text/html</li>
+<li>text/plain</li>
+<li>text/asp</li>
+<li>text/css</li>
+<li>text/x-script</li>
+<li>application/json</li>
+<li>text/webviewhtml</li>
+<li>text/x-java-source</li>
+<li>application/x-javascript</li>
+<li>application/javascript</li>
+<li>application/ecmascript</li>
+<li>text/javascript</li>
+<li>text/ecmascript</li>
+<li>text/x-script.perl</li>
+<li>text/x-script.phyton</li>
+<li>application/plain</li>
+<li>application/xml</li>
+<li>text/xml</li>
+</ul></li>
+
+<li><p><code>recommendations_period_in_days</code> - (Optional) (Updatable) The length of time to analyze traffic traffic, in days. After the analysis period, <code>WafRecommendations</code> will be populated. If unspecified, defaults to <code>10</code>.</p>
+
+<p>Use <code>GET /waasPolicies/{waasPolicyId}/wafRecommendations</code> to view WAF recommendations.</p></li>
+</ul></li>
+
+<li><p><code>whitelists</code> - (Optional) (Updatable) A list of IP addresses that bypass the Web Application Firewall.</p>
+
+<ul>
+<li><code>address_lists</code> - (Optional) (Updatable) A list of <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of IP address lists to include in the whitelist.</li>
+<li><code>addresses</code> - (Optional) (Updatable) A set of IP addresses or CIDR notations to include in the whitelist.</li>
+<li><code>name</code> - (Required) (Updatable) The unique name of the whitelist.</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>additional_domains</code> - An array of additional domains for this web application.</p></li>
+
+<li><p><code>cname</code> - The CNAME record to add to your DNS configuration to route traffic for the domain, and all additional domains, through the WAF.</p></li>
+
+<li><p><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the WAAS policy&rsquo;s compartment.</p></li>
+
+<li><p><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></p></li>
+
+<li><p><code>display_name</code> - The user-friendly name of the WAAS policy. The name can be changed and does not need to be unique.</p></li>
+
+<li><p><code>domain</code> - The web application domain that the WAAS policy protects.</p></li>
+
+<li><p><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></p></li>
+
+<li><p><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the WAAS policy.</p></li>
+
+<li><p><code>origin_groups</code> - The map of origin groups and their keys used to associate origins to the <code>wafConfig</code>. Origin groups allow you to apply weights to groups of origins for load balancing purposes. Origins with higher weights will receive larger proportions of client requests.</p>
+
+<ul>
+<li><code>origins</code> - The list of objects containing origin references and additional properties.</li>
+</ul></li>
+
+<li><p><code>origins</code> - A map of host servers (origins) and their keys for the web application. Origin keys are used to associate origins to specific protection rules. The key should be a user-friendly name for the host. <strong>Examples:</strong> <code>primary</code> or <code>secondary</code>.</p>
+
+<ul>
+<li><code>custom_headers</code> - A list of HTTP headers to forward to your origin.
+
+<ul>
+<li><code>name</code> - The name of the header.</li>
+<li><code>value</code> - The value of the header.</li>
+</ul></li>
+<li><code>http_port</code> - The HTTP port on the origin that the web application listens on. If unspecified, defaults to <code>80</code>. If <code>0</code> is specified - the origin is not used for HTTP traffic.</li>
+<li><code>https_port</code> - The HTTPS port on the origin that the web application listens on. If unspecified, defaults to <code>443</code>. If <code>0</code> is specified - the origin is not used for HTTPS traffic.</li>
+<li><code>uri</code> - The URI of the origin. Does not support paths. Port numbers should be specified in the <code>httpPort</code> and <code>httpsPort</code> fields.</li>
+</ul></li>
+
+<li><p><code>policy_config</code> - The configuration details for the WAAS policy.</p>
+
+<ul>
+<li><p><code>certificate_id</code> - The OCID of the SSL certificate to use if HTTPS is supported.</p></li>
+
+<li><p><code>cipher_group</code> - The set cipher group for the configured TLS protocol. This sets the configuration for the TLS connections between clients and edge nodes only.</p>
+
+<ul>
+<li><strong>DEFAULT:</strong> Cipher group supports TLS 1.0, TLS 1.1, TLS 1.2, TLS 1.3 protocols. It has the following ciphers enabled: <code>ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:!DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA</code></li>
+</ul></li>
+
+<li><p><code>client_address_header</code> - Specifies an HTTP header name which is treated as the connecting client&rsquo;s IP address. Applicable only if <code>isBehindCdn</code> is enabled.</p>
+
+<p>The edge node reads this header and its value and sets the client IP address as specified. It does not create the header if the header is not present in the request. If the header is not present, the connecting IP address will be used as the client&rsquo;s true IP address. It uses the last IP address in the header&rsquo;s value as the true IP address.</p>
+
+<p>Example: <code>X-Client-Ip: 11.1.1.1, 13.3.3.3</code></p>
+
+<p>In the case of multiple headers with the same name, only the first header will be used. It is assumed that CDN sets the correct client IP address to prevent spoofing.</p>
+
+<ul>
+<li><strong>X_FORWARDED_FOR:</strong> Corresponds to <code>X-Forwarded-For</code> header name.</li>
+<li><strong>X_CLIENT_IP:</strong> Corresponds to <code>X-Client-Ip</code> header name.</li>
+<li><strong>X_REAL_IP:</strong> Corresponds to <code>X-Real-Ip</code> header name.</li>
+<li><strong>CLIENT_IP:</strong> Corresponds to <code>Client-Ip</code> header name.</li>
+<li><strong>TRUE_CLIENT_IP:</strong> Corresponds to <code>True-Client-Ip</code> header name.</li>
+</ul></li>
+
+<li><p><code>health_checks</code> - Health checks monitor the status of your origin servers and only route traffic to the origins that pass the health check. If the health check fails, origin is automatically removed from the load balancing. There is roughly one health check per EDGE POP per period. Any checks that pass will be reported as &ldquo;healthy&rdquo;.</p>
+
+<ul>
+<li><p><code>expected_response_code_group</code> - The HTTP response codes that signify a healthy state.</p>
+
+<ul>
+<li><strong>2XX:</strong> Success response code group.</li>
+<li><strong>3XX:</strong> Redirection response code group.</li>
+<li><strong>4XX:</strong> Client errors response code group.</li>
+<li><strong>5XX:</strong> Server errors response code group.</li>
+</ul></li>
+
+<li><p><code>expected_response_text</code> - Health check will search for the given text in a case-sensitive manner within the response body and will fail if the text is not found.</p></li>
+
+<li><p><code>headers</code> - HTTP header fields to include in health check requests, expressed as <code>&quot;name&quot;: &quot;value&quot;</code> properties. Because HTTP header field names are case-insensitive, any use of names that are case-insensitive equal to other names will be rejected. If Host is not specified, requests will include a Host header field with value matching the policy&rsquo;s protected domain. If User-Agent is not specified, requests will include a User-Agent header field with value &ldquo;waf health checks&rdquo;.</p>
+
+<p><strong>Note:</strong> The only currently-supported header fields are Host and User-Agent.</p></li>
+
+<li><p><code>healthy_threshold</code> - Number of successful health checks after which the server is marked up.</p></li>
+
+<li><p><code>interval_in_seconds</code> - Time between health checks of an individual origin server, in seconds.</p></li>
+
+<li><p><code>is_enabled</code> - Enables or disables the health checks.</p></li>
+
+<li><p><code>is_response_text_check_enabled</code> - Enables or disables additional check for predefined text in addition to response code.</p></li>
+
+<li><p><code>method</code> - An HTTP verb (i.e. HEAD, GET, or POST) to use when performing the health check.</p></li>
+
+<li><p><code>path</code> - Path to visit on your origins when performing the health check.</p></li>
+
+<li><p><code>timeout_in_seconds</code> - Response timeout represents wait time until request is considered failed, in seconds.</p></li>
+
+<li><p><code>unhealthy_threshold</code> - Number of failed health checks after which the server is marked down.</p></li>
+</ul></li>
+
+<li><p><code>is_behind_cdn</code> - Enabling <code>isBehindCdn</code> allows for the collection of IP addresses from client requests if the WAF is connected to a CDN.</p></li>
+
+<li><p><code>is_cache_control_respected</code> - Enable or disable automatic content caching based on the response <code>cache-control</code> header. This feature enables the origin to act as a proxy cache. Caching is usually defined using <code>cache-control</code> header. For example <code>cache-control: max-age=120</code> means that the returned resource is valid for 120 seconds. Caching rules will overwrite this setting.</p></li>
+
+<li><p><code>is_https_enabled</code> - Enable or disable HTTPS support. If true, a <code>certificateId</code> is required. If unspecified, defaults to <code>false</code>.</p></li>
+
+<li><p><code>is_https_forced</code> - Force HTTP to HTTPS redirection. If unspecified, defaults to <code>false</code>.</p></li>
+
+<li><p><code>is_origin_compression_enabled</code> - Enable or disable GZIP compression of origin responses. If enabled, the header <code>Accept-Encoding: gzip</code> is sent to origin, otherwise, the empty <code>Accept-Encoding:</code> header is used.</p></li>
+
+<li><p><code>is_response_buffering_enabled</code> - Enable or disable buffering of responses from the origin. Buffering improves overall stability in case of network issues, but slightly increases Time To First Byte.</p></li>
+
+<li><p><code>is_sni_enabled</code> - SNI stands for Server Name Indication and is an extension of the TLS protocol. It indicates which hostname is being contacted by the browser at the beginning of the &lsquo;handshake&rsquo;-process. This allows a server to connect multiple SSL Certificates to one IP address and port.</p></li>
+
+<li><p><code>load_balancing_method</code> - An object that represents a load balancing method and its properties.</p>
+
+<ul>
+<li><code>domain</code> - The domain for which the cookie is set, defaults to WAAS policy domain.</li>
+<li><code>expiration_time_in_seconds</code> - The time for which a browser should keep the cookie in seconds. Empty value will cause the cookie to expire at the end of a browser session.</li>
+<li><code>method</code> - Load balancing methods are algorithms used to efficiently distribute traffic among origin servers.
+
+<ul>
+<li><strong><a href="/iaas/api/#/en/waas/latest/datatypes/IPHashLoadBalancingMethod">IP_HASH</a>:</strong> All the incoming requests from the same client IP address should go to the same content origination server. IP_HASH load balancing method uses origin weights when choosing which origin should the hash be assigned to initially.</li>
+<li><strong><a href="/iaas/api/#/en/waas/latest/datatypes/RoundRobinLoadBalancingMethod">ROUND_ROBIN</a>:</strong> Forwards requests sequentially to the available origin servers. The first request - to the first origin server, the second request - to the next origin server, and so on. After it sends a request to the last origin server, it starts again with the first origin server. When using weights on origins, Weighted Round Robin assigns more requests to origins with a greater weight. Over a period of time, origins will receive a number of requests in proportion to their weight.</li>
+<li><strong><a href="/iaas/api/#/en/waas/latest/datatypes/StickyCookieLoadBalancingMethod">STICKY_COOKIE</a>:</strong> Adds a session cookie to the first response from the origin server and identifies the server that sent the response. The client&rsquo;s next request contains the cookie value, and nginx routes the request to the origin server that responded to the first request. STICKY_COOKIE load balancing method falls back to Round Robin for the first request.</li>
+</ul></li>
+<li><code>name</code> - The name of the cookie used to track the persistence. Can contain any US-ASCII character except separator or control character.</li>
+</ul></li>
+
+<li><p><code>tls_protocols</code> - A list of allowed TLS protocols. Only applicable when HTTPS support is enabled. The TLS protocol is negotiated while the request is connecting and the most recent protocol supported by both the edge node and client browser will be selected. If no such version exists, the connection will be aborted.</p>
+
+<ul>
+<li><strong>TLS_V1:</strong> corresponds to TLS 1.0 specification.</li>
+<li><strong>TLS_V1_1:</strong> corresponds to TLS 1.1 specification.</li>
+<li><strong>TLS_V1_2:</strong> corresponds to TLS 1.2 specification.</li>
+<li><strong>TLS_V1_3:</strong> corresponds to TLS 1.3 specification.</li>
+</ul>
+
+<p>Enabled TLS protocols must go in a row. For example if <code>TLS_v1_1</code> and <code>TLS_V1_3</code> are enabled, <code>TLS_V1_2</code> must be enabled too.</p></li>
+
+<li><p><code>websocket_path_prefixes</code> - ModSecurity is not capable to inspect WebSockets. Therefore paths specified here have WAF disabled if Connection request header from the client has the value Upgrade (case insensitive matching) and Upgrade request header has the value websocket (case insensitive matching). Paths matches if the concatenation of request URL path and query starts with the contents of the one of <code>websocketPathPrefixes</code> array value. In All other cases challenges, like JSC, HIC and etc., remain active.</p></li>
+</ul></li>
+
+<li><p><code>state</code> - The current lifecycle state of the WAAS policy.</p></li>
+
+<li><p><code>time_created</code> - The date and time the policy was created, expressed in RFC 3339 timestamp format.</p></li>
+
+<li><p><code>waf_config</code> - The Web Application Firewall configuration for the WAAS policy.</p>
+
+<ul>
+<li><p><code>access_rules</code> - The access rules applied to the Web Application Firewall. Used for defining custom access policies with the combination of <code>ALLOW</code>, <code>DETECT</code>, and <code>BLOCK</code> rules, based on different criteria.</p>
+
+<ul>
+<li><p><code>action</code> - The action to take when the access criteria are met for a rule. If unspecified, defaults to <code>ALLOW</code>.</p>
+
+<ul>
+<li><strong>ALLOW:</strong> Takes no action, just logs the request.</li>
+<li><strong>DETECT:</strong> Takes no action, but creates an alert for the request.</li>
+<li><strong>BLOCK:</strong> Blocks the request by returning specified response code or showing error page.</li>
+<li><strong>BYPASS:</strong> Bypasses some or all challenges.</li>
+<li><strong>REDIRECT:</strong> Redirects the request to the specified URL. These fields are required when <code>REDIRECT</code> is selected: <code>redirectUrl</code>, <code>redirectResponseCode</code>.</li>
+<li><strong>SHOW_CAPTCHA:</strong> Show a CAPTCHA Challenge page instead of the requested page.</li>
+</ul>
+
+<p>Regardless of action, no further rules are processed once a rule is matched.</p></li>
+
+<li><p><code>block_action</code> - The method used to block requests if <code>action</code> is set to <code>BLOCK</code> and the access criteria are met. If unspecified, defaults to <code>SET_RESPONSE_CODE</code>.</p></li>
+
+<li><p><code>block_error_page_code</code> - The error code to show on the error page when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_ERROR_PAGE</code>, and the access criteria are met. If unspecified, defaults to &lsquo;Access rules&rsquo;.</p></li>
+
+<li><p><code>block_error_page_description</code> - The description text to show on the error page when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_ERROR_PAGE</code>, and the access criteria are met. If unspecified, defaults to &lsquo;Access blocked by website owner. Please contact support.&rsquo;</p></li>
+
+<li><p><code>block_error_page_message</code> - The message to show on the error page when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_ERROR_PAGE</code>, and the access criteria are met. If unspecified, defaults to &lsquo;Access to the website is blocked.&rsquo;</p></li>
+
+<li><p><code>block_response_code</code> - The response status code to return when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SET_RESPONSE_CODE</code>, and the access criteria are met. If unspecified, defaults to <code>403</code>. The list of available response codes: <code>200</code>, <code>201</code>, <code>202</code>, <code>204</code>, <code>206</code>, <code>300</code>, <code>301</code>, <code>302</code>, <code>303</code>, <code>304</code>, <code>307</code>, <code>400</code>, <code>401</code>, <code>403</code>, <code>404</code>, <code>405</code>, <code>408</code>, <code>409</code>, <code>411</code>, <code>412</code>, <code>413</code>, <code>414</code>, <code>415</code>, <code>416</code>, <code>422</code>, <code>444</code>, <code>494</code>, <code>495</code>, <code>496</code>, <code>497</code>, <code>499</code>, <code>500</code>, <code>501</code>, <code>502</code>, <code>503</code>, <code>504</code>, <code>507</code>.</p></li>
+
+<li><p><code>bypass_challenges</code> - The list of challenges to bypass when <code>action</code> is set to <code>BYPASS</code>. If unspecified or empty, all challenges are bypassed.</p>
+
+<ul>
+<li><strong>JS_CHALLENGE:</strong> Bypasses JavaScript Challenge.</li>
+<li><strong>DEVICE_FINGERPRINT_CHALLENGE:</strong> Bypasses Device Fingerprint Challenge.</li>
+<li><strong>HUMAN_INTERACTION_CHALLENGE:</strong> Bypasses Human Interaction Challenge.</li>
+<li><strong>CAPTCHA:</strong> Bypasses CAPTCHA Challenge.</li>
+</ul></li>
+
+<li><p><code>captcha_footer</code> - The text to show in the footer when showing a CAPTCHA challenge when <code>action</code> is set to <code>SHOW_CAPTCHA</code> and the request is challenged.</p></li>
+
+<li><p><code>captcha_header</code> - The text to show in the header when showing a CAPTCHA challenge when <code>action</code> is set to <code>SHOW_CAPTCHA</code> and the request is challenged.</p></li>
+
+<li><p><code>captcha_submit_label</code> - The text to show on the label of the CAPTCHA challenge submit button when <code>action</code> is set to <code>SHOW_CAPTCHA</code> and the request is challenged.</p></li>
+
+<li><p><code>captcha_title</code> - The title used when showing a CAPTCHA challenge when <code>action</code> is set to <code>SHOW_CAPTCHA</code> and the request is challenged.</p></li>
+
+<li><p><code>criteria</code> - The list of access rule criteria. The rule would be applied only for the requests that matched all the listed conditions.</p>
+
+<ul>
+<li><p><code>condition</code> - The criteria the access rule and JavaScript Challenge uses to determine if action should be taken on a request.</p>
+
+<ul>
+<li><strong>URL_IS:</strong> Matches if the concatenation of request URL path and query is identical to the contents of the <code>value</code> field. URL must start with a <code>/</code>.</li>
+<li><strong>URL_IS_NOT:</strong> Matches if the concatenation of request URL path and query is not identical to the contents of the <code>value</code> field. URL must start with a <code>/</code>.</li>
+<li><strong>URL_STARTS_WITH:</strong> Matches if the concatenation of request URL path and query starts with the contents of the <code>value</code> field. URL must start with a <code>/</code>.</li>
+<li><strong>URL_PART_ENDS_WITH:</strong> Matches if the concatenation of request URL path and query ends with the contents of the <code>value</code> field.</li>
+<li><strong>URL_PART_CONTAINS:</strong> Matches if the concatenation of request URL path and query contains the contents of the <code>value</code> field.</li>
+<li><strong>URL_REGEX:</strong> Matches if the concatenation of request URL path and query is described by the regular expression in the value field. The value must be a valid regular expression recognized by the PCRE library in Nginx (<a href="https://www.pcre.org">https://www.pcre.org</a>).</li>
+<li><strong>URL_DOES_NOT_MATCH_REGEX:</strong> Matches if the concatenation of request URL path and query is not described by the regular expression in the <code>value</code> field. The value must be a valid regular expression recognized by the PCRE library in Nginx (<a href="https://www.pcre.org">https://www.pcre.org</a>).</li>
+<li><strong>URL_DOES_NOT_START_WITH:</strong> Matches if the concatenation of request URL path and query does not start with the contents of the <code>value</code> field.</li>
+<li><strong>URL_PART_DOES_NOT_CONTAIN:</strong> Matches if the concatenation of request URL path and query does not contain the contents of the <code>value</code> field.</li>
+<li><strong>URL_PART_DOES_NOT_END_WITH:</strong> Matches if the concatenation of request URL path and query does not end with the contents of the <code>value</code> field.</li>
+<li><strong>IP_IS:</strong> Matches if the request originates from one of the IP addresses contained in the defined address list. The <code>value</code> in this case is string with one or multiple IPs or CIDR notations separated by new line symbol \n <em>Example:</em> &ldquo;1.1.1.1\n1.1.1.2\n1.2.2.<sup>1</sup>&frasl;<sub>30</sub>&rdquo;</li>
+<li><strong>IP_IS_NOT:</strong> Matches if the request does not originate from any of the IP addresses contained in the defined address list. The <code>value</code> in this case is string with one or multiple IPs or CIDR notations separated by new line symbol \n <em>Example:</em> &ldquo;1.1.1.1\n1.1.1.2\n1.2.2.<sup>1</sup>&frasl;<sub>30</sub>&rdquo;</li>
+<li><strong>IP_IN_LIST:</strong> Matches if the request originates from one of the IP addresses contained in the referenced address list. The <code>value</code> in this case is OCID of the address list.</li>
+<li><strong>IP_NOT_IN_LIST:</strong> Matches if the request does not originate from any IP address contained in the referenced address list. The <code>value</code> field in this case is OCID of the address list.</li>
+<li><strong>HTTP_HEADER_CONTAINS:</strong> The HTTP_HEADER_CONTAINS criteria is defined using a compound value separated by a colon: a header field name and a header field value. <code>host:test.example.com</code> is an example of a criteria value where <code>host</code> is the header field name and <code>test.example.com</code> is the header field value. A request matches when the header field name is a case insensitive match and the header field value is a case insensitive, substring match. <em>Example:</em> With a criteria value of <code>host:test.example.com</code>, where <code>host</code> is the name of the field and <code>test.example.com</code> is the value of the host field, a request with the header values, <code>Host: www.test.example.com</code> will match, where as a request with header values of <code>host: www.example.com</code> or <code>host: test.sub.example.com</code> will not match.</li>
+<li><strong>HTTP_METHOD_IS:</strong> Matches if the request method is identical to one of the values listed in field. The <code>value</code> in this case is string with one or multiple HTTP methods separated by new line symbol \n The list of available methods: <code>GET</code>, <code>HEAD</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code>, <code>CONNECT</code>, <code>OPTIONS</code>, <code>TRACE</code>, <code>PATCH</code></li>
+</ul>
+
+<p><em>Example:</em> &ldquo;GET\nPOST&rdquo;
+* <strong>HTTP_METHOD_IS_NOT:</strong> Matches if the request is not identical to any of the contents of the <code>value</code> field. The <code>value</code> in this case is string with one or multiple HTTP methods separated by new line symbol \n The list of available methods: <code>GET</code>, <code>HEAD</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code>, <code>CONNECT</code>, <code>OPTIONS</code>, <code>TRACE</code>, <code>PATCH</code></p>
+
+<p><em>Example:</em> &ldquo;GET\nPOST&rdquo;
+* <strong>COUNTRY_IS:</strong> Matches if the request originates from one of countries in the <code>value</code> field. The <code>value</code> in this case is string with one or multiple countries separated by new line symbol \n Country codes are in ISO 3166-1 alpha-2 format. For a list of codes, see <a href="https://www.iso.org/obp/ui/#search/code/">ISO&rsquo;s website</a>. <em>Example:</em> &ldquo;AL\nDZ\nAM&rdquo;
+* <strong>COUNTRY_IS_NOT:</strong> Matches if the request does not originate from any of countries in the <code>value</code> field. The <code>value</code> in this case is string with one or multiple countries separated by new line symbol \n Country codes are in ISO 3166-1 alpha-2 format. For a list of codes, see <a href="https://www.iso.org/obp/ui/#search/code/">ISO&rsquo;s website</a>. <em>Example:</em> &ldquo;AL\nDZ\nAM&rdquo;
+* <strong>USER_AGENT_IS:</strong> Matches if the requesting user agent is identical to the contents of the <code>value</code> field. <em>Example:</em> <code>Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:35.0) Gecko/20100101 Firefox/35.0</code>
+* <strong>USER_AGENT_IS_NOT:</strong> Matches if the requesting user agent is not identical to the contents of the <code>value</code> field. <em>Example:</em> <code>Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:35.0) Gecko/20100101 Firefox/35.0</code></p></li>
+
+<li><p><code>is_case_sensitive</code> - When enabled, the condition will be matched with case-sensitive rules.</p></li>
+
+<li><p><code>value</code> - The criteria value.</p></li>
+</ul></li>
+
+<li><p><code>name</code> - The unique name of the access rule.</p></li>
+
+<li><p><code>redirect_response_code</code> - The response status code to return when <code>action</code> is set to <code>REDIRECT</code>.</p>
+
+<ul>
+<li><strong>MOVED_PERMANENTLY:</strong> Used for designating the permanent movement of a page (numerical code - 301).</li>
+<li><strong>FOUND:</strong> Used for designating the temporary movement of a page (numerical code - 302).</li>
+</ul></li>
+
+<li><p><code>redirect_url</code> - The target to which the request should be redirected, represented as a URI reference. Required when <code>action</code> is <code>REDIRECT</code>.</p></li>
+
+<li><p><code>response_header_manipulation</code> - An object that represents an action to apply to an HTTP response headers if all rule criteria will be matched regardless of <code>action</code> value.</p>
+
+<ul>
+<li><code>action</code> - The action can be one of these values: <code>ADD_HTTP_RESPONSE_HEADER</code>, <code>EXTEND_HTTP_RESPONSE_HEADER</code>, <code>REMOVE_HTTP_RESPONSE_HEADER</code></li>
+<li><code>header</code> - A header field name that conforms to RFC 7230.  Example: <code>example_header_name</code></li>
+<li><code>value</code> - A header field value that conforms to RFC 7230.  Example: <code>example_value</code></li>
+</ul></li>
+</ul></li>
+
+<li><p><code>address_rate_limiting</code> - The IP address rate limiting settings used to limit the number of requests from an address.</p>
+
+<ul>
+<li><code>allowed_rate_per_address</code> - The number of allowed requests per second from one IP address. If unspecified, defaults to <code>1</code>.</li>
+<li><code>block_response_code</code> - The response status code returned when a request is blocked. If unspecified, defaults to <code>503</code>. The list of available response codes: <code>400</code>, <code>401</code>, <code>403</code>, <code>404</code>, <code>405</code>, <code>408</code>, <code>409</code>, <code>411</code>, <code>412</code>, <code>413</code>, <code>414</code>, <code>415</code>, <code>416</code>, <code>422</code>, <code>494</code>, <code>495</code>, <code>496</code>, <code>497</code>, <code>499</code>, <code>500</code>, <code>501</code>, <code>502</code>, <code>503</code>, <code>504</code>, <code>507</code>.</li>
+<li><code>is_enabled</code> - Enables or disables the address rate limiting Web Application Firewall feature.</li>
+<li><code>max_delayed_count_per_address</code> - The maximum number of requests allowed to be queued before subsequent requests are dropped. If unspecified, defaults to <code>10</code>.</li>
+</ul></li>
+
+<li><p><code>caching_rules</code> - A list of caching rules applied to the web application.</p>
+
+<ul>
+<li><p><code>action</code> - The action to take when the criteria of a caching rule are met.</p>
+
+<ul>
+<li><strong>CACHE:</strong> Caches requested content when the criteria of the rule are met.</li>
+<li><strong>BYPASS_CACHE:</strong> Allows requests to bypass the cache and be directed to the origin when the criteria of the rule is met.</li>
+</ul></li>
+
+<li><p><code>caching_duration</code> - The duration to cache content for the caching rule, specified in ISO 8601 extended format. Supported units: seconds, minutes, hours, days, weeks, months. The maximum value that can be set for any unit is <code>99</code>. Mixing of multiple units is not supported. Only applies when the <code>action</code> is set to <code>CACHE</code>. Example: <code>PT1H</code></p></li>
+
+<li><p><code>client_caching_duration</code> - The duration to cache content in the user&rsquo;s browser, specified in ISO 8601 extended format. Supported units: seconds, minutes, hours, days, weeks, months. The maximum value that can be set for any unit is <code>99</code>. Mixing of multiple units is not supported. Only applies when the <code>action</code> is set to <code>CACHE</code>. Example: <code>PT1H</code></p></li>
+
+<li><p><code>criteria</code> - The array of the rule criteria with condition and value. The caching rule would be applied for the requests that matched any of the listed conditions.</p>
+
+<ul>
+<li><p><code>condition</code> - The condition of the caching rule criteria.</p>
+
+<ul>
+<li><strong>URL_IS:</strong> Matches if the concatenation of request URL path and query is identical to the contents of the <code>value</code> field.</li>
+<li><strong>URL_STARTS_WITH:</strong> Matches if the concatenation of request URL path and query starts with the contents of the <code>value</code> field.</li>
+<li><strong>URL_PART_ENDS_WITH:</strong> Matches if the concatenation of request URL path and query ends with the contents of the <code>value</code> field.</li>
+<li><strong>URL_PART_CONTAINS:</strong> Matches if the concatenation of request URL path and query contains the contents of the <code>value</code> field.</li>
+</ul>
+
+<p>URLs must start with a <code>/</code>. URLs can&rsquo;t contain restricted double slashes <code>//</code>. URLs can&rsquo;t contain the restricted <code>'</code> <code>&amp;</code> <code>?</code> symbols. Resources to cache can only be specified by a URL, any query parameters are ignored.</p></li>
+
+<li><p><code>value</code> - The value of the caching rule criteria.</p></li>
+</ul></li>
+
+<li><p><code>is_client_caching_enabled</code> - Enables or disables client caching. Browsers use the <code>Cache-Control</code> header value for caching content locally in the browser. This setting overrides the addition of a <code>Cache-Control</code> header in responses.</p></li>
+
+<li><p><code>key</code> - The unique key for the caching rule.</p></li>
+
+<li><p><code>name</code> - The name of the caching rule.</p></li>
+</ul></li>
+
+<li><p><code>captchas</code> - A list of CAPTCHA challenge settings. These are used to challenge requests with a CAPTCHA to block bots.</p>
+
+<ul>
+<li><code>failure_message</code> - The text to show when incorrect CAPTCHA text is entered. If unspecified, defaults to <code>The CAPTCHA was incorrect. Try again.</code></li>
+<li><code>footer_text</code> - The text to show in the footer when showing a CAPTCHA challenge. If unspecified, defaults to &lsquo;Enter the letters and numbers as they are shown in the image above.&rsquo;</li>
+<li><code>header_text</code> - The text to show in the header when showing a CAPTCHA challenge. If unspecified, defaults to &lsquo;We have detected an increased number of attempts to access this website. To help us keep this site secure, please let us know that you are not a robot by entering the text from the image below.&rsquo;</li>
+<li><code>session_expiration_in_seconds</code> - The amount of time before the CAPTCHA expires, in seconds. If unspecified, defaults to <code>300</code>.</li>
+<li><code>submit_label</code> - The text to show on the label of the CAPTCHA challenge submit button. If unspecified, defaults to <code>Yes, I am human</code>.</li>
+<li><code>title</code> - The title used when displaying a CAPTCHA challenge. If unspecified, defaults to <code>Are you human?</code></li>
+<li><code>url</code> - The unique URL path at which to show the CAPTCHA challenge.</li>
+</ul></li>
+
+<li><p><code>custom_protection_rules</code> - A list of the custom protection rule OCIDs and their actions.</p>
+
+<ul>
+<li><code>action</code> - The action to take when the custom protection rule is triggered. <code>DETECT</code> - Logs the request when the criteria of the custom protection rule are met. <code>BLOCK</code> - Blocks the request when the criteria of the custom protection rule are met.</li>
+<li><code>exclusions</code> -
+
+<ul>
+<li><code>exclusions</code> - An array of The target property of a request that would allow it to bypass the protection rule. For example, when <code>target</code> is <code>REQUEST_COOKIE_NAMES</code>, the list may include names of cookies to exclude from the protection rule. When the target is <code>ARGS</code>, the list may include strings of URL query parameters and values from form-urlencoded XML, JSON, AMP, or POST payloads to exclude from the protection rule. <code>Exclusions</code> properties must not contain whitespace, comma or |. <strong>Note:</strong> If protection rules have been enabled that utilize the <code>maxArgumentCount</code> or <code>maxTotalNameLengthOfArguments</code> properties, and the <code>target</code> property has been set to <code>ARGS</code>, it is important that the <code>exclusions</code> properties be defined to honor those protection rule settings in a consistent manner.</li>
+<li><code>target</code> - The target of the exclusion.</li>
+</ul></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the custom protection rule.</li>
+</ul></li>
+
+<li><p><code>device_fingerprint_challenge</code> - The device fingerprint challenge settings. Used to detect unique devices based on the device fingerprint information collected in order to block bots.</p>
+
+<ul>
+<li><code>action</code> - The action to take on requests from detected bots. If unspecified, defaults to <code>DETECT</code>.</li>
+<li><code>action_expiration_in_seconds</code> - The number of seconds between challenges for the same IP address. If unspecified, defaults to <code>60</code>.</li>
+<li><code>challenge_settings</code> - The challenge settings if <code>action</code> is set to <code>BLOCK</code>.
+
+<ul>
+<li><code>block_action</code> - The method used to block requests that fail the challenge, if <code>action</code> is set to <code>BLOCK</code>. If unspecified, defaults to <code>SHOW_ERROR_PAGE</code>.</li>
+<li><code>block_error_page_code</code> - The error code to show on the error page when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_ERROR_PAGE</code> and the request is blocked. If unspecified, defaults to <code>403</code>.</li>
+<li><code>block_error_page_description</code> - The description text to show on the error page when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_ERROR_PAGE</code>, and the request is blocked. If unspecified, defaults to <code>Access blocked by website owner. Please contact support.</code></li>
+<li><code>block_error_page_message</code> - The message to show on the error page when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_ERROR_PAGE</code>, and the request is blocked. If unspecified, defaults to <code>Access to the website is blocked</code>.</li>
+<li><code>block_response_code</code> - The response status code to return when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SET_RESPONSE_CODE</code> or <code>SHOW_ERROR_PAGE</code>, and the request is blocked. If unspecified, defaults to <code>403</code>. The list of available response codes: <code>200</code>, <code>201</code>, <code>202</code>, <code>204</code>, <code>206</code>, <code>300</code>, <code>301</code>, <code>302</code>, <code>303</code>, <code>304</code>, <code>307</code>, <code>400</code>, <code>401</code>, <code>403</code>, <code>404</code>, <code>405</code>, <code>408</code>, <code>409</code>, <code>411</code>, <code>412</code>, <code>413</code>, <code>414</code>, <code>415</code>, <code>416</code>, <code>422</code>, <code>444</code>, <code>494</code>, <code>495</code>, <code>496</code>, <code>497</code>, <code>499</code>, <code>500</code>, <code>501</code>, <code>502</code>, <code>503</code>, <code>504</code>, <code>507</code>.</li>
+<li><code>captcha_footer</code> - The text to show in the footer when showing a CAPTCHA challenge when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_CAPTCHA</code>, and the request is blocked. If unspecified, default to <code>Enter the letters and numbers as they are shown in image above</code>.</li>
+<li><code>captcha_header</code> - The text to show in the header when showing a CAPTCHA challenge when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_CAPTCHA</code>, and the request is blocked. If unspecified, defaults to <code>We have detected an increased number of attempts to access this webapp. To help us keep this webapp secure, please let us know that you are not a robot by entering the text from captcha below.</code></li>
+<li><code>captcha_submit_label</code> - The text to show on the label of the CAPTCHA challenge submit button when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_CAPTCHA</code>, and the request is blocked. If unspecified, defaults to <code>Yes, I am human</code>.</li>
+<li><code>captcha_title</code> - The title used when showing a CAPTCHA challenge when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_CAPTCHA</code>, and the request is blocked. If unspecified, defaults to <code>Are you human?</code></li>
+</ul></li>
+<li><code>failure_threshold</code> - The number of failed requests allowed before taking action. If unspecified, defaults to <code>10</code>.</li>
+<li><code>failure_threshold_expiration_in_seconds</code> - The number of seconds before the failure threshold resets. If unspecified, defaults to <code>60</code>.</li>
+<li><code>is_enabled</code> - Enables or disables the device fingerprint challenge Web Application Firewall feature.</li>
+<li><code>max_address_count</code> - The maximum number of IP addresses permitted with the same device fingerprint. If unspecified, defaults to <code>20</code>.</li>
+<li><code>max_address_count_expiration_in_seconds</code> - The number of seconds before the maximum addresses count resets. If unspecified, defaults to <code>60</code>.</li>
+</ul></li>
+
+<li><p><code>human_interaction_challenge</code> - The human interaction challenge settings. Used to look for natural human interactions such as mouse movements, time on site, and page scrolling to identify bots.</p>
+
+<ul>
+<li><code>action</code> - The action to take against requests from detected bots. If unspecified, defaults to <code>DETECT</code>.</li>
+<li><code>action_expiration_in_seconds</code> - The number of seconds between challenges for the same IP address. If unspecified, defaults to <code>60</code>.</li>
+<li><code>challenge_settings</code> - The challenge settings if <code>action</code> is set to <code>BLOCK</code>.
+
+<ul>
+<li><code>block_action</code> - The method used to block requests that fail the challenge, if <code>action</code> is set to <code>BLOCK</code>. If unspecified, defaults to <code>SHOW_ERROR_PAGE</code>.</li>
+<li><code>block_error_page_code</code> - The error code to show on the error page when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_ERROR_PAGE</code> and the request is blocked. If unspecified, defaults to <code>403</code>.</li>
+<li><code>block_error_page_description</code> - The description text to show on the error page when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_ERROR_PAGE</code>, and the request is blocked. If unspecified, defaults to <code>Access blocked by website owner. Please contact support.</code></li>
+<li><code>block_error_page_message</code> - The message to show on the error page when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_ERROR_PAGE</code>, and the request is blocked. If unspecified, defaults to <code>Access to the website is blocked</code>.</li>
+<li><code>block_response_code</code> - The response status code to return when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SET_RESPONSE_CODE</code> or <code>SHOW_ERROR_PAGE</code>, and the request is blocked. If unspecified, defaults to <code>403</code>. The list of available response codes: <code>200</code>, <code>201</code>, <code>202</code>, <code>204</code>, <code>206</code>, <code>300</code>, <code>301</code>, <code>302</code>, <code>303</code>, <code>304</code>, <code>307</code>, <code>400</code>, <code>401</code>, <code>403</code>, <code>404</code>, <code>405</code>, <code>408</code>, <code>409</code>, <code>411</code>, <code>412</code>, <code>413</code>, <code>414</code>, <code>415</code>, <code>416</code>, <code>422</code>, <code>444</code>, <code>494</code>, <code>495</code>, <code>496</code>, <code>497</code>, <code>499</code>, <code>500</code>, <code>501</code>, <code>502</code>, <code>503</code>, <code>504</code>, <code>507</code>.</li>
+<li><code>captcha_footer</code> - The text to show in the footer when showing a CAPTCHA challenge when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_CAPTCHA</code>, and the request is blocked. If unspecified, default to <code>Enter the letters and numbers as they are shown in image above</code>.</li>
+<li><code>captcha_header</code> - The text to show in the header when showing a CAPTCHA challenge when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_CAPTCHA</code>, and the request is blocked. If unspecified, defaults to <code>We have detected an increased number of attempts to access this webapp. To help us keep this webapp secure, please let us know that you are not a robot by entering the text from captcha below.</code></li>
+<li><code>captcha_submit_label</code> - The text to show on the label of the CAPTCHA challenge submit button when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_CAPTCHA</code>, and the request is blocked. If unspecified, defaults to <code>Yes, I am human</code>.</li>
+<li><code>captcha_title</code> - The title used when showing a CAPTCHA challenge when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_CAPTCHA</code>, and the request is blocked. If unspecified, defaults to <code>Are you human?</code></li>
+</ul></li>
+<li><code>failure_threshold</code> - The number of failed requests before taking action. If unspecified, defaults to <code>10</code>.</li>
+<li><code>failure_threshold_expiration_in_seconds</code> - The number of seconds before the failure threshold resets. If unspecified, defaults to  <code>60</code>.</li>
+<li><code>interaction_threshold</code> - The number of interactions required to pass the challenge. If unspecified, defaults to <code>3</code>.</li>
+<li><code>is_enabled</code> - Enables or disables the human interaction challenge Web Application Firewall feature.</li>
+<li><code>is_nat_enabled</code> - When enabled, the user is identified not only by the IP address but also by an unique additional hash, which prevents blocking visitors with shared IP addresses.</li>
+<li><code>recording_period_in_seconds</code> - The number of seconds to record the interactions from the user. If unspecified, defaults to <code>15</code>.</li>
+<li><code>set_http_header</code> - Adds an additional HTTP header to requests that fail the challenge before being passed to the origin. Only applicable when the <code>action</code> is set to <code>DETECT</code>.
+
+<ul>
+<li><code>name</code> - The name of the header.</li>
+<li><code>value</code> - The value of the header.</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>js_challenge</code> - The JavaScript challenge settings. Used to challenge requests with a JavaScript challenge and take the action if a browser has no JavaScript support in order to block bots.</p>
+
+<ul>
+<li><p><code>action</code> - The action to take against requests from detected bots. If unspecified, defaults to <code>DETECT</code>.</p></li>
+
+<li><p><code>action_expiration_in_seconds</code> - The number of seconds between challenges from the same IP address. If unspecified, defaults to <code>60</code>.</p></li>
+
+<li><p><code>are_redirects_challenged</code> - When enabled, redirect responses from the origin will also be challenged. This will change HTTP <sup>301</sup>&frasl;<sub>302</sub> responses from origin to HTTP 200 with an HTML body containing JavaScript page redirection.</p></li>
+
+<li><p><code>challenge_settings</code> - The challenge settings if <code>action</code> is set to <code>BLOCK</code>.</p>
+
+<ul>
+<li><code>block_action</code> - The method used to block requests that fail the challenge, if <code>action</code> is set to <code>BLOCK</code>. If unspecified, defaults to <code>SHOW_ERROR_PAGE</code>.</li>
+<li><code>block_error_page_code</code> - The error code to show on the error page when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_ERROR_PAGE</code> and the request is blocked. If unspecified, defaults to <code>403</code>.</li>
+<li><code>block_error_page_description</code> - The description text to show on the error page when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_ERROR_PAGE</code>, and the request is blocked. If unspecified, defaults to <code>Access blocked by website owner. Please contact support.</code></li>
+<li><code>block_error_page_message</code> - The message to show on the error page when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_ERROR_PAGE</code>, and the request is blocked. If unspecified, defaults to <code>Access to the website is blocked</code>.</li>
+<li><code>block_response_code</code> - The response status code to return when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SET_RESPONSE_CODE</code> or <code>SHOW_ERROR_PAGE</code>, and the request is blocked. If unspecified, defaults to <code>403</code>. The list of available response codes: <code>200</code>, <code>201</code>, <code>202</code>, <code>204</code>, <code>206</code>, <code>300</code>, <code>301</code>, <code>302</code>, <code>303</code>, <code>304</code>, <code>307</code>, <code>400</code>, <code>401</code>, <code>403</code>, <code>404</code>, <code>405</code>, <code>408</code>, <code>409</code>, <code>411</code>, <code>412</code>, <code>413</code>, <code>414</code>, <code>415</code>, <code>416</code>, <code>422</code>, <code>444</code>, <code>494</code>, <code>495</code>, <code>496</code>, <code>497</code>, <code>499</code>, <code>500</code>, <code>501</code>, <code>502</code>, <code>503</code>, <code>504</code>, <code>507</code>.</li>
+<li><code>captcha_footer</code> - The text to show in the footer when showing a CAPTCHA challenge when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_CAPTCHA</code>, and the request is blocked. If unspecified, default to <code>Enter the letters and numbers as they are shown in image above</code>.</li>
+<li><code>captcha_header</code> - The text to show in the header when showing a CAPTCHA challenge when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_CAPTCHA</code>, and the request is blocked. If unspecified, defaults to <code>We have detected an increased number of attempts to access this webapp. To help us keep this webapp secure, please let us know that you are not a robot by entering the text from captcha below.</code></li>
+<li><code>captcha_submit_label</code> - The text to show on the label of the CAPTCHA challenge submit button when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_CAPTCHA</code>, and the request is blocked. If unspecified, defaults to <code>Yes, I am human</code>.</li>
+<li><code>captcha_title</code> - The title used when showing a CAPTCHA challenge when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_CAPTCHA</code>, and the request is blocked. If unspecified, defaults to <code>Are you human?</code></li>
+</ul></li>
+
+<li><p><code>criteria</code> - When defined, the JavaScript Challenge would be applied only for the requests that matched all the listed conditions.</p>
+
+<ul>
+<li><p><code>condition</code> - The criteria the access rule and JavaScript Challenge uses to determine if action should be taken on a request.</p>
+
+<ul>
+<li><strong>URL_IS:</strong> Matches if the concatenation of request URL path and query is identical to the contents of the <code>value</code> field. URL must start with a <code>/</code>.</li>
+<li><strong>URL_IS_NOT:</strong> Matches if the concatenation of request URL path and query is not identical to the contents of the <code>value</code> field. URL must start with a <code>/</code>.</li>
+<li><strong>URL_STARTS_WITH:</strong> Matches if the concatenation of request URL path and query starts with the contents of the <code>value</code> field. URL must start with a <code>/</code>.</li>
+<li><strong>URL_PART_ENDS_WITH:</strong> Matches if the concatenation of request URL path and query ends with the contents of the <code>value</code> field.</li>
+<li><strong>URL_PART_CONTAINS:</strong> Matches if the concatenation of request URL path and query contains the contents of the <code>value</code> field.</li>
+<li><strong>URL_REGEX:</strong> Matches if the concatenation of request URL path and query is described by the regular expression in the value field. The value must be a valid regular expression recognized by the PCRE library in Nginx (<a href="https://www.pcre.org">https://www.pcre.org</a>).</li>
+<li><strong>URL_DOES_NOT_MATCH_REGEX:</strong> Matches if the concatenation of request URL path and query is not described by the regular expression in the <code>value</code> field. The value must be a valid regular expression recognized by the PCRE library in Nginx (<a href="https://www.pcre.org">https://www.pcre.org</a>).</li>
+<li><strong>URL_DOES_NOT_START_WITH:</strong> Matches if the concatenation of request URL path and query does not start with the contents of the <code>value</code> field.</li>
+<li><strong>URL_PART_DOES_NOT_CONTAIN:</strong> Matches if the concatenation of request URL path and query does not contain the contents of the <code>value</code> field.</li>
+<li><strong>URL_PART_DOES_NOT_END_WITH:</strong> Matches if the concatenation of request URL path and query does not end with the contents of the <code>value</code> field.</li>
+<li><strong>IP_IS:</strong> Matches if the request originates from one of the IP addresses contained in the defined address list. The <code>value</code> in this case is string with one or multiple IPs or CIDR notations separated by new line symbol \n <em>Example:</em> &ldquo;1.1.1.1\n1.1.1.2\n1.2.2.<sup>1</sup>&frasl;<sub>30</sub>&rdquo;</li>
+<li><strong>IP_IS_NOT:</strong> Matches if the request does not originate from any of the IP addresses contained in the defined address list. The <code>value</code> in this case is string with one or multiple IPs or CIDR notations separated by new line symbol \n <em>Example:</em> &ldquo;1.1.1.1\n1.1.1.2\n1.2.2.<sup>1</sup>&frasl;<sub>30</sub>&rdquo;</li>
+<li><strong>IP_IN_LIST:</strong> Matches if the request originates from one of the IP addresses contained in the referenced address list. The <code>value</code> in this case is OCID of the address list.</li>
+<li><strong>IP_NOT_IN_LIST:</strong> Matches if the request does not originate from any IP address contained in the referenced address list. The <code>value</code> field in this case is OCID of the address list.</li>
+<li><strong>HTTP_HEADER_CONTAINS:</strong> The HTTP_HEADER_CONTAINS criteria is defined using a compound value separated by a colon: a header field name and a header field value. <code>host:test.example.com</code> is an example of a criteria value where <code>host</code> is the header field name and <code>test.example.com</code> is the header field value. A request matches when the header field name is a case insensitive match and the header field value is a case insensitive, substring match. <em>Example:</em> With a criteria value of <code>host:test.example.com</code>, where <code>host</code> is the name of the field and <code>test.example.com</code> is the value of the host field, a request with the header values, <code>Host: www.test.example.com</code> will match, where as a request with header values of <code>host: www.example.com</code> or <code>host: test.sub.example.com</code> will not match.</li>
+<li><strong>HTTP_METHOD_IS:</strong> Matches if the request method is identical to one of the values listed in field. The <code>value</code> in this case is string with one or multiple HTTP methods separated by new line symbol \n The list of available methods: <code>GET</code>, <code>HEAD</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code>, <code>CONNECT</code>, <code>OPTIONS</code>, <code>TRACE</code>, <code>PATCH</code></li>
+</ul>
+
+<p><em>Example:</em> &ldquo;GET\nPOST&rdquo;
+* <strong>HTTP_METHOD_IS_NOT:</strong> Matches if the request is not identical to any of the contents of the <code>value</code> field. The <code>value</code> in this case is string with one or multiple HTTP methods separated by new line symbol \n The list of available methods: <code>GET</code>, <code>HEAD</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code>, <code>CONNECT</code>, <code>OPTIONS</code>, <code>TRACE</code>, <code>PATCH</code></p>
+
+<p><em>Example:</em> &ldquo;GET\nPOST&rdquo;
+* <strong>COUNTRY_IS:</strong> Matches if the request originates from one of countries in the <code>value</code> field. The <code>value</code> in this case is string with one or multiple countries separated by new line symbol \n Country codes are in ISO 3166-1 alpha-2 format. For a list of codes, see <a href="https://www.iso.org/obp/ui/#search/code/">ISO&rsquo;s website</a>. <em>Example:</em> &ldquo;AL\nDZ\nAM&rdquo;
+* <strong>COUNTRY_IS_NOT:</strong> Matches if the request does not originate from any of countries in the <code>value</code> field. The <code>value</code> in this case is string with one or multiple countries separated by new line symbol \n Country codes are in ISO 3166-1 alpha-2 format. For a list of codes, see <a href="https://www.iso.org/obp/ui/#search/code/">ISO&rsquo;s website</a>. <em>Example:</em> &ldquo;AL\nDZ\nAM&rdquo;
+* <strong>USER_AGENT_IS:</strong> Matches if the requesting user agent is identical to the contents of the <code>value</code> field. <em>Example:</em> <code>Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:35.0) Gecko/20100101 Firefox/35.0</code>
+* <strong>USER_AGENT_IS_NOT:</strong> Matches if the requesting user agent is not identical to the contents of the <code>value</code> field. <em>Example:</em> <code>Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:35.0) Gecko/20100101 Firefox/35.0</code></p></li>
+
+<li><p><code>is_case_sensitive</code> - When enabled, the condition will be matched with case-sensitive rules.</p></li>
+
+<li><p><code>value</code> - The criteria value.</p></li>
+</ul></li>
+
+<li><p><code>failure_threshold</code> - The number of failed requests before taking action. If unspecified, defaults to <code>10</code>.</p></li>
+
+<li><p><code>is_enabled</code> - Enables or disables the JavaScript challenge Web Application Firewall feature.</p></li>
+
+<li><p><code>is_nat_enabled</code> - When enabled, the user is identified not only by the IP address but also by an unique additional hash, which prevents blocking visitors with shared IP addresses.</p></li>
+
+<li><p><code>set_http_header</code> - Adds an additional HTTP header to requests that fail the challenge before being passed to the origin. Only applicable when the <code>action</code> is set to <code>DETECT</code>.</p>
+
+<ul>
+<li><code>name</code> - The name of the header.</li>
+<li><code>value</code> - The value of the header.</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>origin</code> - The key in the map of origins referencing the origin used for the Web Application Firewall. The origin must already be included in <code>Origins</code>. Required when creating the <code>WafConfig</code> resource, but not on update.</p></li>
+
+<li><p><code>origin_groups</code> - The map of origin groups and their keys used to associate origins to the <code>wafConfig</code>. Origin groups allow you to apply weights to groups of origins for load balancing purposes. Origins with higher weights will receive larger proportions of client requests. To add additional origins to your WAAS policy, update the <code>origins</code> field of a <code>UpdateWaasPolicy</code> request.</p></li>
+
+<li><p><code>protection_settings</code> - The settings to apply to protection rules.</p>
+
+<ul>
+<li><p><code>allowed_http_methods</code> - The list of allowed HTTP methods. If unspecified, default to <code>[OPTIONS, GET, HEAD, POST]</code>. This setting only applies if a corresponding protection rule is enabled, such as the &ldquo;Restrict HTTP Request Methods&rdquo; rule (key: 911100).</p></li>
+
+<li><p><code>block_action</code> - If <code>action</code> is set to <code>BLOCK</code>, this specifies how the traffic is blocked when detected as malicious by a protection rule. If unspecified, defaults to <code>SET_RESPONSE_CODE</code>.</p></li>
+
+<li><p><code>block_error_page_code</code> - The error code to show on the error page when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_ERROR_PAGE</code>, and the traffic is detected as malicious by a protection rule. If unspecified, defaults to <code>403</code>.</p></li>
+
+<li><p><code>block_error_page_description</code> - The description text to show on the error page when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_ERROR_PAGE</code>, and the traffic is detected as malicious by a protection rule. If unspecified, defaults to <code>Access blocked by website owner. Please contact support.</code></p></li>
+
+<li><p><code>block_error_page_message</code> - The message to show on the error page when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SHOW_ERROR_PAGE</code>, and the traffic is detected as malicious by a protection rule. If unspecified, defaults to &lsquo;Access to the website is blocked.&rsquo;</p></li>
+
+<li><p><code>block_response_code</code> - The response code returned when <code>action</code> is set to <code>BLOCK</code>, <code>blockAction</code> is set to <code>SET_RESPONSE_CODE</code>, and the traffic is detected as malicious by a protection rule. If unspecified, defaults to <code>403</code>. The list of available response codes: <code>400</code>, <code>401</code>, <code>403</code>, <code>405</code>, <code>409</code>, <code>411</code>, <code>412</code>, <code>413</code>, <code>414</code>, <code>415</code>, <code>416</code>, <code>500</code>, <code>501</code>, <code>502</code>, <code>503</code>, <code>504</code>, <code>507</code>.</p></li>
+
+<li><p><code>is_response_inspected</code> - Inspects the response body of origin responses. Can be used to detect leakage of sensitive data. If unspecified, defaults to <code>false</code>.</p>
+
+<p><strong>Note:</strong> Only origin responses with a Content-Type matching a value in <code>mediaTypes</code> will be inspected.</p></li>
+
+<li><p><code>max_argument_count</code> - The maximum number of arguments allowed to be passed to your application before an action is taken. Arguements are query parameters or body parameters in a PUT or POST request. If unspecified, defaults to <code>255</code>. This setting only applies if a corresponding protection rule is enabled, such as the &ldquo;Number of Arguments Limits&rdquo; rule (key: 960335).  Example: If <code>maxArgumentCount</code> to <code>2</code> for the Max Number of Arguments protection rule (key: 960335), the following requests would be blocked: <code>GET /myapp/path?query=one&amp;query=two&amp;query=three</code> <code>POST /myapp/path</code> with Body <code>{&quot;argument1&quot;:&quot;one&quot;,&quot;argument2&quot;:&quot;two&quot;,&quot;argument3&quot;:&quot;three&quot;}</code></p></li>
+
+<li><p><code>max_name_length_per_argument</code> - The maximum length allowed for each argument name, in characters. Arguements are query parameters or body parameters in a PUT or POST request. If unspecified, defaults to <code>400</code>. This setting only applies if a corresponding protection rule is enabled, such as the &ldquo;Values Limits&rdquo; rule (key: 960208).</p></li>
+
+<li><p><code>max_response_size_in_ki_b</code> - The maximum response size to be fully inspected, in binary kilobytes (KiB). Anything over this limit will be partially inspected. If unspecified, defaults to <code>1024</code>.</p></li>
+
+<li><p><code>max_total_name_length_of_arguments</code> - The maximum length allowed for the sum of the argument name and value, in characters. Arguements are query parameters or body parameters in a PUT or POST request. If unspecified, defaults to <code>64000</code>. This setting only applies if a corresponding protection rule is enabled, such as the &ldquo;Total Arguments Limits&rdquo; rule (key: 960341).</p></li>
+
+<li><p><code>media_types</code> - The list of media types to allow for inspection, if <code>isResponseInspected</code> is enabled. Only responses with MIME types in this list will be inspected. If unspecified, defaults to <code>[&quot;text/html&quot;, &quot;text/plain&quot;, &quot;text/xml&quot;]</code>.</p>
+
+<p>Supported MIME types include:</p>
+
+<ul>
+<li>text/html</li>
+<li>text/plain</li>
+<li>text/asp</li>
+<li>text/css</li>
+<li>text/x-script</li>
+<li>application/json</li>
+<li>text/webviewhtml</li>
+<li>text/x-java-source</li>
+<li>application/x-javascript</li>
+<li>application/javascript</li>
+<li>application/ecmascript</li>
+<li>text/javascript</li>
+<li>text/ecmascript</li>
+<li>text/x-script.perl</li>
+<li>text/x-script.phyton</li>
+<li>application/plain</li>
+<li>application/xml</li>
+<li>text/xml</li>
+</ul></li>
+
+<li><p><code>recommendations_period_in_days</code> - The length of time to analyze traffic traffic, in days. After the analysis period, <code>WafRecommendations</code> will be populated. If unspecified, defaults to <code>10</code>.</p>
+
+<p>Use <code>GET /waasPolicies/{waasPolicyId}/wafRecommendations</code> to view WAF recommendations.</p></li>
+</ul></li>
+
+<li><p><code>whitelists</code> - A list of IP addresses that bypass the Web Application Firewall.</p>
+
+<ul>
+<li><code>address_lists</code> - A list of <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of IP address lists to include in the whitelist.</li>
+<li><code>addresses</code> - A set of IP addresses or CIDR notations to include in the whitelist.</li>
+<li><code>name</code> - The unique name of the whitelist.</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 2 hours), when creating the Waas Policy
+	* <code>update</code> - (Defaults to 2 hours), when updating the Waas Policy
+	* <code>delete</code> - (Defaults to 2 hours), when destroying the Waas Policy</p>
+
+<h2>Import</h2>
+
+<p>WaasPolicies can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_waas_waas_policy.test_waas_policy &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

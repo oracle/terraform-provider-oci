@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_dataintegration_workspace_project</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_dataintegration_workspace_project</h1>
+
+<p>This resource provides the Workspace Project resource in Oracle Cloud Infrastructure Data Integration service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/data-integration/latest/WorkspaceProject">https://docs.oracle.com/iaas/api/#/en/data-integration/latest/WorkspaceProject</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/dataintegration">https://github.com/oracle/terraform-provider-oci/tree/master/examples/dataintegration</a></p>
+
+<p>Creates a project. Projects are organizational constructs within a workspace that you use to organize your design-time resources, such as tasks or data flows. Projects can be organized into folders.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_dataintegration_workspace_project&quot; &quot;test_workspace_project&quot; {
+	#Required
+	identifier = var.workspace_project_identifier
+	name = var.workspace_project_name
+	workspace_id = oci_dataintegration_workspace.test_workspace.id
+
+	#Optional
+	description = var.workspace_project_description
+	key = var.workspace_project_key
+	model_version = var.workspace_project_model_version
+	object_status = var.workspace_project_object_status
+	registry_metadata {
+
+		#Optional
+		aggregator_key = var.workspace_project_registry_metadata_aggregator_key
+		is_favorite = var.workspace_project_registry_metadata_is_favorite
+		key = var.workspace_project_registry_metadata_key
+		labels = var.workspace_project_registry_metadata_labels
+		registry_version = var.workspace_project_registry_metadata_registry_version
+	}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>description</code> - (Optional) (Updatable) A user defined description for the project.</li>
+<li><code>identifier</code> - (Required) (Updatable) Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.</li>
+<li><code>key</code> - (Optional) (Updatable) Generated key that can be used in API calls to identify project.</li>
+<li><code>model_version</code> - (Optional) (Updatable) The model version of an object.</li>
+<li><code>name</code> - (Required) (Updatable) Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.</li>
+<li><code>object_status</code> - (Optional) (Updatable) The status of an object that can be set to value 1 for shallow references across objects, other values reserved.</li>
+<li><code>registry_metadata</code> - (Optional) (Updatable) Information about the object and its parent.
+
+<ul>
+<li><code>aggregator_key</code> - (Optional) (Updatable) The owning object&rsquo;s key for this object.</li>
+<li><code>is_favorite</code> - (Optional) (Updatable) Specifies whether this object is a favorite or not.</li>
+<li><code>key</code> - (Optional) (Updatable) The identifying key for the object.</li>
+<li><code>labels</code> - (Optional) (Updatable) Labels are keywords or labels that you can add to data assets, dataflows etc. You can define your own labels and use them to categorize content.</li>
+<li><code>registry_version</code> - (Optional) (Updatable) The registry version.</li>
+</ul></li>
+<li><code>workspace_id</code> - (Required) The workspace ID.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>description</code> - A user defined description for the project.</li>
+<li><code>identifier</code> - Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.</li>
+<li><code>key</code> - Generated key that can be used in API calls to identify project.</li>
+<li><code>key_map</code> - A key map. If provided, the key is replaced with generated key. This structure provides mapping between user provided key and generated key.</li>
+<li><code>metadata</code> - A summary type containing information about the object including its key, name and when/who created/updated it.
+
+<ul>
+<li><code>aggregator</code> - A summary type containing information about the object&rsquo;s aggregator including its type, key, name and description.
+
+<ul>
+<li><code>description</code> - The description of the aggregator.</li>
+<li><code>identifier</code> - The identifier of the aggregator.</li>
+<li><code>key</code> - The key of the aggregator object.</li>
+<li><code>name</code> - The name of the aggregator.</li>
+<li><code>type</code> - The type of the aggregator.</li>
+</ul></li>
+<li><code>aggregator_key</code> - The owning object key for this object.</li>
+<li><code>count_statistics</code> - A count statistics.
+
+<ul>
+<li><code>object_type_count_list</code> - The array of statistics.
+
+<ul>
+<li><code>object_count</code> - The value for the count statistic object.</li>
+<li><code>object_type</code> - The type of object for the count statistic object.</li>
+</ul></li>
+</ul></li>
+<li><code>created_by</code> - The user that created the object.</li>
+<li><code>created_by_name</code> - The user that created the object.</li>
+<li><code>identifier_path</code> - The full path to identify this object.</li>
+<li><code>info_fields</code> - Information property fields.</li>
+<li><code>is_favorite</code> - Specifies whether this object is a favorite or not.</li>
+<li><code>labels</code> - Labels are keywords or tags that you can add to data assets, dataflows and so on. You can define your own labels and use them to categorize content.</li>
+<li><code>registry_version</code> - The registry version of the object.</li>
+<li><code>time_created</code> - The date and time that the object was created.</li>
+<li><code>time_updated</code> - The date and time that the object was updated.</li>
+<li><code>updated_by</code> - The user that updated the object.</li>
+<li><code>updated_by_name</code> - The user that updated the object.</li>
+</ul></li>
+<li><code>model_type</code> - The type of the object.</li>
+<li><code>model_version</code> - The model version of an object.</li>
+<li><code>name</code> - Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.</li>
+<li><code>object_status</code> - The status of an object that can be set to value 1 for shallow references across objects, other values reserved.</li>
+<li><code>object_version</code> - The version of the object that is used to track changes in the object instance.</li>
+<li><code>parent_ref</code> - A reference to the object&rsquo;s parent.
+
+<ul>
+<li><code>parent</code> - Key of the parent object.</li>
+<li><code>root_doc_id</code> - Key of the root document object.</li>
+</ul></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Workspace Project
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Workspace Project
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Workspace Project</p>
+
+<h2>Import</h2>
+
+<p>WorkspaceProjects can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_dataintegration_workspace_project.test_workspace_project &quot;workspaces/{workspaceId}/projects/{projectKey}&quot; 
+</code></pre>
+
+	</div>
+
+</body>
+</html>

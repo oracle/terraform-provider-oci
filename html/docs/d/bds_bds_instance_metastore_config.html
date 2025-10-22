@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_bds_bds_instance_metastore_config</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_bds_bds_instance_metastore_config</h1>
+
+<p>This data source provides details about a specific Bds Instance Metastore Config resource in Oracle Cloud Infrastructure Big Data Service service.</p>
+
+<p>Returns the BDS Metastore configuration information for the given ID.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_bds_bds_instance_metastore_config&quot; &quot;test_bds_instance_metastore_config&quot; {
+	#Required
+	bds_instance_id = oci_bds_bds_instance.test_bds_instance.id
+	metastore_config_id = oci_apm_config_config.test_config.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>bds_instance_id</code> - (Required) The OCID of the cluster.</li>
+<li><code>metastore_config_id</code> - (Required) The metastore configuration ID</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>bds_api_key_id</code> - The ID of BDS API Key used for metastore configuration. Set only if metastore&rsquo;s type is EXTERNAL.</li>
+<li><code>display_name</code> - The display name of metastore configuration</li>
+<li><code>id</code> - The ID of the metastore configuration</li>
+<li><code>metastore_id</code> - The OCID of the Data Catalog metastore. Set only if metastore&rsquo;s type is EXTERNAL.</li>
+<li><code>metastore_type</code> - The type of the metastore in the metastore configuration.</li>
+<li><code>state</code> - the lifecycle state of the metastore configuration.</li>
+<li><code>time_created</code> - The time when the configuration was created, shown as an RFC 3339 formatted datetime string.</li>
+<li><code>time_updated</code> - The time when the configuration was updated, shown as an RFC 3339 formatted datetime string.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

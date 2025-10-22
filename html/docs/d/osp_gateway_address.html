@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_osp_gateway_address</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_osp_gateway_address</h1>
+
+<p>This data source provides details about a specific Address resource in Oracle Cloud Infrastructure Osp Gateway service.</p>
+
+<p>Get the address by id for the compartment</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_osp_gateway_address&quot; &quot;test_address&quot; {
+	#Required
+	address_id = oci_osp_gateway_addres.test_addres.id
+	compartment_id = var.compartment_id
+	osp_home_region = var.address_osp_home_region
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>address_id</code> - (Required) The identifier of the address.</li>
+<li><code>compartment_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>osp_home_region</code> - (Required) The home region&rsquo;s public name of the logged in user.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>address_key</code> - Address identifier.</li>
+<li><code>city</code> - Name of the city.</li>
+<li><code>company_name</code> - Name of the customer company.</li>
+<li><code>contributor_class</code> - Contributor class of the customer company.</li>
+<li><code>country</code> - Country of the address.</li>
+<li><code>county</code> - County of the address.</li>
+<li><code>department_name</code> - Department name of the customer company.</li>
+<li><code>email_address</code> - Contact person email address.</li>
+<li><code>first_name</code> - First name of the contact person.</li>
+<li><code>internal_number</code> - Internal number of the customer company.</li>
+<li><code>job_title</code> - Job title of the contact person.</li>
+<li><code>last_name</code> - Last name of the contact person.</li>
+<li><code>line1</code> - Address line 1.</li>
+<li><code>line2</code> - Address line 2.</li>
+<li><code>line3</code> - Address line 3.</li>
+<li><code>line4</code> - Address line 4.</li>
+<li><code>middle_name</code> - Middle name of the contact person.</li>
+<li><code>municipal_inscription</code> - Municipal Inscription.</li>
+<li><code>phone_country_code</code> - Phone country code of the contact person.</li>
+<li><code>phone_number</code> - Phone number of the contact person.</li>
+<li><code>postal_code</code> - Post code of the address.</li>
+<li><code>province</code> - Province of the address.</li>
+<li><code>state</code> - State of the address.</li>
+<li><code>state_inscription</code> - State Inscription.</li>
+<li><code>street_name</code> - Street name of the address.</li>
+<li><code>street_number</code> - Street number of the address.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

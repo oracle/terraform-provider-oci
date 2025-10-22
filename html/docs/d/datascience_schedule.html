@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_datascience_schedule</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_datascience_schedule</h1>
+
+<p>This data source provides details about a specific Schedule resource in Oracle Cloud Infrastructure Data Science service.</p>
+
+<p>Gets a Schedule by identifier</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_datascience_schedule&quot; &quot;test_schedule&quot; {
+	#Required
+	schedule_id = oci_datascience_schedule.test_schedule.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>schedule_id</code> - (Required) unique Schedule identifier</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>action</code> - The schedule action
+
+<ul>
+<li><code>action_details</code> - Schedule Http action details
+
+<ul>
+<li><code>create_job_run_details</code> - Parameters needed to create a new job run.
+
+<ul>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment where you want to create the job run.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>display_name</code> - A user-friendly display name for the resource.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>job_configuration_override_details</code> - The job configuration details
+
+<ul>
+<li><code>command_line_arguments</code> - The arguments to pass to the job.</li>
+<li><code>environment_variables</code> - Environment variables to set for the job.</li>
+<li><code>job_type</code> - The type of job.</li>
+<li><code>maximum_runtime_in_minutes</code> - A time bound for the execution of the job. Timer starts when the job becomes active.</li>
+</ul></li>
+<li><code>job_environment_configuration_override_details</code> - Environment configuration to capture job runtime dependencies.
+
+<ul>
+<li><code>cmd</code> - The container image run <a href="https://docs.docker.com/engine/reference/builder/#cmd">CMD</a> as a list of strings. Use <code>CMD</code> as arguments to the <code>ENTRYPOINT</code> or the only command to run in the absence of an <code>ENTRYPOINT</code>. The combined size of <code>CMD</code> and <code>ENTRYPOINT</code> must be less than 2048 bytes.</li>
+<li><code>entrypoint</code> - The container image run <a href="https://docs.docker.com/engine/reference/builder/#entrypoint">ENTRYPOINT</a> as a list of strings. Accept the <code>CMD</code> as extra arguments. The combined size of <code>CMD</code> and <code>ENTRYPOINT</code> must be less than 2048 bytes. More information on how <code>CMD</code> and <code>ENTRYPOINT</code> interact are <a href="https://docs.docker.com/engine/reference/builder/#understand-how-cmd-and-entrypoint-interact">here</a>.</li>
+<li><code>image</code> - The full path to the Oracle Container Repository (OCIR) registry, image, and tag in a canonical format. Acceptable format: <code>&lt;region&gt;.ocir.io/&lt;registry&gt;/&lt;image&gt;:&lt;tag&gt;</code> <code>&lt;region&gt;.ocir.io/&lt;registry&gt;/&lt;image&gt;:&lt;tag&gt;@digest</code></li>
+<li><code>image_digest</code> - The digest of the container image. For example, <code>sha256:881303a6b2738834d795a32b4a98eb0e5e3d1cad590a712d1e04f9b2fa90a030</code></li>
+<li><code>image_signature_id</code> - OCID of the container image signature</li>
+<li><code>job_environment_type</code> - The environment configuration type used for job runtime.</li>
+</ul></li>
+<li><code>job_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the job to create a run for.</li>
+<li><code>job_log_configuration_override_details</code> - Logging configuration for resource.
+
+<ul>
+<li><code>enable_auto_log_creation</code> - If automatic on-behalf-of log object creation is enabled for job runs.</li>
+<li><code>enable_logging</code> - If customer logging is enabled for job runs.</li>
+<li><code>log_group_id</code> - The log group id for where log objects are for job runs.</li>
+<li><code>log_id</code> - The log id the job run will push logs too.</li>
+</ul></li>
+<li><code>project_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the project to associate the job run with.</li>
+</ul></li>
+<li><code>create_pipeline_run_details</code> - The information about new PipelineRun.
+
+<ul>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment where you want to create the pipeline run.</li>
+<li><code>configuration_override_details</code> - The configuration details of a pipeline.
+
+<ul>
+<li><code>command_line_arguments</code> - The command line arguments to set for steps in the pipeline.</li>
+<li><code>environment_variables</code> - Environment variables to set for steps in the pipeline.</li>
+<li><code>maximum_runtime_in_minutes</code> - A time bound for the execution of the entire Pipeline. Timer starts when the Pipeline Run is in progress.</li>
+<li><code>type</code> - The type of pipeline.</li>
+</ul></li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>display_name</code> - A user-friendly display name for the resource.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>log_configuration_override_details</code> - The pipeline log configuration details.
+
+<ul>
+<li><code>enable_auto_log_creation</code> - If automatic on-behalf-of log object creation is enabled for pipeline runs.</li>
+<li><code>enable_logging</code> - If customer logging is enabled for pipeline.</li>
+<li><code>log_group_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the log group.</li>
+<li><code>log_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the log.</li>
+</ul></li>
+<li><code>pipeline_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the pipeline for which pipeline run is created.</li>
+<li><code>project_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the project to associate the pipeline run with.</li>
+<li><code>step_override_details</code> - Array of step override details. Only Step Configuration is allowed to be overridden.
+
+<ul>
+<li><code>step_configuration_details</code> - The configuration details of a step.
+
+<ul>
+<li><code>command_line_arguments</code> - The command line arguments to set for step.</li>
+<li><code>environment_variables</code> - Environment variables to set for step.</li>
+<li><code>maximum_runtime_in_minutes</code> - A time bound for the execution of the step.</li>
+</ul></li>
+<li><code>step_container_configuration_details</code> - Container Details for a step in pipeline.
+
+<ul>
+<li><code>cmd</code> - The container image run <a href="https://docs.docker.com/engine/reference/builder/#cmd">CMD</a> as a list of strings. Use <code>CMD</code> as arguments to the <code>ENTRYPOINT</code> or the only command to run in the absence of an <code>ENTRYPOINT</code>. The combined size of <code>CMD</code> and <code>ENTRYPOINT</code> must be less than 2048 bytes.</li>
+<li><code>container_type</code> - The type of container.</li>
+<li><code>entrypoint</code> - The container image run <a href="https://docs.docker.com/engine/reference/builder/#entrypoint">ENTRYPOINT</a> as a list of strings. Accept the <code>CMD</code> as extra arguments. The combined size of <code>CMD</code> and <code>ENTRYPOINT</code> must be less than 2048 bytes. More information on how <code>CMD</code> and <code>ENTRYPOINT</code> interact are <a href="https://docs.docker.com/engine/reference/builder/#understand-how-cmd-and-entrypoint-interact">here</a>.</li>
+<li><code>image</code> - The full path to the Oracle Container Repository (OCIR) registry, image, and tag in a canonical format.</li>
+<li><code>image_digest</code> - The digest of the container image. For example, <code>sha256:881303a6b2738834d795a32b4a98eb0e5e3d1cad590a712d1e04f9b2fa90a030</code></li>
+<li><code>image_signature_id</code> - OCID of the container image signature</li>
+</ul></li>
+<li><code>step_name</code> - The name of the step.</li>
+</ul></li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+</ul></li>
+<li><code>http_action_type</code> - The type of http action to trigger.</li>
+<li><code>ml_application_instance_view_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the schedule.</li>
+<li><code>trigger_ml_application_instance_view_flow_details</code> - Payload for trigger request endpoint
+
+<ul>
+<li><code>parameters</code> - Parameters provided for given trigger invocation (they must match predefined schema)
+
+<ul>
+<li><code>name</code> - Name of trigger parameter</li>
+<li><code>value</code> - Value of trigger parameter</li>
+</ul></li>
+<li><code>trigger_name</code> - Name of trigger</li>
+</ul></li>
+</ul></li>
+<li><code>action_type</code> - The Schedule Action type</li>
+</ul></li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment where you want to create the schedule.</li>
+<li><code>created_by</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the user who created the schedule.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - A short description of the schedule.</li>
+<li><code>display_name</code> - A user-friendly display name for the resource. Avoid entering confidential information.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the schedule.</li>
+<li><code>last_schedule_run_details</code> - Details about the action performed by the last schedule execution. Example: <code>Invoked ML Application trigger.</code></li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail.</li>
+<li><code>log_details</code> - Custom logging details for schedule execution.
+
+<ul>
+<li><code>log_group_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the log group.</li>
+<li><code>log_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the custom log to be used for Schedule logging.</li>
+</ul></li>
+<li><code>project_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the project associated with the schedule.</li>
+<li><code>state</code> - The current state of the schedule.           Example: <code>ACTIVE</code></li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The date and time the schedule was created. Format is defined by RFC3339.           Example: <code>2022-08-05T01:02:29.600Z</code></li>
+<li><code>time_last_schedule_run</code> - The last schedule execution time. Format is defined by RFC3339. Example: <code>2022-08-05T01:02:29.600Z</code></li>
+<li><code>time_next_scheduled_run</code> - The next scheduled execution time for the schedule. Format is defined by RFC3339. Example: <code>2022-08-05T01:02:29.600Z</code></li>
+<li><code>time_updated</code> - The date and time the schedule was updated. Format is defined by RFC3339.           Example: <code>2022-09-05T01:02:29.600Z</code></li>
+<li><code>trigger</code> - The trigger of the schedule can be UNIX cron or iCal expression or simple interval
+
+<ul>
+<li><code>cron_expression</code> - Schedule cron expression</li>
+<li><code>frequency</code> - The type of frequency</li>
+<li><code>interval</code> - The interval of frequency.</li>
+<li><code>is_random_start_time</code> - when true and timeStart is null, system generate a random start time between now and now + interval;  isRandomStartTime can be true if timeStart is null.</li>
+<li><code>recurrence</code> - This recurrence field conforms to RFC-5545 formatting</li>
+<li><code>time_end</code> - The schedule end date time, if null, the schedule will never expire. Format is defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>time_start</code> - The schedule starting date time, if null, System set the time when schedule is created. Format is defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>trigger_type</code> - The schedule trigger type</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

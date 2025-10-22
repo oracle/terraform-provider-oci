@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_data_safe_attribute_set_associated_resources</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_data_safe_attribute_set_associated_resources</h1>
+
+<p>This data source provides the list of Attribute Set Associated Resources in Oracle Cloud Infrastructure Data Safe service.</p>
+
+<p>Returns list of all associated resources.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_data_safe_attribute_set_associated_resources&quot; &quot;test_attribute_set_associated_resources&quot; {
+	#Required
+	attribute_set_id = oci_data_safe_attribute_set.test_attribute_set.id
+
+	#Optional
+	associated_resource_id = oci_cloud_guard_resource.test_resource.id
+	associated_resource_type = var.attribute_set_associated_resource_associated_resource_type
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>associated_resource_id</code> - (Optional) A filter to return attribute set associated resource that matches the specified associated resource id query param.</li>
+<li><code>associated_resource_type</code> - (Optional) A filter to return attribute set associated resources that matches the specified resource type query param.</li>
+<li><code>attribute_set_id</code> - (Required) OCID of an attribute set.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>associated_resource_collection</code> - The list of associated_resource_collection.</li>
+</ul>
+
+<h3>AttributeSetAssociatedResource Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - Array of associated resources.
+
+<ul>
+<li><code>associated_resource_id</code> - The OCID of the resource that is associated with the attribute set.</li>
+<li><code>associated_resource_name</code> - The display name of the resource that is associated with the attribute set. The name does not have to be unique, and is changeable.</li>
+<li><code>associated_resource_type</code> - The resource type that is associated with the attribute set.</li>
+<li><code>time_created</code> - The date and time when associated started between resource and the attribute set, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>time_updated</code> - The date and time when associated is removed between resources and the attribute set, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

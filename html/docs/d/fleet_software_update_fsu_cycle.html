@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_fleet_software_update_fsu_cycle</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_fleet_software_update_fsu_cycle</h1>
+
+<p>This data source provides details about a specific Fsu Cycle resource in Oracle Cloud Infrastructure Fleet Software Update service.</p>
+
+<p>Gets a Exadata Fleet Update Cycle by identifier.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_fleet_software_update_fsu_cycle&quot; &quot;test_fsu_cycle&quot; {
+	#Required
+	fsu_cycle_id = oci_fleet_software_update_fsu_cycle.test_fsu_cycle.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>fsu_cycle_id</code> - (Required) Unique Exadata Fleet Update Cycle identifier.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>apply_action_schedule</code> - Scheduling related details for the Exadata Fleet Update Action. The specified time should not conflict with existing Exadata Infrastructure maintenance windows. Null scheduleDetails would execute the Exadata Fleet Update Action as soon as possible.
+
+<ul>
+<li><code>time_to_start</code> - The date and time the Exadata Fleet Update Action is expected to start. <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a>, section 14.29.</li>
+<li><code>type</code> - Type of scheduling strategy to use for Fleet Patching Update Action execution.</li>
+</ul></li>
+<li><code>batching_strategy</code> - Batching strategy details to use during PRECHECK and APPLY Cycle Actions.
+
+<ul>
+<li><code>is_force_rolling</code> - True to force rolling patching.</li>
+<li><code>is_wait_for_batch_resume</code> - True to wait for customer to resume the Apply Action once the first half is done. False to automatically patch the second half.</li>
+<li><code>percentage</code> - Percentage of availability in the service during the Patch operation.</li>
+<li><code>type</code> - Supported batching strategies.</li>
+</ul></li>
+<li><code>collection_type</code> - Type of the Exadata Fleet Update Collection being updated by this Exadata Fleet Update Cycle.</li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Compartment.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>diagnostics_collection</code> - Details to configure diagnostics collection for targets affected by this Exadata Fleet Update Maintenance Cycle.
+
+<ul>
+<li><code>log_collection_mode</code> - Enable incident logs and trace collection.  Allow Oracle to collect incident logs and traces to enable fault diagnosis and issue resolution according to the selected mode.</li>
+</ul></li>
+<li><code>display_name</code> - The user-friendly name for the Exadata Fleet Update Cycle.</li>
+<li><code>executing_fsu_action_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Exadata Fleet Update Action that is currently in progress, if applicable.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>fsu_collection_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Exadata Fleet Update Collection being updated by this Exadata Fleet Update Cycle.</li>
+<li><code>goal_version_details</code> - Goal version or image details for the Exadata Fleet Update Cycle.
+
+<ul>
+<li><code>components</code> - Details of goal versions for components in an Exadata software stack.
+
+<ul>
+<li><code>component_type</code> - Type of component in an Exadata software stack.</li>
+<li><code>goal_version_details</code> - Details of goal &lsquo;GUEST_OS&rsquo; software version.
+
+<ul>
+<li><code>goal_software_image_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the custom &lsquo;GI&rsquo; software image.</li>
+<li><code>goal_type</code> - Preference to use an Oracle released &lsquo;GI&rsquo; software image or a custom &lsquo;GI&rsquo; software image.</li>
+<li><code>goal_version</code> - Goal version string matching an Oracle released &lsquo;GUEST_OS&rsquo; software image.</li>
+</ul></li>
+<li><code>home_policy</code> - Goal home policy to use when Staging the Goal Version during patching. CREATE_NEW: Create a new DBHome (for Database Collections) for the specified image or version. USE_EXISTING: All database targets in the same VMCluster or CloudVmCluster will be moved to a shared database home.  If an existing home for the selected image or version is not found in the VM Cluster for a target database, then a new home will be created.  If more than one existing home for the selected image is found, then the home with the least number of databases will be used.  If multiple homes have the least number of databases, then a home will be selected at random.</li>
+<li><code>new_home_prefix</code> - Prefix name used for new DB home resources created as part of the Stage Action. Format: <specified_prefix>_<timestamp> If not specified, a default Oracle Cloud Infrastructure DB home resource will be generated for the new DB home resources created.</li>
+</ul></li>
+<li><code>home_policy</code> - Goal home policy to use when Staging the Goal Version during patching. CREATE_NEW: Create a new DBHome (for Database Collections) for the specified image or version. USE_EXISTING: All database targets in the same VMCluster or CloudVmCluster will be moved to a shared database home.  If an existing home for the selected image or version is not found in the VM Cluster for a target database, then a new home will be created.  If more than one existing home for the selected image is found, then the home with the least number of databases will be used.  If multiple homes have the least number of databases, then a home will be selected at random.</li>
+<li><code>new_home_prefix</code> - Prefix name used for new DB home resources created as part of the Stage Action. Format: <specified_prefix>_<timestamp> If not specified, a default Oracle Cloud Infrastructure DB home resource will be generated for the new DB home resources created.</li>
+<li><code>software_image_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the goal database software image.</li>
+<li><code>type</code> - Type of goal version specified</li>
+<li><code>version</code> - Goal version string for the Exadata Fleet Update Cycle. Applicable to Database, Grid Infrastructure, or Exadata Image software updates.</li>
+</ul></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Exadata Fleet Update Cycle.</li>
+<li><code>is_ignore_missing_patches</code> - List of identifiers of patches to ignore. This attribute will be ignored for Exadata Image (Guest OS) maintenance update.</li>
+<li><code>is_ignore_patches</code> - Ignore patch conflicts or missing patches between the source and goal homes. This attribute will be ignored for Exadata Image (Guest OS) maintenance update.</li>
+<li><code>is_keep_placement</code> - Ensure that database services are online on the same VMs before and after the maintenance update.</li>
+<li><code>last_completed_action</code> - The latest Action type that was completed in the Exadata Fleet Update Cycle. No value would indicate that the Cycle has not completed any Action yet.</li>
+<li><code>last_completed_action_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the latest Action  in the Exadata Fleet Update Cycle.</li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.</li>
+<li><code>max_drain_timeout_in_seconds</code> - Timeout for session draining for database services specified in seconds.</li>
+<li><code>next_action_to_execute</code> - All possible Exadata Fleet Update Actions will be listed. The first element is the suggested Exadata Fleet Update Action.
+
+<ul>
+<li><code>time_to_start</code> - The date and time the Exadata Fleet Update Action is expected to start. Null if no Action has been scheduled. <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a>, section 14.29.</li>
+<li><code>type</code> - Type of Exadata Fleet Update Action</li>
+</ul></li>
+<li><code>rollback_cycle_state</code> - Current rollback cycle state if rollback maintenance cycle action has been attempted. No value would indicate that the Cycle has not run a rollback maintenance cycle action before.</li>
+<li><code>stage_action_schedule</code> - Scheduling related details for the Exadata Fleet Update Action. The specified time should not conflict with existing Exadata Infrastructure maintenance windows. Null scheduleDetails would execute the Exadata Fleet Update Action as soon as possible.
+
+<ul>
+<li><code>time_to_start</code> - The date and time the Exadata Fleet Update Action is expected to start. <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a>, section 14.29.</li>
+<li><code>type</code> - Type of scheduling strategy to use for Fleet Patching Update Action execution.</li>
+</ul></li>
+<li><code>state</code> - The current state of the Exadata Fleet Update Cycle.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The date and time the Exadata Fleet Update Cycle was created, as described in <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a>, section 14.29.</li>
+<li><code>time_finished</code> - The date and time the Exadata Fleet Update Cycle was finished, as described in <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a>.</li>
+<li><code>time_updated</code> - The date and time the Exadata Fleet Update Cycle was updated, as described in <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a>, section 14.29.</li>
+<li><code>type</code> - Type of Exadata Fleet Update Cycle.</li>
+<li><code>upgrade_details</code> - Details of supported upgrade options for DB or GI collection.
+
+<ul>
+<li><code>collection_type</code> - Type of Exadata Fleet Update collection being upgraded.</li>
+<li><code>is_ignore_post_upgrade_errors</code> - Ignore errors during post Oracle Grid Infrastructure upgrade Cluster Verification Utility (CVU) check.</li>
+<li><code>is_ignore_prerequisites</code> - Ignore the Cluster Verification Utility (CVU) prerequisite checks.</li>
+<li><code>is_recompile_invalid_objects</code> - Enables or disables the recompilation of invalid objects.</li>
+<li><code>is_time_zone_upgrade</code> - Enables or disables time zone upgrade.</li>
+<li><code>max_drain_timeout_in_seconds</code> - Service drain timeout specified in seconds.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

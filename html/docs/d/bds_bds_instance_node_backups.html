@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_bds_bds_instance_node_backups</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_bds_bds_instance_node_backups</h1>
+
+<p>This data source provides the list of Bds Instance Node Backups in Oracle Cloud Infrastructure Big Data Service service.</p>
+
+<p>Returns information about the node Backups.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_bds_bds_instance_node_backups&quot; &quot;test_bds_instance_node_backups&quot; {
+	#Required
+	bds_instance_id = oci_bds_bds_instance.test_bds_instance.id
+
+	#Optional
+	display_name = var.bds_instance_node_backup_display_name
+	node_host_name = var.bds_instance_node_backup_node_host_name
+	state = var.bds_instance_node_backup_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>bds_instance_id</code> - (Required) The OCID of the cluster.</li>
+<li><code>display_name</code> - (Optional) The display name belonged to the node backup.</li>
+<li><code>node_host_name</code> - (Optional) The node host name belonged to a node that has a node backup.</li>
+<li><code>state</code> - (Optional) The state of the Node&rsquo;s Backup.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>node_backups</code> - The list of node_backups.</li>
+</ul>
+
+<h3>BdsInstanceNodeBackup Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>backup_trigger_type</code> - type based on how backup action was initiated.</li>
+<li><code>backup_type</code> - Incremental backup type includes only the changes since the last backup. Full backup type includes all changes since the volume was created.</li>
+<li><code>display_name</code> - BDS generated name for the backup. Format is nodeHostName_timeCreated.</li>
+<li><code>id</code> - The id of the node backup.</li>
+<li><code>node_backup_config_id</code> - The ID of the nodeBackupConfiguration if the NodeBackup is automatically created by applying the configuration.</li>
+<li><code>node_host_name</code> - Host name of the node to which this backup belongs.</li>
+<li><code>node_instance_id</code> - The instance OCID of the node, which is the resource from which the node backup was acquired.</li>
+<li><code>state</code> - The state of the NodeBackup.</li>
+<li><code>time_created</code> - The time the cluster was created, shown as an RFC 3339 formatted datetime string.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

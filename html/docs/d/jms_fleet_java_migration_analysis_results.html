@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_jms_fleet_java_migration_analysis_results</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_jms_fleet_java_migration_analysis_results</h1>
+
+<p>This data source provides the list of Fleet Java Migration Analysis Results in Oracle Cloud Infrastructure Jms service.</p>
+
+<p>Lists the results of a Java migration analysis.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_jms_fleet_java_migration_analysis_results&quot; &quot;test_fleet_java_migration_analysis_results&quot; {
+	#Required
+	fleet_id = oci_jms_fleet.test_fleet.id
+
+	#Optional
+	application_name = var.fleet_java_migration_analysis_result_application_name
+	host_name = var.fleet_java_migration_analysis_result_host_name
+	managed_instance_id = var.fleet_java_migration_analysis_result_managed_instance_id
+	time_end = var.fleet_java_migration_analysis_result_time_end
+	time_start = var.fleet_java_migration_analysis_result_time_start
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>application_name</code> - (Optional) The name of the application.</li>
+<li><code>fleet_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Fleet.</li>
+<li><code>host_name</code> - (Optional) The host <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the managed instance.</li>
+<li><code>managed_instance_id</code> - (Optional) The Fleet-unique identifier of the related managed instance.</li>
+<li><code>time_end</code> - (Optional) The end of the time period during which resources are searched (formatted according to <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>).</li>
+<li><code>time_start</code> - (Optional) The start of the time period during which resources are searched (formatted according to <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>).</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>java_migration_analysis_result_collection</code> - The list of java_migration_analysis_result_collection.</li>
+</ul>
+
+<h3>FleetJavaMigrationAnalysisResult Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>application_execution_type</code> - Execution type of the application for an application type, such as WAR and EAR, that is deployed or installed.</li>
+<li><code>application_key</code> - The unique key that identifies the application.</li>
+<li><code>application_name</code> - The name of the application for which the Java migration analysis was performed.</li>
+<li><code>application_path</code> - The installation path of the application for which the Java migration analysis was performed.</li>
+<li><code>bucket</code> - The name of the object storage bucket that contains the results of the migration analysis.</li>
+<li><code>fleet_id</code> - The fleet OCID.</li>
+<li><code>host_name</code> - The hostname of the managed instance that hosts the application for which the Java migration analysis was performed.</li>
+<li><code>id</code> - The OCID of the migration analysis report.</li>
+<li><code>managed_instance_id</code> - The managed instance OCID.</li>
+<li><code>metadata</code> - Additional info reserved for future use.</li>
+<li><code>namespace</code> - The object storage namespace that contains the results of the migration analysis.</li>
+<li><code>object_list</code> - The names of the object storage objects that contain the results of the migration analysis.</li>
+<li><code>object_storage_upload_dir_path</code> - The directory path of the object storage bucket that contains the results of the migration analysis.</li>
+<li><code>source_jdk_version</code> - The source JDK version of the application that&rsquo;s currently running.</li>
+<li><code>target_jdk_version</code> - The target JDK version of the application to be migrated.</li>
+<li><code>time_created</code> - The time the result is compiled.</li>
+<li><code>work_request_id</code> - The OCID of the work request of this analysis.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

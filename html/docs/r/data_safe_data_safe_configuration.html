@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_data_safe_data_safe_configuration</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_data_safe_data_safe_configuration</h1>
+
+<p>This resource provides the Data Safe Configuration resource in Oracle Cloud Infrastructure Data Safe service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/data-safe/latest/DataSafeConfiguration">https://docs.oracle.com/iaas/api/#/en/data-safe/latest/DataSafeConfiguration</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe">https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe</a></p>
+
+<p>Enables Data Safe in the tenancy and region.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_data_safe_data_safe_configuration&quot; &quot;test_data_safe_configuration&quot; {
+	#Required
+	is_enabled = var.data_safe_configuration_is_enabled
+
+	#Optional
+	compartment_id = var.compartment_id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Optional) (Updatable) A filter to return only resources that match the specified compartment OCID.</li>
+<li><code>is_enabled</code> - (Required) (Updatable) Indicates if Data Safe is enabled.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The OCID of the tenancy used to enable Data Safe.</li>
+<li><code>data_safe_nat_gateway_ip_address</code> - The Oracle Data Safe&rsquo;s NAT Gateway IP Address.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a> Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>global_settings</code> - Details of the tenancy level global settings in Data Safe.
+
+<ul>
+<li><code>is_paid_usage</code> - The paid usage option chosen by the customer admin.</li>
+<li><code>offline_retention_period</code> - The offline retention period in months.</li>
+<li><code>online_retention_period</code> - The online retention period in months.</li>
+</ul></li>
+<li><code>is_enabled</code> - Indicates if Data Safe is enabled.</li>
+<li><code>state</code> - The current state of Data Safe.</li>
+<li><code>time_enabled</code> - The date and time Data Safe was enabled, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>url</code> - The URL of the Data Safe service.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Data Safe Configuration
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Data Safe Configuration
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Data Safe Configuration</p>
+
+<h2>Import</h2>
+
+<p>Import is not supported for this resource.</p>
+
+	</div>
+
+</body>
+</html>

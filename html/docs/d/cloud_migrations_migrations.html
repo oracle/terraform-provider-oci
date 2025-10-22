@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_cloud_migrations_migrations</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_cloud_migrations_migrations</h1>
+
+<p>This data source provides the list of Migrations in Oracle Cloud Infrastructure Cloud Migrations service.</p>
+
+<p>Returns a list of migrations.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_cloud_migrations_migrations&quot; &quot;test_migrations&quot; {
+
+	#Optional
+	compartment_id = var.compartment_id
+	display_name = var.migration_display_name
+	migration_id = oci_cloud_migrations_migration.test_migration.id
+	state = var.migration_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Optional) The ID of the compartment in which to list resources.</li>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the entire given display name.</li>
+<li><code>migration_id</code> - (Optional) Unique migration identifier</li>
+<li><code>state</code> - (Optional) A filter to return only resources where the resource&rsquo;s lifecycle state matches the given lifecycle state.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>migration_collection</code> - The list of migration_collection.</li>
+</ul>
+
+<h3>Migration Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - Compartment Identifier</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>display_name</code> - Migration Identifier that can be renamed</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. It exists only for cross-compatibility. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - Unique identifier that is immutable on creation</li>
+<li><code>is_completed</code> - Indicates whether migration is marked as completed.</li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail. For example, it can be used to provide actionable information for a resource in Failed state.</li>
+<li><code>replication_schedule_id</code> - Replication schedule identifier</li>
+<li><code>state</code> - The current state of migration.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time when the migration project was created. An RFC3339 formatted datetime string</li>
+<li><code>time_updated</code> - The time when the migration project was updated. An RFC3339 formatted datetime string</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

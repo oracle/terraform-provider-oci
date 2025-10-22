@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_golden_gate_deployment_type</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_golden_gate_deployment_type</h1>
+
+<p>This data source provides details about a specific Deployment Type resource in Oracle Cloud Infrastructure Golden Gate service.</p>
+
+<p>Returns an array of DeploymentTypeDescriptor</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_golden_gate_deployment_type&quot; &quot;test_deployment_type&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	display_name = var.deployment_type_display_name
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment in which to list resources.</li>
+<li><code>display_name</code> - (Optional) A filter to return only the resources that match the entire &lsquo;displayName&rsquo; given.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - Array of DeploymentTypeSummary
+
+<ul>
+<li><code>category</code> - The deployment category defines the broad separation of the deployment type into categories.  Currently the separation is &lsquo;DATA_REPLICATION&rsquo; and &lsquo;STREAM_ANALYTICS&rsquo;.</li>
+<li><code>connection_types</code> - An array of connectionTypes.</li>
+<li><code>deployment_type</code> - The type of deployment, the value determines the exact &lsquo;type&rsquo; of service executed in the Deployment. NOTE: Use of the value &lsquo;OGG&rsquo; is maintained for backward compatibility purposes.  Its use is discouraged in favor of the equivalent &lsquo;DATABASE_ORACLE&rsquo; value.</li>
+<li><code>display_name</code> - An object&rsquo;s Display Name.</li>
+<li><code>source_technologies</code> - List of the supported technologies generally.  The value is a freeform text string generally consisting of a description of the technology and optionally the speific version(s) support.  For example, [ &ldquo;Oracle Database 19c&rdquo;, &ldquo;Oracle Exadata&rdquo;, &ldquo;OCI Streaming&rdquo; ]</li>
+<li><code>target_technologies</code> - List of the supported technologies generally.  The value is a freeform text string generally consisting of a description of the technology and optionally the speific version(s) support.  For example, [ &ldquo;Oracle Database 19c&rdquo;, &ldquo;Oracle Exadata&rdquo;, &ldquo;OCI Streaming&rdquo; ]</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

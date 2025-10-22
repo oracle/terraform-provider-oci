@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h3>Terraform OCI Provider Version 3</h3>
+
+<h4>New Installation</h4>
+
+<p>To use the latest OCI Terraform Provider, version 3, run <code>terraform init</code> on the directory that contains the configuration referencing the configuration block,
+<code>provider &quot;oci&quot; {</code>.</p>
+
+<blockquote>
+<p><strong>Note</strong>: If you have previously configured this environment to run v1 or v2 OCI Provider versions, you will need to
+employ the steps that follow.</p>
+</blockquote>
+
+<h4>Upgrading from v2</h4>
+
+<p>The simplest way to begin using the latest provider from the Hashicorp Provider registry is to place an explicit version requirement in your OCI Provider configuration block, as shown here:</p>
+
+<pre><code class="language-hcl">provider &quot;oci&quot; {
+  version          = &quot;&gt;= 3.0.0&quot;
+  region           = &quot;${var.region}&quot;
+  tenancy_ocid     = &quot;${var.tenancy_ocid}&quot;
+  user_ocid        = &quot;${var.user_ocid}&quot;
+  fingerprint      = &quot;${var.fingerprint}&quot;
+  private_key_path = &quot;${var.private_key_path}&quot;
+}
+</code></pre>
+
+<p>For guidance using additional version configuration options, see <a href="https://www.terraform.io/docs/configuration/providers.html#provider-versions">Provider Versions</a>.</p>
+
+<blockquote>
+<p><strong>Note</strong>: This approach leaves the previous provider configuration unchanged, and is the better approach if you need the environment to remain compatible with previous versions.</p>
+</blockquote>
+
+<p>To completely update a previously configured environment, remove the old provider from every location where it was added. While this is typically the <code>plugins</code> folder of the user&rsquo;s home directory (<code>~/.terraform.d/plugins</code>), it can also be found in the plugins folder of any Terraform configuration directory, for example,</p>
+
+<pre><code class="language-txt">…/my-plan-folder/.terraform/plugins/darwin_amd64/
+</code></pre>
+
+<h4>Upgrading from v1</h4>
+
+<p>Upgrading OCI Provider from v1 to v3 requires the same environment reconfiguration that is shown for the v2 upgrade. However, you must also change all of the plan and statefile references from <code>bmc</code> to <code>oci</code>. For detailed instructions, see the <a href="https://www.terraform.io/docs/providers/oci/guides/version-2-upgrade.html">Version 2 Upgrade Guide</a></p>
+
+	</div>
+
+</body>
+</html>

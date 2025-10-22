@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_data_safe_masking_analytics</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_data_safe_masking_analytics</h1>
+
+<p>This data source provides the list of Masking Analytics in Oracle Cloud Infrastructure Data Safe service.</p>
+
+<p>Gets consolidated masking analytics data based on the specified query parameters.
+If CompartmentIdInSubtreeQueryParam is specified as true, the behaviour
+is equivalent to accessLevel &ldquo;ACCESSIBLE&rdquo; by default.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_data_safe_masking_analytics&quot; &quot;test_masking_analytics&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	compartment_id_in_subtree = var.masking_analytic_compartment_id_in_subtree
+	group_by = var.masking_analytic_group_by
+	masking_policy_id = oci_data_safe_masking_policy.test_masking_policy.id
+	sensitive_type_id = oci_data_safe_sensitive_type.test_sensitive_type.id
+	target_database_group_id = oci_data_safe_target_database_group.test_target_database_group.id
+	target_id = oci_cloud_guard_target.test_target.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) A filter to return only resources that match the specified compartment OCID.</li>
+<li><code>compartment_id_in_subtree</code> - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the &lsquo;accessLevel&rsquo; setting.</li>
+<li><code>group_by</code> - (Optional) Attribute by which the masking analytics data should be grouped.</li>
+<li><code>masking_policy_id</code> - (Optional) A filter to return only the resources that match the specified masking policy OCID.</li>
+<li><code>sensitive_type_id</code> - (Optional) A filter to return only items related to a specific sensitive type OCID.</li>
+<li><code>target_database_group_id</code> - (Optional) A filter to return the target database group that matches the specified OCID.</li>
+<li><code>target_id</code> - (Optional) A filter to return only items related to a specific target OCID.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>masking_analytics_collection</code> - The list of masking_analytics_collection.</li>
+</ul>
+
+<h3>MaskingAnalytic Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - An array of masking analytics summary objects.
+
+<ul>
+<li><code>count</code> - The total count for the aggregation metric.</li>
+<li><code>dimensions</code> - The scope of analytics data.
+
+<ul>
+<li><code>policy_id</code> - The OCID of the masking policy.</li>
+<li><code>sensitive_type_id</code> - The OCID of the sensitive type masked.</li>
+<li><code>target_id</code> - The OCID of the target database.</li>
+</ul></li>
+<li><code>metric_name</code> - The name of the aggregation metric.</li>
+<li><code>time_last_masked</code> - The date and time the target database was last masked using a masking policy, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

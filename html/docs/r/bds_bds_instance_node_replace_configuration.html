@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_bds_bds_instance_node_replace_configuration</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_bds_bds_instance_node_replace_configuration</h1>
+
+<p>This resource provides the Bds Instance Node Replace Configuration resource in Oracle Cloud Infrastructure Big Data Service service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/bigdata/latest/BdsInstanceNodeReplaceConfiguration">https://docs.oracle.com/iaas/api/#/en/bigdata/latest/BdsInstanceNodeReplaceConfiguration</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/big_data_service">https://github.com/oracle/terraform-provider-oci/tree/master/examples/big_data_service</a></p>
+
+<p>Add a nodeReplaceConfigurations to the cluster.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_bds_bds_instance_node_replace_configuration&quot; &quot;test_bds_instance_node_replace_configuration&quot; {
+	#Required
+	bds_instance_id = oci_bds_bds_instance.test_bds_instance.id
+	cluster_admin_password = var.bds_instance_node_replace_configuration_cluster_admin_password
+	duration_in_minutes = var.bds_instance_node_replace_configuration_duration_in_minutes
+	level_type_details {
+		#Required
+		level_type = var.bds_instance_node_replace_configuration_level_type_details_level_type
+
+		#Optional
+		node_host_name = var.bds_instance_node_replace_configuration_level_type_details_node_host_name
+		node_type = var.bds_instance_node_replace_configuration_level_type_details_node_type
+	}
+	metric_type = var.bds_instance_node_replace_configuration_metric_type
+
+	#Optional
+	display_name = var.bds_instance_node_replace_configuration_display_name
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>bds_instance_id</code> - (Required) The OCID of the cluster.</li>
+<li><code>cluster_admin_password</code> - (Required) Base-64 encoded password for the cluster admin user.</li>
+<li><code>display_name</code> - (Optional) (Updatable) A user-friendly name. Only ASCII alphanumeric characters with no spaces allowed. The name does not have to be unique, and it may be changed. Avoid entering confidential information.</li>
+<li><code>duration_in_minutes</code> - (Required) (Updatable) This value is the minimum period of time to wait before triggering node replacement. The value is in minutes.</li>
+<li><code>level_type_details</code> - (Required) (Updatable) Details of the type of level used to trigger the creation of a new node backup configuration or node replacement configuration.
+
+<ul>
+<li><code>level_type</code> - (Required) (Updatable) Type of level used to trigger the creation of a new node backup configuration or node replacement configuration. Accepted values are NODE_LEVEL and NODE_TYPE_LEVEL.</li>
+<li><code>node_host_name</code> - (Required when level_type=NODE_LEVEL) (Updatable) Host name of the node to create backup configuration.</li>
+<li><code>node_type</code> - (Required when level_type=NODE_TYPE_LEVEL) (Updatable) Type of the node or nodes of the node backup configuration or node replacement configuration which are going to be created.</li>
+</ul></li>
+<li><code>metric_type</code> - (Required) (Updatable) Type of compute instance health metric to use for node replacement</li>
+<li><code>remove_trigger</code> - (Optional) (Updatable) An optional property when incremented triggers Remove. Could be set to any integer value.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>bds_instance_id</code> - The OCID of the bdsInstance which is the parent resource id.</li>
+<li><code>display_name</code> - A user-friendly name. Only ASCII alphanumeric characters with no spaces allowed. The name does not have to be unique, and it may be changed. Avoid entering confidential information.</li>
+<li><code>duration_in_minutes</code> - This value is the minimum period of time to wait for metric emission before triggering node replacement. The value is in minutes.</li>
+<li><code>id</code> - The unique identifier for the NodeReplaceConfiguration.</li>
+<li><code>level_type_details</code> - Details of the type of level used to trigger the creation of a new node backup configuration or node replacement configuration.
+
+<ul>
+<li><code>level_type</code> - Type of level used to trigger the creation of a new node backup configuration or node replacement configuration. Accepted values are NODE_LEVEL and NODE_TYPE_LEVEL.</li>
+<li><code>node_host_name</code> - Host name of the node to create backup configuration.</li>
+<li><code>node_type</code> - Type of the node or nodes of the node backup configuration or node replacement configuration which are going to be created.</li>
+</ul></li>
+<li><code>metric_type</code> - Type of compute instance health metric to use for node replacement</li>
+<li><code>state</code> - The state of the NodeReplaceConfiguration.</li>
+<li><code>time_created</code> - The time the NodeReplaceConfiguration was created, shown as an RFC 3339 formatted datetime string.</li>
+<li><code>time_updated</code> - The time the NodeReplaceConfiguration was updated, shown as an RFC 3339 formatted datetime string.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Bds Instance Node Replace Configuration
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Bds Instance Node Replace Configuration
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Bds Instance Node Replace Configuration</p>
+
+<h2>Import</h2>
+
+<p>BdsInstanceNodeReplaceConfigurations can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_bds_bds_instance_node_replace_configuration.test_bds_instance_node_replace_configuration &quot;bdsInstances/{bdsInstanceId}/nodeReplaceConfigurations/{nodeReplaceConfigurationId}&quot; 
+</code></pre>
+
+	</div>
+
+</body>
+</html>

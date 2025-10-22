@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_autonomous_container_database_dataguard_association</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_autonomous_container_database_dataguard_association</h1>
+
+<p>This data source provides details about a specific Autonomous Container Database Dataguard Association resource in Oracle Cloud Infrastructure Database service.</p>
+
+<p><strong>Deprecated.</strong> Use the <a href="https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/AutonomousContainerDatabase/GetAutonomousContainerDatabase">GetAutonomousContainerDatabase</a> operation to get the details of an Autonomous Container Database (ACD) enabled with Autonomous Data Guard associated with the specified ACD.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_autonomous_container_database_dataguard_association&quot; &quot;test_autonomous_container_database_dataguard_association&quot; {
+	#Required
+	autonomous_container_database_dataguard_association_id = oci_database_autonomous_container_database_dataguard_association.test_autonomous_container_database_dataguard_association.id
+	autonomous_container_database_id = oci_database_autonomous_container_database.test_autonomous_container_database.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>autonomous_container_database_dataguard_association_id</code> - (Required) The Autonomous Container Database-Autonomous Data Guard association <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>autonomous_container_database_id</code> - (Required) The Autonomous Container Database <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>apply_lag</code> - The lag time between updates to the primary Autonomous Container Database and application of the redo data on the standby Autonomous Container Database, as computed by the reporting database.  Example: <code>9 seconds</code></li>
+<li><code>apply_rate</code> - The rate at which redo logs are synchronized between the associated Autonomous Container Databases.  Example: <code>180 Mb per second</code></li>
+<li><code>autonomous_container_database_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Autonomous Container Database that has a relationship with the peer Autonomous Container Database. Used only by Autonomous Database on Dedicated Exadata Infrastructure.</li>
+<li><code>fast_start_fail_over_lag_limit_in_seconds</code> - The lag time for my preference based on data loss tolerance in seconds.</li>
+<li><code>id</code> - The OCID of the Autonomous Data Guard created for a given Autonomous Container Database.</li>
+<li><code>is_automatic_failover_enabled</code> - Indicates whether Automatic Failover is enabled for Autonomous Container Database Dataguard Association. Output DataType: boolean. Example : is_automatic_failover_enabled = true.</li>
+<li><code>lifecycle_details</code> - Additional information about the current lifecycleState, if available.</li>
+<li><code>peer_autonomous_container_database_dataguard_association_id</code> - The OCID of the peer Autonomous Container Database-Autonomous Data Guard association.</li>
+<li><code>peer_autonomous_container_database_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the peer Autonomous Container Database.</li>
+<li><code>peer_lifecycle_state</code> - The current state of the Autonomous Container Database.</li>
+<li><code>peer_role</code> - The Data Guard role of the Autonomous Container Database or Autonomous Database, if Autonomous Data Guard is enabled.</li>
+<li><code>protection_mode</code> - The protection mode of this Autonomous Data Guard association. For more information, see <a href="http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000">Oracle Data Guard Protection Modes</a> in the Oracle Data Guard documentation.</li>
+<li><code>role</code> - The Data Guard role of the Autonomous Container Database or Autonomous Database, if Autonomous Data Guard is enabled.</li>
+<li><code>state</code> - The current state of Autonomous Data Guard.</li>
+<li><code>time_created</code> - The date and time the Autonomous DataGuard association was created.</li>
+<li><code>time_last_role_changed</code> - The date and time when the last role change action happened.</li>
+<li><code>time_last_synced</code> - The date and time of the last update to the apply lag, apply rate, and transport lag values.</li>
+<li><code>transport_lag</code> - The approximate number of seconds of redo data not yet available on the standby Autonomous Container Database, as computed by the reporting database.  Example: <code>7 seconds</code></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

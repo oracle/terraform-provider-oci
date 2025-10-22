@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_dblm_patch_management</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_dblm_patch_management</h1>
+
+<p>This data source provides details about a specific Patch Management resource in Oracle Cloud Infrastructure Dblm service.</p>
+
+<p>Overview of Patch Management.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_dblm_patch_management&quot; &quot;test_patch_management&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	database_release = var.patch_management_database_release
+	state = var.patch_management_state
+	time_started_greater_than_or_equal_to = var.patch_management_time_started_greater_than_or_equal_to
+	time_started_less_than = var.patch_management_time_started_less_than
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The required ID of the compartment in which to list resources.</li>
+<li><code>database_release</code> - (Optional) A filter to return only database that match the given release version.</li>
+<li><code>state</code> - (Optional) A filter to return only resources their lifecycleState matches the given lifecycleState.</li>
+<li><code>time_started_greater_than_or_equal_to</code> - (Optional) A filter to return only resources whose timeStarted is greater than or equal to the given date-time.</li>
+<li><code>time_started_less_than</code> - (Optional) A filter to return only resources whose timeStarted is less than the given date-time.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - Compartment Identifier</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>images_patch_recommendation_summary</code> - Summary of image patches recommended to install.</li>
+<li><code>message</code> - A message describing the status of the feature&rsquo;s state</li>
+<li><code>patch_operations_summary</code> - Summary of patch operations.</li>
+<li><code>resources</code> - resources objects
+
+<ul>
+<li><code>agent_id</code> - The agent Id of the agent managing the resource.</li>
+<li><code>connector_id</code> - The connector Id of the resource.</li>
+<li><code>db_platform_type</code> - The platform type of the resource.</li>
+<li><code>db_version</code> - The version of the resource.</li>
+<li><code>deployment_type</code> - The deployment type of the resource.</li>
+<li><code>host_info</code> - host info objects
+
+<ul>
+<li><code>host_cores</code> - Number of host cores.</li>
+<li><code>host_name</code> - The name of the host.</li>
+</ul></li>
+<li><code>is_cluster_db</code> - True if it is a cluster db.</li>
+<li><code>license_type</code> - The License Type of the resource.</li>
+<li><code>resource_compartment_id</code> - The compartmentId of the resource.</li>
+<li><code>resource_id</code> - The Id of the resource.</li>
+<li><code>resource_name</code> - The name of the resource.</li>
+<li><code>resource_type</code> - The type of the resource.</li>
+</ul></li>
+<li><code>resources_patch_compliance_summary</code> - Summary of image patches to be compliant to install.</li>
+<li><code>state</code> - The current state of the feature.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_enabled</code> - The time the Vulnerability was enabled. An RFC3339 formatted datetime string.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

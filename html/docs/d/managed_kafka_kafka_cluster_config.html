@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_managed_kafka_kafka_cluster_config</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_managed_kafka_kafka_cluster_config</h1>
+
+<p>This data source provides details about a specific Kafka Cluster Config resource in Oracle Cloud Infrastructure Managed Kafka service.</p>
+
+<p>Gets information about a KafkaClusterConfig.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_managed_kafka_kafka_cluster_config&quot; &quot;test_kafka_cluster_config&quot; {
+	#Required
+	kafka_cluster_config_id = oci_managed_kafka_kafka_cluster_config.test_kafka_cluster_config.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>kafka_cluster_config_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the KafkaClusterConfig.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the KafkaClusterConfig.</li>
+<li><code>latest_config</code> - A shared configuration object used by 0 or more kafka clusters.
+
+<ul>
+<li><code>config_id</code> - ID cluster configuration</li>
+<li><code>properties</code> - Cluster configuration key-value pairs</li>
+<li><code>time_created</code> - The date and time the KafkaClusterConfigVersion was created, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a>. Example: <code>2016-08-25T21:10:29.600Z</code></li>
+<li><code>version_number</code> - Version of the cluster configuration</li>
+</ul></li>
+<li><code>lifecycle_details</code> - A message that describes the current state of the KafkaClusterConfig in more detail. For example, can be used to provide actionable information for a resource in the Failed state.</li>
+<li><code>state</code> - The current state of the KafkaClusterConfig.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace.  Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The date and time the KafkaClusterConfig was created, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a>.  Example: <code>2016-08-25T21:10:29.600Z</code></li>
+<li><code>time_updated</code> - The date and time the KafkaClusterConfig was updated, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a>.  Example: <code>2016-08-25T21:10:29.600Z</code></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

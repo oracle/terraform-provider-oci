@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_data_safe_security_policy_management</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_data_safe_security_policy_management</h1>
+
+<p>This resource provides the Security Policy Management resource in Oracle Cloud Infrastructure Data Safe service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/data-safe/latest/SecurityPolicyManagement">https://docs.oracle.com/iaas/api/#/en/data-safe/latest/SecurityPolicyManagement</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe">https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe</a></p>
+
+<p>Creates a Data Safe security policy.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_data_safe_security_policy_management&quot; &quot;test_security_policy_management&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	
+	#Optional
+	target_id = oci_data_safe_target_database.test_target_database.id
+	defined_tags = {&quot;Operations.CostCenter&quot;= &quot;42&quot;}
+	description = var.security_policy_management_description
+	display_name = var.security_policy_management_display_name
+	freeform_tags = {&quot;Department&quot;= &quot;Finance&quot;}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) (Updatable) The OCID of the compartment in which to create the security policy.</li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a> Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>target_id</code> - (Optional) Unique target identifier. If target id is not specified then new security policy will be created.</li>
+<li><code>description</code> - (Optional) (Updatable) The description of the security policy.</li>
+<li><code>display_name</code> - (Optional) (Updatable) The display name of the security policy. The name does not have to be unique, and it is changeable.</li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The OCID of the compartment containing the security policy.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a> Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - The description of the security policy.</li>
+<li><code>display_name</code> - The display name of the security policy.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The OCID of the security policy.</li>
+<li><code>lifecycle_details</code> - Details about the current state of the security policy in Data Safe.</li>
+<li><code>security_policy_type</code> - The type of the security policy.</li>
+<li><code>state</code> - The current state of the security policy.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time that the security policy was created, in the format defined by RFC3339.</li>
+<li><code>time_updated</code> - The last date and time the security policy was updated, in the format defined by RFC3339.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Security Policy Management
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Security Policy Management
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Security Policy Management</p>
+
+<h2>Import</h2>
+
+<p>Import is not supported for this resource.</p>
+
+	</div>
+
+</body>
+</html>

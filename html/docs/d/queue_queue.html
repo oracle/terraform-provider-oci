@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_queue_queue</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_queue_queue</h1>
+
+<p>This data source provides details about a specific Queue resource in Oracle Cloud Infrastructure Queue service.</p>
+
+<p>Gets a queue by identifier.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_queue_queue&quot; &quot;test_queue&quot; {
+	#Required
+	queue_id = oci_queue_queue.test_queue.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>queue_id</code> - (Required) The unique queue identifier.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>channel_consumption_limit</code> - The percentage of allocated queue resources that can be consumed by a single channel. For example, if a queue has a storage limit of 2Gb, and a single channel consumption limit is 0.1 (10%), that means data size of a single channel  can&rsquo;t exceed 200Mb. Consumption limit of 100% (default) means that a single channel can consume up-to all allocated queue&rsquo;s resources.</li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment containing the queue.</li>
+<li><code>custom_encryption_key_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the custom encryption key to be used to encrypt messages content.</li>
+<li><code>dead_letter_queue_delivery_count</code> - The number of times a message can be delivered to a consumer before being moved to the dead letter queue. A value of 0 indicates that the DLQ is not used.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>display_name</code> - A user-friendly name for the queue. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - A unique identifier for the queue that is immutable on creation.</li>
+<li><code>lifecycle_details</code> - Any additional details about the current state of the queue.</li>
+<li><code>messages_endpoint</code> - The endpoint to use to consume or publish messages in the queue.</li>
+<li><code>retention_in_seconds</code> - The retention period of the messages in the queue, in seconds.</li>
+<li><code>state</code> - The current state of the queue.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time that the queue was created, expressed in <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a> timestamp format.  Example: <code>2018-04-20T00:00:07.405Z</code></li>
+<li><code>time_updated</code> - The time that the queue was updated, expressed in <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a> timestamp format.  Example: <code>2018-04-20T00:00:07.405Z</code></li>
+<li><code>timeout_in_seconds</code> - The default polling timeout of the messages in the queue, in seconds.</li>
+<li><code>visibility_in_seconds</code> - The default visibility timeout of the messages consumed from the queue, in seconds.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

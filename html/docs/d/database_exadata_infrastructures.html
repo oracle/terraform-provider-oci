@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_exadata_infrastructures</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_exadata_infrastructures</h1>
+
+<p>This data source provides the list of Exadata Infrastructures in Oracle Cloud Infrastructure Database service.</p>
+
+<p>Lists the Exadata infrastructure resources in the specified compartment. Applies to Exadata Cloud@Customer instances only.
+To list the Exadata Cloud Service infrastructure resources in a compartment, use the  <a href="https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/CloudExadataInfrastructure/ListCloudExadataInfrastructures">ListCloudExadataInfrastructures</a> operation.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_exadata_infrastructures&quot; &quot;test_exadata_infrastructures&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	display_name = var.exadata_infrastructure_display_name
+	excluded_fields = var.exadata_infrastructure_excluded_fields
+	state = var.exadata_infrastructure_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The compartment <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.</li>
+<li><code>excluded_fields</code> - (Optional) If provided, the specified fields will be excluded in the response.</li>
+<li><code>state</code> - (Optional) A filter to return only resources that match the given lifecycle state exactly.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>exadata_infrastructures</code> - The list of exadata_infrastructures.</li>
+</ul>
+
+<h3>ExadataInfrastructure Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>activated_storage_count</code> - The requested number of additional storage servers activated for the Exadata infrastructure.</p></li>
+
+<li><p><code>additional_compute_count</code> - The requested number of additional compute servers for the Exadata infrastructure.</p></li>
+
+<li><p><code>additional_compute_system_model</code> - Oracle Exadata System Model specification. The system model determines the amount of compute or storage server resources available for use. For more information, please see <a href="https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/ecccm/ecc-system-config-options.html#GUID-9E090174-5C57-4EB1-9243-B470F9F10D6B">System and Shape Configuration Options</a></p></li>
+
+<li><p><code>additional_storage_count</code> - The requested number of additional storage servers for the Exadata infrastructure.</p></li>
+
+<li><p><code>admin_network_cidr</code> - The CIDR block for the Exadata administration network.</p></li>
+
+<li><p><code>availability_domain</code> - The name of the availability domain that the Exadata infrastructure is located in.</p></li>
+
+<li><p><code>cloud_control_plane_server1</code> - The IP address for the first control plane server.</p></li>
+
+<li><p><code>cloud_control_plane_server2</code> - The IP address for the second control plane server.</p></li>
+
+<li><p><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</p></li>
+
+<li><p><code>compute_count</code> - The number of compute servers for the Exadata infrastructure.</p></li>
+
+<li><p><code>compute_model</code> - The compute model of the Autonomous Database. This is required if using the <code>computeCount</code> parameter. If using <code>cpuCoreCount</code> then it is an error to specify <code>computeModel</code> to a non-null value. ECPU compute model is the recommended model and OCPU compute model is legacy.</p></li>
+
+<li><p><code>contacts</code> - The list of contacts for the Exadata infrastructure.</p>
+
+<ul>
+<li><code>email</code> - The email for the Exadata Infrastructure contact.</li>
+<li><code>is_contact_mos_validated</code> - If <code>true</code>, this Exadata Infrastructure contact is a valid My Oracle Support (MOS) contact. If <code>false</code>, this Exadata Infrastructure contact is not a valid MOS contact.</li>
+<li><code>is_primary</code> - If <code>true</code>, this Exadata Infrastructure contact is a primary contact. If <code>false</code>, this Exadata Infrastructure is a secondary contact.</li>
+<li><code>name</code> - The name of the Exadata Infrastructure contact.</li>
+<li><code>phone_number</code> - The phone number for the Exadata Infrastructure contact.</li>
+</ul></li>
+
+<li><p><code>corporate_proxy</code> - The corporate network proxy for access to the control plane network.</p></li>
+
+<li><p><code>cpus_enabled</code> - The number of enabled CPU cores.</p></li>
+
+<li><p><code>csi_number</code> - The CSI Number of the Exadata infrastructure.</p></li>
+
+<li><p><code>data_storage_size_in_tbs</code> - Size, in terabytes, of the DATA disk group.</p></li>
+
+<li><p><code>database_server_type</code> - The database server type of the Exadata infrastructure.</p></li>
+
+<li><p><code>db_node_storage_size_in_gbs</code> - The local node storage allocated in GBs.</p></li>
+
+<li><p><code>db_server_version</code> - The software version of the database servers (dom0) in the Exadata infrastructure.</p></li>
+
+<li><p><code>defined_file_system_configurations</code> - Details of the file system configuration of the Exadata infrastructure.</p>
+
+<ul>
+<li><code>is_backup_partition</code> - If true, the file system is used to create a backup prior to Exadata VM OS update.</li>
+<li><code>is_resizable</code> - If true, the file system resize is allowed for the Exadata Infrastructure cluster. If false, the file system resize is not allowed.</li>
+<li><code>min_size_gb</code> - The minimum size of file system.</li>
+<li><code>mount_point</code> - The mount point of file system.</li>
+</ul></li>
+
+<li><p><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</p></li>
+
+<li><p><code>display_name</code> - The user-friendly name for the Exadata Cloud@Customer infrastructure. The name does not need to be unique.</p></li>
+
+<li><p><code>dns_server</code> - The list of DNS server IP addresses. Maximum of 3 allowed.</p></li>
+
+<li><p><code>exascale_config</code> - The exascale config response details for the Exadata Cloud@Customer infrastructure or cloud Exadata infrastructure . Applies to both Exadata Cloud@Customer instances and Exadata Cloud Service instances.</p>
+
+<ul>
+<li><code>available_storage_in_gbs</code> - Available storage size for Exascale in GBs.</li>
+<li><code>total_storage_in_gbs</code> - Storage size needed for Exascale in GBs.</li>
+</ul></li>
+
+<li><p><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></p></li>
+
+<li><p><code>gateway</code> - The gateway for the control plane network.</p></li>
+
+<li><p><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Exadata infrastructure.</p></li>
+
+<li><p><code>infini_band_network_cidr</code> - The CIDR block for the Exadata InfiniBand interconnect.</p></li>
+
+<li><p><code>is_cps_offline_report_enabled</code> - Indicates whether cps offline diagnostic report is enabled for this Exadata infrastructure. This will allow a customer to quickly check status themselves and fix problems on their end, saving time and frustration for both Oracle and the customer when they find the CPS in a disconnected state.You can enable offline diagnostic report during Exadata infrastructure provisioning. You can also disable or enable it at any time using the UpdateExadatainfrastructure API.</p></li>
+
+<li><p><code>is_multi_rack_deployment</code> - Indicates if deployment is Multi-Rack or not.</p></li>
+
+<li><p><code>is_scheduling_policy_associated</code> - If true, the infrastructure is using granular maintenance scheduling preference.</p></li>
+
+<li><p><code>lifecycle_details</code> - Additional information about the current lifecycle state.</p></li>
+
+<li><p><code>maintenance_slo_status</code> - A field to capture ‘Maintenance SLO Status’ for the Exadata infrastructure with values ‘OK’, ‘DEGRADED’. Default is ‘OK’ when the infrastructure is provisioned.</p></li>
+
+<li><p><code>maintenance_window</code> - The scheduling details for the quarterly maintenance window. Patching and system updates take place during the maintenance window.</p>
+
+<ul>
+<li><p><code>custom_action_timeout_in_mins</code> - Determines the amount of time the system will wait before the start of each database server patching operation. Custom action timeout is in minutes and valid value is between 15 to 120 (inclusive).</p></li>
+
+<li><p><code>days_of_week</code> - Days during the week when maintenance should be performed.</p>
+
+<ul>
+<li><code>name</code> - Name of the day of the week.</li>
+</ul></li>
+
+<li><p><code>hours_of_day</code> - The window of hours during the day when maintenance should be performed. The window is a 4 hour slot. Valid values are</p>
+
+<ul>
+<li>0 - represents time slot 0:00 - 3:59 UTC - 4 - represents time slot 4:00 - 7:59 UTC - 8 - represents time slot 8:00 - 11:59 UTC - 12 - represents time slot 12:00 - 15:59 UTC - 16 - represents time slot 16:00 - 19:59 UTC - 20 - represents time slot 20:00 - 23:59 UTC</li>
+</ul></li>
+
+<li><p><code>is_custom_action_timeout_enabled</code> - If true, enables the configuration of a custom action timeout (waiting period) between database server patching operations.</p></li>
+
+<li><p><code>is_monthly_patching_enabled</code> - If true, enables the monthly patching option.</p></li>
+
+<li><p><code>lead_time_in_weeks</code> - Lead time window allows user to set a lead time to prepare for a down time. The lead time is in weeks and valid value is between 1 to 4.</p></li>
+
+<li><p><code>months</code> - Months during the year when maintenance should be performed.</p>
+
+<ul>
+<li><code>name</code> - Name of the month of the year.</li>
+</ul></li>
+
+<li><p><code>patching_mode</code> - Cloud Exadata infrastructure node patching method, either &ldquo;ROLLING&rdquo; or &ldquo;NONROLLING&rdquo;. Default value is ROLLING.</p>
+
+<p><em>IMPORTANT</em>: Non-rolling infrastructure patching involves system down time. See <a href="https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/examaintenance.htm#Oracle">Oracle-Managed Infrastructure Maintenance Updates</a> for more information.</p></li>
+
+<li><p><code>preference</code> - The maintenance window scheduling preference.</p></li>
+
+<li><p><code>weeks_of_month</code> - Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed.</p></li>
+</ul></li>
+
+<li><p><code>max_cpu_count</code> - The total number of CPU cores available.</p></li>
+
+<li><p><code>max_data_storage_in_tbs</code> - The total available DATA disk group size.</p></li>
+
+<li><p><code>max_db_node_storage_in_gbs</code> - The total local node storage available in GBs.</p></li>
+
+<li><p><code>max_memory_in_gbs</code> - The total memory available in GBs.</p></li>
+
+<li><p><code>memory_size_in_gbs</code> - The memory allocated in GBs.</p></li>
+
+<li><p><code>monthly_db_server_version</code> - The monthly software version of the database servers (dom0) in the Exadata infrastructure.</p></li>
+
+<li><p><code>multi_rack_configuration_file</code> - The base64 encoded Multi-Rack configuration json file.</p></li>
+
+<li><p><code>netmask</code> - The netmask for the control plane network.</p></li>
+
+<li><p><code>network_bonding_mode_details</code> - Details of bonding mode for Client and Backup and DR networks of an Exadata infrastructure.</p>
+
+<ul>
+<li><code>backup_network_bonding_mode</code> - The network bonding mode for the Exadata infrastructure.</li>
+<li><code>client_network_bonding_mode</code> - The network bonding mode for the Exadata infrastructure.</li>
+<li><code>dr_network_bonding_mode</code> - The network bonding mode for the Exadata infrastructure.</li>
+</ul></li>
+
+<li><p><code>ntp_server</code> - The list of NTP server IP addresses. Maximum of 3 allowed.</p></li>
+
+<li><p><code>rack_serial_number</code> - The serial number for the Exadata infrastructure.</p></li>
+
+<li><p><code>shape</code> - The shape of the Exadata infrastructure. The shape determines the amount of CPU, storage, and memory resources allocated to the instance.</p></li>
+
+<li><p><code>state</code> - The current lifecycle state of the Exadata infrastructure.</p></li>
+
+<li><p><code>storage_count</code> - The number of Exadata storage servers for the Exadata infrastructure.</p></li>
+
+<li><p><code>storage_server_type</code> - The storage server type of the Exadata infrastructure.</p></li>
+
+<li><p><code>storage_server_version</code> - The software version of the storage servers (cells) in the Exadata infrastructure.</p></li>
+
+<li><p><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</p></li>
+
+<li><p><code>time_created</code> - The date and time the Exadata infrastructure was created.</p></li>
+
+<li><p><code>time_zone</code> - The time zone of the Exadata infrastructure. For details, see <a href="https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm">Exadata Infrastructure Time Zones</a>.</p></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

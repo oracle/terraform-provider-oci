@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_golden_gate_message</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_golden_gate_message</h1>
+
+<p>This data source provides details about a specific Message resource in Oracle Cloud Infrastructure Golden Gate service.</p>
+
+<p>Lists the DeploymentMessages for a deployment. The sorting order is not important. By default first will be Upgrade message, next Exception message and then Storage Utilization message.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_golden_gate_message&quot; &quot;test_message&quot; {
+	#Required
+	deployment_id = oci_golden_gate_deployment.test_deployment.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>deployment_id</code> - (Required) A unique Deployment identifier.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - An array of DeploymentMessages.
+
+<ul>
+<li><code>deployment_message</code> - The deployment Message in plain text with optional HTML anchor tags.</li>
+<li><code>deployment_message_status</code> - The deployment Message Status.</li>
+<li><code>id</code> - The deployment Message Id.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

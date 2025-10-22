@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_management_managed_my_sql_database</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_management_managed_my_sql_database</h1>
+
+<p>This data source provides details about a specific Managed My Sql Database resource in Oracle Cloud Infrastructure Database Management service.</p>
+
+<p>Retrieves General Information for given MySQL Instance.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_management_managed_my_sql_database&quot; &quot;test_managed_my_sql_database&quot; {
+	#Required
+	managed_my_sql_database_id = oci_database_management_managed_my_sql_database.test_managed_my_sql_database.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>managed_my_sql_database_id</code> - (Required) The OCID of ManagedMySqlDatabase.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The OCID of the compartment.</li>
+<li><code>db_name</code> - The name of the MySQL Database.</li>
+<li><code>db_version</code> - The version of the MySQL Database.</li>
+<li><code>id</code> - The OCID of the Managed MySQL Database.</li>
+<li><code>time_created</code> - The date and time the Managed MySQL Database was created.</li>
+<li><code>heat_wave_cluster_display_name</code> - The name of the HeatWave cluster.</li>
+<li><code>heat_wave_management_type</code> - The customer&rsquo;s selected type for HeatWave management.</li>
+<li><code>heat_wave_memory_size</code> - The total memory belonging to the HeatWave cluster in GBs.</li>
+<li><code>heat_wave_node_shape</code> - The shape of the nodes in the HeatWave cluster.</li>
+<li><code>heat_wave_nodes</code> - The information about individual HeatWave nodes in the cluster.
+
+<ul>
+<li><code>id</code> - The ID associated with the HeatWave node.</li>
+<li><code>status</code> - The status of the HeatWave node. Indicates whether the status of the node is UP, DOWN, or UNKNOWN at the current time.</li>
+<li><code>time_created</code> - The date and time the HeatWave node was created.</li>
+</ul></li>
+<li><code>is_heat_wave_active</code> - Indicates whether the HeatWave cluster is active or not.</li>
+<li><code>is_heat_wave_enabled</code> - Indicates whether HeatWave is enabled for the MySQL Database System or not.</li>
+<li><code>is_lakehouse_enabled</code> - Indicates whether HeatWave Lakehouse is enabled for the MySQL Database System or not.</li>
+<li><code>name</code> - The name of the Managed MySQL Database.</li>
+<li><code>time_created_heat_wave</code> - The date and time the Managed MySQL Database was created.</li>
+<li><code>database_type</code> - The type of the MySQL Database. Indicates whether the database is external or MDS.</li>
+<li><code>management_state</code> - Indicates database management status.</li>
+<li><code>name</code> - The name of the Managed MySQL Database.</li>
+<li><code>state</code> - Indicates lifecycle  state of the resource.</li>
+<li><code>time_updated</code> - The date and time the Managed MySQL Database was updated.</li>
+<li><code>name</code> - The name of the Managed MySQL Database.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_desktops_desktop</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_desktops_desktop</h1>
+
+<p>This data source provides details about a specific Desktop resource in Oracle Cloud Infrastructure Desktops service.</p>
+
+<p>Provides information about the desktop with the specified OCID.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_desktops_desktop&quot; &quot;test_desktop&quot; {
+	#Required
+	desktop_id = oci_desktops_desktop.test_desktop.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>desktop_id</code> - (Required) The OCID of the desktop.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>device_policy</code> - Provides the settings for desktop and client device options, such as audio in and out, client drive mapping, and clipboard access.
+
+<ul>
+<li><code>audio_mode</code> - The audio mode. NONE: No access to the local audio devices is permitted. TODESKTOP: The user may record audio on their desktop.  FROMDESKTOP: The user may play audio on their desktop. FULL: The user may play and record audio on their desktop.</li>
+<li><code>cdm_mode</code> - The client local drive access mode. NONE: No access to local drives permitted. READONLY: The user may read from local drives on their desktop. FULL: The user may read from and write to their local drives on their desktop.<br>
+</li>
+<li><code>clipboard_mode</code> - The clipboard mode. NONE: No access to the local clipboard is permitted. TODESKTOP: The clipboard can be used to transfer data to the desktop only.  FROMDESKTOP: The clipboard can be used to transfer data from the desktop only. FULL: The clipboard can be used to transfer data to and from the desktop.</li>
+<li><code>is_display_enabled</code> - Indicates whether the display is enabled.</li>
+<li><code>is_keyboard_enabled</code> - Indicates whether the keyboard is enabled.</li>
+<li><code>is_pointer_enabled</code> - Indicates whether the pointer is enabled.</li>
+<li><code>is_printing_enabled</code> - Indicates whether printing is enabled.</li>
+</ul></li>
+<li><code>display_name</code> - A user friendly display name. Avoid entering confidential information.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>hosting_options</code> - Provides information about where a desktop is hosted.
+
+<ul>
+<li><code>connect_address</code> - The connection address of the desktop.</li>
+<li><code>image</code> - Provides information about the desktop image.
+
+<ul>
+<li><code>image_id</code> - The OCID of the desktop image.</li>
+<li><code>image_name</code> - The name of the desktop image.</li>
+<li><code>operating_system</code> - The operating system of the desktop image, e.g. &ldquo;Oracle Linux&rdquo;, &ldquo;Windows&rdquo;.</li>
+</ul></li>
+</ul></li>
+<li><code>id</code> - The OCID of the desktop.</li>
+<li><code>pool_id</code> - The OCID of the desktop pool the desktop is a member of.</li>
+<li><code>state</code> - The state of the desktop.</li>
+<li><code>time_created</code> - The date and time the resource was created.</li>
+<li><code>user_name</code> - The owner of the desktop.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

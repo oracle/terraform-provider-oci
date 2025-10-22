@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_dns_zone_stage_dnssec_key_version</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_dns_zone_stage_dnssec_key_version</h1>
+
+<p>This resource provides the Zone Stage Dnssec Key Version resource in Oracle Cloud Infrastructure DNS service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/dns/latest/ZoneStageDnssecKeyVersion">https://docs.oracle.com/iaas/api/#/en/dns/latest/ZoneStageDnssecKeyVersion</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/dns">https://github.com/oracle/terraform-provider-oci/tree/master/examples/dns</a></p>
+
+<p>Stages a new <code>DnssecKeyVersion</code> on the zone. Staging is a process that generates a new &ldquo;successor&rdquo; key version
+that replaces an existing &ldquo;predecessor&rdquo; key version.
+<strong>Note:</strong> A new key-signing key (KSK) version is inert until you update the parent zone DS records.</p>
+
+<p>For more information, see the <a href="https://docs.cloud.oracle.com/iaas/Content/DNS/Concepts/dnssec.htm">DNSSEC</a> documentation.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_dns_zone_stage_dnssec_key_version&quot; &quot;test_zone_stage_dnssec_key_version&quot; {
+	#Required
+	predecessor_dnssec_key_version_uuid = var.zone_stage_dnssec_key_version_predecessor_dnssec_key_version_uuid
+	zone_id = oci_dns_zone.test_zone.id
+
+	#Optional
+	scope = var.zone_stage_dnssec_key_version_scope
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>predecessor_dnssec_key_version_uuid</code> - (Required) The UUID of the <code>DnssecKeyVersion</code> for which a new successor should be generated.</li>
+<li><code>scope</code> - (Optional) Specifies to operate only on resources that have a matching DNS scope.</li>
+<li><code>zone_id</code> - (Required) The OCID of the target zone.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Zone Stage Dnssec Key Version
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Zone Stage Dnssec Key Version
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Zone Stage Dnssec Key Version</p>
+
+<h2>Import</h2>
+
+<p>Import is not supported for this resource.</p>
+
+	</div>
+
+</body>
+</html>

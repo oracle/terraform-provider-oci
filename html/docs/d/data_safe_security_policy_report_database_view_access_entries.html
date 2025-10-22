@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_data_safe_security_policy_report_database_view_access_entries</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_data_safe_security_policy_report_database_view_access_entries</h1>
+
+<p>This data source provides the list of Security Policy Report Database View Access Entries in Oracle Cloud Infrastructure Data Safe service.</p>
+
+<p>Retrieves a list of all database view access entries in Data Safe.</p>
+
+<p>The ListDatabaseViewAccessEntries operation returns only the database view access objects for the specified security policy report.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_data_safe_security_policy_report_database_view_access_entries&quot; &quot;test_security_policy_report_database_view_access_entries&quot; {
+	#Required
+	security_policy_report_id = oci_data_safe_security_policy_report.test_security_policy_report.id
+
+	#Optional
+	scim_query = var.security_policy_report_database_view_access_entry_scim_query
+	target_id = oci_cloud_guard_target.test_target.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>scim_query</code> - (Optional) The scimQuery query parameter accepts filter expressions that use the syntax described in Section 3.2.2.2 of the System for Cross-Domain Identity Management (SCIM) specification, which is available at <a href="https://tools.ietf.org/html/draft-ietf-scim-api-12">RFC3339</a>. In SCIM filtering expressions, text, date, and time values must be enclosed in quotation marks, with date and time values using ISO-8601 format. (Numeric and boolean values should not be quoted.)</p>
+
+<p><strong>Example:</strong> query=(accessType eq &lsquo;SELECT&rsquo;) and (grantee eq &lsquo;ADMIN&rsquo;)</p></li>
+
+<li><p><code>security_policy_report_id</code> - (Required) The OCID of the security policy report resource.</p></li>
+
+<li><p><code>target_id</code> - (Optional) A filter to return only items related to a specific target OCID.</p></li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>database_view_access_entry_collection</code> - The list of database_view_access_entry_collection.</li>
+</ul>
+
+<h3>SecurityPolicyReportDatabaseViewAccessEntry Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>access_type</code> - The type of the access the user has on the table, there can be one or more from SELECT, UPDATE, INSERT or DELETE.</li>
+<li><code>column_name</code> - If there are column level privileges on a table or view.</li>
+<li><code>grant_from_role</code> - This can be empty in case of direct grant, in case of indirect grant, this attribute displays the name of the  role which is granted to the user though which the user has access to the table.</li>
+<li><code>grantee</code> - Grantee is the user who can access the table or view</li>
+<li><code>grantor</code> - The user who granted the privilege.</li>
+<li><code>is_access_constrained_by_database_vault</code> - Indicates whether the table access is constrained via Oracle Database Vault.</li>
+<li><code>is_access_constrained_by_real_application_security</code> - Indicates whether the view access is constrained via Real Application Security.</li>
+<li><code>is_access_constrained_by_redaction</code> - Indicates whether the view access is constrained via Oracle Data Redaction.</li>
+<li><code>is_access_constrained_by_sql_firewall</code> - Indicates whether the view access is constrained via Oracle Database SQL Firewall.</li>
+<li><code>is_access_constrained_by_virtual_private_database</code> - Indicates whether the view access is constrained via Virtual Private Database.</li>
+<li><code>key</code> - The unique key that identifies the table access report. It is numeric and unique within a security policy report.</li>
+<li><code>privilege</code> - The name of the privilege.</li>
+<li><code>privilege_grantable</code> - Indicates whether the grantee can grant this privilege to other users. Privileges can be granted to a user or role with  GRANT_OPTION or ADMIN_OPTION</li>
+<li><code>privilege_type</code> - Type of the privilege user has, this includes System Privilege, Schema Privilege, Object Privilege, Column Privilege, Owner or Schema Privilege on a schema.</li>
+<li><code>table_name</code> - The name of the database table the user has access to.</li>
+<li><code>table_schema</code> - The name of the schema the table belongs to.</li>
+<li><code>target_id</code> - The OCID of the of the  target database.</li>
+<li><code>view_name</code> - The name of the view.</li>
+<li><code>view_schema</code> - The name of the schema.</li>
+<li><code>view_text</code> - Definition of the view.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

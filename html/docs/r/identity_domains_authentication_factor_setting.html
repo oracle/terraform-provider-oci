@@ -1,0 +1,3858 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_identity_domains_authentication_factor_setting</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_identity_domains_authentication_factor_setting</h1>
+
+<p>This resource provides the Authentication Factor Setting resource in Oracle Cloud Infrastructure Identity Domains service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/identity-domains/latest/AuthenticationFactorSetting">https://docs.oracle.com/iaas/api/#/en/identity-domains/latest/AuthenticationFactorSetting</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/identity_domains">https://github.com/oracle/terraform-provider-oci/tree/master/examples/identity_domains</a></p>
+
+<p>Replace Authentication Factor Settings</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_identity_domains_authentication_factor_setting&quot; &quot;test_authentication_factor_setting&quot; {
+	#Required
+	authentication_factor_setting_id = oci_identity_domains_authentication_factor_setting.test_authentication_factor_setting.id
+	bypass_code_enabled = var.authentication_factor_setting_bypass_code_enabled
+	bypass_code_settings {
+		#Required
+		help_desk_code_expiry_in_mins = var.authentication_factor_setting_bypass_code_settings_help_desk_code_expiry_in_mins
+		help_desk_generation_enabled = var.authentication_factor_setting_bypass_code_settings_help_desk_generation_enabled
+		help_desk_max_usage = var.authentication_factor_setting_bypass_code_settings_help_desk_max_usage
+		length = var.authentication_factor_setting_bypass_code_settings_length
+		max_active = &quot;6&quot;
+		self_service_generation_enabled = var.authentication_factor_setting_bypass_code_settings_self_service_generation_enabled
+	}
+	client_app_settings {
+		#Required
+		device_protection_policy = &quot;NONE&quot;
+		initial_lockout_period_in_secs = &quot;30&quot;
+		key_pair_length = &quot;2048&quot;
+		lockout_escalation_pattern = &quot;Constant&quot;
+		max_failures_before_lockout = &quot;10&quot;
+		max_failures_before_warning = &quot;5&quot;
+		max_lockout_interval_in_secs = &quot;86400&quot;
+		min_pin_length = &quot;6&quot;
+		policy_update_freq_in_days = var.authentication_factor_setting_client_app_settings_policy_update_freq_in_days
+		request_signing_algo = var.authentication_factor_setting_client_app_settings_request_signing_algo
+		shared_secret_encoding = var.authentication_factor_setting_client_app_settings_shared_secret_encoding
+		unlock_app_for_each_request_enabled = &quot;false&quot;
+		unlock_app_interval_in_secs = &quot;300&quot;
+		unlock_on_app_foreground_enabled = &quot;false&quot;
+		unlock_on_app_start_enabled = &quot;false&quot;
+	}
+	compliance_policy {
+		#Required
+		action = &quot;Allow&quot;
+		name = &quot;lockScreenRequired&quot;
+		value = &quot;false&quot;
+	}
+	endpoint_restrictions {
+		#Required
+		max_endpoint_trust_duration_in_days = &quot;180&quot;
+		max_enrolled_devices = var.authentication_factor_setting_endpoint_restrictions_max_enrolled_devices
+		max_incorrect_attempts = &quot;20&quot;
+		max_trusted_endpoints = &quot;20&quot;
+		trusted_endpoints_enabled = var.authentication_factor_setting_endpoint_restrictions_trusted_endpoints_enabled
+	}
+	idcs_endpoint = data.oci_identity_domain.test_domain.url
+	mfa_enrollment_type = var.authentication_factor_setting_mfa_enrollment_type
+	notification_settings {
+		#Required
+		pull_enabled = var.authentication_factor_setting_notification_settings_pull_enabled
+	}
+	push_enabled = var.authentication_factor_setting_push_enabled
+	schemas = [&quot;urn:ietf:params:scim:schemas:oracle:idcs:AuthenticationFactorSettings&quot;]
+	security_questions_enabled = var.authentication_factor_setting_security_questions_enabled
+	sms_enabled = var.authentication_factor_setting_sms_enabled
+	totp_enabled = var.authentication_factor_setting_totp_enabled
+	totp_settings {
+		#Required
+		email_otp_validity_duration_in_mins = var.authentication_factor_setting_totp_settings_email_otp_validity_duration_in_mins
+		email_passcode_length = &quot;6&quot;
+		hashing_algorithm = var.authentication_factor_setting_totp_settings_hashing_algorithm
+		jwt_validity_duration_in_secs = &quot;300&quot;
+		key_refresh_interval_in_days = &quot;60&quot;
+		passcode_length = &quot;6&quot;
+		sms_otp_validity_duration_in_mins = &quot;6&quot;
+		sms_passcode_length = &quot;6&quot;
+		time_step_in_secs = &quot;30&quot;
+		time_step_tolerance = &quot;3&quot;
+	}
+
+	#Optional
+	attribute_sets = []
+	attributes = &quot;&quot;
+	authorization = var.authentication_factor_setting_authorization
+	auto_enroll_email_factor_disabled = var.authentication_factor_setting_auto_enroll_email_factor_disabled
+	email_enabled = var.authentication_factor_setting_email_enabled
+	email_settings {
+		#Required
+		email_link_enabled = var.authentication_factor_setting_email_settings_email_link_enabled
+
+		#Optional
+		email_link_custom_url = var.authentication_factor_setting_email_settings_email_link_custom_url
+	}
+	fido_authenticator_enabled = var.authentication_factor_setting_fido_authenticator_enabled
+	hide_backup_factor_enabled = var.authentication_factor_setting_hide_backup_factor_enabled
+	id = var.authentication_factor_setting_id
+	identity_store_settings {
+
+		#Optional
+		mobile_number_enabled = var.authentication_factor_setting_identity_store_settings_mobile_number_enabled
+		mobile_number_update_enabled = var.authentication_factor_setting_identity_store_settings_mobile_number_update_enabled
+	}
+	ocid = var.authentication_factor_setting_ocid
+	phone_call_enabled = var.authentication_factor_setting_phone_call_enabled
+	resource_type_schema_version = var.authentication_factor_setting_resource_type_schema_version
+	tags {
+		#Required
+		key = var.authentication_factor_setting_tags_key
+		value = var.authentication_factor_setting_tags_value
+	}
+	third_party_factor {
+		#Required
+		duo_security = var.authentication_factor_setting_third_party_factor_duo_security
+	}
+	urnietfparamsscimschemasoracleidcsextensionfido_authentication_factor_settings {
+		#Required
+		attestation = &quot;NONE&quot;
+		authenticator_selection_attachment = &quot;BOTH&quot;
+		authenticator_selection_require_resident_key = &quot;false&quot;
+		authenticator_selection_resident_key = &quot;NONE&quot;
+		authenticator_selection_user_verification = var.authentication_factor_setting_urnietfparamsscimschemasoracleidcsextensionfido_authentication_factor_settings_authenticator_selection_user_verification
+		exclude_credentials = &quot;false&quot;
+		public_key_types = [&quot;RS1&quot;]
+		timeout = &quot;60000&quot;
+
+		#Optional
+		domain_validation_level = &quot;1&quot;
+	}
+	urnietfparamsscimschemasoracleidcsextensionthird_party_authentication_factor_settings {
+
+		#Optional
+		duo_security_settings {
+			#Required
+			api_hostname = var.authentication_factor_setting_urnietfparamsscimschemasoracleidcsextensionthird_party_authentication_factor_settings_duo_security_settings_api_hostname
+			integration_key = var.authentication_factor_setting_urnietfparamsscimschemasoracleidcsextensionthird_party_authentication_factor_settings_duo_security_settings_integration_key
+			secret_key = var.authentication_factor_setting_urnietfparamsscimschemasoracleidcsextensionthird_party_authentication_factor_settings_duo_security_settings_secret_key
+			user_mapping_attribute = var.authentication_factor_setting_urnietfparamsscimschemasoracleidcsextensionthird_party_authentication_factor_settings_duo_security_settings_user_mapping_attribute
+
+			#Optional
+			attestation_key = var.authentication_factor_setting_urnietfparamsscimschemasoracleidcsextensionthird_party_authentication_factor_settings_duo_security_settings_attestation_key
+		}
+	}
+	user_enrollment_disabled_factors = var.authentication_factor_setting_user_enrollment_disabled_factors
+	yubico_otp_enabled = var.authentication_factor_setting_yubico_otp_enabled
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>attribute_sets</code> - (Optional) (Updatable) A multi-valued list of strings indicating the return type of attribute definition. The specified set of attributes can be fetched by the return type of the attribute. One or more values can be given together to fetch more than one group of attributes. If &lsquo;attributes&rsquo; query parameter is also available, union of the two is fetched. Valid values - all, always, never, request, default. Values are case-insensitive.</p></li>
+
+<li><p><code>attributes</code> - (Optional) (Updatable) A comma-delimited string that specifies the names of resource attributes that should be returned in the response. By default, a response that contains resource attributes contains only attributes that are defined in the schema for that resource type as returned=always or returned=default. An attribute that is defined as returned=request is returned in a response only if the request specifies its name in the value of this query parameter. If a request specifies this query parameter, the response contains the attributes that this query parameter specifies, as well as any attribute that is defined as returned=always.</p></li>
+
+<li><p><code>authentication_factor_setting_id</code> - (Required) ID of the resource</p></li>
+
+<li><p><code>authorization</code> - (Optional) (Updatable) The Authorization field value consists of credentials containing the authentication information of the user agent for the realm of the resource being requested.</p></li>
+
+<li><p><code>auto_enroll_email_factor_disabled</code> - (Optional) (Updatable) If true, indicates that email will not be enrolled as a MFA factor automatically if it a account recovery factor</p>
+
+<p><strong>Added In:</strong> 2011192329</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>bypass_code_enabled</code> - (Required) (Updatable) If true, indicates that Bypass Code is enabled for authentication</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>bypass_code_settings</code> - (Required) (Updatable) Settings related to the bypass code, such as bypass code length, bypass code expiry, max active bypass codes, and so on</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: false</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readWrite</p></li>
+
+<li><p>required: true</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>help_desk_code_expiry_in_mins</code> - (Required) (Updatable) Expiry (in minutes) of any bypass code that is generated by the help desk</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 9999999</li>
+<li>idcsMinValue: 1</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>help_desk_generation_enabled</code> - (Required) (Updatable) If true, indicates that help desk bypass code generation is enabled</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>help_desk_max_usage</code> - (Required) (Updatable) The maximum number of times that any bypass code that is generated by the help desk can be used</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 999</li>
+<li>idcsMinValue: 1</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>length</code> - (Required) (Updatable) Exact length of the bypass code to be generated</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 20</li>
+<li>idcsMinValue: 8</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>max_active</code> - (Required) (Updatable) The maximum number of bypass codes that can be issued to any user</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 6</li>
+<li>idcsMinValue: 1</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>self_service_generation_enabled</code> - (Required) (Updatable) If true, indicates that self-service bypass code generation is enabled</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>client_app_settings</code> - (Required) (Updatable) Settings related to compliance, Personal Identification Number (PIN) policy, and so on</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: false</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readWrite</p></li>
+
+<li><p>required: true</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>device_protection_policy</code> - (Required) (Updatable) Indicates what protection policy that the system applies on a device. By default, the value is NONE, which indicates that the system applies no protection policy. A value of APP_PIN indicates that the system requires a Personal Identification Number (PIN). A value of DEVICE_BIOMETRIC_OR_APP_PIN indicates that either a PIN or a biometric authentication factor is required.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsCanonicalValueSourceFilter: attrName eq &ldquo;deviceProtectionPolicy&rdquo; and attrValues.value eq &ldquo;$(deviceProtectionPolicy)&rdquo;</li>
+<li>idcsCanonicalValueSourceResourceType: AllowedValue</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>initial_lockout_period_in_secs</code> - (Required) (Updatable) The period of time in seconds that the system will lock a user out of the service after that user exceeds the maximum number of login failures</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 86400</li>
+<li>idcsMinValue: 30</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>key_pair_length</code> - (Required) (Updatable) The size of the key that the system uses to generate the public-private key pair</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 4000</li>
+<li>idcsMinValue: 32</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>lockout_escalation_pattern</code> - (Required) (Updatable) The pattern of escalation that the system follows, in locking a particular user out of the service.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsCanonicalValueSourceFilter: attrName eq &ldquo;lockoutEscalationPattern&rdquo; and attrValues.value eq &ldquo;$(lockoutEscalationPattern)&rdquo;</li>
+<li>idcsCanonicalValueSourceResourceType: AllowedValue</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>max_failures_before_lockout</code> - (Required) (Updatable) The maximum number of times that a particular user can fail to login before the system locks that user out of the service</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 10</li>
+<li>idcsMinValue: 5</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>max_failures_before_warning</code> - (Required) (Updatable) The maximum number of login failures that the system will allow before raising a warning and sending an alert via email</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 10</li>
+<li>idcsMinValue: 0</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>max_lockout_interval_in_secs</code> - (Required) (Updatable) The maximum period of time that the system will lock a particular user out of the service regardless of what the configured pattern of escalation would otherwise dictate</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 86400</li>
+<li>idcsMinValue: 30</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>min_pin_length</code> - (Required) (Updatable) Minimum length of the Personal Identification Number (PIN)</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 10</li>
+<li>idcsMinValue: 6</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>policy_update_freq_in_days</code> - (Required) (Updatable) The period of time in days after which a client should refresh its policy by re-reading that policy from the server</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 999</li>
+<li>idcsMinValue: 1</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>request_signing_algo</code> - (Required) (Updatable) Indicates which algorithm the system will use to sign requests</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>shared_secret_encoding</code> - (Required) (Updatable) Indicates the type of encoding that the system should use to generate a shared secret</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>unlock_app_for_each_request_enabled</code> - (Required) (Updatable) If true, indicates that the system should require the user to unlock the client app for each request. In order to unlock the App, the user must supply a Personal Identification Number (PIN) or a biometric authentication-factor.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>unlock_app_interval_in_secs</code> - (Required) (Updatable) Specifies the period of time in seconds after which the client App should require the user to unlock the App. In order to unlock the App, the user must supply a Personal Identification Number (PIN) or a biometric authentication-factor. A value of zero means that it is disabled.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 9999999</li>
+<li>idcsMinValue: 0</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>unlock_on_app_foreground_enabled</code> - (Required) (Updatable) If true, indicates that the system should require the user to unlock the client App, when the client App comes to the foreground in the display of the device. In order to unlock the App, the user must supply a Personal Identification Number (PIN) or a biometric authentication-factor.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>unlock_on_app_start_enabled</code> - (Required) (Updatable) If true, indicates that the system should require the user to unlock the client App whenever the App is started. In order to unlock the App, the user must supply a Personal Identification Number (PIN) or a biometric authentication-factor.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>compartment_ocid</code> - (Optional) (Updatable) Oracle Cloud Infrastructure Compartment Id (ocid) in which the resource lives.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>compliance_policy</code> - (Required) (Updatable) Compliance Policy that defines actions to be taken when a condition is violated</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsCompositeKey: [name]</p></li>
+
+<li><p>idcsSearchable: false</p></li>
+
+<li><p>multiValued: true</p></li>
+
+<li><p>mutability: readWrite</p></li>
+
+<li><p>required: true</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>action</code> - (Required) (Updatable) The action to be taken if the value of the attribute is not as expected</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>name</code> - (Required) (Updatable) The name of the attribute being evaluated</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - (Required) (Updatable) The value of the attribute to be evaluated</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>delete_in_progress</code> - (Optional) (Updatable) A boolean flag indicating this resource in the process of being deleted. Usually set to true when synchronous deletion of the resource would take too long.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>domain_ocid</code> - (Optional) (Updatable) Oracle Cloud Infrastructure Domain Id (ocid) in which the resource lives.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>email_enabled</code> - (Optional) (Updatable) If true, indicates that the EMAIL channel is enabled for authentication</p>
+
+<p><strong>Added In:</strong> 18.1.2</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>email_settings</code> - (Optional) (Updatable) Settings related to Email Factor, such as enabled email magic link factor, custom url for Email Link</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: false</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readWrite</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>email_link_custom_url</code> - (Optional) (Updatable) Custom redirect Url which will be used in email link</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>email_link_enabled</code> - (Required) (Updatable) Specifies whether Email link is enabled or not.</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>endpoint_restrictions</code> - (Required) (Updatable) Settings that describe the set of restrictions that the system should apply to devices and trusted endpoints of a user</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: false</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readWrite</p></li>
+
+<li><p>required: true</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>max_endpoint_trust_duration_in_days</code> - (Required) (Updatable) Maximum number of days until an endpoint can be trusted</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 180</li>
+<li>idcsMinValue: 1</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>max_enrolled_devices</code> - (Required) (Updatable) Maximum number of enrolled devices per user</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 20</li>
+<li>idcsMinValue: 1</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>max_incorrect_attempts</code> - (Required) (Updatable) An integer that represents the maximum number of failed MFA logins before an account is locked</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 20</li>
+<li>idcsMinValue: 5</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>max_trusted_endpoints</code> - (Required) (Updatable) Max number of trusted endpoints per user</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 20</li>
+<li>idcsMinValue: 1</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>trusted_endpoints_enabled</code> - (Required) (Updatable) Specify if trusted endpoints are enabled</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>fido_authenticator_enabled</code> - (Optional) (Updatable) If true, indicates that the Fido Authenticator channels are enabled for authentication</p>
+
+<p><strong>Added In:</strong> 2009232244</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>hide_backup_factor_enabled</code> - (Optional) (Updatable) If true, indicates that &lsquo;Show backup factor(s)&rsquo; button will be hidden during authentication</p>
+
+<p><strong>Added In:</strong> 19.3.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>id</code> - (Optional) (Updatable) Unique identifier for the SCIM Resource as defined by the Service Provider. Each representation of the Resource MUST include a non-empty id value. This identifier MUST be unique across the Service Provider&rsquo;s entire set of Resources. It MUST be a stable, non-reassignable identifier that does not change when the same Resource is returned in subsequent requests. The value of the id attribute is always issued by the Service Provider and MUST never be specified by the Service Consumer. bulkId: is a reserved keyword and MUST NOT be used in the unique identifier.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: always</li>
+<li>type: string</li>
+<li>uniqueness: global</li>
+</ul></li>
+
+<li><p><code>idcs_created_by</code> - (Optional) (Updatable) The User or App who created the Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readOnly</p></li>
+
+<li><p>required: true</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p><code>display</code> - (Optional) (Updatable) The displayName of the User or App who created this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>ocid</code> - (Optional) (Updatable) The OCID of the SCIM resource that represents the User or App who created this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>ref</code> - (Optional) (Updatable) The URI of the SCIM resource that represents the User or App who created this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: reference</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>type</code> - (Optional) (Updatable) The type of resource, User or App, that created this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - (Required) (Updatable) The ID of the SCIM resource that represents the User or App who created this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>idcs_endpoint</code> - (Required) The basic endpoint for the identity domain</p></li>
+
+<li><p><code>idcs_last_modified_by</code> - (Optional) (Updatable) The User or App who modified the Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readOnly</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p><code>display</code> - (Optional) (Updatable) The displayName of the User or App who modified this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>ocid</code> - (Optional) (Updatable) The OCID of the SCIM resource that represents the User or App who modified this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>ref</code> - (Optional) (Updatable) The URI of the SCIM resource that represents the User or App who modified this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: reference</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>type</code> - (Optional) (Updatable) The type of resource, User or App, that modified this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - (Required) (Updatable) The ID of the SCIM resource that represents the User or App who modified this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>idcs_last_upgraded_in_release</code> - (Optional) (Updatable) The release number when the resource was upgraded.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: request</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>idcs_prevented_operations</code> - (Optional) (Updatable) Each value of this attribute specifies an operation that only an internal client may perform on this particular resource.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: true</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: request</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>identity_store_settings</code> - (Optional) (Updatable) Settings related to the use of a user&rsquo;s profile details from the identity store</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: false</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readWrite</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>mobile_number_enabled</code> - (Optional) (Updatable) If true, indicates that Multi-Factor Authentication should use the mobile number in the identity store</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>mobile_number_update_enabled</code> - (Optional) (Updatable) If true, indicates that the user can update the mobile number in the user&rsquo;s Multi-Factor Authentication profile</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>meta</code> - (Optional) (Updatable) A complex attribute that contains resource metadata. All sub-attributes are OPTIONAL.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>caseExact: false</p></li>
+
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readOnly</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>idcsCsvAttributeNameMappings: [[columnHeaderName:Created Date, mapsTo:meta.created]]</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p><code>created</code> - (Optional) (Updatable) The DateTime the Resource was added to the Service Provider</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: dateTime</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>last_modified</code> - (Optional) (Updatable) The most recent DateTime that the details of this Resource were updated at the Service Provider. If this Resource has never been modified since its initial creation, the value MUST be the same as the value of created. The attribute MUST be a DateTime.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: dateTime</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>location</code> - (Optional) (Updatable) The URI of the Resource being returned. This value MUST be the same as the Location HTTP response header.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>resource_type</code> - (Optional) (Updatable) Name of the resource type of the resource&ndash;for example, Users or Groups</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>version</code> - (Optional) (Updatable) The version of the Resource being returned. This value must be the same as the ETag HTTP response header.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>mfa_enabled_category</code> - (Optional) (Updatable) Specifies the category of people for whom Multi-Factor Authentication is enabled. This is a readOnly attribute which reflects the value of mfaEnabledCategory attribute in SsoSettings</p>
+
+<p><strong>Deprecated Since: 18.1.2</strong></p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>mfa_enrollment_type</code> - (Required) (Updatable) Specifies if Multi-Factor Authentication enrollment is mandatory or optional for a user</p>
+
+<p><strong>Deprecated Since: 18.1.2</strong></p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsCanonicalValueSourceFilter: attrName eq &ldquo;mfaEnrollmentType&rdquo; and attrValues.value eq &ldquo;$(mfaEnrollmentType)&rdquo;</li>
+<li>idcsCanonicalValueSourceResourceType: AllowedValue</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>notification_settings</code> - (Required) (Updatable) Settings related to the Mobile App Notification channel, such as pull</p>
+
+<p><strong>Added In:</strong> 17.4.2</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: false</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readWrite</p></li>
+
+<li><p>required: true</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>pull_enabled</code> - (Required) (Updatable) If true, indicates that the Mobile App Pull Notification channel is enabled for authentication</p>
+
+<p><strong>Added In:</strong> 17.4.2</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>ocid</code> - (Optional) (Updatable) Unique Oracle Cloud Infrastructure identifier for the SCIM Resource.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: immutable</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: global</li>
+</ul></li>
+
+<li><p><code>phone_call_enabled</code> - (Optional) (Updatable) If true, indicates that the phone (PHONE_CALL) channel is enabled for authentication</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>push_enabled</code> - (Required) (Updatable) If true, indicates that the Mobile App Push Notification channel is enabled for authentication</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>resource_type_schema_version</code> - (Optional) (Updatable) An endpoint-specific schema version number to use in the Request. Allowed version values are Earliest Version or Latest Version as specified in each REST API endpoint description, or any sequential number inbetween. All schema attributes/body parameters are a part of version 1. After version 1, any attributes added or deprecated will be tagged with the version that they were added to or deprecated in. If no version is provided, the latest schema version is returned.</p></li>
+
+<li><p><code>schemas</code> - (Required) (Updatable) REQUIRED. The schemas attribute is an array of Strings which allows introspection of the supported schema version for a SCIM representation as well any schema extensions supported by that representation. Each String value must be a unique URI. This specification defines URIs for User, Group, and a standard \&ldquo;enterprise\&rdquo; extension. All representations of SCIM schema MUST include a non-zero value array with value(s) of the URIs supported by that representation. Duplicate values MUST NOT be included. Value order is not specified and MUST not impact behavior.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: true</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>security_questions_enabled</code> - (Required) (Updatable) If true, indicates that Security Questions are enabled for authentication</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>sms_enabled</code> - (Required) (Updatable) If true, indicates that the Short Message Service (SMS) channel is enabled for authentication</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>tags</code> - (Optional) (Updatable) A list of tags on this resource.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsCompositeKey: [key, value]</p></li>
+
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: true</p></li>
+
+<li><p>mutability: readWrite</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: request</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>key</code> - (Required) (Updatable) Key or name of the tag.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - (Required) (Updatable) Value of the tag.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>tenancy_ocid</code> - (Optional) (Updatable) Oracle Cloud Infrastructure Tenant Id (ocid) in which the resource lives.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>third_party_factor</code> - (Optional) (Updatable) Settings related to third-party factor</p>
+
+<p><strong>Added In:</strong> 19.2.1</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: false</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readWrite</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>duo_security</code> - (Required) (Updatable) To enable Duo Security factor</p>
+
+<p><strong>Added In:</strong> 19.2.1</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>totp_enabled</code> - (Required) (Updatable) If true, indicates that the Mobile App One Time Passcode channel is enabled for authentication</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>totp_settings</code> - (Required) (Updatable) Settings related to Time-Based One-Time Passcodes (TOTP), such as hashing algo, totp time step, passcode length, and so on</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: false</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readWrite</p></li>
+
+<li><p>required: true</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>email_otp_validity_duration_in_mins</code> - (Required) (Updatable) The period of time (in minutes) that a one-time passcode remains valid that the system sends by email.</p>
+
+<p><strong>Added In:</strong> 18.1.2</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 60</li>
+<li>idcsMinValue: 2</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>email_passcode_length</code> - (Required) (Updatable) Exact length of the email one-time passcode.</p>
+
+<p><strong>Added In:</strong> 18.1.2</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 10</li>
+<li>idcsMinValue: 4</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>hashing_algorithm</code> - (Required) (Updatable) The hashing algorithm to be used to calculate a One-Time Passcode. By default, the system uses SHA1.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>jwt_validity_duration_in_secs</code> - (Required) (Updatable) The period of time (in seconds) that a JSON Web Token (JWT) is valid</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 99999</li>
+<li>idcsMinValue: 30</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>key_refresh_interval_in_days</code> - (Required) (Updatable) The duration of time (in days) after which the shared secret has to be refreshed</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 999</li>
+<li>idcsMinValue: 30</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>passcode_length</code> - (Required) (Updatable) Exact length of the One-Time Passcode that the system should generate</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 10</li>
+<li>idcsMinValue: 4</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>sms_otp_validity_duration_in_mins</code> - (Required) (Updatable) The period of time (in minutes) for which a One-Time Passcode that the system sends by Short Message Service (SMS) or by voice remains valid</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 60</li>
+<li>idcsMinValue: 2</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>sms_passcode_length</code> - (Required) (Updatable) Exact length of the Short Message Service (SMS) One-Time Passcode</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 10</li>
+<li>idcsMinValue: 4</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>time_step_in_secs</code> - (Required) (Updatable) Time (in secs) to be used as the time step</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 300</li>
+<li>idcsMinValue: 30</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>time_step_tolerance</code> - (Required) (Updatable) The tolerance/step-size that the system should use when validating a One-Time Passcode</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 3</li>
+<li>idcsMinValue: 2</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>urnietfparamsscimschemasoracleidcsextensionfido_authentication_factor_settings</code> - (Optional) (Updatable) This extension defines attributes used to manage Multi-Factor Authentication settings of fido authentication</p>
+
+<ul>
+<li><p><code>attestation</code> - (Required) (Updatable) Attribute used to define the type of attestation required.</p>
+
+<p><strong>Added In:</strong> 2009232244</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>authenticator_selection_attachment</code> - (Required) (Updatable) Attribute used to define authenticator selection attachment.</p>
+
+<p><strong>Added In:</strong> 2009232244</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>authenticator_selection_require_resident_key</code> - (Required) (Updatable) Flag used to indicate authenticator selection is required or not</p>
+
+<p><strong>Added In:</strong> 2009232244</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>authenticator_selection_resident_key</code> - (Required) (Updatable) Attribute used to define authenticator selection resident key requirement.</p>
+
+<p><strong>Added In:</strong> 2009232244</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>authenticator_selection_user_verification</code> - (Required) (Updatable) Attribute used to define authenticator selection verification.</p>
+
+<p><strong>Added In:</strong> 2009232244</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>domain_validation_level</code> - (Optional) (Updatable) Number of domain levels Oracle Identity Cloud Service should use for origin comparision</p>
+
+<p><strong>Added In:</strong> 2109020413</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>idcsMaxValue: 2</li>
+<li>idcsMinValue: 0</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>exclude_credentials</code> - (Required) (Updatable) Flag used to indicate whether we need to restrict creation of multiple credentials in same authenticator</p>
+
+<p><strong>Added In:</strong> 2009232244</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>public_key_types</code> - (Required) (Updatable) List of server supported public key algorithms</p>
+
+<p><strong>Added In:</strong> 2009232244</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: true</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>timeout</code> - (Required) (Updatable) Timeout for the fido authentication to complete</p>
+
+<p><strong>Added In:</strong> 2009232244</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>idcsMaxValue: 600000</li>
+<li>idcsMinValue: 10000</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>urnietfparamsscimschemasoracleidcsextensionthird_party_authentication_factor_settings</code> - (Optional) (Updatable) This extension defines attributes used to manage Multi-Factor Authentication settings of third party provider</p>
+
+<ul>
+<li><p><code>duo_security_settings</code> - (Optional) (Updatable) Settings related to Duo Security</p>
+
+<p><strong>Added In:</strong> 19.2.1</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: false</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readWrite</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>api_hostname</code> - (Required) (Updatable) Hostname to access the Duo security account</p>
+
+<p><strong>Added In:</strong> 19.2.1</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>attestation_key</code> - (Optional) (Updatable) Attestation key to attest the request and response between Duo Security</p>
+
+<p><strong>Added In:</strong> 19.2.1</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: false</li>
+<li>returned: never</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>integration_key</code> - (Required) (Updatable) Integration key from Duo Security authenticator</p>
+
+<p><strong>Added In:</strong> 19.2.1</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>secret_key</code> - (Required) (Updatable) Secret key from Duo Security authenticator</p>
+
+<p><strong>Added In:</strong> 19.2.1</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>user_mapping_attribute</code> - (Required) (Updatable) User attribute mapping value</p>
+
+<p><strong>Added In:</strong> 19.2.1</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+</ul></li>
+
+<li><p><code>user_enrollment_disabled_factors</code> - (Optional) (Updatable) Factors for which enrollment should be blocked for End User</p>
+
+<p><strong>Added In:</strong> 2012271618</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: true</li>
+<li>mutability: readWrite</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>yubico_otp_enabled</code> - (Optional) (Updatable) If true, indicates that the Yubico OTP is enabled for authentication</p>
+
+<p><strong>Added In:</strong> 2109090424</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>auto_enroll_email_factor_disabled</code> - If true, indicates that email will not be enrolled as a MFA factor automatically if it a account recovery factor</p>
+
+<p><strong>Added In:</strong> 2011192329</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>bypass_code_enabled</code> - If true, indicates that Bypass Code is enabled for authentication</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>bypass_code_settings</code> - Settings related to the bypass code, such as bypass code length, bypass code expiry, max active bypass codes, and so on</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: false</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readWrite</p></li>
+
+<li><p>required: true</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>help_desk_code_expiry_in_mins</code> - Expiry (in minutes) of any bypass code that is generated by the help desk</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 9999999</li>
+<li>idcsMinValue: 1</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>help_desk_generation_enabled</code> - If true, indicates that help desk bypass code generation is enabled</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>help_desk_max_usage</code> - The maximum number of times that any bypass code that is generated by the help desk can be used</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 999</li>
+<li>idcsMinValue: 1</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>length</code> - Exact length of the bypass code to be generated</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 20</li>
+<li>idcsMinValue: 8</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>max_active</code> - The maximum number of bypass codes that can be issued to any user</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 6</li>
+<li>idcsMinValue: 1</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>self_service_generation_enabled</code> - If true, indicates that self-service bypass code generation is enabled</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>client_app_settings</code> - Settings related to compliance, Personal Identification Number (PIN) policy, and so on</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: false</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readWrite</p></li>
+
+<li><p>required: true</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>device_protection_policy</code> - Indicates what protection policy that the system applies on a device. By default, the value is NONE, which indicates that the system applies no protection policy. A value of APP_PIN indicates that the system requires a Personal Identification Number (PIN). A value of DEVICE_BIOMETRIC_OR_APP_PIN indicates that either a PIN or a biometric authentication factor is required.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsCanonicalValueSourceFilter: attrName eq &ldquo;deviceProtectionPolicy&rdquo; and attrValues.value eq &ldquo;$(deviceProtectionPolicy)&rdquo;</li>
+<li>idcsCanonicalValueSourceResourceType: AllowedValue</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>initial_lockout_period_in_secs</code> - The period of time in seconds that the system will lock a user out of the service after that user exceeds the maximum number of login failures</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 86400</li>
+<li>idcsMinValue: 30</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>key_pair_length</code> - The size of the key that the system uses to generate the public-private key pair</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 4000</li>
+<li>idcsMinValue: 32</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>lockout_escalation_pattern</code> - The pattern of escalation that the system follows, in locking a particular user out of the service.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsCanonicalValueSourceFilter: attrName eq &ldquo;lockoutEscalationPattern&rdquo; and attrValues.value eq &ldquo;$(lockoutEscalationPattern)&rdquo;</li>
+<li>idcsCanonicalValueSourceResourceType: AllowedValue</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>max_failures_before_lockout</code> - The maximum number of times that a particular user can fail to login before the system locks that user out of the service</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 10</li>
+<li>idcsMinValue: 5</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>max_failures_before_warning</code> - The maximum number of login failures that the system will allow before raising a warning and sending an alert via email</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 10</li>
+<li>idcsMinValue: 0</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>max_lockout_interval_in_secs</code> - The maximum period of time that the system will lock a particular user out of the service regardless of what the configured pattern of escalation would otherwise dictate</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 86400</li>
+<li>idcsMinValue: 30</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>min_pin_length</code> - Minimum length of the Personal Identification Number (PIN)</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 10</li>
+<li>idcsMinValue: 6</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>policy_update_freq_in_days</code> - The period of time in days after which a client should refresh its policy by re-reading that policy from the server</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 999</li>
+<li>idcsMinValue: 1</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>request_signing_algo</code> - Indicates which algorithm the system will use to sign requests</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>shared_secret_encoding</code> - Indicates the type of encoding that the system should use to generate a shared secret</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>unlock_app_for_each_request_enabled</code> - If true, indicates that the system should require the user to unlock the client app for each request. In order to unlock the App, the user must supply a Personal Identification Number (PIN) or a biometric authentication-factor.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>unlock_app_interval_in_secs</code> - Specifies the period of time in seconds after which the client App should require the user to unlock the App. In order to unlock the App, the user must supply a Personal Identification Number (PIN) or a biometric authentication-factor. A value of zero means that it is disabled.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 9999999</li>
+<li>idcsMinValue: 0</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>unlock_on_app_foreground_enabled</code> - If true, indicates that the system should require the user to unlock the client App, when the client App comes to the foreground in the display of the device. In order to unlock the App, the user must supply a Personal Identification Number (PIN) or a biometric authentication-factor.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>unlock_on_app_start_enabled</code> - If true, indicates that the system should require the user to unlock the client App whenever the App is started. In order to unlock the App, the user must supply a Personal Identification Number (PIN) or a biometric authentication-factor.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>compartment_ocid</code> - Oracle Cloud Infrastructure Compartment Id (ocid) in which the resource lives.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>compliance_policy</code> - Compliance Policy that defines actions to be taken when a condition is violated</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsCompositeKey: [name]</p></li>
+
+<li><p>idcsSearchable: false</p></li>
+
+<li><p>multiValued: true</p></li>
+
+<li><p>mutability: readWrite</p></li>
+
+<li><p>required: true</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>action</code> - The action to be taken if the value of the attribute is not as expected</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>name</code> - The name of the attribute being evaluated</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - The value of the attribute to be evaluated</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>delete_in_progress</code> - A boolean flag indicating this resource in the process of being deleted. Usually set to true when synchronous deletion of the resource would take too long.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>domain_ocid</code> - Oracle Cloud Infrastructure Domain Id (ocid) in which the resource lives.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>email_enabled</code> - If true, indicates that the EMAIL channel is enabled for authentication</p>
+
+<p><strong>Added In:</strong> 18.1.2</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>email_settings</code> - Settings related to Email Factor, such as enabled email magic link factor, custom url for Email Link</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: false</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readWrite</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>email_link_custom_url</code> - Custom redirect Url which will be used in email link</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>email_link_enabled</code> - Specifies whether Email link is enabled or not.</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>endpoint_restrictions</code> - Settings that describe the set of restrictions that the system should apply to devices and trusted endpoints of a user</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: false</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readWrite</p></li>
+
+<li><p>required: true</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>max_endpoint_trust_duration_in_days</code> - Maximum number of days until an endpoint can be trusted</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 180</li>
+<li>idcsMinValue: 1</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>max_enrolled_devices</code> - Maximum number of enrolled devices per user</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 20</li>
+<li>idcsMinValue: 1</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>max_incorrect_attempts</code> - An integer that represents the maximum number of failed MFA logins before an account is locked</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 20</li>
+<li>idcsMinValue: 5</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>max_trusted_endpoints</code> - Max number of trusted endpoints per user</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 20</li>
+<li>idcsMinValue: 1</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>trusted_endpoints_enabled</code> - Specify if trusted endpoints are enabled</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>fido_authenticator_enabled</code> - If true, indicates that the Fido Authenticator channels are enabled for authentication</p>
+
+<p><strong>Added In:</strong> 2009232244</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>hide_backup_factor_enabled</code> - If true, indicates that &lsquo;Show backup factor(s)&rsquo; button will be hidden during authentication</p>
+
+<p><strong>Added In:</strong> 19.3.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>id</code> - Unique identifier for the SCIM Resource as defined by the Service Provider. Each representation of the Resource MUST include a non-empty id value. This identifier MUST be unique across the Service Provider&rsquo;s entire set of Resources. It MUST be a stable, non-reassignable identifier that does not change when the same Resource is returned in subsequent requests. The value of the id attribute is always issued by the Service Provider and MUST never be specified by the Service Consumer. bulkId: is a reserved keyword and MUST NOT be used in the unique identifier.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: always</li>
+<li>type: string</li>
+<li>uniqueness: global</li>
+</ul></li>
+
+<li><p><code>idcs_created_by</code> - The User or App who created the Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readOnly</p></li>
+
+<li><p>required: true</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p><code>display</code> - The displayName of the User or App who created this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>ocid</code> - The OCID of the SCIM resource that represents the User or App who created this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>ref</code> - The URI of the SCIM resource that represents the User or App who created this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: reference</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>type</code> - The type of resource, User or App, that created this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - The ID of the SCIM resource that represents the User or App who created this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>idcs_last_modified_by</code> - The User or App who modified the Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readOnly</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p><code>display</code> - The displayName of the User or App who modified this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>ocid</code> - The OCID of the SCIM resource that represents the User or App who modified this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>ref</code> - The URI of the SCIM resource that represents the User or App who modified this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: reference</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>type</code> - The type of resource, User or App, that modified this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - The ID of the SCIM resource that represents the User or App who modified this Resource</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>idcs_last_upgraded_in_release</code> - The release number when the resource was upgraded.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: request</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>idcs_prevented_operations</code> - Each value of this attribute specifies an operation that only an internal client may perform on this particular resource.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: true</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: request</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>identity_store_settings</code> - Settings related to the use of a user&rsquo;s profile details from the identity store</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: false</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readWrite</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>mobile_number_enabled</code> - If true, indicates that Multi-Factor Authentication should use the mobile number in the identity store</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>mobile_number_update_enabled</code> - If true, indicates that the user can update the mobile number in the user&rsquo;s Multi-Factor Authentication profile</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>meta</code> - A complex attribute that contains resource metadata. All sub-attributes are OPTIONAL.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>caseExact: false</p></li>
+
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readOnly</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>idcsCsvAttributeNameMappings: [[columnHeaderName:Created Date, mapsTo:meta.created]]</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p><code>created</code> - The DateTime the Resource was added to the Service Provider</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: dateTime</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>last_modified</code> - The most recent DateTime that the details of this Resource were updated at the Service Provider. If this Resource has never been modified since its initial creation, the value MUST be the same as the value of created. The attribute MUST be a DateTime.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: dateTime</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>location</code> - The URI of the Resource being returned. This value MUST be the same as the Location HTTP response header.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>resource_type</code> - Name of the resource type of the resource&ndash;for example, Users or Groups</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>version</code> - The version of the Resource being returned. This value must be the same as the ETag HTTP response header.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>mfa_enabled_category</code> - Specifies the category of people for whom Multi-Factor Authentication is enabled. This is a readOnly attribute which reflects the value of mfaEnabledCategory attribute in SsoSettings</p>
+
+<p><strong>Deprecated Since: 18.1.2</strong></p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>mfa_enrollment_type</code> - Specifies if Multi-Factor Authentication enrollment is mandatory or optional for a user</p>
+
+<p><strong>Deprecated Since: 18.1.2</strong></p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsCanonicalValueSourceFilter: attrName eq &ldquo;mfaEnrollmentType&rdquo; and attrValues.value eq &ldquo;$(mfaEnrollmentType)&rdquo;</li>
+<li>idcsCanonicalValueSourceResourceType: AllowedValue</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>notification_settings</code> - Settings related to the Mobile App Notification channel, such as pull</p>
+
+<p><strong>Added In:</strong> 17.4.2</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: false</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readWrite</p></li>
+
+<li><p>required: true</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>pull_enabled</code> - If true, indicates that the Mobile App Pull Notification channel is enabled for authentication</p>
+
+<p><strong>Added In:</strong> 17.4.2</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>ocid</code> - Unique Oracle Cloud Infrastructure identifier for the SCIM Resource.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: true</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: immutable</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: global</li>
+</ul></li>
+
+<li><p><code>phone_call_enabled</code> - If true, indicates that the phone (PHONE_CALL) channel is enabled for authentication</p>
+
+<p><strong>Added In:</strong> 20.1.3</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>push_enabled</code> - If true, indicates that the Mobile App Push Notification channel is enabled for authentication</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>schemas</code> - REQUIRED. The schemas attribute is an array of Strings which allows introspection of the supported schema version for a SCIM representation as well any schema extensions supported by that representation. Each String value must be a unique URI. This specification defines URIs for User, Group, and a standard \&ldquo;enterprise\&rdquo; extension. All representations of SCIM schema MUST include a non-zero value array with value(s) of the URIs supported by that representation. Duplicate values MUST NOT be included. Value order is not specified and MUST not impact behavior.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: true</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>security_questions_enabled</code> - If true, indicates that Security Questions are enabled for authentication</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>sms_enabled</code> - If true, indicates that the Short Message Service (SMS) channel is enabled for authentication</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>tags</code> - A list of tags on this resource.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsCompositeKey: [key, value]</p></li>
+
+<li><p>idcsSearchable: true</p></li>
+
+<li><p>multiValued: true</p></li>
+
+<li><p>mutability: readWrite</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: request</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>key</code> - Key or name of the tag.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>value</code> - Value of the tag.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: true</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>tenancy_ocid</code> - Oracle Cloud Infrastructure Tenant Id (ocid) in which the resource lives.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>caseExact: false</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readOnly</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>third_party_factor</code> - Settings related to third-party factor</p>
+
+<p><strong>Added In:</strong> 19.2.1</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: false</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readWrite</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>duo_security</code> - To enable Duo Security factor</p>
+
+<p><strong>Added In:</strong> 19.2.1</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>totp_enabled</code> - If true, indicates that the Mobile App One Time Passcode channel is enabled for authentication</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>totp_settings</code> - Settings related to Time-Based One-Time Passcodes (TOTP), such as hashing algo, totp time step, passcode length, and so on</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: false</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readWrite</p></li>
+
+<li><p>required: true</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>email_otp_validity_duration_in_mins</code> - The period of time (in minutes) that a one-time passcode remains valid that the system sends by email.</p>
+
+<p><strong>Added In:</strong> 18.1.2</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 60</li>
+<li>idcsMinValue: 2</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>email_passcode_length</code> - Exact length of the email one-time passcode.</p>
+
+<p><strong>Added In:</strong> 18.1.2</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 10</li>
+<li>idcsMinValue: 4</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>hashing_algorithm</code> - The hashing algorithm to be used to calculate a One-Time Passcode. By default, the system uses SHA1.</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>jwt_validity_duration_in_secs</code> - The period of time (in seconds) that a JSON Web Token (JWT) is valid</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 99999</li>
+<li>idcsMinValue: 30</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>key_refresh_interval_in_days</code> - The duration of time (in days) after which the shared secret has to be refreshed</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 999</li>
+<li>idcsMinValue: 30</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>passcode_length</code> - Exact length of the One-Time Passcode that the system should generate</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 10</li>
+<li>idcsMinValue: 4</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>sms_otp_validity_duration_in_mins</code> - The period of time (in minutes) for which a One-Time Passcode that the system sends by Short Message Service (SMS) or by voice remains valid</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 60</li>
+<li>idcsMinValue: 2</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>sms_passcode_length</code> - Exact length of the Short Message Service (SMS) One-Time Passcode</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 10</li>
+<li>idcsMinValue: 4</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>time_step_in_secs</code> - Time (in secs) to be used as the time step</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 300</li>
+<li>idcsMinValue: 30</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>time_step_tolerance</code> - The tolerance/step-size that the system should use when validating a One-Time Passcode</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsMaxValue: 3</li>
+<li>idcsMinValue: 2</li>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>urnietfparamsscimschemasoracleidcsextensionfido_authentication_factor_settings</code> - This extension defines attributes used to manage Multi-Factor Authentication settings of fido authentication</p>
+
+<ul>
+<li><p><code>attestation</code> - Attribute used to define the type of attestation required.</p>
+
+<p><strong>Added In:</strong> 2009232244</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>authenticator_selection_attachment</code> - Attribute used to define authenticator selection attachment.</p>
+
+<p><strong>Added In:</strong> 2009232244</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>authenticator_selection_require_resident_key</code> - Flag used to indicate authenticator selection is required or not</p>
+
+<p><strong>Added In:</strong> 2009232244</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>authenticator_selection_resident_key</code> - Attribute used to define authenticator selection resident key requirement.</p>
+
+<p><strong>Added In:</strong> 2009232244</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>authenticator_selection_user_verification</code> - Attribute used to define authenticator selection verification.</p>
+
+<p><strong>Added In:</strong> 2009232244</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>domain_validation_level</code> - Number of domain levels Oracle Identity Cloud Service should use for origin comparision</p>
+
+<p><strong>Added In:</strong> 2109020413</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>idcsMaxValue: 2</li>
+<li>idcsMinValue: 0</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>exclude_credentials</code> - Flag used to indicate whether we need to restrict creation of multiple credentials in same authenticator</p>
+
+<p><strong>Added In:</strong> 2009232244</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>public_key_types</code> - List of server supported public key algorithms</p>
+
+<p><strong>Added In:</strong> 2009232244</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: true</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>timeout</code> - Timeout for the fido authentication to complete</p>
+
+<p><strong>Added In:</strong> 2009232244</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>idcsMaxValue: 600000</li>
+<li>idcsMinValue: 10000</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: integer</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>urnietfparamsscimschemasoracleidcsextensionthird_party_authentication_factor_settings</code> - This extension defines attributes used to manage Multi-Factor Authentication settings of third party provider</p>
+
+<ul>
+<li><p><code>duo_security_settings</code> - Settings related to Duo Security</p>
+
+<p><strong>Added In:</strong> 19.2.1</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li><p>idcsSearchable: false</p></li>
+
+<li><p>multiValued: false</p></li>
+
+<li><p>mutability: readWrite</p></li>
+
+<li><p>required: false</p></li>
+
+<li><p>returned: default</p></li>
+
+<li><p>type: complex</p></li>
+
+<li><p>uniqueness: none</p></li>
+
+<li><p><code>api_hostname</code> - Hostname to access the Duo security account</p>
+
+<p><strong>Added In:</strong> 19.2.1</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>attestation_key</code> - Attestation key to attest the request and response between Duo Security</p>
+
+<p><strong>Added In:</strong> 19.2.1</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: false</li>
+<li>returned: never</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>integration_key</code> - Integration key from Duo Security authenticator</p>
+
+<p><strong>Added In:</strong> 19.2.1</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>secret_key</code> - Secret key from Duo Security authenticator</p>
+
+<p><strong>Added In:</strong> 19.2.1</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>user_mapping_attribute</code> - User attribute mapping value</p>
+
+<p><strong>Added In:</strong> 19.2.1</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: true</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul></li>
+</ul></li>
+
+<li><p><code>user_enrollment_disabled_factors</code> - Factors for which enrollment should be blocked for End User</p>
+
+<p><strong>Added In:</strong> 2012271618</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: true</li>
+<li>mutability: readWrite</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: string</li>
+<li>uniqueness: none</li>
+</ul></li>
+
+<li><p><code>yubico_otp_enabled</code> - If true, indicates that the Yubico OTP is enabled for authentication</p>
+
+<p><strong>Added In:</strong> 2109090424</p>
+
+<p><strong>SCIM++ Properties:</strong></p>
+
+<ul>
+<li>idcsSearchable: false</li>
+<li>multiValued: false</li>
+<li>mutability: readWrite</li>
+<li>required: false</li>
+<li>returned: default</li>
+<li>type: boolean</li>
+<li>uniqueness: none</li>
+</ul></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Authentication Factor Setting
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Authentication Factor Setting
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Authentication Factor Setting</p>
+
+<h2>Import</h2>
+
+<p>AuthenticationFactorSettings can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_identity_domains_authentication_factor_setting.test_authentication_factor_setting &quot;idcsEndpoint/{idcsEndpoint}/authenticationFactorSettings/{authenticationFactorSettingId}&quot; 
+</code></pre>
+
+	</div>
+
+</body>
+</html>

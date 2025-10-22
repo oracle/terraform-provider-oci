@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_license_manager_configuration</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_license_manager_configuration</h1>
+
+<p>This data source provides details about a specific Configuration resource in Oracle Cloud Infrastructure License Manager service.</p>
+
+<p>Retrieves configuration for a compartment.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_license_manager_configuration&quot; &quot;test_configuration&quot; {
+	#Required
+	compartment_id = var.compartment_id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The compartment <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> used for the license record, product license, and configuration.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The compartment <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> to which the configuration is specified.</li>
+<li><code>email_ids</code> - The list of associated configuration email IDs.</li>
+<li><code>time_created</code> - The time the configuration was created. An <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a>-formatted datetime string.</li>
+<li><code>time_updated</code> - The time the configuration was updated. An <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a>-formatted datetime string.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

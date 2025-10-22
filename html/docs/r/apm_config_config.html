@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_apm_config_config</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_apm_config_config</h1>
+
+<p>This resource provides the Config resource in Oracle Cloud Infrastructure Apm Config service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/apm-config/latest/Config">https://docs.oracle.com/iaas/api/#/en/apm-config/latest/Config</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/apm/apm_config">https://github.com/oracle/terraform-provider-oci/tree/master/examples/apm/apm_config</a></p>
+
+<p>Creates a new configuration item.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_apm_config_config&quot; &quot;test_config&quot; {
+	#Required
+	apm_domain_id = oci_apm_apm_domain.test_apm_domain.id
+	config_type = var.config_config_type
+
+	#Optional
+	agent_version = var.config_agent_version
+	attach_install_dir = var.config_attach_install_dir
+	config {
+
+		#Optional
+		config_map {
+
+			#Optional
+			file_name = var.config_config_config_map_file_name
+			body = var.config_config_config_map_body
+			content_type = var.config_config_config_map_content_type
+		}
+	}
+	defined_tags = {&quot;foo-namespace.bar-key&quot;= &quot;value&quot;}
+	description = var.config_description
+	dimensions {
+
+		#Optional
+		name = var.config_dimensions_name
+		value_source = var.config_dimensions_value_source
+	}
+	display_name = var.config_display_name
+	filter_id = oci_apm_config_filter.test_filter.id
+	filter_text = var.config_filter_text
+	freeform_tags = {&quot;bar-key&quot;= &quot;value&quot;}
+	group = var.config_group
+	management_agent_id = oci_management_agent_management_agent.test_management_agent.id
+	match_agents_with_attribute_value = var.config_match_agents_with_attribute_value
+	metrics {
+
+		#Optional
+		description = var.config_metrics_description
+		name = var.config_metrics_name
+		unit = var.config_metrics_unit
+		value_source = var.config_metrics_value_source
+	}
+	namespace = var.config_namespace
+	opc_dry_run = var.config_opc_dry_run
+	options = var.config_options
+	overrides {
+
+		#Optional
+		override_list {
+
+			#Optional
+			agent_filter = var.config_overrides_override_list_agent_filter
+			override_map = var.config_overrides_override_list_override_map
+		}
+	}
+	process_filter = var.config_process_filter
+	rules {
+
+		#Optional
+		display_name = var.config_rules_display_name
+		filter_text = var.config_rules_filter_text
+		is_apply_to_error_spans = var.config_rules_is_apply_to_error_spans
+		is_enabled = var.config_rules_is_enabled
+		priority = var.config_rules_priority
+		satisfied_response_time = var.config_rules_satisfied_response_time
+		tolerating_response_time = var.config_rules_tolerating_response_time
+	}
+	run_as_user = var.config_run_as_user
+	service_name = oci_announcements_service_service.test_service.name
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>agent_version</code> - (Required when config_type=MACS_APM_EXTENSION) (Updatable) The version of the referenced agent bundle.</li>
+<li><code>apm_domain_id</code> - (Required) (Updatable) The APM Domain ID the request is intended for.</li>
+<li><code>attach_install_dir</code> - (Required when config_type=MACS_APM_EXTENSION) (Updatable) The directory owned by runAsUser.</li>
+<li><code>config</code> - (Applicable when config_type=AGENT) (Updatable) Collection of agent configuration files. For agents that use a single configuration file, this SHOULD contain a single entry and the file name MAY be an empty string. For multiple entries, you should use multiple blocks of <code>config_map</code>. To apply a different configuration in a subset of the agents, put this block anywhere in the body of the configuration and edit <some variable> and <some content> {{ <some variable> | default <some content> }} Example: com.oracle.apm.agent.tracer.enable.jfr = {{ isJfrEnabled | default false }} Then, in the configuration&rsquo;s overrides, specify a different value for <some variable> along with the desired agent filter. Example: &ldquo;agentFilter&rdquo;: &ldquo;ApplicationType=&lsquo;Tomcat&rsquo;&rdquo; &ldquo;overrideMap&rdquo;: { &ldquo;isJfrEnabled&rdquo;: true }
+
+<ul>
+<li><code>config_map</code> - (Applicable when config_type=AGENT) (Updatable) Map of an agent configuration file.
+
+<ul>
+<li><code>file_name</code> - (Applicable when config_type=AGENT) (Updatable) An agent configuration file name.</li>
+<li><code>body</code> - (Applicable when config_type=AGENT) (Updatable) The Base64 encoded agent configuration file.</li>
+<li><code>content_type</code> - (Applicable when config_type=AGENT) (Updatable) The MIME Content-Type that describes the content of the body field, for example, text/yaml or text/yaml; charset=utf-8</li>
+</ul></li>
+</ul></li>
+<li><code>config_type</code> - (Required) (Updatable) The type of configuration item.</li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>description</code> - (Applicable when config_type=OPTIONS | SPAN_FILTER) (Updatable) An optional string that describes what the options are intended or used for.</li>
+<li><code>dimensions</code> - (Applicable when config_type=METRIC_GROUP) (Updatable) A list of dimensions for the metric. This variable should not be used.
+
+<ul>
+<li><code>name</code> - (Required when config_type=METRIC_GROUP) (Updatable) The name of the dimension.</li>
+<li><code>value_source</code> - (Applicable when config_type=METRIC_GROUP) (Updatable) The source to populate the dimension. This must not be specified.</li>
+</ul></li>
+<li><code>display_name</code> - (Required when config_type=APDEX | MACS_APM_EXTENSION | METRIC_GROUP | OPTIONS | SPAN_FILTER) (Updatable) The name by which a configuration entity is displayed to the end user.</li>
+<li><code>filter_id</code> - (Required when config_type=METRIC_GROUP) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of a Span Filter. The filterId is mandatory for the creation of MetricGroups. A filterId is generated when a Span Filter is created.</li>
+<li><code>filter_text</code> - (Required when config_type=SPAN_FILTER) (Updatable) The string that defines the Span Filter expression.</li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>group</code> - (Applicable when config_type=OPTIONS) (Updatable) A string that specifies the group that an OPTIONS item belongs to.</li>
+<li><code>management_agent_id</code> - (Required when config_type=MACS_APM_EXTENSION) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Management Agent that will provision the APM Agent.</li>
+<li><code>match_agents_with_attribute_value</code> - (Required when config_type=AGENT) The agent attribute VALUE by which an agent configuration is matched to an agent.  Each agent configuration object must specify a different value.  The attribute KEY corresponding to this VALUE is in the matchAgentsWithAttributeKey field.</li>
+<li><code>metrics</code> - (Required when config_type=METRIC_GROUP) (Updatable) The list of metrics in this group.
+
+<ul>
+<li><code>description</code> - (Applicable when config_type=METRIC_GROUP) (Updatable) A description of the metric.</li>
+<li><code>name</code> - (Required when config_type=METRIC_GROUP) (Updatable) The name of the metric. This must be a known metric name.</li>
+<li><code>unit</code> - (Applicable when config_type=METRIC_GROUP) (Updatable) The unit of the metric.</li>
+<li><code>value_source</code> - (Applicable when config_type=METRIC_GROUP) (Updatable) This must not be set.</li>
+</ul></li>
+<li><code>namespace</code> - (Applicable when config_type=METRIC_GROUP) (Updatable) The namespace to which the metrics are published. It must be one of several predefined namespaces.</li>
+<li><code>opc_dry_run</code> - (Optional) (Updatable) Indicates that the request is a dry run, if set to &ldquo;true&rdquo;. A dry run request does not modify the configuration item details and is used only to perform validation on the submitted data.</li>
+<li><code>options</code> - (Applicable when config_type=OPTIONS) (Updatable) The options are stored here as JSON.</li>
+<li><code>overrides</code> - (Applicable when config_type=AGENT) (Updatable) Agent configuration overrides that should apply to a subset of the agents associated with an Agent Config object.
+
+<ul>
+<li><code>override_list</code> - (Applicable when config_type=AGENT) (Updatable)
+
+<ul>
+<li><code>agent_filter</code> - (Applicable when config_type=AGENT) (Updatable) The string that defines the Agent Filter expression.</li>
+<li><code>override_map</code> - (Applicable when config_type=AGENT) (Updatable) A map whose key is a substitution variable specified within the configuration&rsquo;s body. For example, if below was specified in the configuration&rsquo;s body {{ isJfrEnabled | default false }} Then a valid map key would be &ldquo;isJfrEnabled&rdquo;. The value is typically different than the default specified in the configuration&rsquo;s body. Thus, in this example, the map entry could be &ldquo;isJfrEnabled&rdquo;: true</li>
+</ul></li>
+</ul></li>
+<li><code>process_filter</code> - (Required when config_type=MACS_APM_EXTENSION) (Updatable) Filter patterns used to discover active Java processes for provisioning the APM Agent.</li>
+<li><code>rules</code> - (Required when config_type=APDEX) (Updatable)
+
+<ul>
+<li><code>display_name</code> - (Applicable when config_type=APDEX) (Updatable) The name by which a configuration entity is displayed to the end user.</li>
+<li><code>filter_text</code> - (Required when config_type=APDEX) (Updatable) The string that defines the Span Filter expression.</li>
+<li><code>is_apply_to_error_spans</code> - (Applicable when config_type=APDEX) (Updatable) Specifies whether an Apdex score should be computed for error spans. Setting it to &ldquo;true&rdquo; means that the Apdex score is computed in the usual way. Setting it to &ldquo;false&rdquo; skips the Apdex computation and sets the Apdex score to &ldquo;frustrating&rdquo; regardless of the configured thresholds. The default is &ldquo;false&rdquo;.</li>
+<li><code>is_enabled</code> - (Applicable when config_type=APDEX) (Updatable) Specifies whether the Apdex score should be computed for spans matching the rule. This can be used to disable Apdex score for spans that do not need or require it. The default is &ldquo;true&rdquo;.</li>
+<li><code>priority</code> - (Required when config_type=APDEX) (Updatable) The priority controls the order in which multiple rules in a rule set are applied. Lower values indicate higher priorities. Rules with higher priority are applied first, and once a match is found, the rest of the rules are ignored. Rules within the same rule set cannot have the same priority.</li>
+<li><code>satisfied_response_time</code> - (Applicable when config_type=APDEX) (Updatable) The maximum response time in milliseconds that is considered &ldquo;satisfactory&rdquo; for the end user.</li>
+<li><code>tolerating_response_time</code> - (Applicable when config_type=APDEX) (Updatable) The maximum response time in milliseconds that is considered &ldquo;tolerable&rdquo; for the end user. A response time beyond this threshold is considered &ldquo;frustrating&rdquo;. This value cannot be lower than &ldquo;satisfiedResponseTime&rdquo;.</li>
+</ul></li>
+<li><code>run_as_user</code> - (Required when config_type=MACS_APM_EXTENSION) (Updatable) The OS user that should be used to discover Java processes.</li>
+<li><code>service_name</code> - (Required when config_type=MACS_APM_EXTENSION) (Updatable) The name of the service being monitored. This argument enables you to filter by service and view traces and other signals in the APM Explorer user interface.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>agent_version</code> - The version of the referenced agent bundle.</li>
+<li><code>attach_install_dir</code> - The directory owned by runAsUser.</li>
+<li><code>config</code> - Collection of agent configuration files. For agents that use a single configuration file, this SHOULD contain a single entry and the file name MAY be an empty string. For multiple entries, you should use multiple blocks of <code>config_map</code>. To apply a different configuration in a subset of the agents, put this block anywhere in the body of the configuration and edit <some variable> and <some content> {{ <some variable> | default <some content> }} Example: com.oracle.apm.agent.tracer.enable.jfr = {{ isJfrEnabled | default false }} Then, in the configuration&rsquo;s overrides, specify a different value for <some variable> along with the desired agent filter. Example: &ldquo;agentFilter&rdquo;: &ldquo;ApplicationType=&lsquo;Tomcat&rsquo;&rdquo; &ldquo;overrideMap&rdquo;: { &ldquo;isJfrEnabled&rdquo;: true }
+
+<ul>
+<li><code>config_map</code> - Map of an agent configuration file.
+
+<ul>
+<li><code>file_name</code> - An agent configuration file name.</li>
+<li><code>body</code> - The Base64 encoded agent configuration file.</li>
+<li><code>content_type</code> - The MIME Content-Type that describes the content of the body field, for example, text/yaml or text/yaml; charset=utf-8</li>
+</ul></li>
+</ul></li>
+<li><code>config_type</code> - The type of configuration item.</li>
+<li><code>created_by</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of a user.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>description</code> - An optional string that describes what the span filter is intended or used for.</li>
+<li><code>dimensions</code> - A list of dimensions for the metric. This variable should not be used.
+
+<ul>
+<li><code>name</code> - The name of the dimension.</li>
+<li><code>value_source</code> - The source to populate the dimension. This must not be specified.</li>
+</ul></li>
+<li><code>display_name</code> - The name by which a configuration entity is displayed to the end user.</li>
+<li><code>etag</code> - For optimistic concurrency control. See <code>if-match</code>.</li>
+<li><code>filter_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of a Span Filter. The filterId is mandatory for the creation of MetricGroups. A filterId is generated when a Span Filter is created.</li>
+<li><code>filter_text</code> - The string that defines the Span Filter expression.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>group</code> - A string that specifies the group that an OPTIONS item belongs to.</li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the configuration item. An OCID is generated when the item is created.</li>
+<li><code>in_use_by</code> - The list of configuration items that reference the span filter.
+
+<ul>
+<li><code>config_type</code> - The type of configuration item.</li>
+<li><code>display_name</code> - The name by which a configuration entity is displayed to the end user.</li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the configuration item. An OCID is generated when the item is created.</li>
+<li><code>options_group</code> - A string that specifies the group that an OPTIONS item belongs to.</li>
+</ul></li>
+<li><code>management_agent_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Management Agent that will provision the APM Agent.</li>
+<li><code>match_agents_with_attribute_key</code> - The agent attribute KEY by which an Agent configuration is matched to an agent.  All agent configuration objects share the same key. It is [ServiceName, service.name] by default.  The attribute VALUE corresponding to this KEY is in the matchAgentsWithAttributeValue field.</li>
+<li><code>match_agents_with_attribute_value</code> - The agent attribute VALUE by which an agent configuration is matched to an agent.  Each agent configuration object must specify a different value.  The attribute KEY corresponding to this VALUE is in the matchAgentsWithAttributeKey field.</li>
+<li><code>metrics</code> - The list of metrics in this group.
+
+<ul>
+<li><code>description</code> - A description of the metric.</li>
+<li><code>name</code> - The name of the metric. This must be a known metric name.</li>
+<li><code>unit</code> - The unit of the metric.</li>
+<li><code>value_source</code> - This must not be set.</li>
+</ul></li>
+<li><code>namespace</code> - The namespace to which the metrics are published. It must be one of several predefined namespaces.</li>
+<li><code>options</code> - The options are stored here as JSON.</li>
+<li><code>overrides</code> - Agent configuration overrides that should apply to a subset of the agents associated with an Agent Config object.
+
+<ul>
+<li><code>override_list</code> -
+
+<ul>
+<li><code>agent_filter</code> - The string that defines the Agent Filter expression.</li>
+<li><code>override_map</code> - A map whose key is a substitution variable specified within the configuration&rsquo;s body. For example, if below was specified in the configuration&rsquo;s body {{ isJfrEnabled | default false }} Then a valid map key would be &ldquo;isJfrEnabled&rdquo;. The value is typically different than the default specified in the configuration&rsquo;s body. Thus, in this example, the map entry could be &ldquo;isJfrEnabled&rdquo;: true</li>
+</ul></li>
+</ul></li>
+<li><code>process_filter</code> - Filter patterns used to discover active Java processes for provisioning the APM Agent.</li>
+<li><code>rules</code> -
+
+<ul>
+<li><code>display_name</code> - The name by which a configuration entity is displayed to the end user.</li>
+<li><code>filter_text</code> - The string that defines the Span Filter expression.</li>
+<li><code>is_apply_to_error_spans</code> - Specifies whether an Apdex score should be computed for error spans. Setting it to &ldquo;true&rdquo; means that the Apdex score is computed in the usual way. Setting it to &ldquo;false&rdquo; skips the Apdex computation and sets the Apdex score to &ldquo;frustrating&rdquo; regardless of the configured thresholds. The default is &ldquo;false&rdquo;.</li>
+<li><code>is_enabled</code> - Specifies whether the Apdex score should be computed for spans matching the rule. This can be used to disable Apdex score for spans that do not need or require it. The default is &ldquo;true&rdquo;.</li>
+<li><code>priority</code> - The priority controls the order in which multiple rules in a rule set are applied. Lower values indicate higher priorities. Rules with higher priority are applied first, and once a match is found, the rest of the rules are ignored. Rules within the same rule set cannot have the same priority.</li>
+<li><code>satisfied_response_time</code> - The maximum response time in milliseconds that is considered &ldquo;satisfactory&rdquo; for the end user.</li>
+<li><code>tolerating_response_time</code> - The maximum response time in milliseconds that is considered &ldquo;tolerable&rdquo; for the end user. A response time beyond this threshold is considered &ldquo;frustrating&rdquo;. This value cannot be lower than &ldquo;satisfiedResponseTime&rdquo;.</li>
+</ul></li>
+<li><code>run_as_user</code> - The OS user that should be used to discover Java processes.</li>
+<li><code>service_name</code> - The name of the service being monitored. This argument enables you to filter by service and view traces and other signals in the APM Explorer user interface.</li>
+<li><code>time_created</code> - The time the resource was created, expressed in <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a> timestamp format. Example: <code>2020-02-12T22:47:12.613Z</code></li>
+<li><code>time_updated</code> - The time the resource was updated, expressed in <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a> timestamp format. Example: <code>2020-02-13T22:47:12.613Z</code></li>
+<li><code>updated_by</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of a user.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Config
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Config
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Config</p>
+
+<h2>Import</h2>
+
+<p>Configs can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_apm_config_config.test_config &quot;configs/{configId}/apmDomainId/{apmDomainId}&quot; 
+</code></pre>
+
+	</div>
+
+</body>
+</html>

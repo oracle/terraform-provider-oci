@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_data_safe_security_assessment_security_features</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_data_safe_security_assessment_security_features</h1>
+
+<p>This data source provides the list of Security Assessment Security Features in Oracle Cloud Infrastructure Data Safe service.</p>
+
+<p>Lists the usage of Database security features for a given compartment or a target level, based on the filters provided.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_data_safe_security_assessment_security_features&quot; &quot;test_security_assessment_security_features&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	access_level = var.security_assessment_security_feature_access_level
+	compartment_id_in_subtree = var.security_assessment_security_feature_compartment_id_in_subtree
+	target_id = oci_cloud_guard_target.test_target.id
+	targets_with_column_encryption = var.security_assessment_security_feature_targets_with_column_encryption
+	targets_with_database_vault = var.security_assessment_security_feature_targets_with_database_vault
+	targets_with_external_authentication = var.security_assessment_security_feature_targets_with_external_authentication
+	targets_with_fine_grained_audit = var.security_assessment_security_feature_targets_with_fine_grained_audit
+	targets_with_global_authentication = var.security_assessment_security_feature_targets_with_global_authentication
+	targets_with_network_encryption = var.security_assessment_security_feature_targets_with_network_encryption
+	targets_with_password_authentication = var.security_assessment_security_feature_targets_with_password_authentication
+	targets_with_privilege_analysis = var.security_assessment_security_feature_targets_with_privilege_analysis
+	targets_with_tablespace_encryption = var.security_assessment_security_feature_targets_with_tablespace_encryption
+	targets_with_traditional_audit = var.security_assessment_security_feature_targets_with_traditional_audit
+	targets_with_unified_audit = var.security_assessment_security_feature_targets_with_unified_audit
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>access_level</code> - (Optional) Valid values are RESTRICTED and ACCESSIBLE. Default is RESTRICTED. Setting this to ACCESSIBLE returns only those compartments for which the user has INSPECT permissions directly or indirectly (permissions can be on a resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed.</li>
+<li><code>compartment_id</code> - (Required) A filter to return only resources that match the specified compartment OCID.</li>
+<li><code>compartment_id_in_subtree</code> - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the &lsquo;accessLevel&rsquo; setting.</li>
+<li><code>target_id</code> - (Optional) A filter to return only items related to a specific target OCID.</li>
+<li><code>targets_with_column_encryption</code> - (Optional) A filter to return only the targets that enable the DB security feature - Column Encryption enabled/disabled.</li>
+<li><code>targets_with_database_vault</code> - (Optional) A filter to return only the targets with the DB security feature - Database Vault enabled/disabled.</li>
+<li><code>targets_with_external_authentication</code> - (Optional) A filter to return only the targets with the DB security feature - External Authentication enabled/disabled.</li>
+<li><code>targets_with_fine_grained_audit</code> - (Optional) A filter to return only the targets with the DB security feature - Fine Grained Audit enabled/disabled.</li>
+<li><code>targets_with_global_authentication</code> - (Optional) A filter to return only the targets with the DB security feature - Global Authentication enabled/disabled.</li>
+<li><code>targets_with_network_encryption</code> - (Optional) A filter to return only the targets with the DB security feature - Network Encryption enabled/disabled.</li>
+<li><code>targets_with_password_authentication</code> - (Optional) A filter to return only the targets with the DB security feature - Password Authentication enabled/disabled.</li>
+<li><code>targets_with_privilege_analysis</code> - (Optional) A filter to return only the targets with the DB security feature - Privilege Analysis enabled/disabled.</li>
+<li><code>targets_with_tablespace_encryption</code> - (Optional) A filter to return only the targets with the DB security feature - Tablespace Encryption enabled/disabled.</li>
+<li><code>targets_with_traditional_audit</code> - (Optional) A filter to return only the targets with the DB security feature - Traditional Audit enabled/disabled.</li>
+<li><code>targets_with_unified_audit</code> - (Optional) A filter to return only the targets with the DB security feature - Unified Audit enabled/disabled.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>security_feature_collection</code> - The list of security_feature_collection.</li>
+</ul>
+
+<h3>SecurityAssessmentSecurityFeature Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - Array of database security feature summary.
+
+<ul>
+<li><code>assessment_id</code> - The OCID of the assessment that generates this security feature usage result.</li>
+<li><code>column_encryption</code> - The usage of security feature - Column Encryption.</li>
+<li><code>compartment_id</code> - The OCID of the compartment.</li>
+<li><code>database_vault</code> - The usage of security feature - Database Vault.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>external_authentication</code> - The usage of security feature - External Authentication.</li>
+<li><code>fine_grained_audit</code> - The usage of security feature - Fine Grained Audit.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>global_authentication</code> - The usage of security feature - Global Authentication.</li>
+<li><code>network_encryption</code> - The usage of security feature - Network Encryption.</li>
+<li><code>password_authentication</code> - The usage of security feature - Password Authentication.</li>
+<li><code>privilege_analysis</code> - The usage of security feature - Privilege Analysis.</li>
+<li><code>tablespace_encryption</code> - The usage of security feature - Tablespace Encryption.</li>
+<li><code>target_id</code> - The OCID of the target database.</li>
+<li><code>traditional_audit</code> - The usage of security feature - Traditional Audit.</li>
+<li><code>unified_audit</code> - The usage of security feature - Unified Audit.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

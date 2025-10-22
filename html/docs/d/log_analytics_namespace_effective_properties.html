@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_log_analytics_namespace_effective_properties</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_log_analytics_namespace_effective_properties</h1>
+
+<p>This data source provides the list of Namespace Effective Properties in Oracle Cloud Infrastructure Log Analytics service.</p>
+
+<p>Returns a list of effective properties for the specified resource.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_log_analytics_namespace_effective_properties&quot; &quot;test_namespace_effective_properties&quot; {
+	#Required
+	namespace = var.namespace_effective_property_namespace
+
+	#Optional
+	agent_id = oci_cloud_bridge_agent.test_agent.id
+	entity_id = oci_log_analytics_log_analytics_entity.test_log_analytics_entity.id
+	is_include_patterns = var.namespace_effective_property_is_include_patterns
+	name = var.namespace_effective_property_name
+	pattern_id = oci_log_analytics_pattern.test_pattern.id
+	pattern_id_long = var.namespace_effective_property_pattern_id_long
+	source_name = var.namespace_effective_property_source_name
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>agent_id</code> - (Optional) The agent ocid.</li>
+<li><code>entity_id</code> - (Optional) The entity ocid.</li>
+<li><code>is_include_patterns</code> - (Optional) The include pattern flag.</li>
+<li><code>name</code> - (Optional) The property name used for filtering.</li>
+<li><code>namespace</code> - (Required) The Logging Analytics namespace used for the request.</li>
+<li><code>pattern_id</code> - (Optional) The pattern id.</li>
+<li><code>pattern_id_long</code> - (Optional) The pattern id (long).</li>
+<li><code>source_name</code> - (Optional) The source name.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>effective_property_collection</code> - The list of effective_property_collection.</li>
+</ul>
+
+<h3>NamespaceEffectiveProperty Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - A list of properties and their effective values.
+
+<ul>
+<li><code>effective_level</code> - The level from which the effective value was determined.</li>
+<li><code>name</code> - The property name.</li>
+<li><code>patterns</code> - A list of pattern level override values for the property.
+
+<ul>
+<li><code>effective_level</code> - The effective level of the property value.</li>
+<li><code>id</code> - The pattern id.</li>
+<li><code>value</code> - The value of the property.</li>
+</ul></li>
+<li><code>value</code> - The effective value of the property. This is determined by considering the value set at the most effective level.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

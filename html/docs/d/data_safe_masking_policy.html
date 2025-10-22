@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_data_safe_masking_policy</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_data_safe_masking_policy</h1>
+
+<p>This data source provides details about a specific Masking Policy resource in Oracle Cloud Infrastructure Data Safe service.</p>
+
+<p>Gets the details of the specified masking policy.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_data_safe_masking_policy&quot; &quot;test_masking_policy&quot; {
+	#Required
+	masking_policy_id = oci_data_safe_masking_policy.test_masking_policy.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>masking_policy_id</code> - (Required) The OCID of the masking policy.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>column_source</code> - The source of masking columns.
+
+<ul>
+<li><code>column_source</code> - The source of masking columns.</li>
+<li><code>sensitive_data_model_id</code> - The OCID of the sensitive data model that&rsquo;s used as the source of masking columns.</li>
+<li><code>target_id</code> - The OCID of the target database that&rsquo;s used as the source of masking columns.</li>
+</ul></li>
+<li><code>compartment_id</code> - The OCID of the compartment that contains the masking policy.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a> Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - The description of the masking policy.</li>
+<li><code>display_name</code> - The display name of the masking policy.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The OCID of the masking policy.</li>
+<li><code>is_drop_temp_tables_enabled</code> - Indicates if the temporary tables created during a masking operation should be dropped after masking. It&rsquo;s enabled by default. Set this attribute to false to preserve the temporary tables. Masking creates temporary tables that map the original sensitive  data values to mask values. By default, these temporary tables are dropped after masking. But, in some cases, you may want  to preserve this information to track how masking changed your data. Note that doing so compromises security. These tables  must be dropped before the database is available for unprivileged users.<br>
+</li>
+<li><code>is_redo_logging_enabled</code> - Indicates if redo logging is enabled during a masking operation. It&rsquo;s disabled by default. Set this attribute to true to enable redo logging. By default, masking disables redo logging and flashback logging to purge any original unmasked  data from logs. However, in certain circumstances when you only want to test masking, rollback changes, and retry masking, you could enable logging and use a flashback database to retrieve the original unmasked data after it has been masked.<br>
+</li>
+<li><code>is_refresh_stats_enabled</code> - Indicates if statistics gathering is enabled. It&rsquo;s enabled by default. Set this attribute to false to disable statistics gathering. The masking process gathers statistics on masked database tables after masking completes.</li>
+<li><code>parallel_degree</code> - Specifies options to enable parallel execution when running data masking. Allowed values are &lsquo;NONE&rsquo; (no parallelism), &lsquo;DEFAULT&rsquo; (the Oracle Database computes the optimum degree of parallelism) or an integer value to be used as the degree of parallelism. Parallel execution helps effectively use multiple CPUs and improve masking performance. Refer to the Oracle Database parallel execution framework when choosing an explicit degree of parallelism.</li>
+<li><code>post_masking_script</code> - A post-masking script, which can contain SQL and PL/SQL statements. It&rsquo;s executed after the core masking script generated using the masking policy. It&rsquo;s usually used to perform additional transformation or cleanup work after masking.</li>
+<li><code>pre_masking_script</code> - A pre-masking script, which can contain SQL and PL/SQL statements. It&rsquo;s executed before  the core masking script generated using the masking policy. It&rsquo;s usually used to perform any preparation or prerequisite work before masking data.</li>
+<li><code>recompile</code> - Specifies how to recompile invalid objects post data masking. Allowed values are &lsquo;SERIAL&rsquo; (recompile in serial),  &lsquo;PARALLEL&rsquo; (recompile in parallel), &lsquo;NONE&rsquo; (do not recompile). If it&rsquo;s set to PARALLEL, the value of parallelDegree attribute is used. Use the built-in UTL_RECOMP package to recompile any remaining invalid objects after masking completes.</li>
+<li><code>state</code> - The current state of the masking policy.</li>
+<li><code>time_created</code> - The date and time the masking policy was created, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.<br>
+</li>
+<li><code>time_updated</code> - The date and time the masking policy was last updated, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a><br>
+</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

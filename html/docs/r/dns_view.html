@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_dns_view</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_dns_view</h1>
+
+<p>This resource provides the View resource in Oracle Cloud Infrastructure DNS service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/dns/latest/View">https://docs.oracle.com/iaas/api/#/en/dns/latest/View</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/dns">https://github.com/oracle/terraform-provider-oci/tree/master/examples/dns</a></p>
+
+<p>Creates a new view in the specified compartment.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_dns_view&quot; &quot;test_view&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	scope = &quot;PRIVATE&quot;
+	defined_tags = var.view_defined_tags
+	display_name = var.view_display_name
+	freeform_tags = var.view_freeform_tags
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>compartment_id</code> - (Required) (Updatable) The OCID of the owning compartment.</p></li>
+
+<li><p><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</p>
+
+<p><strong>Example:</strong> <code>{&quot;Operations&quot;: {&quot;CostCenter&quot;: &quot;42&quot;}}</code></p></li>
+
+<li><p><code>display_name</code> - (Optional) (Updatable) The display name of the view.</p></li>
+
+<li><p><code>freeform_tags</code> - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</p>
+
+<p><strong>Example:</strong> <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></p></li>
+
+<li><p><code>scope</code> - (Optional) If specified, must be <code>PRIVATE</code> when creating a view for private zones.</p></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>compartment_id</code> - The OCID of the owning compartment.</p></li>
+
+<li><p><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</p>
+
+<p><strong>Example:</strong> <code>{&quot;Operations&quot;: {&quot;CostCenter&quot;: &quot;42&quot;}}</code></p></li>
+
+<li><p><code>display_name</code> - The display name of the view.</p></li>
+
+<li><p><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</p>
+
+<p><strong>Example:</strong> <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></p></li>
+
+<li><p><code>id</code> - The OCID of the view.</p></li>
+
+<li><p><code>is_protected</code> - A Boolean flag indicating whether or not parts of the resource are unable to be explicitly managed.</p></li>
+
+<li><p><code>self</code> - The canonical absolute URL of the resource.</p></li>
+
+<li><p><code>state</code> - The current state of the resource.</p></li>
+
+<li><p><code>time_created</code> - The date and time the resource was created in &ldquo;YYYY-MM-ddThh:mm:ssZ&rdquo; format with a Z offset, as defined by RFC 3339.</p>
+
+<p><strong>Example:</strong> <code>2016-07-22T17:23:59:60Z</code></p></li>
+
+<li><p><code>time_updated</code> - The date and time the resource was last updated in &ldquo;YYYY-MM-ddThh:mm:ssZ&rdquo; format with a Z offset, as defined by RFC 3339.</p>
+
+<p><strong>Example:</strong> <code>2016-07-22T17:23:59:60Z</code></p></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the View
+	* <code>update</code> - (Defaults to 20 minutes), when updating the View
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the View</p>
+
+<h2>Import</h2>
+
+<p>Views can be imported using their OCID, e.g.</p>
+
+<pre><code>$ terraform import oci_dns_view.test_view &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

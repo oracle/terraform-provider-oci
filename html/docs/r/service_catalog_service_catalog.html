@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_service_catalog_service_catalog</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_service_catalog_service_catalog</h1>
+
+<p>This resource provides the Service Catalog resource in Oracle Cloud Infrastructure Service Catalog service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/service-catalog/latest/ServiceCatalog">https://docs.oracle.com/iaas/api/#/en/service-catalog/latest/ServiceCatalog</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/service_catalog">https://github.com/oracle/terraform-provider-oci/tree/master/examples/service_catalog</a></p>
+
+<p>Creates a brand new service catalog in a given compartment.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_service_catalog_service_catalog&quot; &quot;test_service_catalog&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	display_name = var.service_catalog_display_name
+
+	#Optional
+	defined_tags = {&quot;foo-namespace.bar-key&quot;= &quot;value&quot;}
+	freeform_tags = {&quot;bar-key&quot;= &quot;value&quot;}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) (Updatable) The unique identifier for the compartment where the service catalog will be created.</li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>display_name</code> - (Required) (Updatable) The display name of the service catalog.</li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The Compartment id where the service catalog exists</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>display_name</code> - The name of the service catalog.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - The unique identifier for the Service catalog.</li>
+<li><code>state</code> - The lifecycle state of the service catalog.</li>
+<li><code>time_created</code> - The date and time the service catalog was created, expressed in <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a> timestamp format.  Example: <code>2021-05-26T21:10:29.600Z</code></li>
+<li><code>time_updated</code> - The date and time the service catalog was last modified, expressed in <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a> timestamp format.  Example: <code>2021-12-10T05:10:29.721Z</code></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Service Catalog
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Service Catalog
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Service Catalog</p>
+
+<h2>Import</h2>
+
+<p>ServiceCatalogs can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_service_catalog_service_catalog.test_service_catalog &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

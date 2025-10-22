@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_identity_user_group_memberships</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_identity_user_group_memberships</h1>
+
+<p>This data source provides the list of User Group Memberships in Oracle Cloud Infrastructure Identity service.</p>
+
+<p>Lists the <code>UserGroupMembership</code> objects in your tenancy. You must specify your tenancy&rsquo;s OCID
+as the value for the compartment ID
+(see <a href="https://docs.cloud.oracle.com/iaas/Content/API/Concepts/apisigningkey.htm#five">Where to Get the Tenancy&rsquo;s OCID and User&rsquo;s OCID</a>).
+You must also then filter the list in one of these ways:</p>
+
+<ul>
+<li>You can limit the results to just the memberships for a given user by specifying a <code>userId</code>.</li>
+<li>Similarly, you can limit the results to just the memberships for a given group by specifying a <code>groupId</code>.</li>
+<li>You can set both the <code>userId</code> and <code>groupId</code> to determine if the specified user is in the specified group.
+If the answer is no, the response is an empty list.</li>
+<li>Although<code>userId</code> and <code>groupId</code> are not individually required, you must set one of them.</li>
+</ul>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_identity_user_group_memberships&quot; &quot;test_user_group_memberships&quot; {
+	#Required
+	compartment_id = var.tenancy_ocid
+
+	#Optional
+	group_id = oci_identity_group.test_group.id
+	user_id = oci_identity_user.test_user.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The OCID of the compartment (remember that the tenancy is simply the root compartment).</li>
+<li><code>group_id</code> - (Optional) The OCID of the group.</li>
+<li><code>user_id</code> - (Optional) The OCID of the user.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>memberships</code> - The list of memberships.</li>
+</ul>
+
+<h3>UserGroupMembership Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The OCID of the tenancy containing the user, group, and membership object.</li>
+<li><code>group_id</code> - The OCID of the group.</li>
+<li><code>id</code> - The OCID of the membership.</li>
+<li><code>inactive_state</code> - The detailed status of INACTIVE lifecycleState.</li>
+<li><code>state</code> - The membership&rsquo;s current state.</li>
+<li><code>time_created</code> - Date and time the membership was created, in the format defined by RFC3339.  Example: <code>2016-08-25T21:10:29.600Z</code></li>
+<li><code>user_id</code> - The OCID of the user.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

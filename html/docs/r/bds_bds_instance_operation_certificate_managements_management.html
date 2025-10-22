@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_bds_bds_instance_operation_certificate_managements_management</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_bds_bds_instance_operation_certificate_managements_management</h1>
+
+<p>This resource provides the Bds Instance Operation Certificate Managements Management resource in Oracle Cloud Infrastructure Big Data Service service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/bigdata/latest/BdsInstanceOperationCertificateManagementsManagement">https://docs.oracle.com/iaas/api/#/en/bigdata/latest/BdsInstanceOperationCertificateManagementsManagement</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/big_data_service">https://github.com/oracle/terraform-provider-oci/tree/master/examples/big_data_service</a>
+Configuring TLS/SSL for various ODH services running on the BDS cluster.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_bds_bds_instance_operation_certificate_managements_management&quot; &quot;test_bds_instance_operation_certificate_managements_management&quot; {
+	#Required
+	bds_instance_id = oci_bds_bds_instance.test_bds_instance.id
+	cluster_admin_password = var.bds_instance_operation_certificate_managements_management_cluster_admin_password
+	services = var.bds_instance_operation_certificate_managements_management_services
+	enable_operation_certificate_management = var.enable_operation_certificate_management
+	renew_operation_certificate_management = var.renew_operation_certificate_management
+
+	#Optional
+	host_cert_details {
+
+		#Optional
+		certificate = var.bds_instance_operation_certificate_managements_management_host_cert_details_certificate
+		host_name = var.bds_instance_operation_certificate_managements_management_host_cert_details_host_name
+		private_key = var.bds_instance_operation_certificate_managements_management_host_cert_details_private_key
+	}
+	root_certificate = var.bds_instance_operation_certificate_managements_management_root_certificate
+	server_key_password = var.bds_instance_operation_certificate_managements_management_server_key_password
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>bds_instance_id</code> - (Required) The OCID of the cluster.</li>
+<li><code>cluster_admin_password</code> - (Required) Base-64 encoded password for the cluster admin user.</li>
+<li><code>host_cert_details</code> - (Optional) List of leaf certificates to use for services on each host. If custom host certificate is provided the root certificate becomes required.
+
+<ul>
+<li><code>certificate</code> - (Optional) Certificate value in string format</li>
+<li><code>host_name</code> - (Optional) Fully qualified domain name (FQDN) of the host</li>
+<li><code>private_key</code> - (Optional) Private key of the provided certificate</li>
+</ul></li>
+<li><code>root_certificate</code> - (Optional) Plain text certificate/s in order, separated by new line character. If not provided in request a self-signed root certificate is generated inside the cluster. In case hostCertDetails is provided, root certificate is mandatory.</li>
+<li><code>server_key_password</code> - (Optional) Base-64 encoded password for CA certificate&rsquo;s private key. This value can be empty.</li>
+<li><code>services</code> - (Required) List of services for which certificate needs to be enabled.</li>
+<li><code>enable_operation_certificate_management</code> - (Required) (Updatable) A required field when set to <code>true</code> calls enable action and when set to <code>false</code> calls disable action.</li>
+<li><code>renew_operation_certificate_management</code> - (Required) (Updatable) A required field when set to <code>true</code> calls renew action and when set to <code>false</code> defaults to enable_operation_certificate_management&rsquo;s value action.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Bds Instance Operation Certificate Managements Management
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Bds Instance Operation Certificate Managements Management
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Bds Instance Operation Certificate Managements Management</p>
+
+	</div>
+
+</body>
+</html>

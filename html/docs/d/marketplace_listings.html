@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_marketplace_listings</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_marketplace_listings</h1>
+
+<p>This data source provides the list of Listings in Oracle Cloud Infrastructure Marketplace service.</p>
+
+<p>Gets a list of listings from Oracle Cloud Infrastructure Marketplace by searching keywords and
+filtering according to listing attributes.</p>
+
+<p>If you plan to launch an instance from an image listing, you must first subscribe to the listing. When
+you launch the instance, you also need to provide the image ID of the listing resource version that you want.</p>
+
+<p>Subscribing to the listing requires you to first get a signature from the terms of use agreement for the
+listing resource version. To get the signature, issue a <a href="https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersionAgreements/GetAppCatalogListingAgreements">GetAppCatalogListingAgreements</a> API call.
+The <a href="https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersionAgreements">AppCatalogListingResourceVersionAgreements</a> object, including
+its signature, is returned in the response. With the signature for the terms of use agreement for the desired
+listing resource version, create a subscription by issuing a
+<a href="https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogSubscription/CreateAppCatalogSubscription">CreateAppCatalogSubscription</a> API call.</p>
+
+<p>To get the image ID to launch an instance, issue a <a href="https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersion/GetAppCatalogListingResourceVersion">GetAppCatalogListingResourceVersion</a> API call.
+Lastly, to launch the instance, use the image ID of the listing resource version to issue a <a href="https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/Instance/LaunchInstance">LaunchInstance</a> API call.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_marketplace_listings&quot; &quot;test_listings&quot; {
+
+	#Optional
+	category = var.listing_category
+	compartment_id = var.compartment_id
+	image_id = oci_core_image.test_image.id
+	is_featured = var.listing_is_featured
+	listing_id = oci_marketplace_listing.test_listing.id
+	listing_types = var.listing_listing_types
+	name = var.listing_name
+	operating_systems = var.listing_operating_systems
+	package_type = var.listing_package_type
+	pricing = var.listing_pricing
+	publisher_id = oci_marketplace_publisher.test_publisher.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>category</code> - (Optional) Name of the product category or categories. If you specify multiple categories, then Marketplace returns any listing with one or more matching categories.</li>
+<li><code>compartment_id</code> - (Optional) The unique identifier for the compartment. It is mandatory when used in non-commercial realms.</li>
+<li><code>image_id</code> - (Optional) The image identifier of the listing.</li>
+<li><code>is_featured</code> - (Optional) Indicates whether to show only featured listings. If this is set to <code>false</code> or is omitted, then all listings will be returned.</li>
+<li><code>listing_id</code> - (Optional) The unique identifier for the listing.</li>
+<li><code>listing_types</code> - (Optional) The type of the listing.</li>
+<li><code>name</code> - (Optional) The name of the listing.</li>
+<li><code>operating_systems</code> - (Optional) The operating system of the listing.</li>
+<li><code>package_type</code> - (Optional) A filter to return only packages that match the given package type exactly.</li>
+<li><code>pricing</code> - (Optional) Name of the pricing type. If multiple pricing types are provided, then any listing with one or more matching pricing models will be returned.</li>
+<li><code>publisher_id</code> - (Optional) Limit results to just this publisher.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>listings</code> - The list of listings.</li>
+</ul>
+
+<h3>Listing Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>banner</code> - The model for upload data for images and icons.
+
+<ul>
+<li><code>content_url</code> - The content URL of the upload data.</li>
+<li><code>file_extension</code> - The file extension of the upload data.</li>
+<li><code>mime_type</code> - The MIME type of the upload data.</li>
+<li><code>name</code> - The name used to refer to the upload data.</li>
+</ul></li>
+<li><code>categories</code> - Product categories that the listing belongs to.</li>
+<li><code>compatible_architectures</code> - The list of compatible architectures supported by the listing</li>
+<li><code>default_package_version</code> - The default package version.</li>
+<li><code>documentation_links</code> - Links to additional documentation provided by the publisher specifically for the listing.
+
+<ul>
+<li><code>document_category</code> - The category that the document belongs to.</li>
+<li><code>name</code> - Text that describes the resource.</li>
+<li><code>url</code> - The URL of the resource.</li>
+</ul></li>
+<li><code>icon</code> - The model for upload data for images and icons.
+
+<ul>
+<li><code>content_url</code> - The content URL of the upload data.</li>
+<li><code>file_extension</code> - The file extension of the upload data.</li>
+<li><code>mime_type</code> - The MIME type of the upload data.</li>
+<li><code>name</code> - The name used to refer to the upload data.</li>
+</ul></li>
+<li><code>id</code> - The unique identifier for the listing in Marketplace.</li>
+<li><code>is_featured</code> - Indicates whether the listing is included in Featured Listings.</li>
+<li><code>keywords</code> - Keywords associated with the listing.</li>
+<li><code>languages</code> - Languages supported by the listing.
+
+<ul>
+<li><code>code</code> - A code assigned to the item.</li>
+<li><code>name</code> - The name of the item.</li>
+</ul></li>
+<li><code>license_model_description</code> - A description of the publisher&rsquo;s licensing model for the listing.</li>
+<li><code>links</code> - Links to reference material.
+
+<ul>
+<li><code>href</code> - The anchor tag.</li>
+<li><code>rel</code> - Reference links to the previous page, next page, and other pages.</li>
+</ul></li>
+<li><code>listing_type</code> - The publisher category to which the listing belongs. The publisher category informs where the listing appears for use.</li>
+<li><code>long_description</code> - A long description of the listing.</li>
+<li><code>name</code> - The name of the listing.</li>
+<li><code>package_type</code> - The listing&rsquo;s package type.</li>
+<li><code>publisher</code> - Summary details about the publisher of the listing.
+
+<ul>
+<li><code>contact_email</code> - The email address of the publisher.</li>
+<li><code>contact_phone</code> - The phone number of the publisher.</li>
+<li><code>description</code> - A description of the publisher.</li>
+<li><code>hq_address</code> - The address of the publisher&rsquo;s headquarters.</li>
+<li><code>id</code> - The unique identifier for the publisher.</li>
+<li><code>links</code> - Reference links.
+
+<ul>
+<li><code>href</code> - The anchor tag.</li>
+<li><code>rel</code> - Reference links to the previous page, next page, and other pages.</li>
+</ul></li>
+<li><code>logo</code> - The model for upload data for images and icons.
+
+<ul>
+<li><code>content_url</code> - The content URL of the upload data.</li>
+<li><code>file_extension</code> - The file extension of the upload data.</li>
+<li><code>mime_type</code> - The MIME type of the upload data.</li>
+<li><code>name</code> - The name used to refer to the upload data.</li>
+</ul></li>
+<li><code>name</code> - The name of the publisher.</li>
+<li><code>website_url</code> - The publisher&rsquo;s website.</li>
+<li><code>year_founded</code> - The year the publisher&rsquo;s company or organization was founded.</li>
+</ul></li>
+<li><code>regions</code> - The regions where the listing is eligible to be deployed.
+
+<ul>
+<li><code>code</code> - The code of the region.</li>
+<li><code>countries</code> - Countries in the region.
+
+<ul>
+<li><code>code</code> - A code assigned to the item.</li>
+<li><code>name</code> - The name of the item.</li>
+</ul></li>
+<li><code>name</code> - The name of the region.</li>
+</ul></li>
+<li><code>release_notes</code> - Release notes for the listing.</li>
+<li><code>screenshots</code> - Screenshots of the listing.
+
+<ul>
+<li><code>content_url</code> - The content URL of the screenshot.</li>
+<li><code>description</code> - A description of the screenshot.</li>
+<li><code>file_extension</code> - The file extension of the screenshot.</li>
+<li><code>mime_type</code> - The MIME type of the screenshot.</li>
+<li><code>name</code> - The name of the screenshot.</li>
+</ul></li>
+<li><code>short_description</code> - A short description of the listing.</li>
+<li><code>support_contacts</code> - Contact information to use to get support from the publisher for the listing.
+
+<ul>
+<li><code>email</code> - The email of the contact.</li>
+<li><code>name</code> - The name of the contact.</li>
+<li><code>phone</code> - The phone number of the contact.</li>
+<li><code>subject</code> - The email subject line to use when contacting support.</li>
+</ul></li>
+<li><code>support_links</code> - Links to support resources for the listing.
+
+<ul>
+<li><code>name</code> - Text that describes the resource.</li>
+<li><code>url</code> - The URL of the resource.</li>
+</ul></li>
+<li><code>supported_operating_systems</code> - The list of operating systems supported by the listing.
+
+<ul>
+<li><code>name</code> - The name of the operating system.</li>
+</ul></li>
+<li><code>system_requirements</code> - System requirements for the listing.</li>
+<li><code>tagline</code> - The tagline of the listing.</li>
+<li><code>time_released</code> - The release date of the listing.</li>
+<li><code>usage_information</code> - Usage information for the listing.</li>
+<li><code>version</code> - The version of the listing.</li>
+<li><code>videos</code> - Videos of the listing.
+
+<ul>
+<li><code>name</code> - Text that describes the resource.</li>
+<li><code>url</code> - The URL of the resource.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

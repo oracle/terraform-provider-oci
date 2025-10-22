@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_management_managed_databases</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_management_managed_databases</h1>
+
+<p>This data source provides the list of Managed Databases in Oracle Cloud Infrastructure Database Management service.</p>
+
+<p>Gets the Managed Database for a specific ID or the list of Managed Databases in a specific compartment.
+Managed Databases can be filtered based on the name parameter. Only one of the parameters, ID or name
+should be provided. If neither of these parameters is provided, all the Managed Databases in the compartment
+are listed. Managed Databases can also be filtered based on the deployment type and management option.
+If the deployment type is not specified or if it is <code>ONPREMISE</code>, then the management option is not
+considered and Managed Databases with <code>ADVANCED</code> management option are listed.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_management_managed_databases&quot; &quot;test_managed_databases&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	deployment_type = var.managed_database_deployment_type
+	external_exadata_infrastructure_id = oci_database_management_external_exadata_infrastructure.test_external_exadata_infrastructure.id
+	id = var.managed_database_id
+	management_option = var.managed_database_management_option
+	name = var.managed_database_name
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>deployment_type</code> - (Optional) A filter to return Managed Databases of the specified deployment type.</li>
+<li><code>external_exadata_infrastructure_id</code> - (Optional) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Exadata infrastructure.</li>
+<li><code>id</code> - (Optional) The identifier of the resource.</li>
+<li><code>management_option</code> - (Optional) A filter to return Managed Databases with the specified management option.</li>
+<li><code>name</code> - (Optional) A filter to return only resources that match the entire name.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>managed_database_collection</code> - The list of managed_database_collection.</li>
+</ul>
+
+<h3>ManagedDatabase Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>additional_details</code> - The additional details specific to a type of database defined in <code>{&quot;key&quot;: &quot;value&quot;}</code> format. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></p></li>
+
+<li><p><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</p></li>
+
+<li><p><code>database_platform_name</code> - The operating system of database.</p></li>
+
+<li><p><code>database_status</code> - The status of the Oracle Database. Indicates whether the status of the database is UP, DOWN, or UNKNOWN at the current time.</p></li>
+
+<li><p><code>database_sub_type</code> - The subtype of the Oracle Database. Indicates whether the database is a Container Database, Pluggable Database, Non-container Database, Autonomous Database, or Autonomous Container Database.</p></li>
+
+<li><p><code>database_type</code> - The type of Oracle Database installation.</p></li>
+
+<li><p><code>database_version</code> - The Oracle Database version.</p></li>
+
+<li><p><code>db_system_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the DB system that this Managed Database is part of.</p></li>
+
+<li><p><code>dbmgmt_feature_configs</code> - The list of feature configurations</p>
+
+<ul>
+<li><p><code>connector_details</code> - The connector details required to connect to an Oracle cloud database.</p>
+
+<ul>
+<li><code>connector_type</code> - The list of supported connection types:
+
+<ul>
+<li>PE: Private endpoint</li>
+<li>MACS: Management agent</li>
+<li>EXTERNAL: External database connector</li>
+</ul></li>
+<li><code>database_connector_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the external database connector.</li>
+<li><code>management_agent_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the management agent.</li>
+<li><code>private_end_point_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the private endpoint.</li>
+</ul></li>
+
+<li><p><code>database_connection_details</code> - The connection details required to connect to the database.</p>
+
+<ul>
+<li><p><code>connection_credentials</code> - The credentials used to connect to the database. Currently only the <code>DETAILS</code> type is supported for creating MACS connector credentials.</p>
+
+<ul>
+<li><p><code>credential_name</code> - The name of the credential information that used to connect to the DB system resource. The name should be in &ldquo;x.y&rdquo; format, where the length of &ldquo;x&rdquo; has a maximum of 64 characters, and length of &ldquo;y&rdquo; has a maximum of 199 characters. The name strings can contain letters, numbers and the underscore character only. Other characters are not valid, except for the &ldquo;.&rdquo; character that separates the &ldquo;x&rdquo; and &ldquo;y&rdquo; portions of the name. <em>IMPORTANT</em> - The name must be unique within the Oracle Cloud Infrastructure region the credential is being created in. If you specify a name that duplicates the name of another credential within the same Oracle Cloud Infrastructure region, you may overwrite or corrupt the credential that is already using the name.</p>
+
+<p>For example: inventorydb.abc112233445566778899</p></li>
+
+<li><p><code>credential_type</code> - The type of credential used to connect to the database.</p></li>
+
+<li><p><code>named_credential_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Named Credential where the database password metadata is stored.</p></li>
+
+<li><p><code>password_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the secret containing the user password.</p></li>
+
+<li><p><code>role</code> - The role of the user connecting to the database.</p></li>
+
+<li><p><code>ssl_secret_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the secret containing the SSL keystore and truststore details.</p></li>
+
+<li><p><code>user_name</code> - The user name used to connect to the database.</p></li>
+</ul></li>
+
+<li><p><code>connection_string</code> - The details of the Oracle Database connection string.</p>
+
+<ul>
+<li><code>connection_type</code> - The list of supported connection types:
+
+<ul>
+<li>BASIC: Basic connection details</li>
+</ul></li>
+<li><code>port</code> - The port number used to connect to the database.</li>
+<li><code>protocol</code> - The protocol used to connect to the database.</li>
+<li><code>service</code> - The service name of the database.</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>feature</code> - The name of the Database Management feature.</p></li>
+
+<li><p><code>feature_status</code> - The list of statuses for Database Management features.</p></li>
+
+<li><p><code>license_model</code> - The Oracle license model that applies to the external database.</p></li>
+</ul></li>
+
+<li><p><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></p></li>
+
+<li><p><code>deployment_type</code> - The infrastructure used to deploy the Oracle Database.</p></li>
+
+<li><p><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></p></li>
+
+<li><p><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Managed Database.</p></li>
+
+<li><p><code>is_cluster</code> - Indicates whether the Oracle Database is part of a cluster.</p></li>
+
+<li><p><code>managed_database_groups</code> - A list of Managed Database Groups that the Managed Database belongs to.</p>
+
+<ul>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment in which the Managed Database Group resides.</li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Managed Database Group.</li>
+<li><code>name</code> - The name of the Managed Database Group.</li>
+</ul></li>
+
+<li><p><code>management_option</code> - The management option used when enabling Database Management.</p></li>
+
+<li><p><code>name</code> - The name of the Managed Database.</p></li>
+
+<li><p><code>parent_container_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the parent Container Database if Managed Database is a Pluggable Database.</p></li>
+
+<li><p><code>storage_system_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the storage DB system.</p></li>
+
+<li><p><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. System tags can be viewed by users, but can only be created by the system.  Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></p></li>
+
+<li><p><code>time_created</code> - The date and time the Managed Database was created.</p></li>
+
+<li><p><code>workload_type</code> - The workload type of the Autonomous Database.</p></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_datacatalog_catalogs</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_datacatalog_catalogs</h1>
+
+<p>This data source provides the list of Catalogs in Oracle Cloud Infrastructure Data Catalog service.</p>
+
+<p>Returns a list of all the data catalogs in the specified compartment.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_datacatalog_catalogs&quot; &quot;test_catalogs&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	display_name = var.catalog_display_name
+	state = var.catalog_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The OCID of the compartment where you want to list resources.</li>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.</li>
+<li><code>state</code> - (Optional) A filter to return only resources that match the specified lifecycle state. The value is case insensitive.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>catalogs</code> - The list of catalogs.</li>
+</ul>
+
+<h3>Catalog Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>attached_catalog_private_endpoints</code> - The list of private reverse connection endpoints attached to the catalog</li>
+<li><code>compartment_id</code> - Compartment identifier.</li>
+<li><code>defined_tags</code> - Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>display_name</code> - Data catalog identifier, which can be renamed.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - Unique identifier that is immutable on creation.</li>
+<li><code>lifecycle_details</code> - An message describing the current state in more detail. For example, it can be used to provide actionable information for a resource in &lsquo;Failed&rsquo; state.</li>
+<li><code>locks</code> - Locks associated with this resource.
+
+<ul>
+<li><code>message</code> - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked.</li>
+<li><code>related_resource_id</code> - The id of the resource that is locking this resource. Indicates that deleting this resource will remove the lock.</li>
+<li><code>time_created</code> - When the lock was created.</li>
+<li><code>type</code> - Type of the lock.</li>
+</ul></li>
+<li><code>number_of_objects</code> - The number of data objects added to the data catalog. Please see the data catalog documentation for further information on how this is calculated.</li>
+<li><code>service_api_url</code> - The REST front endpoint URL to the data catalog instance.</li>
+<li><code>service_console_url</code> - The console front endpoint URL to the data catalog instance.</li>
+<li><code>state</code> - The current state of the data catalog resource.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. System tags can be viewed by users, but can only be created by the system.  Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time the data catalog was created. An <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a> formatted datetime string.</li>
+<li><code>time_updated</code> - The time the data catalog was updated. An <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a> formatted datetime string.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

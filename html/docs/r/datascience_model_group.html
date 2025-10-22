@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_datascience_model_group</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_datascience_model_group</h1>
+
+<p>This resource provides the Model Group resource in Oracle Cloud Infrastructure Data Science service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/data-science/latest/ModelGroup">https://docs.oracle.com/iaas/api/#/en/data-science/latest/ModelGroup</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/datascience">https://github.com/oracle/terraform-provider-oci/tree/master/examples/datascience</a></p>
+
+<p>Create a new Model Group resource.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_datascience_model_group&quot; &quot;test_model_group&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	create_type = var.model_group_create_type
+	project_id = oci_datascience_project.test_project.id
+
+	#Optional
+	defined_tags = {&quot;Operations.CostCenter&quot;= &quot;42&quot;}
+	description = var.model_group_description
+	display_name = var.model_group_display_name
+	freeform_tags = {&quot;Department&quot;= &quot;Finance&quot;}
+	member_model_entries {
+
+		#Optional
+		member_model_details {
+
+			#Optional
+			inference_key = var.model_group_member_model_entries_member_model_details_inference_key
+			model_id = oci_datascience_model.test_model.id
+		}
+	}
+	model_group_clone_source_details {
+		#Required
+		model_group_clone_source_type = var.model_group_model_group_clone_source_details_model_group_clone_source_type
+		source_id = oci_datascience_source.test_source.id
+
+		#Optional
+		modify_model_group_details {
+
+			#Optional
+			defined_tags = var.model_group_model_group_clone_source_details_modify_model_group_details_defined_tags
+			description = var.model_group_model_group_clone_source_details_modify_model_group_details_description
+			display_name = var.model_group_model_group_clone_source_details_modify_model_group_details_display_name
+			freeform_tags = var.model_group_model_group_clone_source_details_modify_model_group_details_freeform_tags
+			model_group_details {
+				#Required
+				type = var.model_group_model_group_clone_source_details_modify_model_group_details_model_group_details_type
+
+				#Optional
+				base_model_id = oci_datascience_model.test_model.id
+				custom_metadata_list {
+
+					#Optional
+					category = var.model_group_model_group_clone_source_details_modify_model_group_details_model_group_details_custom_metadata_list_category
+					description = var.model_group_model_group_clone_source_details_modify_model_group_details_model_group_details_custom_metadata_list_description
+					key = var.model_group_model_group_clone_source_details_modify_model_group_details_model_group_details_custom_metadata_list_key
+					value = var.model_group_model_group_clone_source_details_modify_model_group_details_model_group_details_custom_metadata_list_value
+				}
+			}
+			model_group_version_history_id = oci_datascience_model_group_version_history.test_model_group_version_history.id
+			version_label = var.model_group_model_group_clone_source_details_modify_model_group_details_version_label
+		}
+		patch_model_group_member_model_details {
+
+			#Optional
+			items {
+				#Required
+				operation = var.model_group_model_group_clone_source_details_patch_model_group_member_model_details_items_operation
+				values {
+					#Required
+					model_id = oci_datascience_model.test_model.id
+
+					#Optional
+					inference_key = var.model_group_model_group_clone_source_details_patch_model_group_member_model_details_items_values_inference_key
+				}
+			}
+		}
+	}
+	model_group_details {
+		#Required
+		type = var.model_group_model_group_details_type
+
+		#Optional
+		base_model_id = oci_datascience_model.test_model.id
+		custom_metadata_list {
+
+			#Optional
+			category = var.model_group_model_group_details_custom_metadata_list_category
+			description = var.model_group_model_group_details_custom_metadata_list_description
+			key = var.model_group_model_group_details_custom_metadata_list_key
+			value = var.model_group_model_group_details_custom_metadata_list_value
+		}
+	}
+	model_group_version_history_id = oci_datascience_model_group_version_history.test_model_group_version_history.id
+	version_label = var.model_group_version_label
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment to create the modelGroup in.</li>
+<li><code>create_type</code> - (Required) The type of the model group create operation.</li>
+<li><code>defined_tags</code> - (Applicable when create_type=CREATE) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - (Applicable when create_type=CREATE) (Updatable) A short description of the modelGroup.</li>
+<li><code>display_name</code> - (Applicable when create_type=CREATE) (Updatable) A user-friendly display name for the resource. It does not have to be unique and can be modified. Avoid entering confidential information. Example: <code>My ModelGroup</code></li>
+<li><code>freeform_tags</code> - (Applicable when create_type=CREATE) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>member_model_entries</code> - (Required when create_type=CREATE) List of member models (inferenceKey &amp; modelId) to be associated with the model group.
+
+<ul>
+<li><code>member_model_details</code> - (Applicable when create_type=CREATE) Each List item contains inference key and model ocid.
+
+<ul>
+<li><code>inference_key</code> - (Applicable when create_type=CREATE) SaaS friendly name of the model.</li>
+<li><code>model_id</code> - (Required when create_type=CREATE) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the model.</li>
+</ul></li>
+</ul></li>
+<li><code>model_group_clone_source_details</code> - (Required when create_type=CLONE) Model Group clone source details.
+
+<ul>
+<li><code>model_group_clone_source_type</code> - (Required) Source resource for model group clone operation.</li>
+<li><code>modify_model_group_details</code> - (Optional) Overwrites the properties of the source modelGroup.
+
+<ul>
+<li><code>defined_tags</code> - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - (Optional) A short description of the modelGroup.</li>
+<li><code>display_name</code> - (Optional) A user-friendly display name for the resource. It does not have to be unique and can be modified. Avoid entering confidential information. Example: <code>My ModelGroup</code></li>
+<li><code>freeform_tags</code> - (Optional) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>model_group_details</code> - (Optional) The model group details.
+
+<ul>
+<li><code>base_model_id</code> - (Required when type=STACKED) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the model in the group that represents the base model for stacked deployment.</li>
+<li><code>custom_metadata_list</code> - (Applicable when model_group_clone_source_type=MODEL_GROUP | MODEL_GROUP_VERSION_HISTORY) An array of custom metadata details for the model group.
+
+<ul>
+<li><code>category</code> - (Applicable when model_group_clone_source_type=MODEL_GROUP | MODEL_GROUP_VERSION_HISTORY) Category of the metadata.</li>
+<li><code>description</code> - (Applicable when model_group_clone_source_type=MODEL_GROUP | MODEL_GROUP_VERSION_HISTORY) Description of model metadata.</li>
+<li><code>key</code> - (Applicable when model_group_clone_source_type=MODEL_GROUP | MODEL_GROUP_VERSION_HISTORY) Key of the metadata.</li>
+<li><code>value</code> - (Applicable when model_group_clone_source_type=MODEL_GROUP | MODEL_GROUP_VERSION_HISTORY) Value of the metadata.</li>
+</ul></li>
+<li><code>type</code> - (Required) The type of the model group.</li>
+</ul></li>
+<li><code>model_group_version_history_id</code> - (Optional) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the model group version history to which the modelGroup is associated.</li>
+<li><code>version_label</code> - (Optional) An additional description of the lifecycle state of the model group.</li>
+</ul></li>
+<li><code>patch_model_group_member_model_details</code> - (Optional) Specifies the list of new models to be added and list of models from source model group to be removed for cloning.
+
+<ul>
+<li><code>items</code> - (Optional) Array of patch instructions.
+
+<ul>
+<li><code>operation</code> - (Required) A single instruction to be included as part of Patch request content. Enum type (INSERT and REMOVE).</li>
+<li><code>values</code> - (Required) Array of inference key and model OCID.
+
+<ul>
+<li><code>inference_key</code> - (Optional) SaaS friendly name of the model.</li>
+<li><code>model_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the model.</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><code>source_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the model group version history.</li>
+</ul></li>
+<li><code>model_group_details</code> - (Required when create_type=CREATE) The model group details.
+
+<ul>
+<li><code>base_model_id</code> - (Required when type=STACKED) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the model in the group that represents the base model for stacked deployment.</li>
+<li><code>custom_metadata_list</code> - (Applicable when create_type=CREATE) An array of custom metadata details for the model group.
+
+<ul>
+<li><code>category</code> - (Applicable when create_type=CREATE) Category of the metadata.</li>
+<li><code>description</code> - (Applicable when create_type=CREATE) Description of model metadata.</li>
+<li><code>key</code> - (Applicable when create_type=CREATE) Key of the metadata.</li>
+<li><code>value</code> - (Applicable when create_type=CREATE) Value of the metadata.</li>
+</ul></li>
+<li><code>type</code> - (Required) The type of the model group.</li>
+</ul></li>
+<li><code>model_group_version_history_id</code> - (Applicable when create_type=CREATE) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the model group version history to which the modelGroup is associated.</li>
+<li><code>project_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the project to associate with the modelGroup.</li>
+<li><code>version_label</code> - (Applicable when create_type=CREATE) (Updatable) An additional description of the lifecycle state of the model group.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the modelGroup&rsquo;s compartment.</li>
+<li><code>create_type</code> - The type of the model group create operation.</li>
+<li><code>created_by</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the user who created the modelGroup.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - A short description of the modelGroup.</li>
+<li><code>display_name</code> - A user-friendly display name for the resource. It does not have to be unique and can be modified. Avoid entering confidential information.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the modelGroup.</li>
+<li><code>lifecycle_details</code> - Details about the lifecycle state of the model group.</li>
+<li><code>member_model_entries</code> - List of member models (inferenceKey &amp; modelId) to be associated with the model group.
+
+<ul>
+<li><code>member_model_details</code> - Each List item contains inference key and model ocid.
+
+<ul>
+<li><code>inference_key</code> - SaaS friendly name of the model.</li>
+<li><code>model_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the model.</li>
+</ul></li>
+</ul></li>
+<li><code>model_group_details</code> - The model group details.
+
+<ul>
+<li><code>base_model_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the model in the group that represents the base model for stacked deployment.</li>
+<li><code>custom_metadata_list</code> - An array of custom metadata details for the model group.
+
+<ul>
+<li><code>category</code> - Category of the metadata.</li>
+<li><code>description</code> - Description of model metadata.</li>
+<li><code>key</code> - Key of the metadata.</li>
+<li><code>value</code> - Value of the metadata.</li>
+</ul></li>
+<li><code>type</code> - The type of the model group.</li>
+</ul></li>
+<li><code>model_group_version_history_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the model group version history to which the modelGroup is associated.</li>
+<li><code>model_group_version_history_name</code> - The name of the model group version history to which the model group is associated.</li>
+<li><code>project_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the project associated with the modelGroup.</li>
+<li><code>source_model_group_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the model group used for the clone operation.</li>
+<li><code>state</code> - The state of the modelGroup.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The date and time the resource was created in the timestamp format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>. Example: 2019-08-25T21:10:29.41Z</li>
+<li><code>time_updated</code> - The date and time the resource was last updated in the timestamp format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>. Example: 2019-08-25T21:10:29.41Z</li>
+<li><code>version_id</code> - Unique identifier assigned to each version of the model group. It would be auto-incremented number generated by service.</li>
+<li><code>version_label</code> - An additional description of the lifecycle state of the model group.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Model Group
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Model Group
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Model Group</p>
+
+<h2>Import</h2>
+
+<p>ModelGroups can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_datascience_model_group.test_model_group &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

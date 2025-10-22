@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_database_management_external_my_sql_database</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_database_management_external_my_sql_database</h1>
+
+<p>This resource provides the External My Sql Database resource in Oracle Cloud Infrastructure Database Management service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/database-management/latest/ExternalMySqlDatabase">https://docs.oracle.com/iaas/api/#/en/database-management/latest/ExternalMySqlDatabase</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/databasemanagement">https://github.com/oracle/terraform-provider-oci/tree/master/examples/databasemanagement</a></p>
+
+<p>Creates an external MySQL database.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_database_management_external_my_sql_database&quot; &quot;test_external_my_sql_database&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	db_name = var.external_my_sql_database_db_name
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) OCID of compartment for the External MySQL Database.</li>
+<li><code>db_name</code> - (Required) (Updatable) Name of the External MySQL Database.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - OCID of compartment for the External MySQL Database.</li>
+<li><code>db_name</code> - Display Name of the External MySQL Database.</li>
+<li><code>external_database_id</code> - OCID of External MySQL Database.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the External My Sql Database
+	* <code>update</code> - (Defaults to 20 minutes), when updating the External My Sql Database
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the External My Sql Database</p>
+
+<h2>Import</h2>
+
+<p>ExternalMySqlDatabases can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_database_management_external_my_sql_database.test_external_my_sql_database &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

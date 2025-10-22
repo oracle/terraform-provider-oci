@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_marketplace_accepted_agreement</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_marketplace_accepted_agreement</h1>
+
+<p>This resource provides the Accepted Agreement resource in Oracle Cloud Infrastructure Marketplace service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/marketplace/latest/AcceptedAgreement">https://docs.oracle.com/iaas/api/#/en/marketplace/latest/AcceptedAgreement</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/marketplace">https://github.com/oracle/terraform-provider-oci/tree/master/examples/marketplace</a></p>
+
+<p>Accepts a terms of use agreement for a specific package version of a listing. You must accept all
+terms of use for a package before you can deploy the package.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_marketplace_accepted_agreement&quot; &quot;test_accepted_agreement&quot; {
+	#Required
+	agreement_id = oci_marketplace_agreement.test_agreement.id
+	compartment_id = var.compartment_id
+	listing_id = oci_marketplace_listing.test_listing.id
+	package_version = var.accepted_agreement_package_version
+	signature = var.accepted_agreement_signature
+
+	#Optional
+	defined_tags = {&quot;Operations.CostCenter&quot;= &quot;42&quot;}
+	display_name = var.accepted_agreement_display_name
+	freeform_tags = {&quot;Department&quot;= &quot;Finance&quot;}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>agreement_id</code> - (Required) The agreement to accept.</li>
+<li><code>compartment_id</code> - (Required) The unique identifier for the compartment where the agreement will be accepted.</li>
+<li><code>defined_tags</code> - (Optional) (Updatable) The defined tags associated with this resource, if any. Each key is predefined and scoped to namespaces. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>display_name</code> - (Optional) (Updatable) A display name for the accepted agreement.</li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) The freeform tags associated with this resource, if any. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>listing_id</code> - (Required) The unique identifier for the listing associated with the agreement.</li>
+<li><code>package_version</code> - (Required) The package version associated with the agreement.</li>
+<li><code>signature</code> - (Required) A signature generated for the listing package agreements that you can retrieve with <a href="https://docs.cloud.oracle.com/iaas/api/#/en/marketplace/20181001/Agreement/GetAgreement">GetAgreement</a>.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>agreement_id</code> - The unique identifier for the terms of use agreement itself.</li>
+<li><code>compartment_id</code> - The unique identifier for the compartment where the agreement was accepted.</li>
+<li><code>defined_tags</code> - The defined tags associated with this resource, if any. Each key is predefined and scoped to namespaces. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>display_name</code> - A display name for the accepted agreement.</li>
+<li><code>freeform_tags</code> - The freeform tags associated with this resource, if any. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The unique identifier for the acceptance of the agreement within a specific compartment.</li>
+<li><code>listing_id</code> - The unique identifier for the listing associated with the agreement.</li>
+<li><code>package_version</code> - The package version associated with the agreement.</li>
+<li><code>time_accepted</code> - The time the agreement was accepted.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Accepted Agreement
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Accepted Agreement
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Accepted Agreement</p>
+
+<h2>Import</h2>
+
+<p>AcceptedAgreements can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_marketplace_accepted_agreement.test_accepted_agreement &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

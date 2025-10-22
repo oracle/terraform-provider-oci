@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_management_external_my_sql_database_connector</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_management_external_my_sql_database_connector</h1>
+
+<p>This data source provides details about a specific External My Sql Database Connector resource in Oracle Cloud Infrastructure Database Management service.</p>
+
+<p>Retrieves the MySQL database connector.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_management_external_my_sql_database_connector&quot; &quot;test_external_my_sql_database_connector&quot; {
+	#Required
+	external_my_sql_database_connector_id = oci_database_management_external_my_sql_database_connector.test_external_my_sql_database_connector.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>external_my_sql_database_connector_id</code> - (Required) The OCID of the External MySQL Database Connector.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>associated_services</code> - Oracle Cloud Infrastructure Services associated with this connector.</li>
+<li><code>compartment_id</code> - OCID of compartment for the External MySQL connector.</li>
+<li><code>connection_status</code> - Connection Status</li>
+<li><code>connector_type</code> - Connector Type.</li>
+<li><code>credential_type</code> - Credential type used to connect to database.</li>
+<li><code>external_database_id</code> - OCID of MySQL Database resource</li>
+<li><code>host_name</code> - Host name for Connector.</li>
+<li><code>id</code> - OCID of MySQL Database Connector.</li>
+<li><code>macs_agent_id</code> - Agent Id of the MACS agent.</li>
+<li><code>name</code> - External MySQL Database Connector Name.</li>
+<li><code>network_protocol</code> - Network Protocol.</li>
+<li><code>port</code> - Connector port.</li>
+<li><code>source_database</code> - Name of MySQL Database.</li>
+<li><code>source_database_type</code> - Type of MySQL Database.</li>
+<li><code>ssl_secret_id</code> - OCID of the SSL secret, if TCPS with SSL is used to connect to database.</li>
+<li><code>ssl_secret_name</code> - Name of the SSL secret, if TCPS with SSL is used to connect to database.</li>
+<li><code>state</code> - Indicates lifecycle  state of the resource.</li>
+<li><code>time_connection_status_updated</code> - Time when connection status was last updated.</li>
+<li><code>time_created</code> - Connector creation time.</li>
+<li><code>time_updated</code> - Connector update time.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

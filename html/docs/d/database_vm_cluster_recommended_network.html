@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_vm_cluster_recommended_network</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_vm_cluster_recommended_network</h1>
+
+<p>This data source provides details about a specific Vm Cluster Recommended Network resource in Oracle Cloud Infrastructure Database service.</p>
+
+<p>Generates a recommended Cloud@Customer VM cluster network configuration.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_vm_cluster_recommended_network&quot; &quot;test_vm_cluster_recommended_network&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	display_name = var.vm_cluster_recommended_network_display_name
+	exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
+	networks {
+		#Required
+		cidr = var.vm_cluster_recommended_network_networks_cidr
+		domain = var.vm_cluster_recommended_network_networks_domain
+		gateway = var.vm_cluster_recommended_network_networks_gateway
+		netmask = var.vm_cluster_recommended_network_networks_netmask
+		network_type = var.vm_cluster_recommended_network_networks_network_type
+		prefix = var.vm_cluster_recommended_network_networks_prefix
+		vlan_id = oci_core_vlan.test_vlan.id
+	}
+
+	#Optional
+	db_servers = var.vm_cluster_recommended_network_db_servers
+	defined_tags = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.vm_cluster_recommended_network_defined_tags_value)
+	dns = var.vm_cluster_recommended_network_dns
+	dr_scan_listener_port_tcp = var.vm_cluster_recommended_network_dr_scan_listener_port_tcp
+	freeform_tags = var.vm_cluster_recommended_network_freeform_tags
+	ntp = var.vm_cluster_recommended_network_ntp
+	scan_listener_port_tcp = var.vm_cluster_recommended_network_scan_listener_port_tcp
+	scan_listener_port_tcp_ssl = var.vm_cluster_recommended_network_scan_listener_port_tcp_ssl
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>db_servers</code> - (Optional) The list of Db server Ids to configure network.</li>
+<li><code>defined_tags</code> - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</li>
+<li><code>display_name</code> - (Required) The user-friendly name for the VM cluster network. The name does not need to be unique.</li>
+<li><code>dns</code> - (Optional) The list of DNS server IP addresses. Maximum of 3 allowed.</li>
+<li><code>dr_scan_listener_port_tcp</code> - (Optional) The DR SCAN TCPIP port. Default is 1521.</li>
+<li><code>exadata_infrastructure_id</code> - (Required) The Exadata infrastructure <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>freeform_tags</code> - (Optional) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>networks</code> - (Required) List of parameters for generation of the client and backup networks.
+
+<ul>
+<li><code>cidr</code> - (Required) The cidr for the network.</li>
+<li><code>domain</code> - (Required) The network domain name.</li>
+<li><code>gateway</code> - (Required) The network gateway.</li>
+<li><code>netmask</code> - (Required) The network netmask.</li>
+<li><code>network_type</code> - (Required) The network type.</li>
+<li><code>prefix</code> - (Required) The network domain name.</li>
+<li><code>vlan_id</code> - (Required) The network VLAN ID.</li>
+</ul></li>
+<li><code>ntp</code> - (Optional) The list of NTP server IP addresses. Maximum of 3 allowed.</li>
+<li><code>scan_listener_port_tcp</code> - (Optional) The SCAN TCPIP port. Default is 1521.</li>
+<li><code>scan_listener_port_tcp_ssl</code> - (Optional) The SCAN TCPIP SSL port. Default is 2484.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</li>
+<li><code>display_name</code> - The user-friendly name for the Exadata Cloud@Customer VM cluster network. The name does not need to be unique.</li>
+<li><code>dns</code> - The list of DNS server IP addresses. Maximum of 3 allowed.</li>
+<li><code>dr_scans</code> - The SCAN details for DR network
+
+<ul>
+<li><code>hostname</code> - The Disaster recovery SCAN hostname.</li>
+<li><code>ips</code> - The list of Disaster recovery SCAN IP addresses. Three addresses should be provided.</li>
+<li><code>scan_listener_port_tcp</code> - The Disaster recovery SCAN TCPIP port. Default is 1521.</li>
+</ul></li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>ntp</code> - The list of NTP server IP addresses. Maximum of 3 allowed.</li>
+<li><code>scans</code> - The SCAN details.
+
+<ul>
+<li><code>hostname</code> - The SCAN hostname.</li>
+<li><code>ips</code> - The list of SCAN IP addresses. Three addresses should be provided.</li>
+<li><code>port</code> - <strong>Deprecated.</strong> This field is deprecated. You may use &lsquo;scanListenerPortTcp&rsquo; to specify the port. The SCAN TCPIP port. Default is 1521.</li>
+<li><code>scan_listener_port_tcp</code> - The SCAN TCPIP port. Default is 1521.</li>
+<li><code>scan_listener_port_tcp_ssl</code> - The SCAN TCPIP SSL port. Default is 2484.</li>
+</ul></li>
+<li><code>vm_networks</code> - Details of the client and backup networks.
+
+<ul>
+<li><code>domain_name</code> - The network domain name.</li>
+<li><code>gateway</code> - The network gateway.</li>
+<li><code>netmask</code> - The network netmask.</li>
+<li><code>network_type</code> - The network type.</li>
+<li><code>nodes</code> - The list of node details.
+
+<ul>
+<li><code>db_server_id</code> - The Db server associated with the node.</li>
+<li><code>hostname</code> - The node host name.</li>
+<li><code>ip</code> - The node IP address.</li>
+<li><code>state</code> - The current state of the VM cluster network nodes. CREATING - The resource is being created REQUIRES_VALIDATION - The resource is created and may not be usable until it is validated. VALIDATING - The resource is being validated and not available to use. VALIDATED - The resource is validated and is available for consumption by VM cluster. VALIDATION_FAILED - The resource validation has failed and might require user input to be corrected. UPDATING - The resource is being updated and not available to use. ALLOCATED - The resource is currently being used by VM cluster. TERMINATING - The resource is being deleted and not available to use. TERMINATED - The resource is deleted and unavailable. FAILED - The resource is in a failed state due to validation or other errors.</li>
+<li><code>vip</code> - The node virtual IP (VIP) address.</li>
+<li><code>vip_hostname</code> - The node virtual IP (VIP) host name.</li>
+</ul></li>
+<li><code>vlan_id</code> - The network VLAN ID.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

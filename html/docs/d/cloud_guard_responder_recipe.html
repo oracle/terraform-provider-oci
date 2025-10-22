@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_cloud_guard_responder_recipe</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_cloud_guard_responder_recipe</h1>
+
+<p>This data source provides details about a specific Responder Recipe resource in Oracle Cloud Infrastructure Cloud Guard service.</p>
+
+<p>Returns a responder recipe (ResponderRecipe resource) identified by responderRecipeId.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_cloud_guard_responder_recipe&quot; &quot;test_responder_recipe&quot; {
+	#Required
+	responder_recipe_id = oci_cloud_guard_responder_recipe.test_responder_recipe.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>responder_recipe_id</code> - (Required) OCID of the responder recipe.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>compartment_id</code> - Compartment OCID</p></li>
+
+<li><p><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></p></li>
+
+<li><p><code>description</code> - Responder recipe description</p></li>
+
+<li><p><code>display_name</code> - Responder recipe display name</p></li>
+
+<li><p><code>effective_responder_rules</code> - List of currently enabled responder rules for the responder type, for recipe after applying defaults</p>
+
+<ul>
+<li><p><code>compartment_id</code> - Compartment OCID</p></li>
+
+<li><p><code>description</code> - Responder rule description</p></li>
+
+<li><p><code>details</code> - Detailed information for a responder rule</p>
+
+<ul>
+<li><code>condition</code> - The base condition resource.</li>
+<li><code>configurations</code> - List of responder rule configurations
+
+<ul>
+<li><code>config_key</code> - Unique identifier of the configuration</li>
+<li><code>name</code> - Configuration name</li>
+<li><code>value</code> - Configuration value</li>
+</ul></li>
+<li><code>is_enabled</code> - Enabled state for the responder rule</li>
+<li><code>mode</code> - Execution mode for the responder rule</li>
+</ul></li>
+
+<li><p><code>display_name</code> - Responder rule display name</p></li>
+
+<li><p><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.</p></li>
+
+<li><p><code>policies</code> - List of policies</p></li>
+
+<li><p><code>responder_rule_id</code> - Unique identifier for the responder rule</p></li>
+
+<li><p><code>state</code> - The current lifecycle state of the responder rule</p></li>
+
+<li><p><code>supported_modes</code> - Supported execution modes for the responder rule</p></li>
+
+<li><p><code>time_created</code> - The date and time the responder recipe rule was created. Format defined by RFC3339.</p></li>
+
+<li><p><code>time_updated</code> - The date and time the responder recipe rule was last updated. Format defined by RFC3339.</p></li>
+
+<li><p><code>type</code> - Type of responder</p></li>
+</ul></li>
+
+<li><p><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></p>
+
+<p>Avoid entering confidential information.</p></li>
+
+<li><p><code>id</code> - Unique identifier for the responder recip</p></li>
+
+<li><p><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.</p></li>
+
+<li><p><code>owner</code> - Owner of responder recipe</p></li>
+
+<li><p><code>responder_rules</code> - List of responder rules associated with the recipe</p>
+
+<ul>
+<li><p><code>compartment_id</code> - Compartment OCID</p></li>
+
+<li><p><code>description</code> - Responder rule description</p></li>
+
+<li><p><code>details</code> - Detailed information for a responder rule</p>
+
+<ul>
+<li><code>condition</code> - The base condition resource.</li>
+<li><code>configurations</code> - List of responder rule configurations
+
+<ul>
+<li><code>config_key</code> - Unique identifier of the configuration</li>
+<li><code>name</code> - Configuration name</li>
+<li><code>value</code> - Configuration value</li>
+</ul></li>
+<li><code>is_enabled</code> - Enabled state for the responder rule</li>
+<li><code>mode</code> - Execution mode for the responder rule</li>
+</ul></li>
+
+<li><p><code>display_name</code> - Responder rule display name</p></li>
+
+<li><p><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.</p></li>
+
+<li><p><code>policies</code> - List of policies</p></li>
+
+<li><p><code>responder_rule_id</code> - Unique identifier for the responder rule</p></li>
+
+<li><p><code>state</code> - The current lifecycle state of the responder rule</p></li>
+
+<li><p><code>supported_modes</code> - Supported execution modes for the responder rule</p></li>
+
+<li><p><code>time_created</code> - The date and time the responder recipe rule was created. Format defined by RFC3339.</p></li>
+
+<li><p><code>time_updated</code> - The date and time the responder recipe rule was last updated. Format defined by RFC3339.</p></li>
+
+<li><p><code>type</code> - Type of responder</p></li>
+</ul></li>
+
+<li><p><code>source_responder_recipe_id</code> - The unique identifier of the source responder recipe</p></li>
+
+<li><p><code>state</code> - The current lifecycle state of the example</p></li>
+
+<li><p><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. System tags can be viewed by users, but can only be created by the system.  Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></p></li>
+
+<li><p><code>time_created</code> - The date and time the responder recipe was created. Format defined by RFC3339.</p></li>
+
+<li><p><code>time_updated</code> - The date and time the responder recipe was last updated. Format defined by RFC3339.</p></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_delegate_access_control_service_provider_action</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_delegate_access_control_service_provider_action</h1>
+
+<p>This data source provides details about a specific Service Provider Action resource in Oracle Cloud Infrastructure Delegate Access Control service.</p>
+
+<p>Gets the Service Provider Action associated with the specified Service Provider Action ID.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_delegate_access_control_service_provider_action&quot; &quot;test_service_provider_action&quot; {
+	#Required
+	service_provider_action_id = oci_delegate_access_control_service_provider_action.test_service_provider_action.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>service_provider_action_id</code> - (Required) Unique Oracle supplied identifier associated with the Service Provider Action.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>component</code> - Name of the infrastructure layer associated with the Service Provider Action.</li>
+<li><code>customer_display_name</code> - Display Name of the Service Provider Action.</li>
+<li><code>description</code> - Description of the Service Provider Action in terms of associated risk profile, and characteristics of the operating system commands made available to the support operator under this Service Provider Action.</li>
+<li><code>id</code> - Unique Oracle assigned identifier for the Service Provider Action.</li>
+<li><code>name</code> - Unique name of the Service Provider Action.</li>
+<li><code>properties</code> - Fine grained properties associated with the Delegation Control.
+
+<ul>
+<li><code>name</code> - Name of the property</li>
+<li><code>value</code> - value of the property</li>
+</ul></li>
+<li><code>resource_type</code> - resourceType for which the ServiceProviderAction is applicable</li>
+<li><code>service_provider_service_types</code> - List of Service Provider Service Types that this Service Provider Action is applicable to.</li>
+<li><code>state</code> - The current lifecycle state of the Service Provider Action.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

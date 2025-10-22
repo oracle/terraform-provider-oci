@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_kms_vault_replicas</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_kms_vault_replicas</h1>
+
+<p>This data source provides the list of Vault Replicas in Oracle Cloud Infrastructure Kms service.</p>
+
+<p>Lists the replicas for a vault</p>
+
+<p>As a provisioning operation, this call is subject to a Key Management limit that applies to
+the total number of requests across all provisioning write operations. Key Management might
+throttle this call to reject an otherwise valid request when the total rate of provisioning
+write operations exceeds 10 requests per second for a given tenancy.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_kms_vault_replicas&quot; &quot;test_vault_replicas&quot; {
+	#Required
+	vault_id = oci_kms_vault.test_vault.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>vault_id</code> - (Required) The OCID of the vault.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>vault_replicas</code> - The list of vault_replicas.</li>
+</ul>
+
+<h3>VaultReplica Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>crypto_endpoint</code> - The vault replica&rsquo;s crypto endpoint</li>
+<li><code>management_endpoint</code> - The vault replica&rsquo;s management endpoint</li>
+<li><code>region</code> - Region to which vault is replicated to</li>
+<li><code>status</code> - Status of the Vault</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

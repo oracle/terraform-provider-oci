@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_golden_gate_deployment_certificate</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_golden_gate_deployment_certificate</h1>
+
+<p>This data source provides details about a specific Deployment Certificate resource in Oracle Cloud Infrastructure Golden Gate service.</p>
+
+<p>Retrieves a Certificate.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_golden_gate_deployment_certificate&quot; &quot;test_deployment_certificate&quot; {
+	#Required
+	certificate_key = var.deployment_certificate_certificate_key
+	deployment_id = oci_golden_gate_deployment.test_deployment.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>certificate_key</code> - (Required) A unique certificate identifier.</li>
+<li><code>deployment_id</code> - (Required) A unique Deployment identifier.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>authority_key_id</code> - The Certificate authority key id.</li>
+<li><code>certificate_content</code> - The base64 encoded content of the PEM file containing the SSL certificate.</li>
+<li><code>deployment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the deployment being referenced.</li>
+<li><code>is_ca</code> - Indicates if the certificate is ca.</li>
+<li><code>is_self_signed</code> - Indicates if the certificate is self signed.</li>
+<li><code>issuer</code> - The Certificate issuer.</li>
+<li><code>key</code> - The identifier key (unique name in the scope of the deployment) of the certificate being referenced.  It must be 1 to 32 characters long, must contain only alphanumeric characters and must start with a letter.</li>
+<li><code>md5hash</code> - The Certificate md5Hash.</li>
+<li><code>public_key</code> - The Certificate public key.</li>
+<li><code>public_key_algorithm</code> - The Certificate public key algorithm.</li>
+<li><code>public_key_size</code> - The Certificate public key size.</li>
+<li><code>serial</code> - The Certificate serial.</li>
+<li><code>sha1hash</code> - The Certificate sha1 hash.</li>
+<li><code>state</code> - Possible certificate lifecycle states.</li>
+<li><code>subject</code> - The Certificate subject.</li>
+<li><code>subject_key_id</code> - The Certificate subject key id.</li>
+<li><code>time_created</code> - The time the resource was created. The format is defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>, such as <code>2016-08-25T21:10:29.600Z</code>.</li>
+<li><code>time_valid_from</code> - The time the certificate is valid from. The format is defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>, such as <code>2016-08-25T21:10:29.600Z</code>.</li>
+<li><code>time_valid_to</code> - The time the certificate is valid to. The format is defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>, such as <code>2016-08-25T21:10:29.600Z</code>.</li>
+<li><code>version</code> - The Certificate version.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

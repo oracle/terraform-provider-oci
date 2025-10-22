@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_db_system_compute_performances</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_db_system_compute_performances</h1>
+
+<p>This data source provides the list of Db System Compute Performances in Oracle Cloud Infrastructure Database service.</p>
+
+<p>Gets a list of expected compute performance parameters for a virtual machine DB system based on system configuration.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_db_system_compute_performances&quot; &quot;test_db_system_compute_performances&quot; {
+
+	#Optional
+	db_system_shape = var.db_system_compute_performance_db_system_shape
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>db_system_shape</code> - (Optional) If provided, filters the results to the set of database versions which are supported for the given shape.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>db_system_compute_performances</code> - The list of db_system_compute_performances.</li>
+</ul>
+
+<h3>DbSystemComputePerformance Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compute_performance_list</code> - List of Compute performance details for the specified DB system shape.
+
+<ul>
+<li><code>cpu_core_count</code> - The number of OCPU cores available.</li>
+<li><code>memory_in_gbs</code> - The amount of memory allocated for the VMDB System.</li>
+<li><code>network_bandwidth_in_gbps</code> - The network bandwidth of the VMDB system in gbps.</li>
+<li><code>network_iops</code> - IOPS for the VMDB System.</li>
+<li><code>network_throughput_in_mbps</code> - Network throughput for the VMDB System.</li>
+</ul></li>
+<li><code>shape</code> - The shape of the DB system.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

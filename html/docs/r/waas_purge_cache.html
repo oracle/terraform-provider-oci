@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_waas_purge_cache</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_waas_purge_cache</h1>
+
+<p>This resource provides the Purge Cache resource in Oracle Cloud Infrastructure Web Application Acceleration and Security service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/waas/latest/PurgeCache">https://docs.oracle.com/iaas/api/#/en/waas/latest/PurgeCache</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/web_application_acceleration_and_security">https://github.com/oracle/terraform-provider-oci/tree/master/examples/web_application_acceleration_and_security</a></p>
+
+<p>Performs a purge of the cache for each specified resource. If no resources are passed, the cache for the entire Web Application Firewall will be purged.
+For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/WAF/Tasks/cachingrules.htm#purge">Caching Rules</a>.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_waas_purge_cache&quot; &quot;test_purge_cache&quot; {
+	#Required
+	waas_policy_id = oci_waas_waas_policy.test_waas_policy.id
+
+	#Optional
+	resources = var.purge_cache_resources
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>resources</code> - (Optional) A resource to purge, specified by either a hostless absolute path starting with a single slash (Example: <code>/path/to/resource</code>) or by a relative path in which the first component will be interpreted as a domain protected by the WAAS policy (Example: <code>example.com/path/to/resource</code>).</li>
+<li><code>waas_policy_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the WAAS policy.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 1 hours), when creating the Purge Cache
+	* <code>update</code> - (Defaults to 1 hours), when updating the Purge Cache
+	* <code>delete</code> - (Defaults to 1 hours), when destroying the Purge Cache</p>
+
+<h2>Import</h2>
+
+<p>Import is not supported for this resource.</p>
+
+	</div>
+
+</body>
+</html>

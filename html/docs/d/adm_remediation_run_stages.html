@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_adm_remediation_run_stages</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_adm_remediation_run_stages</h1>
+
+<p>This data source provides the list of Remediation Run Stages in Oracle Cloud Infrastructure Adm service.</p>
+
+<p>Returns a list of Remediation Run Stages based on the specified query parameters and Remediation Run identifier.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_adm_remediation_run_stages&quot; &quot;test_remediation_run_stages&quot; {
+	#Required
+	remediation_run_id = oci_adm_remediation_run.test_remediation_run.id
+
+	#Optional
+	status = var.remediation_run_stage_status
+	type = var.remediation_run_stage_type
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>remediation_run_id</code> - (Required) Unique Remediation Run identifier path parameter.</li>
+<li><code>status</code> - (Optional) A filter to return only Stages that match the specified status.</li>
+<li><code>type</code> - (Optional) A filter to return only Stages that match the specified type.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>remediation_run_stage_collection</code> - The list of remediation_run_stage_collection.</li>
+</ul>
+
+<h3>RemediationRunStage Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>audit_id</code> - The Oracle Cloud identifier (<a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>) of the vulnerability audit.</li>
+<li><code>next_stage_type</code> - The next type of stage in the remediation run.</li>
+<li><code>pipeline_properties</code> - Pipeline properties which result from the run of the verify stage.
+
+<ul>
+<li><code>pipeline_identifier</code> - Unique identifier for the pipeline or action created in the Verify stage.</li>
+<li><code>pipeline_url</code> - The web link to the pipeline from the Verify stage.</li>
+</ul></li>
+<li><code>previous_stage_type</code> - The previous type of stage in the remediation run.</li>
+<li><code>pull_request_properties</code> - Pull request properties from recommend stage of the remediation run.
+
+<ul>
+<li><code>pull_request_identifier</code> - Unique identifier for the pull or merge request created in the recommend stage.</li>
+<li><code>pull_request_url</code> - The web link to the pull or merge request created in the recommend stage.</li>
+</ul></li>
+<li><code>recommended_updates_count</code> - Count of recommended application dependencies to update.</li>
+<li><code>remediation_run_id</code> - The Oracle Cloud identifier (<a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>) of the remediation run.</li>
+<li><code>status</code> - The current status of a remediation run stage.</li>
+<li><code>summary</code> - Information about the current step within the stage.</li>
+<li><code>time_created</code> - The creation date and time of the remediation run stage (formatted according to <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>).</li>
+<li><code>time_finished</code> - The date and time of the finish of the remediation run stage (formatted according to <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>).</li>
+<li><code>time_started</code> - The date and time of the start of the remediation run stage (formatted according to <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>).</li>
+<li><code>type</code> - The type of the remediation run stage.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

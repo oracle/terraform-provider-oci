@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_os_management_hub_managed_instance_group_update_all_packages_management</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_os_management_hub_managed_instance_group_update_all_packages_management</h1>
+
+<p>This resource provides the Managed Instance Group Update All Packages Management resource in Oracle Cloud Infrastructure Os Management Hub service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/os-management/latest/ManagedInstanceGroupUpdateAllPackagesManagement">https://docs.oracle.com/iaas/api/#/en/os-management/latest/ManagedInstanceGroupUpdateAllPackagesManagement</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/os_management_hub">https://github.com/oracle/terraform-provider-oci/tree/master/examples/os_management_hub</a></p>
+
+<p>Updates all packages on each managed instance in the specified managed instance group.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_os_management_hub_managed_instance_group_update_all_packages_management&quot; &quot;test_managed_instance_group_update_all_packages_management&quot; {
+	#Required
+	managed_instance_group_id = oci_os_management_hub_managed_instance_group.test_managed_instance_group.id
+
+	#Optional
+	update_types = var.managed_instance_group_update_all_packages_management_update_types
+	work_request_details {
+
+		#Optional
+		description = var.managed_instance_group_update_all_packages_management_work_request_details_description
+		display_name = var.managed_instance_group_update_all_packages_management_work_request_details_display_name
+	}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>managed_instance_group_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the managed instance group.</li>
+<li><code>update_types</code> - (Optional) The type of updates to be applied.</li>
+<li><code>work_request_details</code> - (Optional) Provides the name and description of the job.
+
+<ul>
+<li><code>description</code> - (Optional) User-specified information about the job. Avoid entering confidential information.</li>
+<li><code>display_name</code> - (Optional) A user-friendly name for the job. The name does not have to be unique. Avoid entering confidential information.</li>
+</ul></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Managed Instance Group Update All Packages Management
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Managed Instance Group Update All Packages Management
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Managed Instance Group Update All Packages Management</p>
+
+<h2>Import</h2>
+
+<p>ManagedInstanceGroupUpdateAllPackagesManagement can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_os_management_hub_managed_instance_group_update_all_packages_management.test_managed_instance_group_update_all_packages_management &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

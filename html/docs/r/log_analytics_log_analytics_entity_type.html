@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_log_analytics_log_analytics_entity_type</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_log_analytics_log_analytics_entity_type</h1>
+
+<p>This resource provides the Log Analytics Entity Type resource in Oracle Cloud Infrastructure Log Analytics service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/logan-api-spec/latest/LogAnalyticsEntityType">https://docs.oracle.com/iaas/api/#/en/logan-api-spec/latest/LogAnalyticsEntityType</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/log_analytics">https://github.com/oracle/terraform-provider-oci/tree/master/examples/log_analytics</a></p>
+
+<p>Add custom log analytics entity type.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_log_analytics_log_analytics_entity_type&quot; &quot;test_log_analytics_entity_type&quot; {
+	#Required
+	name = var.log_analytics_entity_type_name
+	namespace = var.log_analytics_entity_type_namespace
+
+	#Optional
+	category = var.log_analytics_entity_type_category
+	properties {
+		#Required
+		name = var.log_analytics_entity_type_properties_name
+
+		#Optional
+		description = var.log_analytics_entity_type_properties_description
+	}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>category</code> - (Optional) Log analytics entity type category. Category will be used for grouping and filtering.</li>
+<li><code>name</code> - (Required) Log analytics entity type name.</li>
+<li><code>namespace</code> - (Required) The Logging Analytics namespace used for the request.</li>
+<li><code>properties</code> - (Optional) Log analytics entity type property definition.
+
+<ul>
+<li><code>description</code> - (Optional) Description for the log analytics entity type property.</li>
+<li><code>name</code> - (Required) Log analytics entity type property name.</li>
+</ul></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - Array of log analytics entity type summary.
+
+<ul>
+<li><code>category</code> - Log analytics entity type category. Category will be used for grouping and filtering.</li>
+<li><code>cloud_type</code> - Log analytics entity type group. This can be CLOUD (OCI) or NON_CLOUD otherwise.</li>
+<li><code>internal_name</code> - Internal name for the log analytics entity type.</li>
+<li><code>name</code> - Log analytics entity type name.</li>
+<li><code>state</code> - The current lifecycle state of the log analytics entity type.</li>
+<li><code>time_created</code> - Time the log analytics entity type was created. An RFC3339 formatted datetime string.</li>
+<li><code>time_updated</code> - Time the log analytics entity type was updated. An RFC3339 formatted datetime string.</li>
+</ul></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Log Analytics Entity Type
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Log Analytics Entity Type
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Log Analytics Entity Type</p>
+
+<h2>Import</h2>
+
+<p>LogAnalyticsEntityTypes can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_log_analytics_log_analytics_entity_type.test_log_analytics_entity_type &quot;namespaces/{namespaceName}/logAnalyticsEntityTypes&quot; 
+</code></pre>
+
+	</div>
+
+</body>
+</html>

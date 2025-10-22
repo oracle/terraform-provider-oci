@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_generative_ai_dedicated_ai_cluster</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_generative_ai_dedicated_ai_cluster</h1>
+
+<p>This resource provides the Dedicated Ai Cluster resource in Oracle Cloud Infrastructure Generative AI service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/generative-ai/latest/DedicatedAiCluster">https://docs.oracle.com/iaas/api/#/en/generative-ai/latest/DedicatedAiCluster</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/generative_ai">https://github.com/oracle/terraform-provider-oci/tree/master/examples/generative_ai</a></p>
+
+<p>Creates a dedicated AI cluster.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_generative_ai_dedicated_ai_cluster&quot; &quot;test_dedicated_ai_cluster&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	type = var.dedicated_ai_cluster_type
+	unit_count = var.dedicated_ai_cluster_unit_count
+	unit_shape = var.dedicated_ai_cluster_unit_shape
+
+	#Optional
+	defined_tags = {&quot;Operations.CostCenter&quot;= &quot;42&quot;}
+	description = var.dedicated_ai_cluster_description
+	display_name = var.dedicated_ai_cluster_display_name
+	freeform_tags = {&quot;Department&quot;= &quot;Finance&quot;}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>compartment_id</code> - (Required) (Updatable) The compartment OCID to create the dedicated AI cluster in.</p></li>
+
+<li><p><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></p></li>
+
+<li><p><code>description</code> - (Optional) (Updatable) An optional description of the dedicated AI cluster.</p></li>
+
+<li><p><code>display_name</code> - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it&rsquo;s changeable.</p></li>
+
+<li><p><code>freeform_tags</code> - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></p></li>
+
+<li><p><code>type</code> - (Required) The dedicated AI cluster type indicating whether this is a fine-tuning/training processor or hosting/inference processor.</p>
+
+<p>Allowed values are:</p>
+
+<ul>
+<li>HOSTING</li>
+<li>FINE_TUNING</li>
+</ul></li>
+
+<li><p><code>unit_count</code> - (Required) (Updatable) The number of dedicated units in this AI cluster.</p></li>
+
+<li><p><code>unit_shape</code> - (Required) The shape of dedicated unit in this AI cluster. The underlying hardware configuration is hidden from customers.</p>
+
+<p>Allowed values are:</p>
+
+<ul>
+<li>LARGE_COHERE</li>
+<li>LARGE_COHERE_V2</li>
+<li>SMALL_COHERE</li>
+<li>SMALL_COHERE_V2</li>
+<li>SMALL_COHERE_4</li>
+<li>EMBED_COHERE</li>
+<li>LLAMA2_70</li>
+<li>LARGE_GENERIC</li>
+<li>LARGE_COHERE_V2_2</li>
+<li>LARGE_GENERIC_4</li>
+<li>SMALL_GENERIC_V2</li>
+<li>LARGE_GENERIC_2</li>
+<li>SMALL_GENERIC_V1</li>
+<li>MEDIUM_GENERIC_V1</li>
+<li>LARGE_GENERIC_V1</li>
+</ul></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>capacity</code> - The total capacity for a dedicated AI cluster.
+
+<ul>
+<li><code>capacity_type</code> - The type of the dedicated AI cluster capacity.</li>
+<li><code>total_endpoint_capacity</code> - The total number of endpoints that can be hosted on this dedicated AI cluster.</li>
+<li><code>used_endpoint_capacity</code> - The number of endpoints hosted on this dedicated AI cluster.</li>
+</ul></li>
+<li><code>compartment_id</code> - The compartment OCID to create the dedicated AI cluster in.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - An optional description of the dedicated AI cluster.</li>
+<li><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the dedicated AI cluster.</li>
+<li><code>lifecycle_details</code> - A message describing the current state with detail that can provide actionable information.</li>
+<li><code>previous_state</code> - Dedicated AI clusters are compute resources that you can use for fine-tuning custom models or for hosting endpoints for custom models. The clusters are dedicated to your models and not shared with users in other tenancies.</li>
+</ul>
+
+<p>To use any of the API operations, you must be authorized in an IAM policy. If you&rsquo;re not authorized, talk to an administrator who gives Oracle Cloud Infrastructure resource access to users. See <a href="https://docs.cloud.oracle.com/iaas/Content/Identity/policiesgs/get-started-with-policies.htm">Getting Started with Policies</a> and <a href="https://docs.cloud.oracle.com/iaas/Content/generative-ai/iam-policies.htm">Getting Access to Generative AI Resouces</a>.
+* <code>state</code> - The current state of the dedicated AI cluster.
+* <code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace.  Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code>
+* <code>time_created</code> - The date and time the dedicated AI cluster was created, in the format defined by RFC 3339
+* <code>time_updated</code> - The date and time the dedicated AI cluster was updated, in the format defined by RFC 3339
+* <code>type</code> - The dedicated AI cluster type indicating whether this is a fine-tuning/training processor or hosting/inference processor.
+* <code>unit_count</code> - The number of dedicated units in this AI cluster.
+* <code>unit_shape</code> - The shape of dedicated unit in this AI cluster. The underlying hardware configuration is hidden from customers.</p>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Dedicated Ai Cluster
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Dedicated Ai Cluster
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Dedicated Ai Cluster</p>
+
+<h2>Import</h2>
+
+<p>DedicatedAiClusters can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_generative_ai_dedicated_ai_cluster.test_dedicated_ai_cluster &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_data_safe_security_policy_report_database_table_access_entry</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_data_safe_security_policy_report_database_table_access_entry</h1>
+
+<p>This data source provides details about a specific Security Policy Report Database Table Access Entry resource in Oracle Cloud Infrastructure Data Safe service.</p>
+
+<p>Gets a database table access entry object by identifier.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_data_safe_security_policy_report_database_table_access_entry&quot; &quot;test_security_policy_report_database_table_access_entry&quot; {
+	#Required
+	database_table_access_entry_key = var.security_policy_report_database_table_access_entry_database_table_access_entry_key
+	security_policy_report_id = oci_data_safe_security_policy_report.test_security_policy_report.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>database_table_access_entry_key</code> - (Required) The unique key that identifies the table access object. This is a system-generated identifier.</li>
+<li><code>security_policy_report_id</code> - (Required) The OCID of the security policy report resource.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>access_through_object</code> - A non-null value in this field indicates the object through which user has access to table, possible values could be table or view.</li>
+<li><code>access_type</code> - The type of the access the user has on the table, there can be one or more from SELECT, UPDATE, INSERT, OWNER or DELETE.</li>
+<li><code>are_all_tables_accessible</code> - Indicates whether the user has access to all the tables in the schema.</li>
+<li><code>column_name</code> - If there are column level privileges on a table or view.</li>
+<li><code>grant_from_role</code> - This can be empty in case of direct grant, in case of indirect grant, this attribute displays the name of the  role which is granted to the user though which the user has access to the table.</li>
+<li><code>grantee</code> - Grantee is the user who can access the table</li>
+<li><code>grantor</code> - The one who granted this privilege.</li>
+<li><code>is_access_constrained_by_database_vault</code> - Indicates whether the table access is constrained via Oracle Database Vault.</li>
+<li><code>is_access_constrained_by_label_security</code> - Indicates whether the table access is constrained via Oracle Label Security.</li>
+<li><code>is_access_constrained_by_real_application_security</code> - Indicates whether the table access is constrained via Real Application Security.</li>
+<li><code>is_access_constrained_by_redaction</code> - Indicates whether the table access is constrained via Oracle Data Redaction.</li>
+<li><code>is_access_constrained_by_sql_firewall</code> - Indicates whether the table access is constrained via Oracle Database SQL Firewall.</li>
+<li><code>is_access_constrained_by_view</code> - Indicates whether the access is constrained on a table via a view.</li>
+<li><code>is_access_constrained_by_virtual_private_database</code> - Indicates whether the table access is constrained via Virtual Private Database.</li>
+<li><code>is_sensitive</code> - Indicates whether the table is marked as sensitive.</li>
+<li><code>key</code> - The unique key that identifies the table access report. It is numeric and unique within a security policy report.</li>
+<li><code>privilege</code> - Name of the privilege.</li>
+<li><code>privilege_grantable</code> - Indicates whether the grantee can grant this privilege to other users. Privileges can be granted to a user or role with  GRANT_OPTION or ADMIN_OPTION</li>
+<li><code>privilege_type</code> - Type of the privilege user has, this includes System Privilege, Schema Privilege, Object Privilege, Column Privilege, Owner or Schema Privilege on a schema.</li>
+<li><code>table_name</code> - The name of the database table the user has access to.</li>
+<li><code>table_schema</code> - The name of the schema the table belongs to.</li>
+<li><code>target_id</code> - The OCID of the of the  target database.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

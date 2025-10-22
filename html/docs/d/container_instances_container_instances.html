@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_container_instances_container_instances</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_container_instances_container_instances</h1>
+
+<p>This data source provides the list of Container Instances in Oracle Cloud Infrastructure Container Instances service.</p>
+
+<p>Returns a list of container instances.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_container_instances_container_instances&quot; &quot;test_container_instances&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	availability_domain = var.container_instance_availability_domain
+	display_name = var.container_instance_display_name
+	state = var.container_instance_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>availability_domain</code> - (Optional) The name of the availability domain.  Example: <code>Uocm:PHX-AD-1</code></li>
+<li><code>compartment_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment in which to list resources.</li>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the entire display name given.</li>
+<li><code>state</code> - (Optional) A filter to only return resources that match the given lifecycle state.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>container_instance_collection</code> - The list of container_instance_collection.</li>
+</ul>
+
+<h3>ContainerInstance Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>availability_domain</code> - The availability domain to place the container instance.</li>
+<li><code>compartment_id</code> - The OCID of the compartment.</li>
+<li><code>container_count</code> - The number of containers on the container instance.</li>
+<li><code>container_restart_policy</code> - The container restart policy is applied for all containers in container instance.</li>
+<li><code>containers</code> - The containers on the container instance.
+
+<ul>
+<li><code>container_id</code> - The OCID of the container.</li>
+<li><code>display_name</code> - Display name for the Container.</li>
+</ul></li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code>.</li>
+<li><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.</li>
+<li><code>dns_config</code> - DNS settings for containers.
+
+<ul>
+<li><code>nameservers</code> - IP address of the name server..</li>
+<li><code>options</code> - Options allows certain internal resolver variables to be modified.</li>
+<li><code>searches</code> - Search list for hostname lookup.</li>
+</ul></li>
+<li><code>fault_domain</code> - The fault domain to place the container instance.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>graceful_shutdown_timeout_in_seconds</code> - The amount of time that processes in a container have to gracefully end when the container must be stopped. For example, when you delete a container instance. After the timeout is reached, the processes are sent a signal to be deleted.</li>
+<li><code>id</code> - An OCID that cannot be changed.</li>
+<li><code>image_pull_secrets</code> - The image pulls secrets so you can access private registry to pull container images.
+
+<ul>
+<li><code>registry_endpoint</code> - The registry endpoint of the container image.</li>
+<li><code>secret_id</code> - The OCID of the secret for registry credentials.</li>
+<li><code>secret_type</code> - The type of ImagePullSecret.</li>
+</ul></li>
+<li><code>lifecycle_details</code> - A message that describes the current state of the container in more detail. Can be used to provide actionable information.</li>
+<li><code>shape</code> - The shape of the container instance. The shape determines the number of OCPUs, amount of memory, and other resources that are allocated to a container instance.</li>
+<li><code>shape_config</code> - The shape configuration for a container instance. The shape configuration determines the resources thats are available to the container instance and its containers.
+
+<ul>
+<li><code>memory_in_gbs</code> - The total amount of memory available to the container instance, in gigabytes.</li>
+<li><code>networking_bandwidth_in_gbps</code> - The networking bandwidth available to the container instance, in gigabits per second.</li>
+<li><code>ocpus</code> - The total number of OCPUs available to the container instance.</li>
+<li><code>processor_description</code> - A short description of the container instance&rsquo;s processor (CPU).</li>
+</ul></li>
+<li><code>state</code> - The current state of the container instance.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code>.</li>
+<li><code>time_created</code> - The time the container instance was created, in the format defined by <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a>.</li>
+<li><code>time_updated</code> - The time the container instance was updated, in the format defined by <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a>.</li>
+<li><code>vnics</code> - The virtual networks available to the containers in the container instance.
+
+<ul>
+<li><code>vnic_id</code> - The identifier of the virtual network interface card (VNIC) over which the containers accessing this network can communicate with the larger virtual cloud network.</li>
+</ul></li>
+<li><code>volume_count</code> - The number of volumes that are attached to the container instance.</li>
+<li><code>volumes</code> - A volume is a directory with data that is accessible across multiple containers in a container instance.
+
+<ul>
+<li><code>backing_store</code> - The volume type of the empty directory, can be either File Storage or Memory.</li>
+<li><code>configs</code> - Contains string key value pairs which can be mounted as individual files inside the container. The value needs to be base64 encoded. It is decoded to plain text before the mount.
+
+<ul>
+<li><code>data</code> - The base64 encoded contents of the file. The contents are decoded to plain text before mounted as a file to a container inside container instance.</li>
+<li><code>file_name</code> - The name of the file. The fileName should be unique across the volume.</li>
+<li><code>path</code> - (Optional) Relative path for this file inside the volume mount directory. By default, the file is presented at the root of the volume mount path.</li>
+</ul></li>
+<li><code>name</code> - The name of the volume. This must be unique within a single container instance.</li>
+<li><code>volume_type</code> - The type of volume.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

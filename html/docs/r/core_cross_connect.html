@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_core_cross_connect</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_core_cross_connect</h1>
+
+<p>This resource provides the Cross Connect resource in Oracle Cloud Infrastructure Core service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/iaas/latest/CrossConnect">https://docs.oracle.com/iaas/api/#/en/iaas/latest/CrossConnect</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/">https://github.com/oracle/terraform-provider-oci/tree/master/examples/</a></p>
+
+<p>Creates a new cross-connect. Oracle recommends you create each cross-connect in a
+<a href="https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CrossConnectGroup">CrossConnectGroup</a> so you can use link aggregation
+with the connection.</p>
+
+<p>After creating the <code>CrossConnect</code> object, you need to go the FastConnect location
+and request to have the physical cable installed. For more information, see
+<a href="https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm">FastConnect Overview</a>.</p>
+
+<p>For the purposes of access control, you must provide the <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the
+compartment where you want the cross-connect to reside. If you&rsquo;re
+not sure which compartment to use, put the cross-connect in the
+same compartment with your VCN. For more information about
+compartments and access control, see
+<a href="https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm">Overview of the IAM Service</a>.
+For information about OCIDs, see
+<a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">Resource Identifiers</a>.</p>
+
+<p>You may optionally specify a <em>display name</em> for the cross-connect.
+It does not have to be unique, and you can change it. Avoid entering confidential information.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_core_cross_connect&quot; &quot;test_cross_connect&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	location_name = var.cross_connect_location_name
+	port_speed_shape_name = var.cross_connect_port_speed_shape_name
+
+	#Optional
+	cross_connect_group_id = oci_core_cross_connect_group.test_cross_connect_group.id
+	customer_reference_name = var.cross_connect_customer_reference_name
+	defined_tags = {&quot;Operations.CostCenter&quot;= &quot;42&quot;}
+	display_name = var.cross_connect_display_name
+	far_cross_connect_or_cross_connect_group_id = oci_core_cross_connect_group.test_cross_connect_group.id
+	freeform_tags = {&quot;Department&quot;= &quot;Finance&quot;}
+	macsec_properties {
+		#Required
+		state = var.cross_connect_macsec_properties_state
+
+		#Optional
+		encryption_cipher = var.cross_connect_macsec_properties_encryption_cipher
+		is_unprotected_traffic_allowed = var.cross_connect_macsec_properties_is_unprotected_traffic_allowed
+		primary_key {
+			#Required
+			connectivity_association_key_secret_id = oci_vault_secret.test_secret.id
+			connectivity_association_name_secret_id = oci_vault_secret.test_secret.id
+		}
+	}
+	near_cross_connect_or_cross_connect_group_id = oci_core_cross_connect_group.test_cross_connect_group.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>compartment_id</code> - (Required) (Updatable) The OCID of the compartment to contain the cross-connect.</p></li>
+
+<li><p><code>cross_connect_group_id</code> - (Optional) The OCID of the cross-connect group to put this cross-connect in.</p></li>
+
+<li><p><code>customer_reference_name</code> - (Optional) (Updatable) A reference name or identifier for the physical fiber connection that this cross-connect uses.</p></li>
+
+<li><p><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></p></li>
+
+<li><p><code>display_name</code> - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.</p></li>
+
+<li><p><code>far_cross_connect_or_cross_connect_group_id</code> - (Optional) If you already have an existing cross-connect or cross-connect group at this FastConnect location, and you want this new cross-connect to be on a different router (for the purposes of redundancy), provide the <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of that existing cross-connect or cross-connect group.</p></li>
+
+<li><p><code>freeform_tags</code> - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></p></li>
+
+<li><p><code>is_active</code> - (Optional) (Updatable) Set to true to activate the cross-connect. You activate it after the physical cabling is complete, and you&rsquo;ve confirmed the cross-connect&rsquo;s light levels are good and your side of the interface is up. Activation indicates to Oracle that the physical connection is ready.</p></li>
+
+<li><p><code>location_name</code> - (Required) The name of the FastConnect location where this cross-connect will be installed. To get a list of the available locations, see <a href="https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CrossConnectLocation/ListCrossConnectLocations">ListCrossConnectLocations</a>.  Example: <code>CyrusOne, Chandler, AZ</code></p></li>
+
+<li><p><code>macsec_properties</code> - (Optional) (Updatable) Properties used to configure MACsec (if capable).</p>
+
+<ul>
+<li><p><code>encryption_cipher</code> - (Optional) (Updatable) Type of encryption cipher suite to use for the MACsec connection.</p></li>
+
+<li><p><code>is_unprotected_traffic_allowed</code> - (Optional) (Updatable) Indicates whether unencrypted traffic is allowed if MACsec Key Agreement protocol (MKA) fails.</p></li>
+
+<li><p><code>primary_key</code> - (Optional) (Updatable) Defines the secret <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>s held in Vault that represent the MACsec key.</p>
+
+<ul>
+<li><p><code>connectivity_association_key_secret_id</code> - (Required) (Updatable) Secret <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> containing the Connectivity Association Key (CAK) of this MACsec key.</p></li>
+
+<li><p><code>connectivity_association_key_secret_version</code> - (Optional) (Updatable) The secret version of the <code>connectivity_association_key_secret_id</code> secret in Vault.</p>
+
+<p>NOTE: Only the latest secret version will be used.</p></li>
+
+<li><p><code>connectivity_association_name_secret_id</code> - (Required) (Updatable) Secret <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> containing the Connectivity association Key Name (CKN) of this MACsec key.</p></li>
+
+<li><p><code>connectivity_association_name_secret_version</code> - (Optional) (Updatable) The secret version of the <code>connectivity_association_name_secret_id</code> secret in Vault.</p>
+
+<p>NOTE: Only the latest secret version will be used.</p></li>
+</ul></li>
+
+<li><p><code>state</code> - (Required) (Updatable) Indicates whether or not MACsec is enabled.</p></li>
+</ul></li>
+
+<li><p><code>near_cross_connect_or_cross_connect_group_id</code> - (Optional) If you already have an existing cross-connect or cross-connect group at this FastConnect location, and you want this new cross-connect to be on the same router, provide the <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of that existing cross-connect or cross-connect group.</p></li>
+
+<li><p><code>port_speed_shape_name</code> - (Required) The port speed for this cross-connect. To get a list of the available port speeds, see <a href="https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CrossConnectPortSpeedShape/ListCrossconnectPortSpeedShapes">ListCrossConnectPortSpeedShapes</a>.  Example: <code>10 Gbps</code></p></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The OCID of the compartment containing the cross-connect group.</li>
+<li><code>cross_connect_group_id</code> - The OCID of the cross-connect group this cross-connect belongs to (if any).</li>
+<li><code>customer_reference_name</code> - A reference name or identifier for the physical fiber connection that this cross-connect uses.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>display_name</code> - A user-friendly name. Does not have to be unique, and it&rsquo;s changeable. Avoid entering confidential information.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The cross-connect&rsquo;s Oracle ID (OCID).</li>
+<li><code>location_name</code> - The name of the FastConnect location where this cross-connect is installed.</li>
+<li><code>macsec_properties</code> - Properties used for MACsec (if capable).
+
+<ul>
+<li><code>encryption_cipher</code> - Type of encryption cipher suite to use for the MACsec connection.</li>
+<li><code>is_unprotected_traffic_allowed</code> - Indicates whether unencrypted traffic is allowed if MACsec Key Agreement protocol (MKA) fails.</li>
+<li><code>primary_key</code> - An object defining the Secrets-in-Vault OCIDs representing the MACsec key.
+
+<ul>
+<li><code>connectivity_association_key_secret_id</code> - Secret <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> containing the Connectivity Association Key (CAK) of this MACsec key.</li>
+<li><code>connectivity_association_key_secret_version</code> - The secret version of the <code>connectivityAssociationKey</code> secret in Vault.</li>
+<li><code>connectivity_association_name_secret_id</code> - Secret <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> containing the Connectivity association Key Name (CKN) of this MACsec key.</li>
+<li><code>connectivity_association_name_secret_version</code> - The secret version of the connectivity association name secret in Vault.</li>
+</ul></li>
+<li><code>state</code> - Indicates whether or not MACsec is enabled.</li>
+</ul></li>
+<li><code>oci_logical_device_name</code> - The FastConnect device that terminates the logical connection. This device might be different than the device that terminates the physical connection.</li>
+<li><code>oci_physical_device_name</code> - The FastConnect device that terminates the physical connection.</li>
+<li><code>port_name</code> - A string identifying the meet-me room port for this cross-connect.</li>
+<li><code>port_speed_shape_name</code> - The port speed for this cross-connect.  Example: <code>10 Gbps</code></li>
+<li><code>state</code> - The cross-connect&rsquo;s current state.</li>
+<li><code>time_created</code> - The date and time the cross-connect was created, in the format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.  Example: <code>2016-08-25T21:10:29.600Z</code></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Cross Connect
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Cross Connect
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Cross Connect</p>
+
+<h2>Import</h2>
+
+<p>CrossConnects can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_core_cross_connect.test_cross_connect &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

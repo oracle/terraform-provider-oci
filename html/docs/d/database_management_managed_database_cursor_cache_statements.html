@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_management_managed_database_cursor_cache_statements</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_management_managed_database_cursor_cache_statements</h1>
+
+<p>This data source provides the list of Managed Database Cursor Cache Statements in Oracle Cloud Infrastructure Database Management service.</p>
+
+<p>Lists the SQL statements from shared SQL area, also called the cursor cache.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_management_managed_database_cursor_cache_statements&quot; &quot;test_managed_database_cursor_cache_statements&quot; {
+	#Required
+	managed_database_id = oci_database_management_managed_database.test_managed_database.id
+
+	#Optional
+	opc_named_credential_id = var.managed_database_cursor_cache_statement_opc_named_credential_id
+	sql_text = var.managed_database_cursor_cache_statement_sql_text
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>managed_database_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Managed Database.</li>
+<li><code>opc_named_credential_id</code> - (Optional) The OCID of the Named Credential.</li>
+<li><code>sql_text</code> - (Optional) A filter to return all the SQL plan baselines that match the SQL text. By default, the search is case insensitive. To run an exact or case-sensitive search, double-quote the search string. You may also use the &lsquo;%&rsquo; symbol as a wildcard.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>cursor_cache_statement_collection</code> - The list of cursor_cache_statement_collection.</li>
+</ul>
+
+<h3>ManagedDatabaseCursorCacheStatement Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - A list of SQL statements in the cursor cache.
+
+<ul>
+<li><code>schema</code> - The name of the parsing schema.</li>
+<li><code>sql_id</code> - The SQL statement identifier. Identifies a SQL statement in the cursor cache.</li>
+<li><code>sql_text</code> - The first thousand characters of the SQL text.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

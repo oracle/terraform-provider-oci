@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_dataintegration_workspace</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_dataintegration_workspace</h1>
+
+<p>This resource provides the Workspace resource in Oracle Cloud Infrastructure Data Integration service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/data-integration/latest/Workspace">https://docs.oracle.com/iaas/api/#/en/data-integration/latest/Workspace</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/dataintegration">https://github.com/oracle/terraform-provider-oci/tree/master/examples/dataintegration</a></p>
+
+<p>Creates a new Data Integration workspace ready for performing data integration tasks. To retrieve the OCID for the new workspace, use the opc-work-request-id returned by this API and call the <a href="https://docs.cloud.oracle.com/iaas/api/#/en/data-integration/latest/WorkRequest/GetWorkRequest">GetWorkRequest</a> API.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_dataintegration_workspace&quot; &quot;test_workspace&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	display_name = var.workspace_display_name
+
+	#Optional
+	defined_tags = {&quot;Operations.CostCenter&quot;= &quot;42&quot;}
+	description = var.workspace_description
+	dns_server_ip = var.workspace_dns_server_ip
+	dns_server_zone = var.workspace_dns_server_zone
+	endpoint_compartment_id = oci_identity_compartment.test_compartment.id
+	endpoint_id = oci_dataintegration_endpoint.test_endpoint.id
+	endpoint_name = var.workspace_endpoint_name
+	freeform_tags = {&quot;Department&quot;= &quot;Finance&quot;}
+	is_private_network_enabled = var.workspace_is_private_network_enabled
+	registry_compartment_id = oci_identity_compartment.test_compartment.id
+	registry_id = oci_data_connectivity_registry.test_registry.id
+	registry_name = oci_data_connectivity_registry.test_registry.name
+	subnet_id = oci_core_subnet.test_subnet.id
+	vcn_id = oci_core_vcn.test_vcn.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) (Updatable) The OCID of the compartment containing the workspace.</li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - (Optional) (Updatable) A user defined description for the workspace.</li>
+<li><code>display_name</code> - (Required) (Updatable) A user-friendly display name for the workspace. Does not have to be unique, and can be modified. Avoid entering confidential information.</li>
+<li><code>dns_server_ip</code> - (Optional) The IP of the custom DNS.</li>
+<li><code>dns_server_zone</code> - (Optional) The DNS zone of the custom DNS to use to resolve names.</li>
+<li><code>endpoint_compartment_id</code> - (Optional) DCMS PRivate Endpoint Compartment Identifier</li>
+<li><code>endpoint_id</code> - (Optional) DCMS Private Endpoint ID associated with workspace if the pvt networking is enabled</li>
+<li><code>endpoint_name</code> - (Optional) DCMS Private Endpoint Name</li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>is_private_network_enabled</code> - (Optional) Specifies whether the private network connection is enabled or disabled.</li>
+<li><code>registry_compartment_id</code> - (Optional) DCMS Data Asset Registry Compartment Identifier</li>
+<li><code>registry_id</code> - (Optional) DCMS Data Asset Registry ID to which the workspace is associated</li>
+<li><code>registry_name</code> - (Optional) DCMS Data Asset Registry display name</li>
+<li><code>subnet_id</code> - (Optional) The OCID of the subnet for customer connected databases.</li>
+<li><code>vcn_id</code> - (Optional) The OCID of the VCN the subnet is in.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The OCID of the compartment that contains the workspace.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Operations.CostCenter&quot;: &quot;42&quot;}</code></li>
+<li><code>description</code> - A user defined description for the workspace.</li>
+<li><code>display_name</code> - A user-friendly display name for the workspace. Does not have to be unique, and can be modified. Avoid entering confidential information.</li>
+<li><code>dns_server_ip</code> - The IP of the custom DNS.</li>
+<li><code>dns_server_zone</code> - The DNS zone of the custom DNS to use to resolve names.</li>
+<li><code>endpoint_id</code> - DCMS endpoint associated with the container/workspace. Returns null if there is none.</li>
+<li><code>endpoint_name</code> - Name of the private endpoint associated with the container/workspace. Returns null if there is none.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>. Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - A system-generated and immutable identifier assigned to the workspace upon creation.</li>
+<li><code>is_private_network_enabled</code> - Specifies whether the private network connection is enabled or disabled.</li>
+<li><code>registry_id</code> - DCMS registry associated with the container/workspace. Returns null if there is none.</li>
+<li><code>state</code> - Lifecycle states for workspaces in Data Integration Service CREATING - The resource is being created and may not be usable until the entire metadata is defined UPDATING - The resource is being updated and may not be usable until all changes are commited DELETING - The resource is being deleted and might require deep cleanup of children. ACTIVE   - The resource is valid and available for access INACTIVE - The resource might be incomplete in its definition or might have been made unavailable for administrative reasons DELETED  - The resource has been deleted and isn&rsquo;t available FAILED   - The resource is in a failed state due to validation or other errors STARTING - The resource is being started and may not be usable until becomes ACTIVE again STOPPING - The resource is in the process of Stopping and may not be usable until it Stops or fails STOPPED  - The resource is in Stopped state due to stop operation.</li>
+<li><code>state_message</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in failed state.</li>
+<li><code>subnet_id</code> - The OCID of the subnet for customer connected databases.</li>
+<li><code>time_created</code> - The date and time the workspace was created, in the timestamp format defined by RFC3339.</li>
+<li><code>time_updated</code> - The date and time the workspace was updated, in the timestamp format defined by <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>.</li>
+<li><code>vcn_id</code> - The OCID of the VCN the subnet is in.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 1 hours), when creating the Workspace
+	* <code>update</code> - (Defaults to 1 hours), when updating the Workspace
+	* <code>delete</code> - (Defaults to 1 hours), when destroying the Workspace</p>
+
+<h2>Import</h2>
+
+<p>Workspaces can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_dataintegration_workspace.test_workspace &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

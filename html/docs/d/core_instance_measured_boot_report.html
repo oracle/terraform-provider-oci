@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_core_instance_measured_boot_report</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_core_instance_measured_boot_report</h1>
+
+<p>This data source provides details about a specific Instance Measured Boot Report resource in Oracle Cloud Infrastructure Core service.</p>
+
+<p>Gets the measured boot report for this shielded instance.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_core_instance_measured_boot_report&quot; &quot;test_instance_measured_boot_report&quot; {
+	#Required
+	instance_id = oci_core_instance.test_instance.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>instance_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the instance.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>is_policy_verification_successful</code> - Whether the verification succeeded, and the new values match the expected values.</li>
+<li><code>measurements</code> - A list of Trusted Platform Module (TPM) Platform Configuration Register (PCR) entries.
+
+<ul>
+<li><code>actual</code> - The list of actual PCR entries measured during boot.
+
+<ul>
+<li><code>hash_algorithm</code> - The type of algorithm used to calculate the hash.</li>
+<li><code>pcr_index</code> - The index of the policy.</li>
+<li><code>value</code> - The hashed PCR value.</li>
+</ul></li>
+<li><code>policy</code> - The list of expected PCR entries to use during verification.
+
+<ul>
+<li><code>hash_algorithm</code> - The type of algorithm used to calculate the hash.</li>
+<li><code>pcr_index</code> - The index of the policy.</li>
+<li><code>value</code> - The hashed PCR value.</li>
+</ul></li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

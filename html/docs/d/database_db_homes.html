@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_db_homes</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_db_homes</h1>
+
+<p>This data source provides the list of Db Homes in Oracle Cloud Infrastructure Database service.</p>
+
+<p>Lists the Database Homes in the specified DB system and compartment. A Database Home is a directory where Oracle Database software is installed.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_db_homes&quot; &quot;test_db_homes&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	backup_id = oci_database_backup.test_backup.id
+	db_system_id = oci_database_db_system.test_db_system.id
+	db_version {
+	}
+	display_name = var.db_home_display_name
+	state = var.db_home_state
+	vm_cluster_id = oci_database_vm_cluster.test_vm_cluster.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>backup_id</code> - (Optional) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the backup. Specify a backupId to list only the DB systems or DB homes that support creating a database using this backup in this compartment.</li>
+<li><code>compartment_id</code> - (Required) The compartment <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>db_system_id</code> - (Applicable when source=DATABASE | DB_BACKUP | NONE) The DB system <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>. If provided, filters the results to the set of database versions which are supported for the DB system.</li>
+<li><code>db_version</code> - (Applicable when source=NONE | VM_CLUSTER_NEW) A filter to return only DB Homes that match the specified dbVersion.</li>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.</li>
+<li><code>state</code> - (Optional) A filter to return only resources that match the given lifecycle state exactly.</li>
+<li><code>vm_cluster_id</code> - (Applicable when source=VM_CLUSTER_BACKUP | VM_CLUSTER_NEW) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VM cluster.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>db_homes</code> - The list of db_homes.</li>
+</ul>
+
+<h3>DbHome Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>database_software_image_id</code> - The database software image <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a></li>
+<li><code>db_home_location</code> - The location of the Oracle Database Home.</li>
+<li><code>db_system_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the DB system.</li>
+<li><code>db_version</code> - The Oracle Database version.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</li>
+<li><code>display_name</code> - The user-provided name for the Database Home. The name does not need to be unique.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Database Home.</li>
+<li><code>is_unified_auditing_enabled</code> - Indicates whether unified autiding is enabled or not.</li>
+<li><code>kms_key_id</code> - The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.</li>
+<li><code>last_patch_history_entry_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the last patch history. This value is updated as soon as a patch operation is started.</li>
+<li><code>lifecycle_details</code> - Additional information about the current lifecycle state.</li>
+<li><code>one_off_patches</code> - List of one-off patches for Database Homes.</li>
+<li><code>state</code> - The current state of the Database Home.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</li>
+<li><code>time_created</code> - The date and time the Database Home was created.</li>
+<li><code>vm_cluster_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VM cluster.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

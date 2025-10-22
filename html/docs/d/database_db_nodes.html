@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_db_nodes</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_db_nodes</h1>
+
+<p>This data source provides the list of Db Nodes in Oracle Cloud Infrastructure Database service.</p>
+
+<p>Lists the database nodes in the specified DB system and compartment. In addition to the other required parameters, either &lsquo;&ndash;db-system-id&rsquo; or &lsquo;&ndash;vm-cluster-id&rsquo; also must be provided, depending on the service being accessed.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_db_nodes&quot; &quot;test_db_nodes&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	db_server_id = oci_database_db_server.test_db_server.id
+	db_system_id = oci_database_db_system.test_db_system.id
+	state = var.db_node_state
+	vm_cluster_id = oci_database_vm_cluster.test_vm_cluster.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The compartment <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>db_server_id</code> - (Optional) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Exacc Db server.</li>
+<li><code>db_system_id</code> - (Optional) The DB system <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>. If provided, filters the results to the set of database versions which are supported for the DB system.</li>
+<li><code>state</code> - (Optional) A filter to return only resources that match the given lifecycle state exactly.</li>
+<li><code>vm_cluster_id</code> - (Optional) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VM cluster.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>db_nodes</code> - The list of db_nodes.</li>
+</ul>
+
+<h3>DbNode Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>additional_details</code> - Additional information about the planned maintenance.</p></li>
+
+<li><p><code>backup_ip_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the backup IPv4 address associated with the database node. Use this OCID with either the <a href="https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/PrivateIp/GetPrivateIp">GetPrivateIp</a> or the <a href="https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/PublicIp/GetPublicIpByPrivateIpId">GetPublicIpByPrivateIpId</a> API to get the IPv4 address needed to make a database connection.</p>
+
+<p><strong>Note:</strong> Applies only to Exadata Cloud Service.</p></li>
+
+<li><p><code>backup_ipv6id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the backup IPv6 address associated with the database node. Use this OCID with the <a href="https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Ipv6/GetIpv6">GetIpv6</a> API to get the IPv6 address needed to make a database connection.</p>
+
+<p><strong>Note:</strong> Applies only to Exadata Cloud Service.</p></li>
+
+<li><p><code>backup_vnic2id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the second backup VNIC.</p>
+
+<p><strong>Note:</strong> Applies only to Exadata Cloud Service.</p></li>
+
+<li><p><code>backup_vnic_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the backup VNIC.</p></li>
+
+<li><p><code>compute_count</code> - The number of compute servers for the DB system.</p></li>
+
+<li><p><code>compute_model</code> - The compute model for Base Database Service. This is required if using the <code>computeCount</code> parameter. If using <code>cpuCoreCount</code> then it is an error to specify <code>computeModel</code> to a non-null value. The ECPU compute model is the recommended model, and the OCPU compute model is legacy.</p></li>
+
+<li><p><code>cpu_core_count</code> - The number of CPU cores enabled on the Db node.</p></li>
+
+<li><p><code>db_node_storage_size_in_gbs</code> - The allocated local node storage in GBs on the Db node.</p></li>
+
+<li><p><code>db_server_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Exacc Db server associated with the database node.</p></li>
+
+<li><p><code>db_system_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the DB system.</p></li>
+
+<li><p><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</p></li>
+
+<li><p><code>fault_domain</code> - The name of the Fault Domain the instance is contained in.</p></li>
+
+<li><p><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></p></li>
+
+<li><p><code>host_ip_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the host IPv4 address associated with the database node. Use this OCID with either the <a href="https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/PrivateIp/GetPrivateIp">GetPrivateIp</a> or the <a href="https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/PublicIp/GetPublicIpByPrivateIpId">GetPublicIpByPrivateIpId</a> API to get the IPv4 address needed to make a database connection.</p>
+
+<p><strong>Note:</strong> Applies only to Exadata Cloud Service.</p></li>
+
+<li><p><code>host_ipv6id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the host IPv6 address associated with the database node. Use this OCID with the <a href="https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Ipv6/GetIpv6">GetIpv6</a> API to get the IPv6 address needed to make a database connection.</p>
+
+<p><strong>Note:</strong> Applies only to Exadata Cloud Service.</p></li>
+
+<li><p><code>hostname</code> - The host name for the database node.</p></li>
+
+<li><p><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the database node.</p></li>
+
+<li><p><code>lifecycle_details</code> - Information about the current lifecycle state.</p></li>
+
+<li><p><code>maintenance_type</code> - The type of database node maintenance.</p></li>
+
+<li><p><code>memory_size_in_gbs</code> - The allocated memory in GBs on the Db node.</p></li>
+
+<li><p><code>software_storage_size_in_gb</code> - The size (in GB) of the block storage volume allocation for the DB system. This attribute applies only for virtual machine DB systems.</p></li>
+
+<li><p><code>state</code> - The current state of the database node.</p></li>
+
+<li><p><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</p></li>
+
+<li><p><code>time_created</code> - The date and time that the database node was created.</p></li>
+
+<li><p><code>time_maintenance_window_end</code> - End date and time of maintenance window.</p></li>
+
+<li><p><code>time_maintenance_window_start</code> - Start date and time of maintenance window.</p></li>
+
+<li><p><code>total_cpu_core_count</code> - The total number of CPU cores reserved on the Db node.</p></li>
+
+<li><p><code>vnic2id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the second VNIC.</p>
+
+<p><strong>Note:</strong> Applies only to Exadata Cloud Service.</p></li>
+
+<li><p><code>vnic_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VNIC.</p></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

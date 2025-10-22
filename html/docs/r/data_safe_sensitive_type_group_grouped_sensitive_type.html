@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_data_safe_sensitive_type_group_grouped_sensitive_type</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_data_safe_sensitive_type_group_grouped_sensitive_type</h1>
+
+<p>This resource provides the Sensitive Type Group Grouped Sensitive Type resource in Oracle Cloud Infrastructure Data Safe service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/data-safe/latest/SensitiveTypeGroupGroupedSensitiveType">https://docs.oracle.com/iaas/api/#/en/data-safe/latest/SensitiveTypeGroupGroupedSensitiveType</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe">https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe</a></p>
+
+<p>Patches one or more sensitive types in a sensitive type group. You can use this operation to add or remove
+sensitive type ids in a sensitive type group.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_data_safe_sensitive_type_group_grouped_sensitive_type&quot; &quot;test_sensitive_type_group_grouped_sensitive_type&quot; {
+	#Required
+	sensitive_type_group_id = oci_data_safe_sensitive_type_group.test_sensitive_type_group.id
+
+	#Optional
+	patch_operations {
+		#Required
+		operation = var.sensitive_type_group_grouped_sensitive_type_patch_operations_operation
+		selection = var.sensitive_type_group_grouped_sensitive_type_patch_operations_selection
+
+		#Optional
+		value = var.sensitive_type_group_grouped_sensitive_type_patch_operations_value
+	}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>patch_operations</code> - (Optional) (Updatable)
+
+<ul>
+<li><code>operation</code> - (Required) (Updatable) The operation can be one of these values: <code>INSERT</code>, <code>MERGE</code>, <code>REMOVE</code></li>
+<li><code>selection</code> - (Required) (Updatable)</li>
+<li><code>value</code> - (Required when operation=INSERT | MERGE) (Updatable)</li>
+</ul></li>
+<li><code>sensitive_type_group_id</code> - (Required)</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - List of sensitive type id summary objects present in the sensitive type group.
+
+<ul>
+<li><code>sensitive_type_id</code> - The OCID of the sensitive type.</li>
+</ul></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Sensitive Type Group Grouped Sensitive Type
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Sensitive Type Group Grouped Sensitive Type
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Sensitive Type Group Grouped Sensitive Type</p>
+
+<h2>Import</h2>
+
+<p>SensitiveTypeGroupGroupedSensitiveTypes can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_data_safe_sensitive_type_group_grouped_sensitive_type.test_sensitive_type_group_grouped_sensitive_type &quot;sensitiveTypeGroups/{sensitiveTypeGroupId}/groupedSensitiveTypes&quot; 
+</code></pre>
+
+	</div>
+
+</body>
+</html>

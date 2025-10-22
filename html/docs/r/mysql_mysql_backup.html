@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_mysql_mysql_backup</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_mysql_mysql_backup</h1>
+
+<p>This resource provides the Mysql Backup resource in Oracle Cloud Infrastructure MySQL Database service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/mysql/latest/MysqlBackup">https://docs.oracle.com/iaas/api/#/en/mysql/latest/MysqlBackup</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/mysql">https://github.com/oracle/terraform-provider-oci/tree/master/examples/mysql</a></p>
+
+<p>Create a backup of a DB System.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_mysql_mysql_backup&quot; &quot;test_mysql_backup&quot; {
+	#Required
+	db_system_id = oci_mysql_mysql_db_system.test_db_system.id
+
+	#Optional
+	backup_type = var.mysql_backup_backup_type
+	defined_tags = {&quot;foo-namespace.bar-key&quot;= &quot;value&quot;}
+	description = var.mysql_backup_description
+	display_name = var.mysql_backup_display_name
+	freeform_tags = {&quot;bar-key&quot;= &quot;value&quot;}
+	retention_in_days = var.mysql_backup_retention_in_days
+	soft_delete = var.mysql_backup_soft_delete
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>backup_type</code> - (Optional) The type of backup.</li>
+<li><code>compartment_id</code> - (Optional) (Updatable) The OCID of the compartment the backup exists in.</li>
+<li><code>db_system_id</code> - (Optional) The OCID of the DB System the Backup is associated with.</li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>description</code> - (Optional) (Updatable) A user-supplied description for the backup.</li>
+<li><code>display_name</code> - (Optional) (Updatable) A user-supplied display name for the backup.</li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>retention_in_days</code> - (Optional) (Updatable) Number of days to retain this backup.</li>
+<li><code>soft_delete</code> - (Optional) (Updatable) Retains the backup to be deleted due to the retention policy in DELETE SCHEDULED state for 7 days before permanently deleting it.</li>
+<li><code>validate_trigger</code> - (Optional) (Updatable) An optional integer property when incremented will trigger a validation of the backup. Set the integer to 1 initially and increment it by 1 to re-trigger validation.</li>
+<li><code>validate-backup-details</code> - Details required to validate backup. <strong>Note:</strong> Validate action can only be called from update resource operation.
+
+<ul>
+<li><code>is_prepared_backup_required</code> - Specifies whether the backup needs to be prepared for fast restore or not. Set to true to prepare the backup <strong>Note:</strong> Prepare backup is a one time operation, therefore this field can be set to true only once.</li>
+</ul></li>
+<li><code>source_details</code> - (Optional) Details of backup source in the cloud.
+
+<ul>
+<li><code>region</code> - (Required) The region of the backup source.</li>
+<li><code>backup_id</code> - (Required) The OCID of the source backup.</li>
+<li><code>compartment_id</code> - (Required) The OCID of the compartment where DB system backup is to be copied to.</li>
+</ul></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>backup_size_in_gbs</code> - The size of the backup in base-2 (IEC) gibibytes. (GiB).</p></li>
+
+<li><p><code>backup_type</code> - The type of backup.</p></li>
+
+<li><p><code>backup_validation_details</code> - Backup validation details.</p>
+
+<ul>
+<li><code>backup_preparation_status</code> - Indicates whether the backup has been prepared successfully.  PREPARED: The backup is prepared one. NOT_PREPARED: The backup is not prepared.</li>
+<li><code>error_message</code> - Error message if the backup validation has failed.</li>
+<li><code>estimated_restore_duration</code> - The estimated restore duration of the backup.</li>
+<li><code>prepared_backup_details</code> - Prepared backup details.
+
+<ul>
+<li><code>prepared_backup_restore_reduction_in_minutes</code> - The estimated time saving when this prepared backup is restored.</li>
+<li><code>time_prepared</code> - The date and time the backup was prepared.</li>
+</ul></li>
+<li><code>time_last_validated</code> - The date and time of the most recent validation performed on the backup.</li>
+<li><code>validation_status</code> - The status of backup validation:  NOT_VALIDATED (Default): The backup has not been validated.  VALIDATED: The backup has been validated successfully.  NEEDS_ATTENTION: The backup validation failed due to a transient issue. Validation should be retried.  FAILED: The backup cannot be restored.</li>
+</ul></li>
+
+<li><p><code>compartment_id</code> - The OCID of the compartment the backup exists in.</p></li>
+
+<li><p><code>creation_type</code> - Indicates how the backup was created: manually, automatic, or by an Operator.</p></li>
+
+<li><p><code>data_storage_size_in_gb</code> - Initial size of the data volume in GiBs.</p></li>
+
+<li><p><code>db_system_id</code> - The OCID of the DB System the backup is associated with.</p></li>
+
+<li><p><code>db_system_snapshot</code> - Snapshot of the DbSystem details at the time of the backup</p>
+
+<ul>
+<li><p><code>admin_username</code> - The username for the administrative user.</p></li>
+
+<li><p><code>availability_domain</code> - The Availability Domain where the primary DB System should be located.</p></li>
+
+<li><p><code>backup_policy</code> - The Backup policy for the DB System.</p>
+
+<ul>
+<li><p><code>copy_policies</code> - List of policies of a DB system to schedule cross-region DB system backup copy.</p>
+
+<p>The policy includes the name of the destination region to which the DB system backup will be copied, and an optional parameter which specifies the retention period of the copied DB system backup in days.</p>
+
+<p><strong>Note:</strong> Currently, only one policy can be specified in the list.</p>
+
+<ul>
+<li><code>backup_copy_retention_in_days</code> - Number of days to retain the copied DB system backup.</li>
+<li><code>copy_to_region</code> - The destination region name to which the DB system backup will be copied.</li>
+</ul></li>
+
+<li><p><code>defined_tags</code> - Usage of predefined tag keys. These predefined keys are scoped to namespaces.</p>
+
+<p>Tags defined here will be copied verbatim as tags on the Backup resource created by this BackupPolicy.</p>
+
+<p>Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></p></li>
+
+<li><p><code>freeform_tags</code> - Simple key-value pair applied without any predefined name, type or scope. Exists for cross-compatibility only.</p>
+
+<p>Tags defined here will be copied verbatim as tags on the Backup resource created by this BackupPolicy.</p>
+
+<p>Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></p></li>
+
+<li><p><code>is_enabled</code> - If automated backups are enabled or disabled.</p></li>
+
+<li><p><code>pitr_policy</code> - The PITR policy for the DB System.</p>
+
+<ul>
+<li><code>is_enabled</code> - Specifies if PITR is enabled or disabled.</li>
+</ul></li>
+
+<li><p><code>retention_in_days</code> - The number of days automated backups are retained.</p></li>
+
+<li><p><code>soft_delete</code> - Retains the backup to be deleted due to the retention policy in DELETE SCHEDULED state for 7 days before permanently deleting it.</p></li>
+
+<li><p><code>window_start_time</code> - The start of a 30-minute window of time in which daily, automated backups occur.</p>
+
+<p>This should be in the format of the &ldquo;Time&rdquo; portion of an RFC3339-formatted timestamp. Any second or sub-second time data will be truncated to zero.</p>
+
+<p>At some point in the window, the system may incur a brief service disruption as the backup is performed.</p>
+
+<p>If not defined, a window is selected from the following Region-based time-spans:</p>
+
+<ul>
+<li>eu-frankfurt-1: 20:00 - 04:00 UTC</li>
+<li>us-ashburn-1: 03:00 - 11:00 UTC</li>
+<li>uk-london-1: 06:00 - 14:00 UTC</li>
+<li>ap-tokyo-1: 13:00 - 21:00</li>
+<li>us-phoenix-1: 06:00 - 14:00</li>
+</ul></li>
+</ul></li>
+
+<li><p><code>compartment_id</code> - The OCID of the compartment the DB System belongs in.</p></li>
+
+<li><p><code>configuration_id</code> - The OCID of the Configuration to be used for Instances in this DB System.</p></li>
+
+<li><p><code>crash_recovery</code> - Whether to run the DB System with InnoDB Redo Logs and the Double Write Buffer enabled or disabled, and whether to enable or disable syncing of the Binary Logs.</p></li>
+
+<li><p><code>data_storage</code> - Data Storage information.</p>
+
+<ul>
+<li><p><code>allocated_storage_size_in_gbs</code> - The actual allocated storage size for the DB System. This may be higher than dataStorageSizeInGBs if an automatic storage expansion has occurred.</p></li>
+
+<li><p><code>data_storage_size_in_gb</code> - User specified size of the data volume. May be less than current allocatedStorageSizeInGBs.</p></li>
+
+<li><p><code>data_storage_size_limit_in_gbs</code> - The absolute limit the DB System&rsquo;s storage size may ever expand to, either manually or automatically. This limit is based based on the initial dataStorageSizeInGBs when the DB System was first created. Both dataStorageSizeInGBs and maxDataStorageSizeInGBs can not exceed this value.</p>
+
+<p>DB Systems with an initial storage size of 400 GB or less can be expanded up to 32 TB. DB Systems with an initial storage size between 401-800 GB can be expanded up to 64 TB. DB Systems with an initial storage size between 801-1200 GB can be expanded up to 96 TB. DB Systems with an initial storage size of 1201 GB or more can be expanded up to 128 TB.</p></li>
+
+<li><p><code>is_auto_expand_storage_enabled</code> - Enable/disable automatic storage expansion. When set to true, the DB System will automatically add storage incrementally up to the value specified in maxStorageSizeInGBs.</p></li>
+
+<li><p><code>max_storage_size_in_gbs</code> - Maximum storage size this DB System can expand to. When isAutoExpandStorageEnabled is set to true, the DB System will add storage incrementally up to this value.</p>
+
+<p>DB Systems with an initial storage size of 400 GB or less can be expanded up to 32 TB. DB Systems with an initial storage size between 401-800 GB can be expanded up to 64 TB. DB Systems with an initial storage size between 801-1200 GB can be expanded up to 96 TB. DB Systems with an initial storage size of 1201 GB or more can be expanded up to 128 TB.</p>
+
+<p>It is not possible to decrease data storage size. You cannot set the maximum data storage size to less than either current DB System dataStorageSizeInGBs or allocatedStorageSizeInGBs.</p></li>
+</ul></li>
+
+<li><p><code>data_storage_size_in_gb</code> - DEPRECATED: User specified size of the data volume. May be less than current allocatedStorageSizeInGBs. Replaced by dataStorage.dataStorageSizeInGBs.</p></li>
+
+<li><p><code>database_management</code> - Whether to enable monitoring via the Database Management service.</p></li>
+
+<li><p><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></p></li>
+
+<li><p><code>deletion_policy</code> - The Deletion policy for the DB System.</p>
+
+<ul>
+<li><code>automatic_backup_retention</code> - Specifies if any automatic backups created for a DB System should be retained or deleted when the DB System is deleted.</li>
+<li><code>final_backup</code> - Specifies whether or not a backup is taken when the DB System is deleted. REQUIRE_FINAL_BACKUP: a backup is taken if the DB System is deleted. SKIP_FINAL_BACKUP: a backup is not taken if the DB System is deleted.</li>
+<li><code>is_delete_protected</code> - Specifies whether the DB System can be deleted. Set to true to prevent deletion, false (default) to allow.</li>
+</ul></li>
+
+<li><p><code>description</code> - User-provided data about the DB System.</p></li>
+
+<li><p><code>display_name</code> - The user-friendly name for the DB System. It does not have to be unique.</p></li>
+
+<li><p><code>encrypt_data</code> - Encrypt data details.</p>
+
+<ul>
+<li><code>key_generation_type</code> - Select whether to use Oracle-managed key (SYSTEM) or your own key (BYOK).</li>
+<li><code>key_id</code> - The OCID of the key to use.</li>
+</ul></li>
+
+<li><p><code>endpoints</code> - The network endpoints available for this DB System.</p>
+
+<ul>
+<li><code>hostname</code> - The network address of the DB System.</li>
+<li><code>ip_address</code> - The IP address the DB System is configured to listen on.</li>
+<li><code>modes</code> - The access modes from the client that this endpoint supports.</li>
+<li><code>port</code> - The port the MySQL instance listens on.</li>
+<li><code>port_x</code> - The network port where to connect to use this endpoint using the X protocol.</li>
+<li><code>resource_id</code> - The OCID of the resource that this endpoint is attached to.</li>
+<li><code>resource_type</code> - The type of endpoint that clients and connectors can connect to.</li>
+<li><code>status</code> - The state of the endpoints, as far as it can seen from the DB System. There may be some inconsistency with the actual state of the MySQL service.</li>
+<li><code>status_details</code> - Additional information about the current endpoint status.</li>
+</ul></li>
+
+<li><p><code>fault_domain</code> - The name of the Fault Domain the DB System is located in.</p></li>
+
+<li><p><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></p></li>
+
+<li><p><code>hostname_label</code> - The hostname for the primary endpoint of the DB System. Used for DNS. The value is the hostname portion of the primary private IP&rsquo;s fully qualified domain name (FQDN) (for example, &ldquo;dbsystem-1&rdquo; in FQDN &ldquo;dbsystem-1.subnet123.vcn1.oraclevcn.com&rdquo;). Must be unique across all VNICs in the subnet and comply with RFC 952 and RFC 1123.</p></li>
+
+<li><p><code>id</code> - The OCID of the DB System.</p></li>
+
+<li><p><code>ip_address</code> - The IP address the DB System is configured to listen on. A private IP address of the primary endpoint of the DB System. Must be an available IP address within the subnet&rsquo;s CIDR. This will be a &ldquo;dotted-quad&rdquo; style IPv4 address.</p></li>
+
+<li><p><code>is_highly_available</code> - Specifies if the DB System is highly available.</p></li>
+
+<li><p><code>maintenance</code> - The Maintenance Policy for the DB System or Read Replica that this model is included in.</p>
+
+<ul>
+<li><p><code>window_start_time</code> - The start time of the maintenance window.</p>
+
+<p>This string is of the format: &ldquo;{day-of-week} {time-of-day}&rdquo;.</p>
+
+<p>&rdquo;{day-of-week}&rdquo; is a case-insensitive string like &ldquo;mon&rdquo;, &ldquo;tue&rdquo;, &amp;c.</p>
+
+<p>&rdquo;{time-of-day}&rdquo; is the &ldquo;Time&rdquo; portion of an RFC3339-formatted timestamp. Any second or sub-second time data will be truncated to zero.</p>
+
+<p>If you set the read replica maintenance window to &ldquo;&rdquo; or if not specified, the read replica is set same as the DB system maintenance window.</p></li>
+</ul></li>
+
+<li><p><code>mysql_version</code> - Name of the MySQL Version in use for the DB System.</p></li>
+
+<li><p><code>nsg_ids</code> - Network Security Group OCIDs used for the VNIC attachment.</p></li>
+
+<li><p><code>port</code> - The port for primary endpoint of the DB System to listen on.</p></li>
+
+<li><p><code>port_x</code> - The network port on which X Plugin listens for TCP/IP connections. This is the X Plugin equivalent of port.</p></li>
+
+<li><p><code>read_endpoint</code> - The read endpoint of a DB System.</p>
+
+<ul>
+<li><p><code>exclude_ips</code> - A list of IP addresses of read replicas that are excluded from serving read requests.</p></li>
+
+<li><p><code>is_enabled</code> - Specifies if the DB System read endpoint is enabled or not.</p></li>
+
+<li><p><code>read_endpoint_hostname_label</code> - The hostname for the read endpoint of the DB System. Used for DNS.</p>
+
+<p>The value is the hostname portion of the primary private IP&rsquo;s fully qualified domain name (FQDN)  (for example, &ldquo;dbsystem-1&rdquo; in FQDN &ldquo;dbsystem-1.subnet123.vcn1.oraclevcn.com&rdquo;).</p>
+
+<p>Must be unique across all VNICs in the subnet and comply with RFC 952 and RFC 1123.</p></li>
+
+<li><p><code>read_endpoint_ip_address</code> - The IP address the DB System read endpoint is configured to listen on. A private IP address of your choice to assign to the read endpoint of the DB System. Must be an available IP address within the subnet&rsquo;s CIDR. If you don&rsquo;t specify a value, Oracle automatically assigns a private IP address from the subnet. This should be a &ldquo;dotted-quad&rdquo; style IPv4 address.</p></li>
+</ul></li>
+
+<li><p><code>region</code> - The region identifier of the region where the DB system exists. For more information, please see <a href="https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm">Regions and Availability Domains</a>.</p></li>
+
+<li><p><code>rest</code> - REST configuration details.</p>
+
+<ul>
+<li><code>configuration</code> - Select how REST is configured across the DB System instances.</li>
+<li><code>port</code> - The port for REST to listen on. Supported port numbers are 443 and from 1024 to 65535.</li>
+</ul></li>
+
+<li><p><code>secure_connections</code> - Secure connection configuration details.</p>
+
+<ul>
+<li><code>certificate_generation_type</code> - Select whether to use MySQL Database Service-managed certificate (SYSTEM) or your own certificate (BYOC).</li>
+<li><code>certificate_id</code> - The OCID of the certificate to use.</li>
+</ul></li>
+
+<li><p><code>security_attributes</code> - Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.oracle.com/en-us/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm">ZPR Artifacts</a>. Example: <code>{&quot;Oracle-ZPR&quot;: {&quot;MaxEgressCount&quot;: {&quot;value&quot;: &quot;42&quot;, &quot;mode&quot;: &quot;audit&quot;}}}</code></p></li>
+
+<li><p><code>shape_name</code> - The shape of the primary instances of the DB System. The shape determines resources allocated to a DB System - CPU cores and memory for VM shapes; CPU cores, memory and storage for non-VM (or bare metal) shapes. To get a list of shapes, use (the <a href="https://docs.cloud.oracle.com/iaas/api/#/en/mysql/20181021/ShapeSummary/ListShapes">ListShapes</a> operation.</p></li>
+
+<li><p><code>subnet_id</code> - The OCID of the subnet the DB System is associated with.</p></li>
+</ul></li>
+
+<li><p><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></p></li>
+
+<li><p><code>description</code> - A user-supplied description for the backup.</p></li>
+
+<li><p><code>display_name</code> - A user-supplied display name for the backup.</p></li>
+
+<li><p><code>encrypt_data</code> - Encrypt data details.</p>
+
+<ul>
+<li><code>key_generation_type</code> - Select whether to use Oracle-managed key (SYSTEM) or your own key (BYOK).</li>
+<li><code>key_id</code> - The OCID of the key to use.</li>
+</ul></li>
+
+<li><p><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></p></li>
+
+<li><p><code>id</code> - OCID of the backup itself</p></li>
+
+<li><p><code>immediate_source_backup_id</code> - The OCID of the immediate source DB system backup from which this DB system backup was copied.</p></li>
+
+<li><p><code>lifecycle_details</code> - Additional information about the current lifecycleState.</p></li>
+
+<li><p><code>mysql_version</code> - The MySQL server version of the DB System used for backup.</p></li>
+
+<li><p><code>original_source_backup_id</code> - The OCID of the original source DB system backup from which this DB system backup was copied.</p></li>
+
+<li><p><code>retention_in_days</code> - Number of days to retain this backup.</p></li>
+
+<li><p><code>shape_name</code> - The shape of the DB System instance used for backup.</p></li>
+
+<li><p><code>soft_delete</code> - Retains the backup to be deleted due to the retention policy in DELETE SCHEDULED state for 7 days before permanently deleting it.</p></li>
+
+<li><p><code>state</code> - The state of the backup.</p></li>
+
+<li><p><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></p></li>
+
+<li><p><code>time_copy_created</code> - The date and time the DB system backup copy was created, as described by <a href="https://tools.ietf.org/rfc/rfc3339">RFC 3339</a>.</p></li>
+
+<li><p><code>time_created</code> - The time the backup record was created.</p></li>
+
+<li><p><code>time_updated</code> - The time at which the backup was updated.</p></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Mysql Backup
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Mysql Backup
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Mysql Backup</p>
+
+<h2>Import</h2>
+
+<p>MysqlBackups can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_mysql_mysql_backup.test_mysql_backup &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

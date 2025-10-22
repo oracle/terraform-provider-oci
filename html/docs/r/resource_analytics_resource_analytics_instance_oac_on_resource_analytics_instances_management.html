@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_resource_analytics_resource_analytics_instance_oac_on_resource_analytics_instances_management</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; ours</p>
+
+<h1>oci_resource_analytics_resource_analytics_instance_oac_on_resource_analytics_instances_management</h1>
+
+<p>This resource provides the Resource Analytics Instance Oac On Resource Analytics Instances Management resource in Oracle Cloud Infrastructure Resource Analytics service.</p>
+
+<h1>Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/resource-analytics/latest/ResourceAnalyticsInstanceOacOnResourceAnalyticsInstancesManagement">https://docs.oracle.com/iaas/api/#/en/resource-analytics/latest/ResourceAnalyticsInstanceOacOnResourceAnalyticsInstancesManagement</a></h1>
+
+<h1>oci_resource_analytics_resource_analytics_instance_oac_management</h1>
+
+<p>This resource provides the Resource Analytics Instance Oac Management resource in Oracle Cloud Infrastructure Resource Analytics service.
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; theirs</p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/">https://github.com/oracle/terraform-provider-oci/tree/master/examples/</a>
+Attaches an OAC instance to a ResourceAnalyticsInstance.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_resource_analytics_resource_analytics_instance_oac_management&quot; &quot;test_resource_analytics_instance_oac_management&quot; {
+	#Required
+	resource_analytics_instance_id = oci_resource_analytics_resource_analytics_instance.test_resource_analytics_instance.id
+	enable_oac = var.enable_oac
+
+	#Optional
+	attachment_details {
+
+		#Optional
+		idcs_domain_id = oci_identity_domain.test_domain.id
+		license_model = var.resource_analytics_instance_oac_management_attachment_details_license_model
+		network_details {
+
+			#Optional
+			subnet_id = oci_core_subnet.test_subnet.id
+			nsg_ids = var.resource_analytics_instance_oac_management_attachment_details_network_details_nsg_ids
+		}
+	}
+	attachment_type = var.resource_analytics_instance_oac_management_attachment_type
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>attachment_details</code> - (Optional) Additional details needed when attaching the OAC instance.  Example: <code>{&quot;idcsDomainId&quot;:&quot;ocid...&quot;,&quot;networkDetails&quot;:{...}, ...}</code>
+
+<ul>
+<li><code>idcs_domain_id</code> - (Optional) IDCS domain <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> identifying a stripe and service administrator user.</li>
+<li><code>license_model</code> - (Optional) The Oracle license model that applies to the OAC instance.</li>
+<li><code>network_details</code> - (Optional) Details required when provisioning OAC on a private network.  Example: <code>{&quot;subnetId&quot;:&quot;ocid...&quot;, ...}</code>
+
+<ul>
+<li><code>nsg_ids</code> - (Optional) List of Network Security Group <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>&rsquo;s for the private network details.  Example: <code>[&quot;ocid...&quot;, &quot;ocid...&quot;]</code></li>
+<li><code>subnet_id</code> - (Optional) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the subnet for the private network details.</li>
+</ul></li>
+</ul></li>
+<li><code>attachment_type</code> - (Optional) The type of attachment the OAC instance is using.</li>
+<li><code>resource_analytics_instance_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the ResourceAnalyticsInstance.</li>
+<li><code>enable_oac</code> - (Required) (Updatable) A required field when set to <code>true</code> calls enable action and when set to <code>false</code> calls disable action.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Resource Analytics Instance Oac Management
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Resource Analytics Instance Oac Management
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Resource Analytics Instance Oac Management</p>
+
+	</div>
+
+</body>
+</html>

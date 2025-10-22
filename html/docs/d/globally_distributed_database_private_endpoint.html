@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_globally_distributed_database_private_endpoint</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_globally_distributed_database_private_endpoint</h1>
+
+<p>This data source provides details about a specific Private Endpoint resource in Oracle Cloud Infrastructure Globally Distributed Database service.</p>
+
+<p>Get the PrivateEndpoint resource.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_globally_distributed_database_private_endpoint&quot; &quot;test_private_endpoint&quot; {
+	#Required
+	private_endpoint_id = oci_globally_distributed_database_private_endpoint.test_private_endpoint.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>private_endpoint_id</code> - (Required) Oracle Sharded Database PrivateEndpoint identifier</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - Identifier of the compartment in which private endpoint exists.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>description</code> - PrivateEndpoint description.</li>
+<li><code>display_name</code> - PrivateEndpoint display name.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - The identifier of the Private Endpoint.</li>
+<li><code>lifecycle_state_details</code> - Detailed message for the lifecycle state.</li>
+<li><code>nsg_ids</code> - The OCIDs of the network security groups that the private endpoint belongs to.</li>
+<li><code>private_ip</code> - IP address of the Private Endpoint.</li>
+<li><code>proxy_compute_instance_id</code> - The identifier of the proxy compute instance.</li>
+<li><code>sharded_databases</code> - The OCIDs of sharded databases that consumes the given private endpoint.</li>
+<li><code>state</code> - Lifecycle states for private endpoint.</li>
+<li><code>subnet_id</code> - Identifier of the subnet in which private endpoint exists.</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time the PrivateEndpoint was first created. An RFC3339 formatted datetime string</li>
+<li><code>time_updated</code> - The time the Private Endpoint was last updated. An RFC3339 formatted datetime string</li>
+<li><code>vcn_id</code> - Identifier of the VCN in which subnet exists.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

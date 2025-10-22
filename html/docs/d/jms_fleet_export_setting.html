@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_jms_fleet_export_setting</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_jms_fleet_export_setting</h1>
+
+<p>This data source provides details about a specific Fleet Export Setting resource in Oracle Cloud Infrastructure Jms service.</p>
+
+<p>Returns export setting for the specified fleet.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_jms_fleet_export_setting&quot; &quot;test_fleet_export_setting&quot; {
+	#Required
+	fleet_id = oci_jms_fleet.test_fleet.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>fleet_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Fleet.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>export_data_filters</code> - Filters applied when exporting data
+
+<ul>
+<li><code>application_name_contains</code> - List of application names to filter by partial match</li>
+<li><code>application_name_equal_to</code> - List of application names to filter by exact match</li>
+<li><code>java_major_versions</code> - List of Java major versions to filter by</li>
+<li><code>java_vendors</code> - List of Java vendors to filter by</li>
+<li><code>java_versions</code> - List of Java versions to filter by</li>
+<li><code>security_statuses</code> - The security statuses of the Java Runtime</li>
+</ul></li>
+<li><code>export_duration</code> - The duration of data to be exported for fleets.</li>
+<li><code>export_frequency</code> - Schedule at which data will be exported.</li>
+<li><code>export_resources</code> - Resource to export data associated from the fleets.</li>
+<li><code>export_setting_key</code> - The internal identifier of the export setting.</li>
+<li><code>fleet_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the fleet.</li>
+<li><code>is_cross_region_acknowledged</code> - Acknowledgement for cross region target bucket configuration.</li>
+<li><code>is_enabled</code> - ExportSetting flag to store enabled or disabled status.</li>
+<li><code>target_bucket_name</code> - The name of the bucket where data will be exported.</li>
+<li><code>target_bucket_namespace</code> - The namespace of the bucket where data will be exported.</li>
+<li><code>target_bucket_region</code> - The id of the region of the target bucket.</li>
+<li><code>time_created</code> - The creation date and time of the export setting (formatted according to <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>).</li>
+<li><code>time_last_modified</code> - The update date and time of the export setting (formatted according to <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>).</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

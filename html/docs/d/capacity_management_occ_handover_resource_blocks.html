@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_capacity_management_occ_handover_resource_blocks</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_capacity_management_occ_handover_resource_blocks</h1>
+
+<p>This data source provides the list of Occ Handover Resource Blocks in Oracle Cloud Infrastructure Capacity Management service.</p>
+
+<p>List Occ Handover Resource blocks.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_capacity_management_occ_handover_resource_blocks&quot; &quot;test_occ_handover_resource_blocks&quot; {
+
+	#Optional
+	compartment_id = var.compartment_id
+	handover_date_greater_than_or_equal_to = var.occ_handover_resource_block_handover_date_greater_than_or_equal_to
+	handover_date_less_than_or_equal_to = var.occ_handover_resource_block_handover_date_less_than_or_equal_to
+	handover_resource_name = oci_cloud_guard_resource.test_resource.name
+	namespace = var.occ_handover_resource_block_namespace
+	occ_handover_resource_block_id = oci_capacity_management_occ_handover_resource_block.test_occ_handover_resource_block.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Optional) The OCID of the compartment or tenancy in which resources are to be listed.</li>
+<li><code>handover_date_greater_than_or_equal_to</code> - (Optional) This filter helps in fetching all handed over resources for which the recordDate is greater than or equal to the startDate.</li>
+<li><code>handover_date_less_than_or_equal_to</code> - (Optional) This filter helps in fetching all handed over resources for which the recordDate is less than or equal to the endDate.</li>
+<li><code>handover_resource_name</code> - (Optional) A filter to return only the list of resources that match the name provided in this filter.</li>
+<li><code>namespace</code> - (Optional) The namespace by which we would filter the list.</li>
+<li><code>occ_handover_resource_block_id</code> - (Optional) This filter helps in fetching the handed over resource for which the occHandoverResourceId is equal to the one provided here.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>occ_handover_resource_block_collection</code> - The list of occ_handover_resource_block_collection.</li>
+</ul>
+
+<h3>OccHandoverResourceBlock Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - An array of occ handover resource blocks.
+
+<ul>
+<li><code>associated_capacity_requests</code> - A list containing details about the capacity requests against which the resources were provisioned by oracle.
+
+<ul>
+<li><code>handover_quantity</code> - The total quantity of the bare metal hardware that was made available corresponding to the capacity request ocid.</li>
+<li><code>occ_capacity_request_id</code> - The OCID of the capacity request against which the resources were provisioned.</li>
+</ul></li>
+<li><code>compartment_id</code> - The OCID of the compartment where the resource block&rsquo;s are placed.</li>
+<li><code>handover_date</code> - The date on which the resource was handed over to the customer.</li>
+<li><code>handover_resource_name</code> - The name of the resource handed over by oracle.  For instance for compute namespace this will be the name of the bare metal hardware resource.</li>
+<li><code>id</code> - The OCID of the resource block.</li>
+<li><code>namespace</code> - The name of the Oracle Cloud Infrastructure service in consideration.  For example Compute, Exadata and so on.</li>
+<li><code>occ_customer_group_id</code> - The OCID of the customer group for which the resources were provisioned.</li>
+<li><code>placement_details</code> - Details like building, room and block where the resource was placed after provisioning in the datacenter.
+
+<ul>
+<li><code>availability_domain</code> - The availability domain (AD) for which the resources were provisioned.</li>
+<li><code>block</code> - The block in the datacenter room where the resource was placed.</li>
+<li><code>building</code> - The datacenter building where the resource was placed.</li>
+<li><code>region</code> - The name of the region for which the resources were provisioned.</li>
+<li><code>room</code> - The name of the room in the dataacenter building where the resource was placed.</li>
+<li><code>workload_type</code> - The type of workload to which these resources were provisioned.</li>
+</ul></li>
+<li><code>total_handover_quantity</code> - The total quantity of the resource that was made available to the customer by Oracle.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

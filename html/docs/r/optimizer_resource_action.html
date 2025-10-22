@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_optimizer_resource_action</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_optimizer_resource_action</h1>
+
+<p>This resource provides the Resource Action resource in Oracle Cloud Infrastructure Optimizer service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/advisor/latest/ResourceAction">https://docs.oracle.com/iaas/api/#/en/advisor/latest/ResourceAction</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/optimizer">https://github.com/oracle/terraform-provider-oci/tree/master/examples/optimizer</a></p>
+
+<p>Updates the resource action that corresponds to the specified OCID.
+Use this operation to implement the following actions:</p>
+
+<ul>
+<li>Postpone resource action</li>
+<li>Ignore resource action</li>
+<li>Reactivate resource action</li>
+</ul>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_optimizer_resource_action&quot; &quot;test_resource_action&quot; {
+	#Required
+	resource_action_id = oci_optimizer_resource_action.test_resource_action.id
+	status = var.resource_action_status
+
+	#Optional
+	time_status_end = var.resource_action_time_status_end
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><p><code>resource_action_id</code> - (Required) The unique OCID associated with the resource action.</p></li>
+
+<li><p><code>status</code> - (Required) (Updatable) The status of the resource action.</p></li>
+
+<li><p><code>time_status_end</code> - (Optional) (Updatable) The date and time the current status will change. The format is defined by RFC3339.</p>
+
+<p>For example, &ldquo;The current <code>postponed</code> status of the resource action will end and change to <code>pending</code> on this date and time.&rdquo;</p></li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>action</code> - Details about the recommended action.</p>
+
+<ul>
+<li><code>description</code> - Text describing the recommended action.</li>
+<li><code>type</code> - The status of the resource action.</li>
+<li><code>url</code> - The URL path to documentation that explains how to perform the action.</li>
+</ul></li>
+
+<li><p><code>category_id</code> - The unique OCID associated with the category.</p></li>
+
+<li><p><code>compartment_id</code> - The OCID of the compartment.</p></li>
+
+<li><p><code>compartment_name</code> - The name associated with the compartment.</p></li>
+
+<li><p><code>estimated_cost_saving</code> - The estimated cost savings, in dollars, for the resource action.</p></li>
+
+<li><p><code>extended_metadata</code> - Additional metadata key/value pairs that you provide. They serve the same purpose and functionality as fields in the <code>metadata</code> object.</p>
+
+<p>They are distinguished from <code>metadata</code> fields in that these can be nested JSON objects (whereas <code>metadata</code> fields are string/string maps only).</p>
+
+<p>For example:</p>
+
+<p><code>{&quot;CurrentShape&quot;: {&quot;name&quot;:&quot;VM.Standard2.16&quot;}, &quot;RecommendedShape&quot;: {&quot;name&quot;:&quot;VM.Standard2.8&quot;}}</code></p></li>
+
+<li><p><code>id</code> - The unique OCID associated with the resource action.</p></li>
+
+<li><p><code>metadata</code> - Custom metadata key/value pairs for the resource action.</p>
+
+<p><strong>Metadata Example</strong></p>
+
+<p>&ldquo;metadata&rdquo; : { &ldquo;cpuRecommendedShape&rdquo;: &ldquo;VM.Standard1.1&rdquo;, &ldquo;computeMemoryUtilization&rdquo;: &ldquo;26.05734124418388&rdquo;, &ldquo;currentShape&rdquo;: &ldquo;VM.Standard1.2&rdquo;, &ldquo;instanceRecommendedShape&rdquo;: &ldquo;VM.Standard1.1&rdquo;, &ldquo;computeCpuUtilization&rdquo;: &ldquo;7.930035319720132&rdquo;, &ldquo;memoryRecommendedShape&rdquo;: &ldquo;None&rdquo; }</p></li>
+
+<li><p><code>name</code> - The name assigned to the resource.</p></li>
+
+<li><p><code>recommendation_id</code> - The unique OCID associated with the recommendation.</p></li>
+
+<li><p><code>resource_id</code> - The unique OCID associated with the resource.</p></li>
+
+<li><p><code>resource_type</code> - The kind of resource.</p></li>
+
+<li><p><code>state</code> - The resource action&rsquo;s current state.</p></li>
+
+<li><p><code>status</code> - The current status of the resource action.</p></li>
+
+<li><p><code>time_created</code> - The date and time the resource action details were created, in the format defined by RFC3339.</p></li>
+
+<li><p><code>time_status_begin</code> - The date and time that the resource action entered its current status. The format is defined by RFC3339.</p>
+
+<p>For example, &ldquo;The status of the resource action changed from <code>pending</code> to <code>current(ignored)</code> on this date and time.&rdquo;</p></li>
+
+<li><p><code>time_status_end</code> - The date and time the current status will change. The format is defined by RFC3339.</p>
+
+<p>For example, &ldquo;The current <code>postponed</code> status of the resource action will end and change to <code>pending</code> on this date and time.&rdquo;</p></li>
+
+<li><p><code>time_updated</code> - The date and time the resource action details were last updated, in the format defined by RFC3339.</p></li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Resource Action
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Resource Action
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Resource Action</p>
+
+<h2>Import</h2>
+
+<p>ResourceActions can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_optimizer_resource_action.test_resource_action &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_stack_monitoring_discovery_job</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_stack_monitoring_discovery_job</h1>
+
+<p>This resource provides the Discovery Job resource in Oracle Cloud Infrastructure Stack Monitoring service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/stack-monitoring/latest/DiscoveryJob">https://docs.oracle.com/iaas/api/#/en/stack-monitoring/latest/DiscoveryJob</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/stack_monitoring">https://github.com/oracle/terraform-provider-oci/tree/master/examples/stack_monitoring</a></p>
+
+<p>API to create discovery Job and submit discovery Details to agent.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_stack_monitoring_discovery_job&quot; &quot;test_discovery_job&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	discovery_details {
+		#Required
+		agent_id = var.management_agent_id
+		properties {
+
+			#Optional
+			properties_map = var.discovery_job_discovery_details_properties_properties_map
+		}
+		resource_name = var.discovery_job_discovery_details_resource_name
+		resource_type = var.discovery_job_discovery_details_resource_type
+
+		#Optional
+		credentials {
+			#Required
+			items {
+				#Required
+				credential_name = var.discovery_job_discovery_details_credentials_items_credential_name
+				credential_type = var.discovery_job_discovery_details_credentials_items_credential_type
+				properties {
+
+					#Optional
+					properties_map = var.discovery_job_discovery_details_credentials_items_properties_properties_map
+				}
+			}
+		}
+		license = var.discovery_job_discovery_details_license
+		tags {
+
+			#Optional
+			properties_map = var.discovery_job_discovery_details_tags_properties_map
+		}
+	}
+
+	#Optional
+	defined_tags = {&quot;foo-namespace.bar-key&quot;= &quot;value&quot;}
+	discovery_client = var.discovery_job_discovery_client
+	discovery_type = var.discovery_job_discovery_type
+	freeform_tags = {&quot;bar-key&quot;= &quot;value&quot;}
+	should_propagate_tags_to_discovered_resources = var.discovery_job_should_propagate_tags_to_discovered_resources
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The OCID of Compartment</li>
+<li><code>defined_tags</code> - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>discovery_client</code> - (Optional) Client who submits discovery job.</li>
+<li><code>discovery_details</code> - (Required) The request of DiscoveryJob Resource details.
+
+<ul>
+<li><code>agent_id</code> - (Required) The OCID of Management Agent</li>
+<li><code>credentials</code> - (Optional) List of DiscoveryJob Credential Details.
+
+<ul>
+<li><code>items</code> - (Required) List of DiscoveryJob credentials.
+
+<ul>
+<li><code>credential_name</code> - (Required) Name of Credential</li>
+<li><code>credential_type</code> - (Required) Name of Credential Type</li>
+<li><code>properties</code> - (Required) Property Details
+
+<ul>
+<li><code>properties_map</code> - (Optional) Key/Value pair of Property</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><code>license</code> - (Optional) License edition of the monitored resource.</li>
+<li><code>properties</code> - (Required) Property Details
+
+<ul>
+<li><code>properties_map</code> - (Optional) Key/Value pair of Property</li>
+</ul></li>
+<li><code>resource_name</code> - (Required) The Name of resource type</li>
+<li><code>resource_type</code> - (Required) Resource Type.</li>
+<li><code>tags</code> - (Optional) Property Details
+
+<ul>
+<li><code>properties_map</code> - (Optional) Key/Value pair of Property</li>
+</ul></li>
+</ul></li>
+<li><code>discovery_type</code> - (Optional) Add option submits new discovery Job. Add with retry option to re-submit failed discovery job. Refresh option refreshes the existing discovered resources.</li>
+<li><code>freeform_tags</code> - (Optional) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>should_propagate_tags_to_discovered_resources</code> - (Optional) If this parameter set to true, the specified tags will be applied  to all resources discovered in the current request.  Default is true.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The OCID of the Compartment</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>discovery_client</code> - Client who submits discovery job.</li>
+<li><code>discovery_details</code> - The request of DiscoveryJob Resource details.
+
+<ul>
+<li><code>agent_id</code> - The OCID of Management Agent</li>
+<li><code>credentials</code> - List of DiscoveryJOb Credential Details.
+
+<ul>
+<li><code>items</code> - List of DiscoveryJob credentials.
+
+<ul>
+<li><code>credential_name</code> - Name of Credential</li>
+<li><code>credential_type</code> - Name of Credential Type</li>
+<li><code>properties</code> - Property Details
+
+<ul>
+<li><code>properties_map</code> - Key/Value pair of Property</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><code>license</code> - License edition of the monitored resource.</li>
+<li><code>properties</code> - Property Details
+
+<ul>
+<li><code>properties_map</code> - Key/Value pair of Property</li>
+</ul></li>
+<li><code>resource_name</code> - The Name of resource type</li>
+<li><code>resource_type</code> - Resource Type.</li>
+<li><code>tags</code> - Property Details
+
+<ul>
+<li><code>properties_map</code> - Key/Value pair of Property</li>
+</ul></li>
+</ul></li>
+<li><code>discovery_type</code> - Add option submits new discovery Job. Add with retry option to re-submit failed discovery job. Refresh option refreshes the existing discovered resources.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - The OCID of Discovery job</li>
+<li><code>state</code> - The current state of the DiscoveryJob Resource.</li>
+<li><code>status</code> - Specifies the status of the discovery job</li>
+<li><code>status_message</code> - The short summary of the status of the discovery job</li>
+<li><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>tenant_id</code> - The OCID of Tenant</li>
+<li><code>time_updated</code> - The time the discovery Job was updated.</li>
+<li><code>user_id</code> - The OCID of user in which the job is submitted</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Discovery Job
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Discovery Job
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Discovery Job</p>
+
+<h2>Import</h2>
+
+<p>DiscoveryJobs can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_stack_monitoring_discovery_job.test_discovery_job &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

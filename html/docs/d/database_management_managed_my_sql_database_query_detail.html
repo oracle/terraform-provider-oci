@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_management_managed_my_sql_database_query_detail</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_management_managed_my_sql_database_query_detail</h1>
+
+<p>This data source provides details about a specific Managed My Sql Database Query Detail resource in Oracle Cloud Infrastructure Database Management service.</p>
+
+<p>Retrieves query sample details, explain plan and potential warnings for a given digest.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_management_managed_my_sql_database_query_detail&quot; &quot;test_managed_my_sql_database_query_detail&quot; {
+	#Required
+	digest = var.managed_my_sql_database_query_detail_digest
+	managed_my_sql_database_id = oci_database_management_managed_my_sql_database.test_managed_my_sql_database.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>digest</code> - (Required) The digest of a MySQL normalized query.</li>
+<li><code>managed_my_sql_database_id</code> - (Required) The OCID of the Managed MySQL Database.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>query_explain_plan</code> - The explain plan for a given MySQL query.
+
+<ul>
+<li><code>json_explain</code> - The json format of the explain plan.</li>
+<li><code>json_explain_version</code> - The version of the Json format of MySQL Explain.</li>
+</ul></li>
+<li><code>query_messages</code> - The errors, warnings and notes that could be raised by the execution of the query.
+
+<ul>
+<li><code>code</code> - The MySQL code of the raised error, warning or note.</li>
+<li><code>level</code> - The level of severity of the MySQL message.</li>
+<li><code>message_text</code> - The MySQL message text of the raised error, warning or note.</li>
+</ul></li>
+<li><code>query_sample_details</code> - The details of a query sample including the query text, execution time and other details.
+
+<ul>
+<li><code>execution_time</code> - The total amount of time that has been spent executing the query sample.</li>
+<li><code>host</code> - The host from which the query sample was run.</li>
+<li><code>mysql_instance</code> - The MySQL instance against which the query sample was run.</li>
+<li><code>query_sample_text</code> - The query sample mapped by MySQL to a given normalized query.</li>
+<li><code>thread_id</code> - The thread id of the connection.</li>
+<li><code>time_query_sample_seen</code> - The date and time the query sample was last seen.</li>
+<li><code>user</code> - The user who ran the query sample.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_management_managed_databases_user_proxy_users</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_management_managed_databases_user_proxy_users</h1>
+
+<p>This data source provides the list of Managed Databases User Proxy Users in Oracle Cloud Infrastructure Database Management service.</p>
+
+<p>Gets the list of proxy users for the current user.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_management_managed_databases_user_proxy_users&quot; &quot;test_managed_databases_user_proxy_users&quot; {
+	#Required
+	managed_database_id = oci_database_management_managed_database.test_managed_database.id
+	user_name = oci_identity_user.test_user.name
+
+	#Optional
+	name = var.managed_databases_user_proxy_user_name
+	opc_named_credential_id = var.managed_databases_user_proxy_user_opc_named_credential_id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>managed_database_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Managed Database.</li>
+<li><code>name</code> - (Optional) A filter to return only resources that match the entire name.</li>
+<li><code>opc_named_credential_id</code> - (Optional) The OCID of the Named Credential.</li>
+<li><code>user_name</code> - (Required) The name of the user whose details are to be viewed.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>proxy_user_collection</code> - The list of proxy_user_collection.</li>
+</ul>
+
+<h3>ManagedDatabasesUserProxyUser Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - An array of user resources.
+
+<ul>
+<li><code>authentication</code> - Indicates whether the proxy is required to supply the client credentials (YES) or not (NO).</li>
+<li><code>flags</code> - The flags associated with the proxy/client pair.</li>
+<li><code>name</code> - The name of a proxy user or the name of the client user.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

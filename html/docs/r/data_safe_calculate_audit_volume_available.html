@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_data_safe_calculate_audit_volume_available</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_data_safe_calculate_audit_volume_available</h1>
+
+<p>This resource provides the Calculate Audit Volume Available resource in Oracle Cloud Infrastructure Data Safe service.</p>
+
+<p>Calculates the volume of audit events available on the target database to be collected. Measurable up to the defined retention period of the audit target resource.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_data_safe_calculate_audit_volume_available&quot; &quot;test_calculate_audit_volume_available&quot; {
+	#Required
+	audit_profile_id = oci_data_safe_audit_profile.test_audit_profile.id
+
+	#Optional
+	audit_collection_start_time = var.calculate_audit_volume_available_audit_collection_start_time
+	database_unique_name = var.calculate_audit_volume_available_database_unique_name
+	trail_locations = var.calculate_audit_volume_available_trail_locations
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>audit_collection_start_time</code> - (Optional) The date from which the audit trail must start collecting data in UTC, in the format defined by RFC3339. If not specified, this will default to the date based on the retention period.</li>
+<li><code>audit_profile_id</code> - (Required) The OCID of the audit.</li>
+<li><code>database_unique_name</code> - (Optional) Unique name of the database associated to the peer target database.</li>
+<li><code>trail_locations</code> - (Optional) The trail locations for which the audit data volume has to be calculated.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>available_audit_volumes</code> - List of available audit volumes.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Calculate Audit Volume Available
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Calculate Audit Volume Available
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Calculate Audit Volume Available</p>
+
+<h2>Import</h2>
+
+<p>CalculateAuditVolumeAvailable can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_data_safe_calculate_audit_volume_available.test_calculate_audit_volume_available &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

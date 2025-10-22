@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_database_autonomous_vm_clusters</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_database_autonomous_vm_clusters</h1>
+
+<p>This data source provides the list of Autonomous Vm Clusters in Oracle Cloud Infrastructure Database service.</p>
+
+<p>Gets a list of Exadata Cloud@Customer Autonomous VM clusters in the specified compartment. To list Autonomous VM Clusters in the Oracle Cloud, see <a href="https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/CloudAutonomousVmCluster/ListCloudAutonomousVmClusters">ListCloudAutonomousVmClusters</a>.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_database_autonomous_vm_clusters&quot; &quot;test_autonomous_vm_clusters&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	display_name = var.autonomous_vm_cluster_display_name
+	exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
+	state = var.autonomous_vm_cluster_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The compartment <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>display_name</code> - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.</li>
+<li><code>exadata_infrastructure_id</code> - (Optional) If provided, filters the results for the given Exadata Infrastructure.</li>
+<li><code>state</code> - (Optional) A filter to return only resources that match the given lifecycle state exactly.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>autonomous_vm_clusters</code> - The list of autonomous_vm_clusters.</li>
+</ul>
+
+<h3>AutonomousVmCluster Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>autonomous_data_storage_size_in_tbs</code> - The data disk group size allocated for Autonomous Databases, in TBs.</li>
+<li><code>available_autonomous_data_storage_size_in_tbs</code> - The data disk group size available for Autonomous Databases, in TBs.</li>
+<li><code>available_container_databases</code> - The number of Autonomous Container Databases that can be created with the currently available local storage.</li>
+<li><code>available_cpus</code> - The numnber of CPU cores available.</li>
+<li><code>available_data_storage_size_in_tbs</code> - <strong>Deprecated.</strong> Use <code>availableAutonomousDataStorageSizeInTBs</code> for Autonomous Databases&rsquo; data storage availability in TBs.</li>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>compute_model</code> - The compute model of the Autonomous VM Cluster. ECPU compute model is the recommended model and OCPU compute model is legacy. See <a href="https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak">Compute Models in Autonomous Database on Dedicated Exadata #Infrastructure</a> for more details.</li>
+<li><code>cpu_core_count_per_node</code> - The number of CPU cores enabled per VM cluster node.</li>
+<li><code>cpus_enabled</code> - The number of enabled CPU cores.</li>
+<li><code>cpus_lowest_scaled_value</code> - The lowest value to which cpus can be scaled down.</li>
+<li><code>data_storage_size_in_gb</code> - The total data storage allocated in GBs.</li>
+<li><code>data_storage_size_in_tbs</code> - The total data storage allocated in TBs</li>
+<li><code>db_node_storage_size_in_gbs</code> - The local node storage allocated in GBs.</li>
+<li><code>db_servers</code> - The list of <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCIDs</a> of the Db servers.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</li>
+<li><code>display_name</code> - The user-friendly name for the Autonomous VM cluster. The name does not need to be unique.</li>
+<li><code>exadata_infrastructure_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Exadata infrastructure.</li>
+<li><code>exadata_storage_in_tbs_lowest_scaled_value</code> - The lowest value to which exadataStorage(in TBs) can be scaled down.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Autonomous VM cluster.</li>
+<li><code>is_local_backup_enabled</code> - If true, database backup on local Exadata storage is configured for the Autonomous VM cluster. If false, database backup on local Exadata storage is not available in the Autonomous VM cluster.</li>
+<li><code>is_mtls_enabled</code> - Enable mutual TLS(mTLS) authentication for database while provisioning a VMCluster. Default is TLS.</li>
+<li><code>last_maintenance_run_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the last maintenance run.</li>
+<li><code>license_model</code> - The Oracle license model that applies to the Autonomous VM cluster. The default is LICENSE_INCLUDED.</li>
+<li><code>lifecycle_details</code> - Additional information about the current lifecycle state.</li>
+<li><code>maintenance_window</code> - The scheduling details for the quarterly maintenance window. Patching and system updates take place during the maintenance window.
+
+<ul>
+<li><code>days_of_week</code> - Days during the week when maintenance should be performed.
+
+<ul>
+<li><code>name</code> - Name of the day of the week.</li>
+</ul></li>
+<li><code>hours_of_day</code> - The window of hours during the day when maintenance should be performed. The window is a 4 hour slot. Valid values are
+
+<ul>
+<li>0 - represents time slot 0:00 - 3:59 UTC - 4 - represents time slot 4:00 - 7:59 UTC - 8 - represents time slot 8:00 - 11:59 UTC - 12 - represents time slot 12:00 - 15:59 UTC - 16 - represents time slot 16:00 - 19:59 UTC - 20 - represents time slot 20:00 - 23:59 UTC</li>
+</ul></li>
+<li><code>lead_time_in_weeks</code> - Lead time window allows user to set a lead time to prepare for a down time. The lead time is in weeks and valid value is between 1 to 4.</li>
+<li><code>months</code> - Months during the year when maintenance should be performed.
+
+<ul>
+<li><code>name</code> - Name of the month of the year.</li>
+</ul></li>
+<li><code>preference</code> - The maintenance window scheduling preference.</li>
+<li><code>weeks_of_month</code> - Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed.</li>
+</ul></li>
+<li><code>max_acds_lowest_scaled_value</code> - The lowest value to which maximum number of ACDs can be scaled down.</li>
+<li><code>memory_per_compute_unit_in_gbs</code> - The amount of memory (in GBs) to be enabled per OCPU or ECPU.</li>
+<li><code>memory_per_oracle_compute_unit_in_gbs</code> - The amount of memory (in GBs, rounded off to nearest integer value) enabled per ECPU or OCPU. This is deprecated. Please refer to memoryPerComputeUnitInGBs for accurate value.</li>
+<li><code>memory_size_in_gbs</code> - The memory allocated in GBs.</li>
+<li><code>next_maintenance_run_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the next maintenance run.</li>
+<li><code>node_count</code> - The number of nodes in the Autonomous VM Cluster.</li>
+<li><code>ocpus_enabled</code> - The number of enabled OCPU cores.</li>
+<li><code>provisionable_autonomous_container_databases</code> - <strong>Deprecated.</strong> Use field totalContainerDatabases.</li>
+<li><code>provisioned_autonomous_container_databases</code> - The number of provisioned Autonomous Container Databases in an Autonomous VM Cluster.</li>
+<li><code>provisioned_cpus</code> - The number of CPUs provisioned in an Autonomous VM Cluster.</li>
+<li><code>reserved_cpus</code> - The number of CPUs reserved in an Autonomous VM Cluster.</li>
+<li><code>reclaimable_cpus</code> - For Autonomous Databases on Dedicated Exadata Infrastructure:
+
+<ul>
+<li>These are the CPUs that continue to be included in the count of CPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available CPUs at its parent Autonomous VM Cluster level by restarting the Autonomous Container Database.</li>
+<li>The CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster&rsquo;s compute model.</li>
+</ul></li>
+<li><code>scan_listener_port_non_tls</code> - The SCAN Listener Non TLS port number. Default value is 1521.</li>
+<li><code>scan_listener_port_tls</code> - The SCAN Listener TLS port number. Default value is 2484.</li>
+<li><code>state</code> - The current state of the Autonomous VM cluster.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</li>
+<li><code>time_created</code> - The date and time that the Autonomous VM cluster was created.</li>
+<li><code>time_database_ssl_certificate_expires</code> - The date and time of Database SSL certificate expiration.</li>
+<li><code>time_ords_certificate_expires</code> - The date and time of ORDS certificate expiration.</li>
+<li><code>time_zone</code> - The time zone to use for the Autonomous VM cluster. For details, see <a href="https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm">DB System Time Zones</a>.</li>
+<li><code>total_container_databases</code> - The total number of Autonomous Container Databases that can be created.</li>
+<li><code>vm_cluster_network_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the VM cluster network.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

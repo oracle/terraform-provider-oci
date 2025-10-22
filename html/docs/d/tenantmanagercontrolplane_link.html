@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_tenantmanagercontrolplane_link</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_tenantmanagercontrolplane_link</h1>
+
+<p>This data source provides details about a specific Link resource in Oracle Cloud Infrastructure Tenantmanagercontrolplane service.</p>
+
+<p>Gets information about the link.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_tenantmanagercontrolplane_link&quot; &quot;test_link&quot; {
+	#Required
+	link_id = oci_tenantmanagercontrolplane_link.test_link.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>link_id</code> - (Required) OCID of the link to retrieve.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>child_tenancy_id</code> - OCID of the child tenancy.</li>
+<li><code>id</code> - OCID of the link.</li>
+<li><code>parent_tenancy_id</code> - OCID of the parent tenancy.</li>
+<li><code>state</code> - Lifecycle state of the link.</li>
+<li><code>time_created</code> - Date-time when this link was created.</li>
+<li><code>time_terminated</code> - Date-time when this link was terminated.</li>
+<li><code>time_updated</code> - Date-time when this link was last updated.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

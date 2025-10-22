@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_network_load_balancer_backend_set</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_network_load_balancer_backend_set</h1>
+
+<p>This data source provides details about a specific Backend Set resource in Oracle Cloud Infrastructure Network Load Balancer service.</p>
+
+<p>Retrieves the configuration information for the specified backend set.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_network_load_balancer_backend_set&quot; &quot;test_backend_set&quot; {
+	#Required
+	backend_set_name = oci_network_load_balancer_backend_set.test_backend_set.name
+	network_load_balancer_id = oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id
+    #Optional
+	ip_version = var.backend_set_ip_version
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>backend_set_name</code> - (Required) The name of the backend set to retrieve.  Example: <code>example_backend_set</code></li>
+<li><code>network_load_balancer_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the network load balancer to update.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>are_operationally_active_backends_preferred</code> - If enabled, NLB supports active-standby backends. The standby backend takes over the traffic when the active node fails, and continues to serve the traffic even when the old active node is back healthy.</p></li>
+
+<li><p><code>backends</code> - An array of backends.</p>
+
+<ul>
+<li><code>ip_address</code> - The IP address of the backend server. Example: <code>10.0.0.3</code></li>
+<li><code>is_backup</code> - Whether the network load balancer should treat this server as a backup unit. If <code>true</code>, then the network load balancer forwards no ingress traffic to this backend server unless all other backend servers not marked as &ldquo;isBackup&rdquo; fail the health check policy.  Example: <code>false</code></li>
+<li><code>is_drain</code> - Whether the network load balancer should drain this server. Servers marked &ldquo;isDrain&rdquo; receive no incoming traffic.  Example: <code>false</code></li>
+<li><code>is_offline</code> - Whether the network load balancer should treat this server as offline. Offline servers receive no incoming traffic.  Example: <code>false</code></li>
+<li><code>name</code> - A read-only field showing the IP address/IP OCID and port that uniquely identify this backend server in the backend set.  Example: <code>10.0.0.3:8080</code>, or <code>ocid1.privateip..oc1.&lt;var&gt;&amp;lt;unique_ID&amp;gt;&lt;/var&gt;:443</code> or <code>10.0.0.3:0</code></li>
+<li><code>port</code> - The communication port for the backend server.  Example: <code>8080</code></li>
+<li><code>target_id</code> - The IP OCID/Instance OCID associated with the backend server. Example: <code>ocid1.privateip..oc1.&lt;var&gt;&amp;lt;unique_ID&amp;gt;&lt;/var&gt;</code></li>
+<li><code>weight</code> - The network load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted &lsquo;3&rsquo; receives three times the number of new connections as a server weighted &lsquo;1&rsquo;. For more information about network load balancing policies, see <a href="https://docs.cloud.oracle.com/iaas/Content/NetworkLoadBalancer/introduction.htm#Policies">Network Load Balancer Policies</a>.  Example: <code>3</code></li>
+</ul></li>
+
+<li><p><code>health_checker</code> - The health check policy configuration. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/NetworkLoadBalancer/HealthCheckPolicies/update-health-check-management.htm">Editing Network Load Balancer Health Check Policies</a>.</p>
+
+<ul>
+<li><code>dns</code> - DNS healthcheck configurations.
+
+<ul>
+<li><code>domain_name</code> - The absolute fully-qualified domain name to perform periodic DNS queries. If not provided, an extra dot will be added at the end of a domain name during the query.</li>
+<li><code>query_class</code> - The class the dns health check query to use; either IN or CH.  Example: <code>IN</code></li>
+<li><code>query_type</code> - The type the dns health check query to use; A, AAAA, TXT.  Example: <code>A</code></li>
+<li><code>rcodes</code> - An array that represents accepetable RCODE values for DNS query response. Example: [&ldquo;NOERROR&rdquo;, &ldquo;NXDOMAIN&rdquo;]</li>
+<li><code>transport_protocol</code> - DNS transport protocol; either UDP or TCP.  Example: <code>UDP</code></li>
+</ul></li>
+<li><code>interval_in_millis</code> - The interval between health checks, in milliseconds. The default value is 10000 (10 seconds).  Example: <code>10000</code></li>
+<li><code>port</code> - The backend server port against which to run the health check. If the port is not specified, then the network load balancer uses the port information from the <code>Backend</code> object. The port must be specified if the backend port is 0.  Example: <code>8080</code></li>
+<li><code>protocol</code> - The protocol the health check must use; either HTTP, HTTPS, UDP, TCP or DNS.  Example: <code>HTTP</code></li>
+<li><code>request_data</code> - Base64 encoded pattern to be sent as UDP or TCP health check probe.</li>
+<li><code>response_body_regex</code> - A regular expression for parsing the response body from the backend server.  Example: <code>^((?!false).|\s)*$</code></li>
+<li><code>response_data</code> - Base64 encoded pattern to be validated as UDP or TCP health check probe response.</li>
+<li><code>retries</code> - The number of retries to attempt before a backend server is considered &ldquo;unhealthy&rdquo;. This number also applies when recovering a server to the &ldquo;healthy&rdquo; state. The default value is 3.  Example: <code>3</code></li>
+<li><code>return_code</code> - The status code a healthy backend server should return. If you configure the health check policy to use the HTTP protocol, then you can use common HTTP status codes such as &ldquo;200&rdquo;.  Example: <code>200</code></li>
+<li><code>timeout_in_millis</code> - The maximum time, in milliseconds, to wait for a reply to a health check. A health check is successful only if a reply returns within this timeout period. The default value is 3000 (3 seconds).  Example: <code>3000</code></li>
+<li><code>url_path</code> - The path against which to run the health check.  Example: <code>/healthcheck</code></li>
+</ul></li>
+
+<li><p><code>ip_version</code> - IP version associated with the backend set.</p></li>
+
+<li><p><code>is_fail_open</code> - If enabled, the network load balancer will continue to distribute traffic in the configured distribution in the event all backends are unhealthy. The value is false by default.</p></li>
+
+<li><p><code>is_instant_failover_enabled</code> - If enabled existing connections will be forwarded to an alternative healthy backend as soon as current backend becomes unhealthy.</p></li>
+
+<li><p><code>is_instant_failover_tcp_reset_enabled</code> - If enabled along with instant failover, the network load balancer will send TCP RST to the clients for the existing connections instead of failing over to a healthy backend. This only applies when using the instant failover. By default, TCP RST is enabled.</p></li>
+
+<li><p><code>is_preserve_source</code> - If this parameter is enabled, then the network load balancer preserves the source IP of the packet when it is forwarded to backends. Backends see the original source IP. If the isPreserveSourceDestination parameter is enabled for the network load balancer resource, then this parameter cannot be disabled. The value is true by default.</p></li>
+
+<li><p><code>name</code> - A user-friendly name for the backend set that must be unique and cannot be changed.</p>
+
+<p>Valid backend set names include only alphanumeric characters, dashes, and underscores. Backend set names cannot contain spaces. Avoid entering confidential information.</p>
+
+<p>Example: <code>example_backend_set</code></p></li>
+
+<li><p><code>policy</code> - The network load balancer policy for the backend set.  Example: <code>FIVE_TUPLE</code></p></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

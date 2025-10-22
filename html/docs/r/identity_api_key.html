@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_identity_api_key</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_identity_api_key</h1>
+
+<p>This resource provides the Api Key resource in Oracle Cloud Infrastructure Identity service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/identity/latest/ApiKey">https://docs.oracle.com/iaas/api/#/en/identity/latest/ApiKey</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/identity">https://github.com/oracle/terraform-provider-oci/tree/master/examples/identity</a></p>
+
+<p>Uploads an API signing key for the specified user.</p>
+
+<p>Every user has permission to use this operation to upload a key for <em>their own user ID</em>. An
+administrator in your organization does not need to write a policy to give users this ability.
+To compare, administrators who have permission to the tenancy can use this operation to upload a
+key for any user, including themselves.</p>
+
+<p><strong>Important:</strong> Even though you have permission to upload an API key, you might not yet
+have permission to do much else. If you try calling an operation unrelated to your own credential
+management (e.g., <code>ListUsers</code>, <code>LaunchInstance</code>) and receive an &ldquo;unauthorized&rdquo; error,
+check with an administrator to confirm which IAM Service group(s) you&rsquo;re in and what access
+you have. Also confirm you&rsquo;re working in the correct compartment.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_identity_api_key&quot; &quot;test_api_key&quot; {
+	#Required
+	key_value = var.api_key_key_value
+	user_id = oci_identity_user.test_user.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>key_value</code> - (Required) The public key.  Must be an RSA key in PEM format.</li>
+<li><code>user_id</code> - (Required) The OCID of the user.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>fingerprint</code> - The key&rsquo;s fingerprint (e.g., 12:34:56:78:90:ab:cd:ef:12:34:56:78:90:ab:cd:ef).</li>
+<li><code>id</code> - An Oracle-assigned identifier for the key, in this format: TENANCY_OCID/USER_OCID/KEY_FINGERPRINT.</li>
+<li><code>inactive_status</code> - The detailed status of INACTIVE lifecycleState.</li>
+<li><code>key_value</code> - The key&rsquo;s value.</li>
+<li><code>state</code> - The API key&rsquo;s current state.</li>
+<li><code>time_created</code> - Date and time the <code>ApiKey</code> object was created, in the format defined by RFC3339.  Example: <code>2016-08-25T21:10:29.600Z</code></li>
+<li><code>user_id</code> - The OCID of the user the key belongs to.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Api Key
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Api Key
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Api Key</p>
+
+<h2>Import</h2>
+
+<p>ApiKeys can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_identity_api_key.test_api_key &quot;users/{userId}/apiKeys/{fingerprint}&quot; 
+</code></pre>
+
+	</div>
+
+</body>
+</html>

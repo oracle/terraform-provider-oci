@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_database_scheduling_plan</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_database_scheduling_plan</h1>
+
+<p>This resource provides the Scheduling Plan resource in Oracle Cloud Infrastructure Database service.</p>
+
+<p>Creates a Scheduling Plan resource.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_database_scheduling_plan&quot; &quot;test_scheduling_plan&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	resource_id = oci_cloud_guard_resource.test_resource.id
+	scheduling_policy_id = oci_database_scheduling_policy.test_scheduling_policy.id
+	service_type = var.scheduling_plan_service_type
+
+	#Optional
+	defined_tags = var.scheduling_plan_defined_tags
+	freeform_tags = {&quot;Department&quot;= &quot;Finance&quot;}
+	is_using_recommended_scheduled_actions = var.scheduling_plan_is_using_recommended_scheduled_actions
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) (Updatable) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>defined_tags</code> - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</li>
+<li><code>freeform_tags</code> - (Optional) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>is_using_recommended_scheduled_actions</code> - (Optional) If true, recommended scheduled actions will be generated for the scheduling plan.</li>
+<li><code>resource_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the resource.</li>
+<li><code>scheduling_policy_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Scheduling Policy.</li>
+<li><code>service_type</code> - (Required) The service type of the Scheduling Plan.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the compartment.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</li>
+<li><code>display_name</code> - The display name of the Scheduling Plan.</li>
+<li><code>estimated_time_in_mins</code> - The estimated time for the Scheduling Plan.</li>
+<li><code>freeform_tags</code> - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.  Example: <code>{&quot;Department&quot;: &quot;Finance&quot;}</code></li>
+<li><code>id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Scheduling Plan.</li>
+<li><code>is_using_recommended_scheduled_actions</code> - If true, recommended scheduled actions will be generated for the scheduling plan.</li>
+<li><code>lifecycle_details</code> - Additional information about the current lifecycle state.</li>
+<li><code>plan_intent</code> - The current intent the Scheduling Plan. Valid states is EXADATA_INFRASTRUCTURE_FULL_SOFTWARE_UPDATE.</li>
+<li><code>resource_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the resource.</li>
+<li><code>scheduling_policy_id</code> - The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Scheduling Policy.</li>
+<li><code>service_type</code> - The service type of the Scheduling Plan.</li>
+<li><code>state</code> - The current state of the Scheduling Plan. Valid states are CREATING, NEEDS_ATTENTION, AVAILABLE, UPDATING, FAILED, DELETING and DELETED.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm">Resource Tags</a>.</li>
+<li><code>time_created</code> - The date and time the Scheduling Plan Resource was created.</li>
+<li><code>time_updated</code> - The date and time the Scheduling Plan Resource was updated.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Scheduling Plan
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Scheduling Plan
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Scheduling Plan</p>
+
+<h2>Import</h2>
+
+<p>SchedulingPlans can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_database_scheduling_plan.test_scheduling_plan &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

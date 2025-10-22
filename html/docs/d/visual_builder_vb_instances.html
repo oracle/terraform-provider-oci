@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_visual_builder_vb_instances</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_visual_builder_vb_instances</h1>
+
+<p>This data source provides the list of Vb Instances in Oracle Cloud Infrastructure Visual Builder service.</p>
+
+<p>Returns a list of Vb Instances.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_visual_builder_vb_instances&quot; &quot;test_vb_instances&quot; {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	display_name = var.vb_instance_display_name
+	state = var.vb_instance_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) The ID of the compartment in which to list resources.</li>
+<li><code>display_name</code> - (Optional) A user-friendly name. Does not have to be unique, and it&rsquo;s changeable.  Example: <code>My new resource</code></li>
+<li><code>state</code> - (Optional) Life cycle state to query on.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>vb_instance_summary_collection</code> - The list of vb_instance_summary_collection.</li>
+</ul>
+
+<h3>VbInstance Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><p><code>alternate_custom_endpoints</code> - A list of alternate custom endpoints used for the vb instance URL.</p>
+
+<ul>
+<li><code>certificate_secret_id</code> - Optional OCID of a vault/secret containing a private SSL certificate bundle to be used for the custom hostname.</li>
+<li><code>certificate_secret_version</code> - The secret version used for the certificate-secret-id (if certificate-secret-id is specified).</li>
+<li><code>hostname</code> - A custom hostname to be used for the vb instance URL, in FQDN format.</li>
+</ul></li>
+
+<li><p><code>compartment_id</code> - Compartment Identifier.</p></li>
+
+<li><p><code>consumption_model</code> - The entitlement used for billing purposes.</p></li>
+
+<li><p><code>custom_endpoint</code> - Details for a custom endpoint for the vb instance.</p>
+
+<ul>
+<li><code>certificate_secret_id</code> - Optional OCID of a vault/secret containing a private SSL certificate bundle to be used for the custom hostname.</li>
+<li><code>certificate_secret_version</code> - The secret version used for the certificate-secret-id (if certificate-secret-id is specified).</li>
+<li><code>hostname</code> - A custom hostname to be used for the vb instance URL, in FQDN format.</li>
+</ul></li>
+
+<li><p><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></p></li>
+
+<li><p><code>display_name</code> - Vb Instance Identifier, can be renamed.</p></li>
+
+<li><p><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></p></li>
+
+<li><p><code>id</code> - Unique identifier that is immutable on creation.</p></li>
+
+<li><p><code>instance_url</code> - The Vb Instance URL.</p></li>
+
+<li><p><code>is_visual_builder_enabled</code> - Visual Builder is enabled or not.</p></li>
+
+<li><p><code>management_nat_gateway_ip</code> - The NAT gateway IP address for the VB management VCN</p></li>
+
+<li><p><code>management_vcn_id</code> - The Oracle Cloud ID (OCID) of the Visual Builder management VCN</p></li>
+
+<li><p><code>network_endpoint_details</code> - Base representation of a network endpoint. In input payload to update an Visual Builder instance endpoint details, an empty payload will clear out any existing configuration for Public Visual Builder instance.</p>
+
+<ul>
+<li><code>network_endpoint_type</code> - The type of network endpoint.</li>
+</ul>
+
+<p>For private endpoint access
+* <code>network_security_group_ids</code> - Network Security Group OCIDs for the Private Endpoint.
+* <code>private_endpoint_ip</code> - The IP address to be assigned to Private Endpoint
+* <code>subnet_id</code> - The subnet OCID for the private endpoint.</p>
+
+<p>For public network access control
+* <code>allowlisted_http_ips</code> - Source IP addresses or IP address ranges ingress rules. (ex: &ldquo;168.122.59.<sup>5</sup>&frasl;<sub>32</sub>&rdquo;, &ldquo;10.20.30.0/26&rdquo;) An invalid IP or CIDR block will result in a 400 response.
+* <code>allowlisted_http_vcns</code> - Virtual Cloud Networks allowed to access this network endpoint.
+	* <code>allowlisted_ip_cidrs</code> - Source IP addresses or IP address ranges ingress rules. (ex: &ldquo;168.122.59.<sup>5</sup>&frasl;<sub>32</sub>&rdquo;, &ldquo;10.20.30.0/26&rdquo;) An invalid IP or CIDR block will result in a 400 response.
+	* <code>id</code> - The Virtual Cloud Network OCID.</p></li>
+
+<li><p><code>node_count</code> - The number of Nodes</p></li>
+
+<li><p><code>service_nat_gateway_ip</code> - The NAT gateway IP address for the VB service VCN</p></li>
+
+<li><p><code>service_vcn_id</code> - The Oracle Cloud ID (OCID) of the Visual Builder service VCN</p></li>
+
+<li><p><code>state</code> - The current state of the vb instance.</p></li>
+
+<li><p><code>state_message</code> - An message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.</p></li>
+
+<li><p><code>system_tags</code> - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></p></li>
+
+<li><p><code>time_created</code> - The time the the VbInstance was created. An RFC3339 formatted datetime string.</p></li>
+
+<li><p><code>time_updated</code> - The time the VbInstance was updated. An RFC3339 formatted datetime string.</p></li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_operator_access_control_operator_control_assignment</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_operator_access_control_operator_control_assignment</h1>
+
+<p>This data source provides details about a specific Operator Control Assignment resource in Oracle Cloud Infrastructure Operator Access Control service.</p>
+
+<p>Gets the details of an Operator Control Assignment of the specified ID.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_operator_access_control_operator_control_assignment&quot; &quot;test_operator_control_assignment&quot; {
+	#Required
+	operator_control_assignment_id = oci_operator_access_control_operator_control_assignment.test_operator_control_assignment.id
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>operator_control_assignment_id</code> - (Required) unique OperatorControl identifier</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>assigner_id</code> - The OCID of the user who created this operator control assignment.</li>
+<li><code>comment</code> - Comment about the assignment of the operator control to this target resource.</li>
+<li><code>compartment_id</code> - The OCID of the comparment that contains the operator control assignment.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace.</li>
+<li><code>detachment_description</code> - description containing reason for releasing of OperatorControl.</li>
+<li><code>error_code</code> - The code identifying the error occurred during Assignment operation.</li>
+<li><code>error_message</code> - The message describing the error occurred during Assignment operation.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.</li>
+<li><code>id</code> - The OCID of the operator control assignment.</li>
+<li><code>is_auto_approve_during_maintenance</code> - The boolean if true would autoApprove during maintenance.</li>
+<li><code>is_default_assignment</code> - Whether the assignment is a default assignment.<br>
+</li>
+<li><code>is_enforced_always</code> - If set, then the target resource is always governed by the operator control.</li>
+<li><code>is_hypervisor_log_forwarded</code> - If set, then the hypervisor audit logs will be forwarded to the relevant remote syslog server</li>
+<li><code>is_log_forwarded</code> - If set indicates that the audit logs are being forwarded to the relevant remote logging server</li>
+<li><code>lifecycle_details</code> - More in detail about the lifeCycleState.</li>
+<li><code>op_control_name</code> - Name of the operator control name associated.</li>
+<li><code>operator_control_id</code> - The OCID of the operator control.</li>
+<li><code>remote_syslog_server_address</code> - The address of the remote syslog server where the audit logs are being forwarded to. Address in host or IP format.</li>
+<li><code>remote_syslog_server_ca_cert</code> - The CA certificate of the remote syslog server.</li>
+<li><code>remote_syslog_server_port</code> - The listening port of the remote syslog server. The port range is 0 - 65535. Only TCP supported.</li>
+<li><code>resource_compartment_id</code> - The OCID of the compartment that contains the target resource.</li>
+<li><code>resource_id</code> - The OCID of the target resource.</li>
+<li><code>resource_name</code> - Name of the target resource.</li>
+<li><code>resource_type</code> - resourceType for which the OperatorControlAssignment is applicable</li>
+<li><code>state</code> - The current lifcycle state of the OperatorControl.</li>
+<li><code>time_assignment_from</code> - The time at which the target resource will be brought under the governance of the operator control expressed in <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a> timestamp format.  Example: &lsquo;2020-05-22T21:10:29.600Z&rsquo;</li>
+<li><code>time_assignment_to</code> - The time at which the target resource will leave the governance of the operator control expressed in <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a> timestamp format. Example: &lsquo;2020-05-22T21:10:29.600Z&rsquo;</li>
+<li><code>time_of_assignment</code> - Time when the operator control assignment is created in <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a> timestamp format. Example: &lsquo;2020-05-22T21:10:29.600Z&rsquo;</li>
+<li><code>time_of_deletion</code> - Time on which the operator control assignment was deleted in <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a>timestamp format.Example: &lsquo;2020-05-22T21:10:29.600Z&rsquo;</li>
+<li><code>unassigner_id</code> - User id who released the operatorControl.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_operator_access_control_operator_control</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_operator_access_control_operator_control</h1>
+
+<p>This resource provides the Operator Control resource in Oracle Cloud Infrastructure Operator Access Control service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/operatoraccesscontrol/latest/OperatorControl">https://docs.oracle.com/iaas/api/#/en/operatoraccesscontrol/latest/OperatorControl</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/operator_access_control">https://github.com/oracle/terraform-provider-oci/tree/master/examples/operator_access_control</a></p>
+
+<p>Creates an Operator Control.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_operator_access_control_operator_control&quot; &quot;test_operator_control&quot; {
+	#Required
+	approver_groups_list = var.operator_control_approver_groups_list
+	compartment_id = var.compartment_id
+	is_fully_pre_approved = var.operator_control_is_fully_pre_approved
+	operator_control_name = oci_operator_access_control_operator_control.test_operator_control.name
+	resource_type = var.operator_control_resource_type
+
+	#Optional
+	approvers_list = var.operator_control_approvers_list
+	defined_tags = var.operator_control_defined_tags
+	description = var.operator_control_description
+	email_id_list = var.operator_control_email_id_list
+	freeform_tags = var.operator_control_freeform_tags
+	number_of_approvers = var.operator_control_number_of_approvers
+	pre_approved_op_action_list = var.operator_control_pre_approved_op_action_list
+	system_message = var.operator_control_system_message
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>approver_groups_list</code> - (Required) (Updatable) List of user groups who can approve an access request associated with a resource governed by this operator control.</li>
+<li><code>approvers_list</code> - (Optional) (Updatable) List of users who can approve an access request associated with a resource governed by this operator control.</li>
+<li><code>compartment_id</code> - (Required) (Updatable) The OCID of the compartment that contains this operator control.</li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace.</li>
+<li><code>description</code> - (Optional) (Updatable) Description of the operator control.</li>
+<li><code>email_id_list</code> - (Optional) (Updatable) List of emailId.</li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.</li>
+<li><code>is_fully_pre_approved</code> - (Required) (Updatable) Whether all the operator actions have been pre-approved. If yes, all access requests associated with a resource governed by this operator control  will be auto-approved.<br>
+</li>
+<li><code>number_of_approvers</code> - (Optional) (Updatable) Number of approvers required to approve an access request.</li>
+<li><code>operator_control_name</code> - (Required) (Updatable) Name of the operator control.</li>
+<li><code>pre_approved_op_action_list</code> - (Optional) (Updatable) List of pre-approved operator actions. Access requests associated with a resource governed by this operator control will be auto-approved if the access request only contain operator actions in the pre-approved list.</li>
+<li><code>resource_type</code> - (Required) resourceType for which the OperatorControl is applicable</li>
+<li><code>system_message</code> - (Optional) (Updatable) This is the message that will be displayed to the operator users while accessing the system.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>approval_required_op_action_list</code> - List of operator actions that need explicit approval. Any operator action not in the pre-approved list will require explicit approval. Access requests associated with a resource governed by this operator control will be require explicit approval if the access request contains any operator action in this list.<br>
+</li>
+<li><code>approver_groups_list</code> - List of user groups who can approve an access request associated with a target resource under the governance of this operator control.</li>
+<li><code>approvers_list</code> - List of users who can approve an access request associated with a target resource under the governance of this operator control.</li>
+<li><code>compartment_id</code> - The OCID of the compartment that contains the operator control.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace.</li>
+<li><code>description</code> - Description of operator control.</li>
+<li><code>email_id_list</code> - List of emailId.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.</li>
+<li><code>id</code> - The OCID of the operator control.</li>
+<li><code>is_default_operator_control</code> - Whether the operator control is a default Operator Control.</li>
+<li><code>is_fully_pre_approved</code> - Whether all the operator actions have been pre-approved. If yes, all access requests associated with a resource governed by this operator control  will be auto-approved.</li>
+<li><code>last_modified_info</code> - Description associated with the latest modification of the operator control.</li>
+<li><code>number_of_approvers</code> - Number of approvers required to approve an access request.</li>
+<li><code>operator_control_name</code> - Name of the operator control. The name must be unique.</li>
+<li><code>pre_approved_op_action_list</code> - List of pre-approved operator actions. Access requests associated with a resource governed by this operator control will be automatically approved if the access request only contain operator actions in the pre-approved list.<br>
+</li>
+<li><code>resource_type</code> - resourceType for which the OperatorControl is applicable</li>
+<li><code>state</code> - The current lifecycle state of the operator control.</li>
+<li><code>system_message</code> - System message that would be displayed to the operator users on accessing the target resource under the governance of this operator control.</li>
+<li><code>time_of_creation</code> - Time when the operator control was created expressed in <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a> timestamp format. Example: &lsquo;2020-05-22T21:10:29.600Z&rsquo;</li>
+<li><code>time_of_deletion</code> - Time when deleted expressed in <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a>timestamp format. Example: &lsquo;2020-05-22T21:10:29.600Z&rsquo;. Note a deleted operator control still stays in the system, so that you can still audit operator actions associated with access requests raised on target resources governed by the deleted operator control.</li>
+<li><code>time_of_modification</code> - Time when the operator control was last modified expressed in <a href="https://tools.ietf.org/html/rfc3339">RFC 3339</a> timestamp format. Example: &lsquo;2020-05-22T21:10:29.600Z&rsquo;</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Operator Control
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Operator Control
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Operator Control</p>
+
+<h2>Import</h2>
+
+<p>OperatorControls can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_operator_access_control_operator_control.test_operator_control &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

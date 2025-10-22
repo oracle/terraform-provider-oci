@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_jms_fleet_agent_configuration</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_jms_fleet_agent_configuration</h1>
+
+<p>This resource provides the Fleet Agent Configuration resource in Oracle Cloud Infrastructure Jms service.</p>
+
+<p>Update the Fleet Agent Configuration for the specified Fleet.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_jms_fleet_agent_configuration&quot; &quot;test_fleet_agent_configuration&quot; {
+	#Required
+	fleet_id = oci_jms_fleet.test_fleet.id
+
+	#Optional
+  agent_polling_interval_in_minutes                  = 10
+  is_capturing_ip_address_and_fqdn_enabled           = false
+  is_collecting_managed_instance_metrics_enabled     = false
+  is_collecting_usernames_enabled                    = false
+  is_libraries_scan_enabled                          = false
+  java_usage_tracker_processing_frequency_in_minutes = 10
+  jre_scan_frequency_in_minutes                      = 180  # must be &gt;= 180
+  linux_configuration {
+    #Required
+    exclude_paths = [&quot;/user/private1&quot;, &quot;/opt/private1&quot;]
+    include_paths = [&quot;/user&quot;, &quot;/opt&quot;]
+  }
+  mac_os_configuration {
+    #Required
+    exclude_paths = [&quot;/home/private1&quot;]
+    include_paths = [&quot;/home&quot;]
+  }
+  windows_configuration {
+    #Required
+    exclude_paths = [&quot;c:\\windows\\private1&quot;, &quot;d:\\data\\private1&quot;]
+    include_paths = [&quot;c:\\windows&quot;, &quot;d:\\data&quot;]
+  }
+  work_request_validity_period_in_days = 10
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>agent_polling_interval_in_minutes</code> - (Optional) (Updatable) Agent polling interval in minutes</li>
+<li><code>fleet_id</code> - (Required) The <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a> of the Fleet.</li>
+<li><code>is_capturing_ip_address_and_fqdn_enabled</code> - (Optional) (Updatable) Collect network addresses of managed instances in the fleet.</li>
+<li><code>is_collecting_managed_instance_metrics_enabled</code> - (Optional) (Updatable) Collect JMS agent metrics on all managed instances in the fleet.</li>
+<li><code>is_collecting_usernames_enabled</code> - (Optional) (Updatable) Collect username for application invocations for all managed instances in the fleet.</li>
+<li><code>is_libraries_scan_enabled</code> - (Optional) (Updatable) Enable libraries scan on all managed instances in the fleet.</li>
+<li><code>java_usage_tracker_processing_frequency_in_minutes</code> - (Optional) (Updatable) The frequency (in minutes) of Java Usage Tracker processing. (That is, how often should JMS process data from the Java Usage Tracker.)</li>
+<li><code>jre_scan_frequency_in_minutes</code> - (Optional) (Updatable) The frequency (in minutes) of JRE scanning. (That is, how often should JMS scan for JRE installations.)</li>
+<li><code>linux_configuration</code> - (Optional) (Updatable) Management Agent Configuration for list of include/exclude file system paths (specific to operating system).
+
+<ul>
+<li><code>exclude_paths</code> - (Required) (Updatable) An array of file system paths (environment variables supported).</li>
+<li><code>include_paths</code> - (Required) (Updatable) An array of file system paths (environment variables supported).</li>
+</ul></li>
+<li><code>mac_os_configuration</code> - (Optional) (Updatable) Management Agent Configuration for list of include/exclude file system paths (specific to operating system).
+
+<ul>
+<li><code>exclude_paths</code> - (Required) (Updatable) An array of file system paths (environment variables supported).</li>
+<li><code>include_paths</code> - (Required) (Updatable) An array of file system paths (environment variables supported).</li>
+</ul></li>
+<li><code>windows_configuration</code> - (Optional) (Updatable) Management Agent Configuration for list of include/exclude file system paths (specific to operating system).
+
+<ul>
+<li><code>exclude_paths</code> - (Required) (Updatable) An array of file system paths (environment variables supported).</li>
+<li><code>include_paths</code> - (Required) (Updatable) An array of file system paths (environment variables supported).</li>
+</ul></li>
+<li><code>work_request_validity_period_in_days</code> - (Optional) (Updatable) The validity period in days for work requests.</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>agent_polling_interval_in_minutes</code> - Agent polling interval in minutes</li>
+<li><code>is_capturing_ip_address_and_fqdn_enabled</code> - Collect network addresses of managed instances in the fleet.</li>
+<li><code>is_collecting_managed_instance_metrics_enabled</code> - Collect JMS agent metrics on all managed instances in the fleet.</li>
+<li><code>is_collecting_usernames_enabled</code> - Collect username for application invocations for all managed instances in the fleet.</li>
+<li><code>is_libraries_scan_enabled</code> - Enable libraries scan on all managed instances in the fleet.</li>
+<li><code>java_usage_tracker_processing_frequency_in_minutes</code> - The frequency (in minutes) of Java Usage Tracker processing. (That is, how often should JMS process data from the Java Usage Tracker.)</li>
+<li><code>jre_scan_frequency_in_minutes</code> - The frequency (in minutes) of JRE scanning. (That is, how often should JMS scan for JRE installations.)</li>
+<li><code>linux_configuration</code> - Management Agent Configuration for list of include/exclude file system paths (specific to operating system).
+
+<ul>
+<li><code>exclude_paths</code> - An array of file system paths (environment variables supported).</li>
+<li><code>include_paths</code> - An array of file system paths (environment variables supported).</li>
+</ul></li>
+<li><code>mac_os_configuration</code> - Management Agent Configuration for list of include/exclude file system paths (specific to operating system).
+
+<ul>
+<li><code>exclude_paths</code> - An array of file system paths (environment variables supported).</li>
+<li><code>include_paths</code> - An array of file system paths (environment variables supported).</li>
+</ul></li>
+<li><code>time_last_modified</code> - The date and time of the last modification to the Fleet Agent Configuration (formatted according to <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a>).</li>
+<li><code>windows_configuration</code> - Management Agent Configuration for list of include/exclude file system paths (specific to operating system).
+
+<ul>
+<li><code>exclude_paths</code> - An array of file system paths (environment variables supported).</li>
+<li><code>include_paths</code> - An array of file system paths (environment variables supported).</li>
+</ul></li>
+<li><code>work_request_validity_period_in_days</code> - The validity period in days for work requests.</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Fleet Agent Configuration
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Fleet Agent Configuration
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Fleet Agent Configuration</p>
+
+<h2>Import</h2>
+
+<p>FleetAgentConfigurations can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_jms_fleet_agent_configuration.test_fleet_agent_configuration &quot;fleets/{fleetId}/agentConfiguration&quot; 
+</code></pre>
+
+	</div>
+
+</body>
+</html>

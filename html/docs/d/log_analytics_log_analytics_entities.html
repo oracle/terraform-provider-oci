@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_log_analytics_log_analytics_entities</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_log_analytics_log_analytics_entities</h1>
+
+<p>This data source provides the list of Log Analytics Entities in Oracle Cloud Infrastructure Log Analytics service.</p>
+
+<p>Return a list of log analytics entities.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_log_analytics_log_analytics_entities&quot; &quot;test_log_analytics_entities&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	namespace = var.log_analytics_entity_namespace
+
+	#Optional
+	cloud_resource_id = var.log_analytics_entity_cloud_resource_id
+	defined_tag_equals = var.log_analytics_entity_defined_tag_equals
+	defined_tag_exists = var.log_analytics_entity_defined_tag_exists
+	entity_type_name = var.log_analytics_entity_entity_type_name
+	freeform_tag_equals = var.log_analytics_entity_freeform_tag_equals
+	freeform_tag_exists = var.log_analytics_entity_freeform_tag_exists
+	hostname = var.log_analytics_entity_hostname
+	hostname_contains = var.log_analytics_entity_hostname_contains
+	is_management_agent_id_null = var.log_analytics_entity_is_management_agent_id_null
+	is_show_associated_sources_count = var.log_analytics_entity_is_show_associated_sources_count
+	lifecycle_details_contains = var.log_analytics_entity_lifecycle_details_contains
+	metadata_equals = var.log_analytics_entity_metadata_equals
+	name = var.log_analytics_entity_name
+	name_contains = var.log_analytics_entity_name_contains
+	source_id = oci_log_analytics_source.test_source.id
+	state = var.log_analytics_entity_state
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>cloud_resource_id</code> - (Optional) A filter to return only log analytics entities whose cloudResourceId matches the cloudResourceId given.</li>
+<li><code>compartment_id</code> - (Required) The ID of the compartment in which to list resources.</li>
+<li><code>defined_tag_equals</code> - (Optional) A list of tag filters to apply.  Only entities with a defined tag matching the value will be returned. Each item in the list has the format &ldquo;{namespace}.{tagName}.{value}&rdquo;.  All inputs are case-insensitive. Multiple values for the same key (i.e. same namespace and tag name) are interpreted as &ldquo;OR&rdquo;. Values for different keys (i.e. different namespaces, different tag names, or both) are interpreted as &ldquo;AND&rdquo;.</li>
+<li><code>defined_tag_exists</code> - (Optional) A list of tag existence filters to apply.  Only entities for which the specified defined tags exist will be returned. Each item in the list has the format &ldquo;{namespace}.{tagName}.true&rdquo; (for checking existence of a defined tag) or &ldquo;{namespace}.true&rdquo;.  All inputs are case-insensitive. Currently, only existence (&ldquo;true&rdquo; at the end) is supported. Absence (&ldquo;false&rdquo; at the end) is not supported. Multiple values for the same key (i.e. same namespace and tag name) are interpreted as &ldquo;OR&rdquo;. Values for different keys (i.e. different namespaces, different tag names, or both) are interpreted as &ldquo;AND&rdquo;.</li>
+<li><code>entity_type_name</code> - (Optional) A filter to return only log analytics entities whose entityTypeName matches the entire log analytics entity type name of one of the entityTypeNames given in the list. The match is case-insensitive.</li>
+<li><code>freeform_tag_equals</code> - (Optional) A list of tag filters to apply.  Only entities with a freeform tag matching the value will be returned. The key for each tag is &ldquo;{tagName}.{value}&rdquo;.  All inputs are case-insensitive. Multiple values for the same tag name are interpreted as &ldquo;OR&rdquo;.  Values for different tag names are interpreted as &ldquo;AND&rdquo;.</li>
+<li><code>freeform_tag_exists</code> - (Optional) A list of tag existence filters to apply.  Only entities for which the specified freeform tags exist the value will be returned. The key for each tag is &ldquo;{tagName}.true&rdquo;.  All inputs are case-insensitive. Currently, only existence (&ldquo;true&rdquo; at the end) is supported. Absence (&ldquo;false&rdquo; at the end) is not supported. Multiple values for different tag names are interpreted as &ldquo;AND&rdquo;.</li>
+<li><code>hostname</code> - (Optional) A filter to return only log analytics entities whose hostname matches the entire hostname given.</li>
+<li><code>hostname_contains</code> - (Optional) A filter to return only log analytics entities whose hostname contains the substring given. The match is case-insensitive.</li>
+<li><code>is_management_agent_id_null</code> - (Optional) A filter to return only those log analytics entities whose managementAgentId is null or is not null.</li>
+<li><code>is_show_associated_sources_count</code> - (Optional) Option to return count of associated log sources for log analytics entity(s).</li>
+<li><code>lifecycle_details_contains</code> - (Optional) A filter to return only log analytics entities whose lifecycleDetails contains the specified string.</li>
+<li><code>metadata_equals</code> - (Optional) A filter to return only log analytics entities whose metadata name, value and type matches the specified string. Each item in the array has the format &ldquo;{name}:{value}:{type}&rdquo;.  All inputs are case-insensitive.</li>
+<li><code>name</code> - (Optional) A filter to return only log analytics entities whose name matches the entire name given. The match is case-insensitive.</li>
+<li><code>name_contains</code> - (Optional) A filter to return only log analytics entities whose name contains the name given. The match is case-insensitive.</li>
+<li><code>namespace</code> - (Required) The Logging Analytics namespace used for the request.</li>
+<li><code>source_id</code> - (Optional) A filter to return only log analytics entities whose sourceId matches the sourceId given.</li>
+<li><code>state</code> - (Optional) A filter to return only those log analytics entities with the specified lifecycle state. The state value is case-insensitive.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>log_analytics_entity_collection</code> - The list of log_analytics_entity_collection.</li>
+</ul>
+
+<h3>LogAnalyticsEntity Reference</h3>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>are_logs_collected</code> - The Boolean flag to indicate if logs are collected for an entity for log analytics usage.</li>
+<li><code>associated_sources_count</code> - The count of associated log sources for a given log analytics entity.</li>
+<li><code>cloud_resource_id</code> - The OCID of the Cloud resource which this entity is a representation of. This may be blank when the entity represents a non-cloud resource that the customer may have on their premises.</li>
+<li><code>compartment_id</code> - Compartment Identifier <a href="https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm">OCID</a>.</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>entity_type_internal_name</code> - Internal name for the log analytics entity type.</li>
+<li><code>entity_type_name</code> - Log analytics entity type name.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>hostname</code> - The hostname where the entity represented here is actually present. This would be the output one would get if they run <code>echo $HOSTNAME</code> on Linux or an equivalent OS command. This may be different from management agents host since logs may be collected remotely.</li>
+<li><code>id</code> - The log analytics entity OCID. This ID is a reference used by log analytics features and it represents a resource that is provisioned and managed by the customer on their premises or on the cloud.</li>
+<li><code>lifecycle_details</code> - lifecycleDetails has additional information regarding substeps such as management agent plugin deployment.</li>
+<li><code>management_agent_compartment_id</code> - Management agent (management-agents resource kind) compartment OCID</li>
+<li><code>management_agent_display_name</code> - Management agent (management-agents resource kind) display name</li>
+<li><code>management_agent_id</code> - The OCID of the Management Agent.</li>
+<li><code>metadata</code> - Details of entity metadata information.
+
+<ul>
+<li><code>items</code> - An array of entity metadata.
+
+<ul>
+<li><code>name</code> - The metadata name.</li>
+<li><code>type</code> - The metadata type.</li>
+<li><code>value</code> - The metadata value.</li>
+</ul></li>
+</ul></li>
+<li><code>name</code> - Log analytics entity name.</li>
+<li><code>properties</code> - The name/value pairs for parameter values to be used in file patterns specified in log sources.</li>
+<li><code>source_id</code> - This indicates the type of source. It is primarily for Enterprise Manager Repository ID.</li>
+<li><code>state</code> - The current state of the log analytics entity.</li>
+<li><code>time_created</code> - The date and time the resource was created, in the format defined by RFC3339.</li>
+<li><code>time_last_discovered</code> - The date and time the resource was last discovered, in the format defined by RFC3339.</li>
+<li><code>time_updated</code> - The date and time the resource was last updated, in the format defined by RFC3339.</li>
+<li><code>timezone_region</code> - The timezone region of the log analytics entity.</li>
+</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Resource: oci_opsi_enterprise_manager_bridge</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>oci_opsi_enterprise_manager_bridge</h1>
+
+<p>This resource provides the Enterprise Manager Bridge resource in Oracle Cloud Infrastructure Opsi service.
+Api doc link for the resource: <a href="https://docs.oracle.com/iaas/api/#/en/operations-insights/latest/EnterpriseManagerBridge">https://docs.oracle.com/iaas/api/#/en/operations-insights/latest/EnterpriseManagerBridge</a></p>
+
+<p>Example terraform configs related to the resource : <a href="https://github.com/oracle/terraform-provider-oci/tree/master/examples/osi">https://github.com/oracle/terraform-provider-oci/tree/master/examples/osi</a></p>
+
+<p>Create a Enterprise Manager bridge in Operations Insights.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">resource &quot;oci_opsi_enterprise_manager_bridge&quot; &quot;test_enterprise_manager_bridge&quot; {
+	#Required
+	compartment_id = var.compartment_id
+	display_name = var.enterprise_manager_bridge_display_name
+	object_storage_bucket_name = oci_objectstorage_bucket.test_bucket.name
+
+	#Optional
+	defined_tags = {&quot;foo-namespace.bar-key&quot;= &quot;value&quot;}
+	description = var.enterprise_manager_bridge_description
+	freeform_tags = {&quot;bar-key&quot;= &quot;value&quot;}
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Required) (Updatable) Compartment identifier of the Enterprise Manager bridge</li>
+<li><code>defined_tags</code> - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>description</code> - (Optional) (Updatable) Description of Enterprise Manager Bridge</li>
+<li><code>display_name</code> - (Required) (Updatable) User-friedly name of Enterprise Manager Bridge that does not have to be unique.</li>
+<li><code>freeform_tags</code> - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>object_storage_bucket_name</code> - (Required) Object Storage Bucket Name</li>
+</ul>
+
+<p>** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values</p>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>compartment_id</code> - Compartment identifier of the Enterprise Manager bridge</li>
+<li><code>defined_tags</code> - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;foo-namespace.bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>description</code> - Description of Enterprise Manager Bridge</li>
+<li><code>display_name</code> - User-friedly name of Enterprise Manager Bridge that does not have to be unique.</li>
+<li><code>freeform_tags</code> - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: <code>{&quot;bar-key&quot;: &quot;value&quot;}</code></li>
+<li><code>id</code> - Enterprise Manager bridge identifier</li>
+<li><code>lifecycle_details</code> - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.</li>
+<li><code>object_storage_bucket_name</code> - Object Storage Bucket Name</li>
+<li><code>object_storage_bucket_status_details</code> - A message describing status of the object storage bucket of this resource. For example, it can be used to provide actionable information about the permission and content validity of the bucket.</li>
+<li><code>object_storage_namespace_name</code> - Object Storage Namespace Name</li>
+<li><code>state</code> - The current state of the Enterprise Manager bridge.</li>
+<li><code>system_tags</code> - System tags for this resource. Each key is predefined and scoped to a namespace. Example: <code>{&quot;orcl-cloud.free-tier-retained&quot;: &quot;true&quot;}</code></li>
+<li><code>time_created</code> - The time the the Enterprise Manager bridge was first created. An RFC3339 formatted datetime string</li>
+<li><code>time_updated</code> - The time the Enterprise Manager bridge was updated. An RFC3339 formatted datetime string</li>
+</ul>
+
+<h2>Timeouts</h2>
+
+<p>The <code>timeouts</code> block allows you to specify <a href="https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts">timeouts</a> for certain operations:
+	* <code>create</code> - (Defaults to 20 minutes), when creating the Enterprise Manager Bridge
+	* <code>update</code> - (Defaults to 20 minutes), when updating the Enterprise Manager Bridge
+	* <code>delete</code> - (Defaults to 20 minutes), when destroying the Enterprise Manager Bridge</p>
+
+<h2>Import</h2>
+
+<p>EnterpriseManagerBridges can be imported using the <code>id</code>, e.g.</p>
+
+<pre><code>$ terraform import oci_opsi_enterprise_manager_bridge.test_enterprise_manager_bridge &quot;id&quot;
+</code></pre>
+
+	</div>
+
+</body>
+</html>

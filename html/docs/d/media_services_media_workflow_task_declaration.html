@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Cloud Infrastructure - Data Source: oci_media_services_media_workflow_task_declaration</title>
+  <meta name="GENERATOR" content="Generated from terraform-provider-oci markdown documentation">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+
+	<div class="nav_wrap">
+		<iframe id ="nav_list" src="../../toc.html"></iframe>
+	</div>
+
+	<div class="main" tabindex="-1">
+<h1>Data Source: oci_media_services_media_workflow_task_declaration</h1>
+
+<p>This data source provides details about a specific Media Workflow Task Declaration resource in Oracle Cloud Infrastructure Media Services service.</p>
+
+<p>Returns a list of MediaWorkflowTaskDeclarations.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code class="language-hcl">data &quot;oci_media_services_media_workflow_task_declaration&quot; &quot;test_media_workflow_task_declaration&quot; {
+
+	#Optional
+	compartment_id = var.compartment_id
+	is_current = var.media_workflow_task_declaration_is_current
+	name = var.media_workflow_task_declaration_name
+	version = var.media_workflow_task_declaration_version
+}
+</code></pre>
+
+<h2>Argument Reference</h2>
+
+<p>The following arguments are supported:</p>
+
+<ul>
+<li><code>compartment_id</code> - (Optional) The ID of the compartment in which to list resources.</li>
+<li><code>is_current</code> - (Optional) A filter to only select the newest version for each MediaWorkflowTaskDeclaration name.</li>
+<li><code>name</code> - (Optional) A filter to return only the resources with their system defined, unique name matching the given name.</li>
+<li><code>version</code> - (Optional) A filter to select MediaWorkflowTaskDeclaration by version.</li>
+</ul>
+
+<h2>Attributes Reference</h2>
+
+<p>The following attributes are exported:</p>
+
+<ul>
+<li><code>items</code> - List of MediaWorkflowTaskDeclaration objects.
+
+<ul>
+<li><code>name</code> - MediaWorkflowTaskDeclaration identifier. The name and version should be unique among MediaWorkflowTaskDeclarations.</li>
+<li><code>parameters_schema</code> - JSON schema specifying the parameters supported by this type of task. This is used to validate tasks&rsquo; parameters when jobs are created.</li>
+<li><code>parameters_schema_allowing_references</code> - JSON schema similar to the parameterSchema, but permits parameter values to refer to other parameters using the ${/path/to/another/parmeter} syntax.  This is used to validate task parameters when workflows are created.</li>
+<li><code>version</code> - The version of MediaWorkflowTaskDeclaration, incremented whenever the team implementing the task processor modifies the JSON schema of this declaration&rsquo;s definitions, parameters or list of required parameters.</li>
+</ul></li>
+</ul>
+
+	</div>
+
+</body>
+</html>
