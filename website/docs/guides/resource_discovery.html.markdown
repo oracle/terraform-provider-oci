@@ -992,7 +992,6 @@ jms
 * oci\_jms\_task\_schedule
 * oci\_jms\_fleet\_agent\_configuration
 
-
 jms_utils
     
 * oci\_jms\_utils\_subscription\_acknowledgment\_configuration
