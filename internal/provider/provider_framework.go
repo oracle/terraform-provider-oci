@@ -46,6 +46,7 @@ type ociPluginProvider struct {
 	realmSpecificServiceEndpointTemplateEnabled bool
 	testTimeMaintenanceRebootDue                string
 	dualStackEndpointEnabled                    bool
+	retriesConfigFile                           string
 }
 
 type ociProviderModel struct {
@@ -64,6 +65,7 @@ type ociProviderModel struct {
 	RealmSpecificServiceEndpointTemplateEnabled types.Bool   `tfsdk:"realm_specific_service_endpoint_template_enabled"`
 	DualStackEndpointEnabled                    types.Bool   `tfsdk:"dual_stack_endpoint_enabled"`
 	TestTimeMaintenanceRebootDue                types.String `tfsdk:"test_time_maintenance_reboot_due"`
+	RetriesConfigFile                           types.String `tfsdk:"retries_config_file"`
 }
 
 func New() provider.Provider {
@@ -149,6 +151,10 @@ func (p *ociPluginProvider) Schema(ctx context.Context, req provider.SchemaReque
 			globalvar.TestTimeMaintenanceRebootDue: schema.StringAttribute{
 				Optional: true,
 			},
+			globalvar.RetriesConfigFile: schema.StringAttribute{
+				Optional:    true,
+				Description: descriptions[globalvar.RetriesConfigFile],
+			},
 		},
 	}
 }
@@ -227,6 +233,10 @@ func (p *ociPluginProvider) SetDefaults(config *ociProviderModel) {
 		config.ConfigFileProfile = types.StringValue(MultiEnvDefaultFunc([]string{tfVarName(globalvar.ConfigFileProfileAttrName), ociVarName(globalvar.ConfigFileProfileAttrName)}, ""))
 	}
 
+	if config.RetriesConfigFile.IsUnknown() || config.RetriesConfigFile.IsNull() {
+		config.RetriesConfigFile = types.StringValue(MultiEnvDefaultFunc([]string{tfVarName(globalvar.RetriesConfigFile), ociVarName(globalvar.RetriesConfigFile)}, ""))
+	}
+
 	p.auth = config.Auth.ValueString()
 	p.tenancyOcid = config.TenancyOcid.ValueString()
 	p.userOcid = config.UserOcid.ValueString()
@@ -241,6 +251,8 @@ func (p *ociPluginProvider) SetDefaults(config *ociProviderModel) {
 	p.configured = true
 	tf_resource.RealmSpecificServiceEndpointTemplateEnabled = getStringFromFwBool(config.RealmSpecificServiceEndpointTemplateEnabled)
 	tf_resource.DualStackEndpointTemplateEnabled = getStringFromFwBool(config.DualStackEndpointEnabled)
+	p.retriesConfigFile = config.RetriesConfigFile.ValueString()
+
 }
 
 func (p *ociPluginProvider) SetProviderConfig() (interface{}, error) {
@@ -264,6 +276,14 @@ func (p *ociPluginProvider) SetProviderConfig() (interface{}, error) {
 			val = time.Duration(globalvar.MaxInt64)
 		}
 		tf_resource.ConfiguredRetryDuration = &val
+	}
+
+	retriesConfigFile := p.retriesConfigFile
+	if len(retriesConfigFile) > 0 {
+		err := tf_resource.SetRetriesConfig(retriesConfigFile)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	sdkConfigProvider, err := p._GetSdkConfigProvider(clients)
