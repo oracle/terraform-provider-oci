@@ -1,63 +1,20 @@
 ## 7.23.0 (October 22, 2025)
 
 ### Added
-- Support for [SIGINT] Passing context to GO SDK
-- Fix devops deploy helm stage set_values and set_string bug
-- Support for JMS common variables
-- Support for JMS Fleet Agent Configuration resource
-- Support for Standalone Plane - Subscription Ack not being updateable
-- Unit shape exposure in SDK and Terraform for genai
-- Support for FAaaS IPv6 Support
-- Support for Fleet Software Update to support 26ai version
 - Support for OCI FSS support for additional LDAP schema RFC2307bis.
-- Support for HeatWave MySQL Service: Configurable Version Upgrade Policies
-- Support for sigint context to go sdk for GoldenGate
-- Support for AI Data Platform
-- Support for Data Guard support to convert Physical Standby to Snapshot Standby and vice versa|ExaCS|ExaCC
-- Support for Dynamic Resource VM
-- Support for Oracle Cloud Infrastructure (OCI) Internet of Things (IoT) Service
-- Support for RMS - ZPR security attribute support for PE
-- Support for ZPR Security Attributes
-- Support for ZPR security attribute for Functions
-- Support for OIC: ZPR security attribute support for private endpoint
-- Support for HeatWave Service: Zerotrust Packet Routing (ZPR)
-- Support for Opensearch - ZPR security attribute support
-- Support for [OCI Cache] - ZPR Security Attributes
-- OKE Add-ons option list API update, add should_show_all_versions flag
-- Support for GGS Release 9 Connections
-- Support for GGS ZPR security attribute support
-- Support for GGS API for Multi-cloud
-- Support for Immutable Backup and Undelete DB | ADB-D and ADB on ExaC@C
-- Support for sigint context to go sdk for GoldenGate
-- support for distinct instance_shape_config in capacity reservations
-- Support for Generative AI - Private Endpoint support for DAC
-- Support for Vertical Stack Update for Guest OS and GI using generic scheduling mechanism or point operations
-- Support for ADB-S: ADB@GCP (Oasis) Google Key Management Support (GCP CMEK) R3
-- Support for Datastore Management for Standard Shapes
-- Support for Reselling NVAIE License from NVidia
-- Support for Long Running Functions With Guaranteed Response Delivery
-- Support for Resource Analytics service
-- Support for Multicloud service
-- Support for Java Management Service 10.0 - Standalone Plane Component (SDKs & TERSI ONLY)
-- Support for Java Management Service 10.0
-- Support for ExaDB-D Exascale Integration
-- Support for OCI Cache Discovery Endpoint for Sharded Clusters
-- Support for Marketplace Metadata for Attribution and Attestation
-- Support for Data Safe - Confidence Level support in Data Discovery
-- Support for BaseDB@Partner Clouds- DBAAS Support
-- Ensure that WR does not error out if there are no work request errors
-- Support for ADB-S: Refreshable Metadata Clones
-
-### Deprecation
-- Support for IPv6 for OCI FSS
+- Support for Fleet Software Update to support 26ai version
+- Support for FAaaS IPv6 Support
+- Support for [SIGINT] Passing context to GO SDK
+- Unit shape exposure in SDK and Terraform for genai
+- Support for Standalone Plane - Subscription Ack not being updateable
+- Support for JMS Fleet Agent Configuration resource
+- Support for JMS common variables
+- Fix devops deploy helm stage set_values and set_string bug
+- API Doc link and example link to resource doc
 
 ### Bug Fix
-- Increase time out limit for Vm Cluster resource
 - for resourcemanager in provider version 7.22
-- for MongoDB API support | ADB-D & ADB-C@C
-- Issue updating management policies with type set to None.
-- Fixing tunnel inspection and nat rules names for herds reset export resources failure.
-- display name causing update issue
+- Increase time out limit for Vm Cluster resource
 
 ## 7.22.0 (October 7, 2025)
 
