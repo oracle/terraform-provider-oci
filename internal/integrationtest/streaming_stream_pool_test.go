@@ -56,6 +56,7 @@ var (
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"kafka_settings":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: StreamingStreamPoolKafkaSettingsRepresentation},
 		"private_endpoint_settings": acctest.RepresentationGroup{RepType: acctest.Optional, Group: StreamingStreamPoolPrivateEndpointSettingsRepresentation},
+		"security_attributes":       acctest.Representation{RepType: acctest.Optional, Create: map[string]map[string]map[string]string{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}, Update: map[string]map[string]map[string]string{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}},
 	}
 	StreamingStreamPoolCustomEncryptionKeyRepresentation = map[string]interface{}{
 		"kms_key_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.kms_key_id_for_create}`},
@@ -140,6 +141,7 @@ func TestStreamingStreamPoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "private_endpoint_settings.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "private_endpoint_settings.0.private_endpoint_ip", "10.0.0.5"),
 				resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_settings.0.subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -176,6 +178,7 @@ func TestStreamingStreamPoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "private_endpoint_settings.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "private_endpoint_settings.0.private_endpoint_ip", "10.0.0.5"),
 				resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_settings.0.subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -207,6 +210,7 @@ func TestStreamingStreamPoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "private_endpoint_settings.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "private_endpoint_settings.0.private_endpoint_ip", "10.0.0.5"),
 				resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_settings.0.subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -237,6 +241,7 @@ func TestStreamingStreamPoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "stream_pools.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "stream_pools.0.is_private"),
 				resource.TestCheckResourceAttr(datasourceName, "stream_pools.0.name", "name2"),
+				resource.TestCheckResourceAttr(datasourceName, "stream_pools.0.security_attributes.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "stream_pools.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "stream_pools.0.time_created"),
 			),
@@ -264,6 +269,7 @@ func TestStreamingStreamPoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "name2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "private_endpoint_settings.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "private_endpoint_settings.0.private_endpoint_ip", "10.0.0.5"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "security_attributes.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 			),

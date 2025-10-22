@@ -48,6 +48,7 @@ resource "oci_streaming_stream_pool" "test_stream_pool" {
 		private_endpoint_ip = var.stream_pool_private_endpoint_settings_private_endpoint_ip
 		subnet_id = oci_core_subnet.test_subnet.id
 	}
+	security_attributes = var.stream_pool_security_attributes
 }
 ```
 
@@ -70,6 +71,7 @@ The following arguments are supported:
 	* `nsg_ids` - (Optional) The optional list of network security groups to be used with the private endpoint of the stream pool. That value cannot be changed. 
 	* `private_endpoint_ip` - (Optional) The optional private IP you want to be associated with your private stream pool. That parameter can only be specified when the subnetId parameter is set. It cannot be changed. The private IP needs to be part of the CIDR range of the specified subnetId or the creation will fail. If not specified a random IP inside the subnet will be chosen. After the stream pool is created, a custom FQDN, pointing to this private IP, is created. The FQDN is then used to access the service instead of the private IP. 
 	* `subnet_id` - (Optional) If specified, the stream pool will be private and only accessible from inside that subnet. Producing-to and consuming-from a stream inside a private stream pool can also only be done from inside the subnet. That value cannot be changed. 
+* `security_attributes` - (Optional) (Updatable) Security attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}` 
 
 
 ** IMPORTANT **
@@ -99,6 +101,7 @@ The following attributes are exported:
 	* `nsg_ids` - The optional list of network security groups that are associated with the private endpoint of the stream pool.
 	* `private_endpoint_ip` - The private IP associated with the stream pool in the associated subnetId. The stream pool's FQDN resolves to that IP and should be used - instead of the private IP - in order to not trigger any TLS issues. 
 	* `subnet_id` - The subnet id from which the private stream pool can be accessed. Trying to access the streams from another network location will result in an error. 
+* `security_attributes` - Security attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}` 
 * `state` - The current state of the stream pool.
 * `time_created` - The date and time the stream pool was created, expressed in in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2018-04-20T00:00:07.405Z` 
 

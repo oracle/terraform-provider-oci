@@ -110,6 +110,8 @@ func (s *StreamingStreamPoolDataSourceCrud) SetData() error {
 		s.D.Set("private_endpoint_settings", nil)
 	}
 
+	s.D.Set("security_attributes", s.Res.SecurityAttributes)
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {
