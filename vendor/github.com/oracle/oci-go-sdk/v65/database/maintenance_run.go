@@ -126,6 +126,9 @@ type MaintenanceRun struct {
 
 	// The Autonomous AI Database Software Image OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	DatabaseSoftwareImageId *string `mandatory:"false" json:"databaseSoftwareImageId"`
+
+	// A list of key-value pairs where the key will contain the window type and value contains all the windowDetails of that window type.
+	WindowTypeDescriptions []WindowTypeDescription `mandatory:"false" json:"windowTypeDescriptions"`
 }
 
 func (m MaintenanceRun) String() string {

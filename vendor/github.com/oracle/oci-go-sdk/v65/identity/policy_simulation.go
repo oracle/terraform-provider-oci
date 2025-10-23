@@ -43,6 +43,9 @@ type PolicySimulation struct {
 
 	OutputFilesPath *ObjectStorageFileUploadLocation `mandatory:"true" json:"outputFilesPath"`
 
+	// principalId for whom the Policy Simulation task is being run.
+	PrincipalId *string `mandatory:"false" json:"principalId"`
+
 	// Message detailing failure during Policy Simulation task.
 	FailureMessage *string `mandatory:"false" json:"failureMessage"`
 }

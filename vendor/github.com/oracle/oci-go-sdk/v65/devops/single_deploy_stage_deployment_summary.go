@@ -61,6 +61,14 @@ type SingleDeployStageDeploymentSummary struct {
 	// Usage of system tag keys. These predefined keys are scoped to namespaces. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
+	// The list of tag slugs associated with this resource. These must be returned to Splat unchanged.
+	TagSlugs []string `mandatory:"false" json:"tagSlugs"`
+
 	// The current state of the deployment.
 	LifecycleState DeploymentLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
@@ -138,6 +146,16 @@ func (m SingleDeployStageDeploymentSummary) GetDefinedTags() map[string]map[stri
 // GetSystemTags returns SystemTags
 func (m SingleDeployStageDeploymentSummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
+}
+
+// GetSecurityAttributes returns SecurityAttributes
+func (m SingleDeployStageDeploymentSummary) GetSecurityAttributes() map[string]map[string]interface{} {
+	return m.SecurityAttributes
+}
+
+// GetTagSlugs returns TagSlugs
+func (m SingleDeployStageDeploymentSummary) GetTagSlugs() []string {
+	return m.TagSlugs
 }
 
 func (m SingleDeployStageDeploymentSummary) String() string {

@@ -88,6 +88,12 @@ type ExecutionWindowSummary struct {
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	// A message that gives a description of its creation. For example, if the window type is unplanned,
+	// the message must specify the window display name. If the window has been deferred from another window,
+	// the message should additionally reference the deferred window’s display name and provide the justification
+	// for creating the unplanned window.
+	WindowDetails *string `mandatory:"false" json:"windowDetails"`
 }
 
 func (m ExecutionWindowSummary) String() string {

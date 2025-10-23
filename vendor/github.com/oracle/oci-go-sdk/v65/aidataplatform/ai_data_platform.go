@@ -63,6 +63,9 @@ type AiDataPlatform struct {
 	// The WebSocket URL of the AiDataPlatform.
 	WebSocketEndpoint *string `mandatory:"false" json:"webSocketEndpoint"`
 
+	// The current aiFeatureStatus of the AiDataPlatform.
+	AiFeatureStatus AiDataPlatformAiFeatureStatusEnum `mandatory:"false" json:"aiFeatureStatus,omitempty"`
+
 	// A message that describes the current state of the AiDataPlatform in more detail. For example,
 	// can be used to provide actionable information for a resource in the Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
@@ -85,6 +88,9 @@ func (m AiDataPlatform) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAiDataPlatformLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingAiDataPlatformAiFeatureStatusEnum(string(m.AiFeatureStatus)); !ok && m.AiFeatureStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AiFeatureStatus: %s. Supported values are: %s.", m.AiFeatureStatus, strings.Join(GetAiDataPlatformAiFeatureStatusEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -146,5 +152,55 @@ func GetAiDataPlatformLifecycleStateEnumStringValues() []string {
 // GetMappingAiDataPlatformLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingAiDataPlatformLifecycleStateEnum(val string) (AiDataPlatformLifecycleStateEnum, bool) {
 	enum, ok := mappingAiDataPlatformLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// AiDataPlatformAiFeatureStatusEnum Enum with underlying type: string
+type AiDataPlatformAiFeatureStatusEnum string
+
+// Set of constants representing the allowable values for AiDataPlatformAiFeatureStatusEnum
+const (
+	AiDataPlatformAiFeatureStatusDisabled AiDataPlatformAiFeatureStatusEnum = "DISABLED"
+	AiDataPlatformAiFeatureStatusEnabling AiDataPlatformAiFeatureStatusEnum = "ENABLING"
+	AiDataPlatformAiFeatureStatusReady    AiDataPlatformAiFeatureStatusEnum = "READY"
+	AiDataPlatformAiFeatureStatusFailed   AiDataPlatformAiFeatureStatusEnum = "FAILED"
+)
+
+var mappingAiDataPlatformAiFeatureStatusEnum = map[string]AiDataPlatformAiFeatureStatusEnum{
+	"DISABLED": AiDataPlatformAiFeatureStatusDisabled,
+	"ENABLING": AiDataPlatformAiFeatureStatusEnabling,
+	"READY":    AiDataPlatformAiFeatureStatusReady,
+	"FAILED":   AiDataPlatformAiFeatureStatusFailed,
+}
+
+var mappingAiDataPlatformAiFeatureStatusEnumLowerCase = map[string]AiDataPlatformAiFeatureStatusEnum{
+	"disabled": AiDataPlatformAiFeatureStatusDisabled,
+	"enabling": AiDataPlatformAiFeatureStatusEnabling,
+	"ready":    AiDataPlatformAiFeatureStatusReady,
+	"failed":   AiDataPlatformAiFeatureStatusFailed,
+}
+
+// GetAiDataPlatformAiFeatureStatusEnumValues Enumerates the set of values for AiDataPlatformAiFeatureStatusEnum
+func GetAiDataPlatformAiFeatureStatusEnumValues() []AiDataPlatformAiFeatureStatusEnum {
+	values := make([]AiDataPlatformAiFeatureStatusEnum, 0)
+	for _, v := range mappingAiDataPlatformAiFeatureStatusEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetAiDataPlatformAiFeatureStatusEnumStringValues Enumerates the set of values in String for AiDataPlatformAiFeatureStatusEnum
+func GetAiDataPlatformAiFeatureStatusEnumStringValues() []string {
+	return []string{
+		"DISABLED",
+		"ENABLING",
+		"READY",
+		"FAILED",
+	}
+}
+
+// GetMappingAiDataPlatformAiFeatureStatusEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingAiDataPlatformAiFeatureStatusEnum(val string) (AiDataPlatformAiFeatureStatusEnum, bool) {
+	enum, ok := mappingAiDataPlatformAiFeatureStatusEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

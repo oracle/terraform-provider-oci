@@ -22,7 +22,7 @@ type HelmRepositoryDeployArtifactSource struct {
 	// The URL of an OCIR repository.
 	ChartUrl *string `mandatory:"true" json:"chartUrl"`
 
-	// Users can set this as a placeholder value that refers to a pipeline parameter, for example, ${appVersion}.
+	// Users can set this as a placeholder value that refers to a pipeline parameter.
 	DeployArtifactVersion *string `mandatory:"true" json:"deployArtifactVersion"`
 
 	HelmVerificationKeySource VerificationKeySource `mandatory:"false" json:"helmVerificationKeySource"`

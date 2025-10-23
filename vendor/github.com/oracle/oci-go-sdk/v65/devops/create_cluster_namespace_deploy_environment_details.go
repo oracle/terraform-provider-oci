@@ -37,6 +37,14 @@ type CreateClusterNamespaceDeployEnvironmentDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
+	// The list of tag slugs associated with this resource. These must be returned to Splat unchanged.
+	TagSlugs []string `mandatory:"false" json:"tagSlugs"`
+
 	NetworkChannel NetworkChannel `mandatory:"false" json:"networkChannel"`
 }
 
@@ -63,6 +71,16 @@ func (m CreateClusterNamespaceDeployEnvironmentDetails) GetFreeformTags() map[st
 // GetDefinedTags returns DefinedTags
 func (m CreateClusterNamespaceDeployEnvironmentDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetSecurityAttributes returns SecurityAttributes
+func (m CreateClusterNamespaceDeployEnvironmentDetails) GetSecurityAttributes() map[string]map[string]interface{} {
+	return m.SecurityAttributes
+}
+
+// GetTagSlugs returns TagSlugs
+func (m CreateClusterNamespaceDeployEnvironmentDetails) GetTagSlugs() []string {
+	return m.TagSlugs
 }
 
 func (m CreateClusterNamespaceDeployEnvironmentDetails) String() string {
@@ -102,6 +120,8 @@ func (m *CreateClusterNamespaceDeployEnvironmentDetails) UnmarshalJSON(data []by
 		DisplayName        *string                           `json:"displayName"`
 		FreeformTags       map[string]string                 `json:"freeformTags"`
 		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
+		SecurityAttributes map[string]map[string]interface{} `json:"securityAttributes"`
+		TagSlugs           []string                          `json:"tagSlugs"`
 		NetworkChannel     networkchannel                    `json:"networkChannel"`
 		ProjectId          *string                           `json:"projectId"`
 		ClusterNamespaceId *string                           `json:"clusterNamespaceId"`
@@ -120,6 +140,10 @@ func (m *CreateClusterNamespaceDeployEnvironmentDetails) UnmarshalJSON(data []by
 
 	m.DefinedTags = model.DefinedTags
 
+	m.SecurityAttributes = model.SecurityAttributes
+
+	m.TagSlugs = make([]string, len(model.TagSlugs))
+	copy(m.TagSlugs, model.TagSlugs)
 	nn, e = model.NetworkChannel.UnmarshalPolymorphicJSON(model.NetworkChannel.JsonData)
 	if e != nil {
 		return

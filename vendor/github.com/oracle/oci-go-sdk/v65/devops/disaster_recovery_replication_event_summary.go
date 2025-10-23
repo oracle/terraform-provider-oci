@@ -68,6 +68,7 @@ const (
 	DisasterRecoveryReplicationEventSummaryResourceTypePullRequest        DisasterRecoveryReplicationEventSummaryResourceTypeEnum = "PULL_REQUEST"
 	DisasterRecoveryReplicationEventSummaryResourceTypeRepositorySettings DisasterRecoveryReplicationEventSummaryResourceTypeEnum = "REPOSITORY_SETTINGS"
 	DisasterRecoveryReplicationEventSummaryResourceTypeProjectSettings    DisasterRecoveryReplicationEventSummaryResourceTypeEnum = "PROJECT_SETTINGS"
+	DisasterRecoveryReplicationEventSummaryResourceTypeProject            DisasterRecoveryReplicationEventSummaryResourceTypeEnum = "PROJECT"
 )
 
 var mappingDisasterRecoveryReplicationEventSummaryResourceTypeEnum = map[string]DisasterRecoveryReplicationEventSummaryResourceTypeEnum{
@@ -75,6 +76,7 @@ var mappingDisasterRecoveryReplicationEventSummaryResourceTypeEnum = map[string]
 	"PULL_REQUEST":        DisasterRecoveryReplicationEventSummaryResourceTypePullRequest,
 	"REPOSITORY_SETTINGS": DisasterRecoveryReplicationEventSummaryResourceTypeRepositorySettings,
 	"PROJECT_SETTINGS":    DisasterRecoveryReplicationEventSummaryResourceTypeProjectSettings,
+	"PROJECT":             DisasterRecoveryReplicationEventSummaryResourceTypeProject,
 }
 
 var mappingDisasterRecoveryReplicationEventSummaryResourceTypeEnumLowerCase = map[string]DisasterRecoveryReplicationEventSummaryResourceTypeEnum{
@@ -82,6 +84,7 @@ var mappingDisasterRecoveryReplicationEventSummaryResourceTypeEnumLowerCase = ma
 	"pull_request":        DisasterRecoveryReplicationEventSummaryResourceTypePullRequest,
 	"repository_settings": DisasterRecoveryReplicationEventSummaryResourceTypeRepositorySettings,
 	"project_settings":    DisasterRecoveryReplicationEventSummaryResourceTypeProjectSettings,
+	"project":             DisasterRecoveryReplicationEventSummaryResourceTypeProject,
 }
 
 // GetDisasterRecoveryReplicationEventSummaryResourceTypeEnumValues Enumerates the set of values for DisasterRecoveryReplicationEventSummaryResourceTypeEnum
@@ -100,6 +103,7 @@ func GetDisasterRecoveryReplicationEventSummaryResourceTypeEnumStringValues() []
 		"PULL_REQUEST",
 		"REPOSITORY_SETTINGS",
 		"PROJECT_SETTINGS",
+		"PROJECT",
 	}
 }
 

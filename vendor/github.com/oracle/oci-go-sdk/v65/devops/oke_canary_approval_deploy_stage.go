@@ -62,6 +62,14 @@ type OkeCanaryApprovalDeployStage struct {
 	// Usage of system tag keys. These predefined keys are scoped to namespaces. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
+	// The list of tag slugs associated with this stage. Used by Splat to reconcile tag state with downstream.
+	TagSlugs []string `mandatory:"false" json:"tagSlugs"`
+
 	// The current state of the deployment stage.
 	LifecycleState DeployStageLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
@@ -136,6 +144,16 @@ func (m OkeCanaryApprovalDeployStage) GetSystemTags() map[string]map[string]inte
 	return m.SystemTags
 }
 
+// GetSecurityAttributes returns SecurityAttributes
+func (m OkeCanaryApprovalDeployStage) GetSecurityAttributes() map[string]map[string]interface{} {
+	return m.SecurityAttributes
+}
+
+// GetTagSlugs returns TagSlugs
+func (m OkeCanaryApprovalDeployStage) GetTagSlugs() []string {
+	return m.TagSlugs
+}
+
 func (m OkeCanaryApprovalDeployStage) String() string {
 	return common.PointerString(m)
 }
@@ -182,6 +200,8 @@ func (m *OkeCanaryApprovalDeployStage) UnmarshalJSON(data []byte) (e error) {
 		FreeformTags                       map[string]string                 `json:"freeformTags"`
 		DefinedTags                        map[string]map[string]interface{} `json:"definedTags"`
 		SystemTags                         map[string]map[string]interface{} `json:"systemTags"`
+		SecurityAttributes                 map[string]map[string]interface{} `json:"securityAttributes"`
+		TagSlugs                           []string                          `json:"tagSlugs"`
 		Id                                 *string                           `json:"id"`
 		ProjectId                          *string                           `json:"projectId"`
 		DeployPipelineId                   *string                           `json:"deployPipelineId"`
@@ -215,6 +235,10 @@ func (m *OkeCanaryApprovalDeployStage) UnmarshalJSON(data []byte) (e error) {
 
 	m.SystemTags = model.SystemTags
 
+	m.SecurityAttributes = model.SecurityAttributes
+
+	m.TagSlugs = make([]string, len(model.TagSlugs))
+	copy(m.TagSlugs, model.TagSlugs)
 	m.Id = model.Id
 
 	m.ProjectId = model.ProjectId

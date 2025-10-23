@@ -57,6 +57,9 @@ type AiDataPlatformSummary struct {
 	// The alias Id of the AiDataPlatform which is the short form of OCID.
 	AliasKey *string `mandatory:"false" json:"aliasKey"`
 
+	// The current aiFeatureStatus of the AiDataPlatform.
+	AiFeatureStatus AiDataPlatformAiFeatureStatusEnum `mandatory:"false" json:"aiFeatureStatus,omitempty"`
+
 	// A message that describes the current state of the AiDataPlatform in more detail. For example,
 	// can be used to provide actionable information for a resource in the Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
@@ -79,6 +82,9 @@ func (m AiDataPlatformSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAiDataPlatformLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingAiDataPlatformAiFeatureStatusEnum(string(m.AiFeatureStatus)); !ok && m.AiFeatureStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AiFeatureStatus: %s. Supported values are: %s.", m.AiFeatureStatus, strings.Join(GetAiDataPlatformAiFeatureStatusEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

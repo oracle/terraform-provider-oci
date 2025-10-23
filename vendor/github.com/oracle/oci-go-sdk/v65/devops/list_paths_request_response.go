@@ -21,7 +21,7 @@ type ListPathsRequest struct {
 	// You can disambiguate with "heads/foobar" and "tags/foobar". If left blank repository's default branch will be used.
 	Ref *string `mandatory:"false" contributesTo:"query" name:"ref"`
 
-	// Flag to determine if files must be retrived recursively. Flag is False by default.
+	// Flag to determine if files must be retrieved recursively. Flag is False by default.
 	PathsInSubtree *bool `mandatory:"false" contributesTo:"query" name:"pathsInSubtree"`
 
 	// The fully qualified path to the folder whose contents are returned, including the folder name. For example, /examples is a fully-qualified path to a folder named examples that was created off of the root directory (/) of a repository.

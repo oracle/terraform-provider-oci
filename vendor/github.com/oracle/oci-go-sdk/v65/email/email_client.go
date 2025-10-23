@@ -200,6 +200,64 @@ func (client EmailClient) addEmailIpPoolLock(ctx context.Context, request common
 	return response, err
 }
 
+// AddEmailOutboundIp Add OutboundIps to EmailIpPool.
+func (client EmailClient) AddEmailOutboundIp(ctx context.Context, request AddEmailOutboundIpRequest) (response AddEmailOutboundIpResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.addEmailOutboundIp, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddEmailOutboundIpResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddEmailOutboundIpResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddEmailOutboundIpResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddEmailOutboundIpResponse")
+	}
+	return
+}
+
+// addEmailOutboundIp implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) addEmailOutboundIp(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/emailIpPools/{emailIpPoolId}/actions/addEmailOutboundIp", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddEmailOutboundIpResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailIpPool/AddEmailOutboundIp"
+		err = common.PostProcessServiceError(err, "Email", "AddEmailOutboundIp", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // AddEmailTrackConfigLock Adds a lock to a resource.
 func (client EmailClient) AddEmailTrackConfigLock(ctx context.Context, request AddEmailTrackConfigLockRequest) (response AddEmailTrackConfigLockResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3756,6 +3814,64 @@ func (client EmailClient) removeEmailIpPoolLock(ctx context.Context, request com
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailIpPool/RemoveEmailIpPoolLock"
 		err = common.PostProcessServiceError(err, "Email", "RemoveEmailIpPoolLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RemoveEmailOutboundIp Remove OutboundIps from EmailIpPool.
+func (client EmailClient) RemoveEmailOutboundIp(ctx context.Context, request RemoveEmailOutboundIpRequest) (response RemoveEmailOutboundIpResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.removeEmailOutboundIp, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveEmailOutboundIpResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveEmailOutboundIpResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveEmailOutboundIpResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveEmailOutboundIpResponse")
+	}
+	return
+}
+
+// removeEmailOutboundIp implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) removeEmailOutboundIp(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/emailIpPools/{emailIpPoolId}/actions/removeEmailOutboundIp", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveEmailOutboundIpResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailIpPool/RemoveEmailOutboundIp"
+		err = common.PostProcessServiceError(err, "Email", "RemoveEmailOutboundIp", apiReferenceLink)
 		return response, err
 	}
 

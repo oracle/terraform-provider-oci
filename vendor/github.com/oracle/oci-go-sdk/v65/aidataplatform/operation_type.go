@@ -18,36 +18,51 @@ type OperationTypeEnum string
 
 // Set of constants representing the allowable values for OperationTypeEnum
 const (
-	OperationTypeCreateDataLake      OperationTypeEnum = "CREATE_DATA_LAKE"
-	OperationTypeUpdateDataLake      OperationTypeEnum = "UPDATE_DATA_LAKE"
-	OperationTypeDeleteDataLake      OperationTypeEnum = "DELETE_DATA_LAKE"
-	OperationTypeMoveDataLake        OperationTypeEnum = "MOVE_DATA_LAKE"
-	OperationTypeCreateWorkspace     OperationTypeEnum = "CREATE_WORKSPACE"
-	OperationTypeUpdateWorkspace     OperationTypeEnum = "UPDATE_WORKSPACE"
-	OperationTypeDeleteWorkspace     OperationTypeEnum = "DELETE_WORKSPACE"
-	OperationTypeEvaluateIamPolicies OperationTypeEnum = "EVALUATE_IAM_POLICIES"
+	OperationTypeCreateDataLake       OperationTypeEnum = "CREATE_DATA_LAKE"
+	OperationTypeUpdateDataLake       OperationTypeEnum = "UPDATE_DATA_LAKE"
+	OperationTypeDeleteDataLake       OperationTypeEnum = "DELETE_DATA_LAKE"
+	OperationTypeMoveDataLake         OperationTypeEnum = "MOVE_DATA_LAKE"
+	OperationTypeCreateAiDataPlatform OperationTypeEnum = "CREATE_AI_DATA_PLATFORM"
+	OperationTypeUpdateAiDataPlatform OperationTypeEnum = "UPDATE_AI_DATA_PLATFORM"
+	OperationTypeDeleteAiDataPlatform OperationTypeEnum = "DELETE_AI_DATA_PLATFORM"
+	OperationTypeMoveAiDataPlatform   OperationTypeEnum = "MOVE_AI_DATA_PLATFORM"
+	OperationTypeEnableAiFeatures     OperationTypeEnum = "ENABLE_AI_FEATURES"
+	OperationTypeCreateWorkspace      OperationTypeEnum = "CREATE_WORKSPACE"
+	OperationTypeUpdateWorkspace      OperationTypeEnum = "UPDATE_WORKSPACE"
+	OperationTypeDeleteWorkspace      OperationTypeEnum = "DELETE_WORKSPACE"
+	OperationTypeEvaluateIamPolicies  OperationTypeEnum = "EVALUATE_IAM_POLICIES"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
-	"CREATE_DATA_LAKE":      OperationTypeCreateDataLake,
-	"UPDATE_DATA_LAKE":      OperationTypeUpdateDataLake,
-	"DELETE_DATA_LAKE":      OperationTypeDeleteDataLake,
-	"MOVE_DATA_LAKE":        OperationTypeMoveDataLake,
-	"CREATE_WORKSPACE":      OperationTypeCreateWorkspace,
-	"UPDATE_WORKSPACE":      OperationTypeUpdateWorkspace,
-	"DELETE_WORKSPACE":      OperationTypeDeleteWorkspace,
-	"EVALUATE_IAM_POLICIES": OperationTypeEvaluateIamPolicies,
+	"CREATE_DATA_LAKE":        OperationTypeCreateDataLake,
+	"UPDATE_DATA_LAKE":        OperationTypeUpdateDataLake,
+	"DELETE_DATA_LAKE":        OperationTypeDeleteDataLake,
+	"MOVE_DATA_LAKE":          OperationTypeMoveDataLake,
+	"CREATE_AI_DATA_PLATFORM": OperationTypeCreateAiDataPlatform,
+	"UPDATE_AI_DATA_PLATFORM": OperationTypeUpdateAiDataPlatform,
+	"DELETE_AI_DATA_PLATFORM": OperationTypeDeleteAiDataPlatform,
+	"MOVE_AI_DATA_PLATFORM":   OperationTypeMoveAiDataPlatform,
+	"ENABLE_AI_FEATURES":      OperationTypeEnableAiFeatures,
+	"CREATE_WORKSPACE":        OperationTypeCreateWorkspace,
+	"UPDATE_WORKSPACE":        OperationTypeUpdateWorkspace,
+	"DELETE_WORKSPACE":        OperationTypeDeleteWorkspace,
+	"EVALUATE_IAM_POLICIES":   OperationTypeEvaluateIamPolicies,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
-	"create_data_lake":      OperationTypeCreateDataLake,
-	"update_data_lake":      OperationTypeUpdateDataLake,
-	"delete_data_lake":      OperationTypeDeleteDataLake,
-	"move_data_lake":        OperationTypeMoveDataLake,
-	"create_workspace":      OperationTypeCreateWorkspace,
-	"update_workspace":      OperationTypeUpdateWorkspace,
-	"delete_workspace":      OperationTypeDeleteWorkspace,
-	"evaluate_iam_policies": OperationTypeEvaluateIamPolicies,
+	"create_data_lake":        OperationTypeCreateDataLake,
+	"update_data_lake":        OperationTypeUpdateDataLake,
+	"delete_data_lake":        OperationTypeDeleteDataLake,
+	"move_data_lake":          OperationTypeMoveDataLake,
+	"create_ai_data_platform": OperationTypeCreateAiDataPlatform,
+	"update_ai_data_platform": OperationTypeUpdateAiDataPlatform,
+	"delete_ai_data_platform": OperationTypeDeleteAiDataPlatform,
+	"move_ai_data_platform":   OperationTypeMoveAiDataPlatform,
+	"enable_ai_features":      OperationTypeEnableAiFeatures,
+	"create_workspace":        OperationTypeCreateWorkspace,
+	"update_workspace":        OperationTypeUpdateWorkspace,
+	"delete_workspace":        OperationTypeDeleteWorkspace,
+	"evaluate_iam_policies":   OperationTypeEvaluateIamPolicies,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -66,6 +81,11 @@ func GetOperationTypeEnumStringValues() []string {
 		"UPDATE_DATA_LAKE",
 		"DELETE_DATA_LAKE",
 		"MOVE_DATA_LAKE",
+		"CREATE_AI_DATA_PLATFORM",
+		"UPDATE_AI_DATA_PLATFORM",
+		"DELETE_AI_DATA_PLATFORM",
+		"MOVE_AI_DATA_PLATFORM",
+		"ENABLE_AI_FEATURES",
 		"CREATE_WORKSPACE",
 		"UPDATE_WORKSPACE",
 		"DELETE_WORKSPACE",

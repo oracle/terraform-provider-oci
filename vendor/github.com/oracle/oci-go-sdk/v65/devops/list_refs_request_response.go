@@ -206,18 +206,21 @@ type ListRefsSortByEnum string
 
 // Set of constants representing the allowable values for ListRefsSortByEnum
 const (
-	ListRefsSortByReftype ListRefsSortByEnum = "refType"
-	ListRefsSortByRefname ListRefsSortByEnum = "refName"
+	ListRefsSortByReftype     ListRefsSortByEnum = "refType"
+	ListRefsSortByRefname     ListRefsSortByEnum = "refName"
+	ListRefsSortByTimeupdated ListRefsSortByEnum = "timeUpdated"
 )
 
 var mappingListRefsSortByEnum = map[string]ListRefsSortByEnum{
-	"refType": ListRefsSortByReftype,
-	"refName": ListRefsSortByRefname,
+	"refType":     ListRefsSortByReftype,
+	"refName":     ListRefsSortByRefname,
+	"timeUpdated": ListRefsSortByTimeupdated,
 }
 
 var mappingListRefsSortByEnumLowerCase = map[string]ListRefsSortByEnum{
-	"reftype": ListRefsSortByReftype,
-	"refname": ListRefsSortByRefname,
+	"reftype":     ListRefsSortByReftype,
+	"refname":     ListRefsSortByRefname,
+	"timeupdated": ListRefsSortByTimeupdated,
 }
 
 // GetListRefsSortByEnumValues Enumerates the set of values for ListRefsSortByEnum
@@ -234,6 +237,7 @@ func GetListRefsSortByEnumStringValues() []string {
 	return []string{
 		"refType",
 		"refName",
+		"timeUpdated",
 	}
 }
 

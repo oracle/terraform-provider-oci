@@ -25,7 +25,7 @@ type GenericDeployArtifactSource struct {
 	// Specifies the artifact path in the repository.
 	DeployArtifactPath *string `mandatory:"true" json:"deployArtifactPath"`
 
-	// Users can set this as a placeholder value that refers to a pipeline parameter, for example, ${appVersion}.
+	// Users can set this as a placeholder value that refers to a pipeline parameter.
 	DeployArtifactVersion *string `mandatory:"true" json:"deployArtifactVersion"`
 }
 

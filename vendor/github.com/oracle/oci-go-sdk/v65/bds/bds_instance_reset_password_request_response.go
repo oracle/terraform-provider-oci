@@ -85,6 +85,9 @@ type BdsInstanceResetPasswordResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
+	// The PasswordSummary instance
+	PasswordSummary `presentIn:"body"`
+
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a request, provide this request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`

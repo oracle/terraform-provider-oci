@@ -55,6 +55,14 @@ type OkeClusterDeployEnvironmentSummary struct {
 	// Usage of system tag keys. These predefined keys are scoped to namespaces. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
+	// The list of tag slugs associated with this resource. These must be returned to Splat unchanged.
+	TagSlugs []string `mandatory:"false" json:"tagSlugs"`
+
 	NetworkChannel NetworkChannel `mandatory:"false" json:"networkChannel"`
 
 	// The current state of the deployment environment.
@@ -121,6 +129,16 @@ func (m OkeClusterDeployEnvironmentSummary) GetSystemTags() map[string]map[strin
 	return m.SystemTags
 }
 
+// GetSecurityAttributes returns SecurityAttributes
+func (m OkeClusterDeployEnvironmentSummary) GetSecurityAttributes() map[string]map[string]interface{} {
+	return m.SecurityAttributes
+}
+
+// GetTagSlugs returns TagSlugs
+func (m OkeClusterDeployEnvironmentSummary) GetTagSlugs() []string {
+	return m.TagSlugs
+}
+
 func (m OkeClusterDeployEnvironmentSummary) String() string {
 	return common.PointerString(m)
 }
@@ -157,20 +175,22 @@ func (m OkeClusterDeployEnvironmentSummary) MarshalJSON() (buff []byte, e error)
 // UnmarshalJSON unmarshals from json
 func (m *OkeClusterDeployEnvironmentSummary) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description      *string                             `json:"description"`
-		DisplayName      *string                             `json:"displayName"`
-		TimeCreated      *common.SDKTime                     `json:"timeCreated"`
-		TimeUpdated      *common.SDKTime                     `json:"timeUpdated"`
-		LifecycleState   DeployEnvironmentLifecycleStateEnum `json:"lifecycleState"`
-		LifecycleDetails *string                             `json:"lifecycleDetails"`
-		FreeformTags     map[string]string                   `json:"freeformTags"`
-		DefinedTags      map[string]map[string]interface{}   `json:"definedTags"`
-		SystemTags       map[string]map[string]interface{}   `json:"systemTags"`
-		NetworkChannel   networkchannel                      `json:"networkChannel"`
-		Id               *string                             `json:"id"`
-		ProjectId        *string                             `json:"projectId"`
-		CompartmentId    *string                             `json:"compartmentId"`
-		ClusterId        *string                             `json:"clusterId"`
+		Description        *string                             `json:"description"`
+		DisplayName        *string                             `json:"displayName"`
+		TimeCreated        *common.SDKTime                     `json:"timeCreated"`
+		TimeUpdated        *common.SDKTime                     `json:"timeUpdated"`
+		LifecycleState     DeployEnvironmentLifecycleStateEnum `json:"lifecycleState"`
+		LifecycleDetails   *string                             `json:"lifecycleDetails"`
+		FreeformTags       map[string]string                   `json:"freeformTags"`
+		DefinedTags        map[string]map[string]interface{}   `json:"definedTags"`
+		SystemTags         map[string]map[string]interface{}   `json:"systemTags"`
+		SecurityAttributes map[string]map[string]interface{}   `json:"securityAttributes"`
+		TagSlugs           []string                            `json:"tagSlugs"`
+		NetworkChannel     networkchannel                      `json:"networkChannel"`
+		Id                 *string                             `json:"id"`
+		ProjectId          *string                             `json:"projectId"`
+		CompartmentId      *string                             `json:"compartmentId"`
+		ClusterId          *string                             `json:"clusterId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -196,6 +216,10 @@ func (m *OkeClusterDeployEnvironmentSummary) UnmarshalJSON(data []byte) (e error
 
 	m.SystemTags = model.SystemTags
 
+	m.SecurityAttributes = model.SecurityAttributes
+
+	m.TagSlugs = make([]string, len(model.TagSlugs))
+	copy(m.TagSlugs, model.TagSlugs)
 	nn, e = model.NetworkChannel.UnmarshalPolymorphicJSON(model.NetworkChannel.JsonData)
 	if e != nil {
 		return

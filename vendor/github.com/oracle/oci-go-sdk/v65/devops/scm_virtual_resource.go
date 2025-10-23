@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// ScmVirtualResource This resource is a virtual resource utilized for internal auth on repositoryDisasterRecoverySettings API. ServiceResourceName on repositoryDisasterRecoverySettings API points to it as resource definition, but it has no affect on functionality.
+// ScmVirtualResource This resource is a virtual resource utilized for internal auth on repositoryDisasterRecoverySettings and reportBuildRunSnapshot API. ServiceResourceName on repositoryDisasterRecoverySettings/reportBuildRunSnapshot API points to it as resource definition, but it has no affect on functionality.
 type ScmVirtualResource struct {
 
 	// Description of the ScmVirtualResource.

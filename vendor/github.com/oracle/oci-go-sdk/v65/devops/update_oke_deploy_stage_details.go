@@ -33,6 +33,14 @@ type UpdateOkeDeployStageDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
+	// The list of tag slugs associated with this stage. Used by Splat to reconcile tag state with downstream.
+	TagSlugs []string `mandatory:"false" json:"tagSlugs"`
+
 	// Kubernetes cluster environment OCID for deployment.
 	OkeClusterDeployEnvironmentId *string `mandatory:"false" json:"okeClusterDeployEnvironmentId"`
 
@@ -70,6 +78,16 @@ func (m UpdateOkeDeployStageDetails) GetFreeformTags() map[string]string {
 // GetDefinedTags returns DefinedTags
 func (m UpdateOkeDeployStageDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetSecurityAttributes returns SecurityAttributes
+func (m UpdateOkeDeployStageDetails) GetSecurityAttributes() map[string]map[string]interface{} {
+	return m.SecurityAttributes
+}
+
+// GetTagSlugs returns TagSlugs
+func (m UpdateOkeDeployStageDetails) GetTagSlugs() []string {
+	return m.TagSlugs
 }
 
 func (m UpdateOkeDeployStageDetails) String() string {
@@ -110,6 +128,8 @@ func (m *UpdateOkeDeployStageDetails) UnmarshalJSON(data []byte) (e error) {
 		DeployStagePredecessorCollection    *DeployStagePredecessorCollection `json:"deployStagePredecessorCollection"`
 		FreeformTags                        map[string]string                 `json:"freeformTags"`
 		DefinedTags                         map[string]map[string]interface{} `json:"definedTags"`
+		SecurityAttributes                  map[string]map[string]interface{} `json:"securityAttributes"`
+		TagSlugs                            []string                          `json:"tagSlugs"`
 		OkeClusterDeployEnvironmentId       *string                           `json:"okeClusterDeployEnvironmentId"`
 		OkeEnvironmentDetails               okeenvironmentdetails             `json:"okeEnvironmentDetails"`
 		KubernetesManifestDeployArtifactIds []string                          `json:"kubernetesManifestDeployArtifactIds"`
@@ -132,6 +152,10 @@ func (m *UpdateOkeDeployStageDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.DefinedTags = model.DefinedTags
 
+	m.SecurityAttributes = model.SecurityAttributes
+
+	m.TagSlugs = make([]string, len(model.TagSlugs))
+	copy(m.TagSlugs, model.TagSlugs)
 	m.OkeClusterDeployEnvironmentId = model.OkeClusterDeployEnvironmentId
 
 	nn, e = model.OkeEnvironmentDetails.UnmarshalPolymorphicJSON(model.OkeEnvironmentDetails.JsonData)

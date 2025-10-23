@@ -28,6 +28,12 @@ type RepositoryRefSummary interface {
 	// The OCID of the repository containing the reference.
 	GetRepositoryId() *string
 
+	// Creation timestamp. Format defined by RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339).
+	GetTimeCreated() *common.SDKTime
+
+	// The time the ref was updated. Format defined by RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339).
+	GetTimeUpdated() *common.SDKTime
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}`
 	GetFreeformTags() map[string]string
 
@@ -40,6 +46,8 @@ type RepositoryRefSummary interface {
 
 type repositoryrefsummary struct {
 	JsonData     []byte
+	TimeCreated  *common.SDKTime                   `mandatory:"false" json:"timeCreated"`
+	TimeUpdated  *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
 	FreeformTags map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags  map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	SystemTags   map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
@@ -63,6 +71,8 @@ func (m *repositoryrefsummary) UnmarshalJSON(data []byte) error {
 	m.RefName = s.Model.RefName
 	m.FullRefName = s.Model.FullRefName
 	m.RepositoryId = s.Model.RepositoryId
+	m.TimeCreated = s.Model.TimeCreated
+	m.TimeUpdated = s.Model.TimeUpdated
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.SystemTags = s.Model.SystemTags
@@ -92,6 +102,16 @@ func (m *repositoryrefsummary) UnmarshalPolymorphicJSON(data []byte) (interface{
 		common.Logf("Received unsupported enum value for RepositoryRefSummary: %s.", m.RefType)
 		return *m, nil
 	}
+}
+
+// GetTimeCreated returns TimeCreated
+func (m repositoryrefsummary) GetTimeCreated() *common.SDKTime {
+	return m.TimeCreated
+}
+
+// GetTimeUpdated returns TimeUpdated
+func (m repositoryrefsummary) GetTimeUpdated() *common.SDKTime {
+	return m.TimeUpdated
 }
 
 // GetFreeformTags returns FreeformTags

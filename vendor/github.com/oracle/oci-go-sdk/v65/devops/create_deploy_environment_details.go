@@ -33,6 +33,14 @@ type CreateDeployEnvironmentDetails interface {
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace": {"bar-key": "value"}}`
 	GetDefinedTags() map[string]map[string]interface{}
+
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	GetSecurityAttributes() map[string]map[string]interface{}
+
+	// The list of tag slugs associated with this resource. These must be returned to Splat unchanged.
+	GetTagSlugs() []string
 }
 
 type createdeployenvironmentdetails struct {
@@ -41,6 +49,8 @@ type createdeployenvironmentdetails struct {
 	DisplayName           *string                           `mandatory:"false" json:"displayName"`
 	FreeformTags          map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags           map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	SecurityAttributes    map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+	TagSlugs              []string                          `mandatory:"false" json:"tagSlugs"`
 	ProjectId             *string                           `mandatory:"true" json:"projectId"`
 	DeployEnvironmentType string                            `json:"deployEnvironmentType"`
 }
@@ -61,6 +71,8 @@ func (m *createdeployenvironmentdetails) UnmarshalJSON(data []byte) error {
 	m.DisplayName = s.Model.DisplayName
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
+	m.SecurityAttributes = s.Model.SecurityAttributes
+	m.TagSlugs = s.Model.TagSlugs
 	m.DeployEnvironmentType = s.Model.DeployEnvironmentType
 
 	return err
@@ -115,6 +127,16 @@ func (m createdeployenvironmentdetails) GetFreeformTags() map[string]string {
 // GetDefinedTags returns DefinedTags
 func (m createdeployenvironmentdetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetSecurityAttributes returns SecurityAttributes
+func (m createdeployenvironmentdetails) GetSecurityAttributes() map[string]map[string]interface{} {
+	return m.SecurityAttributes
+}
+
+// GetTagSlugs returns TagSlugs
+func (m createdeployenvironmentdetails) GetTagSlugs() []string {
+	return m.TagSlugs
 }
 
 // GetProjectId returns ProjectId

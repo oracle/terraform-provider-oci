@@ -44,6 +44,14 @@ type CreateLoadBalancerTrafficShiftDeployStageDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
+	// The list of tag slugs associated with this stage. Used by Splat to reconcile tag state with downstream.
+	TagSlugs []string `mandatory:"false" json:"tagSlugs"`
+
 	RollbackPolicy DeployStageRollbackPolicy `mandatory:"false" json:"rollbackPolicy"`
 
 	// Specifies the target or destination backend set. Example: BLUE - Traffic from the existing backends of managed Load Balance Listener to blue Backend IPs, as per rolloutPolicy. GREEN - Traffic from the existing backends of managed Load Balance Listener to blue Backend IPs ser as per rolloutPolicy.
@@ -78,6 +86,16 @@ func (m CreateLoadBalancerTrafficShiftDeployStageDetails) GetFreeformTags() map[
 // GetDefinedTags returns DefinedTags
 func (m CreateLoadBalancerTrafficShiftDeployStageDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetSecurityAttributes returns SecurityAttributes
+func (m CreateLoadBalancerTrafficShiftDeployStageDetails) GetSecurityAttributes() map[string]map[string]interface{} {
+	return m.SecurityAttributes
+}
+
+// GetTagSlugs returns TagSlugs
+func (m CreateLoadBalancerTrafficShiftDeployStageDetails) GetTagSlugs() []string {
+	return m.TagSlugs
 }
 
 func (m CreateLoadBalancerTrafficShiftDeployStageDetails) String() string {
@@ -120,6 +138,8 @@ func (m *CreateLoadBalancerTrafficShiftDeployStageDetails) UnmarshalJSON(data []
 		DisplayName                      *string                                                   `json:"displayName"`
 		FreeformTags                     map[string]string                                         `json:"freeformTags"`
 		DefinedTags                      map[string]map[string]interface{}                         `json:"definedTags"`
+		SecurityAttributes               map[string]map[string]interface{}                         `json:"securityAttributes"`
+		TagSlugs                         []string                                                  `json:"tagSlugs"`
 		RollbackPolicy                   deploystagerollbackpolicy                                 `json:"rollbackPolicy"`
 		DeployPipelineId                 *string                                                   `json:"deployPipelineId"`
 		DeployStagePredecessorCollection *DeployStagePredecessorCollection                         `json:"deployStagePredecessorCollection"`
@@ -143,6 +163,10 @@ func (m *CreateLoadBalancerTrafficShiftDeployStageDetails) UnmarshalJSON(data []
 
 	m.DefinedTags = model.DefinedTags
 
+	m.SecurityAttributes = model.SecurityAttributes
+
+	m.TagSlugs = make([]string, len(model.TagSlugs))
+	copy(m.TagSlugs, model.TagSlugs)
 	nn, e = model.RollbackPolicy.UnmarshalPolymorphicJSON(model.RollbackPolicy.JsonData)
 	if e != nil {
 		return

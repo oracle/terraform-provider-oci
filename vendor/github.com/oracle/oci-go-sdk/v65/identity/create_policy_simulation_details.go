@@ -30,6 +30,9 @@ type CreatePolicySimulationDetails struct {
 	UpdatedPoliciesPath *ObjectStorageFileDownloadLocation `mandatory:"true" json:"updatedPoliciesPath"`
 
 	OutputFilesPath *ObjectStorageFileUploadLocation `mandatory:"true" json:"outputFilesPath"`
+
+	// principalId for whom the Policy Simulation task is being run.
+	PrincipalId *string `mandatory:"false" json:"principalId"`
 }
 
 func (m CreatePolicySimulationDetails) String() string {

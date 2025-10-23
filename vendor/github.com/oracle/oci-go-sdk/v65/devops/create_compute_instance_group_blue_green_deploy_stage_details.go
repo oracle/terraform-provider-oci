@@ -49,6 +49,14 @@ type CreateComputeInstanceGroupBlueGreenDeployStageDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
+	// The list of tag slugs associated with this stage. Used by Splat to reconcile tag state with downstream.
+	TagSlugs []string `mandatory:"false" json:"tagSlugs"`
+
 	// The list of file artifact OCIDs to deploy.
 	DeployArtifactIds []string `mandatory:"false" json:"deployArtifactIds"`
 
@@ -85,6 +93,16 @@ func (m CreateComputeInstanceGroupBlueGreenDeployStageDetails) GetFreeformTags()
 // GetDefinedTags returns DefinedTags
 func (m CreateComputeInstanceGroupBlueGreenDeployStageDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetSecurityAttributes returns SecurityAttributes
+func (m CreateComputeInstanceGroupBlueGreenDeployStageDetails) GetSecurityAttributes() map[string]map[string]interface{} {
+	return m.SecurityAttributes
+}
+
+// GetTagSlugs returns TagSlugs
+func (m CreateComputeInstanceGroupBlueGreenDeployStageDetails) GetTagSlugs() []string {
+	return m.TagSlugs
 }
 
 func (m CreateComputeInstanceGroupBlueGreenDeployStageDetails) String() string {
@@ -124,6 +142,8 @@ func (m *CreateComputeInstanceGroupBlueGreenDeployStageDetails) UnmarshalJSON(da
 		DisplayName                      *string                           `json:"displayName"`
 		FreeformTags                     map[string]string                 `json:"freeformTags"`
 		DefinedTags                      map[string]map[string]interface{} `json:"definedTags"`
+		SecurityAttributes               map[string]map[string]interface{} `json:"securityAttributes"`
+		TagSlugs                         []string                          `json:"tagSlugs"`
 		DeployArtifactIds                []string                          `json:"deployArtifactIds"`
 		FailurePolicy                    computeinstancegroupfailurepolicy `json:"failurePolicy"`
 		TestLoadBalancerConfig           *LoadBalancerConfig               `json:"testLoadBalancerConfig"`
@@ -149,6 +169,10 @@ func (m *CreateComputeInstanceGroupBlueGreenDeployStageDetails) UnmarshalJSON(da
 
 	m.DefinedTags = model.DefinedTags
 
+	m.SecurityAttributes = model.SecurityAttributes
+
+	m.TagSlugs = make([]string, len(model.TagSlugs))
+	copy(m.TagSlugs, model.TagSlugs)
 	m.DeployArtifactIds = make([]string, len(model.DeployArtifactIds))
 	copy(m.DeployArtifactIds, model.DeployArtifactIds)
 	nn, e = model.FailurePolicy.UnmarshalPolymorphicJSON(model.FailurePolicy.JsonData)

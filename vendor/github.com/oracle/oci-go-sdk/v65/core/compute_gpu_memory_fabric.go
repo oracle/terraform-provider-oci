@@ -70,10 +70,10 @@ type ComputeGpuMemoryFabric struct {
 	SwitchPlatformName *string `mandatory:"false" json:"switchPlatformName"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for current firmware bundle
-	CurrentfirmwareBundleId *string `mandatory:"false" json:"currentfirmwareBundleId"`
+	CurrentFirmwareBundleId *string `mandatory:"false" json:"currentFirmwareBundleId"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for targeted firmware bundle
-	TargetfirmwareBundleId *string `mandatory:"false" json:"targetfirmwareBundleId"`
+	TargetFirmwareBundleId *string `mandatory:"false" json:"targetFirmwareBundleId"`
 
 	// The state of Memory Fabric Firmware update
 	FirmwareUpdateState ComputeGpuMemoryFabricFirmwareUpdateStateEnum `mandatory:"false" json:"firmwareUpdateState,omitempty"`

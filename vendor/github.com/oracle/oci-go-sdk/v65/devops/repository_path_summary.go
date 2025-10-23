@@ -36,6 +36,8 @@ type RepositoryPathSummary struct {
 	// The git URL of the submodule.
 	SubmoduleGitUrl *string `mandatory:"false" json:"submoduleGitUrl"`
 
+	LastCommitDetails *RepositoryPathCommitDetails `mandatory:"false" json:"lastCommitDetails"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 

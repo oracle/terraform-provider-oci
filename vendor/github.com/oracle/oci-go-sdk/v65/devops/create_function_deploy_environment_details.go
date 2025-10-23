@@ -36,6 +36,14 @@ type CreateFunctionDeployEnvironmentDetails struct {
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
+	// The list of tag slugs associated with this resource. These must be returned to Splat unchanged.
+	TagSlugs []string `mandatory:"false" json:"tagSlugs"`
 }
 
 // GetDescription returns Description
@@ -61,6 +69,16 @@ func (m CreateFunctionDeployEnvironmentDetails) GetFreeformTags() map[string]str
 // GetDefinedTags returns DefinedTags
 func (m CreateFunctionDeployEnvironmentDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetSecurityAttributes returns SecurityAttributes
+func (m CreateFunctionDeployEnvironmentDetails) GetSecurityAttributes() map[string]map[string]interface{} {
+	return m.SecurityAttributes
+}
+
+// GetTagSlugs returns TagSlugs
+func (m CreateFunctionDeployEnvironmentDetails) GetTagSlugs() []string {
+	return m.TagSlugs
 }
 
 func (m CreateFunctionDeployEnvironmentDetails) String() string {

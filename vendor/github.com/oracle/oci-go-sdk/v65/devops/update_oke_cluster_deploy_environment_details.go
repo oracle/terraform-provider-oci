@@ -31,6 +31,14 @@ type UpdateOkeClusterDeployEnvironmentDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
+	// The list of tag slugs associated with this resource. These must be returned to Splat unchanged.
+	TagSlugs []string `mandatory:"false" json:"tagSlugs"`
+
 	// The OCID of the Kubernetes cluster.
 	ClusterId *string `mandatory:"false" json:"clusterId"`
 
@@ -55,6 +63,16 @@ func (m UpdateOkeClusterDeployEnvironmentDetails) GetFreeformTags() map[string]s
 // GetDefinedTags returns DefinedTags
 func (m UpdateOkeClusterDeployEnvironmentDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetSecurityAttributes returns SecurityAttributes
+func (m UpdateOkeClusterDeployEnvironmentDetails) GetSecurityAttributes() map[string]map[string]interface{} {
+	return m.SecurityAttributes
+}
+
+// GetTagSlugs returns TagSlugs
+func (m UpdateOkeClusterDeployEnvironmentDetails) GetTagSlugs() []string {
+	return m.TagSlugs
 }
 
 func (m UpdateOkeClusterDeployEnvironmentDetails) String() string {
@@ -90,12 +108,14 @@ func (m UpdateOkeClusterDeployEnvironmentDetails) MarshalJSON() (buff []byte, e 
 // UnmarshalJSON unmarshals from json
 func (m *UpdateOkeClusterDeployEnvironmentDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description    *string                           `json:"description"`
-		DisplayName    *string                           `json:"displayName"`
-		FreeformTags   map[string]string                 `json:"freeformTags"`
-		DefinedTags    map[string]map[string]interface{} `json:"definedTags"`
-		ClusterId      *string                           `json:"clusterId"`
-		NetworkChannel networkchannel                    `json:"networkChannel"`
+		Description        *string                           `json:"description"`
+		DisplayName        *string                           `json:"displayName"`
+		FreeformTags       map[string]string                 `json:"freeformTags"`
+		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
+		SecurityAttributes map[string]map[string]interface{} `json:"securityAttributes"`
+		TagSlugs           []string                          `json:"tagSlugs"`
+		ClusterId          *string                           `json:"clusterId"`
+		NetworkChannel     networkchannel                    `json:"networkChannel"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -111,6 +131,10 @@ func (m *UpdateOkeClusterDeployEnvironmentDetails) UnmarshalJSON(data []byte) (e
 
 	m.DefinedTags = model.DefinedTags
 
+	m.SecurityAttributes = model.SecurityAttributes
+
+	m.TagSlugs = make([]string, len(model.TagSlugs))
+	copy(m.TagSlugs, model.TagSlugs)
 	m.ClusterId = model.ClusterId
 
 	nn, e = model.NetworkChannel.UnmarshalPolymorphicJSON(model.NetworkChannel.JsonData)
