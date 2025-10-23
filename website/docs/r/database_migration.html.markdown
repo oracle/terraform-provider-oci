@@ -9,6 +9,9 @@ description: |-
 
 # oci_database_migration
 This resource provides the Migration resource in Oracle Cloud Infrastructure Database service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/database/latest/Migration
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/database
 
 Migrates the Exadata DB system to the new [Exadata resource model](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaflexsystem.htm#exaflexsystem_topic-resource_model).
 All related resources will be migrated.

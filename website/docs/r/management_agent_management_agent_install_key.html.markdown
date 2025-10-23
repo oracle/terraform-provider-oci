@@ -9,6 +9,9 @@ description: |-
 
 # oci_management_agent_management_agent_install_key
 This resource provides the Management Agent Install Key resource in Oracle Cloud Infrastructure Management Agent service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/management-agent/latest/ManagementAgentInstallKey
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/management_agent
 
 User creates a new install key as part of this API.
 

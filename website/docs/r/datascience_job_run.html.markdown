@@ -9,6 +9,9 @@ description: |-
 
 # oci_datascience_job_run
 This resource provides the Job Run resource in Oracle Cloud Infrastructure Data Science service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/data-science/latest/JobRun
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/datascience
 
 Creates a job run.
 
@@ -147,6 +150,19 @@ resource "oci_datascience_job_run" "test_job_run" {
 		maximum_runtime_in_minutes = var.job_run_job_node_configuration_override_details_maximum_runtime_in_minutes
 		startup_order = var.job_run_job_node_configuration_override_details_startup_order
 	}
+	job_storage_mount_configuration_override_details_list {
+		#Required
+		destination_directory_name = var.job_run_job_storage_mount_configuration_override_details_list_destination_directory_name
+		storage_type = var.job_run_job_storage_mount_configuration_override_details_list_storage_type
+
+		#Optional
+		bucket = var.job_run_job_storage_mount_configuration_override_details_list_bucket
+		destination_path = var.job_run_job_storage_mount_configuration_override_details_list_destination_path
+		export_id = oci_file_storage_export.test_export.id
+		mount_target_id = oci_file_storage_mount_target.test_mount_target.id
+		namespace = var.job_run_job_storage_mount_configuration_override_details_list_namespace
+		prefix = var.job_run_job_storage_mount_configuration_override_details_list_prefix
+	}
 	opc_parent_rpt_url = var.job_run_opc_parent_rpt_url
 }
 ```
@@ -229,6 +245,15 @@ The following arguments are supported:
 	* `job_node_type` - (Required) The node type used for job run.
 	* `maximum_runtime_in_minutes` - (Optional) A time bound for the execution of the job run. Timer starts when the job run is in progress. 
 	* `startup_order` - (Optional) The execution order of node groups
+* `job_storage_mount_configuration_override_details_list` - (Optional) Collection of JobStorageMountConfigurationDetails.
+	* `bucket` - (Required when storage_type=OBJECT_STORAGE) The object storage bucket
+	* `destination_directory_name` - (Required) The local directory name to be mounted
+	* `destination_path` - (Optional) The local path of the mounted directory, excluding directory name.
+	* `export_id` - (Required when storage_type=FILE_STORAGE) OCID of the export
+	* `mount_target_id` - (Required when storage_type=FILE_STORAGE) OCID of the mount target
+	* `namespace` - (Required when storage_type=OBJECT_STORAGE) The object storage namespace
+	* `prefix` - (Applicable when storage_type=OBJECT_STORAGE) Prefix in the bucket to mount
+	* `storage_type` - (Required) The type of storage.
 * `opc_parent_rpt_url` - (Optional) URL to fetch the Resource Principal Token from the parent resource. 
 * `project_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate the job run with.
 
@@ -269,7 +294,6 @@ The following attributes are exported:
 	* `block_storage_size_in_gbs` - The size of the block storage volume to attach to the instance running the job 
 	* `job_infrastructure_type` - The infrastructure type used for job run.
 	* `job_shape_config_details` - Details for the job run shape configuration. Specify only when a flex shape is selected.
-		* `cpu_baseline` - The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
 		* `memory_in_gbs` - The total amount of memory available to the job run instance, in gigabytes. 
 		* `ocpus` - The total number of OCPUs available to the job run instance. 
 	* `shape_name` - The name that corresponds to the JobShapeSummary to use for the job node
@@ -278,6 +302,7 @@ The following attributes are exported:
 	* `block_storage_size_in_gbs` - The size of the block storage volume to attach to the instance running the job 
 	* `job_infrastructure_type` - The infrastructure type used for job run.
 	* `job_shape_config_details` - Details for the job run shape configuration. Specify only when a flex shape is selected.
+		* `cpu_baseline` - The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
 		* `memory_in_gbs` - The total amount of memory available to the job run instance, in gigabytes. 
 		* `ocpus` - The total number of OCPUs available to the job run instance. 
 	* `shape_name` - The name that corresponds to the JobShapeSummary to use for the job node
@@ -325,6 +350,15 @@ The following attributes are exported:
 	* `maximum_runtime_in_minutes` - A time bound for the execution of the job run. Timer starts when the job run is in progress. 
 	* `startup_order` - The execution order of node groups
 * `job_storage_mount_configuration_details_list` - Collection of JobStorageMountConfigurationDetails.
+	* `bucket` - The object storage bucket
+	* `destination_directory_name` - The local directory name to be mounted
+	* `destination_path` - The local path of the mounted directory, excluding directory name.
+	* `export_id` - OCID of the export
+	* `mount_target_id` - OCID of the mount target
+	* `namespace` - The object storage namespace
+	* `prefix` - Prefix in the bucket to mount
+	* `storage_type` - The type of storage.
+* `job_storage_mount_configuration_override_details_list` - Collection of JobStorageMountConfigurationDetails.
 	* `bucket` - The object storage bucket
 	* `destination_directory_name` - The local directory name to be mounted
 	* `destination_path` - The local path of the mounted directory, excluding directory name.

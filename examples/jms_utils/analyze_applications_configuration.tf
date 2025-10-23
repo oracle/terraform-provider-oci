@@ -9,10 +9,16 @@ variable "analyze_applications_configuration_namespace" {
   default = null
 }
 
-data "oci_jms_utils_analyze_applications_configuration" "test_analyze_applications_configuration" {
+resource "oci_jms_utils_analyze_applications_configuration" "test_analyze_applications_configuration" {
+
+  compartment_id = var.tenancy_ocid
 
   #Optional
   bucket         = var.analyze_applications_configuration_bucket
-  compartment_id = var.tenancy_ocid
   namespace      = var.analyze_applications_configuration_namespace
+}
+
+data "oci_jms_utils_analyze_applications_configuration" "test_analyze_applications_configurations" {
+
+  compartment_id = var.tenancy_ocid
 }

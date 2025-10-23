@@ -9,6 +9,9 @@ description: |-
 
 # oci_database_database
 This resource provides the Database resource in Oracle Cloud Infrastructure Database service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/database/latest/Database
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/database
 
 Creates a new database in the specified Database Home. If the database version is provided, it must match the version of the Database Home. Applies only to Exadata systems.
 

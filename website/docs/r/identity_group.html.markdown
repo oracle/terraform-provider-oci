@@ -9,6 +9,9 @@ description: |-
 
 # oci_identity_group
 This resource provides the Group resource in Oracle Cloud Infrastructure Identity service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/identity/latest/Group
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/identity
 
 Creates a new group in your tenancy.
 

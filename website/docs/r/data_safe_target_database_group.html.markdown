@@ -9,6 +9,9 @@ description: |-
 
 # oci_data_safe_target_database_group
 This resource provides the Target Database Group resource in Oracle Cloud Infrastructure Data Safe service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/data-safe/latest/TargetDatabaseGroup
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe
 
 Creates a new target database group.
 

@@ -9,6 +9,9 @@ description: |-
 
 # oci_data_safe_masking_policy
 This resource provides the Masking Policy resource in Oracle Cloud Infrastructure Data Safe service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/data-safe/latest/MaskingPolicy
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe
 
 Creates a new masking policy and associates it with a sensitive data model or a target database.
 

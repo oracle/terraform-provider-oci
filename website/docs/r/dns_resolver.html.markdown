@@ -9,6 +9,9 @@ description: |-
 
 # oci_dns_resolver
 This resource provides the Resolver resource in Oracle Cloud Infrastructure DNS service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/dns/latest/Resolver
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/dns
 
 Updates the specified resolver with your new information.
 

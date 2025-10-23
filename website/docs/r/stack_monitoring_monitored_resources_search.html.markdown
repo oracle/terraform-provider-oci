@@ -9,6 +9,9 @@ description: |-
 
 # oci_stack_monitoring_monitored_resources_search
 This resource provides the Monitored Resources Search resource in Oracle Cloud Infrastructure Stack Monitoring service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/stack-monitoring/latest/MonitoredResourcesSearch
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/stack_monitoring
 
 Gets a list of all monitored resources in a compartment for the given search criteria.
 

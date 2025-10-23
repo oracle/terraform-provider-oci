@@ -9,6 +9,9 @@ description: |-
 
 # oci_artifacts_container_image_signature
 This resource provides the Container Image Signature resource in Oracle Cloud Infrastructure Artifacts service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/registry/latest/ContainerImageSignature
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/artifacts
 
 Upload a signature to an image.
 

@@ -1,3 +1,21 @@
+## 7.23.0 (October 22, 2025)
+
+### Added
+- Support for OCI FSS support for additional LDAP schema RFC2307bis.
+- Support for Fleet Software Update to support 26ai version
+- Support for FAaaS IPv6 Support
+- Support for [SIGINT] Passing context to GO SDK
+- Unit shape exposure in SDK and Terraform for genai
+- Support for Standalone Plane - Subscription Ack not being updateable
+- Support for JMS Fleet Agent Configuration resource
+- Support for JMS common variables
+- Fix devops deploy helm stage set_values and set_string bug
+- API Doc link and example link to resource doc
+
+### Bug Fix
+- for resourcemanager in provider version 7.22
+- Increase time out limit for Vm Cluster resource
+
 ## 7.22.0 (October 7, 2025)
 
 ### Added

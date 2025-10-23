@@ -9,6 +9,9 @@ description: |-
 
 # oci_core_volume_backup_policy
 This resource provides the Volume Backup Policy resource in Oracle Cloud Infrastructure Core service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/iaas/latest/VolumeBackupPolicy
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Creates a new user defined backup policy.
 

@@ -10,15 +10,11 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
-	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	// before running tests, ensure to set up environment variables used below
-	JmsFleetBlocklistWithAdvancedFeature = utils.GetEnvSettingWithBlankDefault("fleet_advanced_feature_ocid")
-
 	JmsFleetBlocklistDataSourceRepresentation = map[string]interface{}{
-		"fleet_id":  acctest.Representation{RepType: acctest.Required, Create: JmsFleetBlocklistWithAdvancedFeature},
+		"fleet_id":  acctest.Representation{RepType: acctest.Required, Create: JmsFleetId},
 		"operation": acctest.Representation{RepType: acctest.Optional, Create: `DELETE_JAVA_INSTALLATION`},
 	}
 )

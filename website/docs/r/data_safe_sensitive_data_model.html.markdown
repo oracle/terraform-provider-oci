@@ -9,6 +9,9 @@ description: |-
 
 # oci_data_safe_sensitive_data_model
 This resource provides the Sensitive Data Model resource in Oracle Cloud Infrastructure Data Safe service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/data-safe/latest/SensitiveDataModel
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe
 
 Creates a new sensitive data model. If schemas and sensitive types are provided, it automatically runs data discovery
 and adds the discovered columns to the sensitive data model. Otherwise, it creates an empty sensitive data model

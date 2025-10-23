@@ -9,6 +9,9 @@ description: |-
 
 # oci_dbmulticloud_oracle_db_azure_blob_mount
 This resource provides the Oracle Db Azure Blob Mount resource in Oracle Cloud Infrastructure Dbmulticloud service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/latest/OracleDbAzureBlobMount
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/dbmulticloud
 
 Creates Oracle DB Azure Blob Mount resource.
 

@@ -9,6 +9,9 @@ description: |-
 
 # oci_identity_tag_namespace
 This resource provides the Tag Namespace resource in Oracle Cloud Infrastructure Identity service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/identity/latest/TagNamespace
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/identity
 
 Creates a new tag namespace in the specified compartment.
 

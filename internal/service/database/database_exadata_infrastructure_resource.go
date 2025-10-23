@@ -24,11 +24,15 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseExadataInfrastructure,
-		Read:     readDatabaseExadataInfrastructure,
-		Update:   updateDatabaseExadataInfrastructure,
-		Delete:   deleteDatabaseExadataInfrastructure,
+		Timeouts: &schema.ResourceTimeout{
+			Create: tfresource.GetTimeoutDuration("12h"),
+			Update: tfresource.GetTimeoutDuration("12h"),
+			Delete: tfresource.GetTimeoutDuration("12h"),
+		},
+		Create: createDatabaseExadataInfrastructure,
+		Read:   readDatabaseExadataInfrastructure,
+		Update: updateDatabaseExadataInfrastructure,
+		Delete: deleteDatabaseExadataInfrastructure,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"admin_network_cidr": {

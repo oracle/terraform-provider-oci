@@ -9,6 +9,9 @@ description: |-
 
 # oci_jms_jms_plugin
 This resource provides the Jms Plugin resource in Oracle Cloud Infrastructure Jms service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/jms/latest/JmsPlugin
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/jms
 
 Registers an agent's JmsPlugin, optionally attaching to an existing fleet of the tenancy.
 JmsPlugins registered fleet-less are created with lifecycle state INACTIVE.

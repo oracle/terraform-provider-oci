@@ -8,6 +8,10 @@ description: |-
 ---
 
 # oci_dns_record
+This resource provides the Record resource in Oracle Cloud Infrastructure DNS service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/dns/latest/Record
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/dns
 
 **Deprecated. Use [oci_dns_rrset](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/dns_rrset) instead.**
 

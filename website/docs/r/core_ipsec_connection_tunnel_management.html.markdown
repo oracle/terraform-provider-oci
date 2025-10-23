@@ -8,7 +8,10 @@ description: |-
 ---
 
 # oci_core_ipsec_connection_tunnel_management
-This resource provides the Ip Sec Connection Tunnel Management resource in Oracle Cloud Infrastructure Core service.
+This resource provides the Ipsec Connection Tunnel Management resource in Oracle Cloud Infrastructure Core service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/iaas/latest/IpsecConnectionTunnelManagement
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Updates the specified tunnel. This operation lets you change tunnel attributes such as the
 routing type (BGP dynamic routing or static routing). Here are some important notes:

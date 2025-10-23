@@ -9,6 +9,9 @@ description: |-
 
 # oci_email_email_return_path
 This resource provides the Email Return Path resource in Oracle Cloud Infrastructure Email service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/email/latest/EmailReturnPath
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/email
 
 Creates a new email return path. Avoid entering confidential information.
 

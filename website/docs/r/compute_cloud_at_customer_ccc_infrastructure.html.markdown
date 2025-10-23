@@ -9,6 +9,9 @@ description: |-
 
 # oci_compute_cloud_at_customer_ccc_infrastructure
 This resource provides the Ccc Infrastructure resource in Oracle Cloud Infrastructure Compute Cloud At Customer service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/latest/CccInfrastructure
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/computecloudatcustomer
 
 Creates a Compute Cloud@Customer infrastructure. Once created, Oracle Services
 must connect the rack in the data center to this Oracle Cloud Infrastructure resource.

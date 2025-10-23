@@ -472,5 +472,11 @@
         "realmKey": "oc9",
         "regionIdentifier": "me-ibri-1",
         "realmDomainComponent": "oraclecloud9.com"
+    },
+    {
+        "regionKey": "orf",
+        "realmKey": "oc1",
+        "regionIdentifier": "eu-madrid-3",
+        "realmDomainComponent": "oraclecloud.com"
     }
 ]

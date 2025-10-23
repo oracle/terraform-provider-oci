@@ -9,6 +9,9 @@ description: |-
 
 # oci_kms_key_version
 This resource provides the Key Version resource in Oracle Cloud Infrastructure Kms service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/key/latest/KeyVersion
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/kms
 
 Generates a new [KeyVersion](https://docs.cloud.oracle.com/iaas/api/#/en/key/latest/KeyVersion/) resource that provides new cryptographic
 material for a master encryption key. The key must be in an `ENABLED` state to be rotated.

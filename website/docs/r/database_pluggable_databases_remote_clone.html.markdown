@@ -9,6 +9,9 @@ description: |-
 
 # oci_database_pluggable_databases_remote_clone
 This resource provides the Pluggable Databases Remote Clone resource in Oracle Cloud Infrastructure Database service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/database/latest/PluggableDatabasesRemoteClone
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/database
 
 **Deprecated.** Use [CreatePluggableDatabase](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/PluggableDatabase/CreatePluggableDatabase) for Pluggable Database RemoteClone Operation.
 Clones a pluggable database (PDB) to a different database from the source PDB. The cloned PDB will be started upon completion of the clone operation. The source PDB must be in the `READ_WRITE` openMode when performing the clone.

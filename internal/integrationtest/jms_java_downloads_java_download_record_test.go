@@ -11,8 +11,6 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
-
-	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
@@ -20,7 +18,7 @@ var (
 	jdRecordTimeEnded   = time.Now().UTC().Format(time.RFC3339)
 
 	JmsJavaDownloadsJavaDownloadRecordDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: JmsTenancyId},
 		"time_end":       acctest.Representation{RepType: acctest.Optional, Create: jdRecordTimeEnded},
 		"time_start":     acctest.Representation{RepType: acctest.Optional, Create: jdRecordTimeStarted},
 	}
@@ -32,8 +30,6 @@ func TestJmsJavaDownloadsJavaDownloadRecordResource_basic(t *testing.T) {
 	defer httpreplay.SaveScenario()
 
 	config := acctest.ProviderTestConfig()
-
-	tenancyId := utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
 
 	datasourceName := "data.oci_jms_java_downloads_java_download_records.test_java_download_records"
 
@@ -50,7 +46,7 @@ func TestJmsJavaDownloadsJavaDownloadRecordResource_basic(t *testing.T) {
 					acctest.Create,
 					JmsJavaDownloadsJavaDownloadRecordDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", JmsTenancyId),
 				resource.TestCheckResourceAttr(datasourceName, "time_end", jdRecordTimeEnded),
 				resource.TestCheckResourceAttr(datasourceName, "time_start", jdRecordTimeStarted),
 

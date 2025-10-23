@@ -9,6 +9,9 @@ description: |-
 
 # oci_load_balancer_rule_set
 This resource provides the Rule Set resource in Oracle Cloud Infrastructure Load Balancer service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/loadbalancer/latest/RuleSet
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/load_balancer
 
 Creates a new rule set associated with the specified load balancer. For more information, see
 [Managing Rule Sets](https://docs.cloud.oracle.com/iaas/Content/Balance/Tasks/managingrulesets.htm).

@@ -9,6 +9,9 @@ description: |-
 
 # oci_database_db_node
 This resource provides the Db Node resource in Oracle Cloud Infrastructure Database service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/database/latest/DbNode
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/database
 
 Updates the specified database node.
 

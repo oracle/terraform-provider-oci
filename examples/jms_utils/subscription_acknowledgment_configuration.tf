@@ -6,9 +6,13 @@ variable "subscription_acknowledgment_configuration_is_acknowledged" {
 }
 
 
-data "oci_jms_utils_subscription_acknowledgment_configuration" "test_subscription_acknowledgment_configuration" {
+resource "oci_jms_utils_subscription_acknowledgment_configuration" "test_subscription_acknowledgment_configuration" {
 
-  #Optional
   compartment_id  = var.tenancy_ocid
   is_acknowledged = var.subscription_acknowledgment_configuration_is_acknowledged
+}
+
+data "oci_jms_utils_subscription_acknowledgment_configuration" "test_subscription_acknowledgment_configurations" {
+
+  compartment_id = var.tenancy_ocid
 }

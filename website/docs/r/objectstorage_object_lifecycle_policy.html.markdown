@@ -9,6 +9,9 @@ description: |-
 
 # oci_objectstorage_object_lifecycle_policy
 This resource provides the Object Lifecycle Policy resource in Oracle Cloud Infrastructure Object Storage service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/objectstorage/latest/ObjectLifecyclePolicy
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Creates or replaces the object lifecycle policy for the bucket.
 

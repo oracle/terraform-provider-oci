@@ -42,6 +42,11 @@ variable "fsu_db_23_target_1" {
   type        = string
 }
 
+variable "fsu_db_26_target_1" {
+  description = "The OCID of the first database target with version 26"
+  type        = string
+}
+
 variable "fsu_gi_19_target_1" {
   description = "The OCID of the first GI target with version 19"
   type        = string
@@ -49,6 +54,11 @@ variable "fsu_gi_19_target_1" {
 
 variable "fsu_gi_23_target_1" {
   description = "The OCID of the first GI target with version 23"
+  type        = string
+}
+
+variable "fsu_gi_26_target_1" {
+  description = "The OCID of the first GI target with version 26"
   type        = string
 }
 

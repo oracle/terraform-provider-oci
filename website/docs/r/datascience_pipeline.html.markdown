@@ -9,6 +9,9 @@ description: |-
 
 # oci_datascience_pipeline
 This resource provides the Pipeline resource in Oracle Cloud Infrastructure Data Science service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/data-science/latest/Pipeline
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/datascience
 
 Creates a new Pipeline.
 
@@ -60,7 +63,9 @@ resource "oci_datascience_pipeline" "test_pipeline" {
 				#Optional
 				cpu_baseline = var.pipeline_step_details_step_dataflow_configuration_details_driver_shape_config_details_cpu_baseline
 				memory_in_gbs = var.pipeline_step_details_step_dataflow_configuration_details_driver_shape_config_details_memory_in_gbs
+				memory_in_gbs_parameterized = var.pipeline_step_details_step_dataflow_configuration_details_driver_shape_config_details_memory_in_gbs_parameterized
 				ocpus = var.pipeline_step_details_step_dataflow_configuration_details_driver_shape_config_details_ocpus
+				ocpus_parameterized = var.pipeline_step_details_step_dataflow_configuration_details_driver_shape_config_details_ocpus_parameterized
 			}
 			executor_shape = var.pipeline_step_details_step_dataflow_configuration_details_executor_shape
 			executor_shape_config_details {
@@ -68,7 +73,9 @@ resource "oci_datascience_pipeline" "test_pipeline" {
 				#Optional
 				cpu_baseline = var.pipeline_step_details_step_dataflow_configuration_details_executor_shape_config_details_cpu_baseline
 				memory_in_gbs = var.pipeline_step_details_step_dataflow_configuration_details_executor_shape_config_details_memory_in_gbs
+				memory_in_gbs_parameterized = var.pipeline_step_details_step_dataflow_configuration_details_executor_shape_config_details_memory_in_gbs_parameterized
 				ocpus = var.pipeline_step_details_step_dataflow_configuration_details_executor_shape_config_details_ocpus
+				ocpus_parameterized = var.pipeline_step_details_step_dataflow_configuration_details_executor_shape_config_details_ocpus_parameterized
 			}
 			logs_bucket_uri = var.pipeline_step_details_step_dataflow_configuration_details_logs_bucket_uri
 			num_executors = var.pipeline_step_details_step_dataflow_configuration_details_num_executors
@@ -78,16 +85,30 @@ resource "oci_datascience_pipeline" "test_pipeline" {
 
 			#Optional
 			block_storage_size_in_gbs = var.pipeline_step_details_step_infrastructure_configuration_details_block_storage_size_in_gbs
+			block_storage_size_in_gbs_parameterized = var.pipeline_step_details_step_infrastructure_configuration_details_block_storage_size_in_gbs_parameterized
 			shape_config_details {
 
 				#Optional
 				cpu_baseline = var.pipeline_step_details_step_infrastructure_configuration_details_shape_config_details_cpu_baseline
 				memory_in_gbs = var.pipeline_step_details_step_infrastructure_configuration_details_shape_config_details_memory_in_gbs
+				memory_in_gbs_parameterized = var.pipeline_step_details_step_infrastructure_configuration_details_shape_config_details_memory_in_gbs_parameterized
 				ocpus = var.pipeline_step_details_step_infrastructure_configuration_details_shape_config_details_ocpus
+				ocpus_parameterized = var.pipeline_step_details_step_infrastructure_configuration_details_shape_config_details_ocpus_parameterized
 			}
 			shape_name = oci_core_shape.test_shape.name
 			subnet_id = oci_core_subnet.test_subnet.id
 		}
+		step_parameters {
+			#Required
+			output {
+				#Required
+				output_file = var.pipeline_step_details_step_parameters_output_output_file
+				output_parameter_type = var.pipeline_step_details_step_parameters_output_output_parameter_type
+				parameter_names = var.pipeline_step_details_step_parameters_output_parameter_names
+			}
+			parameter_type = var.pipeline_step_details_step_parameters_parameter_type
+		}
+		step_run_name = var.pipeline_step_details_step_run_name
 		step_storage_mount_configuration_details_list {
 			#Required
 			destination_directory_name = var.pipeline_step_details_step_storage_mount_configuration_details_list_destination_directory_name
@@ -123,12 +144,15 @@ resource "oci_datascience_pipeline" "test_pipeline" {
 		shape_name = oci_core_shape.test_shape.name
 
 		#Optional
+		block_storage_size_in_gbs_parameterized = var.pipeline_infrastructure_configuration_details_block_storage_size_in_gbs_parameterized
 		shape_config_details {
 
 			#Optional
 			cpu_baseline = var.pipeline_infrastructure_configuration_details_shape_config_details_cpu_baseline
 			memory_in_gbs = var.pipeline_infrastructure_configuration_details_shape_config_details_memory_in_gbs
+			memory_in_gbs_parameterized = var.pipeline_infrastructure_configuration_details_shape_config_details_memory_in_gbs_parameterized
 			ocpus = var.pipeline_infrastructure_configuration_details_shape_config_details_ocpus
+			ocpus_parameterized = var.pipeline_infrastructure_configuration_details_shape_config_details_ocpus_parameterized
 		}
 		subnet_id = oci_core_subnet.test_subnet.id
 	}
@@ -140,6 +164,7 @@ resource "oci_datascience_pipeline" "test_pipeline" {
 		log_group_id = oci_logging_log_group.test_log_group.id
 		log_id = oci_logging_log.test_log.id
 	}
+	parameters = var.pipeline_parameters
 	storage_mount_configuration_details_list {
 		#Required
 		destination_directory_name = var.pipeline_storage_mount_configuration_details_list_destination_directory_name
@@ -172,10 +197,13 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `infrastructure_configuration_details` - (Optional) (Updatable) The infrastructure configuration details of a pipeline or a step.
 	* `block_storage_size_in_gbs` - (Required) (Updatable) The size of the block storage volume to attach to the instance. 
+	* `block_storage_size_in_gbs_parameterized` - (Optional) (Updatable) The size of the block storage volume to attach to the pipeline step run instance specified as a parameter. This overrides the blockStorageSizeInGBs value. The request will fail if the parameters used are null or invalid. 
 	* `shape_config_details` - (Optional) (Updatable) Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
 		* `cpu_baseline` - (Optional) (Updatable) The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
-		* `memory_in_gbs` - (Optional) (Updatable) A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
-		* `ocpus` - (Optional) (Updatable) A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
+		* `memory_in_gbs` - (Optional) (Updatable) The total amount of memory available to the pipeline step run instance GBs. 
+		* `memory_in_gbs_parameterized` - (Optional) (Updatable) The total amount of memory available to the pipeline step run instance in GBs specified as a parameter. This overrides the memoryInGBs value. The request will fail if the parameters used are null or invalid. 
+		* `ocpus` - (Optional) (Updatable) The total number of OCPUs available to the pipeline step run instance. 
+		* `ocpus_parameterized` - (Optional) (Updatable) The total number of OCPUs available to the pipeline step run instance specified as a parameter. This overrides the ocpus value. The request will fail if the parameters used are null or invalid. 
 	* `shape_name` - (Required) (Updatable) The shape used to launch the instance for all step runs in the pipeline.
 	* `subnet_id` - (Optional) (Updatable) The subnet to create a secondary vnic in to attach to the instance running the pipeline step. 
 * `log_configuration_details` - (Optional) (Updatable) The pipeline log configuration details.
@@ -183,6 +211,7 @@ The following arguments are supported:
 	* `enable_logging` - (Optional) (Updatable) If customer logging is enabled for pipeline.
 	* `log_group_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log group.
 	* `log_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log.
+* `parameters` - (Optional) (Updatable) Parameters used in the pipeline.
 * `project_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate the pipeline with.
 * `step_details` - (Required) (Updatable) Array of step details for each step.
 
@@ -207,25 +236,39 @@ The following arguments are supported:
 		* `driver_shape` - (Applicable when step_type=DATAFLOW) (Updatable) The VM shape for the driver.
 		* `driver_shape_config_details` - (Applicable when step_type=DATAFLOW) (Updatable) Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
 			* `cpu_baseline` - (Applicable when step_type=DATAFLOW) (Updatable) The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
-			* `memory_in_gbs` - (Applicable when step_type=DATAFLOW) (Updatable) A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
-			* `ocpus` - (Applicable when step_type=DATAFLOW) (Updatable) A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
+			* `memory_in_gbs` - (Applicable when step_type=DATAFLOW) (Updatable) The total amount of memory available to the pipeline step run instance GBs. 
+			* `memory_in_gbs_parameterized` - (Applicable when step_type=DATAFLOW) (Updatable) The total amount of memory available to the pipeline step run instance in GBs specified as a parameter. This overrides the memoryInGBs value. The request will fail if the parameters used are null or invalid. 
+			* `ocpus` - (Applicable when step_type=DATAFLOW) (Updatable) The total number of OCPUs available to the pipeline step run instance. 
+			* `ocpus_parameterized` - (Applicable when step_type=DATAFLOW) (Updatable) The total number of OCPUs available to the pipeline step run instance specified as a parameter. This overrides the ocpus value. The request will fail if the parameters used are null or invalid. 
 		* `executor_shape` - (Applicable when step_type=DATAFLOW) (Updatable) The VM shape for the executors.
 		* `executor_shape_config_details` - (Applicable when step_type=DATAFLOW) (Updatable) Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
 			* `cpu_baseline` - (Applicable when step_type=DATAFLOW) (Updatable) The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
-			* `memory_in_gbs` - (Applicable when step_type=DATAFLOW) (Updatable) A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
-			* `ocpus` - (Applicable when step_type=DATAFLOW) (Updatable) A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
+			* `memory_in_gbs` - (Applicable when step_type=DATAFLOW) (Updatable) The total amount of memory available to the pipeline step run instance GBs. 
+			* `memory_in_gbs_parameterized` - (Applicable when step_type=DATAFLOW) (Updatable) The total amount of memory available to the pipeline step run instance in GBs specified as a parameter. This overrides the memoryInGBs value. The request will fail if the parameters used are null or invalid. 
+			* `ocpus` - (Applicable when step_type=DATAFLOW) (Updatable) The total number of OCPUs available to the pipeline step run instance. 
+			* `ocpus_parameterized` - (Applicable when step_type=DATAFLOW) (Updatable) The total number of OCPUs available to the pipeline step run instance specified as a parameter. This overrides the ocpus value. The request will fail if the parameters used are null or invalid. 
 		* `logs_bucket_uri` - (Applicable when step_type=DATAFLOW) (Updatable) An Oracle Cloud Infrastructure URI of the bucket where the Spark job logs are to be uploaded.
 		* `num_executors` - (Applicable when step_type=DATAFLOW) (Updatable) The number of executor VMs requested.
 		* `warehouse_bucket_uri` - (Applicable when step_type=DATAFLOW) (Updatable) An Oracle Cloud Infrastructure URI of the bucket to be used as default warehouse directory for BATCH SQL runs.
 	* `step_infrastructure_configuration_details` - (Applicable when step_type=CONTAINER | CUSTOM_SCRIPT) (Updatable) The infrastructure configuration details of a pipeline or a step.
 		* `block_storage_size_in_gbs` - (Required when step_type=CONTAINER | CUSTOM_SCRIPT) (Updatable) The size of the block storage volume to attach to the instance. 
+		* `block_storage_size_in_gbs_parameterized` - (Applicable when step_type=CONTAINER | CUSTOM_SCRIPT) (Updatable) The size of the block storage volume to attach to the pipeline step run instance specified as a parameter. This overrides the blockStorageSizeInGBs value. The request will fail if the parameters used are null or invalid. 
 		* `shape_config_details` - (Applicable when step_type=CONTAINER | CUSTOM_SCRIPT) (Updatable) Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
 			* `cpu_baseline` - (Applicable when step_type=CONTAINER | CUSTOM_SCRIPT) (Updatable) The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
-			* `memory_in_gbs` - (Applicable when step_type=CONTAINER | CUSTOM_SCRIPT) (Updatable) A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
-			* `ocpus` - (Applicable when step_type=CONTAINER | CUSTOM_SCRIPT) (Updatable) A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
+			* `memory_in_gbs` - (Applicable when step_type=CONTAINER | CUSTOM_SCRIPT) (Updatable) The total amount of memory available to the pipeline step run instance GBs. 
+			* `memory_in_gbs_parameterized` - (Applicable when step_type=CONTAINER | CUSTOM_SCRIPT) (Updatable) The total amount of memory available to the pipeline step run instance in GBs specified as a parameter. This overrides the memoryInGBs value. The request will fail if the parameters used are null or invalid. 
+			* `ocpus` - (Applicable when step_type=CONTAINER | CUSTOM_SCRIPT) (Updatable) The total number of OCPUs available to the pipeline step run instance. 
+			* `ocpus_parameterized` - (Applicable when step_type=CONTAINER | CUSTOM_SCRIPT) (Updatable) The total number of OCPUs available to the pipeline step run instance specified as a parameter. This overrides the ocpus value. The request will fail if the parameters used are null or invalid. 
 		* `shape_name` - (Required when step_type=CONTAINER | CUSTOM_SCRIPT) (Updatable) The shape used to launch the instance for all step runs in the pipeline.
 		* `subnet_id` - (Applicable when step_type=CONTAINER | CUSTOM_SCRIPT) (Updatable) The subnet to create a secondary vnic in to attach to the instance running the pipeline step. 
 	* `step_name` - (Required) (Updatable) The name of the step. It must be unique within the pipeline. This is used to create the pipeline DAG.
+	* `step_parameters` - (Applicable when step_type=CONTAINER | CUSTOM_SCRIPT | ML_JOB) (Updatable) Pipeline step parameter details
+		* `output` - (Required) (Updatable) Pipeline output parameter details
+			* `output_file` - (Required) (Updatable) Output file name
+			* `output_parameter_type` - (Required) (Updatable) Type of output parameters
+			* `parameter_names` - (Required) (Updatable) The list of parameter names that will be output by this step
+		* `parameter_type` - (Required) (Updatable) Type of step parameter
+	* `step_run_name` - (Applicable when step_type=ML_JOB) (Updatable) Name used when creating the steprun.
 	* `step_storage_mount_configuration_details_list` - (Applicable when step_type=CONTAINER | CUSTOM_SCRIPT) (Updatable) The storage mount details to mount to the instance running the pipeline step.
 		* `bucket` - (Required when storage_type=OBJECT_STORAGE) (Updatable) The object storage bucket
 		* `destination_directory_name` - (Required) (Updatable) The local directory name to be mounted
@@ -268,10 +311,13 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline.
 * `infrastructure_configuration_details` - The infrastructure configuration details of a pipeline or a step.
 	* `block_storage_size_in_gbs` - The size of the block storage volume to attach to the instance. 
+	* `block_storage_size_in_gbs_parameterized` - The size of the block storage volume to attach to the pipeline step run instance specified as a parameter. This overrides the blockStorageSizeInGBs value. The request will fail if the parameters used are null or invalid. 
 	* `shape_config_details` - Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
 		* `cpu_baseline` - The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
-		* `memory_in_gbs` - A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
-		* `ocpus` - A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
+		* `memory_in_gbs` - The total amount of memory available to the pipeline step run instance GBs. 
+		* `memory_in_gbs_parameterized` - The total amount of memory available to the pipeline step run instance in GBs specified as a parameter. This overrides the memoryInGBs value. The request will fail if the parameters used are null or invalid. 
+		* `ocpus` - The total number of OCPUs available to the pipeline step run instance. 
+		* `ocpus_parameterized` - The total number of OCPUs available to the pipeline step run instance specified as a parameter. This overrides the ocpus value. The request will fail if the parameters used are null or invalid. 
 	* `shape_name` - The shape used to launch the instance for all step runs in the pipeline.
 	* `subnet_id` - The subnet to create a secondary vnic in to attach to the instance running the pipeline step. 
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in 'Failed' state.
@@ -280,6 +326,7 @@ The following attributes are exported:
 	* `enable_logging` - If customer logging is enabled for pipeline.
 	* `log_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log group.
 	* `log_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log.
+* `parameters` - Parameters used in the pipeline.
 * `project_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate the pipeline with.
 * `state` - The current state of the pipeline.
 * `step_details` - Array of step details for each step.
@@ -304,25 +351,39 @@ The following attributes are exported:
 		* `driver_shape` - The VM shape for the driver.
 		* `driver_shape_config_details` - Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
 			* `cpu_baseline` - The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
-			* `memory_in_gbs` - A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
-			* `ocpus` - A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
+			* `memory_in_gbs` - The total amount of memory available to the pipeline step run instance GBs. 
+			* `memory_in_gbs_parameterized` - The total amount of memory available to the pipeline step run instance in GBs specified as a parameter. This overrides the memoryInGBs value. The request will fail if the parameters used are null or invalid. 
+			* `ocpus` - The total number of OCPUs available to the pipeline step run instance. 
+			* `ocpus_parameterized` - The total number of OCPUs available to the pipeline step run instance specified as a parameter. This overrides the ocpus value. The request will fail if the parameters used are null or invalid. 
 		* `executor_shape` - The VM shape for the executors.
 		* `executor_shape_config_details` - Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
 			* `cpu_baseline` - The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
-			* `memory_in_gbs` - A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
-			* `ocpus` - A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
+			* `memory_in_gbs` - The total amount of memory available to the pipeline step run instance GBs. 
+			* `memory_in_gbs_parameterized` - The total amount of memory available to the pipeline step run instance in GBs specified as a parameter. This overrides the memoryInGBs value. The request will fail if the parameters used are null or invalid. 
+			* `ocpus` - The total number of OCPUs available to the pipeline step run instance. 
+			* `ocpus_parameterized` - The total number of OCPUs available to the pipeline step run instance specified as a parameter. This overrides the ocpus value. The request will fail if the parameters used are null or invalid. 
 		* `logs_bucket_uri` - An Oracle Cloud Infrastructure URI of the bucket where the Spark job logs are to be uploaded.
 		* `num_executors` - The number of executor VMs requested.
 		* `warehouse_bucket_uri` - An Oracle Cloud Infrastructure URI of the bucket to be used as default warehouse directory for BATCH SQL runs.
 	* `step_infrastructure_configuration_details` - The infrastructure configuration details of a pipeline or a step.
 		* `block_storage_size_in_gbs` - The size of the block storage volume to attach to the instance. 
+		* `block_storage_size_in_gbs_parameterized` - The size of the block storage volume to attach to the pipeline step run instance specified as a parameter. This overrides the blockStorageSizeInGBs value. The request will fail if the parameters used are null or invalid. 
 		* `shape_config_details` - Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
 			* `cpu_baseline` - The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
-			* `memory_in_gbs` - A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
-			* `ocpus` - A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
+			* `memory_in_gbs` - The total amount of memory available to the pipeline step run instance GBs. 
+			* `memory_in_gbs_parameterized` - The total amount of memory available to the pipeline step run instance in GBs specified as a parameter. This overrides the memoryInGBs value. The request will fail if the parameters used are null or invalid. 
+			* `ocpus` - The total number of OCPUs available to the pipeline step run instance. 
+			* `ocpus_parameterized` - The total number of OCPUs available to the pipeline step run instance specified as a parameter. This overrides the ocpus value. The request will fail if the parameters used are null or invalid. 
 		* `shape_name` - The shape used to launch the instance for all step runs in the pipeline.
 		* `subnet_id` - The subnet to create a secondary vnic in to attach to the instance running the pipeline step. 
 	* `step_name` - The name of the step. It must be unique within the pipeline. This is used to create the pipeline DAG.
+	* `step_parameters` - Pipeline step parameter details
+		* `output` - Pipeline output parameter details
+			* `output_file` - Output file name
+			* `output_parameter_type` - Type of output parameters
+			* `parameter_names` - The list of parameter names that will be output by this step
+		* `parameter_type` - Type of step parameter
+	* `step_run_name` - Name used when creating the steprun.
 	* `step_storage_mount_configuration_details_list` - The storage mount details to mount to the instance running the pipeline step.
 		* `bucket` - The object storage bucket
 		* `destination_directory_name` - The local directory name to be mounted
