@@ -80,6 +80,13 @@ variable "fusion_environment_state" {
   default = "ACTIVE"
 }
 
+variable fusion_environment_is_ipv6dual_stack_enabled {
+  default = false
+}
+
+variable test_fusion_environment_family_id {
+}
+
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -101,7 +108,8 @@ resource "oci_fusion_apps_fusion_environment" "test_fusion_environment" {
     password      = var.fusion_environment_create_fusion_environment_admin_user_details_password
   }
   display_name                 = var.fusion_environment_display_name
-  fusion_environment_family_id = oci_fusion_apps_fusion_environment_family.test_fusion_environment_family.id
+  fusion_environment_family_id = var.test_fusion_environment_family_id
+
   fusion_environment_type      = var.fusion_environment_fusion_environment_type
 
   #Optional
@@ -109,6 +117,7 @@ resource "oci_fusion_apps_fusion_environment" "test_fusion_environment" {
   defined_tags              = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.fusion_environment_defined_tags_value)
   dns_prefix                = var.fusion_environment_dns_prefix
   freeform_tags             = var.fusion_environment_freeform_tags
+  is_ipv6dual_stack_enabled    = var.fusion_environment_is_ipv6dual_stack_enabled
   # This field is related to the subscription you have
   #kms_key_id                = oci_kms_key.test_key.id
   maintenance_policy {
@@ -137,6 +146,6 @@ data "oci_fusion_apps_fusion_environments" "test_fusion_environments" {
 
   #Optional
   display_name                 = var.fusion_environment_display_name
-  fusion_environment_family_id = oci_fusion_apps_fusion_environment_family.test_fusion_environment_family.id
+  fusion_environment_family_id = var.test_fusion_environment_family_id
   state                        = var.fusion_environment_state
 }

@@ -25,6 +25,7 @@ const (
 	DbSourceMajorVersionsDb18    DbSourceMajorVersionsEnum = "DB_18"
 	DbSourceMajorVersionsDb19    DbSourceMajorVersionsEnum = "DB_19"
 	DbSourceMajorVersionsDb23    DbSourceMajorVersionsEnum = "DB_23"
+	DbSourceMajorVersionsDb26    DbSourceMajorVersionsEnum = "DB_26"
 )
 
 var mappingDbSourceMajorVersionsEnum = map[string]DbSourceMajorVersionsEnum{
@@ -34,6 +35,7 @@ var mappingDbSourceMajorVersionsEnum = map[string]DbSourceMajorVersionsEnum{
 	"DB_18":    DbSourceMajorVersionsDb18,
 	"DB_19":    DbSourceMajorVersionsDb19,
 	"DB_23":    DbSourceMajorVersionsDb23,
+	"DB_26":    DbSourceMajorVersionsDb26,
 }
 
 var mappingDbSourceMajorVersionsEnumLowerCase = map[string]DbSourceMajorVersionsEnum{
@@ -43,6 +45,7 @@ var mappingDbSourceMajorVersionsEnumLowerCase = map[string]DbSourceMajorVersions
 	"db_18":    DbSourceMajorVersionsDb18,
 	"db_19":    DbSourceMajorVersionsDb19,
 	"db_23":    DbSourceMajorVersionsDb23,
+	"db_26":    DbSourceMajorVersionsDb26,
 }
 
 // GetDbSourceMajorVersionsEnumValues Enumerates the set of values for DbSourceMajorVersionsEnum
@@ -63,6 +66,7 @@ func GetDbSourceMajorVersionsEnumStringValues() []string {
 		"DB_18",
 		"DB_19",
 		"DB_23",
+		"DB_26",
 	}
 }
 

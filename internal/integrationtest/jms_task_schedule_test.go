@@ -10,17 +10,13 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
-	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	JmsTaskScheduleFleetId           = utils.GetEnvSettingWithBlankDefault("fleet_ocid")
-	JmsTaskScheduleManagedInstanceId = utils.GetEnvSettingWithBlankDefault("managed_instance_ocid")
-
 	JmsTaskScheduleDataSourceRepresentation = map[string]interface{}{
-		"fleet_id":                    acctest.Representation{RepType: acctest.Optional, Create: JmsTaskScheduleFleetId},
+		"fleet_id":                    acctest.Representation{RepType: acctest.Optional, Create: JmsFleetId},
 		"id":                          acctest.Representation{RepType: acctest.Optional, Create: `dummy_id`},
-		"managed_instance_id":         acctest.Representation{RepType: acctest.Optional, Create: JmsTaskScheduleManagedInstanceId},
+		"managed_instance_id":         acctest.Representation{RepType: acctest.Optional, Create: JmsManagedInstanceId},
 		"name":                        acctest.Representation{RepType: acctest.Optional, Create: `name`},
 		"task_schedule_name_contains": acctest.Representation{RepType: acctest.Optional, Create: `taskScheduleNameContains`},
 		"filter":                      acctest.RepresentationGroup{RepType: acctest.Required, Group: JmsTaskScheduleDataSourceFilterRepresentation}}

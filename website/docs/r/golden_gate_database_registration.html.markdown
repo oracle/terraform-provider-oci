@@ -9,6 +9,9 @@ description: |-
 
 # oci_golden_gate_database_registration
 This resource provides the Database Registration resource in Oracle Cloud Infrastructure Golden Gate service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/goldengate/latest/DatabaseRegistration
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/goldengate
 
 Note: Deprecated. Use the /connections API instead.
 Creates a new DatabaseRegistration.

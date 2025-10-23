@@ -9,6 +9,9 @@ description: |-
 
 # oci_identity_ui_password
 This resource provides the Ui Password resource in Oracle Cloud Infrastructure Identity service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/identity/latest/UiPassword
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/identity
 
 Creates a new Console one-time password for the specified user. For more information about user
 credentials, see [User Credentials](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/usercredentials.htm).

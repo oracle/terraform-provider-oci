@@ -9,6 +9,9 @@ description: |-
 
 # oci_queue_queue
 This resource provides the Queue resource in Oracle Cloud Infrastructure Queue service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/queue/latest/Queue
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/queue
 
 Creates a new queue.
 

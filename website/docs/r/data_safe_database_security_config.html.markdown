@@ -9,6 +9,9 @@ description: |-
 
 # oci_data_safe_database_security_config
 This resource provides the Database Security Config resource in Oracle Cloud Infrastructure Data Safe service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/data-safe/latest/DatabaseSecurityConfig
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe
 
 Updates the database security configuration.
 

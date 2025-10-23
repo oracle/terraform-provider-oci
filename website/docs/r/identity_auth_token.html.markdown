@@ -9,6 +9,9 @@ description: |-
 
 # oci_identity_auth_token
 This resource provides the Auth Token resource in Oracle Cloud Infrastructure Identity service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/identity/latest/AuthToken
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/identity
 
 Creates a new auth token for the specified user. For information about what auth tokens are for, see
 [Managing User Credentials](https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcredentials.htm).

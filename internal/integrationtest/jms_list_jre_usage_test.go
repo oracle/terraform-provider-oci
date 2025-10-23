@@ -7,7 +7,6 @@ import (
 	"testing"
 
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
-	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 
@@ -15,11 +14,8 @@ import (
 )
 
 var (
-	// before running tests, ensure to set up environment variables used below
-	JmsListJreUsageCompartmentId = utils.GetEnvSettingWithBlankDefault("compartment_ocid")
-
 	JmsListJreUsageSingularDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":   acctest.Representation{RepType: acctest.Optional, Create: JmsListJreUsageCompartmentId},
+		"compartment_id":   acctest.Representation{RepType: acctest.Optional, Create: JmsCompartmentId},
 		"host_id":          acctest.Representation{RepType: acctest.Optional, Create: `my_host_id_1`},
 		"application_id":   acctest.Representation{RepType: acctest.Optional, Create: `my_application_id_1`},
 		"application_name": acctest.Representation{RepType: acctest.Optional, Create: `my_appplication_name_1`},
@@ -51,7 +47,7 @@ func TestJmsListJreUsageResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "application_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "application_name"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", JmsListJreUsageCompartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", JmsCompartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "host_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "time_end", "2021-11-20T01:00:00Z"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "time_start", "2021-11-01T01:00:00Z"),

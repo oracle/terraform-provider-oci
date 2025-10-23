@@ -10,6 +10,7 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_jms_announcements", JmsAnnouncementsDataSource())
 	tfresource.RegisterDatasource("oci_jms_fleet", JmsFleetDataSource())
 	tfresource.RegisterDatasource("oci_jms_fleet_advanced_feature_configuration", JmsFleetAdvancedFeatureConfigurationDataSource())
+	tfresource.RegisterDatasource("oci_jms_fleet_agent_configuration", JmsFleetAgentConfigurationDataSource())
 	tfresource.RegisterDatasource("oci_jms_fleet_blocklists", JmsFleetBlocklistsDataSource())
 	tfresource.RegisterDatasource("oci_jms_fleet_containers", JmsFleetContainersDataSource())
 	tfresource.RegisterDatasource("oci_jms_fleet_crypto_analysis_result", JmsFleetCryptoAnalysisResultDataSource())

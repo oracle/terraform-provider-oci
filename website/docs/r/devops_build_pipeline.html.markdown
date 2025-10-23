@@ -9,6 +9,9 @@ description: |-
 
 # oci_devops_build_pipeline
 This resource provides the Build Pipeline resource in Oracle Cloud Infrastructure Devops service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/devops/latest/BuildPipeline
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/devops
 
 Creates a new build pipeline.
 

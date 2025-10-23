@@ -9,6 +9,9 @@ description: |-
 
 # oci_datascience_model_group
 This resource provides the Model Group resource in Oracle Cloud Infrastructure Data Science service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/data-science/latest/ModelGroup
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/datascience
 
 Create a new Model Group resource.
 

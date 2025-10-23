@@ -9,6 +9,9 @@ description: |-
 
 # oci_core_vtap
 This resource provides the Vtap resource in Oracle Cloud Infrastructure Core service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/iaas/latest/Vtap
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Creates a virtual test access point (VTAP) in the specified compartment.
 

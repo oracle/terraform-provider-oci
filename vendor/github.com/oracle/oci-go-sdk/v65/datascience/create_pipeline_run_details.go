@@ -37,6 +37,12 @@ type CreatePipelineRunDetails struct {
 
 	InfrastructureConfigurationOverrideDetails *PipelineInfrastructureConfigurationDetails `mandatory:"false" json:"infrastructureConfigurationOverrideDetails"`
 
+	// The storage mount override details to mount to the instance running the pipeline step.
+	StorageMountConfigurationOverrideDetailsList []StorageMountConfigurationDetails `mandatory:"false" json:"storageMountConfigurationOverrideDetailsList"`
+
+	// Parameters override used in the pipeline run.
+	ParametersOverride map[string]string `mandatory:"false" json:"parametersOverride"`
+
 	// Array of step override details. Only Step Configuration is allowed to be overridden.
 	StepOverrideDetails []PipelineStepOverrideDetails `mandatory:"false" json:"stepOverrideDetails"`
 
@@ -72,17 +78,19 @@ func (m CreatePipelineRunDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreatePipelineRunDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		ProjectId                                  *string                                     `json:"projectId"`
-		DisplayName                                *string                                     `json:"displayName"`
-		ConfigurationOverrideDetails               pipelineconfigurationdetails                `json:"configurationOverrideDetails"`
-		LogConfigurationOverrideDetails            *PipelineLogConfigurationDetails            `json:"logConfigurationOverrideDetails"`
-		InfrastructureConfigurationOverrideDetails *PipelineInfrastructureConfigurationDetails `json:"infrastructureConfigurationOverrideDetails"`
-		StepOverrideDetails                        []PipelineStepOverrideDetails               `json:"stepOverrideDetails"`
-		FreeformTags                               map[string]string                           `json:"freeformTags"`
-		DefinedTags                                map[string]map[string]interface{}           `json:"definedTags"`
-		SystemTags                                 map[string]map[string]interface{}           `json:"systemTags"`
-		CompartmentId                              *string                                     `json:"compartmentId"`
-		PipelineId                                 *string                                     `json:"pipelineId"`
+		ProjectId                                    *string                                     `json:"projectId"`
+		DisplayName                                  *string                                     `json:"displayName"`
+		ConfigurationOverrideDetails                 pipelineconfigurationdetails                `json:"configurationOverrideDetails"`
+		LogConfigurationOverrideDetails              *PipelineLogConfigurationDetails            `json:"logConfigurationOverrideDetails"`
+		InfrastructureConfigurationOverrideDetails   *PipelineInfrastructureConfigurationDetails `json:"infrastructureConfigurationOverrideDetails"`
+		StorageMountConfigurationOverrideDetailsList []storagemountconfigurationdetails          `json:"storageMountConfigurationOverrideDetailsList"`
+		ParametersOverride                           map[string]string                           `json:"parametersOverride"`
+		StepOverrideDetails                          []PipelineStepOverrideDetails               `json:"stepOverrideDetails"`
+		FreeformTags                                 map[string]string                           `json:"freeformTags"`
+		DefinedTags                                  map[string]map[string]interface{}           `json:"definedTags"`
+		SystemTags                                   map[string]map[string]interface{}           `json:"systemTags"`
+		CompartmentId                                *string                                     `json:"compartmentId"`
+		PipelineId                                   *string                                     `json:"pipelineId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -107,6 +115,20 @@ func (m *CreatePipelineRunDetails) UnmarshalJSON(data []byte) (e error) {
 	m.LogConfigurationOverrideDetails = model.LogConfigurationOverrideDetails
 
 	m.InfrastructureConfigurationOverrideDetails = model.InfrastructureConfigurationOverrideDetails
+
+	m.StorageMountConfigurationOverrideDetailsList = make([]StorageMountConfigurationDetails, len(model.StorageMountConfigurationOverrideDetailsList))
+	for i, n := range model.StorageMountConfigurationOverrideDetailsList {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.StorageMountConfigurationOverrideDetailsList[i] = nn.(StorageMountConfigurationDetails)
+		} else {
+			m.StorageMountConfigurationOverrideDetailsList[i] = nil
+		}
+	}
+	m.ParametersOverride = model.ParametersOverride
 
 	m.StepOverrideDetails = make([]PipelineStepOverrideDetails, len(model.StepOverrideDetails))
 	copy(m.StepOverrideDetails, model.StepOverrideDetails)

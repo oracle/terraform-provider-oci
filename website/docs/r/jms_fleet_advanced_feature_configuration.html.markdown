@@ -9,6 +9,9 @@ description: |-
 
 # oci_jms_fleet_advanced_feature_configuration
 This resource provides the Fleet Advanced Feature Configuration resource in Oracle Cloud Infrastructure Jms service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/jms/latest/FleetAdvancedFeatureConfiguration
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/jms
 
 Update advanced feature configurations for the Fleet.
 Ensure that the namespace and bucket storage are created prior to turning on the JfrRecording or CryptoEventAnalysis feature.
@@ -18,6 +21,7 @@ Ensure that the namespace and bucket storage are created prior to turning on the
 
 ```hcl
 resource "oci_jms_fleet_advanced_feature_configuration" "test_fleet_advanced_feature_configuration" {
+
 	#Required
 	fleet_id = oci_jms_fleet.test_fleet.id
 
@@ -25,14 +29,14 @@ resource "oci_jms_fleet_advanced_feature_configuration" "test_fleet_advanced_fea
 	advanced_usage_tracking {
 
 		#Optional
-		is_enabled = var.fleet_advanced_feature_configuration_advanced_usage_tracking_is_enabled
+		is_enabled = true
 	}
 	analytic_bucket_name = oci_objectstorage_bucket.test_bucket.name
-	analytic_namespace = var.fleet_advanced_feature_configuration_analytic_namespace
+	analytic_namespace = "example-bucket-namespace"
 	crypto_event_analysis {
 
 		#Optional
-		is_enabled = var.fleet_advanced_feature_configuration_crypto_event_analysis_is_enabled
+		is_enabled = true
 		summarized_events_log {
 			#Required
 			log_group_id = oci_logging_log_group.test_log_group.id
@@ -42,65 +46,65 @@ resource "oci_jms_fleet_advanced_feature_configuration" "test_fleet_advanced_fea
 	java_migration_analysis {
 
 		#Optional
-		is_enabled = var.fleet_advanced_feature_configuration_java_migration_analysis_is_enabled
+		is_enabled = true
 	}
 	jfr_recording {
 
 		#Optional
-		is_enabled = var.fleet_advanced_feature_configuration_jfr_recording_is_enabled
+		is_enabled = true
 	}
 	lcm {
 
 		#Optional
-		is_enabled = var.fleet_advanced_feature_configuration_lcm_is_enabled
+		is_enabled = true
 		post_installation_actions {
 
 			#Optional
-			add_logging_handler = var.fleet_advanced_feature_configuration_lcm_post_installation_actions_add_logging_handler
-			disabled_tls_versions = var.fleet_advanced_feature_configuration_lcm_post_installation_actions_disabled_tls_versions
-			global_logging_level = var.fleet_advanced_feature_configuration_lcm_post_installation_actions_global_logging_level
+			add_logging_handler   = false
+      disabled_tls_versions = ["TLS_1_0"]
+      global_logging_level  = "ALL"
 			minimum_key_size_settings {
 
 				#Optional
 				certpath {
 
 					#Optional
-					key_size = var.fleet_advanced_feature_configuration_lcm_post_installation_actions_minimum_key_size_settings_certpath_key_size
-					name = var.fleet_advanced_feature_configuration_lcm_post_installation_actions_minimum_key_size_settings_certpath_name
+					key_size = "2048"
+          name     = "RSA"
 				}
 				jar {
 
 					#Optional
-					key_size = var.fleet_advanced_feature_configuration_lcm_post_installation_actions_minimum_key_size_settings_jar_key_size
-					name = var.fleet_advanced_feature_configuration_lcm_post_installation_actions_minimum_key_size_settings_jar_name
+					key_size = "2048"
+          name     = "RSA"
 				}
 				tls {
 
 					#Optional
-					key_size = var.fleet_advanced_feature_configuration_lcm_post_installation_actions_minimum_key_size_settings_tls_key_size
-					name = var.fleet_advanced_feature_configuration_lcm_post_installation_actions_minimum_key_size_settings_tls_name
+					key_size = "2048"
+          name     = "RSA"
 				}
 			}
 			proxies {
 
 				#Optional
-				ftp_proxy_host = var.fleet_advanced_feature_configuration_lcm_post_installation_actions_proxies_ftp_proxy_host
-				ftp_proxy_port = var.fleet_advanced_feature_configuration_lcm_post_installation_actions_proxies_ftp_proxy_port
-				http_proxy_host = var.fleet_advanced_feature_configuration_lcm_post_installation_actions_proxies_http_proxy_host
-				http_proxy_port = var.fleet_advanced_feature_configuration_lcm_post_installation_actions_proxies_http_proxy_port
-				https_proxy_host = var.fleet_advanced_feature_configuration_lcm_post_installation_actions_proxies_https_proxy_host
-				https_proxy_port = var.fleet_advanced_feature_configuration_lcm_post_installation_actions_proxies_https_proxy_port
-				socks_proxy_host = var.fleet_advanced_feature_configuration_lcm_post_installation_actions_proxies_socks_proxy_host
-				socks_proxy_port = var.fleet_advanced_feature_configuration_lcm_post_installation_actions_proxies_socks_proxy_port
-				use_system_proxies = var.fleet_advanced_feature_configuration_lcm_post_installation_actions_proxies_use_system_proxies
+				ftp_proxy_host     = "example-ftp-proxy-host"
+        ftp_proxy_port     = "10"
+        http_proxy_host    = "example-http-proxy-host"
+        http_proxy_port    = "10"
+        https_proxy_host   = "example-https-proxy-host"
+        https_proxy_port   = "10"
+        socks_proxy_host   = "example-socks-proxy-host"
+        socks_proxy_port   = "10"
+        use_system_proxies = "false"
 			}
-			should_replace_certificates_operating_system = var.fleet_advanced_feature_configuration_lcm_post_installation_actions_should_replace_certificates_operating_system
+			should_replace_certificates_operating_system = false
 		}
 	}
 	performance_tuning_analysis {
 
 		#Optional
-		is_enabled = var.fleet_advanced_feature_configuration_performance_tuning_analysis_is_enabled
+		is_enabled = true
 	}
 }
 ```

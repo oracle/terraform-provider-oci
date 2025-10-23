@@ -19,11 +19,11 @@ Returns a list of task schedules.
 data "oci_jms_task_schedules" "test_task_schedules" {
 
 	#Optional
-	fleet_id = oci_jms_fleet.test_fleet.id
-	id = var.task_schedule_id
-	managed_instance_id = oci_os_management_hub_managed_instance.test_managed_instance.id
-	name = var.task_schedule_name
-	task_schedule_name_contains = var.task_schedule_task_schedule_name_contains
+	fleet_id = "example-fleet-ocid"
+	id = "example-task-schedule-ocid"
+	managed_instance_id = "example-managed-instance-ocid"
+	name = "JFR"
+	task_schedule_name_contains = "JFR"
 }
 ```
 

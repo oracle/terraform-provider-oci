@@ -9,6 +9,9 @@ description: |-
 
 # oci_core_public_ip
 This resource provides the Public Ip resource in Oracle Cloud Infrastructure Core service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/iaas/latest/PublicIp
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Creates a public IP. Use the `lifetime` property to specify whether it's an ephemeral or
 reserved public IP. For information about limits on how many you can create, see

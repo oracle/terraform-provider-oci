@@ -9,6 +9,9 @@ description: |-
 
 # oci_data_safe_compare_security_assessment
 This resource provides the Compare Security Assessment resource in Oracle Cloud Infrastructure Data Safe service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/data-safe/latest/CompareSecurityAssessment
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe
 
 Compares two security assessments. For this comparison, a security assessment can be a saved assessment, a latest assessment, or a baseline assessment.
 For example, you can compare saved assessment or a latest assessment against a baseline.

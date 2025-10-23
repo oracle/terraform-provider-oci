@@ -186,6 +186,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `integration` - Discovers integration resources within the specified compartment
     * `iot` - Discovers iot resources within the specified compartment
     * `jms` - Discovers jms resources within the specified compartment
+    * `jms_utils` - Discovers jms_utils resources within the specified compartment
     * `kms` - Discovers kms resources within the specified compartment
     * `license_manager` - Discovers license_manager resources within the specified compartment
     * `limits` - Discovers limits resources across the entire tenancy
@@ -678,6 +679,7 @@ database
 * oci\_database\_autonomous\_container\_database\_snapshot\_standby
 * oci\_database\_autonomous\_container\_database\_add\_standby
 * oci\_database\_pluggable\_database\_snapshot
+* oci\_database\_database\_snapshot\_standby
 
 database_migration
     
@@ -988,6 +990,13 @@ jms
 * oci\_jms\_fleet\_advanced\_feature\_configuration
 * oci\_jms\_jms\_plugin
 * oci\_jms\_task\_schedule
+* oci\_jms\_fleet\_agent\_configuration
+
+
+jms_utils
+    
+* oci\_jms\_utils\_subscription\_acknowledgment\_configuration
+* oci\_jms\_utils\_analyze\_applications\_configuration
 
 kms
     

@@ -34,6 +34,9 @@ type PipelineMlJobStepRun struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job run triggered for this step run.
 	JobRunId *string `mandatory:"false" json:"jobRunId"`
 
+	// Name used when creating the steprun.
+	StepRunName *string `mandatory:"false" json:"stepRunName"`
+
 	// The state of the step run.
 	LifecycleState PipelineStepRunLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }

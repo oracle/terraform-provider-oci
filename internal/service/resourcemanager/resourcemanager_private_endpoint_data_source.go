@@ -92,7 +92,7 @@ func (s *ResourcemanagerPrivateEndpointDataSourceCrud) SetData() error {
 
 	s.D.Set("nsg_id_list", s.Res.NsgIdList)
 
-	s.D.Set("security_attributes", s.Res.SecurityAttributes)
+	s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
 
 	s.D.Set("source_ips", s.Res.SourceIps)
 

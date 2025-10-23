@@ -27,6 +27,8 @@ const (
 	InstancePrincipalDelegationToken AuthenticationType = "instance_principle_delegation_token"
 	// ResourcePrincipalDelegationToken is used for resource principal delegation token auth type
 	ResourcePrincipalDelegationToken AuthenticationType = "resource_principle_delegation_token"
+	// OAuth2DelegationToken is used for oauth delegation token auth type
+	OAuthDelegationToken AuthenticationType = "oauth_delegation_token"
 	// UnknownAuthenticationType is used for none meaningful auth type
 	UnknownAuthenticationType AuthenticationType = "unknown_auth_type"
 )

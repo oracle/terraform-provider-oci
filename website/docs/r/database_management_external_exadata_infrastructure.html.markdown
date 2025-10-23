@@ -9,6 +9,9 @@ description: |-
 
 # oci_database_management_external_exadata_infrastructure
 This resource provides the External Exadata Infrastructure resource in Oracle Cloud Infrastructure Database Management service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/database-management/latest/ExternalExadataInfrastructure
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/databasemanagement
 
 Creates an Oracle Cloud Infrastructure resource for the Exadata infrastructure and enables the Monitoring service for the Exadata infrastructure.
 The following resource/subresources are created:

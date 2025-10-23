@@ -9,6 +9,9 @@ description: |-
 
 # oci_apm_config_config
 This resource provides the Config resource in Oracle Cloud Infrastructure Apm Config service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/apm-config/latest/Config
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/apm/apm_config
 
 Creates a new configuration item.
 

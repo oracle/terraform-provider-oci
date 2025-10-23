@@ -9,6 +9,9 @@ description: |-
 
 # oci_identity_domain_replication_to_region
 This resource provides the Domain Replication To Region resource in Oracle Cloud Infrastructure Identity service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/identity/latest/DomainReplicationToRegion
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/identity
 
 Replicate domain to a new region. This is an asynchronous call - where, at start,
 {@code state} of this domain in replica region is set to ENABLING_REPLICATION.

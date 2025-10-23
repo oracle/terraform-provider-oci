@@ -10,17 +10,11 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
-
-	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	// before running tests, ensure to set up environment variables used below
-	JmsFleetDiagnosesFleetId       = utils.GetEnvSettingWithBlankDefault("fleet_ocid")
-	JmsFleetDiagnosesCompartmentId = utils.GetEnvSettingWithBlankDefault("compartment_ocid")
-
 	JmsFleetDiagnosesDataSourceRepresentation = map[string]interface{}{
-		"fleet_id": acctest.Representation{RepType: acctest.Required, Create: JmsFleetDiagnosesFleetId},
+		"fleet_id": acctest.Representation{RepType: acctest.Required, Create: JmsFleetId},
 	}
 )
 
@@ -56,18 +50,4 @@ func TestJmsFleetDiagnosesResource_basic(t *testing.T) {
 			),
 		},
 	})
-}
-
-// clean up Fleet resource after test
-func init() {
-	if acctest.DependencyGraph == nil {
-		acctest.InitDependencyGraph()
-	}
-	if !acctest.InSweeperExcludeList("JmsFleetDiagnoses") {
-		resource.AddTestSweepers("JmsFleetDiagnoses", &resource.Sweeper{
-			Name:         "JmsFleetDiagnoses",
-			Dependencies: acctest.DependencyGraph["fleet"],
-			F:            sweepJmsFleetResource,
-		})
-	}
 }

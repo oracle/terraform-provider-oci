@@ -9,6 +9,9 @@ description: |-
 
 # oci_jms_fleet
 This resource provides the Fleet resource in Oracle Cloud Infrastructure Jms service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/jms/latest/Fleet
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/jms
 
 Create a new Fleet using the information provided.
 

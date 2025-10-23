@@ -9,6 +9,9 @@ description: |-
 
 # oci_core_remote_peering_connection
 This resource provides the Remote Peering Connection resource in Oracle Cloud Infrastructure Core service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/iaas/latest/RemotePeeringConnection
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Creates a new remote peering connection (RPC) for the specified DRG.
 

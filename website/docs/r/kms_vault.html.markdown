@@ -9,6 +9,9 @@ description: |-
 
 # oci_kms_vault
 This resource provides the Vault resource in Oracle Cloud Infrastructure Kms service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/key/latest/Vault
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/kms
 
 Creates a new vault. The type of vault you create determines key placement, pricing, and
 available options. Options include storage isolation, a dedicated service endpoint instead

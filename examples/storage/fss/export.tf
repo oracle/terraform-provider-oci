@@ -73,3 +73,7 @@ resource "oci_file_storage_export" "my_krb_export_krbfs_krbmt" {
   is_idmap_groups_for_sys_auth = var.krb_export_is_idmap_groups_for_sys_auth
 }
 
+resource "oci_file_storage_export_set" "my_ldap_export_set" {
+  # Required
+  mount_target_id = oci_file_storage_mount_target.my_ldap_mount_target.id
+}

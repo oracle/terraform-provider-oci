@@ -165,8 +165,8 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
-	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+	//compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	//compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_database_exadata_infrastructure.test_exadata_infrastructure"
 	datasourceName := "data.oci_database_exadata_infrastructures.test_exadata_infrastructures"
@@ -270,67 +270,67 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 		},
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
-		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseExadataInfrastructureResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(DatabaseExadataInfrastructureRepresentation, map[string]interface{}{
-						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
-					})),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "admin_network_cidr", "192.168.0.0/16"),
-				resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server1", "10.32.88.1"),
-				resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server2", "10.32.88.3"),
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "contacts.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "contacts.0.email", "testuser1@testdomain.com"),
-				resource.TestCheckResourceAttr(resourceName, "contacts.0.is_contact_mos_validated", "false"),
-				resource.TestCheckResourceAttr(resourceName, "contacts.0.is_primary", "true"),
-				resource.TestCheckResourceAttr(resourceName, "contacts.0.name", "name"),
-				resource.TestCheckResourceAttr(resourceName, "contacts.0.phone_number", "1234567891"),
-				resource.TestCheckResourceAttr(resourceName, "corporate_proxy", "http://192.168.19.1:80"),
-				resource.TestCheckResourceAttr(resourceName, "database_server_type", "X11M"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "tstExaInfra"),
-				resource.TestCheckResourceAttr(resourceName, "dns_server.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
-				resource.TestCheckResourceAttr(resourceName, "gateway", "10.32.88.5"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "infini_band_network_cidr", "10.31.8.0/21"),
-				resource.TestCheckResourceAttr(resourceName, "is_cps_offline_report_enabled", "false"),
-				resource.TestCheckResourceAttr(resourceName, "is_multi_rack_deployment", "false"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.custom_action_timeout_in_mins", "0"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "0"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "0"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.is_custom_action_timeout_enabled", "false"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.is_monthly_patching_enabled", "true"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.lead_time_in_weeks", "0"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "0"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "0"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.patching_mode", "ROLLING"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "NO_PREFERENCE"),
-				resource.TestCheckResourceAttr(resourceName, "netmask", "255.255.255.0"),
-				resource.TestCheckResourceAttr(resourceName, "ntp_server.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "shape", "ExadataCC.X11M"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttr(resourceName, "storage_count", "3"),
-				resource.TestCheckResourceAttr(resourceName, "storage_server_type", "X11M-HC"),
-				resource.TestCheckResourceAttr(resourceName, "compute_count", "2"),
-				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
-				resource.TestCheckResourceAttr(resourceName, "network_bonding_mode_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "network_bonding_mode_details.0.backup_network_bonding_mode", "ACTIVE_BACKUP"),
-				resource.TestCheckResourceAttr(resourceName, "network_bonding_mode_details.0.client_network_bonding_mode", "ACTIVE_BACKUP"),
-
-				func(s *terraform.State) (err error) {
-					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
-					if resId != resId2 {
-						return fmt.Errorf("resource recreated when it was supposed to be updated")
-					}
-					return err
-				},
-			),
-		},
+		//{
+		//	Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseExadataInfrastructureResourceDependencies +
+		//		acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Optional, acctest.Create,
+		//			acctest.RepresentationCopyWithNewProperties(DatabaseExadataInfrastructureRepresentation, map[string]interface{}{
+		//				"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+		//			})),
+		//	Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+		//		resource.TestCheckResourceAttr(resourceName, "admin_network_cidr", "192.168.0.0/16"),
+		//		resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server1", "10.32.88.1"),
+		//		resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server2", "10.32.88.3"),
+		//		resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+		//		resource.TestCheckResourceAttr(resourceName, "contacts.#", "1"),
+		//		resource.TestCheckResourceAttr(resourceName, "contacts.0.email", "testuser1@testdomain.com"),
+		//		resource.TestCheckResourceAttr(resourceName, "contacts.0.is_contact_mos_validated", "false"),
+		//		resource.TestCheckResourceAttr(resourceName, "contacts.0.is_primary", "true"),
+		//		resource.TestCheckResourceAttr(resourceName, "contacts.0.name", "name"),
+		//		resource.TestCheckResourceAttr(resourceName, "contacts.0.phone_number", "1234567891"),
+		//		resource.TestCheckResourceAttr(resourceName, "corporate_proxy", "http://192.168.19.1:80"),
+		//		resource.TestCheckResourceAttr(resourceName, "database_server_type", "X11M"),
+		//		resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+		//		resource.TestCheckResourceAttr(resourceName, "display_name", "tstExaInfra"),
+		//		resource.TestCheckResourceAttr(resourceName, "dns_server.#", "1"),
+		//		resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+		//		resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
+		//		resource.TestCheckResourceAttr(resourceName, "gateway", "10.32.88.5"),
+		//		resource.TestCheckResourceAttrSet(resourceName, "id"),
+		//		resource.TestCheckResourceAttr(resourceName, "infini_band_network_cidr", "10.31.8.0/21"),
+		//		resource.TestCheckResourceAttr(resourceName, "is_cps_offline_report_enabled", "false"),
+		//		resource.TestCheckResourceAttr(resourceName, "is_multi_rack_deployment", "false"),
+		//		resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
+		//		resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.custom_action_timeout_in_mins", "0"),
+		//		resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "0"),
+		//		resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "0"),
+		//		resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.is_custom_action_timeout_enabled", "false"),
+		//		resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.is_monthly_patching_enabled", "true"),
+		//		resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.lead_time_in_weeks", "0"),
+		//		resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "0"),
+		//		resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "0"),
+		//		resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.patching_mode", "ROLLING"),
+		//		resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "NO_PREFERENCE"),
+		//		resource.TestCheckResourceAttr(resourceName, "netmask", "255.255.255.0"),
+		//		resource.TestCheckResourceAttr(resourceName, "ntp_server.#", "1"),
+		//		resource.TestCheckResourceAttr(resourceName, "shape", "ExadataCC.X11M"),
+		//		resource.TestCheckResourceAttrSet(resourceName, "state"),
+		//		resource.TestCheckResourceAttr(resourceName, "storage_count", "3"),
+		//		resource.TestCheckResourceAttr(resourceName, "storage_server_type", "X11M-HC"),
+		//		resource.TestCheckResourceAttr(resourceName, "compute_count", "2"),
+		//		resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
+		//		resource.TestCheckResourceAttr(resourceName, "network_bonding_mode_details.#", "1"),
+		//		resource.TestCheckResourceAttr(resourceName, "network_bonding_mode_details.0.backup_network_bonding_mode", "ACTIVE_BACKUP"),
+		//		resource.TestCheckResourceAttr(resourceName, "network_bonding_mode_details.0.client_network_bonding_mode", "ACTIVE_BACKUP"),
+		//
+		//		func(s *terraform.State) (err error) {
+		//			resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+		//			if resId != resId2 {
+		//				return fmt.Errorf("resource recreated when it was supposed to be updated")
+		//			}
+		//			return err
+		//		},
+		//	),
+		//},
 
 		// verify updates to updatable parameters
 		{

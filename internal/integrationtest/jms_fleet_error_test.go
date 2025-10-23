@@ -10,20 +10,14 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
-
-	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	JmsFleetErrorCompartmentId            = utils.GetEnvSettingWithBlankDefault("compartment_ocid")
-	JmsFleetErrorFleetId                  = utils.GetEnvSettingWithBlankDefault("fleet_advanced_feature_ocid")
 	JmsFleetErrorDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":            acctest.Representation{RepType: acctest.Optional, Create: JmsFleetErrorCompartmentId},
+		"compartment_id":            acctest.Representation{RepType: acctest.Optional, Create: JmsCompartmentId},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"fleet_id":                  acctest.Representation{RepType: acctest.Optional, Create: JmsFleetErrorFleetId},
+		"fleet_id":                  acctest.Representation{RepType: acctest.Optional, Create: JmsFleetId},
 	}
-
-	JmsFleetErrorResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", acctest.Required, acctest.Create, JmsFleetRepresentation)
 )
 
 // issue-routing-tag: jms/default
@@ -52,17 +46,14 @@ func TestJmsFleetErrorResource_basic(t *testing.T) {
 					"test_fleet_errors",
 					acctest.Optional,
 					acctest.Create,
-					JmsFleetErrorDataSourceRepresentation) +
-				JmsFleetErrorResourceConfig,
+					JmsFleetErrorDataSourceRepresentation,
+				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(datasourceName, "compartment_id", JmsFleetErrorCompartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", JmsCompartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
-				resource.TestCheckResourceAttr(datasourceName, "fleet_id", JmsFleetErrorFleetId),
+				resource.TestCheckResourceAttr(datasourceName, "fleet_id", JmsFleetId),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "fleet_error_collection.#"),
-				// we can only verify that response contain zero items because we are using dummy test data values
-				// we cannot use actual values because it requires create API.
-				resource.TestCheckResourceAttr(datasourceName, "fleet_error_collection.0.items.#", "0"),
 			),
 		},
 		// verify singular datasource

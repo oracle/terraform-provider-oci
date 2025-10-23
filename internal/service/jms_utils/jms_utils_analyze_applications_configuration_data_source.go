@@ -14,36 +14,15 @@ import (
 )
 
 func JmsUtilsAnalyzeApplicationsConfigurationDataSource() *schema.Resource {
-	return &schema.Resource{
-		Importer: &schema.ResourceImporter{
-			State: schema.ImportStatePassthrough,
-		},
-		Timeouts: tfresource.DefaultTimeout,
-		Read:     readJmsUtilsAnalyzeApplicationsConfiguration,
-		Schema: map[string]*schema.Schema{
-			// Required
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Optional
-			"bucket": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"namespace": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-
-			// Computed
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["compartment_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return tfresource.GetSingularDataSourceItemSchema(JmsUtilsAnalyzeApplicationsConfigurationResource(), fieldMap, readSingularJmsUtilsAnalyzeApplicationsConfiguration)
 }
 
-func readJmsUtilsAnalyzeApplicationsConfiguration(d *schema.ResourceData, m interface{}) error {
+func readSingularJmsUtilsAnalyzeApplicationsConfiguration(d *schema.ResourceData, m interface{}) error {
 	sync := &JmsUtilsAnalyzeApplicationsConfigurationDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).JmsUtilsClient()

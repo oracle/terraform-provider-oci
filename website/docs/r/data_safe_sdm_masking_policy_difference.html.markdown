@@ -9,6 +9,9 @@ description: |-
 
 # oci_data_safe_sdm_masking_policy_difference
 This resource provides the Sdm Masking Policy Difference resource in Oracle Cloud Infrastructure Data Safe service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/data-safe/latest/SdmMaskingPolicyDifference
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe
 
 Creates SDM masking policy difference for the specified masking policy. It finds the difference between
 masking columns of the masking policy and sensitive columns of the SDM. After performing this operation,

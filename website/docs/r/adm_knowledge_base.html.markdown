@@ -9,6 +9,9 @@ description: |-
 
 # oci_adm_knowledge_base
 This resource provides the Knowledge Base resource in Oracle Cloud Infrastructure Adm service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/adm/latest/KnowledgeBase
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/adm
 
 Creates a new Knowledge Base.
 

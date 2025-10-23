@@ -9,6 +9,9 @@ description: |-
 
 # oci_certificates_management_certificate
 This resource provides the Certificate resource in Oracle Cloud Infrastructure Certificates Management service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/certificatesmgmt/latest/Certificate
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/certificatesManagement
 
 Creates a new certificate according to the details of the request.
 

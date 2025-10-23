@@ -9,6 +9,9 @@ description: |-
 
 # oci_core_boot_volume_backup
 This resource provides the Boot Volume Backup resource in Oracle Cloud Infrastructure Core service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/iaas/latest/BootVolumeBackup
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Creates a new boot volume backup of the specified boot volume. For general information about boot volume backups,
 see [Overview of Boot Volume Backups](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/bootvolumebackups.htm)

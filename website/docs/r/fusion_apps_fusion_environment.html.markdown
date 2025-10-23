@@ -9,6 +9,9 @@ description: |-
 
 # oci_fusion_apps_fusion_environment
 This resource provides the Fusion Environment resource in Oracle Cloud Infrastructure Fusion Apps service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/fusion-applications/latest/FusionEnvironment
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/fusionapps
 
 Creates a new FusionEnvironment.
 
@@ -38,6 +41,7 @@ resource "oci_fusion_apps_fusion_environment" "test_fusion_environment" {
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	dns_prefix = var.fusion_environment_dns_prefix
 	freeform_tags = {"bar-key"= "value"}
+	is_ipv6dual_stack_enabled = var.fusion_environment_is_ipv6dual_stack_enabled
 	kms_key_id = oci_kms_key.test_key.id
 	maintenance_policy {
 
@@ -110,6 +114,7 @@ The following attributes are exported:
 * `id` - Unique identifier that is immutable on creation
 * `idcs_domain_url` - The IDCS Domain URL
 * `is_break_glass_enabled` - If it's true, then the Break Glass feature is enabled
+* `is_ipv6dual_stack_enabled` - Enable IPv4/IPv6 dual stack support for the environment.  Setting to true will assign an IPv6 address to the environment in addition to an IPv4 address.
 * `kms_key_id` - BYOK key id
 * `kms_key_info` - BYOK key info
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.

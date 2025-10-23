@@ -9,6 +9,9 @@ description: |-
 
 # oci_identity_domains_self_registration_profile
 This resource provides the Self Registration Profile resource in Oracle Cloud Infrastructure Identity Domains service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/identity-domains/latest/SelfRegistrationProfile
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/identity_domains
 
 Create a self-registration profile.
 

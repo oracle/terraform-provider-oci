@@ -641,6 +641,12 @@ func DatascienceJobResource() *schema.Resource {
 																Computed: true,
 																ForceNew: true,
 															},
+															"cpu_baseline": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
 
 															// Computed
 														},

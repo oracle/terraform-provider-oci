@@ -10,21 +10,14 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
-
-	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	JmsPluginErrorCompartmentId     = utils.GetEnvSettingWithBlankDefault("compartment_ocid")
-	JmsPluginErrorManagedInstanceId = utils.GetEnvSettingWithBlankDefault("managed_instance_ocid")
-
 	JmsPluginErrorDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":            acctest.Representation{RepType: acctest.Optional, Create: JmsPluginErrorCompartmentId},
+		"compartment_id":            acctest.Representation{RepType: acctest.Optional, Create: JmsCompartmentId},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"managed_instance_id":       acctest.Representation{RepType: acctest.Optional, Create: JmsPluginErrorManagedInstanceId},
+		"managed_instance_id":       acctest.Representation{RepType: acctest.Optional, Create: JmsManagedInstanceId},
 	}
-
-	JmsPluginErrorResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance", "test_managed_instance", acctest.Required, acctest.Create, OsManagementHubManagedInstanceRepresentation)
 )
 
 // issue-routing-tag: jms/default
@@ -47,8 +40,8 @@ func TestJmsPluginErrorResource_basic(t *testing.T) {
 					acctest.Create,
 					JmsPluginErrorDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(datasourceName, "compartment_id", JmsPluginErrorCompartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "managed_instance_id", JmsPluginErrorManagedInstanceId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", JmsCompartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "managed_instance_id", JmsManagedInstanceId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", `false`),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "plugin_error_collection.#"),
