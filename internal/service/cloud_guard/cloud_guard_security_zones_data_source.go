@@ -6,6 +6,7 @@ package cloud_guard
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
 
@@ -15,7 +16,7 @@ import (
 
 func CloudGuardSecurityZonesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readCloudGuardSecurityZones,
+		ReadContext: readCloudGuardSecurityZonesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -60,12 +61,12 @@ func CloudGuardSecurityZonesDataSource() *schema.Resource {
 	}
 }
 
-func readCloudGuardSecurityZones(d *schema.ResourceData, m interface{}) error {
+func readCloudGuardSecurityZonesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudGuardSecurityZonesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type CloudGuardSecurityZonesDataSourceCrud struct {
@@ -78,7 +79,7 @@ func (s *CloudGuardSecurityZonesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CloudGuardSecurityZonesDataSourceCrud) Get() error {
+func (s *CloudGuardSecurityZonesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_cloud_guard.ListSecurityZonesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -112,7 +113,7 @@ func (s *CloudGuardSecurityZonesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "cloud_guard")
 
-	response, err := s.Client.ListSecurityZones(context.Background(), request)
+	response, err := s.Client.ListSecurityZones(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -121,7 +122,7 @@ func (s *CloudGuardSecurityZonesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListSecurityZones(context.Background(), request)
+		listResponse, err := s.Client.ListSecurityZones(ctx, request)
 		if err != nil {
 			return err
 		}

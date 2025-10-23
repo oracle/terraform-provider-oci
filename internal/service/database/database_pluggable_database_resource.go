@@ -24,11 +24,15 @@ func DatabasePluggableDatabaseResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabasePluggableDatabase,
-		Read:     readDatabasePluggableDatabase,
-		Update:   updateDatabasePluggableDatabase,
-		Delete:   deleteDatabasePluggableDatabase,
+		Timeouts: &schema.ResourceTimeout{
+			Create: tfresource.GetTimeoutDuration("12h"),
+			Update: tfresource.GetTimeoutDuration("12h"),
+			Delete: tfresource.GetTimeoutDuration("12h"),
+		},
+		Create: createDatabasePluggableDatabase,
+		Read:   readDatabasePluggableDatabase,
+		Update: updateDatabasePluggableDatabase,
+		Delete: deleteDatabasePluggableDatabase,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"container_database_id": {
@@ -590,9 +594,11 @@ func (s *DatabasePluggableDatabaseResourceCrud) Update() error {
 		return err
 	}
 
-	errKms := s.setPdbDbKeyVersion(tmp)
-	if errKms != nil {
-		return errKms
+	if _, ok := s.D.GetOkExists("kms_key_version_id"); ok && s.D.HasChange("kms_key_version_id") {
+		errKms := s.setPdbDbKeyVersion(tmp)
+		if errKms != nil {
+			return errKms
+		}
 	}
 
 	s.Res = &response.PluggableDatabase

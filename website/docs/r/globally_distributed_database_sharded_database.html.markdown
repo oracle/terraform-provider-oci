@@ -9,6 +9,9 @@ description: |-
 
 # oci_globally_distributed_database_sharded_database
 This resource provides the Sharded Database resource in Oracle Cloud Infrastructure Globally Distributed Database service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/globally-distributed-autonomous-database/latest/ShardedDatabase
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/globally_distributed_database
 
 Creates a Sharded Database.
 

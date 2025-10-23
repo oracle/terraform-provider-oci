@@ -9,6 +9,9 @@ description: |-
 
 # oci_ocvp_esxi_host
 This resource provides the Esxi Host resource in Oracle Cloud Infrastructure Oracle Cloud VMware Solution service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/vmware/latest/EsxiHost
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/ocvp
 
 Adds another ESXi host to an existing SDDC. The attributes of the specified
 `Sddc` determine the VMware software and other configuration settings used

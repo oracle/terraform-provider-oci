@@ -9,6 +9,9 @@ description: |-
 
 # oci_identity_user
 This resource provides the User resource in Oracle Cloud Infrastructure Identity service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/identity/latest/User
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/identity
 
 Creates a new user in your tenancy. For conceptual information about users, your tenancy, and other
 IAM Service components, see [Overview of the IAM Service](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).

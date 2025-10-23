@@ -9,6 +9,9 @@ description: |-
 
 # oci_load_balancer_listener
 This resource provides the Listener resource in Oracle Cloud Infrastructure Load Balancer service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/loadbalancer/latest/Listener
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/load_balancer
 
 Adds a listener to a load balancer.
 

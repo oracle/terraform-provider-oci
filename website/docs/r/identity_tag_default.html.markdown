@@ -9,6 +9,9 @@ description: |-
 
 # oci_identity_tag_default
 This resource provides the Tag Default resource in Oracle Cloud Infrastructure Identity service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/identity/latest/TagDefault
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/identity
 
 Creates a new tag default in the specified compartment for the specified tag definition.
 

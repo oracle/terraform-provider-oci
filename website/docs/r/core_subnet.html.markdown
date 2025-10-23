@@ -9,6 +9,9 @@ description: |-
 
 # oci_core_subnet
 This resource provides the Subnet resource in Oracle Cloud Infrastructure Core service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/iaas/latest/Subnet
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Creates a new subnet in the specified VCN. You can't change the size of the subnet after creation,
 so it's important to think about the size of subnets you need before creating them.

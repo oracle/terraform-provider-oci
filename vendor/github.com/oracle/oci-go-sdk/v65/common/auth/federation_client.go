@@ -133,6 +133,188 @@ func newStaticFederationClient(sessionToken string, supplier sessionKeySupplier)
 	}, nil
 }
 
+// oAuth2FederationClient retrieves a security token from the scoped OAuth endpoint in Auth Service
+type oAuth2FederationClient struct {
+	sessionKeySupplier    sessionKeySupplier
+	authClientKeyProvider common.KeyProvider
+	authClient            *common.BaseClient
+	securityToken         securityToken
+	lastRefresh           time.Time
+	scope                 string
+	targetCompartment     string
+	mux                   sync.Mutex
+}
+
+var OAuthTokenStaleWindow = 20 * time.Minute
+
+// newOAuth2FederationClient creates a new oAuth2FederationClient from the provided configProvider and Auth request parameters
+func newOAuth2FederationClient(configProvider common.ConfigurationProvider, scope string, targetCompartment string, sessionKeySupplier sessionKeySupplier) (federationClient, error) {
+	client := &oAuth2FederationClient{}
+	client.sessionKeySupplier = sessionKeySupplier
+	region, err := configProvider.Region()
+	if err != nil {
+		return nil, fmt.Errorf("failed to build OAuth Federation Client: %s", err.Error())
+	}
+	authClient := newAuthClient(common.StringToRegion(region), configProvider, "v1/oauth2/scoped")
+	client.authClient = authClient
+	client.authClientKeyProvider = configProvider
+	client.scope = scope
+	client.targetCompartment = targetCompartment
+	return client, nil
+}
+
+// KeyID calls the KeyID method of the auth provider given to the federation client
+func (c *oAuth2FederationClient) KeyID() (string, error) {
+	return c.authClientKeyProvider.KeyID()
+}
+
+// PrivateRSAKey calls the PrivateRSAKey method of the auth provider given to the federation client
+func (c *oAuth2FederationClient) PrivateRSAKey() (*rsa.PrivateKey, error) {
+	return c.authClientKeyProvider.PrivateRSAKey()
+}
+
+func (c *oAuth2FederationClient) GetClaim(key string) (interface{}, error) {
+	c.mux.Lock()
+	defer c.mux.Unlock()
+
+	if err := c.renewKeyAndSecurityTokenIfNotValid(); err != nil {
+		return nil, err
+	}
+	return c.securityToken.GetClaim(key)
+}
+
+// isTokenStale returns true if the JWT token is older than OAuthTokenStaleWindow
+func (c *oAuth2FederationClient) isTokenStale() bool {
+	return c.lastRefresh.IsZero() || time.Now().After(c.lastRefresh.Add(OAuthTokenStaleWindow))
+}
+
+func (c *oAuth2FederationClient) renewKeyAndSecurityTokenIfNotValid() (err error) {
+	return c.renewSecurityTokenIfNotValid()
+}
+
+func (c *oAuth2FederationClient) renewSecurityTokenIfNotValid() (err error) {
+
+	// Get a new token if this one is stale (or nil), even if it is still valid
+	if c.securityToken == nil || c.isTokenStale() {
+		if err = c.renewSecurityToken(); err != nil {
+			if c.securityToken != nil && c.securityToken.Valid() {
+				// Token is stale but still valid. We failed to get a new token
+				// but we can still use the old one
+				common.Debugln("failed to refresh OAuth token. Using valid cached token")
+				return nil
+			}
+
+			return fmt.Errorf("failed to refresh token: %s", err.Error())
+		}
+	}
+
+	// Token exists and is not stale,
+	// or token was stale and a new one was retrieved
+	return nil
+}
+
+func (c *oAuth2FederationClient) renewSecurityToken() (err error) {
+	if err = c.sessionKeySupplier.Refresh(); err != nil {
+		return fmt.Errorf("failed to refresh session key: %s", err.Error())
+	}
+
+	common.Logf("Renewing security token at: %v\n", time.Now().Format("15:04:05.000"))
+	if newToken, err := c.getSecurityToken(); err != nil {
+		return fmt.Errorf("failed to get security token: %s", err.Error())
+	} else {
+		// only update token if a new one was retrieved.
+		c.lastRefresh = time.Now()
+		c.securityToken = newToken
+	}
+
+	common.Logf("Security token renewed at: %v\n", time.Now().Format("15:04:05.000"))
+
+	return nil
+
+}
+
+func (c *oAuth2FederationClient) getSecurityToken() (securityToken, error) {
+	var err error
+	var httpRequest http.Request
+	var httpResponse *http.Response
+	defer common.CloseBodyIfValid(httpResponse)
+	for retry := 0; retry < 3; retry++ {
+		request := c.makeOAuthFederationRequest()
+
+		if httpRequest, err = common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodPost, "", request); err != nil {
+			return nil, fmt.Errorf("failed to make http request: %s", err.Error())
+		}
+
+		if httpResponse, err = c.authClient.Call(context.Background(), &httpRequest); err == nil {
+			break
+		}
+		// Don't retry on 4xx errors
+		if httpResponse != nil && httpResponse.StatusCode >= 400 && httpResponse.StatusCode <= 499 {
+			return nil, fmt.Errorf("error %s returned by auth service: %s", httpResponse.Status, err.Error())
+		}
+		nextDuration := time.Duration(1000.0*(math.Pow(2.0, float64(retry)))) * time.Millisecond
+		time.Sleep(nextDuration)
+	}
+	if err != nil {
+		return nil, fmt.Errorf("failed to call: %s", err.Error())
+	}
+
+	response := oAuthFederationResponse{}
+	if err = common.UnmarshalResponse(httpResponse, &response); err != nil {
+		return nil, fmt.Errorf("failed to unmarshal the response: %s", err.Error())
+	}
+
+	return newPrincipalToken(response.Token.Token)
+
+}
+
+type oAuthFederationRequest struct {
+	OAuthFederationDetails `contributesTo:"body"`
+}
+
+// OAuthFederationDetails Scoped Oauth federation details
+// The scope type should correspond to the type of config provider used to create
+// the OAuth Federation Client
+type OAuthFederationDetails struct {
+	Scope             string `mandatory:"true" json:"scope,omitempty"`
+	PublicKey         string `mandatory:"true" json:"public_key,omitempty"`
+	TargetCompartment string `mandatory:"true" json:"target_compartment,omitempty"`
+}
+
+type oAuthFederationResponse struct {
+	Token `presentIn:"body"`
+}
+
+func (c *oAuth2FederationClient) makeOAuthFederationRequest() *oAuthFederationRequest {
+	publicKey := sanitizeCertificateString(string(c.sessionKeySupplier.PublicKeyPemRaw()))
+	details := OAuthFederationDetails{
+		Scope:             c.scope,
+		PublicKey:         publicKey,
+		TargetCompartment: c.targetCompartment,
+	}
+	return &oAuthFederationRequest{details}
+}
+
+func (c *oAuth2FederationClient) PrivateKey() (*rsa.PrivateKey, error) {
+	c.mux.Lock()
+	defer c.mux.Unlock()
+
+	if err := c.renewSecurityTokenIfNotValid(); err != nil {
+		return nil, err
+	}
+	return c.sessionKeySupplier.PrivateKey(), nil
+}
+
+func (c *oAuth2FederationClient) SecurityToken() (token string, err error) {
+	c.mux.Lock()
+	defer c.mux.Unlock()
+
+	if err = c.renewSecurityTokenIfNotValid(); err != nil {
+		return "", err
+	}
+	return c.securityToken.String(), nil
+}
+
 // x509FederationClient retrieves a security token from Auth service.
 type x509FederationClient struct {
 	tenancyID                         string
@@ -151,7 +333,7 @@ func newX509FederationClient(region common.Region, tenancyID string, leafCertifi
 		intermediateCertificateRetrievers: intermediateCertificateRetrievers,
 	}
 	client.sessionKeySupplier = newSessionKeySupplier()
-	authClient := newAuthClient(region, client)
+	authClient := newAuthClient(region, client, "v1/x509")
 
 	var err error
 
@@ -176,7 +358,7 @@ func newX509FederationClientWithCerts(region common.Region, tenancyID string, le
 		intermediateCertificateRetrievers: intermediateRetrievers,
 	}
 	client.sessionKeySupplier = newSessionKeySupplier()
-	authClient := newAuthClient(region, client)
+	authClient := newAuthClient(region, client, "v1/x509")
 
 	var err error
 
@@ -194,15 +376,16 @@ var (
 	bodyHeaders    = []string{"content-length", "content-type", "x-content-sha256"}
 )
 
-func newAuthClient(region common.Region, provider common.KeyProvider) *common.BaseClient {
+func newAuthClient(region common.Region, provider common.KeyProvider, authBasePath string) *common.BaseClient {
 	signer := common.RequestSigner(provider, genericHeaders, bodyHeaders)
 	client := common.DefaultBaseClientWithSigner(signer)
+
 	if regionURL, ok := os.LookupEnv("OCI_SDK_AUTH_CLIENT_REGION_URL"); ok {
 		client.Host = regionURL
 	} else {
 		client.Host = region.Endpoint("auth")
 	}
-	client.BasePath = "v1/x509"
+	client.BasePath = authBasePath
 
 	if common.GlobalAuthClientCircuitBreakerSetting != nil {
 		client.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.GlobalAuthClientCircuitBreakerSetting)

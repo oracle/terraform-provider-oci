@@ -9,6 +9,9 @@ description: |-
 
 # oci_announcements_service_announcement_subscriptions_filter_group
 This resource provides the Announcement Subscriptions Filter Group resource in Oracle Cloud Infrastructure Announcements Service service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/announcements/latest/AnnouncementSubscriptionsFilterGroup
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/announcements_service
 
 Creates a new filter group in the specified announcement subscription.
 

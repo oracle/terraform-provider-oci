@@ -36,7 +36,7 @@ func DatabaseDatabaseResource() *schema.Resource {
 		},
 		Timeouts: &schema.ResourceTimeout{
 			Create: tfresource.GetTimeoutDuration("12h"),
-			Update: tfresource.GetTimeoutDuration("2h"),
+			Update: tfresource.GetTimeoutDuration("6h"),
 			Delete: tfresource.GetTimeoutDuration("2h"),
 		},
 		Create: createDatabaseDatabase,

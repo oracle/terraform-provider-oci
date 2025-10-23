@@ -9,6 +9,9 @@ description: |-
 
 # oci_identity_domain
 This resource provides the Domain resource in Oracle Cloud Infrastructure Identity service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/identity/latest/Domain
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/identity
 
 Creates a new domain in the tenancy with domain home in {@code homeRegion}. This is an asynchronous call - where, at start,
 {@code lifecycleState} of this domain is set to CREATING and {@code lifecycleDetails} to UPDATING. On domain creation completion

@@ -9,6 +9,9 @@ description: |-
 
 # oci_streaming_stream
 This resource provides the Stream resource in Oracle Cloud Infrastructure Streaming service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/streaming
 
 Starts the provisioning of a new stream.
 The stream will be created in the given compartment id or stream pool id, depending on which parameter is specified.

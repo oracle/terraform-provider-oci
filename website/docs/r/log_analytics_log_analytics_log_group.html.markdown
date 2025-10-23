@@ -9,6 +9,9 @@ description: |-
 
 # oci_log_analytics_log_analytics_log_group
 This resource provides the Log Analytics Log Group resource in Oracle Cloud Infrastructure Log Analytics service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/logan-api-spec/latest/LogAnalyticsLogGroup
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/log_analytics
 
 Creates a new log group in the specified compartment with the input display name. You may also specify optional information such as description, defined tags, and free-form tags.
 

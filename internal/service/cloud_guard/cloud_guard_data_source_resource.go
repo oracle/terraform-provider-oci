@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -26,11 +27,11 @@ func CloudGuardDataSourceResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createCloudGuardDataSource,
-		Read:     readCloudGuardDataSource,
-		Update:   updateCloudGuardDataSource,
-		Delete:   deleteCloudGuardDataSource,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createCloudGuardDataSourceWithContext,
+		ReadContext:   readCloudGuardDataSourceWithContext,
+		UpdateContext: updateCloudGuardDataSourceWithContext,
+		DeleteContext: deleteCloudGuardDataSourceWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -296,37 +297,37 @@ func CloudGuardDataSourceResource() *schema.Resource {
 	}
 }
 
-func createCloudGuardDataSource(d *schema.ResourceData, m interface{}) error {
+func createCloudGuardDataSourceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudGuardDataSourceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readCloudGuardDataSource(d *schema.ResourceData, m interface{}) error {
+func readCloudGuardDataSourceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudGuardDataSourceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateCloudGuardDataSource(d *schema.ResourceData, m interface{}) error {
+func updateCloudGuardDataSourceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudGuardDataSourceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteCloudGuardDataSource(d *schema.ResourceData, m interface{}) error {
+func deleteCloudGuardDataSourceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudGuardDataSourceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type CloudGuardDataSourceResourceCrud struct {
@@ -364,7 +365,7 @@ func (s *CloudGuardDataSourceResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *CloudGuardDataSourceResourceCrud) Create() error {
+func (s *CloudGuardDataSourceResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_cloud_guard.CreateDataSourceRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -410,7 +411,7 @@ func (s *CloudGuardDataSourceResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	response, err := s.Client.CreateDataSource(context.Background(), request)
+	response, err := s.Client.CreateDataSource(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -433,20 +434,20 @@ func (s *CloudGuardDataSourceResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getDataSourceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard"), oci_cloud_guard.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDataSourceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard"), oci_cloud_guard.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *CloudGuardDataSourceResourceCrud) getDataSourceFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *CloudGuardDataSourceResourceCrud) getDataSourceFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_cloud_guard.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	dataSourceId, err := dataSourceWaitForWorkRequest(workId, "cloudGuardDataSource",
+	dataSourceId, err := dataSourceWaitForWorkRequest(ctx, workId, "cloudGuardDataSource",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, dataSourceId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_cloud_guard.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -460,7 +461,7 @@ func (s *CloudGuardDataSourceResourceCrud) getDataSourceFromWorkRequest(workId *
 	}
 	s.D.SetId(*dataSourceId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func dataSourceWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -486,7 +487,7 @@ func dataSourceWorkRequestShouldRetryFunc(timeout time.Duration) func(response o
 	}
 }
 
-func dataSourceWaitForWorkRequest(wId *string, entityType string, action oci_cloud_guard.ActionTypeEnum,
+func dataSourceWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_cloud_guard.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_cloud_guard.CloudGuardClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "cloud_guard")
 	retryPolicy.ShouldRetryOperation = dataSourceWorkRequestShouldRetryFunc(timeout)
@@ -559,7 +560,7 @@ func getErrorFromCloudGuardDataSourceWorkRequest(client *oci_cloud_guard.CloudGu
 	return workRequestErr
 }
 
-func (s *CloudGuardDataSourceResourceCrud) Get() error {
+func (s *CloudGuardDataSourceResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_cloud_guard.GetDataSourceRequest{}
 
 	tmp := s.D.Id()
@@ -567,7 +568,7 @@ func (s *CloudGuardDataSourceResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	response, err := s.Client.GetDataSource(context.Background(), request)
+	response, err := s.Client.GetDataSource(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -576,11 +577,11 @@ func (s *CloudGuardDataSourceResourceCrud) Get() error {
 	return nil
 }
 
-func (s *CloudGuardDataSourceResourceCrud) Update() error {
+func (s *CloudGuardDataSourceResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -625,16 +626,16 @@ func (s *CloudGuardDataSourceResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	response, err := s.Client.UpdateDataSource(context.Background(), request)
+	response, err := s.Client.UpdateDataSource(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDataSourceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard"), oci_cloud_guard.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDataSourceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard"), oci_cloud_guard.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *CloudGuardDataSourceResourceCrud) Delete() error {
+func (s *CloudGuardDataSourceResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_cloud_guard.DeleteDataSourceRequest{}
 
 	tmp := s.D.Id()
@@ -642,14 +643,15 @@ func (s *CloudGuardDataSourceResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	response, err := s.Client.DeleteDataSource(context.Background(), request)
+	response, err := s.Client.DeleteDataSource(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := dataSourceWaitForWorkRequest(workId, "cloud_guard",
+
+	_, delWorkRequestErr := dataSourceWaitForWorkRequest(ctx, workId, "datasource",
 		oci_cloud_guard.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -1158,7 +1160,7 @@ func ScheduledQueryScopeDetailToMap(obj oci_cloud_guard.ScheduledQueryScopeDetai
 	return result
 }
 
-func (s *CloudGuardDataSourceResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *CloudGuardDataSourceResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_cloud_guard.ChangeDataSourceCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -1175,7 +1177,7 @@ func (s *CloudGuardDataSourceResourceCrud) updateCompartment(compartment interfa
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDataSourceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard"), oci_cloud_guard.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDataSourceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard"), oci_cloud_guard.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *CloudGuardDataSourceResourceCrud) mapToLoggingQueryDetails(fieldKeyFormat string) (oci_cloud_guard.LoggingQueryDetails, error) {

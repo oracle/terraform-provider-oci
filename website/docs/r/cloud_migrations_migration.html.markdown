@@ -9,6 +9,9 @@ description: |-
 
 # oci_cloud_migrations_migration
 This resource provides the Migration resource in Oracle Cloud Infrastructure Cloud Migrations service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/ocm/latest/Migration
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/cloudMigrations
 
 Creates a migration.
 

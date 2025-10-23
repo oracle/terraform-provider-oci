@@ -9,6 +9,9 @@ description: |-
 
 # oci_opsi_enterprise_manager_bridge
 This resource provides the Enterprise Manager Bridge resource in Oracle Cloud Infrastructure Opsi service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/operations-insights/latest/EnterpriseManagerBridge
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/osi
 
 Create a Enterprise Manager bridge in Operations Insights.
 

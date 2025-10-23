@@ -9,6 +9,9 @@ description: |-
 
 # oci_waas_custom_protection_rule
 This resource provides the Custom Protection Rule resource in Oracle Cloud Infrastructure Web Application Acceleration and Security service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/waas/latest/CustomProtectionRule
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/web_application_acceleration_and_security
 
 Creates a new custom protection rule in the specified compartment.
 

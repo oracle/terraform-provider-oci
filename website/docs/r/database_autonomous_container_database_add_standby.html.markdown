@@ -9,6 +9,9 @@ description: |-
 
 # oci_database_autonomous_container_database_add_standby
 This resource provides the Autonomous Container Database Add Standby resource in Oracle Cloud Infrastructure Database service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/database/latest/AutonomousContainerDatabaseAddStandby
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/database
 
 Add a standby Autonomous Container Database. For more information about Autonomous Data Guard,see
 [Protect Critical Databases from Failures and Disasters Using Autonomous Data Guard](https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbau/GUID-C57B9A6E-7471-4CDC-8F10-B8386538E31C).

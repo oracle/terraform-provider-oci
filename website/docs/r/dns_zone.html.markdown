@@ -9,6 +9,9 @@ description: |-
 
 # oci_dns_zone
 This resource provides the Zone resource in Oracle Cloud Infrastructure DNS service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/dns/latest/Zone
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/dns
 
 Creates a new zone in the specified compartment.
 

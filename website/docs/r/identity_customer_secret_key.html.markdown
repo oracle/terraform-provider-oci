@@ -9,6 +9,9 @@ description: |-
 
 # oci_identity_customer_secret_key
 This resource provides the Customer Secret Key resource in Oracle Cloud Infrastructure Identity service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/identity/latest/CustomerSecretKey
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/identity
 
 Creates a new secret key for the specified user. Secret keys are used for authentication with the Object Storage Service's Amazon S3
 compatible API. The secret key consists of an Access Key/Secret Key pair. For information, see

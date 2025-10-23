@@ -9,6 +9,9 @@ description: |-
 
 # oci_ocvp_datastore_cluster
 This resource provides the Datastore Cluster resource in Oracle Cloud Infrastructure Oracle Cloud VMware Solution service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/vmware/latest/DatastoreCluster
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/ocvp
 
 Creates a Oracle Cloud VMware Solution Datastore Cluster.
 

@@ -10,23 +10,14 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
-
-	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	// before running tests, ensure to set up environment variables used below
-	JmsFleetJavaMigrationAnalysisResultFleetId = utils.GetEnvSettingWithBlankDefault("fleet_ocid")
-
-	JmsFleetJavaMigrationAnalysisResultCompartmentId = utils.GetEnvSettingWithBlankDefault("compartment_ocid")
-
-	JmsFleetJavaMigrationAnalysisResultDummyManagedInstanceId = utils.GetEnvSettingWithBlankDefault("managed_instance_ocid")
-
 	JmsFleetJavaMigrationAnalysisResultDataSourceRepresentation = map[string]interface{}{
-		"fleet_id":            acctest.Representation{RepType: acctest.Required, Create: JmsFleetJavaMigrationAnalysisResultFleetId},
+		"fleet_id":            acctest.Representation{RepType: acctest.Required, Create: JmsFleetId},
 		"application_name":    acctest.Representation{RepType: acctest.Optional, Create: `dummy-application-name`},
 		"host_name":           acctest.Representation{RepType: acctest.Optional, Create: `dummy-host-name`},
-		"managed_instance_id": acctest.Representation{RepType: acctest.Optional, Create: JmsFleetJavaMigrationAnalysisResultDummyManagedInstanceId},
+		"managed_instance_id": acctest.Representation{RepType: acctest.Optional, Create: JmsManagedInstanceId},
 		"time_start":          acctest.Representation{RepType: acctest.Optional, Create: `2024-01-20T15:15:15.000Z`},
 		"time_end":            acctest.Representation{RepType: acctest.Optional, Create: `2024-01-20T16:16:16.000Z`},
 	}
@@ -56,7 +47,7 @@ func TestJmsFleetJavaMigrationAnalysisResultResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "fleet_id"),
 				resource.TestCheckResourceAttr(datasourceName, "application_name", `dummy-application-name`),
 				resource.TestCheckResourceAttr(datasourceName, "host_name", `dummy-host-name`),
-				resource.TestCheckResourceAttr(datasourceName, "managed_instance_id", JmsFleetJavaMigrationAnalysisResultDummyManagedInstanceId),
+				resource.TestCheckResourceAttr(datasourceName, "managed_instance_id", JmsManagedInstanceId),
 				resource.TestCheckResourceAttr(datasourceName, "time_start", `2024-01-20T15:15:15.000Z`),
 				resource.TestCheckResourceAttr(datasourceName, "time_end", `2024-01-20T16:16:16.000Z`),
 
@@ -70,18 +61,4 @@ func TestJmsFleetJavaMigrationAnalysisResultResource_basic(t *testing.T) {
 		// note: we cannot write test to verify singular data source because
 		// java migration analysis processing requires setup of fleet -> compute instance -> management agent -> jms plugin.
 	})
-}
-
-// clean up Fleet resource after test
-func init() {
-	if acctest.DependencyGraph == nil {
-		acctest.InitDependencyGraph()
-	}
-	if !acctest.InSweeperExcludeList("JmsFleetJavaMigrationAnalysisResult") {
-		resource.AddTestSweepers("JmsFleetJavaMigrationAnalysisResult", &resource.Sweeper{
-			Name:         "JmsFleetJavaMigrationAnalysisResult",
-			Dependencies: acctest.DependencyGraph["fleet"],
-			F:            sweepJmsFleetResource,
-		})
-	}
 }

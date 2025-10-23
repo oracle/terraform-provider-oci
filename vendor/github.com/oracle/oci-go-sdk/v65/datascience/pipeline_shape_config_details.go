@@ -18,10 +18,10 @@ import (
 // PipelineShapeConfigDetails Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
 type PipelineShapeConfigDetails struct {
 
-	// A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified.
+	// The total number of OCPUs available to the pipeline step run instance.
 	Ocpus *float32 `mandatory:"false" json:"ocpus"`
 
-	// A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs.
+	// The total amount of memory available to the pipeline step run instance GBs.
 	MemoryInGBs *float32 `mandatory:"false" json:"memoryInGBs"`
 
 	// The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`.
@@ -30,6 +30,14 @@ type PipelineShapeConfigDetails struct {
 	//   BASELINE_1_2 - baseline usage is 1/2 of an OCPU.
 	//   BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance.
 	CpuBaseline PipelineShapeConfigDetailsCpuBaselineEnum `mandatory:"false" json:"cpuBaseline,omitempty"`
+
+	// The total number of OCPUs available to the pipeline step run instance specified as a parameter. This overrides the ocpus value.
+	// The request will fail if the parameters used are null or invalid.
+	OcpusParameterized *string `mandatory:"false" json:"ocpusParameterized"`
+
+	// The total amount of memory available to the pipeline step run instance in GBs specified as a parameter. This overrides the memoryInGBs value.
+	// The request will fail if the parameters used are null or invalid.
+	MemoryInGBsParameterized *string `mandatory:"false" json:"memoryInGBsParameterized"`
 }
 
 func (m PipelineShapeConfigDetails) String() string {

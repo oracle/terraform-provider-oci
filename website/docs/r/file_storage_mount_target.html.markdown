@@ -9,6 +9,9 @@ description: |-
 
 # oci_file_storage_mount_target
 This resource provides the Mount Target resource in Oracle Cloud Infrastructure File Storage service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/filestorage/latest/MountTarget
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Creates a new mount target in the specified compartment and
 subnet. You can associate a file system with a mount

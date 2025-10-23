@@ -9,6 +9,9 @@ description: |-
 
 # oci_database_data_guard_association
 This resource provides the Data Guard Association resource in Oracle Cloud Infrastructure Database service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/database/latest/DataGuardAssociation
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/database
 
 Creates a new Data Guard association.  A Data Guard association represents the replication relationship between the
 specified database and a peer database. For more information, see [Using Oracle Data Guard](https://docs.cloud.oracle.com/iaas/Content/Database/Tasks/usingdataguard.htm).

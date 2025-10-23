@@ -41,7 +41,7 @@ var (
 	}
 
 	JmsJavaDownloadsJavaDownloadReportDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: JmsTenancyId},
 		"java_download_report_id": acctest.Representation{
 			RepType: acctest.Optional,
 			Create:  `${oci_jms_java_downloads_java_download_report.test_java_download_report.id}`},
@@ -54,7 +54,7 @@ var (
 	}
 
 	JmsJavaDownloadsJavaDownloadReportRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: JmsTenancyId},
 		"format":         acctest.Representation{RepType: acctest.Required, Create: `CSV`},
 		"defined_tags": acctest.Representation{
 			RepType: acctest.Optional,
@@ -83,8 +83,6 @@ func TestJmsJavaDownloadsJavaDownloadReportResource_basic(t *testing.T) {
 	defer httpreplay.SaveScenario()
 
 	config := acctest.ProviderTestConfig()
-
-	tenancyId := utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
 
 	resourceName := "oci_jms_java_downloads_java_download_report.test_java_download_report"
 	datasourceName := "data.oci_jms_java_downloads_java_download_reports.test_java_download_reports"
@@ -120,7 +118,7 @@ func TestJmsJavaDownloadsJavaDownloadReportResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "checksum_type"),
 				resource.TestCheckResourceAttrSet(resourceName, "checksum_value"),
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", JmsTenancyId),
 				resource.TestCheckResourceAttr(resourceName, "created_by.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "file_size_in_bytes"),
@@ -136,7 +134,7 @@ func TestJmsJavaDownloadsJavaDownloadReportResource_basic(t *testing.T) {
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &JmsTenancyId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -163,7 +161,7 @@ func TestJmsJavaDownloadsJavaDownloadReportResource_basic(t *testing.T) {
 					acctest.Create,
 					JmsJavaDownloadsJavaDownloadReportRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", JmsTenancyId),
 				resource.TestCheckResourceAttrSet(datasourceName, "java_download_report_id"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
@@ -193,7 +191,7 @@ func TestJmsJavaDownloadsJavaDownloadReportResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "checksum_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "checksum_value"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", JmsTenancyId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "created_by.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "file_size_in_bytes"),
@@ -267,7 +265,7 @@ func init() {
 func sweepJmsJavaDownloadsJavaDownloadReportResource(compartment string) error {
 	javaDownloadClient := acctest.GetTestClients(&schema.ResourceData{}).JavaDownloadClient()
 	// JmsJavaDownloadsJavaDownloadReportResource can only run on root compartment
-	compartment = utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
+	compartment = JmsTenancyId
 	javaDownloadReportIds, err := getJmsJavaDownloadsJavaDownloadReportIds(compartment)
 	if err != nil {
 		return err

@@ -9,6 +9,9 @@ description: |-
 
 # oci_datascience_job
 This resource provides the Job resource in Oracle Cloud Infrastructure Data Science service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/data-science/latest/Job
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/datascience
 
 Creates a job.
 

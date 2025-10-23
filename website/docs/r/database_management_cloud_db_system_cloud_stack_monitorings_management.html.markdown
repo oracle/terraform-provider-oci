@@ -9,7 +9,9 @@ description: |-
 
 # oci_database_management_cloud_db_system_cloud_stack_monitorings_management
 This resource provides the Cloud Db System Cloud Stack Monitorings Management resource in Oracle Cloud Infrastructure Database Management service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/database-management/latest/CloudDbSystemCloudStackMonitoringsManagement
 
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/databasemanagement
 Enables Stack Monitoring for all the components of the specified
 cloud DB system (except databases).
 

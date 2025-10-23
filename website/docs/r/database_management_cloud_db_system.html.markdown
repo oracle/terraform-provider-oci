@@ -9,6 +9,9 @@ description: |-
 
 # oci_database_management_cloud_db_system
 This resource provides the Cloud Db System resource in Oracle Cloud Infrastructure Database Management service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/database-management/latest/CloudDbSystem
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/databasemanagement
 
 Creates a cloud DB system and its related resources.
 

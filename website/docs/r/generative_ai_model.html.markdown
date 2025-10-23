@@ -9,6 +9,9 @@ description: |-
 
 # oci_generative_ai_model
 This resource provides the Model resource in Oracle Cloud Infrastructure Generative AI service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/generative-ai/latest/Model
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/generative_ai
 
 Creates a custom model by fine-tuning a base model with your own dataset. You can create a new custom models or create a new version of existing custom model..
 

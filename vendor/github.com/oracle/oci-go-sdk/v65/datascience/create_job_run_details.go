@@ -41,6 +41,9 @@ type CreateJobRunDetails struct {
 
 	JobNodeConfigurationOverrideDetails JobNodeConfigurationDetails `mandatory:"false" json:"jobNodeConfigurationOverrideDetails"`
 
+	// Collection of JobStorageMountConfigurationDetails.
+	JobStorageMountConfigurationOverrideDetailsList []StorageMountConfigurationDetails `mandatory:"false" json:"jobStorageMountConfigurationOverrideDetailsList"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -69,17 +72,18 @@ func (m CreateJobRunDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateJobRunDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName                                   *string                               `json:"displayName"`
-		JobConfigurationOverrideDetails               jobconfigurationdetails               `json:"jobConfigurationOverrideDetails"`
-		JobLogConfigurationOverrideDetails            *JobLogConfigurationDetails           `json:"jobLogConfigurationOverrideDetails"`
-		JobEnvironmentConfigurationOverrideDetails    jobenvironmentconfigurationdetails    `json:"jobEnvironmentConfigurationOverrideDetails"`
-		JobInfrastructureConfigurationOverrideDetails jobinfrastructureconfigurationdetails `json:"jobInfrastructureConfigurationOverrideDetails"`
-		JobNodeConfigurationOverrideDetails           jobnodeconfigurationdetails           `json:"jobNodeConfigurationOverrideDetails"`
-		FreeformTags                                  map[string]string                     `json:"freeformTags"`
-		DefinedTags                                   map[string]map[string]interface{}     `json:"definedTags"`
-		ProjectId                                     *string                               `json:"projectId"`
-		CompartmentId                                 *string                               `json:"compartmentId"`
-		JobId                                         *string                               `json:"jobId"`
+		DisplayName                                     *string                               `json:"displayName"`
+		JobConfigurationOverrideDetails                 jobconfigurationdetails               `json:"jobConfigurationOverrideDetails"`
+		JobLogConfigurationOverrideDetails              *JobLogConfigurationDetails           `json:"jobLogConfigurationOverrideDetails"`
+		JobEnvironmentConfigurationOverrideDetails      jobenvironmentconfigurationdetails    `json:"jobEnvironmentConfigurationOverrideDetails"`
+		JobInfrastructureConfigurationOverrideDetails   jobinfrastructureconfigurationdetails `json:"jobInfrastructureConfigurationOverrideDetails"`
+		JobNodeConfigurationOverrideDetails             jobnodeconfigurationdetails           `json:"jobNodeConfigurationOverrideDetails"`
+		JobStorageMountConfigurationOverrideDetailsList []storagemountconfigurationdetails    `json:"jobStorageMountConfigurationOverrideDetailsList"`
+		FreeformTags                                    map[string]string                     `json:"freeformTags"`
+		DefinedTags                                     map[string]map[string]interface{}     `json:"definedTags"`
+		ProjectId                                       *string                               `json:"projectId"`
+		CompartmentId                                   *string                               `json:"compartmentId"`
+		JobId                                           *string                               `json:"jobId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -131,6 +135,18 @@ func (m *CreateJobRunDetails) UnmarshalJSON(data []byte) (e error) {
 		m.JobNodeConfigurationOverrideDetails = nil
 	}
 
+	m.JobStorageMountConfigurationOverrideDetailsList = make([]StorageMountConfigurationDetails, len(model.JobStorageMountConfigurationOverrideDetailsList))
+	for i, n := range model.JobStorageMountConfigurationOverrideDetailsList {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.JobStorageMountConfigurationOverrideDetailsList[i] = nn.(StorageMountConfigurationDetails)
+		} else {
+			m.JobStorageMountConfigurationOverrideDetailsList[i] = nil
+		}
+	}
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags

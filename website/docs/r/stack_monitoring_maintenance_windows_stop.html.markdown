@@ -9,6 +9,9 @@ description: |-
 
 # oci_stack_monitoring_maintenance_windows_stop
 This resource provides the Maintenance Windows Stop resource in Oracle Cloud Infrastructure Stack Monitoring service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/stack-monitoring/latest/MaintenanceWindowsStop
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/stack_monitoring
 
 Stop a maintenance window before the end time is reached.
 

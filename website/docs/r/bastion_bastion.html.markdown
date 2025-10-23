@@ -9,6 +9,9 @@ description: |-
 
 # oci_bastion_bastion
 This resource provides the Bastion resource in Oracle Cloud Infrastructure Bastion service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/bastion/latest/Bastion
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/bastion
 
 Creates a new bastion. A bastion provides secured, public access to target resources in the cloud that you cannot otherwise reach from the internet. A bastion resides in a public subnet and establishes the network infrastructure needed to connect a user to a target resource in a private subnet.
 
