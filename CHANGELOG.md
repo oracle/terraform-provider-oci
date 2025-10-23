@@ -11,6 +11,7 @@
 - Support for JMS common variables
 - Fix devops deploy helm stage set_values and set_string bug
 - API Doc link and example link to resource doc
+- Support for OCI Data Science - ML Pipelines - Parameterized pipelines
 
 ### Bug Fix
 - for resourcemanager in provider version 7.22
