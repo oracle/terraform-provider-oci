@@ -14,6 +14,9 @@ Activates Resource Plugin for compute instance identified by the instance ocid.
 Stores monitored instances Id and its state. Tries to enable Resource Monitoring plugin by making
 remote calls to Oracle Cloud Agent and Management Agent Cloud Service.
 
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/resource-discovery-monitoring-control-api/20210330/MonitoredInstance/ActivateMonitoringPlugin
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/appmgmt_control
 
 ## Example Usage
 

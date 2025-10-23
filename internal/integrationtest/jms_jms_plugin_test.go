@@ -10,17 +10,12 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
-	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	// before running tests, ensure to set up environment variables used below.
-	JmsPluginFleetId       = utils.GetEnvSettingWithBlankDefault("fleet_advanced_feature_ocid")
-	JmsPluginCompartmentId = utils.GetEnvSettingWithBlankDefault("compartment_ocid")
-
 	JmsPluginDataSourceRepresentation = map[string]interface{}{
-		"fleet_id":                  acctest.Representation{RepType: acctest.Optional, Create: JmsPluginFleetId},
-		"compartment_id":            acctest.Representation{RepType: acctest.Optional, Create: JmsPluginCompartmentId},
+		"fleet_id":                  acctest.Representation{RepType: acctest.Optional, Create: JmsFleetId},
+		"compartment_id":            acctest.Representation{RepType: acctest.Optional, Create: JmsCompartmentId},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 )
@@ -56,7 +51,7 @@ func TestJmsPluginResource_basic(t *testing.T) {
 				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "fleet_id"),
-				resource.TestCheckResourceAttr(datasourceName, "compartment_id", JmsPluginCompartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", JmsCompartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
 
 				// we can only verify that response contain zero items because

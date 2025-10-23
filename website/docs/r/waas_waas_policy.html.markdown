@@ -9,6 +9,9 @@ description: |-
 
 # oci_waas_waas_policy
 This resource provides the Waas Policy resource in Oracle Cloud Infrastructure Web Application Acceleration and Security service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/waas/latest/WaasPolicy
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/web_application_acceleration_and_security
 
 Creates a new Web Application Acceleration and Security (WAAS) policy in the specified compartment. A WAAS policy must be established before creating Web Application Firewall (WAF) rules. To use WAF rules, your web application's origin servers must defined in the `WaasPolicy` schema.
 

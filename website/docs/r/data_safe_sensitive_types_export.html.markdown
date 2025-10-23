@@ -9,6 +9,9 @@ description: |-
 
 # oci_data_safe_sensitive_types_export
 This resource provides the Sensitive Types Export resource in Oracle Cloud Infrastructure Data Safe service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/data-safe/latest/SensitiveTypesExport
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe
 
 Generates a downloadable file corresponding to the specified list of sensitive types. It's a prerequisite for the
 DownloadSensitiveTypesExport operation. Use this endpoint to generate a sensitive Types Export file and then use 

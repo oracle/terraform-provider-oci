@@ -8,6 +8,7 @@ import (
 
 func init() {
 	exportJmsFleetAdvancedFeatureConfigurationHints.GetIdFn = getJmsFleetAdvancedFeatureConfigurationId
+	exportJmsFleetAgentConfigurationHints.GetIdFn = getJmsFleetAgentConfigurationId
 	tf_export.RegisterCompartmentGraphs("jms", jmsResourceGraph)
 }
 
@@ -17,6 +18,12 @@ func getJmsFleetAdvancedFeatureConfigurationId(resource *tf_export.OCIResource) 
 
 	fleetId := resource.Parent.Id
 	return GetFleetAdvancedFeatureConfigurationCompositeId(fleetId), nil
+}
+
+func getJmsFleetAgentConfigurationId(resource *tf_export.OCIResource) (string, error) {
+
+	fleetId := resource.Parent.Id
+	return GetFleetAgentConfigurationCompositeId(fleetId), nil
 }
 
 // Hints for discovering and exporting this resource to configuration and state files
@@ -64,15 +71,32 @@ var exportJmsTaskScheduleHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportJmsFleetAgentConfigurationHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_jms_fleet_agent_configuration",
+	DatasourceClass:      "oci_jms_fleet_agent_configuration",
+	ResourceAbbreviation: "fleet_agent_configuration",
+}
+
 var jmsResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportJmsFleetHints},
 		{TerraformResourceHints: exportJmsJmsPluginHints},
-		{TerraformResourceHints: exportJmsTaskScheduleHints},
 	},
 	"oci_jms_fleet": {
 		{
 			TerraformResourceHints: exportJmsFleetAdvancedFeatureConfigurationHints,
+			DatasourceQueryParams: map[string]string{
+				"fleet_id": "id",
+			},
+		},
+		{
+			TerraformResourceHints: exportJmsFleetAgentConfigurationHints,
+			DatasourceQueryParams: map[string]string{
+				"fleet_id": "id",
+			},
+		},
+		{
+			TerraformResourceHints: exportJmsTaskScheduleHints,
 			DatasourceQueryParams: map[string]string{
 				"fleet_id": "id",
 			},

@@ -9,6 +9,9 @@ description: |-
 
 # oci_ons_notification_topic
 This resource provides the Notification Topic resource in Oracle Cloud Infrastructure Notifications service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/notification/latest/NotificationTopic
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Creates a topic in the specified compartment. For general information about topics, see
 [Managing Topics and Subscriptions](https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/managingtopicsandsubscriptions.htm).

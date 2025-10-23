@@ -9,6 +9,9 @@ description: |-
 
 # oci_apigateway_subscriber
 This resource provides the Subscriber resource in Oracle Cloud Infrastructure API Gateway service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/api-gateway/latest/Subscriber
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/api_gateway
 
 Creates a new subscriber.
 

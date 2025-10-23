@@ -9,7 +9,9 @@ description: |-
 
 # oci_log_analytics_namespace_storage_enable_disable_archiving
 This resource provides the Namespace Storage Enable Disable Archiving resource in Oracle Cloud Infrastructure Log Analytics service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/logan-api-spec/latest/NamespaceStorageEnableDisableArchiving
 
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/log_analytics
 THis API enables archiving.
 
 

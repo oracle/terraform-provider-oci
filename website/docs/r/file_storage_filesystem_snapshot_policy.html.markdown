@@ -9,6 +9,9 @@ description: |-
 
 # oci_file_storage_filesystem_snapshot_policy
 This resource provides the Filesystem Snapshot Policy resource in Oracle Cloud Infrastructure File Storage service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/filestorage/latest/FilesystemSnapshotPolicy
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Creates a new file system snapshot policy in the specified compartment and
 availability domain.

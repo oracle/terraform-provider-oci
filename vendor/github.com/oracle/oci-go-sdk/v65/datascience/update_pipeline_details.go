@@ -37,6 +37,9 @@ type UpdatePipelineDetails struct {
 	// Array of update details for each step. Only step configurations and step infrastructure configurations are allowed to be updated.
 	StepDetails []PipelineStepUpdateDetails `mandatory:"false" json:"stepDetails"`
 
+	// Parameters used in the pipeline.
+	Parameters map[string]string `mandatory:"false" json:"parameters"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -72,6 +75,7 @@ func (m *UpdatePipelineDetails) UnmarshalJSON(data []byte) (e error) {
 		LogConfigurationDetails              *PipelineLogConfigurationDetails            `json:"logConfigurationDetails"`
 		StorageMountConfigurationDetailsList []storagemountconfigurationdetails          `json:"storageMountConfigurationDetailsList"`
 		StepDetails                          []pipelinestepupdatedetails                 `json:"stepDetails"`
+		Parameters                           map[string]string                           `json:"parameters"`
 		FreeformTags                         map[string]string                           `json:"freeformTags"`
 		DefinedTags                          map[string]map[string]interface{}           `json:"definedTags"`
 	}{}
@@ -123,6 +127,8 @@ func (m *UpdatePipelineDetails) UnmarshalJSON(data []byte) (e error) {
 			m.StepDetails[i] = nil
 		}
 	}
+	m.Parameters = model.Parameters
+
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags

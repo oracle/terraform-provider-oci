@@ -9,6 +9,9 @@ description: |-
 
 # oci_objectstorage_object
 This resource provides the Object resource in Oracle Cloud Infrastructure Object Storage service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/objectstorage/latest/Object
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Creates a new object or overwrites an existing object with the same name. The maximum object size allowed by
 PutObject is 50 GiB.

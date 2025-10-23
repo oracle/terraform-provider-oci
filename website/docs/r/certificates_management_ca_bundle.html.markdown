@@ -9,6 +9,9 @@ description: |-
 
 # oci_certificates_management_ca_bundle
 This resource provides the Ca Bundle resource in Oracle Cloud Infrastructure Certificates Management service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/certificatesmgmt/latest/CaBundle
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/certificatesManagement
 
 Creates a new CA bundle according to the details of the request.
 

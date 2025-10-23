@@ -9,6 +9,9 @@ description: |-
 
 # oci_apigateway_deployment
 This resource provides the Deployment resource in Oracle Cloud Infrastructure API Gateway service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/api-gateway/latest/Deployment
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/api_gateway
 
 Creates a new deployment.
 

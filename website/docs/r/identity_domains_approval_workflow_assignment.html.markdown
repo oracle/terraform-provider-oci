@@ -9,6 +9,9 @@ description: |-
 
 # oci_identity_domains_approval_workflow_assignment
 This resource provides the Approval Workflow Assignment resource in Oracle Cloud Infrastructure Identity Domains service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/identity-domains/latest/ApprovalWorkflowAssignment
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/identity_domains
 
 Create Approval Workflow Assignment
 

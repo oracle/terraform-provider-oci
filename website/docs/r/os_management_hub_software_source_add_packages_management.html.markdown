@@ -9,6 +9,9 @@ description: |-
 
 # oci_os_management_hub_software_source_add_packages_management
 This resource provides the Software Source Add Packages Management resource in Oracle Cloud Infrastructure Os Management Hub service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/os-management/latest/SoftwareSourceAddPackagesManagement
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/os_management_hub
 
 Adds packages to a software source. This operation can only be done for custom and versioned custom software sources that are not created using filters. 
 For a versioned custom software source, you can only add packages when the source is created. Once content is added to a versioned custom software source, it is immutable.

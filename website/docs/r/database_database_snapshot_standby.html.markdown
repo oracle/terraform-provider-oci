@@ -9,6 +9,9 @@ description: |-
 
 # oci_database_database_snapshot_standby
 This resource provides the Database Snapshot Standby resource in Oracle Cloud Infrastructure Database service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/database/latest/DatabaseSnapshotStandby
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/database
 
 Performs transition from standby database into a snapshot standby and vice versa.
 The transition performed based on the current role of the database, if the current role is standby then this operation will convert it to snapshot standby and if the current role is snapshot standby then this operation will convert it to standby.

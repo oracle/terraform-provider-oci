@@ -9,6 +9,9 @@ description: |-
 
 # oci_load_balancer_load_balancer_routing_policy
 This resource provides the Load Balancer Routing Policy resource in Oracle Cloud Infrastructure Load Balancer service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/loadbalancer/latest/LoadBalancerRoutingPolicy
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/load_balancer
 
 Adds a routing policy to a load balancer. For more information, see
 [Managing Request Routing](https://docs.cloud.oracle.com/iaas/Content/Balance/Tasks/managingrequest.htm).

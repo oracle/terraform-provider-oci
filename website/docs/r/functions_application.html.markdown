@@ -9,6 +9,9 @@ description: |-
 
 # oci_functions_application
 This resource provides the Application resource in Oracle Cloud Infrastructure Functions service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/functions/latest/Application
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/functions
 
 Creates a new application.
 

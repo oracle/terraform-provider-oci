@@ -9,6 +9,9 @@ description: |-
 
 # oci_data_safe_unset_user_assessment_baseline
 This resource provides the Unset User Assessment Baseline resource in Oracle Cloud Infrastructure Data Safe service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/data-safe/latest/UnsetUserAssessmentBaseline
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe
 
 Removes the baseline setting for the saved user assessment associated with the targetId passed via body.
 If no body or empty body is passed then the baseline settings of all the saved user assessments pertaining to the baseline assessment OCID provided in the path will be removed.

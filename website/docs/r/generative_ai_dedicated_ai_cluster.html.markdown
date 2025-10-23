@@ -9,6 +9,9 @@ description: |-
 
 # oci_generative_ai_dedicated_ai_cluster
 This resource provides the Dedicated Ai Cluster resource in Oracle Cloud Infrastructure Generative AI service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/generative-ai/latest/DedicatedAiCluster
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/generative_ai
 
 Creates a dedicated AI cluster.
 
@@ -59,7 +62,10 @@ The following arguments are supported:
 	* LARGE_COHERE_V2_2
 	* LARGE_GENERIC_4
 	* SMALL_GENERIC_V2
-	* LARGE_GENERIC_2 
+	* LARGE_GENERIC_2
+	* SMALL_GENERIC_V1
+	* MEDIUM_GENERIC_V1
+	* LARGE_GENERIC_V1 
 
 
 ** IMPORTANT **

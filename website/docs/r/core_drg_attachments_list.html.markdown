@@ -9,6 +9,9 @@ description: |-
 
 # oci_core_drg_attachments_list
 This resource provides the Drg Attachments List resource in Oracle Cloud Infrastructure Core service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/iaas/latest/DrgAttachmentsList
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Returns a complete list of DRG attachments that belong to a particular DRG.
 

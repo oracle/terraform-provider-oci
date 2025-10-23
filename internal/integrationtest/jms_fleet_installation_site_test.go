@@ -10,16 +10,11 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
-
-	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	// before running tests, ensure to set up environment variables used below
-	JmsFleetInstallationSiteWithAdvancedFeature = utils.GetEnvSettingWithBlankDefault("fleet_advanced_feature_ocid")
-
 	JmsFleetInstallationSiteSingularDataSourceRepresentation = map[string]interface{}{
-		"fleet_id":            acctest.Representation{RepType: acctest.Required, Create: JmsFleetInstallationSiteWithAdvancedFeature},
+		"fleet_id":            acctest.Representation{RepType: acctest.Required, Create: JmsFleetId},
 		"application_id":      acctest.Representation{RepType: acctest.Optional, Create: `dummy.application.id`},
 		"installation_path":   acctest.Representation{RepType: acctest.Optional, Create: `installationPath`},
 		"jre_distribution":    acctest.Representation{RepType: acctest.Optional, Create: `jreDistribution`},
@@ -33,7 +28,7 @@ var (
 	}
 
 	JmsFleetInstallationSiteDataSourceRepresentation = map[string]interface{}{
-		"fleet_id":            acctest.Representation{RepType: acctest.Required, Create: JmsFleetInstallationSiteWithAdvancedFeature},
+		"fleet_id":            acctest.Representation{RepType: acctest.Required, Create: JmsFleetId},
 		"application_id":      acctest.Representation{RepType: acctest.Optional, Create: `dummy.application.id`},
 		"installation_path":   acctest.Representation{RepType: acctest.Optional, Create: `installationPath`},
 		"jre_distribution":    acctest.Representation{RepType: acctest.Optional, Create: `jreDistribution`},

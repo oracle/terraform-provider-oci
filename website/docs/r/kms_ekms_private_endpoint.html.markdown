@@ -9,6 +9,9 @@ description: |-
 
 # oci_kms_ekms_private_endpoint
 This resource provides the Ekms Private Endpoint resource in Oracle Cloud Infrastructure Kms service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/key/latest/EkmsPrivateEndpoint
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/kms
 
 Create a new EKMS private endpoint used to connect to external key manager system
 

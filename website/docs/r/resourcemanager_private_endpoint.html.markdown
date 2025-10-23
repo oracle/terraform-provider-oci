@@ -9,6 +9,9 @@ description: |-
 
 # oci_resourcemanager_private_endpoint
 This resource provides the Private Endpoint resource in Oracle Cloud Infrastructure Resource Manager service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/resourcemanager/latest/PrivateEndpoint
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/resourcemanager
 
 Creates a private endpoint in the specified compartment.
 For more information, see

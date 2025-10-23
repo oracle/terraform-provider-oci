@@ -9,6 +9,9 @@ description: |-
 
 # oci_identity_domains_identity_provider
 This resource provides the Identity Provider resource in Oracle Cloud Infrastructure Identity Domains service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/identity-domains/latest/IdentityProvider
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/identity_domains
 
 Create an Identity Provider
 

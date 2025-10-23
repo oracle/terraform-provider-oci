@@ -133,6 +133,12 @@ func DatasciencePipelineRunResource() *schema.Resource {
 						},
 
 						// Optional
+						"block_storage_size_in_gbs_parameterized": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 						"shape_config_details": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -151,8 +157,26 @@ func DatasciencePipelineRunResource() *schema.Resource {
 										Computed: true,
 										ForceNew: true,
 									},
+									"memory_in_gbs_parameterized": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
 									"ocpus": {
 										Type:     schema.TypeFloat,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"ocpus_parameterized": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"cpu_baseline": {
+										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 										ForceNew: true,
@@ -222,6 +246,13 @@ func DatasciencePipelineRunResource() *schema.Resource {
 			"opc_parent_rpt_url": {
 				Type:     schema.TypeString,
 				Optional: true,
+			},
+			"parameters_override": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem:     schema.TypeString,
 			},
 			"step_override_details": {
 				Type:     schema.TypeList,
@@ -373,20 +404,26 @@ func DatasciencePipelineRunResource() *schema.Resource {
 												// Required
 
 												// Optional
-												"cpu_baseline": {
-													Type:     schema.TypeString,
-													Optional: true,
-													Computed: true,
-													ForceNew: true,
-												},
 												"memory_in_gbs": {
 													Type:     schema.TypeFloat,
 													Optional: true,
 													Computed: true,
 													ForceNew: true,
 												},
+												"memory_in_gbs_parameterized": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
 												"ocpus": {
 													Type:     schema.TypeFloat,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"ocpus_parameterized": {
+													Type:     schema.TypeString,
 													Optional: true,
 													Computed: true,
 													ForceNew: true,
@@ -414,20 +451,26 @@ func DatasciencePipelineRunResource() *schema.Resource {
 												// Required
 
 												// Optional
-												"cpu_baseline": {
-													Type:     schema.TypeString,
-													Optional: true,
-													Computed: true,
-													ForceNew: true,
-												},
 												"memory_in_gbs": {
 													Type:     schema.TypeFloat,
 													Optional: true,
 													Computed: true,
 													ForceNew: true,
 												},
+												"memory_in_gbs_parameterized": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
 												"ocpus": {
 													Type:     schema.TypeFloat,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"ocpus_parameterized": {
+													Type:     schema.TypeString,
 													Optional: true,
 													Computed: true,
 													ForceNew: true,
@@ -482,6 +525,12 @@ func DatasciencePipelineRunResource() *schema.Resource {
 									},
 
 									// Optional
+									"block_storage_size_in_gbs_parameterized": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
 									"shape_config_details": {
 										Type:     schema.TypeList,
 										Optional: true,
@@ -500,8 +549,26 @@ func DatasciencePipelineRunResource() *schema.Resource {
 													Computed: true,
 													ForceNew: true,
 												},
+												"memory_in_gbs_parameterized": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
 												"ocpus": {
 													Type:     schema.TypeFloat,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"ocpus_parameterized": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"cpu_baseline": {
+													Type:     schema.TypeString,
 													Optional: true,
 													Computed: true,
 													ForceNew: true,
@@ -521,6 +588,138 @@ func DatasciencePipelineRunResource() *schema.Resource {
 									// Computed
 								},
 							},
+						},
+						"step_storage_mount_configuration_details_list": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"destination_directory_name": {
+										Type:     schema.TypeString,
+										Required: true,
+										ForceNew: true,
+									},
+									"storage_type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										ForceNew:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"FILE_STORAGE",
+											"OBJECT_STORAGE",
+										}, true),
+									},
+
+									// Optional
+									"bucket": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"destination_path": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"export_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"mount_target_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"namespace": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"prefix": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+
+						// Computed
+					},
+				},
+			},
+			"storage_mount_configuration_override_details_list": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"destination_directory_name": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"storage_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"FILE_STORAGE",
+								"OBJECT_STORAGE",
+							}, true),
+						},
+
+						// Optional
+						"bucket": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"destination_path": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"export_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"mount_target_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"namespace": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"prefix": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
 						},
 
 						// Computed
@@ -626,6 +825,10 @@ func DatasciencePipelineRunResource() *schema.Resource {
 							Computed: true,
 						},
 						"step_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"step_run_name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -808,6 +1011,10 @@ func (s *DatasciencePipelineRunResourceCrud) Create() error {
 		request.OpcParentRptUrl = &tmp
 	}
 
+	if parametersOverride, ok := s.D.GetOkExists("parameters_override"); ok {
+		request.ParametersOverride = tfresource.ObjectMapToStringMap(parametersOverride.(map[string]interface{}))
+	}
+
 	if pipelineId, ok := s.D.GetOkExists("pipeline_id"); ok {
 		tmp := pipelineId.(string)
 		request.PipelineId = &tmp
@@ -834,6 +1041,24 @@ func (s *DatasciencePipelineRunResourceCrud) Create() error {
 			request.StepOverrideDetails = tmp
 		}
 	}
+
+	if storageMountConfigurationOverrideDetailsList, ok := s.D.GetOkExists("storage_mount_configuration_override_details_list"); ok {
+		interfaces := storageMountConfigurationOverrideDetailsList.([]interface{})
+		tmp := make([]oci_datascience.StorageMountConfigurationDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "storage_mount_configuration_override_details_list", stateDataIndex)
+			converted, err := s.mapToStorageMountConfigurationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("storage_mount_configuration_override_details_list") {
+			request.StorageMountConfigurationOverrideDetailsList = tmp
+		}
+	}
+
 	if systemTags, ok := s.D.GetOkExists("system_tags"); ok {
 		convertedSystemTags, err := tfresource.MapToSystemTags(systemTags.(map[string]interface{}))
 		if err != nil {
@@ -991,6 +1216,8 @@ func (s *DatasciencePipelineRunResourceCrud) SetData() error {
 		s.D.Set("log_details", nil)
 	}
 
+	s.D.Set("parameters_override", s.Res.ParametersOverride)
+
 	if s.Res.PipelineId != nil {
 		s.D.Set("pipeline_id", *s.Res.PipelineId)
 	}
@@ -1012,6 +1239,12 @@ func (s *DatasciencePipelineRunResourceCrud) SetData() error {
 		stepRuns = append(stepRuns, PipelineStepRunToMap(item))
 	}
 	s.D.Set("step_runs", stepRuns)
+
+	storageMountConfigurationOverrideDetailsList := []interface{}{}
+	for _, item := range s.Res.StorageMountConfigurationOverrideDetailsList {
+		storageMountConfigurationOverrideDetailsList = append(storageMountConfigurationOverrideDetailsList, StorageMountConfigurationDetailsToMap(item))
+	}
+	s.D.Set("storage_mount_configuration_override_details_list", storageMountConfigurationOverrideDetailsList)
 
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
@@ -1260,6 +1493,11 @@ func (s *DatasciencePipelineRunResourceCrud) mapToPipelineInfrastructureConfigur
 		result.BlockStorageSizeInGBs = &tmp
 	}
 
+	if blockStorageSizeInGBsParameterized, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "block_storage_size_in_gbs_parameterized")); ok {
+		tmp := blockStorageSizeInGBsParameterized.(string)
+		result.BlockStorageSizeInGBsParameterized = &tmp
+	}
+
 	if shapeConfigDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shape_config_details")); ok {
 		if tmpList := shapeConfigDetails.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "shape_config_details"), 0)
@@ -1358,9 +1596,19 @@ func (s *DatasciencePipelineRunResourceCrud) mapToPipelineShapeConfigDetails(fie
 		result.MemoryInGBs = &tmp
 	}
 
+	if memoryInGBsParameterized, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs_parameterized")); ok {
+		tmp := memoryInGBsParameterized.(string)
+		result.MemoryInGBsParameterized = &tmp
+	}
+
 	if ocpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus")); ok {
 		tmp := float32(ocpus.(float64))
 		result.Ocpus = &tmp
+	}
+
+	if ocpusParameterized, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus_parameterized")); ok {
+		tmp := ocpusParameterized.(string)
+		result.OcpusParameterized = &tmp
 	}
 
 	return result, nil
@@ -1375,8 +1623,16 @@ func PipelineShapeConfigDetailsToMap(obj *oci_datascience.PipelineShapeConfigDet
 		result["memory_in_gbs"] = float32(*obj.MemoryInGBs)
 	}
 
+	if obj.MemoryInGBsParameterized != nil {
+		result["memory_in_gbs_parameterized"] = string(*obj.MemoryInGBsParameterized)
+	}
+
 	if obj.Ocpus != nil {
 		result["ocpus"] = float32(*obj.Ocpus)
+	}
+
+	if obj.OcpusParameterized != nil {
+		result["ocpus_parameterized"] = string(*obj.OcpusParameterized)
 	}
 
 	return result
@@ -1474,6 +1730,23 @@ func (s *DatasciencePipelineRunResourceCrud) mapToPipelineStepOverrideDetails(fi
 		result.StepName = &tmp
 	}
 
+	if stepStorageMountConfigurationDetailsList, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_storage_mount_configuration_details_list")); ok {
+		interfaces := stepStorageMountConfigurationDetailsList.([]interface{})
+		tmp := make([]oci_datascience.StorageMountConfigurationDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "step_storage_mount_configuration_details_list"), stateDataIndex)
+			converted, err := s.mapToStorageMountConfigurationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "step_storage_mount_configuration_details_list")) {
+			result.StepStorageMountConfigurationDetailsList = tmp
+		}
+	}
+
 	return result, nil
 }
 
@@ -1499,6 +1772,12 @@ func PipelineStepOverrideDetailsToMap(obj oci_datascience.PipelineStepOverrideDe
 	if obj.StepName != nil {
 		result["step_name"] = string(*obj.StepName)
 	}
+
+	stepStorageMountConfigurationDetailsList := []interface{}{}
+	for _, item := range obj.StepStorageMountConfigurationDetailsList {
+		stepStorageMountConfigurationDetailsList = append(stepStorageMountConfigurationDetailsList, StorageMountConfigurationDetailsToMap(item))
+	}
+	result["step_storage_mount_configuration_details_list"] = stepStorageMountConfigurationDetailsList
 	return result
 }
 
@@ -1576,6 +1855,10 @@ func PipelineStepRunToMap(obj oci_datascience.PipelineStepRun) map[string]interf
 			result["job_run_id"] = string(*v.JobRunId)
 		}
 
+		if v.StepRunName != nil {
+			result["step_run_name"] = string(*v.StepRunName)
+		}
+
 		if v.LifecycleDetails != nil {
 			result["lifecycle_details"] = string(*v.LifecycleDetails)
 		}
@@ -1599,6 +1882,65 @@ func PipelineStepRunToMap(obj oci_datascience.PipelineStepRun) map[string]interf
 	}
 
 	return result
+}
+
+func (s *DatasciencePipelineRunResourceCrud) mapToStorageMountConfigurationDetails(fieldKeyFormat string) (oci_datascience.StorageMountConfigurationDetails, error) {
+	var baseObject oci_datascience.StorageMountConfigurationDetails
+	//discriminator
+	storageTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "storage_type"))
+	var storageType string
+	if ok {
+		storageType = storageTypeRaw.(string)
+	} else {
+		storageType = "" // default value
+	}
+	switch strings.ToLower(storageType) {
+	case strings.ToLower("FILE_STORAGE"):
+		details := oci_datascience.FileStorageMountConfigurationDetails{}
+		if exportId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "export_id")); ok {
+			tmp := exportId.(string)
+			details.ExportId = &tmp
+		}
+		if mountTargetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "mount_target_id")); ok {
+			tmp := mountTargetId.(string)
+			details.MountTargetId = &tmp
+		}
+		if destinationDirectoryName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_directory_name")); ok {
+			tmp := destinationDirectoryName.(string)
+			details.DestinationDirectoryName = &tmp
+		}
+		if destinationPath, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_path")); ok {
+			tmp := destinationPath.(string)
+			details.DestinationPath = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("OBJECT_STORAGE"):
+		details := oci_datascience.ObjectStorageMountConfigurationDetails{}
+		if bucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+			tmp := bucket.(string)
+			details.Bucket = &tmp
+		}
+		if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := namespace.(string)
+			details.Namespace = &tmp
+		}
+		if prefix, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "prefix")); ok {
+			tmp := prefix.(string)
+			details.Prefix = &tmp
+		}
+		if destinationDirectoryName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_directory_name")); ok {
+			tmp := destinationDirectoryName.(string)
+			details.DestinationDirectoryName = &tmp
+		}
+		if destinationPath, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_path")); ok {
+			tmp := destinationPath.(string)
+			details.DestinationPath = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown storage_type '%v' was specified", storageType)
+	}
+	return baseObject, nil
 }
 
 func (s *DatasciencePipelineRunResourceCrud) updateCompartment(compartment interface{}) error {

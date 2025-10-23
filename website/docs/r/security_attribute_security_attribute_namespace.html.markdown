@@ -9,6 +9,9 @@ description: |-
 
 # oci_security_attribute_security_attribute_namespace
 This resource provides the Security Attribute Namespace resource in Oracle Cloud Infrastructure Security Attribute service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/security-attribute/latest/SecurityAttributeNamespace
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/security_attribute
 
 Creates a new security attribute namespace in the specified compartment.
 

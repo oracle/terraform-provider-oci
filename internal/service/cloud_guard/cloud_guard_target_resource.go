@@ -10,8 +10,8 @@ import (
 	"log"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
@@ -24,11 +24,11 @@ func CloudGuardTargetResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createCloudGuardTarget,
-		Read:     readCloudGuardTarget,
-		Update:   updateCloudGuardTarget,
-		Delete:   deleteCloudGuardTarget,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createCloudGuardTargetWithContext,
+		ReadContext:   readCloudGuardTargetWithContext,
+		UpdateContext: updateCloudGuardTargetWithContext,
+		DeleteContext: deleteCloudGuardTargetWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -1106,37 +1106,37 @@ func CloudGuardTargetResource() *schema.Resource {
 	}
 }
 
-func createCloudGuardTarget(d *schema.ResourceData, m interface{}) error {
+func createCloudGuardTargetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudGuardTargetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readCloudGuardTarget(d *schema.ResourceData, m interface{}) error {
+func readCloudGuardTargetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudGuardTargetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateCloudGuardTarget(d *schema.ResourceData, m interface{}) error {
+func updateCloudGuardTargetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudGuardTargetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteCloudGuardTarget(d *schema.ResourceData, m interface{}) error {
+func deleteCloudGuardTargetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudGuardTargetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type CloudGuardTargetResourceCrud struct {
@@ -1175,7 +1175,7 @@ func (s *CloudGuardTargetResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *CloudGuardTargetResourceCrud) Create() error {
+func (s *CloudGuardTargetResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_cloud_guard.CreateTargetRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -1254,7 +1254,7 @@ func (s *CloudGuardTargetResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	response, err := s.Client.CreateTarget(context.Background(), request)
+	response, err := s.Client.CreateTarget(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1263,7 +1263,7 @@ func (s *CloudGuardTargetResourceCrud) Create() error {
 	return nil
 }
 
-func (s *CloudGuardTargetResourceCrud) Get() error {
+func (s *CloudGuardTargetResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_cloud_guard.GetTargetRequest{}
 
 	tmp := s.D.Id()
@@ -1271,7 +1271,7 @@ func (s *CloudGuardTargetResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	response, err := s.Client.GetTarget(context.Background(), request)
+	response, err := s.Client.GetTarget(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1280,7 +1280,7 @@ func (s *CloudGuardTargetResourceCrud) Get() error {
 	return nil
 }
 
-func (s *CloudGuardTargetResourceCrud) Update() error {
+func (s *CloudGuardTargetResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_cloud_guard.UpdateTargetRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -1343,7 +1343,7 @@ func (s *CloudGuardTargetResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	response, err := s.Client.UpdateTarget(context.Background(), request)
+	response, err := s.Client.UpdateTarget(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1352,7 +1352,7 @@ func (s *CloudGuardTargetResourceCrud) Update() error {
 	return nil
 }
 
-func (s *CloudGuardTargetResourceCrud) Delete() error {
+func (s *CloudGuardTargetResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_cloud_guard.DeleteTargetRequest{}
 
 	tmp := s.D.Id()
@@ -1360,7 +1360,7 @@ func (s *CloudGuardTargetResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	_, err := s.Client.DeleteTarget(context.Background(), request)
+	_, err := s.Client.DeleteTarget(ctx, request)
 	return err
 }
 

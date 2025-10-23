@@ -9,6 +9,9 @@ description: |-
 
 # oci_monitoring_alarm
 This resource provides the Alarm resource in Oracle Cloud Infrastructure Monitoring service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/monitoring/latest/Alarm
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/monitoring
 
 Creates a new alarm in the specified compartment.
 For more information, see

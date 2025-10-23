@@ -9,6 +9,9 @@ description: |-
 
 # oci_redis_oci_cache_user
 This resource provides the Oci Cache User resource in Oracle Cloud Infrastructure Redis service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/redis/latest/OciCacheUser
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/redis
 
 Creates a new Oracle Cloud Infrastructure Cache user. Oracle Cloud Infrastructure Cache user is required to authenticate to Oracle Cloud Infrastructure Cache cluster.
 

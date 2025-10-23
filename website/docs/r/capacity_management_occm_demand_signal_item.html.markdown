@@ -9,6 +9,9 @@ description: |-
 
 # oci_capacity_management_occm_demand_signal_item
 This resource provides the Occm Demand Signal Item resource in Oracle Cloud Infrastructure Capacity Management service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/occcm/latest/OccmDemandSignalItem
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/capacity_management
 
 This API will create a demand signal item representing a resource request. This needs to be grouped under a demand signal.
 

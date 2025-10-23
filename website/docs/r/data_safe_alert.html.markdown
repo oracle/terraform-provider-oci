@@ -9,6 +9,9 @@ description: |-
 
 # oci_data_safe_alert
 This resource provides the Alert resource in Oracle Cloud Infrastructure Data Safe service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/data-safe/latest/Alert
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe
 
 Updates the status of the specified alert.
 

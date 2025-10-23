@@ -9,6 +9,9 @@ description: |-
 
 # oci_generative_ai_generative_ai_private_endpoint
 This resource provides the Generative Ai Private Endpoint resource in Oracle Cloud Infrastructure Generative AI service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/generative-ai/latest/GenerativeAiPrivateEndpoint
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/generative_ai
 
 Creates a Generative AI private endpoint.
 

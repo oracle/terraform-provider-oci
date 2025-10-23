@@ -9,6 +9,9 @@ description: |-
 
 # oci_data_safe_set_user_assessment_baseline
 This resource provides the Set User Assessment Baseline resource in Oracle Cloud Infrastructure Data Safe service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/data-safe/latest/SetUserAssessmentBaseline
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe
 
 Sets the saved user assessment as the baseline in the compartment where the specified assessment resides. The user assessment needs to be of type 'SAVED'.
 

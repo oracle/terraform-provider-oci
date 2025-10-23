@@ -9,6 +9,9 @@ description: |-
 
 # oci_redis_oci_cache_user_get_redis_cluster
 This resource provides the Oci Cache User Get Redis Cluster resource in Oracle Cloud Infrastructure Redis service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/redis/latest/OciCacheUserGetRedisCluster
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/redis
 
 Gets a list of associated redis cluster for an Oracle Cloud Infrastructure cache user.
 

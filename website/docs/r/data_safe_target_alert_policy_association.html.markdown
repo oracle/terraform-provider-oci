@@ -9,6 +9,9 @@ description: |-
 
 # oci_data_safe_target_alert_policy_association
 This resource provides the Target Alert Policy Association resource in Oracle Cloud Infrastructure Data Safe service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/data-safe/latest/TargetAlertPolicyAssociation
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/datasafe
 
 Creates a new target-alert policy association to track a alert policy applied on target.
 

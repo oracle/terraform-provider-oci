@@ -8,7 +8,11 @@ description: |-
 ---
 
 # oci_apm_apm_domain
-This resource provides the Apm Domain resource in Oracle Cloud Infrastructure Apm service.
+
+This resource provides the Apm Domain resource in Oracle Cloud Infrastructure Application Performance Monitoring service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/apm-control-plane/latest/ApmDomain
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/apm
 
 Creates a new APM domain.
 

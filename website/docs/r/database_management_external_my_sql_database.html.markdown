@@ -9,6 +9,9 @@ description: |-
 
 # oci_database_management_external_my_sql_database
 This resource provides the External My Sql Database resource in Oracle Cloud Infrastructure Database Management service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/database-management/latest/ExternalMySqlDatabase
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/databasemanagement
 
 Creates an external MySQL database.
 

@@ -9,6 +9,9 @@ description: |-
 
 # oci_os_management_hub_managed_instance_attach_profile_management
 This resource provides the Managed Instance Attach Profile Management resource in Oracle Cloud Infrastructure Os Management Hub service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/os-management/latest/ManagedInstanceAttachProfileManagement
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/os_management_hub
 
 Adds profile to a managed instance. After the profile has been added,
 the instance can be registered as a managed instance.

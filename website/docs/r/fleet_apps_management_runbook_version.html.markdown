@@ -8,6 +8,10 @@ description: |-
 ---
 
 # oci_fleet_apps_management_runbook_version
+This resource provides the Runbook Version resource in Oracle Cloud Infrastructure Fleet Apps Management service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/fleet-management/latest/RunbookVersion
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/fleet_apps_management
 
 This resource provides the Runbook Version resource in Oracle Cloud Infrastructure Fleet Apps Management service.
 

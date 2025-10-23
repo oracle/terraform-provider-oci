@@ -9,7 +9,9 @@ description: |-
 
 # oci_bds_bds_instance_operation_certificate_managements_management
 This resource provides the Bds Instance Operation Certificate Managements Management resource in Oracle Cloud Infrastructure Big Data Service service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/bigdata/latest/BdsInstanceOperationCertificateManagementsManagement
 
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/big_data_service
 Configuring TLS/SSL for various ODH services running on the BDS cluster.
 
 

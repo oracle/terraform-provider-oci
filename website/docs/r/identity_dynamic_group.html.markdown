@@ -9,6 +9,9 @@ description: |-
 
 # oci_identity_dynamic_group
 This resource provides the Dynamic Group resource in Oracle Cloud Infrastructure Identity service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/identity/latest/DynamicGroup
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/identity
 
 Creates a new dynamic group in your tenancy.
 

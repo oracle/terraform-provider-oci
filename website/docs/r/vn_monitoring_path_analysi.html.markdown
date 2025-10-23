@@ -9,6 +9,9 @@ description: |-
 
 # oci_vn_monitoring_path_analysi
 This resource provides the Path Analysi resource in Oracle Cloud Infrastructure Vn Monitoring service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/NetMonitor/latest/PathAnalysis
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/vn_monitoring
 
 Use this method to initiate a [Network Path Analyzer](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/path_analyzer.htm) analysis. This method returns
 an opc-work-request-id, and you can poll the status of the work request until it either fails or succeeds.

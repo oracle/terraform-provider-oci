@@ -12,6 +12,10 @@ This resource provides the Bds Instance Node Backup resource in Oracle Cloud Inf
 
 Add a node volume backup to the cluster for an indicated node type or node.
 
+Api doc link for the resource: https://docs.oracle.com/en-us/iaas/api/#/en/bigdata/20190531/NodeBackup/
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/blob/master/examples/big_data_service/NodeBackup/main.tf
+
 
 ## Example Usage
 
