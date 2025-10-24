@@ -166,6 +166,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `demand_signal` - Discovers demand_signal resources within the specified compartment
     * `desktops` - Discovers desktop pool resources within the specified compartment
     * `devops` - Discovers devops resources within the specified compartment
+    * `dif` - Discovers dif resources within the specified compartment
     * `disaster_recovery` - Discovers disaster_recovery resources within the specified compartment
     * `dns` - Discovers dns resources (except record) within the specified compartment
     * `email` - Discovers email_sender resources within the specified compartment
@@ -788,6 +789,10 @@ devops
 * oci\_devops\_repository\_mirror
 * oci\_devops\_repository\_setting
 * oci\_devops\_project\_repository\_setting
+
+dif
+    
+* oci\_dif\_stack
 
 disaster_recovery
     
