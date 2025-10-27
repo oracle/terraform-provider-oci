@@ -6,35 +6,6 @@
 // The database_tools_private_endpoint will need to be in a subnet, so we will create a vcn and a subnet.
 // We will also create an oci_core_network_security_group to be used by the database_tools_private_endpoint.
 
-variable "tenancy_ocid" {
-}
-
-variable "user_ocid" {
-}
-
-variable "secret_ocid" {
-}
-
-variable "fingerprint" {
-}
-
-variable "private_key_path" {
-}
-
-variable "compartment_ocid" {
-}
-
-variable "region" {
-}
-
-provider "oci" {
-  region           = var.region
-  tenancy_ocid     = var.tenancy_ocid
-  user_ocid        = var.user_ocid
-  fingerprint      = var.fingerprint
-  private_key_path = var.private_key_path
-}
-
 ### Network resources - vcn, subnet and network security group
 # vcn
 resource "oci_core_vcn" "tf_vcn" {

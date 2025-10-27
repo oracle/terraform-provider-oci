@@ -119,6 +119,12 @@ func (s *DatabaseToolsDatabaseToolsConnectionDataSourceCrud) SetData() error {
 		}
 		s.D.Set("locks", locks)
 
+		if v.RuntimeEndpoint != nil {
+			s.D.Set("runtime_endpoint", *v.RuntimeEndpoint)
+		}
+
+		s.D.Set("runtime_identity", v.RuntimeIdentity)
+
 		s.D.Set("runtime_support", v.RuntimeSupport)
 
 		s.D.Set("state", v.LifecycleState)
@@ -196,6 +202,12 @@ func (s *DatabaseToolsDatabaseToolsConnectionDataSourceCrud) SetData() error {
 			locks = append(locks, ConnectionResourceLockToMap(item))
 		}
 		s.D.Set("locks", locks)
+
+		if v.RuntimeEndpoint != nil {
+			s.D.Set("runtime_endpoint", *v.RuntimeEndpoint)
+		}
+
+		s.D.Set("runtime_identity", v.RuntimeIdentity)
 
 		s.D.Set("runtime_support", v.RuntimeSupport)
 
@@ -285,6 +297,12 @@ func (s *DatabaseToolsDatabaseToolsConnectionDataSourceCrud) SetData() error {
 		}
 		s.D.Set("locks", locks)
 
+		if v.RuntimeEndpoint != nil {
+			s.D.Set("runtime_endpoint", *v.RuntimeEndpoint)
+		}
+
+		s.D.Set("runtime_identity", v.RuntimeIdentity)
+
 		s.D.Set("runtime_support", v.RuntimeSupport)
 
 		s.D.Set("state", v.LifecycleState)
@@ -362,6 +380,12 @@ func (s *DatabaseToolsDatabaseToolsConnectionDataSourceCrud) SetData() error {
 			locks = append(locks, ConnectionResourceLockToMap(item))
 		}
 		s.D.Set("locks", locks)
+
+		if v.RuntimeEndpoint != nil {
+			s.D.Set("runtime_endpoint", *v.RuntimeEndpoint)
+		}
+
+		s.D.Set("runtime_identity", v.RuntimeIdentity)
 
 		s.D.Set("runtime_support", v.RuntimeSupport)
 

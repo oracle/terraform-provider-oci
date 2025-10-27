@@ -323,6 +323,12 @@ func DatabaseToolsDatabaseToolsConnectionResource() *schema.Resource {
 					},
 				},
 			},
+			"runtime_identity": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"runtime_support": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -337,6 +343,10 @@ func DatabaseToolsDatabaseToolsConnectionResource() *schema.Resource {
 
 			// Computed
 			"lifecycle_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"runtime_endpoint": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -692,6 +702,12 @@ func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) SetData() error {
 		}
 		s.D.Set("locks", locks)
 
+		if v.RuntimeEndpoint != nil {
+			s.D.Set("runtime_endpoint", *v.RuntimeEndpoint)
+		}
+
+		s.D.Set("runtime_identity", v.RuntimeIdentity)
+
 		s.D.Set("runtime_support", v.RuntimeSupport)
 
 		s.D.Set("state", v.LifecycleState)
@@ -769,6 +785,12 @@ func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) SetData() error {
 			locks = append(locks, ConnectionResourceLockToMap(item))
 		}
 		s.D.Set("locks", locks)
+
+		if v.RuntimeEndpoint != nil {
+			s.D.Set("runtime_endpoint", *v.RuntimeEndpoint)
+		}
+
+		s.D.Set("runtime_identity", v.RuntimeIdentity)
 
 		s.D.Set("runtime_support", v.RuntimeSupport)
 
@@ -858,6 +880,12 @@ func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) SetData() error {
 		}
 		s.D.Set("locks", locks)
 
+		if v.RuntimeEndpoint != nil {
+			s.D.Set("runtime_endpoint", *v.RuntimeEndpoint)
+		}
+
+		s.D.Set("runtime_identity", v.RuntimeIdentity)
+
 		s.D.Set("runtime_support", v.RuntimeSupport)
 
 		s.D.Set("state", v.LifecycleState)
@@ -934,6 +962,12 @@ func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) SetData() error {
 			locks = append(locks, ConnectionResourceLockToMap(item))
 		}
 		s.D.Set("locks", locks)
+
+		if v.RuntimeEndpoint != nil {
+			s.D.Set("runtime_endpoint", *v.RuntimeEndpoint)
+		}
+
+		s.D.Set("runtime_identity", v.RuntimeIdentity)
 
 		s.D.Set("runtime_support", v.RuntimeSupport)
 
@@ -3693,6 +3727,9 @@ func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) populateTopLevelPolym
 				details.Locks = tmp
 			}
 		}
+		if runtimeIdentity, ok := s.D.GetOkExists("runtime_identity"); ok {
+			details.RuntimeIdentity = oci_database_tools.RuntimeIdentityEnum(runtimeIdentity.(string))
+		}
 		if runtimeSupport, ok := s.D.GetOkExists("runtime_support"); ok {
 			details.RuntimeSupport = oci_database_tools.RuntimeSupportEnum(runtimeSupport.(string))
 		}
@@ -3783,6 +3820,9 @@ func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) populateTopLevelPolym
 			if len(tmp) != 0 || s.D.HasChange("locks") {
 				details.Locks = tmp
 			}
+		}
+		if runtimeIdentity, ok := s.D.GetOkExists("runtime_identity"); ok {
+			details.RuntimeIdentity = oci_database_tools.RuntimeIdentityEnum(runtimeIdentity.(string))
 		}
 		if runtimeSupport, ok := s.D.GetOkExists("runtime_support"); ok {
 			details.RuntimeSupport = oci_database_tools.RuntimeSupportEnum(runtimeSupport.(string))
@@ -3885,6 +3925,9 @@ func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) populateTopLevelPolym
 				details.Locks = tmp
 			}
 		}
+		if runtimeIdentity, ok := s.D.GetOkExists("runtime_identity"); ok {
+			details.RuntimeIdentity = oci_database_tools.RuntimeIdentityEnum(runtimeIdentity.(string))
+		}
 		if runtimeSupport, ok := s.D.GetOkExists("runtime_support"); ok {
 			details.RuntimeSupport = oci_database_tools.RuntimeSupportEnum(runtimeSupport.(string))
 		}
@@ -3975,6 +4018,9 @@ func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) populateTopLevelPolym
 			if len(tmp) != 0 || s.D.HasChange("locks") {
 				details.Locks = tmp
 			}
+		}
+		if runtimeIdentity, ok := s.D.GetOkExists("runtime_identity"); ok {
+			details.RuntimeIdentity = oci_database_tools.RuntimeIdentityEnum(runtimeIdentity.(string))
 		}
 		if runtimeSupport, ok := s.D.GetOkExists("runtime_support"); ok {
 			details.RuntimeSupport = oci_database_tools.RuntimeSupportEnum(runtimeSupport.(string))

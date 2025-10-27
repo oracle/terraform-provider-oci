@@ -3,35 +3,6 @@
 //
 // We will create a Postgresql database_tools_connection
 
-variable "secret_ocid" {
-}
-
-variable "tenancy_ocid" {
-}
-
-variable "user_ocid" {
-}
-
-variable "fingerprint" {
-}
-
-variable "private_key_path" {
-}
-
-variable "compartment_ocid" {
-}
-
-variable "region" {
-}
-
-provider "oci" {
-  region           = var.region
-  tenancy_ocid     = var.tenancy_ocid
-  user_ocid        = var.user_ocid
-  fingerprint      = var.fingerprint
-  private_key_path = var.private_key_path
-}
-
 ### Connection
 # Connection - Resource
 resource "oci_database_tools_database_tools_connection" "dbtools_connection_postgresql" {
@@ -56,7 +27,7 @@ resource "oci_database_tools_database_tools_connection" "dbtools_connection_post
   key_stores {
     key_store_content {
       value_type = "SECRETID"
-      secret_id = var.secret_ocid
+      secret_id = var.ca_certificate_pem_secret_ocid
     }
     key_store_type = "CA_CERTIFICATE_PEM"
   }
