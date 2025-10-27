@@ -37,9 +37,23 @@ var exportDatabaseToolsDatabaseToolsConnectionHints = &tf_export.TerraformResour
 	},
 }
 
+var exportDatabaseToolsDatabaseToolsIdentityHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_database_tools_database_tools_identity",
+	DatasourceClass:        "oci_database_tools_database_tools_identities",
+	DatasourceItemsAttr:    "database_tools_identity_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "database_tools_identity",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_database_tools.DatabaseToolsIdentityLifecycleStateActive),
+		string(oci_database_tools.DatabaseToolsIdentityLifecycleStateNeedsAttention),
+	},
+}
+
 var databaseToolsResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDatabaseToolsDatabaseToolsPrivateEndpointHints},
 		{TerraformResourceHints: exportDatabaseToolsDatabaseToolsConnectionHints},
+		{TerraformResourceHints: exportDatabaseToolsDatabaseToolsIdentityHints},
 	},
 }

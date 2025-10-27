@@ -30,6 +30,13 @@ func DatabaseToolsDatabaseToolsConnectionsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"runtime_identity": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"runtime_support": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -102,6 +109,23 @@ func (s *DatabaseToolsDatabaseToolsConnectionsDataSourceCrud) Get() error {
 		request.RelatedResourceIdentifier = &tmp
 	}
 
+	if type_, ok := s.D.GetOkExists("runtime_identity"); ok {
+		interfaces := type_.([]interface{})
+		tmp := make([]oci_database_tools.RuntimeIdentityEnum, 0)
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				connectionType := interfaces[i].(string)
+				e, ok := oci_database_tools.GetMappingRuntimeIdentityEnum(connectionType)
+				if ok {
+					tmp = append(tmp, e)
+				}
+			}
+		}
+		if len(tmp) != 0 {
+			request.RuntimeIdentity = tmp
+		}
+	}
+
 	if runtimeSupport, ok := s.D.GetOkExists("runtime_support"); ok {
 		interfaces := runtimeSupport.([]interface{})
 		tmp := make([]oci_database_tools.RuntimeSupportEnum, 0)
@@ -128,8 +152,8 @@ func (s *DatabaseToolsDatabaseToolsConnectionsDataSourceCrud) Get() error {
 		tmp := make([]oci_database_tools.ConnectionTypeEnum, 0)
 		for i := range interfaces {
 			if interfaces[i] != nil {
-				connectionType := interfaces[i].(string)
-				e, ok := oci_database_tools.GetMappingConnectionTypeEnum(connectionType)
+				runtimeIdentityType := interfaces[i].(string)
+				e, ok := oci_database_tools.GetMappingConnectionTypeEnum(runtimeIdentityType)
 				if ok {
 					tmp = append(tmp, e)
 				}
