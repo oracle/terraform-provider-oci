@@ -21,6 +21,7 @@ data "oci_containerengine_cluster_option" "test_cluster_option" {
 
 	#Optional
 	compartment_id = var.compartment_id
+	should_list_all_patch_versions = var.cluster_option_should_list_all_patch_versions
 }
 ```
 
@@ -30,6 +31,7 @@ The following arguments are supported:
 
 * `cluster_option_id` - (Required) The id of the option set to retrieve. Use "all" get all options, or use a cluster ID to get options specific to the provided cluster.
 * `compartment_id` - (Optional) The OCID of the compartment.
+* `should_list_all_patch_versions` - (Optional) Option to show all kubernetes patch versions
 
 
 ## Attributes Reference

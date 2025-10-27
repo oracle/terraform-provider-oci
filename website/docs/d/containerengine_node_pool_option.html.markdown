@@ -21,6 +21,10 @@ data "oci_containerengine_node_pool_option" "test_node_pool_option" {
 
 	#Optional
 	compartment_id = var.compartment_id
+	node_pool_k8s_version = var.node_pool_option_node_pool_k8s_version
+	node_pool_os_arch = var.node_pool_option_node_pool_os_arch
+	node_pool_os_type = var.node_pool_option_node_pool_os_type
+	should_list_all_patch_versions = var.node_pool_option_should_list_all_patch_versions
 }
 ```
 
@@ -29,7 +33,11 @@ data "oci_containerengine_node_pool_option" "test_node_pool_option" {
 The following arguments are supported:
 
 * `compartment_id` - (Optional) The OCID of the compartment.
+* `node_pool_k8s_version` - (Optional) Filter node pool options by Kubernetes version.
 * `node_pool_option_id` - (Required) The id of the option set to retrieve. Use "all" get all options, or use a cluster ID to get options specific to the provided cluster.
+* `node_pool_os_arch` - (Optional) Filter node pool options by OS architecture.
+* `node_pool_os_type` - (Optional) Filter node pool options by OS type.
+* `should_list_all_patch_versions` - (Optional) Option to show all kubernetes patch versions
 
 
 ## Attributes Reference
