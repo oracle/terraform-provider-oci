@@ -690,6 +690,7 @@ database_tools
     
 * oci\_database\_tools\_database\_tools\_private\_endpoint
 * oci\_database\_tools\_database\_tools\_connection
+* oci\_database\_tools\_database\_tools\_identity
 
 datacatalog
     
