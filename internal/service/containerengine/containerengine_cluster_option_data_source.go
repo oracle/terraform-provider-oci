@@ -25,6 +25,10 @@ func ContainerengineClusterOptionDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"should_list_all_patch_versions": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			// Computed
 			"cluster_pod_network_options": {
 				Type:     schema.TypeList,
@@ -83,6 +87,11 @@ func (s *ContainerengineClusterOptionDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if shouldListAllPatchVersions, ok := s.D.GetOkExists("should_list_all_patch_versions"); ok {
+		tmp := shouldListAllPatchVersions.(bool)
+		request.ShouldListAllPatchVersions = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "containerengine")
