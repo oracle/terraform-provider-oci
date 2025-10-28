@@ -6,7 +6,6 @@ package integrationtest
 import (
 	"context"
 	"fmt"
-	"strconv"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -14,12 +13,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_logging "github.com/oracle/oci-go-sdk/v65/logging"
-
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/oracle/terraform-provider-oci/internal/service/logging"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
@@ -40,12 +36,16 @@ var (
 		"log_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_logging_log.test_log.id}`},
 	}
 
+	vcnIdVar               = utils.GetEnvSettingWithBlankDefault("log_test_vcn_ocid")
+	captureFilterCreateVar = utils.GetEnvSettingWithBlankDefault("log_test_capture_filter_create_ocid")
+	captureFilterUpdateVar = utils.GetEnvSettingWithBlankDefault("log_test_capture_filter_update_ocid")
+
 	LoggingLoggingLogDataSourceRepresentation = map[string]interface{}{
 		"log_group_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_logging_log_group.test_log_group.id}`, Update: `${oci_logging_log_group.test_update_log_group.id}`},
 		"display_name":    acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"log_type":        acctest.Representation{RepType: acctest.Optional, Create: `SERVICE`},
-		"source_resource": acctest.Representation{RepType: acctest.Optional, Create: `${oci_objectstorage_bucket.test_bucket.name}`},
-		"source_service":  acctest.Representation{RepType: acctest.Optional, Create: `objectstorage`},
+		"source_resource": acctest.Representation{RepType: acctest.Optional, Create: vcnIdVar},
+		"source_service":  acctest.Representation{RepType: acctest.Optional, Create: `flowlogs`},
 		"state":           acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter":          acctest.RepresentationGroup{RepType: acctest.Required, Group: LoggingLogDataSourceFilterRepresentation}}
 	LoggingLogDataSourceFilterRepresentation = map[string]interface{}{
@@ -58,9 +58,8 @@ var (
 		"log_group_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_logging_log_group.test_log_group.id}`, Update: `${oci_logging_log_group.test_update_log_group.id}`},
 		"log_type":           acctest.Representation{RepType: acctest.Required, Create: `SERVICE`},
 		"configuration":      acctest.RepresentationGroup{RepType: acctest.Required, Group: LoggingLogConfigurationRepresentation},
-		"defined_tags":       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"is_enabled":         acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_enabled":         acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `true`},
 		"retention_duration": acctest.Representation{RepType: acctest.Optional, Create: `30`, Update: `60`},
 		"lifecycle":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: definedTagsIgnoreRepresentation_logging},
 	}
@@ -69,17 +68,14 @@ var (
 		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 	}
 	LoggingLogConfigurationSourceRepresentation = map[string]interface{}{
-		"category":    acctest.Representation{RepType: acctest.Required, Create: `write`},
-		"resource":    acctest.Representation{RepType: acctest.Required, Create: `${oci_objectstorage_bucket.test_bucket.name}`},
-		"service":     acctest.Representation{RepType: acctest.Required, Create: `objectstorage`},
+		"category":    acctest.Representation{RepType: acctest.Required, Create: `vcn`},
+		"resource":    acctest.Representation{RepType: acctest.Required, Create: vcnIdVar},
+		"service":     acctest.Representation{RepType: acctest.Required, Create: `flowlogs`},
 		"source_type": acctest.Representation{RepType: acctest.Required, Create: `OCISERVICE`},
-		"parameters":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"parameter": "value"}},
+		"parameters":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"capture_filter": captureFilterCreateVar}, Update: map[string]string{"capture_filter": captureFilterUpdateVar}},
 	}
 
-	LoggingLogResourceDependencies = DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", acctest.Required, acctest.Create, LoggingLogGroupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, ObjectStorageBucketRepresentation) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Optional, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation) +
+	LoggingLogResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", acctest.Required, acctest.Create, LoggingLogGroupRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_update_log_group", acctest.Required, acctest.Create, logGroupUpdateRepresentation)
 )
 
@@ -102,8 +98,6 @@ func TestLoggingLogResource_basic(t *testing.T) {
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+LoggingLogResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", acctest.Optional, acctest.Create, LoggingLogRepresentation), "logging", "log", t)
 
-	var compositeId string
-
 	acctest.ResourceTest(t, testAccCheckLoggingLogDestroy, []resource.TestStep{
 		// verify Create
 		{
@@ -125,7 +119,8 @@ func TestLoggingLogResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + LoggingLogResourceDependencies,
 		},
-		// verify Create with optionals
+
+		// verify Create SERVICE with optionals
 		{
 			Config: config + compartmentIdVariableStr + LoggingLogResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", acctest.Optional, acctest.Create, LoggingLogRepresentation),
@@ -133,15 +128,14 @@ func TestLoggingLogResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "configuration.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "configuration.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.category", "write"),
-				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.parameters.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.resource", testBucketName),
-				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.service", "objectstorage"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.category", "vcn"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.resource", vcnIdVar),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.service", "flowlogs"),
 				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.source_type", "OCISERVICE"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "log_group_id"),
 				resource.TestCheckResourceAttr(resourceName, "log_type", "SERVICE"),
 				resource.TestCheckResourceAttr(resourceName, "retention_duration", "30"),
@@ -149,13 +143,6 @@ func TestLoggingLogResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						logGroupId, _ := acctest.FromInstanceState(s, resourceName, "log_group_id")
-						compositeId = logging.GetLogCompositeId(logGroupId, resId)
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
-							return errExport
-						}
-					}
 					return err
 				},
 			),
@@ -169,11 +156,12 @@ func TestLoggingLogResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "configuration.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "configuration.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.category", "write"),
-				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.parameters.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.resource", testBucketName),
-				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.service", "objectstorage"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.category", "vcn"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.resource", vcnIdVar),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.service", "flowlogs"),
 				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.source_type", "OCISERVICE"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.parameters.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.parameters.capture_filter", captureFilterUpdateVar),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -202,18 +190,17 @@ func TestLoggingLogResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "log_group_id"),
 				resource.TestCheckResourceAttr(datasourceName, "log_type", "SERVICE"),
-				resource.TestCheckResourceAttr(datasourceName, "source_resource", testBucketName),
-				resource.TestCheckResourceAttr(datasourceName, "source_service", "objectstorage"),
+				resource.TestCheckResourceAttr(datasourceName, "source_resource", vcnIdVar),
+				resource.TestCheckResourceAttr(datasourceName, "source_service", "flowlogs"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttr(datasourceName, "logs.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "logs.0.compartment_id"),
 				resource.TestCheckResourceAttr(datasourceName, "logs.0.configuration.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "logs.0.configuration.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "logs.0.configuration.0.source.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "logs.0.configuration.0.source.0.category", "write"),
-				resource.TestCheckResourceAttr(datasourceName, "logs.0.configuration.0.source.0.parameters.%", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "logs.0.configuration.0.source.0.resource", testBucketName),
-				resource.TestCheckResourceAttr(datasourceName, "logs.0.configuration.0.source.0.service", "objectstorage"),
+				resource.TestCheckResourceAttr(datasourceName, "logs.0.configuration.0.source.0.category", "vcn"),
+				resource.TestCheckResourceAttr(datasourceName, "logs.0.configuration.0.source.0.resource", vcnIdVar),
+				resource.TestCheckResourceAttr(datasourceName, "logs.0.configuration.0.source.0.service", "flowlogs"),
 				resource.TestCheckResourceAttr(datasourceName, "logs.0.configuration.0.source.0.source_type", "OCISERVICE"),
 				resource.TestCheckResourceAttr(datasourceName, "logs.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "logs.0.freeform_tags.%", "1"),
@@ -240,10 +227,9 @@ func TestLoggingLogResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.source.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.source.0.category", "write"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.source.0.parameters.%", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.source.0.resource", testBucketName),
-				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.source.0.service", "objectstorage"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.source.0.category", "vcn"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.source.0.resource", vcnIdVar),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.source.0.service", "flowlogs"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.source.0.source_type", "OCISERVICE"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
