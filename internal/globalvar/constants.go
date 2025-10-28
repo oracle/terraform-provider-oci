@@ -56,6 +56,7 @@ const (
 	ConfigFileProfileAttrName                   = "config_file_profile"
 	DefinedTagsToIgnore                         = "ignore_defined_tags"
 	RealmSpecificServiceEndpointTemplateEnabled = "realm_specific_service_endpoint_template_enabled"
+	DualStackEndpointEnabled                    = "dual_stack_endpoint_enabled"
 	TestTimeMaintenanceRebootDue                = "test_time_maintenance_reboot_due" // This is used in few acceptance tests to simulate some scenario
 
 	DefaultConfigFileName    = "config"
