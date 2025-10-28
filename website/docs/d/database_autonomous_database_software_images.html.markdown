@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_autonomous_database_software_images
 This data source provides the list of Autonomous Database Software Images in Oracle Cloud Infrastructure Database service.
 
-Gets a list of the Autonomous Database Software Images in the specified compartment.
+Gets a list of the Autonomous AI Database Software Images in the specified compartment.
 
 
 ## Example Usage
@@ -47,17 +47,18 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `autonomous_dsi_one_off_patches` - One-off patches included in the Autonomous Database Software Image
+* `autonomous_dsi_one_off_patches` - One-off patches included in the Autonomous AI Database Software Image
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-* `database_version` - The database version with which the Autonomous Database Software Image is to be built.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
-* `display_name` - The user-friendly name for the Autonomous Database Software Image. The name does not have to be unique.
+* `database_version` - The database version with which the Autonomous AI Database Software Image is to be built.
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+* `display_name` - The user-friendly name for the Autonomous AI Database Software Image. The name does not have to be unique.
+* `dst_file_version` - DST Time-Zone File version of the Autonomous Container Database.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database Software Image.
+* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous AI Database Software Image.
 * `image_shape_family` - To what shape the image is meant for.
 * `lifecycle_details` - Detailed message for the lifecycle state.
 * `release_update` - The Release Updates.
-* `state` - The current state of the Autonomous Database Software Image.
+* `state` - The current state of the Autonomous AI Database Software Image.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
-* `time_created` - The date and time the Autonomous Database Software Image was created.
+* `time_created` - The date and time the Autonomous AI Database Software Image was created.
 

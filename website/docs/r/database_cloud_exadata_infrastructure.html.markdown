@@ -13,7 +13,7 @@ Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/database/la
 
 Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/database
 
-Creates a cloud Exadata infrastructure resource. This resource is used to create either an [Exadata Cloud Service](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaoverview.htm) instance or an Autonomous Database on dedicated Exadata infrastructure.
+Creates a cloud Exadata infrastructure resource. This resource is used to create either an [Exadata Cloud Service](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaoverview.htm) instance or an Autonomous AI Database on dedicated Exadata infrastructure.
 
 
 ## Example Usage
@@ -113,7 +113,7 @@ The following attributes are exported:
 * `cluster_placement_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster placement group of the Exadata Infrastructure or Db System.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `compute_count` - The number of compute servers for the cloud Exadata infrastructure.
-* `compute_model` - The compute model of the Exadata infrastructure.
+* `compute_model` - The compute model of the Autonomous AI Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. ECPU compute model is the recommended model and OCPU compute model is legacy.
 * `cpu_count` - The total number of CPU cores allocated.
 * `customer_contacts` - The list of customer email addresses that receive information from Oracle about the specified Oracle Cloud Infrastructure Database service resource. Oracle uses these email addresses to send notifications about planned and unplanned software maintenance updates, information about system hardware, and other information needed by administrators. Up to 10 email addresses can be added to the customer contacts for a cloud Exadata infrastructure instance. 
 	* `email` - The email address used by Oracle to send notifications regarding databases and infrastructure.

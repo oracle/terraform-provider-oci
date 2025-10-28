@@ -13,7 +13,7 @@ Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/database/la
 
 Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/database
 
-Creates and downloads a wallet for the specified Autonomous Database.
+Creates and downloads a wallet for the specified Autonomous AI Database.
 
 If passing the base64 encoded content to a `local_file` resource, please use the `content_base64` attribute of the `local_file` resource.
 See this [example](https://github.com/oracle/terraform-provider-oci/blob/master/examples/database/adb/autonomous_data_warehouse_wallet.tf) for more details.

@@ -39,16 +39,16 @@ The following attributes are exported:
 		* `available_cpus` - The number of CPU cores available.
 		* `display_name` - The user-friendly name for the Autonomous Container Database. The name does not need to be unique.
 		* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Container Database.
-		* `provisioned_cpus` - CPUs/cores assigned to Autonomous Databases in the ACD instances.
-		* `reclaimable_cpus` - CPUs/cores that continue to be included in the count of OCPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available OCPUs at its parent AVMC level by restarting the Autonomous Container Database. 
-		* `reserved_cpus` - CPUs/cores reserved for scalability, resilliency and other overheads. This includes failover, autoscaling and idle instance overhead.
-		* `used_cpus` - CPUs/cores assigned to the ACD instance. Sum of provisioned, reserved and reclaimable CPUs/ cores to the ACD instance.
+		* `provisioned_cpus` - CPUs/cores assigned to Autonomous AI Databases in the ACD instances.
+		* `reclaimable_cpus` - CPUs/cores that continue to be included in the count of OCPUs available to the Autonomous Container Database even after one of its Autonomous AI Database is terminated or scaled down. You can release them to the available OCPUs at its parent AVMC level by restarting the Autonomous Container Database. 
+		* `reserved_cpus` - CPUs/cores reserved for scalability, resilliency and other overheads. This includes failover, autoscaling and idle instance overhead. 
+		* `used_cpus` - CPUs/cores assigned to the ACD instance. Sum of provisioned, reserved and reclaimable CPUs/ cores to the ACD instance. 
 	* `available_cpus` - The number of CPU cores available.
 	* `display_name` - The user-friendly name for the Autonomous VM cluster. The name does not need to be unique.
-	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Vm Cluster.
-	* `provisioned_cpus` - The number of CPUs provisioned in an Autonomous VM Cluster
-	* `reclaimable_cpus` - CPU cores that continue to be included in the count of OCPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available OCPUs at its parent AVMC level by restarting the Autonomous Container Database. 
-	* `reserved_cpus` - The number of CPUs reserved in an Autonomous VM Cluster
+	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous VM Cluster.
+	* `provisioned_cpus` - The number of CPUs provisioned in an Autonomous VM Cluster.
+	* `reclaimable_cpus` - CPU cores that continue to be included in the count of OCPUs available to the Autonomous Container Database even after one of its Autonomous AI Database is terminated or scaled down. You can release them to the available OCPUs at its parent AVMC level by restarting the Autonomous Container Database. 
+	* `reserved_cpus` - The number of CPUs reserved in an Autonomous VM Cluster.
 	* `used_cpus` - The number of CPU cores alloted to the Autonomous Container Databases in an Cloud Autonomous VM cluster.
 * `available_autonomous_data_storage_size_in_tbs` - The data disk group size available for Autonomous Databases, in TBs.
 * `available_cpus` - The number of CPU cores available.

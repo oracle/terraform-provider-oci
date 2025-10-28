@@ -43,7 +43,7 @@ The following attributes are exported:
 	* `ssl_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [secret](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
 	* `username` - The username that will be used to connect to the database.
 * `connection_status` - The status of connectivity to the external database.
-* `connection_string` - The Oracle Database connection string. 
+* `connection_string` - The Oracle AI Database connection string. 
 	* `hostname` - The host name of the database.
 	* `port` - The port used to connect to the database.
 	* `protocol` - The protocol used to connect to the database.

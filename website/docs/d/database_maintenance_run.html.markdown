@@ -36,7 +36,7 @@ The following attributes are exported:
 * `current_custom_action_timeout_in_mins` - Extend current custom action timeout between the current database servers during waiting state, from 0 (zero) to 30 minutes.
 * `current_patching_component` - The name of the current infrastruture component that is getting patched.
 * `custom_action_timeout_in_mins` - Determines the amount of time the system will wait before the start of each database server patching operation. Specify a number of minutes, from 15 to 120. 
-* `database_software_image_id` - The Autonomous Database Software Image [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
+* `database_software_image_id` - The Autonomous AI Database Software Image [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 * `description` - Description of the maintenance run.
 * `display_name` - The user-friendly name for the maintenance run.
 * `estimated_component_patching_start_time` - The estimated start time of the next infrastruture component patching operation.
@@ -53,7 +53,7 @@ The following attributes are exported:
 * `maintenance_subtype` - Maintenance sub-type.
 * `maintenance_type` - Maintenance type.
 * `patch_failure_count` - Contain the patch failure count.
-* `patch_id` - The unique identifier of the patch. The identifier string includes the patch type, the Oracle Database version, and the patch creation date (using the format YYMMDD). For example, the identifier `ru_patch_19.9.0.0_201030` is used for an RU patch for Oracle Database 19.9.0.0 that was released October 30, 2020.
+* `patch_id` - The unique identifier of the patch. The identifier string includes the patch type, the Oracle AI Database version, and the patch creation date (using the format YYMMDD). For example, the identifier `ru_patch_19.9.0.0_201030` is used for an RU patch for Oracle AI Database 19.9.0.0 that was released October 30, 2020.
 * `patching_end_time` - The time when the patching operation ended.
 * `patching_mode` - Cloud Exadata infrastructure node patching method, either "ROLLING" or "NONROLLING". Default value is ROLLING.
 
@@ -62,7 +62,7 @@ The following attributes are exported:
 * `patching_status` - The status of the patching operation.
 * `peer_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the maintenance run for the Autonomous Data Guard association's peer container database.
 * `peer_maintenance_run_ids` - The list of OCIDs for the maintenance runs associated with their Autonomous Data Guard peer container databases.
-* `state` - The current state of the maintenance run. For Autonomous Database Serverless instances, valid states are IN_PROGRESS, SUCCEEDED, and FAILED. 
+* `state` - The current state of the maintenance run. For Autonomous AI Database Serverless instances, valid states are IN_PROGRESS, SUCCEEDED, and FAILED. 
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `target_db_server_version` - The target software version for the database server patching operation.
 * `target_resource_id` - The ID of the target resource on which the maintenance run occurs.
