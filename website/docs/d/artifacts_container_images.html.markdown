@@ -22,6 +22,7 @@ data "oci_artifacts_container_images" "test_container_images" {
 	#Optional
 	compartment_id_in_subtree = var.container_image_compartment_id_in_subtree
 	display_name = var.container_image_display_name
+	image_digest = var.container_image_image_digest
 	image_id = oci_core_image.test_image.id
 	is_versioned = var.container_image_is_versioned
 	repository_id = oci_artifacts_repository.test_repository.id
@@ -38,6 +39,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `compartment_id_in_subtree` - (Optional) When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are inspected depending on the the setting of `accessLevel`. Default is false. Can only be set to true when calling the API on the tenancy (root compartment). 
 * `display_name` - (Optional) A filter to return only resources that match the given display name exactly. 
+* `image_digest` - (Optional) The digest of the container image.  Example: `sha256:e7d38b3517548a1c71e41bffe9c8ae6d6d29546ce46bf62159837aad072c90aa` 
 * `image_id` - (Optional) A filter to return a container image summary only for the specified container image OCID. 
 * `is_versioned` - (Optional) A filter to return container images based on whether there are any associated versions. 
 * `repository_id` - (Optional) A filter to return container images only for the specified container repository OCID. 
