@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_autonomous_database_resource_pool_members
 This data source provides the list of Autonomous Database Resource Pool Members in Oracle Cloud Infrastructure Database service.
 
-Lists the OCIDs of the Autonomous Database resource pool members for the specified Autonomous Database leader.
+Lists the OCIDs of the Autonomous AI Database resource pool members for the specified Autonomous AI Database leader.
 
 
 ## Example Usage
@@ -40,5 +40,5 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `items` - List of resource pool member summary.
-	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database.
+	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous AI Database.
 

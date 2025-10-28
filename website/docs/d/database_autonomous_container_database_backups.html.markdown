@@ -53,14 +53,14 @@ The following attributes are exported:
 * `items` - List of Autonomous container database backups.
 	* `acd_display_name` - The user-friendly name for the Autonomous Container Database when the Backup was initiated. This name need not be unique. This field captures the name at the time of backup creation, accounting for possible later updates to the display name.
 	* `autonomous_container_database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Container Database.
-	* `autonomous_databases` - List of Autonomous Databases that is part of this Autonomous Container Database Backup
+	* `autonomous_databases` - List of Autonomous AI Databases that is part of this Autonomous Container Database Backup
 		* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-		* `display_name` - The user-friendly name for the Autonomous Database. The name does not have to be unique.
+		* `display_name` - The user-friendly name for the Autonomous AI Database. The name does not have to be unique.
 	* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 	* `display_name` - A user-friendly name for the backup. This name need not be unique.
 	* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database backup.
+	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous AI Database backup.
 	* `infrastructure_type` - The infrastructure type this resource belongs to.
 	* `is_automatic` - Indicates whether the backup is user-initiated or automatic.
 	* `is_remote_backup` - Whether backup is for remote-region or local region

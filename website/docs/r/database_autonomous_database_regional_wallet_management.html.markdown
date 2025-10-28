@@ -13,7 +13,7 @@ Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/database/la
 
 Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/database
 
-Updates the Autonomous Database regional wallet.
+Updates the Autonomous AI Database regional wallet.
 
 
 ## Example Usage
@@ -42,7 +42,7 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `state` - The current lifecycle state of the Autonomous Database wallet.
+* `state` - The current lifecycle state of the Autonomous AI Database wallet.
 * `time_rotated` - The date and time the wallet was last rotated.
 
 ## Timeouts
