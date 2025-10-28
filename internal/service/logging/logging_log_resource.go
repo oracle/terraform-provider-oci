@@ -493,6 +493,17 @@ func (s *LoggingLogResourceCrud) Update() error {
 
 	request := oci_logging.UpdateLogRequest{}
 
+	if configuration, ok := s.D.GetOkExists("configuration"); ok {
+		if tmpList := configuration.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "configuration", 0)
+			tmp, err := s.mapToUpdateConfiguration(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.Configuration = &tmp
+		}
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -643,6 +654,23 @@ func (s *LoggingLogResourceCrud) mapToLogConfiguration(fieldKeyFormat string) (o
 	return result, nil
 }
 
+func (s *LoggingLogResourceCrud) mapToUpdateConfiguration(fieldKeyFormat string) (oci_logging.UpdateConfigurationDetails, error) {
+	result := oci_logging.UpdateConfigurationDetails{}
+
+	if source, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source")); ok {
+		if tmpList := source.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "source"), 0)
+			tmp, err := s.mapToUpdateSource(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert source, encountered error: %v", err)
+			}
+			result.Source = &tmp
+		}
+	}
+
+	return result, nil
+}
+
 func LogConfigurationToMap(obj *oci_logging.Configuration) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -659,6 +687,16 @@ func LogConfigurationToMap(obj *oci_logging.Configuration) map[string]interface{
 	}
 
 	return result
+}
+
+func (s *LoggingLogResourceCrud) mapToUpdateSource(fieldKeyFormat string) (oci_logging.SourceUpdateDetails, error) {
+	var baseObject oci_logging.SourceUpdateDetails
+
+	if parameters, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "parameters")); ok {
+		baseObject.Parameters = tfresource.ObjectMapToStringMap(parameters.(map[string]interface{}))
+	}
+
+	return baseObject, nil
 }
 
 func (s *LoggingLogResourceCrud) mapToSource(fieldKeyFormat string) (oci_logging.Source, error) {

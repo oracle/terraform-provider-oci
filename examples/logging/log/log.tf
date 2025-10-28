@@ -2,24 +2,23 @@
 // Licensed under the Mozilla Public License v2.0
 
 variable "log_configuration_source_category" {
-  type = map(string)
-
-  default = {
-    write = "write"
-    read  = "read"
-  }
+  default = "vcn"
 }
 
 variable "log_configuration_source_parameters" {
-  default = "parameters"
+  type = map(string)
+
+  default = {
+    capture_filter = ""
+  }
 }
 
 variable "log_configuration_source_resource" {
-  default = "srishti-bucket"
+  default = ""
 }
 
 variable "log_configuration_source_service" {
-  default = "objectstorage"
+  default = "flowlogs"
 }
 
 variable "log_configuration_source_source_type" {
@@ -46,14 +45,16 @@ variable "log_log_type" {
 }
 
 variable "log_source_resource" {
-  default = "srishti-bucket"
+  default = ""
 }
 
 variable "log_source_service" {
-  default = "objectstorage"
+  default = "flowlogs"
 }
 
-variable "test_log_group_id" {}
+variable "test_log_group_id" {
+  default = ""
+}
 variable "test_log_name" {
   default = "tf-exampleLog"
 }
@@ -63,33 +64,29 @@ resource "oci_logging_log" "test_log" {
   #Required
   display_name = var.test_log_name
   log_group_id = var.test_log_group_id
-  log_type     = var.log_log_type.custom
+  log_type     = var.log_log_type.service
 
   #Optional
-  /*configuration {
+  configuration {
     #Required
     source {
       #Required
-      category    = var.log_configuration_source_category.write}"
-      resource    = var.log_configuration_source_resource}"
-      service     = var.log_configuration_source_service}"
-      source_type = var.log_configuration_source_source_type}"
+      category    = var.log_configuration_source_category
+      resource    = var.log_configuration_source_resource
+      service     = var.log_configuration_source_service
+      source_type = var.log_configuration_source_source_type
 
       #Optional
-      //parameters = var.log_configuration_source_parameters}"
+      parameters = var.log_configuration_source_parameters
     }
 
     #Optional
-    compartment_id = "ocid1.compartment.oc1..aaaaaaaa4rv5j2vzbrwaztnzvtu7kgswtigms4llcbylelylsqt2l3kl7gaa"
-  }*/
+    compartment_id = ""
+  }
 
   freeform_tags      = var.freeform_tags_value
-  is_enabled         = "false"
   retention_duration = "30"
 
-  lifecycle {
-    ignore_changes = [ defined_tags ]
-  }
 }
 
 data "oci_logging_logs" "test_logs" {
@@ -98,7 +95,7 @@ data "oci_logging_logs" "test_logs" {
 
   #Optional
   display_name    = var.test_log_name
-  log_type        = var.log_log_type.custom
+  log_type        = var.log_log_type.service
   source_resource = var.log_source_resource
   source_service  = var.log_source_service
   state           = "ACTIVE"
