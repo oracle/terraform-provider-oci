@@ -53,7 +53,7 @@ The following attributes are exported:
 * `available_db_node_storage_in_gbs` - The maximum Db Node storage that can be enabled for this shape.
 * `available_memory_in_gbs` - The maximum memory that can be enabled for this shape.
 * `available_memory_per_node_in_gbs` - The maximum memory available per database node for this shape. Only applicable to ExaCC Elastic shapes.
-* `compute_model` - The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. ECPU compute model is the recommended model and OCPU compute model is legacy.
+* `compute_model` - The compute model of the Autonomous AI Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. ECPU compute model is the recommended model and OCPU compute model is legacy.
 * `core_count_increment` - The discrete number by which the CPU core count for this shape can be increased or decreased.
 * `display_name` - The display name of the shape used for the DB system.
 * `max_storage_count` - The maximum number of Exadata storage servers available for the Exadata infrastructure.

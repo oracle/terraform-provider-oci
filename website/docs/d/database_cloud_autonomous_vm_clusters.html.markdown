@@ -49,16 +49,16 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `autonomous_data_storage_percentage` - The percentage of the data storage used for the Autonomous Databases in an Autonomous VM Cluster.
-* `autonomous_data_storage_size_in_tbs` - The data disk group size allocated for Autonomous Databases, in TBs.
+* `autonomous_data_storage_percentage` - The percentage of the data storage used for the Autonomous AI Databases in an Autonomous VM Cluster.
+* `autonomous_data_storage_size_in_tbs` - The data disk group size allocated for Autonomous AI Databases, in TBs.
 * `availability_domain` - The name of the availability domain that the cloud Autonomous VM cluster is located in.
-* `available_autonomous_data_storage_size_in_tbs` - The data disk group size available for Autonomous Databases, in TBs.
+* `available_autonomous_data_storage_size_in_tbs` - The data disk group size available for Autonomous AI Databases, in TBs.
 * `available_container_databases` - The number of Autonomous Container Databases that can be created with the currently available local storage.
-* `available_cpus` - CPU cores available for allocation to Autonomous Databases.
+* `available_cpus` - CPU cores available for allocation to Autonomous AI Databases.
 * `cloud_exadata_infrastructure_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud Exadata infrastructure.
 * `cluster_time_zone` - The time zone of the Cloud Autonomous VM Cluster.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-* `compute_model` - The compute model of the Cloud Autonomous VM Cluster. ECPU compute model is the recommended model and OCPU compute model is legacy. See [Compute Models in Autonomous Database on Dedicated Exadata #Infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
+* `compute_model` - The compute model of the Cloud Autonomous VM Cluster. ECPU compute model is the recommended model and OCPU compute model is legacy. See [Compute Models in Autonomous AI Database on Dedicated Exadata #Infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
 * `cpu_core_count` - The number of CPU cores on the cloud Autonomous VM cluster.
 * `cpu_core_count_per_node` - The number of CPU cores enabled per VM cluster node.
 * `cpu_percentage` - The percentage of total number of CPUs used in an Autonomous VM Cluster.
@@ -77,7 +77,7 @@ The following attributes are exported:
 * `is_mtls_enabled_vm_cluster` - Enable mutual TLS(mTLS) authentication for database at time of provisioning a VMCluster. This is applicable to database TLS Certificates only. Default is TLS
 * `last_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last maintenance run.
 * `last_update_history_entry_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last maintenance update history. This value is updated when a maintenance update starts.
-* `license_model` - The Oracle license model that applies to the Oracle Autonomous Database. Bring your own license (BYOL) allows you to apply your current on-premises Oracle software licenses to equivalent, highly automated Oracle services in the cloud. License Included allows you to subscribe to new Oracle Database software licenses and the Oracle Database service. Note that when provisioning an [Autonomous Database on dedicated Exadata infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html), this attribute must be null. It is already set at the Autonomous Exadata Infrastructure level. When provisioning an [Autonomous Database Serverless] (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html) database, if a value is not specified, the system defaults the value to `BRING_YOUR_OWN_LICENSE`. Bring your own license (BYOL) also allows you to select the DB edition using the optional parameter.
+* `license_model` - The Oracle license model that applies to the Oracle Autonomous AI Database. Bring your own license (BYOL) allows you to apply your current on-premises Oracle software licenses to equivalent, highly automated Oracle services in the cloud. License Included allows you to subscribe to new Oracle AI Database software licenses and the Oracle AI Database service. Note that when provisioning an [Autonomous AI Database on dedicated Exadata infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html), this attribute must be null. It is already set at the Autonomous Exadata Infrastructure level. When provisioning an [Autonomous AI Database Serverless] (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html) database, if a value is not specified, the system defaults the value to `BRING_YOUR_OWN_LICENSE`. Bring your own license (BYOL) also allows you to select the DB edition using the optional parameter.
 
 	This cannot be updated in parallel with any of the following: cpuCoreCount, computeCount, maxCpuCoreCount, dataStorageSizeInTBs, adminPassword, isMTLSConnectionRequired, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, dbName, scheduledOperations, dbToolsDetails, or isFreeTier. 
 * `lifecycle_details` - Additional information about the current lifecycle state.
@@ -106,15 +106,13 @@ The following attributes are exported:
 * `node_count` - The number of database servers in the cloud VM cluster. 
 * `non_provisionable_autonomous_container_databases` - The number of non-provisionable Autonomous Container Databases in an Autonomous VM Cluster.
 * `nsg_ids` - The list of [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). **NsgIds restrictions:**
-	* A network security group (NSG) is optional for Autonomous Databases with private access. The nsgIds list can be empty. 
+	* A network security group (NSG) is optional for Autonomous AI Databases with private access. The nsgIds list can be empty. 
 * `ocpu_count` - The number of CPU cores on the cloud Autonomous VM cluster. Only 1 decimal place is allowed for the fractional part.
 * `ocpus_lowest_scaled_value` - The lowest value to which ocpus can be scaled down.
 * `provisionable_autonomous_container_databases` - The number of provisionable Autonomous Container Databases in an Autonomous VM Cluster.
 * `provisioned_autonomous_container_databases` - The number of provisioned Autonomous Container Databases in an Autonomous VM Cluster.
 * `provisioned_cpus` - The number of CPUs provisioned in an Autonomous VM Cluster.
-* `reclaimable_cpus` - For Autonomous Databases on Dedicated Exadata Infrastructure:
-	* These are the CPUs that continue to be included in the count of CPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available CPUs at its parent Autonomous VM Cluster level by restarting the Autonomous Container Database.
-	* The CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model.  
+* `reclaimable_cpus` - CPUs that continue to be included in the count of CPUs available to the Autonomous Container Database even after one of its Autonomous AI Database is terminated or scaled down. You can release them to the available CPUs at its parent Autonomous VM Cluster level by restarting the Autonomous Container Database.
 * `reserved_cpus` - The number of CPUs reserved in an Autonomous VM Cluster.
 * `scan_listener_port_non_tls` - The SCAN Listener Non TLS port. Default is 1521.
 * `scan_listener_port_tls` - The SCAN Listenenr TLS port. Default is 2484.
@@ -133,7 +131,7 @@ The following attributes are exported:
 * `time_database_ssl_certificate_expires` - The date and time of Database SSL certificate expiration.
 * `time_ords_certificate_expires` - The date and time of ORDS certificate expiration.
 * `time_updated` - The last date and time that the cloud Autonomous VM cluster was updated.
-* `total_autonomous_data_storage_in_tbs` - The total data disk group size for Autonomous Databases, in TBs.
+* `total_autonomous_data_storage_in_tbs` - The total data disk group size for Autonomous AI Databases, in TBs.
 * `total_container_databases` - The total number of Autonomous Container Databases that can be created with the allocated local storage.
 * `total_cpus` - The total number of CPUs in an Autonomous VM Cluster.
 

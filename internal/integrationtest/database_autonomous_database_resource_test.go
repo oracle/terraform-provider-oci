@@ -88,6 +88,12 @@ var (
 			"ncharacter_set": acctest.Representation{RepType: acctest.Optional, Create: `UTF8`},
 		})
 
+	autonomousDatabaseDedicatedRepresentationForLakeHouseWorkloadType = acctest.RepresentationCopyWithNewProperties(
+		autonomousDatabaseDedicatedRepresentation,
+		map[string]interface{}{
+			"db_workload": acctest.Representation{RepType: acctest.Optional, Create: `LH`},
+		})
+
 	autonomousDatabaseDtaSafeStatusRepresentation = map[string]interface{}{
 		"admin_password":           acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`, Update: `BEstrO0ng_#12`},
 		"compartment_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
@@ -104,6 +110,34 @@ var (
 		"license_model":    acctest.Representation{RepType: acctest.Optional, Create: `LICENSE_INCLUDED`},
 		"data_safe_status": acctest.Representation{RepType: acctest.Optional, Create: `REGISTERED`, Update: `not_REGISTERED`},
 		"timeouts":         acctest.RepresentationGroup{RepType: acctest.Required, Group: autonomousDatabaseTimeoutsRepresentation},
+	}
+
+	DatabaseAutonomousDatabaseRepresentationLh = map[string]interface{}{
+		"compartment_id":                       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"compute_model":                        acctest.Representation{RepType: acctest.Required, Create: `ECPU`},
+		"compute_count":                        acctest.Representation{RepType: acctest.Required, Create: `4.0`},
+		"data_storage_size_in_tbs":             acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"db_name":                              acctest.Representation{RepType: acctest.Required, Create: adbName},
+		"admin_password":                       acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`, Update: `BEstrO0ng_#12`},
+		"db_version":                           acctest.Representation{RepType: acctest.Optional, Create: `19c`},
+		"db_workload":                          acctest.Representation{RepType: acctest.Optional, Create: `LH`},
+		"character_set":                        acctest.Representation{RepType: acctest.Optional, Create: `AL32UTF8`},
+		"display_name":                         acctest.Representation{RepType: acctest.Optional, Create: `example_autonomous_database`},
+		"freeform_tags":                        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_auto_scaling_enabled":              acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_auto_scaling_for_storage_enabled":  acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_dedicated":                         acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_mtls_connection_required":          acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_backup_retention_locked":           acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"autonomous_maintenance_schedule_type": acctest.Representation{RepType: acctest.Optional, Create: `REGULAR`},
+		"is_preview_version_with_service_terms_accepted": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"customer_contacts":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseCustomerContactsRepresentation},
+		"license_model":              acctest.Representation{RepType: acctest.Optional, Create: `LICENSE_INCLUDED`},
+		"whitelisted_ips":            acctest.Representation{RepType: acctest.Optional, Create: []string{`1.1.1.1/28`}},
+		"operations_insights_status": acctest.Representation{RepType: acctest.Optional, Create: `NOT_ENABLED`, Update: `ENABLED`},
+		"timeouts":                   acctest.RepresentationGroup{RepType: acctest.Required, Group: autonomousDatabaseTimeoutsRepresentation},
+		"ncharacter_set":             acctest.Representation{RepType: acctest.Optional, Create: `AL16UTF16`},
+		"state":                      acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 	}
 
 	DatabaseAutonomousDatabaseBackupRepresentationNew = map[string]interface{}{
@@ -1286,6 +1320,51 @@ func TestResourceDatabaseAutonomousDatabaseResource_longtermBackup(t *testing.T)
 					_, err = acctest.FromInstanceState(s, resourceName, "id")
 					return err
 				},
+			),
+		},
+	})
+}
+
+func TestDatabaseAutonomousDatabaseResource_adbs_lh(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseAutonomousDatabaseResource_schedule_upgrade")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_database_autonomous_database.test_autonomous_database"
+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseAutonomousDatabaseResourceDependenciesLockBckRetention+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create, DatabaseAutonomousDatabaseRepresentationLockBckRetention), "database", "autonomousDatabase", t)
+
+	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousDatabaseDestroy, []resource.TestStep{
+		//0. Verify Create LH
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create, DatabaseAutonomousDatabaseRepresentationLh),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compute_model", "ECPU"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "LH"),
+			),
+		},
+
+		//1. schedule upgrade for LH
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentationLh, map[string]interface{}{
+						"is_schedule_db_version_upgrade_to_earliest": acctest.Representation{RepType: acctest.Optional, Create: nil, Update: `true`},
+						"db_version": acctest.Representation{RepType: acctest.Optional, Create: nil, Update: `23ai`},
+					}), []string{"admin_password", "customer_contacts", "freeform_tags", "display_name"})),
+			ExpectNonEmptyPlan: true,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compute_model", "ECPU"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
 			),
 		},
 	})
@@ -5562,6 +5641,58 @@ func TestResourceDatabaseAutonomousDatabaseDedicateResource_undelete(t *testing.
 				}
 			},
 			Config: config + compartmentIdVariableStr + adbIdVariableStr,
+		},
+	})
+}
+
+// issue-routing-tag: database/dbaas-adb
+func TestResourceDatabaseAutonomousDatabaseDedicated_LakehouseWorkLoadType(t *testing.T) {
+	var resId string
+
+	shouldSkipADBDtest := os.Getenv("TF_VAR_should_skip_adbd_test")
+	if shouldSkipADBDtest == "true" {
+		t.Skip("Skipping TestResourceDatabaseAutonomousDatabaseDedicated_LakehouseWorkLoadType test.\n" + "Current TF_VAR_should_skip_adbd_test=" + shouldSkipADBDtest + resId)
+	}
+
+	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseDedicated_LakehouseWorkLoadType")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_database_autonomous_database.test_autonomous_database"
+
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+
+		// 1. verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseDedicatedResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
+					autonomousDatabaseDedicatedRepresentationForLakeHouseWorkloadType),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttrSet(resourceName, "autonomous_container_database_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "compute_count"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbDedicatedName),
+				resource.TestCheckResourceAttr(resourceName, "display_name", adDedicatedName),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "character_set", "AR8ADOS710"),
+				resource.TestCheckResourceAttr(resourceName, "ncharacter_set", "UTF8"),
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "LH"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
 	})
 }

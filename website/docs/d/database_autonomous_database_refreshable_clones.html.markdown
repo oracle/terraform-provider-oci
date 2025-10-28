@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_autonomous_database_refreshable_clones
 This data source provides the list of Autonomous Database Refreshable Clones in Oracle Cloud Infrastructure Database service.
 
-Lists the OCIDs of the Autonomous Database local and connected remote refreshable clones with the region where they exist for the specified source database.
+Lists the OCIDs of the Autonomous AI Database local and connected remote refreshable clones with the region where they exist for the specified source database.
 
 
 ## Example Usage
@@ -40,6 +40,6 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `items` - 
-	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database.
+	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous AI Database.
 	* `region` - The name of the region where the refreshable clone exists.
 

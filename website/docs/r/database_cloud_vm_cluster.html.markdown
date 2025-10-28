@@ -108,14 +108,22 @@ The following arguments are supported:
 * `cloud_exadata_infrastructure_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud Exadata infrastructure resource.
 * `cluster_name` - (Optional) The cluster name for cloud VM cluster. The cluster name must begin with an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted. The cluster name can be no longer than 11 characters and is not case sensitive. 
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-* `cpu_core_count` - (Required) (Updatable) The number of ECPUs (X11M and higher) or number of OCPUs (X10M and earlier) to enable for the VM cluster. 
+* `cpu_core_count` - (Required) (Updatable) For fixed shapes, this is the total number of OCPUs to enable across the VM cluster.
 	* Exadata.Base.48 - Specify a multiple of 2, from 0 to 48.
-	* Exadata.Quarter1.84 - Specify a multiple of 2, from 22 to 84.
-	* Exadata.Half1.168 - Specify a multiple of 4, from 44 to 168.
-	* Exadata.Full1.336 - Specify a multiple of 8, from 88 to 336.
-	* Exadata.Quarter2.92 - Specify a multiple of 2, from 0 to 92.
-	* Exadata.Half2.184 - Specify a multiple of 4, from 0 to 184.
-	* Exadata.Full2.368 - Specify a multiple of 8, from 0 to 368. 
+	* Exadata.Quarter3.100 - Specify a multiple of 2, from 0 to 100.
+	* Exadata.Half3.200 - Specify a multiple of 4, from 0 to 200.
+	* Exadata.Full3.400 - Specify a multiple of 8, from 0 to 400.
+
+	The API specification for fixed shape values is https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/DbSystemShapeSummary
+
+	 For flexible shapes X8M and X9M, this is the total number of OCPUs to enable across the VM cluster. The number available for the VM cluster will be based on the number of database servers selected for provisioning the VM cluster on the Exadata Infrastructure.
+	* Exadata.X8M - Specify a multiple of 2, from 2 to 50 per X8M database server.
+	* Exadata.X9M - Specify a multiple of 2, from 2 to 126 per X9M database server.
+
+	For flexible shapes X11M and higher, this is the total number of ECPUs to enable across the VM cluster. The number available for the VM cluster will be based on the number of database servers selected for provisioning the VM cluster on the Exadata Infrastructure.
+	* Exadata.X11M - Specify a multiple of 8, from 8 to 760 per X11M database server.
+
+	The API specification for flexible shape values is https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/FlexComponentSummary 
 * `data_collection_options` - (Optional) (Updatable) Indicates user preferences for the various diagnostic collection options for the VM cluster/Cloud VM cluster/VMBM DBCS. 
 	* `is_diagnostics_events_enabled` - (Optional) (Updatable) Indicates whether diagnostic collection is enabled for the VM cluster/Cloud VM cluster/VMBM DBCS. Enabling diagnostic collection allows you to receive Events service notifications for guest VM issues. Diagnostic collection also allows Oracle to provide enhanced service and proactive support for your Exadata system. You can enable diagnostic collection during VM cluster/Cloud VM cluster provisioning. You can also disable or enable it at any time using the `UpdateVmCluster` or `updateCloudVmCluster` API.
 	* `is_health_monitoring_enabled` - (Optional) (Updatable) Indicates whether health monitoring is enabled for the VM cluster / Cloud VM cluster / VMBM DBCS. Enabling health monitoring allows Oracle to collect diagnostic data and share it with its operations and support personnel. You may also receive notifications for some events. Collecting health diagnostics enables Oracle to provide proactive support and enhanced service for your system. Optionally enable health monitoring while provisioning a system. You can also disable or enable health monitoring anytime using the `UpdateVmCluster`, `UpdateCloudVmCluster` or `updateDbsystem` API. 
@@ -143,7 +151,7 @@ The following arguments are supported:
 * `license_model` - (Optional) (Updatable) The Oracle license model that applies to the cloud VM cluster. The default is BRING_YOUR_OWN_LICENSE. 
 * `memory_size_in_gbs` - (Optional) (Updatable) The memory to be allocated in GBs.
 * `nsg_ids` - (Optional) (Updatable) The list of [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). **NsgIds restrictions:**
-	* A network security group (NSG) is optional for Autonomous Databases with private access. The nsgIds list can be empty. 
+	* A network security group (NSG) is optional for Autonomous AI Databases with private access. The nsgIds list can be empty. 
 * `ocpu_count` - (Optional) (Updatable) The number of OCPU cores to enable for a cloud VM cluster. Only 1 decimal place is allowed for the fractional part.
 * `private_zone_id` - (Optional) The private zone id in which DNS records need to be created.
 * `scan_listener_port_tcp` - (Optional) The TCP Single Client Access Name (SCAN) port. The default port is 1521.
@@ -182,7 +190,7 @@ The following attributes are exported:
 * `cloud_exadata_infrastructure_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud Exadata infrastructure.
 * `cluster_name` - The cluster name for cloud VM cluster. The cluster name must begin with an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted. The cluster name can be no longer than 11 characters and is not case sensitive. 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-* `compute_model` - The compute model of the cloud VM cluster.
+* `compute_model` - The compute model of the Autonomous AI Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. ECPU compute model is the recommended model and OCPU compute model is legacy.
 * `cpu_core_count` - The number of CPU cores enabled on the cloud VM cluster.
 * `data_collection_options` - Indicates user preferences for the various diagnostic collection options for the VM cluster/Cloud VM cluster/VMBM DBCS. 
 	* `is_diagnostics_events_enabled` - Indicates whether diagnostic collection is enabled for the VM cluster/Cloud VM cluster/VMBM DBCS. Enabling diagnostic collection allows you to receive Events service notifications for guest VM issues. Diagnostic collection also allows Oracle to provide enhanced service and proactive support for your Exadata system. You can enable diagnostic collection during VM cluster/Cloud VM cluster provisioning. You can also disable or enable it at any time using the `UpdateVmCluster` or `updateCloudVmCluster` API. 
@@ -224,7 +232,7 @@ The following attributes are exported:
 	* `id` - The OCID of the identity connector
 * `node_count` - The number of nodes in the cloud VM cluster. 
 * `nsg_ids` - The list of [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). **NsgIds restrictions:**
-	* A network security group (NSG) is optional for Autonomous Databases with private access. The nsgIds list can be empty.
+	* A network security group (NSG) is optional for Autonomous AI Databases with private access. The nsgIds list can be empty.
 * `ocpu_count` - The number of OCPU cores to enable on the cloud VM cluster. Only 1 decimal place is allowed for the fractional part.
 * `scan_dns_name` - The FQDN of the DNS record for the SCAN IP addresses that are associated with the cloud VM cluster. 
 * `scan_dns_record_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DNS record for the SCAN IP addresses that are associated with the cloud VM cluster. 

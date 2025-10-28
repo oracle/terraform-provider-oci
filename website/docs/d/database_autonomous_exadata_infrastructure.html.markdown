@@ -62,14 +62,14 @@ The following attributes are exported:
 	* `weeks_of_month` - Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed. 
 * `next_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the next maintenance run.
 * `nsg_ids` - The list of [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). **NsgIds restrictions:**
-	* A network security group (NSG) is optional for Autonomous Databases with private access. The nsgIds list can be empty.
+	* A network security group (NSG) is optional for Autonomous AI Databases with private access. The nsgIds list can be empty.
 * `scan_dns_name` - The FQDN of the DNS record for the SCAN IP addresses that are associated with the Autonomous Exadata Infrastructure. 
 * `shape` - The shape of the Autonomous Exadata Infrastructure. The shape determines resources to allocate to the Autonomous Exadata Infrastructure (CPU cores, memory and storage).
 * `state` - The current lifecycle state of the Autonomous Exadata Infrastructure.
 * `subnet_id` - The OCID of the subnet the Autonomous Exadata Infrastructure is associated with.
 
 	**Subnet Restrictions:**
-	* For Autonomous Databases with Autonomous Exadata Infrastructure, do not use a subnet that overlaps with 192.168.128.0/20
+	* For Autonomous AI Databases with Autonomous Exadata Infrastructure, do not use a subnet that overlaps with 192.168.128.0/20
 
 	These subnets are used by the Oracle Clusterware private interconnect on the database instance. Specifying an overlapping subnet will cause the private interconnect to malfunction. This restriction applies to both the client subnet and backup subnet. 
 * `time_created` - The date and time the Autonomous Exadata Infrastructure was created.
