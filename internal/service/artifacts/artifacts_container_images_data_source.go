@@ -31,6 +31,10 @@ func ArtifactsContainerImagesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"image_digest": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"image_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -240,6 +244,11 @@ func (s *ArtifactsContainerImagesDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if imageDigest, ok := s.D.GetOkExists("image_digest"); ok {
+		tmp := imageDigest.(string)
+		request.ImageDigest = &tmp
 	}
 
 	if imageId, ok := s.D.GetOkExists("image_id"); ok {

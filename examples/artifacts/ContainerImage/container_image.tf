@@ -9,6 +9,8 @@ variable "region" {}
 variable "container_image_ocid" {}
 variable "container_image_repository_ocid" {}
 
+variable "container_image_digest" {}
+
 variable "container_image_compartment_id_in_subtree" {
   default = false
 }
@@ -60,4 +62,5 @@ data "oci_artifacts_container_images" "test_container_images" {
   repository_id = var.container_image_repository_ocid
   repository_name = var.container_image_repository_name
   version = var.image_version
+  image_digest = var.container_image_digest
 }

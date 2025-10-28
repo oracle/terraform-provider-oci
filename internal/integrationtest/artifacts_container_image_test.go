@@ -27,9 +27,11 @@ var (
 	// We currently don't support OCI style container image creation, so we can't do TF resource for image
 	// Ticket to track adding the creation endpoint https://jira.oci.oraclecorp.com/browse/OCIR-2136.
 	// Therefore, we need to set the env var of the pre-canned container image for testing, i.e. TF_VAR_container_image_ocid
+	// and TF_VAR_container_image_digest
 
 	imageId       = utils.GetEnvSettingWithBlankDefault("container_image_ocid")
 	compartmentId = utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	imageDigest   = utils.GetEnvSettingWithBlankDefault("container_image_digest")
 
 	ArtifactsArtifactscontainerImageSingularDataSourceRepresentation = map[string]interface{}{
 		"image_id": acctest.Representation{RepType: acctest.Required, Create: imageId},
@@ -41,6 +43,7 @@ var (
 		"image_id":                  acctest.Representation{RepType: acctest.Optional, Create: imageId},
 		"is_versioned":              acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+		"image_digest":              acctest.Representation{RepType: acctest.Optional, Create: imageDigest},
 	}
 
 	ArtifactsContainerImageResourceConfig = ""
@@ -70,6 +73,7 @@ func TestArtifactsContainerImageResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "image_id"),
 				resource.TestCheckResourceAttr(datasourceName, "is_versioned", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+				resource.TestCheckResourceAttr(datasourceName, "image_digest", imageDigest),
 
 				resource.TestCheckResourceAttr(datasourceName, "container_image_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "container_image_collection.0.items.#", "1"),
