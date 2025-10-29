@@ -18,10 +18,10 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/UpdateAutonomousDatabaseBackup.go.html to see an example of how to use UpdateAutonomousDatabaseBackupRequest.
 type UpdateAutonomousDatabaseBackupRequest struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database backup.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous AI Database backup.
 	AutonomousDatabaseBackupId *string `mandatory:"true" contributesTo:"path" name:"autonomousDatabaseBackupId"`
 
-	// Request to update an existing Autonomous Database backup.
+	// Request to update an existing Autonomous AI Database backup.
 	UpdateAutonomousDatabaseBackupDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

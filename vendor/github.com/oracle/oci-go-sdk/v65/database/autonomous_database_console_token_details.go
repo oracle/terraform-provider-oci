@@ -15,13 +15,13 @@ import (
 	"strings"
 )
 
-// AutonomousDatabaseConsoleTokenDetails The token that allows the OCI Console to access the Autonomous Database Service Console.
+// AutonomousDatabaseConsoleTokenDetails The token that allows the OCI Console to access the Autonomous AI Database Service Console.
 type AutonomousDatabaseConsoleTokenDetails struct {
 
-	// The token that allows the OCI Console to access the Autonomous Transaction Processing Service Console.
+	// The token that allows the OCI Console to access the Autonomous AI Transaction Processing Service Console.
 	Token *string `mandatory:"false" json:"token"`
 
-	// The login URL that allows the OCI Console to access the Autonomous Transaction Processing Service Console.
+	// The login URL that allows the OCI Console to access the Autonomous AI Transaction Processing Service Console.
 	LoginUrl *string `mandatory:"false" json:"loginUrl"`
 }
 

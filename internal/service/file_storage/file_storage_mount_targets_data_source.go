@@ -179,6 +179,10 @@ func (s *FileStorageMountTargetsDataSourceCrud) SetData() error {
 			mountTarget["reserved_storage_capacity"] = strconv.FormatInt(*r.ReservedStorageCapacity, 10)
 		}
 
+		if r.SecurityAttributes != nil {
+			mountTarget["security_attributes"] = tfresource.SecurityAttributesToMap(r.SecurityAttributes)
+		}
+
 		mountTarget["state"] = r.LifecycleState
 
 		if r.SubnetId != nil {

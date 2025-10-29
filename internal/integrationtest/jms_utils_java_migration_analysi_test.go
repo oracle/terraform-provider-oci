@@ -12,19 +12,16 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
-
-	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
 	// Due to unfortunate naming Analysi is the singular name, Analysis the plural name
-	JmsUtilsJavaMigrationAnalysiCompartmentId = utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
-	JavaMigrationAnalysiProjectName           = "DO_NOT_DELETE_TERRAFORM_TEST"
-	JavaMigrationAnalysiId                    = utils.GetEnvSettingWithBlankDefault("java_migration_report_ocid")
+	JavaMigrationAnalysiProjectName = "DO_NOT_DELETE_TERRAFORM_TEST"
+	JavaMigrationAnalysiId          = JmsUtilsJavaMigrationReportId
 
 	JmsUtilsJavaMigrationAnalysiDataSourceRepresentation = map[string]interface{}{
 		"analysis_project_name": acctest.Representation{RepType: acctest.Optional, Create: JavaMigrationAnalysiProjectName},
-		"compartment_id":        acctest.Representation{RepType: acctest.Required, Create: JmsUtilsJavaMigrationAnalysiCompartmentId},
+		"compartment_id":        acctest.Representation{RepType: acctest.Required, Create: JmsTenancyId},
 	}
 
 	JmsUtilsJavaMigrationAnalysiSingularDataSourceRepresentation = map[string]interface{}{
@@ -63,7 +60,7 @@ func TestJmsUtilsJavaMigrationAnalysiResource_basic(t *testing.T) {
 				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 
-				resource.TestCheckResourceAttr(datasourceName, "compartment_id", JmsUtilsJavaMigrationAnalysiCompartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", JmsTenancyId),
 				resource.TestCheckResourceAttr(datasourceName, "analysis_project_name", JavaMigrationAnalysiProjectName),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "java_migration_analysis_collection.#"),
@@ -72,7 +69,7 @@ func TestJmsUtilsJavaMigrationAnalysiResource_basic(t *testing.T) {
 
 				// check actual data matches data used for the List API
 				resource.TestCheckResourceAttr(datasourceName, "java_migration_analysis_collection.0.items.0.analysis_project_name", JavaMigrationAnalysiProjectName),
-				resource.TestCheckResourceAttr(datasourceName, "java_migration_analysis_collection.0.items.0.compartment_id", JmsUtilsJavaMigrationAnalysiCompartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "java_migration_analysis_collection.0.items.0.compartment_id", JmsTenancyId),
 				resource.TestCheckResourceAttr(datasourceName, "java_migration_analysis_collection.0.items.0.id", JavaMigrationAnalysiId),
 				// check actual data is set (doesn't make much sense to hardcode more values)
 				resource.TestCheckResourceAttrSet(datasourceName, "java_migration_analysis_collection.0.items.0.analysis_result_files.#"),
@@ -113,7 +110,7 @@ func TestJmsUtilsJavaMigrationAnalysiResource_basic(t *testing.T) {
 				// check actual data matches data used for the GET API
 				resource.TestCheckResourceAttr(singularDatasourceName, "id", JavaMigrationAnalysiId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "analysis_project_name", JavaMigrationAnalysiProjectName),
-				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", JmsUtilsJavaMigrationAnalysiCompartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", JmsTenancyId),
 				// check actual data is set (doesn't make much sense to hardcode more values)
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "analysis_result_files.#"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "analysis_result_object_storage_path"),

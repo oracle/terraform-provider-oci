@@ -8,6 +8,8 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/customdiff"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -67,7 +69,6 @@ func LoadBalancerLoadBalancerResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"ipv6subnet_cidr": {
 				Type:     schema.TypeString,
@@ -106,7 +107,6 @@ func LoadBalancerLoadBalancerResource() *schema.Resource {
 			"reserved_ips": {
 				Type:     schema.TypeList,
 				Optional: true,
-				ForceNew: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -116,7 +116,6 @@ func LoadBalancerLoadBalancerResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 						},
 
 						// Computed
@@ -215,7 +214,98 @@ func LoadBalancerLoadBalancerResource() *schema.Resource {
 				Computed: true,
 			},
 		},
+		CustomizeDiff: customdiff.All(
+			// force change if ipv6subnet_cidr is changing
+			func(ctx context.Context, d *schema.ResourceDiff, meta interface{}) error {
+				return forceNewIpv6SubnetCidr(ctx, d, meta)
+			},
+			// force change for certain reserved ips and ipmode combination
+			func(ctx context.Context, d *schema.ResourceDiff, meta interface{}) error {
+				return forceNewReservedIps(ctx, d, meta)
+			},
+		),
 	}
+}
+
+// force change if ipv6subnet_cidr is changing while ip_mode is not
+func forceNewIpv6SubnetCidr(ctx context.Context, d *schema.ResourceDiff, meta interface{}) error {
+
+	if !d.HasChange("ipv6subnet_cidr") {
+		return nil
+	}
+
+	if !d.HasChange("ip_mode") {
+		// ipmode is not changing so we recreate
+		return d.ForceNew("ipv6subnet_cidr")
+	}
+
+	return nil
+}
+
+// forceNewReservedIps verifies if ip_mode and reserved_ips are changing to determine create or update action
+func forceNewReservedIps(ctx context.Context, d *schema.ResourceDiff, meta interface{}) error {
+	ipmode := "ip_mode"
+	reservedIps := "reserved_ips"
+
+	// return early if reservedips are not changing
+	if !(d.HasChange(reservedIps)) {
+		return nil
+	}
+
+	// return early if ipmode is not changing
+	if !(d.HasChange(ipmode)) {
+		// ipmode is not changing so we recreate
+		return d.ForceNew(reservedIps)
+	}
+
+	// both changed
+	_, newipmode := d.GetChange(ipmode)
+	oldreservedips, newreservedips := d.GetChange(reservedIps)
+
+	// compare the reserved ips to find which changed
+	ip4map := map[string]bool{}
+	ip6map := map[string]bool{}
+
+	// check if ipv6 mode and ipv6 changing
+	for _, value := range oldreservedips.([]interface{}) {
+		ip := value.(map[string]interface{})
+		if strings.Contains(ip["id"].(string), "ipv6") {
+			ip6map[ip["id"].(string)] = true
+		} else {
+			ip4map[ip["id"].(string)] = true
+		}
+	}
+
+	// iterate over new reserved ips
+	for _, value := range newreservedips.([]interface{}) {
+		ip := value.(map[string]interface{})
+
+		if strings.Contains(ip["id"].(string), "ipv6") {
+			// if ipv6 check if it is changing
+			if _, ok := ip6map[ip["id"].(string)]; !ok {
+				// ipv6 is different
+				if len(ip6map) > 0 && newipmode.(string) == "IPV6" {
+					// ipv6 is being modified and ipmode is changing ipv6
+					// force replacement of resource
+					// return early
+					return d.ForceNew("reserved_ips")
+				}
+			}
+		} else {
+			// ipv4 case
+			if _, ok := ip4map[ip["id"].(string)]; !ok {
+				// ipv4 is different
+				if len(ip4map) > 0 && newipmode.(string) == "IPV4" {
+					// ipv4 is being modified and ipmode is changing to ipv4
+					// forece replacement of resource
+					// return early
+					return d.ForceNew("reserved_ips")
+				}
+			}
+		}
+	}
+	// resource is updated if reached here
+	return nil
 }
 
 func createLoadBalancerLoadBalancer(d *schema.ResourceData, m interface{}) error {
@@ -534,6 +624,15 @@ func (s *LoadBalancerLoadBalancerResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if ipMode, ok := s.D.GetOkExists("ip_mode"); ok {
+		request.IpMode = oci_load_balancer.UpdateLoadBalancerDetailsIpModeEnum(ipMode.(string))
+	}
+
+	if ipv6SubnetCidr, ok := s.D.GetOkExists("ipv6subnet_cidr"); ok {
+		tmp := ipv6SubnetCidr.(string)
+		request.Ipv6SubnetCidr = &tmp
+	}
+
 	if isDeleteProtectionEnabled, ok := s.D.GetOkExists("is_delete_protection_enabled"); ok {
 		tmp := isDeleteProtectionEnabled.(bool)
 		request.IsDeleteProtectionEnabled = &tmp
@@ -550,6 +649,23 @@ func (s *LoadBalancerLoadBalancerResourceCrud) Update() error {
 	if requestIdHeader, ok := s.D.GetOkExists("request_id_header"); ok {
 		tmp := requestIdHeader.(string)
 		request.RequestIdHeader = &tmp
+	}
+
+	if reservedIps, ok := s.D.GetOkExists("reserved_ips"); ok {
+		interfaces := reservedIps.([]interface{})
+		tmp := make([]oci_load_balancer.ReservedIp, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "reserved_ips", stateDataIndex)
+			converted, err := s.mapToReservedIP(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("reserved_ips") {
+			request.ReservedIps = tmp
+		}
 	}
 
 	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {

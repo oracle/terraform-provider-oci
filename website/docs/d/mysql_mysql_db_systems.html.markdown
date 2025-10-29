@@ -203,6 +203,13 @@ The following attributes are exported:
 * `is_highly_available` - Specifies if the DB System is highly available. 
 * `lifecycle_details` - Additional information about the current lifecycleState.
 * `maintenance` - The Maintenance Policy for the DB System or Read Replica that this model is included in. 
+	* `maintenance_schedule_type` - The maintenance schedule type of the DB system. EARLY:   Maintenance schedule follows a cycle where upgrades are performed when versions become deprecated. REGULAR: Maintenance schedule follows the normal cycle where upgrades are performed when versions become unavailable. 
+	* `target_version` - The version that is expected to be targeted during the next scheduled maintenance run. 
+	* `time_scheduled` - The time the scheduled maintenance is expected to start, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 
+	* `version_preference` - The preferred version to target when performing an automatic MySQL upgrade.
+
+		OLDEST: Choose the oldest available MySQL version based on the current version of the DB System. SECOND_NEWEST: Choose the MySQL version before the newest for auto-upgrade. NEWEST: Choose the latest and greatest MySQL version available for auto-upgrade. 
+	* `version_track_preference` - The preferred version track to target when performing an automatic MySQL upgrade. LONG_TERM_SUPPORT: No MySQL database behavior changes. INNOVATION:        Provides access to the latest features and all bug fixes. FOLLOW:            Follows the track of the current MySQL version. 
 	* `window_start_time` - The start time of the maintenance window.
 
 		This string is of the format: "{day-of-week} {time-of-day}".

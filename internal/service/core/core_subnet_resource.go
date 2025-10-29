@@ -6,7 +6,10 @@ package core
 import (
 	"context"
 	"fmt"
+	"net"
 	"strings"
+
+	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 
 	"github.com/oracle/terraform-provider-oci/internal/globalvar"
 
@@ -30,10 +33,6 @@ func CoreSubnetResource() *schema.Resource {
 		Delete:   deleteCoreSubnet,
 		Schema: map[string]*schema.Schema{
 			// Required
-			"cidr_block": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -51,6 +50,11 @@ func CoreSubnetResource() *schema.Resource {
 				Computed:         true,
 				ForceNew:         true,
 				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+			},
+			"cidr_block": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -81,6 +85,14 @@ func CoreSubnetResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"ipv4cidr_blocks": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 			"ipv6cidr_block": {
 				Type:             schema.TypeString,
@@ -175,6 +187,7 @@ func updateCoreSubnet(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreSubnetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).VirtualNetworkClient()
+	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
 	return tfresource.UpdateResource(d, sync)
 }
@@ -193,6 +206,7 @@ type CoreSubnetResourceCrud struct {
 	Client                 *oci_core.VirtualNetworkClient
 	Res                    *oci_core.Subnet
 	DisableNotFoundRetries bool
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 }
 
 func (s *CoreSubnetResourceCrud) ID() string {
@@ -266,6 +280,19 @@ func (s *CoreSubnetResourceCrud) Create() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if ipv4CidrBlocks, ok := s.D.GetOkExists("ipv4cidr_blocks"); ok {
+		interfaces := ipv4CidrBlocks.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("ipv4cidr_blocks") {
+			request.Ipv4CidrBlocks = tmp
+		}
 	}
 
 	if ipv6CidrBlock, ok := s.D.GetOkExists("ipv6cidr_block"); ok {
@@ -375,7 +402,18 @@ func (s *CoreSubnetResourceCrud) Update() error {
 		}
 	}
 
-	if cidrBlock, ok := s.D.GetOkExists("cidr_block"); ok {
+	if _, ok := s.D.GetOkExists("ipv4cidr_blocks"); ok && s.D.HasChange("ipv4cidr_blocks") {
+		oldRaw, newRaw := s.D.GetChange("ipv4cidr_blocks")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateIpv4CidrBlocks(oldRaw, newRaw)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	if _, ok := s.D.GetOkExists("cidr_block"); ok && s.D.HasChange("cidr_block") {
+		_, cidrBlock := s.D.GetChange("cidr_block")
 		tmp := cidrBlock.(string)
 		request.CidrBlock = &tmp
 	}
@@ -485,6 +523,8 @@ func (s *CoreSubnetResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	s.D.Set("ipv4cidr_blocks", s.Res.Ipv4CidrBlocks)
 
 	if s.Res.Ipv6CidrBlock != nil {
 		s.D.Set("ipv6cidr_block", *s.Res.Ipv6CidrBlock)
@@ -668,6 +708,165 @@ func ipv6CidrOneEditAway(oldBlocks []string, newBlocks []string) (bool, string, 
 	}
 
 	return false, "", ""
+}
+
+func (s *CoreSubnetResourceCrud) updateIpv4CidrBlocks(oldRaw interface{}, newRaw interface{}) error {
+	interfaces := oldRaw.([]interface{})
+	oldBlocks := make([]string, len(interfaces))
+	for i := range interfaces {
+		if interfaces[i] != nil {
+			oldBlocks[i] = interfaces[i].(string)
+		}
+	}
+
+	interfaces = newRaw.([]interface{})
+	newBlocks := make([]string, len(interfaces))
+	for i := range interfaces {
+		if interfaces[i] != nil {
+			newBlocks[i] = interfaces[i].(string)
+		}
+	}
+
+	edits, err := ipv4CidrOneEditAway(oldBlocks, newBlocks)
+
+	if err != nil {
+		return err
+	}
+
+	if len(edits) > maxIpv4CidrUpdates {
+		return fmt.Errorf("%d edits detected, only a max limit of %d edits are allowed per operation", len(edits), maxIpv4CidrUpdates)
+	}
+
+	for _, edit := range edits {
+		if edit.operation == "modify" {
+			modifyIpv4SubnetCidrRequest := oci_core.ModifyIpv4SubnetCidrRequest{}
+			modifyIpv4SubnetCidrDetails := oci_core.ModifyIpv4SubnetCidrDetails{}
+			idTmp := s.D.Id()
+			modifyIpv4SubnetCidrRequest.SubnetId = &idTmp
+			modifyIpv4SubnetCidrRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
+			oldCidr := edit.oldCidr
+			updateCidr := edit.newCidr
+			modifyIpv4SubnetCidrDetails.Ipv4CidrBlock = &oldCidr
+			modifyIpv4SubnetCidrDetails.UpdatedIpv4CidrBlock = &updateCidr
+			modifyIpv4SubnetCidrRequest.ModifyIpv4SubnetCidrDetails = modifyIpv4SubnetCidrDetails
+			response, err := s.Client.ModifyIpv4SubnetCidr(context.Background(), modifyIpv4SubnetCidrRequest)
+			if err != nil {
+				return err
+			}
+			err = s.waitForWorkRequest(response.OpcWorkRequestId)
+			if err != nil {
+				return err
+			}
+		}
+
+		if edit.operation == "add" {
+			addIpv4SubnetCidrRequest := oci_core.AddIpv4SubnetCidrRequest{}
+			addIpv4SubnetCidrDetails := oci_core.AddIpv4SubnetCidrDetails{}
+			idTmp := s.D.Id()
+			addIpv4SubnetCidrRequest.SubnetId = &idTmp
+			addIpv4SubnetCidrRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
+			newCidr := edit.newCidr
+			addIpv4SubnetCidrDetails.Ipv4CidrBlock = &newCidr
+			addIpv4SubnetCidrRequest.AddIpv4SubnetCidrDetails = addIpv4SubnetCidrDetails
+			response, err := s.Client.AddIpv4SubnetCidr(context.Background(), addIpv4SubnetCidrRequest)
+			if err != nil {
+				return err
+			}
+			err = s.waitForWorkRequest(response.OpcWorkRequestId)
+			if err != nil {
+				return err
+			}
+		}
+
+		if edit.operation == "remove" {
+			removeIpv4SubnetCidrRequest := oci_core.RemoveIpv4SubnetCidrRequest{}
+			removeIpv4SubnetCidrDetails := oci_core.RemoveIpv4SubnetCidrDetails{}
+			idTmp := s.D.Id()
+			removeIpv4SubnetCidrRequest.SubnetId = &idTmp
+			removeIpv4SubnetCidrRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
+			oldCidr := edit.oldCidr
+			removeIpv4SubnetCidrDetails.Ipv4CidrBlock = &oldCidr
+			removeIpv4SubnetCidrRequest.RemoveIpv4SubnetCidrDetails = removeIpv4SubnetCidrDetails
+			response, err := s.Client.RemoveIpv4SubnetCidr(context.Background(), removeIpv4SubnetCidrRequest)
+			if err != nil {
+				return err
+			}
+			err = s.waitForWorkRequest(response.OpcWorkRequestId)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
+}
+
+const maxIpv4CidrUpdates = 32
+
+type ipv4CidrEdit struct {
+	operation string
+	oldCidr   string
+	newCidr   string
+}
+
+func ipv4CidrOneEditAway(oldBlocks []string, newBlocks []string) ([]ipv4CidrEdit, error) {
+
+	var edits []ipv4CidrEdit
+
+	map1 := make(map[string]string)
+	map2 := make(map[string]string)
+
+	for _, val := range oldBlocks {
+		splitCidr := strings.Split(val, "/")
+		ip := net.ParseIP(splitCidr[0])
+		if ip == nil || len(splitCidr) < 2 {
+			err := fmt.Errorf("invalid cidr: %s", val)
+			return edits, err
+		}
+		map1[ip.String()] = splitCidr[1]
+	}
+
+	for _, val := range newBlocks {
+		splitCidr := strings.Split(val, "/")
+		ip := net.ParseIP(splitCidr[0])
+		if ip == nil || len(splitCidr) < 2 {
+			err := fmt.Errorf("invalid cidr: %s", val)
+			return edits, err
+		}
+		if _, ok := map2[ip.String()]; ok {
+			err := fmt.Errorf("duplicate cidr found, the following already exists: %s", val)
+			return edits, err
+		}
+		map2[ip.String()] = splitCidr[1]
+	}
+
+	for key, val := range map1 {
+		if _, ok := map2[key]; !ok {
+			edit := ipv4CidrEdit{"remove", key + "/" + val, ""}
+			edits = append(edits, edit)
+		}
+	}
+
+	for key, val := range map2 {
+		if val2, ok := map1[key]; !ok {
+			edit := ipv4CidrEdit{"add", "", key + "/" + val}
+			edits = append(edits, edit)
+		} else if val2 != val {
+			edit := ipv4CidrEdit{"modify", key + "/" + val2, key + "/" + val}
+			edits = append(edits, edit)
+		}
+	}
+
+	return edits, nil
+}
+
+func (s *CoreSubnetResourceCrud) waitForWorkRequest(workRequestId *string) error {
+	var err error
+	err = nil
+	if workRequestId != nil {
+		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workRequestId, "subnet", oci_work_requests.WorkRequestResourceActionTypeInProgress, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+	}
+	return err
 }
 
 func convertToCanonical(block string) string {

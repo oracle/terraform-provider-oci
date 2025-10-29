@@ -103,6 +103,8 @@ resource "oci_identity_domains_identity_provider" "test_identity_provider" {
 		#Optional
 		access_token_url = var.identity_provider_urn_ietf_params_scim_schemas_oracle_idcs_extension_social_identity_provider_access_token_url
 		admin_scope = var.identity_provider_urn_ietf_params_scim_schemas_oracle_idcs_extension_social_identity_provider_admin_scope
+		apple_dev_id = oci_identity_domains_apple_dev.test_apple_dev.id
+		apple_key_id = oci_kms_key.test_key.id
 		authz_url = var.identity_provider_urn_ietf_params_scim_schemas_oracle_idcs_extension_social_identity_provider_authz_url
 		auto_redirect_enabled = var.identity_provider_urn_ietf_params_scim_schemas_oracle_idcs_extension_social_identity_provider_auto_redirect_enabled
 		client_credential_in_payload = var.identity_provider_urn_ietf_params_scim_schemas_oracle_idcs_extension_social_identity_provider_client_credential_in_payload
@@ -1162,6 +1164,32 @@ The following arguments are supported:
 		* caseExact: true
 		* idcsSearchable: false
 		* multiValued: true
+		* mutability: readWrite
+		* required: false
+		* returned: default
+		* type: string
+		* uniqueness: none
+	* `apple_dev_id` - (Optional) (Updatable) Apple Developer ID
+
+		**Added In:** 2311180004
+
+		**SCIM++ Properties:**
+		* caseExact: true
+		* idcsSearchable: false
+		* multiValued: false
+		* mutability: readWrite
+		* required: false
+		* returned: default
+		* type: string
+		* uniqueness: none
+	* `apple_key_id` - (Optional) (Updatable) Apple Private Key ID
+
+		**Added In:** 2311180004
+
+		**SCIM++ Properties:**
+		* caseExact: true
+		* idcsSearchable: false
+		* multiValued: false
 		* mutability: readWrite
 		* required: false
 		* returned: default
@@ -2687,6 +2715,32 @@ The following attributes are exported:
 		* caseExact: true
 		* idcsSearchable: false
 		* multiValued: true
+		* mutability: readWrite
+		* required: false
+		* returned: default
+		* type: string
+		* uniqueness: none
+	* `apple_dev_id` - Apple Developer ID
+
+		**Added In:** 2311180004
+
+		**SCIM++ Properties:**
+		* caseExact: true
+		* idcsSearchable: false
+		* multiValued: false
+		* mutability: readWrite
+		* required: false
+		* returned: default
+		* type: string
+		* uniqueness: none
+	* `apple_key_id` - Apple Private Key ID
+
+		**Added In:** 2311180004
+
+		**SCIM++ Properties:**
+		* caseExact: true
+		* idcsSearchable: false
+		* multiValued: false
 		* mutability: readWrite
 		* required: false
 		* returned: default

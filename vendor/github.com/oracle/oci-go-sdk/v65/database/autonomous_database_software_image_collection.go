@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// AutonomousDatabaseSoftwareImageCollection Result of List Autonomous Database Software Images.
+// AutonomousDatabaseSoftwareImageCollection Result of List Autonomous AI Database Software Images.
 type AutonomousDatabaseSoftwareImageCollection struct {
 
-	// List of Autonomous Database Software Images.
+	// List of Autonomous AI Database Software Images.
 	Items []AutonomousDatabaseSoftwareImageSummary `mandatory:"true" json:"items"`
 }
 

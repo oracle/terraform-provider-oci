@@ -82,6 +82,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `availability_domain` - The private IP's availability domain. This attribute will be null if this is a *secondary* private IP assigned to a VNIC that is in a *regional* subnet.  Example: `Uocm:PHX-AD-1` 
+* `cidr_prefix_length` - The secondary IPv4 CIDR prefix length.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the private IP.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
@@ -98,6 +99,7 @@ The following attributes are exported:
 
 	Example: `10.0.3.3` 
 * `ip_state` - State of the IP address. If an IP address is assigned to a VNIC it is ASSIGNED, otherwise it is AVAILABLE. 
+* `ipv4subnet_cidr_at_creation` - Ipv4 Subnet CIDR specified whn creating the PrivateIP. 
 * `is_primary` - Whether this private IP is the primary one on the VNIC. Primary private IPs are unassigned and deleted automatically when the VNIC is terminated.  Example: `true` 
 * `lifetime` - Lifetime of the IP address. There are two types of IPv6 IPs:
 	* Ephemeral

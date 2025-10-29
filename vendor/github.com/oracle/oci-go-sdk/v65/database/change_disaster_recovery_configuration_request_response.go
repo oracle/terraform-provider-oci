@@ -21,7 +21,7 @@ type ChangeDisasterRecoveryConfigurationRequest struct {
 	// The database OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	AutonomousDatabaseId *string `mandatory:"true" contributesTo:"path" name:"autonomousDatabaseId"`
 
-	// Request to update the cross-region disaster recovery (DR) details of the standby Autonomous Database Serverless database.
+	// Request to update the cross-region disaster recovery (DR) details of the standby Autonomous AI Database Serverless database.
 	ChangeDisasterRecoveryConfigurationDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

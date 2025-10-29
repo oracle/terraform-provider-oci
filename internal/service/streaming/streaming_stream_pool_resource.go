@@ -148,6 +148,12 @@ func StreamingStreamPoolResource() *schema.Resource {
 					},
 				},
 			},
+			"security_attributes": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 
 			// Computed
 			"endpoint_fqdn": {
@@ -312,6 +318,10 @@ func (s *StreamingStreamPoolResourceCrud) Create() error {
 		}
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "streaming")
 
 	response, err := s.Client.CreateStreamPool(context.Background(), request)
@@ -391,6 +401,10 @@ func (s *StreamingStreamPoolResourceCrud) Update() error {
 		request.Name = &tmp
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
 	tmp := s.D.Id()
 	request.StreamPoolId = &tmp
 
@@ -461,6 +475,8 @@ func (s *StreamingStreamPoolResourceCrud) SetData() error {
 	} else {
 		s.D.Set("private_endpoint_settings", nil)
 	}
+
+	s.D.Set("security_attributes", s.Res.SecurityAttributes)
 
 	s.D.Set("state", s.Res.LifecycleState)
 

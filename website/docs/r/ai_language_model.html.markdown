@@ -110,7 +110,7 @@ The following arguments are supported:
 		* `version` - (Optional) Optional if nothing specified latest base model will be used for training. Supported versions can be found at /modelTypes/{modelType}
 	* `language_code` - (Optional) supported language default value is en
 	* `model_type` - (Required) Model type
-	* `version` - (Applicable when model_type=NAMED_ENTITY_RECOGNITION | PRE_TRAINED_HEALTH_NLU | PRE_TRAINED_KEYPHRASE_EXTRACTION | PRE_TRAINED_LANGUAGE_DETECTION | PRE_TRAINED_NAMED_ENTITY_RECOGNITION | PRE_TRAINED_PHI | PRE_TRAINED_PII | PRE_TRAINED_SENTIMENT_ANALYSIS | PRE_TRAINED_SUMMARIZATION | PRE_TRAINED_TEXT_CLASSIFICATION | PRE_TRAINED_UNIVERSAL) Optional pre trained model version. if nothing specified latest pre trained model will be used.  Supported versions can be found at /modelTypes/{modelType} 
+	* `version` - (Applicable when model_type=HEALTH_NLU | NAMED_ENTITY_RECOGNITION | PII | PRE_TRAINED_HEALTH_NLU | PRE_TRAINED_KEYPHRASE_EXTRACTION | PRE_TRAINED_LANGUAGE_DETECTION | PRE_TRAINED_NAMED_ENTITY_RECOGNITION | PRE_TRAINED_PII | PRE_TRAINED_SENTIMENT_ANALYSIS | PRE_TRAINED_SUMMARIZATION | PRE_TRAINED_TEXT_CLASSIFICATION | PRE_TRAINED_TRANSLATION | PRE_TRAINED_UNIVERSAL) Optional pre trained model version. if nothing specified latest pre trained model will be used.  Supported versions can be found at /modelTypes/{modelType} 
 * `project_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate with the model.
 * `test_strategy` - (Optional) Possible strategy as testing and validation(optional) dataset. 
 	* `strategy_type` - (Required) This information will define the test strategy different datasets for test and validation(optional) dataset. 
@@ -219,7 +219,7 @@ The following attributes are exported:
 		* `location_type` - Possible object storage location types
 		* `namespace` - Object storage namespace
 		* `object_names` - Array of files which need to be processed in the bucket
-* `version` - For pre trained models this will identify model type version used for model creation For custom identifying the model by model id is difficult. This param provides ease of use for end customer. <<service>>::<<service-name>>_<<model-type-version>>::<<custom model on which this training has to be done>> ex: ai-lang::NER_V1::CUSTOM-V0 
+* `version` - For pre trained models this will identify model type version used for model creation For custom this will identify model type version used for model creation and custom model on which training has to be done <<service>>::<<service-name>>_<<model-type-version>>::<<custom model on which this training has to be done>> ex: ai-lang::NER_V1::CUSTOM-V0 
 
 ## Timeouts
 

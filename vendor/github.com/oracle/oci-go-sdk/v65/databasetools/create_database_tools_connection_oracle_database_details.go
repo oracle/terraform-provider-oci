@@ -60,6 +60,9 @@ type CreateDatabaseToolsConnectionOracleDatabaseDetails struct {
 
 	// Specifies whether this connection is supported by the Database Tools Runtime.
 	RuntimeSupport RuntimeSupportEnum `mandatory:"false" json:"runtimeSupport,omitempty"`
+
+	// Specifies the identity used by the Database Tools service to issue requests to other OCI services (e.g., Secrets in Vault).
+	RuntimeIdentity RuntimeIdentityEnum `mandatory:"false" json:"runtimeIdentity,omitempty"`
 }
 
 // GetDisplayName returns DisplayName
@@ -92,6 +95,11 @@ func (m CreateDatabaseToolsConnectionOracleDatabaseDetails) GetRuntimeSupport() 
 	return m.RuntimeSupport
 }
 
+// GetRuntimeIdentity returns RuntimeIdentity
+func (m CreateDatabaseToolsConnectionOracleDatabaseDetails) GetRuntimeIdentity() RuntimeIdentityEnum {
+	return m.RuntimeIdentity
+}
+
 func (m CreateDatabaseToolsConnectionOracleDatabaseDetails) String() string {
 	return common.PointerString(m)
 }
@@ -104,6 +112,9 @@ func (m CreateDatabaseToolsConnectionOracleDatabaseDetails) ValidateEnumValue() 
 
 	if _, ok := GetMappingRuntimeSupportEnum(string(m.RuntimeSupport)); !ok && m.RuntimeSupport != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RuntimeSupport: %s. Supported values are: %s.", m.RuntimeSupport, strings.Join(GetRuntimeSupportEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingRuntimeIdentityEnum(string(m.RuntimeIdentity)); !ok && m.RuntimeIdentity != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RuntimeIdentity: %s. Supported values are: %s.", m.RuntimeIdentity, strings.Join(GetRuntimeIdentityEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -132,6 +143,7 @@ func (m *CreateDatabaseToolsConnectionOracleDatabaseDetails) UnmarshalJSON(data 
 		FreeformTags       map[string]string                                       `json:"freeformTags"`
 		Locks              []ResourceLock                                          `json:"locks"`
 		RuntimeSupport     RuntimeSupportEnum                                      `json:"runtimeSupport"`
+		RuntimeIdentity    RuntimeIdentityEnum                                     `json:"runtimeIdentity"`
 		RelatedResource    *CreateDatabaseToolsRelatedResourceDetails              `json:"relatedResource"`
 		AdvancedProperties map[string]string                                       `json:"advancedProperties"`
 		KeyStores          []DatabaseToolsKeyStoreDetails                          `json:"keyStores"`
@@ -156,6 +168,8 @@ func (m *CreateDatabaseToolsConnectionOracleDatabaseDetails) UnmarshalJSON(data 
 	m.Locks = make([]ResourceLock, len(model.Locks))
 	copy(m.Locks, model.Locks)
 	m.RuntimeSupport = model.RuntimeSupport
+
+	m.RuntimeIdentity = model.RuntimeIdentity
 
 	m.RelatedResource = model.RelatedResource
 

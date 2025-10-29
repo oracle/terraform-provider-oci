@@ -24,11 +24,15 @@ func AiLanguageProjectResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createAiLanguageProject,
-		Read:     readAiLanguageProject,
-		Update:   updateAiLanguageProject,
-		Delete:   deleteAiLanguageProject,
+		Timeouts: &schema.ResourceTimeout{
+			Create: schema.DefaultTimeout(60 * time.Minute),
+			Update: schema.DefaultTimeout(60 * time.Minute),
+			Delete: schema.DefaultTimeout(60 * time.Minute),
+		},
+		Create: createAiLanguageProject,
+		Read:   readAiLanguageProject,
+		Update: updateAiLanguageProject,
+		Delete: deleteAiLanguageProject,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {

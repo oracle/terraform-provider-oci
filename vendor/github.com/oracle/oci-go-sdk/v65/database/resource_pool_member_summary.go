@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// ResourcePoolMemberSummary An Autonomous Database resource pool member summary.
+// ResourcePoolMemberSummary An Autonomous AI Database resource pool member summary.
 type ResourcePoolMemberSummary struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous AI Database.
 	Id *string `mandatory:"true" json:"id"`
 }
 

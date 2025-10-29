@@ -20,7 +20,7 @@ import (
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type AutonomousContainerDatabaseBackupSummary struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database backup.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous AI Database backup.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
@@ -75,7 +75,7 @@ type AutonomousContainerDatabaseBackupSummary struct {
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
-	// List of Autonomous Databases that is part of this Autonomous Container Database Backup
+	// List of Autonomous AI Databases that is part of this Autonomous Container Database Backup
 	AutonomousDatabases []AutonomousDatabaseInBackup `mandatory:"false" json:"autonomousDatabases"`
 }
 

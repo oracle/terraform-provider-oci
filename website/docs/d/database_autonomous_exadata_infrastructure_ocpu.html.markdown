@@ -34,8 +34,8 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `by_workload_type` - The number of consumed OCPUs, by database workload type. 
-	* `adw` - The total number of OCPU cores in use for Autonomous Data Warehouse databases in the infrastructure instance.
-	* `atp` - The total number of OCPU cores in use for Autonomous Transaction Processing databases in the infrastructure instance.
+	* `adw` - The total number of OCPU cores in use for Autonomous AI Lakehouse databases in the infrastructure instance.
+	* `atp` - The total number of OCPU cores in use for Autonomous AI Transaction Processing databases in the infrastructure instance.
 * `consumed_cpu` - The total number of consumed OCPUs in the Autonomous Exadata Infrastructure instance.
 * `total_cpu` - The total number of OCPUs in the Autonomous Exadata Infrastructure instance.
 

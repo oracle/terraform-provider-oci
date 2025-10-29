@@ -105,6 +105,12 @@ type MountTarget struct {
 	// System tags for this resource.
 	// System tags are applied to resources by internal OCI services.
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	// Security attributes (https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes) are labels
+	// for a resource that can be referenced in a Zero Trust Packet Routing (https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm)
+	// (ZPR) policy to control access to ZPR-supported resources.
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 }
 
 func (m MountTarget) String() string {

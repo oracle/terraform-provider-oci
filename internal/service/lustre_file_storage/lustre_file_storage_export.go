@@ -25,8 +25,21 @@ var exportLustreFileStorageLustreFileSystemHints = &tf_export.TerraformResourceH
 	},
 }
 
+var exportLustreFileStorageObjectStorageLinkHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_lustre_file_storage_object_storage_link",
+	DatasourceClass:        "oci_lustre_file_storage_object_storage_links",
+	DatasourceItemsAttr:    "object_storage_link_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "object_storage_link",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_lustre_file_storage.ObjectStorageLinkLifecycleStateActive),
+	},
+}
+
 var lustreFileStorageResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportLustreFileStorageLustreFileSystemHints},
+		{TerraformResourceHints: exportLustreFileStorageObjectStorageLinkHints},
 	},
 }

@@ -176,6 +176,10 @@ func ipv6Cidr_blocksSuppressFunction(key string, old string, new string, d *sche
 	return ipv6CompressionDiffSuppressFunction(key, old, new, d)
 }
 
+func suppressDiffIfOldIsEmptyString(key string, old string, new string, d *schema.ResourceData) bool {
+	return old == "" && new != ""
+}
+
 func Abs(x int) int {
 	if x < 0 {
 		return -x

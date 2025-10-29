@@ -24,11 +24,15 @@ func AiLanguageEndpointResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createAiLanguageEndpoint,
-		Read:     readAiLanguageEndpoint,
-		Update:   updateAiLanguageEndpoint,
-		Delete:   deleteAiLanguageEndpoint,
+		Create: createAiLanguageEndpoint,
+		Read:   readAiLanguageEndpoint,
+		Update: updateAiLanguageEndpoint,
+		Delete: deleteAiLanguageEndpoint,
+		Timeouts: &schema.ResourceTimeout{
+			Create: schema.DefaultTimeout(60 * time.Minute),
+			Update: schema.DefaultTimeout(60 * time.Minute),
+			Delete: schema.DefaultTimeout(60 * time.Minute),
+		},
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -41,6 +45,11 @@ func AiLanguageEndpointResource() *schema.Resource {
 			},
 
 			// Optional
+			"alias": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -182,6 +191,11 @@ func (s *AiLanguageEndpointResourceCrud) DeletedTarget() []string {
 
 func (s *AiLanguageEndpointResourceCrud) Create() error {
 	request := oci_ai_language.CreateEndpointRequest{}
+
+	if alias, ok := s.D.GetOkExists("alias"); ok {
+		tmp := alias.(string)
+		request.Alias = &tmp
+	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
@@ -374,6 +388,11 @@ func (s *AiLanguageEndpointResourceCrud) Update() error {
 	}
 	request := oci_ai_language.UpdateEndpointRequest{}
 
+	if alias, ok := s.D.GetOkExists("alias"); ok {
+		tmp := alias.(string)
+		request.Alias = &tmp
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -450,6 +469,10 @@ func (s *AiLanguageEndpointResourceCrud) Delete() error {
 }
 
 func (s *AiLanguageEndpointResourceCrud) SetData() error {
+	if s.Res.Alias != nil {
+		s.D.Set("alias", *s.Res.Alias)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -508,6 +531,10 @@ func (s *AiLanguageEndpointResourceCrud) SetData() error {
 
 func EndpointSummaryToMap(obj oci_ai_language.EndpointSummary) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.Alias != nil {
+		result["alias"] = string(*obj.Alias)
+	}
 
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)

@@ -7,19 +7,18 @@ import (
 	"context"
 	"fmt"
 	"strconv"
+	"strings"
 	"time"
 
-	"strings"
-
-	oci_common "github.com/oracle/oci-go-sdk/v65/common"
-
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v65/core"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_file_storage "github.com/oracle/oci-go-sdk/v65/filestorage"
+
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func FileStorageMountTargetResource() *schema.Resource {
@@ -237,6 +236,12 @@ func FileStorageMountTargetResource() *schema.Resource {
 				Computed:         true,
 				ValidateFunc:     tfresource.ValidateInt64TypeString,
 				DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+			},
+			"security_attributes": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 
 			// Computed
@@ -470,6 +475,11 @@ func (s *FileStorageMountTargetResourceCrud) Create() error {
 		request.RequestedThroughput = &tmpInt64
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		convertedSecurityAttributes := tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		request.SecurityAttributes = convertedSecurityAttributes
+	}
+
 	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 		tmp := subnetId.(string)
 		request.SubnetId = &tmp
@@ -486,7 +496,6 @@ func (s *FileStorageMountTargetResourceCrud) Create() error {
 	if waitErr := tfresource.WaitForCreatedState(s.D, s); waitErr != nil {
 		return waitErr
 	}
-
 	return nil
 }
 
@@ -619,6 +628,11 @@ func (s *FileStorageMountTargetResourceCrud) Update() error {
 		}
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		convertedSecurityAttributes := tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		request.SecurityAttributes = convertedSecurityAttributes
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 
 	response, err := s.Client.UpdateMountTarget(context.Background(), request)
@@ -720,6 +734,10 @@ func (s *FileStorageMountTargetResourceCrud) SetData() error {
 		if err != nil {
 			return err
 		}
+	}
+
+	if s.Res.SecurityAttributes != nil {
+		s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

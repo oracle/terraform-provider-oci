@@ -18,7 +18,7 @@ import (
 // ConvertStandbyAutonomousContainerDatabaseDetails The configuration details for change Autonomous Container Database Dataguard role
 type ConvertStandbyAutonomousContainerDatabaseDetails struct {
 
-	// The Data Guard role of the Autonomous Container Database or Autonomous Database, if Autonomous Data Guard is enabled.
+	// The Data Guard role of the Autonomous Container Database or Autonomous AI Database, if Autonomous Data Guard is enabled.
 	Role ConvertStandbyAutonomousContainerDatabaseDetailsRoleEnum `mandatory:"true" json:"role"`
 
 	// type of connection strings when converting database to snapshot mode

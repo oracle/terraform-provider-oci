@@ -63,6 +63,12 @@ type Subnet struct {
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
+	// The list of all IPv4 CIDR blocks for the subnet that meets the following criteria:
+	// - Ipv4 CIDR blocks must be valid.
+	// - Multiple Ipv4 CIDR blocks must not overlap each other or the on-premises network CIDR block.
+	// - The number of prefixes must not exceed the limit of IPv4 prefixes allowed to a subnet.
+	Ipv4CidrBlocks []string `mandatory:"false" json:"ipv4CidrBlocks"`
+
 	// Defined tags for this resource. Each key is predefined and scoped to a
 	// namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`

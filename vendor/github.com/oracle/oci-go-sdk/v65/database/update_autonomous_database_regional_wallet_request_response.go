@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/UpdateAutonomousDatabaseRegionalWallet.go.html to see an example of how to use UpdateAutonomousDatabaseRegionalWalletRequest.
 type UpdateAutonomousDatabaseRegionalWalletRequest struct {
 
-	// Request to update the properties of Autonomous Database regional wallet.
+	// Request to update the properties of Autonomous AI Database regional wallet.
 	UpdateAutonomousDatabaseWalletDetails `contributesTo:"body"`
 
 	// Unique identifier for the request.

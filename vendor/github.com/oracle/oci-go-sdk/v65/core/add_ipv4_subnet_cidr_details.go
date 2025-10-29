@@ -1,0 +1,48 @@
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
+// Code generated. DO NOT EDIT.
+
+// Core Services API
+//
+// Use the Core Services API to manage resources such as virtual cloud networks (VCNs),
+// compute instances, and block storage volumes. For more information, see the console
+// documentation for the Networking (https://docs.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Compute (https://docs.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
+// Block Volume (https://docs.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
+// The required permissions are documented in the
+// Details for the Core Services (https://docs.oracle.com/iaas/Content/Identity/Reference/corepolicyreference.htm) article.
+//
+
+package core
+
+import (
+	"fmt"
+	"github.com/oracle/oci-go-sdk/v65/common"
+	"strings"
+)
+
+// AddIpv4SubnetCidrDetails Details used when adding an IPv4 prefix to a subnet.
+type AddIpv4SubnetCidrDetails struct {
+
+	// The CIDR IP address range of the subnet. The CIDR must maintain the following rules -
+	// a. The CIDR block is valid and correctly formatted.
+	// b. The new range is within one of the parent VCN ranges.
+	// Example: `10.0.1.0/24`
+	Ipv4CidrBlock *string `mandatory:"true" json:"ipv4CidrBlock"`
+}
+
+func (m AddIpv4SubnetCidrDetails) String() string {
+	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AddIpv4SubnetCidrDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}

@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// ResourcePoolShapeSummary An Autonomous Database Resource Pool. This object provides all the information related to the resource pool.
+// ResourcePoolShapeSummary An Autonomous AI Database Resource Pool. This object provides all the information related to the resource pool.
 type ResourcePoolShapeSummary struct {
 
 	// Predefined shape of the resource pool.

@@ -20,7 +20,6 @@ resource "oci_core_private_ip" "private_reserve_ip_available" {
 
 # List Private IPs
 data "oci_core_private_ips" "reserve_private_ip_datasource" {
-  depends_on = [oci_core_private_ip.private_reserve_ip, oci_core_private_ip.private_reserve_ip_available]
   subnet_id      = oci_core_subnet.example_subnet.id
 }
 

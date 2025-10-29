@@ -10,8 +10,8 @@ description: |-
 # Data Source: oci_database_autonomous_db_preview_versions
 This data source provides the list of Autonomous Db Preview Versions in Oracle Cloud Infrastructure Database service.
 
-Gets a list of supported Autonomous Database versions. Note that preview version software is only available for
-Autonomous Database Serverless (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html) databases.
+Gets a list of supported Autonomous AI Database versions. Note that preview version software is only available for
+Autonomous AI Database Serverless (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html) databases.
 
 
 ## Example Usage
@@ -40,15 +40,16 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `db_workload` - The Autonomous Database workload type. The following values are valid:
-	* OLTP - indicates an Autonomous Transaction Processing database
-	* DW - indicates an Autonomous Data Warehouse database
-	* AJD - indicates an Autonomous JSON Database
-	* APEX - indicates an Autonomous Database with the Oracle APEX Application Development workload type.
+* `db_workload` - The Autonomous AI Database workload type. The following values are valid:
+	* OLTP - indicates an Autonomous AI Transaction Processing database
+	* DW - indicates an Autonomous AI Lakehouse database
+	* AJD - indicates an Autonomous AI JSON Database
+	* APEX - indicates an Autonomous AI Database with the Oracle APEX AI Application Development workload type.
+	* LH - indicates an Oracle Autonomous AI Lakehouse database
 
-	This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier. 
+	 This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier. 
 * `details` - A URL that points to a detailed description of the preview version.
 * `time_preview_begin` - The date and time when the preview version availability begins.
 * `time_preview_end` - The date and time when the preview version availability ends.
-* `version` - A valid Autonomous Database preview version.
+* `version` - A valid Autonomous AI Database preview version.
 
