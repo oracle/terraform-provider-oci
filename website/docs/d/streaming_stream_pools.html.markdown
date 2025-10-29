@@ -66,6 +66,7 @@ The following attributes are exported:
 	* `nsg_ids` - The optional list of network security groups that are associated with the private endpoint of the stream pool.
 	* `private_endpoint_ip` - The private IP associated with the stream pool in the associated subnetId. The stream pool's FQDN resolves to that IP and should be used - instead of the private IP - in order to not trigger any TLS issues. 
 	* `subnet_id` - The subnet id from which the private stream pool can be accessed. Trying to access the streams from another network location will result in an error. 
+* `security_attributes` - Security attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}` 
 * `state` - The current state of the stream pool.
 * `time_created` - The date and time the stream pool was created, expressed in in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2018-04-20T00:00:07.405Z` 
 

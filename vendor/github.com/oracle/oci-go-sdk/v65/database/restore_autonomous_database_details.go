@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// RestoreAutonomousDatabaseDetails Details to restore an Oracle Autonomous Database.
+// RestoreAutonomousDatabaseDetails Details to restore an Oracle Autonomous AI Database.
 type RestoreAutonomousDatabaseDetails struct {
 
 	// The time to restore the database to.

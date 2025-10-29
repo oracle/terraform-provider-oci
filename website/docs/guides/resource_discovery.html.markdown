@@ -357,6 +357,7 @@ ai_language
 * oci\_ai\_language\_project
 * oci\_ai\_language\_model
 * oci\_ai\_language\_endpoint
+* oci\_ai\_language\_job
 
 ai_vision
     
@@ -690,6 +691,7 @@ database_tools
     
 * oci\_database\_tools\_database\_tools\_private\_endpoint
 * oci\_database\_tools\_database\_tools\_connection
+* oci\_database\_tools\_database\_tools\_identity
 
 datacatalog
     
@@ -792,6 +794,7 @@ disaster_recovery
 * oci\_disaster\_recovery\_dr\_protection\_group
 * oci\_disaster\_recovery\_dr\_plan\_execution
 * oci\_disaster\_recovery\_dr\_plan
+* oci\_disaster\_recovery\_automatic\_dr\_configuration
 
 dns
     
@@ -992,7 +995,6 @@ jms
 * oci\_jms\_task\_schedule
 * oci\_jms\_fleet\_agent\_configuration
 
-
 jms_utils
     
 * oci\_jms\_utils\_subscription\_acknowledgment\_configuration
@@ -1056,6 +1058,7 @@ logging
 lustre_file_storage
     
 * oci\_lustre\_file\_storage\_lustre\_file\_system
+* oci\_lustre\_file\_storage\_object\_storage\_link
 
 managed_kafka
     

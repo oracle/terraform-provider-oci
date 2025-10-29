@@ -104,6 +104,27 @@ func DisasterRecoveryDrPlanExecutionResource() *schema.Resource {
 			},
 
 			// Computed
+			"automatic_execution_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"event_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"member_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -238,6 +259,10 @@ func DisasterRecoveryDrPlanExecutionResource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"is_automatic": {
+				Type:     schema.TypeBool,
+				Computed: true,
 			},
 			"life_cycle_details": {
 				Type:     schema.TypeString,
@@ -628,6 +653,12 @@ func (s *DisasterRecoveryDrPlanExecutionResourceCrud) Delete() error {
 }
 
 func (s *DisasterRecoveryDrPlanExecutionResourceCrud) SetData() error {
+	if s.Res.AutomaticExecutionDetails != nil {
+		s.D.Set("automatic_execution_details", []interface{}{AutomaticExecutionDetailsToMap(s.Res.AutomaticExecutionDetails)})
+	} else {
+		s.D.Set("automatic_execution_details", nil)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -665,6 +696,10 @@ func (s *DisasterRecoveryDrPlanExecutionResourceCrud) SetData() error {
 		groupExecutions = append(groupExecutions, DrPlanGroupExecutionToMap(item))
 	}
 	s.D.Set("group_executions", groupExecutions)
+
+	if s.Res.IsAutomatic != nil {
+		s.D.Set("is_automatic", *s.Res.IsAutomatic)
+	}
 
 	if s.Res.LifeCycleDetails != nil {
 		s.D.Set("life_cycle_details", *s.Res.LifeCycleDetails)
@@ -713,6 +748,20 @@ func (s *DisasterRecoveryDrPlanExecutionResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func AutomaticExecutionDetailsToMap(obj *oci_disaster_recovery.AutomaticExecutionDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.EventName != nil {
+		result["event_name"] = string(*obj.EventName)
+	}
+
+	if obj.MemberId != nil {
+		result["member_id"] = string(*obj.MemberId)
+	}
+
+	return result
 }
 
 func (s *DisasterRecoveryDrPlanExecutionResourceCrud) mapToDrPlanExecutionOptionDetails(fieldKeyFormat string) (oci_disaster_recovery.DrPlanExecutionOptionDetails, error) {

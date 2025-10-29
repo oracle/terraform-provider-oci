@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_autonomous_database_regional_wallet_management
 This data source provides details about a specific Autonomous Database Regional Wallet Management resource in Oracle Cloud Infrastructure Database service.
 
-Gets the Autonomous Database regional wallet details.
+Gets the Autonomous AI Database regional wallet details.
 
 
 ## Example Usage
@@ -30,6 +30,6 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `state` - The current lifecycle state of the Autonomous Database wallet.
+* `state` - The current lifecycle state of the Autonomous AI Database wallet.
 * `time_rotated` - The date and time the wallet was last rotated.
 

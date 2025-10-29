@@ -27,11 +27,15 @@ func AiLanguageModelResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createAiLanguageModel,
-		Read:     readAiLanguageModel,
-		Update:   updateAiLanguageModel,
-		Delete:   deleteAiLanguageModel,
+		Timeouts: &schema.ResourceTimeout{
+			Create: schema.DefaultTimeout(60 * time.Minute),
+			Update: schema.DefaultTimeout(60 * time.Minute),
+			Delete: schema.DefaultTimeout(60 * time.Minute),
+		},
+		Create: createAiLanguageModel,
+		Read:   readAiLanguageModel,
+		Update: updateAiLanguageModel,
+		Delete: deleteAiLanguageModel,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -53,16 +57,18 @@ func AiLanguageModelResource() *schema.Resource {
 							ForceNew:         true,
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
+								"HEALTH_NLU",
 								"NAMED_ENTITY_RECOGNITION",
+								"PII",
 								"PRE_TRAINED_HEALTH_NLU",
 								"PRE_TRAINED_KEYPHRASE_EXTRACTION",
 								"PRE_TRAINED_LANGUAGE_DETECTION",
 								"PRE_TRAINED_NAMED_ENTITY_RECOGNITION",
-								"PRE_TRAINED_PHI",
 								"PRE_TRAINED_PII",
 								"PRE_TRAINED_SENTIMENT_ANALYSIS",
 								"PRE_TRAINED_SUMMARIZATION",
 								"PRE_TRAINED_TEXT_CLASSIFICATION",
+								"PRE_TRAINED_TRANSLATION",
 								"PRE_TRAINED_UNIVERSAL",
 								"TEXT_CLASSIFICATION",
 							}, true),
@@ -930,6 +936,7 @@ func (s *AiLanguageModelResourceCrud) Delete() error {
 	request.ModelId = &tmp
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_language")
+	request.RequestMetadata.RetryPolicy.MaximumNumberAttempts = 2
 
 	response, err := s.Client.DeleteModel(context.Background(), request)
 	if err != nil {
@@ -1400,8 +1407,30 @@ func (s *AiLanguageModelResourceCrud) mapToModelDetails(fieldKeyFormat string) (
 		modelType = "" // default value
 	}
 	switch strings.ToLower(modelType) {
+	case strings.ToLower("HEALTH_NLU"):
+		details := oci_ai_language.HealthNluModelDetails{}
+		if version, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "version")); ok {
+			tmp := version.(string)
+			details.Version = &tmp
+		}
+		if languageCode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "language_code")); ok {
+			tmp := languageCode.(string)
+			details.LanguageCode = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("NAMED_ENTITY_RECOGNITION"):
 		details := oci_ai_language.NamedEntityRecognitionModelDetails{}
+		if version, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "version")); ok {
+			tmp := version.(string)
+			details.Version = &tmp
+		}
+		if languageCode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "language_code")); ok {
+			tmp := languageCode.(string)
+			details.LanguageCode = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("PII"):
+		details := oci_ai_language.PiiModelDetails{}
 		if version, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "version")); ok {
 			tmp := version.(string)
 			details.Version = &tmp
@@ -1455,17 +1484,6 @@ func (s *AiLanguageModelResourceCrud) mapToModelDetails(fieldKeyFormat string) (
 			details.LanguageCode = &tmp
 		}
 		baseObject = details
-	// case strings.ToLower("PRE_TRAINED_PHI"):
-	// 	details := oci_ai_language.PreTrainedPhiModelDetails{}
-	// 	if version, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "version")); ok {
-	// 		tmp := version.(string)
-	// 		details.Version = &tmp
-	// 	}
-	// 	if languageCode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "language_code")); ok {
-	// 		tmp := languageCode.(string)
-	// 		details.LanguageCode = &tmp
-	// 	}
-	// 	baseObject = details
 	case strings.ToLower("PRE_TRAINED_PII"):
 		details := oci_ai_language.PreTrainedPiiModelDetails{}
 		if version, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "version")); ok {
@@ -1501,6 +1519,17 @@ func (s *AiLanguageModelResourceCrud) mapToModelDetails(fieldKeyFormat string) (
 		baseObject = details
 	case strings.ToLower("PRE_TRAINED_TEXT_CLASSIFICATION"):
 		details := oci_ai_language.PreTrainedTextClassificationModelDetails{}
+		if version, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "version")); ok {
+			tmp := version.(string)
+			details.Version = &tmp
+		}
+		if languageCode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "language_code")); ok {
+			tmp := languageCode.(string)
+			details.LanguageCode = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("PRE_TRAINED_TRANSLATION"):
+		details := oci_ai_language.PreTrainedTranslationModelDetails{}
 		if version, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "version")); ok {
 			tmp := version.(string)
 			details.Version = &tmp
@@ -1547,8 +1576,28 @@ func (s *AiLanguageModelResourceCrud) mapToModelDetails(fieldKeyFormat string) (
 func ModelDetailsToMap(obj *oci_ai_language.ModelDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
+	case oci_ai_language.HealthNluModelDetails:
+		result["model_type"] = "HEALTH_NLU"
+
+		if v.Version != nil {
+			result["version"] = string(*v.Version)
+		}
+
+		if v.LanguageCode != nil {
+			result["language_code"] = string(*v.LanguageCode)
+		}
 	case oci_ai_language.NamedEntityRecognitionModelDetails:
 		result["model_type"] = "NAMED_ENTITY_RECOGNITION"
+
+		if v.Version != nil {
+			result["version"] = string(*v.Version)
+		}
+
+		if v.LanguageCode != nil {
+			result["language_code"] = string(*v.LanguageCode)
+		}
+	case oci_ai_language.PiiModelDetails:
+		result["model_type"] = "PII"
 
 		if v.Version != nil {
 			result["version"] = string(*v.Version)
@@ -1589,16 +1638,10 @@ func ModelDetailsToMap(obj *oci_ai_language.ModelDetails) map[string]interface{}
 		}
 	case oci_ai_language.PreTrainedNamedEntityRecognitionModelDetails:
 		result["model_type"] = "PRE_TRAINED_NAMED_ENTITY_RECOGNITION"
-
-		if v.Version != nil {
-			result["version"] = string(*v.Version)
-		}
-
-		if v.LanguageCode != nil {
-			result["language_code"] = string(*v.LanguageCode)
-		}
-	// case oci_ai_language.PreTrainedPhiModelDetails:
-	// 	result["model_type"] = "PRE_TRAINED_PHI"
+		//=======
+		//	// case oci_ai_language.PreTrainedPhiModelDetails:
+		//	// 	result["model_type"] = "PRE_TRAINED_PHI"
+		//>>>>>>> theirs
 
 	// 	if v.Version != nil {
 	// 		result["version"] = string(*v.Version)
@@ -1639,6 +1682,16 @@ func ModelDetailsToMap(obj *oci_ai_language.ModelDetails) map[string]interface{}
 		}
 	case oci_ai_language.PreTrainedTextClassificationModelDetails:
 		result["model_type"] = "PRE_TRAINED_TEXT_CLASSIFICATION"
+
+		if v.Version != nil {
+			result["version"] = string(*v.Version)
+		}
+
+		if v.LanguageCode != nil {
+			result["language_code"] = string(*v.LanguageCode)
+		}
+	case oci_ai_language.PreTrainedTranslationModelDetails:
+		result["model_type"] = "PRE_TRAINED_TRANSLATION"
 
 		if v.Version != nil {
 			result["version"] = string(*v.Version)

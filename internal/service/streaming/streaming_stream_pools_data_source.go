@@ -137,6 +137,8 @@ func (s *StreamingStreamPoolsDataSourceCrud) SetData() error {
 			streamPool["name"] = *r.Name
 		}
 
+		streamPool["security_attributes"] = r.SecurityAttributes
+
 		streamPool["state"] = r.LifecycleState
 
 		if r.TimeCreated != nil {

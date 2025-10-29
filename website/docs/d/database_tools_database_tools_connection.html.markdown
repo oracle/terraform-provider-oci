@@ -64,6 +64,8 @@ The following attributes are exported:
 * `related_resource` - A related resource
 	* `entity_type` - The resource entity type.
 	* `identifier` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related resource.
+* `runtime_endpoint` - Specifies the Database Tools Runtime endpoint.
+* `runtime_identity` - Specifies the identity used by the Database Tools service to issue requests to other Oracle Cloud Infrastructure services (e.g., Secrets in Vault).
 * `runtime_support` - Specifies whether this connection is supported by the Database Tools Runtime.
 * `state` - The current state of the Database Tools connection.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 

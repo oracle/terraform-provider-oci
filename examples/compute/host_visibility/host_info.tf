@@ -30,6 +30,7 @@ data "oci_identity_availability_domains" "test_availability_domains" {
 
 data "oci_core_compute_hosts" "test_compute_hosts" {
   compartment_id = "${var.compartment_ocid}"
+  compute_host_in_subtree = true
 }
 
 locals {
@@ -65,6 +66,11 @@ output "compute_host_values" {
       fd = value.fault_domain
     }
   }
+}
+
+
+output "compute_hosts_list" {
+  value = data.oci_core_compute_hosts.test_compute_hosts
 }
 
 output "compute_host_resource" {

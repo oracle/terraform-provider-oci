@@ -216,6 +216,69 @@ func (client VirtualNetworkClient) addDrgRouteRules(ctx context.Context, request
 	return response, err
 }
 
+// AddIpv4SubnetCidr Add an IPv4 prefix to a subnet.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/AddIpv4SubnetCidr.go.html to see an example of how to use AddIpv4SubnetCidr API.
+// A default retry strategy applies to this operation AddIpv4SubnetCidr()
+func (client VirtualNetworkClient) AddIpv4SubnetCidr(ctx context.Context, request AddIpv4SubnetCidrRequest) (response AddIpv4SubnetCidrResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.addIpv4SubnetCidr, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddIpv4SubnetCidrResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddIpv4SubnetCidrResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddIpv4SubnetCidrResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddIpv4SubnetCidrResponse")
+	}
+	return
+}
+
+// addIpv4SubnetCidr implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) addIpv4SubnetCidr(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/subnets/{subnetId}/actions/addIpv4Cidr", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddIpv4SubnetCidrResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Subnet/AddIpv4SubnetCidr"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "AddIpv4SubnetCidr", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // AddIpv6SubnetCidr Add an IPv6 prefix to a subnet.
 //
 // # See also
@@ -12724,6 +12787,74 @@ func (client VirtualNetworkClient) listVtaps(ctx context.Context, request common
 	return response, err
 }
 
+// ModifyIpv4SubnetCidr Updates the specified Ipv4 CIDR block of a Subnet. The new Ipv4 CIDR IP range must meet the following criteria:
+// - Must be valid.
+// - Must not overlap with another Ipv4 CIDR block in the Subnet or the on-premises network CIDR block.
+// - Must not exceed the limit of Ipv4 CIDR blocks allowed per Subnet.
+// - Must include IP addresses from the original CIDR block that are used in the VCN's existing route rules.
+// - No IP address in an existing subnet should be outside of the new CIDR block range.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ModifyIpv4SubnetCidr.go.html to see an example of how to use ModifyIpv4SubnetCidr API.
+// A default retry strategy applies to this operation ModifyIpv4SubnetCidr()
+func (client VirtualNetworkClient) ModifyIpv4SubnetCidr(ctx context.Context, request ModifyIpv4SubnetCidrRequest) (response ModifyIpv4SubnetCidrResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.modifyIpv4SubnetCidr, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ModifyIpv4SubnetCidrResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ModifyIpv4SubnetCidrResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ModifyIpv4SubnetCidrResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ModifyIpv4SubnetCidrResponse")
+	}
+	return
+}
+
+// modifyIpv4SubnetCidr implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) modifyIpv4SubnetCidr(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/subnets/{subnetId}/actions/modifyIpv4Cidr", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ModifyIpv4SubnetCidrResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Subnet/ModifyIpv4SubnetCidr"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ModifyIpv4SubnetCidr", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ModifyVcnCidr Updates the specified CIDR block of a VCN. The new CIDR IP range must meet the following criteria:
 // - Must be valid.
 // - Must not overlap with another CIDR block in the VCN, a CIDR block of a peered VCN, or the on-premises network CIDR block.
@@ -13076,6 +13207,69 @@ func (client VirtualNetworkClient) removeImportDrgRouteDistribution(ctx context.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgRouteTable/RemoveImportDrgRouteDistribution"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "RemoveImportDrgRouteDistribution", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RemoveIpv4SubnetCidr Remove an IPv4 prefix from a subnet
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/RemoveIpv4SubnetCidr.go.html to see an example of how to use RemoveIpv4SubnetCidr API.
+// A default retry strategy applies to this operation RemoveIpv4SubnetCidr()
+func (client VirtualNetworkClient) RemoveIpv4SubnetCidr(ctx context.Context, request RemoveIpv4SubnetCidrRequest) (response RemoveIpv4SubnetCidrResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.removeIpv4SubnetCidr, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveIpv4SubnetCidrResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveIpv4SubnetCidrResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveIpv4SubnetCidrResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveIpv4SubnetCidrResponse")
+	}
+	return
+}
+
+// removeIpv4SubnetCidr implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) removeIpv4SubnetCidr(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/subnets/{subnetId}/actions/removeIpv4Cidr", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveIpv4SubnetCidrResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Subnet/RemoveIpv4SubnetCidr"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "RemoveIpv4SubnetCidr", apiReferenceLink)
 		return response, err
 	}
 

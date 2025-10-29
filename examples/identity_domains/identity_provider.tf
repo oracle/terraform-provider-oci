@@ -213,6 +213,14 @@ variable "identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_id
   default = "authzUrl"
 }
 
+variable "identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_apple_dev_id" {
+  default = "dev-id-123"
+}
+
+variable "identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_apple_key_id" {
+  default = "key-id-123"
+}
+
 variable "identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_auto_redirect_enabled" {
   default = false
 }
@@ -432,6 +440,8 @@ resource "oci_identity_domains_identity_provider" "test_identity_provider" {
     access_token_url             = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_access_token_url
     admin_scope                  = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_admin_scope
     authz_url                    = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_authz_url
+    apple_dev_id                 = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_apple_dev_id
+    apple_key_id                 = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_apple_key_id
     auto_redirect_enabled        = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_auto_redirect_enabled
     client_credential_in_payload = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_client_credential_in_payload
     clock_skew_in_seconds        = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_clock_skew_in_seconds

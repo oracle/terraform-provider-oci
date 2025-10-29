@@ -1052,6 +1052,32 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
+	* `apple_dev_id` - Apple Developer ID
+
+		**Added In:** 2311180004
+
+		**SCIM++ Properties:**
+		* caseExact: true
+		* idcsSearchable: false
+		* multiValued: false
+		* mutability: readWrite
+		* required: false
+		* returned: default
+		* type: string
+		* uniqueness: none
+	* `apple_key_id` - Apple Private Key ID
+
+		**Added In:** 2311180004
+
+		**SCIM++ Properties:**
+		* caseExact: true
+		* idcsSearchable: false
+		* multiValued: false
+		* mutability: readWrite
+		* required: false
+		* returned: default
+		* type: string
+		* uniqueness: none
 	* `authz_url` - Social IDP Authorization URL
 
 		**Added In:** 20.1.3

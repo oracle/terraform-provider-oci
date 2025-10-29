@@ -6,6 +6,8 @@ package disaster_recovery
 import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterDatasource() {
+	tfresource.RegisterDatasource("oci_disaster_recovery_automatic_dr_configuration", DisasterRecoveryAutomaticDrConfigurationDataSource())
+	tfresource.RegisterDatasource("oci_disaster_recovery_automatic_dr_configurations", DisasterRecoveryAutomaticDrConfigurationsDataSource())
 	tfresource.RegisterDatasource("oci_disaster_recovery_dr_plan", DisasterRecoveryDrPlanDataSource())
 	tfresource.RegisterDatasource("oci_disaster_recovery_dr_plan_execution", DisasterRecoveryDrPlanExecutionDataSource())
 	tfresource.RegisterDatasource("oci_disaster_recovery_dr_plan_executions", DisasterRecoveryDrPlanExecutionsDataSource())

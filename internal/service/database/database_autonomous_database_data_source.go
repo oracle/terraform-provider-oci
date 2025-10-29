@@ -559,6 +559,18 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("used_data_storage_size_in_tbs", *s.Res.UsedDataStorageSizeInTBs)
 	}
 
+	if s.Res.VanityConnectionUrls != nil {
+		s.D.Set("vanity_connection_urls", []interface{}{AutonomousDatabaseConnectionUrlsToMap(s.Res.VanityConnectionUrls)})
+	} else {
+		s.D.Set("vanity_connection_urls", nil)
+	}
+
+	if s.Res.VanityUrlDetails != nil {
+		s.D.Set("vanity_url_details", []interface{}{VanityUrlDetailsToMap(s.Res.VanityUrlDetails)})
+	} else {
+		s.D.Set("vanity_url_details", nil)
+	}
+
 	if s.Res.VaultId != nil {
 		s.D.Set("vault_id", *s.Res.VaultId)
 	}

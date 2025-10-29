@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// AutonomousDatabaseManualRefreshDetails Details of manual refresh for an Autonomous Database refreshable clone.
+// AutonomousDatabaseManualRefreshDetails Details of manual refresh for an Autonomous AI Database refreshable clone.
 type AutonomousDatabaseManualRefreshDetails struct {
 
-	// The timestamp to which the Autonomous Database refreshable clone will be refreshed. Changes made in the primary database after this timestamp are not part of the data refresh.
+	// The timestamp to which the Autonomous AI Database refreshable clone will be refreshed. Changes made in the primary database after this timestamp are not part of the data refresh.
 	TimeRefreshCutoff *common.SDKTime `mandatory:"false" json:"timeRefreshCutoff"`
 }
 

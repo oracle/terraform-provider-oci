@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/CreateAutonomousDatabase.go.html to see an example of how to use CreateAutonomousDatabaseRequest.
 type CreateAutonomousDatabaseRequest struct {
 
-	// Request to create a new Autonomous Database.
+	// Request to create a new Autonomous AI Database.
 	CreateAutonomousDatabaseDetails CreateAutonomousDatabaseBase `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

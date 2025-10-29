@@ -21,7 +21,7 @@ type RestoreAutonomousDatabaseRequest struct {
 	// The database OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	AutonomousDatabaseId *string `mandatory:"true" contributesTo:"path" name:"autonomousDatabaseId"`
 
-	// Request to perform an Autonomous Database restore.
+	// Request to perform an Autonomous AI Database restore.
 	RestoreAutonomousDatabaseDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

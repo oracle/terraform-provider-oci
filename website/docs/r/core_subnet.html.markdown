@@ -51,17 +51,18 @@ VCN Resolver to resolve hostnames for instances in the subnet. For more informat
 ```hcl
 resource "oci_core_subnet" "test_subnet" {
 	#Required
-	cidr_block = var.subnet_cidr_block
 	compartment_id = var.compartment_id
 	vcn_id = oci_core_vcn.test_vcn.id
 
 	#Optional
 	availability_domain = var.subnet_availability_domain
+	cidr_block = var.subnet_cidr_block
 	defined_tags = {"Operations.CostCenter"= "42"}
 	dhcp_options_id = oci_core_dhcp_options.test_dhcp_options.id
 	display_name = var.subnet_display_name
 	dns_label = var.subnet_dns_label
 	freeform_tags = {"Department"= "Finance"}
+	ipv4cidr_blocks = var.subnet_ipv4cidr_blocks
 	ipv6cidr_block = var.subnet_ipv6cidr_block
 	ipv6cidr_blocks = var.subnet_ipv6cidr_blocks
 	prohibit_internet_ingress = var.subnet_prohibit_internet_ingress
@@ -82,7 +83,7 @@ The following arguments are supported:
 	To instead create an AD-specific subnet, set this attribute to the availability domain you want this subnet to be in. Then any resources later created in this subnet can only be created in that availability domain.
 
 	Example: `Uocm:PHX-AD-1` 
-* `cidr_block` - (Required) (Updatable) The CIDR IP address range of the subnet. The CIDR must maintain the following rules -
+* `cidr_block` - (Optional) (Updatable) The CIDR IP address range of the subnet. The CIDR must maintain the following rules -
 
 	a. The CIDR block is valid and correctly formatted. b. The new range is within one of the parent VCN ranges.
 
@@ -99,6 +100,10 @@ The following arguments are supported:
 
 	Example: `subnet123` 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `ipv4cidr_blocks` - (Optional) The list of all IPv4 CIDR blocks for the subnet that meets the following criteria:
+	* Ipv4 CIDR blocks must be valid.
+	* Multiple Ipv4 CIDR blocks must not overlap each other or the on-premises network CIDR block.
+	* The number of prefixes must not exceed the limit of IPv4 prefixes allowed to a subnet. 
 * `ipv6cidr_block` - (Optional) (Updatable) Use this to enable IPv6 addressing for this subnet. The VCN must be enabled for IPv6. You can't change this subnet characteristic later. All subnets are /64 in size. The subnet portion of the IPv6 address is the fourth hextet from the left (1111 in the following example).
 
 	For important details about IPv6 addressing in a VCN, see [IPv6 Addresses](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
@@ -147,6 +152,10 @@ The following attributes are exported:
 	Example: `subnet123` 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The subnet's Oracle ID ([OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)).
+* `ipv4cidr_blocks` - The list of all IPv4 CIDR blocks for the subnet that meets the following criteria:
+	* Ipv4 CIDR blocks must be valid.
+	* Multiple Ipv4 CIDR blocks must not overlap each other or the on-premises network CIDR block.
+	* The number of prefixes must not exceed the limit of IPv4 prefixes allowed to a subnet. 
 * `ipv6cidr_block` - For an IPv6-enabled subnet, this is the IPv6 prefix for the subnet's IP address space. The subnet size is always /64. See [IPv6 Addresses](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).  Example: `2001:0db8:0123:1111::/64` 
 * `ipv6cidr_blocks` - The list of all IPv6 prefixes (Oracle allocated IPv6 GUA, ULA or private IPv6 prefixes, BYOIPv6 prefixes) for the subnet. 
 * `ipv6virtual_router_ip` - For an IPv6-enabled subnet, this is the IPv6 address of the virtual router.  Example: `2001:0db8:0123:1111:89ab:cdef:1234:5678` 

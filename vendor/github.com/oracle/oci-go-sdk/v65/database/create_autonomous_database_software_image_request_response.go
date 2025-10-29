@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/CreateAutonomousDatabaseSoftwareImage.go.html to see an example of how to use CreateAutonomousDatabaseSoftwareImageRequest.
 type CreateAutonomousDatabaseSoftwareImageRequest struct {
 
-	// Request to create Autonomous Database Software Image.
+	// Request to create Autonomous AI Database Software Image.
 	CreateAutonomousDatabaseSoftwareImageDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

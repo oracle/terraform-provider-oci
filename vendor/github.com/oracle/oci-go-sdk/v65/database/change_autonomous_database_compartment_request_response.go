@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ChangeAutonomousDatabaseCompartment.go.html to see an example of how to use ChangeAutonomousDatabaseCompartmentRequest.
 type ChangeAutonomousDatabaseCompartmentRequest struct {
 
-	// Request to move Autonomous Database to a different compartment
+	// Request to move Autonomous AI Database to a different compartment
 	ChangeCompartmentDetails `contributesTo:"body"`
 
 	// The database OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).

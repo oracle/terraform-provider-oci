@@ -62,7 +62,7 @@ The following arguments are supported:
 	* `role` - (Required when credential_type=DETAILS | SSL_DETAILS) (Updatable) The role of the user that will be connecting to the database.
 	* `ssl_secret_id` - (Required when credential_type=SSL_DETAILS) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [secret](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
 	* `username` - (Required when credential_type=DETAILS | SSL_DETAILS) (Updatable) The username that will be used to connect to the database.
-* `connection_string` - (Required) (Updatable) The Oracle Database connection string. 
+* `connection_string` - (Required) (Updatable) The Oracle AI Database connection string. 
 	* `hostname` - (Required) (Updatable) The host name of the database.
 	* `port` - (Required) (Updatable) The port used to connect to the database.
 	* `protocol` - (Required) (Updatable) The protocol used to connect to the database.
@@ -93,7 +93,7 @@ The following attributes are exported:
 	* `ssl_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [secret](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
 	* `username` - The username that will be used to connect to the database.
 * `connection_status` - The status of connectivity to the external database.
-* `connection_string` - The Oracle Database connection string. 
+* `connection_string` - The Oracle AI Database connection string. 
 	* `hostname` - The host name of the database.
 	* `port` - The port used to connect to the database.
 	* `protocol` - The protocol used to connect to the database.

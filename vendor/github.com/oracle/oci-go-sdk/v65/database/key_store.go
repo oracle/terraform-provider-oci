@@ -42,10 +42,10 @@ type KeyStore struct {
 	// List of databases associated with the key store.
 	AssociatedDatabases []KeyStoreAssociatedDatabaseDetails `mandatory:"false" json:"associatedDatabases"`
 
-	// List of long term backups of Autonomous Databases associated with this backup destination.The maximum associated number of long term backup listed here would be 1024.
+	// List of long term backups of Autonomous AI Databases associated with this backup destination.The maximum associated number of long term backup listed here would be 1024.
 	AssociatedLongTermBackups []AssociatedLongTermBackup `mandatory:"false" json:"associatedLongTermBackups"`
 
-	// Indicates the number of long term backups of Autonomous Databases associated with this backup destination.
+	// Indicates the number of long term backups of Autonomous AI Databases associated with this backup destination.
 	AssociatedLongTermBackupCount *int `mandatory:"false" json:"associatedLongTermBackupCount"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

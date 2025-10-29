@@ -28,6 +28,7 @@ resource "oci_core_subnet" "my_subnet" {
   dns_label           = "mysubnet"
   compartment_id      = var.compartment_ocid
   vcn_id              = oci_core_vcn.my_vcn.id
+  prohibit_public_ip_on_vnic = true
   security_list_ids   = [oci_core_security_list.my_security_list.id]
   route_table_id      = oci_core_route_table.my_route_table.id
 }

@@ -33,7 +33,7 @@ type ListAutonomousDatabaseSoftwareImagesRequest struct {
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
 	SortOrder ListAutonomousDatabaseSoftwareImagesSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// parameter according to which Autonomous Database Software Images will be sorted.
+	// parameter according to which Autonomous AI Database Software Images will be sorted.
 	SortBy ListAutonomousDatabaseSoftwareImagesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// A filter to return only resources that match the given lifecycle state exactly.
