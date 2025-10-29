@@ -12,7 +12,6 @@
 - Support for Zero-Trust Packet Routing (ZPR) Security Attribute Onboarding for File Storage Service
 - FSDR support for database events integration
 - Support for Zero-Trust Packet Routing (ZPR) Security Attribute Onboarding for Streaming Service
-- Support for Configure RTRT via console + Unit-tests: ExaDB@CC
 - Support for JMS common variables
 - Support for Host API - Add computeHostInSubtree query param to existing ListComputeHosts api.
 - Support for (ORM-174501 GA-2) IPv4-Prefix-for-Subnet & Flexible CIDR support for secondary IPs on VNIC
