@@ -24,7 +24,7 @@ type AcdAvmResourceStats struct {
 	// The user-friendly name for the Autonomous VM. The name does not need to be unique.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// CPUs/cores assigned to Autonomous Databases for the ACD instance in given Autonomus VM.
+	// CPUs/cores assigned to Autonomous AI Databases for the ACD instance in given Autonomus VM.
 	ProvisionedCpus *float32 `mandatory:"false" json:"provisionedCpus"`
 
 	// CPUs/cores assigned to the ACD instance in given Autonomous VM. Sum of provisioned,
@@ -37,7 +37,7 @@ type AcdAvmResourceStats struct {
 
 	// CPUs/cores that continue to be included in the count of OCPUs available to the
 	// Autonomous Container Database in given Autonomous VM, even after one of its
-	// Autonomous Database is terminated or scaled down. You can release them to the available
+	// Autonomous AI Database is terminated or scaled down. You can release them to the available
 	// OCPUs at its parent AVMC level by restarting the Autonomous Container Database.
 	ReclaimableCpus *float32 `mandatory:"false" json:"reclaimableCpus"`
 }

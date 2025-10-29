@@ -40,6 +40,12 @@ type DatabaseToolsConnection interface {
 	// Specifies whether this connection is supported by the Database Tools Runtime.
 	GetRuntimeSupport() RuntimeSupportEnum
 
+	// Specifies the Database Tools Runtime endpoint.
+	GetRuntimeEndpoint() *string
+
+	// Specifies the identity used by the Database Tools service to issue requests to other OCI services (e.g., Secrets in Vault).
+	GetRuntimeIdentity() RuntimeIdentityEnum
+
 	// A message describing the current state in more detail. For example, this message can be used to provide actionable information for a resource in the Failed state.
 	GetLifecycleDetails() *string
 
@@ -73,6 +79,8 @@ type databasetoolsconnection struct {
 	TimeCreated      *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
 	TimeUpdated      *common.SDKTime                   `mandatory:"true" json:"timeUpdated"`
 	RuntimeSupport   RuntimeSupportEnum                `mandatory:"true" json:"runtimeSupport"`
+	RuntimeEndpoint  *string                           `mandatory:"true" json:"runtimeEndpoint"`
+	RuntimeIdentity  RuntimeIdentityEnum               `mandatory:"true" json:"runtimeIdentity"`
 	Type             string                            `json:"type"`
 }
 
@@ -94,6 +102,8 @@ func (m *databasetoolsconnection) UnmarshalJSON(data []byte) error {
 	m.TimeCreated = s.Model.TimeCreated
 	m.TimeUpdated = s.Model.TimeUpdated
 	m.RuntimeSupport = s.Model.RuntimeSupport
+	m.RuntimeEndpoint = s.Model.RuntimeEndpoint
+	m.RuntimeIdentity = s.Model.RuntimeIdentity
 	m.LifecycleDetails = s.Model.LifecycleDetails
 	m.DefinedTags = s.Model.DefinedTags
 	m.FreeformTags = s.Model.FreeformTags
@@ -195,6 +205,16 @@ func (m databasetoolsconnection) GetRuntimeSupport() RuntimeSupportEnum {
 	return m.RuntimeSupport
 }
 
+// GetRuntimeEndpoint returns RuntimeEndpoint
+func (m databasetoolsconnection) GetRuntimeEndpoint() *string {
+	return m.RuntimeEndpoint
+}
+
+// GetRuntimeIdentity returns RuntimeIdentity
+func (m databasetoolsconnection) GetRuntimeIdentity() RuntimeIdentityEnum {
+	return m.RuntimeIdentity
+}
+
 func (m databasetoolsconnection) String() string {
 	return common.PointerString(m)
 }
@@ -209,6 +229,9 @@ func (m databasetoolsconnection) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingRuntimeSupportEnum(string(m.RuntimeSupport)); !ok && m.RuntimeSupport != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RuntimeSupport: %s. Supported values are: %s.", m.RuntimeSupport, strings.Join(GetRuntimeSupportEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingRuntimeIdentityEnum(string(m.RuntimeIdentity)); !ok && m.RuntimeIdentity != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RuntimeIdentity: %s. Supported values are: %s.", m.RuntimeIdentity, strings.Join(GetRuntimeIdentityEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {

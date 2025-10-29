@@ -21,10 +21,10 @@ type ListAutonomousDatabaseCharacterSetsRequest struct {
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// Specifies whether this request is for an Autonomous Database Serverless instance. By default, this request will be for Autonomous Database on Dedicated Exadata Infrastructure.
+	// Specifies whether this request is for an Autonomous AI Database Serverless instance. By default, this request will be for Autonomous AI Database on Dedicated Exadata Infrastructure.
 	IsShared *bool `mandatory:"false" contributesTo:"query" name:"isShared"`
 
-	// Specifies if the request is for an Autonomous Database Dedicated instance. The default request is for an Autonomous Database Dedicated instance.
+	// Specifies if the request is for an Autonomous AI Database Dedicated instance. The default request is for an Autonomous AI Database Dedicated instance.
 	IsDedicated *bool `mandatory:"false" contributesTo:"query" name:"isDedicated"`
 
 	// Specifies whether this request pertains to database character sets or national character sets.

@@ -28,7 +28,7 @@ type RegisterAutonomousDatabaseDataSafeRequest struct {
 	// creating or updating a resource and is used only to perform validation on the submitted data.
 	OpcDryRun *bool `mandatory:"false" contributesTo:"header" name:"opc-dry-run"`
 
-	// Request to register an Autonomous Database with Data Safe.
+	// Request to register an Autonomous AI Database with Data Safe.
 	RegisterAutonomousDatabaseDataSafeDetails `contributesTo:"body"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

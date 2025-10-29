@@ -55,6 +55,14 @@ type CreatePrivateIpDetails struct {
 	// Example: `10.0.3.3`
 	IpAddress *string `mandatory:"false" json:"ipAddress"`
 
+	// An optional field that when combined with the ipAddress field, will be used to allocate secondary IPv4 CIDRs.
+	// The CIDR range created by this combination must be within the subnet's CIDR
+	// and the CIDR range should not collide with any existing IPv4 address allocation.
+	// The VNIC ID specified in the request object should not already been assigned more than the max IPv4 addresses.
+	// If you don't specify a value, this option will be ignored.
+	// Example: 18
+	CidrPrefixLength *int `mandatory:"false" json:"cidrPrefixLength"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC to assign the private IP to. The VNIC and private IP
 	// must be in the same subnet.
 	VnicId *string `mandatory:"false" json:"vnicId"`
@@ -67,6 +75,9 @@ type CreatePrivateIpDetails struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet from which the private IP is to be drawn. The IP address,
 	// *if supplied*, must be valid for the given subnet.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
+
+	// Any one of the IPv4 CIDRs allocated to the subnet.
+	Ipv4SubnetCidrAtCreation *string `mandatory:"false" json:"ipv4SubnetCidrAtCreation"`
 
 	// Lifetime of the IP address.
 	// There are two types of IPs:

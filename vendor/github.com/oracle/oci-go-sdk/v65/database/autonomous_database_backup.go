@@ -15,16 +15,16 @@ import (
 	"strings"
 )
 
-// AutonomousDatabaseBackup An Autonomous Database backup.
+// AutonomousDatabaseBackup An Autonomous AI Database backup.
 type AutonomousDatabaseBackup struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database backup.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous AI Database backup.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous AI Database.
 	AutonomousDatabaseId *string `mandatory:"true" json:"autonomousDatabaseId"`
 
 	// The user-friendly name for the backup. The name does not have to be unique.
@@ -51,7 +51,7 @@ type AutonomousDatabaseBackup struct {
 	// The size of the database in terabytes at the time the backup was taken.
 	DatabaseSizeInTBs *float32 `mandatory:"false" json:"databaseSizeInTBs"`
 
-	// Indicates whether the backup can be used to restore the associated Autonomous Database.
+	// Indicates whether the backup can be used to restore the associated Autonomous AI Database.
 	IsRestorable *bool `mandatory:"false" json:"isRestorable"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
@@ -66,7 +66,7 @@ type AutonomousDatabaseBackup struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
 	VaultId *string `mandatory:"false" json:"vaultId"`
 
-	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. Autonomous Database Serverless does not use key versions, hence is not applicable for Autonomous Database Serverless instances.
+	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. Autonomous AI Database Serverless does not use key versions, hence is not applicable for Autonomous AI Database Serverless instances.
 	KmsKeyVersionId *string `mandatory:"false" json:"kmsKeyVersionId"`
 
 	// Retention period, in days, for long-term backups
@@ -75,7 +75,7 @@ type AutonomousDatabaseBackup struct {
 	// Timestamp until when the backup will be available
 	TimeAvailableTill *common.SDKTime `mandatory:"false" json:"timeAvailableTill"`
 
-	// A valid Oracle Database version for Autonomous Database.
+	// A valid Oracle AI Database version for Autonomous AI Database.
 	DbVersion *string `mandatory:"false" json:"dbVersion"`
 
 	// The backup size in terrabytes (TB).

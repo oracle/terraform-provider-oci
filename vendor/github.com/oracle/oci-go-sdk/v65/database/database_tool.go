@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// DatabaseTool Summary of database tools of autonomous database.
+// DatabaseTool Summary of database tools of Autonomous AI Database.
 type DatabaseTool struct {
 
 	// Name of database tool.

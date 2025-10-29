@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// AutonomousDatabasePeerCollection The object holds details about the peer Autonomous Databases for an Oracle Autonomous Database.
+// AutonomousDatabasePeerCollection The object holds details about the peer Autonomous AI Databases for an Oracle Autonomous AI Database.
 type AutonomousDatabasePeerCollection struct {
 
-	// This array holds details about Autonomous Database Peers for Oracle an Autonomous Database.
+	// This array holds details about Autonomous AI Database Peers for Oracle an Autonomous AI Database.
 	Items []AutonomousDatabasePeerSummary `mandatory:"true" json:"items"`
 }
 

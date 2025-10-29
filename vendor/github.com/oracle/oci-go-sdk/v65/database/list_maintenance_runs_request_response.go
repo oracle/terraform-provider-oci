@@ -36,7 +36,7 @@ type ListMaintenanceRunsRequest struct {
 	// The pagination token to continue listing from.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// A filter to return the maintenance history results for the local standby Autonomous Database Serverless only.
+	// A filter to return the maintenance history results for the local standby Autonomous AI Database Serverless only.
 	IsLocalAdg *bool `mandatory:"false" contributesTo:"query" name:"isLocalAdg"`
 
 	// The field to sort by.  You can provide one sort order (`sortOrder`).  Default order for TIME_SCHEDULED and TIME_ENDED is descending. Default order for DISPLAYNAME is ascending. The DISPLAYNAME sort order is case sensitive.

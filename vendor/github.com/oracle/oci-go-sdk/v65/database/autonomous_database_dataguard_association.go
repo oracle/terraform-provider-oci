@@ -15,33 +15,33 @@ import (
 	"strings"
 )
 
-// AutonomousDatabaseDataguardAssociation The properties that define dataguard association between two different Autonomous Databases.
-// Note that Autonomous Databases inherit DataGuard association from parent Autonomous Container Database.
+// AutonomousDatabaseDataguardAssociation The properties that define dataguard association between two different Autonomous AI Databases.
+// Note that Autonomous AI Databases inherit DataGuard association from parent Autonomous Container Database.
 // No actions can be taken on AutonomousDatabaseDataguardAssociation, usage is strictly informational.
 type AutonomousDatabaseDataguardAssociation struct {
 
-	// The OCID of the Autonomous Dataguard created for Autonomous Container Database where given Autonomous Database resides in.
+	// The OCID of the Autonomous Dataguard created for Autonomous Container Database where given Autonomous AI Database resides in.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database that has a relationship with the peer Autonomous Database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous AI Database that has a relationship with the peer Autonomous AI Database.
 	AutonomousDatabaseId *string `mandatory:"true" json:"autonomousDatabaseId"`
 
-	// The Data Guard role of the Autonomous Container Database or Autonomous Database, if Autonomous Data Guard is enabled.
+	// The Data Guard role of the Autonomous Container Database or Autonomous AI Database, if Autonomous Data Guard is enabled.
 	Role AutonomousDatabaseDataguardAssociationRoleEnum `mandatory:"true" json:"role"`
 
 	// The current state of Autonomous Data Guard.
 	LifecycleState AutonomousDatabaseDataguardAssociationLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The Data Guard role of the Autonomous Container Database or Autonomous Database, if Autonomous Data Guard is enabled.
+	// The Data Guard role of the Autonomous Container Database or Autonomous AI Database, if Autonomous Data Guard is enabled.
 	PeerRole AutonomousDatabaseDataguardAssociationPeerRoleEnum `mandatory:"true" json:"peerRole"`
 
 	// Additional information about the current lifecycleState, if available.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the peer Autonomous Database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the peer Autonomous AI Database.
 	PeerAutonomousDatabaseId *string `mandatory:"false" json:"peerAutonomousDatabaseId"`
 
-	// The current state of the Autonomous Database.
+	// The current state of the Autonomous AI Database.
 	PeerAutonomousDatabaseLifeCycleState AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnum `mandatory:"false" json:"peerAutonomousDatabaseLifeCycleState,omitempty"`
 
 	// The protection mode of this Autonomous Data Guard association. For more information, see

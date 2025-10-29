@@ -46,10 +46,10 @@ type ListAutonomousDatabasesRequest struct {
 	// A filter to return only resources that not match the given lifecycle state.
 	LifecycleStateNotEqualTo AutonomousDatabaseSummaryLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleStateNotEqualTo" omitEmpty:"true"`
 
-	// A filter to return only autonomous database resources that match the specified workload type.
+	// A filter to return only Autonomous AI Database resources that match the specified workload type.
 	DbWorkload AutonomousDatabaseSummaryDbWorkloadEnum `mandatory:"false" contributesTo:"query" name:"dbWorkload" omitEmpty:"true"`
 
-	// A filter to return only autonomous database resources that match the specified dbVersion.
+	// A filter to return only Autonomous AI Database resources that match the specified dbVersion.
 	DbVersion *string `mandatory:"false" contributesTo:"query" name:"dbVersion"`
 
 	// Filter on the value of the resource's 'isFreeTier' property. A value of `true` returns only Always Free resources.
@@ -72,7 +72,7 @@ type ListAutonomousDatabasesRequest struct {
 	// Filter if the resource is the resource pool leader. A value of `true` returns only resource pool leader.
 	IsResourcePoolLeader *bool `mandatory:"false" contributesTo:"query" name:"isResourcePoolLeader"`
 
-	// The database OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resourcepool Leader Autonomous Database.
+	// The database OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resourcepool Leader Autonomous AI Database.
 	ResourcePoolLeaderId *string `mandatory:"false" contributesTo:"query" name:"resourcePoolLeaderId"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
