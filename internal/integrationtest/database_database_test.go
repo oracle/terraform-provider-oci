@@ -527,8 +527,9 @@ var (
 
 	databaseDatabaseNoHsmRepresentation2 = map[string]interface{}{
 		"admin_password": acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
-		"db_name":        acctest.Representation{RepType: acctest.Required, Create: `myHsmDb2`},
+		"db_name":        acctest.Representation{RepType: acctest.Required, Create: `myHsmDb2`, Update: `myHsmDb5`},
 		"character_set":  acctest.Representation{RepType: acctest.Optional, Create: `AL32UTF8`},
+		"db_unique_name": acctest.Representation{RepType: acctest.Optional, Create: `myHsmDb_47`},
 		"db_workload":    acctest.Representation{RepType: acctest.Optional, Create: `OLTP`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
@@ -580,11 +581,10 @@ var (
 	}
 
 	DbBackupConfigZdlraBackupDestinationDetailsRepresentation = map[string]interface{}{
-		"type":                      acctest.Representation{RepType: acctest.Optional, Create: `RECOVERY_APPLIANCE`},
-		"id":                        acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_backup_destination.test_zdlra_backup_destination.id}`},
-		"vpc_user":                  acctest.Representation{RepType: acctest.Optional, Create: `bkupUser1`},
-		"vpc_password":              acctest.Representation{RepType: acctest.Optional, Create: `testPassword`},
-		"is_zero_data_loss_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"type":         acctest.Representation{RepType: acctest.Optional, Create: `RECOVERY_APPLIANCE`},
+		"id":           acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_backup_destination.test_zdlra_backup_destination.id}`},
+		"vpc_user":     acctest.Representation{RepType: acctest.Optional, Create: `bkupUser1`},
+		"vpc_password": acctest.Representation{RepType: acctest.Optional, Create: `testPassword`},
 	}
 
 	databaseDatabaseDbBackupConfigRepresentation = map[string]interface{}{
@@ -1222,13 +1222,13 @@ func TestDatabaseDatabaseResource_multipleStandby(t *testing.T) {
 				resource.TestCheckResourceAttr(primaryDatabase, "database.0.db_name", "myTestDb"),
 				resource.TestCheckResourceAttrSet(primaryDatabase, "db_home_id"),
 				resource.TestCheckResourceAttr(primaryDatabase, "source", "NONE"),
-				//resource.TestCheckResourceAttrSet(primaryDatabase, "defined_tags"),
-				//resource.TestCheckResourceAttrSet(primaryDatabase, "freeform_tags"),
+				resource.TestCheckResourceAttrSet(primaryDatabase, "defined_tags"),
+				resource.TestCheckResourceAttrSet(primaryDatabase, "freeform_tags"),
 				resource.TestCheckResourceAttr(standbyDatabase, "database.#", "1"),
 				resource.TestCheckResourceAttr(standbyDatabase, "database.0.db_name", "myTestDb"),
 				resource.TestCheckResourceAttrSet(standbyDatabase, "db_home_id"),
-				//resource.TestCheckResourceAttrSet(standbyDatabase, "defined_tags"),
-				//resource.TestCheckResourceAttrSet(standbyDatabase, "freeform_tags"),
+				resource.TestCheckResourceAttrSet(standbyDatabase, "defined_tags"),
+				resource.TestCheckResourceAttrSet(standbyDatabase, "freeform_tags"),
 				resource.TestCheckResourceAttr(standbyDatabase, "source", "DATAGUARD"),
 				resource.TestCheckResourceAttrSet(standbyDatabase, "data_guard_group.#"),
 				resource.TestCheckResourceAttr(standbyDatabase, "data_guard_group.0.protection_mode", "MAXIMUM_PERFORMANCE"),
@@ -1431,7 +1431,6 @@ func TestExaccDatabaseBackupDestination_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(databaseResourceName, "database.0.db_backup_config.0.backup_destination_details.#", "1"),
 				resource.TestCheckResourceAttrSet(databaseResourceName, "database.0.db_backup_config.0.backup_destination_details.0.id"),
 				resource.TestCheckResourceAttr(databaseResourceName, "database.0.db_backup_config.0.backup_destination_details.0.type", "RECOVERY_APPLIANCE"),
-				resource.TestCheckResourceAttr(databaseResourceName, "database.0.db_backup_config.0.backup_destination_details.0.is_zero_data_loss_enabled", "false"),
 
 				resource.TestCheckResourceAttr(dbHomeResourceName, "database.0.db_name", "myHsmDb"),
 			),
@@ -1439,13 +1438,13 @@ func TestExaccDatabaseBackupDestination_basic(t *testing.T) {
 		// Update EXACC database
 		{
 			Config: config + compartmentIdVariableStr + DatabaseExaccHsmDbHomeResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_zdlra_backup_destination", acctest.Optional, acctest.Create, DatabaseBackupDestinationRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_hsm_db_home", acctest.Optional, acctest.Create, dbHomeHsmRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_zdlra_backup_destination", acctest.Optional, acctest.Update, DatabaseBackupDestinationRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_hsm_db_home", acctest.Optional, acctest.Update, dbHomeHsmRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Update, DatabaseDatabaseZdlraRepresenation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(databaseResourceName, "database.#", "1"),
 				resource.TestCheckResourceAttr(databaseResourceName, "database.0.admin_password", "BEstrO0ng_#11"),
-				resource.TestCheckResourceAttr(databaseResourceName, "database.0.db_name", "myHsmDb2"),
+				resource.TestCheckResourceAttr(databaseResourceName, "database.0.db_name", "myHsmDb5"),
 				resource.TestCheckResourceAttrSet(databaseResourceName, "db_home_id"),
 				resource.TestCheckResourceAttr(databaseResourceName, "source", "NONE"),
 				resource.TestCheckResourceAttr(databaseResourceName, "database.0.db_backup_config.#", "1"),
@@ -1453,7 +1452,6 @@ func TestExaccDatabaseBackupDestination_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(databaseResourceName, "database.0.db_backup_config.0.backup_destination_details.#", "1"),
 				resource.TestCheckResourceAttrSet(databaseResourceName, "database.0.db_backup_config.0.backup_destination_details.0.id"),
 				resource.TestCheckResourceAttr(databaseResourceName, "database.0.db_backup_config.0.backup_destination_details.0.type", "RECOVERY_APPLIANCE"),
-				resource.TestCheckResourceAttr(databaseResourceName, "database.0.db_backup_config.0.backup_destination_details.0.is_zero_data_loss_enabled", "true"),
 				resource.TestCheckResourceAttr(dbHomeResourceName, "database.0.db_name", "myHsmDb"),
 			),
 		},
