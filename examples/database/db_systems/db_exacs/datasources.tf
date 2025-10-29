@@ -53,3 +53,13 @@ data "oci_database_advanced_cluster_file_systems" "test_advanced_cluster_file_sy
 
   vm_cluster_id = oci_database_cloud_vm_cluster.test_exascale_cloud_vm_cluster.id
 }
+
+data "oci_database_cloud_exadata_infrastructures" "test_cloud_exadata_infrastructures" {
+  #Required
+  compartment_id = var.compartment_ocid
+}
+
+data "oci_database_cloud_exadata_infrastructure" "test_cloud_exadata_infrastructure" {
+  #Required
+  cloud_exadata_infrastructure_id = oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id
+}

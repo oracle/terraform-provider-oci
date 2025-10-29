@@ -237,6 +237,10 @@ func (s *DatabaseMaintenanceRunsDataSourceCrud) SetData() error {
 
 		maintenanceRun["peer_maintenance_run_ids"] = r.PeerMaintenanceRunIds
 
+		if r.ReferenceResourceIdForImageUpdates != nil {
+			maintenanceRun["reference_resource_id_for_image_updates"] = *r.ReferenceResourceIdForImageUpdates
+		}
+
 		maintenanceRun["state"] = r.LifecycleState
 
 		if r.SystemTags != nil {
@@ -272,6 +276,12 @@ func (s *DatabaseMaintenanceRunsDataSourceCrud) SetData() error {
 		if r.TotalTimeTakenInMins != nil {
 			maintenanceRun["total_time_taken_in_mins"] = *r.TotalTimeTakenInMins
 		}
+
+		windowTypeDescriptions := []interface{}{}
+		for _, item := range r.WindowTypeDescriptions {
+			windowTypeDescriptions = append(windowTypeDescriptions, windowTypeDescriptionToMap(item))
+		}
+		maintenanceRun["window_type_descriptions"] = windowTypeDescriptions
 
 		resources = append(resources, maintenanceRun)
 	}

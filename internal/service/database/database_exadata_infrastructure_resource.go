@@ -174,6 +174,27 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"maintenance_version_preferences": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"reference_resource_id_for_image_updates": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"maintenance_window": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -711,6 +732,17 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Create() error {
 		request.IsMultiRackDeployment = &tmp
 	}
 
+	if maintenanceVersionPreferences, ok := s.D.GetOkExists("maintenance_version_preferences"); ok {
+		if tmpList := maintenanceVersionPreferences.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "maintenance_version_preferences", 0)
+			tmp, err := s.mapToMaintenanceVersionPreferenceDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.MaintenanceVersionPreferences = &tmp
+		}
+	}
+
 	if maintenanceWindow, ok := s.D.GetOkExists("maintenance_window"); ok {
 		if tmpList := maintenanceWindow.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "maintenance_window", 0)
@@ -928,6 +960,17 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Update() error {
 	if isMultiRackDeployment, ok := s.D.GetOkExists("is_multi_rack_deployment"); ok {
 		tmp := isMultiRackDeployment.(bool)
 		request.IsMultiRackDeployment = &tmp
+	}
+
+	if maintenanceVersionPreferences, ok := s.D.GetOkExists("maintenance_version_preferences"); ok {
+		if tmpList := maintenanceVersionPreferences.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "maintenance_version_preferences", 0)
+			tmp, err := s.mapToMaintenanceVersionPreferenceDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.MaintenanceVersionPreferences = &tmp
+		}
 	}
 
 	if multiRackConfigurationFile, ok := s.D.GetOkExists("multi_rack_configuration_file"); ok &&
@@ -1156,6 +1199,12 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 
 	s.D.Set("maintenance_slo_status", s.Res.MaintenanceSLOStatus)
 
+	if s.Res.MaintenanceVersionPreferences != nil {
+		s.D.Set("maintenance_version_preferences", []interface{}{MaintenanceVersionPreferenceDetailsToMap(s.Res.MaintenanceVersionPreferences)})
+	} else {
+		s.D.Set("maintenance_version_preferences", nil)
+	}
+
 	if s.Res.MaintenanceWindow != nil {
 		s.D.Set("maintenance_window", []interface{}{ExadataInfrastructureMaintenanceWindowToMap(s.Res.MaintenanceWindow)})
 	} else {
@@ -1331,6 +1380,27 @@ func ExascaleConfigDetailsToMap(obj *oci_database.ExascaleConfigDetails) map[str
 
 	if obj.TotalVmStorageInGBs != nil {
 		result["total_vm_storage_in_gbs"] = int(*obj.TotalVmStorageInGBs)
+	}
+
+	return result
+}
+
+func (s *DatabaseExadataInfrastructureResourceCrud) mapToMaintenanceVersionPreferenceDetails(fieldKeyFormat string) (oci_database.MaintenanceVersionPreferenceDetails, error) {
+	result := oci_database.MaintenanceVersionPreferenceDetails{}
+
+	if referenceResourceIdForImageUpdates, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "reference_resource_id_for_image_updates")); ok {
+		tmp := referenceResourceIdForImageUpdates.(string)
+		result.ReferenceResourceIdForImageUpdates = &tmp
+	}
+
+	return result, nil
+}
+
+func MaintenanceVersionPreferenceDetailsToMap(obj *oci_database.MaintenanceVersionPreferenceDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ReferenceResourceIdForImageUpdates != nil {
+		result["reference_resource_id_for_image_updates"] = string(*obj.ReferenceResourceIdForImageUpdates)
 	}
 
 	return result

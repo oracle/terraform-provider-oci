@@ -462,7 +462,7 @@ resource "oci_database_vm_cluster" "test_exascale_vm_cluster" {
   cpu_core_count            = "16"
   display_name              = "testVmCluster2"
   exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
-  gi_version                = "23.0.0.0.0"
+  gi_version                = "26.0.0.0.0"
   ssh_public_keys           = [var.ssh_public_key]
   vm_cluster_network_id     = oci_database_vm_cluster_network.test_vm_cluster_network3.id
   db_servers                = [data.oci_database_db_servers.test_db_servers.db_servers.0.id, data.oci_database_db_servers.test_db_servers.db_servers.1.id]
@@ -476,7 +476,6 @@ resource "oci_database_vm_cluster" "test_exascale_vm_cluster" {
   is_local_backup_enabled     = "false"
   is_sparse_diskgroup_enabled = "false"
   license_model               = "LICENSE_INCLUDED"
-  data_storage_size_in_tbs    = "26"
   db_node_storage_size_in_gbs = "120"
   memory_size_in_gbs          = "60"
 }

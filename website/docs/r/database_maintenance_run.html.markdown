@@ -88,6 +88,7 @@ The following attributes are exported:
 * `patching_status` - The status of the patching operation.
 * `peer_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the maintenance run for the Autonomous Data Guard association's peer container database.
 * `peer_maintenance_run_ids` - The list of OCIDs for the maintenance runs associated with their Autonomous Data Guard peer container databases.
+* `reference_resource_id_for_image_updates` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource the maintenance run will refer to when trying to fetch target versions. This field is set during maintenance run creation based on infrastructure's maintenance run version preferences.  Currently this is only be supported for monthly maintenance runs created via scheduling plans. 
 * `state` - The current state of the maintenance run. For Autonomous AI Database Serverless instances, valid states are IN_PROGRESS, SUCCEEDED, and FAILED. 
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `target_db_server_version` - The target software version for the database server patching operation.
@@ -98,6 +99,9 @@ The following attributes are exported:
 * `time_scheduled` - The date and time the maintenance run is scheduled to occur.
 * `time_started` - The date and time the maintenance run starts.
 * `total_time_taken_in_mins` - The total time taken by corresponding resource activity in minutes.
+* `window_type_descriptions` - A list of key-value pairs where the key will contain the window type and value contains all the windowDetails of that window type. 
+	* `messages` - A list of window detail messages from all the active execution windows based on the window type.
+	* `window_type` - The execution window is of PLANNED or UNPLANNED type.
 
 ## Timeouts
 

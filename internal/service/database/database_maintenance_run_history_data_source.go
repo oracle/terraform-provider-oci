@@ -291,6 +291,10 @@ func DatabaseMaintenanceRunHistoryDataSource() *schema.Resource {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
+									"window_details": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"window_duration_in_mins": {
 										Type:     schema.TypeInt,
 										Computed: true,
@@ -439,6 +443,10 @@ func DatabaseMaintenanceRunHistoryDataSource() *schema.Resource {
 								Type: schema.TypeString,
 							},
 						},
+						"reference_resource_id_for_image_updates": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"state": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -479,6 +487,30 @@ func DatabaseMaintenanceRunHistoryDataSource() *schema.Resource {
 						"total_time_taken_in_mins": {
 							Type:     schema.TypeInt,
 							Computed: true,
+						},
+						"window_type_descriptions": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"messages": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"window_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
 						},
 					},
 				},

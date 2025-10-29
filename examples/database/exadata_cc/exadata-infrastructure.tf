@@ -111,7 +111,43 @@ resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
 
     custom_action_timeout_in_mins = 30
   }
+
+  #Optional
+  maintenance_version_preferences {
+    reference_resource_id_for_image_updates = oci_database_exadata_infrastructure.test_exadata_infrastructure2.id
+  }
   
+}
+
+resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure2" {
+  #Required
+  admin_network_cidr            = "192.168.0.0/16"
+  cloud_control_plane_server1   = "10.32.88.1"
+  cloud_control_plane_server2   = "10.32.88.3"
+  compartment_id                = var.compartment_ocid
+  display_name                  = "tstExaInfra"
+  dns_server = ["10.231.225.65"]
+  gateway                       = "10.32.88.5"
+  infini_band_network_cidr      = "10.31.8.0/21"
+  netmask                       = "255.255.255.0"
+  ntp_server = ["10.231.225.76"]
+  shape                         = "ExadataCC.X11M"
+  time_zone                     = "US/Pacific"
+  activation_file               = "activation.zip"
+  storage_count                 = 3
+  compute_count                 = 2
+  is_cps_offline_report_enabled = false
+  is_multi_rack_deployment      = false
+  database_server_type          = "X11M"
+  storage_server_type           = "X11M-HC"
+
+  #Optional
+  contacts {
+    email        = "testuser12@testdomain.com"
+    is_primary   = "true"
+    name         = "name"
+    phone_number = "1234567899"
+  }
 }
 
 data "oci_database_exadata_infrastructure_download_config_file" "test_exadata_infrastructure_download_config_file" {

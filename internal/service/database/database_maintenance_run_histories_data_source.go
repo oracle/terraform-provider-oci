@@ -321,6 +321,10 @@ func DatabaseMaintenanceRunHistoriesDataSource() *schema.Resource {
 													Type:     schema.TypeInt,
 													Computed: true,
 												},
+												"window_details": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"window_duration_in_mins": {
 													Type:     schema.TypeInt,
 													Computed: true,
@@ -473,6 +477,10 @@ func DatabaseMaintenanceRunHistoriesDataSource() *schema.Resource {
 											Type: schema.TypeString,
 										},
 									},
+									"reference_resource_id_for_image_updates": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"state": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -513,6 +521,30 @@ func DatabaseMaintenanceRunHistoriesDataSource() *schema.Resource {
 									"total_time_taken_in_mins": {
 										Type:     schema.TypeInt,
 										Computed: true,
+									},
+									"window_type_descriptions": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"messages": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+												"window_type": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
 									},
 								},
 							},
@@ -849,6 +881,10 @@ func ExecutionWindowToMap(obj *oci_database.ExecutionWindow) map[string]interfac
 		result["total_time_taken_in_mins"] = int(*obj.TotalTimeTakenInMins)
 	}
 
+	if obj.WindowDetails != nil {
+		result["window_details"] = string(*obj.WindowDetails)
+	}
+
 	if obj.WindowDurationInMins != nil {
 		result["window_duration_in_mins"] = int(*obj.WindowDurationInMins)
 	}
@@ -963,6 +999,10 @@ func MaintenanceRunSummaryToMap(obj *oci_database.MaintenanceRunSummary) map[str
 
 	result["peer_maintenance_run_ids"] = obj.PeerMaintenanceRunIds
 
+	if obj.ReferenceResourceIdForImageUpdates != nil {
+		result["reference_resource_id_for_image_updates"] = string(*obj.ReferenceResourceIdForImageUpdates)
+	}
+
 	result["state"] = string(obj.LifecycleState)
 
 	result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
@@ -996,6 +1036,12 @@ func MaintenanceRunSummaryToMap(obj *oci_database.MaintenanceRunSummary) map[str
 	if obj.TotalTimeTakenInMins != nil {
 		result["total_time_taken_in_mins"] = int(*obj.TotalTimeTakenInMins)
 	}
+
+	windowTypeDescriptions := []interface{}{}
+	for _, item := range obj.WindowTypeDescriptions {
+		windowTypeDescriptions = append(windowTypeDescriptions, windowTypeDescriptionToMap(item))
+	}
+	result["window_type_descriptions"] = windowTypeDescriptions
 
 	return result
 }

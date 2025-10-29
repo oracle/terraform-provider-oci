@@ -174,6 +174,10 @@ func DatabaseMaintenanceRunResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"reference_resource_id_for_image_updates": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -206,6 +210,30 @@ func DatabaseMaintenanceRunResource() *schema.Resource {
 			"total_time_taken_in_mins": {
 				Type:     schema.TypeInt,
 				Computed: true,
+			},
+			"window_type_descriptions": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"messages": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"window_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 		},
 	}
@@ -519,6 +547,10 @@ func (s *DatabaseMaintenanceRunResourceCrud) SetData() error {
 
 	s.D.Set("peer_maintenance_run_ids", s.Res.PeerMaintenanceRunIds)
 
+	if s.Res.ReferenceResourceIdForImageUpdates != nil {
+		s.D.Set("reference_resource_id_for_image_updates", *s.Res.ReferenceResourceIdForImageUpdates)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SystemTags != nil {
@@ -555,6 +587,12 @@ func (s *DatabaseMaintenanceRunResourceCrud) SetData() error {
 		s.D.Set("total_time_taken_in_mins", *s.Res.TotalTimeTakenInMins)
 	}
 
+	windowTypeDescriptions := []interface{}{}
+	for _, item := range s.Res.WindowTypeDescriptions {
+		windowTypeDescriptions = append(windowTypeDescriptions, windowTypeDescriptionToMap(item))
+	}
+	s.D.Set("window_type_descriptions", windowTypeDescriptions)
+
 	return nil
 }
 
@@ -576,6 +614,16 @@ func EstimatedPatchingTimeToMap(obj *oci_database.EstimatedPatchingTime) map[str
 	if obj.TotalEstimatedPatchingTime != nil {
 		result["total_estimated_patching_time"] = int(*obj.TotalEstimatedPatchingTime)
 	}
+
+	return result
+}
+
+func windowTypeDescriptionToMap(obj oci_database.WindowTypeDescription) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["messages"] = obj.Messages
+
+	result["window_type"] = string(obj.WindowType)
 
 	return result
 }

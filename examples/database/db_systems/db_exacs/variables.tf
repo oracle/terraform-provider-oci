@@ -47,7 +47,8 @@ variable "cloud_vm_cluster_cpu_core_count" {
 }
 
 variable "cloud_vm_cluster_ocpu_count" {
-  default = "16.0"
+  // for X11M, ocpu_count should be cpu_core_count / 4. for earlier model, ocpu_count = cpu_core_count
+  default = "4.0"
 }
 
 variable "cloud_vm_cluster_gi_version" {
