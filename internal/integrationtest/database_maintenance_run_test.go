@@ -343,6 +343,7 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "maintenance_runs.0.time_scheduled", "timeScheduled2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "maintenance_runs.0.time_started"),
 				resource.TestCheckResourceAttrSet(datasourceName, "maintenance_runs.0.total_time_taken_in_mins"),
+				resource.TestCheckResourceAttr(datasourceName, "maintenance_runs.0.window_type_descriptions.#", "1"),
 			),
 		},
 
@@ -381,6 +382,7 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_scheduled"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_started"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "total_time_taken_in_mins"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "window_type_descriptions.#", "1"),
 			),
 		},
 		// verify resource import

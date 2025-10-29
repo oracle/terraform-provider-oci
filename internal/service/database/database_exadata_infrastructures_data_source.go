@@ -236,6 +236,12 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) SetData() error {
 
 		exadataInfrastructure["maintenance_slo_status"] = r.MaintenanceSLOStatus
 
+		if r.MaintenanceVersionPreferences != nil {
+			exadataInfrastructure["maintenance_version_preferences"] = []interface{}{MaintenanceVersionPreferenceDetailsToMap(r.MaintenanceVersionPreferences)}
+		} else {
+			exadataInfrastructure["maintenance_version_preferences"] = nil
+		}
+
 		if r.MaintenanceWindow != nil {
 			exadataInfrastructure["maintenance_window"] = []interface{}{ExadataInfrastructureMaintenanceWindowToMap(r.MaintenanceWindow)}
 		} else {
