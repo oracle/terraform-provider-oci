@@ -19,7 +19,7 @@ import (
 
 var (
 	DatabaseToolsDatabaseToolsConnectionRequiredOnlyResource = DatabaseToolsDatabaseToolsConnectionResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_tools_database_tools_connection", "test_database_tools_connection", acctest.Required, acctest.Create, DatabaseToolsDatabaseToolsConnectionRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_database_tools_database_tools_connection", "test_database_tools_connection", acctest.Required, acctest.Update, DatabaseToolsDatabaseToolsConnectionRepresentation)
 
 	DatabaseToolsDatabaseToolsConnectionResourceConfig = DatabaseToolsDatabaseToolsConnectionResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_tools_database_tools_connection", "test_database_tools_connection", acctest.Optional, acctest.Update, DatabaseToolsDatabaseToolsConnectionRepresentation)
@@ -28,13 +28,15 @@ var (
 		"database_tools_connection_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_tools_database_tools_connection.test_database_tools_connection.id}`},
 	}
 
-	DatabaseToolsDatabaseToolsDatabaseToolsConnectionDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":    acctest.Representation{RepType: acctest.Required, Create: `tf_connection_name`, Update: `displayName2`},
-		"state":           acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"type":            acctest.Representation{RepType: acctest.Optional, Create: []string{`ORACLE_DATABASE`}},
-		"runtime_support": acctest.Representation{RepType: acctest.Optional, Create: []string{`SUPPORTED`}},
-		"filter":          acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseToolsDatabaseToolsConnectionDataSourceFilterRepresentation}}
+	DatabaseToolsDatabaseToolsConnectionCollectionDataSourceRepresentation = map[string]interface{}{
+		"compartment_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":                acctest.Representation{RepType: acctest.Optional, Create: `tf_connection_name`, Update: `displayName2`},
+		"related_resource_identifier": acctest.Representation{RepType: acctest.Optional, Create: `${var.related_resource_id}`, Update: `identifier2`},
+		"runtime_identity":            acctest.Representation{RepType: acctest.Optional, Create: []string{`AUTHENTICATED_PRINCIPAL`}},
+		"runtime_support":             acctest.Representation{RepType: acctest.Optional, Create: []string{`SUPPORTED`}},
+		"state":                       acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"type":                        acctest.Representation{RepType: acctest.Optional, Create: []string{`ORACLE_DATABASE`}},
+		"filter":                      acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseToolsDatabaseToolsConnectionDataSourceFilterRepresentation}}
 
 	DatabaseToolsDatabaseToolsConnectionDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
@@ -53,15 +55,17 @@ var (
 		"type":                acctest.Representation{RepType: acctest.Required, Create: `ORACLE_DATABASE`},
 		"advanced_properties": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"oracle.jdbc.loginTimeout": "0"}, Update: map[string]string{"oracle.net.CONNECT_TIMEOUT": "0"}},
 		"connection_string":   acctest.Representation{RepType: acctest.Required, Create: `tcps://adb.us-phoenix-1.oraclecloud.com:1522/u9adutfb2ba8x4d_db202103231111_low.adb.oraclecloud.com`, Update: `connectionString2`},
-		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{`${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}`: `value`}, Update: map[string]string{`${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}`: `updatedValue`}},
 		"proxy_client":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseToolsUsernameProxyClientRepresentation},
 		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"key_stores":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseToolsDatabaseToolsConnectionKeyStoresRepresentation},
 		"private_endpoint_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_tools_database_tools_private_endpoint.test_private_endpoint.id}`},
 		"related_resource":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseToolsDatabaseToolsConnectionRelatedResourceRepresentation},
-		"user_name":           acctest.Representation{RepType: acctest.Required, Create: `user@example.com`},
+		"runtime_identity":    acctest.Representation{RepType: acctest.Optional, Create: `AUTHENTICATED_PRINCIPAL`},
+		"runtime_support":     acctest.Representation{RepType: acctest.Optional, Create: `SUPPORTED`},
+		"user_name":           acctest.Representation{RepType: acctest.Required, Create: `testuser`, Update: `updateduser`},
 		"user_password":       acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseToolsDatabaseToolsConnectionUserPasswordRepresentation},
-		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseToolsIgnoreChangesDatabaseToolsConnectionRepresentation},
+		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseToolsIgnoreDefinedTagsChangesDatabaseToolsConnectionRepresentation},
 	}
 	DatabaseToolsDatabaseToolsConnectionKeyStoresRepresentation = map[string]interface{}{
 		"key_store_content":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseToolsDatabaseToolsConnectionKeyStoresKeyStoreContentRepresentation},
@@ -78,15 +82,19 @@ var (
 	}
 	DatabaseToolsDatabaseToolsConnectionKeyStoresKeyStoreContentRepresentation = map[string]interface{}{
 		"value_type": acctest.Representation{RepType: acctest.Required, Create: `SECRETID`},
-		"secret_id":  acctest.Representation{RepType: acctest.Optional, Create: `${var.secret_id}`},
+		"secret_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.secret_id}`},
 	}
 	DatabaseToolsDatabaseToolsConnectionKeyStoresKeyStorePasswordRepresentation = map[string]interface{}{
 		"value_type": acctest.Representation{RepType: acctest.Required, Create: `SECRETID`},
-		"secret_id":  acctest.Representation{RepType: acctest.Optional, Create: `${var.secret_id}`},
+		"secret_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.secret_id}`},
 	}
 
 	DatabaseToolsIgnoreChangesDatabaseToolsConnectionRepresentation = map[string]interface{}{ // This may vary depending on the tenancy settings
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `freeform_tags`}},
+	}
+
+	DatabaseToolsIgnoreDefinedTagsChangesDatabaseToolsConnectionRepresentation = map[string]interface{}{ // This may vary depending on the tenancy settings
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 
 	DatabaseToolsDatabaseToolsConnectionResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
@@ -277,10 +285,10 @@ func TestDatabaseToolsConnectionOracleResource_basic(t *testing.T) {
 			// Step 6. Verify datasource
 			{
 				Config: config +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_tools_database_tools_connection", "test_database_tools_connection", acctest.Optional, acctest.Update, DatabaseToolsDatabaseToolsConnectionRepresentation) +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_services", "test_database_tools_endpoint_services", acctest.Required, acctest.Create, DatabaseToolsDatabaseToolsDatabaseToolsEndpointServiceDataSourceRepresentation) +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_connections", "test_database_tools_connections", acctest.Optional, acctest.Update, DatabaseToolsDatabaseToolsDatabaseToolsConnectionDataSourceRepresentation) +
-					allVars + DatabaseToolsDatabaseToolsConnectionResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_database_tools_database_tools_connection", "test_database_tools_connection", acctest.Optional, acctest.Update, DatabaseToolsDatabaseToolsConnectionRepresentation),
+					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_connections", "test_database_tools_connections", acctest.Optional, acctest.Update, DatabaseToolsDatabaseToolsConnectionCollectionDataSourceRepresentation) +
+					allVars + DatabaseToolsDatabaseToolsConnectionResourceDependencies,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -328,6 +336,69 @@ func TestDatabaseToolsConnectionOracleResource_basic(t *testing.T) {
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},
 				ResourceName:            resourceName,
+			},
+		},
+	})
+}
+
+func TestDatabaseToolsConnectionGenericJdbcResource_basic(t *testing.T) {
+
+	DBToolsVars := databaseToolsStandardVariables()
+	ConnectionResourceType := "oci_database_tools_database_tools_connection"
+	ConnectionName := "test_jdbc_connection"
+	ResourceReference := fmt.Sprintf("%s.%s", ConnectionResourceType, ConnectionName)
+	DataReference := fmt.Sprintf("data.%s.%s", ConnectionResourceType, ConnectionName)
+
+	var (
+		ResourceRepresentation = map[string]interface{}{
+			"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+			"display_name":    acctest.Representation{RepType: acctest.Required, Create: `tf_generic_jdbc_connection`},
+			"type":            acctest.Representation{RepType: acctest.Required, Create: `GENERIC_JDBC`},
+			"runtime_support": acctest.Representation{RepType: acctest.Required, Create: `UNSUPPORTED`},
+			"user_name":       acctest.Representation{RepType: acctest.Required, Create: `testuser`},
+			"url":             acctest.Representation{RepType: acctest.Required, Create: `jdbc:oracle:thin:@my.db.server:1521:my_sid`},
+			"user_password":   acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseToolsDatabaseToolsConnectionUserPasswordRepresentation},
+			"lifecycle":       acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseToolsIgnoreDefinedTagsChangesDatabaseToolsConnectionRepresentation},
+		}
+		DataRepresentation = map[string]interface{}{
+			"database_tools_connection_id": acctest.Representation{RepType: acctest.Required, Create: fmt.Sprintf("${%s.%s.id}", ConnectionResourceType, ConnectionName)},
+		}
+	)
+
+	resource.Test(t, resource.TestCase{
+		PreCheck:     func() { acctest.PreCheck(t) },
+		Providers:    databaseToolsOciProvider(),
+		CheckDestroy: testAccCheckDatabaseToolsDatabaseToolsConnectionDestroy,
+		Steps: []resource.TestStep{
+			// Step 1. Verify create
+			{
+				Config: DBToolsVars + acctest.GenerateResourceFromRepresentationMap(ConnectionResourceType, ConnectionName, acctest.Required, acctest.Create, ResourceRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(ResourceReference, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(ResourceReference, "display_name", "tf_generic_jdbc_connection"),
+					resource.TestCheckResourceAttr(ResourceReference, "type", "GENERIC_JDBC"),
+					resource.TestCheckResourceAttr(ResourceReference, "url", "jdbc:oracle:thin:@my.db.server:1521:my_sid"),
+				),
+			},
+			// Step 2. Verify singular datasource
+			{
+				Config: DBToolsVars +
+					acctest.GenerateResourceFromRepresentationMap(ConnectionResourceType, ConnectionName, acctest.Required, acctest.Create, ResourceRepresentation) +
+					acctest.GenerateDataSourceFromRepresentationMap(ConnectionResourceType, ConnectionName, acctest.Required, acctest.Create, DataRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(DataReference, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(DataReference, "display_name", "tf_generic_jdbc_connection"),
+					resource.TestCheckResourceAttr(DataReference, "type", "GENERIC_JDBC"),
+					resource.TestCheckResourceAttr(DataReference, "url", "jdbc:oracle:thin:@my.db.server:1521:my_sid"),
+				),
+			},
+			// Step 3. Verify resource import
+			{
+				Config:                  DBToolsVars + acctest.GenerateResourceFromRepresentationMap(ConnectionResourceType, ConnectionName, acctest.Required, acctest.Create, ResourceRepresentation),
+				ImportState:             true,
+				ImportStateVerify:       true,
+				ImportStateVerifyIgnore: []string{},
+				ResourceName:            ResourceReference,
 			},
 		},
 	})

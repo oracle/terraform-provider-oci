@@ -80,6 +80,7 @@ resource "oci_database_tools_database_tools_connection" "test_database_tools_con
 		entity_type = var.database_tools_connection_related_resource_entity_type
 		identifier = var.database_tools_connection_related_resource_identifier
 	}
+	runtime_identity = var.database_tools_connection_runtime_identity
 	runtime_support = var.database_tools_connection_runtime_support
 	url = var.database_tools_connection_url
 }
@@ -119,6 +120,7 @@ The following arguments are supported:
 * `related_resource` - (Applicable when type=MYSQL | ORACLE_DATABASE | POSTGRESQL) (Updatable) The related resource
 	* `entity_type` - (Required when type=MYSQL | ORACLE_DATABASE | POSTGRESQL) (Updatable) The resource entity type.
 	* `identifier` - (Required when type=MYSQL | ORACLE_DATABASE | POSTGRESQL) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related resource.
+* `runtime_identity` - (Optional) Specifies the identity used by the Database Tools service to issue requests to other Oracle Cloud Infrastructure services (e.g., Secrets in Vault).
 * `runtime_support` - (Optional) Specifies whether this connection is supported by the Database Tools Runtime.
 * `type` - (Required) (Updatable) The Database Tools connection type.
 * `url` - (Required when type=GENERIC_JDBC) (Updatable) The JDBC URL used to connect to the Generic JDBC database system.
@@ -167,6 +169,8 @@ The following attributes are exported:
 * `related_resource` - A related resource
 	* `entity_type` - The resource entity type.
 	* `identifier` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related resource.
+* `runtime_endpoint` - Specifies the Database Tools Runtime endpoint.
+* `runtime_identity` - Specifies the identity used by the Database Tools service to issue requests to other Oracle Cloud Infrastructure services (e.g., Secrets in Vault).
 * `runtime_support` - Specifies whether this connection is supported by the Database Tools Runtime.
 * `state` - The current state of the Database Tools connection.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 

@@ -24,6 +24,7 @@ data "oci_core_compute_hosts" "test_compute_hosts" {
 	availability_domain = var.compute_host_availability_domain
 	compute_host_group_id = oci_core_compute_host_group.test_compute_host_group.id
 	compute_host_health = var.compute_host_compute_host_health
+	compute_host_in_subtree = var.compute_host_compute_host_in_subtree
 	compute_host_lifecycle_state = var.compute_host_compute_host_lifecycle_state
 	display_name = var.compute_host_display_name
 	network_resource_id = oci_cloud_guard_resource.test_resource.id
@@ -38,6 +39,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `compute_host_group_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute host group. 
 * `compute_host_health` - (Optional) A filter to return only ComputeHostSummary resources that match the given Compute Host health State OCID exactly. 
+* `compute_host_in_subtree` - (Optional) When set to true, all the compartments in the tenancy are traversed and the hosts in the specified tenancy and its compartments are fetched. Default is false. 
 * `compute_host_lifecycle_state` - (Optional) A filter to return only ComputeHostSummary resources that match the given Compute Host lifecycle State OCID exactly. 
 * `display_name` - (Optional) A filter to return only resources that match the given display name exactly. 
 * `network_resource_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute host network resoruce.

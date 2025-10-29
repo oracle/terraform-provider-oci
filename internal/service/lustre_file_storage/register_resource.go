@@ -7,4 +7,5 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterResource() {
 	tfresource.RegisterResource("oci_lustre_file_storage_lustre_file_system", LustreFileStorageLustreFileSystemResource())
+	tfresource.RegisterResource("oci_lustre_file_storage_object_storage_link", LustreFileStorageObjectStorageLinkResource())
 }

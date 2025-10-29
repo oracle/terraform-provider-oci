@@ -82,7 +82,7 @@ type DbSystemShapeSummary struct {
 	// The display name of the shape used for the DB system.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. ECPU compute model is the recommended model and OCPU compute model is legacy.
+	// The compute model of the Autonomous AI Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. ECPU compute model is the recommended model and OCPU compute model is legacy.
 	ComputeModel DbSystemShapeSummaryComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
 
 	// If true, the shape supports configurable DB and Storage Server types.

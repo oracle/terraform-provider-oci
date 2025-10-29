@@ -20,27 +20,15 @@ import (
 )
 
 var (
-	JmsUtilsAnalyzeApplicationsConfigurationCompartmentId = utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
-	JmsUtilsAnalyzeApplicationsConfigurationBucket        = utils.GetEnvSettingWithBlankDefault("bucket")
-	JmsUtilsAnalyzeApplicationsConfigurationNamespace     = utils.GetEnvSettingWithBlankDefault("namespace")
-
-	JmsUtilsAnalyzeApplicationsConfigurationRequiredOnlyResource = JmsUtilsAnalyzeApplicationsConfigurationResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_jms_utils_analyze_applications_configuration", "test_analyze_applications_configuration", acctest.Required, acctest.Create, JmsUtilsAnalyzeApplicationsConfigurationRepresentation)
-
-	JmsUtilsAnalyzeApplicationsConfigurationResourceConfig = JmsUtilsAnalyzeApplicationsConfigurationResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_jms_utils_analyze_applications_configuration", "test_analyze_applications_configuration", acctest.Optional, acctest.Update, JmsUtilsAnalyzeApplicationsConfigurationRepresentation)
+	JmsUtilsAnalyzeApplicationsConfigurationRepresentation = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: JmsTenancyId},
+		"bucket":         acctest.Representation{RepType: acctest.Optional, Create: JmsUtilsBucketName, Update: JmsUtilsBucketName},
+		"namespace":      acctest.Representation{RepType: acctest.Optional, Create: JmsUtilsBucketNamespace, Update: JmsUtilsBucketNamespace},
+	}
 
 	JmsUtilsAnalyzeApplicationsConfigurationSingularDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: JmsUtilsAnalyzeApplicationsConfigurationCompartmentId},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: JmsTenancyId},
 	}
-
-	JmsUtilsAnalyzeApplicationsConfigurationRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: JmsUtilsAnalyzeApplicationsConfigurationCompartmentId},
-		"bucket":         acctest.Representation{RepType: acctest.Optional, Create: JmsUtilsAnalyzeApplicationsConfigurationBucket, Update: JmsUtilsAnalyzeApplicationsConfigurationBucket},
-		"namespace":      acctest.Representation{RepType: acctest.Optional, Create: JmsUtilsAnalyzeApplicationsConfigurationNamespace, Update: JmsUtilsAnalyzeApplicationsConfigurationNamespace},
-	}
-
-	JmsUtilsAnalyzeApplicationsConfigurationResourceDependencies = ""
 )
 
 // issue-routing-tag: jms_utils/default
@@ -50,23 +38,36 @@ func TestJmsUtilsAnalyzeApplicationsConfigurationResource_basic(t *testing.T) {
 
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := JmsUtilsAnalyzeApplicationsConfigurationCompartmentId
-	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-
 	resourceName := "oci_jms_utils_analyze_applications_configuration.test_analyze_applications_configuration"
 
 	singularDatasourceName := "data.oci_jms_utils_analyze_applications_configuration.test_analyze_applications_configuration"
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+JmsUtilsAnalyzeApplicationsConfigurationResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_jms_utils_analyze_applications_configuration", "test_analyze_applications_configuration", acctest.Optional, acctest.Create, JmsUtilsAnalyzeApplicationsConfigurationRepresentation), "jmsutils", "analyzeApplicationsConfiguration", t)
+	acctest.SaveConfigContent(config+
+		acctest.GenerateResourceFromRepresentationMap(
+			"oci_jms_utils_analyze_applications_configuration",
+			"test_analyze_applications_configuration",
+			acctest.Optional,
+			acctest.Create,
+			JmsUtilsAnalyzeApplicationsConfigurationRepresentation,
+		),
+		"jmsutils",
+		"analyzeApplicationsConfiguration",
+		t,
+	)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + JmsUtilsAnalyzeApplicationsConfigurationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_jms_utils_analyze_applications_configuration", "test_analyze_applications_configuration", acctest.Required, acctest.Create, JmsUtilsAnalyzeApplicationsConfigurationRepresentation),
+			Config: config +
+				acctest.GenerateResourceFromRepresentationMap(
+					"oci_jms_utils_analyze_applications_configuration",
+					"test_analyze_applications_configuration",
+					acctest.Required,
+					acctest.Create,
+					JmsUtilsAnalyzeApplicationsConfigurationRepresentation,
+				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 
 				func(s *terraform.State) (err error) {
@@ -78,21 +79,28 @@ func TestJmsUtilsAnalyzeApplicationsConfigurationResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + JmsUtilsAnalyzeApplicationsConfigurationResourceDependencies,
+			Config: config,
 		},
+
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + JmsUtilsAnalyzeApplicationsConfigurationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_jms_utils_analyze_applications_configuration", "test_analyze_applications_configuration", acctest.Optional, acctest.Create, JmsUtilsAnalyzeApplicationsConfigurationRepresentation),
+			Config: config +
+				acctest.GenerateResourceFromRepresentationMap(
+					"oci_jms_utils_analyze_applications_configuration",
+					"test_analyze_applications_configuration",
+					acctest.Optional,
+					acctest.Create,
+					JmsUtilsAnalyzeApplicationsConfigurationRepresentation,
+				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "bucket", JmsUtilsAnalyzeApplicationsConfigurationBucket),
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "namespace", JmsUtilsAnalyzeApplicationsConfigurationNamespace),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", JmsTenancyId),
+				resource.TestCheckResourceAttr(resourceName, "bucket", JmsUtilsBucketName),
+				resource.TestCheckResourceAttr(resourceName, "namespace", JmsUtilsBucketNamespace),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &JmsTenancyId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -103,12 +111,18 @@ func TestJmsUtilsAnalyzeApplicationsConfigurationResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + JmsUtilsAnalyzeApplicationsConfigurationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_jms_utils_analyze_applications_configuration", "test_analyze_applications_configuration", acctest.Optional, acctest.Update, JmsUtilsAnalyzeApplicationsConfigurationRepresentation),
+			Config: config +
+				acctest.GenerateResourceFromRepresentationMap(
+					"oci_jms_utils_analyze_applications_configuration",
+					"test_analyze_applications_configuration",
+					acctest.Optional,
+					acctest.Update,
+					JmsUtilsAnalyzeApplicationsConfigurationRepresentation,
+				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "bucket", JmsUtilsAnalyzeApplicationsConfigurationBucket),
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "namespace", JmsUtilsAnalyzeApplicationsConfigurationNamespace),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", JmsTenancyId),
+				resource.TestCheckResourceAttr(resourceName, "bucket", JmsUtilsBucketName),
+				resource.TestCheckResourceAttr(resourceName, "namespace", JmsUtilsBucketNamespace),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -119,21 +133,41 @@ func TestJmsUtilsAnalyzeApplicationsConfigurationResource_basic(t *testing.T) {
 				},
 			),
 		},
+
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_jms_utils_analyze_applications_configuration", "test_analyze_applications_configuration", acctest.Required, acctest.Create, JmsUtilsAnalyzeApplicationsConfigurationSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + JmsUtilsAnalyzeApplicationsConfigurationResourceConfig,
+				acctest.GenerateResourceFromRepresentationMap(
+					"oci_jms_utils_analyze_applications_configuration",
+					"test_analyze_applications_configuration",
+					acctest.Optional,
+					acctest.Update,
+					JmsUtilsAnalyzeApplicationsConfigurationRepresentation,
+				) +
+				acctest.GenerateDataSourceFromRepresentationMap(
+					"oci_jms_utils_analyze_applications_configuration",
+					"test_analyze_applications_configuration",
+					acctest.Required,
+					acctest.Create,
+					JmsUtilsAnalyzeApplicationsConfigurationSingularDataSourceRepresentation,
+				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-
-				resource.TestCheckResourceAttr(singularDatasourceName, "bucket", JmsUtilsAnalyzeApplicationsConfigurationBucket),
-				resource.TestCheckResourceAttr(singularDatasourceName, "namespace", JmsUtilsAnalyzeApplicationsConfigurationNamespace),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", JmsTenancyId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "bucket", JmsUtilsBucketName),
+				resource.TestCheckResourceAttr(singularDatasourceName, "namespace", JmsUtilsBucketNamespace),
 			),
 		},
+
 		// verify resource import
 		{
-			Config:            config + JmsUtilsAnalyzeApplicationsConfigurationRequiredOnlyResource,
+			Config: config +
+				acctest.GenerateResourceFromRepresentationMap(
+					"oci_jms_utils_analyze_applications_configuration",
+					"test_analyze_applications_configuration",
+					acctest.Required,
+					acctest.Create,
+					JmsUtilsAnalyzeApplicationsConfigurationRepresentation,
+				),
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

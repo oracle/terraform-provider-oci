@@ -73,6 +73,10 @@ type DrPlanExecution struct {
 	// The current state of the DR plan execution.
 	LifecycleState DrPlanExecutionLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
+	// A flag indicating whether execution was submitted automatically by Automatic DR Configuration.
+	// Example: `false`
+	IsAutomatic *bool `mandatory:"true" json:"isAutomatic"`
+
 	// The date and time at which DR plan execution began. An RFC3339 formatted datetime string.
 	// Example: `2019-03-29T09:36:42Z`
 	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
@@ -88,6 +92,8 @@ type DrPlanExecution struct {
 
 	// A message describing the DR plan execution's current state in more detail.
 	LifeCycleDetails *string `mandatory:"false" json:"lifeCycleDetails"`
+
+	AutomaticExecutionDetails *AutomaticExecutionDetails `mandatory:"false" json:"automaticExecutionDetails"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"Department": "Finance"}`
@@ -127,27 +133,29 @@ func (m DrPlanExecution) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *DrPlanExecution) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		TimeStarted             *common.SDKTime                   `json:"timeStarted"`
-		TimeEnded               *common.SDKTime                   `json:"timeEnded"`
-		ExecutionDurationInSec  *int                              `json:"executionDurationInSec"`
-		LifeCycleDetails        *string                           `json:"lifeCycleDetails"`
-		FreeformTags            map[string]string                 `json:"freeformTags"`
-		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags              map[string]map[string]interface{} `json:"systemTags"`
-		Id                      *string                           `json:"id"`
-		CompartmentId           *string                           `json:"compartmentId"`
-		DisplayName             *string                           `json:"displayName"`
-		PlanId                  *string                           `json:"planId"`
-		PlanExecutionType       DrPlanExecutionTypeEnum           `json:"planExecutionType"`
-		ExecutionOptions        drplanexecutionoptions            `json:"executionOptions"`
-		DrProtectionGroupId     *string                           `json:"drProtectionGroupId"`
-		PeerDrProtectionGroupId *string                           `json:"peerDrProtectionGroupId"`
-		PeerRegion              *string                           `json:"peerRegion"`
-		LogLocation             *ObjectStorageLogLocation         `json:"logLocation"`
-		TimeCreated             *common.SDKTime                   `json:"timeCreated"`
-		TimeUpdated             *common.SDKTime                   `json:"timeUpdated"`
-		GroupExecutions         []DrPlanGroupExecution            `json:"groupExecutions"`
-		LifecycleState          DrPlanExecutionLifecycleStateEnum `json:"lifecycleState"`
+		TimeStarted               *common.SDKTime                   `json:"timeStarted"`
+		TimeEnded                 *common.SDKTime                   `json:"timeEnded"`
+		ExecutionDurationInSec    *int                              `json:"executionDurationInSec"`
+		LifeCycleDetails          *string                           `json:"lifeCycleDetails"`
+		AutomaticExecutionDetails *AutomaticExecutionDetails        `json:"automaticExecutionDetails"`
+		FreeformTags              map[string]string                 `json:"freeformTags"`
+		DefinedTags               map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags                map[string]map[string]interface{} `json:"systemTags"`
+		Id                        *string                           `json:"id"`
+		CompartmentId             *string                           `json:"compartmentId"`
+		DisplayName               *string                           `json:"displayName"`
+		PlanId                    *string                           `json:"planId"`
+		PlanExecutionType         DrPlanExecutionTypeEnum           `json:"planExecutionType"`
+		ExecutionOptions          drplanexecutionoptions            `json:"executionOptions"`
+		DrProtectionGroupId       *string                           `json:"drProtectionGroupId"`
+		PeerDrProtectionGroupId   *string                           `json:"peerDrProtectionGroupId"`
+		PeerRegion                *string                           `json:"peerRegion"`
+		LogLocation               *ObjectStorageLogLocation         `json:"logLocation"`
+		TimeCreated               *common.SDKTime                   `json:"timeCreated"`
+		TimeUpdated               *common.SDKTime                   `json:"timeUpdated"`
+		GroupExecutions           []DrPlanGroupExecution            `json:"groupExecutions"`
+		LifecycleState            DrPlanExecutionLifecycleStateEnum `json:"lifecycleState"`
+		IsAutomatic               *bool                             `json:"isAutomatic"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -162,6 +170,8 @@ func (m *DrPlanExecution) UnmarshalJSON(data []byte) (e error) {
 	m.ExecutionDurationInSec = model.ExecutionDurationInSec
 
 	m.LifeCycleDetails = model.LifeCycleDetails
+
+	m.AutomaticExecutionDetails = model.AutomaticExecutionDetails
 
 	m.FreeformTags = model.FreeformTags
 
@@ -204,6 +214,8 @@ func (m *DrPlanExecution) UnmarshalJSON(data []byte) (e error) {
 	m.GroupExecutions = make([]DrPlanGroupExecution, len(model.GroupExecutions))
 	copy(m.GroupExecutions, model.GroupExecutions)
 	m.LifecycleState = model.LifecycleState
+
+	m.IsAutomatic = model.IsAutomatic
 
 	return
 }

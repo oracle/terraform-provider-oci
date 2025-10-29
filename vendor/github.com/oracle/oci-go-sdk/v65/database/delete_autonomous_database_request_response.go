@@ -29,7 +29,7 @@ type DeleteAutonomousDatabaseRequest struct {
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// If set to true, terminating the Autonomous Database also deletes its associated long-term backups if the retention lock is not enabled.
+	// If set to true, terminating the Autonomous AI Database also deletes its associated long-term backups if the retention lock is not enabled.
 	MustDeleteAssociatedLongTermBackups *bool `mandatory:"false" contributesTo:"query" name:"mustDeleteAssociatedLongTermBackups"`
 
 	// Indicates that the request is a dry run, if set to "true". A dry run request does not actually

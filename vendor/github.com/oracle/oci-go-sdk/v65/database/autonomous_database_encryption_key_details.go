@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// AutonomousDatabaseEncryptionKeyDetails Details of the Autonomous Database encryption key.
+// AutonomousDatabaseEncryptionKeyDetails Details of the Autonomous AI Database encryption key.
 type AutonomousDatabaseEncryptionKeyDetails interface {
 }
 

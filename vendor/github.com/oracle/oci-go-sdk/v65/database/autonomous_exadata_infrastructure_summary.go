@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// AutonomousExadataInfrastructureSummary **Deprecated** These APIs are deprecated with the introduction of the Autonomous Exadata VM Cluster resource and a shift to a common Exadata Infrastructure resource for all Exadata Cloud-based services, including Autonomous Database on dedicated Exadata infrastructure. For more details, see Latest Resource Model (https://docs.oracle.com/en/cloud/paas/autonomous-database/flddd/#articletitle).
-// Infrastructure that enables the running of multiple Autonomous Databases within a dedicated DB system.
+// AutonomousExadataInfrastructureSummary **Deprecated** These APIs are deprecated with the introduction of the Autonomous Exadata VM Cluster resource and a shift to a common Exadata Infrastructure resource for all Exadata Cloud-based services, including Autonomous AI Database on dedicated Exadata infrastructure. For more details, see Latest Resource Model (https://docs.oracle.com/en/cloud/paas/autonomous-database/flddd/#articletitle).
+// Infrastructure that enables the running of multiple Autonomous AI Databases within a dedicated DB system.
 // For more information about Autonomous Exadata Infrastructure, see
-// Oracle Autonomous Database (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html).
+// Oracle Autonomous AI Database (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html).
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator. If you're an administrator who needs to write policies to give users access, see Getting Started with Policies (https://docs.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm).
 // For information about access control and compartments, see
 // Overview of the Identity Service (https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
@@ -42,7 +42,7 @@ type AutonomousExadataInfrastructureSummary struct {
 
 	// The OCID of the subnet the Autonomous Exadata Infrastructure is associated with.
 	// **Subnet Restrictions:**
-	// - For Autonomous Databases with Autonomous Exadata Infrastructure, do not use a subnet that overlaps with 192.168.128.0/20
+	// - For Autonomous AI Databases with Autonomous Exadata Infrastructure, do not use a subnet that overlaps with 192.168.128.0/20
 	// These subnets are used by the Oracle Clusterware private interconnect on the database instance.
 	// Specifying an overlapping subnet will cause the private interconnect to malfunction.
 	// This restriction applies to both the client subnet and backup subnet.
@@ -64,7 +64,7 @@ type AutonomousExadataInfrastructureSummary struct {
 
 	// The list of OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see Security Rules (https://docs.oracle.com/iaas/Content/Network/Concepts/securityrules.htm).
 	// **NsgIds restrictions:**
-	// - A network security group (NSG) is optional for Autonomous Databases with private access. The nsgIds list can be empty.
+	// - A network security group (NSG) is optional for Autonomous AI Databases with private access. The nsgIds list can be empty.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
 	// Additional information about the current lifecycle state of the Autonomous Exadata Infrastructure.

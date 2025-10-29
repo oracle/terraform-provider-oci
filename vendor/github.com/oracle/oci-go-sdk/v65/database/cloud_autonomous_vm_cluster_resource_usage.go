@@ -24,7 +24,7 @@ type CloudAutonomousVmClusterResourceUsage struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Cloud Autonomous VM cluster.
 	Id *string `mandatory:"false" json:"id"`
 
-	// The data disk group size allocated for Autonomous Databases, in TBs.
+	// The data disk group size allocated for Autonomous AI Databases, in TBs.
 	AutonomousDataStorageSizeInTBs *float32 `mandatory:"false" json:"autonomousDataStorageSizeInTBs"`
 
 	// The local node storage allocated in GBs.
@@ -36,10 +36,10 @@ type CloudAutonomousVmClusterResourceUsage struct {
 	// The total number of Autonomous Container Databases that can be created.
 	TotalContainerDatabases *int `mandatory:"false" json:"totalContainerDatabases"`
 
-	// The data disk group size available for Autonomous Databases, in TBs.
+	// The data disk group size available for Autonomous AI Databases, in TBs.
 	AvailableAutonomousDataStorageSizeInTBs *float32 `mandatory:"false" json:"availableAutonomousDataStorageSizeInTBs"`
 
-	// The data disk group size used for Autonomous Databases, in TBs.
+	// The data disk group size used for Autonomous AI Databases, in TBs.
 	UsedAutonomousDataStorageSizeInTBs *float32 `mandatory:"false" json:"usedAutonomousDataStorageSizeInTBs"`
 
 	// The amount of memory (in GBs rounded off to nearest integer value) enabled per ECPU or OCPU. This is deprecated. Please refer to memoryPerComputeUnitInGBs for accurate value.
@@ -62,7 +62,7 @@ type CloudAutonomousVmClusterResourceUsage struct {
 	AvailableCpus *float32 `mandatory:"false" json:"availableCpus"`
 
 	// CPU cores that continue to be included in the count of OCPUs available
-	// to the Autonomous Container Database even after one of its Autonomous Database is
+	// to the Autonomous Container Database even after one of its Autonomous AI Database is
 	// terminated or scaled down. You can release them to the available OCPUs at its parent
 	// AVMC level by restarting the Autonomous Container Database.
 	ReclaimableCpus *float32 `mandatory:"false" json:"reclaimableCpus"`

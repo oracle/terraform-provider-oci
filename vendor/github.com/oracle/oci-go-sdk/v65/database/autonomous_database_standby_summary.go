@@ -21,16 +21,16 @@ type AutonomousDatabaseStandbySummary struct {
 	// The amount of time, in seconds, that the data of the standby database lags the data of the primary database. Can be used to determine the potential data loss in the event of a failover.
 	LagTimeInSeconds *int `mandatory:"false" json:"lagTimeInSeconds"`
 
-	// The current state of the Autonomous Database.
+	// The current state of the Autonomous AI Database.
 	LifecycleState AutonomousDatabaseStandbySummaryLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// Additional information about the current lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// The date and time the Autonomous Data Guard role was switched for the standby Autonomous Database.
+	// The date and time the Autonomous Data Guard role was switched for the standby Autonomous AI Database.
 	TimeDataGuardRoleChanged *common.SDKTime `mandatory:"false" json:"timeDataGuardRoleChanged"`
 
-	// The date and time the Disaster Recovery role was switched for the standby Autonomous Database.
+	// The date and time the Disaster Recovery role was switched for the standby Autonomous AI Database.
 	TimeDisasterRecoveryRoleChanged *common.SDKTime `mandatory:"false" json:"timeDisasterRecoveryRoleChanged"`
 
 	// The date and time when maintenance will begin.
@@ -42,7 +42,7 @@ type AutonomousDatabaseStandbySummary struct {
 	// The component chosen for maintenance.
 	MaintenanceTargetComponent *string `mandatory:"false" json:"maintenanceTargetComponent"`
 
-	// The availability domain of a local Autonomous Data Guard standby database of an Autonomous Database Serverless instance.
+	// The availability domain of a local Autonomous Data Guard standby database of an Autonomous AI Database Serverless instance.
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 }
 

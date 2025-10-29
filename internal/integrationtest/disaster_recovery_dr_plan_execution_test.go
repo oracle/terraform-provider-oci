@@ -149,6 +149,7 @@ func TestDisasterRecoveryDrPlanExecutionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "group_executions.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "is_automatic"),
 				resource.TestCheckResourceAttr(resourceName, "log_location.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "peer_dr_protection_group_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "peer_region"),
@@ -186,6 +187,7 @@ func TestDisasterRecoveryDrPlanExecutionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "group_executions.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "is_automatic"),
 				resource.TestCheckResourceAttr(resourceName, "log_location.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "peer_dr_protection_group_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "peer_region"),
@@ -228,6 +230,7 @@ func TestDisasterRecoveryDrPlanExecutionResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "dr_plan_execution_id"),
 
+				resource.TestCheckResourceAttr(singularDatasourceName, "automatic_execution_details.#", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "execution_duration_in_sec"),
@@ -238,7 +241,9 @@ func TestDisasterRecoveryDrPlanExecutionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "group_executions.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				resource.TestCheckNoResourceAttr(singularDatasourceName, "life_cycle_details"),
+
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_automatic"),
+
 				resource.TestCheckResourceAttr(singularDatasourceName, "log_location.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_dr_protection_group_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_region"),

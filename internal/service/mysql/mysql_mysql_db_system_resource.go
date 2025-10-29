@@ -365,8 +365,31 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 						},
 
 						// Optional
+						"maintenance_schedule_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"version_preference": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"version_track_preference": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 
 						// Computed
+						"target_version": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_scheduled": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 					},
 				},
 			},
@@ -2273,6 +2296,18 @@ func (s *MysqlMysqlDbSystemResourceCrud) mapToUpdateDeletionPolicyDetails(fieldK
 func (s *MysqlMysqlDbSystemResourceCrud) mapToCreateMaintenanceDetails(fieldKeyFormat string) (oci_mysql.CreateMaintenanceDetails, error) {
 	result := oci_mysql.CreateMaintenanceDetails{}
 
+	if maintenanceScheduleType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "maintenance_schedule_type")); ok {
+		result.MaintenanceScheduleType = oci_mysql.MaintenanceScheduleTypeEnum(maintenanceScheduleType.(string))
+	}
+
+	if versionPreference, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "version_preference")); ok {
+		result.VersionPreference = oci_mysql.VersionPreferenceEnum(versionPreference.(string))
+	}
+
+	if versionTrackPreference, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "version_track_preference")); ok {
+		result.VersionTrackPreference = oci_mysql.VersionTrackPreferenceEnum(versionTrackPreference.(string))
+	}
+
 	if windowStartTime, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "window_start_time")); ok {
 		tmp := windowStartTime.(string)
 		result.WindowStartTime = &tmp
@@ -2672,6 +2707,18 @@ func (s *MysqlMysqlDbSystemResourceCrud) mapToUpdateBackupPolicyDetails(fieldKey
 
 func (s *MysqlMysqlDbSystemResourceCrud) mapToUpdateMaintenanceDetails(fieldKeyFormat string) (oci_mysql.UpdateMaintenanceDetails, error) {
 	result := oci_mysql.UpdateMaintenanceDetails{}
+
+	if maintenanceScheduleType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "maintenance_schedule_type")); ok {
+		result.MaintenanceScheduleType = oci_mysql.MaintenanceScheduleTypeEnum(maintenanceScheduleType.(string))
+	}
+
+	if versionPreference, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "version_preference")); ok {
+		result.VersionPreference = oci_mysql.VersionPreferenceEnum(versionPreference.(string))
+	}
+
+	if versionTrackPreference, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "version_track_preference")); ok {
+		result.VersionTrackPreference = oci_mysql.VersionTrackPreferenceEnum(versionTrackPreference.(string))
+	}
 
 	if windowStartTime, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "window_start_time")); ok {
 		tmp := windowStartTime.(string)

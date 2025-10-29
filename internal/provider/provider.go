@@ -107,6 +107,7 @@ func init() {
 		globalvar.ConfigFileProfileAttrName:                   "(Optional) The profile name to be used from config file, if not set it will be DEFAULT.",
 		globalvar.DefinedTagsToIgnore:                         "(Optional) List of defined tags keys that Terraform should ignore when planning creates and updates to the associated remote object",
 		globalvar.RealmSpecificServiceEndpointTemplateEnabled: "(Optional) flags to enable realm specific service endpoint.",
+		globalvar.DualStackEndpointEnabled:                    "(Optional) flags to enable Dual Stack endpoint.",
 	}
 }
 
@@ -210,6 +211,11 @@ func SchemaMap() map[string]*schema.Schema {
 			Type:     schema.TypeString,
 			Optional: true,
 		},
+		globalvar.DualStackEndpointEnabled: {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Description: descriptions[globalvar.DualStackEndpointEnabled],
+		},
 	}
 }
 
@@ -247,6 +253,7 @@ func ResourcesMap() map[string]*schema.Resource {
 func ProviderConfig(d *schema.ResourceData) (interface{}, error) {
 	tf_resource.DefinedTagsToSuppress = IgnoreDefinedTags(d)
 	tf_resource.RealmSpecificServiceEndpointTemplateEnabled = realmSpecificServiceEndpointTemplateEnabled(d)
+	tf_resource.DualStackEndpointTemplateEnabled = dualStackEndpointEnabled(d)
 	clients := &tf_client.OracleClients{
 		SdkClientMap:  make(map[string]interface{}, len(tf_client.OracleClientRegistrationsVar.RegisteredClients)),
 		Configuration: make(map[string]string),
@@ -523,6 +530,13 @@ func IgnoreDefinedTags(d schemaResourceData) []string {
 	}
 	return nil
 }
+func dualStackEndpointEnabled(d schemaResourceData) string {
+	if flag, ok := d.GetOkExists(globalvar.DualStackEndpointEnabled); ok {
+		return strconv.FormatBool(flag.(bool))
+	}
+	return ""
+}
+
 func realmSpecificServiceEndpointTemplateEnabled(d schemaResourceData) string {
 	if flag, ok := d.GetOkExists(globalvar.RealmSpecificServiceEndpointTemplateEnabled); ok {
 		return strconv.FormatBool(flag.(bool))

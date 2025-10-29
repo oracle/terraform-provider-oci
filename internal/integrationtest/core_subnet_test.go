@@ -64,12 +64,29 @@ var (
 		"lifecycle":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRep},
 	}
 
+	CoreSubnetRepresentation2 = map[string]interface{}{
+		"ipv4cidr_blocks":            acctest.Representation{RepType: acctest.Required, Create: []string{"10.0.0.0/24", "10.0.1.0/24"}},
+		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"vcn_id":                     acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
+		"availability_domain":        acctest.Representation{RepType: acctest.Optional, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`},
+		"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"dhcp_options_id":            acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vcn.test_vcn.default_dhcp_options_id}`, Update: `${oci_core_dhcp_options.test_dhcp_options.id}`},
+		"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `MySubnet`, Update: `displayName2`},
+		"dns_label":                  acctest.Representation{RepType: acctest.Optional, Create: `dnslabel`},
+		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"prohibit_public_ip_on_vnic": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"prohibit_internet_ingress":  acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"route_table_id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vcn.test_vcn.default_route_table_id}`, Update: `${oci_core_route_table.test_route_table.id}`},
+		"security_list_ids":          acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_vcn.test_vcn.default_security_list_id}`}, Update: []string{`${oci_core_security_list.test_security_list.id}`}},
+		"lifecycle":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRep},
+	}
+
 	CoreSubnetResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", acctest.Required, acctest.Create, CoreDhcpOptionsRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Required, acctest.Create, CoreInternetGatewayRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, CoreRouteTableRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", acctest.Required, acctest.Create, CoreSecurityListRepresentation) +
 		acctest.GenerateDataSourceFromRepresentationMap("oci_core_services", "test_services", acctest.Required, acctest.Create, CoreCoreServiceDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreIpv6VcnRepresentation, map[string]interface{}{
 			"dns_label":               acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
 			"is_ipv6enabled":          acctest.Representation{RepType: acctest.Optional, Create: `true`},
 			"ipv6private_cidr_blocks": acctest.Representation{RepType: acctest.Optional, Create: []string{`fc00:1000::/52`}},
@@ -110,7 +127,6 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + CoreSubnetResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/24"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
@@ -167,6 +183,45 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + CoreSubnetResourceDependencies,
 		},
 
+		// verify Create with optionals ipv4cidr_blocks
+		{
+			Config: config + compartmentIdVariableStr + CoreSubnetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Create, CoreSubnetRepresentation2),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/24"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "dhcp_options_id"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "MySubnet"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "ipv4cidr_blocks.#", "2"),
+				resource.TestCheckNoResourceAttr(resourceName, "ipv6cidr_block"),
+				resource.TestCheckResourceAttr(resourceName, "prohibit_public_ip_on_vnic", "false"),
+				resource.TestCheckResourceAttr(resourceName, "prohibit_internet_ingress", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "virtual_router_ip"),
+				resource.TestCheckResourceAttrSet(resourceName, "virtual_router_mac"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + CoreSubnetResourceDependencies,
+		},
+
 		// verify Create with optionals ipv6cidr_block
 		{
 			Config: config + compartmentIdVariableStr + CoreSubnetResourceDependencies +
@@ -181,6 +236,7 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "MySubnet"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "ipv4cidr_blocks.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "ipv6cidr_block"),
 				resource.TestCheckResourceAttr(resourceName, "ipv6cidr_blocks.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "prohibit_public_ip_on_vnic", "false"),
@@ -295,6 +351,7 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "dns_label", "dnslabel"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "ipv4cidr_blocks.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "ipv6cidr_block"),
 				resource.TestCheckResourceAttr(resourceName, "prohibit_public_ip_on_vnic", "false"),
 				resource.TestCheckResourceAttr(resourceName, "prohibit_internet_ingress", "false"),
@@ -329,6 +386,7 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "dns_label", "dnslabel"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "ipv4cidr_blocks.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "ipv6cidr_block"),
 				resource.TestCheckResourceAttr(resourceName, "prohibit_public_ip_on_vnic", "false"),
 				resource.TestCheckResourceAttr(resourceName, "prohibit_internet_ingress", "false"),
@@ -368,6 +426,7 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "subnets.0.dns_label", "dnslabel"),
 				resource.TestCheckResourceAttr(datasourceName, "subnets.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "subnets.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "subnets.0.ipv4cidr_blocks.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "subnets.0.ipv6cidr_block"),
 				resource.TestCheckResourceAttr(datasourceName, "subnets.0.ipv6cidr_blocks.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "subnets.0.prohibit_public_ip_on_vnic", "false"),
@@ -394,6 +453,7 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ipv4cidr_blocks.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "ipv6cidr_block"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "ipv6cidr_blocks.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "prohibit_public_ip_on_vnic", "false"),

@@ -24,11 +24,13 @@ For more information about secondary private IPs, see
 resource "oci_core_private_ip" "test_private_ip" {
 
 	#Optional
+	cidr_prefix_length = var.private_ip_cidr_prefix_length
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = var.private_ip_display_name
 	freeform_tags = {"Department"= "Finance"}
 	hostname_label = var.private_ip_hostname_label
 	ip_address = var.private_ip_ip_address
+	ipv4subnet_cidr_at_creation = var.private_ip_ipv4subnet_cidr_at_creation
 	lifetime = var.private_ip_lifetime
 	route_table_id = oci_core_route_table.test_route_table.id
 	subnet_id = oci_core_subnet.test_subnet.id
@@ -41,6 +43,7 @@ resource "oci_core_private_ip" "test_private_ip" {
 
 The following arguments are supported:
 
+* `cidr_prefix_length` - (Optional) An optional field that when combined with the ipAddress field, will be used to allocate secondary IPv4 CIDRs. The CIDR range created by this combination must be within the subnet's CIDR  and the CIDR range should not collide with any existing IPv4 address allocation. The VNIC ID specified in the request object should not already been assigned more than the max IPv4 addresses. If you don't specify a value, this option will be ignored.  Example: 18 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
@@ -50,7 +53,8 @@ The following arguments are supported:
 
 	Example: `bminstance1` 
 * `ip_address` - (Optional) A private IP address of your choice. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address from the subnet.  Example: `10.0.3.3` 
-* `lifetime` - (Optional) (Updatable) Lifetime of the IP address. There are two types of IPv6 IPs:
+* `ipv4subnet_cidr_at_creation` - (Optional) Any one of the IPv4 CIDRs allocated to the subnet. 
+* `lifetime` - (Optional) (Updatable) Lifetime of the IP address. There are two types of IPs:
 	* Ephemeral
 	* Reserved 
 * `route_table_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the IP address or VNIC will use. For more information, see [Source Based Routing](https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#Overview_of_Routing_for_Your_VCN__source_routing). 
@@ -69,6 +73,7 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `availability_domain` - The private IP's availability domain. This attribute will be null if this is a *secondary* private IP assigned to a VNIC that is in a *regional* subnet.  Example: `Uocm:PHX-AD-1` 
+* `cidr_prefix_length` - The secondary IPv4 CIDR prefix length.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the private IP.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
@@ -85,6 +90,7 @@ The following attributes are exported:
 
 	Example: `10.0.3.3` 
 * `ip_state` - State of the IP address. If an IP address is assigned to a VNIC it is ASSIGNED, otherwise it is AVAILABLE. 
+* `ipv4subnet_cidr_at_creation` - Ipv4 Subnet CIDR specified whn creating the PrivateIP. 
 * `is_primary` - Whether this private IP is the primary one on the VNIC. Primary private IPs are unassigned and deleted automatically when the VNIC is terminated.  Example: `true` 
 * `lifetime` - Lifetime of the IP address. There are two types of IPv6 IPs:
 	* Ephemeral

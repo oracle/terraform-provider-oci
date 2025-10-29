@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_autonomous_database_peers
 This data source provides the list of Autonomous Database Peers in Oracle Cloud Infrastructure Database service.
 
-Lists the Autonomous Database peers for the specified Autonomous Database.
+Lists the Autonomous AI Database peers for the specified Autonomous AI Database.
 
 
 ## Example Usage
@@ -39,7 +39,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `items` - This array holds details about Autonomous Database Peers for Oracle an Autonomous Database.
-	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database.
-	* `region` - The name of the region where this peer Autonomous Database clone exists.
+* `items` - This array holds details about Autonomous AI Database Peers for Oracle an Autonomous AI Database.
+	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous AI Database.
+	* `region` - The name of the region where this peer Autonomous AI Database clone exists.
 

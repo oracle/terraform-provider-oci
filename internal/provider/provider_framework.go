@@ -45,6 +45,7 @@ type ociPluginProvider struct {
 	ignoreDefinedTags                           []string
 	realmSpecificServiceEndpointTemplateEnabled bool
 	testTimeMaintenanceRebootDue                string
+	dualStackEndpointEnabled                    bool
 }
 
 type ociProviderModel struct {
@@ -61,6 +62,7 @@ type ociProviderModel struct {
 	ConfigFileProfile                           types.String `tfsdk:"config_file_profile"`
 	IgnoreDefinedTags                           types.List   `tfsdk:"ignore_defined_tags"`
 	RealmSpecificServiceEndpointTemplateEnabled types.Bool   `tfsdk:"realm_specific_service_endpoint_template_enabled"`
+	DualStackEndpointEnabled                    types.Bool   `tfsdk:"dual_stack_endpoint_enabled"`
 	TestTimeMaintenanceRebootDue                types.String `tfsdk:"test_time_maintenance_reboot_due"`
 }
 
@@ -138,6 +140,10 @@ func (p *ociPluginProvider) Schema(ctx context.Context, req provider.SchemaReque
 			globalvar.RealmSpecificServiceEndpointTemplateEnabled: schema.BoolAttribute{
 				Optional:    true,
 				Description: descriptions[globalvar.RealmSpecificServiceEndpointTemplateEnabled],
+			},
+			globalvar.DualStackEndpointEnabled: schema.BoolAttribute{
+				Optional:    true,
+				Description: descriptions[globalvar.DualStackEndpointEnabled],
 			},
 			// test_time_maintenance_reboot_due is used only in some acceptance tests to simulate some scenario
 			globalvar.TestTimeMaintenanceRebootDue: schema.StringAttribute{
@@ -234,6 +240,7 @@ func (p *ociPluginProvider) SetDefaults(config *ociProviderModel) {
 	p.configFileProfile = config.ConfigFileProfile.ValueString()
 	p.configured = true
 	tf_resource.RealmSpecificServiceEndpointTemplateEnabled = getStringFromFwBool(config.RealmSpecificServiceEndpointTemplateEnabled)
+	tf_resource.DualStackEndpointTemplateEnabled = getStringFromFwBool(config.DualStackEndpointEnabled)
 }
 
 func (p *ociPluginProvider) SetProviderConfig() (interface{}, error) {

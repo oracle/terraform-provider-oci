@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// RefreshableCloneSummary An Autonomous Database refreshable clone
+// RefreshableCloneSummary An Autonomous AI Database refreshable clone
 type RefreshableCloneSummary struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous AI Database.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The name of the region where the refreshable clone exists.

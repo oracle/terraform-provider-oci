@@ -18,10 +18,10 @@ import (
 // AssociatedLongTermBackup Long Term Backups associated with a backup destination
 type AssociatedLongTermBackup struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database backup.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous AI Database backup.
 	Id *string `mandatory:"false" json:"id"`
 
-	// The display name for the long term backup for the autonomous database.
+	// The display name for the long term backup for the Autonomous AI Database.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 }
 

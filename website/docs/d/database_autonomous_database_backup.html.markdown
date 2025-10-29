@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_autonomous_database_backup
 This data source provides details about a specific Autonomous Database Backup resource in Oracle Cloud Infrastructure Database service.
 
-Gets information about the specified Autonomous Database backup.
+Gets information about the specified Autonomous AI Database backup.
 
 ## Example Usage
 
@@ -25,14 +25,14 @@ data "oci_database_autonomous_database_backup" "test_autonomous_database_backup"
 
 The following arguments are supported:
 
-* `autonomous_database_backup_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database backup.
+* `autonomous_database_backup_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous AI Database backup.
 
 
 ## Attributes Reference
 
 The following attributes are exported:
 
-* `autonomous_database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database.
+* `autonomous_database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous AI Database.
 * `backup_destination_details` - Backup destination details
 	* `backup_retention_policy_on_terminate` - Defines the automatic and manual backup retention policy for the Autonomous Database termination.  The retention policy set on the Autonomous Container Database is not applicable for cross region remote backups and backups hosted on recovery Appliance backup destination. Options are 'RETAIN_PER_RETENTION_WINDOW' or 'RETAIN_FOR_72_HOURS'.The default value is 'RETAIN_FOR_72_HOURS'. 
 	* `dbrs_policy_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DBRS policy used for backup.
@@ -46,16 +46,16 @@ The following attributes are exported:
 	* `vpc_user` - For a RECOVERY_APPLIANCE backup destination, the Virtual Private Catalog (VPC) user that is used to access the Recovery Appliance.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `database_size_in_tbs` - The size of the database in terabytes at the time the backup was taken. 
-* `db_version` - A valid Oracle Database version for Autonomous Database.
+* `db_version` - A valid Oracle AI Database version for Autonomous AI Database.
 * `display_name` - The user-friendly name for the backup. The name does not have to be unique.
-* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database backup.
+* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous AI Database backup.
 * `infrastructure_type` - The infrastructure type this resource belongs to.
 * `is_automatic` - Indicates whether the backup is user-initiated or automatic.
-* `is_restorable` - Indicates whether the backup can be used to restore the associated Autonomous Database.
+* `is_restorable` - Indicates whether the backup can be used to restore the associated Autonomous AI Database.
 * `key_store_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
 * `key_store_wallet_name` - The wallet name for Oracle Key Vault.
 * `kms_key_id` - The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
-* `kms_key_version_id` - The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. Autonomous Database Serverless does not use key versions, hence is not applicable for Autonomous Database Serverless instances. 
+* `kms_key_version_id` - The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. Autonomous AI Database Serverless does not use key versions, hence is not applicable for Autonomous AI Database Serverless instances. 
 * `lifecycle_details` - Additional information about the current lifecycle state.
 * `region` - Name of the region in which backup is taken in.
 * `retention_period_in_days` - Retention period, in days, for long-term backups

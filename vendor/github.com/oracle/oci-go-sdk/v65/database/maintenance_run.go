@@ -27,7 +27,7 @@ type MaintenanceRun struct {
 	// The user-friendly name for the maintenance run.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The current state of the maintenance run. For Autonomous Database Serverless instances, valid states are IN_PROGRESS, SUCCEEDED, and FAILED.
+	// The current state of the maintenance run. For Autonomous AI Database Serverless instances, valid states are IN_PROGRESS, SUCCEEDED, and FAILED.
 	LifecycleState MaintenanceRunLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// The date and time the maintenance run is scheduled to occur.
@@ -54,7 +54,7 @@ type MaintenanceRun struct {
 	// Maintenance type.
 	MaintenanceType MaintenanceRunMaintenanceTypeEnum `mandatory:"false" json:"maintenanceType,omitempty"`
 
-	// The unique identifier of the patch. The identifier string includes the patch type, the Oracle Database version, and the patch creation date (using the format YYMMDD). For example, the identifier `ru_patch_19.9.0.0_201030` is used for an RU patch for Oracle Database 19.9.0.0 that was released October 30, 2020.
+	// The unique identifier of the patch. The identifier string includes the patch type, the Oracle AI Database version, and the patch creation date (using the format YYMMDD). For example, the identifier `ru_patch_19.9.0.0_201030` is used for an RU patch for Oracle AI Database 19.9.0.0 that was released October 30, 2020.
 	PatchId *string `mandatory:"false" json:"patchId"`
 
 	// Maintenance sub-type.
@@ -119,7 +119,7 @@ type MaintenanceRun struct {
 	// The total time taken by corresponding resource activity in minutes.
 	TotalTimeTakenInMins *int `mandatory:"false" json:"totalTimeTakenInMins"`
 
-	// The Autonomous Database Software Image OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
+	// The Autonomous AI Database Software Image OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	DatabaseSoftwareImageId *string `mandatory:"false" json:"databaseSoftwareImageId"`
 }
 

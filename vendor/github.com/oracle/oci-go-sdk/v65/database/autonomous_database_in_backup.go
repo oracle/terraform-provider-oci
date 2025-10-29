@@ -15,13 +15,13 @@ import (
 	"strings"
 )
 
-// AutonomousDatabaseInBackup Details of Autonomous Database in Autonomous Container Database
+// AutonomousDatabaseInBackup Details of Autonomous AI Database in Autonomous Container Database
 type AutonomousDatabaseInBackup struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The user-friendly name for the Autonomous Database. The name does not have to be unique.
+	// The user-friendly name for the Autonomous AI Database. The name does not have to be unique.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 }
 

@@ -25,6 +25,7 @@ resource "oci_ai_language_endpoint" "test_endpoint" {
 	model_id = oci_ai_language_model.test_model.id
 
 	#Optional
+	alias = var.endpoint_alias
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	description = var.endpoint_description
 	display_name = var.endpoint_display_name
@@ -37,6 +38,7 @@ resource "oci_ai_language_endpoint" "test_endpoint" {
 
 The following arguments are supported:
 
+* `alias` - (Optional) (Updatable) Unique name across user tenancy in a region to identify an endpoint to be used for inferencing.
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) compartment identifier for the endpoint
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - (Optional) (Updatable) A short description of the an endpoint.
@@ -53,6 +55,7 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `alias` - Unique name across user tenancy in a region to identify an endpoint to be used for inferencing.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the endpoint compartment.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - A short description of the endpoint.

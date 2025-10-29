@@ -130,6 +130,10 @@ func (s *CorePrivateIpsDataSourceCrud) SetData() error {
 			privateIp["availability_domain"] = *r.AvailabilityDomain
 		}
 
+		if r.CidrPrefixLength != nil {
+			privateIp["cidr_prefix_length"] = *r.CidrPrefixLength
+		}
+
 		if r.CompartmentId != nil {
 			privateIp["compartment_id"] = *r.CompartmentId
 		}
@@ -157,6 +161,10 @@ func (s *CorePrivateIpsDataSourceCrud) SetData() error {
 		}
 
 		privateIp["ip_state"] = r.IpState
+
+		if r.Ipv4SubnetCidrAtCreation != nil {
+			privateIp["ipv4subnet_cidr_at_creation"] = *r.Ipv4SubnetCidrAtCreation
+		}
 
 		if r.IsPrimary != nil {
 			privateIp["is_primary"] = *r.IsPrimary

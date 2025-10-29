@@ -39,8 +39,20 @@ var (
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_compute_host.test_compute_host.id}`}},
 	}
 
+	CoreComputeHostDataSourceRepresentationWithNoFilters = map[string]interface{}{
+		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"compute_host_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `true`},
+	}
+
 	CoreComputeHostRepresentation = map[string]interface{}{
 		"compute_host_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.baremetalhost_id}`},
+		"compute_host_group_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_compute_host_group.test_compute_host_group.id}`},
+	}
+
+	CoreComputeHostResourceWithOptionalSubCompartment = acctest.GenerateResourceFromRepresentationMap("oci_core_compute_host", "test_compute_host_list2", acctest.Optional, acctest.Update, CoreComputeHostRepresentationSubCompartment)
+
+	CoreComputeHostRepresentationSubCompartment = map[string]interface{}{
+		"compute_host_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.baremetalhost_id2}`},
 		"compute_host_group_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_compute_host_group.test_compute_host_group.id}`},
 	}
 
@@ -205,6 +217,81 @@ func TestCoreComputeHostResource_basic(t *testing.T) {
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
 			ResourceName:            resourceName,
+		},
+	})
+}
+
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
+func TestCoreComputeHostResource_listCompartments(t *testing.T) {
+	httpreplay.SetScenario("TestCoreComputeHostResource_listCompartments")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig() + `
+	variable "baremetalhost_id" {
+		default = "` + utils.GetEnvSettingWithBlankDefault("baremetalhost_id") + `"
+	}
+	variable "baremetalhost_id2" {
+		default = "` + utils.GetEnvSettingWithBlankDefault("baremetalhost_id2") + `"
+	}
+	`
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	datasourceName := "data.oci_core_compute_hosts.test_compute_hosts"
+	singularDatasourceName := "data.oci_core_compute_host.test_compute_host"
+
+	acctest.SaveConfigContent("", "", "", t)
+
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+
+		// verify datasource
+		// two hosts in two different compartments but with boolean false
+		{
+			Config: config + CoreComputeHostResourceDependencies + CoreComputeHostResourceWithRequired + CoreComputeHostResourceWithOptionalSubCompartment +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_hosts", "test_compute_hosts", acctest.Required, acctest.Create,
+					CoreComputeHostDataSourceRepresentation) +
+				compartmentIdVariableStr,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "id"),
+				resource.TestCheckResourceAttr(datasourceName, "compute_host_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "compute_host_collection.0.items.#", "1"),
+			),
+		},
+
+		// verify datasource
+		// two hosts in two different compartments but with boolean true
+		{
+			Config: config + CoreComputeHostResourceDependencies + CoreComputeHostResourceWithRequired + CoreComputeHostResourceWithOptionalSubCompartment +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_hosts", "test_compute_hosts", acctest.Optional, acctest.Create,
+					CoreComputeHostDataSourceRepresentationWithNoFilters) +
+				compartmentIdVariableStr,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "id"),
+				resource.TestCheckResourceAttr(datasourceName, "compute_host_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "compute_host_collection.0.items.#", "2"),
+			),
+		},
+
+		// verify singular datasource
+		{
+			Config: config + CoreComputeHostResourceDependencies + CoreComputeHostResourceWithOptional + CoreComputeHostResourceWithOptionalSubCompartment +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_host", "test_compute_host", acctest.Required, acctest.Create, CoreComputeHostSingularDataSourceRepresentation) +
+				compartmentIdVariableStr,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_host_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "fault_domain"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "health"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "shape"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
 		},
 	})
 }

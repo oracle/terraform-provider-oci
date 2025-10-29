@@ -71,6 +71,11 @@ type ListComputeHostsRequest struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute host group.
 	ComputeHostGroupId *string `mandatory:"false" contributesTo:"query" name:"computeHostGroupId"`
 
+	// When set to true, all the compartments in the tenancy are traversed
+	// and the hosts in the specified tenancy and its compartments are fetched.
+	// Default is false.
+	ComputeHostInSubtree *bool `mandatory:"false" contributesTo:"query" name:"computeHostInSubtree"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

@@ -36,7 +36,7 @@ type RotateAutonomousContainerDatabaseEncryptionKeyRequest struct {
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// Key details provided by the user for rotate key operation for Autonomous Database.
+	// Key details provided by the user for rotate key operation for Autonomous AI Database.
 	RotateAutonomousContainerDatabaseEncryptionKeyDetails `contributesTo:"body"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

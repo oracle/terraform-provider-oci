@@ -236,6 +236,30 @@ var (
 		"subnet_id":                 acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 	}
 
+	// Launch instance with IPv4 subnet_cidr on primary VNIC
+	CoreInstanceCreateVnicDetailsSubnetCidrRepresentation = map[string]interface{}{
+		"assign_ipv6ip":             acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"assign_private_dns_record": acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"subnet_id":                 acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"assign_public_ip":          acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
+		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Accounting"}},
+		"hostname_label":            acctest.Representation{RepType: acctest.Optional, Create: `hostnamelabel`},
+		"nsg_ids":                   acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
+		"skip_source_dest_check":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"subnet_cidr":               acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.cidr_block}`},
+	}
+	CoreInstanceSubnetCidrRepresentation = map[string]interface{}{
+		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"shape":               acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`},
+		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
+		"image":               acctest.Representation{RepType: acctest.Required, Create: `${var.InstanceImageOCID[var.region]}`},
+		"create_vnic_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceCreateVnicDetailsSubnetCidrRepresentation},
+		"subnet_id":           acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"state":               acctest.Representation{RepType: acctest.Optional, Create: `STOPPED`},
+	}
+
 	CoreInstanceCreateVnicDetailsIpv6Representation = map[string]interface{}{
 		"assign_ipv6ip":             acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"assign_private_dns_record": acctest.Representation{RepType: acctest.Optional, Create: `true`},
@@ -588,7 +612,6 @@ data "oci_kms_keys" "test_keys_dependency_RSA" {
 			Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[1], "id")}`},
 		"boot_volume_size_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `60`, Update: `70`},
 	}
-
 	InstanceWithNoKmsKeyInSourceDetailsRepresentation = map[string]interface{}{
 		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
@@ -3971,6 +3994,49 @@ func TestCoreInstanceResource_AssignIpv6(t *testing.T) {
 					},
 				),
 			},
+		},
+	})
+}
+
+func TestCoreInstanceResource_subnetCidr(t *testing.T) {
+	httpreplay.SetScenario("TestCoreInstanceResource_subnetCidr")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_core_instance.test_instance"
+
+	// Save TF content with subnet_cidr on instance's create_vnic_details
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreInstanceResourceDependenciesWithoutDHV+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Create, CoreInstanceSubnetCidrRepresentation),
+		"core", "instance", t)
+
+	acctest.ResourceTest(t, testAccCheckCoreInstanceDestroy, []resource.TestStep{
+		{
+			Config: config + compartmentIdVariableStr + CoreInstanceResourceDependenciesWithoutDHV +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Create, CoreInstanceSubnetCidrRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.assign_ipv6ip", "false"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.assign_public_ip", "true"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.hostname_label", "hostnamelabel"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.nsg_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.skip_source_dest_check", "false"),
+				// Do not assert subnet_cidr exact value: write-only, not returned by API
+				resource.TestCheckResourceAttrSet(resourceName, "create_vnic_details.0.subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "image"),
+				resource.TestCheckResourceAttr(resourceName, "state", "STOPPED"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+			),
 		},
 	})
 }
