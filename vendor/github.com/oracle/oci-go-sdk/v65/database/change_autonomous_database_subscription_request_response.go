@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ChangeAutonomousDatabaseSubscription.go.html to see an example of how to use ChangeAutonomousDatabaseSubscriptionRequest.
 type ChangeAutonomousDatabaseSubscriptionRequest struct {
 
-	// Associate an Autonomous Database with a different subscription.
+	// Associate an Autonomous AI Database with a different subscription.
 	ChangeAutonomousDatabaseSubscriptionDetails `contributesTo:"body"`
 
 	// The database OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).

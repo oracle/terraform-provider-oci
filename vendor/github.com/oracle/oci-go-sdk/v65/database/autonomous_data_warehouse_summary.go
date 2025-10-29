@@ -15,11 +15,11 @@ import (
 	"strings"
 )
 
-// AutonomousDataWarehouseSummary **Deprecated.** See AutonomousDatabase for reference information about Autonomous Databases with the warehouse workload type.
+// AutonomousDataWarehouseSummary **Deprecated.** See AutonomousDatabase for reference information about Autonomous AI Databases with the warehouse workload type.
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type AutonomousDataWarehouseSummary struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Data Warehouse.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous AI Lakehouse.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
@@ -43,16 +43,16 @@ type AutonomousDataWarehouseSummary struct {
 	// The date and time the database was created.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The user-friendly name for the Autonomous Data Warehouse. The name does not have to be unique.
+	// The user-friendly name for the Autonomous AI Lakehouse. The name does not have to be unique.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The URL of the Service Console for the Data Warehouse.
+	// The URL of the Service Console for the AI Lakehouse.
 	ServiceConsoleUrl *string `mandatory:"false" json:"serviceConsoleUrl"`
 
-	// The connection string used to connect to the Data Warehouse. The username for the Service Console is ADMIN. Use the password you entered when creating the Autonomous Data Warehouse for the password value.
+	// The connection string used to connect to the AI Lakehouse. The username for the Service Console is ADMIN. Use the password you entered when creating the Autonomous AI Lakehouse for the password value.
 	ConnectionStrings *AutonomousDataWarehouseConnectionStrings `mandatory:"false" json:"connectionStrings"`
 
-	// The Oracle license model that applies to the Oracle Autonomous Data Warehouse. The default is BRING_YOUR_OWN_LICENSE.
+	// The Oracle license model that applies to the Oracle Autonomous AI Lakehouse. The default is BRING_YOUR_OWN_LICENSE.
 	LicenseModel AutonomousDataWarehouseSummaryLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -64,7 +64,7 @@ type AutonomousDataWarehouseSummary struct {
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// A valid Oracle Database version for Autonomous Data Warehouse.
+	// A valid Oracle AI Database version for Autonomous AI Lakehouse.
 	DbVersion *string `mandatory:"false" json:"dbVersion"`
 }
 

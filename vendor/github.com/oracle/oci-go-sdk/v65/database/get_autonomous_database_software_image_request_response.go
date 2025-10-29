@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetAutonomousDatabaseSoftwareImage.go.html to see an example of how to use GetAutonomousDatabaseSoftwareImageRequest.
 type GetAutonomousDatabaseSoftwareImageRequest struct {
 
-	// The Autonomous Database Software Image OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// The Autonomous AI Database Software Image OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	AutonomousDatabaseSoftwareImageId *string `mandatory:"true" contributesTo:"path" name:"autonomousDatabaseSoftwareImageId"`
 
 	// Unique identifier for the request.

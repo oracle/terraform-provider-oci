@@ -38,17 +38,21 @@ type CreateDatabaseToolsConnectionDetails interface {
 
 	// Specifies whether this connection is supported by the Database Tools Runtime.
 	GetRuntimeSupport() RuntimeSupportEnum
+
+	// Specifies the identity used by the Database Tools service to issue requests to other OCI services (e.g., Secrets in Vault).
+	GetRuntimeIdentity() RuntimeIdentityEnum
 }
 
 type createdatabasetoolsconnectiondetails struct {
-	JsonData       []byte
-	DefinedTags    map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-	FreeformTags   map[string]string                 `mandatory:"false" json:"freeformTags"`
-	Locks          []ResourceLock                    `mandatory:"false" json:"locks"`
-	RuntimeSupport RuntimeSupportEnum                `mandatory:"false" json:"runtimeSupport,omitempty"`
-	DisplayName    *string                           `mandatory:"true" json:"displayName"`
-	CompartmentId  *string                           `mandatory:"true" json:"compartmentId"`
-	Type           string                            `json:"type"`
+	JsonData        []byte
+	DefinedTags     map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	FreeformTags    map[string]string                 `mandatory:"false" json:"freeformTags"`
+	Locks           []ResourceLock                    `mandatory:"false" json:"locks"`
+	RuntimeSupport  RuntimeSupportEnum                `mandatory:"false" json:"runtimeSupport,omitempty"`
+	RuntimeIdentity RuntimeIdentityEnum               `mandatory:"false" json:"runtimeIdentity,omitempty"`
+	DisplayName     *string                           `mandatory:"true" json:"displayName"`
+	CompartmentId   *string                           `mandatory:"true" json:"compartmentId"`
+	Type            string                            `json:"type"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -68,6 +72,7 @@ func (m *createdatabasetoolsconnectiondetails) UnmarshalJSON(data []byte) error 
 	m.FreeformTags = s.Model.FreeformTags
 	m.Locks = s.Model.Locks
 	m.RuntimeSupport = s.Model.RuntimeSupport
+	m.RuntimeIdentity = s.Model.RuntimeIdentity
 	m.Type = s.Model.Type
 
 	return err
@@ -124,6 +129,11 @@ func (m createdatabasetoolsconnectiondetails) GetRuntimeSupport() RuntimeSupport
 	return m.RuntimeSupport
 }
 
+// GetRuntimeIdentity returns RuntimeIdentity
+func (m createdatabasetoolsconnectiondetails) GetRuntimeIdentity() RuntimeIdentityEnum {
+	return m.RuntimeIdentity
+}
+
 // GetDisplayName returns DisplayName
 func (m createdatabasetoolsconnectiondetails) GetDisplayName() *string {
 	return m.DisplayName
@@ -146,6 +156,9 @@ func (m createdatabasetoolsconnectiondetails) ValidateEnumValue() (bool, error) 
 
 	if _, ok := GetMappingRuntimeSupportEnum(string(m.RuntimeSupport)); !ok && m.RuntimeSupport != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RuntimeSupport: %s. Supported values are: %s.", m.RuntimeSupport, strings.Join(GetRuntimeSupportEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingRuntimeIdentityEnum(string(m.RuntimeIdentity)); !ok && m.RuntimeIdentity != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RuntimeIdentity: %s. Supported values are: %s.", m.RuntimeIdentity, strings.Join(GetRuntimeIdentityEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))

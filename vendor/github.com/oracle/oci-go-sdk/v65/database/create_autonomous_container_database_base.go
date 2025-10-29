@@ -40,16 +40,16 @@ type CreateAutonomousContainerDatabaseBase interface {
 	// The service level agreement type of the Autonomous Container Database. The default is STANDARD. For an autonomous dataguard Autonomous Container Database, the specified Autonomous Exadata Infrastructure must be associated with a remote Autonomous Exadata Infrastructure.
 	GetServiceLevelAgreementType() CreateAutonomousContainerDatabaseBaseServiceLevelAgreementTypeEnum
 
-	// **No longer used.** This parameter is no longer used for Autonomous Database on dedicated Exadata infrasture. Specify a `cloudAutonomousVmClusterId` instead. Using this parameter will cause the operation to fail.
+	// **No longer used.** This parameter is no longer used for Autonomous AI Database on dedicated Exadata infrasture. Specify a `cloudAutonomousVmClusterId` instead. Using this parameter will cause the operation to fail.
 	GetAutonomousExadataInfrastructureId() *string
 
 	// The base version for the Autonomous Container Database.
 	GetDbVersion() *string
 
-	// The Autonomous Database Software Image OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// The Autonomous AI Database Software Image OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	GetDatabaseSoftwareImageId() *string
 
-	// *No longer used.* This parameter is no longer used for Autonomous Database on dedicated Exadata infrasture. Specify a `peerCloudAutonomousVmClusterId` instead. Using this parameter will cause the operation to fail.
+	// *No longer used.* This parameter is no longer used for Autonomous AI Database on dedicated Exadata infrasture. Specify a `peerCloudAutonomousVmClusterId` instead. Using this parameter will cause the operation to fail.
 	GetPeerAutonomousExadataInfrastructureId() *string
 
 	// The display name for the peer Autonomous Container Database.
@@ -116,7 +116,7 @@ type CreateAutonomousContainerDatabaseBase interface {
 	// The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 	GetKmsKeyId() *string
 
-	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. Autonomous Database Serverless does not use key versions, hence is not applicable for Autonomous Database Serverless instances.
+	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. Autonomous AI Database Serverless does not use key versions, hence is not applicable for Autonomous AI Database Serverless instances.
 	GetKmsKeyVersionId() *string
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
@@ -125,13 +125,13 @@ type CreateAutonomousContainerDatabaseBase interface {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
 	GetKeyStoreId() *string
 
-	// The CPU value beyond which an Autonomous Database will be opened across multiple nodes. The default value of this attribute is 16 for OCPUs and 64 for ECPUs.
+	// The CPU value beyond which an Autonomous AI Database will be opened across multiple nodes. The default value of this attribute is 16 for OCPUs and 64 for ECPUs.
 	GetDbSplitThreshold() *int
 
 	// The percentage of CPUs reserved across nodes to support node failover. Allowed values are 0%, 25%, and 50%, with 50% being the default option.
 	GetVmFailoverReservation() *int
 
-	// Determines whether an Autonomous Database must be opened across a minimum or maximum of nodes. By default, Minimum nodes is selected.
+	// Determines whether an Autonomous AI Database must be opened across a minimum or maximum of nodes. By default, Minimum nodes is selected.
 	GetDistributionAffinity() CreateAutonomousContainerDatabaseBaseDistributionAffinityEnum
 
 	// Enabling SHARED server architecture enables a database server to allow many client processes to share very few server processes, thereby increasing the number of supported users.

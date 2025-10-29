@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// ResourcePoolMemberCollection A list of Autonomous Database resource pool member OCIDs.
+// ResourcePoolMemberCollection A list of Autonomous AI Database resource pool member OCIDs.
 type ResourcePoolMemberCollection struct {
 
 	// List of resource pool member summary.

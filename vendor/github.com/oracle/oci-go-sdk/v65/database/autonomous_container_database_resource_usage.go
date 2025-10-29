@@ -27,7 +27,7 @@ type AutonomousContainerDatabaseResourceUsage struct {
 	// Number of CPUs that are reclaimable or released to the AVMC on Autonomous Container Database restart.
 	ReclaimableCpus *float32 `mandatory:"false" json:"reclaimableCpus"`
 
-	// CPUs available for provisioning or scaling an Autonomous Database in the Autonomous Container Database.
+	// CPUs available for provisioning or scaling an Autonomous AI Database in the Autonomous Container Database.
 	AvailableCpus *float32 `mandatory:"false" json:"availableCpus"`
 
 	// Largest provisionable ADB in the Autonomous Container Database.
@@ -44,7 +44,7 @@ type AutonomousContainerDatabaseResourceUsage struct {
 	// reserved and reclaimable CPUs/ cores.
 	UsedCpus *float32 `mandatory:"false" json:"usedCpus"`
 
-	// Valid list of provisionable CPUs for Autonomous Database.
+	// Valid list of provisionable CPUs for Autonomous AI Database.
 	ProvisionableCpus []float32 `mandatory:"false" json:"provisionableCpus"`
 
 	// List of autonomous container database resource usage per autonomous virtual machine.
