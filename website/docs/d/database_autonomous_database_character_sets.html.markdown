@@ -28,9 +28,10 @@ data "oci_database_autonomous_database_character_sets" "test_autonomous_database
 
 The following arguments are supported:
 
-* `character_set_type` - (Optional) Specifies whether this request pertains to database character sets or national character sets. 
-* `is_dedicated` - (Optional) Specifies if the request is for an Autonomous Database Dedicated instance. The default request is for an Autonomous Database Dedicated instance.
-* `is_shared` - (Optional) Specifies whether this request is for Autonomous Database on Shared infrastructure. By default, this request will be for Autonomous Database on Dedicated Exadata Infrastructure.
+* `character_set_type` - (Optional) Specifies whether this request pertains to database character sets or national character sets.
+* `is_dedicated` - (Optional) Specifies if the request is for an Autonomous AI Database Dedicated instance. The default request is for an Autonomous AI Database Dedicated instance. 
+* `is_shared` - (Optional) Specifies whether this request is for an Autonomous AI Database Serverless instance. By default, this request will be for Autonomous AI Database on Dedicated Exadata Infrastructure. 
+
 
 :
 ## Attributes Reference

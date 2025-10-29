@@ -33,6 +33,9 @@ type ListDatabaseToolsConnectionsRequest struct {
 	// A filter to return only resources with one of the specified type values.
 	RuntimeSupport []RuntimeSupportEnum `contributesTo:"query" name:"runtimeSupport" omitEmpty:"true" collectionFormat:"multi"`
 
+	// A filter to return only resources with one of the specified runtimeIdentity values.
+	RuntimeIdentity []RuntimeIdentityEnum `contributesTo:"query" name:"runtimeIdentity" omitEmpty:"true" collectionFormat:"multi"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related resource.
 	RelatedResourceIdentifier *string `mandatory:"false" contributesTo:"query" name:"relatedResourceIdentifier"`
 
@@ -99,6 +102,12 @@ func (request ListDatabaseToolsConnectionsRequest) ValidateEnumValue() (bool, er
 	for _, val := range request.RuntimeSupport {
 		if _, ok := GetMappingRuntimeSupportEnum(string(val)); !ok && val != "" {
 			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RuntimeSupport: %s. Supported values are: %s.", val, strings.Join(GetRuntimeSupportEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range request.RuntimeIdentity {
+		if _, ok := GetMappingRuntimeIdentityEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RuntimeIdentity: %s. Supported values are: %s.", val, strings.Join(GetRuntimeIdentityEnumStringValues(), ",")))
 		}
 	}
 

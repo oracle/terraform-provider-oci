@@ -34,6 +34,10 @@ func CoreComputeHostsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"compute_host_in_subtree": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"compute_host_lifecycle_state": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -198,6 +202,11 @@ func (s *CoreComputeHostsDataSourceCrud) Get() error {
 	if computeHostHealth, ok := s.D.GetOkExists("compute_host_health"); ok {
 		tmp := computeHostHealth.(string)
 		request.ComputeHostHealth = &tmp
+	}
+
+	if computeHostInSubtree, ok := s.D.GetOkExists("compute_host_in_subtree"); ok {
+		tmp := computeHostInSubtree.(bool)
+		request.ComputeHostInSubtree = &tmp
 	}
 
 	if computeHostLifecycleState, ok := s.D.GetOkExists("compute_host_lifecycle_state"); ok {

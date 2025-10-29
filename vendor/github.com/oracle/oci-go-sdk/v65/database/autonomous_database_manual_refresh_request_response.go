@@ -21,7 +21,7 @@ type AutonomousDatabaseManualRefreshRequest struct {
 	// The database OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	AutonomousDatabaseId *string `mandatory:"true" contributesTo:"path" name:"autonomousDatabaseId"`
 
-	// Request details for manually refreshing an Autonomous Database refreshable clone.
+	// Request details for manually refreshing an Autonomous AI Database refreshable clone.
 	AutonomousDatabaseManualRefreshDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

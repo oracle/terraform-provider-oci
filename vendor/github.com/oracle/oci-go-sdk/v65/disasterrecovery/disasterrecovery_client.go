@@ -342,6 +342,69 @@ func (client DisasterRecoveryClient) changeDrProtectionGroupCompartment(ctx cont
 	return response, err
 }
 
+// CreateAutomaticDrConfiguration Create a Automatic DR configuration.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/CreateAutomaticDrConfiguration.go.html to see an example of how to use CreateAutomaticDrConfiguration API.
+// A default retry strategy applies to this operation CreateAutomaticDrConfiguration()
+func (client DisasterRecoveryClient) CreateAutomaticDrConfiguration(ctx context.Context, request CreateAutomaticDrConfigurationRequest) (response CreateAutomaticDrConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createAutomaticDrConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateAutomaticDrConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateAutomaticDrConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateAutomaticDrConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateAutomaticDrConfigurationResponse")
+	}
+	return
+}
+
+// createAutomaticDrConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client DisasterRecoveryClient) createAutomaticDrConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/automaticDrConfigurations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateAutomaticDrConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/AutomaticDrConfiguration/CreateAutomaticDrConfiguration"
+		err = common.PostProcessServiceError(err, "DisasterRecovery", "CreateAutomaticDrConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateDrPlan Create a DR plan of the specified DR plan type.
 //
 // # See also
@@ -524,6 +587,64 @@ func (client DisasterRecoveryClient) createDrProtectionGroup(ctx context.Context
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/DrProtectionGroup/CreateDrProtectionGroup"
 		err = common.PostProcessServiceError(err, "DisasterRecovery", "CreateDrProtectionGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteAutomaticDrConfiguration Delete the automatic DR configuration identified by *automaticDrConfigurationId*.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/DeleteAutomaticDrConfiguration.go.html to see an example of how to use DeleteAutomaticDrConfiguration API.
+// A default retry strategy applies to this operation DeleteAutomaticDrConfiguration()
+func (client DisasterRecoveryClient) DeleteAutomaticDrConfiguration(ctx context.Context, request DeleteAutomaticDrConfigurationRequest) (response DeleteAutomaticDrConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteAutomaticDrConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteAutomaticDrConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteAutomaticDrConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteAutomaticDrConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteAutomaticDrConfigurationResponse")
+	}
+	return
+}
+
+// deleteAutomaticDrConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client DisasterRecoveryClient) deleteAutomaticDrConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/automaticDrConfigurations/{automaticDrConfigurationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteAutomaticDrConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/AutomaticDrConfiguration/DeleteAutomaticDrConfiguration"
+		err = common.PostProcessServiceError(err, "DisasterRecovery", "DeleteAutomaticDrConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -762,6 +883,64 @@ func (client DisasterRecoveryClient) disassociateDrProtectionGroup(ctx context.C
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/DrProtectionGroup/DisassociateDrProtectionGroup"
 		err = common.PostProcessServiceError(err, "DisasterRecovery", "DisassociateDrProtectionGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetAutomaticDrConfiguration Get details for the Automatic DR configuration identified by *automaticDrConfigurationId*.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/GetAutomaticDrConfiguration.go.html to see an example of how to use GetAutomaticDrConfiguration API.
+// A default retry strategy applies to this operation GetAutomaticDrConfiguration()
+func (client DisasterRecoveryClient) GetAutomaticDrConfiguration(ctx context.Context, request GetAutomaticDrConfigurationRequest) (response GetAutomaticDrConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getAutomaticDrConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetAutomaticDrConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetAutomaticDrConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetAutomaticDrConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetAutomaticDrConfigurationResponse")
+	}
+	return
+}
+
+// getAutomaticDrConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client DisasterRecoveryClient) getAutomaticDrConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/automaticDrConfigurations/{automaticDrConfigurationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetAutomaticDrConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/AutomaticDrConfiguration/GetAutomaticDrConfiguration"
+		err = common.PostProcessServiceError(err, "DisasterRecovery", "GetAutomaticDrConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -1057,6 +1236,64 @@ func (client DisasterRecoveryClient) ignoreDrPlanExecution(ctx context.Context, 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/DrPlanExecution/IgnoreDrPlanExecution"
 		err = common.PostProcessServiceError(err, "DisasterRecovery", "IgnoreDrPlanExecution", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAutomaticDrConfigurations Get a summary list of automatic DR configurations for a DR protection group.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/ListAutomaticDrConfigurations.go.html to see an example of how to use ListAutomaticDrConfigurations API.
+// A default retry strategy applies to this operation ListAutomaticDrConfigurations()
+func (client DisasterRecoveryClient) ListAutomaticDrConfigurations(ctx context.Context, request ListAutomaticDrConfigurationsRequest) (response ListAutomaticDrConfigurationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAutomaticDrConfigurations, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAutomaticDrConfigurationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAutomaticDrConfigurationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAutomaticDrConfigurationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAutomaticDrConfigurationsResponse")
+	}
+	return
+}
+
+// listAutomaticDrConfigurations implements the OCIOperation interface (enables retrying operations)
+func (client DisasterRecoveryClient) listAutomaticDrConfigurations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/automaticDrConfigurations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAutomaticDrConfigurationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/AutomaticDrConfiguration/ListAutomaticDrConfigurations"
+		err = common.PostProcessServiceError(err, "DisasterRecovery", "ListAutomaticDrConfigurations", apiReferenceLink)
 		return response, err
 	}
 
@@ -1657,6 +1894,64 @@ func (client DisasterRecoveryClient) retryDrPlanExecution(ctx context.Context, r
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/DrPlanExecution/RetryDrPlanExecution"
 		err = common.PostProcessServiceError(err, "DisasterRecovery", "RetryDrPlanExecution", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateAutomaticDrConfiguration Update the Automatic DR configuration identified by *automaticDrConfigurationId*.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/UpdateAutomaticDrConfiguration.go.html to see an example of how to use UpdateAutomaticDrConfiguration API.
+// A default retry strategy applies to this operation UpdateAutomaticDrConfiguration()
+func (client DisasterRecoveryClient) UpdateAutomaticDrConfiguration(ctx context.Context, request UpdateAutomaticDrConfigurationRequest) (response UpdateAutomaticDrConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateAutomaticDrConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateAutomaticDrConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateAutomaticDrConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateAutomaticDrConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateAutomaticDrConfigurationResponse")
+	}
+	return
+}
+
+// updateAutomaticDrConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client DisasterRecoveryClient) updateAutomaticDrConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/automaticDrConfigurations/{automaticDrConfigurationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateAutomaticDrConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/AutomaticDrConfiguration/UpdateAutomaticDrConfiguration"
+		err = common.PostProcessServiceError(err, "DisasterRecovery", "UpdateAutomaticDrConfiguration", apiReferenceLink)
 		return response, err
 	}
 

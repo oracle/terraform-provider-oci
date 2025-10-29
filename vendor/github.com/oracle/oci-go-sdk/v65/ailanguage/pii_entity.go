@@ -77,6 +77,9 @@ type PiiEntity struct {
 
 	// Unique id of the entity.
 	Id *string `mandatory:"false" json:"id"`
+
+	// Redacted entity text
+	RelexifyText *string `mandatory:"false" json:"relexifyText"`
 }
 
 func (m PiiEntity) String() string {

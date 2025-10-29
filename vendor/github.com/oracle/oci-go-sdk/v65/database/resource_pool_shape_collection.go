@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// ResourcePoolShapeCollection Results of an Autonomous Database resouce pool shape collection that contains ResourcePoolShapeSummary items.
+// ResourcePoolShapeCollection Results of an Autonomous AI Database resouce pool shape collection that contains ResourcePoolShapeSummary items.
 type ResourcePoolShapeCollection struct {
 
-	// List of Autonomous Database resource pools Shapes.
+	// List of Autonomous AI Database resource pools Shapes.
 	Items []ResourcePoolShapeSummary `mandatory:"false" json:"items"`
 }
 

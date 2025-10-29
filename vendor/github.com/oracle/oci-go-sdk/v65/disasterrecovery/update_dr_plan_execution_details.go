@@ -21,7 +21,7 @@ import (
 // UpdateDrPlanExecutionDetails The details for updating a DR plan exection.
 type UpdateDrPlanExecutionDetails struct {
 
-	// The display name of the DR protection group to update.
+	// The display name of the DR plan execution to update.
 	// Example: `EBS IAD Group`
 	DisplayName *string `mandatory:"false" json:"displayName"`
 

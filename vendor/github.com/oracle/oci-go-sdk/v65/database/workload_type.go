@@ -18,10 +18,10 @@ import (
 // WorkloadType The number of consumed OCPUs, by database workload type.
 type WorkloadType struct {
 
-	// The total number of OCPU cores in use for Autonomous Transaction Processing databases in the infrastructure instance.
+	// The total number of OCPU cores in use for Autonomous AI Transaction Processing databases in the infrastructure instance.
 	Atp *float32 `mandatory:"false" json:"atp"`
 
-	// The total number of OCPU cores in use for Autonomous Data Warehouse databases in the infrastructure instance.
+	// The total number of OCPU cores in use for Autonomous AI Lakehouse databases in the infrastructure instance.
 	Adw *float32 `mandatory:"false" json:"adw"`
 }
 

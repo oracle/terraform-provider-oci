@@ -15,11 +15,11 @@ import (
 	"strings"
 )
 
-// CreateAutonomousDatabaseBackupDetails Details to create an Oracle Autonomous Database backup.
+// CreateAutonomousDatabaseBackupDetails Details to create an Oracle Autonomous AI Database backup.
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type CreateAutonomousDatabaseBackupDetails struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database backup.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous AI Database backup.
 	AutonomousDatabaseId *string `mandatory:"true" json:"autonomousDatabaseId"`
 
 	// The user-friendly name for the backup. The name does not have to be unique.

@@ -75,6 +75,15 @@ type InstanceConfigurationCreateVnicDetails struct {
 	// NetworkSecurityGroup.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
+	// One of the IPv4 CIDR blocks allocated to the subnet. Represents the IP range
+	// from which the VNIC's private IP address will be assigned if `privateIp` or
+	// `privateIpId` is not specified.
+	// Either this field or the `privateIp` (or `privateIpId`, if applicable) field
+	// must be provided, but not both simultaneously.
+	// Example: `192.168.1.0/28`
+	// See the `subnetCidr` attribute of CreateVnicDetails for more information.
+	SubnetCidr *string `mandatory:"false" json:"subnetCidr"`
+
 	// A private IP address of your choice to assign to the VNIC.
 	// See the `privateIp` attribute of CreateVnicDetails for more information.
 	PrivateIp *string `mandatory:"false" json:"privateIp"`

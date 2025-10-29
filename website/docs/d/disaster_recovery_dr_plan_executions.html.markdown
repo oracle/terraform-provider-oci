@@ -46,6 +46,9 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `automatic_execution_details` - The details of the event that started the automatic DR plan execution.
+	* `event_name` - The name of the Oracle Cloud Infrastructure event that started the automatic DR plan execution.  Example: `SwitchoverAutonomousDatabase` 
+	* `member_id` - The OCID of the member that emitted the event that started the automatic DR plan execution.  Example: "ocid1.autonomousdatabase.oc1..uniqueID" 
 * `compartment_id` - The OCID of the compartment containing this DR plan execution.  Example: `ocid1.compartment.oc1..uniqueID` 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace.  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - The display name of the DR plan execution.  Example: `Execution - EBS Switchover PHX to IAD` 
@@ -81,6 +84,7 @@ The following attributes are exported:
 	* `time_started` - The time when group execution began. An RFC3339 formatted datetime string.  Example: `2019-03-29T09:36:42Z` 
 	* `type` - The group type.  Example: `BUILT_IN` 
 * `id` - The OCID of the DR plan execution.  Example: `ocid1.drplanexecution.oc1..uniqueID` 
+* `is_automatic` - A flag indicating whether execution was submitted automatically by Automatic DR Configuration.  Example: `false` 
 * `life_cycle_details` - A message describing the DR plan execution's current state in more detail. 
 * `log_location` - The details of an object storage log location for a DR protection group.
 	* `bucket` - The bucket name inside the object storage namespace.  Example: `operation_logs` 

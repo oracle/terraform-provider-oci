@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// AutonomousDataWarehouseConnectionStrings **Deprecated.** For information about connection strings to connect to an Oracle Autonomous Data Warehouse, see AutonomousDatabaseConnectionStrings.
+// AutonomousDataWarehouseConnectionStrings **Deprecated.** For information about connection strings to connect to an Oracle Autonomous AI Lakehouse, see AutonomousDatabaseConnectionStrings.
 type AutonomousDataWarehouseConnectionStrings struct {
 
 	// The High database service provides the highest level of resources to each SQL statement resulting in the highest performance, but supports the fewest number of concurrent SQL statements.
@@ -27,8 +27,8 @@ type AutonomousDataWarehouseConnectionStrings struct {
 	// The Low database service provides the least level of resources to each SQL statement, but supports the most number of concurrent SQL statements.
 	Low *string `mandatory:"false" json:"low"`
 
-	// Returns all connection strings that can be used to connect to the Autonomous Data Warehouse.
-	// For more information, please see Predefined Database Service Names for Autonomous Transaction Processing (https://docs.oracle.com/en/cloud/paas/atp-cloud/atpug/connect-predefined.html#GUID-9747539B-FD46-44F1-8FF8-F5AC650F15BE)
+	// Returns all connection strings that can be used to connect to the Autonomous AI Lakehouse.
+	// For more information, please see Predefined Database Service Names for Autonomous AI Transaction Processing (https://docs.oracle.com/en/cloud/paas/atp-cloud/atpug/connect-predefined.html#GUID-9747539B-FD46-44F1-8FF8-F5AC650F15BE)
 	AllConnectionStrings map[string]string `mandatory:"false" json:"allConnectionStrings"`
 }
 

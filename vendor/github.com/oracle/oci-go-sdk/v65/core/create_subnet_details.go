@@ -24,12 +24,6 @@ import (
 // CreateSubnetDetails The representation of CreateSubnetDetails
 type CreateSubnetDetails struct {
 
-	// The CIDR IP address range of the subnet. The CIDR must maintain the following rules -
-	// a. The CIDR block is valid and correctly formatted.
-	// b. The new range is within one of the parent VCN ranges.
-	// Example: `10.0.1.0/24`
-	CidrBlock *string `mandatory:"true" json:"cidrBlock"`
-
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the subnet.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
@@ -47,6 +41,18 @@ type CreateSubnetDetails struct {
 	// created in that availability domain.
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
+
+	// The CIDR IP address range of the subnet. The CIDR must maintain the following rules -
+	// a. The CIDR block is valid and correctly formatted.
+	// b. The new range is within one of the parent VCN ranges.
+	// Example: `10.0.1.0/24`
+	CidrBlock *string `mandatory:"false" json:"cidrBlock"`
+
+	// The list of all IPv4 CIDR blocks for the subnet that meets the following criteria:
+	// - Ipv4 CIDR blocks must be valid.
+	// - Multiple Ipv4 CIDR blocks must not overlap each other or the on-premises network CIDR block.
+	// - The number of prefixes must not exceed the limit of IPv4 prefixes allowed to a subnet.
+	Ipv4CidrBlocks []string `mandatory:"false" json:"ipv4CidrBlocks"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
 	// namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).

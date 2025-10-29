@@ -13,7 +13,7 @@ Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/database/la
 
 Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/database
 
-Updates the wallet for the specified Autonomous Database.
+Updates the wallet for the specified Autonomous AI Database.
 
 
 ## Example Usage
@@ -47,7 +47,7 @@ The following attributes are exported:
 
 * `autonomous_database_id` - The database [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `should_rotate` - Indicates whether to rotate the wallet or not. If `false`, the wallet will not be rotated. The default is `false`.
-* `state` - The current lifecycle state of the Autonomous Database wallet.
+* `state` - The current lifecycle state of the Autonomous AI Database wallet.
 * `time_rotated` - The date and time the wallet was last rotated.
 
 ## Timeouts

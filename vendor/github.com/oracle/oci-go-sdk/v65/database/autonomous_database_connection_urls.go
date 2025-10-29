@@ -28,19 +28,19 @@ type AutonomousDatabaseConnectionUrls struct {
 	// Oracle Machine Learning user management URL.
 	MachineLearningUserManagementUrl *string `mandatory:"false" json:"machineLearningUserManagementUrl"`
 
-	// The URL of the Graph Studio for the Autonomous Database.
+	// The URL of the Graph Studio for the Autonomous AI Database.
 	GraphStudioUrl *string `mandatory:"false" json:"graphStudioUrl"`
 
-	// The URL of the MongoDB API for the Autonomous Database.
+	// The URL of the MongoDB API for the Autonomous AI Database.
 	MongoDbUrl *string `mandatory:"false" json:"mongoDbUrl"`
 
-	// The URL of the Oracle Machine Learning (OML) Notebook for the Autonomous Database.
+	// The URL of the Oracle Machine Learning (OML) Notebook for the Autonomous AI Database.
 	MachineLearningNotebookUrl *string `mandatory:"false" json:"machineLearningNotebookUrl"`
 
-	// The Oracle REST Data Services (ORDS) URL of the Web Access for the Autonomous Database.
+	// The Oracle REST Data Services (ORDS) URL of the Web Access for the Autonomous AI Database.
 	OrdsUrl *string `mandatory:"false" json:"ordsUrl"`
 
-	// The URL of the Database Transforms for the Autonomous Database.
+	// The URL of the Database Transforms for the Autonomous AI Database.
 	DatabaseTransformsUrl *string `mandatory:"false" json:"databaseTransformsUrl"`
 }
 

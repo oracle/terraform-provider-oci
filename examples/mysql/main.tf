@@ -127,6 +127,9 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
 
   maintenance {
     window_start_time = "sun 01:00"
+    maintenance_schedule_type = "REGULAR"
+    version_preference =        "OLDEST"
+    version_track_preference =  "FOLLOW"
   }
 
   nsg_ids       = [oci_core_network_security_group.test_network_security_group.id]
@@ -187,6 +190,7 @@ data "oci_mysql_mysql_configurations" "test_mysql_configurations" {
   #Optional
   state        = "ACTIVE"
   shape_name   = "MySQL.VM.Standard.E3.1.8GB"
+  display_name = "MySQL.VM.Standard.E3.1.8GB.Standalone"
 }
 
 data "oci_mysql_mysql_backups" "test_mysql_backups" {

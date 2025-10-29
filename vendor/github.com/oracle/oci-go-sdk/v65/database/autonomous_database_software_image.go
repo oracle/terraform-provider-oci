@@ -15,25 +15,25 @@ import (
 	"strings"
 )
 
-// AutonomousDatabaseSoftwareImage Autonomous Database Software Images created from Autonomous Container Database
+// AutonomousDatabaseSoftwareImage Autonomous AI Database Software Images created from Autonomous Container Database
 type AutonomousDatabaseSoftwareImage struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database Software Image.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous AI Database Software Image.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The database version with which the Autonomous Database Software Image is to be built.
+	// The database version with which the Autonomous AI Database Software Image is to be built.
 	DatabaseVersion *string `mandatory:"true" json:"databaseVersion"`
 
-	// The user-friendly name for the Autonomous Database Software Image. The name does not have to be unique.
+	// The user-friendly name for the Autonomous AI Database Software Image. The name does not have to be unique.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The current state of the Autonomous Database Software Image.
+	// The current state of the Autonomous AI Database Software Image.
 	LifecycleState AutonomousDatabaseSoftwareImageLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The date and time the Autonomous Database Software Image was created.
+	// The date and time the Autonomous AI Database Software Image was created.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	// The Release Updates.
@@ -58,7 +58,7 @@ type AutonomousDatabaseSoftwareImage struct {
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
-	// One-off patches included in the Autonomous Database Software Image
+	// One-off patches included in the Autonomous AI Database Software Image
 	AutonomousDsiOneOffPatches []string `mandatory:"false" json:"autonomousDsiOneOffPatches"`
 
 	// DST Time-Zone File version of the Autonomous Container Database.

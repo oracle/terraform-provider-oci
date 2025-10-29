@@ -24,7 +24,7 @@ type AvmAcdResourceStats struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Container Database.
 	Id *string `mandatory:"false" json:"id"`
 
-	// CPUs/cores assigned to Autonomous Databases in the ACD instances.
+	// CPUs/cores assigned to Autonomous AI Databases in the ACD instances.
 	ProvisionedCpus *float32 `mandatory:"false" json:"provisionedCpus"`
 
 	// The number of CPU cores available.
@@ -39,7 +39,7 @@ type AvmAcdResourceStats struct {
 	ReservedCpus *float32 `mandatory:"false" json:"reservedCpus"`
 
 	// CPUs/cores that continue to be included in the count of OCPUs available to the
-	// Autonomous Container Database even after one of its Autonomous Database is terminated
+	// Autonomous Container Database even after one of its Autonomous AI Database is terminated
 	// or scaled down. You can release them to the available OCPUs at its parent AVMC level by
 	// restarting the Autonomous Container Database.
 	ReclaimableCpus *float32 `mandatory:"false" json:"reclaimableCpus"`

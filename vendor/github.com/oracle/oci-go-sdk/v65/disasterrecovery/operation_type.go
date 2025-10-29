@@ -21,72 +21,81 @@ type OperationTypeEnum string
 
 // Set of constants representing the allowable values for OperationTypeEnum
 const (
-	OperationTypeCreateDrProtectionGroup       OperationTypeEnum = "CREATE_DR_PROTECTION_GROUP"
-	OperationTypeUpdateDrProtectionGroup       OperationTypeEnum = "UPDATE_DR_PROTECTION_GROUP"
-	OperationTypeDeleteDrProtectionGroup       OperationTypeEnum = "DELETE_DR_PROTECTION_GROUP"
-	OperationTypeMoveDrProtectionGroup         OperationTypeEnum = "MOVE_DR_PROTECTION_GROUP"
-	OperationTypeAssociateDrProtectionGroup    OperationTypeEnum = "ASSOCIATE_DR_PROTECTION_GROUP"
-	OperationTypeDisassociateDrProtectionGroup OperationTypeEnum = "DISASSOCIATE_DR_PROTECTION_GROUP"
-	OperationTypeUpdateRoleDrProtectionGroup   OperationTypeEnum = "UPDATE_ROLE_DR_PROTECTION_GROUP"
-	OperationTypeCreateDrPlan                  OperationTypeEnum = "CREATE_DR_PLAN"
-	OperationTypeUpdateDrPlan                  OperationTypeEnum = "UPDATE_DR_PLAN"
-	OperationTypeDeleteDrPlan                  OperationTypeEnum = "DELETE_DR_PLAN"
-	OperationTypeRefreshDrPlan                 OperationTypeEnum = "REFRESH_DR_PLAN"
-	OperationTypeVerifyDrPlan                  OperationTypeEnum = "VERIFY_DR_PLAN"
-	OperationTypeCreateDrPlanExecution         OperationTypeEnum = "CREATE_DR_PLAN_EXECUTION"
-	OperationTypeUpdateDrPlanExecution         OperationTypeEnum = "UPDATE_DR_PLAN_EXECUTION"
-	OperationTypeDeleteDrPlanExecution         OperationTypeEnum = "DELETE_DR_PLAN_EXECUTION"
-	OperationTypeRetryDrPlanExecution          OperationTypeEnum = "RETRY_DR_PLAN_EXECUTION"
-	OperationTypeIgnoreDrPlanExecution         OperationTypeEnum = "IGNORE_DR_PLAN_EXECUTION"
-	OperationTypeCancelDrPlanExecution         OperationTypeEnum = "CANCEL_DR_PLAN_EXECUTION"
-	OperationTypePauseDrPlanExecution          OperationTypeEnum = "PAUSE_DR_PLAN_EXECUTION"
-	OperationTypeResumeDrPlanExecution         OperationTypeEnum = "RESUME_DR_PLAN_EXECUTION"
+	OperationTypeCreateDrProtectionGroup        OperationTypeEnum = "CREATE_DR_PROTECTION_GROUP"
+	OperationTypeUpdateDrProtectionGroup        OperationTypeEnum = "UPDATE_DR_PROTECTION_GROUP"
+	OperationTypeDeleteDrProtectionGroup        OperationTypeEnum = "DELETE_DR_PROTECTION_GROUP"
+	OperationTypeMoveDrProtectionGroup          OperationTypeEnum = "MOVE_DR_PROTECTION_GROUP"
+	OperationTypeAssociateDrProtectionGroup     OperationTypeEnum = "ASSOCIATE_DR_PROTECTION_GROUP"
+	OperationTypeDisassociateDrProtectionGroup  OperationTypeEnum = "DISASSOCIATE_DR_PROTECTION_GROUP"
+	OperationTypeUpdateRoleDrProtectionGroup    OperationTypeEnum = "UPDATE_ROLE_DR_PROTECTION_GROUP"
+	OperationTypeCreateDrPlan                   OperationTypeEnum = "CREATE_DR_PLAN"
+	OperationTypeUpdateDrPlan                   OperationTypeEnum = "UPDATE_DR_PLAN"
+	OperationTypeDeleteDrPlan                   OperationTypeEnum = "DELETE_DR_PLAN"
+	OperationTypeRefreshDrPlan                  OperationTypeEnum = "REFRESH_DR_PLAN"
+	OperationTypeVerifyDrPlan                   OperationTypeEnum = "VERIFY_DR_PLAN"
+	OperationTypeCreateDrPlanExecution          OperationTypeEnum = "CREATE_DR_PLAN_EXECUTION"
+	OperationTypeUpdateDrPlanExecution          OperationTypeEnum = "UPDATE_DR_PLAN_EXECUTION"
+	OperationTypeDeleteDrPlanExecution          OperationTypeEnum = "DELETE_DR_PLAN_EXECUTION"
+	OperationTypeRetryDrPlanExecution           OperationTypeEnum = "RETRY_DR_PLAN_EXECUTION"
+	OperationTypeIgnoreDrPlanExecution          OperationTypeEnum = "IGNORE_DR_PLAN_EXECUTION"
+	OperationTypeCancelDrPlanExecution          OperationTypeEnum = "CANCEL_DR_PLAN_EXECUTION"
+	OperationTypePauseDrPlanExecution           OperationTypeEnum = "PAUSE_DR_PLAN_EXECUTION"
+	OperationTypeResumeDrPlanExecution          OperationTypeEnum = "RESUME_DR_PLAN_EXECUTION"
+	OperationTypeCreateAutomaticDrConfiguration OperationTypeEnum = "CREATE_AUTOMATIC_DR_CONFIGURATION"
+	OperationTypeDeleteAutomaticDrConfiguration OperationTypeEnum = "DELETE_AUTOMATIC_DR_CONFIGURATION"
+	OperationTypeUpdateAutomaticDrConfiguration OperationTypeEnum = "UPDATE_AUTOMATIC_DR_CONFIGURATION"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
-	"CREATE_DR_PROTECTION_GROUP":       OperationTypeCreateDrProtectionGroup,
-	"UPDATE_DR_PROTECTION_GROUP":       OperationTypeUpdateDrProtectionGroup,
-	"DELETE_DR_PROTECTION_GROUP":       OperationTypeDeleteDrProtectionGroup,
-	"MOVE_DR_PROTECTION_GROUP":         OperationTypeMoveDrProtectionGroup,
-	"ASSOCIATE_DR_PROTECTION_GROUP":    OperationTypeAssociateDrProtectionGroup,
-	"DISASSOCIATE_DR_PROTECTION_GROUP": OperationTypeDisassociateDrProtectionGroup,
-	"UPDATE_ROLE_DR_PROTECTION_GROUP":  OperationTypeUpdateRoleDrProtectionGroup,
-	"CREATE_DR_PLAN":                   OperationTypeCreateDrPlan,
-	"UPDATE_DR_PLAN":                   OperationTypeUpdateDrPlan,
-	"DELETE_DR_PLAN":                   OperationTypeDeleteDrPlan,
-	"REFRESH_DR_PLAN":                  OperationTypeRefreshDrPlan,
-	"VERIFY_DR_PLAN":                   OperationTypeVerifyDrPlan,
-	"CREATE_DR_PLAN_EXECUTION":         OperationTypeCreateDrPlanExecution,
-	"UPDATE_DR_PLAN_EXECUTION":         OperationTypeUpdateDrPlanExecution,
-	"DELETE_DR_PLAN_EXECUTION":         OperationTypeDeleteDrPlanExecution,
-	"RETRY_DR_PLAN_EXECUTION":          OperationTypeRetryDrPlanExecution,
-	"IGNORE_DR_PLAN_EXECUTION":         OperationTypeIgnoreDrPlanExecution,
-	"CANCEL_DR_PLAN_EXECUTION":         OperationTypeCancelDrPlanExecution,
-	"PAUSE_DR_PLAN_EXECUTION":          OperationTypePauseDrPlanExecution,
-	"RESUME_DR_PLAN_EXECUTION":         OperationTypeResumeDrPlanExecution,
+	"CREATE_DR_PROTECTION_GROUP":        OperationTypeCreateDrProtectionGroup,
+	"UPDATE_DR_PROTECTION_GROUP":        OperationTypeUpdateDrProtectionGroup,
+	"DELETE_DR_PROTECTION_GROUP":        OperationTypeDeleteDrProtectionGroup,
+	"MOVE_DR_PROTECTION_GROUP":          OperationTypeMoveDrProtectionGroup,
+	"ASSOCIATE_DR_PROTECTION_GROUP":     OperationTypeAssociateDrProtectionGroup,
+	"DISASSOCIATE_DR_PROTECTION_GROUP":  OperationTypeDisassociateDrProtectionGroup,
+	"UPDATE_ROLE_DR_PROTECTION_GROUP":   OperationTypeUpdateRoleDrProtectionGroup,
+	"CREATE_DR_PLAN":                    OperationTypeCreateDrPlan,
+	"UPDATE_DR_PLAN":                    OperationTypeUpdateDrPlan,
+	"DELETE_DR_PLAN":                    OperationTypeDeleteDrPlan,
+	"REFRESH_DR_PLAN":                   OperationTypeRefreshDrPlan,
+	"VERIFY_DR_PLAN":                    OperationTypeVerifyDrPlan,
+	"CREATE_DR_PLAN_EXECUTION":          OperationTypeCreateDrPlanExecution,
+	"UPDATE_DR_PLAN_EXECUTION":          OperationTypeUpdateDrPlanExecution,
+	"DELETE_DR_PLAN_EXECUTION":          OperationTypeDeleteDrPlanExecution,
+	"RETRY_DR_PLAN_EXECUTION":           OperationTypeRetryDrPlanExecution,
+	"IGNORE_DR_PLAN_EXECUTION":          OperationTypeIgnoreDrPlanExecution,
+	"CANCEL_DR_PLAN_EXECUTION":          OperationTypeCancelDrPlanExecution,
+	"PAUSE_DR_PLAN_EXECUTION":           OperationTypePauseDrPlanExecution,
+	"RESUME_DR_PLAN_EXECUTION":          OperationTypeResumeDrPlanExecution,
+	"CREATE_AUTOMATIC_DR_CONFIGURATION": OperationTypeCreateAutomaticDrConfiguration,
+	"DELETE_AUTOMATIC_DR_CONFIGURATION": OperationTypeDeleteAutomaticDrConfiguration,
+	"UPDATE_AUTOMATIC_DR_CONFIGURATION": OperationTypeUpdateAutomaticDrConfiguration,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
-	"create_dr_protection_group":       OperationTypeCreateDrProtectionGroup,
-	"update_dr_protection_group":       OperationTypeUpdateDrProtectionGroup,
-	"delete_dr_protection_group":       OperationTypeDeleteDrProtectionGroup,
-	"move_dr_protection_group":         OperationTypeMoveDrProtectionGroup,
-	"associate_dr_protection_group":    OperationTypeAssociateDrProtectionGroup,
-	"disassociate_dr_protection_group": OperationTypeDisassociateDrProtectionGroup,
-	"update_role_dr_protection_group":  OperationTypeUpdateRoleDrProtectionGroup,
-	"create_dr_plan":                   OperationTypeCreateDrPlan,
-	"update_dr_plan":                   OperationTypeUpdateDrPlan,
-	"delete_dr_plan":                   OperationTypeDeleteDrPlan,
-	"refresh_dr_plan":                  OperationTypeRefreshDrPlan,
-	"verify_dr_plan":                   OperationTypeVerifyDrPlan,
-	"create_dr_plan_execution":         OperationTypeCreateDrPlanExecution,
-	"update_dr_plan_execution":         OperationTypeUpdateDrPlanExecution,
-	"delete_dr_plan_execution":         OperationTypeDeleteDrPlanExecution,
-	"retry_dr_plan_execution":          OperationTypeRetryDrPlanExecution,
-	"ignore_dr_plan_execution":         OperationTypeIgnoreDrPlanExecution,
-	"cancel_dr_plan_execution":         OperationTypeCancelDrPlanExecution,
-	"pause_dr_plan_execution":          OperationTypePauseDrPlanExecution,
-	"resume_dr_plan_execution":         OperationTypeResumeDrPlanExecution,
+	"create_dr_protection_group":        OperationTypeCreateDrProtectionGroup,
+	"update_dr_protection_group":        OperationTypeUpdateDrProtectionGroup,
+	"delete_dr_protection_group":        OperationTypeDeleteDrProtectionGroup,
+	"move_dr_protection_group":          OperationTypeMoveDrProtectionGroup,
+	"associate_dr_protection_group":     OperationTypeAssociateDrProtectionGroup,
+	"disassociate_dr_protection_group":  OperationTypeDisassociateDrProtectionGroup,
+	"update_role_dr_protection_group":   OperationTypeUpdateRoleDrProtectionGroup,
+	"create_dr_plan":                    OperationTypeCreateDrPlan,
+	"update_dr_plan":                    OperationTypeUpdateDrPlan,
+	"delete_dr_plan":                    OperationTypeDeleteDrPlan,
+	"refresh_dr_plan":                   OperationTypeRefreshDrPlan,
+	"verify_dr_plan":                    OperationTypeVerifyDrPlan,
+	"create_dr_plan_execution":          OperationTypeCreateDrPlanExecution,
+	"update_dr_plan_execution":          OperationTypeUpdateDrPlanExecution,
+	"delete_dr_plan_execution":          OperationTypeDeleteDrPlanExecution,
+	"retry_dr_plan_execution":           OperationTypeRetryDrPlanExecution,
+	"ignore_dr_plan_execution":          OperationTypeIgnoreDrPlanExecution,
+	"cancel_dr_plan_execution":          OperationTypeCancelDrPlanExecution,
+	"pause_dr_plan_execution":           OperationTypePauseDrPlanExecution,
+	"resume_dr_plan_execution":          OperationTypeResumeDrPlanExecution,
+	"create_automatic_dr_configuration": OperationTypeCreateAutomaticDrConfiguration,
+	"delete_automatic_dr_configuration": OperationTypeDeleteAutomaticDrConfiguration,
+	"update_automatic_dr_configuration": OperationTypeUpdateAutomaticDrConfiguration,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -121,6 +130,9 @@ func GetOperationTypeEnumStringValues() []string {
 		"CANCEL_DR_PLAN_EXECUTION",
 		"PAUSE_DR_PLAN_EXECUTION",
 		"RESUME_DR_PLAN_EXECUTION",
+		"CREATE_AUTOMATIC_DR_CONFIGURATION",
+		"DELETE_AUTOMATIC_DR_CONFIGURATION",
+		"UPDATE_AUTOMATIC_DR_CONFIGURATION",
 	}
 }
 

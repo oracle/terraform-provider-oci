@@ -10,6 +10,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_database_tools_database_tools_connections", DatabaseToolsDatabaseToolsConnectionsDataSource())
 	tfresource.RegisterDatasource("oci_database_tools_database_tools_endpoint_service", DatabaseToolsDatabaseToolsEndpointServiceDataSource())
 	tfresource.RegisterDatasource("oci_database_tools_database_tools_endpoint_services", DatabaseToolsDatabaseToolsEndpointServicesDataSource())
+	tfresource.RegisterDatasource("oci_database_tools_database_tools_identities", DatabaseToolsDatabaseToolsIdentitiesDataSource())
+	tfresource.RegisterDatasource("oci_database_tools_database_tools_identity", DatabaseToolsDatabaseToolsIdentityDataSource())
 	tfresource.RegisterDatasource("oci_database_tools_database_tools_private_endpoint", DatabaseToolsDatabaseToolsPrivateEndpointDataSource())
 	tfresource.RegisterDatasource("oci_database_tools_database_tools_private_endpoints", DatabaseToolsDatabaseToolsPrivateEndpointsDataSource())
 }

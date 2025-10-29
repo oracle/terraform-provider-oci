@@ -12,19 +12,16 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
-
-	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
 	// Due to unfortunate naming Analysi is the singular name, Analysis the plural name
-	JmsUtilsPerformanceTuningAnalysiCompartmentId = utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
-	PerformanceTuningAnalysiProjectName           = "DO_NOT_DELETE_TERRAFORM_TEST"
-	PerformanceTuningAnalysiId                    = utils.GetEnvSettingWithBlankDefault("performance_tuning_report_ocid")
+	PerformanceTuningAnalysiProjectName = "DO_NOT_DELETE_TERRAFORM_TEST"
+	PerformanceTuningAnalysiId          = JmsUtilsPerformanceTuningReportId
 
 	JmsUtilsPerformanceTuningAnalysiDataSourceRepresentation = map[string]interface{}{
 		"analysis_project_name": acctest.Representation{RepType: acctest.Optional, Create: PerformanceTuningAnalysiProjectName},
-		"compartment_id":        acctest.Representation{RepType: acctest.Required, Create: JmsUtilsPerformanceTuningAnalysiCompartmentId},
+		"compartment_id":        acctest.Representation{RepType: acctest.Required, Create: JmsTenancyId},
 	}
 
 	JmsUtilsPerformanceTuningAnalysiSingularDataSourceRepresentation = map[string]interface{}{
@@ -64,7 +61,7 @@ func TestJmsUtilsPerformanceTuningAnalysiResource_basic(t *testing.T) {
 				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 
-				resource.TestCheckResourceAttr(datasourceName, "compartment_id", JmsUtilsPerformanceTuningAnalysiCompartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", JmsTenancyId),
 				resource.TestCheckResourceAttr(datasourceName, "analysis_project_name", PerformanceTuningAnalysiProjectName),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "performance_tuning_analysis_collection.#"),
@@ -73,7 +70,7 @@ func TestJmsUtilsPerformanceTuningAnalysiResource_basic(t *testing.T) {
 
 				// check actual data matches data used for the List API
 				resource.TestCheckResourceAttr(datasourceName, "performance_tuning_analysis_collection.0.items.0.analysis_project_name", PerformanceTuningAnalysiProjectName),
-				resource.TestCheckResourceAttr(datasourceName, "performance_tuning_analysis_collection.0.items.0.compartment_id", JmsUtilsPerformanceTuningAnalysiCompartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "performance_tuning_analysis_collection.0.items.0.compartment_id", JmsTenancyId),
 				resource.TestCheckResourceAttr(datasourceName, "performance_tuning_analysis_collection.0.items.0.id", PerformanceTuningAnalysiId),
 				// check actual data is set (doesn't make much sense to hardcode more values)
 				resource.TestCheckResourceAttrSet(datasourceName, "performance_tuning_analysis_collection.0.items.0.result"),
@@ -111,7 +108,7 @@ func TestJmsUtilsPerformanceTuningAnalysiResource_basic(t *testing.T) {
 				// check actual data matches data used for the GET API
 				resource.TestCheckResourceAttr(singularDatasourceName, "id", PerformanceTuningAnalysiId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "analysis_project_name", PerformanceTuningAnalysiProjectName),
-				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", JmsUtilsPerformanceTuningAnalysiCompartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", JmsTenancyId),
 				// check actual data is set (doesn't make much sense to hardcode more values)
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "result"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "warning_count"),

@@ -51,11 +51,30 @@ var exportDisasterRecoveryDrPlanHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportDisasterRecoveryAutomaticDrConfigurationHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_disaster_recovery_automatic_dr_configuration",
+	DatasourceClass:        "oci_disaster_recovery_automatic_dr_configurations",
+	DatasourceItemsAttr:    "automatic_dr_configuration_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "automatic_dr_configuration",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_disaster_recovery.AutomaticDrConfigurationLifecycleStateActive),
+		string(oci_disaster_recovery.AutomaticDrConfigurationLifecycleStateNeedsAttention),
+	},
+}
+
 var disasterRecoveryResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDisasterRecoveryDrProtectionGroupHints},
 	},
 	"oci_disaster_recovery_dr_protection_group": {
+		{
+			TerraformResourceHints: exportDisasterRecoveryAutomaticDrConfigurationHints,
+			DatasourceQueryParams: map[string]string{
+				"dr_protection_group_id": "id",
+			},
+		},
 		{
 			TerraformResourceHints: exportDisasterRecoveryDrPlanHints,
 			DatasourceQueryParams: map[string]string{

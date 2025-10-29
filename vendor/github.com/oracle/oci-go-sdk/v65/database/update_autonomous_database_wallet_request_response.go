@@ -21,7 +21,7 @@ type UpdateAutonomousDatabaseWalletRequest struct {
 	// The database OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	AutonomousDatabaseId *string `mandatory:"true" contributesTo:"path" name:"autonomousDatabaseId"`
 
-	// Request to update the properties of an Autonomous Database wallet.
+	// Request to update the properties of an Autonomous AI Database wallet.
 	UpdateAutonomousDatabaseWalletDetails `contributesTo:"body"`
 
 	// Unique identifier for the request.

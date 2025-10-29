@@ -391,6 +391,32 @@ type SocialIdentityProvider struct {
 	//  - uniqueness: none
 	AdminScope []string `mandatory:"false" json:"adminScope"`
 
+	// Apple Developer ID
+	// **Added In:** 2311180004
+	// **SCIM++ Properties:**
+	//  - caseExact: true
+	//  - idcsSearchable: false
+	//  - multiValued: false
+	//  - mutability: readWrite
+	//  - required: false
+	//  - returned: default
+	//  - type: string
+	//  - uniqueness: none
+	AppleDevId *string `mandatory:"false" json:"appleDevId"`
+
+	// Apple Private Key ID
+	// **Added In:** 2311180004
+	// **SCIM++ Properties:**
+	//  - caseExact: true
+	//  - idcsSearchable: false
+	//  - multiValued: false
+	//  - mutability: readWrite
+	//  - required: false
+	//  - returned: default
+	//  - type: string
+	//  - uniqueness: none
+	AppleKeyId *string `mandatory:"false" json:"appleKeyId"`
+
 	// Social IDP allowed clock skew time
 	// **SCIM++ Properties:**
 	//  - idcsSearchable: false

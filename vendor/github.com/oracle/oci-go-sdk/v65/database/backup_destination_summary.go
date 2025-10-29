@@ -33,10 +33,10 @@ type BackupDestinationSummary struct {
 	// List of databases associated with the backup destination.
 	AssociatedDatabases []AssociatedDatabaseDetails `mandatory:"false" json:"associatedDatabases"`
 
-	// List of long term backups of Autonomous Databases associated with this backup destination.The maximum associated number of long term backup listed here would be 1024.
+	// List of long term backups of Autonomous AI Databases associated with this backup destination.The maximum associated number of long term backup listed here would be 1024.
 	AssociatedLongTermBackups []AssociatedLongTermBackup `mandatory:"false" json:"associatedLongTermBackups"`
 
-	// Indicates the number of long term backups of Autonomous Databases associated with this backup destination.
+	// Indicates the number of long term backups of Autonomous AI Databases associated with this backup destination.
 	AssociatedLongTermBackupCount *int `mandatory:"false" json:"associatedLongTermBackupCount"`
 
 	// For a RECOVERY_APPLIANCE backup destination, the connection string for connecting to the Recovery Appliance.

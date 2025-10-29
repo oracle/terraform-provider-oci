@@ -350,15 +350,21 @@ type ListDrProtectionGroupsLifecycleSubStateEnum string
 
 // Set of constants representing the allowable values for ListDrProtectionGroupsLifecycleSubStateEnum
 const (
-	ListDrProtectionGroupsLifecycleSubStateDrDrillInProgress ListDrProtectionGroupsLifecycleSubStateEnum = "DR_DRILL_IN_PROGRESS"
+	ListDrProtectionGroupsLifecycleSubStateDrDrillInProgress                  ListDrProtectionGroupsLifecycleSubStateEnum = "DR_DRILL_IN_PROGRESS"
+	ListDrProtectionGroupsLifecycleSubStateDrPlanExecutionInProgress          ListDrProtectionGroupsLifecycleSubStateEnum = "DR_PLAN_EXECUTION_IN_PROGRESS"
+	ListDrProtectionGroupsLifecycleSubStateAutomaticDrPlanExecutionInProgress ListDrProtectionGroupsLifecycleSubStateEnum = "AUTOMATIC_DR_PLAN_EXECUTION_IN_PROGRESS"
 )
 
 var mappingListDrProtectionGroupsLifecycleSubStateEnum = map[string]ListDrProtectionGroupsLifecycleSubStateEnum{
-	"DR_DRILL_IN_PROGRESS": ListDrProtectionGroupsLifecycleSubStateDrDrillInProgress,
+	"DR_DRILL_IN_PROGRESS":                    ListDrProtectionGroupsLifecycleSubStateDrDrillInProgress,
+	"DR_PLAN_EXECUTION_IN_PROGRESS":           ListDrProtectionGroupsLifecycleSubStateDrPlanExecutionInProgress,
+	"AUTOMATIC_DR_PLAN_EXECUTION_IN_PROGRESS": ListDrProtectionGroupsLifecycleSubStateAutomaticDrPlanExecutionInProgress,
 }
 
 var mappingListDrProtectionGroupsLifecycleSubStateEnumLowerCase = map[string]ListDrProtectionGroupsLifecycleSubStateEnum{
-	"dr_drill_in_progress": ListDrProtectionGroupsLifecycleSubStateDrDrillInProgress,
+	"dr_drill_in_progress":                    ListDrProtectionGroupsLifecycleSubStateDrDrillInProgress,
+	"dr_plan_execution_in_progress":           ListDrProtectionGroupsLifecycleSubStateDrPlanExecutionInProgress,
+	"automatic_dr_plan_execution_in_progress": ListDrProtectionGroupsLifecycleSubStateAutomaticDrPlanExecutionInProgress,
 }
 
 // GetListDrProtectionGroupsLifecycleSubStateEnumValues Enumerates the set of values for ListDrProtectionGroupsLifecycleSubStateEnum
@@ -374,6 +380,8 @@ func GetListDrProtectionGroupsLifecycleSubStateEnumValues() []ListDrProtectionGr
 func GetListDrProtectionGroupsLifecycleSubStateEnumStringValues() []string {
 	return []string{
 		"DR_DRILL_IN_PROGRESS",
+		"DR_PLAN_EXECUTION_IN_PROGRESS",
+		"AUTOMATIC_DR_PLAN_EXECUTION_IN_PROGRESS",
 	}
 }
 
