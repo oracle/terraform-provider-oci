@@ -37,7 +37,7 @@ type RecommendedPatchSummary struct {
 	Severity PatchSeverityEnum `mandatory:"false" json:"severity,omitempty"`
 
 	// Patch Level.
-	PatchLevel InstalledPatchSummaryPatchLevelEnum `mandatory:"false" json:"patchLevel,omitempty"`
+	PatchLevel RecommendedPatchSummaryPatchLevelEnum `mandatory:"false" json:"patchLevel,omitempty"`
 }
 
 func (m RecommendedPatchSummary) String() string {
@@ -53,11 +53,57 @@ func (m RecommendedPatchSummary) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingPatchSeverityEnum(string(m.Severity)); !ok && m.Severity != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Severity: %s. Supported values are: %s.", m.Severity, strings.Join(GetPatchSeverityEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingInstalledPatchSummaryPatchLevelEnum(string(m.PatchLevel)); !ok && m.PatchLevel != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PatchLevel: %s. Supported values are: %s.", m.PatchLevel, strings.Join(GetInstalledPatchSummaryPatchLevelEnumStringValues(), ",")))
+	if _, ok := GetMappingRecommendedPatchSummaryPatchLevelEnum(string(m.PatchLevel)); !ok && m.PatchLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PatchLevel: %s. Supported values are: %s.", m.PatchLevel, strings.Join(GetRecommendedPatchSummaryPatchLevelEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// RecommendedPatchSummaryPatchLevelEnum Enum with underlying type: string
+type RecommendedPatchSummaryPatchLevelEnum string
+
+// Set of constants representing the allowable values for RecommendedPatchSummaryPatchLevelEnum
+const (
+	RecommendedPatchSummaryPatchLevelLatest         RecommendedPatchSummaryPatchLevelEnum = "LATEST"
+	RecommendedPatchSummaryPatchLevelLatestMinusOne RecommendedPatchSummaryPatchLevelEnum = "LATEST_MINUS_ONE"
+	RecommendedPatchSummaryPatchLevelLatestMinusTwo RecommendedPatchSummaryPatchLevelEnum = "LATEST_MINUS_TWO"
+)
+
+var mappingRecommendedPatchSummaryPatchLevelEnum = map[string]RecommendedPatchSummaryPatchLevelEnum{
+	"LATEST":           RecommendedPatchSummaryPatchLevelLatest,
+	"LATEST_MINUS_ONE": RecommendedPatchSummaryPatchLevelLatestMinusOne,
+	"LATEST_MINUS_TWO": RecommendedPatchSummaryPatchLevelLatestMinusTwo,
+}
+
+var mappingRecommendedPatchSummaryPatchLevelEnumLowerCase = map[string]RecommendedPatchSummaryPatchLevelEnum{
+	"latest":           RecommendedPatchSummaryPatchLevelLatest,
+	"latest_minus_one": RecommendedPatchSummaryPatchLevelLatestMinusOne,
+	"latest_minus_two": RecommendedPatchSummaryPatchLevelLatestMinusTwo,
+}
+
+// GetRecommendedPatchSummaryPatchLevelEnumValues Enumerates the set of values for RecommendedPatchSummaryPatchLevelEnum
+func GetRecommendedPatchSummaryPatchLevelEnumValues() []RecommendedPatchSummaryPatchLevelEnum {
+	values := make([]RecommendedPatchSummaryPatchLevelEnum, 0)
+	for _, v := range mappingRecommendedPatchSummaryPatchLevelEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetRecommendedPatchSummaryPatchLevelEnumStringValues Enumerates the set of values in String for RecommendedPatchSummaryPatchLevelEnum
+func GetRecommendedPatchSummaryPatchLevelEnumStringValues() []string {
+	return []string{
+		"LATEST",
+		"LATEST_MINUS_ONE",
+		"LATEST_MINUS_TWO",
+	}
+}
+
+// GetMappingRecommendedPatchSummaryPatchLevelEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingRecommendedPatchSummaryPatchLevelEnum(val string) (RecommendedPatchSummaryPatchLevelEnum, bool) {
+	enum, ok := mappingRecommendedPatchSummaryPatchLevelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

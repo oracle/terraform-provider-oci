@@ -56,9 +56,6 @@ type DbConnectionBundle struct {
 
 	// Details about the resources associated with the connection bundle.
 	AssociatedResourceDetails []AssociatedResourceDetails `mandatory:"false" json:"associatedResourceDetails"`
-
-	// The OCID of the resource associated with the connection bundle.
-	AssociatedResourceId *string `mandatory:"false" json:"associatedResourceId"`
 }
 
 func (m DbConnectionBundle) String() string {

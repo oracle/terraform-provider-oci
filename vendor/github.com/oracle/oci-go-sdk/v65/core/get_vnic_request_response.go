@@ -17,6 +17,10 @@ type GetVnicRequest struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC.
 	VnicId *string `mandatory:"true" contributesTo:"path" name:"vnicId"`
 
+	// The Cache-Control HTTP header holds directives (instructions)
+	// for caching in both requests and responses.
+	CacheControl *string `mandatory:"false" contributesTo:"header" name:"cache-control"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -45,6 +49,21 @@ func (request GetVnicRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bo
 
 	return nil, false
 
+}
+
+// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
+// Not all services are supporting this feature and this method will be a no-op for those services.
+func (request GetVnicRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+	if mandatoryParamMap["vnicId"] != nil {
+		templateParam := mandatoryParamMap["vnicId"]
+		for _, template := range templateParam {
+			replacementParam := *request.VnicId
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.

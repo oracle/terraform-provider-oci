@@ -49,6 +49,9 @@ type UpdateAutonomousDatabaseDetails struct {
 	// Autonomous AI Database for Developers are fixed-shape Autonomous AI Databases that developers can use to build and test new applications. On Serverless, these are low-cost and billed per instance, on Dedicated and Cloud@Customer there is no additional cost to create Developer databases. Developer databases come with limited resources and is not intended for large-scale testing and production deployments. When you need more compute or storage resources, you may upgrade to a full paid production database.
 	IsDevTier *bool `mandatory:"false" json:"isDevTier"`
 
+	// Specifies if Telemetry Streaming is enabled or disabled for this Autonomous AI Database.
+	IsTelemetryStreamingEnabled *bool `mandatory:"false" json:"isTelemetryStreamingEnabled"`
+
 	// The compute amount (CPUs) available to the database. Minimum and maximum values depend on the compute model and whether the database is an Autonomous AI Database Serverless instance or an Autonomous AI Database on Dedicated Exadata Infrastructure.
 	// The 'ECPU' compute model requires a minimum value of one, for databases in the elastic resource pool and minimum value of two, otherwise. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value. Providing `computeModel` and `computeCount` is the preferred method for both OCPU and ECPU.
 	// This cannot be updated in parallel with any of the following: licenseModel, databaseEdition, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
@@ -78,6 +81,30 @@ type UpdateAutonomousDatabaseDetails struct {
 	// Indicates if this is an Always Free resource. The default value is false. Note that Always Free Autonomous AI Databases have 1 CPU and 20GB of memory. For Always Free databases, memory and CPU cannot be scaled.
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, or isLocalDataGuardEnabled
 	IsFreeTier *bool `mandatory:"false" json:"isFreeTier"`
+
+	// The Autonomous Database Serverless instance's availability domain.
+	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database Serverless cluster placement group.
+	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
+
+	// The date and time when the Autonomous Database availability domain is to be updated.
+	TimeScheduledAdUpdate *common.SDKTime `mandatory:"false" json:"timeScheduledAdUpdate"`
+
+	// True, if you want to disable Autonomous Database availability domain scheduled update.
+	IsDisableAdUpdateSchedule *bool `mandatory:"false" json:"isDisableAdUpdateSchedule"`
+
+	// True, if you want to schedule Autonomous Database availability domain update to the earliest available time.
+	IsScheduleAdUpdateToEarliest *bool `mandatory:"false" json:"isScheduleAdUpdateToEarliest"`
+
+	// The date and time when the Autonomous Database CPG ID is to be updated.
+	TimeScheduledCpgUpdate *common.SDKTime `mandatory:"false" json:"timeScheduledCpgUpdate"`
+
+	// True, if you want to disable the Autonomous Database CPG ID scheduled update.
+	IsDisableCpgUpdateSchedule *bool `mandatory:"false" json:"isDisableCpgUpdateSchedule"`
+
+	// True, if you want to schedule the Autonomous Database CPG ID update to the earliest available time.
+	IsScheduleCpgUpdateToEarliest *bool `mandatory:"false" json:"isScheduleCpgUpdateToEarliest"`
 
 	// The password must be between 12 and 30 characters long, and must contain at least 1 uppercase, 1 lowercase, and 1 numeric character. It cannot contain the double quote symbol (") or the username "admin", regardless of casing. It must be different from the last four passwords and it must not be a password used within the last 24 hours.
 	// This cannot be used in conjunction with with OCI vault secrets (secretId).
@@ -190,6 +217,9 @@ type UpdateAutonomousDatabaseDetails struct {
 	PeerDbId *string `mandatory:"false" json:"peerDbId"`
 
 	// A valid Oracle AI Database version for Autonomous AI Database.
+	// When you specify 23ai for dbversion, the system will provision a 23ai database, but the UI will display it as 26ai.
+	// When you specify 26ai for dbversion, the system will provision and display a 26ai database as expected.
+	// For new databases, it is recommended to use either 19c or 26ai.
 	DbVersion *string `mandatory:"false" json:"dbVersion"`
 
 	// Indicates the Autonomous AI Database mode. The database can be opened in `READ_ONLY` or `READ_WRITE` mode.
@@ -263,7 +293,7 @@ type UpdateAutonomousDatabaseDetails struct {
 
 	AutonomousDatabaseMaintenanceWindow *AutonomousDatabaseMaintenanceWindowSummary `mandatory:"false" json:"autonomousDatabaseMaintenanceWindow"`
 
-	// The date until which maintenance of Autonomous AI Database is temporarily paused.
+	// The date until which Autonomous AI Database maintenance is temporarily paused.
 	TimeMaintenancePauseUntil *common.SDKTime `mandatory:"false" json:"timeMaintenancePauseUntil"`
 
 	// True if the Autonomous AI Database is backup retention locked.
@@ -372,12 +402,21 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 		CpuCoreCount                         *int                                                                 `json:"cpuCoreCount"`
 		LongTermBackupSchedule               *LongTermBackUpScheduleDetails                                       `json:"longTermBackupSchedule"`
 		IsDevTier                            *bool                                                                `json:"isDevTier"`
+		IsTelemetryStreamingEnabled          *bool                                                                `json:"isTelemetryStreamingEnabled"`
 		ComputeCount                         *float32                                                             `json:"computeCount"`
 		OcpuCount                            *float32                                                             `json:"ocpuCount"`
 		DataStorageSizeInTBs                 *int                                                                 `json:"dataStorageSizeInTBs"`
 		DataStorageSizeInGBs                 *int                                                                 `json:"dataStorageSizeInGBs"`
 		DisplayName                          *string                                                              `json:"displayName"`
 		IsFreeTier                           *bool                                                                `json:"isFreeTier"`
+		AvailabilityDomain                   *string                                                              `json:"availabilityDomain"`
+		ClusterPlacementGroupId              *string                                                              `json:"clusterPlacementGroupId"`
+		TimeScheduledAdUpdate                *common.SDKTime                                                      `json:"timeScheduledAdUpdate"`
+		IsDisableAdUpdateSchedule            *bool                                                                `json:"isDisableAdUpdateSchedule"`
+		IsScheduleAdUpdateToEarliest         *bool                                                                `json:"isScheduleAdUpdateToEarliest"`
+		TimeScheduledCpgUpdate               *common.SDKTime                                                      `json:"timeScheduledCpgUpdate"`
+		IsDisableCpgUpdateSchedule           *bool                                                                `json:"isDisableCpgUpdateSchedule"`
+		IsScheduleCpgUpdateToEarliest        *bool                                                                `json:"isScheduleCpgUpdateToEarliest"`
 		AdminPassword                        *string                                                              `json:"adminPassword"`
 		DbName                               *string                                                              `json:"dbName"`
 		FreeformTags                         map[string]string                                                    `json:"freeformTags"`
@@ -452,6 +491,8 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.IsDevTier = model.IsDevTier
 
+	m.IsTelemetryStreamingEnabled = model.IsTelemetryStreamingEnabled
+
 	m.ComputeCount = model.ComputeCount
 
 	m.OcpuCount = model.OcpuCount
@@ -463,6 +504,22 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DisplayName = model.DisplayName
 
 	m.IsFreeTier = model.IsFreeTier
+
+	m.AvailabilityDomain = model.AvailabilityDomain
+
+	m.ClusterPlacementGroupId = model.ClusterPlacementGroupId
+
+	m.TimeScheduledAdUpdate = model.TimeScheduledAdUpdate
+
+	m.IsDisableAdUpdateSchedule = model.IsDisableAdUpdateSchedule
+
+	m.IsScheduleAdUpdateToEarliest = model.IsScheduleAdUpdateToEarliest
+
+	m.TimeScheduledCpgUpdate = model.TimeScheduledCpgUpdate
+
+	m.IsDisableCpgUpdateSchedule = model.IsDisableCpgUpdateSchedule
+
+	m.IsScheduleCpgUpdateToEarliest = model.IsScheduleCpgUpdateToEarliest
 
 	m.AdminPassword = model.AdminPassword
 

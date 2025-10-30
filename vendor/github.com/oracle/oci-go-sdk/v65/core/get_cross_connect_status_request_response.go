@@ -47,6 +47,21 @@ func (request GetCrossConnectStatusRequest) BinaryRequestBody() (*common.OCIRead
 
 }
 
+// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
+// Not all services are supporting this feature and this method will be a no-op for those services.
+func (request GetCrossConnectStatusRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+	if mandatoryParamMap["crossConnectId"] != nil {
+		templateParam := mandatoryParamMap["crossConnectId"]
+		for _, template := range templateParam {
+			replacementParam := *request.CrossConnectId
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+}
+
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetCrossConnectStatusRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy

@@ -60,6 +60,41 @@ func (request GetDatapathMessageRequest) BinaryRequestBody() (*common.OCIReadSee
 
 }
 
+// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
+// Not all services are supporting this feature and this method will be a no-op for those services.
+func (request GetDatapathMessageRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+	if mandatoryParamMap["datapathMessageId"] != nil {
+		templateParam := mandatoryParamMap["datapathMessageId"]
+		for _, template := range templateParam {
+			replacementParam := *request.DatapathMessageId
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+	if mandatoryParamMap["datapathMessageType"] != nil {
+		templateParam := mandatoryParamMap["datapathMessageType"]
+		for _, template := range templateParam {
+			replacementParam := *request.DatapathMessageType
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+	if mandatoryParamMap["compartmentId"] != nil {
+		templateParam := mandatoryParamMap["compartmentId"]
+		for _, template := range templateParam {
+			replacementParam := *request.CompartmentId
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+}
+
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetDatapathMessageRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy

@@ -37,7 +37,7 @@ type InstalledPatchSummary struct {
 	PatchType *string `mandatory:"false" json:"patchType"`
 
 	// Patch Name.
-	PatchLevel InstalledPatchSummaryPatchLevelEnum `mandatory:"false" json:"patchLevel,omitempty"`
+	PatchLevel *string `mandatory:"false" json:"patchLevel"`
 
 	// Patch Severity.
 	Severity PatchSeverityEnum `mandatory:"false" json:"severity,omitempty"`
@@ -53,9 +53,6 @@ func (m InstalledPatchSummary) String() string {
 func (m InstalledPatchSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := GetMappingInstalledPatchSummaryPatchLevelEnum(string(m.PatchLevel)); !ok && m.PatchLevel != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PatchLevel: %s. Supported values are: %s.", m.PatchLevel, strings.Join(GetInstalledPatchSummaryPatchLevelEnumStringValues(), ",")))
-	}
 	if _, ok := GetMappingPatchSeverityEnum(string(m.Severity)); !ok && m.Severity != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Severity: %s. Supported values are: %s.", m.Severity, strings.Join(GetPatchSeverityEnumStringValues(), ",")))
 	}
@@ -63,50 +60,4 @@ func (m InstalledPatchSummary) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// InstalledPatchSummaryPatchLevelEnum Enum with underlying type: string
-type InstalledPatchSummaryPatchLevelEnum string
-
-// Set of constants representing the allowable values for InstalledPatchSummaryPatchLevelEnum
-const (
-	InstalledPatchSummaryPatchLevelLatest         InstalledPatchSummaryPatchLevelEnum = "LATEST"
-	InstalledPatchSummaryPatchLevelLatestMinusOne InstalledPatchSummaryPatchLevelEnum = "LATEST_MINUS_ONE"
-	InstalledPatchSummaryPatchLevelLatestMinusTwo InstalledPatchSummaryPatchLevelEnum = "LATEST_MINUS_TWO"
-)
-
-var mappingInstalledPatchSummaryPatchLevelEnum = map[string]InstalledPatchSummaryPatchLevelEnum{
-	"LATEST":           InstalledPatchSummaryPatchLevelLatest,
-	"LATEST_MINUS_ONE": InstalledPatchSummaryPatchLevelLatestMinusOne,
-	"LATEST_MINUS_TWO": InstalledPatchSummaryPatchLevelLatestMinusTwo,
-}
-
-var mappingInstalledPatchSummaryPatchLevelEnumLowerCase = map[string]InstalledPatchSummaryPatchLevelEnum{
-	"latest":           InstalledPatchSummaryPatchLevelLatest,
-	"latest_minus_one": InstalledPatchSummaryPatchLevelLatestMinusOne,
-	"latest_minus_two": InstalledPatchSummaryPatchLevelLatestMinusTwo,
-}
-
-// GetInstalledPatchSummaryPatchLevelEnumValues Enumerates the set of values for InstalledPatchSummaryPatchLevelEnum
-func GetInstalledPatchSummaryPatchLevelEnumValues() []InstalledPatchSummaryPatchLevelEnum {
-	values := make([]InstalledPatchSummaryPatchLevelEnum, 0)
-	for _, v := range mappingInstalledPatchSummaryPatchLevelEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetInstalledPatchSummaryPatchLevelEnumStringValues Enumerates the set of values in String for InstalledPatchSummaryPatchLevelEnum
-func GetInstalledPatchSummaryPatchLevelEnumStringValues() []string {
-	return []string{
-		"LATEST",
-		"LATEST_MINUS_ONE",
-		"LATEST_MINUS_TWO",
-	}
-}
-
-// GetMappingInstalledPatchSummaryPatchLevelEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingInstalledPatchSummaryPatchLevelEnum(val string) (InstalledPatchSummaryPatchLevelEnum, bool) {
-	enum, ok := mappingInstalledPatchSummaryPatchLevelEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }

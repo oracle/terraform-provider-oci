@@ -47,6 +47,21 @@ func (request GetIpv6Request) BinaryRequestBody() (*common.OCIReadSeekCloser, bo
 
 }
 
+// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
+// Not all services are supporting this feature and this method will be a no-op for those services.
+func (request GetIpv6Request) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+	if mandatoryParamMap["ipv6Id"] != nil {
+		templateParam := mandatoryParamMap["ipv6Id"]
+		for _, template := range templateParam {
+			replacementParam := *request.Ipv6Id
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+}
+
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetIpv6Request) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy

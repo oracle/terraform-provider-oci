@@ -68,7 +68,7 @@ func newPluginconfigClientFromBaseClient(baseClient common.BaseClient, configPro
 
 // SetRegion overrides the region of this client.
 func (client *PluginconfigClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("computeinstanceagent", "https://{dualStack?ds.:}iaas.{region}.oci.{secondLevelDomain}")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("computeinstanceagent", "https://iaas.{region}.{dualStack?ds.:}oci.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid

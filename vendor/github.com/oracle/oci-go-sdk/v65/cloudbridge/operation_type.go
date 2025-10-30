@@ -41,6 +41,7 @@ const (
 	OperationTypeCloudAwsDiscovery           OperationTypeEnum = "CLOUD_AWS_DISCOVERY"
 	OperationTypeCollectAwsRealtimeMetrics   OperationTypeEnum = "COLLECT_AWS_REALTIME_METRICS"
 	OperationTypeCollectAwsHistoricalMetrics OperationTypeEnum = "COLLECT_AWS_HISTORICAL_METRICS"
+	OperationTypeOlvmDiscovery               OperationTypeEnum = "OLVM_DISCOVERY"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -67,6 +68,7 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"CLOUD_AWS_DISCOVERY":            OperationTypeCloudAwsDiscovery,
 	"COLLECT_AWS_REALTIME_METRICS":   OperationTypeCollectAwsRealtimeMetrics,
 	"COLLECT_AWS_HISTORICAL_METRICS": OperationTypeCollectAwsHistoricalMetrics,
+	"OLVM_DISCOVERY":                 OperationTypeOlvmDiscovery,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -93,6 +95,7 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"cloud_aws_discovery":            OperationTypeCloudAwsDiscovery,
 	"collect_aws_realtime_metrics":   OperationTypeCollectAwsRealtimeMetrics,
 	"collect_aws_historical_metrics": OperationTypeCollectAwsHistoricalMetrics,
+	"olvm_discovery":                 OperationTypeOlvmDiscovery,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -130,6 +133,7 @@ func GetOperationTypeEnumStringValues() []string {
 		"CLOUD_AWS_DISCOVERY",
 		"COLLECT_AWS_REALTIME_METRICS",
 		"COLLECT_AWS_HISTORICAL_METRICS",
+		"OLVM_DISCOVERY",
 	}
 }
 

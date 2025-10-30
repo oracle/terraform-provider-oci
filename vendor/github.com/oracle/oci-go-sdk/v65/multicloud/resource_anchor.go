@@ -58,6 +58,9 @@ type ResourceAnchor struct {
 	// OCI Region that resource is created.
 	Region *string `mandatory:"false" json:"region"`
 
+	// The name assigned to the compartment during creation.
+	CompartmentName *string `mandatory:"false" json:"compartmentName"`
+
 	// The date and time the ResourceAnchor was updated, in the format defined by RFC 3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
@@ -74,6 +77,9 @@ type ResourceAnchor struct {
 	// Optional - Oracle Cloud Infrastructure compartment Id (OCID) which was created or linked by customer with resource anchor.
 	// This compartmentId is different from where resource Anchor live.
 	LinkedCompartmentId *string `mandatory:"false" json:"linkedCompartmentId"`
+
+	// The name assigned to the compartment which was created or linked by customer with resource anchor. This compartment is different from where resource Anchor live.
+	LinkedCompartmentName *string `mandatory:"false" json:"linkedCompartmentName"`
 
 	// subscription type
 	SubscriptionType SubscriptionTypeEnum `mandatory:"false" json:"subscriptionType,omitempty"`
@@ -110,10 +116,12 @@ func (m ResourceAnchor) ValidateEnumValue() (bool, error) {
 func (m *ResourceAnchor) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		Region                           *string                           `json:"region"`
+		CompartmentName                  *string                           `json:"compartmentName"`
 		TimeUpdated                      *common.SDKTime                   `json:"timeUpdated"`
 		LifecycleDetails                 *string                           `json:"lifecycleDetails"`
 		SetupMode                        ResourceAnchorSetupModeEnum       `json:"setupMode"`
 		LinkedCompartmentId              *string                           `json:"linkedCompartmentId"`
+		LinkedCompartmentName            *string                           `json:"linkedCompartmentName"`
 		SubscriptionType                 SubscriptionTypeEnum              `json:"subscriptionType"`
 		CloudServiceProviderMetadataItem cloudserviceprovidermetadataitem  `json:"cloudServiceProviderMetadataItem"`
 		Id                               *string                           `json:"id"`
@@ -134,6 +142,8 @@ func (m *ResourceAnchor) UnmarshalJSON(data []byte) (e error) {
 	var nn interface{}
 	m.Region = model.Region
 
+	m.CompartmentName = model.CompartmentName
+
 	m.TimeUpdated = model.TimeUpdated
 
 	m.LifecycleDetails = model.LifecycleDetails
@@ -141,6 +151,8 @@ func (m *ResourceAnchor) UnmarshalJSON(data []byte) (e error) {
 	m.SetupMode = model.SetupMode
 
 	m.LinkedCompartmentId = model.LinkedCompartmentId
+
+	m.LinkedCompartmentName = model.LinkedCompartmentName
 
 	m.SubscriptionType = model.SubscriptionType
 

@@ -249,6 +249,9 @@ type AutonomousDatabaseSummary struct {
 	PrivateEndpointIp *string `mandatory:"false" json:"privateEndpointIp"`
 
 	// A valid Oracle AI Database version for Autonomous AI Database.
+	// When you specify 23ai for dbversion, the system will provision a 23ai database, but the UI will display it as 26ai.
+	// When you specify 26ai for dbversion, the system will provision and display a 26ai database as expected.
+	// For new databases, it is recommended to use either 19c or 26ai.
 	DbVersion *string `mandatory:"false" json:"dbVersion"`
 
 	// Indicates if the Autonomous AI Database version is a preview version.
@@ -266,6 +269,9 @@ type AutonomousDatabaseSummary struct {
 
 	// Autonomous AI Database for Developers are fixed-shape Autonomous AI Databases that developers can use to build and test new applications. On Serverless, these are low-cost and billed per instance, on Dedicated and Cloud@Customer there is no additional cost to create Developer databases. Developer databases come with limited resources and is not intended for large-scale testing and production deployments. When you need more compute or storage resources, you may upgrade to a full paid production database.
 	IsDevTier *bool `mandatory:"false" json:"isDevTier"`
+
+	// Specifies if Telemetry Streaming is enabled or disabled for this Autonomous AI Database.
+	IsTelemetryStreamingEnabled *bool `mandatory:"false" json:"isTelemetryStreamingEnabled"`
 
 	// Indicates if the database-level access control is enabled.
 	// If disabled, database access is defined by the network security rules.
@@ -451,7 +457,7 @@ type AutonomousDatabaseSummary struct {
 
 	AutonomousDatabaseMaintenanceWindow *AutonomousDatabaseMaintenanceWindowSummary `mandatory:"false" json:"autonomousDatabaseMaintenanceWindow"`
 
-	// The date until which maintenance of Autonomous AI Database is temporarily paused.
+	// The date until which Autonomous AI Database maintenance is temporarily paused.
 	TimeMaintenancePauseUntil *common.SDKTime `mandatory:"false" json:"timeMaintenancePauseUntil"`
 
 	// The list of scheduled operations. Consists of values such as dayOfWeek, scheduledStartTime, scheduledStopTime.
@@ -502,6 +508,24 @@ type AutonomousDatabaseSummary struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster placement group of the Autonomous Serverless Database.
 	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
+
+	// The earliest date and time to which you can schedule an Autonomous Database availability domain update.
+	TimeEarliestAvailableAdUpdate *common.SDKTime `mandatory:"false" json:"timeEarliestAvailableAdUpdate"`
+
+	// The latest date and time to which you can schedule an Autonomous Database availability domain update.
+	TimeLatestAvailableAdUpdate *common.SDKTime `mandatory:"false" json:"timeLatestAvailableAdUpdate"`
+
+	// The date and time to which the Autonomous Database availability domain update is scheduled.
+	TimeScheduledAdUpdate *common.SDKTime `mandatory:"false" json:"timeScheduledAdUpdate"`
+
+	// The earliest date and time to which the Autonomous Database CPG ID update is scheduled.
+	TimeEarliestAvailableCpgUpdate *common.SDKTime `mandatory:"false" json:"timeEarliestAvailableCpgUpdate"`
+
+	// The latest date and time to which you can schedule an Autonomous Database CPG ID update.
+	TimeLatestAvailableCpgUpdate *common.SDKTime `mandatory:"false" json:"timeLatestAvailableCpgUpdate"`
+
+	// The date and time to which the Autonomous Database CPG ID update is scheduled.
+	TimeScheduledCpgUpdate *common.SDKTime `mandatory:"false" json:"timeScheduledCpgUpdate"`
 
 	// A list of the source Autonomous AI Database's table space number(s) used to create this partial clone from the backup.
 	CloneTableSpaceList []int `mandatory:"false" json:"cloneTableSpaceList"`
@@ -675,6 +699,7 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 		IsPreview                               *bool                                                          `json:"isPreview"`
 		DbWorkload                              AutonomousDatabaseSummaryDbWorkloadEnum                        `json:"dbWorkload"`
 		IsDevTier                               *bool                                                          `json:"isDevTier"`
+		IsTelemetryStreamingEnabled             *bool                                                          `json:"isTelemetryStreamingEnabled"`
 		IsAccessControlEnabled                  *bool                                                          `json:"isAccessControlEnabled"`
 		WhitelistedIps                          []string                                                       `json:"whitelistedIps"`
 		ArePrimaryWhitelistedIpsUsed            *bool                                                          `json:"arePrimaryWhitelistedIpsUsed"`
@@ -741,6 +766,12 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 		NetServicesArchitecture                 AutonomousDatabaseSummaryNetServicesArchitectureEnum           `json:"netServicesArchitecture"`
 		AvailabilityDomain                      *string                                                        `json:"availabilityDomain"`
 		ClusterPlacementGroupId                 *string                                                        `json:"clusterPlacementGroupId"`
+		TimeEarliestAvailableAdUpdate           *common.SDKTime                                                `json:"timeEarliestAvailableAdUpdate"`
+		TimeLatestAvailableAdUpdate             *common.SDKTime                                                `json:"timeLatestAvailableAdUpdate"`
+		TimeScheduledAdUpdate                   *common.SDKTime                                                `json:"timeScheduledAdUpdate"`
+		TimeEarliestAvailableCpgUpdate          *common.SDKTime                                                `json:"timeEarliestAvailableCpgUpdate"`
+		TimeLatestAvailableCpgUpdate            *common.SDKTime                                                `json:"timeLatestAvailableCpgUpdate"`
+		TimeScheduledCpgUpdate                  *common.SDKTime                                                `json:"timeScheduledCpgUpdate"`
 		CloneTableSpaceList                     []int                                                          `json:"cloneTableSpaceList"`
 		ExternalAuthentication                  []externalauthenticationbase                                   `json:"externalAuthentication"`
 		CloneType                               AutonomousDatabaseSummaryCloneTypeEnum                         `json:"cloneType"`
@@ -897,6 +928,8 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 
 	m.IsDevTier = model.IsDevTier
 
+	m.IsTelemetryStreamingEnabled = model.IsTelemetryStreamingEnabled
+
 	m.IsAccessControlEnabled = model.IsAccessControlEnabled
 
 	m.WhitelistedIps = make([]string, len(model.WhitelistedIps))
@@ -1028,6 +1061,18 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 	m.AvailabilityDomain = model.AvailabilityDomain
 
 	m.ClusterPlacementGroupId = model.ClusterPlacementGroupId
+
+	m.TimeEarliestAvailableAdUpdate = model.TimeEarliestAvailableAdUpdate
+
+	m.TimeLatestAvailableAdUpdate = model.TimeLatestAvailableAdUpdate
+
+	m.TimeScheduledAdUpdate = model.TimeScheduledAdUpdate
+
+	m.TimeEarliestAvailableCpgUpdate = model.TimeEarliestAvailableCpgUpdate
+
+	m.TimeLatestAvailableCpgUpdate = model.TimeLatestAvailableCpgUpdate
+
+	m.TimeScheduledCpgUpdate = model.TimeScheduledCpgUpdate
 
 	m.CloneTableSpaceList = make([]int, len(model.CloneTableSpaceList))
 	copy(m.CloneTableSpaceList, model.CloneTableSpaceList)

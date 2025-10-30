@@ -228,21 +228,21 @@ type ComputeGpuMemoryFabricFirmwareUpdateStateEnum string
 
 // Set of constants representing the allowable values for ComputeGpuMemoryFabricFirmwareUpdateStateEnum
 const (
-	ComputeGpuMemoryFabricFirmwareUpdateStateWillUpdate                  ComputeGpuMemoryFabricFirmwareUpdateStateEnum = "WILL_UPDATE"
-	ComputeGpuMemoryFabricFirmwareUpdateStateNoUpdate                    ComputeGpuMemoryFabricFirmwareUpdateStateEnum = "NO_UPDATE"
-	ComputeGpuMemoryFabricFirmwareUpdateStateUnsupportedBundleTransition ComputeGpuMemoryFabricFirmwareUpdateStateEnum = "UNSUPPORTED_BUNDLE_TRANSITION"
+	ComputeGpuMemoryFabricFirmwareUpdateStateWillUpdate         ComputeGpuMemoryFabricFirmwareUpdateStateEnum = "WILL_UPDATE"
+	ComputeGpuMemoryFabricFirmwareUpdateStateNoUpdate           ComputeGpuMemoryFabricFirmwareUpdateStateEnum = "NO_UPDATE"
+	ComputeGpuMemoryFabricFirmwareUpdateStateSkipRecycleEnabled ComputeGpuMemoryFabricFirmwareUpdateStateEnum = "SKIP_RECYCLE_ENABLED"
 )
 
 var mappingComputeGpuMemoryFabricFirmwareUpdateStateEnum = map[string]ComputeGpuMemoryFabricFirmwareUpdateStateEnum{
-	"WILL_UPDATE":                   ComputeGpuMemoryFabricFirmwareUpdateStateWillUpdate,
-	"NO_UPDATE":                     ComputeGpuMemoryFabricFirmwareUpdateStateNoUpdate,
-	"UNSUPPORTED_BUNDLE_TRANSITION": ComputeGpuMemoryFabricFirmwareUpdateStateUnsupportedBundleTransition,
+	"WILL_UPDATE":          ComputeGpuMemoryFabricFirmwareUpdateStateWillUpdate,
+	"NO_UPDATE":            ComputeGpuMemoryFabricFirmwareUpdateStateNoUpdate,
+	"SKIP_RECYCLE_ENABLED": ComputeGpuMemoryFabricFirmwareUpdateStateSkipRecycleEnabled,
 }
 
 var mappingComputeGpuMemoryFabricFirmwareUpdateStateEnumLowerCase = map[string]ComputeGpuMemoryFabricFirmwareUpdateStateEnum{
-	"will_update":                   ComputeGpuMemoryFabricFirmwareUpdateStateWillUpdate,
-	"no_update":                     ComputeGpuMemoryFabricFirmwareUpdateStateNoUpdate,
-	"unsupported_bundle_transition": ComputeGpuMemoryFabricFirmwareUpdateStateUnsupportedBundleTransition,
+	"will_update":          ComputeGpuMemoryFabricFirmwareUpdateStateWillUpdate,
+	"no_update":            ComputeGpuMemoryFabricFirmwareUpdateStateNoUpdate,
+	"skip_recycle_enabled": ComputeGpuMemoryFabricFirmwareUpdateStateSkipRecycleEnabled,
 }
 
 // GetComputeGpuMemoryFabricFirmwareUpdateStateEnumValues Enumerates the set of values for ComputeGpuMemoryFabricFirmwareUpdateStateEnum
@@ -259,7 +259,7 @@ func GetComputeGpuMemoryFabricFirmwareUpdateStateEnumStringValues() []string {
 	return []string{
 		"WILL_UPDATE",
 		"NO_UPDATE",
-		"UNSUPPORTED_BUNDLE_TRANSITION",
+		"SKIP_RECYCLE_ENABLED",
 	}
 }
 

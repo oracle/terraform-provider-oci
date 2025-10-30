@@ -55,18 +55,21 @@ type MemoryFabricPreferencesDescriptorFabricRecycleLevelEnum string
 
 // Set of constants representing the allowable values for MemoryFabricPreferencesDescriptorFabricRecycleLevelEnum
 const (
-	MemoryFabricPreferencesDescriptorFabricRecycleLevelFullRecycle  MemoryFabricPreferencesDescriptorFabricRecycleLevelEnum = "FULL_RECYCLE"
-	MemoryFabricPreferencesDescriptorFabricRecycleLevelQuickRecycle MemoryFabricPreferencesDescriptorFabricRecycleLevelEnum = "QUICK_RECYCLE"
+	MemoryFabricPreferencesDescriptorFabricRecycleLevelFullRecycle              MemoryFabricPreferencesDescriptorFabricRecycleLevelEnum = "FULL_RECYCLE"
+	MemoryFabricPreferencesDescriptorFabricRecycleLevelSkipRecycle              MemoryFabricPreferencesDescriptorFabricRecycleLevelEnum = "SKIP_RECYCLE"
+	MemoryFabricPreferencesDescriptorFabricRecycleLevelOpportunisticFullRecycle MemoryFabricPreferencesDescriptorFabricRecycleLevelEnum = "OPPORTUNISTIC_FULL_RECYCLE"
 )
 
 var mappingMemoryFabricPreferencesDescriptorFabricRecycleLevelEnum = map[string]MemoryFabricPreferencesDescriptorFabricRecycleLevelEnum{
-	"FULL_RECYCLE":  MemoryFabricPreferencesDescriptorFabricRecycleLevelFullRecycle,
-	"QUICK_RECYCLE": MemoryFabricPreferencesDescriptorFabricRecycleLevelQuickRecycle,
+	"FULL_RECYCLE":               MemoryFabricPreferencesDescriptorFabricRecycleLevelFullRecycle,
+	"SKIP_RECYCLE":               MemoryFabricPreferencesDescriptorFabricRecycleLevelSkipRecycle,
+	"OPPORTUNISTIC_FULL_RECYCLE": MemoryFabricPreferencesDescriptorFabricRecycleLevelOpportunisticFullRecycle,
 }
 
 var mappingMemoryFabricPreferencesDescriptorFabricRecycleLevelEnumLowerCase = map[string]MemoryFabricPreferencesDescriptorFabricRecycleLevelEnum{
-	"full_recycle":  MemoryFabricPreferencesDescriptorFabricRecycleLevelFullRecycle,
-	"quick_recycle": MemoryFabricPreferencesDescriptorFabricRecycleLevelQuickRecycle,
+	"full_recycle":               MemoryFabricPreferencesDescriptorFabricRecycleLevelFullRecycle,
+	"skip_recycle":               MemoryFabricPreferencesDescriptorFabricRecycleLevelSkipRecycle,
+	"opportunistic_full_recycle": MemoryFabricPreferencesDescriptorFabricRecycleLevelOpportunisticFullRecycle,
 }
 
 // GetMemoryFabricPreferencesDescriptorFabricRecycleLevelEnumValues Enumerates the set of values for MemoryFabricPreferencesDescriptorFabricRecycleLevelEnum
@@ -82,7 +85,8 @@ func GetMemoryFabricPreferencesDescriptorFabricRecycleLevelEnumValues() []Memory
 func GetMemoryFabricPreferencesDescriptorFabricRecycleLevelEnumStringValues() []string {
 	return []string{
 		"FULL_RECYCLE",
-		"QUICK_RECYCLE",
+		"SKIP_RECYCLE",
+		"OPPORTUNISTIC_FULL_RECYCLE",
 	}
 }
 

@@ -25,10 +25,6 @@ type UpdateVolumeKmsKeyRequest struct {
 	// will be updated or deleted only if the etag you provide matches the resource's current etag value.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
-	// The endpoint that will be used to get the resource principal token
-	// of the parent resource.
-	OpcParentResourcePrincipalTokenUrl *string `mandatory:"false" contributesTo:"header" name:"opc-parent-resource-principal-token-url"`
-
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -57,6 +53,21 @@ func (request UpdateVolumeKmsKeyRequest) BinaryRequestBody() (*common.OCIReadSee
 
 	return nil, false
 
+}
+
+// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
+// Not all services are supporting this feature and this method will be a no-op for those services.
+func (request UpdateVolumeKmsKeyRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+	if mandatoryParamMap["volumeId"] != nil {
+		templateParam := mandatoryParamMap["volumeId"]
+		for _, template := range templateParam {
+			replacementParam := *request.VolumeId
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.

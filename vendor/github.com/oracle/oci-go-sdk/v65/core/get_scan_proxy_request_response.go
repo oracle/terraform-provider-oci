@@ -50,6 +50,31 @@ func (request GetScanProxyRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 
 }
 
+// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
+// Not all services are supporting this feature and this method will be a no-op for those services.
+func (request GetScanProxyRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+	if mandatoryParamMap["scanProxyId"] != nil {
+		templateParam := mandatoryParamMap["scanProxyId"]
+		for _, template := range templateParam {
+			replacementParam := *request.ScanProxyId
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+	if mandatoryParamMap["privateEndpointId"] != nil {
+		templateParam := mandatoryParamMap["privateEndpointId"]
+		for _, template := range templateParam {
+			replacementParam := *request.PrivateEndpointId
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+}
+
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetScanProxyRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy

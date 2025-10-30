@@ -10199,64 +10199,6 @@ func (client DatabaseClient) failoverDataGuardAssociation(ctx context.Context, r
 	return response, err
 }
 
-// FileSystemDefinition Returns file system definitions.
-func (client DatabaseClient) FileSystemDefinition(ctx context.Context, request FileSystemDefinitionRequest) (response FileSystemDefinitionResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.fileSystemDefinition, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = FileSystemDefinitionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = FileSystemDefinitionResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(FileSystemDefinitionResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into FileSystemDefinitionResponse")
-	}
-	return
-}
-
-// fileSystemDefinition implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) fileSystemDefinition(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fileSystem/actions/lookupFileSystemDefinitionDetails", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response FileSystemDefinitionResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/FileSystemDefinition/FileSystemDefinition"
-		err = common.PostProcessServiceError(err, "Database", "FileSystemDefinition", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // GenerateAutonomousDatabaseWallet Creates and downloads a wallet for the specified Autonomous AI Database.
 func (client DatabaseClient) GenerateAutonomousDatabaseWallet(ctx context.Context, request GenerateAutonomousDatabaseWalletRequest) (response GenerateAutonomousDatabaseWalletResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -18587,6 +18529,59 @@ func (client DatabaseClient) listExternalPluggableDatabases(ctx context.Context,
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalPluggableDatabase/ListExternalPluggableDatabases"
 		err = common.PostProcessServiceError(err, "Database", "ListExternalPluggableDatabases", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListFileSystemDefinitions Gets a list of file system definitions for a given shape and shape attribute.
+func (client DatabaseClient) ListFileSystemDefinitions(ctx context.Context, request ListFileSystemDefinitionsRequest) (response ListFileSystemDefinitionsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listFileSystemDefinitions, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListFileSystemDefinitionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListFileSystemDefinitionsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListFileSystemDefinitionsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListFileSystemDefinitionsResponse")
+	}
+	return
+}
+
+// listFileSystemDefinitions implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listFileSystemDefinitions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fileSystemDefinitions", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListFileSystemDefinitionsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/FileSystemDefinitionCollection/ListFileSystemDefinitions"
+		err = common.PostProcessServiceError(err, "Database", "ListFileSystemDefinitions", apiReferenceLink)
 		return response, err
 	}
 

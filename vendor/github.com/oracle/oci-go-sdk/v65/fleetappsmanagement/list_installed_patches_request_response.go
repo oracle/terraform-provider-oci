@@ -27,7 +27,7 @@ type ListInstalledPatchesRequest struct {
 	Severity ListInstalledPatchesSeverityEnum `mandatory:"false" contributesTo:"query" name:"severity" omitEmpty:"true"`
 
 	// Patch level.
-	PatchLevel ListInstalledPatchesPatchLevelEnum `mandatory:"false" contributesTo:"query" name:"patchLevel" omitEmpty:"true"`
+	PatchLevel *string `mandatory:"false" contributesTo:"query" name:"patchLevel"`
 
 	// Patch Type.
 	PatchType *string `mandatory:"false" contributesTo:"query" name:"patchType"`
@@ -85,9 +85,6 @@ func (request ListInstalledPatchesRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingListInstalledPatchesSeverityEnum(string(request.Severity)); !ok && request.Severity != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Severity: %s. Supported values are: %s.", request.Severity, strings.Join(GetListInstalledPatchesSeverityEnumStringValues(), ",")))
-	}
-	if _, ok := GetMappingListInstalledPatchesPatchLevelEnum(string(request.PatchLevel)); !ok && request.PatchLevel != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PatchLevel: %s. Supported values are: %s.", request.PatchLevel, strings.Join(GetListInstalledPatchesPatchLevelEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListInstalledPatchesSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListInstalledPatchesSortOrderEnumStringValues(), ",")))
@@ -176,52 +173,6 @@ func GetListInstalledPatchesSeverityEnumStringValues() []string {
 // GetMappingListInstalledPatchesSeverityEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListInstalledPatchesSeverityEnum(val string) (ListInstalledPatchesSeverityEnum, bool) {
 	enum, ok := mappingListInstalledPatchesSeverityEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// ListInstalledPatchesPatchLevelEnum Enum with underlying type: string
-type ListInstalledPatchesPatchLevelEnum string
-
-// Set of constants representing the allowable values for ListInstalledPatchesPatchLevelEnum
-const (
-	ListInstalledPatchesPatchLevelLatest         ListInstalledPatchesPatchLevelEnum = "LATEST"
-	ListInstalledPatchesPatchLevelLatestMinusOne ListInstalledPatchesPatchLevelEnum = "LATEST_MINUS_ONE"
-	ListInstalledPatchesPatchLevelLatestMinusTwo ListInstalledPatchesPatchLevelEnum = "LATEST_MINUS_TWO"
-)
-
-var mappingListInstalledPatchesPatchLevelEnum = map[string]ListInstalledPatchesPatchLevelEnum{
-	"LATEST":           ListInstalledPatchesPatchLevelLatest,
-	"LATEST_MINUS_ONE": ListInstalledPatchesPatchLevelLatestMinusOne,
-	"LATEST_MINUS_TWO": ListInstalledPatchesPatchLevelLatestMinusTwo,
-}
-
-var mappingListInstalledPatchesPatchLevelEnumLowerCase = map[string]ListInstalledPatchesPatchLevelEnum{
-	"latest":           ListInstalledPatchesPatchLevelLatest,
-	"latest_minus_one": ListInstalledPatchesPatchLevelLatestMinusOne,
-	"latest_minus_two": ListInstalledPatchesPatchLevelLatestMinusTwo,
-}
-
-// GetListInstalledPatchesPatchLevelEnumValues Enumerates the set of values for ListInstalledPatchesPatchLevelEnum
-func GetListInstalledPatchesPatchLevelEnumValues() []ListInstalledPatchesPatchLevelEnum {
-	values := make([]ListInstalledPatchesPatchLevelEnum, 0)
-	for _, v := range mappingListInstalledPatchesPatchLevelEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetListInstalledPatchesPatchLevelEnumStringValues Enumerates the set of values in String for ListInstalledPatchesPatchLevelEnum
-func GetListInstalledPatchesPatchLevelEnumStringValues() []string {
-	return []string{
-		"LATEST",
-		"LATEST_MINUS_ONE",
-		"LATEST_MINUS_TWO",
-	}
-}
-
-// GetMappingListInstalledPatchesPatchLevelEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingListInstalledPatchesPatchLevelEnum(val string) (ListInstalledPatchesPatchLevelEnum, bool) {
-	enum, ok := mappingListInstalledPatchesPatchLevelEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

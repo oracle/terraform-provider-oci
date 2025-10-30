@@ -91,7 +91,8 @@ func (client *MultiCloudsMetadataClient) ConfigurationProvider() *common.Configu
 	return client.config
 }
 
-// GetMultiCloudMetadata Gets information about multicloud base compartment
+// GetMultiCloudMetadata Gets information about the Multicloud base compartment for a given tenancy Id.
+// A Multicloud base compartment is an OCI compartment that maps to a subscription in a Cloud Service Provider (such as Azure, AWS, or Google Cloud).
 // A default retry strategy applies to this operation GetMultiCloudMetadata()
 func (client MultiCloudsMetadataClient) GetMultiCloudMetadata(ctx context.Context, request GetMultiCloudMetadataRequest) (response GetMultiCloudMetadataResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -145,7 +146,8 @@ func (client MultiCloudsMetadataClient) getMultiCloudMetadata(ctx context.Contex
 	return response, err
 }
 
-// ListMultiCloudMetadata Gets a list of multicloud metadata with multicloud base compartment and subscription across Cloud Service Providers.
+// ListMultiCloudMetadata Gets a list of multicloud metadata with pairs of Multicloud base compartment and subscription across Cloud Service Providers from a tenancy Id.
+// A Multicloud base compartment is an OCI compartment that maps to a subscription in a Cloud Service Provider (such as Azure, AWS, or Google Cloud).
 // A default retry strategy applies to this operation ListMultiCloudMetadata()
 func (client MultiCloudsMetadataClient) ListMultiCloudMetadata(ctx context.Context, request ListMultiCloudMetadataRequest) (response ListMultiCloudMetadataResponse, err error) {
 	var ociResponse common.OCIResponse

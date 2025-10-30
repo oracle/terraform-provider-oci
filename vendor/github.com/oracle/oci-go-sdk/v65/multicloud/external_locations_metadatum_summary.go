@@ -36,8 +36,11 @@ type ExternalLocationsMetadatumSummary struct {
 	// OCI region identifier https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm
 	OciRegion *string `mandatory:"true" json:"ociRegion"`
 
-	// Cluster Placement Group OCID
+	// Cluster Placement Group OCID (deprecated representation)
 	CpgId *string `mandatory:"true" json:"cpgId"`
+
+	// Cluster Placement Group OCID
+	ClusterPlacementGroupId *string `mandatory:"true" json:"clusterPlacementGroupId"`
 
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
@@ -45,6 +48,15 @@ type ExternalLocationsMetadatumSummary struct {
 
 	// OCI logical ad name
 	OciLogicalAd *string `mandatory:"false" json:"ociLogicalAd"`
+
+	// Partner Cloud Name based on service name
+	PartnerCloudName *string `mandatory:"false" json:"partnerCloudName"`
+
+	// User friendly name of account name for customer's subscription
+	PartnerCloudAccountName *string `mandatory:"false" json:"partnerCloudAccountName"`
+
+	// Direct URL to partner cloud for customer's account
+	PartnerCloudAccountUrl *string `mandatory:"false" json:"partnerCloudAccountUrl"`
 }
 
 func (m ExternalLocationsMetadatumSummary) String() string {

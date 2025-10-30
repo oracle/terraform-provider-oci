@@ -94,6 +94,65 @@ func (client *GenerativeAiClient) ConfigurationProvider() *common.ConfigurationP
 	return client.config
 }
 
+// ChangeConversationStoreCompartment Moves a conversationStore into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// A default retry strategy applies to this operation ChangeConversationStoreCompartment()
+func (client GenerativeAiClient) ChangeConversationStoreCompartment(ctx context.Context, request ChangeConversationStoreCompartmentRequest) (response ChangeConversationStoreCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeConversationStoreCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeConversationStoreCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeConversationStoreCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeConversationStoreCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeConversationStoreCompartmentResponse")
+	}
+	return
+}
+
+// changeConversationStoreCompartment implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) changeConversationStoreCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/conversationStores/{conversationStoreId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeConversationStoreCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/ConversationStore/ChangeConversationStoreCompartment"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "ChangeConversationStoreCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeDedicatedAiClusterCompartment Moves a dedicated AI cluster into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeDedicatedAiClusterCompartment()
 func (client GenerativeAiClient) ChangeDedicatedAiClusterCompartment(ctx context.Context, request ChangeDedicatedAiClusterCompartmentRequest) (response ChangeDedicatedAiClusterCompartmentResponse, err error) {
@@ -382,6 +441,66 @@ func (client GenerativeAiClient) changeModelCompartment(ctx context.Context, req
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/Model/ChangeModelCompartment"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "ChangeModelCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateConversationStore Creates a ConversationStore.
+// The header contains an opc-work-request-id, which is the id for the WorkRequest that tracks the conversationStore creation progress.
+// A default retry strategy applies to this operation CreateConversationStore()
+func (client GenerativeAiClient) CreateConversationStore(ctx context.Context, request CreateConversationStoreRequest) (response CreateConversationStoreResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createConversationStore, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateConversationStoreResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateConversationStoreResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateConversationStoreResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateConversationStoreResponse")
+	}
+	return
+}
+
+// createConversationStore implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) createConversationStore(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/conversationStores", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateConversationStoreResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/ConversationStore/CreateConversationStore"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "CreateConversationStore", apiReferenceLink)
 		return response, err
 	}
 
@@ -687,6 +806,60 @@ func (client GenerativeAiClient) createModel(ctx context.Context, request common
 	return response, err
 }
 
+// DeleteConversationStore Deletes a conversationStore.
+// A default retry strategy applies to this operation DeleteConversationStore()
+func (client GenerativeAiClient) DeleteConversationStore(ctx context.Context, request DeleteConversationStoreRequest) (response DeleteConversationStoreResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteConversationStore, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteConversationStoreResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteConversationStoreResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteConversationStoreResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteConversationStoreResponse")
+	}
+	return
+}
+
+// deleteConversationStore implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) deleteConversationStore(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/conversationStores/{conversationStoreId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteConversationStoreResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/ConversationStore/DeleteConversationStore"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "DeleteConversationStore", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteDedicatedAiCluster Deletes a dedicated AI cluster.
 // You can only delete clusters without attached resources. Before you delete a hosting dedicated AI cluster, you must delete the endpoints associated to that cluster. Before you delete a fine-tuning dedicated AI cluster, you must delete the custom model on that cluster. The delete action permanently deletes the cluster. This action can't be undone.
 // A default retry strategy applies to this operation DeleteDedicatedAiCluster()
@@ -951,6 +1124,60 @@ func (client GenerativeAiClient) deleteModel(ctx context.Context, request common
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/Model/DeleteModel"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "DeleteModel", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetConversationStore Gets information about a conversationStore.
+// A default retry strategy applies to this operation GetConversationStore()
+func (client GenerativeAiClient) GetConversationStore(ctx context.Context, request GetConversationStoreRequest) (response GetConversationStoreResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getConversationStore, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetConversationStoreResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetConversationStoreResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetConversationStoreResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetConversationStoreResponse")
+	}
+	return
+}
+
+// getConversationStore implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) getConversationStore(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/conversationStores/{conversationStoreId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetConversationStoreResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/ConversationStore/GetConversationStore"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "GetConversationStore", apiReferenceLink)
 		return response, err
 	}
 
@@ -1275,6 +1502,60 @@ func (client GenerativeAiClient) getWorkRequest(ctx context.Context, request com
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "GetWorkRequest", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListConversationStores Lists the conversationStores of a specific compartment.
+// A default retry strategy applies to this operation ListConversationStores()
+func (client GenerativeAiClient) ListConversationStores(ctx context.Context, request ListConversationStoresRequest) (response ListConversationStoresResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listConversationStores, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListConversationStoresResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListConversationStoresResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListConversationStoresResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListConversationStoresResponse")
+	}
+	return
+}
+
+// listConversationStores implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) listConversationStores(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/conversationStores", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListConversationStoresResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/ConversationStoreCollection/ListConversationStores"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "ListConversationStores", apiReferenceLink)
 		return response, err
 	}
 
@@ -1707,6 +1988,60 @@ func (client GenerativeAiClient) listWorkRequests(ctx context.Context, request c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "ListWorkRequests", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateConversationStore Updates the properties of a conversationStore.
+// A default retry strategy applies to this operation UpdateConversationStore()
+func (client GenerativeAiClient) UpdateConversationStore(ctx context.Context, request UpdateConversationStoreRequest) (response UpdateConversationStoreResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateConversationStore, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateConversationStoreResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateConversationStoreResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateConversationStoreResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateConversationStoreResponse")
+	}
+	return
+}
+
+// updateConversationStore implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) updateConversationStore(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/conversationStores/{conversationStoreId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateConversationStoreResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/ConversationStore/UpdateConversationStore"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "UpdateConversationStore", apiReferenceLink)
 		return response, err
 	}
 

@@ -39,6 +39,10 @@ const (
 	OperationTypeDeletePrivateEndpoint    OperationTypeEnum = "DELETE_PRIVATE_ENDPOINT"
 	OperationTypeUpdatePrivateEndpoint    OperationTypeEnum = "UPDATE_PRIVATE_ENDPOINT"
 	OperationTypeMovePrivateEndpoint      OperationTypeEnum = "MOVE_PRIVATE_ENDPOINT"
+	OperationTypeCreateConversationStore  OperationTypeEnum = "CREATE_CONVERSATION_STORE"
+	OperationTypeDeleteConversationStore  OperationTypeEnum = "DELETE_CONVERSATION_STORE"
+	OperationTypeUpdateConversationStore  OperationTypeEnum = "UPDATE_CONVERSATION_STORE"
+	OperationTypeMoveConversationStore    OperationTypeEnum = "MOVE_CONVERSATION_STORE"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -60,6 +64,10 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"DELETE_PRIVATE_ENDPOINT":     OperationTypeDeletePrivateEndpoint,
 	"UPDATE_PRIVATE_ENDPOINT":     OperationTypeUpdatePrivateEndpoint,
 	"MOVE_PRIVATE_ENDPOINT":       OperationTypeMovePrivateEndpoint,
+	"CREATE_CONVERSATION_STORE":   OperationTypeCreateConversationStore,
+	"DELETE_CONVERSATION_STORE":   OperationTypeDeleteConversationStore,
+	"UPDATE_CONVERSATION_STORE":   OperationTypeUpdateConversationStore,
+	"MOVE_CONVERSATION_STORE":     OperationTypeMoveConversationStore,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -81,6 +89,10 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"delete_private_endpoint":     OperationTypeDeletePrivateEndpoint,
 	"update_private_endpoint":     OperationTypeUpdatePrivateEndpoint,
 	"move_private_endpoint":       OperationTypeMovePrivateEndpoint,
+	"create_conversation_store":   OperationTypeCreateConversationStore,
+	"delete_conversation_store":   OperationTypeDeleteConversationStore,
+	"update_conversation_store":   OperationTypeUpdateConversationStore,
+	"move_conversation_store":     OperationTypeMoveConversationStore,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -113,6 +125,10 @@ func GetOperationTypeEnumStringValues() []string {
 		"DELETE_PRIVATE_ENDPOINT",
 		"UPDATE_PRIVATE_ENDPOINT",
 		"MOVE_PRIVATE_ENDPOINT",
+		"CREATE_CONVERSATION_STORE",
+		"DELETE_CONVERSATION_STORE",
+		"UPDATE_CONVERSATION_STORE",
+		"MOVE_CONVERSATION_STORE",
 	}
 }
 

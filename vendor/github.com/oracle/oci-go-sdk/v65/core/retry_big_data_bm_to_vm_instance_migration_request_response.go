@@ -59,6 +59,21 @@ func (request RetryBigDataBmToVmInstanceMigrationRequest) BinaryRequestBody() (*
 
 }
 
+// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
+// Not all services are supporting this feature and this method will be a no-op for those services.
+func (request RetryBigDataBmToVmInstanceMigrationRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+	if mandatoryParamMap["bigDataBmToVmInstanceMigrationId"] != nil {
+		templateParam := mandatoryParamMap["bigDataBmToVmInstanceMigrationId"]
+		for _, template := range templateParam {
+			replacementParam := *request.BigDataBmToVmInstanceMigrationId
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+}
+
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request RetryBigDataBmToVmInstanceMigrationRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
