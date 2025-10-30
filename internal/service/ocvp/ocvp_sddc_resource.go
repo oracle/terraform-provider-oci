@@ -1721,6 +1721,10 @@ func (s *OcvpSddcResourceCrud) SetData() error {
 		s.D.Set("hcx_fqdn", *s.Res.HcxFqdn)
 	}
 
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
+
 	hcxOnPremLicenses := []interface{}{}
 	for _, item := range s.Res.HcxOnPremLicenses {
 		hcxOnPremLicenses = append(hcxOnPremLicenses, HcxLicenseSummaryToMap(item))
@@ -2207,6 +2211,10 @@ func SddcSummaryToMap(obj oci_ocvp.SddcSummary, sddcClient *oci_ocvp.SddcClient,
 
 	if clusterSummary.IsShieldedInstanceEnabled != nil {
 		result["is_shielded_instance_enabled"] = clusterSummary.IsShieldedInstanceEnabled
+	}
+
+	if obj.SystemTags != nil {
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
 	}
 
 	return result, nil
