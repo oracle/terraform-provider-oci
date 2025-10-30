@@ -29,7 +29,7 @@ variable "fusion_environment_create_fusion_environment_admin_user_details_passwo
 }
 
 variable "fusion_environment_create_fusion_environment_admin_user_details_username" {
-  default = "username_test"
+  default = "usernametest1"
 }
 
 variable "fusion_environment_defined_tags_value" {

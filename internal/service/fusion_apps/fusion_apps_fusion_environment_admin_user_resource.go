@@ -61,11 +61,12 @@ func FusionAppsFusionEnvironmentAdminUserResource() *schema.Resource {
 
 			// Optional
 			"password": {
-				Type:      schema.TypeString,
-				Optional:  true,
-				Computed:  true,
-				ForceNew:  true,
-				Sensitive: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Computed:   true,
+				ForceNew:   true,
+				Sensitive:  true,
+				Deprecated: "The 'password' field is deprecated. Please use the OCI Console or email link to reset the password.",
 			},
 
 			// Computed
