@@ -41,6 +41,7 @@ The following attributes are exported:
 	* `capacity` - Size of the Block Storage Volume in GB.
 	* `datastore_type` - Type of the datastore.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
+* `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{orcl-cloud: {free-tier-retain: true}}`
 * `display_name` - A descriptive name for the SDDC. It must be unique, start with a letter, and contain only letters, digits, whitespaces, dashes and underscores. Avoid entering confidential information. 
 * `esxi_hosts_count` - (**Deprecated**) The number of ESXi hosts in the SDDC. **Deprecated**. Please use `esxi_hosts_count` of `initial_cluster_configurations` instead.
 * `actual_esxi_hosts_count` - (**Deprecated**) The number of actual ESXi hosts in the SDDC on the cloud. This attribute will be different when esxi Host is added to an existing SDDC. **Deprecated**. Please use `actual_esxi_hosts_count` of `initial_cluster_configurations` instead.
