@@ -159,6 +159,11 @@ func OcvpClusterResource() *schema.Resource {
 				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
 			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -761,6 +766,10 @@ func (s *OcvpClusterResourceCrud) SetData() error {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
 
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
@@ -786,7 +795,6 @@ func (s *OcvpClusterResourceCrud) SetData() error {
 		s.D.Set("esxi_software_version", *s.Res.EsxiSoftwareVersion)
 	}
 
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	s.D.Set("initial_commitment", s.Res.InitialCommitment)
@@ -867,6 +875,10 @@ func ClusterSummaryToMap(obj oci_ocvp.ClusterSummary) map[string]interface{} {
 		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
 	}
 
+	if obj.SystemTags != nil {
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	}
+
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
 	}
@@ -875,7 +887,6 @@ func ClusterSummaryToMap(obj oci_ocvp.ClusterSummary) map[string]interface{} {
 		result["esxi_hosts_count"] = int(*obj.EsxiHostsCount)
 	}
 
-	result["freeform_tags"] = obj.FreeformTags
 	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {

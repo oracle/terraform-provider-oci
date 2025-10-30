@@ -104,6 +104,10 @@ func (s *OcvpSddcDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
+
 	if s.Res.HcxFqdn != nil {
 		s.D.Set("hcx_fqdn", *s.Res.HcxFqdn)
 	}
