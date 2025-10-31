@@ -53,7 +53,8 @@ var (
 		"target_connection_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: GoldenGatePipelineTargetConnectionDetailsRepresentation},
 		"description":               acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		//"locks":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: GoldenGatePipelineLocksRepresentation},
+		"subnet_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${var.test_subnet_id}`},
+		//"locks":           		 acctest.RepresentationGroup{RepType: acctest.Optional, Group: GoldenGatePipelineLocksRepresentation},
 		"process_options": acctest.RepresentationGroup{RepType: acctest.Optional, Group: GoldenGatePipelineProcessOptionsRepresentation},
 	}
 	GoldenGatePipelineSourceConnectionDetailsRepresentation = map[string]interface{}{
@@ -94,7 +95,8 @@ func TestGoldenGatePipelineResource_basic(t *testing.T) {
 
 	config := acctest.ProviderTestConfig() +
 		makeVariableStr("source_connection_id", t) +
-		makeVariableStr("target_connection_id", t)
+		makeVariableStr("target_connection_id", t) +
+		makeVariableStr("test_subnet_id", t)
 
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
@@ -164,6 +166,7 @@ func TestGoldenGatePipelineResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "source_connection_details.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_connection_details.0.connection_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "target_connection_details.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_connection_details.0.connection_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -206,6 +209,7 @@ func TestGoldenGatePipelineResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "source_connection_details.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_connection_details.0.connection_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "target_connection_details.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_connection_details.0.connection_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -248,6 +252,7 @@ func TestGoldenGatePipelineResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "source_connection_details.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_connection_details.0.connection_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "target_connection_details.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_connection_details.0.connection_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -292,6 +297,7 @@ func TestGoldenGatePipelineResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ingress_ips.#", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_auto_scaling_enabled"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "lifecycle_sub_state"),
