@@ -92,8 +92,8 @@ resource "oci_golden_gate_connection" "test_connection" {
 	key_id = oci_kms_key.test_key.id
 	key_store = var.connection_key_store
 	key_store_password = var.connection_key_store_password
-	key_store_secret_id = oci_vault_secret.test_secret.id
 	key_store_password_secret_id = oci_vault_secret.test_secret.id
+	key_store_secret_id = oci_vault_secret.test_secret.id
 	locks {
 		#Required
 		type = var.connection_locks_type
@@ -152,7 +152,7 @@ resource "oci_golden_gate_connection" "test_connection" {
 		bucket = var.connection_storage_bucket
 		container = var.connection_storage_container
 		endpoint = var.connection_storage_endpoint
-		project_id = oci_ai_anomaly_detection_project.test_project.id
+		project_id = oci_ai_document_project.test_project.id
 		region = var.connection_storage_region
 		scheme_type = var.connection_storage_scheme_type
 		secret_access_key_secret_id = oci_vault_secret.test_secret.id
@@ -179,7 +179,6 @@ resource "oci_golden_gate_connection" "test_connection" {
 	vault_id = oci_kms_vault.test_vault.id
 	wallet = var.connection_wallet
 	wallet_secret_id = oci_vault_secret.test_secret.id
-	trigger_refresh = true
 }
 ```
 
@@ -188,8 +187,8 @@ resource "oci_golden_gate_connection" "test_connection" {
 The following arguments are supported:
 
 * `access_key_id` - (Required when connection_type=AMAZON_KINESIS | AMAZON_S3) (Updatable) Access key ID to access the Amazon S3 bucket. e.g.: "this-is-not-the-secret" 
-* `account_key` - (Applicable when connection_type=AZURE_DATA_LAKE_STORAGE) (Updatable) Azure storage account key. This property is required when 'authenticationType' is set to 'SHARED_KEY'. e.g.: pa3WbhVATzj56xD4DH1VjOUhApRGEGHvOo58eQJVWIzX+j8j4CUVFcTjpIqDSRaSa1Wo2LbWY5at+AStEgLOIQ== Deprecated: This field is deprecated and replaced by "accountKeySecretId". This field will be removed after February 15 2026.
-* `account_key_secret_id` - (Applicable when connection_type=AZURE_DATA_LAKE_STORAGE) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the account key is stored. Note: When provided, 'accountKey' field must not be provided.
+* `account_key` - (Applicable when connection_type=AZURE_DATA_LAKE_STORAGE) (Updatable) Azure storage account key. This property is required when 'authenticationType' is set to 'SHARED_KEY'. e.g.: pa3WbhVATzj56xD4DH1VjOUhApRGEGHvOo58eQJVWIzX+j8j4CUVFcTjpIqDSRaSa1Wo2LbWY5at+AStEgLOIQ== Deprecated: This field is deprecated and replaced by "accountKeySecretId". This field will be removed after February 15 2026. 
+* `account_key_secret_id` - (Applicable when connection_type=AZURE_DATA_LAKE_STORAGE) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the account key is stored. Note: When provided, 'accountKey' field must not be provided. 
 * `account_name` - (Required when connection_type=AZURE_DATA_LAKE_STORAGE) (Updatable) Sets the Azure storage account name. 
 * `additional_attributes` - (Applicable when connection_type=DB2 | MICROSOFT_SQLSERVER | MYSQL | POSTGRESQL) (Updatable) An array of name-value pair attribute entries. Used as additional parameters in connection string. 
 	* `name` - (Required when connection_type=DB2 | MICROSOFT_SQLSERVER | MYSQL | POSTGRESQL) (Updatable) The name of the property entry. 
@@ -223,7 +222,7 @@ The following arguments are supported:
 * `cluster_placement_group_id` - (Optional) The OCID(https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster placement group for the resource. Only applicable for multicloud subscriptions. The cluster placement group id must be provided when a multicloud subscription id is provided. Otherwise the cluster placement group must not be provided. 
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment being referenced. 
 * `connection_factory` - (Applicable when connection_type=JAVA_MESSAGE_SERVICE) (Updatable) The of Java class implementing javax.jms.ConnectionFactory interface supplied by the Java Message Service provider. e.g.: 'com.stc.jmsjca.core.JConnectionFactoryXA' 
-* `connection_string` - (Required when connection_type=AZURE_SYNAPSE_ANALYTICS | MONGODB | ORACLE) (Updatable) Connection string. AZURE_SYNAPSE_ANALYTICS e.g.: 'jdbc:sqlserver://<synapse-workspace>.sql.azuresynapse.net:1433;database=<db-name>;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.sql.azuresynapse.net;loginTimeout=300;', MONGODB e.g.: 'mongodb://mongodb0.example.com:27017/recordsrecords'. 
+* `connection_string` - (Required when connection_type=AZURE_SYNAPSE_ANALYTICS | MONGODB | ORACLE) (Updatable) JDBC connection string. e.g.: 'jdbc:sqlserver://<synapse-workspace>.sql.azuresynapse.net:1433;database=<db-name>;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.sql.azuresynapse.net;loginTimeout=300;' 
 * `connection_type` - (Required) (Updatable) The connection type. 
 * `connection_url` - (Required when connection_type=AMAZON_REDSHIFT | DATABRICKS | JAVA_MESSAGE_SERVICE | ORACLE_AI_DATA_PLATFORM | SNOWFLAKE) (Updatable) Connection URL. e.g.: 'jdbc:databricks://adb-33934.4.azuredatabricks.net:443/default;transportMode=http;ssl=1;httpPath=sql/protocolv1/o/3393########44/0##3-7-hlrb' 
 * `consumer_properties` - (Applicable when connection_type=KAFKA) (Updatable) The base64 encoded content of the consumer.properties file. 
@@ -236,10 +235,11 @@ The following arguments are supported:
 * `description` - (Optional) (Updatable) Metadata about this specific object. 
 * `display_name` - (Required) (Updatable) An object's Display Name. 
 * `does_use_secret_ids` - (Optional) (Updatable) Indicates that sensitive attributes are provided via Secrets. 
-* `endpoint` - (Applicable when connection_type=AMAZON_KINESIS | AMAZON_S3 | AZURE_DATA_LAKE_STORAGE | MICROSOFT_FABRIC) (Updatable) The endpoint URL of the 3rd party cloud service. e.g.: 'https://kinesis.us-east-1.amazonaws.com' If not provided, GoldenGate will default to the default endpoint in the `region`. 
-* `fingerprint` - (Applicable when connection_type=ELASTICSEARCH) (Updatable) Fingerprint required by TLS security protocol. E.g.: '6152b2dfbff200f973c5074a5b91d06ab3b472c07c09a1ea57bb7fd406cdce9c' 
+* `endpoint` - (Applicable when connection_type=AMAZON_KINESIS | AMAZON_S3 | AZURE_DATA_LAKE_STORAGE | MICROSOFT_FABRIC) (Updatable) The endpoint URL of the Amazon Kinesis service. e.g.: 'https://kinesis.us-east-1.amazonaws.com' If not provided, GoldenGate will default to 'https://kinesis.<region>.amazonaws.com'. 
+* `fingerprint` - (Applicable when connection_type=ELASTICSEARCH) (Updatable) Fingerprint required by TLS security protocol. Eg.: '6152b2dfbff200f973c5074a5b91d06ab3b472c07c09a1ea57bb7fd406cdce9c' 
 * `freeform_tags` - (Optional) (Updatable) A simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.  Example: `{"bar-key": "value"}` 
-* `host` - (Required when connection_type=DB2 |GENERIC | GOLDENGATE | MICROSOFT_SQLSERVER | MYSQL | POSTGRESQL) (Updatable) The name or address of a host. In case of Generic connection type host and port separated by colon. Example: `"server.example.com:1234"`
+* `host` - (Required when connection_type=DB2 | GENERIC | GOLDENGATE | MICROSOFT_SQLSERVER | MYSQL | POSTGRESQL) (Updatable) Host and port separated by colon. Example: `"server.example.com:1234"`
+
 	For multiple hosts, provide a comma separated list. Example: `"server1.example.com:1000,server1.example.com:2000"` 
 * `jndi_connection_factory` - (Applicable when connection_type=JAVA_MESSAGE_SERVICE) (Updatable) The Connection Factory can be looked up using this name. e.g.: 'ConnectionFactory' 
 * `jndi_initial_context_factory` - (Applicable when connection_type=JAVA_MESSAGE_SERVICE) (Updatable) The implementation of javax.naming.spi.InitialContextFactory interface that the client uses to obtain initial naming context. e.g.: 'org.apache.activemq.jndi.ActiveMQInitialContextFactory' 
@@ -251,7 +251,7 @@ The following arguments are supported:
 * `key_store` - (Applicable when connection_type=JAVA_MESSAGE_SERVICE | KAFKA | KAFKA_SCHEMA_REGISTRY | REDIS) (Updatable) The base64 encoded content of the KeyStore file. Deprecated: This field is deprecated and replaced by "keyStoreSecretId". This field will be removed after February 15 2026. 
 * `key_store_password` - (Applicable when connection_type=JAVA_MESSAGE_SERVICE | KAFKA | KAFKA_SCHEMA_REGISTRY | REDIS) (Updatable) The KeyStore password. Deprecated: This field is deprecated and replaced by "keyStorePasswordSecretId". This field will be removed after February 15 2026. 
 * `key_store_password_secret_id` - (Applicable when connection_type=JAVA_MESSAGE_SERVICE | KAFKA | KAFKA_SCHEMA_REGISTRY | REDIS) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the kafka Ssl KeyStore password is stored. Note: When provided, 'keyStorePassword' field must not be provided. 
-* `key_store_secret_id` - (Applicable when connection_type=JAVA_MESSAGE_SERVICE | KAFKA | KAFKA_SCHEMA_REGISTRY | REDIS) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the content of the KeyStore file is stored. Note: When provided, 'keyStore' field must not be provided.
+* `key_store_secret_id` - (Applicable when connection_type=JAVA_MESSAGE_SERVICE | KAFKA | KAFKA_SCHEMA_REGISTRY | REDIS) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the content of the KeyStore file is stored. Note: When provided, 'keyStore' field must not be provided. 
 * `locks` - (Optional) Locks associated with this resource.
 	* `message` - (Optional) A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
 	* `type` - (Required) Type of the lock.
@@ -342,7 +342,6 @@ The following arguments are supported:
 * `vault_id` - (Optional) (Updatable) Refers to the customer's vault OCID.  If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate to manage secrets contained within this vault. 
 * `wallet` - (Applicable when connection_type=ORACLE) (Updatable) The wallet contents Oracle GoldenGate uses to make connections to a database. This attribute is expected to be base64 encoded. Deprecated: This field is deprecated and replaced by "walletSecretId". This field will be removed after February 15 2026. 
 * `wallet_secret_id` - (Applicable when connection_type=ORACLE) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the wallet file is stored.  The wallet contents Oracle GoldenGate uses to make connections to a database. Note: When provided, 'wallet' field must not be provided. 
-* `trigger_refresh` - (Optional) (Updatable) If value is true, it triggers connection refresh action and this attribute change will always show up in the "update" plan and will apply steps in order to refresh secrets and dependent service properties (such as ADB connection strings, wallets, etc..).
 
 
 ** IMPORTANT **
@@ -390,7 +389,7 @@ The following attributes are exported:
 * `connection_factory` - The of Java class implementing javax.jms.ConnectionFactory interface supplied by the Java Message Service provider. e.g.: 'com.stc.jmsjca.core.JConnectionFactoryXA' 
 * `connection_string` - JDBC connection string. e.g.: 'jdbc:sqlserver://<synapse-workspace>.sql.azuresynapse.net:1433;database=<db-name>;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.sql.azuresynapse.net;loginTimeout=300;' 
 * `connection_type` - The connection type. 
-* `connection_url` - JDBC connection URL. e.g.: 'jdbc:snowflake://<account_name>.snowflakecomputing.com/?warehouse=<warehouse-name>&db=<db-name>' 
+* `connection_url` - Connection URL. e.g.: 'jdbc:databricks://adb-33934.4.azuredatabricks.net:443/default;transportMode=http;ssl=1;httpPath=sql/protocolv1/o/3393########44/0##3-7-hlrb' 
 * `consumer_properties` - The base64 encoded content of the consumer.properties file. 
 * `core_site_xml` - The base64 encoded content of the Hadoop Distributed File System configuration file (core-site.xml). It is not included in GET responses if the `view=COMPACT` query parameter is specified. 
 * `database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Autonomous Json Database. 
@@ -401,8 +400,8 @@ The following attributes are exported:
 * `description` - Metadata about this specific object. 
 * `display_name` - An object's Display Name. 
 * `does_use_secret_ids` - Indicates that sensitive attributes are provided via Secrets. 
-* `endpoint` - Service endpoint. Optional for Microsoft Fabric, default value: https://onelake.dfs.fabric.microsoft.com, for Azure Storage e.g: https://test.blob.core.windows.net, for Amazon S3 e.g.: 'https://s3.amazonaws.com', for Amazon Kinesis e.g.: 'https://kinesis.us-east-1.amazonaws.com'
-* `fingerprint` - Fingerprint required by TLS security protocol. E.g.: '6152b2dfbff200f973c5074a5b91d06ab3b472c07c09a1ea57bb7fd406cdce9c' 
+* `endpoint` - The endpoint URL of the Amazon Kinesis service. e.g.: 'https://kinesis.us-east-1.amazonaws.com' If not provided, GoldenGate will default to 'https://kinesis.<region>.amazonaws.com'. 
+* `fingerprint` - Fingerprint required by TLS security protocol. Eg.: '6152b2dfbff200f973c5074a5b91d06ab3b472c07c09a1ea57bb7fd406cdce9c' 
 * `freeform_tags` - A simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.  Example: `{"bar-key": "value"}` 
 * `host` - Host and port separated by colon. Example: `"server.example.com:1234"`
 
@@ -447,7 +446,7 @@ The following attributes are exported:
 * `should_use_jndi` - If set to true, Java Naming and Directory Interface (JNDI) properties should be provided. 
 * `should_use_resource_principal` - Specifies that the user intends to authenticate to the instance using a resource principal. Applicable only for Oracle Cloud Infrastructure Streaming connections. Only available from 23.9.0.0.0 GoldenGate versions. Note: When specified, 'username'/'password'/'passwordSecretId' fields must not be provided. Default: false 
 * `should_validate_server_certificate` - If set to true, the driver validates the certificate that is sent by the database server. 
-* `ssl_ca` - The base64 encoded certificate of the trusted certificate authorities (Trusted CA).  The supported file formats are .pem and .crt. In case of MYSQL and POSTGRESQL connections it is not included in GET responses if the `view=COMPACT` query parameter is specified. 
+* `ssl_ca` - The base64 encoded certificate of the trusted certificate authorities (Trusted CA) for PostgreSQL.  The supported file formats are .pem and .crt. It is not included in GET responses if the `view=COMPACT` query parameter is specified. 
 * `ssl_cert` - Client Certificate - The base64 encoded content of a .pem or .crt file containing the client public key (for 2-way SSL). It is not included in GET responses if the `view=COMPACT` query parameter is specified. 
 * `ssl_client_keystash_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the keystash file is stored,  which contains the encrypted password to the key database file. This property is not supported for IBM Db2 for i, as client TLS mode is not available.
 
@@ -495,7 +494,7 @@ The following attributes are exported:
 * `user_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure user who will access the Oracle NoSQL database. The user must have write access to the table they want to connect to. If the user is not provided, backend will default to the user who is calling the API endpoint. 
 * `username` - The username Oracle GoldenGate uses to connect the associated system of the given technology. This username must already exist and be available by the system/application to be connected to and must conform to the case sensitivty requirments defined in it. 
 * `vault_id` - Refers to the customer's vault OCID.  If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate to manage secrets contained within this vault. 
-* `wallet_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the wallet file is stored.  The wallet contents Oracle GoldenGate uses to make connections to a database. Note: When provided, 'wallet' field must not be provided.
+* `wallet_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the wallet file is stored.  The wallet contents Oracle GoldenGate uses to make connections to a database. Note: When provided, 'wallet' field must not be provided. 
 
 ## Timeouts
 

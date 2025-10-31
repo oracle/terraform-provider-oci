@@ -136,6 +136,19 @@ func GoldenGatePipelineResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
+						"related_resource_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"time_created": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
+						},
 
 						// Computed
 					},
@@ -219,11 +232,33 @@ func GoldenGatePipelineResource() *schema.Resource {
 					},
 				},
 			},
+			"subnet_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"cpu_core_count": {
 				Type:     schema.TypeInt,
 				Computed: true,
+			},
+			"ingress_ips": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"ingress_ip": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"is_auto_scaling_enabled": {
 				Type:     schema.TypeBool,
@@ -461,6 +496,7 @@ func pipelineWaitForWorkRequest(ctx context.Context, wId *string, entityType str
 		Pending: []string{
 			string(oci_golden_gate.OperationStatusInProgress),
 			string(oci_golden_gate.OperationStatusAccepted),
+			//string(oci_golden_gate.OperationStatusCanceling),
 		},
 		Target: []string{
 			string(oci_golden_gate.OperationStatusSucceeded),
@@ -469,7 +505,7 @@ func pipelineWaitForWorkRequest(ctx context.Context, wId *string, entityType str
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_golden_gate.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -498,14 +534,14 @@ func pipelineWaitForWorkRequest(ctx context.Context, wId *string, entityType str
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_golden_gate.OperationStatusFailed || response.Status == oci_golden_gate.OperationStatusCanceled {
-		return nil, getErrorFromGoldenGatePipelineWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromGoldenGatePipelineWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromGoldenGatePipelineWorkRequest(client *oci_golden_gate.GoldenGateClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_golden_gate.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromGoldenGatePipelineWorkRequest(ctx context.Context, client *oci_golden_gate.GoldenGateClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_golden_gate.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_golden_gate.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -643,6 +679,12 @@ func (s *GoldenGatePipelineResourceCrud) SetData() error {
 			s.D.SetId(*v.Id)
 		}
 
+		ingressIps := []interface{}{}
+		for _, item := range v.IngressIps {
+			ingressIps = append(ingressIps, IngressIpDetailsToMap(item))
+		}
+		s.D.Set("ingress_ips", ingressIps)
+
 		if v.IsAutoScalingEnabled != nil {
 			s.D.Set("is_auto_scaling_enabled", *v.IsAutoScalingEnabled)
 		}
@@ -674,6 +716,10 @@ func (s *GoldenGatePipelineResourceCrud) SetData() error {
 		}
 
 		s.D.Set("state", v.LifecycleState)
+
+		if v.SubnetId != nil {
+			s.D.Set("subnet_id", *v.SubnetId)
+		}
 
 		if v.SystemTags != nil {
 			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
@@ -1031,6 +1077,10 @@ func (s *GoldenGatePipelineResourceCrud) populateTopLevelPolymorphicCreatePipeli
 				details.SourceConnectionDetails = &tmp
 			}
 		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
 		if targetConnectionDetails, ok := s.D.GetOkExists("target_connection_details"); ok {
 			if tmpList := targetConnectionDetails.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "target_connection_details", 0)
@@ -1104,11 +1154,19 @@ func (s *GoldenGatePipelineResourceCrud) populateTopLevelPolymorphicUpdatePipeli
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
+		if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+			tmp := isLockOverride.(bool)
+			request.IsLockOverride = &tmp
+		}
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			details.LicenseModel = oci_golden_gate.LicenseModelEnum(licenseModel.(string))
 		}
 		tmp := s.D.Id()
 		request.PipelineId = &tmp
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
 		request.UpdatePipelineDetails = details
 	default:
 		return fmt.Errorf("unknown recipe_type '%v' was specified", recipeType)

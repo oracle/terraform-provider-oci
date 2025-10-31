@@ -26,6 +26,7 @@ resource "oci_golden_gate_deployment" "test_deployment" {
 	subnet_id = oci_core_subnet.test_subnet.id
 
 	#Optional
+	availability_domain = var.deployment_availability_domain
 	backup_schedule {
 		#Required
 		bucket = var.deployment_backup_schedule_bucket
@@ -35,8 +36,8 @@ resource "oci_golden_gate_deployment" "test_deployment" {
 		namespace = var.deployment_backup_schedule_namespace
 		time_backup_scheduled = var.deployment_backup_schedule_time_backup_scheduled
 	}
+	byol_cpu_core_count_limit = var.deployment_byol_cpu_core_count_limit
 	cluster_placement_group_id = oci_cluster_placement_groups_cluster_placement_group.test_cluster_placement_group.id
-	availability_domain = var.deployment_availability_domain
 	cpu_core_count = var.deployment_cpu_core_count
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	deployment_backup_id = oci_golden_gate_deployment_backup.test_deployment_backup.id
@@ -47,7 +48,6 @@ resource "oci_golden_gate_deployment" "test_deployment" {
 	fqdn = var.deployment_fqdn
 	freeform_tags = {"bar-key"= "value"}
 	is_auto_scaling_enabled = var.deployment_is_auto_scaling_enabled
-	byol_cpu_core_count_limit = var.deployment_byol_cpu_core_count_limit
 	is_byol_cpu_core_count_limit_enabled = var.deployment_is_byol_cpu_core_count_limit_enabled
 	is_public = var.deployment_is_public
 	license_model = var.deployment_license_model
@@ -106,7 +106,6 @@ resource "oci_golden_gate_deployment" "test_deployment" {
 	security_attributes = var.deployment_security_attributes
 	source_deployment_id = oci_golden_gate_deployment.test_deployment.id
 	subscription_id = oci_onesubscription_subscription.test_subscription.id
-	state = var.deployment_state
 }
 ```
 
@@ -114,15 +113,16 @@ resource "oci_golden_gate_deployment" "test_deployment" {
 
 The following arguments are supported:
 
+* `availability_domain` - (Optional) The availability domain of a placement.
 * `backup_schedule` - (Optional) (Updatable) Defines the backup schedule details for create operation. 
 	* `bucket` - (Required) (Updatable) Name of the bucket where the object is to be uploaded in the object storage
 	* `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment being referenced. 
 	* `frequency_backup_scheduled` - (Required) (Updatable) The frequency of the deployment backup schedule. Frequency can be DAILY, WEEKLY or MONTHLY. 
 	* `is_metadata_only` - (Required) (Updatable) Parameter to allow users to create backup without trails
 	* `namespace` - (Required) (Updatable) Name of namespace that serves as a container for all of your buckets
-	* `time_backup_scheduled` - (Required) (Updatable) The start timestamp for the deployment backup schedule. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2024-10-25T18:19:29.600Z`.
-* `cluster_placement_group_id` - (Optional) The OCID(https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster placement group for the resource. Only applicable for multicloud subscriptions. The cluster placement group id must be provided when a multicloud subscription id is provided. Otherwise the cluster placement group must not be provided.
-* `availability_domain` - (Optional) The availability domain of a placement.
+	* `time_backup_scheduled` - (Required) (Updatable) The start timestamp for the deployment backup schedule. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2024-10-25T18:19:29.600Z`. 
+* `byol_cpu_core_count_limit` - (Optional) (Updatable) The maximum number of CPUs allowed with a 'Bring Your Own License' (BYOL) license type. Any CPU usage above this limit is considered as License Included and billed. 
+* `cluster_placement_group_id` - (Optional) The OCID(https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster placement group for the resource. Only applicable for multicloud subscriptions. The cluster placement group id must be provided when a multicloud subscription id is provided. Otherwise the cluster placement group must not be provided. 
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment being referenced. 
 * `cpu_core_count` - (Optional) (Updatable) The Minimum number of OCPUs to be made available for this Deployment. 
 * `defined_tags` - (Optional) (Updatable) Tags defined for this resource. Each key is predefined and scoped to a namespace.  Example: `{"foo-namespace.bar-key": "value"}` 
@@ -134,12 +134,11 @@ The following arguments are supported:
 * `fault_domain` - (Optional) The fault domain of a placement.
 * `fqdn` - (Optional) (Updatable) A three-label Fully Qualified Domain Name (FQDN) for a resource. 
 * `freeform_tags` - (Optional) (Updatable) A simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.  Example: `{"bar-key": "value"}` 
-* `is_auto_scaling_enabled` - (Optional) (Updatable) Indicates if auto scaling is enabled for the Deployment's CPU core count.
-* `byol_cpu_core_count_limit` - (Optional) (Updatable) The maximum number of CPUs allowed with a 'Bring Your Own License' (BYOL) license type. Any CPU usage above this limit is considered as License Included and billed.
-* `is_byol_cpu_core_count_limit_enabled` - (Optional) (Updatable) Flag to allow to configure the 'Bring Your Own License' (BYOL) license type CPU limit. If enabled, the exact number of CPUs must be provided via byolCpuCoreCountLimit.
-* `is_public` - (Optional) (Updatable) True if this object is publicly available.
+* `is_auto_scaling_enabled` - (Optional) (Updatable) Indicates if auto scaling is enabled for the Deployment's CPU core count. 
+* `is_byol_cpu_core_count_limit_enabled` - (Optional) (Updatable) Flag to allow to configure the 'Bring Your Own License' (BYOL) license type CPU limit. If enabled, the exact number of CPUs must be provided via byolCpuCoreCountLimit. 
+* `is_public` - (Optional) (Updatable) True if this object is publicly available. 
 * `license_model` - (Optional) (Updatable) The Oracle license model that applies to a Deployment. 
-* `load_balancer_subnet_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a public subnet in the customer tenancy. Can be provided only for public deployments. If provided, the loadbalancer will be created in this subnet instead of the service tenancy. For backward compatibility, this is an optional property. It will become mandatory for public deployments after October 1, 2024.
+* `load_balancer_subnet_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a public subnet in the customer tenancy. Can be provided only for public deployments. If provided, the loadbalancer will be created in this subnet instead of the service tenancy. For backward compatibility, this is an optional property. It will become mandatory for public deployments after October 1, 2024. 
 * `locks` - (Optional) Locks associated with this resource.
 	* `message` - (Optional) A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
 	* `type` - (Required) Type of the lock.
@@ -154,7 +153,7 @@ The following arguments are supported:
 	* `start_hour` - (Required) (Updatable) Start hour for maintenance period. Hour is in UTC. 
 * `nsg_ids` - (Optional) (Updatable) An array of Network Security Group OCIDs used to define network access for either Deployments or Connections. 
 * `ogg_data` - (Optional) (Updatable) Deployment Data for creating an OggDeployment 
-	* `admin_password` - (Optional) (Updatable) The password associated with the GoldenGate deployment console username. The password must be 8 to 30 characters long and must contain at least 1 uppercase, 1 lowercase, 1 numeric, and 1 special character. Special characters such as ‘$’, ‘^’, or ‘?’ are not allowed. This field will be deprecated and replaced by "passwordSecretId". 
+	* `admin_password` - (Optional) (Updatable) The password associated with the GoldenGate deployment console username. The password must be 8 to 30 characters long and must contain at least 1 uppercase, 1 lowercase, 1 numeric, and 1 special character. Special characters such as '$', '^', or '?' are not allowed. This field will be deprecated and replaced by "passwordSecretId". 
 	* `admin_username` - (Optional) (Updatable) The GoldenGate deployment console username. 
 	* `certificate` - (Optional) (Updatable) The base64 encoded content of the PEM file containing the SSL certificate. 
 	* `credential_store` - (Optional) (Updatable) The type of credential store for OGG. 
@@ -167,15 +166,14 @@ The following arguments are supported:
 	* `identity_domain_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Identity Domain when IAM credential store is used. 
 	* `key` - (Optional) (Updatable) The base64 encoded content of the PEM file containing the private key. 
 	* `ogg_version` - (Optional) Version of OGG 
-	* `password_secret_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the deployment password is stored.
+	* `password_secret_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the deployment password is stored. 
 * `placements` - (Optional) (Updatable) An array of local peers of deployment 
 	* `availability_domain` - (Optional) (Updatable) The availability domain of a placement.
 	* `fault_domain` - (Optional) (Updatable) The fault domain of a placement.
 * `security_attributes` - (Optional) (Updatable) Security attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}` 
 * `source_deployment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the deployment being referenced. 
-* `subnet_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet of the deployment's private endpoint. The subnet must be a private subnet. For backward compatibility, public subnets are allowed until May 31 2025, after which the private subnet will be enforced.
+* `subnet_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet of the deployment's private endpoint. The subnet must be a private subnet. For backward compatibility, public subnets are allowed until May 31 2025, after which the private subnet will be enforced. 
 * `subscription_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
-* `state` - (Optional) (Updatable) The target state for the deployment. Could be set to ACTIVE or INACTIVE. By setting this value to ACTIVE terraform will perform start operation, if your deployment is not ACTIVE already. Setting value to INACTIVE will stop your deployment.
 
 
 ** IMPORTANT **
@@ -185,20 +183,21 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `availability_domain` - The availability domain of a placement.
 * `backup_schedule` - Defines the schedule of the deployment backup. 
 	* `bucket` - Name of the bucket where the object is to be uploaded in the object storage
 	* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment being referenced. 
 	* `frequency_backup_scheduled` - The frequency of the deployment backup schedule. Frequency can be DAILY, WEEKLY or MONTHLY. 
 	* `is_metadata_only` - Parameter to allow users to create backup without trails
 	* `namespace` - Name of namespace that serves as a container for all of your buckets
-	* `time_backup_scheduled` - The start timestamp for the deployment backup schedule. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2024-10-25T18:19:29.600Z`.
-* `availability_domain` - The availability domain of a placement.
+	* `time_backup_scheduled` - The start timestamp for the deployment backup schedule. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2024-10-25T18:19:29.600Z`. 
+* `byol_cpu_core_count_limit` - The maximum number of CPUs allowed with a 'Bring Your Own License' (BYOL) license type. Any CPU usage above this limit is considered as License Included and billed. 
 * `category` - The deployment category defines the broad separation of the deployment type into three categories. Currently the separation is 'DATA_REPLICATION', 'STREAM_ANALYTICS' and 'DATA_TRANSFORMS'. 
 * `cluster_placement_group_id` - The OCID(https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster placement group for the resource. Only applicable for multicloud subscriptions. The cluster placement group id must be provided when a multicloud subscription id is provided. Otherwise the cluster placement group must not be provided. 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment being referenced. 
 * `cpu_core_count` - The Minimum number of OCPUs to be made available for this Deployment. 
 * `defined_tags` - Tags defined for this resource. Each key is predefined and scoped to a namespace.  Example: `{"foo-namespace.bar-key": "value"}` 
-* `deployment_backup_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup being referenced.
+* `deployment_backup_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup being referenced. 
 * `deployment_diagnostic_data` - Information regarding the deployment diagnostic collection 
 	* `bucket` - Name of the bucket where the object is to be uploaded in the object storage
 	* `diagnostic_state` - The state of the deployment diagnostic collection. 
@@ -207,8 +206,7 @@ The following attributes are exported:
 	* `time_diagnostic_end` - The time until which the diagnostic collection should collect the logs. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
 	* `time_diagnostic_start` - The time from which the diagnostic collection should collect the logs. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
 * `deployment_role` - The type of the deployment role. 
-* `deployment_type` - The type of deployment, which can be any one of the Allowed values.  NOTE: Use of the value 'OGG' is maintained for backward compatibility purposes.  Its use is discouraged in favor of 'DATABASE_ORACLE'.
-* `deployment_type` - The type of deployment, which can be any one of the Allowed values.  NOTE: Use of the value 'OGG' is maintained for backward compatibility purposes.  Its use is discouraged in favor of 'DATABASE_ORACLE'.
+* `deployment_type` - The type of deployment, which can be any one of the Allowed values.  NOTE: Use of the value 'OGG' is maintained for backward compatibility purposes.  Its use is discouraged in favor of 'DATABASE_ORACLE'. 
 * `deployment_url` - The URL of a resource. 
 * `description` - Metadata about this specific object. 
 * `display_name` - An object's Display Name. 
@@ -220,7 +218,6 @@ The following attributes are exported:
 * `ingress_ips` - List of ingress IP addresses from where the GoldenGate deployment connects to this connection's privateIp.  Customers may optionally set up ingress security rules to restrict traffic from these IP addresses. 
 	* `ingress_ip` - A Private Endpoint IPv4 or IPv6 Address created in the customer's subnet. 
 * `is_auto_scaling_enabled` - Indicates if auto scaling is enabled for the Deployment's CPU core count. 
-* `byol_cpu_core_count_limit` - The maximum number of CPUs allowed with a 'Bring Your Own License' (BYOL) license type. Any CPU usage above this limit is considered as License Included and billed.
 * `is_byol_cpu_core_count_limit_enabled` - Flag to allow to configure the 'Bring Your Own License' (BYOL) license type CPU limit. If enabled, the exact number of CPUs must be provided via byolCpuCoreCountLimit. 
 * `is_healthy` - True if all of the aggregate resources are working correctly. 
 * `is_latest_version` - Indicates if the resource is the the latest available version. 
@@ -229,8 +226,8 @@ The following attributes are exported:
 * `license_model` - The Oracle license model that applies to a Deployment. 
 * `lifecycle_details` - Describes the object's current state in detail. For example, it can be used to provide actionable information for a resource in a Failed state. 
 * `lifecycle_sub_state` - Possible GGS lifecycle sub-states. 
-* `load_balancer_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the loadbalancer in the customer's subnet. The loadbalancer of the public deployment created in the customer subnet.
-* `load_balancer_subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a public subnet in the customer tenancy. Can be provided only for public deployments. If provided, the loadbalancer will be created in this subnet instead of the service tenancy. For backward compatibility, this is an optional property. It will become mandatory for public deployments after October 1, 2024.
+* `load_balancer_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the loadbalancer in the customer's subnet. The loadbalancer of the public deployment created in the customer subnet. 
+* `load_balancer_subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a public subnet in the customer tenancy. Can be provided only for public deployments. If provided, the loadbalancer will be created in this subnet instead of the service tenancy. For backward compatibility, this is an optional property. It will become mandatory for public deployments after October 1, 2024. 
 * `locks` - Locks associated with this resource.
 	* `message` - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
 	* `related_resource_id` - The id of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 

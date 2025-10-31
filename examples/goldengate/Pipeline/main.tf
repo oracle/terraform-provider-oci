@@ -7,6 +7,7 @@ variable "region" {}
 
 variable "source_connection_id" { }
 variable "target_connection_id" { }
+variable "test_subnet_id" {}
 variable "display_name" {
   default = "Data fabric pipeline display name"
 }
@@ -37,4 +38,16 @@ resource "oci_golden_gate_pipeline" "test_pipeline" {
   target_connection_details {
     connection_id = var.target_connection_id
   }
+
+  # Optional
+  subnet_id = var.test_subnet_id
+}
+
+data "oci_golden_gate_pipeline" "test_pipelines" {
+  pipeline_id = oci_golden_gate_pipeline.test_pipeline.id
+}
+
+# Output the subnet ID
+output "subnet_id" {
+  value = data.oci_golden_gate_pipeline.test_pipelines.subnet_id
 }

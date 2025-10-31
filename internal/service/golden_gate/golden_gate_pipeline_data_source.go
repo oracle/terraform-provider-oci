@@ -110,6 +110,12 @@ func (s *GoldenGatePipelineDataSourceCrud) SetData() error {
 
 		s.D.Set("freeform_tags", v.FreeformTags)
 
+		ingressIps := []interface{}{}
+		for _, item := range v.IngressIps {
+			ingressIps = append(ingressIps, IngressIpDetailsToMap(item))
+		}
+		s.D.Set("ingress_ips", ingressIps)
+
 		if v.IsAutoScalingEnabled != nil {
 			s.D.Set("is_auto_scaling_enabled", *v.IsAutoScalingEnabled)
 		}
@@ -141,6 +147,10 @@ func (s *GoldenGatePipelineDataSourceCrud) SetData() error {
 		}
 
 		s.D.Set("state", v.LifecycleState)
+
+		if v.SubnetId != nil {
+			s.D.Set("subnet_id", *v.SubnetId)
+		}
 
 		if v.SystemTags != nil {
 			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
