@@ -39,14 +39,23 @@ The following attributes are exported:
 * `compute_hpc_island_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for Customer-unique HPC Island 
 * `compute_local_block_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for Customer-unique Local Block 
 * `compute_network_block_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for Customer-unique Network Block 
+* `current_firmware_bundle_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for current firmware bundle 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `fabric_health` - The health state of the GPU memory fabric 
+* `firmware_update_reason` - The reason for updating firmware bundle version of the GPU memory fabric. 
+* `firmware_update_state` - The state of Memory Fabric Firmware update 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `healthy_host_count` - The total number of healthy bare metal hosts located in this compute GPU memory fabric.
+* `host_platform_name` - The host platform identifier used for bundle queries 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Customer-unique GPU memory fabric 
+* `memory_fabric_preferences` - The preference object specified by customer. Contains customerDesiredFirmwareBundleId, fabricRecycleLevel. 
+	* `customer_desired_firmware_bundle_id` - The desired firmware bundle id on the GPU memory fabric. 
+	* `fabric_recycle_level` - The recycle level of GPU memory fabric. 
 * `state` - The lifecycle state of the GPU memory fabric 
+* `switch_platform_name` - The switch platform identifier used for bundle queries 
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
+* `target_firmware_bundle_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for targeted firmware bundle 
 * `time_created` - The date and time that the compute GPU memory fabric record was created, in the format defined by [RFC3339] (https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 * `total_host_count` - The total number of bare metal hosts located in this compute GPU memory fabric.
 
