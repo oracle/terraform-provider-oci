@@ -359,7 +359,6 @@ ai_language
 * oci\_ai\_language\_project
 * oci\_ai\_language\_model
 * oci\_ai\_language\_endpoint
-* oci\_ai\_language\_job
 
 ai_vision
     
@@ -800,7 +799,6 @@ disaster_recovery
 * oci\_disaster\_recovery\_dr\_protection\_group
 * oci\_disaster\_recovery\_dr\_plan\_execution
 * oci\_disaster\_recovery\_dr\_plan
-* oci\_disaster\_recovery\_automatic\_dr\_configuration
 
 dns
     
