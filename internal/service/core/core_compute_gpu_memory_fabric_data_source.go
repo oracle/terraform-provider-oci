@@ -93,6 +93,10 @@ func (s *CoreComputeGpuMemoryFabricDataSourceCrud) SetData() error {
 		s.D.Set("compute_network_block_id", *s.Res.ComputeNetworkBlockId)
 	}
 
+	if s.Res.CurrentFirmwareBundleId != nil {
+		s.D.Set("current_firmware_bundle_id", *s.Res.CurrentFirmwareBundleId)
+	}
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
@@ -103,16 +107,40 @@ func (s *CoreComputeGpuMemoryFabricDataSourceCrud) SetData() error {
 
 	s.D.Set("fabric_health", s.Res.FabricHealth)
 
+	if s.Res.FirmwareUpdateReason != nil {
+		s.D.Set("firmware_update_reason", *s.Res.FirmwareUpdateReason)
+	}
+
+	s.D.Set("firmware_update_state", s.Res.FirmwareUpdateState)
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.HealthyHostCount != nil {
 		s.D.Set("healthy_host_count", strconv.FormatInt(*s.Res.HealthyHostCount, 10))
 	}
 
+	if s.Res.HostPlatformName != nil {
+		s.D.Set("host_platform_name", *s.Res.HostPlatformName)
+	}
+
+	if s.Res.MemoryFabricPreferences != nil {
+		s.D.Set("memory_fabric_preferences", []interface{}{MemoryFabricPreferencesDescriptorToMap(s.Res.MemoryFabricPreferences)})
+	} else {
+		s.D.Set("memory_fabric_preferences", nil)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SwitchPlatformName != nil {
+		s.D.Set("switch_platform_name", *s.Res.SwitchPlatformName)
+	}
 
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
+
+	if s.Res.TargetFirmwareBundleId != nil {
+		s.D.Set("target_firmware_bundle_id", *s.Res.TargetFirmwareBundleId)
 	}
 
 	if s.Res.TimeCreated != nil {

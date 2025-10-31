@@ -5,6 +5,7 @@ package core
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"strconv"
 
@@ -58,6 +59,32 @@ func CoreComputeGpuMemoryFabricResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"memory_fabric_preferences": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"customer_desired_firmware_bundle_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"fabric_recycle_level": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 
 			// Computed
 			"additional_data": {
@@ -81,7 +108,19 @@ func CoreComputeGpuMemoryFabricResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"current_firmware_bundle_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"fabric_health": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"firmware_update_reason": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"firmware_update_state": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -89,7 +128,15 @@ func CoreComputeGpuMemoryFabricResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"host_platform_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"switch_platform_name": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -97,6 +144,10 @@ func CoreComputeGpuMemoryFabricResource() *schema.Resource {
 				Type:     schema.TypeMap,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"target_firmware_bundle_id": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -218,6 +269,17 @@ func (s *CoreComputeGpuMemoryFabricResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if memoryFabricPreferences, ok := s.D.GetOkExists("memory_fabric_preferences"); ok {
+		if tmpList := memoryFabricPreferences.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "memory_fabric_preferences", 0)
+			tmp, err := s.mapToMemoryFabricPreferencesDescriptor(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.MemoryFabricPreferences = &tmp
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateComputeGpuMemoryFabric(context.Background(), request)
@@ -278,6 +340,17 @@ func (s *CoreComputeGpuMemoryFabricResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if memoryFabricPreferences, ok := s.D.GetOkExists("memory_fabric_preferences"); ok {
+		if tmpList := memoryFabricPreferences.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "memory_fabric_preferences", 0)
+			tmp, err := s.mapToMemoryFabricPreferencesDescriptor(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.MemoryFabricPreferences = &tmp
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateComputeGpuMemoryFabric(context.Background(), request)
@@ -314,6 +387,10 @@ func (s *CoreComputeGpuMemoryFabricResourceCrud) SetData() error {
 		s.D.Set("compute_network_block_id", *s.Res.ComputeNetworkBlockId)
 	}
 
+	if s.Res.CurrentFirmwareBundleId != nil {
+		s.D.Set("current_firmware_bundle_id", *s.Res.CurrentFirmwareBundleId)
+	}
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
@@ -324,16 +401,40 @@ func (s *CoreComputeGpuMemoryFabricResourceCrud) SetData() error {
 
 	s.D.Set("fabric_health", s.Res.FabricHealth)
 
+	if s.Res.FirmwareUpdateReason != nil {
+		s.D.Set("firmware_update_reason", *s.Res.FirmwareUpdateReason)
+	}
+
+	s.D.Set("firmware_update_state", s.Res.FirmwareUpdateState)
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.HealthyHostCount != nil {
 		s.D.Set("healthy_host_count", strconv.FormatInt(*s.Res.HealthyHostCount, 10))
 	}
 
+	if s.Res.HostPlatformName != nil {
+		s.D.Set("host_platform_name", *s.Res.HostPlatformName)
+	}
+
+	if s.Res.MemoryFabricPreferences != nil {
+		s.D.Set("memory_fabric_preferences", []interface{}{MemoryFabricPreferencesDescriptorToMap(s.Res.MemoryFabricPreferences)})
+	} else {
+		s.D.Set("memory_fabric_preferences", nil)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SwitchPlatformName != nil {
+		s.D.Set("switch_platform_name", *s.Res.SwitchPlatformName)
+	}
 
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
+
+	if s.Res.TargetFirmwareBundleId != nil {
+		s.D.Set("target_firmware_bundle_id", *s.Res.TargetFirmwareBundleId)
 	}
 
 	if s.Res.TimeCreated != nil {
@@ -370,6 +471,10 @@ func ComputeGpuMemoryFabricSummaryToMap(obj oci_core.ComputeGpuMemoryFabricSumma
 		result["compute_network_block_id"] = string(*obj.ComputeNetworkBlockId)
 	}
 
+	if obj.CurrentFirmwareBundleId != nil {
+		result["current_firmware_bundle_id"] = string(*obj.CurrentFirmwareBundleId)
+	}
+
 	if obj.DefinedTags != nil {
 		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
 	}
@@ -380,14 +485,24 @@ func ComputeGpuMemoryFabricSummaryToMap(obj oci_core.ComputeGpuMemoryFabricSumma
 
 	result["fabric_health"] = string(obj.FabricHealth)
 
+	result["firmware_update_state"] = string(obj.FirmwareUpdateState)
+
 	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.HealthyHostCount != nil {
 		result["healthy_host_count"] = strconv.FormatInt(*obj.HealthyHostCount, 10)
 	}
 
+	if obj.HostPlatformName != nil {
+		result["host_platform_name"] = string(*obj.HostPlatformName)
+	}
+
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
+	}
+
+	if obj.MemoryFabricPreferences != nil {
+		result["memory_fabric_preferences"] = []interface{}{MemoryFabricPreferencesDescriptorToMap(obj.MemoryFabricPreferences)}
 	}
 
 	if obj.Id != nil {
@@ -396,8 +511,16 @@ func ComputeGpuMemoryFabricSummaryToMap(obj oci_core.ComputeGpuMemoryFabricSumma
 
 	result["state"] = string(obj.LifecycleState)
 
+	if obj.SwitchPlatformName != nil {
+		result["switch_platform_name"] = string(*obj.SwitchPlatformName)
+	}
+
 	if obj.SystemTags != nil {
 		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	}
+
+	if obj.TargetFirmwareBundleId != nil {
+		result["target_firmware_bundle_id"] = string(*obj.TargetFirmwareBundleId)
 	}
 
 	if obj.TimeCreated != nil {
@@ -407,6 +530,33 @@ func ComputeGpuMemoryFabricSummaryToMap(obj oci_core.ComputeGpuMemoryFabricSumma
 	if obj.TotalHostCount != nil {
 		result["total_host_count"] = strconv.FormatInt(*obj.TotalHostCount, 10)
 	}
+
+	return result
+}
+
+func (s *CoreComputeGpuMemoryFabricResourceCrud) mapToMemoryFabricPreferencesDescriptor(fieldKeyFormat string) (oci_core.MemoryFabricPreferencesDescriptor, error) {
+	result := oci_core.MemoryFabricPreferencesDescriptor{}
+
+	if customerDesiredFirmwareBundleId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "customer_desired_firmware_bundle_id")); ok {
+		tmp := customerDesiredFirmwareBundleId.(string)
+		result.CustomerDesiredFirmwareBundleId = &tmp
+	}
+
+	if fabricRecycleLevel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "fabric_recycle_level")); ok {
+		result.FabricRecycleLevel = oci_core.MemoryFabricPreferencesDescriptorFabricRecycleLevelEnum(fabricRecycleLevel.(string))
+	}
+
+	return result, nil
+}
+
+func MemoryFabricPreferencesDescriptorToMap(obj *oci_core.MemoryFabricPreferencesDescriptor) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CustomerDesiredFirmwareBundleId != nil {
+		result["customer_desired_firmware_bundle_id"] = string(*obj.CustomerDesiredFirmwareBundleId)
+	}
+
+	result["fabric_recycle_level"] = string(obj.FabricRecycleLevel)
 
 	return result
 }
