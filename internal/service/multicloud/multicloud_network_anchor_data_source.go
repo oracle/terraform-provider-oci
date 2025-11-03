@@ -325,7 +325,7 @@ func (s *MulticloudNetworkAnchorDataSourceCrud) SetData() error {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
 
-	s.D.Set("network_anchor_lifecycle_state", string(s.Res.LifecycleState))
+	//s.D.Set("network_anchor_lifecycle_state", string(s.Res.LifecycleState))
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)

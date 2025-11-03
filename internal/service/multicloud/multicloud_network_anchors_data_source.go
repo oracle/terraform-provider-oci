@@ -184,9 +184,9 @@ func (s *MulticloudNetworkAnchorsDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
-	if lifecycleState, ok := s.D.GetOkExists("network_anchor_lifecycle_state"); ok {
-		request.LifecycleState = oci_multicloud.NetworkAnchorLifecycleStateEnum(lifecycleState.(string))
-	}
+	//if lifecycleState, ok := s.D.GetOkExists("network_anchor_lifecycle_state"); ok {
+	//	request.LifecycleState = oci_multicloud.NetworkAnchorLifecycleStateEnum(lifecycleState.(string))
+	//}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
@@ -294,7 +294,7 @@ func NetworkAnchorSummaryToMap(obj oci_multicloud.NetworkAnchorSummary) map[stri
 		result["time_updated"] = obj.TimeUpdated.String()
 	}
 
-	result["network_anchor_lifecycle_state"] = string(obj.LifecycleState)
+	//result["network_anchor_lifecycle_state"] = string(obj.LifecycleState)
 
 	if obj.LifecycleDetails != nil {
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
