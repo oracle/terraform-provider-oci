@@ -37,6 +37,7 @@ resource "oci_fleet_apps_management_fleet" "test_fleet" {
 				#Optional
 				basis = var.fleet_resource_selection_rule_selection_criteria_rules_basis
 				compartment_id = var.compartment_id
+				compartment_id_in_subtree = var.fleet_resource_selection_rule_selection_criteria_rules_compartment_id_in_subtree
 				conditions {
 
 					#Optional
@@ -44,6 +45,7 @@ resource "oci_fleet_apps_management_fleet" "test_fleet" {
 					attr_key = var.fleet_resource_selection_rule_selection_criteria_rules_conditions_attr_key
 					attr_value = var.fleet_resource_selection_rule_selection_criteria_rules_conditions_attr_value
 				}
+				match_condition = var.fleet_resource_selection_rule_selection_criteria_rules_match_condition
 				resource_compartment_id = oci_identity_compartment.test_compartment.id
 			}
 		}
@@ -112,7 +114,11 @@ resource "oci_fleet_apps_management_fleet" "test_fleet" {
 		preferences {
 
 			#Optional
+			on_job_canceled = var.fleet_notification_preferences_preferences_on_job_canceled
 			on_job_failure = var.fleet_notification_preferences_preferences_on_job_failure
+			on_job_schedule_change = var.fleet_notification_preferences_preferences_on_job_schedule_change
+			on_job_start = var.fleet_notification_preferences_preferences_on_job_start
+			on_job_success = var.fleet_notification_preferences_preferences_on_job_success
 			on_resource_non_compliance = var.fleet_notification_preferences_preferences_on_resource_non_compliance
 			on_runbook_newer_version = var.fleet_notification_preferences_preferences_on_runbook_newer_version
 			on_task_failure = var.fleet_notification_preferences_preferences_on_task_failure
@@ -187,13 +193,17 @@ The following arguments are supported:
 * `details` - (Optional) Fleet Type
 	* `fleet_type` - (Optional) Type of the Fleet. PRODUCT - A fleet of product-specific resources for a product type. ENVIRONMENT - A fleet of environment-specific resources for a product stack. GROUP - A fleet of a fleet of either environment or product fleets. GENERIC - A fleet of resources selected dynamically or manually for reporting purposes 
 * `display_name` - (Required) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
-* `environment_type` - (Optional) Environment Type associated with the Fleet. Applicable for ENVIRONMENT fleet types. 
+* `environment_type` - (Optional) (Updatable) Environment Type associated with the Fleet. Applicable for ENVIRONMENT fleet types. 
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `is_target_auto_confirm` - (Optional) (Updatable) A value that represents if auto-confirming of the targets can be enabled. This will allow targets to be auto-confirmed in the fleet without manual intervention. 
 * `notification_preferences` - (Optional) (Updatable) Notification Preferences associated with the Fleet.
 	* `compartment_id` - (Required) (Updatable) Compartment ID the topic belongs to.
 	* `preferences` - (Optional) (Updatable) Preferences to send notifications on the fleet activities.
+		* `on_job_canceled` - (Optional) (Updatable) Enables or disables notification on job canceled.
 		* `on_job_failure` - (Optional) (Updatable) Enables or disables notification on Job Failures.
+		* `on_job_schedule_change` - (Optional) (Updatable) Enables or disables notification on job schedule change.
+		* `on_job_start` - (Optional) (Updatable) Enables or disables notification on job start.
+		* `on_job_success` - (Optional) (Updatable) Enables or disables notification on job success.
 		* `on_resource_non_compliance` - (Optional) (Updatable) Enables or disables notification when fleet resource becomes non compliant.
 		* `on_runbook_newer_version` - (Optional) (Updatable) Enables or disables notification when a newer version of runbook associated with a fleet is available
 		* `on_task_failure` - (Optional) (Updatable) Enables or disables notification on task failure.
@@ -205,7 +215,7 @@ The following arguments are supported:
 			* `on_upcoming_schedule` - (Optional) (Updatable) Enables notification on upcoming schedule.
 	* `topic_id` - (Required) (Updatable) Topic Id where the notifications will be directed. A topic is a communication channel for sending messages on chosen events to subscriptions. 
 * `parent_fleet_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the fleet that would be the parent for this fleet. 
-* `products` - (Optional) (Updatable) Products associated with the Fleet.
+* `products` - (Optional) (Updatable) Products associated with the Fleet. Provide PlatformConfiguration Ids corresponding to all the Products that need to be managed. 
 * `properties` - (Optional) Properties associated with the Fleet.
 	* `compartment_id` - (Required) (Updatable) compartment OCID
 	* `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
@@ -219,10 +229,12 @@ The following arguments are supported:
 		* `rules` - (Required when resource_selection_type=DYNAMIC) (Updatable) Rules.
 			* `basis` - (Applicable when resource_selection_type=DYNAMIC) (Updatable) Based on what the rule is created. It can be based on a resourceProperty or a tag.   If based on a tag, basis will be 'definedTagEquals' If based on a resource property, basis will be 'inventoryProperties' 
 			* `compartment_id` - (Required when resource_selection_type=DYNAMIC) (Updatable) Compartment Id for which the rule is created. 
+			* `compartment_id_in_subtree` - (Applicable when resource_selection_type=DYNAMIC) (Updatable) If set to true, resources will be returned for not only the provided compartment, but all compartments which descend from it. Which resources are returned and their field contents depends on the value of accessLevel. Default value for `compartmentIdInSubtree` is false 
 			* `conditions` - (Required when resource_selection_type=DYNAMIC) (Updatable) Rule Conditions
 				* `attr_group` - (Required when resource_selection_type=DYNAMIC) (Updatable) Attribute Group. Provide a Tag namespace if the rule is based on a tag. Provide resource type if the rule is based on a resource property. 
 				* `attr_key` - (Required when resource_selection_type=DYNAMIC) (Updatable) Attribute Key.Provide Tag key if the rule is based on a tag. Provide resource property name if the rule is based on a resource property. 
 				* `attr_value` - (Required when resource_selection_type=DYNAMIC) (Updatable) Attribute Value.Provide Tag value if the rule is based on a tag. Provide resource property value if the rule is based on a resource property. 
+			* `match_condition` - (Applicable when resource_selection_type=DYNAMIC) (Updatable) Match condition for the rule selection. Include resources that match all rules or any of the rules. Default value for `matchCondition` is ANY 
 			* `resource_compartment_id` - (Required when resource_selection_type=DYNAMIC) (Updatable) The Compartment ID to dynamically search resources. Provide the compartment ID to which the rule is applicable. 
 * `resources` - (Optional) Resources associated with the Fleet if resourceSelectionType is MANUAL.
 	* `compartment_id` - (Required) (Updatable) Compartment Identifier[OCID].
@@ -278,7 +290,11 @@ The following attributes are exported:
 * `notification_preferences` - Notification Preferences associated with the Fleet.
 	* `compartment_id` - Compartment ID the topic belongs to.
 	* `preferences` - Preferences to send notifications on the fleet activities.
+		* `on_job_canceled` - Enables or disables notification on job canceled.
 		* `on_job_failure` - Enables or disables notification on Job Failures.
+		* `on_job_schedule_change` - Enables or disables notification on job schedule change.
+		* `on_job_start` - Enables or disables notification on job start.
+		* `on_job_success` - Enables or disables notification on job success.
 		* `on_resource_non_compliance` - Enables or disables notification when fleet resource becomes non compliant.
 		* `on_runbook_newer_version` - Enables or disables notification when a newer version of runbook associated with a fleet is available
 		* `on_task_failure` - Enables or disables notification on task failure.
@@ -290,7 +306,7 @@ The following attributes are exported:
 			* `on_upcoming_schedule` - Enables notification on upcoming schedule.
 	* `topic_id` - Topic Id where the notifications will be directed. A topic is a communication channel for sending messages on chosen events to subscriptions. 
 * `parent_fleet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the fleet that would be the parent for this fleet. 
-* `products` - Products associated with the Fleet.
+* `products` - Products associated with the Fleet. PlatformConfiguration Ids corresponding to the Products. 
 * `properties` - Properties associated with the Fleet.
 	* `compartment_id` - compartment OCID
 	* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
@@ -305,10 +321,12 @@ The following attributes are exported:
 		* `rules` - Rules.
 			* `basis` - Based on what the rule is created. It can be based on a resourceProperty or a tag.   If based on a tag, basis will be 'definedTagEquals' If based on a resource property, basis will be 'inventoryProperties' 
 			* `compartment_id` - Compartment Id for which the rule is created. 
+			* `compartment_id_in_subtree` - If set to true, resources will be returned for not only the provided compartment, but all compartments which descend from it. Which resources are returned and their field contents depends on the value of accessLevel. Default value for `compartmentIdInSubtree` is false 
 			* `conditions` - Rule Conditions
 				* `attr_group` - Attribute Group. Provide a Tag namespace if the rule is based on a tag. Provide resource type if the rule is based on a resource property. 
 				* `attr_key` - Attribute Key.Provide Tag key if the rule is based on a tag. Provide resource property name if the rule is based on a resource property. 
 				* `attr_value` - Attribute Value.Provide Tag value if the rule is based on a tag. Provide resource property value if the rule is based on a resource property. 
+			* `match_condition` - Match condition for the rule selection. Include resources that match all rules or any of the rules. Default value for `matchCondition` is ANY 
 			* `resource_compartment_id` - The Compartment ID to dynamically search resources. Provide the compartment ID to which the rule is applicable. 
 * `resources` - Resources associated with the Fleet if resourceSelectionType is MANUAL.
 	* `compartment_id` - Compartment Identifier[OCID].

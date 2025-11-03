@@ -36,6 +36,29 @@ func FleetAppsManagementOnboardingResource() *schema.Resource {
 			},
 
 			// Optional
+			"defined_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				// DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+				DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+					// k looks like "defined_tags.%", "defined_tags.<key>"
+					if strings.HasPrefix(k, "defined_tags.Oracle-Tags.CreatedBy") ||
+						strings.HasPrefix(k, "defined_tags.Oracle-Tags.CreatedOn") {
+						return true
+					}
+					return false
+				},
+				Elem: schema.TypeString,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem:     schema.TypeString,
+			},
 			"is_cost_tracking_tag_enabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -87,20 +110,116 @@ func FleetAppsManagementOnboardingResource() *schema.Resource {
 					},
 				},
 			},
-			"defined_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
 			"discovery_frequency": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
+			// "items": {
+			// 	Type:     schema.TypeList,
+			// 	Computed: true,
+			// 	Elem: &schema.Resource{
+			// 		Schema: map[string]*schema.Schema{
+			// 			// Required
+
+			// 			// Optional
+
+			// 			// Computed
+			// 			"applied_policies": {
+			// 				Type:     schema.TypeList,
+			// 				Computed: true,
+			// 				Elem: &schema.Resource{
+			// 					Schema: map[string]*schema.Schema{
+			// 						// Required
+
+			// 						// Optional
+
+			// 						// Computed
+			// 						"id": {
+			// 							Type:     schema.TypeString,
+			// 							Computed: true,
+			// 						},
+			// 						"statements": {
+			// 							Type:     schema.TypeList,
+			// 							Computed: true,
+			// 							Elem: &schema.Schema{
+			// 								Type: schema.TypeString,
+			// 							},
+			// 						},
+			// 						"system_tags": {
+			// 							Type:     schema.TypeMap,
+			// 							Computed: true,
+			// 							Elem:     schema.TypeString,
+			// 						},
+			// 						"time_created": {
+			// 							Type:     schema.TypeString,
+			// 							Computed: true,
+			// 						},
+			// 						"time_updated": {
+			// 							Type:     schema.TypeString,
+			// 							Computed: true,
+			// 						},
+			// 					},
+			// 				},
+			// 			},
+			// 			"compartment_id": {
+			// 				Type:     schema.TypeString,
+			// 				Computed: true,
+			// 			},
+			// 			"defined_tags": {
+			// 				Type:     schema.TypeMap,
+			// 				Computed: true,
+			// 				Elem:     schema.TypeString,
+			// 			},
+			// 			"discovery_frequency": {
+			// 				Type:     schema.TypeString,
+			// 				Computed: true,
+			// 			},
+			// 			"freeform_tags": {
+			// 				Type:     schema.TypeMap,
+			// 				Computed: true,
+			// 				Elem:     schema.TypeString,
+			// 			},
+			// 			"id": {
+			// 				Type:     schema.TypeString,
+			// 				Computed: true,
+			// 			},
+			// 			"is_cost_tracking_tag_enabled": {
+			// 				Type:     schema.TypeBool,
+			// 				Computed: true,
+			// 			},
+			// 			"is_fams_tag_enabled": {
+			// 				Type:     schema.TypeBool,
+			// 				Computed: true,
+			// 			},
+			// 			"resource_region": {
+			// 				Type:     schema.TypeString,
+			// 				Computed: true,
+			// 			},
+			// 			"state": {
+			// 				Type:     schema.TypeString,
+			// 				Computed: true,
+			// 			},
+			// 			"system_tags": {
+			// 				Type:     schema.TypeMap,
+			// 				Computed: true,
+			// 				Elem:     schema.TypeString,
+			// 			},
+			// 			"time_created": {
+			// 				Type:     schema.TypeString,
+			// 				Computed: true,
+			// 			},
+			// 			"time_updated": {
+			// 				Type:     schema.TypeString,
+			// 				Computed: true,
+			// 			},
+			// 			"version": {
+			// 				Type:     schema.TypeString,
+			// 				Computed: true,
+			// 			},
+			// 		},
+			// 	},
+			// },
+
 			"resource_region": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -218,6 +337,18 @@ func (s *FleetAppsManagementOnboardingResourceCrud) Create() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isCostTrackingTagEnabled, ok := s.D.GetOkExists("is_cost_tracking_tag_enabled"); ok {
@@ -446,6 +577,64 @@ func (s *FleetAppsManagementOnboardingResourceCrud) SetData() error {
 	if s.Res.Version != nil {
 		s.D.Set("version", *s.Res.Version)
 	}
+
+	// if s.Res.Items != nil {
+	// 	var itemsList []interface{}
+
+	// 	for _, item := range s.Res.Items {
+	// 		itemMap := map[string]interface{}{}
+
+	// 		if item.AppliedPolicies != nil {
+	// 			var appliedPoliciesList []interface{}
+	// 			for _, policy := range item.AppliedPolicies {
+	// 				policyMap := map[string]interface{}{}
+	// 				if policy.Id != nil {
+	// 					policyMap["id"] = *policy.Id
+	// 				}
+	// 				if policy.Statements != nil {
+	// 					policyMap["statements"] = policy.Statements
+	// 				}
+	// 				if policy.SystemTags != nil {
+	// 					policyMap["system_tags"] = tfresource.SystemTagsToMap(policy.SystemTags)
+	// 				}
+	// 				if policy.TimeCreated != nil {
+	// 					policyMap["time_created"] = policy.TimeCreated.String()
+	// 				}
+	// 				if policy.TimeUpdated != nil {
+	// 					policyMap["time_updated"] = policy.TimeUpdated.String()
+	// 				}
+	// 				appliedPoliciesList = append(appliedPoliciesList, policyMap)
+	// 			}
+	// 			itemMap["applied_policies"] = appliedPoliciesList
+	// 		}
+
+	// 		if item.CompartmentId != nil {
+	// 			itemMap["compartment_id"] = *item.CompartmentId
+	// 		}
+	// 		itemMap["defined_tags"] = tfresource.DefinedTagsToMap(item.DefinedTags)
+	// 		itemMap["freeform_tags"] = item.FreeformTags
+	// 		itemMap["is_cost_tracking_tag_enabled"] = item.IsCostTrackingTagEnabled
+	// 		itemMap["is_fams_tag_enabled"] = item.IsFamsTagEnabled
+	// 		if item.ResourceRegion != nil {
+	// 			itemMap["resource_region"] = *item.ResourceRegion
+	// 		}
+	// 		itemMap["state"] = item.LifecycleState
+	// 		if item.TimeCreated != nil {
+	// 			itemMap["time_created"] = item.TimeCreated.String()
+	// 		}
+	// 		if item.TimeUpdated != nil {
+	// 			itemMap["time_updated"] = item.TimeUpdated.String()
+	// 		}
+	// 		if item.Version != nil {
+	// 			itemMap["version"] = *item.Version
+	// 		}
+
+	// 		itemsList = append(itemsList, itemMap)
+	// 	}
+	// 	s.D.Set("items", itemsList)
+	// } else {
+	// 	s.D.Set("items", nil)
+	// }
 
 	return nil
 }

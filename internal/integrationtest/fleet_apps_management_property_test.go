@@ -52,9 +52,12 @@ var (
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"selection":      acctest.Representation{RepType: acctest.Required, Create: `SINGLE_CHOICE`, Update: `MULTI_CHOICE`},
 		"value_type":     acctest.Representation{RepType: acctest.Required, Create: `STRING`, Update: `NUMERIC`},
-		"values":         acctest.Representation{RepType: acctest.Optional, Create: []string{`values`}, Update: []string{`values2`}},
+		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("Oracle-Tags.CreatedBy", "value")}`, Update: `${map("Oracle-Tags.CreatedBy", "updatedValue")}`},
+		// "freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}},
+		"values": acctest.Representation{RepType: acctest.Optional, Create: []string{`values`}, Update: []string{`values2`}},
 	}
 
+	// FleetAppsManagementPropertyResourceDependencies = DefinedTagsDependencies
 	FleetAppsManagementPropertyResourceDependencies = ""
 )
 
@@ -109,6 +112,7 @@ func TestFleetAppsManagementPropertyResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "freeform_tags.%"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "resource_region"),
 				resource.TestCheckResourceAttr(resourceName, "selection", "SINGLE_CHOICE"),
@@ -139,6 +143,7 @@ func TestFleetAppsManagementPropertyResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "freeform_tags.%"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "resource_region"),
 				resource.TestCheckResourceAttr(resourceName, "selection", "SINGLE_CHOICE"),
@@ -164,6 +169,7 @@ func TestFleetAppsManagementPropertyResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(resourceName, "freeform_tags.%"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "resource_region"),
 				resource.TestCheckResourceAttr(resourceName, "selection", "MULTI_CHOICE"),
@@ -208,6 +214,7 @@ func TestFleetAppsManagementPropertyResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "freeform_tags.%"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "resource_region"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "scope"),
