@@ -22,8 +22,7 @@ gomodenv:
 
 default: build
 
-GOBIN = /usr/local/sbin
-
+install_go_ol9: GOBIN = /usr/local/sbin
 install_go_ol9:
 	# Install Golang and required tool on build service instance
 	@echo "Installing Golang using command dnf install go-toolset"
