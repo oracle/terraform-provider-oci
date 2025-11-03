@@ -51,6 +51,7 @@ resource "oci_fleet_apps_management_catalog_item" "test_catalog_item" {
 	}
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	freeform_tags = {"bar-key"= "value"}
+	is_item_locked = var.catalog_item_is_item_locked
 	listing_id = oci_marketplace_listing.test_listing.id
 	listing_version = var.catalog_item_listing_version
 	short_description = var.catalog_item_short_description
@@ -86,6 +87,7 @@ The following arguments are supported:
 * `description` - (Required) (Updatable) The description of the CatalogItem. 
 * `display_name` - (Required) (Updatable) The CatalogItem name.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
+* `is_item_locked` - (Optional) (Updatable) Indicates if the CatalogItem is immutable or not.
 * `listing_id` - (Optional) The catalog listing Id. 
 * `listing_version` - (Optional) The catalog package version. 
 * `package_type` - (Required) Config package type Eg: TF_PACKAGE, NON_TF_PACKAGE, CONFIG_FILE. 
@@ -93,6 +95,7 @@ The following arguments are supported:
 * `time_released` - (Optional) The date and time the CatalogItem was released, in the format defined by [RFC 3339](https://tools.ietf.org/html/rfc3339). Example: `2016-08-25T21:10:29.600Z` 
 * `version_description` - (Optional) (Updatable) Version description about the catalog item.
 * `clone_catalog_item_trigger` - (Optional) (Updatable) An optional property when incremented triggers Clone Catalog Item. Could be set to any integer value.
+* `configure_trigger` - (Optional) (Updatable) An optional property when incremented triggers Configure. Could be set to any integer value.
 
 
 ** IMPORTANT **
@@ -135,6 +138,7 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the catalog.
+* `is_item_locked` - Indicates if the CatalogItem is immutable or not.
 * `lifecycle_details` - The details of lifecycle state CatalogItem.
 * `listing_id` - The catalog listing Id. 
 * `listing_version` - The catalog package version. 

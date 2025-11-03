@@ -528,7 +528,11 @@ func FleetAppsManagementRunbookVersionResource() *schema.Resource {
 														},
 													},
 												},
-
+												"system_variables": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem:     &schema.Schema{Type: schema.TypeString},
+												},
 												// Computed
 											},
 										},
@@ -822,12 +826,21 @@ func FleetAppsManagementRunbookVersionResource() *schema.Resource {
 
 			// Optional
 			"defined_tags": {
-				Type:             schema.TypeMap,
-				Optional:         true,
-				Computed:         true,
-				ForceNew:         true,
-				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
-				Elem:             schema.TypeString,
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				// DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+				// DiffSuppressFunc: suppressRunbookTransientDiffs,
+				DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+					// k looks like "defined_tags.%", "defined_tags.<key>"
+					if strings.HasPrefix(k, "defined_tags.Oracle-Tags.CreatedBy") ||
+						strings.HasPrefix(k, "defined_tags.Oracle-Tags.CreatedOn") {
+						return true
+					}
+					return false
+				},
+				Elem: schema.TypeString,
 			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
