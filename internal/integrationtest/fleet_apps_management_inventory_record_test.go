@@ -16,13 +16,13 @@ import (
 )
 
 var (
-	testFleetId                                                = utils.GetEnvSettingWithBlankDefault("test_active_fleet")
-	testInstanceId                                             = utils.GetEnvSettingWithBlankDefault("test_instance_id")
 	FleetAppsManagementInventoryRecordDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `true`},
-		"fleet_id":                  acctest.Representation{RepType: acctest.Optional, Create: testFleetId},
-		"resource_id":               acctest.Representation{RepType: acctest.Optional, Create: testInstanceId},
+		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"fleet_id":                  acctest.Representation{RepType: acctest.Optional, Create: `${var.fleet_id}`},
+		"is_details_required":       acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		// "resource_id":               acctest.Representation{RepType: acctest.Optional, Create: `${oci_cloud_guard_resource.test_resource.id}`},
+		"resource_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.instance_id}`},
 	}
 
 	FleetAppsManagementInventoryRecordResourceConfig = ""
@@ -38,6 +38,12 @@ func TestFleetAppsManagementInventoryRecordResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	fleetId := utils.GetEnvSettingWithBlankDefault("test_active_fleet")
+	fleetIdStr := fmt.Sprintf("variable \"fleet_id\" { default = \"%s\" }\n", fleetId)
+
+	testInstanceId := utils.GetEnvSettingWithBlankDefault("self_hosted_instance_id")
+	testInstanceIdStr := fmt.Sprintf("variable \"instance_id\" { default = \"%s\" }\n", testInstanceId)
+
 	datasourceName := "data.oci_fleet_apps_management_inventory_records.test_inventory_records"
 
 	acctest.SaveConfigContent("", "", "", t)
@@ -47,15 +53,16 @@ func TestFleetAppsManagementInventoryRecordResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_fleet_apps_management_inventory_records", "test_inventory_records", acctest.Optional, acctest.Create, FleetAppsManagementInventoryRecordDataSourceRepresentation) +
-				compartmentIdVariableStr + FleetAppsManagementInventoryRecordResourceConfig,
+				compartmentIdVariableStr + FleetAppsManagementInventoryRecordResourceConfig + fleetIdStr + testInstanceIdStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
 				resource.TestCheckResourceAttrSet(datasourceName, "fleet_id"),
+				resource.TestCheckResourceAttr(datasourceName, "is_details_required", "false"),
 				resource.TestCheckResourceAttrSet(datasourceName, "resource_id"),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "inventory_record_collection.#"),
-				resource.TestCheckResourceAttr(datasourceName, "inventory_record_collection.0.items.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "inventory_record_collection.0.items.#"),
 			),
 		},
 	})

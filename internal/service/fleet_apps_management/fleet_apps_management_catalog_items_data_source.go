@@ -38,6 +38,10 @@ func FleetAppsManagementCatalogItemsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"package_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"should_list_public_items": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -107,6 +111,10 @@ func (s *FleetAppsManagementCatalogItemsDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if packageType, ok := s.D.GetOkExists("package_type"); ok {
+		request.PackageType = oci_fleet_apps_management.CatalogItemPackageTypeEnum(packageType.(string))
 	}
 
 	if shouldListPublicItems, ok := s.D.GetOkExists("should_list_public_items"); ok {

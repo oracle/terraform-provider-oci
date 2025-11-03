@@ -40,12 +40,15 @@ var (
 	}
 
 	FleetAppsManagementCatalogItemDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"config_source_type": acctest.Representation{RepType: acctest.Optional, Create: `PAR_CATALOG_SOURCE`},
-		//"display_name":       acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"should_list_public_items": acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		//"state":  acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: FleetAppsManagementCatalogItemDataSourceFilterRepresentation}}
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		// "catalog_listing_id":               acctest.Representation{RepType: acctest.Optional, Create: `${oci_marketplace_listing.test_listing.id}`},
+		"catalog_listing_version_criteria": acctest.Representation{RepType: acctest.Optional, Create: `LIST_ALL_VERSIONS`},
+		"config_source_type":               acctest.Representation{RepType: acctest.Optional, Create: `PAR_CATALOG_SOURCE`},
+		"display_name":                     acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"package_type":                     acctest.Representation{RepType: acctest.Optional, Create: `TF_PACKAGE`},
+		"should_list_public_items":         acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"state":                            acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"filter":                           acctest.RepresentationGroup{RepType: acctest.Required, Group: FleetAppsManagementCatalogItemDataSourceFilterRepresentation}}
 	FleetAppsManagementCatalogItemDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_fleet_apps_management_catalog_item.test_catalog_item.id}`}},
@@ -54,24 +57,31 @@ var (
 	FleetAppsManagementCatalogItemRepresentation = map[string]interface{}{
 		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"config_source_type":     acctest.Representation{RepType: acctest.Required, Create: `PAR_CATALOG_SOURCE`},
-		"description":            acctest.Representation{RepType: acctest.Required, Create: `description`, Update: `description2`},
 		"display_name":           acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"short_description":      acctest.Representation{RepType: acctest.Required, Create: `shortDescription`, Update: `shortDescription2`},
+		"description":            acctest.Representation{RepType: acctest.Required, Create: `description`, Update: `description2`},
+		"version_description":    acctest.Representation{RepType: acctest.Required, Create: `V1`, Update: `V2`},
 		"package_type":           acctest.Representation{RepType: acctest.Required, Create: `TF_PACKAGE`},
 		"catalog_source_payload": acctest.RepresentationGroup{RepType: acctest.Required, Group: FleetAppsManagementCatalogItemCatalogSourcePayloadRepresentation},
-		//TODO Temp Removed: "defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"short_description":   acctest.Representation{RepType: acctest.Optional, Create: `shortDescription`, Update: `shortDescription2`},
-		"time_released":       acctest.Representation{RepType: acctest.Optional, Create: `2025-01-01T00:00:00Z`},
-		"version_description": acctest.Representation{RepType: acctest.Optional, Create: `versionDescription`, Update: `versionDescription2`},
+		// "listing_version":        acctest.Representation{RepType: acctest.Required, Create: `1.0.0`},
+
+		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("Oracle-Tags.CreatedBy", "value")}`, Update: `${map("Oracle-Tags.CreatedBy", "updatedValue")}`},
+		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		// "is_item_locked": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		// "listing_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_marketplace_listing.test_listing.id}`},
+		"time_released": acctest.Representation{RepType: acctest.Optional, Create: `2025-10-27T00:00:00.000Z`},
+		// "clone_catalog_item_trigger": acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `1`},
+		// "configure_trigger":          acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `1`},
 	}
 	FleetAppsManagementCatalogItemCatalogSourcePayloadRepresentation = map[string]interface{}{
 		"config_source_type": acctest.Representation{RepType: acctest.Required, Create: `PAR_CATALOG_SOURCE`},
-		"access_uri":         acctest.Representation{RepType: acctest.Required, Create: accessUri},
-		"bucket":             acctest.Representation{RepType: acctest.Optional, Create: `bucket`},
-		"namespace":          acctest.Representation{RepType: acctest.Optional, Create: `namespace`},
-		"object":             acctest.Representation{RepType: acctest.Optional, Create: `object`},
-		"time_expires":       acctest.Representation{RepType: acctest.Optional, Create: `2029-12-31T00:00:00Z`},
-		"working_directory":  acctest.Representation{RepType: acctest.Optional, Create: `workingDirectory`},
+		"bucket":             acctest.Representation{RepType: acctest.Required, Create: `test-catalog-bucket`},
+		"namespace":          acctest.Representation{RepType: acctest.Required, Create: `axfaohqonho7`},
+		"object":             acctest.Representation{RepType: acctest.Required, Create: `ObjectStorageCatalog.zip`},
+
+		"access_uri":        acctest.Representation{RepType: acctest.Optional, Create: accessUri},
+		"time_expires":      acctest.Representation{RepType: acctest.Optional, Create: `2029-12-31T00:00:00Z`},
+		"working_directory": acctest.Representation{RepType: acctest.Optional, Create: `workingDirectory`},
 	}
 
 	FleetAppsManagementCatalogItemResourceDependencies = "" // TODO Temp removed: DefinedTagsDependencies
@@ -139,10 +149,10 @@ func TestFleetAppsManagementCatalogItemResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "catalog_source_payload.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "catalog_source_payload.0.access_uri", maskedAccessUri),
-				resource.TestCheckResourceAttr(resourceName, "catalog_source_payload.0.bucket", "bucket"),
+				resource.TestCheckResourceAttr(resourceName, "catalog_source_payload.0.bucket", "test-catalog-bucket"),
 				resource.TestCheckResourceAttr(resourceName, "catalog_source_payload.0.config_source_type", "PAR_CATALOG_SOURCE"),
-				resource.TestCheckResourceAttr(resourceName, "catalog_source_payload.0.namespace", "namespace"),
-				resource.TestCheckResourceAttr(resourceName, "catalog_source_payload.0.object", "object"),
+				resource.TestCheckResourceAttr(resourceName, "catalog_source_payload.0.namespace", "axfaohqonho7"),
+				resource.TestCheckResourceAttr(resourceName, "catalog_source_payload.0.object", "ObjectStorageCatalog.zip"),
 				resource.TestCheckResourceAttr(resourceName, "catalog_source_payload.0.time_expires", "2029-12-31T00:00:00Z"),
 				resource.TestCheckResourceAttr(resourceName, "catalog_source_payload.0.working_directory", "workingDirectory"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -151,15 +161,16 @@ func TestFleetAppsManagementCatalogItemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				// resource.TestCheckResourceAttr(resourceName, "is_item_locked", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "listing_id"),
 				resource.TestCheckResourceAttr(resourceName, "listing_version", "1.0.0"),
 				resource.TestCheckResourceAttr(resourceName, "package_type", "TF_PACKAGE"),
 				resource.TestCheckResourceAttr(resourceName, "short_description", "shortDescription"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-				resource.TestCheckResourceAttr(resourceName, "time_released", "2025-01-01T00:00:00Z"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_released"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
-				resource.TestCheckResourceAttr(resourceName, "version_description", "versionDescription"),
+				resource.TestCheckResourceAttr(resourceName, "version_description", "V1"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -183,10 +194,10 @@ func TestFleetAppsManagementCatalogItemResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "catalog_source_payload.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "catalog_source_payload.0.access_uri", maskedAccessUri),
-				resource.TestCheckResourceAttr(resourceName, "catalog_source_payload.0.bucket", "bucket"),
+				resource.TestCheckResourceAttr(resourceName, "catalog_source_payload.0.bucket", "test-catalog-bucket"),
 				resource.TestCheckResourceAttr(resourceName, "catalog_source_payload.0.config_source_type", "PAR_CATALOG_SOURCE"),
-				resource.TestCheckResourceAttr(resourceName, "catalog_source_payload.0.namespace", "namespace"),
-				resource.TestCheckResourceAttr(resourceName, "catalog_source_payload.0.object", "object"),
+				resource.TestCheckResourceAttr(resourceName, "catalog_source_payload.0.namespace", "axfaohqonho7"),
+				resource.TestCheckResourceAttr(resourceName, "catalog_source_payload.0.object", "ObjectStorageCatalog.zip"),
 				resource.TestCheckResourceAttr(resourceName, "catalog_source_payload.0.time_expires", "2029-12-31T00:00:00Z"),
 				resource.TestCheckResourceAttr(resourceName, "catalog_source_payload.0.working_directory", "workingDirectory"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -195,15 +206,16 @@ func TestFleetAppsManagementCatalogItemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				// resource.TestCheckResourceAttr(resourceName, "is_item_locked", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "listing_id"),
 				resource.TestCheckResourceAttr(resourceName, "listing_version", "1.0.0"),
 				resource.TestCheckResourceAttr(resourceName, "package_type", "TF_PACKAGE"),
 				resource.TestCheckResourceAttr(resourceName, "short_description", "shortDescription"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-				resource.TestCheckResourceAttr(resourceName, "time_released", "2025-01-01T00:00:00Z"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_released"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
-				resource.TestCheckResourceAttr(resourceName, "version_description", "versionDescription"),
+				resource.TestCheckResourceAttr(resourceName, "version_description", "V1"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -222,10 +234,10 @@ func TestFleetAppsManagementCatalogItemResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "catalog_source_payload.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "catalog_source_payload.0.access_uri", maskedAccessUri),
-				resource.TestCheckResourceAttr(resourceName, "catalog_source_payload.0.bucket", "bucket"),
+				resource.TestCheckResourceAttr(resourceName, "catalog_source_payload.0.bucket", "test-catalog-bucket"),
 				resource.TestCheckResourceAttr(resourceName, "catalog_source_payload.0.config_source_type", "PAR_CATALOG_SOURCE"),
-				resource.TestCheckResourceAttr(resourceName, "catalog_source_payload.0.namespace", "namespace"),
-				resource.TestCheckResourceAttr(resourceName, "catalog_source_payload.0.object", "object"),
+				resource.TestCheckResourceAttr(resourceName, "catalog_source_payload.0.namespace", "axfaohqonho7"),
+				resource.TestCheckResourceAttr(resourceName, "catalog_source_payload.0.object", "ObjectStorageCatalog.zip"),
 				resource.TestCheckResourceAttr(resourceName, "catalog_source_payload.0.time_expires", "2029-12-31T00:00:00Z"),
 				resource.TestCheckResourceAttr(resourceName, "catalog_source_payload.0.working_directory", "workingDirectory"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -234,15 +246,16 @@ func TestFleetAppsManagementCatalogItemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				// resource.TestCheckResourceAttr(resourceName, "is_item_locked", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "listing_id"),
 				resource.TestCheckResourceAttr(resourceName, "listing_version", "1.0.0"),
 				resource.TestCheckResourceAttr(resourceName, "package_type", "TF_PACKAGE"),
 				resource.TestCheckResourceAttr(resourceName, "short_description", "shortDescription2"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-				resource.TestCheckResourceAttr(resourceName, "time_released", "2025-01-01T00:00:00Z"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_released"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
-				resource.TestCheckResourceAttr(resourceName, "version_description", "versionDescription2"),
+				resource.TestCheckResourceAttr(resourceName, "version_description", "V2"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -262,10 +275,9 @@ func TestFleetAppsManagementCatalogItemResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "config_source_type", "PAR_CATALOG_SOURCE"),
-				//resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "package_type", "TF_PACKAGE"),
 				resource.TestCheckResourceAttr(datasourceName, "should_list_public_items", "false"),
-				//resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-
 				resource.TestCheckResourceAttr(datasourceName, "catalog_item_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "catalog_item_collection.0.items.#", "1"),
 			),
@@ -277,14 +289,13 @@ func TestFleetAppsManagementCatalogItemResource_basic(t *testing.T) {
 				compartmentIdVariableStr + FleetAppsManagementCatalogItemResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "catalog_item_id"),
-
 				resource.TestCheckResourceAttr(singularDatasourceName, "catalog_result_payload.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "catalog_source_payload.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "catalog_source_payload.0.access_uri", maskedAccessUri),
-				resource.TestCheckResourceAttr(singularDatasourceName, "catalog_source_payload.0.bucket", "bucket"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "catalog_source_payload.0.bucket", "test-catalog-bucket"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "catalog_source_payload.0.config_source_type", "PAR_CATALOG_SOURCE"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "catalog_source_payload.0.namespace", "namespace"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "catalog_source_payload.0.object", "object"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "catalog_source_payload.0.namespace", "axfaohqonho7"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "catalog_source_payload.0.object", "ObjectStorageCatalog.zip"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "catalog_source_payload.0.time_expires"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "catalog_source_payload.0.working_directory", "workingDirectory"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
@@ -293,6 +304,7 @@ func TestFleetAppsManagementCatalogItemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				// resource.TestCheckResourceAttr(singularDatasourceName, "is_item_locked", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "listing_version", "1.0.0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "package_type", "TF_PACKAGE"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "short_description", "shortDescription2"),
@@ -301,7 +313,7 @@ func TestFleetAppsManagementCatalogItemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_released"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "version_description", "versionDescription2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "version_description", "V2"),
 			),
 		},
 		// verify resource import

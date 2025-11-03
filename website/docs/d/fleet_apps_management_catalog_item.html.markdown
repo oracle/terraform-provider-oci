@@ -65,6 +65,7 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the catalog.
+* `is_item_locked` - Indicates if the CatalogItem is immutable or not.
 * `lifecycle_details` - The details of lifecycle state CatalogItem.
 * `listing_id` - The catalog listing Id. 
 * `listing_version` - The catalog package version. 

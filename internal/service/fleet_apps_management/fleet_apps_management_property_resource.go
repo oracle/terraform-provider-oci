@@ -50,6 +50,28 @@ func FleetAppsManagementPropertyResource() *schema.Resource {
 			},
 
 			// Optional
+			"defined_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				// DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+				DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+					// k looks like "defined_tags.%", "defined_tags.<key>"
+					if strings.HasPrefix(k, "defined_tags.Oracle-Tags.CreatedBy") ||
+						strings.HasPrefix(k, "defined_tags.Oracle-Tags.CreatedOn") {
+						return true
+					}
+					return false
+				},
+				Elem: schema.TypeString,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+				// DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool { return true },
+			},
 			"values": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -60,16 +82,6 @@ func FleetAppsManagementPropertyResource() *schema.Resource {
 			},
 
 			// Computed
-			"defined_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -183,9 +195,21 @@ func (s *FleetAppsManagementPropertyResourceCrud) Create() error {
 		request.CompartmentId = &tmp
 	}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if selection, ok := s.D.GetOkExists("selection"); ok {
@@ -364,9 +388,21 @@ func (s *FleetAppsManagementPropertyResourceCrud) Update() error {
 	}
 	request := oci_fleet_apps_management.UpdatePropertyRequest{}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
@@ -431,7 +467,17 @@ func (s *FleetAppsManagementPropertyResourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
+	if s.Res.FreeformTags != nil {
+		tags := make(map[string]string)
+		for k, v := range s.Res.FreeformTags {
+			tags[k] = v
+		}
+		if err := s.D.Set("freeform_tags", tags); err != nil {
+			return fmt.Errorf("error setting freeform_tags: %v", err)
+		}
+	} else {
+		s.D.Set("freeform_tags", nil)
+	}
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)

@@ -27,6 +27,8 @@ resource "oci_fleet_apps_management_property" "test_property" {
 	value_type = var.property_value_type
 
 	#Optional
+	defined_tags = {"foo-namespace.bar-key"= "value"}
+	freeform_tags = {"bar-key"= "value"}
 	values = var.property_values
 }
 ```
@@ -36,7 +38,9 @@ resource "oci_fleet_apps_management_property" "test_property" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) (Updatable) Compartment OCID
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `display_name` - (Required) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
+* `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `selection` - (Required) (Updatable) Text selection of the property.
 * `value_type` - (Required) (Updatable) Format of the value.
 * `values` - (Optional) (Updatable) Values of the property (must be a single value if selection = 'SINGLE_CHOICE').

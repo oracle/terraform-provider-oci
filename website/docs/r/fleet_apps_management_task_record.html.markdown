@@ -53,6 +53,7 @@ resource "oci_fleet_apps_management_task_record" "test_task_record" {
 			is_executable_content = var.task_record_details_execution_details_is_executable_content
 			is_locked = var.task_record_details_execution_details_is_locked
 			is_read_output_variable_enabled = var.task_record_details_execution_details_is_read_output_variable_enabled
+			system_variables = var.task_record_details_execution_details_system_variables
 			target_compartment_id = oci_identity_compartment.test_compartment.id
 			variables {
 
@@ -117,6 +118,7 @@ The following arguments are supported:
 		* `is_executable_content` - (Applicable when execution_type=SCRIPT) (Updatable) Is the Content an executable file?
 		* `is_locked` - (Applicable when execution_type=SCRIPT) (Updatable) Is the script locked to prevent changes directly in Object Storage?
 		* `is_read_output_variable_enabled` - (Applicable when execution_type=TERRAFORM) (Updatable) Is read output variable enabled
+		* `system_variables` - (Optional) (Updatable) The list of system variables.
 		* `target_compartment_id` - (Required when execution_type=TERRAFORM) (Updatable) OCID of the compartment to which the resource belongs to.
 		* `variables` - (Applicable when execution_type=SCRIPT) (Updatable) The variable of the task. At least one of the dynamicArguments or output needs to be provided. 
 			* `input_variables` - (Applicable when execution_type=SCRIPT) (Updatable) The input variables for the task.
@@ -167,6 +169,7 @@ The following attributes are exported:
 		* `is_executable_content` - Is the Content an executable file?
 		* `is_locked` - Is the script locked to prevent changes directly in Object Storage?
 		* `is_read_output_variable_enabled` - Is read output variable enabled
+		* `system_variables` - The list of system variables.
 		* `target_compartment_id` - OCID of the compartment to which the resource belongs to.
 		* `variables` - The variable of the task. At least one of the dynamicArguments or output needs to be provided. 
 			* `input_variables` - The input variables for the task.

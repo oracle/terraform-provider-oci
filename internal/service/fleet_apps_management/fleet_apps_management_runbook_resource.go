@@ -1,4 +1,3 @@
-// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package fleet_apps_management
@@ -19,6 +18,16 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
+
+// var suppressRunbookTransientDiffs = func(k, old, new string, d *schema.ResourceData) bool {
+// 	// Oracle auto-tags
+// 	if strings.HasPrefix(k, "defined_tags.Oracle-Tags.CreatedOn") ||
+// 		strings.HasPrefix(k, "defined_tags.Oracle-Tags.CreatedBy") {
+// 		return true
+// 	}
+
+// 	return false
+// }
 
 func FleetAppsManagementRunbookResource() *schema.Resource {
 	return &schema.Resource{
@@ -608,6 +617,11 @@ func FleetAppsManagementRunbookResource() *schema.Resource {
 																	},
 																},
 															},
+															"system_variables": {
+																Type:     schema.TypeList,
+																Computed: true,
+																Elem:     &schema.Schema{Type: schema.TypeString},
+															},
 
 															// Computed
 														},
@@ -1047,11 +1061,19 @@ func FleetAppsManagementRunbookResource() *schema.Resource {
 
 			// Optional
 			"defined_tags": {
-				Type:             schema.TypeMap,
-				Optional:         true,
-				Computed:         true,
-				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
-				Elem:             schema.TypeString,
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				// DiffSuppressFunc: suppressRunbookTransientDiffs,
+				DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+					// k looks like "defined_tags.%", "defined_tags.<key>"
+					if strings.HasPrefix(k, "defined_tags.Oracle-Tags.CreatedBy") ||
+						strings.HasPrefix(k, "defined_tags.Oracle-Tags.CreatedOn") {
+						return true
+					}
+					return false
+				},
+				Elem: schema.TypeString,
 			},
 			"description": {
 				Type:     schema.TypeString,
@@ -2053,15 +2075,34 @@ func (s *FleetAppsManagementRunbookResourceCrud) mapToInputArgument(fieldKeyForm
 	} else {
 		type_ = "" // default value
 	}
+
+	nameRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name"))
+	var name_ string
+	if ok {
+		name_ = nameRaw.(string)
+	} else {
+		name_ = ""
+	}
+	fmt.Println("Name:", name_)
+
+	descriptionRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description"))
+	var description string
+	if ok {
+		description = descriptionRaw.(string)
+	} else {
+		description = ""
+	}
+	fmt.Println("Description:", description)
+
 	switch strings.ToLower(type_) {
 	case strings.ToLower("FILE"):
 		details := oci_fleet_apps_management.FileInputArgument{}
 		baseObject = details
 	case strings.ToLower("OUTPUT_VARIABLE"):
-		details := oci_fleet_apps_management.OutputVariableInputArgument{}
+		details := oci_fleet_apps_management.OutputVariableInputArgument{Name: &name_, Description: &description}
 		baseObject = details
 	case strings.ToLower("STRING"):
-		details := oci_fleet_apps_management.StringInputArgument{}
+		details := oci_fleet_apps_management.StringInputArgument{Name: &name_, Description: &description}
 		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown type '%v' was specified", type_)

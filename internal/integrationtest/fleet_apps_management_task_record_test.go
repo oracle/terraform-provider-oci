@@ -38,12 +38,8 @@ var (
 
 	FleetAppsManagementTaskRecordDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		// "display_name":   acctest.Representation{RepType: acctest.Optional, Create: `tersi-testing-task`},
-		// "id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_fleet_apps_management_task_record.test_task_record.id}`},
-		// "operation": acctest.Representation{RepType: acctest.Optional, Create: `Discovery`},
-		// "platform":       acctest.Representation{RepType: acctest.Optional, Create: `tersi-test-compatible-product2`},
-		"state": acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"type":  acctest.Representation{RepType: acctest.Optional, Create: `USER_DEFINED`},
+		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"type":           acctest.Representation{RepType: acctest.Optional, Create: `USER_DEFINED`},
 	}
 
 	FleetAppsManagementTaskRecordRepresentation = map[string]interface{}{
@@ -51,6 +47,7 @@ var (
 		"details":        acctest.RepresentationGroup{RepType: acctest.Required, Group: FleetAppsManagementTaskRecordDetailsRepresentation},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		// "defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("Oracle-Tags.CreatedBy", "value")}`, Update: `${map("Oracle-Tags.CreatedBy", "updatedValue")}`},
 		"description":   acctest.Representation{RepType: acctest.Required, Create: `description`, Update: `description2`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}},
 	}
@@ -67,18 +64,15 @@ var (
 	}
 
 	FleetAppsManagementTaskRecordDetailsExecutionDetailsRepresentation = map[string]interface{}{
-		"execution_type": acctest.Representation{RepType: acctest.Required, Create: `SCRIPT`},
-		// "catalog_id":                      acctest.Representation{RepType: acctest.Optional, Create: `${var.catalog_id}`},
-		"command": acctest.Representation{RepType: acctest.Required, Create: `pwd`, Update: `ls`},
-		//"config_file":                     acctest.Representation{RepType: acctest.Optional, Create: `configFile`, Update: `configFile2`},
-		"content": acctest.RepresentationGroup{RepType: acctest.Optional, Group: FleetAppsManagementTaskRecordDetailsExecutionDetailsContentRepresentation},
-		//"credentials": acctest.RepresentationGroup{RepType: acctest.Optional, Group: FleetAppsManagementTaskRecordDetailsExecutionDetailsCredentialsRepresentation},
-		//"endpoint":                        acctest.Representation{RepType: acctest.Optional, Create: `endpoint`, Update: `endpoint2`},
-		"is_executable_content":           acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"is_locked":                       acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"is_read_output_variable_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		//"target_compartment_id":           acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
-		"variables": acctest.RepresentationGroup{RepType: acctest.Optional, Group: FleetAppsManagementTaskRecordDetailsExecutionDetailsVariablesRepresentation},
+		"execution_type":        acctest.Representation{RepType: acctest.Required, Create: `SCRIPT`},
+		"command":               acctest.Representation{RepType: acctest.Required, Create: `pwd`, Update: `ls`},
+		"content":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: FleetAppsManagementTaskRecordDetailsExecutionDetailsContentRepresentation},
+		"is_executable_content": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_locked":             acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		// is_read_output_variable_enabled is only used for terraform execution type
+		// "is_read_output_variable_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"system_variables": acctest.Representation{RepType: acctest.Optional, Create: []string{`systemVariables`}, Update: []string{`systemVariables2`}},
+		"variables":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: FleetAppsManagementTaskRecordDetailsExecutionDetailsVariablesRepresentation},
 	}
 	FleetAppsManagementTaskRecordDetailsPropertiesRepresentation = map[string]interface{}{
 		"num_retries":        acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
@@ -193,6 +187,7 @@ func TestFleetAppsManagementTaskRecordResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.is_executable_content", "false"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.is_locked", "false"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.is_read_output_variable_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.system_variables.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.variables.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.variables.0.input_variables.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.variables.0.output_variables.#", "1"),
@@ -248,6 +243,7 @@ func TestFleetAppsManagementTaskRecordResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.is_executable_content", "false"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.is_locked", "false"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.is_read_output_variable_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.system_variables.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.variables.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.variables.0.input_variables.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.variables.0.input_variables.0.description", "description1"),
@@ -300,7 +296,8 @@ func TestFleetAppsManagementTaskRecordResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.execution_type", "SCRIPT"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.is_executable_content", "true"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.is_locked", "true"),
-				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.is_read_output_variable_enabled", "false"),
+				// resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.is_read_output_variable_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.system_variables.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.variables.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.variables.0.input_variables.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "details.0.execution_details.0.variables.0.input_variables.0.description", "description2"),
@@ -372,7 +369,8 @@ func TestFleetAppsManagementTaskRecordResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "details.0.execution_details.0.content.0.source_type", "OBJECT_STORAGE_BUCKET"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "details.0.execution_details.0.credentials.#"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "details.0.execution_details.0.is_locked", "true"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "details.0.execution_details.0.is_read_output_variable_enabled", "false"),
+				// resource.TestCheckResourceAttr(singularDatasourceName, "details.0.execution_details.0.is_read_output_variable_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "details.0.execution_details.0.system_variables.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "details.0.execution_details.0.variables.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "details.0.execution_details.0.variables.0.input_variables.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "details.0.execution_details.0.variables.0.input_variables.0.description", "description2"),

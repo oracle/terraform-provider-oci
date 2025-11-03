@@ -25,6 +25,7 @@ data "oci_fleet_apps_management_fleet_targets" "test_fleet_targets" {
 	product = var.fleet_target_product
 	resource_display_name = var.fleet_target_resource_display_name
 	resource_id = oci_cloud_guard_resource.test_resource.id
+	state = var.fleet_target_state
 }
 ```
 
@@ -37,6 +38,7 @@ The following arguments are supported:
 * `product` - (Optional) Product Name.
 * `resource_display_name` - (Optional) Resource Display Name.
 * `resource_id` - (Optional) Resource Identifier
+* `state` - (Optional) A filter to return fleets whose lifecycleState matches the given lifecycleState.
 
 
 ## Attributes Reference

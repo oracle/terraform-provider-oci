@@ -25,9 +25,17 @@ resource "oci_fleet_apps_management_onboarding" "test_onboarding" {
   #Required
   compartment_id = var.compartment_id
 
+<<<<<<< ours
+	#Optional
+	defined_tags = {"foo-namespace.bar-key"= "value"}
+	freeform_tags = {"bar-key"= "value"}
+	is_cost_tracking_tag_enabled = var.onboarding_is_cost_tracking_tag_enabled
+	is_fams_tag_enabled = var.onboarding_is_fams_tag_enabled
+=======
   #Optional
   is_cost_tracking_tag_enabled = var.onboarding_is_cost_tracking_tag_enabled
   is_fams_tag_enabled          = var.onboarding_is_fams_tag_enabled
+>>>>>>> theirs
 }
 ```
 
@@ -36,10 +44,18 @@ resource "oci_fleet_apps_management_onboarding" "test_onboarding" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) Tenancy OCID
+<<<<<<< ours
+* `defined_tags` - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
+* `freeform_tags` - (Optional) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
+* `is_cost_tracking_tag_enabled` - (Optional) A value determining if the cost tracking tag is enabled or not. Allow Fleet Application Management to tag resources with cost tracking tag using "Oracle$FAMS-Tags.FAMSManaged" tag. 
+* `is_fams_tag_enabled` - (Optional) A value determining if the Fleet Application Management tagging is enabled or not. Allow Fleet Application Management to tag resources with fleet name using "Oracle$FAMS-Tags.FleetName" tag. 
+
+=======
 * `is_cost_tracking_tag_enabled` - (Optional) A value determining if the cost tracking tag is enabled or not. Allow
   Fleet Application Management to tag resources with cost tracking tag using "Oracle$FAMS-Tags.FAMSManaged" tag.
 * `is_fams_tag_enabled` - (Optional) A value determining if the Fleet Application Management tagging is enabled or not.
   Allow Fleet Application Management to tag resources with fleet name using "Oracle$FAMS-Tags.FleetName" tag.
+>>>>>>> theirs
 
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the
