@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_ai_vision "github.com/oracle/oci-go-sdk/v65/aivision"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
@@ -25,11 +25,11 @@ func AiVisionProjectResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createAiVisionProject,
-		Read:     readAiVisionProject,
-		Update:   updateAiVisionProject,
-		Delete:   deleteAiVisionProject,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createAiVisionProjectWithContext,
+		ReadContext:   readAiVisionProjectWithContext,
+		UpdateContext: updateAiVisionProjectWithContext,
+		DeleteContext: deleteAiVisionProjectWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -88,37 +88,37 @@ func AiVisionProjectResource() *schema.Resource {
 	}
 }
 
-func createAiVisionProject(d *schema.ResourceData, m interface{}) error {
+func createAiVisionProjectWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AiVisionProjectResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AiServiceVisionClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readAiVisionProject(d *schema.ResourceData, m interface{}) error {
+func readAiVisionProjectWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AiVisionProjectResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AiServiceVisionClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateAiVisionProject(d *schema.ResourceData, m interface{}) error {
+func updateAiVisionProjectWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AiVisionProjectResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AiServiceVisionClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteAiVisionProject(d *schema.ResourceData, m interface{}) error {
+func deleteAiVisionProjectWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AiVisionProjectResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AiServiceVisionClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type AiVisionProjectResourceCrud struct {
@@ -156,7 +156,7 @@ func (s *AiVisionProjectResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *AiVisionProjectResourceCrud) Create() error {
+func (s *AiVisionProjectResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_ai_vision.CreateProjectRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -188,7 +188,7 @@ func (s *AiVisionProjectResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_vision")
 
-	response, err := s.Client.CreateProject(context.Background(), request)
+	response, err := s.Client.CreateProject(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -199,20 +199,20 @@ func (s *AiVisionProjectResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getProjectFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_vision"), oci_ai_vision.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getProjectFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_vision"), oci_ai_vision.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *AiVisionProjectResourceCrud) getProjectFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *AiVisionProjectResourceCrud) getProjectFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_ai_vision.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	projectId, err := projectWaitForWorkRequest(workId, "project",
+	projectId, err := projectWaitForWorkRequest(ctx, workId, "project",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, projectId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_ai_vision.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -226,7 +226,7 @@ func (s *AiVisionProjectResourceCrud) getProjectFromWorkRequest(workId *string, 
 	}
 	s.D.SetId(*projectId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func projectWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -252,7 +252,7 @@ func projectWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_
 	}
 }
 
-func projectWaitForWorkRequest(wId *string, entityType string, action oci_ai_vision.ActionTypeEnum,
+func projectWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_ai_vision.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_ai_vision.AIServiceVisionClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "ai_vision")
 	retryPolicy.ShouldRetryOperation = projectWorkRequestShouldRetryFunc(timeout)
@@ -271,7 +271,7 @@ func projectWaitForWorkRequest(wId *string, entityType string, action oci_ai_vis
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_ai_vision.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -300,14 +300,14 @@ func projectWaitForWorkRequest(wId *string, entityType string, action oci_ai_vis
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_ai_vision.OperationStatusFailed || response.Status == oci_ai_vision.OperationStatusCanceled {
-		return nil, getErrorFromAiVisionProjectWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromAiVisionProjectWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromAiVisionProjectWorkRequest(client *oci_ai_vision.AIServiceVisionClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_ai_vision.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromAiVisionProjectWorkRequest(ctx context.Context, client *oci_ai_vision.AIServiceVisionClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_ai_vision.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_ai_vision.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -329,7 +329,7 @@ func getErrorFromAiVisionProjectWorkRequest(client *oci_ai_vision.AIServiceVisio
 	return workRequestErr
 }
 
-func (s *AiVisionProjectResourceCrud) Get() error {
+func (s *AiVisionProjectResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_ai_vision.GetProjectRequest{}
 
 	tmp := s.D.Id()
@@ -337,7 +337,7 @@ func (s *AiVisionProjectResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_vision")
 
-	response, err := s.Client.GetProject(context.Background(), request)
+	response, err := s.Client.GetProject(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -346,11 +346,11 @@ func (s *AiVisionProjectResourceCrud) Get() error {
 	return nil
 }
 
-func (s *AiVisionProjectResourceCrud) Update() error {
+func (s *AiVisionProjectResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -385,16 +385,16 @@ func (s *AiVisionProjectResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_vision")
 
-	response, err := s.Client.UpdateProject(context.Background(), request)
+	response, err := s.Client.UpdateProject(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getProjectFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_vision"), oci_ai_vision.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getProjectFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_vision"), oci_ai_vision.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *AiVisionProjectResourceCrud) Delete() error {
+func (s *AiVisionProjectResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_ai_vision.DeleteProjectRequest{}
 
 	tmp := s.D.Id()
@@ -402,14 +402,14 @@ func (s *AiVisionProjectResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_vision")
 
-	response, err := s.Client.DeleteProject(context.Background(), request)
+	response, err := s.Client.DeleteProject(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := projectWaitForWorkRequest(workId, "project",
+	_, delWorkRequestErr := projectWaitForWorkRequest(ctx, workId, "project",
 		oci_ai_vision.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -496,7 +496,7 @@ func ProjectSummaryToMap(obj oci_ai_vision.ProjectSummary) map[string]interface{
 	return result
 }
 
-func (s *AiVisionProjectResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *AiVisionProjectResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_ai_vision.ChangeProjectCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -507,12 +507,12 @@ func (s *AiVisionProjectResourceCrud) updateCompartment(compartment interface{})
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_vision")
 
-	_, err := s.Client.ChangeProjectCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeProjectCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 

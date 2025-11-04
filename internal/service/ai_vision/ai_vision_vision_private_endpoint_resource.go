@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_ai_vision "github.com/oracle/oci-go-sdk/v65/aivision"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
@@ -25,11 +25,11 @@ func AiVisionVisionPrivateEndpointResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createAiVisionVisionPrivateEndpoint,
-		Read:     readAiVisionVisionPrivateEndpoint,
-		Update:   updateAiVisionVisionPrivateEndpoint,
-		Delete:   deleteAiVisionVisionPrivateEndpoint,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createAiVisionVisionPrivateEndpointWithContext,
+		ReadContext:   readAiVisionVisionPrivateEndpointWithContext,
+		UpdateContext: updateAiVisionVisionPrivateEndpointWithContext,
+		DeleteContext: deleteAiVisionVisionPrivateEndpointWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -93,37 +93,37 @@ func AiVisionVisionPrivateEndpointResource() *schema.Resource {
 	}
 }
 
-func createAiVisionVisionPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func createAiVisionVisionPrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AiVisionVisionPrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AiServiceVisionClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readAiVisionVisionPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func readAiVisionVisionPrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AiVisionVisionPrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AiServiceVisionClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateAiVisionVisionPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func updateAiVisionVisionPrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AiVisionVisionPrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AiServiceVisionClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteAiVisionVisionPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func deleteAiVisionVisionPrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AiVisionVisionPrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AiServiceVisionClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type AiVisionVisionPrivateEndpointResourceCrud struct {
@@ -161,7 +161,7 @@ func (s *AiVisionVisionPrivateEndpointResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *AiVisionVisionPrivateEndpointResourceCrud) Create() error {
+func (s *AiVisionVisionPrivateEndpointResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_ai_vision.CreateVisionPrivateEndpointRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -198,7 +198,7 @@ func (s *AiVisionVisionPrivateEndpointResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_vision")
 
-	response, err := s.Client.CreateVisionPrivateEndpoint(context.Background(), request)
+	response, err := s.Client.CreateVisionPrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -209,20 +209,20 @@ func (s *AiVisionVisionPrivateEndpointResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getVisionPrivateEndpointFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_vision"), oci_ai_vision.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getVisionPrivateEndpointFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_vision"), oci_ai_vision.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *AiVisionVisionPrivateEndpointResourceCrud) getVisionPrivateEndpointFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *AiVisionVisionPrivateEndpointResourceCrud) getVisionPrivateEndpointFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_ai_vision.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	visionPrivateEndpointId, err := visionPrivateEndpointWaitForWorkRequest(workId, "visionprivateendpoint",
+	visionPrivateEndpointId, err := visionPrivateEndpointWaitForWorkRequest(ctx, workId, "visionprivateendpoint",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, visionPrivateEndpointId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_ai_vision.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -236,7 +236,7 @@ func (s *AiVisionVisionPrivateEndpointResourceCrud) getVisionPrivateEndpointFrom
 	}
 	s.D.SetId(*visionPrivateEndpointId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func visionPrivateEndpointWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -262,7 +262,7 @@ func visionPrivateEndpointWorkRequestShouldRetryFunc(timeout time.Duration) func
 	}
 }
 
-func visionPrivateEndpointWaitForWorkRequest(wId *string, entityType string, action oci_ai_vision.ActionTypeEnum,
+func visionPrivateEndpointWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_ai_vision.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_ai_vision.AIServiceVisionClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "ai_vision")
 	retryPolicy.ShouldRetryOperation = visionPrivateEndpointWorkRequestShouldRetryFunc(timeout)
@@ -281,7 +281,7 @@ func visionPrivateEndpointWaitForWorkRequest(wId *string, entityType string, act
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_ai_vision.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -310,14 +310,14 @@ func visionPrivateEndpointWaitForWorkRequest(wId *string, entityType string, act
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_ai_vision.OperationStatusFailed || response.Status == oci_ai_vision.OperationStatusCanceled {
-		return nil, getErrorFromAiVisionVisionPrivateEndpointWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromAiVisionVisionPrivateEndpointWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromAiVisionVisionPrivateEndpointWorkRequest(client *oci_ai_vision.AIServiceVisionClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_ai_vision.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromAiVisionVisionPrivateEndpointWorkRequest(ctx context.Context, client *oci_ai_vision.AIServiceVisionClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_ai_vision.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_ai_vision.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -339,7 +339,7 @@ func getErrorFromAiVisionVisionPrivateEndpointWorkRequest(client *oci_ai_vision.
 	return workRequestErr
 }
 
-func (s *AiVisionVisionPrivateEndpointResourceCrud) Get() error {
+func (s *AiVisionVisionPrivateEndpointResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_ai_vision.GetVisionPrivateEndpointRequest{}
 
 	tmp := s.D.Id()
@@ -347,7 +347,7 @@ func (s *AiVisionVisionPrivateEndpointResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_vision")
 
-	response, err := s.Client.GetVisionPrivateEndpoint(context.Background(), request)
+	response, err := s.Client.GetVisionPrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -356,11 +356,11 @@ func (s *AiVisionVisionPrivateEndpointResourceCrud) Get() error {
 	return nil
 }
 
-func (s *AiVisionVisionPrivateEndpointResourceCrud) Update() error {
+func (s *AiVisionVisionPrivateEndpointResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -395,16 +395,16 @@ func (s *AiVisionVisionPrivateEndpointResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_vision")
 
-	response, err := s.Client.UpdateVisionPrivateEndpoint(context.Background(), request)
+	response, err := s.Client.UpdateVisionPrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getVisionPrivateEndpointFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_vision"), oci_ai_vision.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getVisionPrivateEndpointFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_vision"), oci_ai_vision.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *AiVisionVisionPrivateEndpointResourceCrud) Delete() error {
+func (s *AiVisionVisionPrivateEndpointResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_ai_vision.DeleteVisionPrivateEndpointRequest{}
 
 	tmp := s.D.Id()
@@ -412,14 +412,14 @@ func (s *AiVisionVisionPrivateEndpointResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_vision")
 
-	response, err := s.Client.DeleteVisionPrivateEndpoint(context.Background(), request)
+	response, err := s.Client.DeleteVisionPrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := visionPrivateEndpointWaitForWorkRequest(workId, "visionprivateendpoint",
+	_, delWorkRequestErr := visionPrivateEndpointWaitForWorkRequest(ctx, workId, "visionprivateendpoint",
 		oci_ai_vision.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -514,7 +514,7 @@ func VisionPrivateEndpointSummaryToMap(obj oci_ai_vision.VisionPrivateEndpointSu
 	return result
 }
 
-func (s *AiVisionVisionPrivateEndpointResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *AiVisionVisionPrivateEndpointResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_ai_vision.ChangeVisionPrivateEndpointCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -525,12 +525,12 @@ func (s *AiVisionVisionPrivateEndpointResourceCrud) updateCompartment(compartmen
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_vision")
 
-	_, err := s.Client.ChangeVisionPrivateEndpointCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeVisionPrivateEndpointCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 

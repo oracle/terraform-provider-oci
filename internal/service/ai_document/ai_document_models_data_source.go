@@ -6,6 +6,7 @@ package ai_document
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_ai_document "github.com/oracle/oci-go-sdk/v65/aidocument"
 
@@ -15,7 +16,7 @@ import (
 
 func AiDocumentModelsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readAiDocumentModels,
+		ReadContext: readAiDocumentModelsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -56,12 +57,12 @@ func AiDocumentModelsDataSource() *schema.Resource {
 	}
 }
 
-func readAiDocumentModels(d *schema.ResourceData, m interface{}) error {
+func readAiDocumentModelsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AiDocumentModelsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AiServiceDocumentClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type AiDocumentModelsDataSourceCrud struct {
@@ -74,7 +75,7 @@ func (s *AiDocumentModelsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AiDocumentModelsDataSourceCrud) Get() error {
+func (s *AiDocumentModelsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_ai_document.ListModelsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -103,7 +104,7 @@ func (s *AiDocumentModelsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "ai_document")
 
-	response, err := s.Client.ListModels(context.Background(), request)
+	response, err := s.Client.ListModels(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -112,7 +113,7 @@ func (s *AiDocumentModelsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListModels(context.Background(), request)
+		listResponse, err := s.Client.ListModels(ctx, request)
 		if err != nil {
 			return err
 		}

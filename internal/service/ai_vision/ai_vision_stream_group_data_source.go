@@ -6,6 +6,7 @@ package ai_vision
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_ai_vision "github.com/oracle/oci-go-sdk/v65/aivision"
 
@@ -19,15 +20,15 @@ func AiVisionStreamGroupDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(AiVisionStreamGroupResource(), fieldMap, readSingularAiVisionStreamGroup)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(AiVisionStreamGroupResource(), fieldMap, readSingularAiVisionStreamGroupWithContext)
 }
 
-func readSingularAiVisionStreamGroup(d *schema.ResourceData, m interface{}) error {
+func readSingularAiVisionStreamGroupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AiVisionStreamGroupDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AiServiceVisionClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type AiVisionStreamGroupDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *AiVisionStreamGroupDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AiVisionStreamGroupDataSourceCrud) Get() error {
+func (s *AiVisionStreamGroupDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_ai_vision.GetStreamGroupRequest{}
 
 	if streamGroupId, ok := s.D.GetOkExists("stream_group_id"); ok {
@@ -50,7 +51,7 @@ func (s *AiVisionStreamGroupDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "ai_vision")
 
-	response, err := s.Client.GetStreamGroup(context.Background(), request)
+	response, err := s.Client.GetStreamGroup(ctx, request)
 	if err != nil {
 		return err
 	}

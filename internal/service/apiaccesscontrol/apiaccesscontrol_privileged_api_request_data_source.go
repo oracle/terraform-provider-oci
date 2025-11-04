@@ -7,6 +7,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_apiaccesscontrol "github.com/oracle/oci-go-sdk/v65/apiaccesscontrol"
 
@@ -20,15 +21,15 @@ func ApiaccesscontrolPrivilegedApiRequestDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(ApiaccesscontrolPrivilegedApiRequestResource(), fieldMap, readSingularApiaccesscontrolPrivilegedApiRequest)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(ApiaccesscontrolPrivilegedApiRequestResource(), fieldMap, readSingularApiaccesscontrolPrivilegedApiRequestWithContext)
 }
 
-func readSingularApiaccesscontrolPrivilegedApiRequest(d *schema.ResourceData, m interface{}) error {
+func readSingularApiaccesscontrolPrivilegedApiRequestWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ApiaccesscontrolPrivilegedApiRequestDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).PrivilegedApiRequestsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type ApiaccesscontrolPrivilegedApiRequestDataSourceCrud struct {
@@ -41,7 +42,7 @@ func (s *ApiaccesscontrolPrivilegedApiRequestDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ApiaccesscontrolPrivilegedApiRequestDataSourceCrud) Get() error {
+func (s *ApiaccesscontrolPrivilegedApiRequestDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_apiaccesscontrol.GetPrivilegedApiRequestRequest{}
 
 	if privilegedApiRequestId, ok := s.D.GetOkExists("privileged_api_request_id"); ok {
@@ -51,7 +52,7 @@ func (s *ApiaccesscontrolPrivilegedApiRequestDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "apiaccesscontrol")
 
-	response, err := s.Client.GetPrivilegedApiRequest(context.Background(), request)
+	response, err := s.Client.GetPrivilegedApiRequest(ctx, request)
 	if err != nil {
 		return err
 	}

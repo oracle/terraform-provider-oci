@@ -6,6 +6,7 @@ package ai_language
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_ai_language "github.com/oracle/oci-go-sdk/v65/ailanguage"
 
@@ -15,7 +16,7 @@ import (
 
 func AiLanguageEndpointsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readAiLanguageEndpoints,
+		ReadContext: readAiLanguageEndpointsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -60,12 +61,12 @@ func AiLanguageEndpointsDataSource() *schema.Resource {
 	}
 }
 
-func readAiLanguageEndpoints(d *schema.ResourceData, m interface{}) error {
+func readAiLanguageEndpointsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AiLanguageEndpointsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AiServiceLanguageClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type AiLanguageEndpointsDataSourceCrud struct {
@@ -78,7 +79,7 @@ func (s *AiLanguageEndpointsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AiLanguageEndpointsDataSourceCrud) Get() error {
+func (s *AiLanguageEndpointsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_ai_language.ListEndpointsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -112,7 +113,7 @@ func (s *AiLanguageEndpointsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "ai_language")
 
-	response, err := s.Client.ListEndpoints(context.Background(), request)
+	response, err := s.Client.ListEndpoints(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -121,7 +122,7 @@ func (s *AiLanguageEndpointsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListEndpoints(context.Background(), request)
+		listResponse, err := s.Client.ListEndpoints(ctx, request)
 		if err != nil {
 			return err
 		}
