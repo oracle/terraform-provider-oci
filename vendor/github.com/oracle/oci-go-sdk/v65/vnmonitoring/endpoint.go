@@ -67,6 +67,10 @@ func (m *endpoint) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		mm := OnPremEndpoint{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "PRIVATE_SERVICE_ACCESS":
+		mm := PrivateServiceAccessEndpoint{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "LOAD_BALANCER":
 		mm := LoadBalancerEndpoint{}
 		err = json.Unmarshal(data, &mm)
@@ -128,6 +132,7 @@ const (
 	EndpointTypeNetworkLoadBalancerListener EndpointTypeEnum = "NETWORK_LOAD_BALANCER_LISTENER"
 	EndpointTypeVlan                        EndpointTypeEnum = "VLAN"
 	EndpointTypeOnPrem                      EndpointTypeEnum = "ON_PREM"
+	EndpointTypePrivateServiceAccess        EndpointTypeEnum = "PRIVATE_SERVICE_ACCESS"
 )
 
 var mappingEndpointTypeEnum = map[string]EndpointTypeEnum{
@@ -141,6 +146,7 @@ var mappingEndpointTypeEnum = map[string]EndpointTypeEnum{
 	"NETWORK_LOAD_BALANCER_LISTENER": EndpointTypeNetworkLoadBalancerListener,
 	"VLAN":                           EndpointTypeVlan,
 	"ON_PREM":                        EndpointTypeOnPrem,
+	"PRIVATE_SERVICE_ACCESS":         EndpointTypePrivateServiceAccess,
 }
 
 var mappingEndpointTypeEnumLowerCase = map[string]EndpointTypeEnum{
@@ -154,6 +160,7 @@ var mappingEndpointTypeEnumLowerCase = map[string]EndpointTypeEnum{
 	"network_load_balancer_listener": EndpointTypeNetworkLoadBalancerListener,
 	"vlan":                           EndpointTypeVlan,
 	"on_prem":                        EndpointTypeOnPrem,
+	"private_service_access":         EndpointTypePrivateServiceAccess,
 }
 
 // GetEndpointTypeEnumValues Enumerates the set of values for EndpointTypeEnum
@@ -178,6 +185,7 @@ func GetEndpointTypeEnumStringValues() []string {
 		"NETWORK_LOAD_BALANCER_LISTENER",
 		"VLAN",
 		"ON_PREM",
+		"PRIVATE_SERVICE_ACCESS",
 	}
 }
 

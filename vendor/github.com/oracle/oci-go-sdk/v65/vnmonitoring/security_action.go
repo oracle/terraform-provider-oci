@@ -60,8 +60,36 @@ func (m *securityaction) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 		mm := AllowedSecurityAction{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "ZPR_MISSING_POLICY":
+		mm := ZprMissingPolicySecurityAction{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ZPR_DENIED":
+		mm := ZprDeniedSecurityAction{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ZPR_POLICY_NOT_EVALUATED_MISSING_ROUTE":
+		mm := ZprPolicyNotEvaluatedMissingRouteSecurityAction{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ZPR_NSG_UNSUPPORTED":
+		mm := ZprNsgUnsupportedSecurityAction{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ZPR_ALLOWED":
+		mm := ZprAllowedSecurityAction{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "DENIED":
 		mm := DeniedSecurityAction{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ZPR_CIDR_UNSUPPORTED":
+		mm := ZprCidrUnsupportedSecurityAction{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ZPR_POLICY_NOT_EVALUATED_SL_NSG_DENIED":
+		mm := ZprPolicyNotEvaluatedSlNsgDeniedSecurityAction{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
@@ -141,18 +169,39 @@ type SecurityActionActionEnum string
 
 // Set of constants representing the allowable values for SecurityActionActionEnum
 const (
-	SecurityActionActionAllowed SecurityActionActionEnum = "ALLOWED"
-	SecurityActionActionDenied  SecurityActionActionEnum = "DENIED"
+	SecurityActionActionAllowed                           SecurityActionActionEnum = "ALLOWED"
+	SecurityActionActionDenied                            SecurityActionActionEnum = "DENIED"
+	SecurityActionActionZprDenied                         SecurityActionActionEnum = "ZPR_DENIED"
+	SecurityActionActionZprAllowed                        SecurityActionActionEnum = "ZPR_ALLOWED"
+	SecurityActionActionZprCidrUnsupported                SecurityActionActionEnum = "ZPR_CIDR_UNSUPPORTED"
+	SecurityActionActionZprNsgUnsupported                 SecurityActionActionEnum = "ZPR_NSG_UNSUPPORTED"
+	SecurityActionActionZprPolicyNotEvaluatedMissingRoute SecurityActionActionEnum = "ZPR_POLICY_NOT_EVALUATED_MISSING_ROUTE"
+	SecurityActionActionZprPolicyNotEvaluatedSlNsgDenied  SecurityActionActionEnum = "ZPR_POLICY_NOT_EVALUATED_SL_NSG_DENIED"
+	SecurityActionActionZprMissingPolicy                  SecurityActionActionEnum = "ZPR_MISSING_POLICY"
 )
 
 var mappingSecurityActionActionEnum = map[string]SecurityActionActionEnum{
-	"ALLOWED": SecurityActionActionAllowed,
-	"DENIED":  SecurityActionActionDenied,
+	"ALLOWED":                                SecurityActionActionAllowed,
+	"DENIED":                                 SecurityActionActionDenied,
+	"ZPR_DENIED":                             SecurityActionActionZprDenied,
+	"ZPR_ALLOWED":                            SecurityActionActionZprAllowed,
+	"ZPR_CIDR_UNSUPPORTED":                   SecurityActionActionZprCidrUnsupported,
+	"ZPR_NSG_UNSUPPORTED":                    SecurityActionActionZprNsgUnsupported,
+	"ZPR_POLICY_NOT_EVALUATED_MISSING_ROUTE": SecurityActionActionZprPolicyNotEvaluatedMissingRoute,
+	"ZPR_POLICY_NOT_EVALUATED_SL_NSG_DENIED": SecurityActionActionZprPolicyNotEvaluatedSlNsgDenied,
+	"ZPR_MISSING_POLICY":                     SecurityActionActionZprMissingPolicy,
 }
 
 var mappingSecurityActionActionEnumLowerCase = map[string]SecurityActionActionEnum{
-	"allowed": SecurityActionActionAllowed,
-	"denied":  SecurityActionActionDenied,
+	"allowed":                                SecurityActionActionAllowed,
+	"denied":                                 SecurityActionActionDenied,
+	"zpr_denied":                             SecurityActionActionZprDenied,
+	"zpr_allowed":                            SecurityActionActionZprAllowed,
+	"zpr_cidr_unsupported":                   SecurityActionActionZprCidrUnsupported,
+	"zpr_nsg_unsupported":                    SecurityActionActionZprNsgUnsupported,
+	"zpr_policy_not_evaluated_missing_route": SecurityActionActionZprPolicyNotEvaluatedMissingRoute,
+	"zpr_policy_not_evaluated_sl_nsg_denied": SecurityActionActionZprPolicyNotEvaluatedSlNsgDenied,
+	"zpr_missing_policy":                     SecurityActionActionZprMissingPolicy,
 }
 
 // GetSecurityActionActionEnumValues Enumerates the set of values for SecurityActionActionEnum
@@ -169,6 +218,13 @@ func GetSecurityActionActionEnumStringValues() []string {
 	return []string{
 		"ALLOWED",
 		"DENIED",
+		"ZPR_DENIED",
+		"ZPR_ALLOWED",
+		"ZPR_CIDR_UNSUPPORTED",
+		"ZPR_NSG_UNSUPPORTED",
+		"ZPR_POLICY_NOT_EVALUATED_MISSING_ROUTE",
+		"ZPR_POLICY_NOT_EVALUATED_SL_NSG_DENIED",
+		"ZPR_MISSING_POLICY",
 	}
 }
 

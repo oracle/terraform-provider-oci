@@ -26,15 +26,21 @@ type TrafficNode interface {
 	GetEgressSecurityAction() SecurityAction
 
 	GetIngressSecurityAction() SecurityAction
+
+	GetZprEgressSecurityAction() SecurityAction
+
+	GetZprIngressSecurityAction() SecurityAction
 }
 
 type trafficnode struct {
-	JsonData              []byte
-	EgressTraffic         *EgressTrafficSpec `mandatory:"false" json:"egressTraffic"`
-	NextHopRoutingAction  routingaction      `mandatory:"false" json:"nextHopRoutingAction"`
-	EgressSecurityAction  securityaction     `mandatory:"false" json:"egressSecurityAction"`
-	IngressSecurityAction securityaction     `mandatory:"false" json:"ingressSecurityAction"`
-	Type                  string             `json:"type"`
+	JsonData                 []byte
+	EgressTraffic            *EgressTrafficSpec `mandatory:"false" json:"egressTraffic"`
+	NextHopRoutingAction     routingaction      `mandatory:"false" json:"nextHopRoutingAction"`
+	EgressSecurityAction     securityaction     `mandatory:"false" json:"egressSecurityAction"`
+	IngressSecurityAction    securityaction     `mandatory:"false" json:"ingressSecurityAction"`
+	ZprEgressSecurityAction  securityaction     `mandatory:"false" json:"zprEgressSecurityAction"`
+	ZprIngressSecurityAction securityaction     `mandatory:"false" json:"zprIngressSecurityAction"`
+	Type                     string             `json:"type"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -52,6 +58,8 @@ func (m *trafficnode) UnmarshalJSON(data []byte) error {
 	m.NextHopRoutingAction = s.Model.NextHopRoutingAction
 	m.EgressSecurityAction = s.Model.EgressSecurityAction
 	m.IngressSecurityAction = s.Model.IngressSecurityAction
+	m.ZprEgressSecurityAction = s.Model.ZprEgressSecurityAction
+	m.ZprIngressSecurityAction = s.Model.ZprIngressSecurityAction
 	m.Type = s.Model.Type
 
 	return err
@@ -98,6 +106,16 @@ func (m trafficnode) GetEgressSecurityAction() securityaction {
 // GetIngressSecurityAction returns IngressSecurityAction
 func (m trafficnode) GetIngressSecurityAction() securityaction {
 	return m.IngressSecurityAction
+}
+
+// GetZprEgressSecurityAction returns ZprEgressSecurityAction
+func (m trafficnode) GetZprEgressSecurityAction() securityaction {
+	return m.ZprEgressSecurityAction
+}
+
+// GetZprIngressSecurityAction returns ZprIngressSecurityAction
+func (m trafficnode) GetZprIngressSecurityAction() securityaction {
+	return m.ZprIngressSecurityAction
 }
 
 func (m trafficnode) String() string {
